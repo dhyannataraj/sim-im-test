@@ -48,7 +48,8 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         clientData *data;
         ClientDataIterator it(contact->clientData);
         while ((data = ++it) != NULL){
-            if ((m_client.isEmpty() && (data->Sign.toULong() == LIVEJOURNAL_SIGN)) || (m_client == it.client()->dataName(data))){
+            if ((m_client.isEmpty() && (data->Sign.toULong() == LIVEJOURNAL_SIGN)) ||
+                (m_client == it.client()->dataName(data))){
                 LiveJournalClient *client = static_cast<LiveJournalClient*>(it.client());
                 for (unsigned i = 1; i < client->getMoods(); i++){
                     const char *mood = client->getMood(i);
@@ -102,68 +103,70 @@ void MsgJournal::emptyChanged(bool bEmpty)
     cmd->id    = CmdSend;
     cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
-void *MsgJournal::processEvent(Event *e)
+bool MsgJournal::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
                 if ((cmd->id == CmdDeleteJournalMessage + CmdReceived) && m_ID)
                     cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->param == m_edit){
             if (cmd->id == CmdSend){
                 QString msgText = m_edit->m_edit->text();
                 if (!msgText.isEmpty())
                     send(msgText);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdDeleteJournalMessage + CmdReceived){
                 QWidget *w = m_edit->m_bar;
                 Command cmd;
                 cmd->id		= CmdDeleteJournalMessage + CmdReceived;
                 cmd->param	= m_edit;
-                Event eWidget(EventCommandWidget, cmd);
-                QWidget *btnRemove = (QWidget*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                QWidget *btnRemove = eWidget.widget();
                 if (btnRemove)
                     w = btnRemove;
                 BalloonMsg::ask(NULL, i18n("Remove record from journal?"), w, SLOT(removeRecord(void*)), NULL, NULL, this);
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         }
     }
-    return NULL;
+    return false;
 }
 
 void MsgJournal::removeRecord(void*)
 {
-    send("");
+    send(QString::null);
 }
 
 void MsgJournal::send(const QString& msgText)
@@ -183,11 +186,8 @@ void MsgJournal::send(const QString& msgText)
     msg->setPrivate(m_wnd->cmbSecurity->currentItem());
     msg->setMood(m_wnd->cmbMood->currentItem());
     msg->setComments(m_wnd->cmbComment->currentItem());
-    MsgSend ms;
-    ms.edit = m_edit;
-    ms.msg  = msg;
-    Event e(EventRealSendMessage, &ms);
-    e.process();
+
+    EventRealSendMessage(msg, m_edit).process();
 }
 
 void MsgJournal::frameDestroyed()

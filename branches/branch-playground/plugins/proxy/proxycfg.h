@@ -18,13 +18,12 @@
 #ifndef _PROXYCFG_H
 #define _PROXYCFG_H
 
-#include "simapi.h"
+#include "proxy.h"
 #include "proxycfgbase.h"
 
-#include <qvaluelist.h>
+#include <vector>
 
 class ProxyPlugin;
-struct ProxyData;
 class QTabWidget;
 
 class ProxyConfig : public ProxyConfigBase, public SIM::EventReceiver
@@ -40,11 +39,11 @@ protected slots:
     void authToggled(bool auth);
 protected:
     void paintEvent(QPaintEvent*);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fillClients();
     void fill(ProxyData*);
     void get(ProxyData*);
-    QValueList<ProxyData> m_data;
+    std::vector<ProxyData> m_data;
     SIM::Client *m_client;
     ProxyPlugin *m_plugin;
     unsigned m_current;

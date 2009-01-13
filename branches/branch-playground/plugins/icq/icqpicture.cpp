@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "icqpicture.h"
 #include "icqclient.h"
 #include "editfile.h"
@@ -26,6 +25,7 @@
 #include <qlabel.h>
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qfile.h>
 #include <time.h>
 
 using namespace SIM;
@@ -39,7 +39,7 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-ICQPicture::ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client)
         : ICQPictureBase(parent)
 {
     m_data   = data;
@@ -48,7 +48,7 @@ ICQPicture::ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *cli
         edtPict->hide();
         btnClear->hide();
     }else{
-        QString format = QString("*." + QStringList::fromStrList(QImage::inputFormats()).join(" *.")).lower();
+        QString format = QString("*.jpg ") + QString("*." + QStringList::fromStrList(QImage::inputFormats()).join(" *.")).lower();
 #ifdef USE_KDE
         edtPict->setFilter(i18n("%1|Graphics") .arg(format));
 #else
@@ -72,40 +72,37 @@ void ICQPicture::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString pict = edtPict->text();
     if (lblPict->pixmap() == NULL)
-        pict = "";
+        pict = QString::null;
     if (pict != m_client->getPicture()){
         m_client->setPicture(pict);
         data->PluginInfoTime.asULong() = time(NULL);
     }
 }
 
-void *ICQPicture::processEvent(Event *e)
+bool ICQPicture::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void ICQPicture::fill()
 {
-    if (m_data == NULL)
-        return;
-    if (m_data->PictureHeight.toULong() && m_data->PictureWidth.toULong()){
-        setPict(QImage(m_client->pictureFile(m_data)));
-        return;
-    }
-    setPict(QImage());
+    setPict(m_client->userPicture(m_data));
 }
 
 void ICQPicture::clearPicture()
 {
-    edtPict->setText("");
+    edtPict->setText(QString::null);
 }
 
 const unsigned short MAX_PICTURE_SIZE      = 8081;

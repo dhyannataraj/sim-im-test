@@ -15,10 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "icons.h"
 #include "icqinfo.h"
 #include "icqclient.h"
-#include "core.h"
 #include "ballonmsg.h"
 
 #include <qlineedit.h>
@@ -48,7 +47,7 @@ const ext_info chat_groups[] =
 
 const ext_info *p_chat_groups = chat_groups;
 
-ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+ICQInfo::ICQInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : ICQInfoBase(parent)
 {
     m_client	= client;
@@ -121,32 +120,36 @@ void ICQInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->FirstName.str() = edtFirst->text();
     data->LastName.str()  = edtLast->text();
     data->Nick.str()      = edtNick->text();
 }
 
-void *ICQInfo::processEvent(Event *e)
+bool ICQInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    } else
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus){
             if (m_client->dataName(m_data) == msg->client())
                 fill();
         }
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void ICQInfo::fill()
@@ -218,7 +221,7 @@ void ICQInfo::fill()
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ":");
+        lblOnline->setText(i18n("Last online") + ':');
         edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
@@ -259,7 +262,7 @@ void ICQInfo::fill()
         }
     }else{
         QString name = PACKAGE;
-        name += " ";
+        name += ' ';
         name += VERSION;
 #ifdef WIN32
         name += "/win32";

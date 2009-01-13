@@ -34,7 +34,7 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
     m_type   = msg->type();
     m_edit   = parent;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(PlainText);
@@ -45,8 +45,7 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
     cmd->id    = CmdSend;
     cmd->flags = 0;
     cmd->param = parent;
-    Event e(EventCommandChecked, cmd);
-    e.process();
+    EventCommandChecked(cmd).process();
 }
 
 void MsgAuth::init()
@@ -54,15 +53,16 @@ void MsgAuth::init()
     m_edit->m_edit->setFocus();
 }
 
-void *MsgAuth::processEvent(Event *e)
+bool MsgAuth::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -71,17 +71,18 @@ void *MsgAuth::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             AuthMessage *msg = new AuthMessage(m_type);
@@ -89,10 +90,10 @@ void *MsgAuth::processEvent(Event *e)
             msg->setContact(m_edit->m_userWnd->id());
             msg->setClient(m_client);
             m_edit->sendMessage(msg);
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

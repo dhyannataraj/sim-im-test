@@ -15,10 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
+#include "log.h"
+#include "cmddef.h"
+#include "core.h"
+#include "core_consts.h"
+
 #include "shortcuts.h"
 #include "shortcutcfg.h"
-#include "simapi.h"
-#include "core.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -42,7 +47,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createShortcutsPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createShortcutsPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new ShortcutsPlugin(base, config);
     return plugin;
@@ -62,14 +67,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct ShortcutsData
-{
-    void	*Key;
-    void	*Global;
-    void	*Mouse;
-} ShortcutsData;
-*/
 static DataDef shortcutsData[] =
     {
         { "Key", DATA_STRLIST, 1, 0 },
@@ -80,19 +77,18 @@ static DataDef shortcutsData[] =
 
 void GlobalKey::execute()
 {
-    Event e(EventCommandExec, &m_cmd);
-    e.process();
+    EventCommandExec(&m_cmd).process();;
 }
 
 list<GlobalKey*> *globalKeys = NULL;
 
 #ifdef WIN32
 
-typedef struct vkCode
+struct vkCode
 {
     int vk;
     Qt::Key key;
-} vkCode;
+};
 
 static vkCode vkCodes[] =
     {
@@ -251,8 +247,7 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     m_cmd = *cmd;
     QKeySequence keys(cmd->accel);
     if (keys != QKeySequence(0)){
-        QString shortName = "sim_";
-        shortName += QString::number(cmd->id);
+        QString shortName = "sim_" + QString::number(cmd->id);
         accel = new KGlobalAccel(this);
         accel->insert(shortName,
                       i18n(cmd->text), i18n(cmd->text),
@@ -269,11 +264,11 @@ GlobalKey::~GlobalKey()
 
 #else
 
-typedef struct TransKey
+struct TransKey
 {
     unsigned qt_key;
     unsigned x_key;
-} TransKey;
+};
 
 static const TransKey g_rgQtToSymX[] =
     {
@@ -356,8 +351,37 @@ extern "C" {
     }
 }
 
+// from KGlobalAccel
+static uint g_keyModMaskXOnOrOff = 0;
+static void initializeMods()
+{
+    uint g_modXNumLock, g_modXScrollLock, g_modXModeSwitch; 
+    g_modXNumLock = g_modXScrollLock = g_modXModeSwitch = 0; 
+    int min_keycode, max_keycode;
+    int keysyms_per_keycode = 0;
+
+    XModifierKeymap* xmk = XGetModifierMapping( qt_xdisplay() );
+    XDisplayKeycodes( qt_xdisplay(), &min_keycode, &max_keycode );
+    XFree( XGetKeyboardMapping( qt_xdisplay(), min_keycode, 1, &keysyms_per_keycode ));
+    for( int i = Mod2MapIndex; i < 8; i++ ) {
+        uint mask = (1 << i);
+        uint keySymX = NoSymbol;
+        for( int j = 0; j < xmk->max_keypermod && keySymX == NoSymbol; ++j )
+            for( int k = 0; k < keysyms_per_keycode && keySymX == NoSymbol; ++k )
+                keySymX = XKeycodeToKeysym( qt_xdisplay(), xmk->modifiermap[xmk->max_keypermod * i + j], k );
+        switch( keySymX ) {
+            case XK_Num_Lock:    g_modXNumLock = mask; break;     // Normally Mod2Mask
+            case XK_Scroll_Lock: g_modXScrollLock = mask; break;  // Normally Mod5Mask
+            case XK_Mode_switch: g_modXModeSwitch = mask; break; 
+        }
+    }
+    XFreeModifiermap( xmk );
+    g_keyModMaskXOnOrOff = LockMask | g_modXNumLock | g_modXScrollLock | g_modXModeSwitch;
+}
+
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
+    m_cmd = *cmd;
     m_key = QAccel::stringToKey(cmd->accel);
     m_state = 0;
     if (m_key & Qt::SHIFT){
@@ -379,18 +403,30 @@ GlobalKey::GlobalKey(CommandDef *cmd)
             break;
         }
     }
+
+    if(!g_keyModMaskXOnOrOff)
+        initializeMods();
+
     m_key = XKeysymToKeycode( qt_xdisplay(), m_key);
     XSync( qt_xdisplay(), 0 );
     XErrorHandler savedErrorHandler = XSetErrorHandler(XGrabErrorHandler);
-    XGrabKey( qt_xdisplay(), m_key, m_state,
-              qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+
+    uint keyModMaskX = ~g_keyModMaskXOnOrOff;
+    for( uint irrelevantBitsMask = 0; irrelevantBitsMask <= 0xff; irrelevantBitsMask++ )
+        if( (irrelevantBitsMask & keyModMaskX) == 0 )
+            XGrabKey( qt_xdisplay(), m_key, m_state | irrelevantBitsMask, qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+
     XSync( qt_xdisplay(), 0 );
     XSetErrorHandler( savedErrorHandler );
 }
 
 GlobalKey::~GlobalKey()
 {
-    XUngrabKey( qt_xdisplay(), m_key, m_state, qt_xrootwin());
+    uint keyModMaskX = ~g_keyModMaskXOnOrOff;
+
+    for( uint irrelevantBitsMask = 0; irrelevantBitsMask <= 0xff; irrelevantBitsMask++ )
+        if( (irrelevantBitsMask & keyModMaskX) == 0 )
+            XUngrabKey( qt_xdisplay(), m_key, m_state | irrelevantBitsMask, qt_xrootwin());
 }
 
 typedef int (*QX11EventFilter) (XEvent*);
@@ -400,9 +436,15 @@ static QX11EventFilter oldFilter;
 static int X11EventFilter(XEvent *e)
 {
     if ((e->type == KeyPress) && globalKeys){
+        if ( !QWidget::keyboardGrabber() && !QApplication::activePopupWidget() ) {
+                XUngrabKeyboard( qt_xdisplay(), e->xkey.time );
+                XFlush( qt_xdisplay());
+        }
+        unsigned state = e->xkey.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask | 0x2000);
+
         for (list<GlobalKey*>::iterator it = globalKeys->begin(); it != globalKeys->end(); ++it){
             if (((*it)->key() == e->xkey.keycode) &&
-                    ((*it)->state() == e->xkey.state)){
+                    ((*it)->state() == state)){
                 (*it)->execute();
                 return true;
             }
@@ -416,7 +458,7 @@ static int X11EventFilter(XEvent *e)
 #endif
 #endif
 
-ShortcutsPlugin::ShortcutsPlugin(unsigned base, ConfigBuffer *config)
+ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(shortcutsData, &data, config);
@@ -451,7 +493,7 @@ ShortcutsPlugin::~ShortcutsPlugin()
     free_data(shortcutsData, &data);
 }
 
-QString ShortcutsPlugin::getConfig()
+QCString ShortcutsPlugin::getConfig()
 {
     return save_data(shortcutsData, &data);
 }
@@ -481,25 +523,27 @@ void ShortcutsPlugin::init()
 
 #endif
 
-void *ShortcutsPlugin::processEvent(Event *e)
+bool ShortcutsPlugin::processEvent(Event *e)
 {
 #ifdef WIN32
-    if (e->type() == EventInit){
+    if (e->type() == eEventInit){
         init();
-        return NULL;
-    }
+        return false;
+    } else
 #endif
-    if (e->type() == EventCommandCreate){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandCreate){
+        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+        CommandDef *cmd = ecc->cmd();
         if ((cmd->menu_id == MenuMain) ||
                 (cmd->menu_id == MenuContact) ||
                 (cmd->menu_id == MenuStatus) ||
                 (cmd->menu_id == MenuGroup)){
             applyKey(cmd);
         }
-    }
-    if (e->type() == EventCommandRemove){
-        unsigned long id = (unsigned long)(e->param());
+    } else
+    if (e->type() == eEventCommandRemove){
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        unsigned long id = ecr->id();
         MAP_STR::iterator it_key = oldKeys.find(id);
         if (it_key != oldKeys.end())
             oldKeys.erase(it_key);
@@ -529,7 +573,7 @@ void *ShortcutsPlugin::processEvent(Event *e)
         if (mouseCmds.size() == 0)
             qApp->removeEventFilter(this);
     }
-    return NULL;
+    return false;
 }
 
 const char *ShortcutsPlugin::getOldKey(CommandDef *cmd)
@@ -578,8 +622,9 @@ void ShortcutsPlugin::releaseKeys()
 
 void ShortcutsPlugin::applyKeys(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -691,8 +736,9 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
 
 void ShortcutsPlugin::releaseKeys(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -752,9 +798,10 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
         button |= me->state() & (AltButton | ControlButton | ShiftButton);
         MAP_CMDS::iterator it = mouseCmds.find(button);
         if (it != mouseCmds.end()){
-            const CommandDef &cmd = (*it).second;
-            Event e(EventGetMenu, (void*)&cmd);
-            QPopupMenu *popup = (QPopupMenu*)(e.process());
+            CommandDef *cmd = &(*it).second;
+            EventMenuGet e(cmd);
+            e.process();
+            QPopupMenu *popup = e.menu();
             if (popup){
                 popup->popup(me->globalPos());
                 return true;

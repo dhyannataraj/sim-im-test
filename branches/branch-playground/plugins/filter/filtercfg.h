@@ -18,9 +18,9 @@
 #ifndef _FILTERCFG_H
 #define _FILTERCFG_H
 
-#include "simapi.h"
 #include "filtercfgbase.h"
 
+struct FilterUserData;
 class FilterPlugin;
 class IgnoreList;
 
@@ -28,7 +28,7 @@ class FilterConfig : public FilterConfigBase
 {
     Q_OBJECT
 public:
-    FilterConfig(QWidget *parent, struct FilterUserData *data, FilterPlugin *plugin, bool bMain);
+    FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain);
     ~FilterConfig();
 public slots:
     void apply();

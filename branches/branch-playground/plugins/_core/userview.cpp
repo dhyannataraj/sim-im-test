@@ -15,14 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+#include "log.h"
+
 #include "userview.h"
-#include "simapi.h"
 #include "core.h"
 #include "intedit.h"
 #include "ballonmsg.h"
 #include "linklabel.h"
 #include "container.h"
 #include "userwnd.h"
+#include "history.h"
 
 #include <qpainter.h>
 #include <qpixmap.h>
@@ -41,11 +44,11 @@ using namespace SIM;
 const unsigned BLINK_TIMEOUT    = 500;
 const unsigned BLINK_COUNT      = 8;
 
-typedef struct JoinContacts
+struct JoinContacts
 {
     unsigned	contact1;
     unsigned	contact2;
-} JoinContacts;
+};
 
 static JoinContacts joinContactsData;
 
@@ -86,11 +89,7 @@ UserView::UserView()
 
     setFrameStyle(QFrame::Panel);
     setFrameShadow(QFrame::Sunken);
-    WindowDef wnd;
-    wnd.widget = this;
-    wnd.bDown  = true;
-    Event e(EventAddWindow, &wnd);
-    e.process();
+    EventAddWidget(this, true, EventAddWidget::eMainWindow).process();
     clear();
 
     setGroupMode(CorePlugin::m_plugin->getGroupMode(), true);
@@ -111,10 +110,10 @@ UserView::UserView()
     edtGroup->setFont(font);
     connect(edtGroup, SIGNAL(escape()), this, SLOT(editEscape()));
     connect(edtGroup, SIGNAL(returnPressed()), this, SLOT(editGroupEnter()));
-    connect(edtGroup, SIGNAL(focusOut()), this, SLOT(editGroupEnter()));
+    connect(edtGroup, SIGNAL(lostFocus()), this, SLOT(editGroupEnter()));
     connect(edtContact, SIGNAL(escape()), this, SLOT(editEscape()));
     connect(edtContact, SIGNAL(returnPressed()), this, SLOT(editContactEnter()));
-    connect(edtContact, SIGNAL(focusOut()), this, SLOT(editContactEnter()));
+    connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
 }
 
 UserView::~UserView()
@@ -132,7 +131,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     QPixmap bg(r.width(), r.height());
     QPainter pp(&bg);
     pp.fillRect(QRect(0, 0, r.width(), r.height()), colorGroup().base());
-    PaintView pv;
+    EventPaintView::PaintView pv;
     pv.p        = &pp;
     pv.pos      = viewport()->mapToParent(r.topLeft());
     pv.size	= r.size();
@@ -144,7 +143,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     QListViewItem *item = firstChild();
     if (item)
         pv.height = item->height();
-    Event e(EventPaintView, &pv);
+    EventPaintView e(&pv);
     e.process();
     pp.end();
     p->drawPixmap(r.topLeft(), bg);
@@ -212,10 +211,10 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text += " (";
             if (item->m_nContactsOnline){
                 text += QString::number(item->m_nContactsOnline);
-                text += "/";
+                text += '/';
             }
             text += QString::number(item->m_nContacts);
-            text += ")";
+            text += ')';
         }
         QImage img = Image(item->isOpen() ? "expanded" : "collapsed");
         if (!img.isNull())
@@ -298,11 +297,14 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             x = 24;
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
             if (CorePlugin::m_plugin->getUseSysColors()){
-                if (item->status() != STATUS_ONLINE)
+                if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                     p->setPen(palette().disabled().text());
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
+					p->setPen(CorePlugin::m_plugin->getColorOnline());
+                    break;
+                case STATUS_FFC:
                     p->setPen(CorePlugin::m_plugin->getColorOnline());
                     break;
                 case STATUS_AWAY:
@@ -348,7 +350,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!highlight.isEmpty()){
             QPen oldPen = p->pen();
             QColor oldBg = p->backgroundColor();
-            p->setBackgroundMode(TransparentMode);
+            p->setBackgroundMode(OpaqueMode);
             if (item == m_searchItem){
                 if ((item == currentItem()) && CorePlugin::m_plugin->getUseDblClick()){
                     p->setBackgroundColor(cg.highlightedText());
@@ -382,19 +384,22 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
     UserListBase::drawItem(base, p, cg, width, margin);
 }
 
-void *UserView::processEvent(Event *e)
+bool UserView::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventRepaintView:
+    case eEventRepaintView:
         setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? QScrollView::AlwaysOff : QScrollView::Auto);
         break;
-    case EventInit:
+    case eEventInit:
         m_bInit = true;
         fill();
         break;
-    case EventContactOnline:
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
+        Contact *contact = ec->contact();
         if (m_bInit){
-            Contact *contact = (Contact*)(e->param());
             bool bStart = blinks.empty();
             list<BlinkCount>::iterator it;
             for (it = blinks.begin(); it != blinks.end(); ++it){
@@ -403,7 +408,7 @@ void *UserView::processEvent(Event *e)
             }
             if (it != blinks.end()){
                 (*it).count = BLINK_COUNT;
-                return NULL;
+                return false;
             }
             BlinkCount bc;
             bc.id = contact->id();
@@ -411,18 +416,21 @@ void *UserView::processEvent(Event *e)
             blinks.push_back(bc);
             if (bStart)
                 blinkTimer->start(BLINK_TIMEOUT);
-            return NULL;
+            return false;
         }
         break;
-    case EventMessageDeleted:
-    case EventMessageRead:
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
-            addContactForUpdate(msg->contact());
-            break;
-        }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    }
+    case eEventMessageReceived:
+    case eEventMessageDeleted:
+    case eEventMessageRead:{
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        addContactForUpdate(msg->contact());
+        break;
+    }
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuContact){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
@@ -439,7 +447,7 @@ void *UserView::processEvent(Event *e)
                                             this, SLOT(deleteContact(void*)), NULL, &rc, NULL,
                                             i18n("Remove history"), &m_bRemoveHistory);
                         }
-                        return e->param();
+                        return true;
                     }
                     if (cmd->id == CmdContactRename){
                         QListViewItem *item = findContactItem(contact->id());
@@ -447,7 +455,7 @@ void *UserView::processEvent(Event *e)
                             setCurrentItem(item);
                             renameContact();
                         }
-                        return e->param();
+                        return true;
                     }
                     if (cmd->id == CmdShowAlways){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
@@ -457,11 +465,10 @@ void *UserView::processEvent(Event *e)
                                 bShow = true;
                             if (data->ShowAlways.toBool() != bShow){
                                 data->ShowAlways.asBool() = bShow;
-                                Event e(EventContactChanged, contact);
-                                e.process();
+                                EventContact(contact, EventContact::eChanged).process();
                             }
                         }
-                        return e->param();
+                        return true;
                     }
                     if (cmd->id == CmdClose){
                         UserWnd *wnd = NULL;
@@ -480,7 +487,7 @@ void *UserView::processEvent(Event *e)
                         delete list;
                         if (wnd){
                             delete wnd;
-                            return e->param();
+                            return true;
                         }
                     }
                     if (cmd->id > CmdSendMessage){
@@ -489,9 +496,9 @@ void *UserView::processEvent(Event *e)
                         c->menu_id = MenuMessage;
                         c->param   = (void*)(contact->id());
                         c->flags   = cmd->flags;
-                        Event eCmd(EventCommandExec, c);
+                        EventCommandExec eCmd(c);
                         if (eCmd.process())
-                            return e->param();
+                            return true;
                     }
                 }
             }
@@ -501,9 +508,8 @@ void *UserView::processEvent(Event *e)
                     Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
                     if (grp && (grp->id() != contact->getGroup())){
                         contact->setGroup(grp->id());
-                        Event eChanged(EventContactChanged, contact);
-                        eChanged.process();
-                        return e->param();
+                        EventContact(contact, EventContact::eChanged).process();
+                        return true;
                     }
                 }
             }
@@ -531,7 +537,7 @@ void *UserView::processEvent(Event *e)
                         ++it;
                     }
                     if (from && to && (from == to))
-                        return e->param();
+                        return true;
                     UserWnd *userWnd = NULL;
                     if (from){
                         userWnd = from->wnd(contact->id());
@@ -547,7 +553,7 @@ void *UserView::processEvent(Event *e)
                     raiseWindow(to);
                     to->setNoSwitch(false);
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdOnline){
                 CorePlugin::m_plugin->setShowOnLine((cmd->flags & COMMAND_CHECKED) != 0);
@@ -556,8 +562,7 @@ void *UserView::processEvent(Event *e)
                     CommandDef c = *cmd;
                     c.bar_id	= ToolBarMain;
                     c.bar_grp   = 0x4000;
-                    Event eCmd(EventCommandChange, &c);
-                    eCmd.process();
+                    EventCommandChange(&c).process();
                 }
                 fill();
             }
@@ -586,7 +591,7 @@ void *UserView::processEvent(Event *e)
                         QTimer::singleShot(0, this, SLOT(renameGroup()));
                     }
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdGrpRename){
                 QListViewItem *item = findGroupItem((unsigned long)(cmd->param));
@@ -594,7 +599,7 @@ void *UserView::processEvent(Event *e)
                     setCurrentItem(item);
                     renameGroup();
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdGrpUp){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -604,7 +609,7 @@ void *UserView::processEvent(Event *e)
                     ensureItemVisible(item);
                     setCurrentItem(item);
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdGrpDown){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -614,7 +619,7 @@ void *UserView::processEvent(Event *e)
                     ensureItemVisible(item);
                     setCurrentItem(item);
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdGrpDelete){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -632,8 +637,9 @@ void *UserView::processEvent(Event *e)
             }
             break;
         }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
                 if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->getGroupMode() == 0)) ||
@@ -643,18 +649,18 @@ void *UserView::processEvent(Event *e)
                     cmd->flags |= COMMAND_CHECKED;
                 if (cmd->id == CmdEmptyGroup){
                     if (CorePlugin::m_plugin->getGroupMode() == 0)
-                        return NULL;
+                        return false;
                     if (CorePlugin::m_plugin->getShowEmptyGroup())
                         cmd->flags |= COMMAND_CHECKED;
                 }
-                return e->param();
+                return true;
             }
             if (cmd->menu_id == MenuContact){
                 if (cmd->id == CmdContactTitle){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
                         cmd->text_wrk = contact->getName();
-                        return e->param();
+                        return true;
                     }
                 }
                 if (cmd->id == CmdShowAlways){
@@ -664,7 +670,7 @@ void *UserView::processEvent(Event *e)
                         cmd->flags &= ~COMMAND_CHECKED;
                         if (data && data->ShowAlways.toBool())
                             cmd->flags |= COMMAND_CHECKED;
-                        return e->param();
+                        return true;
                     }
                 }
                 if (cmd->id == CmdClose){
@@ -682,11 +688,12 @@ void *UserView::processEvent(Event *e)
                     }
                     delete list;
                     if (wnd)
-                        return e->param();
+                        return true;
                 }
                 if (cmd->id == CmdSendMessage){
-                    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-                    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                    EventMenuGetDef eMenu(MenuMessage);
+                    eMenu.process();
+                    CommandsDef *cmdsMsg = eMenu.defs();
                     unsigned nCmds = 1;
                     {
                         CommandsList it(*cmdsMsg, true);
@@ -707,15 +714,14 @@ void *UserView::processEvent(Event *e)
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return e->param();
+                    return true;
                 }
                 if (cmd->id > CmdSendMessage){
                     Command c;
                     c->id	   = cmd->id - CmdSendMessage;
                     c->menu_id = MenuMessage;
                     c->param   = cmd->param;
-                    Event eCmd(EventCheckState, c);
-                    void *res = eCmd.process();
+                    bool res = EventCheckCommandState(c).process();
                     if (res && (c->flags & COMMAND_RECURSIVE)){
                         cmd->flags |= COMMAND_RECURSIVE;
                         cmd->param = c->param;
@@ -760,7 +766,7 @@ void *UserView::processEvent(Event *e)
                     cmds[nGroups].clear();
                     cmd->flags |= COMMAND_RECURSIVE;
                     cmd->param = cmds;
-                    return e->param();
+                    return true;
                 }
             }
             if (cmd->menu_id == MenuGroup){
@@ -770,46 +776,49 @@ void *UserView::processEvent(Event *e)
                         Group *g = getContacts()->group(grp_id);
                         if (g)
                             cmd->text_wrk = g->getName();
-                        return e->param();
+                        return true;
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return true;
                     }
                     if (cmd->id == CmdGrpUp){
                         if (getContacts()->groupIndex(grp_id) <= 1)
                             cmd->flags |= COMMAND_DISABLED;
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return true;
                     }
                     if (cmd->id == CmdGrpDown){
                         if (getContacts()->groupIndex(grp_id) >= getContacts()->groupCount() - 1)
                             cmd->flags |= COMMAND_DISABLED;
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return true;
                     }
                 }else{
                     if (cmd->id == CmdGrpTitle){
                         cmd->text = I18N_NOOP("Not in list");
-                        return e->param();
+                        return true;
                     }
                 }
             }
             if (cmd->id == CmdGrpCreate) {
                 cmd->flags &= ~COMMAND_CHECKED;
-                return CorePlugin::m_plugin->getGroupMode() ? e->param() : NULL;
+                return CorePlugin::m_plugin->getGroupMode() ? true : false;
             }
             break;
         }
-    case EventIconChanged:
+    case eEventIconChanged:
         viewport()->repaint();
         break;
-    case EventRaiseWindow:{
-            QObject *o = (QObject*)(e->param());
-            if (o->inherits("MainWindow"))
+    case eEventRaiseWindow:{
+            EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
+            QWidget *o = w->widget();
+            if (o && o->inherits("MainWindow"))
                 QTimer::singleShot(0, this, SLOT(adjustColumn()));
             break;
         }
+    default:
+        break;
     }
     return UserListBase::processEvent(e);
 }
@@ -829,6 +838,28 @@ void UserView::deleteContact(void *p)
     ContactItem *item = findContactItem(contact->id());
     if (item)
         setCurrentItem(item);
+
+    // Looking for unread messages for this contact in order to delete them
+    int no_more_messages_flag;
+    do{
+      no_more_messages_flag = 1;
+      // we should restart unread messages iteration after each message deletion
+      // because deleting message will change "unread" list
+      for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+          msg_id &message_id = *it;
+          if ( message_id.contact == contact->id())
+          {
+            SIM::Message * message;
+            message = History::load(message_id.id,message_id.client,message_id.contact); 
+            EventMessageDeleted(message).process(); 
+            // may be we should do EventMessageRead instead of EventMessageDeleted when m_bRemoveHistory is flase
+            // I am not sure. shaplov.
+            no_more_messages_flag = 0;
+            break;
+          }
+       }
+    } while (!no_more_messages_flag);
+
     CorePlugin::m_plugin->setRemoveHistory(m_bRemoveHistory);
     if (!m_bRemoveHistory)
         contact->setFlags(contact->getFlags() | CONTACT_NOREMOVE_HISTORY);
@@ -889,19 +920,7 @@ void UserView::setGroupMode(unsigned mode, bool bFirst)
         return;
     CorePlugin::m_plugin->setGroupMode(mode);
     m_groupMode = mode;
-    Command cmd;
-    cmd->id          = CmdGroup;
-    cmd->text        = I18N_NOOP("&Groups");
-    cmd->icon        = CorePlugin::m_plugin->getGroupMode() ? "grp_on" : "grp_off";
-    cmd->bar_id      = ToolBarMain;
-    cmd->bar_grp     = 0x4000;
-    cmd->menu_id     = MenuMain;
-    cmd->menu_grp    = 0x6001;
-    cmd->popup_id    = MenuGroups;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
-
+    EventUpdateCommandState(CmdGroupToolbarButton).process();
     fill();
 }
 
@@ -966,8 +985,7 @@ void UserView::doClick()
         m_current->setOpen(!m_current->isOpen());
     }else if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(m_current);
-        Event e(EventDefaultAction, (void*)(item->id()));
-        e.process();
+        EventDefaultAction(item->id()).process();
     }
     m_current = NULL;
 }
@@ -987,7 +1005,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
 	        }
 	        if (!store) m_searchItem = items.front();
 	    } else {
-	        m_search = "";
+	        m_search = QString::null;
 	        m_searchItem = NULL;
             }
 	    setCurrentItem(m_searchItem);
@@ -1017,11 +1035,11 @@ void UserView::keyPressEvent(QKeyEvent *e)
             m_searchItem = NULL;
             list<QListViewItem*>::iterator it;
             for (it = closed_items.begin(); it != closed_items.end(); ++it)
-                 (*it)->setOpen(FALSE);
+                 (*it)->setOpen(false);
         }else{
             search(new_items);
             if (new_items.empty()){
-                m_search = "";
+                m_search = QString::null;
                 m_searchItem = NULL;
             }else{
                 m_searchItem = new_items.front();
@@ -1156,7 +1174,7 @@ void UserView::stopSearch()
         hideTip();
     list<QListViewItem*> old_items;
     search(old_items);
-    m_search = "";
+    m_search = QString::null;
     m_searchItem = NULL;
     list<QListViewItem*>::iterator it_old;
     for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
@@ -1165,28 +1183,27 @@ void UserView::stopSearch()
         m_searchTip->hide();
 }
 
-ProcessMenuParam *UserView::getMenu(QListViewItem *list_item)
+bool UserView::getMenu(QListViewItem *list_item, unsigned long &id, void* &param)
 {
     if (list_item == NULL)
-        return NULL;
+        return false;
+
     UserViewItemBase *item = static_cast<UserViewItemBase*>(list_item);
     switch (item->type()){
     case GRP_ITEM:{
             GroupItem *grpItem = static_cast<GroupItem*>(item);
-            m_mp.id    = MenuGroup;
-            m_mp.param = (void*)(grpItem->id());
-            m_mp.key	 = 0;
-            return &m_mp;
+            id    = MenuGroup;
+            param = (void*)(grpItem->id());
+            return true;
         }
     case USR_ITEM:{
             ContactItem *contactItem = static_cast<ContactItem*>(item);
-            m_mp.id    = MenuContact;
-            m_mp.param = (void*)(contactItem->id());
-            m_mp.key	 = 0;
-            return &m_mp;
+            id    = MenuContact;
+            param = (void*)(contactItem->id());
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void UserView::editEscape()
@@ -1201,7 +1218,7 @@ void UserView::editGroupEnter()
     Group *g = getContacts()->group(edtGroup->id);
     if (!(g && edtGroup->text().length())) return;
     g->setName(edtGroup->text());
-    Event e(EventGroupChanged, g);
+    EventGroup e(g, EventGroup::eChanged);
     e.process();
 }
 
@@ -1211,8 +1228,7 @@ void UserView::editContactEnter()
     Contact *c = getContacts()->contact(edtContact->id);
     if (!(c && edtContact->text().length())) return;
     c->setName(edtContact->text());
-    Event e(EventContactChanged, c);
-    e.process();
+    EventContact(c, EventContact::eChanged).process();
 }
 
 unsigned UserView::getUnread(unsigned contact_id)
@@ -1498,8 +1514,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                         cmd->id      = type;
                         cmd->menu_id = MenuMessage;
                         cmd->param	 = (void*)(static_cast<ContactItem*>(item)->id());
-                        Event e(EventCheckState, cmd);
-                        if (e.process())
+                        if (EventCheckCommandState(cmd).process())
                             break;
                     }
                 }
@@ -1507,8 +1522,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             if (msg){
                 if (isDrop){
                     msg->setContact(static_cast<ContactItem*>(item)->id());
-                    Event e(EventOpenMessage, &msg);
-                    e.process();
+                    EventOpenMessage(msg).process();
                 }
                 delete msg;
                 return;
@@ -1521,8 +1535,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                         Message *msg = new Message(MessageGeneric);
                         msg->setText(str);
                         msg->setContact(static_cast<ContactItem*>(item)->id());
-                        Event e(EventOpenMessage, &msg);
-                        e.process();
+                        EventOpenMessage(msg).process();
                         delete msg;
                     }
                     return;
@@ -1547,8 +1560,7 @@ void UserView::doDrop()
             contact->setGroup(grp_item->id());
             contact->setIgnore(false);
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-            Event eContact(EventContactChanged, contact);
-            eContact.process();
+            EventContact(contact, EventContact::eChanged).process();
             break;
         }
     case USR_ITEM:{
@@ -1586,21 +1598,20 @@ void UserView::joinContacts(void*)
     if (!contact2->getPhones().isEmpty()){
         QString phones = contact1->getPhones();
         if (!phones.isEmpty())
-            phones += ";";
+            phones += ';';
         phones += contact2->getPhones();
         contact1->setPhones(phones);
     }
     if (!contact2->getEMails().isEmpty()){
         QString mails = contact1->getEMails();
         if (!mails.isEmpty())
-            mails += ";";
+            mails += ';';
         mails += contact2->getEMails();
         contact1->setEMails(mails);
     }
     delete contact2;
     contact1->setup();
-    Event e(EventContactChanged, contact1);
-    e.process();
+    EventContact(contact1, EventContact::eChanged).process();
 }
 
 void UserView::cancelJoinContacts(void*)
@@ -1630,7 +1641,7 @@ void UserView::search(list<QListViewItem*> &items)
         return;
     list<QListViewItem*>::iterator it;
     for (it = closed_items.begin(); it != closed_items.end(); ++it)
-         (*it)->setOpen(FALSE);
+         (*it)->setOpen(false);
     for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
         search(item, items);
 }
@@ -1644,12 +1655,31 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     if (static_cast<UserViewItemBase*>(item)->type() != USR_ITEM)
         return;
     QString name = item->text(CONTACT_TEXT);
+    //log(L_DEBUG, "Contact List search: Examining name %s", (const char *)name.local8Bit());
     //Search from the beginning of contact name
     //if (name.left(m_search.length()).upper() == m_search.upper())
     //Search for substring in contact name
-    if (name.upper().find(m_search.upper())>-1) {
-        item->parent()->setOpen(TRUE);
+    if (name.contains(m_search,false)>0) {
+        //log(L_DEBUG, "Contact List search: Found name %s", (const char *)name.local8Bit());
+        item->parent()->setOpen(true);
         items.push_back(item);
+    } else {
+      void *data;
+      Contact *contact = getContacts()->contact(static_cast<ContactItem*>(item)->id());
+        ClientDataIterator it(contact->clientData);
+        while ((data = ++it) != NULL){
+          Client *client = contact->clientData.activeClient(data, it.client());
+          if (client == NULL)
+              continue;
+          QString contactName = client->contactName(data);
+          //log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
+          if (contactName.contains(m_search,false)>0) {
+              //log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
+              item->parent()->setOpen(true);
+              items.push_back(item);
+              break;
+          }
+        }
     }
 }
 
@@ -1665,7 +1695,7 @@ void UserView::dragScroll() //rewrite!?
         item = itemAt(pos);
     }else if (pos.y() > viewport()->height()){
         pos = QPoint(pos.x(), viewport()->height() - 1);
-        item = itemAt(pos); //<== crash, it does not return item, sometimes in QGList append() no mem allocation is possible :-/ ???
+        item = itemAt(pos); //<== FIXME: crash, it does not return item, sometimes in QGList append() no mem allocation is possible :-/ ???
         if (item){
             pos = QPoint(pos.x(), viewport()->height() - 1 + item->height());
             item = itemAt(pos);

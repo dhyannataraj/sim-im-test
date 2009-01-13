@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "sounduser.h"
 #include "sound.h"
 #include "listview.h"
@@ -22,10 +23,8 @@
 #include "core.h"
 
 #include <qcheckbox.h>
+#include <qfile.h>
 #include <qlabel.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qregexp.h>
 #include <qpainter.h>
 
 using namespace SIM;
@@ -41,9 +40,10 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     lstSound->setExpandingColumn(1);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), plugin->fullName(user_data->Alert.str()));
+    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"),
+                                            plugin->fullName(user_data->Alert.str()));
     item->setText(2, QString::number(ONLINE_ALERT));
-    item->setPixmap(0, makePixmap("ICQ"));
+    item->setPixmap(0, makePixmap("SIM"));
 
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
@@ -93,7 +93,7 @@ QPixmap SoundUserConfig::makePixmap(const char *src)
 
 void SoundUserConfig::apply(void *data)
 {
-    selectionChanged(NULL); // save current edit
+    selectionChanged(NULL);
     SoundUserData *user_data = (SoundUserData*)data;
     for (QListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
         unsigned id = item->text(2).toUInt();

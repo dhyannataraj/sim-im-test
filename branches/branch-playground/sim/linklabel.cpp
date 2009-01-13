@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "linklabel.h"
+#include "event.h"
+#include "misc.h"
 
 #include <qcursor.h>
 #include <qvaluevector.h>
@@ -43,7 +45,7 @@ void LinkLabel::setUrl(const QString &url)
 void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
     if ((e->button() == LeftButton) && !m_url.isEmpty()){
-        Event e(EventGoURL, (void*)&m_url);
+        EventGoURL e(m_url);
         e.process();
     }
 }
@@ -95,7 +97,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
                     if (heights[i] >= hPart){
                         text += part;
                         text += "</td><td>";
-                        part = "";
+                        part = QString::null;
                         h = 0;
                     }else{
                         part += DIV;
@@ -106,7 +108,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
                 if (h >= hPart){
                     text += part;
                     text += "</td><td>";
-                    part = "";
+                    part = QString::null;
                     h = 0;
                 }
             }

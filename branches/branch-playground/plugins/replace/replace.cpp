@@ -19,13 +19,14 @@
 #include "replacecfg.h"
 #include "textshow.h"
 #include "html.h"
+#include "misc.h"
 
 #include <qapplication.h>
 
 using namespace std;
 using namespace SIM;
 
-Plugin *createReplacePlugin(unsigned base, bool, ConfigBuffer *cfg)
+Plugin *createReplacePlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new ReplacePlugin(base, cfg);
     return plugin;
@@ -53,7 +54,7 @@ static DataDef replaceData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-ReplacePlugin::ReplacePlugin(unsigned base, ConfigBuffer *cfg)
+ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)
         : Plugin(base)
 {
     load_data(replaceData, &data, cfg);
@@ -65,7 +66,7 @@ ReplacePlugin::~ReplacePlugin()
     free_data(replaceData, &data);
 }
 
-QString ReplacePlugin::getConfig()
+QCString ReplacePlugin::getConfig()
 {
     return save_data(replaceData, &data);
 }
@@ -99,9 +100,9 @@ void _UnquoteParser::text(const QString &text)
 void _UnquoteParser::tag_start(const QString &tag, const list<QString>&)
 {
     if (tag == "img")
-        m_text += " ";
+        m_text += ' ';
     if (tag == "br")
-        m_text += "\n";
+        m_text += '\n';
 }
 
 void _UnquoteParser::tag_end(const QString&)

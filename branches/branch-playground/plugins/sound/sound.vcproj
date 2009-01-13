@@ -71,9 +71,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib audiere.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
+				DelayLoadDLLs="audiere.dll"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -160,10 +161,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib audiere.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				AddModuleNamesToAssembly=""
+				DelayLoadDLLs="audiere.dll"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -744,30 +747,6 @@
 			</File>
 			<File
 				RelativePath="sounds\message.wav"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sounds\message2.wav"
 				>
 				<FileConfiguration
 					Name="Release|Win32"

@@ -15,23 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "sockfactory.h"
 #include "socket.h"
-
-#include <errno.h>
-
-#include <qfile.h>
-#include <qtoolbar.h>
-#include <qmainwindow.h>
-#include <qstringlist.h>
-#include <qapplication.h>
-#include <qregexp.h>
-#include <qdir.h>
+#include "log.h"
+#include "misc.h"   // sprintf
 
 #include <stdio.h>
-#include <assert.h> // is this available with gcc too?
-
+#include <errno.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -44,23 +34,30 @@
 #include <arpa/inet.h>
 #endif
 
-#ifdef USE_KDE
+#include <qfile.h>
+#include <qtoolbar.h>
+#include <qmainwindow.h>
+#include <qstringlist.h>
 #include <qapplication.h>
+#include <qdir.h>
+#include <qstyle.h>
+#ifdef _DEBUG
+# include <qmessagebox.h>
+#endif
+
+#ifdef USE_KDE
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kwin.h>
 #include "kdeisversion.h"
 #endif
 
-#include <map>
-using namespace std;
-
 namespace SIM
 {
 
 void save_state()
 {
-    Event e(EventSaveState, NULL);
+    EventSaveState e;
     e.process();
 }
 
@@ -68,11 +65,21 @@ void save_state()
 
 #ifdef WIN32
 
-EXPORT bool makedir(char *p)
+EXPORT bool makedir(const QString &p)
 {
-    char *r = strrchr(p, '\\');
-    if (r == NULL) return true;
-    *r = 0;
+    QDir path;
+    if(p.endsWith("/") || p.endsWith("\\")) {
+        QFileInfo fi(p + "dummy.txt");
+        path = fi.dir(true);
+    } else {
+        QFileInfo fi(p);
+        path = fi.dir(true);
+    }
+
+    if(path.exists())
+        return true;
+    QString r = QDir::convertSeparators(path.absPath());
+
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
     ZeroMemory(&sa, sizeof(sa));
@@ -83,62 +90,84 @@ EXPORT bool makedir(char *p)
         SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
         sa.lpSecurityDescriptor = &sd;
     }
-    CreateDirectoryA(p, &sa);
-    DWORD dwAttr = GetFileAttributesA(p);
+    CreateDirectoryW((LPCWSTR)p.ucs2(), &sa);
+    DWORD dwAttr = GetFileAttributesW((LPCWSTR)p.ucs2());
     if (dwAttr & FILE_ATTRIBUTE_READONLY)
-        SetFileAttributesA(p, dwAttr & ~FILE_ATTRIBUTE_READONLY);
-    *r = '\\';
+        SetFileAttributesW((LPCWSTR)p.ucs2(), dwAttr & ~FILE_ATTRIBUTE_READONLY);
     return true;
 }
 
 #else
 
-EXPORT bool makedir(char *p)
+EXPORT bool makedir(const QString &p)
 {
-    bool res = true;
-    char *r = strrchr(p, '/');
-    if (r == NULL) return res;
-    *r = 0;
-    struct stat st;
-    if (stat(p, &st)){
-        if (makedir(p)){
-            if (mkdir(p, 0700)){
-                log(L_ERROR, "Can't create %s: %s", p, strerror(errno));
-                res = false;
-            }
-        }else{
-            res = false;
-        }
-    }else{
-        if ((st.st_mode & S_IFMT) != S_IFDIR){
-            log(L_ERROR, "%s no directory", p);
-            res = false;
-        }
+    QDir path;
+	if(p.endsWith("/") || p.endsWith("\\")) {
+        QFileInfo fi(p + "dummy.txt");
+        path = fi.dir(true);
+    } else {
+        QFileInfo fi(p);
+        path = fi.dir(true);
     }
-    *r = '/';
-    return res;
+
+    if(path.exists())
+        return true;
+    QString r = QDir::convertSeparators(path.absPath());
+
+    struct stat st;
+    if (stat(QFile::encodeName(r).data(), &st) != 0){
+#ifdef __OS2__    
+        int idx = r.findRev('\\');
+#else    
+        int idx = r.findRev('/');
+#endif
+        if(idx == -1)
+            return false;
+        if (makedir(r.left(idx))){
+            if (mkdir(QFile::encodeName(r).data(), 0700)){
+                log(L_ERROR, "Can't create %s: %s", QFile::encodeName(r).data(), strerror(errno));
+                return false;
+            }
+        }
+        return false;
+    }
+    if ((st.st_mode & S_IFMT) != S_IFDIR){
+        log(L_ERROR, "%s no directory", p.local8Bit().data());
+        return false;
+    }
+    return true;
 }
 
 #endif
-
-// _____________________________________________________________________________________
 
 EXPORT QString app_file(const QString &f)
 {
     QString app_file_name;
     QString fname = f;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
+#ifdef __OS2__
+    CHAR buff[MAX_PATH];
+    PPIB pib;
+    PTIB tib;
+    DosGetInfoBlocks(&tib, &pib);
+    DosQueryModuleName(pib->pib_hmte, sizeof(buff), buff);
+#else	
     WCHAR buff[MAX_PATH];
     GetModuleFileNameW(NULL, buff, MAX_PATH);
+#endif    
+#ifdef __OS2__
+    QString b = buff;
+#else    
     QString b = QString::fromUcs2((unsigned short*)buff);
+#endif    
     int idx = b.findRev('\\');
     if(idx != -1)
         b = b.left(idx+1);
     app_file_name = b;
     if (app_file_name.length() && (app_file_name.right(1) != "\\") && (app_file_name.right(1) != "/"))
-        app_file_name += "\\";
+        app_file_name += '\\';
 #else
     if (fname[0] == '/')
         return f;
@@ -154,7 +183,9 @@ EXPORT QString app_file(const QString &f)
         }
     }
 #endif
+#ifndef __OS2__
     app_file_name = PREFIX "/share/apps/sim/";
+#endif
 #endif
     app_file_name += f;
     return QDir::convertSeparators(app_file_name);
@@ -165,9 +196,9 @@ EXPORT QString app_file(const QString &f)
 EXPORT QString user_file(const QString &f)
 {
     QString res = f;
-    Event e(EventHomeDir, &res);
+    EventHomeDir e(f);
     if (e.process())
-        return res;
+        return e.homeDir();
     return app_file(f);
 }
 
@@ -181,67 +212,16 @@ char fromHex(char c)
     return (char)0;
 }
 
-EXPORT string getToken(char const *&p, char c, bool bUnEscape)
+static unsigned char toHex(unsigned char c)
 {
-    string res;
-    char const *start = p;
-    for (; *p; p++){
-        if (*p == c)
-            break;
-        if (*p == '\\'){
-            p++;
-            if (*p == 0)
-                break;
-            if (!bUnEscape)
-                continue;
-            char c = *p;
-            int d = 0;
-            switch (c){
-            case 'n':
-                c = '\n';
-                break;
-            case 'r':
-                c = '\r';
-                break;
-            case 't':
-                c = '\t';
-                break;
-            case 'x':
-                if (p[1] && p[2]){
-                    c = (char)((fromHex(p[1]) << 4) + fromHex(p[2]));
-                    d = 2;
-                }
-                break;
-            }
-            if (start != p - 1){
-                string part;
-                part.append(start, (unsigned)(p - start - 1));
-                res += part;
-            }
-            res += c;
-            start = p + 1 + d;
-            continue;
-        }
-    }
-    if (start != p){
-        string part;
-        part.append(start, (unsigned)(p - start));
-        res += part;
-    }
-    if (*p == c)
-        p++;
-    return res;
+    c &= 0x0F;
+    if (c < 10)
+        return (unsigned char)(c + '0');
+    return (unsigned char)(c - 10 + 'a');
 }
 
-EXPORT string getToken(string &from, char c, bool bUnEscape)
-{
-    const char *p = from.c_str();
-    string res = getToken(p, c, bUnEscape);
-    from = string(p);
-    return res;
-}
 
-EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
+QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
     QString     res;
     QString     quote_chars;
@@ -251,7 +231,7 @@ EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSla
         quote_chars += '\\';
     }
     for (int i = 0; i < (int) (from.length ()); i++) {
-        QChar       c = from[i];
+        QChar c = from[i];
         if (quote_chars.contains (c)) {
             res += '\\';
         }
@@ -260,6 +240,36 @@ EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSla
     return res;
 }
 
+QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
+{
+    QString     res;
+    QString     quote_chars;
+
+    quote_chars = chars;
+    if (bQuoteSlash) {
+        quote_chars += '\\';
+    }
+    for (int i = 0; i < (int) (from.length()); i++) {
+        if ( (from[i] == '\\') && (i+1 < (int) from.length()) ) {
+          if (quote_chars.contains (from[i+1])) {
+                i++; // If the char after the slash is part of quote_chars, then we will skip that slash
+          } else
+          {
+            if (bQuoteSlash) {
+                // There should not be slashes with characters other than quote_chars after it, when bQuoteSlash is true
+                // So will warn about it
+              log(L_WARN,"Single slash found while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
+            }
+          }
+        }
+        if ( bQuoteSlash && (from[i] == '\\') && (i+1 == (int) from.length()) ) {
+          // There should not be slashe at the end of the string if bQuoteSlash is true
+          log(L_WARN,"Single slash found at the end of string while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
+        }
+        res += from[i];
+    }
+    return res;
+}
 EXPORT QString getToken(QString &from, char c, bool bUnEscape)
 {
     QString res;
@@ -272,14 +282,14 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
             if (i >= (int)from.length())
                 break;
             if (!bUnEscape)
-                res += "\\";
+                res += '\\';
         }
         res += from[i];
     }
     if (i < (int)from.length()){
         from = from.mid(i + 1);
     }else{
-        from = "";
+        from = QString::null;
     }
     return res;
 }
@@ -296,21 +306,21 @@ EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
             if (i >= (int)from.length())
                 break;
             if (!bUnEscape)
-                res += "\\";
+                res += '\\';
         }
         res += from[i];
     }
     if (i < (int)from.length()){
         from = from.mid(i + 1);
     }else{
-        from = "";
+        from = QCString();
     }
     return res;
 }
 
 // _______________________________________________________________________________________
 
-bool set_ip(Data *p, unsigned long value, const char *host)
+bool set_ip(Data *p, unsigned long value, const QString &host)
 {
     IP *ip = p->ip();
     if (value == 0){
@@ -324,7 +334,7 @@ bool set_ip(Data *p, unsigned long value, const char *host)
         ip = new IP;
     p->setIP(ip);
     if (ip->ip() == value){
-        if (host == NULL)
+        if (host.isEmpty())
             ip->resolve();
         return false;
     }
@@ -340,12 +350,10 @@ unsigned long get_ip(const Data &p)
     return 0;
 }
 
-const char *get_host(const Data &p)
+QString get_host(const Data &p)
 {
     const IP *ip = p.ip();
-    if (ip && ip->host())
-        return ip->host();
-    return "";
+    return ip ? ip->host() : QString::null;
 }
 
 // _______________________________________________________________________________________
@@ -388,87 +396,45 @@ EXPORT void free_data(const DataDef *def, void *d)
                 i    += (def->n_values - 1);
                 data += (def->n_values - 1);
                 break;
-            case DATA_UNKNOWN:
-                // stop at the end of structure no matter if DataDef has more ...
-                return;
             default:
                 data->clear();
-            }
-        }
-    }
-}
-
-QString unquoteStringInternal(const QString &p)
-{
-    QString unquoted;
-    int pos = 0;
-    if (p.startsWith("\""))
-        pos = 1;
-    int length = p.length();
-
-    for (; pos < length; pos++){
-        QChar c = p[pos];
-        if (c != '\\'){
-            unquoted += c;
-            continue;
-        }
-        pos++;
-        if ( pos >= length)
-            break;
-        c = p[pos];
-        switch (c){
-        case '\\':
-            unquoted += '\\';
-            break;
-        case 'n':
-            unquoted += '\n';
-            break;
-        case 't':
-            unquoted += '\t';
-            break;
-        case 'x': {
-            if ( pos + 2 >= length ) {
-                pos--;
                 break;
             }
-            QChar c1 = p[pos+1];
-            QChar c2 = p[pos+2];
-            char ch;
-            ch = (char)((fromHex(c1) << 4) + fromHex(c2));
-            unquoted += ch;
-            pos += 2;
-            break;
-        }
-        default:
-            pos--;
         }
     }
-    if( unquoted.endsWith( "\"" ) )
-        unquoted = unquoted.left( unquoted.length() - 1 );
-    return unquoted;
 }
 
 void init_data(const DataDef *d, Data *data)
 {
     for (const DataDef *def = d; def->name; def++){
         for (unsigned i = 0; i < def->n_values; i++, data++){
+			data->clear();
             data->setName(def->name);
             data->setType(def->type);
+            
             switch (def->type){
             case DATA_STRING:
-                if(def->def_value && *def->def_value)
-                    data->str() = QString(def->def_value);
+                // when all our sources are utf-8, use QString::fromUtf8() here!
+                data->str() = def->def_value ? QString(def->def_value) : QString::null;
                 break;
-            case DATA_STRMAP: {
+            case DATA_CSTRING:
+                // when all our sources are utf-8, use QString::fromUtf8() here!
+                data->cstr() = def->def_value ? QCString(def->def_value) : "";
+                break;
+            case DATA_STRLIST: {
+                // this breaks on non latin1 defaults!
                 QStringList sl = QStringList::split(',',def->def_value);
                 Data::STRING_MAP sm;
                 for(unsigned i = 0; i < sl.count(); i++) {
                     sm.insert(i, sm[(int)i]);
                 }
-                if(sm.count())
-                    data->strMap() = sm;
+                data->strMap() = sm;
+            }
+            case DATA_UTF:
+                if (def->def_value){
+                    data->str() = i18n(def->def_value);
+                }
                 break;
-           }
             case DATA_ULONG:
                 data->asULong() = (unsigned long)(def->def_value);
                 break;
@@ -479,9 +445,13 @@ void init_data(const DataDef *d, Data *data)
                 data->asBool() = (def->def_value != NULL);
                 break;
             case DATA_OBJECT:
+                data->setObject(NULL);
+                break;
             case DATA_IP:
+                data->setIP(NULL);
+                break;
             case DATA_BINARY:
-                // no need to init here - init on use
+                data->asBinary() = QByteArray();
                 break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
@@ -512,22 +482,97 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
     return NULL;
 }
 
-EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
+static QCString quoteInternal(const QCString &str)
+{
+    QCString res("\"");
+    if (!str.isEmpty()){
+        for (unsigned i = 0; i < str.length(); i++){
+            unsigned char p = str[(int)i];
+            switch (p){
+            case '\\':
+                res += "\\\\";
+                break;
+            case '\r':
+                break;
+            case '\n':
+                res += "\\n";
+                break;
+            case '\"': {
+                res += "\\x";
+                res += toHex((unsigned char)(p >> 4));
+                res += toHex(p);
+                break;
+            }
+            default:
+                if (p >= ' '){
+                    res += p;
+                }else if (p){
+                    res += "\\x";
+                    res += toHex((unsigned char)(p >> 4));
+                    res += toHex(p);
+                }
+            }
+        }
+    }
+    res += '\"';
+    return res;
+}
+
+static bool unquoteInternal(QCString &val, QCString &str)
+{
+    int idx1 = val.find('\"');
+    if(idx1 == -1)
+        return false;
+    idx1++;
+    int idx2 = val.findRev('\"');
+    if(idx2 == -1)
+        return false;
+    str = val.mid(idx1, idx2 - idx1);
+    val = val.mid(idx2 + 1);
+    // now unquote
+    idx1 = 0;
+    while((idx1 = str.find('\\', idx1)) != -1) {
+        char c = str[idx1 + 1];
+        switch(c) {
+            case '\\':
+                str = str.left(idx1) + '\\' + str.mid(idx1 + 2);
+                break;
+            case 'n':
+                str = str.left(idx1) + '\n' + str.mid(idx1 + 2);
+                break;
+            case 'x': {
+                char c1 = str[idx1 + 2];
+                char c2 = c1 ? str[idx1 + 3] : 0;
+                if(!c1 || !c2)
+                    return false;
+                c = (fromHex(c1) << 4) | (fromHex(c2));
+                str = str.left(idx1) + c + str.mid(idx1 + 4);
+                break;
+            }
+            default:
+                break;
+        }
+        idx1++;
+    }
+    return true;
+}
+
+EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 {
     Data *data = (Data*)_data;
     init_data(d, data);
     if (cfg == NULL)
         return;
-    cfg->savePos();
+    unsigned read_pos = cfg->readPos();
     for (;;){
-        QString line = cfg->getLine();
+        QCString line = cfg->getLine();
         if (line.isEmpty())
             break;
         int idx = line.find('=');
         if(idx == -1)
             continue;
-        QString name = line.left( idx );
-        QString val  = line.mid( idx + 1 );
+        QCString name = line.left( idx );
+        QCString val  = line.mid( idx + 1 );
         if(name.isEmpty() || val.isEmpty())
             continue;
 
@@ -536,54 +581,78 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
         if (def == NULL)
             continue;
         Data *ld = data + offs;
+        ld->setType(def->type);
         switch (def->type){
         case DATA_IP: {
-            QStringList strlist = QStringList::split( ',', val );
-            const char *ip = strlist[0];
-            const char *url = strlist[1];
+            int idx = val.find(',');
+            QCString ip, url;
+            if(idx == -1) {
+                ip = val;
+            } else {
+                ip = val.left(idx);
+                url = val.mid(idx + 1);
+            }
             set_ip(ld, inet_addr(ip), url);
             break;
         }
-        case DATA_STRMAP: {
-            int idx = val.find( ',' );
-            if(idx == -1)
+        case DATA_UTFLIST:
+        case DATA_STRLIST: {
+            // <number>,"<text>"(u)
+            QCString v;
+            int idx1 = val.find(',');
+            if(idx1 == -1)
                 break;
-            QString cnt = val.left( idx );
-            int i = cnt.toULong();
+            unsigned i = val.left(idx1).toUInt();
             if (i == 0)
                 break;
-            QString s = unquoteStringInternal(val.mid( idx + 1 ));
-            set_str(ld, i, s);
-            break;
-        }
-        case DATA_STRING: {
-            QStringList sl = QStringList::split( "\",\"", val );
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
-                if(s.isEmpty())
-                    continue;
-                s = unquoteStringInternal(s);
-                ld->setStr(s);
+            val = val.mid(idx1 + 1);
+            if(!unquoteInternal(val, v)) {
+                set_str(ld, i, QString::null);
+                break;
+            }
+            if (!val.isEmpty() && val[0] == 'u'){
+                set_str(ld, i, QString::fromUtf8(v));
+            }else{
+                set_str(ld, i,  QString::fromLocal8Bit(v));
             }
             break;
         }
-        case DATA_LONG: {
-            QStringList sl = QStringList::split(',',val,true);
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
-                if(s.isEmpty())
-                    continue;
-                ld->setLong(s.toLong());
+        case DATA_UTF:
+        case DATA_STRING:
+        case DATA_CSTRING: {
+            // "<text>"(u),"<text>"(u),"<text>"(u),"<text>"(u),...
+            for (unsigned i = 0; i < def->n_values; ld++, i++){
+                QCString v;
+                if(!unquoteInternal(val, v))
+                    break;
+
+                if(def->type == DATA_CSTRING) {
+                    ld->cstr() = v;
+                } else {
+                    if (!val.isEmpty() && val[0] == 'u')
+                        ld->str() = QString::fromUtf8(v);
+                    else
+                        ld->str() = QString::fromLocal8Bit(v);
+                }
+
+                idx = val.find(',');
+                if (idx == -1)
+                    break;
+                val = val.mid(idx + 1);
             }
             break;
         }
+		case DATA_LONG:
         case DATA_ULONG: {
             QStringList sl = QStringList::split(',',val,true);
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                ld->setULong(s.toULong());
+                if(def->type == DATA_LONG)
+                    ld->setLong(s.toLong());
+                else
+                    ld->setULong(s.toULong());
             }
             break;
         }
@@ -598,7 +667,8 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             break;
         }
         case DATA_BINARY: {
-            QStringList sl = QStringList::split(',',val,true);
+            // ok here since they're only latin1 chars
+            QStringList sl = QStringList::split(',', val, true);
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
                 if(s.isEmpty())
@@ -615,128 +685,144 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
         case DATA_UNKNOWN:
         case DATA_STRUCT:
         case DATA_OBJECT:
-        default:
-            break;
+	default:
+	    break;
         }
     }
-    cfg->restorePos();
+    cfg->setReadPos(read_pos);
 }
 
-static char toHex(char c)
-{
-    c &= 0x0F;
-    if (c < 10) return (char)(c + '0');
-    return (char)(c - 10 + 'a');
-}
-
-static QString quoteStringInternal(const QString &str)
-{
-    QString quoted("\"");
-    int length = str.length();
-    for (int i = 0; i < length; i++){
-        QChar c = str[i];
-        switch (c){
-        case '\\':
-            quoted += "\\\\";
-            break;
-        case '\r':
-            break;
-        case '\n':
-            quoted += "\\n";
-            break;
-        case '\"':
-            quoted += "\\\"";
-            break;
-        default:
-            if (c >= ' '){
-                quoted += c;
-            }else if (c){
-                quoted += "\\x";
-                quoted += toHex((char)(c >> 4));
-                quoted += toHex(c);
-            }
-        }
-    }
-    quoted += "\"";
-    return quoted;
-}
-
-EXPORT QString save_data(const DataDef *def, void *_data)
+EXPORT QCString save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
-    QString res;
+    QCString res;
     for (; def->name; def++){
-        QString value;
+        QCString value;
         bool bSave = false;
-        unsigned i;
         if (def->type == DATA_STRUCT){
-            QString s = save_data((DataDef*)(def->def_value), data);
+            QCString s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
-                    res += "\n";
+                    res += '\n';
                 res += s;
             }
         }else  if (*def->name){
             Data *ld = data;
             switch (def->type){
             case DATA_IP:{
-                    const IP *p = ld->ip();
+                    IP *p = ld->ip();
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
                         value = inet_ntoa(inaddr);
-                        const char *host = p->host();
-                        if (host && *host){
-                            value += ",";
+                        QString host = p->host();
+                        if (!host.isEmpty()){
+                            value += ',';
                             value += host;
                         }
                         bSave = true;
                     }
                     break;
                 }
-            case DATA_STRMAP:{
+            case DATA_UTFLIST:
+            case DATA_STRLIST:{
                     const Data::STRING_MAP &p = ld->strMap();
-                    Data::STRING_MAP::const_iterator it;
-                    for (it = p.begin(); it != p.end(); it ++) {
-                        QString s = it.data();
-                        if(s.isEmpty())
-                            continue;
-                        if(def->def_value && s == def->def_value)
-                            continue;
-                        if (res.length())
-                            res += "\n";
-                        res += def->name;
-                        res += "=";
-                        res += QString::number(it.key());
-                        res += ",";
-                        res += quoteStringInternal(s);
-                    }
-                    break;
-                }
-            case DATA_STRING:{
-                    for (i = 0; i < def->n_values; i++, ld++){
-                        QString &p = ld->str();
-                        if (value.length())
-                            value += ",";
-                        if (def->def_value){
-                            if (p != def->def_value){
-                                value += quoteStringInternal(p);
-                                bSave = true;
-                            }
-                        }else{
-                            if (!p.isEmpty()){
-                                value += quoteStringInternal(p);
-                                bSave = true;
+                    if (p.count()){
+                        for (Data::STRING_MAP::ConstIterator it = p.begin(); it != p.end(); ++it){
+                            if(it.data().isEmpty())
+                                continue;
+                            if (res.length())
+                                res += '\n';
+                            res += def->name;
+                            res += '=';
+                            res += QString::number(it.key());
+                            res += ',';
+                            QString s = it.data();
+                            QCString ls = s.local8Bit();
+                            if (QString::fromLocal8Bit(ls) == s){
+                                res += quoteInternal(ls);
+                            }else{
+                                res += quoteInternal(s.utf8());
+                                res += 'u';
                             }
                         }
                     }
                     break;
                 }
-            case DATA_BOOL:{
-                    for (i = 0; i < def->n_values; i++, ld++){
-                        bool p = ld->asBool();
+            case DATA_STRING:{
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
+                        QString &str = ld->str();
                         if (value.length())
-                            value += ",";
+                            value += ',';
+                        if (def->def_value){
+                            if (str != QString::fromAscii(def->def_value)){
+                                bSave = true;
+                            }
+                        }else{
+                            if (str.length()){
+                                bSave = true;
+                            }
+                        }
+                        if (bSave){
+                            QCString ls = str.local8Bit();
+                            if (QString::fromLocal8Bit(ls) == str){
+                                value += quoteInternal(ls);
+                            }else{
+                                value += quoteInternal(str.utf8());
+                                value += 'u';
+                            }
+                        }
+                    }
+                    break;
+                }
+            case DATA_UTF:{
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
+                        QString &str = ld->str();
+                        if (value.length())
+                            value += ',';
+                        if (def->def_value){
+                            if (str != i18n(def->def_value))
+                                bSave = true;
+                        }else{
+                            if (str.length())
+                                bSave = true;
+                        }
+                        if (bSave){
+                            QCString ls = str.local8Bit();
+                            if (QString::fromLocal8Bit(ls) == str){
+                                value += quoteInternal(ls);
+                            }else{
+                                value += quoteInternal(str.utf8());
+                                value += 'u';
+                            }
+                        }
+                    }
+                    break;
+                }
+            case DATA_CSTRING:{
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
+                        QCString &str = ld->cstr();
+                        if (value.length())
+                            value += ',';
+                        if (def->def_value){
+                            if (str != def->def_value){
+                                bSave = true;
+                            }
+                        }else{
+                            if (str.length()){
+                                bSave = true;
+                            }
+                        }
+                        if (bSave)
+                            value += quoteInternal(str);
+                    }
+                    break;
+                }
+            case DATA_BOOL:{
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
+                        bool p = ld->toBool();
+                        if (value.length())
+                            value += ',';
                         if (p != (def->def_value != 0)){
                             if (p){
                                 value += "true";
@@ -749,28 +835,28 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_LONG:{
-                    for (i = 0; i < def->n_values; i++, ld++){
-                        long p = ld->asLong();
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
+                        long p = ld->toLong();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (p != (long)(def->def_value)){
-                            char b[32];
-                            snprintf(b, sizeof(b), "%li", p);
-                            value += b;
+                            QString s;
+                            s.sprintf("%li", p);
+                            value += s;
                             bSave = true;
                         }
                     }
                     break;
                 }
             case DATA_ULONG:{
-                    for (i = 0; i < def->n_values; i++, ld++){
-                        unsigned long p = ld->asULong();
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
+                        unsigned long p = ld->toULong();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (p != (unsigned long)(def->def_value)){
-                            char b[32];
-                            snprintf(b, sizeof(b), "%lu", p);
-                            value += b;
+                            QString s;
+                            s.sprintf("%lu", p);
+                            value += s;
                             bSave = true;
                         }
                     }
@@ -783,7 +869,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                         unsigned char c = ba.data()[i];
                         QString s;
                         s.sprintf("%02X", c);
-                        value += s;
+                        value += s.latin1();    // ok here since they're only latin1 chars
                     }
                     if(!bSave)
                         bSave = (ba.size() != 0);
@@ -798,9 +884,9 @@ EXPORT QString save_data(const DataDef *def, void *_data)
             }
             if (bSave){
                 if (res.length())
-                    res += "\n";
+                    res += '\n';
                 res += def->name;
-                res += "=";
+                res += '=';
                 res += value;
             }
         }
@@ -827,12 +913,21 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
     geo[TOP].asLong()    = pos.y();
     geo[WIDTH].asLong()  = size.width();
     geo[HEIGHT].asLong() = size.height();
+    // if window is not visible QT return geometry without frame sizes
+    // may work for X versions too
+    if ( !w->isShown() ) {
+        int th = w->style().pixelMetric( QStyle::PM_TitleBarHeight, w );
+        int fw = w->style().pixelMetric( QStyle::PM_DefaultFrameWidth, w );
+        geo[0].asLong() -= fw * 2; // + size of left frame border
+        geo[1].asLong() -= th + fw; // + size of title and border
+    }
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
         int dc = GetSystemMetrics(SM_CYCAPTION);
+        int dd = GetSystemMetrics(SM_CYDLGFRAME);
         int ds = GetSystemMetrics(SM_CYSMCAPTION);
-        geo[1].asLong() += dc - ds;
-        geo[3].asLong() -= (dc - ds) * 2;
+		geo[1].asLong() += dc - ds;
+        geo[3].asLong() -= dd * 2;
     }
 #endif
 #ifdef USE_KDE
@@ -946,7 +1041,7 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 // ----------------------------
 // class Data
 // ----------------------------
-class DataPrivate {
+class EXPORT DataPrivate {
 public:
     unsigned long        m_dataAsValue;
     bool                 m_dataAsBool;
@@ -954,11 +1049,26 @@ public:
     Data::STRING_MAP    *m_dataAsQStringMap;
     QObject             *m_dataAsObject;
     IP                  *m_dataAsIP;
-    QByteArray          *m_dataAsBinary; 
+    QByteArray          *m_dataAsBinary;
+    QCString            *m_dataAsQCString;
     DataPrivate() : m_dataAsValue(0), m_dataAsBool(false), m_dataAsQString(NULL),
                     m_dataAsQStringMap(NULL), m_dataAsObject(NULL), m_dataAsIP(NULL),
-                    m_dataAsBinary(NULL) {}
+                    m_dataAsBinary(NULL), m_dataAsQCString(NULL) {}
+
+    static unsigned long myStaticDummyULong;
+    static bool myStaticDummyBool;
+    static QString myStaticDummyQString;
+    static Data::STRING_MAP myStaticDummyQStringMap;
+    static QByteArray myStaticDummyQByteArray;
+    static QCString myStaticDummyQCString;
 };
+
+unsigned long DataPrivate::myStaticDummyULong = ~0U;
+bool DataPrivate::myStaticDummyBool = false;
+QString DataPrivate::myStaticDummyQString = QString("Wrong datatype!");
+Data::STRING_MAP DataPrivate::myStaticDummyQStringMap = Data::STRING_MAP();
+QByteArray DataPrivate::myStaticDummyQByteArray = QByteArray();
+QCString DataPrivate::myStaticDummyQCString = QCString("Wrong datatype!");
 
 Data::Data()
  : m_type(DATA_UNKNOWN), m_name("unknown"), data(NULL)
@@ -1000,6 +1110,9 @@ Data &Data::operator =(const Data &d)
         case DATA_BINARY:
             this->asBinary() = d.toBinary();
             break;
+        case DATA_CSTRING:
+            this->cstr() = d.cstr();
+            break;
         case DATA_UNKNOWN:
         case DATA_STRUCT:
         default:
@@ -1014,6 +1127,7 @@ void Data::clear(bool bNew)
         delete data->m_dataAsQString;
         delete data->m_dataAsQStringMap;
         delete data->m_dataAsBinary;
+        delete data->m_dataAsQCString;
         delete data;
     }
     data = bNew ? new DataPrivate : NULL;
@@ -1021,7 +1135,8 @@ void Data::clear(bool bNew)
 
 const QString &Data::str() const
 {
-    checkType(DATA_STRING);
+    if(!checkType(DATA_STRING))
+        return DataPrivate::myStaticDummyQString;
     if(!data->m_dataAsQString)
         data->m_dataAsQString = new QString();
     return *data->m_dataAsQString;
@@ -1029,7 +1144,8 @@ const QString &Data::str() const
 
 QString &Data::str()
 {
-    checkType(DATA_STRING);
+    if(!checkType(DATA_STRING))
+        return DataPrivate::myStaticDummyQString;
     if(!data->m_dataAsQString)
         data->m_dataAsQString = new QString();
     return *data->m_dataAsQString;
@@ -1037,7 +1153,8 @@ QString &Data::str()
 
 bool Data::setStr(const QString &s)
 {
-    checkType(DATA_STRING);
+    if(!checkType(DATA_STRING))
+        return false;
     if(data->m_dataAsQString && s == *data->m_dataAsQString)
         return false;
     if(!data->m_dataAsQString)
@@ -1049,7 +1166,8 @@ bool Data::setStr(const QString &s)
 
 const Data::STRING_MAP &Data::strMap() const
 {
-    checkType(DATA_STRMAP);
+    if(!checkType(DATA_STRMAP))
+        return DataPrivate::myStaticDummyQStringMap;
     if(!data->m_dataAsQStringMap)
         data->m_dataAsQStringMap = new STRING_MAP();
     return *data->m_dataAsQStringMap;
@@ -1057,7 +1175,8 @@ const Data::STRING_MAP &Data::strMap() const
 
 Data::STRING_MAP &Data::strMap()
 {
-    checkType(DATA_STRMAP);
+    if(!checkType(DATA_STRMAP))
+        return DataPrivate::myStaticDummyQStringMap;
     if(!data->m_dataAsQStringMap)
         data->m_dataAsQStringMap = new STRING_MAP();
     return *data->m_dataAsQStringMap;
@@ -1065,8 +1184,8 @@ Data::STRING_MAP &Data::strMap()
 
 bool Data::setStrMap(const STRING_MAP &s)
 {
-    checkType(DATA_STRMAP);
-    // ... 
+    if(!checkType(DATA_STRMAP))
+        return false;
     if(!data->m_dataAsQStringMap)
         data->m_dataAsQStringMap = new STRING_MAP(s);
     else
@@ -1076,19 +1195,22 @@ bool Data::setStrMap(const STRING_MAP &s)
 
 long Data::toLong() const
 {
-    checkType(DATA_LONG);
-    return data->m_dataAsValue;
+    if(!checkType(DATA_LONG))
+        return (long)DataPrivate::myStaticDummyULong;
+    return (long)data->m_dataAsValue;
 }
 
 long &Data::asLong()
 {
-    checkType(DATA_LONG);
+    if(!checkType(DATA_LONG))
+        return (long&)DataPrivate::myStaticDummyULong;
     return (long&)data->m_dataAsValue;
 }
 
 bool Data::setLong(long d)
 {
-    checkType(DATA_LONG);
+    if(!checkType(DATA_LONG))
+        return false;
     if(d == (long)data->m_dataAsValue)
         return false;
     data->m_dataAsValue = (unsigned long)d;
@@ -1097,18 +1219,22 @@ bool Data::setLong(long d)
 
 unsigned long Data::toULong() const
 {
-    checkType(DATA_ULONG);
+    if(!checkType(DATA_ULONG))
+        return DataPrivate::myStaticDummyULong;
     return data->m_dataAsValue;
 }
 
 unsigned long &Data::asULong()
 {
-    checkType(DATA_ULONG);
+    if(!checkType(DATA_ULONG))
+        return DataPrivate::myStaticDummyULong;
     return data->m_dataAsValue;
 }
+
 bool Data::setULong(unsigned long d)
 {
-    checkType(DATA_ULONG);
+    if(!checkType(DATA_ULONG))
+        return false;
     if(d == data->m_dataAsValue)
         return false;
     data->m_dataAsValue = d;
@@ -1117,19 +1243,22 @@ bool Data::setULong(unsigned long d)
 
 bool Data::toBool() const
 {
-    checkType(DATA_BOOL);
+    if(!checkType(DATA_BOOL))
+        return DataPrivate::myStaticDummyBool;
     return data->m_dataAsBool;
 }
 
 bool &Data::asBool()
 {
-    checkType(DATA_BOOL);
+    if(!checkType(DATA_BOOL))
+        return DataPrivate::myStaticDummyBool;
     return data->m_dataAsBool;
 }
 
 bool Data::setBool(bool d)
 {
-    checkType(DATA_BOOL);
+    if(!checkType(DATA_BOOL))
+        return false;
     if(d == data->m_dataAsBool)
         return false;
     data->m_dataAsBool = d;
@@ -1138,19 +1267,22 @@ bool Data::setBool(bool d)
 
 const QObject* Data::object() const
 {
-    checkType(DATA_OBJECT);
+    if(!checkType(DATA_OBJECT))
+        return NULL;
     return data->m_dataAsObject;
 }
 
 QObject* Data::object()
 {
-    checkType(DATA_OBJECT);
+    if(!checkType(DATA_OBJECT))
+        return NULL;
     return data->m_dataAsObject;
 }
 
 bool Data::setObject(const QObject *d)
 {
-    checkType(DATA_OBJECT);
+    if(!checkType(DATA_OBJECT))
+        return false;
     if(d == data->m_dataAsObject)
         return false;
     data->m_dataAsObject = const_cast<QObject*>(d);
@@ -1159,7 +1291,8 @@ bool Data::setObject(const QObject *d)
 
 const QByteArray &Data::toBinary() const
 {
-    checkType(DATA_BINARY);
+    if(!checkType(DATA_BINARY))
+        return DataPrivate::myStaticDummyQByteArray;
     if(!data->m_dataAsBinary)
         data->m_dataAsBinary = new QByteArray();
     return *data->m_dataAsBinary;
@@ -1167,7 +1300,8 @@ const QByteArray &Data::toBinary() const
 
 QByteArray &Data::asBinary()
 {
-    checkType(DATA_BINARY);
+    if(!checkType(DATA_BINARY))
+        return DataPrivate::myStaticDummyQByteArray;
     if(!data->m_dataAsBinary)
         data->m_dataAsBinary = new QByteArray();
     return *data->m_dataAsBinary;
@@ -1175,7 +1309,8 @@ QByteArray &Data::asBinary()
 
 bool Data::setBinary(const QByteArray &d)
 {
-    checkType(DATA_BINARY);
+    if(!checkType(DATA_BINARY))
+        return false;
     if(data->m_dataAsBinary && d == *data->m_dataAsBinary)
         return false;
     if(!data->m_dataAsBinary)
@@ -1187,22 +1322,56 @@ bool Data::setBinary(const QByteArray &d)
 
 const IP* Data::ip() const
 {
-    checkType(DATA_IP);
+    if(!checkType(DATA_IP))
+        return NULL;
     return data->m_dataAsIP;
 }
 
 IP* Data::ip()
 {
-    checkType(DATA_IP);
+    if(!checkType(DATA_IP))
+        return NULL;
     return data->m_dataAsIP;
 }
 
 bool Data::setIP(const IP *d)
 {
-    checkType(DATA_IP);
+    if(!checkType(DATA_IP))
+        return false;
     if(d == data->m_dataAsIP)
         return false;
     data->m_dataAsIP = const_cast<IP*>(d);
+    return true;
+}
+
+const QCString &Data::cstr() const
+{
+    if(!checkType(DATA_CSTRING))
+        return DataPrivate::myStaticDummyQCString;
+    if(!data->m_dataAsQCString)
+        data->m_dataAsQCString = new QCString();
+    return *data->m_dataAsQCString;
+}
+
+QCString &Data::cstr()
+{
+    if(!checkType(DATA_CSTRING))
+        return DataPrivate::myStaticDummyQCString;
+    if(!data->m_dataAsQCString)
+        data->m_dataAsQCString = new QCString();
+    return *data->m_dataAsQCString;
+}
+
+bool Data::setCStr(const QCString &s)
+{
+    if(!checkType(DATA_CSTRING))
+        return false;
+    if(data->m_dataAsQCString && s == *data->m_dataAsQCString)
+        return false;
+    if(!data->m_dataAsQCString)
+        data->m_dataAsQCString = new QCString(s);
+    else
+        *data->m_dataAsQCString = s;
     return true;
 }
 
@@ -1211,6 +1380,7 @@ static const char *dataType2Name(DataType type)
     switch(type) {
         case DATA_UNKNOWN:
             return "uninitialized";
+        case DATA_UTF:
         case DATA_STRING:
             return "string";
         case DATA_LONG:
@@ -1219,6 +1389,7 @@ static const char *dataType2Name(DataType type)
             return "ulong";
         case DATA_BOOL:
             return "bool";
+        case DATA_UTFLIST:
         case DATA_STRMAP:
             return "stringmap";
         case DATA_IP:
@@ -1229,17 +1400,31 @@ static const char *dataType2Name(DataType type)
             return "object";
         case DATA_BINARY:
             return "binary";
+        case DATA_CSTRING:
+            return "cstr";
     }
     return "unknown";
 }
 
-void Data::checkType(DataType type) const
+bool Data::checkType(DataType type) const
 {
-    if(m_type != type) {
-        log( L_ERROR, "Using wrong data type %s instead %s for %s!",
-             dataType2Name(type), dataType2Name(m_type), m_name.isEmpty() ? "??" : m_name.latin1() );
-//        assert(0);
+    DataType myType = m_type;
+    if(myType == DATA_UTFLIST)
+        myType = DATA_STRLIST;
+    if(myType == DATA_UTF)
+        myType = DATA_STRING;
+    if(myType != type) {
+        QString errString = QString("Using wrong data type %1 instead %2 for %3!")
+                               .arg(dataType2Name(type))
+                               .arg(dataType2Name(m_type))
+                               .arg(m_name.isEmpty() ? "??" : m_name);
+        log(L_ERROR, errString);
+#ifdef _DEBUG
+        QMessageBox::information(0, "Debug error", errString, QMessageBox::Ok);
+#endif
+        return false;
     }
+    return true;
 }
 
 void Data::setName(const QString &name)
@@ -1263,4 +1448,4 @@ DataType Data::type() const
     return m_type;
 }
 
-}   // namespcae SIM
+}   // namespace SIM

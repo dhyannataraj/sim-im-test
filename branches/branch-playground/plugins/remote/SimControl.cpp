@@ -22,7 +22,6 @@ extern CComModule _Module;
 #include "SimControl.h"
 
 #include "remote.h"
-#include "stl.h"
 
 using namespace std;
 

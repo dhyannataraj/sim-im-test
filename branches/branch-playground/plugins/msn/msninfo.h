@@ -18,23 +18,23 @@
 #ifndef _MSNINFO_H
 #define _MSNINFO_H
 
-#include "simapi.h"
 #include "msninfobase.h"
 
+struct MSNUserData;
 class MSNClient;
 
 class MSNInfo : public MSNInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MSNInfo(QWidget *parent, struct MSNUserData *data, MSNClient *client);
+    MSNInfo(QWidget *parent, MSNUserData *data, MSNClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
-    struct MSNUserData *m_data;
+    MSNUserData *m_data;
     MSNClient *m_client;
 };
 

@@ -21,20 +21,16 @@
 #include "simapi.h"
 
 #include <aspell.h>
+#include <qstring.h>
+#include <qstringlist.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
 
 class SpellerBase
 {
 public:
-#ifdef WIN32
-    SpellerBase(const char *path);
-#else
-    SpellerBase();
-#endif
+    SpellerBase(const QString &path);
     ~SpellerBase();
+
 #ifdef WIN32
     struct AspellConfig *(*_new_aspell_config)();
     void (*_delete_aspell_config)(struct AspellConfig * ths);
@@ -56,7 +52,7 @@ public:
     int (*_aspell_speller_add_to_personal)(struct AspellSpeller * ths, const char * word, int word_size);
 protected:
     void init();
-    HINSTANCE hLib;
+    class QLibrary *m_aspellLib;
 #endif
 };
 
@@ -67,7 +63,7 @@ public:
     SpellerConfig(SpellerBase &base);
     ~SpellerConfig();
     QString getLangs();
-    int setKey(const char *key, const char *val);
+    int setKey(const char *key, const QString &val);
 protected:
     struct AspellConfig *cfg;
     SpellerBase &m_base;

@@ -18,7 +18,6 @@
 #ifndef _FORWARDCFG_H
 #define _FORWARDCFG_H
 
-#include "simapi.h"
 #include "forwardcfgbase.h"
 
 class ForwardPlugin;

@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "gpg.h"
-#include "gpguser.h"
+#include "misc.h"
 
-#include <qcombobox.h>
+#include "gpguser.h"
+#include "gpg.h"
+
 #include <qprocess.h>
 #include <qpushbutton.h>
+#include <qcombobox.h>
 
 using namespace SIM;
 
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
         : GpgUserBase(parent)
 {
-    if (data)
+    if(data)
         m_key = data->Key.str();
     m_process = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));

@@ -17,16 +17,9 @@
 
 #include "simapi.h"
 
-#include <qsyntaxhighlighter.h>
-
-#include "historycfg.h"
-#include "core.h"
-#include "textshow.h"
-#include "msgview.h"
-#include "xsl.h"
-#include "ballonmsg.h"
-
 #include <time.h>
+
+#include <algorithm>
 
 #include <qcheckbox.h>
 #include <qpushbutton.h>
@@ -40,11 +33,26 @@
 #include <qtimer.h>
 #include <qtabwidget.h>
 #include <qspinbox.h>
+#include <qsyntaxhighlighter.h>
 
 #ifdef USE_KDE
-#include <qapplication.h>
-#include <kglobal.h>
-#include <kstddirs.h>
+# include <qapplication.h>
+# include <kglobal.h>
+# include <kstddirs.h>
+#endif
+
+#include "ballonmsg.h"
+#include "log.h"
+#include "unquot.h"
+#include "xsl.h"
+
+#include "historycfg.h"
+#include "core.h"
+#include "textshow.h"
+#include "msgview.h"
+
+#ifdef __OS2__
+#undef COMMENT
 #endif
 
 static char STYLES[] = "styles/";
@@ -86,7 +94,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
         QColor c;
         switch (state){
         case TEXT:
-            n = s.find("<", pos);
+            n = s.find('<', pos);
             if (n == -1){
                 n = s.length();
             }else{
@@ -124,8 +132,8 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
             default:
                 c = QColor(COLOR_TAG);
             }
-            n = s.find(">", pos);
-            n1 = s.find("\"", pos);
+            n = s.find('>', pos);
+            n1 = s.find('\"', pos);
             if ((n >= 0) && ((n < n1) || (n1 == -1))){
                 state = TEXT;
                 n++;
@@ -148,7 +156,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
         case STRING:
         case XML_STRING:
         case XSL_STRING:
-            n = s.find("\"", pos + 1);
+            n = s.find('\"', pos + 1);
             if (n >= 0){
                 switch (state){
                 case XML_STRING:
@@ -182,6 +190,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
     chkExtViewer->setChecked(CorePlugin::m_plugin->getUseExtViewer());
     edtExtViewer->setText(CorePlugin::m_plugin->getExtViewer());
+    chkAvatar->setChecked(CorePlugin::m_plugin->getShowAvatarInHistory());
     m_cur = -1;
     cmbPage->setEditable(true);
     m_bDirty = false;
@@ -200,10 +209,11 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
     highlighter = new XmlHighlighter(edtStyle);
-    QStringList styles;
     addStyles(user_file(STYLES), true);
     str1 = i18n("Use external viewer");
     chkExtViewer->setText(str1);
+    str1 = i18n("Show user avatar");
+    chkAvatar->setText(str1);
 #ifdef USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
@@ -271,13 +281,13 @@ void HistoryConfig::apply()
             const QString errorMessage = f.errorString();
             f.close();
             if (status != IO_Ok) {
-                log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+                log(L_ERROR, "IO error writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
             } else {
                 // rename to normal file
                 QFileInfo fileInfo(f.name());
                 QString desiredFileName = fileInfo.fileName();
                 desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                 fileInfo.dir().remove(desiredFileName);
 #endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -310,11 +320,14 @@ void HistoryConfig::apply()
         bChanged = true;
         CorePlugin::m_plugin->setUseExtViewer(chkExtViewer->isChecked());
     }
+    if (chkAvatar->isChecked() != CorePlugin::m_plugin->getShowAvatarInHistory()){
+        bChanged = true;
+        CorePlugin::m_plugin->setShowAvatarInHistory(chkAvatar->isChecked());
+    }
     CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
     CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toULong());
     if (bChanged){
-        Event e(EventHistoryConfig);
-        e.process();
+        EventHistoryConfig(0).process();
     }
     fillPreview();
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
@@ -330,7 +343,7 @@ void HistoryConfig::addStyles(const QString &dir, bool bCustom)
     QStringList files = d.entryList("*.xsl", QDir::Files, QDir::Name);
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
         QString name = *it;
-        int n = name.findRev(".");
+        int n = name.findRev('.');
         name = name.left(n);
         vector<StyleDef>::iterator its;
         for (its = m_styles.begin(); its != m_styles.end(); ++its){
@@ -393,7 +406,7 @@ void HistoryConfig::copy()
     }else{
         newName = name;
     }
-    newName += ".";
+    newName += '.';
     newName += QString::number(next + 1);
     QString n;
     n = STYLES;
@@ -427,7 +440,7 @@ void HistoryConfig::copy()
     const QString errorMessage = to.errorString();
     to.close();
     if (status != IO_Ok) {
-        log(L_ERROR, QString("IO error during writting to file %1 : %2").arg(to.name()).arg(errorMessage));
+        log(L_ERROR, "IO error writing to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());
         return;
     }
 
@@ -435,7 +448,7 @@ void HistoryConfig::copy()
     QFileInfo fileInfo(to.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -674,7 +687,7 @@ void HistoryConfig::fillPreview()
     m5.setTime(now);
     m5.setContact(contact->id());
     if (getContacts()->nClients())
-        m5.setClient((getContacts()->getClient(0)->name() + "."));
+        m5.setClient((getContacts()->getClient(0)->name() + '.'));
     edtPreview->addMessage(&m5);
     delete contact;
     CorePlugin::m_plugin->setUseSmiles(saveSmiles);

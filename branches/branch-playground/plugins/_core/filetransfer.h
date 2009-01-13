@@ -18,7 +18,8 @@
 #ifndef _FILETRANSFER_H
 #define _FILETRANSFER_H
 
-#include "simapi.h"
+#include "message.h"
+
 #include "filetransferbase.h"
 
 class QTimer;

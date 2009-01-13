@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ontop.h"
-#include "ontopcfg.h"
+#include "simapi.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -30,9 +29,15 @@
 #endif
 #endif
 
+#include "misc.h"
+#include "core_consts.h"
+
+#include "ontop.h"
+#include "ontopcfg.h"
+
 using namespace SIM;
 
-Plugin *createOnTopPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createOnTopPlugin(unsigned base, bool, Buffer *config)
 {
 #if defined(WIN32) || defined(USE_KDE)
     Plugin *plugin = new OnTopPlugin(base, config);
@@ -56,13 +61,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct OnTopData
-{
-    bool OnTop;
-    bool InTask;
-} OnTopData;
-*/
 static DataDef onTopData[] =
     {
         { "OnTop", DATA_BOOL, 1, DATA(1) },
@@ -71,7 +69,7 @@ static DataDef onTopData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-OnTopPlugin::OnTopPlugin(unsigned base, ConfigBuffer *config)
+OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(onTopData, &data, config);
@@ -84,9 +82,7 @@ OnTopPlugin::OnTopPlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0x7000;
     cmd->flags		= COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
 #ifdef WIN32
     m_state = HWND_NOTOPMOST;
@@ -101,55 +97,61 @@ OnTopPlugin::OnTopPlugin(unsigned base, ConfigBuffer *config)
 
 OnTopPlugin::~OnTopPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdOnTop);
-    eCmd.process();
+    EventCommandRemove(CmdOnTop).process();
 
     setOnTop(false);
     setState();
     free_data(onTopData, &data);
 }
 
-void *OnTopPlugin::processEvent(Event *e)
+bool OnTopPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventInit)
+    if (e->type() == eEventInit)
         setState();
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdOnTop){
             setOnTop(!getOnTop());
             setState();
-            return cmd;
+            return true;
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdOnTop){
             getState();
             cmd->flags &= ~COMMAND_CHECKED;
             if (getOnTop())
                 cmd->flags |= COMMAND_CHECKED;
-            return cmd;
+            return true;
         }
     }
-    if (e->type() == EventOnTop){
-        QWidget *main = getMainWindow();
-        if (main == NULL) return NULL;
 #ifdef WIN32
+    if (e->type() == eEventOnTop){
+        EventOnTop *eot = static_cast<EventOnTop*>(e);
+        QWidget *main = getMainWindow();
+        if (main == NULL)
+            return NULL;
         HWND hState = HWND_NOTOPMOST;
-        if (getOnTop()) hState = HWND_TOPMOST;
-        if (e->param()) hState = HWND_BOTTOM;
+        if (getOnTop())
+            hState = HWND_TOPMOST;
+        if (eot->showOnTop())
+            hState = HWND_BOTTOM;
         if (m_state != hState){
             SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
             m_state = hState;
         }
-#endif
-    }
-    if (e->type() == EventInTaskManager){
+    } else
+    if (e->type() == eEventInTaskManager){
+        EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
         QWidget *main = getMainWindow();
-        if (main == NULL) return NULL;
-#ifdef WIN32
+        if (main == NULL)
+            return NULL;
         if (IsWindowUnicode(main->winId())){
-            if (e->param() && getInTask()){
+            if (eitm->showInTaskmanager() && getInTask()){
                 SetWindowLongW(main->winId(), GWL_EXSTYLE,
                                (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
             }else{
@@ -164,7 +166,7 @@ void *OnTopPlugin::processEvent(Event *e)
                 }
             }
         }else{
-            if (e->param() && getInTask()){
+            if (eitm->showInTaskmanager() && getInTask()){
                 SetWindowLongA(main->winId(), GWL_EXSTYLE,
                                (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
             }else{
@@ -177,12 +179,13 @@ void *OnTopPlugin::processEvent(Event *e)
                 }
             }
         }
-#endif
+        return true;
     }
-    return NULL;
+#endif
+    return false;
 }
 
-QString OnTopPlugin::getConfig()
+QCString OnTopPlugin::getConfig()
 {
     getState();
     return save_data(onTopData, &data);
@@ -222,10 +225,8 @@ void OnTopPlugin::setState()
     QWidget *main = getMainWindow();
     if (main){
 #ifdef WIN32
-        Event eTop(EventOnTop, (void*)0);
-        eTop.process();
-        Event eTask(EventInTaskManager, (void*)getInTask());
-        eTask.process();
+        EventOnTop(false).process();
+        EventInTaskManager(getInTask()).process();
 #else
 #ifdef USE_KDE
         if (getOnTop()){
@@ -265,12 +266,12 @@ void OnTopPlugin::setState()
     delete list;
 }
 
+#if defined(USE_KDE) || defined(WIN32)
 QWidget *OnTopPlugin::createConfigWindow(QWidget *parent)
 {
-#if defined(USE_KDE) || defined(WIN32)
     return new OnTopCfg(parent, this);
-#endif
 }
+#endif
 
 bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
 {
@@ -320,5 +321,3 @@ bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
 #ifndef NO_MOC_INCLUDES
 #include "ontop.moc"
 #endif
-
-

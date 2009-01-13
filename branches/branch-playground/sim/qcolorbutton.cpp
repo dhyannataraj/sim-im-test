@@ -14,8 +14,8 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-    Boston, MA 02111-1307, USA.
+    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA  02110-1301, USA.
 */
 
 #include "qcolorbutton.h"
@@ -51,34 +51,43 @@ void QColorButton::setColor( const QColor &c )
 
 void QColorButton::drawButtonLabel( QPainter *painter )
 {
+    int x, y, w, h;
     QRect r = style().subRect( QStyle::SR_PushButtonContents, this );
-    int l = r.x();
-    int t = r.y();
-    int w = r.width();
-    int h = r.height();
-    int b = 5;
+    r.rect(&x, &y, &w, &h);
 
-    QColor lnCol = colorGroup().text();
-    QColor fillCol = isEnabled() ? col : backgroundColor();
+    int margin = style().pixelMetric( QStyle::PM_ButtonMargin, this );
+    x += margin;
+    y += margin;
+    w -= 2*margin;
+    h -= 2*margin;
 
-    if ( isDown() ) {
-        qDrawPlainRect( painter, l+b+1, t+b+1, w-b*2, h-b*2, lnCol, 1, 0 );
-        b++;
-        if ( fillCol.isValid() )
-            painter->fillRect( l+b+1, t+b+1, w-b*2, h-b*2, fillCol );
-    } else {
-        qDrawPlainRect( painter, l+b, t+b, w-b*2, h-b*2, lnCol, 1, 0 );
-        b++;
-        if ( fillCol.isValid() )
-            painter->fillRect( l+b, t+b, w-b*2, h-b*2, fillCol );
+    if (isOn() || isDown()) {
+      x += style().pixelMetric( QStyle::PM_ButtonShiftHorizontal, this );
+      y += style().pixelMetric( QStyle::PM_ButtonShiftVertical, this );
     }
+
+    QColor fillCol = isEnabled() ? col : backgroundColor();
+    qDrawShadePanel( painter, x, y, w, h, colorGroup(), true, 1, NULL);
+    if ( fillCol.isValid() )
+      painter->fillRect( x+1, y+1, w-2, h-2, fillCol );
+
+    if ( hasFocus() ) {
+      QRect focusRect = style().subRect( QStyle::SR_PushButtonFocusRect, this );
+      style().drawPrimitive( QStyle::PE_FocusRect, painter, focusRect, colorGroup() );
+    }
+}
+
+QSize QColorButton::sizeHint() const
+{
+    return style().sizeFromContents(QStyle::CT_PushButton, this, QSize(40, 15)).
+        expandedTo(QApplication::globalStrut());
 }
 
 void QColorButton::chooseColor()
 {
-    QColor c = QColorDialog::getColor(color(), this);
-    if (!c.isValid()) return;
-    setColor( c );
+    QColor c = QColorDialog::getColor( color(), this );
+    if( c.isValid() )
+        setColor( c );
 }
 
 #ifndef NO_MOC_INCLUDES

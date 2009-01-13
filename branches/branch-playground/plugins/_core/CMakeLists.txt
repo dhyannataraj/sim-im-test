@@ -38,6 +38,7 @@ SET(_core_SRCS
         msgsms.cpp
         msgurl.cpp
         msgview.cpp
+        msgview_menu.cpp
         newprotocol.cpp
         nonim.cpp
         pagerdetails.cpp
@@ -50,6 +51,11 @@ SET(_core_SRCS
         status.cpp
         statuswnd.cpp
         tmpl.cpp
+        toolbar_container.cpp
+        toolbar_history.cpp
+        toolbar_main.cpp
+        toolbar_msgedit.cpp
+        toolbar_textedit.cpp
         toolbarcfg.cpp
         toolsetup.cpp
         usercfg.cpp
@@ -78,6 +84,8 @@ SET(_core_HDRS
         connectwnd.h
         container.h
         core.h
+        core_consts.h
+        core_events.h
         declinedlg.h
         editmail.h
         editphone.h
@@ -157,11 +165,28 @@ SET(_core_UICS
 )
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(additional additional.jisp _core_SRCS)
-ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_SRCS)
-ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_SRCS)
-ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
-ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
+
+IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+    message( "Using non-GPL icons" )
+    ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
+ELSE (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+    message( "Using GPL icons" )
+    # substitute with gpl icons
+    ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_SRCS)
+ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+
+#ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
+#ADD_JISP_ARCHIVE(additional additional.jisp _core_SRCS)
+#ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_SRCS)
+#ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_SRCS)
+#ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
+#ADD_JISP_ARCHIVE(qip-icons  qip-icons.jisp  _core_SRCS)
+#ADD_JISP_ARCHIVE(lovenmoney lovenmoney.jisp _core_SRCS)
+#ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
+#ADD_JISP_ARCHIVE(msn	    msn.jisp        _core_SRCS)
+
+FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
+INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
 
 SIM_ADD_PLUGIN(_core)

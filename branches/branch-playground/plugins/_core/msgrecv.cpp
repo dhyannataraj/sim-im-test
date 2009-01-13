@@ -50,9 +50,9 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();
-        Event e(EventAddHyperlinks, &p);
+        EventAddHyperlinks e(p);
         e.process();
-        p = MsgViewBase::parseText(p, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        p = MsgViewBase::parseText(e.text(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);
         if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());
@@ -63,8 +63,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
                     ((*it).contact == msg->contact()) &&
                     ((*it).client == msg->client())){
                 CorePlugin::m_plugin->unread.erase(it);
-                Event eRead(EventMessageRead, msg);
-                eRead.process();
+                EventMessageRead(msg).process();
                 break;
             }
         }
@@ -74,10 +73,11 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
     }
 }
 
-void *MsgReceived::processEvent(Event *e)
+bool MsgReceived::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         unsigned id = cmd->bar_grp;
         if (cmd->param == m_edit){
             MessageDef *mdef = NULL;
@@ -93,7 +93,7 @@ void *MsgReceived::processEvent(Event *e)
                             c.param = msg;
                             m_edit->execCommand(&c);
                         }
-                        return e->param();
+                        return true;
                     }
                 }
             }
@@ -106,12 +106,13 @@ void *MsgReceived::processEvent(Event *e)
                     c.param = msg;
                     m_edit->execCommand(&c);
                 }
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= 0x1000) && (id < MAX_INPUT_BAR_ID)){
@@ -126,13 +127,12 @@ void *MsgReceived::processEvent(Event *e)
                         if (msg){
                             c.id   -= CmdReceived;
                             c.param = msg;
-                            Event e(EventCheckState, &c);
-                            if (e.process())
+                            if (EventCheckCommandState(&c).process())
                                 cmd->flags &= ~BTN_HIDE;
                             if (m_msg == NULL)
                                 delete msg;
                         }
-                        return e->param();
+                        return true;
                     }
                 }
                 MessageDef *mdef = NULL;
@@ -149,8 +149,7 @@ void *MsgReceived::processEvent(Event *e)
                                 if (msg){
                                     CommandDef c = *d;
                                     c.param = msg;
-                                    Event e(EventCheckState, &c);
-                                    if (e.process())
+                                    if (EventCheckCommandState(&c).process())
                                         cmd->flags &= ~BTN_HIDE;
                                     if (m_msg == NULL)
                                         delete msg;
@@ -158,18 +157,18 @@ void *MsgReceived::processEvent(Event *e)
                             }else{
                                 cmd->flags &= ~BTN_HIDE;
                             }
-                            return e->param();
+                            return true;
                         }
                     }
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdMsgAnswer){
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
                 if (CorePlugin::m_plugin->getContainerMode() == 0)
                     cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             }
 
             if (m_bOpen){
@@ -180,23 +179,24 @@ void *MsgReceived::processEvent(Event *e)
                 case CmdSendClose:
                     e->process(this);
                     cmd->flags |= BTN_HIDE;
-                    return e->param();
+                    return true;
                 case CmdNextMessage:
                     e->process(this);
                     cmd->flags |= BTN_HIDE;
                     if (CorePlugin::m_plugin->getContainerMode() == 0)
                         cmd->flags &= ~BTN_HIDE;
-                    return e->param();;
+                    return true;
                 }
             }
         }
-    }
-    if (e->type() == EventMessageDeleted){
-        Message *msg = (Message*)(e->param());
+    } else
+    if (e->type() == eEventMessageDeleted){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->id() == m_id)
             QTimer::singleShot(0, m_edit, SLOT(goNext()));
     }
-    return NULL;
+    return false;
 }
 
 void MsgReceived::init()

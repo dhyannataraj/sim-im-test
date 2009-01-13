@@ -18,15 +18,16 @@
 #ifndef _PROXY_H
 #define _PROXY_H
 
-#include "simapi.h"
-#include <qvaluelist.h>
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
 
 const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;
 const unsigned PROXY_SOCKS5 = 2;
 const unsigned PROXY_HTTPS	= 3;
 
-typedef struct ProxyData
+struct ProxyData
 {
     SIM::Data	Client;
     SIM::Data	Clients;
@@ -45,8 +46,8 @@ typedef struct ProxyData
     ~ProxyData();
     bool operator == (const ProxyData&) const;
     ProxyData& operator = (const ProxyData&);
-    ProxyData& operator = (ConfigBuffer *cfg);
-} ProxyData;
+    ProxyData& operator = (Buffer *cfg);
+};
 
 class Proxy;
 class Listener;
@@ -54,7 +55,7 @@ class Listener;
 class ProxyPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
-    ProxyPlugin(unsigned, ConfigBuffer*);
+    ProxyPlugin(unsigned, Buffer*);
     virtual ~ProxyPlugin();
     PROP_STRLIST(Clients);
     PROP_ULONG(Type);
@@ -65,16 +66,16 @@ public:
     PROP_STR(User);
     PROP_STR(Password);
     unsigned ProxyPacket;
-    QValueList<Proxy*>	proxies;
+    std::list<Proxy*>	proxies;
     ProxyData data;
     void clientData(SIM::TCPClient*, ProxyData &data);
     static const SIM::DataDef *proxyData;
     unsigned ProxyErr;
     QString clientName(SIM::TCPClient *client);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
+    virtual QCString getConfig();
 };
 
 #endif

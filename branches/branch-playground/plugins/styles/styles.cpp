@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "styles.h"
-#include "stylescfg.h"
-#include "simapi.h"
-#include "fontedit.h"
-
 #include <qapplication.h>
 #include <qpopupmenu.h>
 #include <qpalette.h>
 #include <qstyle.h>
 #include <qstylefactory.h>
 
+#include "fontedit.h"
+#include "misc.h"
+
+#include "styles.h"
+#include "stylescfg.h"
+
 using namespace SIM;
 
-Plugin *createStylesPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createStylesPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new StylesPlugin(base, config);
     return plugin;
@@ -61,7 +62,7 @@ static DataDef stylesData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-StylesPlugin::StylesPlugin(unsigned base, ConfigBuffer *config)
+StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     m_saveBaseFont = NULL;
@@ -89,7 +90,7 @@ StylesPlugin::~StylesPlugin()
         delete m_savePalette;
 }
 
-QString StylesPlugin::getConfig()
+QCString StylesPlugin::getConfig()
 {
     return save_data(stylesData, &data);
 }

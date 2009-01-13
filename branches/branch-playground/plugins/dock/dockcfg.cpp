@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
 #include "dockcfg.h"
 #include "dock.h"
 
@@ -61,8 +63,7 @@ void DockCfg::autoHideToggled(bool bAutoHide)
 
 void DockCfg::customize()
 {
-    SIM::Event e(SIM::EventMenuCustomize, (void*)(m_plugin->DockMenu));
-    e.process();
+    SIM::EventMenu(m_plugin->DockMenu, SIM::EventMenu::eCustomize).process();
 }
 
 #ifndef NO_MOC_INCLUDES

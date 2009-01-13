@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-
 #include <time.h>
+
+#include <vector>
 
 #include <qfile.h>
 #include <qfileinfo.h>
@@ -25,7 +25,10 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 
-#include <vector>
+#include "message.h"
+#include "misc.h"
+#include "unquot.h"
+
 
 namespace SIM
 {
@@ -35,7 +38,7 @@ using namespace std;
 static DataDef	messageData[] =
     {
         { "Text", DATA_UTF, 1, 0 },
-        { "ServerText", DATA_STRING, 1, 0 },
+        { "ServerText", DATA_CSTRING, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         // Use impossible RGB values as defaults, to signify there's no color set.
         { "Background", DATA_ULONG, 1, (const char*)~0U },
@@ -48,7 +51,7 @@ static DataDef	messageData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-Message::Message(unsigned type, ConfigBuffer *cfg)
+Message::Message(unsigned type, Buffer *cfg)
 {
     m_type = type;
     m_id = 0;
@@ -90,13 +93,13 @@ void Message::setClient(const QString &client)
     m_client = client;
 }
 
-QString Message::save()
+QCString Message::save()
 {
     if (getTime() == 0)
         setTime(time(NULL));
     unsigned saveFlags = getFlags();
     setFlags(getFlags() & MESSAGE_SAVEMASK);
-    QString res = save_data(messageData, &data);
+    QCString res = save_data(messageData, &data);
     setFlags(saveFlags);
     return res;
 }
@@ -105,12 +108,14 @@ QString Message::getText() const
 {
     if (!data.Text.str().isEmpty())
         return data.Text.str();
-    return data.ServerText.str();
+    if (!data.ServerText.cstr().isEmpty())
+        return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.cstr());
+    return QString::null;
 }
 
 void Message::setText(const QString &text)
 {
-    data.Text.setStr(text);
+    data.Text.str() = text;
 }
 
 static DataDef messageSMSData[] =
@@ -120,7 +125,7 @@ static DataDef messageSMSData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-SMSMessage::SMSMessage(ConfigBuffer *cfg)
+SMSMessage::SMSMessage(Buffer *cfg)
         : Message(MessageSMS, cfg)
 {
     load_data(messageSMSData, &data, cfg);
@@ -131,10 +136,10 @@ SMSMessage::~SMSMessage()
     free_data(messageSMSData, &data);
 }
 
-QString SMSMessage::save()
+QCString SMSMessage::save()
 {
-    QString s = Message::save();
-    QString s1 = save_data(messageSMSData, &data);
+    QCString s = Message::save();
+    QCString s1 = save_data(messageSMSData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -148,7 +153,7 @@ QString SMSMessage::presentation()
     QString phone = quoteString(getPhone());
     QString net   = quoteString(getNetwork());
     if (!net.isEmpty())
-        net = QString(" (") + net + ")";
+        net = QString(" (") + net + ')';
     QString res = QString("<p><a href=\"sms:%1\"><img src=\"icon:cell\">%2%3</a></p>")
                   .arg(phone)
                   .arg(phone)
@@ -163,7 +168,7 @@ static DataDef messageUrlData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-UrlMessage::UrlMessage(unsigned type, ConfigBuffer *cfg)
+UrlMessage::UrlMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageUrlData, &data, cfg);
@@ -174,10 +179,10 @@ UrlMessage::~UrlMessage()
     free_data(messageUrlData, &data);
 }
 
-QString UrlMessage::save()
+QCString UrlMessage::save()
 {
-    QString s = Message::save();
-    QString s1 = save_data(messageUrlData, &data);
+    QCString s = Message::save();
+    QCString s1 = save_data(messageUrlData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -205,7 +210,7 @@ static DataDef messageContactsData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-ContactsMessage::ContactsMessage(unsigned type, ConfigBuffer *cfg)
+ContactsMessage::ContactsMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageContactsData, &data, cfg);
@@ -216,10 +221,10 @@ ContactsMessage::~ContactsMessage()
     free_data(messageContactsData, &data);
 }
 
-QString ContactsMessage::save()
+QCString ContactsMessage::save()
 {
-    QString s = Message::save();
-    QString s1 = save_data(messageContactsData, &data);
+    QCString s = Message::save();
+    QCString s1 = save_data(messageContactsData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -243,11 +248,11 @@ QString ContactsMessage::presentation()
     return res;
 }
 
-typedef struct fileItem
+struct fileItem
 {
     QString		name;
     unsigned	size;
-} fileItem;
+};
 
 class FileMessageIteratorPrivate : public vector<fileItem>
 {
@@ -283,6 +288,7 @@ FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
 void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
 {
     QString fn = str;
+    fn = fn.replace('\\', '/');
     QFileInfo f(str);
     if (!f.exists())
         return;
@@ -291,7 +297,7 @@ void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
         return;
     }
     if (!bFirst){
-        add(fn + "/", 0);
+        add(fn + '/', 0);
         m_dirs++;
     }
     QDir d(str);
@@ -301,7 +307,7 @@ void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
         if ((f == ".") || (f == ".."))
             continue;
         QString p = fn;
-        p += "/";
+        p += '/';
         p += f;
         add_file(p, false);
     }
@@ -321,9 +327,9 @@ QString FileMessageIteratorPrivate::save()
     for (iterator it = begin(); it != end(); ++it){
         fileItem &f = *it;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += f.name;
-        res += ",";
+        res += ',';
         res += QString::number(f.size);
     }
     return res;
@@ -372,7 +378,7 @@ void FileMessage::Iterator::reset()
     p->it = p->begin();
 }
 
-size_t FileMessage::Iterator::count()
+unsigned FileMessage::Iterator::count()
 {
     return p->size();
 }
@@ -385,7 +391,7 @@ static DataDef messageFileData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-FileMessage::FileMessage(unsigned type, ConfigBuffer *cfg)
+FileMessage::FileMessage(unsigned type, Buffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageFileData, &data, cfg);
@@ -401,14 +407,14 @@ FileMessage::~FileMessage()
 
 unsigned FileMessage::getSize()
 {
-    if (data.Size.asULong())
-        return data.Size.asULong();
+    if (data.Size.toULong())
+        return data.Size.toULong();
     Iterator it(*this);
     const QString *name;
     while ((name = ++it) != NULL){
         data.Size.asULong() += it.size();
     }
-    return data.Size.asULong();
+    return data.Size.toULong();
 }
 
 void FileMessage::addFile(const QString &file, unsigned size)
@@ -440,11 +446,11 @@ QString FileMessage::getDescription()
         if (name == NULL)
             return NULL;
         QString shortName = *name;
-        shortName = shortName.replace(QRegExp("\\\\"), "/");
-        int n = shortName.findRev("/");
+        shortName = shortName.replace('\\', '/');
+        int n = shortName.findRev('/');
         if (n >= 0)
             shortName = shortName.mid(n + 1);
-        return QDir::convertSeparators(shortName);
+        return shortName;
     }
     QString res;
     if (it.dirs()){
@@ -472,10 +478,10 @@ bool FileMessage::setDescription(const QString &str)
     return data.Description.setStr(str);
 }
 
-QString FileMessage::save()
+QCString FileMessage::save()
 {
-    QString s = Message::save();
-    QString s1 = save_data(messageFileData, &data);
+    QCString s = Message::save();
+    QCString s1 = save_data(messageFileData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -490,7 +496,7 @@ QString FileMessage::presentation()
     unsigned size = getSize();
 
     if (size){
-        res += " ";
+        res += ' ';
 
         if (size >= 1024 * 1024){
             res += i18n("%1 Mbytes") .arg(size / (1024 * 1024));
@@ -570,7 +576,7 @@ bool FileTransfer::openFile()
         m_bDir     = true;
         fn = fn.left(fn.length() - 1);
         if (m_base.isEmpty() || (fn.left(m_base.length()) != m_base)){
-            int n = fn.findRev("/");
+            int n = fn.findRev('/');
             if (n >= 0)
                 m_base = fn.left(n + 1);
         }
@@ -578,7 +584,7 @@ bool FileTransfer::openFile()
         return true;
     }
     if (m_base.isEmpty()){
-        int n = fn.findRev("/");
+        int n = fn.findRev('/');
         if (n >= 0)
             m_base = fn.left(n + 1);
     }
@@ -616,7 +622,7 @@ void FileTransfer::setNotify(FileTransferNotify *notify)
 
 QString AuthMessage::presentation()
 {
-    return "";
+    return QString::null;
 }
 
 static DataDef messageStatusData[] =
@@ -625,16 +631,16 @@ static DataDef messageStatusData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-StatusMessage::StatusMessage(ConfigBuffer *cfg)
+StatusMessage::StatusMessage(Buffer *cfg)
         : Message(MessageStatus, cfg)
 {
     load_data(messageStatusData, &data, cfg);
 }
 
-QString StatusMessage::save()
+QCString StatusMessage::save()
 {
-    QString s = Message::save();
-    QString s1 = save_data(messageStatusData, &data);
+    QCString s = Message::save();
+    QCString s1 = save_data(messageStatusData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -645,7 +651,7 @@ QString StatusMessage::save()
 
 QString StatusMessage::presentation()
 {
-    return "";
+    return QString::null;
 }
 
 }

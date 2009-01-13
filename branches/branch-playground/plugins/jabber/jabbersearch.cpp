@@ -15,11 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "jabbersearch.h"
-#include "jabber.h"
-#include "jidadvsearch.h"
-#include "ballonmsg.h"
+#include <vector>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -34,7 +30,14 @@
 #include <qcheckbox.h>
 #include <qgroupbox.h>
 
-#include <vector>
+#include "ballonmsg.h"
+#include "icons.h"
+#include "misc.h"
+
+#include "jabberclient.h"
+#include "jabbersearch.h"
+#include "jabber.h"
+#include "jidadvsearch.h"
 
 using namespace std;
 using namespace SIM;
@@ -65,7 +68,7 @@ QString CComboBox::value()
 {
     unsigned index = currentItem();
     if (index >= m_values.size())
-        return "";
+        return QString::null;
     return m_values[index];
 }
 
@@ -76,11 +79,11 @@ JabberSearch::JabberSearch(QWidget *parent, const char *name)
 {
 }
 
-void JabberSearch::init(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister)
+void JabberSearch::init(QWidget *receiver, JabberClient *client, const QString &jid, const QString &node, const QString &name, bool bRegister)
 {
     m_client    = client;
-    m_jid       = jid ? QString::fromUtf8(jid) : "";
-    m_node      = node ? QString::fromUtf8(node) : "";
+    m_jid       = jid;
+    m_node      = node;
     m_name	= name;
     m_receiver	= receiver;
     m_bXData	= false;
@@ -89,12 +92,12 @@ void JabberSearch::init(QWidget *receiver, JabberClient *client, const char *jid
     m_bDirty = false;
 }
 
-typedef struct defFlds
+struct defFlds
 {
     const char  *tag;
     const char  *name;
     bool        bRequired;
-} defFlds;
+};
 
 static defFlds fields[] =
     {
@@ -129,7 +132,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 if (*it)
                     delete (*it);
             m_descs.clear();
-            m_instruction = "";
+            m_instruction = QString::null;
         }else if (data->Type.str() == "title"){
             if (!data->Value.str().isEmpty())
                 m_title = data->Value.str();
@@ -163,7 +166,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 text = text.replace(QRegExp("  +"), "\n");
                 if (m_bFirst){
                     if (!m_label.isEmpty())
-                        m_label += "\n";
+                        m_label += '\n';
                     m_label += text;
                 }else{
                     QLabel *label = new QLabel(text, this);
@@ -177,7 +180,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 QString text = i18(data->Value.str());
                 text = text.replace(QRegExp("  +"), "\n");
                 if (!m_instruction.isEmpty())
-                    m_instruction += "\n";
+                    m_instruction += '\n';
                 m_instruction += text;
             }
         }else if (data->Type.str() == "list-single"){
@@ -198,20 +201,20 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             widget = box;
         }else if (data->Type.str() == "key"){
             if (!data->Value.str().isEmpty())
-                m_key = data->Value.str().utf8();
+                m_key = data->Value.str();
         }else if (data->Type.str() == "password"){
             widget = new QLineEdit(this, "password");
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            data->Label.str() == "Password";
+            data->Label.str() = "Password";
         }else if (data->Type.str() == "online"){
             widget = new QCheckBox(this, "online");
             static_cast<QCheckBox*>(widget)->setText(i18n("Online only"));
             bJoin = true;
         }else if (data->Type.str() == "sex"){
             CComboBox *box = new CComboBox(this, data->Field.str());
-            box->addItem("", "0");
+            box->addItem(QString::null, "0");
             box->addItem(i18n("Male"), "1");
             box->addItem(i18n("Female"), "2");
             data->Label.str() == I18N_NOOP("Gender");
@@ -255,7 +258,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
         if (!bJoin && !data->Label.str().isEmpty()){
             QString text = i18(data->Label.str());
             if (!text.isEmpty() && (text[(int)(text.length() - 1)] != ':'))
-                text += ":";
+                text += ':';
             label = new QLabel(text, this);
             label->setAlignment(AlignRight);
         }
@@ -276,7 +279,8 @@ void JabberSearch::setSize()
     for (QWidget *p = this; p; p = p->parentWidget()){
         QSize s  = p->sizeHint();
         QSize s1 = QSize(p->width(), p->height());
-        p->setMinimumSize(s);
+        if (s.isValid())
+            p->setMinimumSize(s);
         p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
         if (p->layout())
             p->layout()->invalidate();
@@ -324,7 +328,7 @@ static const char *any_data[] =
 QString JabberSearch::i18(const char *text)
 {
     if ((text == NULL) || (*text == 0))
-        return "";
+        return QString::null;
     QString res = QString::fromUtf8(text);
     for (int i = 0; i < (int)res.length(); i++){
         if (res[i].unicode() >= 0x80)
@@ -390,9 +394,9 @@ QString JabberSearch::condition(QWidget *w)
         QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
-                res += ";";
+                res += ';';
             res += edit->name();
-            res += "=";
+            res += '=';
             res += quoteChars(edit->text(), ";");
         }
         ++it;
@@ -408,9 +412,9 @@ QString JabberSearch::condition(QWidget *w)
             continue;
         }
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += box->name();
-        res += "=";
+        res += '=';
         res += quoteChars(box->value(), ";");
         ++it1;
     }
@@ -421,7 +425,7 @@ QString JabberSearch::condition(QWidget *w)
     while ((obj = it2.current()) != 0 ){
         QCheckBox *box = static_cast<QCheckBox*>(obj);
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += box->name();
         res += box->isChecked() ? "=1" : "=0";
         ++it2;
@@ -434,9 +438,9 @@ QString JabberSearch::condition(QWidget *w)
         QMultiLineEdit *edit = static_cast<QMultiLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
-                res += ";";
+                res += ';';
             res += edit->name();
-            res += "=";
+            res += '=';
             res += quoteChars(edit->text(), ";");
         }
         ++it3;
@@ -445,7 +449,7 @@ QString JabberSearch::condition(QWidget *w)
 
     if (!m_key.isEmpty() && (w == NULL)){
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += "key=";
         res += quoteChars(m_key, ";");
     }
@@ -470,7 +474,7 @@ void JabberSearch::createLayout()
             QLabel *label = new QLabel(m_label, this);
             label->setAlignment(WordBreak);
             lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
-            m_label = "";
+            m_label = QString::null;
             start = 1;
         }
         unsigned row = start;
@@ -507,7 +511,7 @@ void JabberSearch::createLayout()
         QLabel *label = new QLabel(m_instruction, this);
         label->setAlignment(WordBreak);
         lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 3 - 1);
-        m_instruction = "";
+        m_instruction = QString::null;
     }
 }
 
@@ -657,7 +661,7 @@ void JIDJabberSearch::createLayout()
         m_adv->lblTitle->setText(m_title);
         m_adv->lblInstruction->setText(m_instruction);
     }
-    m_instruction = "";
+    m_instruction = QString::null;
 }
 
 #ifndef NO_MOC_INCLUDES

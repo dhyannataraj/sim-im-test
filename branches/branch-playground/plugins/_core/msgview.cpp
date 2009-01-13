@@ -15,31 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msgview.h"
-#include "core.h"
-#include "icons.h"
-#include "history.h"
-#include "html.h"
-#include "xsl.h"
+#include "simapi.h"
 
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qdatetime.h>
 
+#include "icons.h"
+#include "html.h"
+#include "unquot.h"
+#include "xsl.h"
+
+#include "msgview.h"
+#include "core.h"
+#include "history.h"
+
 using namespace std;
 using namespace SIM;
 
 static char MSG_ANCHOR[] = "<a name=\"m:";
 static char MSG_BEGIN[]  = "<a name=\"b\">";
-
-typedef struct Smile
-{
-    unsigned	nSmile;
-    int			pos;
-    int			size;
-    QRegExp		re;
-} Smile;
 
 class ViewParser : public HTMLParser
 {
@@ -108,7 +104,7 @@ XslOutputParser::XslOutputParser()
 
 QString XslOutputParser::parse(const QString &str)
 {
-    res = "";
+    res = QString::null;
     HTMLParser::parse(str);
     if (!m_sPrepend.isEmpty())
         res = m_sPrepend + res;
@@ -134,21 +130,21 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
 
     QString tagText;
-    tagText += "<";
+    tagText += '<';
     tagText += tag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
-        tagText += " ";
+        tagText += ' ';
         tagText += name;
         if (!value.isEmpty()){
             tagText += "=\"";
             tagText += value;
-            tagText += "\"";
+            tagText += '\"';
         }
     }
-    tagText += ">";
+    tagText += '>';
 
     if (m_bInPrepend)
     {
@@ -163,7 +159,7 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
         if ((ltag == "p") && !m_sPrepend.isEmpty())
         {
             res += m_sPrepend;
-            m_sPrepend = "";
+            m_sPrepend = QString::null;
         }
     }
 }
@@ -181,7 +177,7 @@ void XslOutputParser::tag_end(const QString &tag)
     QString tagText;
     tagText += "</";
     tagText += tag;
-    tagText += ">";
+    tagText += '>';
 
     if (m_bInPrepend)
         m_sPrepend += tagText;
@@ -240,7 +236,7 @@ void MsgViewBase::update()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         QString client;
@@ -268,7 +264,7 @@ void MsgViewBase::update()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         QString client;
@@ -292,7 +288,7 @@ void MsgViewBase::update()
     setSelection(start, 0, paragraphs() - 1, 0xFFFF, 0);
     removeSelectedText();
     setReadOnly(true);
-    QString text="";
+    QString text;
     for (list<Msg_Id>::iterator it = msgs.begin(); it != msgs.end(); ++it){
         Message *msg = History::load((*it).id, (*it).client, m_id);
         if (msg == NULL)
@@ -311,7 +307,7 @@ void MsgViewBase::update()
         delete msg;
     }
     viewport()->setUpdatesEnabled(true);
-    append(text);   //<= here occured a crash
+    append(text);   //<= here occurred a crash
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(i);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
@@ -321,6 +317,7 @@ void MsgViewBase::update()
     viewport()->repaint();
 }
 
+//ToDo: Rewrite this ugly slow Function which is slowing down the History loading. 
 QString MsgViewBase::messageText(Message *msg, bool bUnread)
 {
     QString options;
@@ -341,15 +338,12 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         if (n >= 0){
             clientStr = clientStr.left(n);
         }else{
-            clientStr = "";
+            clientStr = QString::null;
         }
         if (!clientStr.isEmpty()){
             for (unsigned i = 0; i < getContacts()->nClients(); i++){
                 QString n = getContacts()->getClient(i)->name();
-                if (n.length() < clientStr.length())
-                    continue;
-                n = n.left(clientStr.length());
-                if (clientStr == n){
+                if (n.startsWith(clientStr)){
                     client = getContacts()->getClient(i);
                     break;
                 }
@@ -418,7 +412,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         contactName = "???";
     info += QString("<from>%1</from>") .arg(quoteString(contactName));
     QString id = QString::number(msg->id());
-    id += ",";
+    id += ',';
     // <hack>
     // Terrible hack to set message bgcolor. We prefer to insert the entire history
     // in one chunk (since it's more efficient and causes less redraws), and there's
@@ -429,11 +423,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     // </hack>
     QString client_str = msg->client();
     if (!client_str.isEmpty()){
-        id += ",";
+        id += ',';
         id += quoteString(client_str);
     }
     if (m_cut.size()){
-        id += ",";
+        id += ',';
         id += QString::number(m_cut.size());
     }
     info += "<id>";
@@ -457,7 +451,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     s = "<?xml version=\"1.0\"?><message";
     s += options;
-    s += ">";
+    s += '>';
     s += info;
 
     QString msgText;
@@ -483,16 +477,16 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         msgText = status;
     }
-    Event e(EventAddHyperlinks, &msgText);
+    EventAddHyperlinks e(msgText);
     e.process();
     ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
-    msgText = parser.parse(msgText);
+    msgText = parser.parse(e.text());
     s += "<body";
     if (!CorePlugin::m_plugin->getOwnColors() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
         s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
-        s += "\"";
+        s += '\"';
     }
 
     // Some bright day might come when one could specify background color from inside Qt's richtext.
@@ -501,9 +495,9 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     {
         s += " bgcolor=\"#";
         s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
-        s += "\"";
+        s += '\"';
     }
-    s += ">";
+    s += '>';
 
     // We pass the rich text quoted, since we're not sure of its' XML validity.
     // The XSL engine should copy it as-is (using xsl:value-of with disable-output-escaping="yes").
@@ -545,8 +539,7 @@ void MsgViewBase::setSource(const QString &url)
         client = QString::number(m_id);
     Message *msg = History::load(msg_id, client, m_id);
     if (msg){
-        Event e(EventOpenMessage, &msg);
-        e.process();
+        EventOpenMessage(msg).process();
         delete msg;
     }
 }
@@ -675,7 +668,7 @@ bool MsgViewBase::findMessage(Message *msg)
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         if (bFound){
@@ -712,7 +705,7 @@ unsigned MsgViewBase::messageId(const QString &_s, QString &client)
     client = getToken(s, ',');
     if (id >= 0x80000000)
         return id;
-    for (unsigned cut_id = s.toULong(); cut_id < m_cut.size(); cut_id++){
+    for (unsigned cut_id = s.toUInt(); cut_id < m_cut.size(); cut_id++){
         if (m_cut[cut_id].client != client)
             continue;
         if (id < m_cut[cut_id].from)
@@ -733,7 +726,7 @@ void MsgViewBase::reload()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         Msg_Id id;
@@ -771,12 +764,13 @@ void MsgViewBase::reload()
     }
 }
 
-void *MsgViewBase::processEvent(Event *e)
+bool MsgViewBase::processEvent(Event *e)
 {
-    if ((e->type() == EventRewriteMessage) || (e->type() == EventMessageRead)){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventRewriteMessage) || (e->type() == eEventMessageRead)){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->contact() != m_id)
-            return NULL;
+            return false;
         unsigned i;
         for (i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
@@ -784,7 +778,7 @@ void *MsgViewBase::processEvent(Event *e)
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
+            n = s.find('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -792,18 +786,19 @@ void *MsgViewBase::processEvent(Event *e)
                 break;
         }
         if (i >= (unsigned)paragraphs())
-            return NULL;
+            return false;
         Msg_Id id;
         id.id     = msg->id();
         id.client = msg->client();
         m_updated.push_back(id);
         QTimer::singleShot(0, this, SLOT(update()));
-        return NULL;
+        return false;
     }
-    if (e->type() == EventCutHistory){
-        CutHistory *ch = (CutHistory*)(e->param());
+    if (e->type() == eEventCutHistory){
+        EventCutHistory *ech = static_cast<EventCutHistory*>(e);
+        CutHistory *ch = ech->cut();
         if (ch->contact != m_id)
-            return NULL;
+            return false;
 
         bool bDelete = false;
         vector<unsigned> start_pos;
@@ -814,7 +809,7 @@ void *MsgViewBase::processEvent(Event *e)
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
+            n = s.find('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -865,12 +860,13 @@ void *MsgViewBase::processEvent(Event *e)
             repaint();
         }
         m_cut.push_back(*ch);
-        return NULL;
+        return false;
     }
-    if (e->type() == EventMessageDeleted){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageDeleted){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->contact() != m_id)
-            return NULL;
+            return false;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             unsigned j;
             QString s = text(i);
@@ -878,7 +874,7 @@ void *MsgViewBase::processEvent(Event *e)
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
+            n = s.find('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -891,7 +887,7 @@ void *MsgViewBase::processEvent(Event *e)
                 if (n < 0)
                     continue;
                 s = s.mid(n + strlen(MSG_ANCHOR));
-                n = s.find("\"");
+                n = s.find('\"');
                 if (n < 0)
                     continue;
                 QString client;
@@ -917,27 +913,30 @@ void *MsgViewBase::processEvent(Event *e)
             }
             break;
         }
-        return NULL;
+        return false;
     }
-    if (e->type() == EventHistoryConfig){
-        unsigned long id = (unsigned long)(e->param());
+    if (e->type() == eEventHistoryConfig){
+        EventHistoryConfig *ehc = static_cast<EventHistoryConfig*>(e);
+        unsigned long id = ehc->id();
         if (id && (id != m_id))
-            return NULL;
+            return false;
         reload();
-    }
-    if (e->type() == EventHistoryColors)
+    } else
+    if (e->type() == eEventHistoryColors) {
         setColors();
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
-            return NULL;
+            return false;
         Message *msg;
         switch (cmd->id){
         case CmdCopy:
             cmd->flags &= ~(COMMAND_DISABLED | COMMAND_CHECKED);
             if (!hasSelectedText())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
@@ -945,17 +944,18 @@ void *MsgViewBase::processEvent(Event *e)
                 delete msg;
                 CommandDef *def = CorePlugin::m_plugin->messageTypes.find(type);
                 if (def == NULL)
-                    return NULL;
+                    return false;
                 cmd->icon = def->icon;
                 cmd->flags &= ~COMMAND_CHECKED;
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         case CmdMsgSpecial:
             msg = currentMessage();
             if (msg){
-                Event eMenu(EventGetMenuDef, (void*)MenuMsgCommand);
-                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                EventMenuGetDef eMenu(MenuMsgCommand);
+                eMenu.process();
+                CommandsDef *cmdsMsg = eMenu.defs();
 
                 unsigned n = 0;
                 MessageDef *mdef = NULL;
@@ -982,7 +982,7 @@ void *MsgViewBase::processEvent(Event *e)
                         n++;
                 }
                 if (n == 0)
-                    return NULL;
+                    return false;
 
                 n++;
                 CommandDef *cmds = new CommandDef[n];
@@ -1001,8 +1001,7 @@ void *MsgViewBase::processEvent(Event *e)
                     CommandDef cmd = *c;
                     cmd.menu_id = MenuMsgCommand;
                     cmd.param   = msg;
-                    Event e(EventCheckState, &cmd);
-                    if (!e.process())
+                    if (!EventCheckCommandState(&cmd).process())
                         continue;
                     cmd.flags &= ~COMMAND_CHECK_STATE;
                     cmds[n++] = cmd;
@@ -1010,15 +1009,16 @@ void *MsgViewBase::processEvent(Event *e)
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
                 delete msg;
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
-            return NULL;
+            return false;
         Message *msg;
         switch (cmd->id){
         case CmdCutHistory:
@@ -1026,30 +1026,29 @@ void *MsgViewBase::processEvent(Event *e)
             if (msg){
                 History::cut(msg, 0, 0);
                 delete msg;
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         case CmdDeleteMessage:
             msg = currentMessage();
             if (msg){
                 History::del(msg);
                 delete msg;
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         case CmdCopy:
             copy();
-            return e->param();
+            return true;
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
                 msg->setFlags(msg->getFlags() | MESSAGE_OPEN);
-                Event eOpen(EventOpenMessage, &msg);
-                eOpen.process();
+                EventOpenMessage(msg).process();
                 delete msg;
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         default:
             msg = currentMessage();
             if (msg){
@@ -1075,9 +1074,8 @@ void *MsgViewBase::processEvent(Event *e)
                                 CommandDef cmd = *d;
                                 cmd.param = msg;
                                 cmd.menu_id = 0;
-                                Event eCmd(EventCommandExec, &cmd);
-                                eCmd.process();
-                                return e->param();
+                                EventCommandExec(&cmd).process();
+                                return true;
                             }
                         }
                     }
@@ -1086,15 +1084,15 @@ void *MsgViewBase::processEvent(Event *e)
                 c->id = cmd->id;
                 c->menu_id = MenuMsgCommand;
                 c->param = msg;
-                Event e(EventCommandExec, c);
-                void *res = e.process();
+                EventCommandExec e(c);
+                bool res = e.process();
                 delete msg;
                 return res;
             }
-            return NULL;
+            return false;
         }
     }
-    return NULL;
+    return false;
 }
 
 Message *MsgViewBase::currentMessage()
@@ -1108,7 +1106,7 @@ Message *MsgViewBase::currentMessage()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         QString client;
@@ -1127,8 +1125,9 @@ QPopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
     cmd->popup_id	= MenuMsgView;
     cmd->param		= this;
     cmd->flags		= COMMAND_NEW_POPUP;
-    Event e(EventGetMenu, cmd);
-    return (QPopupMenu*)(e.process());
+    EventMenuGet e(cmd);
+    e.process();
+    return e.menu();
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)
@@ -1181,25 +1180,26 @@ void MsgView::init()
     scrollToBottom();
 }
 
-void *MsgView::processEvent(Event *e)
+bool MsgView::processEvent(Event *e)
 {
-    if ((e->type() == EventSent) || (e->type() == EventMessageReceived)){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventSent) || (e->type() == eEventMessageReceived)){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->contact() != m_id)
-            return NULL;
+            return false;
         if (msg->getFlags() & MESSAGE_NOVIEW)
-            return NULL;
+            return false;
         bool bAdd = true;
         if (msg->type() == MessageStatus){
             bAdd = false;
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data && data->LogStatus.asBool())
+                if (data && data->LogStatus.asBool() != NEW_MSG_NOOPEN)
                     bAdd = true;
             }
         }
-        if (bAdd && (e->type() == EventMessageReceived)){
+        if (bAdd && (e->type() == eEventMessageReceived)){
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
@@ -1230,7 +1230,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
 
 QString ViewParser::parse(const QString &str)
 {
-    res = "";
+    res = QString::null;
     HTMLParser::parse(str);
     return res;
 }
@@ -1355,7 +1355,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
 
     QString tagText;
-    tagText += "<";
+    tagText += '<';
     tagText += oTag;
 
     if (tag == "p")
@@ -1371,7 +1371,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         // Handling for attributes of specific tags.
         if (tag == "body"){
             if (name == "bgcolor"){
-                style += "background-color:" + value + ";";
+                style += "background-color:" + value + ';';
                 continue;
             }
         }else if (tag == "p"){
@@ -1395,12 +1395,12 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             continue;
         }
 
-        tagText += " ";
+        tagText += ' ';
         tagText += name;
         if (!value.isEmpty()){
             tagText += "=\"";
             tagText += value;
-            tagText += "\"";
+            tagText += '\"';
         }
     }
 
@@ -1432,9 +1432,9 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             style = makeStyle(new_opt);
         }
         if (!style.isEmpty())
-            tagText += " style=\"" + style + "\"";
+            tagText += " style=\"" + style + '\"';
     }
-    tagText += ">";
+    tagText += '>';
     res += tagText;
 }
 
@@ -1465,7 +1465,7 @@ void ViewParser::tag_end(const QString &tag)
         return;
     res += "</";
     res += oTag;
-    res += ">";
+    res += '>';
 }
 
 QString MsgViewBase::parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles)

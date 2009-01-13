@@ -18,16 +18,20 @@
 #ifndef _NETMONITOR_H
 #define _NETMONITOR_H
 
-#include "simapi.h"
+#include <qobject.h>
 #include <qvaluelist.h>
 
-typedef struct NetMonitorData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+struct NetMonitorData
 {
     SIM::Data	LogLevel;
     SIM::Data	LogPackets;
     SIM::Data	geometry[5];
     SIM::Data	Show;
-} NetMonitorData;
+};
 
 class MonitorWindow;
 
@@ -35,7 +39,7 @@ class NetmonitorPlugin : public QObject, public SIM::Plugin, public SIM::EventRe
 {
     Q_OBJECT
 public:
-    NetmonitorPlugin(unsigned, ConfigBuffer *name);
+    NetmonitorPlugin(unsigned, Buffer *name);
     virtual ~NetmonitorPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);
@@ -46,8 +50,8 @@ protected slots:
     void finished();
     void realFinished();
 protected:
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event *e);
+    virtual QCString getConfig();
     void showMonitor();
     void saveState();
     unsigned long CmdNetMonitor;

@@ -18,7 +18,12 @@
 #ifndef _ABOUT_H
 #define _ABOUT_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
 
 class AboutPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
@@ -30,7 +35,7 @@ protected slots:
     void aboutDestroyed();
     void realDestroy();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     unsigned long CmdBugReport;
     unsigned long CmdAbout;
     QWidget *about;

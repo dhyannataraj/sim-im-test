@@ -19,7 +19,8 @@
 #define _MAINWIN_H
 
 #include "simapi.h"
-#include "stl.h"
+
+#include "cfg.h"
 
 #include <qmainwindow.h>
 
@@ -36,18 +37,18 @@ public:
     MainWindow(SIM::Geometry&);
     ~MainWindow();
     bool m_bNoResize;
+	void closeEvent(QCloseEvent *e);
 protected slots:
     void setGrip();
 protected:
     QWidget		*main;
-    QToolBar	*bar;
+    CToolBar	*m_bar;
     QVBoxLayout	*lay;
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;
-    void *processEvent(SIM::Event*);
     void focusInEvent(QFocusEvent*);
-    void setTitle();
-    void closeEvent(QCloseEvent *e);
+    virtual bool processEvent(SIM::Event*);
+	void setTitle();
     void resizeEvent(QResizeEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void quit();

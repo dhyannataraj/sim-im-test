@@ -18,7 +18,6 @@
 #ifndef _MSGCFG_H
 #define _MSGCFG_H
 
-#include "simapi.h"
 #include "msgcfgbase.h"
 
 class QCheckBox;

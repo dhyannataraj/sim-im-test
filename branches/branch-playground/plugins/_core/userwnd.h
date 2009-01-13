@@ -18,7 +18,9 @@
 #ifndef _USERWND_H
 #define _USERWND_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "message.h"
+
 #include <qsplitter.h>
 
 class MsgEdit;
@@ -28,26 +30,26 @@ class CorePlugin;
 class QToolBar;
 class UserList;
 
-typedef struct UserWndData
+struct UserWndData
 {
     SIM::Data	EditHeight;
     SIM::Data	editBar[7];
     SIM::Data	MessageType;
-} UserWndData;
+};
 
 class UserWnd : public QSplitter
 {
     Q_OBJECT
 public:
-    UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdjust);
+    UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
-    QString getConfig();
-    unsigned long id() { return m_id; }
+    QCString getConfig();
+    unsigned long id() const { return m_id; }
     QString getName();
     QString getLongName();
     QString getIcon();
     unsigned type();
-    void setMessage(SIM::Message**);
+    void setMessage(SIM::Message*);
     void setStatus(const QString&);
     void showListView(bool bShow);
     QString status() { return m_status; }

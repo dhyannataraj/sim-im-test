@@ -44,11 +44,11 @@ public slots:
     void selectKey(int);
 protected:
     void fillSecret(const QByteArray &ba = QByteArray());
-    bool       m_bNew;
-    QProcess  *m_process;
-    GpgPlugin *m_plugin;
+    bool        m_bNew;
+    QProcess   *m_process;
+    GpgPlugin  *m_plugin;
 #ifdef WIN32
-    GpgFind   *m_find;
+    GpgFind    *m_find;
 #endif
     GpgAdvanced *m_adv;
 };

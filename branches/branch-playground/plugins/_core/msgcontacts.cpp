@@ -78,8 +78,7 @@ void MsgContacts::changed()
     cmd->id    = CmdSend;
     cmd->flags = m_list->selected.empty() ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void MsgContacts::init()
@@ -89,34 +88,36 @@ void MsgContacts::init()
     m_list->setFocus();
 }
 
-void *MsgContacts::processEvent(Event *e)
+bool MsgContacts::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             QString contacts;
@@ -124,7 +125,7 @@ void *MsgContacts::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(*it);
                 if (contact){
                     if (!contacts.isEmpty())
-                        contacts += ";";
+                        contacts += ';';
                     contacts += QString("sim:%1,%2") .arg(*it) .arg(contact->getName());
                 }
             }
@@ -135,10 +136,10 @@ void *MsgContacts::processEvent(Event *e)
                 msg->setClient(m_client);
                 m_edit->sendMessage(msg);
             }
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 

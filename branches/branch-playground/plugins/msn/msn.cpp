@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "msn.h"
 #include "msnclient.h"
-#include "simapi.h"
 
 using namespace SIM;
 
-Plugin *createMSNPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createMSNPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new MSNPlugin(base);
     return plugin;
@@ -50,7 +51,7 @@ MSNProtocol::~MSNProtocol()
 {
 }
 
-Client *MSNProtocol::createClient(ConfigBuffer *cfg)
+Client *MSNProtocol::createClient(Buffer *cfg)
 {
     return new MSNClient(this, cfg);
 }
@@ -61,7 +62,7 @@ static CommandDef msn_descr =
         I18N_NOOP("MSN"),
         "MSN_online",
         "MSN_invisible",
-        I18N_NOOP("http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"),
+        I18N_NOOP("https://accountservices.passport.net/uiresetpw.srf?lc=1033"),
         0,
         0,
         0,

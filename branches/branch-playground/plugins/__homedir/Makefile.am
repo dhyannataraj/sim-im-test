@@ -12,6 +12,6 @@ INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 __homedir_la_METASOURCES = homedircfg.moc
 __homedir_la_LIBADD = $(__HOMEDIR_OBJ) ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
 __homedir_la_DEPENDENCIES = $(__HOMEDIR_OBJ)
-__homedir_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+__homedir_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 

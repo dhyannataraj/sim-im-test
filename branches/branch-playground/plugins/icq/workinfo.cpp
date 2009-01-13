@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "icons.h"
 #include "workinfo.h"
 #include "icqclient.h"
 
@@ -26,7 +26,7 @@
 
 using namespace SIM;
 
-WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+WorkInfo::WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : WorkInfoBase(parent)
 {
     m_data    = data;
@@ -55,19 +55,22 @@ void WorkInfo::apply()
 {
 }
 
-void *WorkInfo::processEvent(Event *e)
+bool WorkInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 static const ext_info occupations[] =
@@ -114,8 +117,8 @@ void WorkInfo::fill()
     edtCity->setText(data->WorkCity.str());
     edtState->setText(data->WorkState.str());
     edtZip->setText(data->WorkZip.str());
-    initCombo(cmbCountry, (unsigned short)(data->WorkCountry.toULong()), getCountries());
-    initCombo(cmbOccupation, (unsigned short)(data->Occupation.toULong()), occupations);
+    initCombo(cmbCountry, data->WorkCountry.toULong(), getCountries());
+    initCombo(cmbOccupation, data->Occupation.toULong(), occupations);
     edtName->setText(data->WorkName.str());
     edtDept->setText(data->WorkDepartment.str());
     edtPosition->setText(data->WorkPosition.str());
@@ -128,7 +131,7 @@ void WorkInfo::goUrl()
     QString url = edtSite->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 }
 
@@ -141,7 +144,7 @@ void WorkInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->WorkAddress.str()     = edtAddress->text();
     data->WorkCity.str()        = edtCity->text();
     data->WorkState.str()       = edtState->text();

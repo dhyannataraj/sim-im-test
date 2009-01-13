@@ -18,7 +18,8 @@
 #ifndef _HOMEDIR_H
 #define _HOMEDIR_H
 
-#include "simapi.h"
+#include "event.h"
+#include "plugins.h"
 
 class HomeDirPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
@@ -26,11 +27,11 @@ public:
     HomeDirPlugin(unsigned base);
     QString defaultPath();
 protected:
-    void *processEvent(SIM::Event *e);
-    QString buildFileName(const QString *name);
+    bool processEvent(SIM::Event *e);
+    QString buildFileName(const QString &name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     friend class HomeDirConfig;
 
     bool m_bDefault;

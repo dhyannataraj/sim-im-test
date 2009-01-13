@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
 #include "msgfile.h"
 #include "toolbtn.h"
 #include "msgedit.h"
@@ -42,7 +44,7 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
     m_edit     = parent;
     m_bCanSend = false;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(PlainText);
@@ -53,8 +55,9 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= parent;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtName){
         connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         edtName->setText(static_cast<FileMessage*>(msg)->getFile());
@@ -69,8 +72,9 @@ void MsgFile::init()
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= m_edit;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtName){
         if (edtName->text().isEmpty()){
             selectFile();
@@ -89,8 +93,7 @@ void MsgFile::changed(const QString &str)
     cmd->id    = CmdSend;
     cmd->flags = m_bCanSend ? 0 : COMMAND_DISABLED;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void MsgFile::selectFile()
@@ -98,44 +101,37 @@ void MsgFile::selectFile()
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= m_edit;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtName == NULL)
         return;
     QString s = edtName->text();
-#ifdef WIN32
-    s.replace(QRegExp("\\\\"), "/");
-#endif
     QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-#ifdef WIN32
-            (*it).replace(QRegExp("/"), "\\");
-#endif
-            *it = QString("\"") + *it + QString("\"");
+            *it = '\"' + QDir::convertSeparators(*it) + '\"';
         }
-#ifdef WIN32
     }else{
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-            QString &s = *it;
-            s.replace(QRegExp("/"), "\\");
+            *it = QDir::convertSeparators(*it);
         }
-#endif
     }
     edtName->setText(lst.join(" "));
 }
 
-void *MsgFile::processEvent(Event *e)
+bool MsgFile::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
                 if (cmd->id == CmdFileName)
                     cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -144,26 +140,28 @@ void *MsgFile::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->param == m_edit){
             if (cmd->id == CmdSend){
                 Command cmd;
                 cmd->id		= CmdFileName;
                 cmd->param	= m_edit;
-                Event eWidget(EventCommandWidget, cmd);
-                CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
                 if (edtName == NULL)
-                    return NULL;
+                    return false;
                 QString msgText = m_edit->m_edit->text();
                 QString file = edtName->text();
                 QStringList files;
@@ -173,7 +171,7 @@ void *MsgFile::processEvent(Event *e)
                         f = f.stripWhiteSpace();
                         if (!f.isEmpty())
                             files.append(f);
-                        f = "";
+                        f = QString::null;
                         for (i++; i < (int)file.length(); i++){
                             if (file[i] == '\"')
                                 break;
@@ -182,7 +180,7 @@ void *MsgFile::processEvent(Event *e)
                         f = f.stripWhiteSpace();
                         if (!f.isEmpty())
                             files.append(f);
-                        f = "";
+                        f = QString::null;
                         continue;
                     }
                     f += file[i];
@@ -190,10 +188,10 @@ void *MsgFile::processEvent(Event *e)
                 f = f.stripWhiteSpace();
                 if (!f.isEmpty())
                     files.append(f);
-                file = "";
+                file = QString::null;
                 for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                     if (!file.isEmpty())
-                        file += ";";
+                        file += ';';
                     file += quoteChars(*it, ";");
                 }
                 if (!file.isEmpty()){
@@ -204,15 +202,15 @@ void *MsgFile::processEvent(Event *e)
                     msg->setClient(m_client);
                     m_edit->sendMessage(msg);
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdFileName){
                 selectFile();
-                return e->param();
+                return true;
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -18,7 +18,6 @@
 #ifndef _ADVSEARCH_H
 #define _ADVSEARCH_H
 
-#include "simapi.h"
 #include "advsearchbase.h"
 
 class AdvSearch : public AdvSearchBase

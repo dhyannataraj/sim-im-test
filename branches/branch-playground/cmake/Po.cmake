@@ -61,8 +61,9 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                             -E echo
                             "Generating" ${_out_native} "from" ${_in_native}
                         COMMAND ${MSGFMT_EXECUTABLE}
-                            -qt
+                            --qt
                             ${_in_native}
+                            -o
                             ${_out_native}
                         DEPENDS ${_in}
                     )

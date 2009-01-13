@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "interestsinfo.h"
 #include "icqclient.h"
 
@@ -24,7 +23,7 @@
 
 using namespace SIM;
 
-InterestsInfo::InterestsInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+InterestsInfo::InterestsInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : InterestsInfoBase(parent)
 {
     m_data    = data;
@@ -56,7 +55,7 @@ void InterestsInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString info[4];
     info[0] = getInfo(cmbBg1, edtBg1);
     info[1] = getInfo(cmbBg2, edtBg2);
@@ -67,25 +66,28 @@ void InterestsInfo::apply(Client *client, void *_data)
         if (info[i].isEmpty())
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += info[i];
     }
     data->Interests.str() = res;
 }
 
-void *InterestsInfo::processEvent(Event *e)
+bool InterestsInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
     }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 static const ext_info interests[] =
@@ -158,19 +160,19 @@ void InterestsInfo::fill()
         unsigned short category = n.toUShort();
         switch (i){
         case 0:
-            edtBg1->setText(info);
+            edtBg1->setText(unquoteChars(info,";"));
             initCombo(cmbBg1, category, interests);
             break;
         case 1:
-            edtBg2->setText(info);
+            edtBg2->setText(unquoteChars(info,";"));
             initCombo(cmbBg2, category, interests);
             break;
         case 2:
-            edtBg3->setText(info);
+            edtBg3->setText(unquoteChars(info,";"));
             initCombo(cmbBg3, category, interests);
             break;
         case 3:
-            edtBg4->setText(info);
+            edtBg4->setText(unquoteChars(info,";"));
             initCombo(cmbBg4, category, interests);
             break;
         }
@@ -200,9 +202,9 @@ QString InterestsInfo::getInfo(QComboBox *cmb, QLineEdit *edt)
 {
     unsigned n = getComboValue(cmb, interests);
     if (n == 0)
-        return "";
-    QString res = QString::number(n) + ",";
-    res += quoteChars(edt->text(), ",;");
+        return QString::null;
+    QString res = QString::number(n) + ',';
+    res += quoteChars(edt->text(), ";");
     return res;
 }
 
@@ -230,12 +232,12 @@ void InterestsInfo::cmbChanged(int)
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
     cmbs[n]->setCurrentItem(0);
-    edts[n]->setText("");
+    edts[n]->setText(QString::null);
     for (n++; n < 4; n++){
         disableWidget(cmbs[n]);
         disableWidget(edts[n]);
         initCombo(cmbs[n], 0, interests, true);
-        edts[n]->setText("");
+        edts[n]->setText(QString::null);
     }
 }
 

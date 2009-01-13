@@ -15,17 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "background.h"
-#include "simapi.h"
-
-#include "bkgndcfg.h"
-
 #include <qpainter.h>
 #include <qfile.h>
 
+#include "misc.h"
+
+#include "background.h"
+#include "bkgndcfg.h"
+
 using namespace SIM;
 
-Plugin *createBackgroundPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createBackgroundPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new BackgroundPlugin(base, config);
     return plugin;
@@ -46,7 +46,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 /*
-typedef struct BackgroundData
+struct BackgroundData
 {
     char			*Background;
     unsigned long	Position;
@@ -62,7 +62,7 @@ static DataDef backgroundData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-BackgroundPlugin::BackgroundPlugin(unsigned base, ConfigBuffer *config)
+BackgroundPlugin::BackgroundPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(backgroundData, &data, config);
@@ -74,7 +74,7 @@ BackgroundPlugin::~BackgroundPlugin()
     free_data(backgroundData, &data);
 }
 
-QString BackgroundPlugin::getConfig()
+QCString BackgroundPlugin::getConfig()
 {
     return save_data(backgroundData, &data);
 }
@@ -84,10 +84,11 @@ QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
     return new BkgndCfg(parent, this);
 }
 
-void *BackgroundPlugin::processEvent(Event *e)
+bool BackgroundPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventPaintView){
-        PaintView *pv = (PaintView*)(e->param());
+    if (e->type() == eEventPaintView){
+        EventPaintView *ev = static_cast<EventPaintView*>(e);
+        EventPaintView::PaintView *pv = ev->paintView();;
         if (!bgImage.isNull()){
             unsigned w = bgImage.width();
             unsigned h = bgImage.height();
@@ -130,7 +131,7 @@ void *BackgroundPlugin::processEvent(Event *e)
         }
         pv->margin = pv->isGroup ? getMarginGroup() : getMarginContact();
     }
-    return NULL;
+    return false;
 }
 
 void BackgroundPlugin::redraw()
@@ -140,7 +141,7 @@ void BackgroundPlugin::redraw()
     if (getBackground().isEmpty())
         return;
     bgImage = QImage(getBackground());
-    Event e(EventRepaintView);
+    EventRepaintView e;
     e.process();
 }
 

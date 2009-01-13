@@ -6,7 +6,7 @@
 //
 // See IdleUI.h
 //
-
+#ifdef WIN32
 #include<windows.h>
 #include<winuser.h>
 #include<assert.h>
@@ -173,3 +173,5 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
     }
     return TRUE;
 }
+#endif
+

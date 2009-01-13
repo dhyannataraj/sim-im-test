@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "jabberclient.h"
-#include "simapi.h"
 #include "jabberhomeinfo.h"
 #include "jabber.h"
 
@@ -26,7 +25,7 @@
 
 using namespace SIM;
 
-JabberHomeInfo::JabberHomeInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
+JabberHomeInfo::JabberHomeInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
         : JabberHomeInfoBase(parent)
 {
     m_client  = client;
@@ -46,33 +45,28 @@ void JabberHomeInfo::apply()
 {
 }
 
-int str_cmp(const char *s1, const char *s2)
+bool JabberHomeInfo::processEvent(Event *e)
 {
-    if (s1 == NULL)
-        s1 = "";
-    if (s2 == NULL)
-        s2 = "";
-    return strcmp(s1, s2);
-}
-
-void *JabberHomeInfo::processEvent(Event *e)
-{
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill(m_data);
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill(m_data);
-    }
-    if (m_data && (e->type() == EventVCard)){
-        JabberUserData *data = (JabberUserData*)(e->param());
+    } else
+    if (m_data && (e->type() == eEventVCard)){
+        EventVCard *evc = static_cast<EventVCard*>(e);
+        JabberUserData *data = evc->data();
         if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
             fill(data);
     }
-    return NULL;
+    return false;
 }
 
 void JabberHomeInfo::fill(JabberUserData *data)
@@ -90,7 +84,7 @@ void JabberHomeInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->Street.str() = edtStreet->text();
     data->ExtAddr.str() = edtExt->text();
     data->City.str()    = edtCity->text();

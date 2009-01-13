@@ -18,7 +18,6 @@
 #include "commands.h"
 #include "toolbtn.h"
 #include "toolsetup.h"
-#include "simapi.h"
 #include "core.h"
 #include "cmenu.h"
 
@@ -41,7 +40,7 @@ Commands::~Commands()
         delete (*it).second;
     }
     MENU_MAP::iterator itm;
-    for (itm = menues.begin(); itm != menues.end(); ++itm){
+    for (itm = menus.begin(); itm != menus.end(); ++itm){
         MenuDef &def = (*itm).second;
         if (def.menu)
             delete def.menu;
@@ -70,7 +69,7 @@ void Commands::removeBar(unsigned id)
 
 void Commands::clear()
 {
-    for (MENU_MAP::iterator it = menues.begin(); it != menues.end(); ++it){
+    for (MENU_MAP::iterator it = menus.begin(); it != menus.end(); ++it){
         if ((*it).second.menu){
             delete (*it).second.menu;
             (*it).second.menu = NULL;
@@ -80,31 +79,31 @@ void Commands::clear()
 
 CommandsDef *Commands::createMenu(unsigned id)
 {
-    if (id == MenuLocation)
-        id = MenuLocation;
-    MENU_MAP::iterator it = menues.find(id);
-    if (it != menues.end())
+    if (id == MenuPhoneLocation)
+        id = MenuPhoneLocation;  // FIXME: if id==MenuPhoneLocation then id = MenuPhoneLocation, Does it make sense?
+    MENU_MAP::iterator it = menus.find(id);
+    if (it != menus.end())
         return (*it).second.def;
     MenuDef def;
     def.def  = new CommandsDef(id, true);
     def.menu = NULL;
     def.param = NULL;
-    menues.insert(MENU_MAP::value_type(id, def));
+    menus.insert(MENU_MAP::value_type(id, def));
     return def.def;
 }
 
 void Commands::removeMenu(unsigned id)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return;
     if ((*it).second.menu)
         delete (*it).second.menu;
     delete (*it).second.def;
-    menues.erase(it);
+    menus.erase(it);
 }
 
-void *Commands::show(unsigned id, QMainWindow *parent)
+CToolBar *Commands::show(unsigned id, QMainWindow *parent)
 {
     CMDS_MAP::iterator it = bars.find(id);
     if (it == bars.end())
@@ -115,8 +114,8 @@ void *Commands::show(unsigned id, QMainWindow *parent)
 
 CMenu *Commands::get(CommandDef *cmd)
 {
-    MENU_MAP::iterator it = menues.find(cmd->popup_id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(cmd->popup_id);
+    if (it == menus.end())
         return NULL;
     MenuDef &d = (*it).second;
     if (d.menu && ((cmd->flags & COMMAND_NEW_POPUP) == 0)){
@@ -133,8 +132,8 @@ CMenu *Commands::get(CommandDef *cmd)
 
 CMenu *Commands::processMenu(unsigned id, void *param, int key)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return NULL;
     MenuDef &d = (*it).second;
     if (key){
@@ -148,7 +147,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
                 cmdKey = QAccel::shortcutKey(i18n(cmd->text));
                 if ((cmdKey & ~UNICODE_ACCEL) == key){
                     cmd->param = param;
-                    Event eCmd(EventCommandExec, cmd);
+                    EventCommandExec eCmd(cmd);
                     if (eCmd.process())
                         break;
                 }
@@ -158,7 +157,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             cmdKey = QAccel::stringToKey(i18n(cmd->accel));
             if (cmdKey == key){
                 cmd->param = param;
-                Event eCmd(EventCommandExec, cmd);
+                EventCommandExec eCmd(cmd);
                 if (eCmd.process())
                     break;
             }
@@ -178,47 +177,67 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
 
 CommandsDef *Commands::getDef(unsigned id)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return NULL;
     return (*it).second.def;
 }
 
-void *Commands::processEvent(Event *e)
+bool Commands::processEvent(Event *e)
 {
-    BarShow *b;
-    ProcessMenuParam *mp;
     switch (e->type()){
-    case EventPluginsUnload:
+    case eEventPluginsUnload:
         clear();
         break;
-    case EventToolbarCreate:
-        return (void*)createBar((unsigned long)(e->param()));
-    case EventToolbarRemove:
-        removeBar((unsigned long)(e->param()));
-        break;
-    case EventShowBar:
-        b = (BarShow*)(e->param());
-        return show(b->bar_id, b->parent);
-    case EventMenuCreate:
-        return (void*)createMenu((unsigned long)(e->param()));
-    case EventMenuRemove:
-        removeMenu((unsigned long)(e->param()));
-        break;
-    case EventGetMenu:
-        return (void*)get((CommandDef*)(e->param()));
-    case EventGetMenuDef:
-        return (void*)getDef((unsigned long)(e->param()));
-    case EventProcessMenu:
-        mp = (ProcessMenuParam*)(e->param());
-        return (void*)processMenu(mp->id, mp->param, mp->key);
-    case EventMenuCustomize:
-        customizeMenu((unsigned long)(e->param()));
-        break;
+    case eEventToolbar: {
+        EventToolbar *et = static_cast<EventToolbar*>(e);
+        switch(et->action()) {
+            case EventToolbar::eAdd:
+                createBar(et->id());
+                break;
+            case EventToolbar::eShow:
+                et->setToolbar(show(et->id(), et->parent()));
+                break;
+            case EventToolbar::eRemove:
+                removeBar(et->id());
+                break;
+        }
+        return true;
+    }
+    case eEventMenu: {
+        EventMenu *em = static_cast<EventMenu*>(e);
+        switch(em->action()) {
+            case EventMenu::eAdd:
+                createMenu(em->id());
+                break;
+            case EventMenu::eRemove:
+                removeMenu(em->id());
+                break;
+            case EventMenu::eCustomize:
+                customizeMenu(em->id());
+                break;
+        }
+        return true;
+    }
+    case eEventMenuGet: {
+        EventMenuGet *egm = static_cast<EventMenuGet*>(e);
+        egm->setMenu(get(egm->def()));
+        return true;
+    }
+    case eEventMenuGetDef: {
+        EventMenuGetDef *mgd = static_cast<EventMenuGetDef*>(e);
+        mgd->setCommandsDef(getDef(mgd->id()));
+        return true;
+    }
+    case eEventMenuProcess: {
+        EventMenuProcess *emp = static_cast<EventMenuProcess*>(e);
+        emp->setMenu(processMenu(emp->id(), emp->param(), emp->key()));
+        return true;
+    }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 bool Commands::eventFilter(QObject *o, QEvent *e)
@@ -261,21 +280,24 @@ void Commands::customize(CommandsDef *def)
     ToolBarSetup *wnd = NULL;
     while ( (w=it.current()) != 0 ){
         ++it;
-        if (!w->inherits("ToolBarSetup")) continue;
+        if (!w->inherits("ToolBarSetup"))
+            continue;
         ToolBarSetup *swnd = static_cast<ToolBarSetup*>(w);
-        if (swnd->m_def != def) continue;
+        if (swnd->m_def != def)
+            continue;
         wnd = swnd;
         break;
     }
-    if (wnd == NULL) wnd= new ToolBarSetup(this, def);
+    if (wnd == NULL)
+        wnd = new ToolBarSetup(this, def);
     raiseWindow(wnd);
     delete list;
 }
 
-void Commands::customizeMenu(unsigned id)
+void Commands::customizeMenu(unsigned long id)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return;
     MenuDef &d = (*it).second;
     d.def->setConfig(CorePlugin::m_plugin->getMenues(id));
@@ -288,8 +310,7 @@ void Commands::set(CommandsDef *def, const char *str)
         CorePlugin::m_plugin->setMenues(def->id(), str);
     }else{
         CorePlugin::m_plugin->setButtons(def->id(), str);
-        Event e(EventToolbarChanged, def);
-        e.process();
+        EventToolbarChanged(def).process();
     }
 }
 

@@ -19,6 +19,7 @@
 #define _LISTVIEW_H
 
 #include "simapi.h"
+#include "event.h"
 
 #include <qlistview.h>
 #include <qdragobject.h>
@@ -52,8 +53,8 @@ public slots:
     virtual void startDrag();
     void sizeChange(int,int,int);
 protected:
-    virtual SIM::ProcessMenuParam *getMenu(QListViewItem *item);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool getMenu(QListViewItem *item, unsigned long &id, void *&param);
+    virtual bool processEvent(SIM::Event *e);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void resizeEvent(QResizeEvent*);
     virtual QDragObject *dragObject();
@@ -69,7 +70,6 @@ protected:
     void showPopup(QListViewItem *item, QPoint p);
     int m_expandingColumn;
     unsigned long m_menuId;
-    SIM::ProcessMenuParam m_mp;
     QTimer	 *m_resizeTimer;
     bool m_bAcceptDrop;
     static bool s_bInit;

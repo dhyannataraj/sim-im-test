@@ -18,13 +18,20 @@
 #ifndef _FLOATY_H
 #define _FLOATY_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qpoint.h>
 
-typedef struct FloatyUserData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QTimer;
+
+struct FloatyUserData
 {
     SIM::Data	X;
     SIM::Data	Y;
-} FloatyUserData;
+};
 
 class FloatyWnd;
 class CorePlugin;
@@ -44,7 +51,7 @@ protected slots:
     void unreadBlink();
 protected:
     FloatyWnd *findFloaty(unsigned id);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     unsigned long CmdFloaty;
     unsigned long user_data_id;
     QPoint	 popupPos;

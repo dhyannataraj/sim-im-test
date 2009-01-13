@@ -18,14 +18,14 @@
 #ifndef _MSN_H
 #define _MSN_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 class MSNProtocol : public SIM::Protocol
 {
 public:
     MSNProtocol(SIM::Plugin *plugin);
     ~MSNProtocol();
-    SIM::Client	*createClient(ConfigBuffer *cfg);
+    SIM::Client	*createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();

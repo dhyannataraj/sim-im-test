@@ -28,12 +28,16 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
         : HomeDirConfigBase(parent)
 {
     m_plugin = plugin;
+#ifdef WIN32 // ER
     chkDefault->setChecked(plugin->m_bDefault);
+#endif    
     connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
     edtPath->setText(QDir::convertSeparators(plugin->m_homeDir));
     edtPath->setDirMode(true);
+#ifdef WIN32 // ER
     chkDefault->setChecked(m_plugin->m_bDefault);
+#endif    
 }
 
 void HomeDirConfig::apply()
@@ -57,16 +61,12 @@ void HomeDirConfig::apply()
         d = defPath;
         bDefault = true;
     }
-    edtPath->setText(d);
+
+    if (d.endsWith("/") || d.endsWith("\\"))
+        d = d.left(d.length() - 1);
+
+    edtPath->setText(QDir::convertSeparators(d));
     m_plugin->m_bDefault = bDefault;
-#ifdef WIN32
-    d = d.replace(QRegExp("/"), "\\");
-    if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
-        d = d.left(d.length() - 1);
-#else
-    if (d.length() && (d[(int)(d.length() - 1)] == '/'))
-        d = d.left(d.length() - 1);
-#endif
     m_plugin->m_homeDir  = d;
     m_plugin->m_bSave    = true;
 }

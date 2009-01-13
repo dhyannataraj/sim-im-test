@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "phonedetails.h"
 
 #include <qcombobox.h>
@@ -31,15 +33,13 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
     QString number = oldNumber;
     QString areaCode;
     QString extension;
-    int countryCode = 0;
+    unsigned short countryCode = 0;
     if (number.find('(') >= 0){
-        QCString country = getToken(number, '(').stripWhiteSpace().latin1();
-        const char *p;
-        for (p = country; *p; p++){
-            if ((*p >= '0') && (*p <= '9'))
-                break;
-        }
-        countryCode = atol(p);
+        QString country = getToken(number, '(').stripWhiteSpace();
+        int i = 0;
+        while(!country[i].isNumber())
+            i++;
+        countryCode = country.mid(i).toUShort();
         areaCode = getToken(number, ')').stripWhiteSpace();
     }
     if (number.find(" - ") >= 0){
@@ -48,7 +48,7 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
         number = number.mid(0, pos);
     }
     number = number.stripWhiteSpace();
-    initCombo(cmbCountry, (unsigned short)countryCode, getCountries());
+    initCombo(cmbCountry, countryCode, getCountries());
 
     QFontMetrics fm(font());
     unsigned wChar = fm.width("0");
@@ -97,14 +97,14 @@ void PhoneDetails::getNumber()
     QString res;
     bool bOK = true;
     if (cmbCountry->currentItem() > 0){
-        res = "+";
+        res = '+';
         res += QString::number(getComboValue(cmbCountry, getCountries()));
-        res += " ";
+        res += ' ';
     }else{
         bOK = false;
     }
     if (edtAreaCode->text().length() > 0){
-        res += "(";
+        res += '(';
         res += edtAreaCode->text();
         res += ") ";
     }else{

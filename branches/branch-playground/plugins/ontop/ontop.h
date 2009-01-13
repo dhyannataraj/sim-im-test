@@ -18,33 +18,59 @@
 #ifndef _ONTOP_H
 #define _ONTOP_H
 
-#include "simapi.h"
-
 #ifdef WIN32
 #include <windows.h>
 #endif
 
-const unsigned EventInTaskManager = 0x00030000;
-const unsigned EventOnTop		  = 0x00030001;
+#include <qobject.h>
 
-typedef struct OnTopData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class EventInTaskManager : public SIM::Event
+{
+public:
+    EventInTaskManager(bool bShowInTask)
+        : Event(SIM::eEventInTaskManager), m_bShowInTask(bShowInTask) {}
+
+    bool showInTaskmanager() const { return m_bShowInTask; }
+protected:
+    bool m_bShowInTask;
+};
+
+class EventOnTop : public SIM::Event
+{
+public:
+    // bShowOnTop is maybe wrong, rename if someone knows what it means
+    EventOnTop(bool bShowOnTop)
+        : Event(SIM::eEventOnTop), m_bShowOnTop(bShowOnTop) {}
+
+    bool showOnTop() const { return m_bShowOnTop; }
+protected:
+    bool m_bShowOnTop;
+};
+
+struct OnTopData
 {
     SIM::Data	OnTop;
     SIM::Data	InTask;
     SIM::Data	ContainerOnTop;
-} OnTopData;
+};
 
 class OnTopPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    OnTopPlugin(unsigned, ConfigBuffer*);
+    OnTopPlugin(unsigned, Buffer*);
     virtual ~OnTopPlugin();
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
+#if defined(USE_KDE) || defined(WIN32)
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
+#endif
+    virtual QCString getConfig();
     void getState();
     void setState();
     QWidget *getMainWindow();

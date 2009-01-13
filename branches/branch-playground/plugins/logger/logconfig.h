@@ -18,7 +18,8 @@
 #ifndef _LOGCONFIG_H
 #define _LOGCONFIG_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "logconfigbase.h"
 
 class LoggerPlugin;
@@ -34,7 +35,7 @@ public slots:
     void clickItem(QListViewItem*);
 protected:
     void resizeEvent(QResizeEvent *e);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void addItem(const char *name, bool bChecked, unsigned level, unsigned packet);
     void setCheck(QListViewItem*);

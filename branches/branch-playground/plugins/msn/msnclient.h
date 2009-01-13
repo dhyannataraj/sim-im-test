@@ -18,8 +18,6 @@
 #ifndef _MSNCLIENT_H
 #define _MSNCLIENT_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "socket.h"
 #include "fetch.h"
 
@@ -60,7 +58,7 @@ struct MSNUserData : public SIM::clientData
     SIM::Data	sb;
 };
 
-typedef struct MSNClientData
+struct MSNClientData
 {
     SIM::Data	Server;
     SIM::Data	Port;
@@ -75,16 +73,16 @@ typedef struct MSNClientData
     SIM::Data	NDeleted;
     SIM::Data	AutoAuth;
     MSNUserData	owner;
-} MSNClientData;
+};
 
 class MSNClient;
 class XfrPacket;
 
-typedef struct msgInvite
+struct msgInvite
 {
     SIM::Message		*msg;
     unsigned	cookie;
-} msgInvite;
+};
 
 class SBSocket : public QObject, public SIM::ClientSocketNotify
 {
@@ -111,7 +109,7 @@ protected:
         WaitJoin,
         Connected
     };
-    virtual bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code = 0);
     virtual void connect_ready();
     virtual void packet_ready();
     void send(const QString &cmd, const QString &args);
@@ -153,12 +151,12 @@ const unsigned LR_GROUPxREMOVED			= 4;
 
 const unsigned NO_GROUP					= (unsigned)(-1);
 
-typedef struct MSNListRequest
+struct MSNListRequest
 {
     unsigned	Type;
     QString     Name;
     unsigned	Group;
-} MSNListRequest;
+};
 
 class MSNPacket;
 class MSNServerMessage;
@@ -167,12 +165,11 @@ class MSNClient : public SIM::TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
-    MSNClient(SIM::Protocol*, ConfigBuffer *cfg);
+    MSNClient(SIM::Protocol*, Buffer *cfg);
     ~MSNClient();
-    virtual QString name();
-    virtual QString dataName(void*);
-    virtual QWidget	*setupWnd();
-    virtual QString getConfig();
+    virtual QString     name();
+    virtual QWidget    *setupWnd();
+    virtual QCString    getConfig();
     PROP_STR(Server);
     PROP_USHORT(Port);
     PROP_ULONG(ListVer);
@@ -191,6 +188,7 @@ public:
     void sendLine(const QString &line, bool crlf = true);
     void setLogin(const QString&);
     MSNClientData	data;
+    QString dataName(void*);
     MSNUserData *findContact(const QString &mail, const QString &name, SIM::Contact *&contact, bool nJoin=true);
     MSNUserData *findContact(const QString &mail, SIM::Contact *&contact);
     MSNUserData *findGroup(unsigned long id, const QString &name, SIM::Group *&grp);
@@ -199,18 +197,19 @@ public:
     void processRequests();
     MSNListRequest *findRequest(unsigned long id, unsigned type, bool bDelete=false);
     MSNListRequest *findRequest(const QString &name, unsigned type, bool bDelete=false);
-    bool add(const QString &mail, const QString &name, unsigned grp);   // currently unsued?
+    bool add(const QString &mail, const QString &name, unsigned grp);
     std::list<SBSocket*> m_SBsockets;
     virtual void setupContact(SIM::Contact*, void *data);
     bool		 m_bJoin;
     SIM::Socket *createSBSocket();
     void connected();
+    MSNUserData* toMSNUserData(SIM::clientData * data);
 protected slots:
     void ping();
     void authOk();
     void authFailed();
 protected:
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     virtual QString contactName(void *clientData);
     virtual void setInvisible(bool bState);
     virtual bool compareData(void*, void*);
@@ -222,7 +221,7 @@ protected:
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual bool send(SIM::Message*, void*);
     virtual bool canSend(unsigned, void*);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *searchWindow(QWidget *parent);
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
@@ -237,15 +236,15 @@ protected:
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
-    std::string		getValue(const char *key, const char *str);
-    std::string		getHeader(const char *name, const char *headers);
+    QString		    getValue(const QString &key, const QString &str);
+    QString		    getHeader(const QString &name, const QString &headers);
     unsigned			m_packetId;
     unsigned			m_pingTime;
     std::list<MSNPacket*>m_packets;
     MSNServerMessage   *m_msg;
     QString             m_curBuddy;
-    void                requestLoginHost(const char *url);
-    void                requestTWN(const char *url);
+    void                requestLoginHost(const QString &url);
+    void                requestTWN(const QString &url);
     enum AuthState
     {
         None,
@@ -304,14 +303,14 @@ protected:
         WaitDisconnect,
         WaitBye
     };
-    virtual bool    error_state(const QString &err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code = 0);
     virtual void    packet_ready();
     virtual void    connect_ready();
     virtual void    write_ready();
     virtual void    startReceive(unsigned pos);
     virtual bool    accept(SIM::Socket*, unsigned long ip);
     virtual void    bind_ready(unsigned short port);
-    virtual bool    error(const char *err);
+    virtual bool    error(const QString &err);
     void            send(const QString &line);
     bool            getLine(const QCString &line);
     bool            m_bHeader;

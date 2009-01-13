@@ -18,31 +18,71 @@
 #ifndef _UPDATE_H
 #define _UPDATE_H
 
-#include "simapi.h"
-#include "fetch.h"
+#include <qobject.h>
 
-typedef struct UpdateData
+#include "cfg.h"
+#include "event.h"
+#include "fetch.h"
+#include "plugins.h"
+#include "mainwin.h"
+#include <qhttp.h>
+#include <qbuffer.h>
+
+
+struct UpdateData
 {
     SIM::Data	Time;
-} UpdateData;
+};
 
 class UpdatePlugin : public QObject, public SIM::Plugin, public FetchClient, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    UpdatePlugin(unsigned, ConfigBuffer*);
+    UpdatePlugin(unsigned, Buffer*);
     virtual ~UpdatePlugin();
+	void testForUpdate();
 protected slots:
     void timeout();
+	void Finished(int requestId, bool error);
+	void UpdateMsgDownloadFinished(int requestId, bool error);
+	void fileRequestFinished(int requestId, bool error);
 protected:
     unsigned CmdGo;
-    bool done(unsigned code, Buffer &data, const char *headers);
-    virtual QString getConfig();
-    void *processEvent(SIM::Event*);
-    QString getHeader(const char *name, const char *headers);
-    QString m_url;
-    PROP_ULONG(Time);
+    bool done(unsigned code, Buffer &data, const QString &headers);
+    virtual QCString getConfig();
+    virtual bool processEvent(SIM::Event *e);
+    QString getHeader(const QString &name, const QString &headers);
+	bool isUpdateNeeded(QString&, QString&);
+	QWidget* getMainWindow();
+	void download_and_install();
+	void downloadFile();
+	void installFile();
+	QString versionurl;
+	QString m_url;
+    QString location;
+	QString address;
+	QString m_updateMsg;
+	PROP_ULONG(Time);
     UpdateData data;
+	QByteArray bytes;
+	QByteArray bytes_um;
+	QHttp *http;
+	QHttp *httpmsg;
+	QFile *file;
+    bool httpRequestAborted;
+	int Request;
+	int Request_um;
+	QBuffer *buffer;
+	int msgret;
+	bool show;
+	bool bupdateMsgMissing;
+	bool upToDate;
+	bool ignore;
+	bool isInstalling;
+	QDate dlocal;
+	QDate dremote;
+	QTimer *timer;
+	unsigned CHECK_INTERVAL;
 };
 
 #endif

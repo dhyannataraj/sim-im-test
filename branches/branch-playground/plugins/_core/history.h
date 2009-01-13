@@ -18,8 +18,10 @@
 #ifndef _HISTORY_H
 #define _HISTORY_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <map>
+#include <qstring.h>
+
+#include "message.h"
 
 class CorePlugin;
 class QFile;
@@ -27,12 +29,12 @@ class QFile;
 class HistoryFile;
 class HistoryFileIterator;
 
-typedef struct msg_save
+struct msg_save
 {
-    std::string	msg;
+    QCString	msg;
     QString     client;
     unsigned    contact;
-} msg_save;
+};
 
 typedef std::map<unsigned, msg_save>	MAP_MSG;
 

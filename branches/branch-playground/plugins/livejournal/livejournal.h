@@ -18,7 +18,6 @@
 #ifndef _LIVEJOURNAL_H
 #define _LIVEJOURNAL_H
 
-#include "simapi.h"
 #include "buffer.h"
 #include "socket.h"
 #include "fetch.h"
@@ -43,7 +42,7 @@ struct LiveJournalUserData : public SIM::clientData
     SIM::Data	bChecked;
 };
 
-typedef struct JournalMessageData
+struct JournalMessageData
 {
     SIM::Data	Subject;
     SIM::Data	Private;
@@ -52,14 +51,14 @@ typedef struct JournalMessageData
     SIM::Data	OldID;
     SIM::Data	Mood;
     SIM::Data	Comments;
-} JournalMessageData;
+};
 
 class JournalMessage : public SIM::Message
 {
 public:
-    JournalMessage(ConfigBuffer *cfg = NULL);
+    JournalMessage(Buffer *cfg = NULL);
     ~JournalMessage();
-    QString save();
+    virtual QCString save();
     PROP_UTF8(Subject);
     PROP_ULONG(Private);
     PROP_ULONG(Time);
@@ -90,13 +89,13 @@ class LiveJournalProtocol : public SIM::Protocol
 public:
     LiveJournalProtocol(SIM::Plugin *plugin);
     ~LiveJournalProtocol();
-    SIM::Client	*createClient(ConfigBuffer *cfg);
+    SIM::Client	*createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     const SIM::DataDef *userDataDef();
 };
 
-typedef struct LiveJournalClientData
+struct LiveJournalClientData
 {
     SIM::Data	Server;
     SIM::Data	URL;
@@ -112,7 +111,7 @@ typedef struct LiveJournalClientData
     SIM::Data	Signature;
     SIM::Data	LastUpdate;
     LiveJournalUserData	owner;
-} LiveJournalClientData;
+};
 
 class LiveJournalClient;
 
@@ -123,7 +122,7 @@ public:
     virtual ~LiveJournalRequest();
     void addParam(const QString &key, const QString &value);
     void result(Buffer*);
-    virtual void result(const char *key, const char *value) = 0;
+    virtual void result(const QString &key, const QString &value) = 0;
 protected:
     LiveJournalClient *m_client;
     Buffer *m_buffer;
@@ -137,10 +136,8 @@ class LiveJournalClient : public SIM::TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
-    LiveJournalClient(SIM::Protocol*, ConfigBuffer *cfg);
+    LiveJournalClient(SIM::Protocol*, Buffer *cfg);
     ~LiveJournalClient();
-    virtual QString name();
-    virtual QString dataName(void*);
     PROP_STR(Server);
     PROP_STR(URL);
     PROP_USHORT(Port);
@@ -155,19 +152,22 @@ public:
     PROP_UTF8(Signature);
     PROP_STR(LastUpdate);
     QString getSignatureText();
-    void auth_fail(const char *err);
+    void auth_fail(const QString &err);
     void auth_ok();
-    LiveJournalUserData	*findContact(const char *user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
+    LiveJournalUserData	*findContact(const QString &user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
     QTimer  *m_timer;
     virtual bool error_state(const QString &err, unsigned code);
-    bool add(const char *name);
+    bool add(const QString &name);
+    LiveJournalUserData* toLiveJournalUserData(SIM::clientData * data); // More safely type conversion from generic SIM::clientData into LiveJournalUserData
 public slots:
     void timeout();
     void send();
     void messageUpdated();
 protected:
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
-    virtual QString getConfig();
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
+    virtual QCString getConfig();
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
@@ -178,13 +178,13 @@ protected:
     virtual void socketConnect();
     virtual void disconnected();
     virtual void packet_ready();
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons);
     QWidget *searchWindow(QWidget *parent);
     SIM::CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);
     void statusChanged();
-    QValueList<LiveJournalRequest*> m_requests;
+    std::list<LiveJournalRequest*> m_requests;
     LiveJournalRequest		  *m_request;
     LiveJournalClientData	data;
     friend class LiveJournalCfg;

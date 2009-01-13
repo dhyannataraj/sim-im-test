@@ -18,7 +18,6 @@
 #ifndef _ICQCONFIG_H
 #define _ICQCONFIG_H
 
-#include "simapi.h"
 #include "icqconfigbase.h"
 #include "icqclient.h"
 

@@ -18,7 +18,8 @@
 #ifndef _ZODIAK_H
 #define _ZODIAK_H
 
-#include "simapi.h"
+#include "event.h"
+#include "plugins.h"
 
 #include <qframe.h>
 
@@ -43,11 +44,11 @@ protected:
     int	getSign(int day, int month);
 };
 
-typedef struct Picker
+struct Picker
 {
     DatePicker	*picker;
     ZodiakWnd	*label;
-} Picker;
+};
 
 class ZodiakPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
@@ -59,7 +60,7 @@ protected:
     QValueList<Picker>	m_pickers;
     bool eventFilter(QObject*, QEvent*);
     void createLabel(DatePicker *picker);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
 };
 
 #endif

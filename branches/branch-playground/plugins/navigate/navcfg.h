@@ -18,7 +18,6 @@
 #ifndef _NAVCFG_H
 #define _NAVCFG_H
 
-#include "simapi.h"
 #include "navcfgbase.h"
 
 class NavigatePlugin;

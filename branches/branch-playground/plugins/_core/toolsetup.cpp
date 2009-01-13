@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "cmddef.h"
+#include "icons.h"
+#include "misc.h"
+
 #include "toolsetup.h"
 #include "commands.h"
 
@@ -123,7 +127,7 @@ void ToolBarSetup::addButton(QListBox *lst, unsigned id)
     while ((s = ++list) != NULL){
         if ((s->id == id) && s->text){
             QString name = i18n(s->text);
-            name = name.replace(QRegExp("&"), "");
+            name = name.remove('&');
             if (s->icon){
                 lst->insertItem(Pict(s->icon), name);
             }else{

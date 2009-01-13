@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "warndlg.h"
 #include "ballonmsg.h"
 #include "icqclient.h"
@@ -49,10 +50,8 @@ WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
 
 WarnDlg::~WarnDlg()
 {
-    if (m_msg){
-        Event e(EventMessageCancel, m_msg);
-        e.process();
-    }
+    if (m_msg)
+        EventMessageCancel(m_msg).process();
 }
 
 void WarnDlg::accept()
@@ -77,12 +76,13 @@ void WarnDlg::showError(const char *error)
     BalloonMsg::message(i18n(error), buttonOk);
 }
 
-void *WarnDlg::processEvent(Event *e)
+bool WarnDlg::processEvent(Event *e)
 {
-    if (e->type() == EventMessageSent){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageSent){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg == m_msg){
-            m_msg = NULL;
+            m_msg = false;
             QString err = msg->getError();
             if (!err.isEmpty()){
                 showError(err);
@@ -91,7 +91,7 @@ void *WarnDlg::processEvent(Event *e)
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

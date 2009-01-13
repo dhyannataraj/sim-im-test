@@ -15,17 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "spellfind.h"
-#include "editfile.h"
+#include <windows.h>
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
 #include <qdir.h>
 #include <qlabel.h>
-#include <qtimer.h>
+#include <qpixmap.h>
+#include <qpushbutton.h>
 #include <qregexp.h>
+#include <qtimer.h>
 
-#include <windows.h>
+#include "editfile.h"
+#include "icons.h"
+#include "misc.h"
+
+#include "spellfind.h"
 
 using namespace std;
 using namespace SIM;
@@ -65,9 +68,9 @@ void SpellFind::next()
         QString subDir = subDirs[pos++];
         m_pos.pop();
         m_pos.push(pos);
-        if (subDir.left(1) != "."){
+        if (!subDir.startsWith(".")){
             m_path += subDir;
-            m_path += "\\";
+            m_path += '\\';
             if (checkPath())
                 return;
         }
@@ -79,7 +82,7 @@ void SpellFind::next()
         return;
     }
     m_path = m_drive->absFilePath();
-    m_path = m_path.replace(QRegExp("/"), "\\");
+    m_path = m_path.replace('/', '\\');
     if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
         return;
     m_drive = m_drives.next();

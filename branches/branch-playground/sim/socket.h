@@ -18,10 +18,15 @@
 #ifndef _SOCKET_H
 #define _SOCKET_H
 
-#include "simapi.h"
+#include <qobject.h>
 #include "buffer.h"
+#include "contacts.h"
+#include "event.h"
+#include "simapi.h"
 
-#ifdef USE_OPENSSL
+class QTimer;
+
+#ifdef ENABLE_OPENSSL
 typedef struct ssl_ctx_st SSL_CTX;
 typedef struct ssl_st SSL;
 typedef struct bio_st BIO;
@@ -38,22 +43,30 @@ public:
     virtual void connect_ready() = 0;
     virtual void read_ready() = 0;
     virtual void write_ready() = 0;
-    virtual void error_state(const QString &err_text, unsigned code=0) = 0;
+    virtual void error_state(const QString &err_text, unsigned code = 0) = 0;
     virtual void resolve_ready(unsigned long) {}
 };
 
 class EXPORT Socket
 {
+protected:
+    QString m_host;
+    unsigned short m_port;
+    SocketNotify *notify;
 public:
-    Socket();
+    Socket() : m_port(0), notify(NULL) {}
     virtual ~Socket() {}
     virtual int read(char *buf, unsigned int size) = 0;
     virtual void write(const char *buf, unsigned int size) = 0;
-    virtual void connect(const QString &host, unsigned short port) = 0;
+    virtual void connect(const QString &host, unsigned short port)
+    {
+        m_host = host;
+        m_port = port;
+    }
     virtual void close() = 0;
     virtual unsigned long localHost() = 0;
     virtual void pause(unsigned) = 0;
-    void error(const char *err_text, unsigned code=0);
+    void error(const QString &err_text, unsigned code=0);
     void setNotify(SocketNotify *n) { notify = n; }
     enum Mode
     {
@@ -62,10 +75,13 @@ public:
         Web
     };
     virtual Mode mode() const { return Direct; }
-    SocketNotify *notify;
+    const QString &getHost() const { return m_host; }
+    unsigned short getPort() const { return m_port; }
+    const SocketNotify *getNotify() const { return notify; }
 };
 
 class ServerSocket;
+class TCPClient;
 
 class EXPORT ServerSocketNotify
 {
@@ -74,7 +90,7 @@ public:
     virtual ~ServerSocketNotify();
     virtual bool accept(Socket*, unsigned long ip) = 0;
     virtual void bind_ready(unsigned short port) = 0;
-    virtual bool error(const char *err) = 0;
+    virtual bool error(const QString &err) = 0;
     virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
 #ifndef WIN32
     virtual void bind(const char *path);
@@ -104,21 +120,21 @@ class EXPORT SocketFactory : public QObject
 {
     Q_OBJECT
 public:
-    SocketFactory();
+    SocketFactory(QObject *parent);
     virtual ~SocketFactory();
     virtual Socket *createSocket() = 0;
     virtual ServerSocket *createServerSocket() = 0;
     void remove(Socket*);
     void remove(ServerSocket*);
+    bool add(ClientSocket *s);
+    bool erase(ClientSocket *s);
     void setActive(bool);
-    bool isActive();
+    bool isActive() const;
     virtual void checkState() {}
 protected slots:
     void idle();
-protected:
-    bool m_bActive;
-    class SocketFactoryPrivate *p;
-    friend class ClientSocket;
+private:
+    struct SocketFactoryPrivate *d;
 
     COPY_RESTRICTED(SocketFactory)
 };
@@ -130,7 +146,7 @@ class EXPORT ClientSocketNotify
 public:
     ClientSocketNotify() {}
     virtual ~ClientSocketNotify() {}
-    virtual bool error_state(const QString &err, unsigned code) = 0;
+    virtual bool error_state(const QString &err, unsigned code = 0) = 0;
     virtual void connect_ready() = 0;
     virtual void packet_ready() = 0;
     virtual void write_ready() {}
@@ -144,10 +160,10 @@ class EXPORT ClientSocket : public SocketNotify
 public:
     ClientSocket(ClientSocketNotify*, Socket *sock=NULL);
     ~ClientSocket();
-    Buffer readBuffer;
-    Buffer writeBuffer;
+
     virtual void error_state(const QString &err, unsigned code = 0);
-    void connect(const char *host, unsigned short port, TCPClient *client);
+    void connect(const QString &host, unsigned short port, TCPClient *client);
+	void connect(unsigned long ip, unsigned short port, TCPClient* client);
     void write();
     void pause(unsigned);
     unsigned long localHost();
@@ -155,10 +171,12 @@ public:
     virtual void read_ready();
     void close();
     void setRaw(bool mode);
-    Socket *socket() { return m_sock; }
+    Socket *socket() const { return m_sock; }
     void setSocket(Socket *s, bool bClearError = true);
-    void setNotify(ClientSocketNotify*);
-    const QString &errorString();
+    void setNotify(ClientSocketNotify *n) { m_notify = n; }
+    const QString &errorString() const;
+    virtual Buffer &readBuffer() { return m_readBuffer; }
+    virtual Buffer &writeBuffer() { return m_writeBuffer; }
 protected:
     virtual void connect_ready();
     virtual void write_ready();
@@ -169,8 +187,11 @@ protected:
     bool bRawMode;
     bool bClosed;
 
+    Buffer m_readBuffer;
+    Buffer m_writeBuffer;
+
     unsigned	errCode;
-    QString 	errString;
+    QString     errString;
     friend class SocketFactory;
 };
 
@@ -180,12 +201,16 @@ class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotif
 {
     Q_OBJECT
 public:
-    TCPClient(Protocol *protocol, ConfigBuffer *cfg, unsigned priority = DefaultPriority);
-    virtual QString          getServer() const = 0;
-    virtual unsigned short	 getPort() const = 0;
-    unsigned		m_reconnect;
-    virtual void	setStatus(unsigned status, bool bCommon);
-    unsigned long	ip() { return m_ip; }
+    TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority = DefaultPriority);
+
+    virtual void	        setStatus(unsigned status, bool bCommon);
+
+    virtual QString         getServer() const = 0;
+    virtual unsigned short  getPort() const = 0;
+    unsigned long	        ip() const { return m_ip; }
+    virtual ClientSocket   *socket() { return m_clientSocket; }
+
+    unsigned m_reconnect;
 protected slots:
     void reconnect();
     void loginTimeout();
@@ -195,20 +220,22 @@ protected:
 
     virtual void	resolve_ready(unsigned long);
     virtual void	connect_ready();
-    virtual bool	error_state(const QString &err, unsigned code);
+    virtual bool	error_state(const QString &err, unsigned code = 0);
     virtual void	socketConnect();
-    virtual void	*processEvent(Event*);
+    virtual bool    processEvent(Event *e);
     virtual Socket  *createSocket();
+    virtual ClientSocket *createClientSocket();
     void			setClientStatus(unsigned status);
-    ClientSocket	*m_socket;
     unsigned		m_logonStatus;
     unsigned		m_ip;
     QTimer			*m_timer;
     QTimer			*m_loginTimer;
     bool			m_bWaitReconnect;
+private:
+    ClientSocket	*m_clientSocket;
 };
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 EXPORT QByteArray md5(const char*, int size = -1);
 EXPORT QByteArray sha1(const char*, int size = -1);
@@ -242,7 +269,7 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void write_ready();
-    virtual void error_state(const QString &err, unsigned code);
+    virtual void error_state(const QString &err, unsigned code = 0);
     Socket *sock;
     enum State
     {

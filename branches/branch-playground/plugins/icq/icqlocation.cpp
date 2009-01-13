@@ -24,6 +24,8 @@
 # include <netinet/in.h>
 #endif
 
+#include "log.h"
+
 using namespace SIM;
 
 const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;
@@ -49,18 +51,16 @@ static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data, Conta
 QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 {
     if (tlvInfo == NULL)
-        return "";
+        return QString::null;
     return convert(*tlvInfo, tlvInfo->Size(), tlvs, n);
 }
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    QCString charset = "us-ascii";
+    QCString charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
     Tlv *tlvCharset = NULL;
-    for (unsigned i = 0;; i++){
+    for (unsigned i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];
-        if (tlv == NULL)
-            break;
         if (tlv->Num() != n)
             continue;
         if (tlvCharset && (tlv->Size() < tlvCharset->Size()))
@@ -68,20 +68,18 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
         tlvCharset = tlv;
     }
     if (tlvCharset){
-        const char *type = *tlvCharset;
-        const char *p = strchr(type, '\"');
-        if (p){
-            p++;
-            char *e = strchr((char*)p, '\"');
-            if (e)
-                *e = 0;
-            charset = p;
-        }else{
-            charset = type;
+        int idx1 = charset.find('\"');
+        if (idx1 != -1){
+            idx1++;
+            int idx2 = charset.find('\"', idx1);
+            if(idx2 != -1)
+                charset = charset.mid(idx1, idx2 - idx1);
+            else
+                charset = charset.mid(idx1);
         }
     }
     QString res;
-    if (charset.contains("us-ascii") || charset.contains("utf")){
+    if (charset.contains("us-ascii") || charset.contains("utf")){  //perhaps Bug here, should be read from packet!?
         res = QString::fromUtf8(text, size);
     }else if (charset.contains("unicode")){
         unsigned short *p = (unsigned short*)text;
@@ -111,15 +109,15 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
     case ICQ_SNACxLOC_ERROR:
         break;
     case ICQ_SNACxLOC_LOCATIONxINFO:
-        screen = m_socket->readBuffer.unpackScreen();
+        screen = socket()->readBuffer().unpackScreen();
         if (isOwnData(screen)){
             data = &this->data.owner;
         }else{
             data = findContact(screen, NULL, false, contact);
         }
         if (data){
-            m_socket->readBuffer.incReadPos(4);
-            TlvList tlvs(m_socket->readBuffer);
+            socket()->readBuffer().incReadPos(4);
+            TlvList tlvs(socket()->readBuffer());
             Tlv *tlvInfo = tlvs(0x02);
             if (tlvInfo){
                 QString info = convert(tlvInfo, tlvs, 0x01);
@@ -130,25 +128,20 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 if (data->About.setStr(info)){
                     data->ProfileFetch.asBool() = true;
                     if (contact){
-                        Event e(EventContactChanged, contact);
-                        e.process();
+                        EventContact(contact, EventContact::eChanged).process();
                     }else{
-                        Event e(EventClientChanged, this);
-                        e.process();
+                        EventClientChanged(this).process();
                     }
                 }
                 break;	/* Because we won't find tlv(0x03) which is
                            "since online" instead of encoding... */                            
             }
-            /*
             Tlv *tlvAway = tlvs(0x04);
             if (tlvAway){
                 QString info = convert(tlvAway, tlvs, 0x03);
                 data->AutoReply.str() = info;
-                Event e(EventClientChanged, contact);
-                e.process();
+                EventClientChanged(this).process();
             }
-            */
         }
         break;
     case ICQ_SNACxLOC_DIRxINFO:
@@ -160,8 +153,8 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
         if (data){
             bool bChanged = false;
             unsigned country = 0;
-            m_socket->readBuffer.incReadPos(4);
-            TlvList tlvs(m_socket->readBuffer);
+            socket()->readBuffer().incReadPos(4);
+            TlvList tlvs(socket()->readBuffer());
             Contact *c = getContact(data);
             bChanged |= extractInfo(tlvs, 0x01, data->FirstName, c);
             bChanged |= extractInfo(tlvs, 0x02, data->LastName, c);
@@ -190,11 +183,10 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             data->ProfileFetch.asBool() = true;
             if (bChanged){
                 if (contact){
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }else{
-                    Event e(EventClientChanged, this);
-                    e.process();
+                    EventClientChanged(this).process();
                 }
             }
         }
@@ -202,13 +194,13 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
     case ICQ_SNACxLOC_RESPONSExSETxINFO:
         break;
     default:
-        log(L_WARN, "Unknown location family type %04X", type);
+        log(L_WARN, "Unknown location foodgroup type %04X", type);
     }
 }
 
 void ICQClient::locationRequest()
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxRIGHTS);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_REQUESTxRIGHTS);
     sendPacket(true);
 }
 
@@ -327,6 +319,8 @@ const capability arrCapabilities[] =
         // CAP_JIMM
         { 'J', 'i', 'm', 'm', ' ', 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0 },
+	//CAP_ICQJP
+	{'i', 'c', 'q', 'p', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
  /*/*
         // from Gaim:
         // CAP_AIM_HIPTOP
@@ -424,7 +418,7 @@ static inline bool isWide(const SIM::Data &data)
 void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide)
 {
     if (str.isEmpty()){
-        m_socket->writeBuffer.tlv(nTlv, "");
+        socket()->writeBuffer().tlv(nTlv, QString::null);
         return;
     }
     QString m = str;
@@ -433,10 +427,10 @@ void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide
         unsigned short *t = unicode;
         for (int i = 0; i < (int)(m.length()); i++)
             *(t++) = htons(m[i].unicode());
-        m_socket->writeBuffer.tlv(nTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
+        socket()->writeBuffer().tlv(nTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
-        m_socket->writeBuffer.tlv(nTlv, m.latin1());
+        socket()->writeBuffer().tlv(nTlv, m.latin1());
     }
 }
 
@@ -450,24 +444,24 @@ void ICQClient::encodeString(const QString &m, const QString &type, unsigned sho
         for (int i = 0; i < (int)(m.length()); i++)
             *(t++) = htons(m[i].unicode());
         content_type += "unicode-2\"";
-        m_socket->writeBuffer.tlv(charsetTlv, content_type);
-        m_socket->writeBuffer.tlv(infoTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
+        socket()->writeBuffer().tlv(charsetTlv, content_type);
+        socket()->writeBuffer().tlv(infoTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
         content_type += "us-ascii\"";
-        m_socket->writeBuffer.tlv(charsetTlv, content_type);
-        m_socket->writeBuffer.tlv(infoTlv, m.latin1());
+        socket()->writeBuffer().tlv(charsetTlv, content_type);
+        socket()->writeBuffer().tlv(infoTlv, m.latin1());
     }
 }
 
-void ICQClient::addCapability(Buffer &cap, cap_id_t id)
+void ICQClient::addCapability(ICQBuffer &cap, cap_id_t id)
 {
     cap.pack((char*)capabilities[id], sizeof(capability));
 }
 
 void ICQClient::sendCapability(const QString &away_msg)
 {
-    Buffer cap;
+    ICQBuffer cap;
     capability c;
 
     memcpy(c, capabilities[CAP_SIM], sizeof(c));
@@ -486,7 +480,7 @@ void ICQClient::sendCapability(const QString &away_msg)
     os_ver = 0;
 #endif
 #endif
-    *(pack_ver++) = os_ver;
+    *(pack_ver++) = os_ver | get_ver(ver);
     addCapability(cap, CAP_AIM_SHORTCAPS);
     addCapability(cap, CAP_AIM_SUPPORT);
     addCapability(cap, CAP_AVATAR);
@@ -497,7 +491,8 @@ void ICQClient::sendCapability(const QString &away_msg)
         addCapability(cap, CAP_AIM_SENDFILE);
         addCapability(cap, CAP_AIM_BUDDYLIST);
     }else{
-        addCapability(cap, CAP_DIRECT);
+        addCapability(cap, CAP_AIM_SENDFILE); //Since we add this, ICQ6 accepts the client as filetransfer partner
+		addCapability(cap, CAP_DIRECT);
         addCapability(cap, CAP_SRV_RELAY);
         addCapability(cap, CAP_XTRAZ);
         if (getSendFormat() <= 1)
@@ -509,7 +504,7 @@ void ICQClient::sendCapability(const QString &away_msg)
         cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
 
     cap.pack((char*)c, sizeof(c));
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){
         if (data.owner.ProfileFetch.toBool()){
             QString profile;
@@ -519,31 +514,31 @@ void ICQClient::sendCapability(const QString &away_msg)
         if (!away_msg.isNull())
             encodeString(away_msg, "text/plain", 3, 4);
     }
-    m_socket->writeBuffer.tlv(0x0005, cap);
+    socket()->writeBuffer().tlv(0x0005, cap);
     if (m_bAIM)
-        m_socket->writeBuffer.tlv(0x0006, "\x00\x04\x00\x02\x00\x02", 6);
+        socket()->writeBuffer().tlv(0x0006, "\x00\x04\x00\x02\x00\x02", 6);
     sendPacket(true);
 }
 
 void ICQClient::setAwayMessage(const QString &msg)
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (!msg.isNull()){
         encodeString(msg, "text/plain", 3, 4);
     }else{
-        m_socket->writeBuffer.tlv(0x0004);
+        socket()->writeBuffer().tlv(0x0004);
     }
     sendPacket(true);
 }
 
 void ICQClient::fetchProfile(ICQUserData *data)
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
-    m_socket->writeBuffer << (unsigned short)0x0001;
-    m_socket->writeBuffer.packScreen(screen(data));
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
+    socket()->writeBuffer() << (unsigned short)0x0001;
+    socket()->writeBuffer().packScreen(screen(data));
     sendPacket(false);
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
-    m_socket->writeBuffer.packScreen(screen(data));
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
+    socket()->writeBuffer().packScreen(screen(data));
     sendPacket(false);
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
     data->ProfileFetch.setBool(true);
@@ -558,7 +553,7 @@ void ICQClient::fetchProfiles()
     while ((contact = ++itc) != NULL){
         ICQUserData *data;
         ClientDataIterator itd(contact->clientData, this);
-        while ((data = (ICQUserData*)(++itd)) != NULL){
+        while ((data = toICQUserData(++itd)) != NULL){
             if (data->Uin.toULong() || data->ProfileFetch.toBool())
                 continue;
             fetchProfile(data);
@@ -597,10 +592,10 @@ void ICQClient::setAIMInfo(ICQUserData *data)
             break;
         }
     }
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
     QString encoding = bWide ? "unicode-2-0" : "us-ascii";
-    m_socket->writeBuffer.tlv(0x1C, encoding);
-    m_socket->writeBuffer.tlv(0x0A, (unsigned short)0x01);
+    socket()->writeBuffer().tlv(0x1C, encoding);
+    socket()->writeBuffer().tlv(0x0A, (unsigned short)0x01);
     encodeString(data->FirstName.str(), 0x01, bWide);
     encodeString(data->LastName.str(), 0x02, bWide);
     encodeString(data->MiddleName.str(), 0x03, bWide);
@@ -628,10 +623,11 @@ void ICQClient::setAIMInfo(ICQUserData *data)
 
 void ICQClient::setProfile(ICQUserData *data)
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     QString profile;
     profile = QString("<HTML>") + data->About.str() + "</HTML>";
     encodeString(profile, "text/aolrtf", 1, 2);
     sendPacket(false);
 }
+
 

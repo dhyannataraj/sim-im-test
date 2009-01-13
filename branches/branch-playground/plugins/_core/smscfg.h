@@ -18,7 +18,6 @@
 #ifndef _SMSCFG_H
 #define _SMSCFG_H
 
-#include "simapi.h"
 #include "smscfgbase.h"
 
 class SMSConfig : public SMSConfigBase

@@ -20,22 +20,22 @@
 
 #include "gpguserbase.h"
 
+struct GpgUserData;
 class GpgPlugin;
 class QProcess;
-class ConfigBuffer;
 
 class GpgUser : public GpgUserBase
 {
     Q_OBJECT
 public:
-    GpgUser(QWidget *parent, struct GpgUserData *data);
+    GpgUser(QWidget *parent, GpgUserData *data);
     ~GpgUser();
 public slots:
     void apply(void *data);
     void refresh();
     void publicReady();
 protected:
-    QProcess    *m_process;
+    QProcess   *m_process;
     QString     m_key;
 };
 

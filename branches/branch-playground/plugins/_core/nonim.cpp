@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "contacts.h"
+
 #include "nonim.h"
 #include "intedit.h"
 
@@ -34,9 +36,9 @@ void NonIM::showEvent(QShowEvent *e)
     emit setAdd(true);
 }
 
-void NonIM::add(unsigned grp_id)
+void NonIM::add(Contact *&contact)
 {
-    Contact *contact = getContacts()->contact(0, true);
+    contact = getContacts()->contact(0, true);
     contact->setFirstName(edtFirst->text());
     contact->setLastName(edtLast->text());
     if (!edtMail->text().isEmpty())
@@ -47,7 +49,7 @@ void NonIM::add(unsigned grp_id)
     if (nick.isEmpty()){
         nick = edtFirst->text();
         if (!nick.isEmpty() && !edtLast->text().isEmpty())
-            nick += " ";
+            nick += ' ';
         nick += edtLast->text();
     }
     if (nick.isEmpty())
@@ -55,10 +57,14 @@ void NonIM::add(unsigned grp_id)
     if (nick.isEmpty())
         nick = edtPhone->text();
     contact->setName(nick);
-    contact->setGroup(grp_id);
-    Event e(EventContactChanged, contact);
-    e.process();
 }
+
+void NonIM::createContact(unsigned tmpFlags, Contact *&contact)
+{
+       add(contact);
+       contact->setFlags(contact->getFlags() | tmpFlags);
+}
+
 
 #ifndef NO_MOC_INCLUDES
 #include "nonim.moc"

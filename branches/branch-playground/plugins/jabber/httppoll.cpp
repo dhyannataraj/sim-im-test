@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "fetch.h"
+#include "simapi.h"
 
-using std::string;
+#include "fetch.h"
+#include "log.h"
+
+#include "jabberclient.h"
+
 using namespace SIM;
 
 class JabberHttpPool : public Socket, public FetchClient
@@ -32,13 +35,13 @@ public:
     virtual void close();
     virtual Mode mode() const { return Web; }
 protected:
-    string getKey();
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
-    Buffer readData;
-    Buffer writeData;
+    QString getKey();
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
+    JabberBuffer readData;
+    JabberBuffer writeData;
     QString m_url;
-    string m_key;
-    string m_seed;
+    QCString m_key;
+    QCString m_seed;
     QString m_cookie;
     virtual unsigned long localHost();
     virtual void pause(unsigned);
@@ -50,15 +53,14 @@ JabberHttpPool::JabberHttpPool(const QString &url)
     : m_url(url)
 {
     m_cookie = "0";
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     /*
         Buffer k;
         for (unsigned i = 0; i < 48; i++){
             char c = get_random() & 0xFF;
             k.pack(&c, 1);
         }
-        Buffer to;
-        to.toBase64(k);
+        QCString to = Buffer::toBase64(k);
         m_seed.append(to.data(), to.size());
     */
     m_seed = "foo";
@@ -69,23 +71,20 @@ JabberHttpPool::~JabberHttpPool()
 {
 }
 
-string JabberHttpPool::getKey()
+QString JabberHttpPool::getKey()
 {
-#ifdef USE_OPENSSL
-    if (m_key.empty()){
+#ifdef ENABLE_OPENSSL
+    if (m_key.isEmpty()){
         m_key = m_seed;
         return m_key;
     }
-    QByteArray digest = sha1(m_key.c_str());
+    QByteArray digest = sha1(m_key);
     Buffer b;
-    b.pack(digest.data(), digest.size());
-    Buffer r;
-    r.toBase64(b);
-    m_key = "";
-    m_key.append(r.data(), r.size());
+    b.pack(digest, digest.size());
+    m_key = Buffer::toBase64(b);
     return m_key;
 #else
-    return "";
+    return QString::null;
 #endif
 }
 
@@ -106,13 +105,12 @@ void JabberHttpPool::write(const char *buf, unsigned size)
     if (!isDone())
         return;
     Buffer *packet = new Buffer;
-    string key = getKey();
-    *packet << m_cookie.latin1();
-#ifdef USE_OPENSSL
-    *packet << ";" << key.c_str();
+    *packet << (const char*)m_cookie.local8Bit().data();
+#ifdef ENABLE_OPENSSL
+    *packet << ";" << (const char*)getKey().local8Bit().data();
 #endif
     *packet << ",";
-    log(L_DEBUG, "%s;%s,", m_cookie.latin1(), key.c_str());
+    log(L_DEBUG, "%s;%s,", m_cookie.latin1(), getKey().latin1());
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
     fetch(m_url, headers, packet);
@@ -125,13 +123,13 @@ void JabberHttpPool::close()
     stop();
 }
 
-void JabberHttpPool::connect(const QString &, unsigned short)
+void JabberHttpPool::connect(const QString&, unsigned short)
 {
     if (notify)
         notify->connect_ready();
 }
 
-bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
+bool JabberHttpPool::done(unsigned code, Buffer &data, const QString &headers)
 {
     if (code != 200){
         log(L_DEBUG, "HTTP result %u", code);
@@ -139,20 +137,16 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
         return false;
     }
     QString cookie;
-    for (const char *p = headers; *p; p += strlen(p) + 1){
-        QString h = p;
-        if (getToken(h, ':') != "Set-Cookie")
-            continue;
-        while (!h.isEmpty()){
-            QString part = getToken(h, ';').stripWhiteSpace();
-            if (getToken(part, '=') == "ID")
-                cookie = part;
-        }
-        if (!cookie.isEmpty())
-            break;
+    int idx = headers.find("Set-Cookie:");
+    if(idx != -1) {
+        int end = headers.find("\n", idx);
+        if(end == -1)
+            m_cookie = headers.mid(idx);
+        else
+            m_cookie = headers.mid(end - idx + 1);
     }
     m_cookie = cookie;
-    int err_code = getToken(cookie, ':').toLong();
+    int err_code = getToken(cookie, ':').toInt();
     if (cookie == "0"){
         const char *err = "Unknown poll error";
         switch (err_code){
@@ -169,7 +163,7 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
         error(err);
         return false;
     }
-    readData.pack(data.data(), data.writePos());
+    readData = data;
     if (notify)
         notify->read_ready();
     return false;
@@ -191,3 +185,5 @@ Socket *JabberClient::createSocket()
         return new JabberHttpPool(getURL());
     return NULL;
 }
+
+

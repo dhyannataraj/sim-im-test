@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sms.h"
-#include "smssetup.h"
-#include "serial.h"
-
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
@@ -26,6 +22,12 @@
 #include <qlabel.h>
 #include <qprogressbar.h>
 #include <qtabwidget.h>
+
+#include "misc.h"
+
+#include "sms.h"
+#include "smssetup.h"
+#include "serial.h"
 
 using namespace SIM;
 
@@ -48,7 +50,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
     }
     cmbPort->setCurrentItem(cur);
     for (unsigned i = 0; i < (unsigned)(cmbBaud->count()); i++){
-        if ((unsigned)cmbBaud->text(i).toLong() == m_client->getBaudRate()){
+        if (cmbBaud->text(i).toULong() == m_client->getBaudRate()){
             cmbBaud->setCurrentItem(i);
         }
     }
@@ -62,9 +64,8 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
         barCharge->setProgress(client->getCharge());
         barQuality->setProgress(client->getQuality());
         edtModel->setReadOnly(true);
-        QString model;
-        edtModel->setText(client->model().c_str());
-        edtOper->setText(client->oper().c_str());
+        edtModel->setText(client->model());
+        edtOper->setText(client->oper());
     }else{
         tabSMS->removePage(tabPhone);
     }
@@ -73,8 +74,8 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
 
 void SMSSetup::apply()
 {
-    m_client->setDevice(cmbPort->currentText().latin1());
-    m_client->setBaudRate(cmbBaud->currentText().toLong());
+    m_client->setDevice(cmbPort->currentText());
+    m_client->setBaudRate(cmbBaud->currentText().toULong());
     m_client->setXonXoff(chkXonXoff->isChecked());
 }
 

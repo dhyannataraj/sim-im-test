@@ -83,7 +83,7 @@
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>Open links in &amp;new window</string>
+                <string>Open links in &amp;new window (Win32: When unchecked, Explorer is used, else your installed default programs.)</string>
             </property>
         </widget>
         <spacer>

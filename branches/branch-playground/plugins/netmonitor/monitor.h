@@ -18,9 +18,10 @@
 #ifndef _MONITOR_H
 #define _MONITOR_H
 
-#include "simapi.h"
 #include <qmainwindow.h>
 #include <qmutex.h>
+
+#include "event.h"
 
 class TextShow;
 class QPopupMenu;
@@ -47,7 +48,7 @@ protected slots:
     void adjustEdit();
     void adjustLog();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void closeEvent(QCloseEvent*);
     bool bPause;
     bool bAutoscroll;

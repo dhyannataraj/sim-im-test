@@ -15,12 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "buffer.h"
-
 #include <stdio.h>
-
-#include <qcstring.h>
-#include <qptrlist.h>
 
 #ifdef WIN32
 #include <winsock.h>
@@ -28,54 +23,22 @@
 #include <netinet/in.h>
 #endif
 
+#include <vector>
+
+#include "buffer.h"
+#include "event.h"
+#include "log.h"
+
+using namespace std;
 using namespace SIM;
 
-// Tlv
-Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
-        : m_nNum(num), m_nSize(size)
-{
-    m_data.resize(m_nSize + 1);
-    memcpy(m_data.data(), data, m_nSize);
-    m_data[(int)m_nSize] = 0;
-}
-
-Tlv::operator uint16_t ()
-{
-    return (m_nSize >= 2) ? htons(*((uint16_t*)m_data.data())) : 0;
-}
-
-Tlv::operator uint32_t ()
-{
-    return (m_nSize >= 4) ? htonl(*((uint32_t*)m_data.data())) : 0;
-}
-
-// TlvList
-TlvList::TlvList()
-{
-    setAutoDelete(true);
-}
-
-TlvList::TlvList(Buffer &b, unsigned nTlvs)
-{
-    setAutoDelete(true);
-    for (unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++){
-        unsigned short num, size;
-        b >> num >> size;
-        if (b.readPos() + size > b.size())
-            break;
-        append(new Tlv(num, size, b.data(b.readPos())));
-        b.incReadPos(size);
-    }
-}
-
-Tlv *TlvList::operator()(unsigned short num)
-{
-    for(uint i = 0; i < count(); i++) {
-        if (at(i)->Num() == num)
-            return at(i);
-    }
-    return NULL;
-}
+#ifdef WORDS_BIGENDIAN
+# define SWAP_S(s)  s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
+# define SWAP_L(s)  s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24); 
+#else
+# define SWAP_S(s)
+# define SWAP_L(s)
+#endif
 
 // Buffer
 Buffer::Buffer(unsigned size)
@@ -88,13 +51,15 @@ Buffer::Buffer(const QByteArray &ba)
     : QByteArray(ba)
 {
     init(ba.size());
+    m_posWrite = ba.size();
 }
 
-Buffer::Buffer(Tlv &tlv)
-        : QByteArray(tlv.Size())
+Buffer::Buffer(const QCString &cstr)
+    : QByteArray(cstr.copy())
 {
-    init(tlv.Size());
-    pack((char*)tlv, tlv.Size());
+    uint len = cstr.length();
+    init(len);
+    m_posWrite = len;
 }
 
 Buffer::~Buffer()
@@ -113,8 +78,7 @@ void Buffer::init(unsigned size)
 void Buffer::incReadPos(int n)
 {
     m_posRead += n;
-    if (m_posRead > m_posWrite)
-        m_posRead = m_posWrite;
+    if (m_posRead > m_posWrite) m_posRead = m_posWrite;
 }
 
 bool Buffer::add(uint addSize)
@@ -150,7 +114,7 @@ void Buffer::setReadPos(unsigned n)
 void Buffer::pack(const char *d, unsigned s)
 {
     if(s == 0)
-		return;
+        return;
     if(m_posWrite+s > size())
         resize(m_posWrite+s);
     if(d) {
@@ -159,13 +123,6 @@ void Buffer::pack(const char *d, unsigned s)
         memcpy(data() + m_posWrite, "", 1);
     }
     m_posWrite += s;
-}
-
-void Buffer::pack(const QString &s)
-{
-    if(s.isEmpty())
-		return;
-    pack(s.utf8(), s.utf8().length());
 }
 
 unsigned Buffer::unpack(char *d, unsigned s)
@@ -178,120 +135,33 @@ unsigned Buffer::unpack(char *d, unsigned s)
     return readn;
 }
 
-unsigned Buffer::unpack(QString &d, unsigned s)
+Buffer& Buffer::operator << (char c)
 {
-    unsigned readn = size() - m_posRead;
-    if (s < readn)
-        readn = s;
-    d = QString::fromUtf8(data() + m_posRead, readn);
-    m_posRead += readn;
-    return readn;
+    pack(&c, 1);
+    return *this;
 }
 
-unsigned Buffer::unpack(QCString &d, unsigned s)
+Buffer &Buffer::operator << (const char *str)
 {
-    unsigned readn = size() - m_posRead;
-    if (s < readn)
-        readn = s;
-    d = QCString(data() + m_posRead, readn + 1);
-    m_posRead += readn;
-    return readn;
-}
-
-unsigned Buffer::unpack(QByteArray &d, unsigned s)
-{
-    unsigned readn = size() - m_posRead;
-    if (s < readn)
-        readn = s;
-    d = QByteArray::duplicate(data() + m_posRead, readn);
-    unsigned size = d.size();
-    d.resize(size + 1);
-    d.data()[size] = '\0';
-    m_posRead += readn;
-    return readn;
-}
-
-QString Buffer::unpackScreen()
-{
-    char len;
-    QString res;
-
-    *this >> len;
-    /* 13 isn't right, AIM allows 16. But when we get a longer
-    name, we *must* unpack them if we won't loose the TLVs
-    behind the Screenname ... */
-    if (len > 16)
-        log(L_DEBUG,"Too long Screenname! Length: %d",len);
-    unpack(res, len);
-    return res;
-}
-
-bool Buffer::unpackStr(QString &str)
-{
-    unsigned short s;
-    str = "";
-    *this >> s;
-    if (s == 0)
-        return false;
-    if (s > size() - m_posRead)
-        s = (unsigned short)(size() - m_posRead);
-    unpack(str, s);
-    return true;
-}
-
-bool Buffer::unpackStr(QCString &str)
-{
-    unsigned short s;
-    str = "";
-    *this >> s;
-    if (s == 0)
-        return false;
-    if (s > size() - m_posRead)
-        s = (unsigned short)(size() - m_posRead);
-    unpack(str, s);
-    return true;
-}
-
-bool Buffer::unpackStr32(QCString &str)
-{
-    unsigned long s;
-    *this >> s;
-    s = ntohl(s);
-    str = "";
-    if (s == 0)
-        return false;
-    if (s > size() - m_posRead)
-        s = size() - m_posRead;
-    unpack(str, s);
-    return true;
-}
-
-bool Buffer::unpackStr32(QByteArray &str)
-{
-    unsigned long s;
-    *this >> s;
-    s = ntohl(s);
-    str = QByteArray();
-    if (s == 0)
-        return false;
-    if (s > size() - m_posRead)
-        s = size() - m_posRead;
-    unpack(str, s);
-    return true;
-}
-
-Buffer &Buffer::operator >> (QCString &str)
-{
-    unsigned short s;
-    str = "";
-
-    *this >> s;
-    s = htons(s);
-    if (s == 0)
+    if(!str)
         return *this;
-    if (s > size() - m_posRead)
-        s = (unsigned short)(size() - m_posRead);
-    unpack(str, s);
+    pack(str, strlen(str));
+    return *this;
+}
+
+Buffer &Buffer::operator << (unsigned short c)
+{
+    c = htons(c);
+    pack((char*)&c, 2);
+    return *this;
+}
+
+Buffer &Buffer::operator << (long c)
+{
+    /* XXX:
+       FIXME WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
+    c = htonl(c);
+    pack((char*)&c, 4);
     return *this;
 }
 
@@ -310,140 +180,14 @@ Buffer &Buffer::operator >> (unsigned short &c)
     return *this;
 }
 
-Buffer &Buffer::operator >> (unsigned long &c)
+Buffer &Buffer::operator >> (long &c)
 {
+    /* XXX:
+       FIXME WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     if (unpack((char*)&c, 4) != 4)
         c = 0;
     c = ntohl(c);
     return *this;
-}
-
-Buffer &Buffer::operator >> (int &c)
-{
-    if (unpack((char*)&c, 4) != 4)
-        c = 0;
-    c = ntohl(c);
-    return *this;
-}
-
-void Buffer::unpack(char &c)
-{
-    *this >> c;
-}
-
-void Buffer::unpack(unsigned short &c)
-{
-    if (unpack((char*)&c, 2) != 2)
-        c = 0;
-    ntohs(c);
-}
-
-void Buffer::unpack(unsigned long &c)
-{
-    unsigned int i;
-    if (unpack((char*)&i, 4) != 4)
-        i = 0;
-    ntohs(i);
-    c = i;
-}
-
-void Buffer::pack(unsigned short s)
-{
-    htons(s);
-    pack((char*)&s, 2);
-}
-
-void Buffer::pack(unsigned long s)
-{
-    unsigned long int i = s;
-    htonl(i);
-    pack((char*)&i, 4);
-}
-
-void Buffer::packStr32(const char *s)
-{
-    if (s) {
-        unsigned long size = strlen(s);
-        pack(size);
-        pack(s, strlen(s));
-    } else {
-        pack((unsigned long)0);
-        pack("", 0);
-    }
-}
-
-Buffer &Buffer::operator << (const Buffer &b)
-{
-    unsigned short size = (unsigned short)(b.size() - b.readPos());
-    *this << (unsigned short)htons(size);
-    pack(b.data(b.readPos()), size);
-    return *this;
-}
-
-void Buffer::pack32(const Buffer &b)
-{
-    unsigned long size = b.size() - b.readPos();
-    *this << (unsigned long)htonl(size);
-    pack(b.data(b.readPos()), size);
-}
-
-Buffer &Buffer::operator << (const QString &s)
-{
-    QCString utf8 = s.utf8();
-    unsigned short size = (unsigned short)(utf8.length() + 1);
-    *this << (unsigned short)htons(size);
-    pack(utf8, size);
-    return *this;
-}
-
-Buffer &Buffer::operator << (const QCString &s)
-{
-    unsigned short size = (unsigned short)(s.length() + 1);
-    *this << (unsigned short)htons(size);
-    pack(s, size);
-    return *this;
-}
-
-Buffer &Buffer::operator << (const char *str)
-{
-    if(!str)
-        return *this;
-    pack(str, strlen(str));
-    return *this;
-}
-
-Buffer &Buffer::operator << (char c)
-{
-    pack(&c, 1);
-    return *this;
-}
-
-Buffer &Buffer::operator << (bool b)
-{
-    char c = b ? (char)1 : (char)0;
-    pack(&c, 1);
-    return *this;
-}
-
-Buffer &Buffer::operator << (unsigned short c)
-{
-    c = htons(c);
-    pack((char*)&c, 2);
-    return *this;
-}
-
-Buffer &Buffer::operator << (unsigned long c)
-{
-    c = htonl(c);
-    pack((char*)&c, 4);
-    return *this;
-}
-
-void Buffer::packScreen(const QString &screen)
-{
-    char len = screen.utf8().length();
-    pack(&len, 1);
-    pack(screen.utf8(), len);
 }
 
 bool Buffer::scan(const char *substr, QCString &res)
@@ -462,8 +206,7 @@ bool Buffer::scan(const char *substr, QCString &res)
         if (*sp == 0){
             res = "";
             if (pos - readPos()){
-                int size = pos - readPos();
-                unpack(res, size);
+                unpack(res, pos - readPos());
             }
             incReadPos(pos + strlen(substr) - readPos());
             return true;
@@ -472,92 +215,112 @@ bool Buffer::scan(const char *substr, QCString &res)
     return false;
 }
 
-void Buffer::tlv(unsigned short n, const char *data, unsigned short len)
-{
-    *this << n << len;
-    pack(data, len);
-}
-
-void Buffer::tlvLE(unsigned short n, const char *data, unsigned short len)
-{
-    pack(n);
-    pack(len);
-    pack(data, len);
-}
-
-void Buffer::tlv(unsigned short n, const char *data)
-{
-    if (data == NULL)
-        data = "";
-    tlv(n, data, (unsigned short)strlen(data));
-}
-
-void Buffer::tlvLE(unsigned short n, const char *data)
-{
-    if (data == NULL)
-        data = "";
-    unsigned short len = strlen(data) + 1;
-    pack(n);
-    pack((unsigned short)(len + 2));
-    pack(len);
-    pack(data, len);
-}
-
-void Buffer::tlv(unsigned short n, unsigned short c)
-{
-    c = htons(c);
-    tlv(n, (char*)&c, 2);
-}
-
-void Buffer::tlvLE(unsigned short n, unsigned short c)
-{
-    pack(n);
-    pack((unsigned short)2);
-    pack(c);
-}
-
-void Buffer::tlv(unsigned short n, unsigned long c)
-{
-    c = htonl(c);
-    tlv(n, (char*)&c, 4);
-}
-
-void Buffer::tlvLE(unsigned short n, unsigned long c)
-{
-    pack(n);
-    pack((unsigned short)4);
-    pack(c);
-}
-
 void Buffer::packetStart()
 {
     m_packetStartPos = writePos();
 }
 
-Buffer &Buffer::operator << (TlvList &tlvList)
+static int findStartSection(const Buffer *pBuf, unsigned start)
 {
-    unsigned size = 0;
-    for (uint i = 0; i < tlvList.count(); i++)
-        size += tlvList.at(i)->Size() + 4;
-    *this << (unsigned short)size;
-    for (uint i = 0; i < tlvList.count(); i++) {
-        Tlv *tlv = tlvList.at(i);
-        *this << tlv->Num() << (int)tlv->Size();
-        pack(*tlv, tlv->Size());
+    int idx = start == ~0U ? 0 : start;
+
+    for ( ; ; ) {
+        if(idx >= (int)pBuf->size())
+            return -1;
+        idx = pBuf->find( '[', idx);
+        if(idx == -1)
+            return -1;
+        if( idx == 0 || pBuf->at( idx - 1 ) == '\n' )
+            return idx;
+        idx++;
     }
-    return *this;
 }
 
-void Buffer::fromBase64(Buffer &from)
+static int findEndSection(const Buffer *pBuf, unsigned start)
+{
+    int idx = start == ~0U ? 0 : start;
+
+	for ( ; ; ) {
+        if(idx >= (int)pBuf->size())
+            return -1;
+        idx = pBuf->find( ']', idx);
+        if(idx == -1)
+            return -1;
+        if( idx == (int)pBuf->size() - 1 || pBuf->at( idx + 1 ) == '\n' )
+            return idx;
+        idx++;
+    }
+}
+
+QCString Buffer::getSection(bool bSkip)
+{
+    QCString str;
+    unsigned start = m_posRead;
+    unsigned end = m_posRead;
+
+    if( bSkip )
+        start = findStartSection(this, m_posRead + 1);
+    if( start == ~0U )
+        return str;
+    start = findStartSection( this, start );
+    end   = findEndSection( this, start );
+    if( start == ~0U || end == ~0U )
+        return str;
+    m_startSection = m_posRead = start;
+
+    str = QCString( data() + start + 1, end - start );
+
+    m_posRead = end + 1;
+    if ( m_posRead < size() )
+        if ( at(m_posRead) == '\n' )
+            m_posRead++;
+    if ( m_posRead >= size() )
+        m_posRead = size() - 1;
+    m_posWrite = findStartSection( this, end );
+    if( m_posWrite == ~0U )
+        m_posWrite = size();
+
+    return str;
+}
+
+QCString Buffer::getLine()
+{
+    if (readPos() >= writePos())
+        return "";
+    unsigned start = m_posRead;
+    int end = find('\n', start);
+    if(end == -1)
+        end = size();
+    QCString res = QCString(data() + start, end - start + 1);
+    m_posRead = end + 1; 
+    if ( m_posRead < size() )
+        if ( at(m_posRead) == '\n' )
+            m_posRead++;
+
+    return res;
+}
+
+// for Buffer::scan()
+unsigned Buffer::unpack(QCString &d, unsigned s)
+{
+    unsigned readn = size() - m_posRead;
+    if (s < readn)
+        readn = s;
+    d = QCString(data() + m_posRead, readn + 1);
+    m_posRead += readn;
+    return readn;
+}
+
+Buffer Buffer::fromBase64(QCString &from)
 {
     unsigned n = 0;
     unsigned tmp2 = 0;
-    for (;;) {
+    Buffer to;
+    int len = from.length();
+
+    for (int i = 0; i < len; i++) {
+        char c = from[i];
         char res[3];
-        char c;
-        from >> c;
-        if (c == 0)
-            break;
         char tmp = 0;
         if ((c >= 'A') && (c <= 'Z')) {
             tmp = (char)(c - 'A');
@@ -575,10 +338,10 @@ void Buffer::fromBase64(Buffer &from)
             if (n == 3) {
                 res[0] = (char)((tmp2 >> 10) & 0xff);
                 res[1] = (char)((tmp2 >> 2) & 0xff);
-                pack(res, 2);
+                to.pack(res, 2);
             } else if (n == 2) {
                 res[0] = (char)((tmp2 >> 4) & 0xff);
-                pack(res, 1);
+                to.pack(res, 1);
             }
             break;
         }
@@ -588,222 +351,57 @@ void Buffer::fromBase64(Buffer &from)
             res[0] = (char)((tmp2 >> 16) & 0xff);
             res[1] = (char)((tmp2 >> 8) & 0xff);
             res[2] = (char)(tmp2 & 0xff);
-            pack(res, 3);
+            to.pack(res, 3);
             tmp2 = 0;
             n = 0;
         }
     }
+    return to;
 }
 
 static const char alphabet[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-void Buffer::toBase64(Buffer &from)
+QCString Buffer::toBase64(Buffer &from)
 {
     unsigned char b[3];
-    char res[4];
-    unsigned tmp;
+    char res[5];
+    QCString to;
 
-    while (from.readPos() + 3 < from.size()){
+    res[4] = '\0';
+    while (from.readPos() + 3 <= from.size()){
         from.unpack((char*)b, 3);
-        tmp = (b[0] << 16) | (b[1] << 8) | b[2];
+        unsigned tmp = (b[0] << 16) | (b[1] << 8) | b[2];
         res[0] = alphabet[(tmp >> 18) & 0x3F];
         res[1] = alphabet[(tmp >> 12) & 0x3F];
         res[2] = alphabet[(tmp >> 6) & 0x3F];
         res[3] = alphabet[tmp & 0x3F];
-        pack(res, 4);
+        to += res;
     }
 
-    switch(from.size() - from.readPos()){
-    case 2:
-        from.unpack((char*)b, 2);
-        tmp = (b[0] << 16) | (b[1] << 8);
+    unsigned rest = from.size() - from.readPos();
+    if(rest == 2 || rest == 1) {
+        from.unpack((char*)b, rest);
+        unsigned tmp = (b[0] << 16);
+        if(rest == 2)
+            tmp |= (b[1] << 8);
         res[0] = alphabet[(tmp >> 18) & 0x3F];
         res[1] = alphabet[(tmp >> 12) & 0x3F];
-        res[2] = alphabet[(tmp >> 6) & 0x3F];
+        res[2] = (rest == 2 ? alphabet[(tmp >> 6) & 0x3F] : '=');
         res[3] = '=';
-        pack(res, 4);
-        break;
-    case 1:
-        from.unpack((char*)b, 1);
-        tmp = b[0] << 16;
-        res[0] = alphabet[(tmp >> 18) & 0x3F];
-        res[1] = alphabet[(tmp >> 12) & 0x3F];
-        res[2] = res[3] = '=';
-        pack(res, 4);
-        break;
+        to += res;
     }
+    return to;
 }
 
-static int findStartSection(const Buffer *pBuf, unsigned start)
+// for msn
+unsigned Buffer::unpack(QString &d, unsigned s)
 {
-    int idx = start == ~0U ? 0 : start;
-
-    do {
-        idx = pBuf->find( '[', idx);
-        if(idx == -1)
-            return -1;
-        if( idx == 0 || pBuf->at( idx - 1 ) == '\n' )
-            return idx;
-        idx++;
-    } while(true);
-}
-
-static int findEndSection(const Buffer *pBuf, unsigned start)
-{
-    int idx = start == ~0U ? 0 : start;
-
-    do {
-        idx = pBuf->find( ']', idx);
-        if(idx == -1)
-            return -1;
-        if( idx == (int)pBuf->size() - 1 || pBuf->at( idx + 1 ) == '\n' )
-            return idx;
-        idx++;
-    } while(true);
-}
-
-QString Buffer::getSection(bool bSkip)
-{
-    QString str;
-    unsigned start = m_posRead;
-    unsigned end = m_posRead;
-
-    if( bSkip )
-        start = findStartSection(this, m_posRead + 1);
-    if( start == ~0U )
-        return str;
-    start = findStartSection( this, start );
-    end   = findEndSection( this, start );
-    if( start == ~0U || end == ~0U )
-        return str;
-    m_startSection = m_posRead = start;
-
-    str = QString::fromLocal8Bit( data() + start + 1, end - start - 1 );
-
-    m_posRead = end + 1;
-    if ( m_posRead < size() )
-        if ( at(m_posRead) == '\n' )
-            m_posRead++;
-    if ( m_posRead >= size() )
-        m_posRead = size() - 1;
-    m_posWrite = findStartSection( this, end );
-    if( m_posWrite == ~0U )
-        m_posWrite = size() - 1;
-
-    return str;
-}
-
-// *********************************************
-// ConfigBuffer
-// *********************************************
-ConfigBuffer::ConfigBuffer(const QString &str, unsigned pos)
-: m_posRead(pos), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
-{
-	QString *that = static_cast<QString*>(this);
-	*that = str;
-}
-
-ConfigBuffer::ConfigBuffer(QIODevice *io, unsigned pos)
-: m_posRead(pos), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
-{
-	QString *that = static_cast<QString*>(this);
-	if( io ) {
-		QTextStream ts( io );
-		*that = ts.read();
-	}
-}
-
-QString ConfigBuffer::getSection(bool bSkip)
-{
-    QString str;
-    unsigned start = m_posRead;
-    unsigned end = m_posRead;
-
-    if( bSkip )
-        start = findStartSection( m_posRead + 1 );
-    if( start == ~0U )
-        return str;
-    start = findStartSection( start );
-    end   = findEndSection( start );
-    if( start == ~0U || end == ~0U )
-        return str;
-    m_startSection = m_posRead = start;
-
-    str = mid( start + 1, end - start - 1 );
-
-    m_posRead = end + 1;
-    if ( m_posRead < length() )
-        if ( at(m_posRead) == '\n' )
-            m_posRead++;
-    if ( m_posRead >= length() )
-        m_posRead = length() - 1;
-
-	m_posNextSection = findStartSection( end );
-    if( m_posNextSection == ~0U )
-        m_posNextSection = length() - 1;
-
-    return str;
-}
-
-QString ConfigBuffer::getLine()
-{
-    QString str;
-    if(m_posNextSection==~0U)
-		getSection();
-	if (m_posRead >= m_posNextSection)
-        return str;
-    int idx = find( '\n', m_posRead );
-    if( idx==-1 )
-        idx = find( '\0', m_posRead );
-    if( idx==-1 )
-        idx = length();
-    str = mid( m_posRead, idx - m_posRead );
-    m_posRead += str.length();
-    if ( at(m_posRead) == '\n' )
-        m_posRead++;
-    if ( m_posRead >= length() )
-        m_posRead = length();
-    return str;
-}
-
-int ConfigBuffer::findStartSection(unsigned start)
-{
-    int idx = start;
-
-    do {
-        idx = find( '[', idx);
-        if(idx == -1)
-            return -1;
-        if( idx == 0 || at( idx - 1 ) == '\n' )
-            return idx;
-        idx++;
-    } while(true);
-}
-
-int ConfigBuffer::findEndSection(unsigned start)
-{
-    int idx = start;
-
-    do {
-        idx = find( ']', idx);
-        if(idx == -1)
-            return -1;
-        if( idx == (int)length() - 1 || at( idx + 1 ) == '\n' )
-            return idx;
-        idx++;
-    } while(true);
-}
-
-
-EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
-{
-    LogInfo li;
-    li.log_level = bOut ? L_PACKET_OUT : L_PACKET_IN;
-    li.log_info  = &buf;
-    li.packet_id = packet_id;
-    li.add_info  = add_info;
-    Event e(EventLog, &li);
-    e.process();
+    unsigned readn = size() - m_posRead;
+    if (s < readn)
+        readn = s;
+    d = QString::fromUtf8(data() + m_posRead, readn);
+    m_posRead += readn;
+    return readn;
 }

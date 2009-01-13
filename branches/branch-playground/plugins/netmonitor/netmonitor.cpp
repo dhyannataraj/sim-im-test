@@ -15,16 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "netmonitor.h"
-#include "simapi.h"
-#include "monitor.h"
-
 #include <qtimer.h>
 #include <qwidget.h>
 
+#include "misc.h"
+#include "core_consts.h"
+
+#include "netmonitor.h"
+#include "monitor.h"
+
+using namespace std;
 using namespace SIM;
 
-Plugin *createNetmonitorPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createNetmonitorPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new NetmonitorPlugin(base, config);
     return plugin;
@@ -45,15 +48,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct NetMonitorData
-{
-    unsigned long	LogLevel;
-	char			*LogPackets;
-    long			geometry[5];
-    bool			Show;
-} NetMonitorData;
-*/
 static DataDef monitorData[] =
     {
         { "LogLevel", DATA_ULONG, 1, DATA(7) },
@@ -63,15 +57,17 @@ static DataDef monitorData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-NetmonitorPlugin::NetmonitorPlugin(unsigned base, ConfigBuffer *config)
+NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(monitorData, &data, config);
 
-    QString packets = getLogPackets();
-    while (packets.length()){
-        QString v = getToken(packets, ',');
-        setLogType(v.toULong(), true);
+    if (getLogPackets()){
+        QString packets = getLogPackets();
+        while (packets.length()){
+            QString v = getToken(packets, ',');
+            setLogType(v.toULong(), true);
+        }
     }
 
     monitor = NULL;
@@ -85,34 +81,29 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0x8000;
     cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
-
-    CmdParam p;
-    p.arg   = "-m";
-    p.descr = I18N_NOOP("Show network monitor");
-
-    Event e(EventArg, &p);
+    EventArg e("-m", I18N_NOOP("Show network monitor"));
     if (e.process() || getShow())
         showMonitor();
 }
 
 NetmonitorPlugin::~NetmonitorPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdNetMonitor);
-    eCmd.process();
+    EventCommandRemove(CmdNetMonitor).process();
 
     delete monitor;
+
     free_data(monitorData, &data);
 }
 
-QString NetmonitorPlugin::getConfig()
+QCString NetmonitorPlugin::getConfig()
 {
     saveState();
     setShow(monitor != NULL);
     QString packets;
-    for (QValueList<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    QValueList<unsigned>::ConstIterator it;
+    for (it = m_packets.constBegin(); it != m_packets.constEnd(); ++it){
         if (packets.length())
             packets += ',';
         packets += QString::number(*it);
@@ -123,13 +114,12 @@ QString NetmonitorPlugin::getConfig()
 
 bool NetmonitorPlugin::isLogType(unsigned id)
 {
-    return (m_packets.find(id) != m_packets.end());
+    return ( m_packets.find( id ) != m_packets.end() );
 }
 
 void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
 {
     QValueList<unsigned>::iterator it = m_packets.find(id);
-
     if (bLog){
         if (it == m_packets.end())
             m_packets.push_back(id);
@@ -139,7 +129,7 @@ void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
     }
 }
 
-const long NO_DATA = -1;
+const unsigned NO_DATA = (unsigned)(-1);
 
 void NetmonitorPlugin::showMonitor()
 {
@@ -154,16 +144,17 @@ void NetmonitorPlugin::showMonitor()
     raiseWindow(monitor);
 }
 
-void *NetmonitorPlugin::processEvent(Event *e)
+bool NetmonitorPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdNetMonitor){
             showMonitor();
-            return monitor;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void NetmonitorPlugin::finished()

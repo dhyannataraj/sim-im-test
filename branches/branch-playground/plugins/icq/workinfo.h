@@ -18,25 +18,25 @@
 #ifndef _WORKINFO_H
 #define _WORKINFO_H
 
-#include "simapi.h"
 #include "workinfobase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class WorkInfo : public WorkInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
+    WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
     void goUrl();
     void urlChanged(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
-    struct ICQUserData *m_data;
+    ICQUserData *m_data;
     unsigned  m_contact;
     ICQClient *m_client;
 };

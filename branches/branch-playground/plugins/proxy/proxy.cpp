@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "proxy.h"
-#include "proxycfg.h"
-#include "socket.h"
-#include "newprotocol.h"
-#include "proxyerror.h"
-#include "fetch.h"
-
 #include <qtabwidget.h>
 #include <qobjectlist.h>
 
@@ -35,6 +28,17 @@
 #include <arpa/inet.h>
 #endif
 
+#include "fetch.h"
+#include "log.h"
+#include "misc.h"
+#include "socket.h"
+
+#include "proxy.h"
+#include "proxycfg.h"
+#include "newprotocol.h"
+#include "proxyerror.h"
+
+using namespace std;
 using namespace SIM;
 
 #ifndef INADDR_NONE
@@ -45,18 +49,6 @@ static const char *CONNECT_ERROR = I18N_NOOP("Can't connect to proxy");
 static const char *ANSWER_ERROR  = I18N_NOOP("Bad proxy answer");
 static const char *AUTH_ERROR    = I18N_NOOP("Proxy authorization failed");
 static const char *STATE_ERROR	 = "Connect in bad state";
-
-/*
-typedef struct ProxyData
-{
-    unsigned long	Type;
-	char			*Host;
-	unsigned long	Port;
-	unsigned		Auth;
-	char			*User;
-	char			*Password;
-} ProxyData;
-*/
 
 static DataDef _proxyData[] =
     {
@@ -76,7 +68,7 @@ static DataDef _proxyData[] =
 ProxyData::ProxyData()
 {
     bInit = false;
-    load_data(_proxyData, this);
+    load_data(_proxyData, this, NULL);
 }
 
 ProxyData::ProxyData(const ProxyData &d)
@@ -89,12 +81,14 @@ ProxyData::ProxyData(const char *cfg)
 {
     bInit = false;
     if (cfg) {
-        ConfigBuffer config( QString( "[Title]\n" ) + cfg );
+        Buffer config;
+        config << "[Title]\n" << cfg;
+        config.setWritePos(0);
         config.getSection();
         load_data(_proxyData, this, &config);
         bInit = true;
     }else{
-        load_data(_proxyData, this);
+        load_data(_proxyData, this, NULL);
     }
 }
 
@@ -128,19 +122,21 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
         bInit = false;
     }
     if (d.bInit){
-        ConfigBuffer cfg( QString( "[Title]\n" ) +  save_data(_proxyData, (void*)(&d)).latin1() );
+        Buffer cfg;
+        cfg = "[Title]\n" + save_data(_proxyData, (void*)(&d));
+        cfg.setWritePos(0);
         cfg.getSection();
         load_data(_proxyData, this, &cfg);
         bInit = true;
         Default = d.Default;
     }else{
-        load_data(_proxyData, this);
+        load_data(_proxyData, this, NULL);
     }
 
     return *this;
 }
 
-ProxyData& ProxyData::operator = (ConfigBuffer *cfg)
+ProxyData& ProxyData::operator = (Buffer *cfg)
 {
     if (bInit){
         free_data(_proxyData, this);
@@ -174,7 +170,7 @@ public:
 protected:
     virtual void write();
     virtual void write_ready();
-    virtual void error_state(const QString &text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code = 0);
     virtual void proxy_connect_ready();
     void read(unsigned size, unsigned minsize=0);
     bool		m_bClosed;
@@ -222,7 +218,7 @@ Proxy::Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
     m_sock     = NULL;
     m_client   = client;
     m_bClosed  = false;
-    m_plugin->proxies.append(this);
+    m_plugin->proxies.push_back(this);
     bIn.packetStart();
     bOut.packetStart();
 }
@@ -233,7 +229,7 @@ Proxy::~Proxy()
         static_cast<ClientSocket*>(notify)->setSocket(m_sock);
     if (m_sock)
         delete m_sock;
-    for (QValueList<Proxy*>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
+    for (list<Proxy*>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
         if (*it == this){
             m_plugin->proxies.erase(it);
             break;
@@ -306,15 +302,16 @@ void Proxy::read(unsigned size, unsigned minsize)
     bIn.packetStart();
     int readn = m_sock->read(bIn.data(0), size);
     if ((readn != (int)size) || (minsize && (readn < (int)minsize))){
-        if (notify) notify->error_state("Error proxy read");
+        if (notify)
+            notify->error_state("Error proxy read");
         return;
     }
-    log_packet(bIn, false, m_plugin->ProxyPacket);
+    EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
 }
 
 void Proxy::write()
 {
-    log_packet(bOut, true, m_plugin->ProxyPacket);
+    EventLog::log_packet(bOut, true, m_plugin->ProxyPacket);
     m_sock->write(bOut.data(0), bOut.size());
     bOut.init(0);
     bOut.packetStart();
@@ -365,7 +362,7 @@ void Listener::close()
 
 void Listener::write()
 {
-    log_packet(bOut, true, m_plugin->ProxyPacket);
+    EventLog::log_packet(bOut, true, m_plugin->ProxyPacket);
     m_sock->write(bOut.data(0), bOut.size());
     bOut.init(0);
     bOut.packetStart();
@@ -381,7 +378,7 @@ void Listener::read(unsigned size, unsigned minsize)
             delete notify;
         return;
     }
-    log_packet(bIn, false, m_plugin->ProxyPacket);
+    EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
 }
 
 void Listener::write_ready()
@@ -415,7 +412,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const QString &text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code = 0);
     enum State
     {
         Connect,
@@ -444,12 +441,11 @@ void SOCKS4_Proxy::connect(const QString &host, unsigned short port)
     m_state = Connect;
 }
 
-void SOCKS4_Proxy::error_state(const QString &t, unsigned code)
+void SOCKS4_Proxy::error_state(const QString &text, unsigned code)
 {
-    QString text = t;
     if (m_state == Connect){
-        text = CONNECT_ERROR;
-        code = m_plugin->ProxyErr;
+        Proxy::error_state(CONNECT_ERROR, m_plugin->ProxyErr);
+        return;
     }
     Proxy::error_state(text, code);
 }
@@ -582,7 +578,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const QString &text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code = 0);
     void send_listen();
     enum State
     {
@@ -679,12 +675,11 @@ void SOCKS5_Proxy::read_ready()
     }
 }
 
-void SOCKS5_Proxy::error_state(const QString &t, unsigned code)
+void SOCKS5_Proxy::error_state(const QString &text, unsigned code)
 {
-    QString text = t;
     if (m_state == Connect){
-        text = CONNECT_ERROR;
-        code = m_plugin->ProxyErr;
+        Proxy::error_state(CONNECT_ERROR, m_plugin->ProxyErr);
+        return;
     }
     Proxy::error_state(text, code);
 }
@@ -701,7 +696,7 @@ void SOCKS5_Proxy::send_connect()
     }else{
         bOut << (char)0x03		/* address type -- host name */
         << (char)m_host.length();
-        bOut.pack(m_host, m_host.length());
+        bOut.pack(m_host.local8Bit().data(), m_host.length());
     }
     bOut << m_port;
     m_state = WaitConnect;
@@ -891,12 +886,11 @@ void HTTPS_Proxy::send_auth()
     }
 }
 
-void HTTPS_Proxy::error_state(const QString &t, unsigned code)
+void HTTPS_Proxy::error_state(const QString &text, unsigned code)
 {
-    QString text = t;
     if (m_state == Connect){
-        text = CONNECT_ERROR;
-        code = m_plugin->ProxyErr;
+        Proxy::error_state(CONNECT_ERROR, m_plugin->ProxyErr);
+        return;
     }
     Proxy::error_state(text, code);
 }
@@ -907,19 +901,20 @@ void HTTPS_Proxy::read_ready()
         QCString s;
         if (!readLine(s))
             return;
-        if (s.left(strlen(HTTP)) != QCString(HTTP)){
+        if (s.length() < strlen(HTTP)){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         int idx = s.find(' ');
-        int idx2 = s.find(' ', idx + 1);
         if (idx == -1){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
-        if(idx2 == -1)
-            idx2 = s.length();
-        int code = s.mid(idx + 1, idx2 - idx).toInt();
+        s = s.mid(idx + 1);
+        idx = s.find(' ');
+        if (idx!=-1)
+            s=s.left(idx+1);
+        int code = s.toInt();
         if (code == 407){
             error_state(AUTH_ERROR, m_plugin->ProxyErr);
             return;
@@ -959,7 +954,8 @@ bool HTTPS_Proxy::readLine(QCString &s)
             break;
         bIn << c;
     }
-    log_packet(bIn, false, m_plugin->ProxyPacket);
+    bIn << '\0';
+    EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
     if(bIn.size())
         s = bIn;
     bIn.init(0);
@@ -1016,14 +1012,12 @@ void HTTP_Proxy::read_ready()
         return;
     }
     int idx = m_head.find(' ');
-    int idx2 = m_head.find(' ', idx + 1);
     if (idx == -1){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    if(idx2 == -1)
-        idx2 = m_head.length();
-    int code = m_head.mid(idx + 1, idx2 - idx).toInt();
+    QCString str = m_head.mid(idx + 1);
+    int code = str.toInt();
     if (code == 407){
         error_state(AUTH_ERROR, m_plugin->ProxyErr);
         return;
@@ -1117,12 +1111,8 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
                 break;
             QCString param = getToken(line, ':');
             if (param == "Content-Length"){
-                const char *p = line.data();
-                for (; *p; p++){
-                    if (*p != ' ')
-                        break;
-                }
-                m_size = atol(p);
+                QCString p = line.stripWhiteSpace();
+                m_size = p.toUInt();
             }
             bOut << param.data() << ":" << line.data() << "\r\n";
         }
@@ -1144,7 +1134,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
 // ______________________________________________________________________________________
 
 
-Plugin *createProxyPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createProxyPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new ProxyPlugin(base, config);
     return plugin;
@@ -1164,7 +1154,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-ProxyPlugin::ProxyPlugin(unsigned base, ConfigBuffer *config)
+ProxyPlugin::ProxyPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     data = config;
@@ -1175,9 +1165,9 @@ ProxyPlugin::ProxyPlugin(unsigned base, ConfigBuffer *config)
 
 ProxyPlugin::~ProxyPlugin()
 {
-    for (QValueList<Proxy*>::iterator it = proxies.begin(); it != proxies.end(); ++it)
-        delete *it;
-
+    while (proxies.size()){
+        delete proxies.front();
+    }
     getContacts()->removePacketType(ProxyPacket);
 }
 
@@ -1219,87 +1209,95 @@ static QObject *findObject(QObject *w, const char *className)
     return res;
 }
 
-void *ProxyPlugin::processEvent(Event *e)
+bool ProxyPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventSocketConnect){
-        ConnectParam *p = (ConnectParam*)(e->param());
-        for (QValueList<Proxy*>::iterator it = proxies.begin(); it != proxies.end(); ++it){
-            if ((*it)->notify == p->socket)
-                return NULL;
+    switch (e->type()) {
+    case eEventSocketConnect: {
+        EventSocketConnect *esc = static_cast<EventSocketConnect*>(e);
+        list<Proxy*>::iterator it;
+        for (it = proxies.begin(); it != proxies.end(); ++it){
+            if ((*it)->getNotify() == esc->socket())
+                return false;
         }
         ProxyData data;
-        clientData(p->client, data);
+        clientData(esc->client(), data);
         Proxy *proxy = NULL;
-        switch (data.Type.asULong()){
+        switch (data.Type.toULong()){
         case PROXY_SOCKS4:
-            proxy = new SOCKS4_Proxy(this, &data, p->client);
+            proxy = new SOCKS4_Proxy(this, &data, esc->client());
             break;
         case PROXY_SOCKS5:
-            proxy = new SOCKS5_Proxy(this, &data, p->client);
+            proxy = new SOCKS5_Proxy(this, &data, esc->client());
             break;
         case PROXY_HTTPS:
-            if (p->client == (TCPClient*)(-1)){
-                proxy = new HTTP_Proxy(this, &data, p->client);
+            if (esc->client() == (TCPClient*)(-1)){
+                proxy = new HTTP_Proxy(this, &data, esc->client());
             }else{
-                proxy = new HTTPS_Proxy(this, &data, p->client);
+                proxy = new HTTPS_Proxy(this, &data, esc->client());
             }
             break;
         }
         if (proxy){
-            proxy->setSocket(p->socket);
-            return e->param();
+            proxy->setSocket(esc->socket());
+            return true;
         }
+        break;
     }
-    if (e->type() == EventSocketListen){
-        ListenParam *p = (ListenParam*)(e->param());
+    case eEventSocketListen: {
+        EventSocketListen *esl = static_cast<EventSocketListen*>(e);
         ProxyData data;
-        clientData(p->client, data);
+        clientData(esl->client(), data);
         Listener *listener = NULL;
         switch (data.Type.toULong()){
         case PROXY_SOCKS4:
-            listener = new SOCKS4_Listener(this, &data, p->notify, p->client->ip());
+            listener = new SOCKS4_Listener(this, &data, esl->notify(), esl->client()->ip());
             break;
         case PROXY_SOCKS5:
-            listener = new SOCKS5_Listener(this, &data, p->notify, p->client->ip());
+            listener = new SOCKS5_Listener(this, &data, esl->notify(), esl->client()->ip());
             break;
         }
         if (listener)
-            return e->param();
+            return true;
+        break;
     }
-    if (e->type() == EventRaiseWindow){
-        QWidget *w = (QWidget*)(e->param());
-        if (!w->inherits("NewProtocol"))
-            return NULL;
+    case eEventRaiseWindow: {
+        EventRaiseWindow *win = static_cast<EventRaiseWindow*>(e);
+        QWidget *w = win->widget();
+        if (!w || !w->inherits("NewProtocol"))
+            return false;
         NewProtocol *p = static_cast<NewProtocol*>(w);
         if (p->m_client->protocol()->description()->flags & PROTOCOL_NOPROXY)
-            return NULL;
+            return false;
         ProxyConfig *cfg = static_cast<ProxyConfig*>(findObject(w, "ProxyConfig"));
         if (cfg)
-            return NULL;
+            return false;
         QTabWidget *tab  = static_cast<QTabWidget*>(findObject(w, "QTabWidget"));
         if (tab){
             cfg = new ProxyConfig(tab, this, tab, p->m_client);
             QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), cfg, SLOT(apply()));
         }
+        break;
     }
-    if (e->type() == EventClientError){
-        clientErrorData *data = (clientErrorData*)(e->param());
-        if (data->code == ProxyErr){
-            QString msg = i18n(data->err_str);
-            if (!data->err_str.isEmpty()){
-                if (!data->args.isEmpty()){
-                    msg = msg.arg(data->args);
-                }
-            }
-            ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data->client), msg);
+    case eEventClientError: {
+        EventClientError *ee = static_cast<EventClientError*>(e);
+        const EventError::ClientErrorData &data = ee->data();
+        if (data.code == ProxyErr){
+            QString msg;
+            if (!data.err_str.isEmpty())
+                msg = i18n(data.err_str).arg(data.args);
+            ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data.client), msg);
             raiseWindow(err);
-            return e->param();
+            return true;
         }
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
-QString ProxyPlugin::getConfig()
+QCString ProxyPlugin::getConfig()
 {
     return save_data(_proxyData, &data);
 }

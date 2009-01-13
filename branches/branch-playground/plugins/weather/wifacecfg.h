@@ -18,7 +18,6 @@
 #ifndef _WIFACECFG_H
 #define _WIFACECFG_H
 
-#include "simapi.h"
 #include "wifacecfgbase.h"
 
 class WeatherPlugin;

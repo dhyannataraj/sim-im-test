@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "usercfg.h"
 #include "prefcfg.h"
 #include "maininfo.h"
-#include "simapi.h"
 #include "core.h"
 #include "arcfg.h"
 
@@ -83,7 +83,7 @@ void ConfigItem::init(unsigned id)
     m_id = id;
     QString key = QString::number(++curIndex);
     while (key.length() < 4)
-        key = "0" + key;
+        key = '0' + key;
     setText(1, key);
 }
 
@@ -121,7 +121,7 @@ PrefItem::PrefItem(QListViewItem *parent, CommandDef *cmd)
 {
     m_cmd = cmd;
     QString title = i18n(cmd->text);
-    title = title.replace(QRegExp("&"), "");
+    title = title.remove('&');
     setText(0, title);
     setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
 }
@@ -214,9 +214,37 @@ protected:
 ARItem::ARItem(QListViewItem *item, const CommandDef *def)
         : ConfigItem(item, 0)
 {
+    QString icon;
+
     m_status = def->id;
     setText(0, i18n(def->text));
-    setPixmap(0, Pict(def->icon, listView()->colorGroup().base()));
+    switch (def->id){
+    case STATUS_ONLINE: 
+        icon="SIM_online";
+        break;
+    case STATUS_AWAY:
+        icon="SIM_away";
+        break;
+    case STATUS_NA:
+        icon="SIM_na";
+        break;
+    case STATUS_DND:
+        icon="SIM_dnd";
+        break;
+    case STATUS_OCCUPIED:
+        icon="SIM_occupied";
+        break;
+    case STATUS_FFC:
+        icon="SIM_ffc";
+        break;
+    case STATUS_OFFLINE:
+        icon="SIM_offline";
+        break;
+    default:
+        icon=def->icon;
+        break;
+    }
+    setPixmap(0, Pict(icon, listView()->colorGroup().base()));
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
@@ -291,7 +319,7 @@ void UserConfig::setTitle()
         title = i18n("Setting for group '%1'") .arg(groupName);
     }
     if (m_nUpdates){
-        title += " ";
+        title += ' ';
         title += i18n("[Update info]");
     }
     setCaption(title);
@@ -412,7 +440,7 @@ void UserConfig::apply()
     emit applyChanges();
     if (m_contact)
         getContacts()->addContact(m_contact);
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
 }
 
@@ -421,58 +449,73 @@ void UserConfig::itemSelected(QListViewItem *item)
     static_cast<ConfigItem*>(item)->show();
 }
 
-void *UserConfig::processEvent(Event *e)
+bool UserConfig::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventContactDeleted:{
-            Contact *contact = (Contact*)(e->param());
-            if (contact == m_contact)
-                close();
-            return NULL;
-        }
-    case EventGroupDeleted:{
-            Group *group = (Group*)(e->param());
+    case eEventGroup:{
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        Group *group = ev->group();
+        switch(ev->action()) {
+        case EventGroup::eDeleted:
             if (group == m_group)
                 close();
-            return NULL;
+            return false;
+        case EventGroup::eChanged:
+            if (group == m_group)
+                setTitle();
+            return false;
+        case EventGroup::eAdded:
+            return false;
         }
-    case EventFetchInfoFail:{
-            Contact *contact = (Contact*)(e->param());
-            if ((contact == m_contact) && m_nUpdates){
-                if (--m_nUpdates == 0){
-                    btnUpdate->setEnabled(true);
-                    setTitle();
-                }
-            }
-            return NULL;
-        }
-    case EventContactCreated:
-    case EventContactChanged:{
-            Contact *contact = (Contact*)(e->param());
-            if (contact == m_contact){
+        break;
+    }
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        if (contact != m_contact)
+            break;
+        switch(ec->action()) {
+            case EventContact::eCreated:
                 if (m_nUpdates)
                     m_nUpdates--;
                 btnUpdate->setEnabled(m_nUpdates == 0);
                 setTitle();
-            }
-            return NULL;
-        }
-    case EventGroupChanged:{
-            Group *group = (Group*)(e->param());
-            if (group == m_group)
+            case EventContact::eDeleted:
+                close();
+                break;
+            case EventContact::eChanged:
+                if (m_nUpdates)
+                    m_nUpdates--;
+                btnUpdate->setEnabled(m_nUpdates == 0);
                 setTitle();
-            return NULL;
+                break;
+            case EventContact::eFetchInfoFailed:
+                if (m_nUpdates){
+                    if (--m_nUpdates == 0){
+                        btnUpdate->setEnabled(true);
+                        setTitle();
+                    }
+                }
+                break;
+            default:
+                break;
         }
-    case EventCommandRemove:
-        removeCommand((unsigned long)(e->param()));
-        return NULL;
-    case EventLanguageChanged:
-    case EventPluginChanged:
-    case EventClientsChanged:
-        fill();
-        return NULL;
+        break;
     }
-    return NULL;
+    case eEventCommandRemove: {
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        removeCommand(ecr->id());
+        return false;
+    }
+    case eEventLanguageChanged:
+    case eEventPluginChanged:
+    case eEventClientsChanged:
+        fill();
+        return false;
+    default:
+        break;
+    }
+    return false;
 }
 
 void UserConfig::removeCommand(unsigned id)

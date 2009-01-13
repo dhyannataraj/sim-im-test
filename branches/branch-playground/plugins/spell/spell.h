@@ -18,21 +18,23 @@
 #ifndef _SPELL_H
 #define _SPELL_H
 
-#include "simapi.h"
-#include "stl.h"
-
-#include <qdict.h>
+#include <qobject.h>
 #include <qstringlist.h>
+
+#include "cfg.h"
+#include "event.h"
+#include "misc.h"
+#include "plugins.h"
 
 using std::list;
 
-typedef struct SpellData
+struct SpellData
 {
 #ifdef WIN32
     SIM::Data	Path;
 #endif
     SIM::Data	Lang;
-} SpellData;
+};
 
 class TextEdit;
 class QSyntaxHighlighter;
@@ -47,7 +49,7 @@ class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceive
 {
     Q_OBJECT
 public:
-    SpellPlugin(unsigned, ConfigBuffer*);
+    SpellPlugin(unsigned, Buffer*);
     ~SpellPlugin();
 #ifdef WIN32
     PROP_STR(Path);
@@ -67,8 +69,8 @@ protected slots:
     void check(const QString &word);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event *e);
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void activate();
     void deactivate();

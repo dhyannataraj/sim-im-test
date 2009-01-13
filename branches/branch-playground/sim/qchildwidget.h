@@ -18,6 +18,8 @@
 #ifndef _QCHILDWIDGET_H
 #define _QCHILDWIDGET_H
 
+#include <qwidget.h>
+
 #include "simapi.h"
 
 class EXPORT QChildWidget : public QWidget

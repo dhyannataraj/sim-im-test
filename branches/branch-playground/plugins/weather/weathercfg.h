@@ -18,9 +18,11 @@
 #ifndef _WEATHERCFG_H
 #define _WEATHERCFG_H
 
-#include "sax.h"
-#include "weathercfgbase.h"
+#include "event.h"
 #include "fetch.h"
+#include "sax.h"
+
+#include "weathercfgbase.h"
 
 class WeatherPlugin;
 class WIfaceCfg;
@@ -37,8 +39,8 @@ public slots:
     void activated(int index);
     void textChanged(const QString&);
 protected:
-    bool done(unsigned code, Buffer &data, const char *headers);
-    void *processEvent(SIM::Event*);
+    bool done(unsigned code, Buffer &data, const QString &headers);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     WeatherPlugin *m_plugin;
     WIfaceCfg	  *m_iface;
@@ -46,9 +48,9 @@ protected:
     QString			m_data;
     QStringList		m_ids;
     QStringList		m_names;
-    void		element_start(const char *el, const char **attr);
-    void		element_end(const char *el);
-    void		char_data(const char *str, int len);
+    void		element_start(const QString& el, const QXmlAttributes& attrs);
+    void		element_end(const QString& el);
+    void		char_data(const QString& str);
 };
 
 #endif

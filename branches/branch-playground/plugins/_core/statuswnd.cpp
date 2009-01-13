@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "statuswnd.h"
 #include "core.h"
 #include "ballonmsg.h"
@@ -115,7 +116,7 @@ void StatusLabel::setPict()
     QPixmap p = Pict(icon);
     setPixmap(p);
     QString tip = CorePlugin::m_plugin->clientName(m_client);
-    tip += "\n";
+    tip += '\n';
     tip += i18n(text);
     QToolTip::add(this, tip);
     resize(p.width(), p.height());
@@ -131,12 +132,9 @@ void StatusLabel::timeout()
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
     if (me->button() == RightButton){
-        ProcessMenuParam mp;
-        mp.id = m_id;
-        mp.param = (void*)winId();
-        mp.key	 = 0;
-        Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *popup = (QPopupMenu*)eMenu.process();
+        EventMenuProcess eMenu(m_id, (void *)winId());
+        eMenu.process();
+        QPopupMenu *popup = eMenu.menu();
         if (popup){
             QPoint pos = CToolButton::popupPos(this, popup);
             popup->popup(pos);
@@ -163,33 +161,32 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
     if (me->button() == RightButton){
         Command cmd;
         cmd->id = MenuConnections;
-        Event e(EventGetMenu, &cmd);
-        QPopupMenu *popup = (QPopupMenu*)(e.process());
+        EventMenuGet e(cmd);
+        e.process();
+        QPopupMenu *popup = e.menu();
         if (popup)
             popup->popup(me->globalPos());
     }
 }
 
-void *StatusFrame::processEvent(Event *e)
+bool StatusFrame::processEvent(Event *e)
 {
-    CommandDef *cmd;
     switch (e->type()){
-    case EventSocketActive:{
-            {
-                QObjectList *l = queryList("StatusLabel");
-                QObjectListIt itObject(*l);
-                QObject *obj;
-                while ((obj=itObject.current()) != NULL) {
-                    ++itObject;
-                    StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-                    lbl->setPict();
-                }
-                delete l;
-            }
-            break;
+    case eEventSocketActive:{
+        QObjectList *l = queryList("StatusLabel");
+        QObjectListIt itObject(*l);
+        QObject *obj;
+        while ((obj=itObject.current()) != NULL) {
+            ++itObject;
+            StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+            lbl->setPict();
         }
-    case EventCheckState:
-        cmd = (CommandDef*)(e->param());
+        delete l;
+        break;
+    }
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
             unsigned n = 0;
             {
@@ -236,19 +233,21 @@ void *StatusFrame::processEvent(Event *e)
             delete l;
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return true;
         }
         break;
-    case EventClientsChanged:
+    }
+    case eEventClientsChanged:
         addClients();
         break;
-    case EventClientChanged:{
-            StatusLabel *lbl = findLabel((Client*)(e->param()));
-            if (lbl)
-                lbl->setPict();
-            break;
-        }
-    case EventIconChanged:{
+    case eEventClientChanged:{
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        StatusLabel *lbl = findLabel(ecc->client());
+        if (lbl)
+            lbl->setPict();
+        break;
+    }
+    case eEventIconChanged:{
             QObjectList *l = queryList("StatusLabel");
             QObjectListIt itObject(*l);
             QObject *obj;
@@ -259,8 +258,10 @@ void *StatusFrame::processEvent(Event *e)
             delete l;
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void StatusFrame::addClients()
@@ -366,11 +367,7 @@ StatusWnd::StatusWnd()
     m_lay->addWidget(m_btn);
     connect(m_frame, SIGNAL(showButton(bool)), this, SLOT(showButton(bool)));
     connect(m_btn, SIGNAL(clicked()), this, SLOT(clicked()));
-    WindowDef wnd;
-    wnd.widget = this;
-    wnd.bDown  = true;
-    Event e(EventAddStatus, &wnd);
-    e.process();
+    EventAddWidget(this, true, EventAddWidget::eStatusWindow).process();
 }
 
 void StatusWnd::showButton(bool bState)
@@ -387,8 +384,9 @@ void StatusWnd::clicked()
     Command cmd;
     cmd->popup_id = MenuStatusWnd;
     cmd->flags    = COMMAND_NEW_POPUP;
-    Event e(EventGetMenu, cmd);
-    QPopupMenu *popup = (QPopupMenu*)(e.process());
+    EventMenuGet e(cmd);
+    e.process();
+    QPopupMenu *popup = e.menu();
     if (popup){
         QPoint pos = CToolButton::popupPos(m_btn, popup);
         popup->popup(pos);

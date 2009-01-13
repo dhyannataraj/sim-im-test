@@ -1,5 +1,6 @@
 if test "x$kde_use_qt_win" = "xno"; then
 	compile_plugin="no"
+	XSS_LIBS="no"
 	save_CPPFLAGS="$CPPFLAGS"
 	save_LDFLAGS="$LDFLAGS"
 	LDFLAGS="$LDFLAGS $all_libraries"

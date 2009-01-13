@@ -18,14 +18,16 @@
 #ifndef _FORWARD_H
 #define _FORWARD_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
 
-typedef struct ForwardUserData
+struct ForwardUserData
 {
     SIM::Data	Phone;
     SIM::Data	Send1st;
     SIM::Data	Translit;
-} ForwardUserData;
+};
 
 class CorePlugin;
 
@@ -38,7 +40,7 @@ public:
 protected:
     CorePlugin	*core;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
 };
 
 #endif

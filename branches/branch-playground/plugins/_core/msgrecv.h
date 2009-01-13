@@ -18,7 +18,7 @@
 #ifndef _MSGRECV_H
 #define _MSGRECV_H
 
-#include "simapi.h"
+#include "event.h"
 
 #include <qtoolbutton.h>
 
@@ -32,7 +32,7 @@ public:
 public slots:
     void init();
 protected:
-    void           *processEvent(SIM::Event*);
+    virtual bool    processEvent(SIM::Event*);
     unsigned        m_type;
     unsigned        m_id;
     unsigned        m_contact;

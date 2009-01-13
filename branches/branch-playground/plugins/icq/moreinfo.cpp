@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "icons.h"
 #include "moreinfo.h"
 #include "icqclient.h"
 #include "datepicker.h"
@@ -28,7 +28,7 @@
 
 using namespace SIM;
 
-MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+MoreInfo::MoreInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : MoreInfoBase(parent)
 {
     m_data    = data;
@@ -60,19 +60,22 @@ void MoreInfo::apply()
 {
 }
 
-void *MoreInfo::processEvent(Event *e)
+bool MoreInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 const ext_info genders[] =
@@ -140,11 +143,12 @@ const ext_info languages[] =
         {I18N_NOOP("Vietnamese"), 52},
         {I18N_NOOP("Yiddish"), 53},
         {I18N_NOOP("Yoruba"), 54},
-        {I18N_NOOP("Taiwanese"), 55},
-        {I18N_NOOP("Afrikaans"), 56},
+        {I18N_NOOP("Afrikaans"), 55},
         {I18N_NOOP("Persian"), 57},
         {I18N_NOOP("Albanian"), 58},
         {I18N_NOOP("Armenian"), 59},
+        {I18N_NOOP("Kyrgyz"), 123},
+        {I18N_NOOP("Maltese"), 125},
         {"", 0}
     };
 
@@ -153,12 +157,20 @@ const ext_info *p_languages = languages;
 void MoreInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
+    if (data == NULL)
+        data = &m_client->data.owner;
     edtHomePage->setText(data->Homepage.str());
-    initCombo(cmbGender, (unsigned short)(data->Gender.toULong()), genders);
-    if (spnAge->text() == "0") spnAge->setSpecialValueText("");
-    edtDate->setDate(data->BirthDay.toULong(), data->BirthMonth.toULong(), data->BirthYear.toULong());
-    birthDayChanged();
+    initCombo(cmbGender, data->Gender.toULong(), genders);
+    if (spnAge->text() == "0")
+        spnAge->setSpecialValueText(QString::null);
+    
+	if (data->BirthYear.toULong()>0 && data->BirthMonth.toULong()>0 && data->BirthDay.toULong()>0) {
+		QDate date;
+		date.setYMD(data->BirthYear.toULong(), data->BirthMonth.toULong(), data->BirthDay.toULong());
+		edtDate->setDate(date);
+		birthDayChanged();
+	}
+
     unsigned l = data->Language.toULong();
     char l1 = (char)(l & 0xFF);
     l = l >> 8;
@@ -174,8 +186,9 @@ void MoreInfo::fill()
 
 void MoreInfo::birthDayChanged()
 {
-    int day, month, year;
-    edtDate->getDate(day, month, year);
+    int day = edtDate->getDate().day();
+    int month = edtDate->getDate().month();
+    int year = edtDate->getDate().year();
     if (year){
         QDate now = QDate::currentDate();
         int age = now.year() - year;
@@ -195,7 +208,9 @@ void MoreInfo::goUrl()
     QString url = edtHomePage->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)&url);
+    if(!url.startsWith("http://"))
+        url = "http://" + url;
+    EventGoURL e(url);
     e.process();
 }
 
@@ -207,7 +222,8 @@ void MoreInfo::setLang(int)
     l[2] = cmbLang3->currentItem();
     unsigned j = 0;
     for (unsigned i = 0; i < 3; i++)
-        if (l[i]) sl[j++] = l[i];
+        if (l[i])
+            sl[j++] = l[i];
     for (; j < 3; j++)
         sl[j] = 0;
     cmbLang1->setCurrentItem(sl[0]);
@@ -221,14 +237,12 @@ void MoreInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->Homepage.str() = edtHomePage->text();
     data->Gender.asULong() = getComboValue(cmbGender, genders);
-    int day, month, year;
-    edtDate->getDate(day, month, year);
-    data->BirthMonth.asULong() = month;
-    data->BirthDay.asULong()   = day;
-    data->BirthYear.asULong()  = year;
+    data->BirthMonth.asULong() = edtDate->getDate().month();
+    data->BirthDay.asULong()   = edtDate->getDate().day();
+    data->BirthYear.asULong()  = edtDate->getDate().year();
     unsigned l1 = getComboValue(cmbLang1, languages);
     unsigned l2 = getComboValue(cmbLang2, languages);
     unsigned l3 = getComboValue(cmbLang3, languages);

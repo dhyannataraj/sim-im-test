@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>VerifyDlg</string>
+        <string>Verification Dialog</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>

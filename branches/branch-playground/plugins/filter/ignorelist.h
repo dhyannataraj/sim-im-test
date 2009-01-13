@@ -18,8 +18,9 @@
 #ifndef _IGNORELIST_H
 #define _IGNORELIST_H
 
-#include "simapi.h"
 #include "ignorelistbase.h"
+
+#include "event.h"
 
 class QListViewItem;
 
@@ -34,9 +35,10 @@ protected slots:
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void removeItem(QListViewItem*);
     void updateItem(QListViewItem*, SIM::Contact*);
+    void unignoreItem(QListViewItem*);
     QListViewItem *findItem(SIM::Contact*);
 };
 

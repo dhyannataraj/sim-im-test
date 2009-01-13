@@ -18,23 +18,23 @@
 #ifndef _YAHOOINFO_H
 #define _YAHOOINFO_H
 
-#include "simapi.h"
 #include "yahooinfobase.h"
 
 class YahooClient;
+struct YahooUserData;
 
 class YahooInfo : public YahooInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    YahooInfo(QWidget *parent, struct YahooUserData *data, YahooClient *client);
+    YahooInfo(QWidget *parent, YahooUserData *data, YahooClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
-    struct YahooUserData *m_data;
+    YahooUserData *m_data;
     YahooClient *m_client;
 };
 

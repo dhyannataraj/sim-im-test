@@ -32,7 +32,7 @@ check_autotool_versions()
 required_autoconf_version="2.53 or newer"
 AUTOCONF_VERSION=`$AUTOCONF --version | head -n 1`
 case $AUTOCONF_VERSION in
-  Autoconf*2.5* | autoconf*2.5* ) : ;;
+  Autoconf*2.5* | autoconf*2.5* | autoconf*2.6* ) : ;;
   "" )
     echo "*** AUTOCONF NOT FOUND!."
     echo "*** SIM requires autoconf $required_autoconf_version"
@@ -47,7 +47,7 @@ esac
 
 AUTOHEADER_VERSION=`$AUTOHEADER --version | head -n 1`
 case $AUTOHEADER_VERSION in
-  Autoconf*2.5* | autoheader*2.5* ) : ;;
+  Autoconf*2.5* | autoheader*2.5* | autoheader*2.6* ) : ;;
   "" )
     echo "*** AUTOHEADER NOT FOUND!."
     echo "*** SIM requires autoheader $required_autoconf_version"
@@ -68,7 +68,7 @@ case $AUTOMAKE_STRING in
     echo "*** SIM requires automake $required_automake_version"
     exit 1
     ;;
-  automake*1.6.* | automake*1.7* | automake*1.8* | automake*1.9*)
+  automake*1.6.* | automake*1.7* | automake*1.8* | automake*1.9* | automake*1.10*)
     echo "*** $AUTOMAKE_STRING found."
     UNSERMAKE=no
     ;;
@@ -321,7 +321,7 @@ if test -f configure.in.in; then
    fi
 fi
 if test -z "$VERSION" || test "$VERSION" = "@VERSION@"; then
-     VERSION="\"3.5.2\""
+     VERSION="\"3.5.5\""
 fi
 if test -z "$modulename" || test "$modulename" = "@MODULENAME@"; then
    modulename=`pwd`; 
@@ -562,7 +562,7 @@ for subdir in $dirs; do
    perl -e '$mes=0; while (<STDIN>) { next if (/^(if\s|else\s|endif)/); if (/^messages:/) { $mes=1; print $_; next; } if ($mes) { if (/$\\(XGETTEXT\)/ && / -o/) { s/ -o \$\(podir\)/ _translatorinfo.cpp -o \$\(podir\)/ } print $_; } else { print $_; } }' < Makefile.am | egrep -v '^include ' > _transMakefile
 
    $MAKE -s -f _transMakefile podir=$podir EXTRACTRC="$EXTRACTRC" PREPARETIPS="$PREPARETIPS" srcdir=. \
-	XGETTEXT="${XGETTEXT:-xgettext} --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale" messages
+	XGETTEXT="kde-xgettext --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale" messages
    exit_code=$?
    if test "$exit_code" != 0; then
        echo "make exit code: $exit_code"

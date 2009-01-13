@@ -18,7 +18,6 @@
 #ifndef _ICONCFG_H
 #define _ICONCFG_H
 
-#include "simapi.h"
 
 #include "iconcfgbase.h"
 

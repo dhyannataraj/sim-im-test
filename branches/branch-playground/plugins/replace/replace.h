@@ -18,26 +18,29 @@
 #ifndef _REPLACE_H
 #define _REPLACE_H
 
-#include "simapi.h"
+#include <qobject.h>
 
-typedef struct ReplaceData
+#include "cfg.h"
+#include "plugins.h"
+
+struct ReplaceData
 {
     SIM::Data	Keys;
     SIM::Data	Key;
     SIM::Data	Value;
-} ReplaceData;
+};
 
 class ReplacePlugin : public QObject, public SIM::Plugin
 {
     Q_OBJECT
 public:
-    ReplacePlugin(unsigned, ConfigBuffer *cfg);
+    ReplacePlugin(unsigned, Buffer *cfg);
     virtual ~ReplacePlugin();
     PROP_ULONG(Keys)
     PROP_UTFLIST(Key)
     PROP_UTFLIST(Value)
 protected:
-    virtual QString getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     bool eventFilter(QObject *o, QEvent *e);
     ReplaceData data;

@@ -1,7 +1,7 @@
 #######################
 # transparent library #
 #######################
-IF(WIN32 OR USE_KDE3)
+IF(WIN32 OR ENABLE_KDE3)
 	SET(transparent_SRCS
         	transparent.cpp
 	        transparentcfg.cpp
@@ -22,6 +22,6 @@ IF(WIN32 OR USE_KDE3)
 	ENDIF(NOT WIN32)
 
     SIM_ADD_PLUGIN(transparent)
-ELSE(WIN32 OR USE_KDE3)
+ELSE(WIN32 OR ENABLE_KDE3)
 	MESSAGE(STATUS "This plugin can only be used on windows or KDE")
-ENDIF(WIN32 OR USE_KDE3)
+ENDIF(WIN32 OR ENABLE_KDE3)

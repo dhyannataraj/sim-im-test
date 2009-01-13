@@ -18,7 +18,6 @@
 #ifndef _HOMEDIRCFG_H
 #define _HOMEDIRCFG_H
 
-#include "simapi.h"
 #include "homedircfgbase.h"
 
 class HomeDirPlugin;

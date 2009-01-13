@@ -20,7 +20,11 @@
 
 #include "simapi.h"
 
-typedef struct NavigateData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+struct NavigateData
 {
 #ifdef WIN32
     SIM::Data NewWindow;
@@ -31,15 +35,15 @@ typedef struct NavigateData
 #ifdef USE_KDE
     SIM::Data UseKDE;
 #endif
-} NavigateData;
+};
 
 class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
-    NavigatePlugin(unsigned, ConfigBuffer *name);
+    NavigatePlugin(unsigned, Buffer *name);
     virtual ~NavigatePlugin();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     QString parseUrl(const QString &text);
     unsigned long CmdMail;
     unsigned long CmdMailList;
@@ -54,7 +58,7 @@ protected:
 #ifdef USE_KDE
     PROP_BOOL(UseKDE);
 #endif
-    virtual QString getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     NavigateData data;
     friend class NavCfg;

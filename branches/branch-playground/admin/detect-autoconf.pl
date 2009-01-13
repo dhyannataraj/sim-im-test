@@ -32,6 +32,7 @@ sub findBest
  	'autoconf' => '2.5',
 	'automake' => '1.6',
     );
+    my %ignore = map { $_ => 1 } qw(wrapper); # BSDism
 
     # Allow user to use environment variable to override search.
     return $ENV{uc $program} if $ENV{uc $program};
@@ -46,6 +47,8 @@ sub findBest
 
 	    ($version) = $file =~ /$prefix\/$program-?(.*)$/;
 	    $version =~ s/-|\.//g;
+
+	    next if $ignore{$version};
 
 	    # Special case some programs to make sure it has a minimum version.
 	    if (not $version and exists $minimumVersions{$program})
@@ -149,11 +152,7 @@ $which = findWhich();
 # Make sure we have all of the needed programs.
 for $i (qw'autoconf autoheader autom4te automake aclocal')
 {
-    unless(${$i})
-    {
-	print "# Unable to find $i!!\n";
-	exit 1;
-    }
+    die "# $0: Unable to find $i!!\n" unless(${$i})
 }
 
 # Print results in eval-able form.

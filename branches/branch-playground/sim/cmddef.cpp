@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "stl.h"
+#include "cmddef.h"
+#include "event.h"
+#include "log.h"
+#include "misc.h"
 
 namespace SIM
 {
@@ -38,10 +40,10 @@ class CommandsDefPrivate : public EventReceiver
 {
 public:
     CommandsDefPrivate(unsigned id, bool bMenu);
-    void setConfig(const QString &cfg_str);
-    void *processEvent(Event*);
-    bool addCommand(CommandDef*);
-    bool changeCommand(CommandDef*);
+    void setConfig(const QString &cfg);
+    virtual bool processEvent(Event *e);
+    bool addCommand(const CommandDef *cmd);
+    bool changeCommand(const CommandDef *cmd);
     bool delCommand(unsigned id);
     void generateConfig();
     list<CommandDef> buttons;
@@ -57,7 +59,7 @@ CommandsDefPrivate::CommandsDefPrivate(unsigned id, bool bMenu)
     m_bMenu = bMenu;
 }
 
-bool CommandsDefPrivate::changeCommand(CommandDef *cmd)
+bool CommandsDefPrivate::changeCommand(const CommandDef *cmd)
 {
     list<CommandDef>::iterator it;
     for (it = buttons.begin(); it != buttons.end(); ++it){
@@ -69,7 +71,7 @@ bool CommandsDefPrivate::changeCommand(CommandDef *cmd)
     return false;
 }
 
-bool CommandsDefPrivate::addCommand(CommandDef *cmd)
+bool CommandsDefPrivate::addCommand(const CommandDef *cmd)
 {
     if (changeCommand(cmd))
         return false;
@@ -99,20 +101,22 @@ bool CommandsDefPrivate::delCommand(unsigned id)
     return false;
 }
 
-void *CommandsDefPrivate::processEvent(Event *e)
+bool CommandsDefPrivate::processEvent(Event *e)
 {
-    CommandDef *def;
     list<CommandDef>::iterator it;
     switch (e->type()){
-    case EventCommandCreate:
-        def = (CommandDef*)(e->param());
+    case eEventCommandCreate: {
+        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+        CommandDef *def = ecc->cmd();
         if (((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || def->icon)){
             if (addCommand(def))
                 cfg.clear();
         }
         break;
-    case EventCommandChange:
-        def = (CommandDef*)(e->param());
+    }
+    case eEventCommandChange: {
+        EventCommandChange *ecc = static_cast<EventCommandChange*>(e);
+        CommandDef *def = ecc->cmd();
         if (def->param == NULL){
             for (it = buttons.begin(); it != buttons.end(); ++it){
                 if ((*it).id == def->id){
@@ -122,19 +126,22 @@ void *CommandsDefPrivate::processEvent(Event *e)
             }
         }
         break;
-    case EventCommandRemove:{
-            unsigned long cmd = (unsigned long)e->param();
-            if (delCommand(cmd))
-                cfg.clear();
-        }
+    }
+    case eEventCommandRemove: {
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        if (delCommand(ecr->id()))
+            cfg.clear();
         break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 void CommandsDefPrivate::setConfig(const QString &cfg_str)
 {
-    if ((cfg_str == config) && cfg.size())
+    if (cfg_str == config && cfg.size())
         return;
     cfg.clear();
     config = cfg_str;
@@ -282,6 +289,7 @@ void CommandsListPrivateShort::reset()
 }
 
 static CommandDef SeparatorDef = CommandDef ();
+
 CommandDef *CommandsListPrivateShort::next()
 {
     for (;;++it){
@@ -347,9 +355,14 @@ bool CommandsDef::isMenu()
     return p->m_bMenu;
 }
 
-void CommandsDef::set(CommandDef *cmd)
+void CommandsDef::set(const CommandDef *cmd)
 {
     p->changeCommand(cmd);
+}
+
+void CommandsDef::set(const CommandDef &cmd)
+{
+    p->changeCommand(&cmd);
 }
 
 void CommandsDef::setConfig(const QString &cfg_str)
@@ -401,6 +414,7 @@ bool CommandsMap::erase(unsigned id)
 
 void CommandsMap::clear()
 {
+    log(L_DEBUG, "CommandsMap::clear %p", this);
     p->clear();
 }
 
@@ -416,6 +430,7 @@ CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
 
 CommandsMapIterator::CommandsMapIterator(CommandsMap &m)
 {
+    log(L_DEBUG, "CommandsMapIterator for %p", &m);
     p = new CommandsMapIteratorPrivate(*m.p);
 }
 

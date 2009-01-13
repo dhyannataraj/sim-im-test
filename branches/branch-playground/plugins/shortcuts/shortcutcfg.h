@@ -18,7 +18,6 @@
 #ifndef _SHORTCUTCFG_H
 #define _SHORTCUTCFG_H
 
-#include "simapi.h"
 #include "shortcutcfgbase.h"
 
 class MouseConfig;

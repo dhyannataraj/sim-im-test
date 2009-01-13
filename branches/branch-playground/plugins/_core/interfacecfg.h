@@ -19,6 +19,7 @@
 #define _INTERFACECFG_H
 
 #include "simapi.h"
+
 #include "interfacecfgbase.h"
 
 class UserViewConfig;

@@ -301,7 +301,7 @@ public:
     void setTranslator(const char* name, const char* emailAddress);
 
     /**
-    * Defines a licence text.
+    * Defines a license text.
     *
     * @param license The license text in utf8 encoding.
     *
@@ -316,7 +316,7 @@ public:
     void setLicenseText( const char *license );
 
     /**
-    * Defines a licence text.
+    * Defines a license text.
     *
     * @param file File containing the license text.
     */

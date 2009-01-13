@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "icons.h"
 #include "yahoo.h"
 #include "yahooinfo.h"
 #include "yahooclient.h"
@@ -30,7 +30,7 @@
 
 using namespace SIM;
 
-YahooInfo::YahooInfo(QWidget *parent, struct YahooUserData *data, YahooClient *client)
+YahooInfo::YahooInfo(QWidget *parent, YahooUserData *data, YahooClient *client)
         : YahooInfoBase(parent)
 {
     m_client  = client;
@@ -53,24 +53,28 @@ void YahooInfo::apply()
         data = &m_client->data.owner;
 }
 
-void *YahooInfo::processEvent(Event *e)
+bool YahooInfo::processEvent(Event *e)
 {
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
             fill();
-    }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    } else
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void YahooInfo::fill()
@@ -140,7 +144,7 @@ void YahooInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = m_client->toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->Nick.str()  = edtNick->text();
     data->First.str() = edtFirst->text();
     data->Last.str()  = edtLast->text();

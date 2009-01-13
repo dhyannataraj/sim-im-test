@@ -19,14 +19,20 @@
 #define _SHORTCUTS_H
 
 #include "simapi.h"
-#include "stl.h"
 
-typedef struct ShortcutsData
+#include <qobject.h>
+#include <qstring.h>
+
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+struct ShortcutsData
 {
     SIM::Data	Key;
     SIM::Data	Global;
     SIM::Data	Mouse;
-} ShortcutsData;
+};
 
 typedef std::map<unsigned, const char*>	MAP_STR;
 typedef std::map<unsigned, bool>		MAP_BOOL;
@@ -69,7 +75,7 @@ class ShortcutsPlugin : public QObject, public SIM::Plugin, public SIM::EventRec
 {
     Q_OBJECT
 public:
-    ShortcutsPlugin(unsigned, ConfigBuffer*);
+    ShortcutsPlugin(unsigned, Buffer*);
     virtual ~ShortcutsPlugin();
     PROP_STRLIST(Key);
     PROP_STRLIST(Global);
@@ -83,8 +89,8 @@ public:
     static QString buttonToString(unsigned button);
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event *e);
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void applyKeys(unsigned long);
     void applyKey(SIM::CommandDef*);

@@ -18,18 +18,24 @@
 #ifndef _FILTER_H
 #define _FILTER_H
 
-#include "simapi.h"
+#include <qobject.h>
 
-typedef struct FilterData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
+
+struct FilterData
 {
     SIM::Data	FromList;
     SIM::Data	AuthFromList;
-} FilterData;
+};
 
-typedef struct FilterUserData
+struct FilterUserData
 {
     SIM::Data	SpamList;
-} FilterUserData;
+};
 
 class QStringList;
 
@@ -37,7 +43,7 @@ class FilterPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
-    FilterPlugin(unsigned, ConfigBuffer *cfg);
+    FilterPlugin(unsigned, Buffer *cfg);
     virtual ~FilterPlugin();
     PROP_BOOL(FromList);
     PROP_BOOL(AuthFromList);
@@ -48,9 +54,9 @@ protected:
     unsigned long CmdIgnoreList;
     unsigned long CmdIgnore;
     unsigned long CmdIgnoreText;
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     bool checkSpam(const QString &text, const QString &filter);
     void getWords(const QString &text, QStringList &words, bool bPattern);
     FilterData data;

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "userwnd.h"
 #include "msgedit.h"
 #include "msgview.h"
@@ -44,7 +46,7 @@ static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
         dest[i] = src[i];
 }
 
-UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdjust)
+UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Horizontal, NULL)
 {
     load_data(userWndData, &data, cfg);
@@ -81,7 +83,7 @@ UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdju
     if (!m_edit->adjustType()){
         unsigned type = getMessageType();
         Message *msg = new Message(MessageGeneric);
-        setMessage(&msg);
+        setMessage(msg);
         delete msg;
         setMessageType(type);
     }
@@ -98,7 +100,7 @@ UserWnd::~UserWnd()
     }
 }
 
-QString UserWnd::getConfig()
+QCString UserWnd::getConfig()
 {
     return save_data(userWndData, &data);
 }
@@ -112,19 +114,22 @@ QString UserWnd::getName()
 QString UserWnd::getLongName()
 {
     QString res;
-    if (CorePlugin::m_plugin->getShowOwnerName())
+    if (CorePlugin::m_plugin->getShowOwnerName() && !getContacts()->owner()->getName().isEmpty())
         res += getContacts()->owner()->getName();
     if (!res.isEmpty())
         res += " - ";
     Contact *contact = getContacts()->contact(m_id);
-    res += contact->getName();
+    if (contact)
+        res += contact->getName();
+    else
+        return QString::null;
     void *data;
     Client *client = m_edit->client(data, false, true, id());
     if (client && data){
-        res += " ";
+        res += ' ';
         res += client->contactName(data);
         if (!m_edit->m_resource.isEmpty()){
-            res += "/";
+            res += '/';
             res += m_edit->m_resource;
         }
         bool bFrom = false;
@@ -140,7 +145,7 @@ QString UserWnd::getLongName()
             }
         }
         if (bFrom){
-            res += " ";
+            res += ' ';
             if (m_edit->m_bReceived){
                 res += i18n("to %1") .arg(client->name());
             }else{
@@ -154,6 +159,10 @@ QString UserWnd::getLongName()
 QString UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
+    if(!contact) {
+        log(L_ERROR, "Contact %lu not found!", m_id);
+        return QString::null;
+    }
     unsigned long status = STATUS_UNKNOWN;
     unsigned style;
     QString statusIcon;
@@ -215,7 +224,7 @@ unsigned UserWnd::type()
     return m_edit->type();
 }
 
-void UserWnd::setMessage(Message **msg)
+void UserWnd::setMessage(Message *msg)
 {
     bool bSetFocus = false;
 
@@ -225,23 +234,22 @@ void UserWnd::setMessage(Message **msg)
         if (container->wnd() == this)
             bSetFocus = true;
     }
-    if (!m_edit->setMessage(*msg, bSetFocus)){
-        delete *msg;
-        *msg = new Message(MessageGeneric);
-        m_edit->setMessage(*msg, bSetFocus);
+    if (!m_edit->setMessage(msg, bSetFocus)){
+        // if this does not work as expected, we have to go back
+        // to EventOpenMessage with Message** :(
+        *msg = Message(MessageGeneric);
+        m_edit->setMessage(msg, bSetFocus);
     }
     if (container){
-        container->setMessageType((*msg)->baseType());
+        container->setMessageType(msg->baseType());
         container->contactChanged(getContacts()->contact(m_id));
     }
 
-    if ((m_view == NULL) || ((*msg)->id() == 0))
+    if ((m_view == NULL) || (msg->id() == 0))
         return;
-    if (m_view->findMessage(*msg))
+    if (m_view->findMessage(msg))
         return;
-    m_view->addMessage(*msg);
-    if (!m_view->hasSelectedText())
-        m_view->scrollToBottom();
+    m_view->addMessage(msg);
 }
 
 void UserWnd::setStatus(const QString &status)
@@ -299,8 +307,7 @@ void UserWnd::markAsRead()
         Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         CorePlugin::m_plugin->unread.erase(it);
         if (msg){
-            Event e(EventMessageRead, msg);
-            e.process();
+            EventMessageRead(msg).process();
             delete msg;
         }
         it = CorePlugin::m_plugin->unread.begin();

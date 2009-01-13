@@ -15,10 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "socket.h"
-#include "stl.h"
-
+#include <qmutex.h>
 #include <qtimer.h>
+
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#endif
+
+
+#include "socket.h"
+#include "misc.h"
+#include "log.h"
 
 namespace SIM
 {
@@ -33,21 +46,19 @@ const unsigned RECONNECT_TIME		= 5;
 const unsigned RECONNECT_IFINACTIVE = 60;
 const unsigned LOGIN_TIMEOUT		= 120;
 
-class SocketFactoryPrivate
+struct SocketFactoryPrivate
 {
-public:
-    SocketFactoryPrivate() {}
-    list<ClientSocket*> errSockets;
-    list<Socket*> removedSockets;
-    list<ServerSocket*> removedServerSockets;
+    bool m_bActive;
+
+    QValueList<ClientSocket*> errSockets;
+    QValueList<ClientSocket*> errSocketsCopy;
+    QValueList<Socket*> removedSockets;
+    QValueList<ServerSocket*> removedServerSockets;
+
+    SocketFactoryPrivate() : m_bActive(true) {}
 };
 
-Socket::Socket()
-{
-    notify = NULL;
-}
-
-void Socket::error(const char *err_text, unsigned code)
+void Socket::error(const QString &err_text, unsigned code)
 {
     if (notify)
         notify->error_state(err_text, code);
@@ -71,14 +82,8 @@ ClientSocket::ClientSocket(ClientSocketNotify *notify, Socket *sock)
 
 ClientSocket::~ClientSocket()
 {
-    if (m_sock)
-        delete m_sock;
-    for (list<ClientSocket*>::iterator it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
-        if ((*it) == this){
-            getSocketFactory()->p->errSockets.erase(it);
-            break;
-        }
-    }
+    getSocketFactory()->erase(this);
+    delete m_sock;
 }
 
 void ClientSocket::close()
@@ -87,30 +92,33 @@ void ClientSocket::close()
     bClosed = true;
 }
 
-const QString &ClientSocket::errorString()
+const QString &ClientSocket::errorString() const
 {
     return errString;
 }
 
-void ClientSocket::connect(const char *host, unsigned short port, TCPClient *client)
+void ClientSocket::connect(const QString &host, unsigned short port, TCPClient *client)
 {
     if (client){
-        ConnectParam p;
-        p.socket = this;
-        p.host = host;
-        p.port = port;
-        p.client = client;
-        Event e(EventSocketConnect, &p);
+        EventSocketConnect e(this, client, host, port);
         e.process();
     }
     m_sock->connect(host, port);
 }
 
+void ClientSocket::connect(unsigned long ip, unsigned short port, TCPClient* /* client */)
+{
+	struct in_addr addr;
+	addr.s_addr = ip;
+	this->connect(inet_ntoa(addr), port, NULL);
+}
+
 void ClientSocket::write()
 {
-    if (writeBuffer.size() == 0) return;
-    m_sock->write(writeBuffer.data(), writeBuffer.size());
-    writeBuffer.init(0);
+    if (writeBuffer().size() == 0)
+        return;
+    m_sock->write(writeBuffer().data(), writeBuffer().size());
+    writeBuffer().init(0);
 }
 
 bool ClientSocket::created()
@@ -147,25 +155,28 @@ void ClientSocket::read_ready()
             }
             if (readn == 0)
                 break;
-            unsigned pos = readBuffer.writePos();
-            readBuffer.setWritePos(readBuffer.writePos() + readn);
-            memcpy(readBuffer.data(pos), b, readn);
+            unsigned pos = readBuffer().writePos();
+            readBuffer().setWritePos(readBuffer().writePos() + readn);
+            memcpy(readBuffer().data(pos), b, readn);
         }
         if (m_notify)
             m_notify->packet_ready();
         return;
     }
     for (;;){
-        if (bClosed || errString.length()) break;
-        int readn = m_sock->read(readBuffer.data(readBuffer.writePos()),
-                                 readBuffer.size() - readBuffer.writePos());
+        if (bClosed || errString.length())
+          break;
+        int readn = m_sock->read(readBuffer().data(readBuffer().writePos()),
+                                 readBuffer().size() - readBuffer().writePos());
         if (readn < 0){
             error_state(I18N_NOOP("Read socket error"));
             return;
         }
-        if (readn == 0) break;
-        readBuffer.setWritePos(readBuffer.writePos() + readn);
-        if (readBuffer.writePos() < readBuffer.size()) break;
+        if (readn == 0)
+          break;
+        readBuffer().setWritePos(readBuffer().writePos() + readn);
+        if (readBuffer().writePos() < readBuffer().size())
+          break;
         if (m_notify)
             m_notify->packet_ready();
     }
@@ -190,16 +201,10 @@ void ClientSocket::pause(unsigned n)
 void ClientSocket::setSocket(Socket *s, bool bClearError)
 {
     if (m_sock){
-        if (m_sock->notify == this)
+        if (m_sock->getNotify() == this)
             m_sock->setNotify(NULL);
         if (bClearError){
-            list<ClientSocket*>::iterator it;
-            for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
-                if ((*it) == this){
-                    getSocketFactory()->p->errSockets.erase(it);
-                    break;
-                }
-            }
+            getSocketFactory()->erase(this);
         }
     }
     m_sock = s;
@@ -207,55 +212,52 @@ void ClientSocket::setSocket(Socket *s, bool bClearError)
         s->setNotify(this);
 }
 
-void ClientSocket::setNotify(ClientSocketNotify *notify)
-{
-    m_notify = notify;
-}
-
 void ClientSocket::error_state(const QString &err, unsigned code)
 {
-    list<ClientSocket*>::iterator it;
-    for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it)
-        if ((*it) == this) return;
+    // -> false -> already there
+    if(!getSocketFactory()->add(this))
+      return;
+
     errString = err;
     errCode = code;
-    getSocketFactory()->p->errSockets.push_back(this);
     QTimer::singleShot(0, getSocketFactory(), SLOT(idle()));
 }
 
-SocketFactory::SocketFactory()
+SocketFactory::SocketFactory(QObject *parent)
+  : QObject(parent)
 {
-    m_bActive  = true;
-    p = new SocketFactoryPrivate;
+  d = new SocketFactoryPrivate;
 }
 
 SocketFactory::~SocketFactory()
 {
     idle();
-    delete p;
+    delete d;
 }
 
-bool SocketFactory::isActive()
+bool SocketFactory::isActive() const
 {
-    return m_bActive;
+    return d->m_bActive;
 }
 
 void SocketFactory::setActive(bool isActive)
 {
-    if (isActive == m_bActive)
+    if (isActive == d->m_bActive)
         return;
-    m_bActive = isActive;
-    Event e(EventSocketActive, (void*)m_bActive);
-    e.process();
+    d->m_bActive = isActive;
+    EventSocketActive(d->m_bActive).process();
 }
 
 void SocketFactory::remove(Socket *s)
 {
     s->setNotify(NULL);
     s->close();
-    for (list<Socket*>::iterator it = p->removedSockets.begin(); it != p->removedSockets.end(); ++it)
-        if ((*it) == s) return;
-    p->removedSockets.push_back(s);
+
+    if(d->removedSockets.contains(s))
+      return;
+
+    d->removedSockets.push_back(s);
+
     QTimer::singleShot(0, this, SLOT(idle()));
 }
 
@@ -263,40 +265,66 @@ void SocketFactory::remove(ServerSocket *s)
 {
     s->setNotify(NULL);
     s->close();
-    for (list<ServerSocket*>::iterator it = p->removedServerSockets.begin(); it != p->removedServerSockets.end(); ++it)
-        if ((*it) == s) return;
-    p->removedServerSockets.push_back(s);
+
+    if(d->removedServerSockets.contains(s))
+      return;
+
+    d->removedServerSockets.push_back(s);
     QTimer::singleShot(0, this, SLOT(idle()));
+}
+
+bool SocketFactory::add(ClientSocket *s)
+{
+  if(!d->errSockets.contains(s)) {
+    d->errSockets += s;
+    return true;
+  }
+  return false;
+}
+
+bool SocketFactory::erase(ClientSocket *s)
+{
+  QValueList<ClientSocket*>::iterator it = d->errSocketsCopy.find(s);
+  if(it != d->errSocketsCopy.end())
+    *it = NULL;
+  return(d->errSockets.remove(s) > 0);
 }
 
 void SocketFactory::idle()
 {
-    list<ClientSocket*> err = p->errSockets;
-    p->errSockets.clear();
-    for (list<ClientSocket*>::iterator it = err.begin(); it != err.end(); ++it){
+    d->errSocketsCopy = d->errSockets;  // important! error_state() modifes d->errSockets
+    d->errSockets.clear();
+
+    QValueList<ClientSocket*>::iterator it = d->errSocketsCopy.begin();
+    for ( ; it != d->errSocketsCopy.end(); ++it){
         ClientSocket *s = *it;
+        // can be removed in SocketFactory::erase();
+        if(!s)
+          continue;
         ClientSocketNotify *n = s->m_notify;
         if (n){
-            QString errString;
-            if (!s->errorString().isEmpty())
-                errString = s->errorString();
-            s->errString = "";
+            QString errString = s->errorString();
+            s->errString = QString::null;
             if (n->error_state(errString, s->errCode))
                 delete n;
         }
     }
-    for (list<Socket*>::iterator its = p->removedSockets.begin(); its != p->removedSockets.end(); ++its)
+
+    QValueList<Socket*>::iterator its = d->removedSockets.begin();
+    for ( ; its != d->removedSockets.end(); ++its)
         delete *its;
-    p->removedSockets.clear();
-    for (list<ServerSocket*>::iterator itss = p->removedServerSockets.begin(); itss != p->removedServerSockets.end(); ++itss)
+    d->removedSockets.clear();
+
+    QValueList<ServerSocket*>::iterator itss = d->removedServerSockets.begin();
+    for ( ; itss != d->removedServerSockets.end(); ++itss)
         delete *itss;
-    p->removedServerSockets.clear();
+    d->removedServerSockets.clear();
 }
 
-TCPClient::TCPClient(Protocol *protocol, ConfigBuffer *cfg, unsigned priority)
+TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
         : Client(protocol, cfg), EventReceiver(priority)
 {
-    m_socket = NULL;
+    m_clientSocket = NULL;
     m_ip     = 0;
     m_timer  = new QTimer(this);
     m_loginTimer = new QTimer(this);
@@ -306,13 +334,14 @@ TCPClient::TCPClient(Protocol *protocol, ConfigBuffer *cfg, unsigned priority)
     connect(m_loginTimer, SIGNAL(timeout()), this, SLOT(loginTimeout()));
 }
 
-void *TCPClient::processEvent(Event *e)
+bool TCPClient::processEvent(Event *e)
 {
-    if (e->type() == EventSocketActive){
-        if (m_bWaitReconnect && e->param())
+    if (e->type() == eEventSocketActive){
+		EventSocketActive *s = static_cast<EventSocketActive*>(e);
+        if (m_bWaitReconnect && s->active())
             reconnect();
     }
-    return NULL;
+    return false;
 }
 
 void TCPClient::resolve_ready(unsigned long ip)
@@ -322,7 +351,7 @@ void TCPClient::resolve_ready(unsigned long ip)
 
 bool TCPClient::error_state(const QString &err, unsigned code)
 {
-    log(L_DEBUG, "Socket error %s (%u)", err.latin1(), code);
+    log(L_DEBUG, "Socket error %s (%u)", err.local8Bit().data(), code);
     m_loginTimer->stop();
     if (m_reconnect == NO_RECONNECT){
         m_timer->stop();
@@ -341,6 +370,13 @@ bool TCPClient::error_state(const QString &err, unsigned code)
         m_bWaitReconnect = true;
         log(L_DEBUG, "Wait reconnect %u sec", reconnectTime);
         m_timer->start(reconnectTime * 1000);
+    } else {
+        /*
+          slot reconnect() neeeds this flag 
+          to be true to make actual reconnect,
+          but it was somehow false. serzh.
+        */
+        m_bWaitReconnect = true;
     }
     return false;
 }
@@ -369,8 +405,8 @@ void TCPClient::connect_ready()
 void TCPClient::loginTimeout()
 {
     m_loginTimer->stop();
-    if ((m_state != Connected) && m_socket)
-        m_socket->error_state("Login timeout");
+    if ((m_state != Connected) && socket())
+        socket()->error_state(I18N_NOOP("Login timeout"));
 }
 
 Socket *TCPClient::createSocket()
@@ -380,12 +416,17 @@ Socket *TCPClient::createSocket()
 
 void TCPClient::socketConnect()
 {
-    if (m_socket)
-        m_socket->close();
-    if (m_socket == NULL)
-        m_socket = new ClientSocket(this, createSocket());
-    log(L_DEBUG, "Start connect %s:%u", getServer().local8Bit().data(), getPort());
-    m_socket->connect(getServer(), getPort(), this);
+    if (socket())
+        socket()->close();
+    if (socket() == NULL)
+        m_clientSocket = createClientSocket();
+    log(L_DEBUG, "Start connect %s:%u", static_cast<const char *>(getServer().local8Bit()), getPort());
+    socket()->connect(getServer(), getPort(), this);
+}
+
+ClientSocket *TCPClient::createClientSocket()
+{
+    return new ClientSocket(this, createSocket());
 }
 
 void TCPClient::setClientStatus(unsigned status)
@@ -408,15 +449,15 @@ void TCPClient::setClientStatus(unsigned status)
     m_bWaitReconnect = false;
     m_timer->stop();
     m_loginTimer->stop();
-    if (m_socket)
+    if (socket())
         setStatus(STATUS_OFFLINE);
     m_status = STATUS_OFFLINE;
     setState(Offline);
     disconnected();
-    if (m_socket){
-        m_socket->close();
-        delete m_socket;
-        m_socket = NULL;
+    if (socket()){
+        socket()->close();
+        delete socket();
+        m_clientSocket = NULL;
     }
 }
 

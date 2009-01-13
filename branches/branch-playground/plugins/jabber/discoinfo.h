@@ -19,7 +19,6 @@
 #define _DISCOINFO_H
 
 #include "jabberclient.h"
-#include "simapi.h"
 #include "discoinfobase.h"
 
 class JabberBrowser;
@@ -47,18 +46,14 @@ protected:
     QString m_name;
     QString m_type;
     QString m_category;
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();
-    bool m_bVersion;
     bool m_bTime;
     bool m_bLast;
     bool m_bStat;
     bool m_bVCard;
     JabberBrowser *m_browser;
-    QString m_versionId;
-    QString m_timeId;
-    QString m_lastId;
     QString m_statId;
     JabberAboutInfo *m_about;
     JabberUserData	m_data;

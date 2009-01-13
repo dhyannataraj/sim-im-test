@@ -18,8 +18,6 @@
 #ifndef _USERLIST_H
 #define _USERLIST_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "listview.h"
 
 class UserListBase;
@@ -112,7 +110,7 @@ protected:
     unsigned m_groupMode;
     unsigned m_bShowOnline;
     unsigned m_bShowEmpty;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     unsigned getUserStatus(SIM::Contact *contact, unsigned &style, QString &icons);

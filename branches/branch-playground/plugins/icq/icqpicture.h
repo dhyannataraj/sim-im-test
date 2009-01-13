@@ -18,10 +18,12 @@
 #ifndef _ICQPICTURE_H
 #define _ICQPICTURE_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "icqpicturebase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class QImage;
 
@@ -29,7 +31,7 @@ class ICQPicture : public ICQPictureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *client);
+    ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
@@ -37,10 +39,10 @@ protected slots:
     void clearPicture();
     void pictSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setPict(const QImage &img);
-    struct ICQUserData	*m_data;
+    ICQUserData	*m_data;
     ICQClient	*m_client;
 };
 

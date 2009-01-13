@@ -15,11 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ballonmsg.h"
+#include "editfile.h"
+#include "linklabel.h"
+#include "misc.h"
+#include "unquot.h"
+
 #include "weather.h"
 #include "wifacecfg.h"
-#include "linklabel.h"
-#include "editfile.h"
-#include "ballonmsg.h"
 
 using namespace SIM;
 
@@ -59,6 +62,8 @@ static const char *helpList[] =
         I18N_NOOP("Sunset"),
         "%c",
         I18N_NOOP("Conditions"),
+        "%o",
+        I18N_NOOP("Obst"),
         NULL
     };
 

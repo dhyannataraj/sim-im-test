@@ -18,9 +18,10 @@
 #ifndef _JABBER_SSL_H
 #define _JABBER_SSL_H
 
+#include "simapi.h"
 #include "socket.h"
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 class JabberSSL : public SIM::SSLClient
 {

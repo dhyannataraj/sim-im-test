@@ -15,67 +15,70 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <libxml/parser.h>
-
 #include "sax.h"
+#include "log.h"
 
-class SAXParserPrivate
+class SAXParserPrivate: public QXmlDefaultHandler
 {
 public:
     SAXParserPrivate(SAXParser *parser);
-    ~SAXParserPrivate();
-    bool parse(const char *data, unsigned size, bool bChunk);
-    xmlSAXHandler		m_handler;
-    xmlParserCtxtPtr	m_context;
-    SAXParser			*m_parser;
-    static void p_element_start(void *data, const unsigned char *el, const unsigned char **attr);
-    static void p_element_end(void *data, const unsigned char *el);
-    static void p_char_data(void *data, const unsigned char *str, int len);
+    bool parse(const QByteArray& data);
+    QXmlSimpleReader m_reader;
+    QXmlInputSource m_source;
+    SAXParser *m_parser;
+    bool startElement(const QString&, 
+                      const QString&, 
+                      const QString &qName,
+                      const QXmlAttributes &attribs);
+    bool endElement(const QString&,
+                    const QString&,
+                    const QString &qName);
+    bool characters(const QString &str);
+    bool fatalError(const QXmlParseException & exception);
 };
 
 SAXParserPrivate::SAXParserPrivate(SAXParser *parser)
 {
     m_parser = parser;
-    memset(&m_handler, 0, sizeof(m_handler));
-    m_handler.startElement = p_element_start;
-    m_handler.endElement   = p_element_end;
-    m_handler.characters   = p_char_data;
-    m_context = xmlCreatePushParserCtxt(&m_handler, m_parser, "", 0, "");
+    m_reader.setFeature("http://xml.org/sax/features/namespace-prefixes", TRUE);
+    m_reader.setContentHandler(this);
+    m_reader.setErrorHandler(this);
+    m_reader.parse(&m_source, true);
 }
 
-SAXParserPrivate::~SAXParserPrivate()
+bool SAXParserPrivate::parse(const QByteArray& data)
 {
-    xmlFreeParserCtxt(m_context);
+    m_source.setData(data);
+    return m_reader.parseContinue();
 }
 
-bool SAXParserPrivate::parse(const char *data, unsigned size, bool bChunk)
+bool SAXParserPrivate::startElement(const QString&,
+                                    const QString&,
+                                    const QString &qName,
+                                    const QXmlAttributes &attribs)
 {
-    if (size == 0)
-        return true;
-    return (xmlParseChunk(m_context, data, size, !bChunk) == 0);
+    m_parser->element_start(qName, attribs);
+    return true;
 }
 
-void SAXParserPrivate::p_element_start(void *data, const xmlChar *el, const xmlChar **attr)
+bool SAXParserPrivate::endElement(const QString&,
+                                  const QString&,
+                                  const QString &qName)
 {
-#if LIBXML_VERSION > 20604
-    if (!strcmp((char*)el, "Z"))
-        return;
-#endif
-    ((SAXParser*)data)->element_start((char*)el, (const char**)attr);
+    m_parser->element_end(qName);
+    return true;
 }
 
-void SAXParserPrivate::p_element_end(void *data, const xmlChar *el)
+bool SAXParserPrivate::characters(const QString &str)
 {
-#if LIBXML_VERSION > 20604
-    if (!strcmp((char*)el, "Z"))
-        return;
-#endif
-    ((SAXParser*)data)->element_end((char*)el);
+    m_parser->char_data(str);
+    return true;
 }
-
-void SAXParserPrivate::p_char_data(void *data, const xmlChar *str, int len)
+    
+bool SAXParserPrivate::fatalError(const QXmlParseException & exception)
 {
-    ((SAXParser*)data)->char_data((char*)str, len);
+    SIM::log(SIM::L_DEBUG, "XML parse error: %s", exception.message().ascii());
+    return false;
 }
 
 SAXParser::SAXParser()
@@ -96,33 +99,18 @@ void SAXParser::reset()
     }
 }
 
-bool SAXParser::parse(const char *data, unsigned size, bool bChunk)
+bool SAXParser::parse(const QByteArray& data, bool bChunk)
 {
     if (!bChunk)
         reset();
     if (p == NULL)
         p = new SAXParserPrivate(this);
-    if (!p->parse(data, size, bChunk)){
-        xmlErrorPtr ptr = xmlGetLastError();
-        fprintf(stderr, "XML parse error %s", ptr ? ptr->message : "??" );
+    if (!p->parse(data)){
         reset();
         return false;
     }
-#if LIBXML_VERSION > 20604
-    if (bChunk && (data[size - 1] == '>') && !p->parse("<Z/>", 4, true)){
-        reset();
-        return false;
-    }
-#endif
     if (!bChunk)
         reset();
     return true;
 }
-
-void SAXParser::cleanup()
-{
-    xmlCleanupParser();
-}
-
-
 

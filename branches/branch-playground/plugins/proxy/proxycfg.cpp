@@ -15,11 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "proxycfg.h"
-#include "proxy.h"
-#include "socket.h"
-#include "fetch.h"
-
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
@@ -28,6 +23,14 @@
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qtabwidget.h>
+
+#include "icons.h"
+#include "misc.h"
+#include "socket.h"
+#include "fetch.h"
+
+#include "proxycfg.h"
+#include "proxy.h"
 
 using namespace SIM;
 
@@ -109,7 +112,7 @@ void ProxyConfig::apply()
     for (unsigned i = 1; i < m_data.size(); i++){
         if (m_data[i] == m_data[0])
             continue;
-        m_plugin->setClients(nClient++, save_data(ProxyPlugin::proxyData, &m_data[i]).latin1());
+        m_plugin->setClients(nClient++, save_data(ProxyPlugin::proxyData, &m_data[i]));
     }
 }
 
@@ -192,11 +195,11 @@ void ProxyConfig::clientChanged(int)
         fill(&m_data[m_current]);
 }
 
-void *ProxyConfig::processEvent(Event *e)
+bool ProxyConfig::processEvent(Event *e)
 {
-    if ((m_client == NULL) && (e->type() == EventClientsChanged))
+    if ((m_client == NULL) && (e->type() == eEventClientsChanged))
         fillClients();
-    return NULL;
+    return false;
 }
 
 void ProxyConfig::fillClients()
@@ -233,25 +236,25 @@ void ProxyConfig::fillClients()
 
 void ProxyConfig::fill(ProxyData *data)
 {
-    cmbType->setCurrentItem(data->Type.asULong());
+    cmbType->setCurrentItem(data->Type.toULong());
     edtHost->setText(data->Host.str());
-    edtPort->setValue(data->Port.asULong());
+    edtPort->setValue(data->Port.toULong());
     chkAuth->setChecked(data->Auth.toBool());
     edtUser->setText(data->User.str());
     edtPswd->setText(data->Password.str());
-    typeChanged(data->Type.asULong());
+    typeChanged(data->Type.toULong());
     chkNoShow->setChecked(data->NoShow.toBool());
 }
 
 void ProxyConfig::get(ProxyData *data)
 {
     data->Type.asULong() = cmbType->currentItem();
-    data->Host.str() = edtHost->text();
+    data->Host.str()     = edtHost->text();
     data->Port.asULong() = edtPort->text().toULong();
-    data->Auth.asBool() = chkAuth->isChecked();
-    data->User.str() = edtUser->text();
+    data->Auth.asBool()  = chkAuth->isChecked();
+    data->User.str()     = edtUser->text();
     data->Password.str() = edtPswd->text();
-    data->NoShow.asBool() = chkNoShow->isChecked();
+    data->NoShow.asBool()= chkNoShow->isChecked();
     data->bInit = true;
 }
 

@@ -18,25 +18,25 @@
 #ifndef _ICQINFO_H
 #define _ICQINFO_H
 
-#include "simapi.h"
 #include "icqinfobase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class ICQInfo : public ICQInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    ICQInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
+    ICQInfo(QWidget *parent, ICQUserData*, unsigned contact, ICQClient *client);
 signals:
     void raise(QWidget*);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
-    struct ICQUserData *m_data;
+    ICQUserData *m_data;
     unsigned  m_contact;
     ICQClient *m_client;
 };

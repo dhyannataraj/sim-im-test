@@ -15,11 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
+#include "log.h"
+
 #include "container.h"
 #include "userwnd.h"
 #include "core.h"
 #include "toolbtn.h"
 #include "buffer.h"
+#include "icons.h"
 
 #include <qmainwindow.h>
 #include <qframe.h>
@@ -35,6 +40,9 @@
 #include <qpainter.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
+#include <qpixmap.h>
+#include <qlabel.h>
+#include <qdockarea.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -112,7 +120,7 @@ static DataDef containerData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-Container::Container(unsigned id, const char *cfg)
+Container::Container(unsigned id, const char *cfg) :m_avatar_window(this), m_avatar_label(&m_avatar_window)
 {
     m_bInit   = false;
     m_bInSize = false;
@@ -124,15 +132,19 @@ Container::Container(unsigned id, const char *cfg)
     m_wnds		= NULL;
     m_tabBar	= NULL;
 
+    m_avatar_window.setWidget(&m_avatar_label);
+    m_avatar_window.setOrientation(Qt::Vertical);
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
 
     if (cfg && *cfg){
-        ConfigBuffer config( QString("[Title]\n") + QString(cfg));
+        Buffer config;
+        config << "[Title]\n" << cfg;
+        config.setWritePos(0);
         config.getSection();
         load_data(containerData, &data, &config);
     }else{
-        load_data(containerData, &data);
+        load_data(containerData, &data, NULL);
     }
 
     bool bPos = true;
@@ -250,10 +262,13 @@ void Container::init()
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
-        QString str("[Title]\n");
-        str += getWndConfig(id);
-        ConfigBuffer config(str);
-        config.getSection();
+        Buffer config;
+        QString cfg = getWndConfig(id);
+        if (!cfg.isEmpty()){
+            config << "[Title]\n" << (const char*)cfg.local8Bit();
+            config.setWritePos(0);
+            config.getSection();
+        }
         addUserWnd(new UserWnd(id, &config, false, true), true);
     }
 
@@ -284,8 +299,9 @@ void Container::setupAccel()
     m_accel->insertItem(Key_Home + ALT, 13);
     m_accel->insertItem(Key_End + ALT, 14);
 
-    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++it) != NULL){
@@ -305,7 +321,7 @@ list<UserWnd*> Container::windows()
     return m_tabBar->windows();
 }
 
-QString Container::getState()
+QCString Container::getState()
 {
     clearWndConfig();
     QString windows;
@@ -424,16 +440,16 @@ UserWnd *Container::wnd()
 
 void Container::showBar()
 {
-    BarShow b;
-    b.bar_id = ToolBarContainer;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)e.process();
+    EventToolbar e(ToolBarContainer, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bBarChanged = true;
     restoreToolbar(m_bar, data.barState);
     m_bar->show();
     m_bBarChanged = false;
     contactSelected(0);
+
+    m_avatar_window.area()->moveDockWindow(&m_avatar_window, 0);
 }
 
 void Container::contactSelected(int)
@@ -451,7 +467,8 @@ void Container::contactSelected(int)
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
     cmd->flags = BTN_PICT;
-    Event e(EventCommandChange, cmd);
+    EventCommandChange e(cmd);
+    e.setNoProcess();
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
     setIcon(Pict(cmd->icon));
@@ -460,6 +477,30 @@ void Container::contactSelected(int)
     m_status->message(userWnd->status());
     if (isActiveWindow())
         userWnd->markAsRead();
+
+    if (CorePlugin::m_plugin->getShowAvatarInContainer()) {
+        Client *client = NULL;
+        unsigned j=0;
+        QImage img;
+        while (j < getContacts()->nClients()){
+               client = getContacts()->getClient(j++);
+               img = client->userPicture(userWnd->id());
+               if (!img.isNull())
+                   break;
+        }
+
+        if (!img.isNull()) {
+            m_avatar_label.setPixmap(img);
+            if (!m_avatar_label.isVisible())
+                m_avatar_window.show();
+        } else {
+            m_avatar_label.clear();
+            m_avatar_window.hide();
+        }
+    } else {
+        m_avatar_label.clear();
+        m_avatar_window.hide();
+    }
 }
 
 void Container::setMessageType(unsigned type)
@@ -478,7 +519,8 @@ void Container::setMessageType(unsigned type)
     cmd->menu_grp	 = 0;
     cmd->popup_id	 = MenuMessage;
     cmd->flags		 = BTN_PICT;
-    Event eCmd(EventCommandChange, cmd);
+    EventCommandChange eCmd(cmd);
+    eCmd.setNoProcess();
     m_bar->processEvent(&eCmd);
 }
 
@@ -531,8 +573,7 @@ void Container::accelActivated(int id)
         cmd->id      = id - ACCEL_MESSAGE;
         cmd->menu_id = MenuMessage;
         cmd->param   = (void*)(m_tabBar->currentWnd()->id());
-        Event e(EventCommandExec, cmd);
-        e.process();
+        EventCommandExec(cmd).process();
         return;
     }
     switch (id){
@@ -572,14 +613,14 @@ static const char *accels[] =
 extern bool bFullScreen;
 
 #ifndef FLASHW_TRAY
-typedef struct FLASHWINFO
+struct FLASHWINFO
 {
     unsigned long cbSize;
     HWND hwnd;
     unsigned long dwFlags;
     unsigned long uCount;
     unsigned long dwTimeout;
-} FLASHWINFO;
+};
 
 
 #define FLASHW_TRAY         0x00000002
@@ -624,40 +665,39 @@ void Container::flash()
 #endif	/* ndef WIN32 */
 }
 
-void *Container::processEvent(Event *e)
+bool Container::processEvent(Event *e)
 {
     if (m_tabBar == NULL)
-        return NULL;
-    UserWnd *userWnd;
-    Contact *contact;
-    CommandDef *cmd;
-    Message *msg;
+        return false;
     switch (e->type()){
-    case EventMessageReceived:
-        msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus){
-            contact = getContacts()->contact(msg->contact());
+            Contact *contact = getContacts()->contact(msg->contact());
             if (contact)
                 contactChanged(contact);
-            return NULL;
+            return false;
         }
         if (msg->getFlags() & MESSAGE_NOVIEW)
-            return NULL;
+            return false;
         if (CorePlugin::m_plugin->getContainerMode()){
             if (isActiveWindow() && !isMinimized()){
-                userWnd = m_tabBar->currentWnd();
+                UserWnd *userWnd = m_tabBar->currentWnd();
                 if (userWnd && (userWnd->id() == msg->contact()))
                     userWnd->markAsRead();
             }else{
-                msg = (Message*)(e->param());
-                userWnd = wnd(msg->contact());
+                UserWnd *userWnd = wnd(msg->contact());
                 if (userWnd)
                     QTimer::singleShot(0, this, SLOT(flash()));
             }
         }
-    case EventMessageRead:
-        msg = (Message*)(e->param());
-        userWnd = wnd(msg->contact());
+        // no break here - otherwise we have to duplicate the code below...
+    }
+    case eEventMessageRead: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        UserWnd *userWnd = wnd(msg->contact());
         if (userWnd){
             bool bBold = false;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
@@ -669,92 +709,105 @@ void *Container::processEvent(Event *e)
             m_tabBar->setBold(msg->contact(), bBold);
         }
         break;
-    case EventActiveContact:
+    }
+    case eEventActiveContact: {
+        EventActiveContact *eac = static_cast<EventActiveContact*>(e);
         if (!isActiveWindow())
-            return NULL;
-        userWnd = m_tabBar->currentWnd();
-        if (userWnd)
-            return (void*)(userWnd->id());
+            return false;
+        UserWnd *userWnd = m_tabBar->currentWnd();
+        if (userWnd) {
+            eac->setContactID(userWnd->id());
+            return true;
+        }
         break;
-    case EventContactDeleted:
-        contact = (Contact*)(e->param());
-        userWnd = wnd(contact->id());
-        if (userWnd)
-            removeUserWnd(userWnd);
-        break;
-    case EventContactChanged:
-        contact = (Contact*)(e->param());
-        userWnd = wnd(contact->id());
-        if (userWnd){
-            if (contact->getIgnore()){
+    }
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        UserWnd *userWnd = wnd(contact->id());
+        if(!userWnd)
+            break;
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
                 removeUserWnd(userWnd);
                 break;
             }
-            m_tabBar->changeTab(contact->id());
-            contactChanged(contact);
-        }
-    case EventClientsChanged:
-        setupAccel();
-        break;
-    case EventContactStatus:
-        contact = (Contact*)(e->param());
-        userWnd = m_tabBar->wnd(contact->id());
-        if (userWnd){
-            unsigned style = 0;
-            QString wrkIcons;
-            QString statusIcon;
-            contact->contactInfo(style, statusIcon, &wrkIcons);
-            bool bTyping = false;
-            while (!wrkIcons.isEmpty()){
-                if (getToken(wrkIcons, ',') == "typing"){
-                    bTyping = true;
+            case EventContact::eChanged: {
+                if (contact->getIgnore()){
+                    removeUserWnd(userWnd);
                     break;
                 }
+                m_tabBar->changeTab(contact->id());
+                contactChanged(contact);
+                break;
             }
-            if (userWnd->m_bTyping != bTyping){
-                userWnd->m_bTyping = bTyping;
-                if (bTyping){
-                    userWnd->setStatus(g_i18n("%1 is typing", contact) .arg(contact->getName()));
-                }else{
-                    userWnd->setStatus("");
+            case EventContact::eStatus: {
+                unsigned style = 0;
+                QString wrkIcons;
+                QString statusIcon;
+                contact->contactInfo(style, statusIcon, &wrkIcons);
+                bool bTyping = false;
+                while (!wrkIcons.isEmpty()){
+                    if (getToken(wrkIcons, ',') == "typing"){
+                        bTyping = true;
+                        break;
+                    }
                 }
-                userWnd = m_tabBar->currentWnd();
-                if (userWnd && (contact->id() == userWnd->id()))
-                    m_status->message(userWnd->status());
+                if (userWnd->m_bTyping != bTyping){
+                    userWnd->m_bTyping = bTyping;
+                    if (bTyping){
+                        userWnd->setStatus(g_i18n("%1 is typing", contact) .arg(contact->getName()));
+                    }else{
+                        userWnd->setStatus("");
+                    }
+                    userWnd = m_tabBar->currentWnd();
+                    if (userWnd && (contact->id() == userWnd->id()))
+                        m_status->message(userWnd->status());
+                }
             }
+            default:
+                break;
         }
         break;
-    case EventContactClient:
-        contactChanged((Contact*)(e->param()));
+    }
+    case eEventClientsChanged:
+        setupAccel();
         break;
-    case EventInit:
+    case eEventContactClient: {
+        EventContactClient *ecc = static_cast<EventContactClient*>(e);
+        contactChanged(ecc->contact());
+        break;
+    }
+    case eEventInit:
         init();
         break;
-    case EventCommandExec:
-        cmd = (CommandDef*)(e->param());
-        userWnd = m_tabBar->currentWnd();
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
+        UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id())){
             if (cmd->menu_id == MenuContainerContact){
                 m_tabBar->raiseTab(cmd->id);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdClose){
                 delete userWnd;
-                return e->param();
+                return true;
             }
-            if (cmd->id == CmdInfo){
+            if (cmd->id == CmdInfo && cmd->menu_id != MenuContact){
                 CommandDef c = *cmd;
                 c.menu_id = MenuContact;
                 c.param   = (void*)userWnd->id();
-                Event eExec(EventCommandExec, &c);
-                eExec.process();
-                return e->param();
+                EventCommandExec(&c).process();
+                return true;
             }
         }
         break;
-    case EventCheckState:
-        cmd = (CommandDef*)(e->param());
-        userWnd = m_tabBar->currentWnd();
+    }
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
+        UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id()) &&
                 (cmd->menu_id == MenuContainerContact) &&
                 (cmd->id == CmdContainerContacts)){
@@ -776,11 +829,14 @@ void *Container::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return true;
         }
         break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 void Container::modeChanged()
@@ -854,8 +910,9 @@ void Container::contactChanged(Contact *contact)
         cmd->param = (void*)(contact->id());
         cmd->popup_id = MenuContainerContact;
         cmd->flags = BTN_PICT;
-        Event e(EventCommandChange, cmd);
+        EventCommandChange e(cmd);
         m_bar->processEvent(&e);
+        e.setNoProcess();
         setIcon(Pict(cmd->icon));
         setCaption(userWnd->getLongName());
     }
@@ -1018,12 +1075,10 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
         QTab *t = selectTab(e->pos());
         if (t == NULL) return;
         UserTab *tab = static_cast<UserTab*>(t);
-        ProcessMenuParam mp;
-        mp.id = MenuContact;
-        mp.param = (void*)(tab->wnd()->id());
-        mp.key = 0;
-        Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *menu = (QPopupMenu*)eMenu.process();
+
+        EventMenuProcess eMenu(MenuContact, (void*)tab->wnd()->id());
+        eMenu.process();
+        QPopupMenu *menu = eMenu.menu();
         if (menu)
             menu->popup(e->globalPos());
         return;

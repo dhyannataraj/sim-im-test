@@ -28,7 +28,6 @@
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
 
-using namespace std;
 using namespace SIM;
 
 const unsigned COL_TYPE	= 3;
@@ -44,7 +43,7 @@ static DataDef _smsUserData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-Plugin *createSMSPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createSMSPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new SMSPlugin(base);
     return plugin;
@@ -66,7 +65,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 unsigned SMSPlugin::SerialPacket = 0;
 
-static Message *createPhoneCall(ConfigBuffer *cfg)
+static Message *createPhoneCall(Buffer *cfg)
 {
     return new Message(MessagePhoneCall, cfg);
 }
@@ -99,9 +98,7 @@ SMSPlugin::SMSPlugin(unsigned base)
     cmd->icon		 = "phone";
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defPhoneCall;
-
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     m_protocol = new SMSProtocol(this);
 
@@ -114,8 +111,7 @@ SMSPlugin::~SMSPlugin()
     removePhoneCol();
     delete m_protocol;
     getContacts()->removePacketType(SerialPacket);
-    Event eCall(EventRemoveMessageType, (void*)MessagePhoneCall);
-    eCall.process();
+    EventRemoveMessageType(MessagePhoneCall).process();
 }
 
 void SMSPlugin::setPhoneCol()
@@ -185,7 +181,7 @@ SMSProtocol::~SMSProtocol()
 {
 }
 
-Client *SMSProtocol::createClient(ConfigBuffer *cfg)
+Client *SMSProtocol::createClient(Buffer *cfg)
 {
     return new SMSClient(this, cfg);
 }
@@ -272,7 +268,7 @@ static DataDef smsClientData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-SMSClient::SMSClient(Protocol *protocol, ConfigBuffer *cfg)
+SMSClient::SMSClient(Protocol *protocol, Buffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(smsClientData, &data, cfg);
@@ -287,10 +283,10 @@ SMSClient::~SMSClient()
     free_data(smsClientData, &data);
 }
 
-QString SMSClient::getConfig()
+QCString SMSClient::getConfig()
 {
-    QString cfg = TCPClient::getConfig();
-    QString my_cfg = save_data(smsClientData, &data);
+    QCString cfg = TCPClient::getConfig();
+    QCString my_cfg = save_data(smsClientData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";
@@ -299,14 +295,14 @@ QString SMSClient::getConfig()
     return cfg;
 }
 
-string SMSClient::model()
+QCString SMSClient::model() const
 {
     if (getState() == Connected)
         return m_ta->model();
     return "";
 }
 
-string SMSClient::oper()
+QCString SMSClient::oper() const
 {
     if (getState() == Connected)
         return m_ta->oper();
@@ -329,11 +325,6 @@ QString SMSClient::name()
 QString SMSClient::dataName(void*)
 {
     return "";
-}
-
-void SMSClient::contactInfo(void *, unsigned long &, unsigned &, QString&, QString *icons)
-{
-    Q_UNUSED(icons);
 }
 
 bool SMSClient::isMyData(clientData*&, Contact*&)
@@ -392,9 +383,9 @@ static CommandDef cfgSmsWnd[] =
 CommandDef *SMSClient::configWindows()
 {
     QString title = name();
-    int n = title.find(".");
+    int n = title.find('.');
     if (n > 0)
-        title = title.left(n) + " " + title.mid(n + 1);
+        title = title.left(n) + ' ' + title.mid(n + 1);
     cfgSmsWnd[0].text_wrk = title;
     return cfgSmsWnd;
 }
@@ -451,7 +442,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     while ((contact = ++it) != NULL){
         smsUserData *data;
         ClientDataIterator itd(contact->clientData);
-        while ((data = (smsUserData*)(++itd)) != NULL){
+        while ((data = tosmsUserData(++itd)) != NULL){
             if (name == data->Name.str())
                 break;
         }
@@ -482,13 +473,13 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
             phones += ";";
         contact->setPhones(phones + phone + ",,2/-");
     }
-    smsUserData *data = (smsUserData*)contact->clientData.createData(this);
+    smsUserData *data = tosmsUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     data->Phone.str() = phone;
     data->Name.str()  = name;
     data->Index.asULong() = index;
     data->Type.asULong()  = type;
     if (bNew){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
 }
@@ -538,8 +529,7 @@ void SMSClient::charge(bool bCharge, unsigned capacity)
         setCharge(capacity);
     }
     if (bChange){
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 
@@ -547,8 +537,7 @@ void SMSClient::quality(unsigned quality)
 {
     if (quality != getQuality()){
         setQuality(quality);
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 
@@ -558,8 +547,7 @@ void SMSClient::phoneCall(const QString &number)
         return;
     if (m_call){
         m_callTimer->stop();
-        Event e(EventMessageDeleted, m_call);
-        e.process();
+        EventMessageDeleted(m_call).process();
         delete m_call;
         m_call = NULL;
     }
@@ -590,13 +578,13 @@ void SMSClient::phoneCall(const QString &number)
             contact->setPhones(phones + number + ",,2/-");
         }
         if (bNew){
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         m_call->setContact(contact->id());
     }
     m_call->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
-    Event e(EventMessageReceived, m_call);
+    EventMessageReceived e(m_call);
     if (e.process()){
         m_call = NULL;
         return;
@@ -613,12 +601,45 @@ void SMSClient::callTimeout()
     }
     if (m_call == NULL)
         return;
-    Event e(EventMessageDeleted, m_call);
-    e.process();
+    EventMessageDeleted(m_call).process();
     delete m_call;
     m_call = NULL;
     m_callTimer->stop();
     m_callNumber = "";
+}
+
+smsUserData* SMSClient::tosmsUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into smsUserData*
+   // It will at least warn if the content of the structure is not smsUserData
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != SMS_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into SMS_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (smsUserData*) data;
 }
 
 QWidget *SMSClient::searchWindow(QWidget*)

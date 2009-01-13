@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqclient.h"
 
 #include <time.h>
 #include <stdio.h>
@@ -29,6 +28,10 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qfile.h>
+
+#include "log.h"
+
+#include "icqclient.h"
 #include "xml.h"
 
 using namespace std;
@@ -119,8 +122,8 @@ const unsigned short TLV_WORK_ZIP                   = 0x02BC;
 const unsigned short TLV_WORK_PHONE                 = 0x02C6;
 const unsigned short TLV_WORK_FAX                   = 0x02D0;
 const unsigned short TLV_WORK_HOMEPAGE              = 0x02DA;
-const unsigned short TLV_SHOW_WEB                   = 0x02F8;
-const unsigned short TLV_NEED_AUTH                  = 0x030C;
+const unsigned short TLV_SHOW_WEB                   = 0x030C;
+const unsigned short TLV_NEED_AUTH                  = 0x02F8;
 const unsigned short TLV_TIMEZONE                   = 0x0316;
 const unsigned short TLV_ORIGINALLY_CITY            = 0x0320;
 const unsigned short TLV_ORIGINALLY_STATE           = 0x032A;
@@ -139,7 +142,7 @@ public:
     ServerRequest(unsigned short id);
     virtual ~ServerRequest() {}
     unsigned short id() { return m_id; }
-    virtual bool answer(Buffer&, unsigned short nSubType) = 0;
+    virtual bool answer(ICQBuffer&, unsigned short nSubType) = 0;
     virtual void fail(unsigned short error_code = 0);
 protected:
     unsigned short m_id;
@@ -177,7 +180,7 @@ void ICQClient::clearServerRequests()
         Contact *contact = getContacts()->contact((*it).uin);
         if (contact == NULL)
             continue;
-        Event e(EventFetchInfoFail, contact);
+        EventContact e(contact, EventContact::eFetchInfoFailed);
         e.process();
     }
     infoRequests.clear();
@@ -188,7 +191,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
     switch (type){
     case ICQ_SNACxVAR_ERROR:{
             unsigned short error_code;
-            m_socket->readBuffer >> error_code;
+            socket()->readBuffer() >> error_code;
             if (id == m_offlineMessagesRequestId)
             {
                 log(L_WARN, "Server responded with error %04X for offline messages request.", error_code);
@@ -206,12 +209,12 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
             break;
         }
     case ICQ_SNACxVAR_DATA:{
-            TlvList tlv(m_socket->readBuffer);
+            TlvList tlv(socket()->readBuffer());
             if (tlv(0x0001) == NULL){
                 log(L_WARN, "Bad server response");
                 break;
             }
-            Buffer msg(*tlv(1));
+            ICQBuffer msg(*tlv(1));
             unsigned short len, nType, nId;
             unsigned long own_uin;
             msg >> len >> own_uin >> nType;
@@ -299,23 +302,23 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
             break;
         }
     default:
-        log(L_WARN, "Unknown various family type %04X", type);
+        log(L_WARN, "Unknown various foodgroup type %04X", type);
     }
 }
 
 void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 {
-    snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
-    m_socket->writeBuffer.tlv(0x0001, 0);
-    m_socket->writeBuffer.pack(data.owner.Uin.toULong());
-    m_socket->writeBuffer << cmd;
-    m_socket->writeBuffer.pack((unsigned short)(seq ? seq : m_nMsgSequence));
+    snac(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
+    socket()->writeBuffer().tlv(0x0001, 0);
+    socket()->writeBuffer().pack(data.owner.Uin.toULong());
+    socket()->writeBuffer() << cmd;
+    socket()->writeBuffer().pack((unsigned short)(seq ? seq : m_nMsgSequence));
 }
 
 void ICQClient::sendServerRequest()
 {
     log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
-    Buffer &b = m_socket->writeBuffer;
+    ICQBuffer &b = socket()->writeBuffer();
     char *packet = b.data(b.packetStartPos());
     unsigned short packet_size = (unsigned short)(b.size() - b.packetStartPos());
     unsigned short size = (unsigned short)(packet_size - 0x14);
@@ -342,8 +345,8 @@ public:
     FullInfoRequest(ICQClient *client, unsigned short id, unsigned long uin);
 protected:
     virtual void fail(unsigned short error_code);
-    bool answer(Buffer &b, unsigned short nSubtype);
-    QString unpack_list(Buffer &b, Contact *contact);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
+    QString unpack_list(ICQBuffer &b, Contact *contact);
     unsigned m_nParts;
     unsigned long m_uin;
     ICQClient *m_client;
@@ -362,24 +365,23 @@ void FullInfoRequest::fail(unsigned short)
     Contact *contact = NULL;
     if (m_nParts){
         if (m_client->data.owner.Uin.toULong() == m_uin){
-            Event e(EventClientChanged, m_client);
-            e.process();
+            EventClientChanged(m_client).process();
         }else{
             m_client->findContact(m_uin, NULL, false, contact);
             if (contact){
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
         }
     }
     if (contact){
-        Event e(EventFetchInfoFail, contact);
+        EventContact e(contact, EventContact::eFetchInfoFailed);
         e.process();
     }
     m_client->removeFullInfoRequest(m_uin);
 }
 
-QString FullInfoRequest::unpack_list(Buffer &b, Contact *contact)
+QString FullInfoRequest::unpack_list(ICQBuffer &b, Contact *contact)
 {
     QString res;
     char n;
@@ -391,15 +393,15 @@ QString FullInfoRequest::unpack_list(Buffer &b, Contact *contact)
         b >> s;
         if (c == 0) continue;
         if (res.length())
-            res += ";";
+            res += ';';
         res += QString::number(c);
-        res += ",";
+        res += ',';
         res += quoteChars(getContacts()->toUnicode(contact, s), ";");
     }
     return res;
 }
 
-bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
+bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
 {
     Contact *contact = NULL;
     ICQUserData *data;
@@ -496,10 +498,9 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 b >> d;
                 QCString s;
                 b >> s;
-                s = quoteChars(getContacts()->toUnicode(contact, s), ";");
                 if (mail.length())
-                    mail += ";";
-                mail += s;
+                    mail += ';';
+                mail += quoteChars(getContacts()->toUnicode(contact, s), ";");
                 mail += '/';
                 if (d)
                     mail += '-';
@@ -564,7 +565,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
         data->InfoFetchTime.asULong() = data->InfoUpdateTime.toULong() ? data->InfoUpdateTime.toULong() : 1;
         if (contact != NULL){
             m_client->setupContact(contact, data);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }else{
             int tz;
@@ -582,10 +583,9 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 data->TimeZone.asULong() = tz;
                 m_client->setMainInfo(data);
             }
-            Event eContact(EventContactChanged, getContacts()->owner());
+            EventContact eContact(getContacts()->owner(), EventContact::eChanged);
             eContact.process();
-            Event e(EventClientChanged, m_client);
-            e.process();
+            EventClientChanged(m_client).process();
         }
         m_client->removeFullInfoRequest(m_uin);
         return true;
@@ -600,13 +600,13 @@ unsigned ICQClient::processInfoRequest()
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ++it){
         if ((*it).request_id)
             continue;
-        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV));
         if (delay)
             return delay;
         unsigned long uin = (*it).uin;
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ((uin == data.owner.Uin.toULong()) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
-        m_socket->writeBuffer.pack(uin);
+        socket()->writeBuffer() << ((uin == data.owner.Uin.toULong()) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
+        socket()->writeBuffer().pack(uin);
         sendServerRequest();
         (*it).request_id = m_nMsgSequence;
         (*it).start_time = time(NULL);
@@ -667,7 +667,7 @@ public:
     SearchWPRequest(ICQClient *client, unsigned short id);
 protected:
     virtual void fail(unsigned short error_code);
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
 };
 
@@ -682,19 +682,18 @@ void SearchWPRequest::fail(unsigned short)
     SearchResult res;
     res.id = m_id;
     res.client = m_client;
-    load_data(ICQProtocol::icqUserData, &res.data);
-    Event e(EventSearchDone, &res);
-    e.process();
+    load_data(ICQProtocol::icqUserData, &res.data, NULL);
+    EventSearchDone(&res).process();
     free_data(ICQProtocol::icqUserData, &res.data);
 }
 
-bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
+bool SearchWPRequest::answer(ICQBuffer &b, unsigned short nSubType)
 {
     QCString Nick, FirstName, LastName, EMail;
     SearchResult res;
     res.id = m_id;
     res.client = m_client;
-    load_data(ICQProtocol::icqUserData, &res.data);
+    load_data(ICQProtocol::icqUserData, &res.data, NULL);
 
     unsigned short n;
     b >> n;
@@ -709,10 +708,10 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     >> LastName
     >> EMail
     >> waitAuth;
-    res.data.Nick.str() = QString::fromUtf8(Nick);
-    res.data.FirstName.str() = QString::fromUtf8(FirstName);
-    res.data.LastName.str() = QString::fromUtf8(LastName);
-    res.data.EMail.str() = QString::fromUtf8(EMail);
+    res.data.Nick.str() = getContacts()->toUnicode(NULL, Nick);
+    res.data.FirstName.str() = getContacts()->toUnicode(NULL, FirstName);
+    res.data.LastName.str() = getContacts()->toUnicode(NULL, LastName);
+    res.data.EMail.str() = getContacts()->toUnicode(NULL, EMail);
 
     b.unpack(state);
     b >> gender;
@@ -735,18 +734,16 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     res.data.Age.asULong()    = age;
 
     if (res.data.Uin.toULong() != m_client->data.owner.Uin.toULong()){
-        Event e(EventSearch, &res);
-        e.process();
+        EventSearch(&res).process();
     }
     free_data(ICQProtocol::icqUserData, &res.data);
 
     if (nSubType == 0xAE01){
         unsigned long all;
         b >> all;
-        load_data(ICQProtocol::icqUserData, &res.data);
+        load_data(ICQProtocol::icqUserData, &res.data, NULL);
         res.data.Uin.asULong() = all;
-        Event e(EventSearchDone, &res);
-        e.process();
+        EventSearchDone(&res).process();
         free_data(ICQProtocol::icqUserData, &res.data);
         return true;
     }
@@ -756,40 +753,56 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
 unsigned short ICQClient::findByUin(unsigned long uin)
 {
     if (getState() != Connected)
-        return (unsigned short)(-1);
+        return (unsigned short)~0U;
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer
+    socket()->writeBuffer()
     << ICQ_SRVxREQ_WP_UIN;
-    m_socket->writeBuffer.tlvLE(TLV_UIN, uin);
+    socket()->writeBuffer().tlvLE(TLV_UIN, uin);
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;
 }
 
-unsigned short ICQClient::findByMail(const QString &mail)
+unsigned short ICQClient::findByMail(const QString &_mail)
 {
     if (getState() != Connected)
-        return (unsigned short)(-1);
+        return (unsigned short)~0U;
+    QCString mail = getContacts()->fromUnicode(NULL, _mail);
+
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer
+    socket()->writeBuffer()
     << ICQ_SRVxREQ_WP_MAIL;
-    m_socket->writeBuffer.tlvLE(TLV_EMAIL, mail);
+    socket()->writeBuffer().tlvLE(TLV_EMAIL, mail);
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;
 }
 
-void ICQClient::packTlv(unsigned short tlv, unsigned short code, const char *keywords)
+void ICQClient::packTlv(unsigned short tlv, unsigned short code, const QString &_keywords)
 {
-    string k;
-    if (keywords)
-        k = keywords;
-    if ((code == 0) && k.empty())
+    if ((code == 0) && _keywords.isEmpty())
         return;
-    Buffer b;
+    QCString data = getContacts()->fromUnicode(NULL, _keywords);
+
+    ICQBuffer b;
     b.pack(code);
-    b << k;
-    m_socket->writeBuffer.tlvLE(tlv, b);
+    b << data;
+    socket()->writeBuffer().tlvLE(tlv, b);
+}
+
+void ICQClient::packTlv(unsigned short tlv, const QString &_data)
+{
+    if(_data.isEmpty())
+        return;
+    QCString data = getContacts()->fromUnicode(NULL, _data);
+    socket()->writeBuffer().tlvLE(tlv, data);
+}
+
+void ICQClient::packTlv(unsigned short tlv, unsigned short data)
+{
+    if(data == 0)
+        return;
+    socket()->writeBuffer().tlvLE(tlv, data);
 }
 
 unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, const QString &szNick,
@@ -807,7 +820,7 @@ unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, 
     if (getState() != Connected)
         return (unsigned short)(-1);
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ICQ_SRVxREQ_WP_FULL;
+    socket()->writeBuffer() << ICQ_SRVxREQ_WP_FULL;
 
     unsigned long nMinAge = 0;
     unsigned long nMaxAge = 0;
@@ -838,42 +851,28 @@ unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, 
         break;
     }
 
-    if (!szCity.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_CITY, szCity);
-    if (!szState.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_STATE, szState);
-    if (!szCoName.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, szCoName);
-    if (!szCoDept.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, szCoDept);
-    if (!szCoPos.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, szCoPos);
-    if (nMinAge || nMaxAge)
-        m_socket->writeBuffer.tlvLE(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
-    if (nGender)
-        m_socket->writeBuffer.tlvLE(TLV_GENDER, nGender);
-    if (nLanguage)
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, nLanguage);
-    if (nCountryCode)
-        m_socket->writeBuffer.tlvLE(TLV_COUNTRY, nCountryCode);
-    if (nOccupation)
-        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, nOccupation);
+    packTlv(TLV_CITY, szCity);
+    packTlv(TLV_STATE, szState);
+    packTlv(TLV_WORK_COMPANY, szCoName);
+    packTlv(TLV_WORK_DEPARTMENT, szCoDept);
+    packTlv(TLV_WORK_POSITION, szCoPos);
+    packTlv(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
+    packTlv(TLV_GENDER, nGender);
+    packTlv(TLV_LANGUAGE, nLanguage);
+    packTlv(TLV_COUNTRY, nCountryCode);
+    packTlv(TLV_WORK_OCCUPATION, nOccupation);
     packTlv(TLV_PAST, nPast, szPast);
     packTlv(TLV_INTERESTS, nInterests, szInterests);
     packTlv(TLV_AFFILATIONS, nAffilation, szAffilation);
     packTlv(TLV_HOMEPAGE, nHomePage, szHomePage);
-    if (!szFirst.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, szFirst);
-    if (!szLast.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, szLast);
-    if (!szNick.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_NICK, szNick);
-    if (!szKeyWords.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_KEYWORDS, szKeyWords);
-    if (!szEmail.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_EMAIL, szEmail);
+    packTlv(TLV_FIRST_NAME, szFirst);
+    packTlv(TLV_LAST_NAME, szLast);
+    packTlv(TLV_NICK, szNick);
+    packTlv(TLV_KEYWORDS, szKeyWords);
+    packTlv(TLV_EMAIL, szEmail);
     if (bOnlineOnly)
-        m_socket->writeBuffer.tlvLE(TLV_SEARCH_ONLINE, (char)1);
+        socket()->writeBuffer().tlvLE(TLV_SEARCH_ONLINE, (char)1);
+
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;
@@ -886,7 +885,7 @@ class SetMainInfoRequest : public ServerRequest
 public:
     SetMainInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
 protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     QString m_nick;
     QString m_firstName;
     QString m_lastName;
@@ -924,7 +923,7 @@ SetMainInfoRequest::SetMainInfoRequest(ICQClient *client, unsigned short id, ICQ
     m_hiddenEMail = data->HiddenEMail.toBool();
 }
 
-bool SetMainInfoRequest::answer(Buffer&, unsigned short)
+bool SetMainInfoRequest::answer(ICQBuffer&, unsigned short)
 {
     m_client->data.owner.Nick.str() = m_nick;
     m_client->data.owner.FirstName.str() = m_firstName;
@@ -940,9 +939,8 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
     m_client->data.owner.Country.asULong() = m_country;
     m_client->data.owner.TimeZone.asULong() = m_tz;
     m_client->data.owner.HiddenEMail.asBool() = m_hiddenEMail;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
+    EventClientChanged(m_client).process();
+    m_client->snacService()->sendUpdate();
     return true;
 }
 
@@ -957,7 +955,7 @@ static Tlv makeSString(unsigned id, const QString &str)
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
     memcpy( ba.data() + 2, cstr, len );
-    return Tlv( id, ba.size(), ba.data() );
+    return Tlv(id, ba.size(), ba.data());
 }
 
 static Tlv makeBCombo(unsigned id, unsigned long y, unsigned long m, unsigned long d)
@@ -999,12 +997,29 @@ static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
 
         int cat = cstr.mid( cur, idx - cur ).toULong();
         cur = idx + 1;
+        
+        int start_pos = cur;
+        // Now looking for ";" with even number of slashes before it
+        do {
+            idx = cstr.find( ';', cur );
+            if ( idx == -1 ) {
+               idx = cstr.length();  // If no ";' will use whole string
+            }
+            else{
+                // If found then count slashes before it
+                int slash_count = 0; 
+                while ( (idx > slash_count) && (cstr.mid(idx-1-slash_count,1) == "\\") ){
+                    slash_count++ ;
+                }
+                if ( slash_count % 2 != 0 )  // If there are odd number of slashes, looking for another ";"
+                {
+                  cur = idx+1;
+                  idx = -1;
+                }
+            }
+        } while (idx == -1);
 
-        idx = cstr.find( ';', cur );
-        if( idx == -1 )
-            idx = cstr.length();
-
-        QCString data = cstr.mid( cur, idx - cur);
+        QCString data = cstr.mid( start_pos, idx - start_pos );
         cur = idx + 1;
 
         int len = data.length();
@@ -1052,7 +1067,8 @@ static Tlv makeUInt8(unsigned id, unsigned char d)
 static QString getSString(const char *tlvData)
 {
     unsigned len;
-    len = tlvData[0] | ( tlvData[1] << 8 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    len = data[0] | ( data[1] << 8 );
     QString ret = getContacts()->toUnicode(NULL, &tlvData[2], len);
     return ret;
 }
@@ -1068,7 +1084,8 @@ static void getBCombo(const char *tlvData, unsigned long &y, unsigned long &m, u
 static QString getECombo(const char *tlvData)
 {
     unsigned len;
-    len = tlvData[0] | ( tlvData[1] << 8 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    len = data[0] | ( data[1] << 8 );
     QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
     return ret;
 }
@@ -1080,7 +1097,7 @@ static QString getICombo(const char *tlvData, const QString &o)
     const unsigned char *data = (const unsigned char*)tlvData;
 
     unsigned cat = data[0] | ( data[1] << 8 );
-    ret = QString::number( cat ) + "," + getSString( &tlvData[2] );
+    ret = QString::number( cat ) + ',' + getSString( &tlvData[2] );
     if( others.isEmpty() )
         return ret;
     return others + ';' + ret;
@@ -1089,14 +1106,16 @@ static QString getICombo(const char *tlvData, const QString &o)
 static unsigned long getUInt32(const char *tlvData)
 {
     unsigned long ret;
-    ret = tlvData[0] | ( tlvData[1] << 8 ) | ( tlvData[2] << 16 ) |  ( tlvData[3] << 24 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    ret = data[0] | ( data[1] << 8 ) | ( data[2] << 16 ) |  ( data[3] << 24 );
     return ret;
 }
 
 static unsigned short getUInt16(const char *tlvData)
 {
     unsigned short ret;
-    ret = tlvData[0] | ( tlvData[1] << 8 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    ret = data[0] | ( data[1] << 8 );
     return ret;
 }
 
@@ -1112,7 +1131,7 @@ class ChangeInfoRequest : public ServerRequest
 public:
     ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs);
 protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
     QValueList<Tlv> m_clientInfoTLVs;
 };
@@ -1122,7 +1141,7 @@ ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const
 {
 }
 
-bool ChangeInfoRequest::answer(Buffer&, unsigned short)
+bool ChangeInfoRequest::answer(ICQBuffer&, unsigned short)
 {
     bool bFirstAffilation = true;
     bool bFirstInterest = true;
@@ -1254,10 +1273,10 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 m_client->data.owner.WorkHomepage.str() = getSString(tlv->Data());
                 break;
             case TLV_SHOW_WEB:
-                m_client->data.owner.WebAware.asBool() = !getUInt8(tlv->Data());
+                m_client->data.owner.WebAware.asBool() = getUInt8(tlv->Data());
                 break;
             case TLV_NEED_AUTH:
-                m_client->data.owner.WaitAuth.asBool() = getUInt8(tlv->Data());
+                m_client->data.owner.WaitAuth.asBool() = !getUInt8(tlv->Data());
                 break;
             case TLV_TIMEZONE:
                 m_client->data.owner.TimeZone.asBool() = getUInt8(tlv->Data());
@@ -1271,16 +1290,15 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 break;
         }
     }
-    m_client->sendStatus();
-    Event e(EventClientChanged, m_client);
-    e.process();
+    m_client->snacService()->sendStatus();
+    EventClientChanged(m_client).process();
     return true;
 }
 
 void ICQClient::setMainInfo(ICQUserData *d)
 {
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
+    socket()->writeBuffer() << ICQ_SRVxREQ_MODIFY_MAIN
     << d->Nick.str()
     << d->FirstName.str()
     << d->LastName.str()
@@ -1292,9 +1310,9 @@ void ICQClient::setMainInfo(ICQUserData *d)
     << d->Address.str()
     << d->PrivateCellular.str()
     << d->Zip.str();
-    m_socket->writeBuffer.pack((unsigned short)(d->Country.toULong()));
-    m_socket->writeBuffer.pack((char)(d->TimeZone.toULong()));
-    m_socket->writeBuffer.pack((char)(d->HiddenEMail.toBool()));
+    socket()->writeBuffer().pack((unsigned short)(d->Country.toULong()));
+    socket()->writeBuffer().pack((char)(d->TimeZone.toULong()));
+    socket()->writeBuffer().pack((char)(d->HiddenEMail.toBool()));
     sendServerRequest();
 
     varRequests.push_back(new SetMainInfoRequest(this, m_nMsgSequence, d));
@@ -1305,7 +1323,7 @@ void ICQClient::setClientInfo(void *_data)
     if (getState() != Connected)
         return;
 
-    ICQUserData *d = (ICQUserData*)_data;
+    ICQUserData *d = toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
 
     if (m_bAIM){
         d->ProfileFetch.asBool() = true;
@@ -1422,10 +1440,10 @@ void ICQClient::setClientInfo(void *_data)
         clientInfoTLVs.append(makeSString(TLV_WORK_HOMEPAGE, d->WorkHomepage.str()));
 
     if (d->WebAware.toBool() != data.owner.WebAware.toBool())
-        clientInfoTLVs.append(makeUInt8(TLV_SHOW_WEB, !d->WebAware.toBool()));
+        clientInfoTLVs.append(makeUInt8(TLV_SHOW_WEB, d->WebAware.toBool()));
 
     if (d->WaitAuth.toBool() != data.owner.WaitAuth.toBool())
-        clientInfoTLVs.append(makeUInt8(TLV_NEED_AUTH, d->WaitAuth.toBool()));
+	    clientInfoTLVs.append(makeUInt8(TLV_NEED_AUTH, d->WaitAuth.toBool() ? 0 : 1));
 
     if (d->TimeZone.toULong() != data.owner.TimeZone.toULong())
         clientInfoTLVs.append(makeUInt8(TLV_TIMEZONE, d->TimeZone.toULong()));
@@ -1437,17 +1455,17 @@ void ICQClient::setClientInfo(void *_data)
     uploadBuddy(&data.owner);
     if (!clientInfoTLVs.isEmpty()) {
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        socket()->writeBuffer() << ICQ_SRVxWP_SET;
         for( unsigned i =0; i < clientInfoTLVs.count(); i++ ) {
             Tlv *tlv = &clientInfoTLVs[i];
-            m_socket->writeBuffer.tlvLE( tlv->Num(), *tlv, tlv->Size() );
+            socket()->writeBuffer().tlvLE( tlv->Num(), *tlv, tlv->Size() );
         }
         sendServerRequest();
         varRequests.push_back(new ChangeInfoRequest(this, m_nMsgSequence, clientInfoTLVs));
     }
 
     setChatGroup();
-    sendStatus();
+    snacService()->sendStatus();
 }
 
 class SetPasswordRequest : public ServerRequest
@@ -1455,7 +1473,7 @@ class SetPasswordRequest : public ServerRequest
 public:
     SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd);
 protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     virtual void fail(unsigned short error_code);
     QString m_pwd;
     ICQClient *m_client;
@@ -1465,7 +1483,7 @@ SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, con
     : ServerRequest(id), m_pwd(pwd), m_client(client)
 {}
 
-bool SetPasswordRequest::answer(Buffer&, unsigned short)
+bool SetPasswordRequest::answer(ICQBuffer&, unsigned short)
 {
     m_client->setPassword(m_pwd);
     return true;
@@ -1474,15 +1492,15 @@ bool SetPasswordRequest::answer(Buffer&, unsigned short)
 void SetPasswordRequest::fail(unsigned short error_code)
 {
     log(L_DEBUG, "Password change fail: %X", error_code);
-    clientErrorData d;
+    EventError::ClientErrorData d;
     d.client  = m_client;
     d.code    = 0;
     d.err_str = I18N_NOOP("Change password fail");
     d.args    = QString::null;
-    d.flags   = ERR_ERROR;
+    d.flags   = EventError::ClientErrorData::E_ERROR;
     d.options = NULL;
     d.id      = CmdPasswordFail;
-    Event e(EventClientError, &d);
+    EventClientError e(d);
     e.process();
 }
 
@@ -1490,7 +1508,7 @@ void ICQClient::changePassword(const QString &new_pswd)
 {
     QString pwd = new_pswd;
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer
+    socket()->writeBuffer()
     << ICQ_SRVxREQ_CHANGE_PASSWD
     << (const char*)getContacts()->fromUnicode(NULL, pwd).data();
     sendServerRequest();
@@ -1501,7 +1519,7 @@ class SMSRequest : public ServerRequest
 {
 public:
     SMSRequest(ICQClient *client, unsigned short id);
-    virtual bool answer(Buffer&, unsigned short nSubType);
+    virtual bool answer(ICQBuffer&, unsigned short nSubType);
     virtual void fail(unsigned short error_code);
 protected:
     ICQClient *m_client;
@@ -1522,7 +1540,7 @@ SMSRequest::SMSRequest(ICQClient *client, unsigned short id)
     m_client = client;
 }
 
-bool SMSRequest::answer(Buffer &b, unsigned short code)
+bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
 {
     m_client->m_sendSmsId = 0;
     if (code == 0x0100){
@@ -1533,8 +1551,7 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
         m_client->smsQueue.erase(m_client->smsQueue.begin());
         sms->setError(errStr.data());
-        Event e(EventMessageSent, sms);
-        e.process();
+        EventMessageSent(sms).process();
         delete sms;
     }else{
         b.incReadPos(6);
@@ -1554,16 +1571,16 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
                 XmlBranch *msg = static_cast<XmlBranch*>(n);
                 XmlLeaf *l = msg->getLeaf("deliverable");
                 if (l && (l->getValue() == "Yes")){
-                    error = "";
+                    error = QString::null;
                     l = msg->getLeaf("network");
                     if (l)
-                        network = l->getValue();
+						network = QString(l->getValue().c_str());
                 }else{
                     XmlBranch *param = msg->getBranch("param");
                     if (param){
                         XmlLeaf *l = param->getLeaf("error");
                         if (l)
-                            error = l->getValue();
+                            error = QString(l->getValue().c_str());
                     }
                 }
             }
@@ -1580,16 +1597,14 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
                     m.setText(s.part);
                     m.setPhone(sms->getPhone());
                     m.setNetwork(network);
-                    Event e(EventSent, &m);
-                    e.process();
+                    EventSent(&m).process();
                 }
             }
         }else{
             if (!m_client->smsQueue.empty()){
                 SendMsg &s = m_client->smsQueue.front();
                 s.msg->setError(error);
-                Event e(EventMessageSent, s.msg);
-                e.process();
+                EventMessageSent(s.msg).process();
                 delete s.msg;
                 m_client->smsQueue.erase(m_client->smsQueue.begin());
             }
@@ -1607,8 +1622,7 @@ void SMSRequest::fail(unsigned short)
     Message *sms = s.msg;
     sms->setError(I18N_NOOP("SMS send fail"));
     m_client->smsQueue.erase(m_client->smsQueue.begin());
-    Event e(EventMessageSent, sms);
-    e.process();
+    EventMessageSent(sms).process();
     delete sms;
     m_client->m_sendSmsId = 0;
     m_client->processSendQueue();
@@ -1651,13 +1665,12 @@ unsigned ICQClient::processSMSQueue()
     for (;;){
         if (smsQueue.empty())
             break;
-        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV));
         if (delay)
             return delay;
         SendMsg &s = smsQueue.front();
         if (s.text.isEmpty() || (!(s.flags & SEND_1STPART) && (s.msg->getFlags() & MESSAGE_1ST_PART))){
-            Event e(EventMessageSent, s.msg);
-            e.process();
+            EventMessageSent(s.msg).process();
             delete s.msg;
             smsQueue.erase(smsQueue.begin());
             continue;
@@ -1699,10 +1712,10 @@ unsigned ICQClient::processSMSQueue()
         string msg = xmltree.toString(0);
 
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxREQ_SEND_SMS
+        socket()->writeBuffer() << ICQ_SRVxREQ_SEND_SMS
         << 0x00010016L << 0x00000000L << 0x00000000L
         << 0x00000000L << 0x00000000L << (unsigned long)(msg.size());
-        m_socket->writeBuffer << msg.c_str();
+        socket()->writeBuffer() << msg.c_str();
         sendServerRequest();
         varRequests.push_back(new SMSRequest(this, m_nMsgSequence));
         m_sendSmsId = m_nMsgSequence;
@@ -1715,8 +1728,7 @@ void ICQClient::clearSMSQueue()
 {
     for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
         (*it).msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, (*it).msg);
-        e.process();
+        EventMessageSent((*it).msg).process();
         delete (*it).msg;
     }
     smsQueue.clear();
@@ -1728,10 +1740,10 @@ void ICQClient::setChatGroup()
     if ((getState() != Connected) || (getRandomChatGroup() == getRandomChatGroupCurrent()))
         return;
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << (unsigned short)ICQ_SRVxREQ_SET_CHAT_GROUP;
+    socket()->writeBuffer() << (unsigned short)ICQ_SRVxREQ_SET_CHAT_GROUP;
     if (getRandomChatGroup()){
-        m_socket->writeBuffer.pack((unsigned short)getRandomChatGroup());
-        m_socket->writeBuffer
+        socket()->writeBuffer().pack((unsigned short)getRandomChatGroup());
+        socket()->writeBuffer()
         << 0x00000310L
         << 0x00000000L
         << 0x00000000L
@@ -1744,7 +1756,7 @@ void ICQClient::setChatGroup()
         << (unsigned short)0
         << (char)0;
     }else{
-        m_socket->writeBuffer << (unsigned short)0;
+        socket()->writeBuffer() << (unsigned short)0;
     }
     sendServerRequest();
     setRandomChatGroupCurrent(getRandomChatGroup());
@@ -1756,7 +1768,7 @@ public:
     RandomChatRequest(ICQClient *client, unsigned short id);
 protected:
     virtual void fail(unsigned short error_code);
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
 };
 
@@ -1767,31 +1779,34 @@ RandomChatRequest::RandomChatRequest(ICQClient *client, unsigned short id)
     m_client = client;
 }
 
-bool RandomChatRequest::answer(Buffer &b, unsigned short)
+bool RandomChatRequest::answer(ICQBuffer &b, unsigned short)
 {
     unsigned long uin;
     b.unpack(uin);
-    Event e(EventRandomChat, (void*)uin);
-    e.process();
+// currently unhandled
+//    Event e(EventRandomChat, (void*)uin);
+//    e.process();
     return true;
 }
 
 void RandomChatRequest::fail(unsigned short)
 {
-    Event e(EventRandomChat, NULL);
-    e.process();
+// currently unhandled
+//    Event e(EventRandomChat, NULL);
+//    e.process();
 }
 
 void ICQClient::searchChat(unsigned short group)
 {
     if (getState() != Connected){
-        Event e(EventRandomChat, NULL);
-        e.process();
+// currently unhandled
+//        Event e(EventRandomChat, NULL);
+//        e.process();
         return;
     }
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << (unsigned short)ICQ_SRVxREQ_RANDOM_CHAT;
-    m_socket->writeBuffer.pack(group);
+    socket()->writeBuffer() << (unsigned short)ICQ_SRVxREQ_RANDOM_CHAT;
+    socket()->writeBuffer().pack(group);
     sendServerRequest();
     varRequests.push_back(new RandomChatRequest(this, m_nMsgSequence));
 }

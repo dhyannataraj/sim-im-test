@@ -18,7 +18,6 @@
 #ifndef _SPELLCFG_H
 #define _SPELLCFG_H
 
-#include "simapi.h"
 #include "spellcfgbase.h"
 
 class SpellPlugin;

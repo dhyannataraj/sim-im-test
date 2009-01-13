@@ -170,6 +170,24 @@
                                             <cstring>cmbCountry</cstring>
                                         </property>
                                     </widget>
+		                            <widget>
+		                                <class>QPushButton</class>
+		                                <property stdset="1">
+		                                    <name>name</name>
+		                                    <cstring>btnWebLocation</cstring>
+		                                </property>
+		                                <property>
+		                                    <name>sizePolicy</name>
+		                                    <sizepolicy>
+		                                        <hsizetype>0</hsizetype>
+		                                        <vsizetype>0</vsizetype>
+		                                    </sizepolicy>
+		                                </property>
+		                                <property>
+		                                    <name>text</name>
+		                                    <string></string>
+		                                </property>
+		                            </widget>
                                     <spacer>
                                         <property>
                                             <name>name</name>

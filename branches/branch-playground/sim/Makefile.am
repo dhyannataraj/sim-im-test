@@ -1,9 +1,10 @@
 bin_PROGRAMS = sim 
 lib_LTLIBRARIES = libsim.la
 
-SUBDIRS = png libltdl qzip
+SUBDIRS = png qzip
 
-sim_SOURCES = sim.cpp 
+sim_SOURCES = sim.cpp \
+ sim.rc
 
 libsim_la_SOURCES = \
  aboutdata.cpp \
@@ -16,6 +17,7 @@ libsim_la_SOURCES = \
  country.cpp \
  datepicker.cpp \
  editfile.cpp \
+ event.cpp \
  exec.cpp \
  fetch.cpp \
  fontedit.cpp \
@@ -31,7 +33,7 @@ libsim_la_SOURCES = \
  qcolorbutton.cpp \
  qkeybutton.cpp \
  sax.cpp \
- simapi.cpp \
+ misc.cpp \
  socket.cpp \
  sockfactory.cpp \
  sslclient.cpp \
@@ -48,14 +50,13 @@ sim_rc.o: sim.rc
 endif
 
 sim_LDADD = $(SIM_RC_OBJ) libsim.la
-sim_DEPENDENCIES = $(SIM_RC_OBJ)
-libsim_la_LIBADD = qzip/libqzip.la $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
+libsim_la_LIBADD = qzip/libqzip.la $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
-	icq.ico
+	sim.ico
 
 dist-hook:
 	cp $(srcdir)/*.h $(distdir)/
@@ -64,7 +65,7 @@ dist_desktop_DATA = sim.desktop
 desktopdir=$(xdg_appsdir)/
 
 # set the include path for X, qt and KDE
-INCLUDES = $(LTDLINCL) $(all_includes) 
+INCLUDES=$(LTDLINCL) -I. -I../plugins/_core $(all_includes)
 
 METASOURCES = AUTO
 

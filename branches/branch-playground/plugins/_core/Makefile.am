@@ -81,15 +81,23 @@ _core_la_SOURCES = \
  filetransfer.cpp \
  filetransferbase.ui \
  declinedlg.cpp \
- declinedlgbase.ui 
+ declinedlgbase.ui \
+ toolbar_main.cpp \
+ toolbar_history.cpp \
+ toolbar_container.cpp \
+ toolbar_msgedit.cpp \
+ toolbar_textedit.cpp \
+ msgview_menu.cpp 
 
-SUBDIRS=pict styles jisp smiles icqlite
+
+
+SUBDIRS=pict styles jisp GPL-Icons emoticons_prebuilt
 
 INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 _core_la_METASOURCES = AUTO
 _core_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS)  
-_core_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+_core_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 
 

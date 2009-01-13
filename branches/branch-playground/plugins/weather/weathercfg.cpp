@@ -15,20 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "weather.h"
-#include "weathercfg.h"
-#include "wifacecfg.h"
-#include "linklabel.h"
-#include "editfile.h"
-#include "ballonmsg.h"
-#include "buffer.h"
-
 #include <qtimer.h>
 #include <qtoolbar.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
+
+#include "ballonmsg.h"
+#include "buffer.h"
+#include "editfile.h"
+#include "linklabel.h"
+#include "log.h"
+#include "misc.h"
+
+#include "weather.h"
+#include "weathercfg.h"
+#include "wifacecfg.h"
 
 using namespace SIM;
 
@@ -81,14 +84,14 @@ void WeatherCfg::search()
     fetch(url);
 }
 
-bool WeatherCfg::done(unsigned, Buffer &data, const char*)
+bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
 {
     m_ids.clear();
     m_names.clear();
-    m_id = "";
-    m_data = "";
+    m_id = QString::null;
+    m_data = QString::null;
     reset();
-    if (!parse(data.data(), data.size(), false))
+    if (!parse(data, false))
         log(L_WARN, "XML parse error");
     btnSearch->setText(i18n("&Search"));
     QString oldText = cmbLocation->lineEdit()->text();
@@ -105,11 +108,11 @@ bool WeatherCfg::done(unsigned, Buffer &data, const char*)
     return false;
 }
 
-void *WeatherCfg::processEvent(Event *e)
+bool WeatherCfg::processEvent(Event *e)
 {
     if (e->type() == m_plugin->EventWeather)
         fill();
-    return NULL;
+    return false;
 }
 
 void WeatherCfg::fill()
@@ -147,32 +150,27 @@ void WeatherCfg::apply()
     }
 }
 
-void WeatherCfg::element_start(const char *el, const char **attr)
+void WeatherCfg::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "loc") && attr){
-        for (const char **p = attr; *p;){
-            QCString key  = *(p++);
-            QString value = *(p++);
-            if (key == "id")
-                m_id = value;
-        }
+    if (el == "loc"){
+        m_id = attrs.value("id");
     }
 }
 
-void WeatherCfg::element_end(const char *el)
+void WeatherCfg::element_end(const QString& el)
 {
-    if (!strcmp(el, "loc") && !m_id.isEmpty() && !m_data.isEmpty()){
+    if (el == "loc" && !m_id.isEmpty() && !m_data.isEmpty()){
         m_ids.append(m_id);
         m_names.append(m_data);
-        m_id = "";
-        m_data = "";
+        m_id = QString::null;
+        m_data = QString::null;
     }
 }
 
-void WeatherCfg::char_data(const char *str, int len)
+void WeatherCfg::char_data(const QString& str)
 {
     if (!m_id.isEmpty())
-		m_data += QString::fromLatin1(str, len);
+        m_data += str;
 }
 
 #ifndef NO_MOC_INCLUDES

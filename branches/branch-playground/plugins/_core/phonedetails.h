@@ -18,7 +18,6 @@
 #ifndef _PHONEDETAILS_H
 #define _PHONEDETAILS_H
 
-#include "simapi.h"
 #include "phonebase.h"
 
 class PhoneDetails : public PhoneDetailsBase

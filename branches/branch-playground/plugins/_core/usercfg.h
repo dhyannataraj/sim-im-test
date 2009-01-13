@@ -18,7 +18,6 @@
 #ifndef _USERCFG_H
 #define _USERCFG_H
 
-#include "simapi.h"
 #include "cfgdlgbase.h"
 
 class CorePlugin;
@@ -42,7 +41,7 @@ protected slots:
     void updateInfo();
 protected:
     virtual void accept();
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void setTitle();
     void fill();

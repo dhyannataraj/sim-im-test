@@ -15,17 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "soundconfig.h"
-#include "sounduser.h"
-#include "sound.h"
-#include "editfile.h"
+#include "simapi.h"
 
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qsound.h>
-#include <qfile.h>
+
+#include "editfile.h"
+#include "contacts.h"
+#include "misc.h"
+
+#include "soundconfig.h"
+#include "sounduser.h"
+#include "sound.h"
 
 using SIM::getContacts;
 
@@ -45,7 +48,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 #endif
 #endif
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     lblPlayer->hide();
     edtPlayer->hide();
 #else
@@ -100,7 +103,7 @@ void SoundConfig::apply()
     m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav"));
 }
 
-QString SoundConfig::sound(QString text, const QString &def)
+QString SoundConfig::sound(const QString &text, const QString &def)
 {
     QString defFile = m_plugin->fullName(def);
     if (defFile == text)

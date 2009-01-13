@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "filtercfg.h"
 #include "filter.h"
 #include "ignorelist.h"

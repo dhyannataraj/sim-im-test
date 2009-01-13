@@ -16,6 +16,15 @@
  ***************************************************************************/
 
 #include "simapi.h"
+
+#ifdef WIN32
+#define _WIN32_IE 0x0500
+#include <windows.h>
+#include <shellapi.h>
+#endif
+
+#include "icons.h"
+#include "log.h"
 #include "dockwnd.h"
 #include "dock.h"
 #include "core.h"
@@ -29,12 +38,6 @@
 #include <qapplication.h>
 #include <qvaluelist.h>
 #include <qregexp.h>
-
-#ifdef WIN32
-#define _WIN32_IE 0x0501
-#include <windows.h>
-#include <shellapi.h>
-#endif
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -57,13 +60,10 @@ using namespace SIM;
 
 #ifdef WIN32
 
-#include <shellapi.h>
-
 const unsigned TIP_TIMEOUT = 24 * 60 * 60 * 1000;
 
-static WNDPROC oldDockProc;
-static DockWnd *gDock;
 static UINT	   WM_DOCK = 0;
+static UINT    WM_TASKBARCREATED = 0;
 
 #ifndef NIN_BALLOONSHOW
 #define NIN_BALLOONSHOW		(WM_USER + 2)
@@ -81,14 +81,31 @@ static UINT	   WM_DOCK = 0;
 #define NIN_BALLOONUSERCLICK	(WM_USER + 5)
 #endif
 
-LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+bool DockWnd::winEvent(MSG *msg)
 {
-    if ((msg == WM_DOCK) || (msg == 0)){
-        gDock->callProc(lParam);
+    if(msg->message == WM_DOCK || msg->message == 0)
+        callProc(msg->lParam);
+    if(msg->message == WM_TASKBARCREATED)
+        addIconToTaskbar();
+    return false;
+}
+
+void DockWnd::addIconToTaskbar()
+{
+    NOTIFYICONDATAW notifyIconData;
+    if (m_bBalloon){
+        memset(&notifyIconData, 0, sizeof(notifyIconData));
+        notifyIconData.cbSize = sizeof(notifyIconData);
+        notifyIconData.uVersion = NOTIFYICON_VERSION;
+        Shell_NotifyIconW(NIM_SETVERSION, (NOTIFYICONDATAW*)&notifyIconData);
     }
-    if (oldDockProc)
-        return oldDockProc(hWnd, msg, wParam, lParam);
-    return 0;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    notifyIconData.uCallbackMessage = WM_DOCK;
+    notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+    Shell_NotifyIconW(NIM_ADD, &notifyIconData);
 }
 
 void DockWnd::callProc(unsigned long param)
@@ -103,9 +120,11 @@ void DockWnd::callProc(unsigned long param)
         bNoToggle = true;
         QTimer::singleShot(0, this, SLOT(dbl_click()));
         return;
-    case WM_LBUTTONDOWN:
-        if (!bNoToggle)
-            QTimer::singleShot(500, this, SLOT(toggle()));
+	case WM_LBUTTONUP:
+        if (bNoToggle)
+            bNoToggle = false;
+        else
+            emit toggleWin();
         return;
     case NIN_BALLOONHIDE:
     case NIN_BALLOONTIMEOUT:
@@ -121,8 +140,7 @@ void DockWnd::callProc(unsigned long param)
             Command cmd;
             cmd->id    = id;
             cmd->param = client;
-            Event e(EventCommandExec, cmd);
-            e.process();
+            EventCommandExec(cmd).process();
         }
         return;
     }
@@ -622,44 +640,16 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 #ifdef WIN32
-    m_bBalloon = false;
-    hShell = NULL;
+    if((QApplication::winVersion() & WV_NT_based) &&
+       (QApplication::winVersion() & WV_NT) == 0)
+        m_bBalloon = true;
+    else
+        m_bBalloon = false;
     setIcon(icon);
     QWidget::hide();
-    gDock = this;
     WM_DOCK = RegisterWindowMessageA("SIM dock");
-    if (IsWindowUnicode(winId())){
-        oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        OSVERSIONINFOA osvi;
-        osvi.dwOSVersionInfoSize = sizeof(osvi);
-        GetVersionExA(&osvi);
-        if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) && (osvi.dwMajorVersion > 4))
-            m_bBalloon = true;
-        NOTIFYICONDATAW notifyIconData;
-        if (m_bBalloon){
-            memset(&notifyIconData, 0, sizeof(notifyIconData));
-            notifyIconData.cbSize = sizeof(notifyIconData);
-            notifyIconData.uVersion = NOTIFYICON_VERSION;
-            Shell_NotifyIconW(NIM_SETVERSION, (NOTIFYICONDATAW*)&notifyIconData);
-        }
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uCallbackMessage = WM_DOCK;
-        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        Shell_NotifyIconW(NIM_ADD, &notifyIconData);
-    }else{
-        oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uCallbackMessage = WM_DOCK;
-        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        Shell_NotifyIconA(NIM_ADD, &notifyIconData);
-    }
+    WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
+    addIconToTaskbar();
 #else
     setMinimumSize(22, 22);
     resize(22, 22);
@@ -737,7 +727,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
                         (unsigned char *)&val, 1);
         win_name = "SIM";
         win_version = VERSION;
-        win_info = "";
+        win_info = QString::null;
         while (!comms_win)
         {
             ECommsSetup(dsp);
@@ -807,24 +797,25 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     XSetWMHints(dsp, win, hints);
     XFree( hints );
 
-    Event eArgc(EventArgc);
-    long argc = (long)eArgc.process();
-    Event eArgv(EventArgv);
-    char **argv = (char**)eArgv.process();
+    EventGetArgs e;
+    e.process();
+    long argc = e.argc();
+    char **argv = e.argv();
     XSetCommand(dsp, win, argv, argc);
 
     if (!inNetTray){
         move(-21, -21);
         resize(22, 22);
     }
-    show();
-    QApplication::syncX();
-    if (wharfIcon){
-	resize(64, 64);
-	QApplication::syncX();
+    /*
+    * show dockWnd only if there is nowhere to dock(e.g. WindowMaker)
+    * */
+    if (manager_window == None){
+        resize(64, 64);
+        QApplication::syncX();
+        show();
     }
 #endif
-    show();
 #endif
     setTip(text);
     reset();
@@ -833,28 +824,16 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 DockWnd::~DockWnd()
 {
     quit();
-#ifdef WIN32
-    if (hShell)
-        FreeLibrary((HMODULE)hShell);
-#endif
 }
 
 void DockWnd::quit()
 {
 #ifdef WIN32
-    if (IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hWnd = winId();
-        Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hWnd = winId();
-        Shell_NotifyIconA(NIM_DELETE, &notifyIconData);
-    }
+    NOTIFYICONDATAW notifyIconData;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hWnd = winId();
+    Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
 #endif
 }
 
@@ -863,60 +842,65 @@ void DockWnd::dbl_click()
     emit doubleClicked();
 }
 
-void *DockWnd::processEvent(Event *e)
+bool DockWnd::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventMessageReceived:
-    case EventMessageRead:
-    case EventMessageDeleted:
+    case eEventMessageReceived:
+    case eEventMessageRead:
+    case eEventMessageDeleted:
         reset();
         break;
-    case EventSetMainIcon:
-        m_state = (const char*)(e->param());
-        if (!bBlink)
-            setIcon(m_state);
+    case eEventSetMainIcon: {
+        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+        m_state = smi->icon();
+        if (bBlink)
+            break;
+        setIcon(m_state);
         break;
-    case EventSetMainText:
-        m_tip = (const char*)(e->param());
+    }
+    case eEventSetMainText: {
+        EventSetMainText *smt = static_cast<EventSetMainText*>(e);
+        setTip(smt->text());
+        break;
+    }
+    case eEventIconChanged:
+        setIcon((bBlink && !m_unread.isEmpty()) ? m_unread : m_state);
+        break;
+    case eEventLanguageChanged:
         setTip(m_tip);
         break;
-    case EventIconChanged:
-        setIcon((bBlink && m_unread) ? m_unread : m_state);
-        break;
-    case EventLanguageChanged:
-        setTip(m_tip);
-        break;
-    case EventQuit:
+    case eEventQuit:
         quit();
         break;
 #ifdef WIN32
-    case EventShowError:{
+    case eEventShowError:{
             if (!m_bBalloon)
                 return NULL;
-            clientErrorData *data = (clientErrorData*)(e->param());
-            if (data->id == 0)
+            EventShowError *ee = static_cast<EventShowError*>(e);
+            const EventError::ClientErrorData &data = ee->data();
+            if (data.id == 0)
                 return NULL;
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-                if ((*it).id == data->id)
-                    return e->param();
+                if ((*it).id == data.id)
+                    return (void*)1;
             }
-            QString arg = data->args;
+            QString arg = data.args;
 
             BalloonItem item;
-            item.id   = data->id;
-            item.client = data->client;
-            item.flags  = (data->flags & ERR_INFO) ? NIIF_INFO : NIIF_ERROR;
-            item.text = i18n(data->err_str);
+            item.id   = data.id;
+            item.client = data.client;
+            item.flags  = (data.flags & EventError::ClientErrorData::E_INFO) ? NIIF_INFO : NIIF_ERROR;
+            item.text = i18n(data.err_str);
             if (item.text.find("%1") >= 0)
                 item.text = item.text.arg(arg);
             if (!m_queue.empty()){
                 m_queue.push_back(item);
-                return e->param();
+                return (void*)1;
             }
             item.title = "SIM";
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i) == data->client){
+                    if (getContacts()->getClient(i) == data.client){
                         item.title = getContacts()->getClient(i)->name();
                         int n = item.title.find(".");
                         if (n > 0)
@@ -926,12 +910,14 @@ void *DockWnd::processEvent(Event *e)
             }
             m_queue.push_back(item);
             if (showBalloon())
-                return e->param();
-            return NULL;
+                return true;
+            return false;
         }
 #endif
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 #ifdef WIN32
@@ -1029,14 +1015,15 @@ void DockWnd::paintEvent( QPaintEvent* )
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (!bInit) return;
+    if (!bInit)
+        return;
 #endif
 #endif
     QPainter p(this);
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
 }
 
-void DockWnd::setIcon(const char *icon)
+void DockWnd::setIcon(const QString &icon)
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -1047,6 +1034,9 @@ void DockWnd::setIcon(const char *icon)
     }
 #endif
 #endif
+    if(m_curIcon == icon)
+        return;
+    m_curIcon = icon;
     drawIcon = Pict(icon);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -1058,72 +1048,58 @@ void DockWnd::setIcon(const char *icon)
 #endif
 #ifdef WIN32
     QWidget::setIcon(drawIcon);
-    if (IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uFlags = NIF_ICON;
-        Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uFlags = NIF_ICON;
-        Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
-    }
+    NOTIFYICONDATAW notifyIconData;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    notifyIconData.uFlags = NIF_ICON;
+    Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (wharfIcon)
         return;
 #endif
-    repaint();
+    // from PSI:
+    // thanks to Robert Spier for this:
+    // for some reason the repaint() isn't being honored, or isn't for
+    // the icon.  So force one on the widget behind the icon
+    erase();
+    QPaintEvent pe( rect() );
+    paintEvent(&pe);
 #endif
 }
 
-void DockWnd::setTip(const char *text)
+void DockWnd::setTip(const QString &text)
 {
     m_tip = text;
     QString tip = m_unreadText;
     if (tip.isEmpty()){
         tip = i18n(text);
-        tip = tip.replace(QRegExp("\\&"), "");
+        tip = tip.remove('&');
     }
+    if(tip == m_curTipText)
+        return;
+    m_curTipText = tip;
 #ifdef WIN32
-    if (IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        unsigned size = tip.length();
-        if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
-            size = sizeof(notifyIconData.szTip) / sizeof(wchar_t) - 1;
-        memcpy(notifyIconData.szTip, tip.unicode(), size * sizeof(wchar_t));
-        notifyIconData.uFlags = NIF_TIP;
-        Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        strncpy(notifyIconData.szTip, tip.local8Bit(), sizeof(notifyIconData.szTip));
-        notifyIconData.uFlags = NIF_TIP;
-        Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
-    }
+    NOTIFYICONDATAW notifyIconData;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    unsigned size = tip.length();
+    if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
+        size = sizeof(notifyIconData.szTip) / sizeof(wchar_t) - 1;
+    memcpy(notifyIconData.szTip, tip.unicode(), size * sizeof(wchar_t));
+    notifyIconData.uFlags = NIF_TIP;
+    Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (wharfIcon == NULL){
-        if (isVisible()){
 #endif
             QToolTip::remove(this);
             QToolTip::add(this, tip);
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-        }
     }else{
         if (wharfIcon->isVisible()){
             QToolTip::remove(wharfIcon);
@@ -1134,21 +1110,14 @@ void DockWnd::setTip(const char *text)
 #endif
 }
 
-void DockWnd::toggle()
-{
-    if (bNoToggle){
-        bNoToggle = false;
-        return;
-    }
-    emit toggleWin();
-}
-
 void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
-        if (!bNoToggle)
-            QTimer::singleShot(700, this, SLOT(toggle()));
+        if (bNoToggle)
+            bNoToggle = false;
+        else
+            emit toggleWin();
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());
@@ -1166,7 +1135,8 @@ void DockWnd::mousePressEvent( QMouseEvent *e)
     QWidget::mousePressEvent(e);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (inTray || wharfIcon) return;
+    if (inTray || wharfIcon)
+        return;
 #endif
     grabMouse();
     mousePos = e->pos();
@@ -1202,9 +1172,11 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
     QWidget::mouseMoveEvent(e);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (inTray || wharfIcon) return;
+    if (inTray || wharfIcon)
+        return;
 #endif
-    if (mousePos.isNull()) return;
+    if (mousePos.isNull())
+        return;
     move(e->globalPos().x() - mousePos.x(), e->globalPos().y() - mousePos.y());
 #endif
 }
@@ -1219,7 +1191,8 @@ void DockWnd::enterEvent( QEvent* )
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (wharfIcon != NULL) return;
+    if (wharfIcon != NULL)
+        return;
     if ( !qApp->focusWidget() ) {
         XEvent ev;
         memset(&ev, 0, sizeof(ev));
@@ -1239,7 +1212,7 @@ void DockWnd::enterEvent( QEvent* )
 
 void DockWnd::blink()
 {
-    if (m_unread == NULL){
+    if (m_unread.isEmpty()){
         bBlink = false;
         blinkTimer->stop();
         setIcon(m_state);
@@ -1249,13 +1222,13 @@ void DockWnd::blink()
     setIcon(bBlink ? m_unread : m_state);
 }
 
-typedef struct msgIndex
+struct msgIndex
 {
     unsigned	contact;
     unsigned	type;
-} msgIndex;
+};
 
-bool operator < (const struct msgIndex &a, const struct msgIndex &b)
+bool operator < (const msgIndex &a, const msgIndex &b)
 {
     if (a.contact < b.contact)
         return true;
@@ -1268,13 +1241,13 @@ typedef map<msgIndex, unsigned> MAP_COUNT;
 
 void DockWnd::reset()
 {
-    m_unread = NULL;
+    m_unread = QString::null;
     QString oldUnreadText = m_unreadText;
-    m_unreadText = "";
+    m_unreadText = QString::null;
     MAP_COUNT count;
     MAP_COUNT::iterator itc;
     for (list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
-        if (m_unread == NULL){
+        if (m_unread.isEmpty()){
             CommandDef *def = m_plugin->m_core->messageTypes.find((*it).type);
             if (def)
                 m_unread = def->icon;
@@ -1319,7 +1292,7 @@ void DockWnd::reset()
             m_unreadText += msg;
         }
     }
-    if (m_unread && !blinkTimer->isActive())
+    if (!m_unread.isEmpty() && !blinkTimer->isActive())
         blinkTimer->start(1500);
     if (m_unreadText != oldUnreadText)
         setTip(m_tip);

@@ -9,6 +9,9 @@
 #ifndef _ZLIBIOAPI_H
 #define _ZLIBIOAPI_H
 
+#pragma warning(disable:4131)
+#pragma warning(disable:4100)
+#pragma warning(disable:4245)
 
 #define ZLIB_FILEFUNC_SEEK_CUR (1)
 #define ZLIB_FILEFUNC_SEEK_END (2)

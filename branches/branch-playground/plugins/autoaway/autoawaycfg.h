@@ -18,7 +18,6 @@
 #ifndef _AUTOAWAYCFG_H
 #define _AUTOAWAYCFG_H
 
-#include "simapi.h"
 #include "autoawaycfgbase.h"
 
 class AutoAwayPlugin;

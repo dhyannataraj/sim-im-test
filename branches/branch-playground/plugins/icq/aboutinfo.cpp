@@ -15,14 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "aboutinfo.h"
 #include "icqclient.h"
 #include "textshow.h"
 
 using namespace SIM;
 
-AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+AboutInfo::AboutInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : AboutInfoBase(parent)
 {
     m_data   = data;
@@ -41,23 +40,26 @@ void AboutInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->About.str() = edtAbout->text();
 }
 
-void *AboutInfo::processEvent(Event *e)
+bool AboutInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
     }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void AboutInfo::fill()

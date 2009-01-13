@@ -18,7 +18,6 @@
 #ifndef _STATUSWND_H
 #define _STATUSWND_H
 
-#include "simapi.h"
 
 #include <qframe.h>
 #include <qlabel.h>
@@ -61,7 +60,7 @@ protected slots:
 protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void mousePressEvent(QMouseEvent *e);
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event*);
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
     QFrame		*m_frame;

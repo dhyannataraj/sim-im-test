@@ -19,8 +19,6 @@
 #define _JABBERBROWSER_H
 
 #include "jabberclient.h"
-#include "simapi.h"
-#include "stl.h"
 
 #include <qmainwindow.h>
 #include <qwizard.h>
@@ -51,7 +49,7 @@ class JabberWizard : public QWizard, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type);
+    JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type);
     JabberSearch *m_search;
     QLabel		 *m_result;
     void initTitle();
@@ -61,7 +59,7 @@ protected slots:
     void textChanged(const QString&);
     void slotSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     QString m_type;
     QString m_id;
 };
@@ -91,15 +89,15 @@ protected slots:
     void configFinished();
     void regFinished();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void setNavigation();
     void stop(const QString &err);
     void go(const QString &url, const QString &node);
     void addHistory(const QString &str);
     bool haveFeature(const char*);
     bool haveFeature(const char*, const QString&);
-    QListViewItem *findItem(unsigned col, const char *id);
-    QListViewItem *findItem(unsigned col, const char *id, QListViewItem *item);
+    QListViewItem *findItem(unsigned col, const QString &id);
+    QListViewItem *findItem(unsigned col, const QString &id, QListViewItem *item);
     void setItemPict(QListViewItem *item);
     void adjustColumn(QListViewItem *item);
     void loadItem(QListViewItem *item);

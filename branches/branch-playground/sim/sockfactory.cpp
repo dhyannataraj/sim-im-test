@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
+#include "log.h"
+#include "misc.h"
 
 #ifdef WIN32
 #include <winsock.h>
@@ -40,7 +41,15 @@
 #include <qsocketdevice.h>
 #include <qsocketnotifier.h>
 #include <qtimer.h>
+
+#ifndef WIN32
+// name resolving
+#include <netdb.h> 
+#include <arpa/inet.h>
 #include <qdns.h>
+#else
+#include <qdns.h>
+#endif
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xFFFFFFFF
@@ -53,7 +62,8 @@ namespace SIM
 
 using namespace std;
 
-SIMSockets::SIMSockets()
+SIMSockets::SIMSockets(QObject *parent)
+ : SocketFactory(parent) 
 {
 }
 
@@ -76,7 +86,7 @@ void SIMSockets::idle()
 }
 
 SIMResolver::SIMResolver(QObject *parent, const QString &host)
-        : QObject(parent)
+    : QObject(parent)
 {
     bDone = false;
     bTimeout = false;
@@ -118,7 +128,13 @@ unsigned long SIMResolver::addr()
 {
     if (dns->addresses().isEmpty())
         return INADDR_NONE;
-    return htonl(dns->addresses().first().ip4Addr());
+    // crissi
+    struct hostent * server_entry;
+    if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
+        log( L_WARN, "gethostbyname failed\n" );
+        return htonl(dns->addresses().first().ip4Addr());
+    } 
+    return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
 }
 
 QString SIMResolver::host() const
@@ -176,7 +192,7 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
 {
     sock = s;
     if (sock == NULL)
-        sock = new QSocket(this);
+        sock = new QSocket(NULL);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
@@ -188,8 +204,15 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
 
 SIMClientSocket::~SIMClientSocket()
 {
-    close();
-    delete sock;
+    if (!sock)
+        return;
+    timerStop();
+    sock->close();
+
+    if (sock->state() == QSocket::Closing)
+        sock->connect(sock, SIGNAL(delayedCloseFinished()), SLOT(deleteLater()));
+    else
+        delete sock;
 }
 
 void SIMClientSocket::close()
@@ -226,7 +249,8 @@ int SIMClientSocket::read(char *buf, unsigned int size)
     int res = sock->readBlock(buf, size);
     if (res < 0){
         log(L_DEBUG, "QClientSocket::read error %u", errno);
-        if (notify) notify->error_state("Read socket error");
+        if (notify)
+            notify->error_state(I18N_NOOP("Read socket error"));
         return -1;
     }
     return res;
@@ -238,7 +262,8 @@ void SIMClientSocket::write(const char *buf, unsigned int size)
     int res = sock->writeBlock(buf, size);
     bInWrite = false;
     if (res != (int)size){
-        if (notify) notify->error_state("Write socket error");
+        if (notify)
+            notify->error_state(I18N_NOOP("Write socket error"));
         return;
     }
     if (sock->bytesToWrite() == 0)
@@ -249,6 +274,8 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
 {
     port = _port;
     host = _host;
+    if (host.isNull()) 
+        host=""; // Avoid crashing when _host is NULL
 #ifdef WIN32
     bool bState;
     if (get_connection_state(bState) && !bState){
@@ -273,7 +300,8 @@ void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
     if (_host != host)
         return;
     if (addr == INADDR_NONE){
-        if (notify) notify->error_state(I18N_NOOP("Can't resolve host"));
+        if (notify)
+            notify->error_state(I18N_NOOP("Can't resolve host"));
         return;
     }
     if (notify)
@@ -313,6 +341,10 @@ void SIMClientSocket::slotConnectionClosed()
 void SIMClientSocket::timeout()
 {
     QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
+}
+void SIMClientSocket::error(int errcode)
+{
+	log(L_DEBUG, "SIMClientSocket::error(%d), SocketDevice error: %d", errcode, sock->socketDevice()->error());
 }
 
 void SIMClientSocket::slotReadReady()
@@ -400,10 +432,7 @@ void SIMServerSocket::close()
 void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
 {
     if (client && notify){
-        ListenParam p;
-        p.notify = notify;
-        p.client = client;
-        Event e(EventSocketListen, &p);
+        EventSocketListen e(notify, client);
         if (e.process())
             return;
     }
@@ -598,12 +627,12 @@ static inline bool isPrivate(unsigned long ip)
 void IPResolver::resolve_ready()
 {
     if (queue.empty()) return;
-    string m_host;
+    QString m_host;
     if (resolver->hostNames().count())
-        m_host = resolver->hostNames().first().latin1();
+        m_host = resolver->hostNames().first();
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
-    log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
+    log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.local8Bit().data());
     delete resolver;
     resolver = NULL;
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
@@ -611,7 +640,7 @@ void IPResolver::resolve_ready()
             ++it;
             continue;
         }
-        (*it)->set((*it)->ip(), m_host.c_str());
+        (*it)->set((*it)->ip(), m_host);
         queue.erase(it);
         it = queue.begin();
     }

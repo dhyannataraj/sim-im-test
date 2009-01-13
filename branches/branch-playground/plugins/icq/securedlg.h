@@ -18,25 +18,25 @@
 #ifndef _SECUREDLG_H
 #define _SECUREDLG_H
 
-#include "simapi.h"
 #include "securedlgbase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class SecureDlg : public SecureDlgBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data);
+    SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data);
     ~SecureDlg();
     ICQClient	*m_client;
     unsigned	m_contact;
-    struct ICQUserData *m_data;
+    ICQUserData *m_data;
 protected slots:
     void start();
 protected:
-    void *processEvent(SIM::Event*);
-    void error(const char *err);
+    virtual bool processEvent(SIM::Event *e);
+    void error(const QString &err);
     SIM::Message *m_msg;
 };
 

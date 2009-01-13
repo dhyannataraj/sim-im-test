@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "maininfo.h"
 #include "editmail.h"
 #include "editphone.h"
@@ -92,8 +93,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
     }
     Command cmd;
     cmd->id = CmdPhones;
-    Event eCheck(EventCheckState, cmd);
-    if (!eCheck.process()){
+    if (!EventCheckCommandState(cmd).process()){
         lblCurrent->hide();
         cmbCurrent->hide();
         lblStatus->hide();
@@ -116,76 +116,88 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
     connect(btnPhoneDelete, SIGNAL(clicked()), this, SLOT(deletePhone()));
 }
 
-void *MainInfo::processEvent(Event *e)
+bool MainInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        if (contact == m_contact)
-            fill();
+    switch (e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() == EventContact::eChanged) {
+            Contact *contact = ec->contact();
+            if (contact == m_contact)
+                fill();
+        }
+        break;
     }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->menu_id == MenuMailList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
-                return NULL;
+                return false;
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstMails)
-                return NULL;
+                return false;
             cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
             bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
             if (!bEnable)
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         }
         if (cmd->menu_id == MenuPhoneList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
-                return NULL;
+                return false;
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstPhones)
-                return NULL;
+                return false;
             cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
             bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
             if (!bEnable)
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         }
+        break;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->menu_id == MenuMailList){
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstMails)
-                return NULL;
+                return false;
             bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
             if (!bEnable)
-                return NULL;
+                return false;
             if (cmd->id == CmdEditList){
                 editMail(item);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdRemoveList){
                 deleteMail(item);
-                return e->param();
+                return true;
             }
         }
         if (cmd->menu_id == MenuPhoneList){
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstPhones)
-                return NULL;
+                return false;
             bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
             if (!bEnable)
-                return NULL;
+                return false;
             if (cmd->id == CmdEditList){
                 editPhone(item);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdRemoveList){
                 deletePhone(item);
-                return e->param();
+                return true;
             }
         }
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 void MainInfo::fill()
@@ -206,8 +218,8 @@ void MainInfo::fill()
     if (name.length())
         cmbDisplay->insertItem(name);
     if (firstName.length() && lastName.length()){
-        cmbDisplay->insertItem(firstName + " " + lastName);
-        cmbDisplay->insertItem(lastName + " " + firstName);
+        cmbDisplay->insertItem(firstName + ' ' + lastName);
+        cmbDisplay->insertItem(lastName + ' ' + firstName);
     }
     if (firstName.length())
         cmbDisplay->insertItem(firstName);
@@ -235,15 +247,13 @@ void MainInfo::fill()
     cmbCurrent->clear();
     cmbCurrent->insertItem("");
     while (phones.length()){
-        QString number;
-        QString type;
         unsigned icon = 0;
-        QString proto;
         QString phone = getToken(phones, ';', false);
         QString phoneItem = getToken(phone, '/', false);
-        proto = phone;
-        number = getToken(phoneItem, ',');
-        type = getToken(phoneItem, ',');
+        QString number = getToken(phoneItem, ',');
+        QString type = getToken(phoneItem, ',');
+        QString proto = phone;
+
         if (!phoneItem.isEmpty())
             icon = getToken(phoneItem, ',').toULong();
         QListViewItem *item = new QListViewItem(lstPhones);
@@ -275,20 +285,20 @@ void MainInfo::apply()
     QString mails;
     for (item = lstMails->firstChild(); item; item = item->nextSibling()){
         if (mails.length())
-            mails += ";";
+            mails += ';';
         mails += quoteChars(item->text(MAIL_ADDRESS), ";/");
-        mails += "/";
+        mails += '/';
         mails += item->text(MAIL_PROTO);
     }
     contact->setEMails(mails);
     QString phones;
     for (item = lstPhones->firstChild(); item; item = item->nextSibling()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += quoteChars(item->text(PHONE_NUMBER), ";/,");
-        phones += ",";
+        phones += ',';
         phones += quoteChars(item->text(PHONE_TYPE_ASIS), ";/,");
-        phones += ",";
+        phones += ',';
         phones += item->text(PHONE_ICON);
         if (m_contact){
             if (!item->text(PHONE_ACTIVE).isEmpty())
@@ -297,29 +307,28 @@ void MainInfo::apply()
             if (item->text(PHONE_NUMBER) == cmbCurrent->currentText())
                 phones += ",1";
         }
-        phones += "/";
+        phones += '/';
         phones += item->text(PHONE_PROTO);
     }
     contact->setPhones(phones);
     /* Christian: The checks if the name has changed took longer
        than setting the new value directly */
-    contact->setFirstName(edtFirstName->text(), NULL);
-    contact->setLastName(edtLastName->text(), NULL);
+    contact->setFirstName(edtFirstName->text(), QString::null);
+    contact->setLastName(edtLastName->text(), QString::null);
 
     QString name = cmbDisplay->lineEdit()->text();
     if (name.isEmpty()){
         name = edtFirstName->text();
         if (!edtLastName->text().isEmpty()){
             if (!name.isEmpty()){
-                name += " ";
+                name += ' ';
                 name += edtLastName->text();
             }
         }
     }
     contact->setName(name);
 
-    Event e(EventContactChanged, contact);
-    e.process();
+    EventContact(contact, EventContact::eChanged).process();
 }
 
 void MainInfo::mailSelectionChanged()
@@ -346,7 +355,7 @@ void MainInfo::addMail()
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish){
             item->setText(MAIL_PUBLISH, i18n("Yes"));
-            proto = "";
+            proto = QString::null;
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
@@ -370,7 +379,7 @@ void MainInfo::editMail(QListViewItem *item)
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish){
             item->setText(MAIL_PUBLISH, i18n("Yes"));
-            proto = "";
+            proto = QString::null;
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
@@ -397,7 +406,7 @@ void MainInfo::addPhone()
     if (dlg.exec() && !dlg.number.isEmpty() && !dlg.type.isEmpty()){
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)
-            proto = "";
+            proto = QString::null;
         fillPhoneItem(new QListViewItem(lstPhones), dlg.number, dlg.type, dlg.icon, proto);
         fillCurrentCombo();
     }
@@ -420,7 +429,7 @@ void MainInfo::editPhone(QListViewItem *item)
     if (dlg.exec() && !dlg.number.isEmpty() && !dlg.type.isEmpty()){
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)
-            proto = "";
+            proto = QString::null;
         fillPhoneItem(item, dlg.number, dlg.type, dlg.icon, proto);
         fillCurrentCombo();
     }
@@ -497,14 +506,13 @@ void MainInfo::fillEncoding()
     int n_item = 1;
     cmbEncoding->clear();
     cmbEncoding->insertItem("Default");
-    QStringList l;
     const ENCODING *e;
     QStringList main;
     QStringList::Iterator it;
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (!e->bMain)
             continue;
-        main.append(i18n(e->language) + " (" + e->codec + ")");
+        main.append(i18n(e->language) + " (" + e->codec + ')');
     }
     main.sort();
     Contact *contact = m_contact;
@@ -524,7 +532,7 @@ void MainInfo::fillEncoding()
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (e->bMain)
             continue;
-        noMain.append(i18n(e->language) + " (" + e->codec + ")");
+        noMain.append(i18n(e->language) + " (" + e->codec + ')');
     }
     noMain.sort();
     for (it = noMain.begin(); it != noMain.end(); ++it, n_item++){
@@ -533,7 +541,7 @@ void MainInfo::fillEncoding()
         str = str.mid(n + 1);
         n = str.find(')');
         str = str.left(n);
-        if (str.latin1() == contact->getEncoding())
+        if (str == contact->getEncoding())
             current = n_item;
         cmbEncoding->insertItem(*it);
     }
@@ -544,7 +552,6 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
 {
     QString encoding;
     int n = cmbEncoding->currentItem();
-    QString t = cmbEncoding->currentText();
     Contact *contact = m_contact;
     if (contact == NULL)
         contact = getContacts()->owner();
@@ -556,7 +563,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
         for (e = getContacts()->getEncodings(); e->language; e++){
             if (!e->bMain)
                 continue;
-            main.append(i18n(e->language) + " (" + e->codec + ")");
+            main.append(i18n(e->language) + " (" + e->codec + ')');
         }
         main.sort();
         QStringList::Iterator it;
@@ -567,7 +574,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
         for (e = getContacts()->getEncodings(); e->language; e++){
             if (e->bMain)
                 continue;
-            noMain.append(i18n(e->language) + " (" + e->codec + ")");
+            noMain.append(i18n(e->language) + " (" + e->codec + ')');
         }
         noMain.sort();
         for (it = noMain.begin(); it != noMain.end(); ++it){
@@ -588,11 +595,9 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
     if (!contact->setEncoding(encoding))
         return;
     if (SendContactChangedEvent){
-        Event e(EventContactChanged, contact);
-        e.process();
+        EventContact(contact, EventContact::eChanged).process();
     }
-    Event eh(EventHistoryConfig, (void*)(contact->id()));
-    eh.process();
+    EventHistoryConfig(contact->id()).process();
 }
 
 #ifndef NO_MOC_INCLUDES

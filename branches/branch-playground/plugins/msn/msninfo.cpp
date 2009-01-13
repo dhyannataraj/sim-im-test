@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "msninfo.h"
-#include "msnclient.h"
-
 #include <qlineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>
@@ -26,9 +22,15 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
+#include "icons.h"
+#include "misc.h"
+
+#include "msninfo.h"
+#include "msnclient.h"
+
 using namespace SIM;
 
-MSNInfo::MSNInfo(QWidget *parent, struct MSNUserData *data, MSNClient *client)
+MSNInfo::MSNInfo(QWidget *parent, MSNUserData *data, MSNClient *client)
         : MSNInfoBase(parent)
 {
     m_client  = client;
@@ -46,24 +48,28 @@ void MSNInfo::apply()
 {
 }
 
-void *MSNInfo::processEvent(Event *e)
+bool MSNInfo::processEvent(Event *e)
 {
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
             fill();
-    }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    } else
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void MSNInfo::fill()
@@ -114,8 +120,8 @@ void MSNInfo::apply(Client *client, void *_data)
         return;
     QString nick = edtNick->text();
     if (nick == edtEMail->text())
-        nick = "";
-    MSNUserData *data = (MSNUserData*)_data;
+        nick = QString::null;
+    MSNUserData *data = m_client->toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->ScreenName.str() = nick;
 }
 

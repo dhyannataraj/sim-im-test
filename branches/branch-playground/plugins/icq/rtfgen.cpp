@@ -15,15 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "icqclient.h"
-#include "html.h"
-#include "core.h"
-#include "icons.h"
-
-#include <qtextcodec.h>
-#include <qregexp.h>
-
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -32,6 +23,20 @@
 #include <stdio.h>
 #include <stack>
 #include <cctype>
+
+#include <qtextcodec.h>
+#include <qregexp.h>
+
+#include "html.h"
+#include "icons.h"
+#include "unquot.h"
+#include "log.h"
+
+#include "icqclient.h"
+#include "polling.h"
+
+
+#include "icqclient.h"
 
 using namespace std;
 using namespace SIM;
@@ -269,11 +274,11 @@ RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *
 
 #ifdef WIN32
 
-typedef struct rtf_cp
+struct rtf_cp
 {
     unsigned cp;
     unsigned charset;
-} rtf_cp;
+};
 
 rtf_cp rtf_cps[] =
     {
@@ -321,7 +326,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
 
 QCString RTFGenParser::parse(const QString &text)
 {
-    res = "";
+    res = QString::null;
     m_res_size = 0;
     m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
@@ -399,7 +404,7 @@ QCString RTFGenParser::parse(const QString &text)
             s += "\\fcharset";
             s += QString::number(charset);
         }
-        s += " ";
+        s += ' ';
         int pos = face.find(QRegExp(" +["));
         if (pos > 0)
             face = face.left(pos);
@@ -416,7 +421,7 @@ QCString RTFGenParser::parse(const QString &text)
         s += QString::number(c.green());
         s += "\\blue";
         s += QString::number(c.blue());
-        s += ";";
+        s += ';';
     }
     s += "}\r\n";
     s += "\\viewkind4\\pard";
@@ -504,7 +509,7 @@ void RTFGenParser::text(const QString &text)
         }
         res += "\\u";
         res += QString::number(s[0].unicode());
-        res += "?";
+        res += '?';
         m_bSpace = false;
     }
 }
@@ -560,7 +565,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
             QString key = *it;
             ++it;
             QString value = *it;
-            option += " ";
+            option += ' ';
             option += key;
             if (!value.isEmpty()){
                 option += "=\"";
@@ -663,7 +668,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                     char buf[4];
                     sprintf(buf, "%02X", nSmile);
                     res += buf;
-                    res += ">";
+                    res += '>';
                     return;
                 }
             }
@@ -848,7 +853,7 @@ QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreCo
     QCString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
-        text = "";
+        text = QString::null;
         return res;
     }
     QString endTags;
@@ -858,8 +863,8 @@ QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreCo
         QString option = p.options.top();
         p.tags.pop();
         p.options.pop();
-        endTags   += "</" + tag + ">";
-        startTags = QString("<") + tag + option + ">" + startTags;
+        endTags   += "</" + tag + '>';
+        startTags = '<' + tag + option + '>' + startTags;
     }
     part = text.left(p.textPos) + endTags;
     text = startTags + text.mid(p.textPos);
@@ -889,7 +894,7 @@ ImageParser::ImageParser(bool bIcq)
 
 QString ImageParser::parse(const QString &text)
 {
-    res = "";
+    res = QString::null;
     startBody();
     HTMLParser::parse(text);
     endBody();
@@ -899,7 +904,7 @@ QString ImageParser::parse(const QString &text)
 void ImageParser::startBody()
 {
     m_bBody = true;
-    res = "";
+    res = QString::null;
 }
 
 void ImageParser::endBody()
@@ -920,7 +925,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
     QString oTag = tag;
 
     if (tag == "html"){
-        res = "";
+        res = QString::null;
         m_bBody = false;
         return;
     }
@@ -957,7 +962,8 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             return;
         }
         if (m_bIcq){
-            for (QValueListIterator<QString> its = smiles.begin(); its != smiles.end(); ++its){
+            QStringList::ConstIterator its;
+            for (its = smiles.constBegin(); its != smiles.constEnd(); ++its){
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if ((*its) != def_smiles[nSmile])
                         continue;
@@ -973,13 +979,13 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
         text(smiles.front());
         return;
     }
-    res += "<";
+    res += '<';
     res += oTag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
-        res += " ";
+        res += ' ';
         res += name.upper();
         if (!value.isEmpty()){
             res += "=\"";
@@ -987,7 +993,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             res += "\"";
         }
     }
-    res += ">";
+    res += '>';
 }
 
 void ImageParser::tag_end(const QString &tag)
@@ -1001,7 +1007,7 @@ void ImageParser::tag_end(const QString &tag)
     }
     res += "</";
     res += oTag;
-    res += ">";
+    res += '>';
 }
 
 QString ICQClient::removeImages(const QString &text, bool bIcq)
@@ -1032,7 +1038,7 @@ BgParser::BgParser()
 
 QString BgParser::parse(const QString &text)
 {
-    res = "";
+    res = QString::null;
     HTMLParser::parse(text);
     return res;
 }
@@ -1048,7 +1054,7 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
     if (tag == "body"){
         m_bBody = true;
-        res = "";
+        res = QString::null;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = *it;
             ++it;
@@ -1062,13 +1068,13 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
     if (!m_bBody)
         return;
-    res += "<";
+    res += '<';
     res += tag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
-        res += " ";
+        res += ' ';
         res += name;
         if (!value.isEmpty()){
             res += "=\"";
@@ -1076,7 +1082,7 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
             res += "\"";
         }
     }
-    res += ">";
+    res += '>';
 }
 
 void BgParser::tag_end(const QString &tag)
@@ -1089,7 +1095,7 @@ void BgParser::tag_end(const QString &tag)
         return;
     res += "</";
     res += tag;
-    res += ">";
+    res += '>';
 }
 
 unsigned ICQClient::clearTags(QString &text)

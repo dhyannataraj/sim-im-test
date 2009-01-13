@@ -18,7 +18,6 @@
 #ifndef _SOUNDUSER_H
 #define _SOUNDUSER_H
 
-#include "simapi.h"
 #include "sounduserbase.h"
 
 class SoundPlugin;

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+
 #include "autoreply.h"
 #include "core.h"
 #include "ballonmsg.h"
@@ -37,7 +39,32 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
         for (const CommandDef *d = getContacts()->getClient(i)->protocol()->statusList(); !d->text.isEmpty(); d++){
             if (d->id == status){
                 text = d->text;
-                icon = d->icon;
+                switch (d->id){
+                case STATUS_ONLINE: 
+                    icon="SIM_online";
+                    break;
+                case STATUS_AWAY:
+                    icon="SIM_away";
+                    break;
+                case STATUS_NA:
+                    icon="SIM_na";
+                    break;
+                case STATUS_DND:
+                    icon="SIM_dnd";
+                    break;
+		        case STATUS_OCCUPIED:
+                    icon="SIM_occupied";
+                    break;
+                case STATUS_FFC:
+                    icon="SIM_ffc";
+                    break;
+                case STATUS_OFFLINE:
+                    icon="SIM_offline";
+                    break;
+                default:
+                    icon=d->icon;
+                    break;
+                }
                 break;
             }
         }
@@ -46,7 +73,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     }
     if (text.isEmpty())
         return;
-    setCaption(i18n("Autoreply message") + " " + i18n(text));
+    setCaption(i18n("Autoreply message") + ' ' + i18n(text));
     setIcon(Pict(icon));
     m_time = 15;
     lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
@@ -59,8 +86,9 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
-    Event e(EventTmplHelpList);
-    edtAutoResponse->helpList = (const char**)e.process();
+    EventTmplHelpList e;
+    e.process();
+    edtAutoResponse->helpList = e.helpList();
 }
 
 AutoReplyDialog::~AutoReplyDialog()
@@ -106,11 +134,10 @@ void AutoReplyDialog::accept()
 void AutoReplyDialog::help()
 {
     stopTimer();
-    QString helpString = i18n("In text you can use:");
-    helpString += "\n";
-    Event e(EventTmplHelp, &helpString);
+    QString helpString = i18n("In text you can use:") + '\n';
+    EventTmplHelp e(helpString);
     e.process();
-    BalloonMsg::message(helpString, btnHelp, false, 400);
+    BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
 
 #ifndef NO_MOC_INCLUDES

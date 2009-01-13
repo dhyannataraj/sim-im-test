@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "prefcfg.h"
-#include "simapi.h"
 #include "qchildwidget.h"
 
 #include <qlayout.h>
@@ -34,12 +35,12 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
     m_group = group;
     void *data = NULL;
     if (m_contact){
-        data = m_contact->getUserData(m_cmd->id - 1);
-        if (m_contact->userData.getUserData(m_cmd->id - 1, false))
+        data = m_contact->getUserData(m_cmd->id);
+        if (m_contact->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
     }else if (m_group){
-        data = m_group->getUserData(m_cmd->id - 1);
-        if (m_group->userData.getUserData(m_cmd->id - 1, false))
+        data = m_group->getUserData(m_cmd->id);
+        if (m_group->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
     }
     QWidget *w = NULL;
@@ -64,17 +65,17 @@ void PrefConfig::apply()
     if (chkOverride->isChecked()){
         void *data = NULL;
         if (m_contact){
-            data = m_contact->userData.getUserData(m_cmd->id - 1, true);
+            data = m_contact->userData.getUserData(m_cmd->id, true);
         }else if (m_group){
-            data = m_group->userData.getUserData(m_cmd->id - 1, true);
+            data = m_group->userData.getUserData(m_cmd->id, true);
         }
         if (data)
             emit apply(data);
     }else{
         if (m_contact){
-            m_contact->userData.freeUserData(m_cmd->id - 1);
+            m_contact->userData.freeUserData(m_cmd->id);
         }else if (m_group){
-            m_group->userData.freeUserData(m_cmd->id - 1);
+            m_group->userData.freeUserData(m_cmd->id);
         }
     }
 }

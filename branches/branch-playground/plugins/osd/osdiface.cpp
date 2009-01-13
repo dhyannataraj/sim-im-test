@@ -15,15 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "osdiface.h"
-#include "osd.h"
-#include "qcolorbutton.h"
-#include "fontedit.h"
-
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
+
+#include "fontedit.h"
+#include "misc.h"
+#include "qcolorbutton.h"
+
+#include "osdiface.h"
+#include "osd.h"
 
 using namespace SIM;
 
@@ -32,6 +34,10 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
 {
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
+#ifndef WIN32
+	chkFading->setChecked(false);
+	chkFading->hide();
+#endif
     cmbPos->insertItem(i18n("Left-bottom"));
     cmbPos->insertItem(i18n("Left-top"));
     cmbPos->insertItem(i18n("Right-bottom"));
@@ -47,8 +53,13 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     spnTimeout->setMaxValue(60);
     spnTimeout->setValue(data->Timeout.toULong());
     btnColor->setColor(data->Color.toULong());
-    edtFont->setFont(data->Font.str());
+    if (data->Font.str().isEmpty()){
+        edtFont->setFont(FontEdit::font2str(plugin->getBaseFont(font()), false));
+    }else{
+        edtFont->setFont(data->Font.str());
+    }
     chkShadow->setChecked(data->Shadow.toBool());
+	chkFading->setChecked(data->Fading.toBool());
     if (data->Background.toBool()){
         chkBackground->setChecked(true);
         btnBgColor->setColor(data->BgColor.toULong());
@@ -89,11 +100,12 @@ void OSDIface::apply(void *d)
     data->Timeout.asULong()  = spnTimeout->text().toULong();
     data->Color.asULong()    = btnColor->color().rgb();
     QString f = edtFont->getFont();
-    QString base = FontEdit::font2str(font(), false);
+    QString base = FontEdit::font2str(m_plugin->getBaseFont(font()), false);
     if (f == base)
         f = "";
     data->Font.str() = f;
     data->Shadow.asBool() = chkShadow->isChecked();
+	data->Fading.asBool() = chkFading->isChecked();
     data->Background.asBool() = chkBackground->isChecked();
     if (data->Background.toBool()){
         data->BgColor.asULong() = btnBgColor->color().rgb();

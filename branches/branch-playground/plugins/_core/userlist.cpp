@@ -61,7 +61,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     QPainter pp(&bg);
     int margin = 0;
     pp.fillRect(QRect(0, 0, width, height()), cg.base());
-    PaintView pv;
+    EventPaintView::PaintView pv;
     pv.p        = &pp;
     pv.pos      = view->viewport()->mapToParent(view->itemRect(this).topLeft());
     pv.size		= QSize(width, height());
@@ -75,7 +75,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     }else{
         pp.setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
     }
-    Event e(EventPaintView, &pv);
+    EventPaintView e(&pv);
     e.process();
     view->setStaticBackground(pv.isStatic);
     margin = pv.margin;
@@ -362,7 +362,7 @@ void UserListBase::drawUpdates()
             }
         }
     }
-    for (it = updContacts.begin(); it != updContacts.end(); ++it){
+    for (it = updContacts.begin(); it != updContacts.end(); ++it){ //Fixme, got crash: list operator not incremenable!
         Contact *contact = getContacts()->contact(*it);
         if (contact == NULL)
             continue;
@@ -779,7 +779,7 @@ void UserListBase::fill()
                         continue;
                     grpItem = new GroupItem(divItemOffline, grp, true);
                 }
-                grpItem = new GroupItem(divItemOnline, list->group(0), true);
+                grpItem = new GroupItem(divItemOffline, list->group(0), true);
             }
         }
         while ((contact = ++contact_it) != NULL){
@@ -828,9 +828,9 @@ static void resort(QListViewItem *item)
         resort(item);
 }
 
-void *UserListBase::processEvent(Event *e)
+bool UserListBase::processEvent(Event *e)
 {
-    if (e->type() == EventRepaintView){
+    if (e->type() == eEventRepaintView){
         sort();
         for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
             resort(item);
@@ -838,47 +838,99 @@ void *UserListBase::processEvent(Event *e)
     }
     if (m_bInit){
         switch (e->type()){
-        case EventGroupCreated:{
-                Group *g = (Group*)(e->param());
-                addGroupForUpdate(g->id());
-                break;
-            }
-        case EventGroupChanged:{
-                Group *g = (Group*)(e->param());
-                addGroupForUpdate(g->id());
-                break;
-            }
-        case EventGroupDeleted:{
-                Group *g = (Group*)(e->param());
-                for (list<unsigned long>::iterator it = updGroups.begin(); it != updGroups.end(); ++it){
-                    if (*it == g->id()){
-                        updGroups.erase(it);
-                        break;
+        case eEventGroup:{
+            EventGroup *ev = static_cast<EventGroup*>(e);
+            Group *g = ev->group();
+            switch (ev->action()) {
+                case EventGroup::eAdded:
+                case EventGroup::eChanged:
+                    addGroupForUpdate(g->id());
+                    break;
+                case EventGroup::eDeleted:
+                    for (list<unsigned long>::iterator it = updGroups.begin(); it != updGroups.end(); ++it){
+                        if (*it == g->id()){
+                            updGroups.erase(it);
+                            break;
+                        }
                     }
+                    GroupItem *grpItem;
+                    switch (m_groupMode){
+                    case 1:
+                        grpItem = findGroupItem(g->id());
+                        deleteItem(grpItem);
+                        break;
+                    case 2:
+                        QListViewItem *item;
+                        for (item = firstChild(); item; item = item->nextSibling()){
+                            UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
+                            if (i->type() != DIV_ITEM) continue;
+                            DivItem *divItem = static_cast<DivItem*>(i);
+                            grpItem = findGroupItem(g->id(), divItem);
+                            deleteItem(grpItem);
+                        }
+                        break;
+                   }
+            }
+            break;
+        }
+        case eEventContact: {
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
+            switch(ec->action()) {
+                case EventContact::eDeleted: {
+                    for (list<unsigned long>::iterator it = updContacts.begin(); it != updContacts.end(); ++it){
+                        if (*it == contact->id()){
+                            updContacts.erase(it);
+                            break;
+                        }
+                    }
+                    ContactItem *item = findContactItem(contact->id());
+                    if (item){
+                        if (m_groupMode){
+                            GroupItem *grpItem = static_cast<GroupItem*>(item->parent());
+                            grpItem->m_nContacts--;
+                            if (item->m_bOnline)
+                                grpItem->m_nContactsOnline--;
+                            addGroupForUpdate(grpItem->id());
+                            deleteItem(item);
+                            if ((m_groupMode == 2) &&
+                                    (grpItem->firstChild() == NULL) &&
+                                    m_bShowOnline){
+                                DivItem *div = static_cast<DivItem*>(grpItem->parent());
+                                if (div->state() == DIV_OFFLINE){
+                                    deleteItem(grpItem);
+                                    if (div->firstChild() == NULL)
+                                        deleteItem(div);
+                                }
+                            }
+                        }else{
+                            QListViewItem *p = item->parent();
+                            deleteItem(item);
+                            if (p->firstChild() == NULL)
+                                deleteItem(p);
+                        }
+                    }
+                    break;
                 }
-                QListViewItem *item = findGroupItem(g->id());
-                deleteItem(item);
-                break;
-            }
-        case EventContactCreated:{
-                Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0))
-                    addContactForUpdate(c->id());
-                break;
-            }
-        case EventContactStatus:
-        case EventContactChanged:{
-                Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0)){
-                    addContactForUpdate(c->id());
-                }else{
-                    Event e(EventContactDeleted, c);
-                    processEvent(&e);
+                case EventContact::eStatus:
+                case EventContact::eChanged: {
+                    if (!contact->getIgnore() && ((contact->getFlags() & CONTACT_TEMPORARY) == 0)){
+                        addContactForUpdate(contact->id());
+                    }else{
+                        EventContact e(contact, EventContact::eDeleted);
+                        processEvent(&e);
+                        e.setNoProcess();
+                    }
+                    break;
                 }
-                break;
+                default:
+                    break;
             }
-        case EventMessageReceived:{
-                Message *msg = (Message*)(e->param());
+            break;
+        }
+        case eEventMessageReceived:{
+                EventMessage *em = static_cast<EventMessage*>(e);
+                Message *msg = em->msg();
                 if (msg->type() == MessageStatus){
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact)
@@ -886,42 +938,8 @@ void *UserListBase::processEvent(Event *e)
                 }
                 break;
             }
-        case EventContactDeleted:{
-                Contact *g = (Contact*)(e->param());
-                for (list<unsigned long>::iterator it = updContacts.begin(); it != updContacts.end(); ++it){
-                    if (*it == g->id()){
-                        updContacts.erase(it);
-                        break;
-                    }
-                }
-                ContactItem *item = findContactItem(g->id());
-                if (item){
-                    if (m_groupMode){
-                        GroupItem *grpItem = static_cast<GroupItem*>(item->parent());
-                        grpItem->m_nContacts--;
-                        if (item->m_bOnline)
-                            grpItem->m_nContactsOnline--;
-                        addGroupForUpdate(grpItem->id());
-                        deleteItem(item);
-                        if ((m_groupMode == 2) &&
-                                (grpItem->firstChild() == NULL) &&
-                                m_bShowOnline){
-                            DivItem *div = static_cast<DivItem*>(grpItem->parent());
-                            if (div->state() == DIV_OFFLINE){
-                                deleteItem(grpItem);
-                                if (div->firstChild() == NULL)
-                                    deleteItem(div);
-                            }
-                        }
-                    }else{
-                        QListViewItem *p = item->parent();
-                        deleteItem(item);
-                        if (p->firstChild() == NULL)
-                            deleteItem(p);
-                    }
-                }
-                break;
-            }
+        default:
+            break;
         }
     }
     return ListView::processEvent(e);
@@ -1052,11 +1070,15 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         int x = drawIndicator(p, 2 + margin, item, isSelected(item->id()), cg);
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
             if (CorePlugin::m_plugin->getUseSysColors()){
-                if (item->status() != STATUS_ONLINE)
+                if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                     p->setPen(palette().disabled().text());
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
+					p->setPen(CorePlugin::m_plugin->getColorOnline());
+                    break;
+                case STATUS_FFC:
+					p->setPen(CorePlugin::m_plugin->getColorOnline());
                     break;
                 case STATUS_AWAY:
                     p->setPen(CorePlugin::m_plugin->getColorAway());

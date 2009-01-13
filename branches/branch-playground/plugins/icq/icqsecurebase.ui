@@ -102,6 +102,17 @@
                         </property>
                     </widget>
                     <widget>
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>chkUseMD5</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>Always use &amp;MD5 authentication</string>
+                        </property>
+                    </widget>
+                    <widget>
                         <class>QButtonGroup</class>
                         <property stdset="1">
                             <name>name</name>

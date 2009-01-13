@@ -15,47 +15,47 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qapplication.h>
+#include <qwidgetlist.h>
+#include <qtimer.h>
+#include <qcursor.h>
+#include <qpainter.h>
+
+#include "misc.h"
+
 #include "transparent.h"
 #include "transparentcfg.h"
-#include "simapi.h"
+#include "../floaty/floatywnd.h" //Handle Floatings
 
 #ifndef WIN32
 #include "transtop.h"
 #endif
 
-#include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qtimer.h>
-#include <qpainter.h>
-#include <qcursor.h>
-
 using namespace SIM;
 
 #ifdef WIN32
+#include <qlibrary.h>
 #include <windows.h>
 
 #define SHOW_TIMEOUT	300
 #define HIDE_TIMEOUT	1000
 
-static BOOL (WINAPI *SetLayeredWindowAttributes)(
-    HWND hwnd,
-    COLORREF crKey,
-    BYTE bAlpha,
-    DWORD dwFlags) = NULL;
+typedef BOOL(WINAPI *slwa_ptr)(HWND, COLORREF, BYTE, DWORD);
+static slwa_ptr slwa = NULL;
 
+#if _WIN32_WINNT < 0x0500
 #define WS_EX_LAYERED           0x00080000
 #define LWA_COLORKEY            0x00000001
 #define LWA_ALPHA               0x00000002
+#endif
 
 #endif
 
-Plugin *createTransparentPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createTransparentPlugin(unsigned base, bool, Buffer *config)
 {
 #ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("user32.dll");
-    if (hLib != NULL)
-        (DWORD&)SetLayeredWindowAttributes = (DWORD)GetProcAddress(hLib,"SetLayeredWindowAttributes");
-    if (SetLayeredWindowAttributes == NULL)
+    slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+    if (slwa == NULL)
         return NULL;
 #endif
     Plugin *plugin = new TransparentPlugin(base, config);
@@ -86,25 +86,18 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct TransparentData
-{
-    unsigned long	Transparency;
-#ifdef WIN32
-    bool		IfInactive;
-#endif
-} TransparentData;
-*/
 static DataDef transparentData[] =
     {
         { "Transparency", DATA_ULONG, 1, DATA(60) },
 #ifdef WIN32
-        { "IfInactive", DATA_BOOL, 1, DATA(1) },
+        { "IfInactive",   DATA_BOOL, 1, DATA(1) },
+		{ "IfMainWindow", DATA_BOOL, 1, DATA(1) },
+		{ "IfFloatings",  DATA_BOOL, 1, DATA(1) },
 #endif
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-TransparentPlugin::TransparentPlugin(unsigned base, ConfigBuffer *config)
+TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 #ifndef WIN32
         , EventReceiver(HighPriority)
@@ -141,6 +134,20 @@ TransparentPlugin::~TransparentPlugin()
         SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
     if (timer)
         delete timer;
+	
+	//Handle Floatings
+
+	QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetListIt it(*list);
+	QWidget * w;
+	while ((w = it.current()) != NULL) {
+		if (w->inherits("FloatyWnd")){
+			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+			SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+		}
+		++it;
+	}
+
 #else
     if (top)
         delete top;
@@ -148,7 +155,7 @@ TransparentPlugin::~TransparentPlugin()
     free_data(transparentData, &data);
 }
 
-QString TransparentPlugin::getConfig()
+QCString TransparentPlugin::getConfig()
 {
     return save_data(transparentData, &data);
 }
@@ -184,6 +191,24 @@ void TransparentPlugin::tickMouse()
         if (main->frameGeometry().contains(p))
             bMouse = true;
     }
+	
+	
+	//Handle Floatings//
+	QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetListIt it(*list);
+	QWidget * w;
+	while ((w = it.current()) != NULL) {
+		if (w->inherits("FloatyWnd")){
+			if (w->frameGeometry().contains(p))
+            bMouse = true;
+		}
+		++it;
+	}
+	delete list; //Handle Floatings//
+
+
+
+
     if (bMouse != m_bHaveMouse){
         m_bHaveMouse = bMouse;
         setState();
@@ -222,6 +247,8 @@ bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
 void TransparentPlugin::setState()
 {
     QWidget *main = getMainWindow();
+	QWidgetList *list = QApplication::topLevelWidgets();
+        
     if (main == NULL)
         return;
 #ifdef WIN32
@@ -229,17 +256,69 @@ void TransparentPlugin::setState()
         timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
         main->installEventFilter(this);
-        SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-        SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
-        RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
-        main->setMouseTracking(true);
+        if (getIfMainWindow()) {
+			SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+			slwa(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
+			RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
+		}
+		else
+			SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+
+		main->setMouseTracking(true);
         m_bActive = main->isActiveWindow();
         m_bState  = !m_bActive;
+		
+		//Handle Floatings
+		
+			QWidgetListIt it(*list);
+			QWidget * w;
+			while ((w = it.current()) != NULL) {
+				if (w->inherits("FloatyWnd")){
+					FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+					refwnd->installEventFilter(this);
+					if (getIfFloatings()) {
+						SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+						slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), 0, LWA_ALPHA);
+						RedrawWindow(refwnd->winId(), NULL, NULL, RDW_UPDATENOW);
+					}
+					else 
+						SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+				}
+				++it;
+			}
+			delete list; //Handle Floatings//
+		
     }
     bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
-        BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
-        SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+		BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
+		if (getIfMainWindow()) {
+			SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+			slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+			RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
+		}
+		else
+			SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+
+		
+		//Handle Floatings
+		QWidgetListIt it(*list);
+		QWidget * w;
+		while ((w = it.current()) != NULL) {
+			if (w->inherits("FloatyWnd")){
+				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+				refwnd->installEventFilter(this);
+				if (getIfFloatings()) {
+					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+					slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), d, LWA_ALPHA);
+					RedrawWindow(refwnd->winId(), NULL, NULL, RDW_UPDATENOW);
+				}
+				else 
+					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+			}
+			++it;
+		}
+		delete list;//Handle Floatings//
         return;
     }
     m_bState = bNewState;
@@ -270,24 +349,49 @@ void TransparentPlugin::tick()
     }
     if (m_bState)
         time = timeout - time;
+
     BYTE d = (BYTE)QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
-    SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+	if (getIfMainWindow()) 
+		slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+	else
+		SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+
+	//Handle Floatings
+	
+	QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetListIt it(*list);
+	QWidget * w;
+	while ((w = it.current()) != NULL) {
+		if (w->inherits("FloatyWnd")){
+			//w->installEventFilter(this);
+			//w->setMouseTracking(true);
+			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+			refwnd->installEventFilter(this);
+			if (getIfFloatings()) 
+				slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), d, LWA_ALPHA);
+			else
+				SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+		}
+		++it;
+	}//Handle Floatings//
+	
 #endif
 }
 
-void *TransparentPlugin::processEvent(Event *e)
+bool TransparentPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventInit) {
+    if (e->type() == eEventInit) {
 #ifndef WIN32
         top = NULL;
 #endif
         setState();
     }
 #ifndef WIN32
-    if (e->type() == EventPaintView){
+    if (e->type() == eEventPaintView){
         if (top == NULL)
-            return NULL;
-        PaintView *pv = (PaintView*)(e->param());
+            return false;
+        EventPaintView *ev = static_cast<EventPaintView*>(e);
+        EventPaintView::PaintView *pv = ev->paintView();
         QPixmap pict = top->background(pv->win->colorGroup().background());
         if (!pict.isNull()){
             QPoint p = pv->pos;
@@ -297,13 +401,13 @@ void *TransparentPlugin::processEvent(Event *e)
             pv->isStatic = true;
         }
     }
-    if (e->type() == EventRaiseWindow){
-        QWidget *w = (QWidget*)(e->param());
-        if (w == getMainWindow())
+    if (e->type() == eEventRaiseWindow){
+        EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
+        if (w->widget() == getMainWindow())
             setState();
     }
 #endif
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

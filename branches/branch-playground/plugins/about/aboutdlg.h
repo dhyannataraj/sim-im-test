@@ -19,6 +19,7 @@
 #define _ABOUTDLG_H
 
 #include "simapi.h"
+
 #ifndef USE_KDE
 
 #include "aboutdlgbase.h"

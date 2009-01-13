@@ -18,8 +18,6 @@
 #ifndef _POLLING_H
 #define _POLLING_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "socket.h"
 
 class HttpRequest;

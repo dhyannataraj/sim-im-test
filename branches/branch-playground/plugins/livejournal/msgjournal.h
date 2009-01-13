@@ -18,7 +18,8 @@
 #ifndef _MSGJOURNAL_H
 #define _MSGJOURNAL_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "msgjournalbase.h"
 
 class MsgEdit;
@@ -45,14 +46,14 @@ protected slots:
     void emptyChanged(bool bEmpty);
     void removeRecord(void*);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void		send(const QString&);
-    QString 	m_client;
-    unsigned	m_ID;
-    unsigned	m_oldID;
-    unsigned	m_time;
-    MsgEdit		*m_edit;
-    MsgJournalWnd	*m_wnd;
+    QString         m_client;
+    unsigned        m_ID;
+    unsigned        m_oldID;
+    unsigned        m_time;
+    MsgEdit        *m_edit;
+    MsgJournalWnd  *m_wnd;
 };
 
 #endif

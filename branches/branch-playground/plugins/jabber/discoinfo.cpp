@@ -15,18 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "discoinfo.h"
-#include "jabberbrowser.h"
-#include "jabber.h"
-#include "jabberaboutinfo.h"
-#include "listview.h"
-
 #include <qpixmap.h>
 #include <qlineedit.h>
 #include <qmultilineedit.h>
 #include <qtabwidget.h>
 #include <qpushbutton.h>
+
+#include "icons.h"
+#include "listview.h"
+#include "misc.h"
+
+#include "jabberclient.h"
+#include "discoinfo.h"
+#include "jabberbrowser.h"
+#include "jabber.h"
+#include "jabberaboutinfo.h"
 
 using namespace SIM;
 
@@ -42,7 +45,6 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     setTitle();
     setButtonsPict(this);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
-    m_bVersion = true;
     m_bTime    = true;
     m_bLast	   = true;
     m_bStat	   = true;
@@ -52,7 +54,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     m_name	   = name;
     m_type	   = type;
     m_category = category;
-    load_data(jabberUserData, &m_data);
+    load_data(jabberUserData, &m_data, NULL);
     disableWidget(edtJName);
     disableWidget(edtType);
     disableWidget(edtCategory);
@@ -94,15 +96,14 @@ void DiscoInfo::reset()
         m_node = m_browser->m_list->currentItem()->text(COL_NODE);
     }
     free_data(jabberUserData, &m_data);
-    load_data(jabberUserData, &m_data);
-    m_data.ID.str()   = m_url;
+    load_data(jabberUserData, &m_data, NULL);
+    m_data.ID.str() = m_url;
     m_data.Node.str() = m_node;
     setTitle();
     edtJName->setText(m_name);
     edtType->setText(m_type);
     edtCategory->setText(m_category);
     edtNameSpace->setText(m_features);
-    bool bVersion = false;
     bool bTime    = false;
     bool bLast	  = false;
     bool bStat	  = false;
@@ -110,8 +111,6 @@ void DiscoInfo::reset()
     QString mf = m_features;
     while (!mf.isEmpty()){
         QString f = getToken(mf, '\n');
-        if (f == "jabber:iq:version")
-            bVersion = true;
         if (f == "jabber:iq:time")
             bTime = true;
         if (f == "jabber:iq:last")
@@ -121,21 +120,11 @@ void DiscoInfo::reset()
         if (f == "vcard-temp")
             bVCard = true;
     }
-    int pos = 1;
-    if (bVersion != m_bVersion){
-        m_bVersion = bVersion;
-        if (m_bVersion){
-            tabInfo->insertTab(tabVersion, i18n("&Version"), pos++);
-        }else{
-            tabInfo->removePage(tabVersion);
-        }
-    }else if (m_bVersion){
-        pos++;
-    }
-    edtName->setText("");
-    edtVersion->setText("");
-    edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url, m_node) : "";
+    int pos = 2;
+    edtName->setText(QString::null);
+    edtVersion->setText(QString::null);
+    edtSystem->setText(QString::null);
+    m_browser->m_client->versionInfo(m_url, m_node);
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -147,21 +136,19 @@ void DiscoInfo::reset()
     }else if (m_bTime || m_bLast){
         pos++;
     }
-    edtTime->setText("");
-    edtLast->setText("");
+    edtTime->setText(QString::null);
+    edtLast->setText(QString::null);
     if (m_bTime){
         edtTime->show();
-        m_timeId = m_browser->m_client->timeInfo(m_url, m_node);
+        m_browser->m_client->timeInfo(m_url, m_node);
     }else{
         edtTime->hide();
-        m_timeId = "";
     }
     if (m_bLast){
         edtLast->show();
-        m_lastId = m_browser->m_client->lastInfo(m_url, m_node);
+        m_browser->m_client->lastInfo(m_url, m_node);
     }else{
         edtLast->hide();
-        m_lastId = "";
     }
     lstStat->clear();
     if (bStat != m_bStat){
@@ -174,7 +161,7 @@ void DiscoInfo::reset()
     }else if (m_bStat){
         pos++;
     }
-    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url, m_node) : "";
+    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url, m_node) : QString::null;
     if (bVCard != m_bVCard){
         m_bVCard = bVCard;
         if (m_bVCard || m_bVCard){
@@ -185,12 +172,12 @@ void DiscoInfo::reset()
     }else if (m_bVCard){
         pos++;
     }
-    edtFirstName->setText("");
-    edtNick->setText("");
-    edtBirthday->setText("");
-    edtUrl->setText("");
-    edtEMail->setText("");
-    edtPhone->setText("");
+    edtFirstName->setText(QString::null);
+    edtNick->setText(QString::null);
+    edtBirthday->setText(QString::null);
+    edtUrl->setText(QString::null);
+    edtEMail->setText(QString::null);
+    edtPhone->setText(QString::null);
     if (bVCard){
         m_about = new JabberAboutInfo(tabInfo, &m_data, m_browser->m_client);
         tabInfo->insertTab(m_about, i18n("About info"), pos++);
@@ -198,12 +185,11 @@ void DiscoInfo::reset()
     }
 }
 
-int str_cmp(const char *s1, const char *s2);
-
-void *DiscoInfo::processEvent(Event *e)
+bool DiscoInfo::processEvent(Event *e)
 {
-    if (e->type() == EventVCard){
-        JabberUserData *data = (JabberUserData*)(e->param());
+    if (e->type() == eEventVCard){
+        EventVCard *evc = static_cast<EventVCard*>(e);
+        JabberUserData *data = evc->data();
         if (m_data.ID.str() == data->ID.str() && m_data.Node.str() == data->Node.str()){
             edtFirstName->setText(data->FirstName.str());
             edtNick->setText(data->Nick.str());
@@ -213,35 +199,36 @@ void *DiscoInfo::processEvent(Event *e)
             edtEMail->setText(data->EMail.str());
             edtPhone->setText(data->Phone.str());
         }
-    }
-    if (e->type() == EventDiscoItem){
-        DiscoItem *item = (DiscoItem*)(e->param());
-        if (m_versionId == item->id){
-            m_versionId = "";
-            edtName->setText(item->name);
-            edtVersion->setText(item->jid);
-            edtSystem->setText(item->node);
-            return e->param();
-        }
-        if (m_timeId == item->id){
-            m_timeId = "";
-            edtTime->setText(item->jid);
-            return e->param();
-        }
+    } else
+    if (e->type() == eEventDiscoItem){
+        EventDiscoItem *edi = static_cast<EventDiscoItem*>(e);
+        DiscoItem *item = edi->item();
         if (m_statId == item->id){
             if (item->jid.isEmpty()){
-                m_statId = "";
-                return e->param();
+                m_statId = QString::null;
+                return true;
             }
             QListViewItem *i = new QListViewItem(lstStat);
             i->setText(0, item->jid);
             i->setText(1, item->name);
             i->setText(2, item->node);
-            return e->param();
+            return true;
         }
-        if (m_lastId == item->id){
-            m_lastId = "";
-            unsigned ss = item->jid.toUInt();
+    } else
+    if (e->type() == eEventClientVersion){
+        EventClientVersion *ecv = static_cast<EventClientVersion*>(e);
+        ClientVersionInfo* info = ecv->info();
+        if (m_data.ID.str() == info->jid && m_data.Node.str() == info->node){
+            edtName->setText(info->name);
+            edtVersion->setText(info->version);
+            edtSystem->setText(info->os);
+        }
+    } else
+    if (e->type() == eEventClientLastInfo){
+        EventClientLastInfo *ecli = static_cast<EventClientLastInfo*>(e);
+        ClientLastInfo* info = ecli->info();
+        if (m_data.ID.str() == info->jid){
+            unsigned ss = info->seconds;
             unsigned mm = ss / 60;
             ss -= mm * 60;
             unsigned hh = mm / 60;
@@ -251,16 +238,27 @@ void *DiscoInfo::processEvent(Event *e)
             QString date;
             if (dd){
                 date  = i18n("%n day", "%n days", dd);
-                date += " ";
+                date += ' ';
             }
             QString time;
             time.sprintf("%02u:%02u:%02u", hh, mm, ss);
             date += time;
             edtLast->setText(date);
-            return e->param();
+        }
+    } else
+    if (e->type() == eEventClientTimeInfo){
+        EventClientTimeInfo *ecti = static_cast<EventClientTimeInfo*>(e);
+        ClientTimeInfo* info = ecti->info();
+        if (m_data.ID.str() == info->jid){
+          /*
+            if (!info->display.isEmpty())
+                edtTime->setText(info->display);
+            else
+          */
+                edtTime->setText(info->utc);
         }
     }
-    return NULL;
+    return false;
 }
 
 void DiscoInfo::resizeEvent(QResizeEvent *e)
@@ -279,12 +277,12 @@ void DiscoInfo::apply()
 {
     if (m_bVCard && m_about){
         m_about->apply(m_browser->m_client, &m_data);
-        m_data.FirstName.str() = edtFirstName->text();
-        m_data.Nick.str()      = edtNick->text();
-        m_data.Bday.str()      = edtBirthday->text();
-        m_data.Url.str()       = edtUrl->text();
-        m_data.EMail.str()     = edtEMail->text();
-        m_data.Phone.str()     = edtPhone->text();
+        m_data.FirstName.str()  = edtFirstName->text();
+        m_data.Nick.str()       = edtNick->text();
+        m_data.Bday.str()       = edtBirthday->text();
+        m_data.Url.str()        = edtUrl->text();
+        m_data.EMail.str()      = edtEMail->text();
+        m_data.Phone.str()      = edtPhone->text();
         m_browser->m_client->setClientInfo(&m_data);
     }
 }
@@ -294,7 +292,7 @@ void DiscoInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 }
 

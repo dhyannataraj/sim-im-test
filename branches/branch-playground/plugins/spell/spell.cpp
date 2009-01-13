@@ -14,18 +14,21 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <algorithm>
 
 #include "spell.h"
 #include "spellcfg.h"
 #include "speller.h"
-#include "simapi.h"
 #include "textshow.h"
 #include "spellhighlight.h"
 #include "core.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
+#include <qfile.h>
+#include <algorithm>
 
+using namespace std;
 using namespace SIM;
 
 class PSpellHighlighter : public SpellHighlighter
@@ -52,7 +55,7 @@ PSpellHighlighter::~PSpellHighlighter()
         m_plugin->m_edits.erase(it);
 }
 
-SIM::Plugin *createSpellPlugin(unsigned base, bool, ConfigBuffer *config)
+SIM::Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)
 {
     SIM::Plugin *plugin = new SpellPlugin(base, config);
     return plugin;
@@ -81,7 +84,7 @@ static SIM::DataDef spellData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-SpellPlugin::SpellPlugin(unsigned base, ConfigBuffer *config)
+SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     SIM::load_data(spellData, &data, config);
@@ -95,16 +98,14 @@ SpellPlugin::SpellPlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_id     = MenuTextEdit;
     cmd->menu_grp    = 0x0100;
     cmd->flags		 = SIM::COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-    SIM::Event eCmd(SIM::EventCommandCreate, cmd);
-    eCmd.process();
     reset();
 }
 
 SpellPlugin::~SpellPlugin()
 {
-    SIM::Event eCmd(SIM::EventCommandRemove, (void*)CmdSpell);
-    eCmd.process();
+    EventCommandRemove(CmdSpell).process();
     deactivate();
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it)
         delete (*it);
@@ -122,7 +123,7 @@ void SpellPlugin::reset()
 #ifdef WIN32
     m_base = new SpellerBase(getPath());
 #else
-    m_base = new SpellerBase;
+    m_base = new SpellerBase(QString());
 #endif
     SpellerConfig cfg(*m_base);
     QString ll = getLang();
@@ -173,7 +174,7 @@ void SpellPlugin::deactivate()
     m_edits.clear();
 }
 
-QString SpellPlugin::getConfig()
+QCString SpellPlugin::getConfig()
 {
     return save_data(spellData, &data);
 }
@@ -183,9 +184,9 @@ QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
     return new SpellConfig(parent, this);
 }
 
-void *SpellPlugin::processEvent(SIM::Event*)
+bool SpellPlugin::processEvent(SIM::Event*)
 {
-    return NULL;
+    return false;
 }
 
 bool SpellPlugin::eventFilter(QObject *o, QEvent *e)
@@ -226,11 +227,11 @@ void SpellPlugin::add(const QString &word)
     }
 }
 
-typedef struct WordWeight
+struct WordWeight
 {
     QString		word;
     unsigned	weight;
-} WordWeight;
+};
 
 bool operator < (const WordWeight &w1, const WordWeight &w2) { return w1.weight > w2.weight; }
 
@@ -276,7 +277,7 @@ QStringList SpellPlugin::suggestions(const QString &word)
         ww.weight = w;
         words.push_back(ww);
     }
-    sort(words.begin(), words.end());
+	sort(words.begin(), words.end());
     unsigned size = words.size();
     if (size > 15)
         size = 15;

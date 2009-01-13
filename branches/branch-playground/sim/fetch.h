@@ -18,6 +18,11 @@
 #ifndef _FETCH_H
 #define _FETCH_H
 
+#include <qcstring.h>
+#include <qobject.h>
+#include <qstring.h>
+
+#include "simapi.h"     // COPY_RESTRICTED
 #include "simapi.h"
 
 #ifdef WIN32
@@ -40,11 +45,11 @@ public:
     virtual const char *read_data(char *buf, unsigned &size);
     virtual bool     write_data(const char *buf, unsigned size);
     virtual unsigned post_size();
-    virtual bool	 done(unsigned code, Buffer &data, const char *headers) = 0;
+    virtual bool	 done(unsigned code, Buffer &data, const QString &headers) = 0;
     bool	isDone();
     void    stop();
     void	set_speed(unsigned speed);
-    static bool	crackUrl(const char *url, std::string &proto, std::string &host, unsigned short &port, std::string &user, std::string &pass, std::string &uri, std::string &extra);
+    static bool	crackUrl(const QString &url, QString &proto, QString &host, unsigned short &port, QString &user, QString &pass, QString &uri, QString &extra);
 private:
     FetchClientPrivate *p;
     friend class FetchClientPrivate;

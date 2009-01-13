@@ -18,7 +18,6 @@
 #ifndef _CONNECTWND_H
 #define _CONNECTWND_H
 
-#include "simapi.h"
 #include "connectwndbase.h"
 
 class ConnectWnd : public ConnectWndBase

@@ -19,22 +19,20 @@
 #define _JABBERADD_H
 
 #include "jabberclient.h"
-#include "simapi.h"
 #include "jabberaddbase.h"
-#include "stl.h"
 
 class JabberClient;
 class JabberBrowser;
 class GroupRadioButton;
 
-typedef struct ItemInfo
+struct ItemInfo
 {
     QString	jid;
     QString	node;
     QString	id;
-} ItemInfo;
+};
 
-typedef struct AgentSearch
+struct AgentSearch
 {
     QString		jid;
     QString		node;
@@ -44,7 +42,7 @@ typedef struct AgentSearch
     unsigned		fill;
     std::vector<QString>	fields;
     QString		type;
-} AgentSearch;
+};
 
 class JabberAdd : public JabberAddBase, public SIM::EventReceiver
 {
@@ -70,7 +68,7 @@ protected slots:
     void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
     void createContact(unsigned tmpFlags, SIM::Contact *&contact);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void setBrowser(bool bBrowser);
     void showEvent(QShowEvent*);
     void startSearch();

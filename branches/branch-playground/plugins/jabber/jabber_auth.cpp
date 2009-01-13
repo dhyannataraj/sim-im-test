@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
 #include "jabberclient.h"
 
 #include <qtimer.h>
@@ -27,8 +29,8 @@ public:
     AuthRequest(JabberClient *client);
 protected:
     bool m_bFail;
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
 };
 
 AuthRequest::AuthRequest(JabberClient *client)
@@ -37,9 +39,9 @@ AuthRequest::AuthRequest(JabberClient *client)
     m_bFail = true;
 }
 
-void AuthRequest::element_end(const char *el)
+void AuthRequest::element_end(const QString& el)
 {
-    if (strcmp(el, "iq"))
+    if (el != "iq")
         return;
     if (m_bFail){
         QTimer::singleShot(0, m_client, SLOT(auth_failed()));
@@ -48,10 +50,10 @@ void AuthRequest::element_end(const char *el)
     }
 }
 
-void AuthRequest::element_start(const char *el, const char **attr)
+void AuthRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "iq")){
-        QString value = JabberClient::get_attr("type", attr).lower();
+    if (el == "iq"){
+        QString value = attrs.value("type").lower();
         if (value == "result")
             m_bFail = false;
     }
@@ -84,7 +86,7 @@ void JabberClient::auth_register()
     m_requests.push_back(req);
 }
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 void JabberClient::auth_digest()
 {
@@ -98,7 +100,7 @@ void JabberClient::auth_digest()
     QString digest = m_id;
     digest += getPassword();
     QByteArray md = sha1(digest.utf8());
-    digest = "";
+    digest = QString::null;
     for (unsigned i = 0; i < md.size(); i++){
         char b[3];
         sprintf(b, "%02x", md[(int)i] & 0xFF);

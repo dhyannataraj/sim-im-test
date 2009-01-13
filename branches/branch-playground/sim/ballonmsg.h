@@ -18,12 +18,12 @@
 #ifndef _BALLONMSG_H
 #define _BALLONMSG_H
 
-#include "simapi.h"
-
 #include <qstring.h>
 #include <qdialog.h>
 #include <qbitmap.h>
 #include <qpushbutton.h>
+
+#include "simapi.h"
 
 class QStringList;
 class QCheckBox;
@@ -66,7 +66,7 @@ class BalloonButton : public QPushButton
 {
     Q_OBJECT
 public:
-    BalloonButton(QString, QWidget*, int);
+    BalloonButton(const QString &text, QWidget *parent, int id);
 signals:
     void action(int);
 protected slots:

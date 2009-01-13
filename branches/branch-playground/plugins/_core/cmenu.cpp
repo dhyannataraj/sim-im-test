@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "cmddef.h"
+#include "misc.h"
+#include "icons.h"
 #include "cmenu.h"
 #include "commands.h"
 
@@ -55,16 +58,16 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     if (s->flags & COMMAND_CHECK_STATE){
         s->flags &= ~COMMAND_DISABLED;
         s->text_wrk = QString::null;
-        Event e(EventCheckState, s);
-        s->flags |= COMMAND_CHECK_STATE;
-        if (!e.process())
+        s->flags |= COMMAND_CHECK_STATE;  // FIXME: What for? COMMAND_CHECK_STATE BIT is already 1 if this code is execued, because of "if" above
+        if(!EventCheckCommandState(s).process())
             return;
         if (s->flags & COMMAND_RECURSIVE){
             CommandDef *cmds = (CommandDef*)(s->param);
             for (CommandDef *cmd = cmds; !cmd->text.isEmpty(); cmd++){
                 processItem(cmd, bSeparator, bFirst, s->id);
             }
-//            delete[] cmds;
+            delete[] cmds;
+            s->param = NULL;
             return;
         }
     }
@@ -99,7 +102,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         s->text_wrk = QString::null;
     }
     if (!s->accel.isEmpty()){
-        title += "\t";
+        title += '\t';
         title += i18n(s->accel);
     }
     if (s->flags & COMMAND_TITLE){
@@ -114,12 +117,9 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     }
     QPopupMenu *popup = NULL;
     if (s->popup_id){
-        ProcessMenuParam mp;
-        mp.id = s->popup_id;
-        mp.param = s->param;
-        mp.key	 = 0;
-        Event e(EventProcessMenu, &mp);
-        popup = (QPopupMenu*)(e.process());
+        EventMenuProcess e(s->popup_id, s->param, 0);
+        e.process();
+        popup = e.menu();
     }
     unsigned id = 0;
     if (popup){
@@ -205,9 +205,8 @@ void CMenu::menuActivated(int n)
             s->text_wrk = QString::null;
             if (s->flags & COMMAND_CHECK_STATE){
                 s->param = m_param;
-                Event e(EventCheckState, s);
                 s->flags |= COMMAND_CHECK_STATE;
-                if (!e.process()){
+                if(!EventCheckCommandState(s).process()){
                     s->text_wrk = QString::null;
                     return;
                 }
@@ -220,8 +219,7 @@ void CMenu::menuActivated(int n)
             if (c.base_id)
                 s->id = c.id;
             s->param = m_param;
-            Event e(EventCommandExec, s);
-            e.process();
+            EventCommandExec(s).process();
             s->text_wrk = QString::null;
             s->id = id;
             break;

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "pastinfo.h"
 #include "icqclient.h"
 
@@ -24,7 +23,7 @@
 
 using namespace SIM;
 
-PastInfo::PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+PastInfo::PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : PastInfoBase(parent)
 {
     m_data   = data;
@@ -58,19 +57,22 @@ void PastInfo::apply()
 {
 }
 
-void *PastInfo::processEvent(Event *e)
+bool PastInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 static const ext_info pasts[] =
@@ -220,12 +222,12 @@ void PastInfo::cmbBgChanged(int)
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
     cmbs[n]->setCurrentItem(0);
-    edts[n]->setText("");
+    edts[n]->setText(QString::null);
     for (n++; n < 3; n++){
         disableWidget(cmbs[n]);
         disableWidget(edts[n]);
         initCombo(cmbs[n], 0, pasts, true);
-        edts[n]->setText("");
+        edts[n]->setText(QString::null);
     }
 }
 
@@ -253,12 +255,12 @@ void PastInfo::cmbAfChanged(int)
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
     cmbs[n]->setCurrentItem(0);
-    edts[n]->setText("");
+    edts[n]->setText(QString::null);
     for (n++; n < 3; n++){
         disableWidget(cmbs[n]);
         disableWidget(edts[n]);
         initCombo(cmbs[n], 0, affilations, true);
-        edts[n]->setText("");
+        edts[n]->setText(QString::null);
     }
 }
 
@@ -267,7 +269,7 @@ void PastInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString bg[3];
     bg[0] = getInfo(cmbBg1, edtBg1, pasts);
     bg[1] = getInfo(cmbBg2, edtBg2, pasts);
@@ -277,11 +279,11 @@ void PastInfo::apply(Client *client, void *_data)
         if (bg[i].isEmpty())
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += bg[i];
     }
     data->Backgrounds.str() = res;
-    res = "";
+    res = QString::null;
     QString af[3];
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
     af[1] = getInfo(cmbAf2, edtAf2, affilations);
@@ -290,7 +292,7 @@ void PastInfo::apply(Client *client, void *_data)
         if (af[i].isEmpty())
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += af[i];
     }
     data->Affilations.str() = res;
@@ -301,7 +303,7 @@ QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
     unsigned n = getComboValue(cmb, info);
     if (n == 0)
         return QString::null;
-    QString res = QString::number(n) + ",";
+    QString res = QString::number(n) + ',';
     res += quoteChars(edt->text(), ",;");
     return res;
 }

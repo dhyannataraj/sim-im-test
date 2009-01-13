@@ -19,9 +19,10 @@
 #define _HTML_H	1
 
 #include "simapi.h"
-#include "stl.h"
+#include <list>
 
 class Buffer;
+class QString;
 
 namespace SIM
 {

@@ -18,26 +18,24 @@
 #ifndef _DOCKWND_H
 #define _DOCKWND_H
 
-#include "simapi.h"
-#include "stl.h"
-
 #include <qwidget.h>
-#include <qtooltip.h>
 #include <qpixmap.h>
+
+#include "event.h"
 
 class WharfIcon;
 class DockPlugin;
 
 #ifdef WIN32
 
-typedef struct BalloonItem
+struct BalloonItem
 {
     QString		text;
     QString		title;
     unsigned	id;
     unsigned	flags;
     SIM::Client	*client;
-} BallonItem;
+};
 
 #endif
 
@@ -47,10 +45,11 @@ class DockWnd : public QWidget, public SIM::EventReceiver
 public:
     DockWnd(DockPlugin *plugin, const char *icon, const char *text);
     ~DockWnd();
-    void setIcon(const char *icon);
-    void setTip(const char *text);
+    void setIcon(const QString &icon);
+    void setTip(const QString &text);
 #ifdef WIN32
     void callProc(unsigned long);
+    void addIconToTaskbar();
 #endif
     void mouseEvent( QMouseEvent *e);
     virtual void mouseDoubleClickEvent( QMouseEvent *e);
@@ -59,17 +58,21 @@ signals:
     void toggleWin();
     void doubleClicked();
 protected slots:
-    void toggle();
     void blink();
     void dbl_click();
     void showPopup();
 protected:
-    virtual void *processEvent(SIM::Event *e);
+#ifdef WIN32
+    virtual bool winEvent(MSG *msg);
+#endif
+    virtual bool processEvent(SIM::Event *e);
     void  reset();
     bool  bNoToggle;
-    const char *m_tip;
-    const char *m_state;
-    const char *m_unread;
+    QString m_tip;
+    QString m_curTipText;
+    QString m_curIcon;
+    QString m_state;
+    QString m_unread;
     QString m_unreadText;
     QPixmap drawIcon;
     virtual void enterEvent( QEvent *e);
@@ -91,7 +94,6 @@ protected:
     friend class WharfIcon;
 #endif
 #else
-    void				*hShell;
     bool				m_bBalloon;
     std::list<BalloonItem>	m_queue;
     bool				showBalloon();

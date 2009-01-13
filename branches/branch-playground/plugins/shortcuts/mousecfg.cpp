@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "mousecfg.h"
-#include "shortcuts.h"
-
 #include <qlistview.h>
 #include <qlabel.h>
 #include <qregexp.h>
@@ -25,6 +22,13 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
+
+#include "cmddef.h"
+#include "misc.h"
+#include "core_consts.h"
+
+#include "mousecfg.h"
+#include "shortcuts.h"
 
 using namespace SIM;
 
@@ -81,8 +85,9 @@ void MouseConfig::adjustColumns()
 
 void MouseConfig::loadMenu(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -99,7 +104,7 @@ void MouseConfig::loadMenu(unsigned long id)
             }
             if (item)
                 continue;
-            title = title.replace(QRegExp("&"), "");
+            title = title.remove('&');
             new QListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
         }
     }

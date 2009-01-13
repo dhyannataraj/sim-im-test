@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+#include "misc.h"
 #include "declinedlg.h"
 
 #include <qpixmap.h>
@@ -38,22 +40,19 @@ DeclineDlg::~DeclineDlg()
 
 void DeclineDlg::accept()
 {
-    messageDecline md;
-    md.msg    = m_msg;
-    md.reason = edtReason->text();
-    Event e(EventMessageDecline, &md);
-    e.process();
+    EventMessageDecline(m_msg, edtReason->text());
     DeclineDlgBase::accept();
 }
 
-void *DeclineDlg::processEvent(Event *e)
+bool DeclineDlg::processEvent(Event *e)
 {
-    if (e->type() == EventMessageDeleted){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageDeleted){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->id() == m_msg->id())
             close();
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

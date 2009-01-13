@@ -17,27 +17,29 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
 
     GET_FILENAME_COMPONENT(_in_dir ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml PATH)
 
-    FILE(GLOB _in ${_in_dir}/*.png)
-    SET(_in ${_in} ${_in_dir}/icondef.xml)
+    IF(EXISTS ${_in_dir}/icondef.xml)
+        FILE(GLOB _in ${_in_dir}/*.png)
+        SET(_in ${_in} ${_in_dir}/icondef.xml)
 
-    IF(WIN32)
-        GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/icons/${jisp_name} ABSOLUTE)
-    ELSE(WIN32)
-        GET_FILENAME_COMPONENT(_out ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} ABSOLUTE)
-    ENDIF(WIN32)
+        IF(WIN32)
+            GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/icons/${jisp_name} ABSOLUTE)
+        ELSE(WIN32)
+            GET_FILENAME_COMPONENT(_out ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} ABSOLUTE)
+        ENDIF(WIN32)
     
-    FILE(WRITE ${_out}.files "") 
-    FOREACH(_file ${_in})
-        FILE(APPEND ${_out}.files "${_file}\n")
-    ENDFOREACH(_file ${_in})
+        FILE(WRITE ${_out}.files "") 
+        FOREACH(_file ${_in})
+            FILE(APPEND ${_out}.files "${_file}\n")
+        ENDFOREACH(_file ${_in})
 
-    ADD_CUSTOM_COMMAND(
-        OUTPUT ${_out}
-        COMMAND ${ZIP_EXECUTABLE}
-        -j -q -9 ${_out} -@ < ${_out}.files
-        DEPENDS ${_in}
-    )
-    SET(${_sources} ${${_sources}} ${_out})
+        ADD_CUSTOM_COMMAND(
+           OUTPUT ${_out}
+            COMMAND ${ZIP_EXECUTABLE}
+            -j -q -9 ${_out} -@ < ${_out}.files
+            DEPENDS ${_in}
+        )
+        SET(${_sources} ${${_sources}} ${_out})
 
-    INSTALL(FILES ${_out} DESTINATION  ${SIM_ICONS_DIR})
+        INSTALL(FILES ${_out} DESTINATION  ${SIM_ICONS_DIR})
+    ENDIF(EXISTS ${_in_dir}/icondef.xml)
 ENDMACRO(ADD_JISP_ARCHIVE)

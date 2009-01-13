@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "homedir.h"
 #include "simapi.h"
+
+#include "homedir.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -39,9 +40,13 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 #include <qdir.h>
 #include <qfile.h>
 
+#include "log.h"
+#include "misc.h"
+
+using namespace std;
 using namespace SIM;
 
-Plugin *createHomeDirPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createHomeDirPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new HomeDirPlugin(base);
     return plugin;
@@ -53,7 +58,7 @@ static PluginInfo info =
         I18N_NOOP("Home directory"),
         I18N_NOOP("Plugin provides select directory for store config files"),
 #else
-NULL,
+        NULL,
         NULL,
 #endif
         VERSION,
@@ -84,12 +89,9 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     m_bDefault = m_homeDir.isNull();
 #endif
     QString d;
-    CmdParam p;
-    p.arg   = "-b:";
-    p.descr = I18N_NOOP("Set home directory");
-    Event e(EventArg, &p);
-    if (e.process() && !p.value.isEmpty()){
-        d = p.value;
+    EventArg e("-b:", I18N_NOOP("Set home directory"));
+    if (e.process() && !e.value().isEmpty()){
+        d = e.value();
 #ifdef WIN32
         m_bSave   = false;
 #endif
@@ -129,26 +131,54 @@ QString HomeDirPlugin::defaultPath()
         s += '/';
     s += "share/apps/sim";
 #else
+    
+#ifdef __OS2__
+    char *os2home = getenv("HOME");
+    if (os2home) {
+        s = os2home;
+        s += "\\";
+    }
     s += ".sim";
+    if ( access( s, F_OK ) != 0 ) {
+    	mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+    }
+#else
+    s += ".sim";
+#endif
+
 #endif
 #else
     char szPath[1024];
     szPath[0] = 0;
     QString defPath;
-    (DWORD&)_SHGetSpecialFolderPathW = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
-    (DWORD&)_SHGetSpecialFolderPathA = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
+	
+	//Fixme:
+	//FOLDERID_RoamingAppData <<== this is used in Vista.. should be fixed
+	//otherwise the config is stored in "Downloads" per default :-/
+	//Windows 2008 Server tested, simply works...
+    
+	(DWORD&)_SHGetSpecialFolderPathW   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
+    (DWORD&)_SHGetSpecialFolderPathA   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
+	//(DWORD&)_SHGetKnownFolderPath	   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetKnownFolderPath"); //for Vista :-/
+
     if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QString::fromUcs2((unsigned short*)szPath);
     }else if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QFile::decodeName(szPath);
-    }
-    if (!defPath.isEmpty()){
+	}
+    //}else if (_SHGetKnownFolderPath && _SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0x00008000, NULL, szPath)){
+	//	defPath = QFile::decodeName(szPath);
+
+	/*HRESULT SHGetKnownFolderPath(          REFKNOWNFOLDERID rfid,
+    DWORD dwFlags,
+    HANDLE hToken,
+    PWSTR *ppszPath );*/
+
+	if (!defPath.isEmpty()){
         if (!defPath.endsWith("\\"))
-            defPath += "\\";
+            defPath += '\\';
         defPath += "sim";
-        QString ss = defPath;
-        ss += "\\";
-        makedir(QFile::encodeName(ss).data());
+        makedir(defPath + '\\');
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
         if (!f.open(IO_ReadWrite | IO_Truncate))
@@ -175,7 +205,7 @@ QWidget *HomeDirPlugin::createConfigWindow(QWidget *parent)
     return new HomeDirConfig(parent, this);
 }
 
-QString HomeDirPlugin::getConfig()
+QCString HomeDirPlugin::getConfig()
 {
     if (!m_bSave)
         return "";
@@ -192,15 +222,11 @@ QString HomeDirPlugin::getConfig()
 
 #endif
 
-QString HomeDirPlugin::buildFileName(const QString *name)
+QString HomeDirPlugin::buildFileName(const QString &name)
 {
     QString s;
-    QString fname = *name;
-#ifdef WIN32
-    if ((fname[1] != ':') && (fname.left(2) != "\\\\")){
-#else
-    if (fname[0] != '/'){
-#endif
+    QString fname = name;
+    if(QDir(fname).isRelative()) {
         s += m_homeDir;
         s += '/';
     }
@@ -208,12 +234,12 @@ QString HomeDirPlugin::buildFileName(const QString *name)
     return QDir::convertSeparators(s);
 }
 
-void *HomeDirPlugin::processEvent(Event *e)
+bool HomeDirPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventHomeDir){
-        QString *cfg = (QString*)(e->param());
-        *cfg = buildFileName(cfg);
-        return (void*)(!cfg->isEmpty());
+    if (e->type() == eEventHomeDir){
+        EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
+        homedir->setHomeDir(buildFileName(homedir->homeDir()));
+        return true;
     }
-    return NULL;
+    return false;
 }

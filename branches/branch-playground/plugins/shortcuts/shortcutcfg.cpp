@@ -20,6 +20,8 @@
 #include "qkeybutton.h"
 #include "mousecfg.h"
 #include "core.h"
+#include "core_consts.h"
+#include "cmddef.h"
 
 #include <qlistview.h>
 #include <qlabel.h>
@@ -62,8 +64,9 @@ ShortcutsConfig::~ShortcutsConfig()
 
 void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -73,7 +76,7 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
             QString title = i18n(s->text);
             if (title == "_")
                 continue;
-            title = title.replace(QRegExp("&"), "");
+            title = title.remove('&');
             QString accel;
             int key = 0;
             const char *cfg_accel = m_plugin->getKey(s->id);
@@ -85,8 +88,8 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
                 accel = QAccel::keyToString(key);
             QString global;
             bool bGlobal = m_plugin->getOldGlobal(s);
-            QString cfg_global = m_plugin->getGlobal(s->id);
-            if (!cfg_global.isEmpty())
+            const char *cfg_global = m_plugin->getGlobal(s->id);
+            if (cfg_global && *cfg_global)
                 bGlobal = !bGlobal;
             if (bGlobal)
                 global = i18n("Global");
@@ -116,8 +119,9 @@ void ShortcutsConfig::apply()
 
 void ShortcutsConfig::saveMenu(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -222,7 +226,7 @@ void ShortcutsConfig::globalChanged(bool)
     QListViewItem *item = lstKeys->currentItem();
     if ((item == NULL) || item->text(4).isEmpty())
         return;
-    item->setText(2, chkGlobal->isChecked() ? i18n("Global") : QString(""));
+    item->setText(2, chkGlobal->isChecked() ? i18n("Global") : QString::null);
 }
 
 #ifndef NO_MOC_INCLUDES

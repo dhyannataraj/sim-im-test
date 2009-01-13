@@ -2,8 +2,6 @@
 
 #include <process.h>
 
-#include "simapi.h"	// before Qt headers!
-#include "stl.h"
 
 #include <qglobal.h>
 

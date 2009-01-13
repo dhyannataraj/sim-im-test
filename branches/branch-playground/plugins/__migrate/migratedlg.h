@@ -18,13 +18,11 @@
 #ifndef _MIGRATEDLG_H
 #define _MIGRATEDLG_H
 
-#include "simapi.h"
-#include "stl.h"
-
 #include "migratedlgbase.h"
 
 #include <qcheckbox.h>
 #include <qfile.h>
+#include "simapi.h"
 
 class MigrateDialog : public MigrateDialogBase
 {
@@ -42,16 +40,16 @@ protected:
     void error(const QString&);
     void flush();
 
-    QString	m_owner;
+    QCString	m_owner;
 
     unsigned m_uin;
-    QString	m_passwd;
-    QString	m_name;
-    int		m_state;
-    QString	m_message;
-    QString	m_time;
-    QString	m_direction;
-    QString	m_charset;
+    QCString	m_passwd;
+    QCString	m_name;
+    int			m_state;
+    QCString	m_message;
+    QCString	m_time;
+    QCString	m_direction;
+    QCString	m_charset;
 
     unsigned m_grpId;
     unsigned m_contactId;

@@ -15,22 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "logger.h"
-#include "logconfig.h"
-
 #include <stdio.h>
 #include <qapplication.h>
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 
-#ifdef WIN32
-#include <windows.h>
+#ifdef Q_OS_WIN
+# include <windows.h>
 #endif
 
+#include "log.h"
+#include "misc.h"
+
+#include "logger.h"
+#include "logconfig.h"
+
+using namespace std;
 using namespace SIM;
 
-Plugin *createLoggerPlugin(unsigned base, bool, ConfigBuffer *add_info)
+Plugin *createLoggerPlugin(unsigned base, bool, Buffer *add_info)
 {
     LoggerPlugin *plugin = new LoggerPlugin(base, add_info);
     return plugin;
@@ -45,7 +49,7 @@ static PluginInfo info =
                   "If you want to log more than one you may add the levels"),
         VERSION,
         createLoggerPlugin,
-#ifdef WIN32
+#if defined(Q_OS_WIN) || defined(__OS2__)
         PLUGIN_NOLOAD_DEFAULT
 #else
         PLUGIN_DEFAULT
@@ -57,13 +61,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct LoggerData
-{
-    unsigned LogLevel;
-	char	 *LogPackets;
-} LoggerData;
-*/
 static DataDef loggerData[] =
     {
         { "LogLevel", DATA_ULONG, 1, DATA(3) },
@@ -72,18 +69,15 @@ static DataDef loggerData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
+LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
         : Plugin(base)
 {
     m_file = NULL;
     load_data(loggerData, &data, add_info);
-    CmdParam p;
-    p.arg   = "-d:";
-    p.descr = I18N_NOOP("Set debug level");
 
-    Event e(EventArg, &p);
-    if (e.process() && !p.value.isEmpty())
-        setLogLevel(p.value.toULong());
+    EventArg e("-d:", I18N_NOOP("Set debug level"));
+    if (e.process())
+        setLogLevel(e.value().toULong());
     QString packets = getLogPackets();
     while (packets.length()){
         QString v = getToken(packets, ',');
@@ -99,10 +93,10 @@ LoggerPlugin::~LoggerPlugin()
     free_data(loggerData, &data);
 }
 
-QString LoggerPlugin::getConfig()
+QCString LoggerPlugin::getConfig()
 {
     QString packets;
-    for (QValueList<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
         packets += QString::number(*it);
@@ -133,11 +127,11 @@ void LoggerPlugin::openFile()
     QString fname = getFile();
     if (fname.isEmpty())
         return;
-    // This is because sim crashes when a logfile is larger than 100MB ...
+    // This si because sim crashes when a logfile is larger than 100MB ...
     QFileInfo fileInfo(fname);
     if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
-#ifdef WIN32
+#if defined(Q_OS_WIN) || defined(__OS2__)
         fileInfo.dir().remove(desiredFileName);
 #endif
         if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -150,19 +144,26 @@ void LoggerPlugin::openFile()
     if (!m_file->open(IO_Append | IO_ReadWrite)){
         delete m_file;
         m_file = NULL;
-        log(L_WARN, "Can't open %s", fname.latin1());
+        log(L_WARN, "Can't open %s", (const char*)fname);
     }
 }
 
 bool LoggerPlugin::isLogType(unsigned id)
 {
-    return ( m_packets.find( id ) != m_packets.end() );
+    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+        if ((*it) == id)
+            return true;
+    }
+    return false;
 }
 
 void LoggerPlugin::setLogType(unsigned id, bool bLog)
 {
-    QValueList<unsigned>::iterator it;
-    it = m_packets.find( id );
+    list<unsigned>::iterator it;
+    for (it = m_packets.begin(); it != m_packets.end(); ++it){
+        if ((*it) == id)
+            break;
+    }
     if (bLog){
         if (it == m_packets.end())
             m_packets.push_back(id);
@@ -184,16 +185,16 @@ QWidget *LoggerPlugin::createConfigWindow(QWidget *parent)
     return new LogConfig(parent, this);
 }
 
-void *LoggerPlugin::processEvent(Event *e)
+bool LoggerPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventLog){
-        LogInfo *li = (LogInfo*)e->param();
-        if (((li->packet_id == 0) && (li->log_level & getLogLevel())) ||
-                (li->packet_id && ((getLogLevel() & L_PACKETS) || isLogType(li->packet_id)))){
+    if (e->type() == eEventLog){
+        EventLog *l = static_cast<EventLog*>(e);
+        if (((l->packetID() == 0) && (l->logLevel() & getLogLevel())) ||
+                (l->packetID() && ((getLogLevel() & L_PACKETS) || isLogType(l->packetID())))){
             QString s;
-            s = make_packet_string(li);
+            s = EventLog::make_packet_string(*l);
             if (m_file){
-#ifdef WIN32
+#if defined(Q_OS_WIN) || defined(__OS2__)
                 s += "\r\n";
 #else
                 s += "\n";
@@ -209,7 +210,7 @@ void *LoggerPlugin::processEvent(Event *e)
                         QString l;
                         if (out.length() < 256){
                             l = out;
-                            out = "";
+                            out = QString::null;
                         }else{
                             l = out.left(256);
                             out = out.mid(256);
@@ -226,9 +227,10 @@ void *LoggerPlugin::processEvent(Event *e)
 #endif
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES
 #include "logger.moc"
 #endif
+

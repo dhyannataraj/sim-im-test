@@ -18,12 +18,14 @@
 #ifndef _ICQSECURE_H
 #define _ICQSECURE_H
 
-#include "simapi.h"
+#include "cfg.h"
+
 #include "listview.h"
-#include "icqclient.h"
 #include "icqsecurebase.h"
 
+class ICQClient;
 class ListView;
+struct ICQUserData;
 
 class ICQSecure : public ICQSecureBase, public SIM::EventReceiver
 {
@@ -37,7 +39,7 @@ public slots:
     void deleteVisibleItem(QListViewItem *item);
     void deleteInvisibleItem(QListViewItem *item);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setListView(ListView*);
     void fillListView(ListView *lst, SIM::Data ICQUserData::* field);

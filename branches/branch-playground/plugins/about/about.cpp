@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "about.h"
-#include "aboutdata.h"
 #include "simapi.h"
 
 #ifdef USE_KDE
@@ -27,9 +25,15 @@
 #endif
 #include <qtimer.h>
 
+#include "misc.h"
+
+#include "about.h"
+#include "aboutdata.h"
+#include "core_consts.h"
+
 using namespace SIM;
 
-Plugin *createAboutPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createAboutPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new AboutPlugin(base);
     return plugin;
@@ -64,22 +68,20 @@ AboutPlugin::AboutPlugin(unsigned base)
     cmd->bar_id		= ToolBarMain;
     cmd->menu_id	= MenuMain;
     cmd->menu_grp	= 0xF000;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     about = NULL;
     cmd->id			= CmdAbout;
-    cmd->text		= I18N_NOOP("&About SIM");
-    cmd->icon		= "ICQ";
-    eCmd.process();
+    cmd->text		= I18N_NOOP("&About Sim-IM");
+    cmd->icon		= "SIM";
+    EventCommandCreate(cmd).process();
 
 #ifdef USE_KDE
     about_kde = NULL;
     cmd->id			= CmdAboutKDE;
     cmd->text		= I18N_NOOP("About &KDE");
     cmd->icon		= "about_kde";
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 #endif
 }
 
@@ -91,19 +93,18 @@ AboutPlugin::~AboutPlugin()
     if (about_kde)
         delete about_kde;
 #endif
-    Event eBug(EventCommandRemove, (void*)CmdBugReport);
-    eBug.process();
-    Event eAbout(EventCommandRemove, (void*)CmdAbout);
-    eAbout.process();
+    EventCommandRemove(CmdBugReport).process();
+    EventCommandRemove(CmdAbout).process();
 }
 
-void *AboutPlugin::processEvent(Event *e)
+bool AboutPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdBugReport){
-            QString url("http://developer.berlios.de/bugs/?group_id=4482");
-            Event eURL(EventGoURL, (void*)&url);
+			QString s = "http://developer.berlios.de/bugs/?group_id=4482";
+            EventGoURL eURL(s);
             eURL.process();
         }
         if (cmd->id == CmdAbout){
@@ -130,7 +131,7 @@ void *AboutPlugin::processEvent(Event *e)
         }
 #endif
     }
-    return NULL;
+    return false;
 }
 
 void AboutPlugin::aboutDestroyed()

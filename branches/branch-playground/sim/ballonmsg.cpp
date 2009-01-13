@@ -31,11 +31,14 @@
 #include <qtimer.h>
 #include <qtooltip.h>
 
+#include "misc.h"
+#include "unquot.h"
+
 #ifdef WIN32
-#include <windows.h>
-#ifndef CS_DROPSHADOW
-#define CS_DROPSHADOW   0x00020000
-#endif
+# include <windows.h>
+# ifndef CS_DROPSHADOW
+#  define CS_DROPSHADOW   0x00020000
+# endif
 #endif
 
 #define BALLOON_R			10
@@ -46,7 +49,7 @@
 
 using namespace SIM;
 
-EXPORT QPixmap& intensity(QPixmap &pict, float percent)
+SIM_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 {
     QImage image = pict.convertToImage();
     int i, tmp, r, g, b;
@@ -365,7 +368,7 @@ void BalloonMsg::ask(void *param, const QString &text, QWidget *parent,
     msg->show();
 }
 
-BalloonButton::BalloonButton(QString string, QWidget *parent, int _id)
+BalloonButton::BalloonButton(const QString &string, QWidget *parent, int _id)
         : QPushButton(string, parent)
 {
     id = _id;

@@ -18,8 +18,6 @@
 #ifndef _LOGINDLG_H
 #define _LOGINDLG_H
 
-#include "simapi.h"
-#include "stl.h"
 
 #include "logindlgbase.h"
 
@@ -40,10 +38,11 @@ protected slots:
     void profileChanged(int);
     void pswdChanged(const QString&);
     void profileDelete();
+    void profileRename();
     void loginComplete();
     void adjust();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();
@@ -56,7 +55,7 @@ protected:
     bool m_bLogin;
     bool m_bInit;
     bool m_bProfileChanged;
-    void makeInputs(unsigned &row, SIM::Client *client, bool bQuick);
+    void makeInputs(unsigned &row, SIM::Client *client);
     std::vector<QLabel*>	picts;
     std::vector<QLabel*>	texts;
     std::vector<QLineEdit*>	passwords;

@@ -493,6 +493,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\yahoofiletransfer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="yahoohttp.cpp"
 				>
 				<FileConfiguration

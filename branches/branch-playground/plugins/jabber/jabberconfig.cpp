@@ -15,10 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "jabberconfig.h"
-#include "jabber.h"
-#include "linklabel.h"
+#include "simapi.h"
 
 #include <qtimer.h>
 #include <qlineedit.h>
@@ -26,6 +23,13 @@
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
+
+#include "linklabel.h"
+#include "misc.h"
+
+#include "jabberclient.h"
+#include "jabberconfig.h"
+#include "jabber.h"
 
 using namespace SIM;
 
@@ -53,7 +57,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
         edtServer1->setText(i18n("jabber.org"));
         edtPort1->setValue(m_client->getPort());
     }
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     chkSSL->setChecked(m_client->getUseSSL());
     chkSSL1->setChecked(m_client->getUseSSL());
     chkPlain->setChecked(m_client->getUsePlain());
@@ -70,8 +74,9 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     chkIcons->setChecked(m_client->getProtocolIcons());
     chkSubscribe->setChecked(m_client->getAutoSubscribe());
     chkAccept->setChecked(m_client->getAutoAccept());
+    chkVersion->setChecked(m_client->getUseVersion());
     lnkPublic->setText(i18n("List of public servers"));
-    lnkPublic->setUrl("http://www.jabber.org/user/publicservers.php");
+    lnkPublic->setUrl("http://www.xmpp.net/servers");
     connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -81,10 +86,13 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     connect(chkVHost, SIGNAL(toggled(bool)), this, SLOT(toggledVHost(bool)));
     chkHTTP->setChecked(m_client->getUseHTTP());
     edtUrl->setText(m_client->getURL());
-    lnkRich->setText("(JEP-0071)");
-    lnkRich->setUrl("http://www.jabber.org/jeps/jep-0071.html");
-    lnkTyping->setText("(JEP-0085)");
-    lnkTyping->setUrl("http://www.jabber.org/jeps/jep-0085.html");
+    edtVHost->setEnabled(m_client->getUseVHost());
+    lnkRich->setText("(XEP-0071)");
+    lnkRich->setUrl("http://www.xmpp.org/extensions/xep-0071.html");
+    lnkTyping->setText("(XEP-0022)");
+    lnkTyping->setUrl("http://www.xmpp.org/extensions/xep-0022.html");
+    lnkVersion->setText("(XEP-0092)");
+    lnkVersion->setUrl("http://www.xmpp.org/extensions/xep-0092.html");
 }
 
 void JabberConfig::apply(Client*, void*)
@@ -94,11 +102,11 @@ void JabberConfig::apply(Client*, void*)
 void JabberConfig::apply()
 {
     if (m_bConfig){
-        m_client->setServer(edtServer->text().local8Bit());
-        m_client->setPort((unsigned short)atol(edtPort->text()));
+        m_client->setServer(edtServer->text());
+        m_client->setPort(edtPort->text().toUShort());
     }else{
-        m_client->setServer(edtServer1->text().local8Bit());
-        m_client->setPort((unsigned short)atol(edtPort1->text()));
+        m_client->setServer(edtServer1->text());
+        m_client->setPort(edtPort1->text().toUShort());
     }
     m_client->setUseVHost(false);
     if (chkVHost->isChecked()){
@@ -110,16 +118,21 @@ void JabberConfig::apply()
     int n = jid.find('@');
     if (n >= 0){
         QString host = jid.mid(n + 1);
-        jid = jid.left(n);
         m_client->data.VHost.str() = host;
         m_client->setUseVHost(true);
+    } else if (chkVHost->isChecked()){
+        jid += '@';
+        jid += edtVHost->text();
+    } else {
+        jid += '@';
+        jid += edtServer1->text();
     }
     if (!m_bConfig){
         m_client->setID(jid);
         m_client->setPassword(edtPasswd->text());
         m_client->setRegister(chkRegister->isChecked());
     }
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     if (m_bConfig){
         m_client->setUseSSL(chkSSL1->isChecked());
     }else{
@@ -127,28 +140,29 @@ void JabberConfig::apply()
     }
     m_client->setUsePlain(chkPlain->isChecked());
 #endif
-    m_client->setMinPort((unsigned short)edtMinPort->text().toLong());
-    m_client->setMaxPort((unsigned short)edtMaxPort->text().toLong());
+    m_client->setMinPort(edtMinPort->text().toUShort());
+    m_client->setMaxPort(edtMaxPort->text().toUShort());
     m_client->setTyping(chkTyping->isChecked());
     m_client->setRichText(chkRichText->isChecked());
+    m_client->setUseVersion(chkVersion->isChecked());
     m_client->setAutoSubscribe(chkSubscribe->isChecked());
     m_client->setAutoAccept(chkAccept->isChecked());
     if (m_client->getProtocolIcons() != chkIcons->isChecked()){
         m_client->setProtocolIcons(chkIcons->isChecked());
-        Event e(EventRepaintView);
+        EventRepaintView e;
         e.process();
     }
     m_client->data.owner.Resource.str() = edtResource->text();
     m_client->setPriority(edtPriority->text().toLong());
     m_client->setUseHTTP(chkHTTP->isChecked());
-    m_client->setURL(edtUrl->text().latin1());
+    m_client->setURL(edtUrl->text());
 }
 
 void JabberConfig::toggledSSL(bool bState)
 {
-    unsigned port = atol(edtPort1->text());
+    unsigned port = edtPort1->text().toUShort();
     if (m_bConfig)
-        port = atol(edtPort->text());
+        port = edtPort->text().toUShort();
     if (port == 0)
         port = 5222;
     if (bState){
@@ -177,10 +191,10 @@ void JabberConfig::changed()
     if (bOK){
         if (m_bConfig){
             bOK = !edtServer->text().isEmpty() &&
-                  atol(edtPort->text());
+                  edtPort->text().toUShort();
         }else{
             bOK = !edtServer1->text().isEmpty() &&
-                  atol(edtPort1->text());
+                  edtPort1->text().toUShort();
         }
     }
     emit okEnabled(bOK);

@@ -18,7 +18,6 @@
 #ifndef _TRANSPARENTCFG_H
 #define _TRANSPARENTCFG_H
 
-#include "simapi.h"
 #include "transparentcfgbase.h"
 
 class TransparentPlugin;

@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "osdconfig.h"
-#include "osdiface.h"
-#include "osd.h"
-#include "qcolorbutton.h"
-#include "fontedit.h"
-
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
 #include <qlabel.h>
+
+#include "fontedit.h"
+#include "misc.h"
+#include "qcolorbutton.h"
+
+#include "osdconfig.h"
+#include "osdiface.h"
+#include "osd.h"
 
 using SIM::getContacts;
 
@@ -36,6 +38,7 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
     OSDUserData *data = (OSDUserData*)d;
     chkMessage->setChecked(data->EnableMessage.toBool());
     chkMessageContent->setChecked(data->EnableMessageShowContent.toBool());
+	chkCapsLockFlash->setChecked(data->EnableCapsLockFlash.toBool());
     chkStatus->setChecked(data->EnableAlert.toBool());
     chkStatusOnline->setChecked(data->EnableAlertOnline.toBool());
     chkStatusAway->setChecked(data->EnableAlertAway.toBool());
@@ -71,18 +74,19 @@ void OSDConfig::apply()
 void OSDConfig::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
-    data->EnableMessage.asBool() = chkMessage->isChecked();
+    data->EnableMessage.asBool()			= chkMessage->isChecked();
     data->EnableMessageShowContent.asBool() = chkMessageContent->isChecked();
-    data->EnableAlert.asBool() = chkStatus->isChecked();
-    data->EnableAlertOnline.asBool() = chkStatusOnline->isChecked();
-    data->EnableAlertAway.asBool() = chkStatusAway->isChecked();
-    data->EnableAlertNA.asBool() = chkStatusNA->isChecked();
-    data->EnableAlertDND.asBool() = chkStatusDND->isChecked();
-    data->EnableAlertOccupied.asBool() = chkStatusOccupied->isChecked();
-    data->EnableAlertFFC.asBool() = chkStatusFFC->isChecked();
-    data->EnableAlertOffline.asBool() = chkStatusOffline->isChecked();
-    data->EnableTyping.asBool() = chkTyping->isChecked();
-    data->ContentLines.asULong() = edtLines->text().toULong();
+	data->EnableCapsLockFlash.asBool()		= chkCapsLockFlash->isChecked();
+    data->EnableAlert.asBool()				= chkStatus->isChecked();
+    data->EnableAlertOnline.asBool()		= chkStatusOnline->isChecked();
+    data->EnableAlertAway.asBool()			= chkStatusAway->isChecked();
+    data->EnableAlertNA.asBool()			= chkStatusNA->isChecked();
+    data->EnableAlertDND.asBool()			= chkStatusDND->isChecked();
+    data->EnableAlertOccupied.asBool()		= chkStatusOccupied->isChecked();
+    data->EnableAlertFFC.asBool()			= chkStatusFFC->isChecked();
+    data->EnableAlertOffline.asBool()		= chkStatusOffline->isChecked();
+    data->EnableTyping.asBool()				= chkTyping->isChecked();
+    data->ContentLines.asULong()			= edtLines->text().toULong();
     m_iface->apply(d);
 }
 
@@ -95,6 +99,7 @@ void OSDConfig::statusToggled(bool bState)
     chkStatusOccupied->setEnabled(bState);
     chkStatusFFC->setEnabled(bState);
     chkStatusOffline->setEnabled(bState);
+	chkCapsLockFlash->setEnabled(bState);
 }
 
 void OSDConfig::showMessageToggled(bool bState)

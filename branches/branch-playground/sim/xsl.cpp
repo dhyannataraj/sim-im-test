@@ -21,10 +21,13 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include "xsl.h"
-
 #include <qfile.h>
 #include <qregexp.h>
+
+#include "log.h"
+#include "misc.h"
+#include "unquot.h"
+#include "xsl.h"
 
 using namespace SIM;
 
@@ -65,10 +68,10 @@ XSL::XSL(const QString &name)
     QString fname = STYLES + name + EXT;
     QFile f(user_file(fname));
     bool bOK = true;
-    if (!f.open(IO_ReadOnly)){
+    if (f.size() == 0 || !f.open(IO_ReadOnly)){
         f.setName(app_file(fname));
-        if (!f.open(IO_ReadOnly)){
-            log(L_WARN, "Can't open %s", fname.local8Bit().data());
+        if (f.size() == 0 || !f.open(IO_ReadOnly)){
+            log(L_WARN, "Can't open / empty file %s", f.name().local8Bit().data());
             bOK = false;
         }
     }
@@ -103,7 +106,7 @@ QString XSL::process(const QString &my_xml)
     if (doc == NULL){
         xmlErrorPtr ptr = xmlGetLastError();
         log(L_WARN, "Parse XML error (%s): %s", ptr ? ptr->message : "", my_xsl.local8Bit().data());
-        return QString::null;
+        return QString(ptr ? ptr->message : "Parse XML error!");
     }
     const char *params[1];
     params[0] = NULL;
@@ -112,7 +115,7 @@ QString XSL::process(const QString &my_xml)
         xmlErrorPtr ptr = xmlGetLastError();
         log(L_WARN, "Apply stylesheet error (%s)", ptr ? ptr->message : "");
         xmlFreeDoc(doc);
-        return QString::null;
+        return QString(ptr ? ptr->message : "Apply stylesheet error!");
     }
     xmlFreeDoc(doc);
 

@@ -20,7 +20,46 @@
 
 #include "simapi.h"
 
-typedef struct SoundData
+#include <qobject.h>
+#include <qthread.h>
+#include <qprocess.h>
+
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+//#define USE_AUDIERE
+
+#ifdef WIN32
+#include <windows.h>
+
+#else  // assume POSIX
+
+#include <unistd.h>
+
+#endif
+
+#ifdef USE_AUDIERE
+	#include <audiere.h>
+	#include <iostream>
+#endif
+
+inline void sleepSecond() {
+#ifdef WIN32
+  Sleep(1000);
+#else
+  sleep(1000);
+#endif
+}
+
+inline void sleepTime(int i) {
+#ifdef WIN32
+  Sleep(i);
+#else
+  sleep(i);
+#endif
+}
+struct SoundData
 {
 #ifdef USE_KDE
     SIM::Data	UseArts;
@@ -29,26 +68,28 @@ typedef struct SoundData
     SIM::Data	StartUp;
     SIM::Data	FileDone;
     SIM::Data	MessageSent;
-} SoundData;
+};
 
-typedef struct SoundUserData
+struct SoundUserData
 {
     SIM::Data	Alert;
     SIM::Data	Receive;
     SIM::Data	NoSoundIfActive;
     SIM::Data	Disable;
-} SoundUserData;
+};
 
 class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
+
 {
     Q_OBJECT
 public:
-    SoundPlugin(unsigned, bool, ConfigBuffer*);
+    SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
+
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
 #endif
@@ -57,29 +98,38 @@ public:
     PROP_STR(FileDone);
     PROP_STR(MessageSent);
     unsigned long CmdSoundDisable;
-    unsigned EventSoundChanged;
+    SIM::SIMEvent EventSoundChanged;
 protected slots:
     void checkSound();
     void childExited(int, int);
+	void processExited();
+	
 protected:
     unsigned long user_data_id;
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event *e);
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    QString fullName(const QString&);
+	virtual void run();
+    QString fullName(const QString &name);
     QString messageSound(unsigned type, SoundUserData *data);
-    void playSound(const QString&);
+    void playSound(const QString &sound);
     void processQueue();
-    QString		    m_current;
-    QStringList 	m_queue;
-    QSound			*m_sound;
-    QTimer			*m_checkTimer;
-#ifndef WIN32
+    QString         m_current;
+    QStringList     m_queue;
+    QSound         *m_sound;
+    QTimer         *m_checkTimer;
+	QString		    m_snd;
+	QProcess* m_process;
+
+#if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;
 #endif
     SoundData	data;
     CorePlugin	*core;
     bool	    m_bChanged;
+    bool bDone;
+    bool destruct;
+    bool isPlaying;
     friend class SoundConfig;
     friend class SoundUserConfig;
 };

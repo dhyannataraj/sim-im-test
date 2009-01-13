@@ -16,26 +16,23 @@
  ***************************************************************************/
 
 #include "textshow.h"
-#include "toolbtn.h"
-#include "html.h"
-#include "simapi.h"
 
 #ifdef USE_KDE
-#include <keditcl.h>
-#include <kstdaccel.h>
-#include <kglobal.h>
-#include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+# include <keditcl.h>
+# include <kstdaccel.h>
+# include <kglobal.h>
+# include <kfiledialog.h>
+# define QFileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+# include <qfiledialog.h>
 #endif
 
 #ifdef USE_KDE
-#include <kcolordialog.h>
-#include <kfontdialog.h>
+# include <kcolordialog.h>
+# include <kfontdialog.h>
 #else
-#include <qcolordialog.h>
-#include <qfontdialog.h>
+# include <qcolordialog.h>
+# include <qfontdialog.h>
 #endif
 
 #include <qdatetime.h>
@@ -57,6 +54,11 @@
 #include <qstatusbar.h>
 #include <qtooltip.h>
 #include <qlayout.h>
+
+#include "toolbtn.h"
+#include "html.h"
+#include "misc.h"
+#include "unquot.h"
 
 #define MAX_HISTORY	100
 
@@ -102,13 +104,18 @@ void TextEdit::setFont(const QFont &f)
     m_bSelected   = false;
 }
 
+
 void TextEdit::slotTextChanged()
 {
     bool bEmpty = isEmpty();
     if (m_bEmpty == bEmpty)
         return;
     m_bEmpty = bEmpty;
-    emit emptyChanged(m_bEmpty);
+   
+	Command cmd;
+    cmd->id    = CmdSend;
+    cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
+    EventCommandDisabled(cmd).process();
 }
 
 void TextEdit::slotClicked(int,int)
@@ -197,8 +204,7 @@ void TextEdit::fontChanged(const QFont &f)
         cmd->id    = CmdBold;
         cmd->flags = m_bBold ? COMMAND_CHECKED : 0;
         cmd->param = m_param;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+        EventCommandChecked(cmd).process();
     }
     if (f.italic() != m_bItalic){
         m_bItalic = f.italic();
@@ -206,8 +212,7 @@ void TextEdit::fontChanged(const QFont &f)
         cmd->id    = CmdItalic;
         cmd->flags = m_bItalic ? COMMAND_CHECKED : 0;
         cmd->param = m_param;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+         EventCommandChecked(cmd).process();
     }
     if (f.underline() != m_bUnderline){
         m_bUnderline = f.underline();
@@ -215,8 +220,7 @@ void TextEdit::fontChanged(const QFont &f)
         cmd->id    = CmdUnderline;
         cmd->flags = m_bUnderline ? COMMAND_CHECKED : 0;
         cmd->param = m_param;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+         EventCommandChecked(cmd).process();
     }
     m_bChanged = false;
 }
@@ -245,14 +249,15 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
     TextShow::keyPressEvent(e);
 }
 
-void *TextEdit::processEvent(Event *e)
+bool TextEdit::processEvent(Event *e)
 {
     if (m_param == NULL)
-        return NULL;
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+        return false;
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param != m_param)
-            return NULL;
+            return false;
         switch (cmd->id){
         case CmdBgColor:
         case CmdFgColor:
@@ -265,56 +270,59 @@ void *TextEdit::processEvent(Event *e)
             }else{
                 cmd->flags |= BTN_HIDE;
             }
-            return e->param();
+            return true;
         default:
-            return NULL;
+            break;
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->param != m_param)
-            return NULL;
+            return false;
         switch (cmd->id){
         case CmdBgColor:{
-                Event eWidget(EventCommandWidget, cmd);
-                CToolButton *btnBg = (CToolButton*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                CToolButton *btnBg = dynamic_cast<CToolButton*>(eWidget.widget());
                 if (btnBg){
                     ColorPopup *popup = new ColorPopup(this, background());
                     popup->move(CToolButton::popupPos(btnBg, popup));
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
                     popup->show();
                 }
-                return e->param();
+                return true;
             }
         case CmdFgColor:{
-                Event eWidget(EventCommandWidget, cmd);
-                CToolButton *btnFg = (CToolButton*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                CToolButton *btnFg = dynamic_cast<CToolButton*>(eWidget.widget());
                 if (btnFg){
                     ColorPopup *popup = new ColorPopup(this, foreground());
                     popup->move(CToolButton::popupPos(btnFg, popup));
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
                     popup->show();
                 }
-                return e->param();
+                return true;
             }
         case CmdBold:
             if (!m_bChanged){
                 m_bSelected = true;
                 setBold((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();
+            return true;
         case CmdItalic:
             if (!m_bChanged){
                 m_bSelected = true;
                 setItalic((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();
+            return true;
         case CmdUnderline:
             if (!m_bChanged){
                 m_bSelected = true;
                 setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();
+            return true;
         case CmdFont:{
 #ifdef USE_KDE
                 QFont f = font();
@@ -331,10 +339,10 @@ void *TextEdit::processEvent(Event *e)
                 break;
             }
         default:
-            return NULL;
+            return false;
         }
     }
-    return NULL;
+    return false;
 }
 
 void TextEdit::setForeground(const QColor& c, bool bDef)
@@ -439,11 +447,11 @@ void TextShow::setSource(const QString &name)
     QString txt;
 
     if (!mark.isEmpty()) {
-        url += "#";
+        url += '#';
         url += mark;
     }
 
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 
 #ifndef QT_NO_CURSOR
@@ -546,11 +554,9 @@ void RichTextEdit::showBar()
 {
     if (m_bar)
         return;
-    BarShow b;
-    b.bar_id = ToolBarTextEdit;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)(e.process());
+    EventToolbar e(ToolBarTextEdit, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam(this);
     m_edit->setParam(this);
 }

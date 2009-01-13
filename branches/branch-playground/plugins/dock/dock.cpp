@@ -18,7 +18,6 @@
 #include "dock.h"
 #include "dockcfg.h"
 #include "dockwnd.h"
-#include "simapi.h"
 #include "core.h"
 #include "mainwin.h"
 
@@ -30,7 +29,7 @@
 
 using namespace SIM;
 
-Plugin *createDockPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new DockPlugin(base, config);
     return plugin;
@@ -79,7 +78,7 @@ static DataDef dockData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
+DockPlugin::DockPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(dockData, &data, config);
@@ -87,9 +86,9 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
     m_inactiveTime = 0;
     m_popup = NULL;
 
-    QString pluginName("_core");
-    Event ePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     m_core = static_cast<CorePlugin*>(info->plugin);
 
     DockMenu     = registerType();
@@ -97,19 +96,16 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
     CmdToggle    = registerType();
     CmdCustomize = registerType();
 
-    Event eMenu(EventMenuCreate, (void*)DockMenu);
-    eMenu.process();
+    EventMenu(DockMenu, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdTitle;
-    cmd->text        = I18N_NOOP("SIM");
+    cmd->text        = I18N_NOOP("Sim-IM");
     cmd->icon        = "SIM";
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_TITLE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdCustomize;
     cmd->text        = I18N_NOOP("Customize menu");
@@ -118,11 +114,11 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp    = 0x10000;
     cmd->accel       = QString::null;
     cmd->flags       = COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-    eCmd.process();
-
-    Event eDef(EventGetMenuDef, (void*)MenuMain);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(MenuMain);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -134,7 +130,7 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
                 cmd->menu_grp = 0;
             cmd->bar_id  = 0;
             cmd->menu_id = DockMenu;
-            eCmd.process();
+            EventCommandCreate(cmd).process();
         }
     }
 
@@ -145,7 +141,7 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp    = 0;
     cmd->accel		 = "Ctrl+Shift+A";
     cmd->flags		 = COMMAND_CHECK_STATE | COMMAND_GLOBAL_ACCEL | COMMAND_IMPORTANT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     init();
 
@@ -156,11 +152,8 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
 
 DockPlugin::~DockPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdToggle);
-    eCmd.process();
-
-    Event eMenu(EventMenuRemove, (void*)DockMenu);
-    eMenu.process();
+    EventCommandRemove(CmdToggle).process();
+    EventMenu(DockMenu, EventMenu::eRemove).process();
     delete m_dock;
     free_data(dockData, &data);
 }
@@ -219,29 +212,31 @@ bool DockPlugin::isMainShow()
     return false;
 }
 
-void *DockPlugin::processEvent(Event *e)
+bool DockPlugin::processEvent(Event *e)
 {
-    CommandDef *def;
     switch (e->type()){
-    case EventInit:
+    case eEventInit:
         init();
         break;
-    case EventQuit:
+    case eEventQuit:
         if (m_dock){
             delete m_dock;
             m_dock = NULL;
         }
         break;
-    case EventRaiseWindow:
-        if (e->param() == getMainWindow()){
+    case eEventRaiseWindow: {
+        EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
+        if (w->widget() == getMainWindow()){
             if (m_dock == NULL)
                 init();
             if (!getShowMain())
-                return e->param();
+                return (void*)1;
         }
         break;
-    case EventCommandCreate:
-        def = (CommandDef*)(e->param());
+    }
+    case eEventCommandCreate: {
+        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+        CommandDef *def = ecc->cmd();
         if (def->menu_id == MenuMain){
             CommandDef d = *def;
             if (def->flags & COMMAND_IMPORTANT){
@@ -252,25 +247,29 @@ void *DockPlugin::processEvent(Event *e)
             }
             d.menu_id = DockMenu;
             d.bar_id  = 0;
-            Event e(EventCommandCreate, &d);
-            e.process();
+            EventCommandCreate(&d).process();
         }
         break;
-    case EventCheckState:
-        def = (CommandDef*)(e->param());
+    }
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *def = ecs->cmd();
         if (def->id == CmdToggle){
             def->flags &= ~COMMAND_CHECKED;
             def->text = isMainShow() ?
                         I18N_NOOP("Hide main window") :
                         I18N_NOOP("Show main window");
-            return e->param();
+            return (void*)1;
         }
         break;
-    case EventCommandExec:
-        CommandDef *def = (CommandDef*)(e->param());
+    }
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *def = ece->cmd();
         if (def->id == CmdToggle){
             QWidget *main = getMainWindow();
-            if(!main) return NULL;
+            if(!main)
+                return false;
             if (isMainShow()){
                 setShowMain(false);
                 main->hide();
@@ -279,21 +278,23 @@ void *DockPlugin::processEvent(Event *e)
                 setShowMain(true);
                 raiseWindow(main,getDesktop());
             }
-            return e->param();
+            return (void*)1;
         }
         if (def->id == CmdCustomize){
-            Event eCustomize(EventMenuCustomize, (void*)DockMenu);
-            eCustomize.process();
-            return e->param();
+            EventMenu(DockMenu, EventMenu::eCustomize).process();
+            return (void*)1;
         }
         if (def->id == CmdQuit)
             m_bQuit = true;
         break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
-QString DockPlugin::getConfig()
+QCString DockPlugin::getConfig()
 {
     return save_data(dockData, &data);
 }
@@ -304,8 +305,9 @@ void DockPlugin::showPopup(QPoint p)
         return;
     Command cmd;
     cmd->popup_id = DockMenu;
-    Event e(EventGetMenu, cmd);
-    m_popup = (QPopupMenu*)e.process();
+    EventMenuGet e(cmd);
+    e.process();
+    m_popup = e.menu();
     if (m_popup){
         m_popup->installEventFilter(this);
         m_popup->popup(p);
@@ -323,8 +325,7 @@ void DockPlugin::toggleWin()
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_CHECK_STATE;
 
-    Event e(EventCommandExec, cmd);
-    e.process();
+    EventCommandExec(cmd).process();
 }
 
 void DockPlugin::doubleClicked()
@@ -332,17 +333,16 @@ void DockPlugin::doubleClicked()
     if (m_popup)
         return;
 
+    if (!m_core->unread.size())
+        return;
+
     Command cmd;
-    cmd->id          = CmdToggle;
+    cmd->id          = CmdUnread;
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_CHECK_STATE;
 
-    if (m_core->unread.size())
-        cmd->id = CmdUnread;
-
-    Event e(EventCommandExec, cmd);
-    e.process();
+    EventCommandExec(cmd).process();
 }
 
 QWidget *DockPlugin::getMainWindow()

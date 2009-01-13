@@ -18,9 +18,13 @@
 #ifndef _DOCK_H
 #define _DOCK_H
 
-#include "simapi.h"
+#include <qobject.h>
 
-typedef struct DockPluginData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+struct DockPluginData
 {
     SIM::Data		AutoHide;
     SIM::Data		AutoHideInterval;
@@ -30,7 +34,7 @@ typedef struct DockPluginData
     SIM::Data		DockY;
 #endif
     SIM::Data		Desktop;
-} DockPluginData;
+};
 
 class DockWnd;
 class QPopupMenu;
@@ -40,7 +44,7 @@ class DockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    DockPlugin(unsigned, ConfigBuffer*);
+    DockPlugin(unsigned, Buffer*);
     virtual ~DockPlugin();
 protected slots:
     void showPopup(QPoint);
@@ -48,9 +52,9 @@ protected slots:
     void doubleClicked();
     void timer();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     virtual bool eventFilter(QObject*, QEvent*);
     QWidget *getMainWindow();
     bool isMainShow();

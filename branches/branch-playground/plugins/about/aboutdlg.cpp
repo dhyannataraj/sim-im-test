@@ -15,11 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "aboutdlg.h"
-#include "about.h"
 #include "simapi.h"
-#include "textshow.h"
-#include "aboutdata.h"
+
 #ifndef USE_KDE
 
 #include <qlabel.h>
@@ -28,6 +25,14 @@
 #include <qtabwidget.h>
 #include <qfile.h>
 #include <qlineedit.h>
+
+#include "aboutdata.h"
+#include "icons.h"
+#include "misc.h"
+#include "textshow.h"
+
+#include "aboutdlg.h"
+#include "about.h"
 
 using namespace SIM;
 
@@ -39,8 +44,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(SIM::Pict("ICQ"));
-    QIconSet icon = SIM::Icon("ICQ");
+    setIcon(SIM::Pict("SIM"));
+    QIconSet icon = SIM::Icon("SIM");
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
@@ -50,8 +55,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     edtVersion->setPalette(p);
     txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
                        "<a href=\"%3\">%4</a><br><br>" +
-                       i18n("Bug report") + ": <a href=\"mailto:%5\">%6</a><br>" +
-                       i18n("Note: This is english mailing list") +
+                       i18n("Bug report") + ": <a href=\"%5\">%6</a><br>" +
+                       i18n("Note: This is an english mailing list") +
                        "</center>")
                       .arg(quote(aboutData->shortDescription()))
                       .arg(quote(aboutData->copyrightStatement()))
@@ -61,14 +66,14 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
                       .arg(quote(aboutData->bugAddress())));
     QString txt;
     QValueList<KAboutPerson>::ConstIterator it;
-    for (it = aboutData->authors().begin();
-            it != aboutData->authors().end(); ++it)
+    for (it = aboutData->authors().constBegin();
+            it != aboutData->authors().constEnd(); ++it)
     {
         txt += addPerson(&(*it));
         txt += "<br>";
     }
     txtAuthors->setText(txt);
-    txt = "";
+    txt = QString::null;
     QValueList<KAboutTranslator> translators = aboutData->translators();
     QValueList<KAboutTranslator>::ConstIterator itt;
     if (!translators.isEmpty()){
@@ -76,11 +81,11 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
                 itt != translators.end(); ++itt)
         {
             const KAboutTranslator &t = *itt;
-            txt += QString("%1 &lt;<a href=\"mailto:%2\">%3</a>&gt;<br>")
+            txt += QString("<br><center>%1<br>&lt;<a href=\"mailto:%2\">%3</a>&gt;")
                    .arg(quote(t.name()))
                    .arg(quote(t.emailAddress()))
                    .arg(quote(t.emailAddress()));
-            txt += "<br>";
+            txt += "</center>";
         }
         txtTranslations->setText(txt);
     }else{
@@ -98,6 +103,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
         }
     }
     txtLicence->setText(quote(license));
+	this->setFixedSize(this->width()+50,this->height());
 }
 
 KAboutApplication::~KAboutApplication()
@@ -131,11 +137,11 @@ QString KAboutApplication::addPerson(const KAboutPerson *p)
 QString KAboutApplication::quote(const QString &s)
 {
     QString res = s;
-    res.replace(QRegExp("&"), "&amp;");
-    res.replace(QRegExp("\""), "&quot;");
-    res.replace(QRegExp("<"), "&lt;");
-    res.replace(QRegExp(">"), "&gt;");
-    res.replace(QRegExp("\\n"), "<br>");
+    res.replace('&',  "&amp;");
+    res.replace('\"', "&quot;");
+    res.replace('<',  "&lt;");
+    res.replace('>',  "&gt;");
+    res.replace('\n', "<br>");
     return res;
 }
 

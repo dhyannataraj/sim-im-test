@@ -15,20 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqmessage.h"
-#include "icqclient.h"
-#include "icq.h"
-#include "toolbtn.h"
-#include "core.h"
-#include "xml.h"
-
 #include <qtimer.h>
 #include <qlayout.h>
 #include <qtextcodec.h>
 #include <qfile.h>
+#include <qfileinfo.h>
 #include <qimage.h>
 #include <qregexp.h>
-#include <qfileinfo.h>
+
+#include "toolbtn.h"
+#include "log.h"
+
+#include "icqmessage.h"
+#include "icqclient.h"
+#include "icq.h"
+#include "core.h"
+#include "xml.h"
 
 using namespace std;
 using namespace SIM;
@@ -41,10 +43,11 @@ static DataDef aimFileMessageData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-AIMFileMessage::AIMFileMessage(ConfigBuffer *cfg)
+AIMFileMessage::AIMFileMessage(Buffer *cfg)
         : FileMessage(MessageFile, cfg)
 {
     load_data(aimFileMessageData, &data, cfg);
+	isProxy = false;
 }
 
 AIMFileMessage::~AIMFileMessage()
@@ -64,7 +67,7 @@ static DataDef icqFileMessageData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-ICQFileMessage::ICQFileMessage(ConfigBuffer *cfg)
+ICQFileMessage::ICQFileMessage(Buffer *cfg)
         : FileMessage(MessageICQFile, cfg)
 {
     load_data(icqFileMessageData, &data, cfg);
@@ -83,10 +86,10 @@ QString ICQFileMessage::getDescription()
     return serverText;
 }
 
-QString ICQFileMessage::save()
+QCString ICQFileMessage::save()
 {
-    QString s = FileMessage::save();
-    QString s1 = save_data(icqFileMessageData, &data);
+    QCString s = FileMessage::save();
+    QCString s1 = save_data(icqFileMessageData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -95,7 +98,7 @@ QString ICQFileMessage::save()
     return s;
 }
 
-IcqContactsMessage::IcqContactsMessage(ConfigBuffer *cfg)
+IcqContactsMessage::IcqContactsMessage(Buffer *cfg)
         : ContactsMessage(MessageICQContacts, cfg)
 {
 }
@@ -106,10 +109,10 @@ IcqContactsMessage::~IcqContactsMessage()
 
 QString IcqContactsMessage::getContacts() const
 {
-    QString serverText = getServerText();
+    QCString serverText = getServerText();
     if (serverText.isEmpty())
         return ContactsMessage::getContacts();
-    return serverText;
+    return serverText;  // this is wrong ... but I'm currently unsure what'ssaved in there
 }
 
 static DataDef icqAuthMessageData[] =
@@ -118,7 +121,7 @@ static DataDef icqAuthMessageData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, ConfigBuffer *cfg)
+ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, Buffer *cfg)
         : AuthMessage(type, cfg)
 {
     load_data(icqAuthMessageData, &data, cfg);
@@ -132,7 +135,7 @@ ICQAuthMessage::~ICQAuthMessage()
 
 QString ICQAuthMessage::getText() const
 {
-    QString serverText = getServerText();
+    QCString serverText = getServerText();
     if (serverText.isEmpty())
         return Message::getText();
     QString charset = getCharset();
@@ -144,10 +147,10 @@ QString ICQAuthMessage::getText() const
     return Message::getText();
 }
 
-QString ICQAuthMessage::save()
+QCString ICQAuthMessage::save()
 {
-    QString s = Message::save();
-    QString s1 = save_data(icqAuthMessageData, &data);
+    QCString s = Message::save();
+    QCString s1 = save_data(icqAuthMessageData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -180,18 +183,17 @@ static bool h2b(const char *&p, QCString &cap)
     return false;
 }
 
-static bool parseFE(const char *str, vector<string> &l, unsigned n)
+static bool parseFE(QCString str, QValueList<QCString> &l, unsigned n)
 {
-    const char *p = str;
-    for (unsigned i = 0; i < n - 1; i++){
-        for (; *str; str++)
-            if (*str == '\xFE') break;
-        if (*str == 0) return false;
-        l.push_back(string(p, str - p));
-        str++;
-        p = str;
+    int idx = str.find('\xFE');
+    while(idx != -1) {
+        l += str.left(idx);
+        str = str.mid(idx+1);
+        idx = str.find('\xFE');
     }
-    l.push_back(string(p));
+    l += str;
+    for( unsigned i = l.count(); i < n; i++ )
+        l += QCString();
     return true;
 }
 
@@ -237,48 +239,49 @@ static Message *parseTextMessage(const QCString &str, const QCString &_pp, Conta
     return m;
 }
 
-static Message *parseURLMessage(const char *str)
+static Message *parseURLMessage(const QCString &str)
 {
-    vector<string> l;
+    QValueList<QCString> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error URL message");
         return NULL;
     }
     UrlMessage *m = new UrlMessage;
-    m->setServerText(l[0].c_str());
-    m->setUrl(l[1].c_str());
+    m->setServerText(l[0]);
+    m->setUrl(l[1]);
     return m;
 }
 
-static Message *parseContactMessage(const char *str)
+//ToDo: Send Contacts does not work
+static Message *parseContactMessage(const QCString &str)
 {
-    vector<string> l;
+    QValueList<QCString> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
     }
-    unsigned nContacts = atol(l[0].c_str());
+    unsigned nContacts = l[0].toUInt();
     if (nContacts == 0){
         log(L_WARN, "No contacts found");
         return NULL;
     }
-    vector<string> c;
-    if (!parseFE(l[1].c_str(), c, nContacts*2+1)){
+    QValueList<QCString> c;
+    if (!parseFE(l[1], c, nContacts*2+1)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
     }
-    QString serverText;
+    QCString serverText;
     for (unsigned i = 0; i < nContacts; i++){
-        QString screen = QString::fromUtf8(c[i*2].c_str());
-        QString alias  = QString::fromUtf8(c[i*2+1].c_str());
+        QCString screen = c[i*2];
+        QCString alias  = c[i*2+1];
         if (!serverText.isEmpty())
-            serverText += ";";
+            serverText += ';';
         if (screen.toULong()){
             serverText += "icq:";
             serverText += screen;
-            serverText += "/";
+            serverText += '/';
             serverText += alias;
-            serverText += ",";
+            serverText += ',';
             if (screen == alias){
                 serverText += "ICQ ";
                 serverText += screen;
@@ -286,14 +289,14 @@ static Message *parseContactMessage(const char *str)
                 serverText += alias;
                 serverText += " (ICQ ";
                 serverText += screen;
-                serverText += ")";
+                serverText += ')';
             }
         }else{
             serverText += "aim:";
             serverText += screen;
-            serverText += "/";
+            serverText += '/';
             serverText += alias;
-            serverText += ",";
+            serverText += ',';
             if (screen == alias){
                 serverText += "AIM ";
                 serverText += screen;
@@ -301,7 +304,7 @@ static Message *parseContactMessage(const char *str)
                 serverText += alias;
                 serverText += " (AIM ";
                 serverText += screen;
-                serverText += ")";
+                serverText += ')';
             }
         }
     }
@@ -310,50 +313,60 @@ static Message *parseContactMessage(const char *str)
     return m;
 }
 
-static Message *parseAuthRequest(const char *str)
+static Message *parseAuthRequest(const QCString &str)
 {
-    vector<string> l;
+    QValueList<QCString> l;
     if (!parseFE(str, l, 6)){
         log(L_WARN, "Parse error auth request message");
         return NULL;
     }
     ICQAuthMessage *m = new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest);
-    m->setServerText(l[4].c_str());
+    m->setServerText(l[4]);
     return m;
 }
 
-Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
-    QCString header;
+    string header;
     packet >> header;
-    Buffer h(header.size());
-    h.pack(header, header.size());
-    h.incReadPos(16);
+	ICQBuffer h(header.size());
+	//QString strheader(header);
+	h.pack(header.c_str(), header.size());
+	h.incReadPos(16);
     unsigned short msg_type;
     h >> msg_type;
-    QCString msgType, info;
+    //QString msgType;
+	string msgType;
     h.unpackStr32(msgType);
+	//QString info;
+    string info;
     packet.unpackStr32(info);
-    Buffer b(info.size());
-    b.pack(info, info.size());
-    log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, info.size());
+	ICQBuffer b(info.size());
+	b.pack(info.c_str(), info.size());
+
+	log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, info.length());
+
     int n = msgType.find("URL");
     if (n >= 0){
+        QCString info;
         b.unpackStr32(info);
         return parseURLMessage(info);
     }
     if (msgType == "Request For Contacts"){
+        QCString info;
         b.unpackStr32(info);
         ICQAuthMessage *m = new ICQAuthMessage(MessageContactRequest, MessageContactRequest);
-        m->setServerText(info);
+		m->setServerText(info);
         return m;
     }
     if (msgType == "Contacts"){
-        b.unpackStr32(info);
-        return parseContactMessage(info);
+        QCString p;
+        b.unpackStr32(p);
+        return parseContactMessage(p);
     }
     if (msgType == "Message"){
-        b.unpackStr32(info);
+        QCString p;
+        b.unpackStr32(p);
         unsigned long forecolor, backcolor;
         b >> forecolor >> backcolor;
         QCString cap_str;
@@ -367,7 +380,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
 	    }
             contact->setFlags(contact->getFlags() | CONTACT_TEMP);
         }
-        Message *msg = parseTextMessage(info, cap_str, contact);
+        Message *msg = parseTextMessage(p, cap_str, contact);
         if (msg){
             if (forecolor != backcolor){
                 msg->setForeground(forecolor >> 8);
@@ -378,7 +391,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
     }
     n = msgType.find("File");
     if (n >= 0){
-        QCString fileDescr, fileName;
+        string fileDescr, fileName;
         b.unpackStr32(fileDescr);
         unsigned short port;
         b >> port;
@@ -387,8 +400,12 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
         unsigned long fileSize;
         b.unpack(fileSize);
         ICQFileMessage *m = new ICQFileMessage;
+#ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
+        m->setServerDescr(fileName.c_str());
+#else
         m->setServerDescr(fileName);
-        m->setServerText(fileDescr);
+#endif
+        m->setServerText(QCString(fileDescr.data()));
         m->setSize(fileSize);
         m->setPort(port);
         m->setFlags(MESSAGE_TEMP);
@@ -400,8 +417,8 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
     }
     if (msgType == "ICQSMS"){
         string p;
-        b.unpackStr32(info);
-        p = info;   // FIXME!!
+        b.unpackStr32(p);
+		//p = QCString(info).data();   // FIXME!!
         string::iterator s = p.begin();
         auto_ptr<XmlNode> top(XmlNode::parse(s, p.end()));
         if (top.get() == NULL){
@@ -428,6 +445,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
             XmlLeaf *sender = sms_message->getLeaf("sender");
             if (sender != NULL){
                 m->setPhone(QString::fromUtf8(sender->getValue().c_str()));
+                // string -> QString is ok here since phone doesn't contain non ascii chars
                 Contact *contact = getContacts()->contactByPhone(sender->getValue().c_str());
                 m->setContact(contact->id());
             }
@@ -446,20 +464,20 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QCString &p, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
-        vector<string> l;
+        QValueList<QCString> l;
         if (!parseFE(p, l, 6)){
             log(L_WARN, "Parse error web panel message");
             return NULL;
         }
         char SENDER_IP[] = "Sender IP:";
-        string head = l[5].substr(0, strlen(SENDER_IP));
+        QCString head = l[5].left(strlen(SENDER_IP));
         Message *msg = new Message((head == SENDER_IP) ? MessageWebPanel : MessageEmailPager);
-        QString name = getContacts()->toUnicode(NULL, l[0].c_str());
-        QString mail = getContacts()->toUnicode(NULL, l[3].c_str());
-        msg->setServerText(l[5].c_str());
+        QString name = getContacts()->toUnicode(NULL, l[0]);
+        QString mail = getContacts()->toUnicode(NULL, l[3]);
+        msg->setServerText(l[5]);
         Contact *contact = getContacts()->contactByMail(mail, name);
         if (contact == NULL){
             delete msg;
@@ -537,7 +555,7 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, con
     return msg;
 }
 
-static Message *createIcqFile(ConfigBuffer *cfg)
+static Message *createIcqFile(Buffer *cfg)
 {
     return new ICQFileMessage(cfg);
 }
@@ -562,7 +580,7 @@ static MessageDef defIcqFile =
 i18n("WWW-panel message", "%n WWW-panel messages", 1);
 #endif
 
-static Message *createWebPanel(ConfigBuffer *cfg)
+static Message *createWebPanel(Buffer *cfg)
 {
     return new Message(MessageWebPanel, cfg);
 }
@@ -583,7 +601,7 @@ static MessageDef defWebPanel =
 i18n("Email pager message", "%n Email pager messages", 1);
 #endif
 
-static Message *createEmailPager(ConfigBuffer *cfg)
+static Message *createEmailPager(Buffer *cfg)
 {
     return new Message(MessageEmailPager, cfg);
 }
@@ -604,7 +622,7 @@ static MessageDef defEmailPager =
 i18n("Request secure channel", "%n requests secure channel", 1);
 #endif
 
-static Message *createOpenSecure(ConfigBuffer *cfg)
+static Message *createOpenSecure(Buffer *cfg)
 {
     return new Message(MessageOpenSecure, cfg);
 }
@@ -625,7 +643,7 @@ static MessageDef defOpenSecure =
 i18n("Close secure channel", "%n times close secure channel", 1);
 #endif
 
-static Message *createCloseSecure(ConfigBuffer *cfg)
+static Message *createCloseSecure(Buffer *cfg)
 {
     return new Message(MessageCloseSecure, cfg);
 }
@@ -654,17 +672,17 @@ static DataDef warningMessageData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-WarningMessage::WarningMessage(ConfigBuffer *cfg)
+WarningMessage::WarningMessage(Buffer *cfg)
         : AuthMessage(MessageWarning, cfg)
 {
     load_data(warningMessageData, &data, cfg);
 }
 
-QString WarningMessage::save()
+QCString WarningMessage::save()
 {
-    QString res = AuthMessage::save();
+    QCString res = AuthMessage::save();
     if (!res.isEmpty())
-        res += "\n";
+        res += '\n';
     return res + save_data(warningMessageData, &data);
 }
 
@@ -675,7 +693,7 @@ QString WarningMessage::presentation()
            .arg(ICQClient::warnLevel(getNewLevel()));
 }
 
-static Message *createWarning(ConfigBuffer *cfg)
+static Message *createWarning(Buffer *cfg)
 {
     return new WarningMessage(cfg);
 }
@@ -692,7 +710,7 @@ static MessageDef defWarning =
         NULL
     };
 
-static Message *createIcqAuthRequest(ConfigBuffer *cfg)
+static Message *createIcqAuthRequest(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest, cfg);
 }
@@ -709,7 +727,7 @@ static MessageDef defIcqAuthRequest =
         NULL
     };
 
-static Message *createIcqAuthGranted(ConfigBuffer *cfg)
+static Message *createIcqAuthGranted(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthGranted, MessageAuthGranted, cfg);
 }
@@ -726,7 +744,7 @@ static MessageDef defIcqAuthGranted =
         NULL
     };
 
-static Message *createIcqAuthRefused(ConfigBuffer *cfg)
+static Message *createIcqAuthRefused(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRefused, MessageAuthRefused, cfg);
 }
@@ -743,7 +761,7 @@ static MessageDef defIcqAuthRefused =
         NULL
     };
 
-static Message *createContactRequest(ConfigBuffer *cfg)
+static Message *createContactRequest(Buffer *cfg)
 {
     return new ICQAuthMessage(MessageContactRequest, MessageContactRequest, cfg);
 }
@@ -764,7 +782,7 @@ static MessageDef defContactRequest =
         NULL
     };
 
-static Message *createIcqContacts(ConfigBuffer *cfg)
+static Message *createIcqContacts(Buffer *cfg)
 {
     return new IcqContactsMessage(cfg);
 }
@@ -789,72 +807,70 @@ void ICQPlugin::registerMessages()
     cmd->text		 = "ICQContacts";
     cmd->icon		 = "contacts";
     cmd->param		 = &defIcqContacts;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageICQFile;
     cmd->text		= "ICQFile";
     cmd->icon		= "file";
     cmd->param		= &defIcqFile;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageContactRequest;
     cmd->text		= I18N_NOOP("Contact Request");
     cmd->icon		= "contacts";
     cmd->param		= &defContactRequest;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id         = MessageICQAuthRequest;
     cmd->text       = "ICQAuthRequest";
     cmd->icon       = "auth";
     cmd->param      = &defIcqAuthRequest;
-    eMsg.process();
-
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageICQAuthGranted;
     cmd->text		= "ICQAuthGranted";
     cmd->icon		= "auth";
     cmd->param		= &defIcqAuthGranted;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageICQAuthRefused;
     cmd->text		= "ICQAuthRefused";
     cmd->icon		= "auth";
     cmd->param		= &defIcqAuthRefused;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageWebPanel;
     cmd->text		= I18N_NOOP("Web panel");
     cmd->icon		= "web";
     cmd->param		= &defWebPanel;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageEmailPager;
     cmd->text		= I18N_NOOP("Email pager");
     cmd->icon		= "mailpager";
     cmd->param		= &defEmailPager;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageOpenSecure;
     cmd->text		= I18N_NOOP("Request secure channel");
     cmd->icon		= "encrypted";
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defOpenSecure;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageCloseSecure;
     cmd->text		= I18N_NOOP("Close secure channel");
     cmd->icon		= "encrypted";
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defCloseSecure;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageWarning;
     cmd->text		= I18N_NOOP("Warning");
     cmd->icon		= "error";
     cmd->menu_grp	= 0x30F2;
     cmd->param		= &defWarning;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= CmdUrlInput;
     cmd->text		= I18N_NOOP("&URL");
@@ -865,58 +881,29 @@ void ICQPlugin::registerMessages()
     cmd->menu_id	= 0;
     cmd->menu_grp	= 0;
     cmd->flags		= BTN_EDIT | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
-
+    EventCommandCreate(cmd).process();
 }
 
 void ICQPlugin::unregisterMessages()
 {
-    Event eUrl(EventRemoveMessageType, (void*)MessageICQUrl);
-    eUrl.process();
+    EventRemoveMessageType(MessageICQUrl).process();
+    EventRemoveMessageType(MessageICQContacts).process();
+    EventRemoveMessageType(MessageICQ).process();
+    EventRemoveMessageType(MessageICQFile).process();
+    EventRemoveMessageType(MessageICQAuthRequest).process();
+    EventRemoveMessageType(MessageICQAuthGranted).process();
+    EventRemoveMessageType(MessageICQAuthRefused).process();
+    EventRemoveMessageType(MessageContactRequest).process();
+    EventRemoveMessageType(MessageWebPanel).process();
+    EventRemoveMessageType(MessageEmailPager).process();
+    EventRemoveMessageType(MessageOpenSecure).process();
+    EventRemoveMessageType(MessageCloseSecure).process();
+    EventRemoveMessageType(MessageWarning).process();
 
-    Event eContact(EventRemoveMessageType, (void*)MessageICQContacts);
-    eContact.process();
-
-    Event eIcq(EventRemoveMessageType, (void*)MessageICQ);
-    eIcq.process();
-
-    Event eIcqFile(EventRemoveMessageType, (void*)MessageICQFile);
-    eIcqFile.process();
-
-    Event eAuthRequest(EventRemoveMessageType, (void*)MessageICQAuthRequest);
-    eAuthRequest.process();
-
-    Event eAuthGranted(EventRemoveMessageType, (void*)MessageICQAuthGranted);
-    eAuthGranted.process();
-
-    Event eAuthRefused(EventRemoveMessageType, (void*)MessageICQAuthRefused);
-    eAuthRefused.process();
-
-    Event eRequest(EventRemoveMessageType, (void*)MessageContactRequest);
-    eRequest.process();
-
-    Event eWeb(EventRemoveMessageType, (void*)MessageWebPanel);
-    eWeb.process();
-
-    Event ePager(EventRemoveMessageType, (void*)MessageEmailPager);
-    ePager.process();
-
-    Event eOpenSecure(EventRemoveMessageType, (void*)MessageOpenSecure);
-    eOpenSecure.process();
-
-    Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
-    eCloseSecure.process();
-
-    Event eWarning(EventRemoveMessageType, (void*)MessageWarning);
-    eWarning.process();
-
-    Event eURL(EventCommandRemove, (void*)CmdUrlInput);
-    eURL.process();
+    EventCommandRemove(CmdUrlInput).process();
 }
 
-void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data)
+void ICQClient::packExtendedMessage(Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data)
 {
     unsigned short port = 0;
     switch (msg->type()){
@@ -926,10 +913,13 @@ void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, I
         buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
         buf.packStr32("File");
         buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
+        //msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
+		string msgdata1 = getContacts()->fromUnicode(getContact(data), msg->getPlainText()).data();
+		msgBuf.packStr32(msgdata1.c_str());
         msgBuf << port << (unsigned short)0;
-        // FIXME: is this correct here? -> iserverd.ru/oscar
-        msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()).data();
+		//msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription());
+		string msgdata2 = getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()).data();
+        msgBuf << msgdata2.c_str();
         msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
         msgBuf << 0x00000000L;
         break;
@@ -953,7 +943,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                     Contact *cc = contact;
                     if (!isMyData(cdata, cc))
                         continue;
-                    ICQUserData *d = (ICQUserData*)cdata;
+                    ICQUserData *d = toICQUserData(cdata);
                     QString screen = this->screen(d);
                     CONTACTS_MAP::iterator it = c.find(screen);
                     if (it == c.end()){
@@ -962,13 +952,13 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                         ci.grp   = cc ? cc->getGroup() : 0;
                         c.insert(CONTACTS_MAP::value_type(screen, ci));
                         if (!newContacts.isEmpty())
-                            newContacts += ";";
+                            newContacts += ';';
                         if (screen.toULong()){
                             newContacts += "icq:";
                             newContacts += screen;
-                            newContacts += "/";
+                            newContacts += '/';
                             newContacts += contact->getName();
-                            newContacts += ",";
+                            newContacts += ',';
                             if (contact->getName() == screen){
                                 newContacts += "ICQ ";
                                 newContacts += screen;
@@ -976,14 +966,14 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                                 newContacts += contact->getName();
                                 newContacts += " (ICQ ";
                                 newContacts += screen;
-                                newContacts += ")";
+                                newContacts += ')';
                             }
                         }else{
                             newContacts += "aim:";
                             newContacts += screen;
-                            newContacts += "/";
+                            newContacts += '/';
                             newContacts += contact->getName();
-                            newContacts += ",";
+                            newContacts += ',';
                             if (contact->getName() == screen){
                                 newContacts += "AIM ";
                                 newContacts += screen;
@@ -991,7 +981,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                                 newContacts += contact->getName();
                                 newContacts += " (AIM ";
                                 newContacts += screen;
-                                newContacts += ")";
+                                newContacts += ')';
                             }
                         }
                     }
@@ -1014,11 +1004,10 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
     return newContacts;
 }
 
-void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags)
+void ICQClient::packMessage(ICQBuffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags)
 {
-    Buffer msgBuf;
-    Buffer buf;
-    QCString res;
+    ICQBuffer msgBuf, buf;
+    QString res;
     switch (msg->type()){
     case MessageUrl:
         res = getContacts()->fromUnicode(getContact(data), msg->getPlainText());
@@ -1074,7 +1063,8 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         b.pack(flags);
     }else{
         b.pack(this->data.owner.Uin.toULong());
-        b.pack(type);
+        b.pack((char)type);
+        b.pack((char)0x01);
     }
     b << res;
     if (buf.size()){
@@ -1084,15 +1074,15 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
     }
 }
 
-void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
+void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
 {
     b.incReadPos(1);
     unsigned short type;
     b >> type;
     b.incReadPos(bDirect ? 1 : 4);
-    vector<QCString> phonebook;
-    vector<QCString> numbers;
-    vector<QCString> phonedescr;
+    QValueList<QCString> phonebook;
+    QValueList<QCString> numbers;
+    QValueList<QCString> phonedescr;
     Contact *contact = NULL;
     unsigned long state, time, size, nEntries;
     unsigned i;
@@ -1125,7 +1115,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 b.unpack(language);
                 b.unpackStr(homepage);
                 ICQUserData data;
-                load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
+                load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
                 data.Uin.asULong() = uin;
                 data.Alias.str() = QString::fromUtf8(name);
                 data.About.str() = QString::fromUtf8(topic);
@@ -1134,8 +1124,9 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 data.Country.asULong() = country;
                 data.Language.asULong() = language;
                 data.Homepage.str() = QString::fromUtf8(homepage);
-                Event e(EventRandomChatInfo, &data);
-                e.process();
+// currently unhandled
+//                Event e(EventRandomChatInfo, &data);
+//                e.process();
                 free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
                 break;
             }
@@ -1181,8 +1172,13 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     }
                     break;
                 case PLUGIN_PICTURE:
-                    if (plugin_type == PLUGIN_QUERYxINFO)
-                        addPluginInfoRequest(uin, plugin_index);
+                    if (plugin_type == PLUGIN_QUERYxINFO) {
+                        // when buddyID -> new avatar support, no need to ask for old picture plugin
+                        if(data->buddyID.toULong() == 0 || data->buddyHash.toBinary().size() != 16) {
+                            data->buddyID.asULong() = 0;
+                            addPluginInfoRequest(uin, plugin_index);
+                        }
+                    }
                     break;
                 case PLUGIN_FILESERVER:
                 case PLUGIN_ICQPHONE:
@@ -1245,13 +1241,13 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     }
                     if (!area.isEmpty()){
                         if (!value.isEmpty())
-                            value += " ";
-                        value += "(";
+                            value += ' ';
+                        value += '(';
                         value += area;
-                        value += ")";
+                        value += ')';
                     }
                     if (!value.isEmpty())
-                        value += " ";
+                        value += ' ';
                     value += phone;
                     if (!ext.isEmpty()){
                         value += " - ";
@@ -1285,16 +1281,16 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                             const pager_provider *p;
                             for (p = getProviders(); *p->szName; p++){
                                 if (gateway == p->szName){
-                                    phone += "@";
+                                    phone += '@';
                                     phone += p->szGate;
-                                    phone += "[";
+                                    phone += '[';
                                     phone += p->szName;
-                                    phone += "]";
+                                    phone += ']';
                                     break;
                                 }
                             }
                             if (*p->szName == 0){
-                                phone += "@";
+                                phone += '@';
                                 phone += gateway;
                             }
                             break;
@@ -1302,14 +1298,14 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     default:
                         type = PHONE;
                     }
-                    phone += ",";
+                    phone += ',';
                     phone += phonedescr[i];
-                    phone += ",";
+                    phone += ',';
                     phone += QString::number(type);
                     if (i == nActive)
                         phone += ",1";
                     if (!phones.isEmpty())
-                        phones += ";";
+                        phones += ';';
                     phones += QString::fromUtf8(phone);
                 }
                 data->PhoneBook.str() = phones;
@@ -1317,7 +1313,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 findContact(data->Uin.toULong(), NULL, false, contact);
                 if (contact){
                     setupContact(contact, data);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
             }
@@ -1337,21 +1333,21 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             case PLUGIN_FILESERVER:
                 if ((state != 0) != (data->SharedFiles.toBool() != 0)){
                     data->SharedFiles.asBool() = (state != 0);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 break;
             case PLUGIN_FOLLOWME:
                 if (state != data->FollowMe.toULong()){
                     data->FollowMe.asULong() = state;
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 break;
             case PLUGIN_ICQPHONE:
                 if ((state != 0) != (data->ICQPhone.toULong() != 0)){
                     data->ICQPhone.asULong() = (state != 0);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 break;
@@ -1381,19 +1377,19 @@ static const char* plugin_descr[] =
         "ICQphone Status"						// PLUGIN_ICQPHONE
     };
 
-void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
+void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &info)
 {
     Contact *contact;
     ICQUserData *data = findContact(uin, NULL, false, contact);
     log(L_DEBUG, "Request about %u", plugin_type);
-    Buffer answer;
+    ICQBuffer answer;
     unsigned long typeAnswer = 0;
     unsigned long nEntries = 0;
     unsigned long time = 0;
     switch (plugin_type){
     case PLUGIN_PHONEBOOK:{
             if (data && data->GrpId.toULong() && !contact->getIgnore()){
-                Buffer answer1;
+                ICQBuffer answer1;
                 time = this->data.owner.PluginInfoTime.toULong();
                 QString phones = getContacts()->owner()->getPhones();
                 while (!phones.isEmpty()){
@@ -1430,7 +1426,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                             if (country[0] == '+')
                                 country = country.mid(1);
                             unsigned code = country.toULong();
-                            country = "";
+                            country = QString::null;
                             for (const ext_info *e = getCountries(); e->nCode; e++){
                                 if (e->nCode == code){
                                     country = e->szName;

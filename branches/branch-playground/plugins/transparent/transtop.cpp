@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "transtop.h"
 
 #include <krootpixmap.h>
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
+
+#include "event.h"
 
 TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
         : QObject(parent)
@@ -57,7 +58,7 @@ QPixmap TransparentTop::background(const QColor &c)
 void TransparentTop::backgroundUpdated( const QPixmap &pm )
 {
     bg = pm;
-    SIM::Event e(SIM::EventRepaintView);
+    SIM::EventRepaintView e;
     e.process();
 }
 

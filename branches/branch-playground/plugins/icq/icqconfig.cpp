@@ -35,8 +35,9 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
 {
     m_client = client;
     m_bConfig = bConfig;
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));
@@ -132,7 +133,7 @@ void ICQConfig::changed(const QString&)
 void ICQConfig::newToggled(bool bNew)
 {
     if (bNew)
-        edtUin->setText("");
+        edtUin->setText(QString::null);
     lblUin->setEnabled(!bNew);
     edtUin->setEnabled(!bNew);
 }

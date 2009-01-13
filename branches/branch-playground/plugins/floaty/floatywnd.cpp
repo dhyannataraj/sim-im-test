@@ -15,33 +15,52 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+#include <iostream>
+
 #include "floatywnd.h"
 #include "floaty.h"
-#include "simapi.h"
-#include "userview.h"
-#include "linklabel.h"
-
-#include "core.h"
 
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qapplication.h>
+#include <qwidgetlist.h>
 
 #ifdef USE_KDE
 #include <kwin.h>
 #endif
 
+#include "icons.h"
+#include "linklabel.h"
+#include "userview.h"
+#include "core.h"
+
+using namespace std;
 using namespace SIM;
 
+namespace { namespace aux {
+
+QString
+compose_floaty_name( unsigned long id )
+{
+    return QString( "floaty-%1" ).arg( id );
+}
+
+}}
+
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
-        : QWidget(NULL, "floaty",
+        : QWidget(NULL, aux::compose_floaty_name( id ).ascii(),
                   WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
-                  WStyle_StaysOnTop | WRepaintNoErase)
+                  WStyle_StaysOnTop | WRepaintNoErase
+                    | WPaintClever
+                    | WX11BypassWM
+                )
 {
     m_plugin = plugin;
     m_id = id;
     m_blink = 0;
+	b_ignoreMouseClickRelease=false;
     init();
     setAcceptDrops(true);
     setBackgroundMode(NoBackground);
@@ -66,7 +85,7 @@ FloatyWnd::~FloatyWnd()
 void FloatyWnd::init()
 {
     m_style = 0;
-    m_icons = "";
+    m_icons = QString::null;
     m_unread = 0;
     Contact *contact = getContacts()->contact(m_id);
     if (contact == NULL)
@@ -98,7 +117,7 @@ void FloatyWnd::init()
     w += 8;
     h += 6;
     resize(w, h);
-    for (std::list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
+    for (list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
         if ((*it).contact != m_id)
             continue;
         m_unread = (*it).type;
@@ -115,10 +134,10 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     QPixmap pict(w, h);
     QPainter p(&pict);
     p.fillRect(QRect(0, 0, width(), height()), colorGroup().base());
-    PaintView pv;
+    EventPaintView::PaintView pv;
     pv.p        = &p;
     pv.pos      = QPoint(2, 2);
-    pv.size		= QSize(w, h);
+    pv.size     = QSize(w, h);
     pv.win      = this;
     pv.isStatic = false;
     pv.height   = h;
@@ -127,7 +146,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }else{
         p.setPen(QColor(m_plugin->core->getColorOnline()));
     }
-    Event e(EventPaintView, &pv);
+    EventPaintView e(&pv);
     e.process();
 
     if (m_plugin->core->getUseSysColors()){
@@ -183,8 +202,8 @@ void FloatyWnd::paintEvent(QPaintEvent*)
 
     p.begin(this);
     p.drawPixmap(QPoint(2, 2), pict);
-	QColorGroup cg;
-	p.setPen(cg.dark());
+    QColorGroup cg;
+    p.setPen(cg.dark());
     p.moveTo(1, 1);
     p.lineTo(width() - 2, 1);
     p.lineTo(width() - 2, height() - 2);
@@ -257,22 +276,23 @@ void FloatyWnd::mousePressEvent(QMouseEvent *e)
 void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
 {
     moveTimer->stop();
+	
     if (!mousePos.isNull()){
-        move(e->globalPos() - mousePos);
+		if (!b_ignoreMouseClickRelease) // we reached fetch positich
+			move(e->globalPos() - mousePos);
         releaseMouse();
         Contact *contact = getContacts()->contact(m_id);
         if (contact){
             FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(m_plugin->user_data_id, false));
             if (data){
-                data->X.asULong() = x();
-                data->Y.asULong() = y();
+                data->X.asLong() = x();
+                data->Y.asLong() = y();
             }
         }
         mousePos = QPoint();
     }else{
         if ((e->pos() == initMousePos) && !m_plugin->core->getUseDblClick()){
-            Event e(EventDefaultAction, (void*)m_id);
-            e.process();
+            EventDefaultAction(m_id).process();
         }
     }
     initMousePos = QPoint(0, 0);
@@ -283,8 +303,135 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
     if ((e->state() & QObject::LeftButton) && !initMousePos.isNull() &&
             (QPoint(e->pos() - initMousePos).manhattanLength() > QApplication::startDragDistance()))
         startMove();
-    if (!mousePos.isNull())
-        move(e->globalPos() - mousePos);
+	if (!mousePos.isNull()) {
+		
+		QWidgetList *list = QApplication::topLevelWidgets();
+        QWidgetListIt it(*list);
+        QWidget * w;
+        while ((w = it.current()) != NULL) {
+			if (w->inherits("FloatyWnd")){
+				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+
+				int dist=4;
+				move(e->globalPos() - mousePos);
+				//Top left:
+				if (this->pos().x() + this->width()  - refwnd->pos().x() <= dist &&  //== x Top left
+					this->pos().x() + this->width()  - refwnd->pos().x() >= 0 &&
+					this->pos().y() + this->height() - refwnd->pos().y() <= dist &&
+					this->pos().y() + this->height() - refwnd->pos().y() >= 0) {
+					this->move(refwnd->pos().x()-this->width(),   //== x Top left
+							   refwnd->pos().y()-this->height());
+					b_ignoreMouseClickRelease=true;
+					cout << "TOP LEFT" << endl;
+					return;
+				}
+				
+				//Bottom left
+				if (this->pos().x() + this->width()  - refwnd->pos().x() <= dist &&
+					this->pos().x() + this->width()  - refwnd->pos().x() >=0 && //== x Top left
+					this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
+					this->pos().y() - refwnd->pos().y() - refwnd->height() >=0 ) {
+					this->move(refwnd->pos().x()-this->width(),   //== x Top left
+						       refwnd->pos().y()+refwnd->height());
+					b_ignoreMouseClickRelease=true;
+					cout << "BOTTOM LEFT" << endl;
+					return;
+				}
+			
+				//Top right
+				if (this->pos().x() + refwnd->width() - this->pos().x() <= dist &&
+					this->pos().y() + this->height() - refwnd->pos().y() <= dist ) {//== y Top left
+					this->move(refwnd->pos().x()+refwnd->width(),
+							   refwnd->pos().y()-this->height());  //== y Top left
+					b_ignoreMouseClickRelease=true;
+					cout << "TOP RIGHT" << endl;
+					return;
+				}
+
+				//Bottom right
+				if (this->pos().x() + refwnd->width() - this->pos().x() <= dist &&
+					this->pos().x() + refwnd->width() - this->pos().x() >=0 && //== x Top right
+					this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
+					this->pos().y() - refwnd->pos().y() - refwnd->height() >=0  ) { //== y Bottom left
+					this->move(refwnd->pos().x()+refwnd->width(),	 //== x Top right
+							   refwnd->pos().y()-refwnd->height());  //== y Bottom left
+					b_ignoreMouseClickRelease=true;
+					cout << "BOTTOM LEFT" << endl;
+					return;
+				}
+				//Top
+				if (this->pos().y()+this->height()-refwnd->pos().y() <= dist ) {
+					if (this->pos().x() == refwnd->pos().x()) {//add distance
+						this->move(refwnd->pos().x(),	 //== x Top right
+								   refwnd->pos().y()-this->height());  //== y Top left
+						b_ignoreMouseClickRelease=true;
+						cout << "TOP dock left" << endl;
+						return;
+					}
+					
+					if (this->pos().x() + this->width() == refwnd->pos().x() + refwnd->width()) {//add distance
+						this->move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
+								   refwnd->pos().y()-this->height());  //== y Top left
+						b_ignoreMouseClickRelease=true;
+						cout << "TOP dock right" << endl;
+						return;
+					}
+				}
+					
+				//Bottom
+				if (refwnd->pos().y()+refwnd->height()-this->pos().y() <= dist ) {
+					if (this->pos().x() == refwnd->pos().x()) {  //add distance
+						this->move(refwnd->pos().x(),	 //== x Top right
+								   refwnd->pos().y()+refwnd->height());  //== y Bottem left
+						b_ignoreMouseClickRelease=true;
+						cout << "BOTTOM dock left" << endl;
+						return;
+					}					
+
+					if (this->pos().x() + this->width() == refwnd->pos().x() + refwnd->width()) {//add distance
+						this->move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
+								   refwnd->pos().y()+refwnd->height());  //== y Bottem left
+						b_ignoreMouseClickRelease=true;
+						cout << "BOTTOM dock right" << endl;
+						return;
+					}
+				}
+
+				//Left
+				if (this->pos().x()+this->width()-refwnd->pos().x() <= dist && 
+					this->pos().x()+this->width()-refwnd->pos().x() >= 0
+					) 
+					if (this->pos().y()   - refwnd->pos().y() < dist ||
+						refwnd->pos().y() - this->pos().y()   < dist ) {
+						this->move(refwnd->pos().x() - this->width(),	 
+								   refwnd->pos().y());
+						b_ignoreMouseClickRelease=true;
+						cout << "LEFT" << endl;
+						return;
+					}
+				
+
+
+				//Right
+				if (refwnd->pos().x()+refwnd->width()-this->pos().x() <= dist &&
+					refwnd->pos().x()+refwnd->width()-this->pos().x() >=0
+				    ) 
+					if (this->pos().y()   - refwnd->pos().y() < dist ||
+						refwnd->pos().y() - this->pos().y()   < dist ) {
+						this->move(refwnd->pos().x() + refwnd->width(),	 
+								   refwnd->pos().y());	
+						b_ignoreMouseClickRelease=true;
+						cout << "RIGHT" << endl;
+						return;
+					}
+
+				//this->size();
+				this->repaint();
+			}
+			++it;
+		}
+        delete list;
+	}
 }
 
 void FloatyWnd::startMove()
@@ -309,8 +456,7 @@ void FloatyWnd::blink()
 
 void FloatyWnd::mouseDoubleClickEvent(QMouseEvent *)
 {
-    Event e(EventDefaultAction, (void*)m_id);
-    e.process();
+    EventDefaultAction(m_id).process();
 }
 
 void FloatyWnd::enterEvent(QEvent *e)
@@ -376,8 +522,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
                 cmd->id      = type;
                 cmd->menu_id = MenuMessage;
                 cmd->param	 = (void*)m_id;
-                Event e(EventCheckState, cmd);
-                if (e.process())
+                if (EventCheckCommandState(cmd).process())
                     break;
             }
         }
@@ -386,8 +531,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         e->accept();
         if (isDrop){
             msg->setContact(m_id);
-            Event e(EventOpenMessage, &msg);
-            e.process();
+            EventOpenMessage(msg).process();
         }
         delete msg;
         return;
@@ -400,8 +544,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
                 Message *msg = new Message(MessageGeneric);
                 msg->setText(str);
                 msg->setContact(m_id);
-                Event e(EventOpenMessage, &msg);
-                e.process();
+                EventOpenMessage(msg).process();
                 delete msg;
             }
             return;

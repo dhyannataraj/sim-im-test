@@ -18,7 +18,6 @@
 #ifndef _USERVIEW_H
 #define _USERVIEW_H
 
-#include "simapi.h"
 #include "userlist.h"
 
 class CorePlugin;
@@ -26,11 +25,11 @@ class IntLineEdit;
 class QTimer;
 class TipLabel;
 
-typedef struct BlinkCount
+struct BlinkCount
 {
     unsigned long	id;
     unsigned		count;
-} BlinkCount;
+};
 
 class UserView : public UserListBase
 {
@@ -67,8 +66,8 @@ protected:
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
-    virtual SIM::ProcessMenuParam *getMenu(QListViewItem *item);
-    void *processEvent(SIM::Event*);
+    virtual bool getMenu(QListViewItem *item, unsigned long &id, void* &param);
+    virtual bool processEvent(SIM::Event*);
     void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
     void setGroupMode(unsigned mode, bool bFirst=false);

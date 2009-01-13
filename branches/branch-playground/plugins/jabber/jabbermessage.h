@@ -18,62 +18,63 @@
 #ifndef _JABBERMESSAGE_H
 #define _JABBERMESSAGE_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "message.h"
 
 const unsigned long MessageJabber		= 0x201;
 const unsigned long MessageJabberOnline	= 0x202;
 const unsigned long MessageJabberOffline	= 0x203;
 const unsigned long MessageJabberError	= 0x204;
 
-typedef struct JabberMessageData
+struct JabberMessageData
 {
     SIM::Data	Subject;
-} JabberMessageData;
+};
 
 class JabberMessage : public SIM::Message
 {
 public:
-    JabberMessage(ConfigBuffer *cfg = NULL);
+    JabberMessage(Buffer *cfg = NULL);
     ~JabberMessage();
     PROP_UTF8(Subject);
-    virtual QString save();
+    virtual QCString save();
     virtual QString presentation();
     virtual unsigned baseType() { return SIM::MessageGeneric; }
 protected:
     JabberMessageData	data;
 };
 
-typedef struct JabberMessageErrorData
+struct JabberMessageErrorData
 {
     SIM::Data	Error;
     SIM::Data	Code;
-} JabberMessageErrorData;
+};
 
 class JabberMessageError : public SIM::Message
 {
 public:
-    JabberMessageError(ConfigBuffer *cfg = NULL);
+    JabberMessageError(Buffer *cfg = NULL);
     ~JabberMessageError();
     PROP_UTF8(Error);
     PROP_ULONG(Code);
-    virtual QString save();
+    virtual QCString save();
     virtual QString presentation();
 protected:
     JabberMessageErrorData	data;
 };
 
-typedef struct JabberMessageFileData
+struct JabberMessageFileData
 {
     SIM::Data	ID;
     SIM::Data	From;
     SIM::Data	Host;
     SIM::Data	Port;
-} JabberMessageFileData;
+};
 
 class JabberFileMessage : public SIM::FileMessage
 {
 public:
-    JabberFileMessage(ConfigBuffer *cfg = NULL);
+    JabberFileMessage(Buffer *cfg = NULL);
     ~JabberFileMessage();
     PROP_STR(ID);
     PROP_STR(From);

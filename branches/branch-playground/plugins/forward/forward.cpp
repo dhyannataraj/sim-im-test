@@ -17,12 +17,11 @@
 
 #include "forward.h"
 #include "forwardcfg.h"
-#include "simapi.h"
 #include "core.h"
 
 using namespace SIM;
 
-Plugin *createForwardPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createForwardPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ForwardPlugin(base);
     return plugin;
@@ -63,37 +62,38 @@ ForwardPlugin::ForwardPlugin(unsigned base)
     forwardPlugin = this;
     user_data_id = getContacts()->registerUserData(info.title, forwardUserData);
     Command cmd;
-    cmd->id		  = user_data_id + 1;
+    cmd->id		  = user_data_id;
     cmd->text	  = I18N_NOOP("&Forward");
     cmd->icon	  = "cell";
     cmd->param	 = (void*)getForwardSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventAddPreferences(cmd).process();
+
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 }
 
 ForwardPlugin::~ForwardPlugin()
 {
-    Event e(EventRemovePreferences, (void*)user_data_id);
-    e.process();
+    EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
-void *ForwardPlugin::processEvent(Event *e)
+bool ForwardPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventMessageReceived){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageReceived){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus)
-            return NULL;
+            return false;
         QString text = msg->getPlainText();
         if (text.isEmpty())
-            return NULL;
+            return false;
         if (msg->type() == MessageSMS){
             SMSMessage *sms = static_cast<SMSMessage*>(msg);
             QString phone = sms->getPhone();
-            bool bMyPhone = false;
+            bool bMyPhone;
             ForwardUserData *data = (ForwardUserData*)(getContacts()->getUserData(user_data_id));
             bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
             if (!bMyPhone){
@@ -138,7 +138,7 @@ void *ForwardPlugin::processEvent(Event *e)
                             }
                             if (data == NULL)
                                 delete msg;
-                            return e->param();
+                            return true;
                         }
                     }
                 }
@@ -146,10 +146,10 @@ void *ForwardPlugin::processEvent(Event *e)
         }
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         ForwardUserData *data = (ForwardUserData*)(contact->getUserData(user_data_id));
         if ((data == NULL) || (data->Phone.str().isEmpty()))
-            return NULL;
+            return false;
         unsigned status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
@@ -172,7 +172,7 @@ void *ForwardPlugin::processEvent(Event *e)
                 delete m;
         }
     }
-    return NULL;
+    return false;
 }
 
 QWidget *ForwardPlugin::createConfigWindow(QWidget *parent)

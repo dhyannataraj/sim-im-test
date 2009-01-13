@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "jabberclient.h"
-#include "simapi.h"
 #include "jabberworkinfo.h"
 #include "jabber.h"
 
@@ -25,7 +24,7 @@
 
 using namespace SIM;
 
-JabberWorkInfo::JabberWorkInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
+JabberWorkInfo::JabberWorkInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
         : JabberWorkInfoBase(parent)
 {
     m_client  = client;
@@ -43,26 +42,28 @@ void JabberWorkInfo::apply()
 {
 }
 
-int str_cmp(const char *s1, const char *s2);
-
-void *JabberWorkInfo::processEvent(Event *e)
+bool JabberWorkInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill(m_data);
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill(m_data);
-    }
-    if (m_data && (e->type() == EventVCard)){
-        JabberUserData *data = (JabberUserData*)(e->param());
+    } else
+    if (m_data && (e->type() == eEventVCard)){
+        EventVCard *evc = static_cast<EventVCard*>(e);
+        JabberUserData *data = evc->data();
         if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
             fill(data);
     }
-    return NULL;
+    return false;
 }
 
 void JabberWorkInfo::fill(JabberUserData *data)
@@ -78,7 +79,7 @@ void JabberWorkInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->OrgName.str() = edtCompany->text();
     data->OrgUnit.str() = edtDepartment->text();
     data->Title.str()   = edtTitle->text();

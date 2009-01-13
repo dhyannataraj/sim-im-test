@@ -19,7 +19,10 @@
 #define _WEATHER_H
 
 #include "sax.h"
+#include "cfg.h"
+#include "event.h"
 #include "fetch.h"
+#include "plugins.h"
 
 #include <qdatetime.h>
 
@@ -30,10 +33,11 @@ namespace SIM
 class IconSet;
 };
 
-typedef struct WeatherData
+struct WeatherData
 {
     SIM::Data	ID;
     SIM::Data	Location;
+    SIM::Data	Obst;
     SIM::Data	Time;
     SIM::Data	ForecastTime;
     SIM::Data	Forecast;
@@ -72,16 +76,17 @@ typedef struct WeatherData
     SIM::Data	UV_Description;
     SIM::Data	MoonIcon;
     SIM::Data	MoonPhase;
-} WeatherData;
+};
 
 class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient, public SAXParser
 {
     Q_OBJECT
 public:
-    WeatherPlugin(unsigned, bool, ConfigBuffer*);
+    WeatherPlugin(unsigned, bool, Buffer*);
     virtual ~WeatherPlugin();
     PROP_STR(ID);
     PROP_STR(Location);
+	PROP_STR(Obst);
     PROP_ULONG(Time);
     PROP_ULONG(ForecastTime);
     PROP_ULONG(Forecast);
@@ -126,7 +131,7 @@ public:
     void updateButton();
     void showBar();
     void hideBar();
-    unsigned EventWeather;
+    SIM::SIMEvent EventWeather;
     QToolBar *m_bar;
 protected slots:
     void timeout();
@@ -147,18 +152,18 @@ protected:
     char   m_bDayPart;
     bool   m_bDayForecastIsValid;
     unsigned m_day;
-    virtual QString getConfig();
+    virtual QCString getConfig();
     bool isDay();
     bool parseTime(const QString &str, int &h, int &m);
     bool parseDateTime(const QString &str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
-    void *processEvent(SIM::Event*);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
+    virtual bool processEvent(SIM::Event *e);
     WeatherData data;
     SIM::IconSet *m_icons;
-    void		element_start(const char *el, const char **attr);
-    void		element_end(const char *el);
-    void		char_data(const char *str, int len);
+    void		element_start(const QString& el, const QXmlAttributes& attrs);
+    void		element_end(const QString& el);
+    void		char_data(const QString& str);
 };
 
 #endif

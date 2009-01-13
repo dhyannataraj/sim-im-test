@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "plugincfg.h"
 #include "qchildwidget.h"
-#include "simapi.h"
 
 #include <qlayout.h>
 #include <qtabwidget.h>

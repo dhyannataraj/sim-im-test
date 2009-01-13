@@ -15,17 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qtimer.h>
+#include <qprocess.h>
+
+#include "log.h"
+#include "unquot.h"
+#include "core.h"
+
 #include "action.h"
 #include "actioncfg.h"
-#include "core.h"
-#include "exec.h"
-
-#include <qtimer.h>
 
 using namespace std;
 using namespace SIM;
 
-Plugin *createActionPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createActionPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ActionPlugin(base);
     return plugin;
@@ -44,18 +47,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 {
     return &info;
 }
-
-/*
-
-typedef struct ActionUserData
-{
-	char	*OnLine;
-	char	*Status;
-	char	*Message;
-	char	*Menu;
-} ActionUserData;
-
-*/
 
 static DataDef actionUserData[] =
     {
@@ -83,38 +74,37 @@ ActionPlugin::ActionPlugin(unsigned base)
     CmdAction = registerType();
 
     Command cmd;
-    cmd->id		 = action_data_id + 1;
+    cmd->id		 = action_data_id;
     cmd->text	 = I18N_NOOP("&Action");
     cmd->icon	 = "run";
     cmd->param	 = (void*)getActionSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id		 = CmdAction;
     cmd->text	 = "_";
-    cmd->icon	 = "";
+    cmd->icon	 = QString::null;
     cmd->flags	 = COMMAND_CHECK_STATE;
     cmd->menu_id = MenuContact;
     cmd->menu_grp = 0xC000;
     cmd->param	 = NULL;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 }
 
 ActionPlugin::~ActionPlugin()
 {
     clear();
-    for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it)
+    QValueList<QProcess*>::ConstIterator it;
+    for (it = m_exec.constBegin(); it != m_exec.constEnd(); ++it)
         delete *it;
     m_exec.clear();
-    Event eCmd(EventCommandRemove, (void*)CmdAction);
-    eCmd.process();
-    Event e(EventRemovePreferences, (void*)action_data_id);
-    e.process();
+
+    EventCommandRemove(CmdAction).process();
+    EventRemovePreferences(action_data_id).process();
     getContacts()->unregisterUserData(action_data_id);
 }
 
@@ -124,24 +114,29 @@ QWidget *ActionPlugin::createConfigWindow(QWidget *parent)
     return new ActionConfig(parent, data, this);
 }
 
-class MsgExec : public Exec
+class MsgProcess : public QProcess
 {
+protected:
+    Message *m_msg;
 public:
-MsgExec() : Exec() {}
-    Message *msg;
+    MsgProcess(const QString &prog, Message *msg, QObject *parent = 0)
+        : QProcess(prog, parent), m_msg(msg) {}
+    Message *msg() const { return m_msg; }
 };
 
-void *ActionPlugin::processEvent(Event *e)
+bool ActionPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    switch (e->type() ) {
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdAction) && (cmd->menu_id == MenuContact)){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
-                return NULL;
+                return false;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
             if ((data == NULL) || (data->NMenu.toULong() == 0))
-                return NULL;
+                return false;
             CommandDef *cmds = new CommandDef[data->NMenu.toULong() + 1];
             unsigned n = 0;
             for (unsigned i = 0; i < data->NMenu.toULong(); i++){
@@ -149,8 +144,8 @@ void *ActionPlugin::processEvent(Event *e)
                 QString item = getToken(str, ';');
                 int pos = item.find("&IP;");
                 if (pos >= 0){
-                    Event e(EventGetContactIP, contact);
-                    if (e.process() == NULL)
+                    EventGetContactIP e(contact);
+                    if (!e.process())
                         continue;
                 }
                 pos = item.find("&Mail;");
@@ -170,136 +165,142 @@ void *ActionPlugin::processEvent(Event *e)
             }
             if (n == 0){
                 delete[] cmds;
-                return NULL;
+                return false;
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return true;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->menu_id == MenuContact) && (cmd->id >= CmdAction)){
             unsigned n = cmd->id - CmdAction;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
-                return NULL;
+                return false;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
             if ((data == NULL) || (n >= data->NMenu.toULong()))
-                return NULL;
+                return false;
             QString str = get_str(data->Menu, n + 1);
             getToken(str, ';');
-            TemplateExpand t;
+            EventTemplate::TemplateExpand t;
             t.tmpl     = str;
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
-            return e->param();
+            EventTemplateExpand(&t).process();
+            return true;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventContactOnline){
-        Contact *contact = (Contact*)(e->param());
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
+        Contact *contact = ec->contact();
         if (contact == NULL)
-            return NULL;
+            return false;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-        if (data->OnLine.str().isEmpty())
-            return NULL;
-        TemplateExpand t;
+        if ((data == NULL) || (data->OnLine.str().isEmpty()))
+            return false;
+        EventTemplate::TemplateExpand t;
         t.tmpl     = data->OnLine.str();
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
-        Event eTmpl(EventTemplateExpand, &t);
-        eTmpl.process();
-        return e->param();
+        EventTemplateExpand(&t).process();
+        return true;
     }
-    if (e->type() == EventMessageReceived){
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
         if (data == NULL)
-            return NULL;
+            return false;
         if (msg->type() == MessageStatus){
             if (data->Status.str().isEmpty())
-                return NULL;
-            TemplateExpand t;
+                return false;
+            EventTemplate::TemplateExpand t;
             t.tmpl     = data->Status.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
-            return NULL;
+            EventTemplateExpand(&t).process();
+            return false;
         }
         QString cmd = get_str(data->Message, msg->baseType());
         if (cmd.isEmpty())
-            return NULL;
-        TemplateExpand t;
-        t.tmpl	   = QString::fromUtf8(cmd);
+            return false;
+        EventTemplate::TemplateExpand t;
+        t.tmpl	   = cmd;
         t.contact  = contact;
         t.receiver = this;
         t.param	   = msg;
-        Event eTmpl(EventTemplateExpand, &t);
-        eTmpl.process();
-        return e->param();
+        EventTemplateExpand(&t).process();
+        return true;
     }
-    if (e->type() == EventTemplateExpanded){
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    case eEventTemplateExpanded: {
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         Message *msg = (Message*)(t->param);
+        QProcess *proc;
         if (msg){
-            MsgExec *exec = new MsgExec;
-            exec->msg = msg;
-            m_exec.push_back(exec);
-            connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(msg_ready(Exec*,int,const char*)));
-            QString text = msg->presentation();
-            exec->execute(t->tmpl.local8Bit(), unquoteText(text).local8Bit());
+            QString text = t->tmpl + unquoteText(msg->presentation());
+            proc = new MsgProcess(text, msg, this);
         }else{
-            Exec *exec = new Exec;
-            m_exec.push_back(exec);
-            connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(ready(Exec*,int,const char*)));
-            exec->execute(t->tmpl.local8Bit(), NULL);
+            proc = new QProcess(t->tmpl, this);
         }
+        m_exec.push_back(proc);
+        connect(proc, SIGNAL(processExited()), this, SLOT(ready()));
+        proc->start();
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
-void ActionPlugin::ready(Exec *exec, int code, const char*)
+void ActionPlugin::ready()
 {
-    for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
-        if ((*it) == exec){
+    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
+        QProcess *p = *it;
+        if (p && !p->isRunning()){
             m_exec.erase(it);
-            m_delete.push_back(exec);
-            if (code)
-                log(L_DEBUG, "Exec fail: %u", code);
+            m_delete.push_back(p);
+            if (!p->normalExit() || p->exitStatus() != 0)
+                log(L_DEBUG, "QProcess fail: %u, %u", p->normalExit(), p->exitStatus());
             QTimer::singleShot(0, this, SLOT(clear()));
             return;
         }
     }
 }
 
-void ActionPlugin::msg_ready(Exec *exec, int code, const char *out)
+void ActionPlugin::msg_ready()
 {
-    for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
-        if ((*it) == exec){
+    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
+        QProcess *p = *it;
+        if (p && !p->isRunning()){
             m_exec.erase(it);
-            m_delete.push_back(exec);
-            Message *msg = static_cast<MsgExec*>(exec)->msg;
-            if (code){
-                Event e(EventMessageReceived, msg);
-                if (e.process(this) == NULL)
+            m_delete.push_back(p);
+            Message *msg = static_cast<MsgProcess*>(p)->msg();
+            if (!p->normalExit() || p->exitStatus() != 0){
+                EventMessageReceived e(msg);
+                if (!e.process(this))
                     delete msg;
             }else{
-                if (out && *out){
+                QByteArray bOut = p->readStdout();
+                if (!bOut.isEmpty()){
                     msg->setFlags(msg->getFlags() & ~MESSAGE_RICHTEXT);
-                    msg->setText(QString::fromLocal8Bit(out));
-                    Event e(EventMessageReceived, msg);
-                    if (e.process(this) == NULL)
+                    msg->setText(QString::fromLocal8Bit(bOut));
+                    EventMessageReceived e(msg);
+                    if (!e.process(this))
                         delete msg;
                 }else{
                     delete msg;
@@ -313,7 +314,8 @@ void ActionPlugin::msg_ready(Exec *exec, int code, const char *out)
 
 void ActionPlugin::clear()
 {
-    for (list<Exec*>::iterator it = m_delete.begin(); it != m_delete.end(); ++it)
+    QValueList<QProcess*>::ConstIterator it;
+    for (it = m_delete.constBegin(); it != m_delete.constEnd(); ++it)
         delete (*it);
     m_delete.clear();
 }

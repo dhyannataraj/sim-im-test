@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filetransfer.h"
-#include "core.h"
-#include "ballonmsg.h"
+#include "simapi.h"
+
+#include <time.h>
 
 #include <qpixmap.h>
 #include <qlineedit.h>
@@ -31,7 +31,12 @@
 #include <qdir.h>
 #include <qregexp.h>
 
-#include <time.h>
+#include "ballonmsg.h"
+#include "icons.h"
+#include "unquot.h"
+
+#include "filetransfer.h"
+#include "core.h"
 
 using namespace SIM;
 
@@ -79,15 +84,21 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
 {
     m_name = name;
     m_size = size;
-    m_name = m_name.replace(QRegExp("\\\\"), "/");
+    m_name = m_name.replace('\\', '/');
+
+
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
-    int n = m_name.findRev("/");
+    int n = m_name.findRev('/');
+	QString fn("");
     if (n >= 0){
         QString path;
-        QString p = m_name.left(n);
+		QString p(m_name.left(n));
+		fn = m_name.right(m_name.length()-n);
+		fn = fn.replace(QRegExp("/"), "");
+
         while (!p.isEmpty()){
             if (!path.isEmpty())
-                path += "/";
+                path += '/';
             QString pp = getToken(p, '/');
             if (pp == ".."){
                 QString errMsg = i18n("Bad path: %1") .arg(m_name);
@@ -96,7 +107,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 return;
             }
             path += pp;
-            QDir dd(ft->dir() + "/" + path);
+            QDir dd(ft->dir() /* + '/' + path */);
             if (!dd.exists()){
                 QDir d(ft->dir());
                 if (!d.mkdir(path)){
@@ -113,8 +124,14 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
         ft->startReceive(0);
         return;
     }
-    QString shortName = m_name;
-    m_name = ft->dir() + m_name;
+
+	QString shortName = m_name;
+	//m_name = ft->dir() + m_name; Quickfix, noragen
+	if (fn.isEmpty())
+		fn=m_name;
+
+	m_name = ft->dir() + fn; 
+
     if (ft->m_file)
         delete ft->m_file;
     m_dlg->process();
@@ -131,13 +148,13 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             }
             break;
         case Resume:
-            if (ft->m_file->open(IO_WriteOnly)){
+            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
                 resume();
                 return;
             }
             break;
         default:
-            if (ft->m_file->open(IO_WriteOnly)){
+            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
                 QStringList buttons;
                 QString forAll;
                 if (ft->files())
@@ -227,6 +244,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
     m_timer->start(1000);
     printTime();
     m_bTransfer = false;
+    m_file = 0;
     m_transferTime = 0;
     m_displayTime  = 0;
     m_speed     = 0;
@@ -249,8 +267,7 @@ FileTransferDlg::~FileTransferDlg()
         return;
     if (m_msg->m_transfer)
         m_msg->m_transfer->setNotify(NULL);
-    Event e(EventMessageCancel, m_msg);
-    e.process();
+    EventMessageCancel(m_msg).process();
 }
 
 void FileTransferDlg::process()
@@ -291,19 +308,15 @@ void FileTransferDlg::process()
                 btnGo->show();
             break;
         case FileTransfer::Error:
-            if (m_msg->getError())
+            if (!m_msg->getError().isEmpty())
                 status = i18n(m_msg->getError());
             break;
         default:
             break;
         }
         if (!fn.isEmpty()){
-            status += " ";
-            fn = fn.replace(QRegExp("\\\\"), "/");
-#ifdef WIN32
-            fn = fn.replace(QRegExp("/"), "\\");
-#endif
-            status += fn;
+            status += ' ';
+            status += QDir::convertSeparators(fn);
             if (m_files > 1)
                 status += QString(" %1/%2")
                           .arg(m_file + 1)
@@ -345,13 +358,12 @@ void FileTransferDlg::notifyDestroyed()
     m_timer->stop();
     btnCancel->setText(i18n("&Close"));
     if (m_state == FileTransfer::Done){
-        Event e(EventSent, m_msg);
-        e.process();
+        EventSent(m_msg).process();
         if (chkClose->isChecked())
             close();
         return;
     }
-    if (m_msg->getError()){
+    if (!m_msg->getError().isEmpty()){
         lblState->setText(i18n(m_msg->getError()));
     }else{
         lblState->setText(i18n("Transfer failed"));
@@ -443,7 +455,7 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
     }else{
         speedText = QString::number(speed, 'f', 3);
     }
-    speedText += " ";
+    speedText += ' ';
     switch (n_speed){
     case 2:
         speedText += i18n("Mb/s");
@@ -482,6 +494,8 @@ void FileTransferDlg::closeToggled(bool bState)
 
 void FileTransferDlg::action(int nAct, void*)
 {
+	if(!m_msg->m_transfer)
+		return;
     FileTransferDlgNotify *notify = static_cast<FileTransferDlgNotify*>(m_msg->m_transfer->notify());
     FileTransfer *ft = m_msg->m_transfer;
     switch (nAct){
@@ -507,12 +521,16 @@ void FileTransferDlg::goDir()
 {
     if (m_dir.isEmpty())
         return;
-    QString path = "file:" + m_dir;
+#ifdef WIN32
+    QString path = QString("file:") + QString("\"") + m_dir + QString("\"");
+#else
+    QString path = QString("file:") + m_dir;
+#endif
     /* Now replace spaces with %20 so the path isn't truncated
        are there any other separators we need to care of ?*/
-    path.replace(QRegExp(" "),"%20");
+    //path.replace(' ',"%20");
 
-    Event e(EventGoURL, (void*)(&path));
+    EventGoURL e(path);
     e.process();
 }
 

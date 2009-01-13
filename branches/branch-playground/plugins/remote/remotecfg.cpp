@@ -31,11 +31,11 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
         : RemoteConfigBase(parent)
 {
     m_plugin = plugin;
-    const char *path = m_plugin->getPath();
+    QString path = m_plugin->getPath();
     edtPort->setValue(3000);
 #ifdef WIN32
-    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
-        edtPort->setValue(atol(path + strlen(TCP)));
+    if (path.startsWith(TCP)){
+        edtPort->setValue(path.mid(strlen(TCP)).toUShort());
         chkTCP->setChecked(true);
     }else{
         edtPort->setValue(3000);
@@ -49,13 +49,13 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
 #else
     chkTCP->hide();
     edtPath->setText("/tmp/sim.%user%");
-    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
+    if (path.startsWith(TCP)){
         grpRemote->setButton(2);
-        edtPort->setValue(atol(path + strlen(TCP)));
+        edtPort->setValue(path.mid(strlen(TCP)).toUShort());
         edtPath->setEnabled(false);
     }else{
         grpRemote->setButton(1);
-        edtPath->setText(QFile::decodeName(path));
+        edtPath->setText(path);
         edtPort->setEnabled(false);
     }
     connect(grpRemote, SIGNAL(clicked(int)), this, SLOT(selected(int)));
@@ -69,11 +69,11 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
 
 void RemoteConfig::apply()
 {
-    std::string path;
+    QString path;
 #ifdef WIN32
     if (chkTCP->isChecked()){
         path  = TCP;
-        path += edtPort->text().latin1();
+        path += edtPort->text();
     }else{
         path  = "auto:";
     }
@@ -81,13 +81,13 @@ void RemoteConfig::apply()
 #else
     if (grpRemote->id(grpRemote->selected()) == 2){
         path  = TCP;
-        path += edtPort->text().latin1();
+        path += edtPort->text();
     }else{
-        path  = QFile::encodeName(edtPath->text());
+        path  = edtPath->text();
     }
 #endif
     if (path != m_plugin->getPath()){
-        m_plugin->setPath(path.c_str());
+        m_plugin->setPath(path);
         m_plugin->bind();
     }
 }

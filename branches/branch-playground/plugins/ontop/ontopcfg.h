@@ -18,7 +18,6 @@
 #ifndef _ONTOPCFG_H
 #define _ONTOPCFG_H
 
-#include "simapi.h"
 #include "ontopcfgbase.h"
 
 class OnTopPlugin;

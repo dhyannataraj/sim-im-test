@@ -15,27 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "windock.h"
-#include "simapi.h"
-#include "ontop.h"
-#include "mainwin.h"
+#include <windows.h>
+#include <windowsx.h>
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qmessagebox.h>
 #include <qtimer.h>
 
-#include <windows.h>
-#include <windowsx.h>
-#include <shellapi.h>
+#include "misc.h"
 
+#include "windock.h"
+#include "ontop.h"
+#include "core_consts.h"
+#include "mainwin.h"
+
+using namespace std;
 using namespace SIM;
 
 const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 
 static WinDockPlugin *dock = NULL;
 
-Plugin *createWinDockPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createWinDockPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new WinDockPlugin(base, config);
     return plugin;
@@ -169,8 +171,7 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
         }
         static_cast<MainWindow*>(pMain)->m_bNoResize = false;
     }
-    Event e(EventInTaskManager, (void*)(dock->getState() == ABE_FLOAT));
-    e.process();
+    EventInTaskManager((dock->getState() == ABE_FLOAT)).process();
     SetWindowPos(pMain->winId(), NULL,
                  rcEnd.left(), rcEnd.top(), rcEnd.width(), rcEnd.height(),
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
@@ -224,8 +225,7 @@ void setBarState(bool bAnimate = false)
         slideWindow(rc, bAnimate);
     }
     if (pMain->isVisible()){
-        Event eOnTop(EventOnTop, (void*)bFullScreen);
-        eOnTop.process();
+        EventOnTop(bFullScreen).process();
         if (!bFullScreen && (qApp->activeWindow() == pMain))
             appBarMessage(ABM_ACTIVATE);
     }
@@ -248,6 +248,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             break;
         }
     }
+    if(!oldProc)
+        return DefWindowProc(hWnd, msg, wParam, lParam);
     unsigned type;
     RECT  *prc;
     RECT  rcWnd;
@@ -336,12 +338,6 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return oldProc(hWnd, msg, wParam, lParam);
 }
 
-/*
-typedef struct WinDockData
-{
-    bool AutoHide;
-} WinDocData;
-*/
 static DataDef winDockData[] =
     {
         { "AutoHide", DATA_BOOL, 1, 0 },
@@ -351,7 +347,7 @@ static DataDef winDockData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-WinDockPlugin::WinDockPlugin(unsigned base, ConfigBuffer *config)
+WinDockPlugin::WinDockPlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(DefaultPriority - 1)
 {
     dock = this;
@@ -372,8 +368,8 @@ WinDockPlugin::WinDockPlugin(unsigned base, ConfigBuffer *config)
     m_autoHide = new QTimer(this);
     connect(m_autoHide, SIGNAL(timeout()), this, SLOT(slotAutoHide()));
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
+
     WM_APPBAR = RegisterWindowMessageA("AppBarNotify");
     init();
 }
@@ -381,8 +377,7 @@ WinDockPlugin::WinDockPlugin(unsigned base, ConfigBuffer *config)
 WinDockPlugin::~WinDockPlugin()
 {
     uninit();
-    Event eCmd(EventCommandRemove, (void*)CmdAutoHide);
-    eCmd.process();
+    EventCommandRemove(CmdAutoHide).process();
     free_data(winDockData, &data);
 }
 
@@ -401,37 +396,39 @@ void WinDockPlugin::uninit()
 }
 
 
-void *WinDockPlugin::processEvent(Event *e)
+bool WinDockPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdAutoHide){
             dock->setAutoHide((cmd->flags & COMMAND_CHECKED) != 0);
             bAutoHideVisible = true;
             setBarState();
             enableAutoHide(getAutoHide());
-            return cmd;
+            return true;
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdAutoHide) && (dock->getState() != ABE_FLOAT)){
             cmd->flags &= ~COMMAND_CHECKED;
             if (dock->getAutoHide())
                 cmd->flags |= COMMAND_CHECKED;
-            return cmd;
+            return true;
         }
-    }
-    if ((e->type() == EventInit) && !m_bInit)
+    } else
+    if ((e->type() == eEventInit) && !m_bInit)
         init();
-    if (e->type() == EventInTaskManager){
-        if ((dock->getState() != ABE_FLOAT) && e->param()){
-            Event eMy(EventInTaskManager, (void*)false);
-            eMy.process();
-            return e->param();
+    if (e->type() == eEventInTaskManager){
+        EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
+        if ((dock->getState() != ABE_FLOAT) && eitm->showInTaskmanager()){
+            EventInTaskManager(false).process();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void WinDockPlugin::init()
@@ -492,7 +489,7 @@ bool WinDockPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-QString WinDockPlugin::getConfig()
+QCString WinDockPlugin::getConfig()
 {
     return save_data(winDockData, &data);
 }

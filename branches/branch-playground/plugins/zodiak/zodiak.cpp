@@ -15,8 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "zodiak.h"
+#include <qapplication.h>
+#include <qlayout.h>
+#include <qframe.h>
+#include <qwidgetlist.h>
+#include <qobjectlist.h>
+#include <qpushbutton.h>
+#include <qpainter.h>
+
 #include "datepicker.h"
+#include "misc.h"
+
+#include "zodiak.h"
 
 #include "xpm/1.xpm"
 #include "xpm/2.xpm"
@@ -31,17 +41,9 @@
 #include "xpm/11.xpm"
 #include "xpm/12.xpm"
 
-#include <qapplication.h>
-#include <qlayout.h>
-#include <qframe.h>
-#include <qwidgetlist.h>
-#include <qobjectlist.h>
-#include <qpushbutton.h>
-#include <qpainter.h>
-
 using namespace SIM;
 
-Plugin *createZodiakPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ZodiakPlugin(base);
     return plugin;
@@ -100,11 +102,11 @@ void ZodiakPlugin::createLabel(DatePicker *picker)
     p.label->show();
 }
 
-void *ZodiakPlugin::processEvent(Event *e)
+bool ZodiakPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventQuit)
+    if (e->type() == eEventQuit)
         m_pickers.clear();
-    return NULL;
+    return false;
 }
 
 bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
@@ -210,8 +212,9 @@ static const char **xpms[] =
 
 void ZodiakWnd::changed()
 {
-    int day, month, year;
-    m_picker->getDate(day, month, year);
+    int day = m_picker->getDate().day();
+    int month = m_picker->getDate().month();
+    int year = m_picker->getDate().year();
     if (day && month && year){
         int n = getSign(day, month);
         m_picture->setPixmap(QPixmap(xpms[n]));
@@ -219,19 +222,20 @@ void ZodiakWnd::changed()
         m_button->show();
     }else{
         m_picture->setPixmap(QPixmap());
-        m_name->setText("");
+        m_name->setText(QString::null);
         m_button->hide();
     }
 }
 
 void ZodiakWnd::view()
 {
-    int day, month, year;
-    m_picker->getDate(day, month, year);
+    int day = m_picker->getDate().day();
+    int month = m_picker->getDate().month();
+    int year = m_picker->getDate().year();
     if (day && month && year){
         int n = getSign(day, month);
         QString s = QString("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]);
-        Event e(EventGoURL, (void*)&s);
+        EventGoURL e(s);
         e.process();
     }
 }

@@ -196,7 +196,18 @@
                 </size>
             </property>
         </spacer>
-        <spacer row="10"  column="0" >
+        <widget row="10"  column="0" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkCapsLockFlash</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Enable keyboard LED-notification in N/A state</string>
+            </property>
+        </widget>        
+        <spacer row="11"  column="0" >
             <property>
                 <name>name</name>
                 <cstring>Spacer5</cstring>

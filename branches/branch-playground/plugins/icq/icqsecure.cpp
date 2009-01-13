@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "icqsecure.h"
 #include "icqclient.h"
 #include "ballonmsg.h"
@@ -44,9 +45,9 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
-        while ((data = (ICQUserData*)(++it)) != NULL){
+        while ((data = m_client->toICQUserData(++it)) != NULL){
             data->VisibleId.asULong() = 0;
-            Event eContact(EventContactChanged, contact);
+            EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
         }
     }
@@ -58,9 +59,9 @@ void ICQSecure::deleteInvisibleItem(QListViewItem *item)
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
-        while ((data = (ICQUserData*)(++it)) != NULL){
+        while ((data = m_client->toICQUserData(++it)) != NULL){
             data->InvisibleId.asULong() = 0;
-            Event eContact(EventContactChanged, contact);
+            EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
         }
     }
@@ -81,15 +82,16 @@ void ICQSecure::apply()
         m_client->setDirectMode(mode);
     }
     if (bStatusChanged && (m_client->getState() == Client::Connected))
-        m_client->sendStatus();
+        m_client->snacService()->sendStatus();
     m_client->setIgnoreAuth(chkIgnoreAuth->isChecked());
+    m_client->setUseMD5(chkUseMD5->isChecked());
 }
 
 void ICQSecure::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->WaitAuth.asBool() = chkAuth->isChecked();
     data->WebAware.asBool() = chkWeb->isChecked();
 }
@@ -100,23 +102,28 @@ void ICQSecure::fill()
     chkWeb->setChecked(m_client->data.owner.WebAware.toBool());
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
+    chkUseMD5->setChecked(m_client->getUseMD5());
     grpDirect->setButton(m_client->getDirectMode());
     fillListView(lstVisible, &ICQUserData::VisibleId);
     fillListView(lstInvisible, &ICQUserData::InvisibleId);
     hideIpToggled(m_client->getHideIP());
 }
 
-void *ICQSecure::processEvent(Event *e)
+bool ICQSecure::processEvent(Event *e)
 {
-    if (e->type() == EventClientChanged){
-        if ((Client*)(e->param()) == m_client)
+    if (e->type() == eEventClientChanged){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
-    }
-    if (e->type() == EventContactChanged){
+    } else
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
         fillListView(lstVisible, &ICQUserData::VisibleId);
         fillListView(lstInvisible, &ICQUserData::InvisibleId);
     }
-    return NULL;
+    return false;
 }
 
 void ICQSecure::setListView(ListView *lst)
@@ -161,7 +168,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
     while ((contact = ++it) != NULL){
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
-        while ((data = (ICQUserData*)(++it)) != NULL){
+        while ((data = m_client->toICQUserData(++it)) != NULL){
             if ((data->*field).toULong()){
                 QString firstName = contact->getFirstName();
                 QString lastName  = contact->getLastName();
@@ -169,7 +176,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
                 lastName = getToken(lastName, '/');
                 if (!lastName.isEmpty()){
                     if (!firstName.isEmpty())
-                        firstName += " ";
+                        firstName += ' ';
                     firstName += lastName;
                 }
                 QString mails;

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "search.h"
 #include "usercfg.h"
 #include "core.h"
@@ -304,20 +305,21 @@ void SearchDialog::setTitle()
 
 void SearchDialog::toggled(bool)
 {
-    textChanged("");
+    textChanged();
 }
 
-void *SearchDialog::processEvent(Event *e)
+bool SearchDialog::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventClientsChanged:
-    case EventClientChanged:
+    case eEventClientsChanged:
+    case eEventClientChanged:
         fillClients();
         break;
-    case EventCommandExec:{
+    case eEventCommandExec:{
             if (m_result != m_currentResult)
-                return NULL;
-            CommandDef *cmd = (CommandDef*)(e->param());
+                return false;
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuSearchGroups){
                 Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
                 if (grp){
@@ -341,44 +343,44 @@ void *SearchDialog::processEvent(Event *e)
                             }else{
                                 BalloonMsg::message(err, m_result);
                             }
-                            return e->param();
+                            return true;
                         }
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                         contact->setGroup(grp->id());
-                        Event e(EventContactChanged, contact);
-                        e.process();
+                        EventContact(contact, EventContact::eChanged).process();
                     }
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSearchInfo){
                 Contact *contact = createContact(CONTACT_TEMP);
                 if (contact == NULL)
-                    return e->param();
+                    return true;
                 Command cmd;
                 cmd->id		 = CmdInfo;
                 cmd->menu_id = MenuContact;
                 cmd->param   = (void*)(contact->id());
                 CorePlugin::m_plugin->showInfo(cmd);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSearchMsg){
                 Contact *contact = createContact(CONTACT_TEMP);
                 if (contact == NULL)
-                    return e->param();
+                    return true;
                 Message *m = new Message(MessageGeneric);
                 m->setContact(contact->id());
-                Event e(EventOpenMessage, &m);
-                e.process();
+                EventOpenMessage(m).process();
                 delete m;
             }
             break;
         }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if ((cmd->id == CmdSearchOptions) && (cmd->menu_id == MenuSearchItem)){
-                Event eDef(EventGetMenuDef, (void*)MenuSearchOptions);
-                CommandsDef *def = (CommandsDef*)(eDef.process());
+                EventMenuGetDef eMenu(MenuSearchOptions);
+                eMenu.process();
+                CommandsDef *def = eMenu.defs();
                 if (def){
                     CommandsList list(*def, true);
                     CommandDef *s;
@@ -393,8 +395,7 @@ void *SearchDialog::processEvent(Event *e)
                         while ((s = ++list) != NULL){
                             if (s->flags & COMMAND_CHECK_STATE){
                                 CommandDef cCheck = *s;
-                                Event e(EventCheckState, &cCheck);
-                                if (!e.process())
+                                if (!EventCheckCommandState(&cCheck).process())
                                     continue;
                             }
                             if (prev && ((prev & 0xFF00) != (s->menu_grp & 0xFF00)))
@@ -404,10 +405,10 @@ void *SearchDialog::processEvent(Event *e)
                         }
                         cmd->param = cmds;
                         cmd->flags |= COMMAND_RECURSIVE;
-                        return e->param();
+                        return true;
                     }
                 }
-                return NULL;
+                return false;
             }
             if ((cmd->id == CmdContactGroup) && (cmd->menu_id == MenuSearchGroups)){
                 Group *grp;
@@ -433,12 +434,14 @@ void *SearchDialog::processEvent(Event *e)
 
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
-                return e->param();
+                return true;
             }
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void SearchDialog::textChanged(const QString&)
@@ -541,7 +544,7 @@ void SearchDialog::aboutToShow(QWidget *w)
         detach(m_current);
     m_current = w;
     attach(m_current);
-    textChanged("");
+    textChanged();
 }
 
 void SearchDialog::resultShow(QWidget *w)
@@ -557,7 +560,7 @@ void SearchDialog::resultShow(QWidget *w)
     connect(m_currentResult, SIGNAL(destroyed()), this, SLOT(resultDestroyed()));
     if (m_currentResult != m_result)
         connect(m_currentResult, SIGNAL(enableOptions(bool)), this, SLOT(enableOptions(bool)));
-    textChanged("");
+    textChanged();
 }
 
 void SearchDialog::resultDestroyed()
@@ -584,12 +587,9 @@ void SearchDialog::searchClick()
 {
     if (m_bAdd){
         if (CorePlugin::m_plugin->getGroupMode()){
-            ProcessMenuParam mp;
-            mp.id    = MenuSearchGroups;
-            mp.param = m_search->btnSearch;
-            mp.key	= 0;
-            Event eMenu(EventProcessMenu, &mp);
-            QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+            EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
+            eMenu.process();
+            QPopupMenu *popup = eMenu.menu();
             if (popup)
                 popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
         }else{
@@ -597,8 +597,7 @@ void SearchDialog::searchClick()
             cmd->id = CmdContactGroup;
             cmd->menu_id = MenuSearchGroups;
             cmd->param = m_search->btnSearch;
-            Event e(EventCommandExec, cmd);
-            e.process();
+            EventCommandExec(cmd).process();
         }
         return;
     }
@@ -646,7 +645,7 @@ void SearchDialog::searchDone(QWidget*)
     disconnect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
     disconnect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     m_active = NULL;
-    textChanged("");
+    textChanged();
     setAddButton();
 }
 
@@ -738,12 +737,9 @@ void SearchDialog::enableOptions(bool bEnable)
 void SearchDialog::addClick()
 {
     if (CorePlugin::m_plugin->getGroupMode()){
-        ProcessMenuParam mp;
-        mp.id    = MenuSearchGroups;
-        mp.param = m_search->btnAdd;
-        mp.key	= 0;
-        Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+        EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
+        eMenu.process();
+        QPopupMenu *popup = eMenu.menu();
         if (popup)
             popup->popup(CToolButton::popupPos(m_search->btnAdd, popup));
     }else{
@@ -751,8 +747,7 @@ void SearchDialog::addClick()
         cmd->id = CmdContactGroup;
         cmd->menu_id = MenuSearchGroups;
         cmd->param = m_search->btnAdd;
-        Event e(EventCommandExec, cmd);
-        e.process();
+        EventCommandExec(cmd).process();
     }
 }
 
@@ -779,12 +774,9 @@ void SearchDialog::dragStart()
 
 void SearchDialog::optionsClick()
 {
-    ProcessMenuParam mp;
-    mp.id    = MenuSearchOptions;
-    mp.param = NULL;
-    mp.key	= 0;
-    Event eMenu(EventProcessMenu, &mp);
-    QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+    EventMenuProcess eMenu(MenuSearchOptions, NULL);
+    eMenu.process();
+    QPopupMenu *popup = eMenu.menu();
     if (popup)
         popup->popup(CToolButton::popupPos(m_search->btnOptions, popup));
 }

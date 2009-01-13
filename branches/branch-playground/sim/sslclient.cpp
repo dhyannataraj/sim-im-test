@@ -19,9 +19,7 @@
 #include "config.h"
 #endif
 
-#ifdef USE_OPENSSL
-
-#include "simapi.h"
+#ifdef ENABLE_OPENSSL
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>
@@ -29,6 +27,8 @@
 #include <openssl/rand.h>
 #include <openssl/md5.h>
 
+#include "log.h"
+#include "misc.h"
 #include "socket.h"
 
 namespace SIM
@@ -200,7 +200,7 @@ void SSLClient::shutdown()
         return;
     }
     case SSL_ERROR_SYSCALL: {
-        log(L_WARN, "SSL: SSL_shutdown errno: = %d ", errno);
+        log(errno ? L_WARN : L_DEBUG, "SSL: SSL_shutdown errno: = %d ", errno);
         return;
     }
     case SSL_ERROR_WANT_READ:
@@ -359,13 +359,15 @@ void SSLClient::read_ready()
         char b[2048];
         int n = sock->read(b, sizeof(b));
         if (n == -1){
-            if (notify) notify->error_state(I18N_NOOP("SSL read error"));
+            if (notify)
+                notify->error_state(I18N_NOOP("SSL read error"));
             return;
         }
         if (n == 0) break;
         n = BIO_write(mrBIO, b, n);
         if (n == -1)
-            if (notify) notify->error_state(I18N_NOOP("SSL read error"));
+            if (notify)
+                notify->error_state(I18N_NOOP("SSL read error"));
         process();
     }
     if (state == SSLConnected)
@@ -413,7 +415,8 @@ static DH *get_dh512()
 
 bool SSLClient::initTLS1(bool bDH)
 {
-    mpCTX = SSL_CTX_new(TLSv1_method());
+    //mpCTX = SSL_CTX_new(TLSv1_method());
+    mpCTX = SSL_CTX_new(SSLv23_client_method()); // FIXME This is a hotfix that should fix bug #12510 Might be this change should be reverted once...
     if (mpCTX == NULL)
         return false;
     if (bDH){

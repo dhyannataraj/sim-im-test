@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
+#include "log.h"
+
 #include "msggen.h"
 #include "toolbtn.h"
 #include "msgedit.h"
@@ -46,7 +50,7 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
     m_client = msg->client();
     m_edit   = parent;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(RichText);
@@ -80,19 +84,19 @@ void MsgGen::emptyChanged(bool bEmpty)
     cmd->id    = CmdSend;
     cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
-void *MsgGen::processEvent(Event *e)
+bool MsgGen::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -101,21 +105,22 @@ void *MsgGen::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             if (!msgText.isEmpty()){
-                log(L_DEBUG, "Send: %s", msgText.latin1());
+                log(L_DEBUG, "Send: %s", msgText.local8Bit().data());
                 Message *msg = new Message;
                 msg->setText(msgText);
                 msg->setContact(m_edit->m_userWnd->id());
@@ -126,10 +131,10 @@ void *MsgGen::processEvent(Event *e)
                 msg->setFont(CorePlugin::m_plugin->getEditFont());
                 m_edit->sendMessage(msg);
             }
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

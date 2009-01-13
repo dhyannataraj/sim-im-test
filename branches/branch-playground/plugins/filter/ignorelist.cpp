@@ -15,16 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ignorelist.h"
+#include "icons.h"
 #include "listview.h"
+#include "log.h"
+#include "misc.h"
+
+#include "ignorelist.h"
 
 #include <qpixmap.h>
 
 using namespace SIM;
 
+unsigned CmdListUnignore = 0x130001;
+
 IgnoreList::IgnoreList(QWidget *parent)
         : IgnoreListBase(parent)
 {
+
+    Command cmd;
+    cmd->id          = CmdListUnignore;
+    cmd->text        = I18N_NOOP("Unignore");
+    cmd->icon        = QString::null;
+    cmd->accel       = QString::null;
+    cmd->bar_id      = 0;
+    cmd->menu_id     = MenuListView;
+    cmd->menu_grp    = 0x1000;
+    cmd->flags       = COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
+
     lstIgnore->addColumn(i18n("Contact"));
     lstIgnore->addColumn(i18n("Name"));
     lstIgnore->addColumn(i18n("EMail"));
@@ -42,28 +60,63 @@ IgnoreList::IgnoreList(QWidget *parent)
     }
 }
 
-void *IgnoreList::processEvent(Event *e)
+bool IgnoreList::processEvent(Event *e)
 {
-    Contact *contact;
-    QListViewItem *item;
     switch (e->type()){
-    case EventContactDeleted:
-        contact = (Contact*)(e->param());
-        removeItem(findItem(contact));
-        return e->param();
-    case EventContactCreated:
-    case EventContactChanged:
-        contact = (Contact*)(e->param());
-        item = findItem(contact);
-        if (contact->getIgnore()){
-            if (item == NULL)
-                item = new QListViewItem(lstIgnore);
-            updateItem(item, contact);
-        }else{
-            removeItem(item);
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                removeItem(findItem(contact));
+                break;
+            }
+            case EventContact::eCreated: {
+                QListViewItem *item = findItem(contact);
+                if (contact->getIgnore()){
+                    if (item == NULL)
+                        item = new QListViewItem(lstIgnore);
+                    updateItem(item, contact);
+                }else{
+                    removeItem(item);
+                }
+                break;
+            }
+            case EventContact::eChanged: {
+                if(contact->getIgnore()) {
+                    QListViewItem *item = findItem(contact);
+                    if(!item) {
+                        if (item == NULL)
+                            item = new QListViewItem(lstIgnore);
+                        updateItem(item, contact);
+                    }
+                } else {
+                    QListViewItem *item = findItem(contact);
+                    removeItem(item);
+                }
+                break;
+            }
+            default:
+                break;
         }
+        break;
     }
-    return NULL;
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
+        if ((cmd->id == CmdListUnignore) && (cmd->menu_id == MenuListView)){
+            QListViewItem *item = (QListViewItem*)(cmd->param);
+            if (item->listView() == lstIgnore){
+                unignoreItem(item);
+                return true;
+            }
+        }
+        break;
+    }
+    default:
+        break;
+    }
+    return false;
 }
 
 void IgnoreList::updateItem(QListViewItem *item, Contact *contact)
@@ -105,23 +158,20 @@ QListViewItem *IgnoreList::findItem(Contact *contact)
     return NULL;
 }
 
-void IgnoreList::deleteItem(QListViewItem *item)
+void IgnoreList::unignoreItem(QListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
     if (contact) {
         contact->setIgnore(false);
-        Event e1(EventContactChanged, contact);
-        e1.process();
-        /*      Don't delete user - move them to NotInList
-                Maybe add a second menuitem  - one with delete, one with remove
-                delete - real delete
-                remove - move to NotInList
-                But I don't know how to create a second item
-                Christian
-                
-                Event e2(EventContactDeleted, contact);
-                e2.process();
-                delete contact; */
+        EventContact(contact, EventContact::eChanged).process();
+    }
+}
+
+void IgnoreList::deleteItem(QListViewItem *item)
+{
+    Contact *contact = getContacts()->contact(item->text(3).toUInt());
+    if (contact) {
+        EventContact(contact,EventContact::eDeleted).process();
     }
 }
 
@@ -158,8 +208,7 @@ void IgnoreList::drop(QMimeSource *s)
         if (contact){
             if (!contact->getIgnore()){
                 contact->setIgnore(true);
-                Event e(EventContactChanged, contact);
-                e.process();
+                EventContact(contact, EventContact::eChanged).process();
                 return;
             }
         }

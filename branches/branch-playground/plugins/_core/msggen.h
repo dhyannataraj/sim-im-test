@@ -18,7 +18,10 @@
 #ifndef _MSGGEN_H
 #define _MSGGEN_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 
@@ -31,7 +34,7 @@ protected slots:
     void init();
     void emptyChanged(bool bEmpty);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QString     m_client;
     bool        m_bCanSend;
     MsgEdit    *m_edit;

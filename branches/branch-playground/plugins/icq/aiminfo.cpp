@@ -15,10 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "icons.h"
 #include "aiminfo.h"
 #include "icqclient.h"
-#include "core.h"
 
 #include <qlineedit.h>
 #include <qmultilineedit.h>
@@ -29,7 +28,7 @@
 
 using namespace SIM;
 
-AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+AIMInfo::AIMInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : AIMInfoBase(parent)
 {
     m_client  = client;
@@ -70,7 +69,7 @@ void AIMInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->FirstName.str()   = edtFirst->text();
     data->LastName.str()    = edtLast->text();
     data->MiddleName.str()  = edtMiddle->text();
@@ -83,26 +82,30 @@ void AIMInfo::apply(Client *client, void *_data)
     data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
-void *AIMInfo::processEvent(Event *e)
+bool AIMInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    } else
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus){
             if (m_client->dataName(m_data) == msg->client())
                 fill();
         }
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void AIMInfo::fill()
@@ -170,7 +173,7 @@ void AIMInfo::fill()
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ":");
+        lblOnline->setText(i18n("Last online") + ':');
         edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
@@ -211,7 +214,7 @@ void AIMInfo::fill()
         }
     }else{
         QString name = PACKAGE;
-        name += " ";
+        name += ' ';
         name += VERSION;
 #ifdef WIN32
         name += "/win32";

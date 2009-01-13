@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "mainwin.h"
 #include "simapi.h"
+
+#include "icons.h"
+#include "mainwin.h"
 #include "core.h"
 #include "userview.h"
+#include "toolbtn.h"
 
 #include <qapplication.h>
 #include <qpixmap.h>
@@ -74,7 +77,11 @@ void MainWindowWidget::childEvent(QChildEvent *e)
 MainWindow::MainWindow(Geometry &geometry)
         : QMainWindow(NULL, "mainwnd",
                       WType_TopLevel | WStyle_Customize |
-                      WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu),
+                      WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu 
+#ifdef __OS2__                      
+	| WStyle_MinMax 
+#endif	
+	),
         EventReceiver(LowestPriority)
 {
     m_grip	 = NULL;
@@ -82,7 +89,7 @@ MainWindow::MainWindow(Geometry &geometry)
     m_bNoResize = false;
 
     SET_WNDPROC("mainwnd");
-    m_icon = "ICQ";
+    m_icon = "SIM";
     setIcon(Pict(m_icon));
     setTitle();
 
@@ -95,7 +102,7 @@ MainWindow::MainWindow(Geometry &geometry)
     }
 #endif
 
-    bar = NULL;
+    m_bar = NULL;
 
     main = new MainWindowWidget(this);
     setCentralWidget(main);
@@ -196,50 +203,59 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     return QMainWindow::eventFilter(o, e);
 }
 
-void *MainWindow::processEvent(Event *e)
+bool MainWindow::processEvent(Event *e)
 {
-    CommandDef *cmd;
-    WindowDef  *wnd;
     switch(e->type()){
-    case EventSetMainIcon:
-        m_icon = (const char*)(e->param());
+    case eEventSetMainIcon: {
+        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+        m_icon = smi->icon();
         setIcon(Pict(m_icon));
         break;
-    case EventInit:{
+    }
+    case eEventInit:{
             setTitle();
-            BarShow b;
-            b.bar_id = ToolBarMain;
-            b.parent = this;
-            Event e(EventShowBar, &b);
-            bar = (QToolBar*)e.process();
-            restoreToolbar(bar, CorePlugin::m_plugin->data.toolBarState);
+            EventToolbar e(ToolBarMain, this);
+            e.process();
+            m_bar = e.toolBar();
+            restoreToolbar(m_bar, CorePlugin::m_plugin->data.toolBarState);
             raiseWindow(this);
             break;
         }
-    case EventCommandExec:
-        cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdQuit)
             quit();
         break;
-    case EventAddWindow:
-        wnd = (WindowDef*)(e->param());
-        addWidget(wnd->widget, wnd->bDown);
-        return e->param();
-    case EventAddStatus:
-        wnd = (WindowDef*)(e->param());
-        addStatus(wnd->widget, wnd->bDown);
-        return e->param();
-    case EventIconChanged:
+    }
+    case eEventAddWidget: {
+        EventAddWidget *aw = static_cast<EventAddWidget*>(e);
+        switch(aw->place()) {
+        case EventAddWidget::eMainWindow:
+            addWidget(aw->widget(), aw->down());
+            break;
+        case EventAddWidget::eStatusWindow:
+            addStatus(aw->widget(), aw->down());
+            break;
+        default:
+            return false;
+        }
+        return true;
+    }
+    case eEventIconChanged:
         setIcon(Pict(m_icon));
         break;
-    case EventContactChanged:{
-            Contact *contact = (Contact*)(e->param());
+    case eEventContact:{
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
             if (contact == getContacts()->owner())
                 setTitle();
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void MainWindow::quit()

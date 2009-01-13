@@ -18,20 +18,24 @@
 #ifndef _ACTION_H
 #define _ACTION_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
 
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
 class CorePlugin;
-class Exec;
+class QProcess;
 
-typedef struct ActionUserData
+struct ActionUserData
 {
     SIM::Data	OnLine;
     SIM::Data	Status;
     SIM::Data	Message;
     SIM::Data	Menu;
     SIM::Data	NMenu;
-} ActionUserData;
+};
 
 class ActionPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
@@ -42,14 +46,14 @@ public:
     CorePlugin	*core;
     unsigned long action_data_id;
 protected slots:
-    void ready(Exec*,int,const char*);
-    void msg_ready(Exec*,int,const char*);
+    void ready();
+    void msg_ready();
     void clear();
 protected:
-    std::list<Exec*> m_exec;
-    std::list<Exec*> m_delete;
+    QValueList<QProcess*> m_exec;
+    QValueList<QProcess*> m_delete;
     unsigned long CmdAction;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QWidget *createConfigWindow(QWidget *parent);
 };
 

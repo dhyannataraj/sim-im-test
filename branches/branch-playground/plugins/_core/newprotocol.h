@@ -18,8 +18,8 @@
 #ifndef _NEWPROTOCOL_H
 #define _NEWPROTOCOL_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+#include "contacts.h"
 
 #include "newprotocolbase.h"
 
@@ -42,7 +42,7 @@ protected slots:
     void pageChanged(const QString&);
     void loginComplete();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     virtual void reject();
     std::vector<SIM::Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;

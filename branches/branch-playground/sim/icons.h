@@ -18,20 +18,21 @@
 #ifndef _ICONS_H
 #define _ICONS_H
 
-#include "simapi.h"
-
+#include <qcolor.h>
 #include <qiconset.h>
 #include <qimage.h>
-#include <qmap.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qptrlist.h>
-#include <qvaluelist.h>
+
+#include "simapi.h"
+#include "event.h"
 
 namespace SIM
 {
 
-typedef struct PictDef
+class IconSet;
+
+struct PictDef
 {
     QImage      image;
     QString     file;
@@ -39,30 +40,6 @@ typedef struct PictDef
     QString     system;
 #endif
     unsigned    flags;
-} PictDef;
-
-typedef QMap<QString, PictDef> PIXMAP_MAP;
-
-typedef struct
-{
-    QString smile;
-    QString name;
-} smileDef;
-
-class IconSet
-{
-public:
-    IconSet();
-    virtual ~IconSet();
-    virtual PictDef *getPict(const QString &name) = 0;
-    virtual void clear() = 0;
-    void parseSmiles(const QString&, unsigned &start, unsigned &size, QString &name);
-    QStringList getSmile(const QString &name);
-    QString getSmileName(const QString &name);
-    void getSmiles(QStringList &smiles, QStringList &used);
-protected:
-    PIXMAP_MAP      m_icons;
-    QValueList<smileDef>    m_smiles;
 };
 
 class EXPORT Icons : public QObject, public EventReceiver
@@ -79,15 +56,19 @@ public:
     static unsigned nSmile;
     IconSet *addIconSet(const QString &name, bool bDefault);
     void removeIconSet(IconSet*);
-    QValueList<IconSet*> m_customSets;
 protected slots:
     void iconChanged(int);
 protected:
-    void *processEvent(Event*);
-    QValueList<IconSet*>    m_defSets;
+    virtual bool processEvent(Event *e);
+    class IconsPrivate *d;
+    COPY_RESTRICTED(Icons);
 };
 
 EXPORT Icons *getIcons();
+
+EXPORT QIconSet Icon(const QString &name);
+EXPORT QPixmap Pict(const QString &name, const QColor &bgColor = QColor());
+EXPORT QImage  Image(const QString &name);
 
 };
 

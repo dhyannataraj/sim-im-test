@@ -15,8 +15,43 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "core.h"
 #include "simapi.h"
+
+#include <time.h>
+
+#ifdef WIN32
+#include <windows.h>
+#include <io.h>
+#else
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+
+#include <qtimer.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
+#include <qfile.h>
+#include <qdir.h>
+#include <qpopupmenu.h>
+#include <qthread.h>
+#include <qtextcodec.h>
+#include <qprocess.h>
+#include <qinputdialog.h>
+#include <qmessagebox.h>
+
+// simlib
+#include "ballonmsg.h"
+#include "buffer.h"
+#include "icons.h"
+#include "log.h"
+#include "kdeisversion.h"
+#include "toolbtn.h"
+#include "unquot.h"
+#include "xsl.h"
+#include "textshow.h"
+// _core
+#include "core.h"
 #include "cfgdlg.h"
 #include "mainwin.h"
 #include "userview.h"
@@ -40,35 +75,9 @@
 #include "smscfg.h"
 #include "tmpl.h"
 #include "autoreply.h"
-#include "textshow.h"
 #include "filetransfer.h"
 #include "declinedlg.h"
-#include "xsl.h"
 #include "userhistorycfg.h"
-#include "ballonmsg.h"
-#include "icons.h"
-#include "kdeisversion.h"
-
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qpopupmenu.h>
-#include <qthread.h>
-#include <qtextcodec.h>
-#include <qprocess.h>
-
-#include <time.h>
-
-#ifdef WIN32
-#include <windows.h>
-#include <io.h>
-#else
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#endif
 
 using namespace std;
 using namespace SIM;
@@ -100,7 +109,7 @@ protected:
 #endif
 };
 
-Plugin *createCorePlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createCorePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new CorePlugin(base, config);
     return plugin;
@@ -133,9 +142,9 @@ struct loaded_l10nfile
 };
 
 
-void k_nl_load_domain (struct loaded_l10nfile *domain_file);
-void k_nl_unload_domain (struct loaded_domain *domain);
-char *k_nl_find_msg (struct loaded_l10nfile *domain_file, const char *msgid);
+void k_nl_load_domain (loaded_l10nfile *domain_file);
+void k_nl_unload_domain (loaded_domain *domain);
+char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
 class SIMTranslator : public QTranslator
 {
@@ -151,7 +160,7 @@ protected:
     loaded_l10nfile domain;
 };
 
-SIMTranslator::SIMTranslator(QObject *parent, const QString &filename)
+SIMTranslator::SIMTranslator(QObject *parent, const QString & filename)
         : QTranslator(parent, "simtranslator")
 {
     load(filename);
@@ -179,20 +188,20 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
     if ((sourceText == NULL) || (*sourceText == 0))
         return res;
     if (message && *message){
-        QCString s;
+        string s;
         s = "_: ";
         s += message;
-        s += "\n";
+        s += '\n';
         s += sourceText;
-        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s);
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
     }
     if ((text == NULL) && context && *context && message && *message){
-        QCString s;
+        string s;
         s = "_: ";
         s += context;
-        s += "\n";
+        s += '\n';
         s += message;
-        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s);
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
     }
     if (text == NULL)
         text = k_nl_find_msg((struct loaded_l10nfile*)&domain, sourceText);
@@ -203,59 +212,6 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 
 #endif
 
-/*
-typedef struct CoreData
-{
-    char		*Profile;
-    unsigned	SavePasswd;
-    unsigned	NoShow;
-    unsigned	ShowPanel;
-    unsigned	ManualStatus;
-    unsigned	Invisible;
-    long		geometry[5];
-    long		toolBarState[7];
-    void		*Buttons;
-    void		*Menues;
-    unsigned	ShowOnLine;
-    unsigned	GroupMode;
-    unsigned	UseDblClick;
-    unsigned	UseSysColors;
-    unsigned	ColorOnline;
-    unsigned	ColorOffline;
-    unsigned	ColorAway;
-    unsigned	ColorNA;
-    unsigned	ColorDND;
-    unsigned	ColorGroup;
-    unsigned	GroupSeparator;
-    char		*Lang;
-    unsigned	ContainerMode;
-    unsigned	SendOnEnter;
-    unsigned	containerGeo[5];
-    unsigned	containerBar[7];
-    unsigned	ContainerStatusSize;
-    char		*Containers;
-    void		*Container;
-    unsigned	CopyMessages;
-    unsigned	EditHeight;
-    unsigned	editBar[7];
-    unsigned	EditBackground;
-    unsigned	EditForeground;
-    char		*EditFont;
-    unsigned	OwnColors;
-    unsigned	UseSmiles;
-    unsigned	CloseSend;
-    unsigned	HistoryPage;
-    unsigned	HistoryDirection;
-    unsigned	historySize[2];
-    long		historyBar[7];
-    char		*HistorySearch;
-    char		*Unread;
-    void		*NoShowAutoReply;
-    unsigned	SortMode;
-    unsigned	CloseTransfer;
-	char		*HistoryStyle;
-} CoreData;
-*/
 static DataDef coreData[] =
     {
         { "Profile", DATA_STRING, 1, 0 },
@@ -313,6 +269,7 @@ static DataDef coreData[] =
         { "HistoryDirection", DATA_BOOL, 1, 0 },
         { "HistorySize", DATA_ULONG, 2, 0 },
         { "HistoryBar", DATA_LONG, 7, 0 },
+        { "HistoryAvatarBar", DATA_LONG, 7, 0 },
         { "HistorySearch", DATA_UTF, 1, 0 },
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
@@ -332,26 +289,11 @@ static DataDef coreData[] =
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
         { "CfgGeometry", DATA_LONG, 5, DATA(0) },
+        { "ShowAvatarInHistory", DATA_BOOL, 1, DATA(1) },
+        { "ShowAvatarInContainer", DATA_BOOL, 1, DATA(1) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct CoreUserData
-{
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-    unsigned	SMSTranslit;
-    char		*SMSSignatureBefore;
-    char		*SMSSignatureAfter;
-	unsigned	OpenOnReceive;
-	unsigned	OpenOnOnline;
-	char		*IncomingPath;
-	unsigned	AcceptMode;
-	unsigned	OverwriteFiles;
-	char		*DeclineMessage;
-} CoreUserData;
-
-*/
 static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
@@ -378,15 +320,6 @@ static DataDef arUserData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct ListUserData
-{
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-	unsigned	ShowAlways;
-} ListUserData;
-*/
-
 static DataDef listUserData[] =
     {
         { "OfflineOpen", DATA_BOOL, 1, DATA(1) },
@@ -394,13 +327,6 @@ static DataDef listUserData[] =
         { "ShowAlways", DATA_BOOL, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
-
-/*
-typedef struct TranslitUserData
-{
-    unsigned	Translit;
-} TranslitUserData;
-*/
 
 static DataDef translitUserData[] =
     {
@@ -434,17 +360,17 @@ static QWidget *getHistorySetup(QWidget *parent, void *data)
     return new UserHistoryCfg(parent, data);
 }
 
-typedef struct autoReply
+struct autoReply
 {
     unsigned	status;
     const char	*text;
-} autoReply;
+};
 
 static autoReply autoReplies[] =
     {
         { STATUS_AWAY, I18N_NOOP(
-              "I am currently away from ICQ.\n"
-              "Please leave your message and I will get back to you as soon as I return!"
+              "I am currently away from the computer,\n"
+              "please leave your message and I will get back to you as soon as I return!"
           ) },
         { STATUS_NA, I18N_NOOP(
               "I am out'a here.\n"
@@ -452,6 +378,9 @@ static autoReply autoReplies[] =
           ) },
         { STATUS_DND, I18N_NOOP(
               "Please do not disturb me now. Disturb me later."
+          ) },
+		{ STATUS_OCCUPIED, I18N_NOOP(
+              "I'm occupied at the moment. Please only urgent messages."
           ) },
         { STATUS_FFC, I18N_NOOP(
               "We'd love to hear what you have to say. Join our chat."
@@ -465,7 +394,7 @@ static autoReply autoReplies[] =
         { 0, NULL }
     };
 
-CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
+CorePlugin::CorePlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     m_plugin = this;
@@ -506,443 +435,49 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     m_cmds	= new Commands;
     boundTypes();
 
-    Event eToolbar(EventToolbarCreate, (void*)ToolBarMain);
-    eToolbar.process();
-    Event eToolbarContainer(EventToolbarCreate, (void*)ToolBarContainer);
-    eToolbarContainer.process();
-    Event eToolbarTextEdit(EventToolbarCreate, (void*)ToolBarTextEdit);
-    eToolbarTextEdit.process();
-    Event eToolbarMsgEdit(EventToolbarCreate, (void*)ToolBarMsgEdit);
-    eToolbarMsgEdit.process();
-    Event eToolbarHistory(EventToolbarCreate, (void*)BarHistory);
-    eToolbarHistory.process();
-    Event eMenu(EventMenuCreate, (void*)MenuMain);
-    eMenu.process();
-    Event eMenuPhones(EventMenuCreate, (void*)MenuPhones);
-    eMenuPhones.process();
-    Event eMenuLocation(EventMenuCreate, (void*)MenuLocation);
-    eMenuLocation.process();
-    Event eMenuPhoneState(EventMenuCreate, (void*)MenuPhoneState);
-    eMenuPhoneState.process();
-    Event eMenuFileDecline(EventMenuCreate, (void*)MenuFileDecline);
-    eMenuFileDecline.process();
-    Event eMenuMailList(EventMenuCreate, (void*)MenuMailList);
-    eMenuMailList.process();
-    Event eMenuPhoneList(EventMenuCreate, (void*)MenuPhoneList);
-    eMenuPhoneList.process();
-    Event eMenuStatusWnd(EventMenuCreate, (void*)MenuStatusWnd);
-    eMenuStatusWnd.process();
-    Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
-    eMenuEncoding.process();
-    Event eMenuSearch(EventMenuCreate, (void*)MenuSearchItem);
-    eMenuSearch.process();
-    Event eMenuSearchGroups(EventMenuCreate, (void*)MenuSearchGroups);
-    eMenuSearchGroups.process();
-    Event eMenuSearchOptions(EventMenuCreate, (void*)MenuSearchOptions);
-    eMenuSearchOptions.process();
+    EventMenu(MenuFileDecline, EventMenu::eAdd).process();
+    EventMenu(MenuMailList, EventMenu::eAdd).process();
+    EventMenu(MenuPhoneList, EventMenu::eAdd).process();
+    EventMenu(MenuStatusWnd, EventMenu::eAdd).process();
+    EventMenu(MenuEncoding, EventMenu::eAdd).process();
+    EventMenu(MenuSearchItem, EventMenu::eAdd).process();
+    EventMenu(MenuSearchGroups, EventMenu::eAdd).process();
+    EventMenu(MenuSearchOptions, EventMenu::eAdd).process();
 
+    createMainToolbar();
+    createHistoryToolbar();
+    createContainerToolbar();
+    createMsgEditToolbar();
+    createTextEditToolbar();
+    createMenuMsgView();
+
+    MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
+                              // because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, witch are
+                              // created by createContainerToolbar and createMsgEditToolbar
+                              // If menu or toolbar were not created, items can't be added, and will be just missing
     Command cmd;
-    cmd->id          = CmdConfigure;
-    cmd->text        = I18N_NOOP("Setup");
-    cmd->icon        = "configure";
-    cmd->bar_id      = ToolBarMain;
-    cmd->menu_id     = MenuMain;
-    cmd->menu_grp    = 0x8080;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
-
-    cmd->id			 = CmdUnread;
-    cmd->text		 = I18N_NOOP("Unread messages");
-    cmd->icon		 = "message";
-    cmd->bar_id		 = 0;
-    cmd->menu_grp	 = 0x3000;
-    cmd->flags		 = COMMAND_IMPORTANT | COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id          = CmdQuit;
-    cmd->text        = I18N_NOOP("Quit");
-    cmd->icon        = "exit";
-    cmd->bar_id      = ToolBarMain;
-    cmd->menu_id     = MenuMain;
-    cmd->menu_grp    = 0x10080;
-    cmd->flags		 = COMMAND_IMPORTANT;
-    eCmd.process();
-
-    cmd->id			 = CmdMenu;
-    cmd->text        = I18N_NOOP("&Menu");
-    cmd->icon        = "1downarrow";
-    cmd->bar_id      = ToolBarMain;
-    cmd->bar_grp     = 0x8000;
-    cmd->menu_id     = 0;
-    cmd->menu_grp    = 0;
-    cmd->popup_id    = MenuMain;
-    eCmd.process();
-
-    cmd->id          = CmdSearch;
-    cmd->text        = I18N_NOOP("Search / Add contact");
-    cmd->icon		 = "find";
-    cmd->bar_id		 = ToolBarMain;
-    cmd->bar_grp	 = 0;
-    cmd->menu_id	 = MenuMain;
-    cmd->menu_grp    = 0x2080;
-    cmd->popup_id	 = 0;
-    cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
-
-    cmd->id			 = CmdSendSMS;
-    cmd->text		 = I18N_NOOP("&Send SMS");
-    cmd->icon		 = "sms";
-    cmd->menu_grp	 = 0x2081;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			 = CmdPhones;
-    cmd->text		 = I18N_NOOP("&Phone service");
-    cmd->bar_id		 = 0;
-    cmd->bar_grp	 = 0;
-    cmd->icon		 = "phone";
-    cmd->menu_grp	 = 0x60F0;
-    cmd->popup_id	 = MenuPhones;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			 = CmdMessageType;
-    cmd->text		 = I18N_NOOP("Message");
-    cmd->icon		 = "message";
-    cmd->bar_id		 = ToolBarContainer;
-    cmd->bar_grp	 = 0x2000;
-    cmd->menu_id	 = 0;
-    cmd->menu_grp	 = 0;
-    cmd->popup_id	 = MenuMessage;
-    cmd->flags		 = BTN_PICT;
-    eCmd.process();
-
-    cmd->id			 = CmdContainerContact;
-    cmd->text		 = I18N_NOOP("Contact");
-    cmd->icon		 = "empty";
-    cmd->bar_grp	 = 0x6000;
-    cmd->popup_id	 = MenuContainerContact;
-    eCmd.process();
-
-    cmd->id			 = CmdContactGroup;
-    cmd->text		 = I18N_NOOP("Group");
-    cmd->icon		 = "grp_on";
-    cmd->bar_grp	 = 0x7000;
-    cmd->flags		 = COMMAND_DEFAULT;
-    cmd->popup_id	 = MenuContactGroup;
-    eCmd.process();
-
-    cmd->id			 = CmdInfo;
-    cmd->text		 = I18N_NOOP("User &info");
-    cmd->icon		 = "info";
-    cmd->popup_id	 = 0;
-    cmd->bar_grp	 = 0x8000;
-    eCmd.process();
-
-    cmd->id			 = CmdHistory;
-    cmd->text		 = I18N_NOOP("&History");
-    cmd->icon		 = "history";
-    cmd->popup_id	 = 0;
-    cmd->bar_grp	 = 0x8010;
-    eCmd.process();
-
-    cmd->id			 = CmdClose;
-    cmd->text		 = I18N_NOOP("&Close");
-    cmd->icon		 = "exit";
-    cmd->accel		 = "Esc";
-    cmd->bar_grp	 = 0xF000;
-    eCmd.process();
-
-    Event eMenuContainerContact(EventMenuCreate, (void*)MenuContainerContact);
-    eMenuContainerContact.process();
-
-    cmd->id			= CmdContainerContacts;
-    cmd->text		= "_";
-    cmd->icon		= QString::null;
-    cmd->menu_id	= MenuContainerContact;
-    cmd->menu_grp	= 0x1000;
-    cmd->accel		= QString::null;
-    cmd->bar_id		= 0;
-    cmd->bar_grp	= 0;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    Event eMenuMessage(EventMenuCreate, (void*)MenuMessage);
-    eMenuMessage.process();
-
-    MsgEdit::setupMessages();
-
-    cmd->id			= CmdContactClients;
-    cmd->text		= "_";
-    cmd->icon		= "NULL";
-    cmd->menu_id	= MenuMessage;
-    cmd->menu_grp	= 0x30FF;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdSend;
-    cmd->text		= I18N_NOOP("&Send");
-    cmd->icon		= "mail_generic";
-    cmd->menu_id	= 0;
-    cmd->menu_grp	= 0;
-    cmd->bar_id		= ToolBarMsgEdit;
-    cmd->bar_grp	= 0x8000;
-    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    QStringList smiles;
-    getIcons()->getSmiles(smiles);
-    unsigned flags = 0;
-    QString smile_icon;
-    if (smiles.empty()){
-        flags = BTN_HIDE;
-    }else{
-        smile_icon = smiles.front();
-    }
-
-    cmd->id         = CmdSmile;
-    cmd->text		= I18N_NOOP("&Insert smile");
-    cmd->icon		= smile_icon;
-    cmd->bar_grp	= 0x7000;
-    cmd->flags		= COMMAND_CHECK_STATE | flags;
-    eCmd.process();
-
-    cmd->id			= CmdTranslit;
-    cmd->text		= I18N_NOOP("Send in &translit");
-    cmd->icon		= "translit";
-    cmd->icon_on	= "translit";
-    cmd->bar_grp	= 0x7010;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdSendClose;
-    cmd->text		= I18N_NOOP("C&lose after send");
-    cmd->icon		= "fileclose";
-    cmd->icon_on	= "fileclose";
-    cmd->bar_grp	= 0x7020;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdMultiply;
-    cmd->text		= I18N_NOOP("&Multiply send");
-    cmd->icon		= "1rightarrow";
-    cmd->icon_on	= "1leftarrow";
-    cmd->bar_grp	= 0xF010;
-    cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
-
-    cmd->id			= CmdBgColor;
-    cmd->text		= I18N_NOOP("Back&ground color");
-    cmd->icon		= "bgcolor";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdFgColor;
-    cmd->text		= I18N_NOOP("&Foreground color");
-    cmd->icon		= "fgcolor";
-    cmd->bar_grp	= 0x1001;
-    eCmd.process();
-
-    cmd->id			= CmdBold;
-    cmd->text		= I18N_NOOP("&Bold");
-    cmd->icon		= "text_bold";
-    cmd->icon_on	= "text_bold";
-    cmd->bar_grp	= 0x1002;
-    eCmd.process();
-
-    cmd->id			= CmdItalic;
-    cmd->text		= I18N_NOOP("&Italic");
-    cmd->icon		= "text_italic";
-    cmd->icon_on	= "text_italic";
-    cmd->bar_grp	= 0x1003;
-    eCmd.process();
-
-    cmd->id			= CmdUnderline;
-    cmd->text		= I18N_NOOP("&Underline");
-    cmd->icon		= "text_under";
-    cmd->icon_on	= "text_under";
-    cmd->bar_grp	= 0x1004;
-    eCmd.process();
-
-    cmd->id			= CmdFont;
-    cmd->text		= I18N_NOOP("Select &font");
-    cmd->icon		= "text";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1005;
-    eCmd.process();
-
-    cmd->id			= CmdFileName;
-    cmd->text		= I18N_NOOP("Select &file");
-    cmd->icon		= "file";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1010;
-    cmd->flags		= BTN_EDIT | COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdPhoneNumber;
-    cmd->text		= I18N_NOOP("&Phone number");
-    cmd->icon		= "cell";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1020;
-    cmd->flags		= BTN_COMBO | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdNextMessage;
-    cmd->text		= I18N_NOOP("&Next");
-    cmd->icon		= "message";
-    cmd->bar_grp	= 0x8000;
-    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdHistoryDirection;
-    cmd->text		= I18N_NOOP("&Direction");
-    cmd->icon		= "1uparrow";
-    cmd->icon_on	= "1downarrow";
-    cmd->bar_id		= BarHistory;
-    cmd->bar_grp	= 0x2000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdHistoryFind;
-    cmd->text		= I18N_NOOP("&Filter");
-    cmd->icon		= "filter";
-    cmd->icon_on	= "filter";
-    cmd->bar_grp	= 0x3000;
-    cmd->flags		= BTN_COMBO_CHECK;
-    eCmd.process();
-
-    cmd->id			= CmdHistoryPrev;
-    cmd->text		= I18N_NOOP("&Previous page");
-    cmd->icon		= "1leftarrow";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x5000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdHistoryNext;
-    cmd->text		= I18N_NOOP("&Next page");
-    cmd->icon		= "1rightarrow";
-    cmd->bar_grp	= 0x5001;
-    eCmd.process();
-
-    cmd->id			= CmdHistorySave;
-    cmd->text		= I18N_NOOP("&Save as text");
-    cmd->icon		= "filesave";
-    cmd->accel		= "Ctrl+S";
-    cmd->bar_grp	= 0x6000;
-    eCmd.process();
-
-    cmd->id			= CmdBgColor;
-    cmd->text		= I18N_NOOP("Back&ground color");
-    cmd->icon		= "bgcolor";
-    cmd->icon_on	= QString::null;
-    cmd->bar_id		= ToolBarTextEdit;
-    cmd->bar_grp	= 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdFgColor;
-    cmd->text		= I18N_NOOP("&Foreground color");
-    cmd->icon		= "fgcolor";
-    cmd->bar_grp	= 0x1010;
-    eCmd.process();
-
-    cmd->id			= CmdBold;
-    cmd->text		= I18N_NOOP("&Bold");
-    cmd->icon		= "text_bold";
-    cmd->icon_on	= "text_bold";
-    cmd->bar_grp	= 0x2000;
-    eCmd.process();
-
-    cmd->id			= CmdItalic;
-    cmd->text		= I18N_NOOP("&Italic");
-    cmd->icon		= "text_italic";
-    cmd->icon_on	= "text_italic";
-    cmd->bar_grp	= 0x2010;
-    eCmd.process();
-
-    cmd->id			= CmdUnderline;
-    cmd->text		= I18N_NOOP("&Underline");
-    cmd->icon		= "text_under";
-    cmd->icon_on	= "text_under";
-    cmd->bar_grp	= 0x2020;
-    eCmd.process();
-
-    cmd->id			= CmdFont;
-    cmd->text		= I18N_NOOP("Select &font");
-    cmd->icon		= "text";
-    cmd->icon_on	= "text";
-    cmd->bar_grp	= 0x3000;
-    eCmd.process();
-
-    Event eMenuGroup(EventMenuCreate, (void*)MenuGroup);
-    eMenuGroup.process();
-
-    Event eMenuContact(EventMenuCreate, (void*)MenuContact);
-    eMenuContact.process();
-
-    Event eMenuContactGroup(EventMenuCreate, (void*)MenuContactGroup);
-    eMenuContactGroup.process();
-
-    Event eMenuMsgView(EventMenuCreate, (void*)MenuMsgView);
-    eMenuMsgView.process();
-
-    Event eMenuMsgCommand(EventMenuCreate, (void*)MenuMsgCommand);
-    eMenuMsgCommand.process();
-
-    cmd->id			= CmdMsgOpen;
-    cmd->text		= I18N_NOOP("&Open message");
-    cmd->icon		= "message";
-    cmd->icon_on	= QString::null;
-    cmd->menu_id	= MenuMsgView;
-    cmd->menu_grp	= 0x1000;
-    cmd->bar_id		= 0;
-    cmd->bar_grp	= 0;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdMsgSpecial;
-    cmd->text		= "_";
-    cmd->icon		= QString::null;
-    cmd->menu_grp	= 0x1001;
-    eCmd.process();
-
-    cmd->id			= CmdCopy;
-    cmd->text		= I18N_NOOP("&Copy");
-    cmd->icon		= "editcopy";
-    cmd->menu_grp	= 0x2000;
-    eCmd.process();
-
-    cmd->id			= CmdDeleteMessage;
-    cmd->text		= I18N_NOOP("&Delete message");
-    cmd->icon		= "remove";
-    cmd->menu_grp	= 0x3000;
-    eCmd.process();
-
-    cmd->id			= CmdCutHistory;
-    cmd->text		= I18N_NOOP("&Cut history");
-    cmd->menu_grp	= 0x3001;
-    eCmd.process();
+    EventMenu(MenuGroup, EventMenu::eAdd).process();
+    EventMenu(MenuContact, EventMenu::eAdd).process();
+    EventMenu(MenuContactGroup, EventMenu::eAdd).process();
+    EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
 
     cmd->id			= CmdMsgQuote;
     cmd->text		= I18N_NOOP("&Quote");
-    cmd->icon		= "empty";
+    cmd->icon		= QString::null;
     cmd->menu_id	= MenuMsgCommand;
     cmd->menu_grp	= 0x1002;
 
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgQuote + CmdReceived;
-    cmd->bar_id		= ToolBarMsgEdit;
+    cmd->bar_id		= ToolBarMsgEdit; //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
     cmd->bar_grp	= 0x1041;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgForward;
     cmd->text		= I18N_NOOP("&Forward");
@@ -951,28 +486,22 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgForward + CmdReceived;
-    cmd->bar_id		= ToolBarMsgEdit;
+    cmd->bar_id		= ToolBarMsgEdit;  //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
     cmd->bar_grp	= 0x1042;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgAnswer;
     cmd->text		= I18N_NOOP("&Answer");
     cmd->icon		= "mail_generic";
     cmd->bar_grp	= 0x8000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
-    Event eMenuTextEdit(EventMenuCreate, (void*)MenuTextEdit);
-    eMenuTextEdit.process();
-
-    Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
-    eMenuGroups.process();
-
-    Event eMenuContainer(EventMenuCreate, (void*)MenuContainer);
-    eMenuContainer.process();
+    EventMenu(MenuTextEdit, EventMenu::eAdd).process();
+    EventMenu(MenuContainer, EventMenu::eAdd).process();
 
     cmd->id			= CmdUndo;
     cmd->text		= I18N_NOOP("&Undo");
@@ -983,48 +512,48 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdRedo;
     cmd->text		= I18N_NOOP("&Redo");
     cmd->accel		= "Ctrl+Y";
     cmd->icon		= "redo";
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdCut;
     cmd->text		= I18N_NOOP("Cu&t");
     cmd->icon		= "editcut";
     cmd->accel		= "Ctrl+X";
     cmd->menu_grp	= 0x2000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdCopy;
     cmd->text		= I18N_NOOP("&Copy");
     cmd->icon		= "editcopy";
     cmd->accel		= "Ctrl+C";
     cmd->menu_grp	= 0x2001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPaste;
     cmd->text		= I18N_NOOP("&Paste");
     cmd->icon		= "editpaste";
     cmd->accel		= "Ctrl+V";
     cmd->menu_grp	= 0x2002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdClear;
     cmd->text		= I18N_NOOP("Clear");
     cmd->icon		= QString::null;
     cmd->accel		= QString::null;
     cmd->menu_grp	= 0x3000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSelectAll;
     cmd->text		= I18N_NOOP("Select All");
     cmd->accel		= "Ctrl+A";
     cmd->menu_grp	= 0x3001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
 #ifdef USE_KDE
 #if KDE_IS_VERSION(3,2,0)
@@ -1032,124 +561,73 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->text		= I18N_NOOP("Enable spell check");
     cmd->accel		= QString::null;
     cmd->menu_grp	= 0x4000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id		= CmdSpell;
     cmd->text		= I18N_NOOP("Spell check");
     cmd->menu_grp	= 0x4001;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 #endif
 #endif
 
-    cmd->id			= user_data_id + 1;
+    cmd->id			= user_data_id;
     cmd->text		= I18N_NOOP("&Messages");
     cmd->accel		= QString::null;
     cmd->icon		= "message";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getInterfaceSetup;
-    Event ePrefMsg(EventAddPreferences, cmd);
-    ePrefMsg.process();
+    EventAddPreferences(cmd).process();
 
-    cmd->id			= sms_data_id + 1;
-    cmd->text		= I18N_NOOP("&SMS");
+    cmd->id			= sms_data_id;
+    cmd->text		= I18N_NOOP("SMS");
     cmd->icon		= "cell";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getSMSSetup;
-    Event ePrefSMS(EventAddPreferences, cmd);
-    ePrefSMS.process();
+    EventAddPreferences(cmd).process();
 
-    cmd->id			= history_data_id + 1;
-    cmd->text		= I18N_NOOP("&History");
+    cmd->id			= history_data_id;
+    cmd->text		= I18N_NOOP("&History setup");
     cmd->icon		= "history";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getHistorySetup;
-    Event ePrefHistory(EventAddPreferences, cmd);
-    ePrefHistory.process();
-
-    cmd->id          = CmdOnline;
-    cmd->text        = I18N_NOOP("Show &offline");
-    cmd->icon        = "online_off";
-    cmd->icon_on     = "online_on";
-    cmd->bar_id      = ToolBarMain;
-    cmd->bar_grp     = 0x4000;
-    cmd->menu_id	 = MenuMain;
-    cmd->menu_grp    = 0;
-    if (getShowOnLine())
-        cmd->flags |= COMMAND_CHECKED;
-    eCmd.process();
-
-    cmd->id			= CmdGrpOff;
-    cmd->text		= I18N_NOOP("Do&n't show groups");
-    cmd->icon		= "grp_off";
-    cmd->icon_on	= QString::null;
-    cmd->bar_id		= 0;
-    cmd->menu_id	= MenuGroups;
-    cmd->menu_grp	= 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdGrpMode1;
-    cmd->text		= I18N_NOOP("Group mode 1");
-    cmd->icon		= "grp_on";
-    eCmd.process();
-
-    cmd->id			= CmdGrpMode2;
-    cmd->text		= I18N_NOOP("Group mode 2");
-    eCmd.process();
-
-    cmd->id			= CmdOnline;
-    cmd->text		= I18N_NOOP("Show &offline");
-    cmd->icon		= "online_off";
-    cmd->icon_on	= "online_on";
-    cmd->menu_grp	= 0x8000;
-    eCmd.process();
-
-    cmd->id			= CmdEmptyGroup;
-    cmd->text		= I18N_NOOP("Show &empty groups");
-    cmd->icon		= QString::null;
-    cmd->icon_on	= QString::null;
-    cmd->menu_grp	= 0x8001;
-    eCmd.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id			= CmdGrpCreate;
     cmd->text		= I18N_NOOP("&Create group");
     cmd->icon		= "grp_create";
     cmd->icon_on	= QString::null;
-    cmd->menu_grp	= 0xA000;
-    eCmd.process();
-
     cmd->menu_id	= MenuGroup;
     cmd->menu_grp	= 0x4000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpRename;
     cmd->text		= I18N_NOOP("&Rename group");
     cmd->icon		= "grp_rename";
     cmd->accel		= "F2";
     cmd->menu_grp	= 0x4001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpDelete;
     cmd->text		= I18N_NOOP("&Delete group");
     cmd->icon		= "remove";
     cmd->accel		= "Del";
     cmd->menu_grp	= 0x4002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpUp;
     cmd->text		= I18N_NOOP("Up");
     cmd->icon		= "1uparrow";
     cmd->accel		= "Ctrl+Up";
     cmd->menu_grp	= 0x6000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpDown;
     cmd->text		= I18N_NOOP("Down");
     cmd->icon		= "1downarrow";
     cmd->accel		= "Ctrl+Down";
     cmd->menu_grp	= 0x6001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpTitle;
     cmd->text		= "_";
@@ -1157,14 +635,14 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->accel		= QString::null;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdConfigure;
     cmd->text		= I18N_NOOP("Setup");
     cmd->icon		= "configure";
     cmd->menu_grp	= 0xB000;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactTitle;
     cmd->text		= "_";
@@ -1174,24 +652,24 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	= 0x1000;
     cmd->popup_id	= 0;
     cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdUnread;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSendMessage;
     cmd->menu_grp	= 0x2000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdClose;
     cmd->text		= "&Close";
     cmd->icon		= "exit";
     cmd->menu_id	= MenuContact;
     cmd->menu_grp	= 0xF000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactGroup;
     cmd->text		= I18N_NOOP("Group");
@@ -1199,7 +677,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	= 0x8000;
     cmd->popup_id	= MenuContactGroup;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactRename;
     cmd->text		= I18N_NOOP("&Rename");
@@ -1208,7 +686,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->popup_id	= 0;
     cmd->accel		= "F2";
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactDelete;
     cmd->text		= I18N_NOOP("&Delete");
@@ -1216,7 +694,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	= 0x8002;
     cmd->accel		= "Del";
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdShowAlways;
     cmd->text		= I18N_NOOP("Show &always");
@@ -1224,14 +702,14 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	= 0x8003;
     cmd->accel		= QString::null;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id         = CmdFetchAway;
     cmd->text       = I18N_NOOP("&Fetch away message");
     cmd->icon       = "message";
     cmd->menu_grp   = 0x8020;
     cmd->flags      = COMMAND_CHECK_STATE | BTN_HIDE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdInfo;
     cmd->text		= I18N_NOOP("User &info");
@@ -1239,21 +717,21 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	= 0x7010;
     cmd->accel		= QString::null;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistory;
     cmd->text		= I18N_NOOP("&History");
     cmd->icon		= "history";
     cmd->menu_grp	= 0x7020;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdConfigure;
     cmd->text		= I18N_NOOP("Setup");
     cmd->icon		= "configure";
     cmd->menu_grp	= 0x7020;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContainer;
     cmd->text		= I18N_NOOP("To container");
@@ -1262,7 +740,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	= 0x8010;
     cmd->accel		= QString::null;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContainer;
     cmd->text		= "_";
@@ -1270,7 +748,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_id	= MenuContainer;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactGroup;
     cmd->text		= "_";
@@ -1278,60 +756,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->accel		= QString::null;
     cmd->menu_id	= MenuContactGroup;
     cmd->menu_grp	= 0x2000;
-    eCmd.process();
-
-    cmd->id			= CmdLocation;
-    cmd->text		= I18N_NOOP("&Location");
-    cmd->menu_id	= MenuPhones;
-    cmd->menu_grp	= 0x1000;
-    cmd->popup_id   = MenuLocation;
-    cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
-
-    cmd->id			= CmdPhoneState;
-    cmd->text		= I18N_NOOP("&Status");
-    cmd->menu_id	= MenuPhones;
-    cmd->menu_grp   = 0x1010;
-    cmd->popup_id   = MenuPhoneState;
-    eCmd.process();
-
-    cmd->id			= CmdPhoneBook;
-    cmd->text		= I18N_NOOP("&Phone book");
-    cmd->menu_id	= MenuPhones;
-    cmd->menu_grp   = 0x1020;
-    cmd->popup_id   = 0;
-    eCmd.process();
-
-    cmd->id			= CmdPhoneNoShow;
-    cmd->text		= I18N_NOOP("&No show");
-    cmd->menu_id	= MenuPhoneState;
-    cmd->menu_grp   = 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdPhoneAvailable;
-    cmd->text		= I18N_NOOP("&Available");
-    cmd->icon		= "phone";
-    cmd->menu_id	= MenuPhoneState;
-    cmd->menu_grp   = 0x1001;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdPhoneBusy;
-    cmd->text		= I18N_NOOP("&Busy");
-    cmd->icon		= "nophone";
-    cmd->menu_id	= MenuPhoneState;
-    cmd->menu_grp   = 0x1002;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
-
-    cmd->id			= CmdLocation;
-    cmd->text		= "_";
-    cmd->icon		= QString::null;
-    cmd->menu_id	= MenuLocation;
-    cmd->menu_grp   = 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineWithoutReason;
     cmd->text		= I18N_NOOP("Decline file without reason");
@@ -1339,22 +764,22 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_id	= MenuFileDecline;
     cmd->menu_grp   = 0x1000;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineReasonBusy;
     cmd->text		= I18N_NOOP("Sorry, I'm busy right now, and can not respond to your request");
     cmd->menu_grp   = 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineReasonLater;
     cmd->text		= I18N_NOOP("Sorry, I'm busy right now, but I'll be able to respond to you later");
     cmd->menu_grp   = 0x1002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineReasonInput;
     cmd->text		= I18N_NOOP("Enter a decline reason");
     cmd->menu_grp   = 0x1004;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdEditList;
     cmd->text		= I18N_NOOP("&Edit");
@@ -1362,64 +787,44 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_id	= MenuMailList;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdRemoveList;
     cmd->text		= I18N_NOOP("&Delete");
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdEditList;
     cmd->text		= I18N_NOOP("&Edit");
     cmd->icon		= "phone";
     cmd->menu_id	= MenuPhoneList;
     cmd->menu_grp	= 0x1000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdRemoveList;
     cmd->text		= I18N_NOOP("&Delete");
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdStatusWnd;
     cmd->text		= "_";
     cmd->icon		= QString::null;
     cmd->menu_id	= MenuStatusWnd;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdChangeEncoding;
     cmd->text		 = "_";
     cmd->menu_id	 = MenuEncoding;
     cmd->menu_grp	 = 0x1000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdAllEncodings;
     cmd->text		 = I18N_NOOP("&Show all encodings");
     cmd->menu_id	 = MenuEncoding;
     cmd->menu_grp	 = 0x8000;
-    eCmd.process();
-
-    cmd->id			 = CmdChangeEncoding;
-    cmd->text		 = I18N_NOOP("Change &encoding");
-    cmd->icon		 = "encoding";
-    cmd->menu_id	 = 0;
-    cmd->menu_grp	 = 0;
-    cmd->bar_id		 = ToolBarContainer;
-    cmd->bar_grp	 = 0x8080;
-    cmd->popup_id	 = MenuEncoding;
-    eCmd.process();
-
-    cmd->id			 = CmdChangeEncoding;
-    cmd->text		 = I18N_NOOP("Change &encoding");
-    cmd->icon		 = "encoding";
-    cmd->menu_id	 = 0;
-    cmd->menu_grp	 = 0;
-    cmd->bar_id		 = BarHistory;
-    cmd->bar_grp	 = 0x8080;
-    cmd->popup_id	 = MenuEncoding;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContactGroup;
     cmd->text		 = I18N_NOOP("Add to &group");
@@ -1430,7 +835,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->bar_grp	 = 0;
     cmd->popup_id	 = MenuSearchGroups;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSearchOptions;
     cmd->text		 = "_";
@@ -1439,7 +844,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	 = 0x3000;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSearchInfo;
     cmd->text		 = I18N_NOOP("&Info");
@@ -1448,26 +853,27 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     cmd->menu_grp	 = 0x3000;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSearchMsg;
     cmd->text		 = I18N_NOOP("Send &message");
     cmd->icon		 = "message";
     cmd->menu_id	 = MenuSearchOptions;
     cmd->menu_grp	 = 0x3001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContactGroup;
     cmd->text		 = "_";
     cmd->flags		 = COMMAND_CHECK_STATE;
     cmd->menu_id	 = MenuSearchGroups;
     cmd->menu_grp	 = 0x1000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 }
 
 void CorePlugin::initData()
 {
     delete historyXSL;
+
     historyXSL = new XSL(getHistoryStyle());
     if ((getEditBackground() == 0) && (getEditForeground() == 0)){
         QPalette pal = QApplication::palette();
@@ -1512,30 +918,33 @@ CorePlugin::~CorePlugin()
 
 QString CorePlugin::poFile(const char *lang)
 {
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
+    // lang is ascii, so this works fine
     QString s = "po\\" + QString(lang).lower() + ".qm";
     QFile f(app_file(s));
     if (!f.exists())
-        return "";
+        return QString::null;
 #else
-    string s = PREFIX "/share/locale/";
-    string l;
-    if (lang)
-        l = lang;
-    char *p = (char*)(l.c_str());
-    char *r = strchr(p, '.');
-    if (r) *r = 0;
-    s += l.c_str();
+    QString s = PREFIX "/share/locale/";
+    QString l = lang;
+    int idx = l.find('.');
+    if(idx != -1)
+        l = l.left(idx);
+    s += l;
     s += "/LC_MESSAGES/sim.mo";
-    QFile f(QFile::decodeName(s.c_str()));
+    QFile f(s);
     if (!f.exists()){
-        r = strchr(p, '_');
-        if (r) *r = 0;
-        s = PREFIX "/share/locale/";
-        s += l.c_str();
+        QString l = lang;
+        int idx = l.find('_');
+        if(idx != -1)
+            l = l.left(idx);
+
+        s  = PREFIX "/share/locale/";
+        s += l;
         s += "/LC_MESSAGES/sim.mo";
-        f.setName(QFile::decodeName(s.c_str()));
-        if (!f.exists()) return "";
+        f.setName(s);
+        if (!f.exists())
+            return QString::null;
     }
 #endif
     return f.name();
@@ -1569,7 +978,7 @@ void CorePlugin::installTranslator()
 #endif
 #endif
     }
-    QString po = poFile(lang.ascii());
+    QString po = poFile(lang);
     if (po.isEmpty())
         return;
 #if !defined(WIN32) && !defined(USE_KDE)
@@ -1582,7 +991,7 @@ void CorePlugin::installTranslator()
 #if !defined(WIN32) && !defined(USE_KDE)
     resetPlural();
 #endif
-    Event e(EventLanguageChanged, m_translator);
+    EventLanguageChanged e(m_translator);
     e.process();
 }
 
@@ -1595,24 +1004,24 @@ void CorePlugin::removeTranslator()
 #if !defined(WIN32) && !defined(USE_KDE)
         resetPlural();
 #endif
-        Event e(EventLanguageChanged, NULL);
+        EventLanguageChanged e(NULL);
         e.process();
     }
 }
 
-typedef struct msgIndex
+struct msgIndex
 {
     unsigned	contact;
     unsigned	type;
-} msgIndex;
+};
 
-typedef struct msgCount
+struct msgCount
 {
     unsigned	count;
     unsigned	index;
-} msgCount;
+};
 
-bool operator < (const struct msgIndex &a, const struct msgIndex &b)
+bool operator < (const msgIndex &a, const msgIndex &b)
 {
     if (a.contact < b.contact)
         return true;
@@ -1653,13 +1062,13 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
             if (client == it.client())
                 continue;
             Contact *clContact;
-            clientData *data1 = data;
-            if (client->isMyData(data1, clContact)){
-                if ((clContact == contact) || (clContact == NULL)){
+            clientData *data2 = data;
+            if (client->isMyData(data2, clContact)){
+                if ((clContact == contact)){
                     clientContact c;
                     c.client = client;
-                    c.data   = data1;
-                    c.bNew   = (clContact == NULL);
+                    c.data   = data2;
+                    c.bNew   = false;
                     ways.push_back(c);
                 }
             }
@@ -1693,10 +1102,10 @@ I18N_NOOP("male", "%1 wrote:" )
 I18N_NOOP("female", "%1 wrote:" )
 #endif
 
-void *CorePlugin::processEvent(Event *e)
+bool CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventIconChanged:{
+    case eEventIconChanged:{
             QStringList smiles;
             getIcons()->getSmiles(smiles);
             unsigned flags = 0;
@@ -1708,23 +1117,23 @@ void *CorePlugin::processEvent(Event *e)
             }
             Command cmd;
             cmd->id			= CmdSmile;
-            cmd->text		= I18N_NOOP("&Insert smile");
+            cmd->text		= I18N_NOOP("I&nsert smile");
             cmd->icon		= smile_icon;
             cmd->bar_id		= ToolBarMsgEdit;
             cmd->bar_grp	= 0x7000;
             cmd->flags		= COMMAND_CHECK_STATE | flags;
-            Event eCmd(EventCommandChange, cmd);
-            eCmd.process();
-            return NULL;
+            EventCommandChange(cmd).process();
+            return false;
         }
-    case EventJoinAlert:
+    case eEventJoinAlert:
         if (!getNoJoinAlert() && (m_alert == NULL)){
             Command cmd;
             cmd->id = CmdStatusBar;
-            Event eWidget(EventCommandWidget, cmd);
-            QWidget *widget = (QWidget*)(eWidget.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            QWidget *widget = eWidget.widget();
             if (widget == NULL)
-                return e->param();
+                return true;
             raiseWindow(widget->topLevelWidget());
             QStringList l;
             l.append(i18n("OK"));
@@ -1736,37 +1145,47 @@ void *CorePlugin::processEvent(Event *e)
                                      l, widget, NULL, false, true, 150, i18n("Don't show this message in next time"));
             connect(m_alert, SIGNAL(finished()), this, SLOT(alertFinished()));
         }
-        return e->param();
-    case EventGroupChanged:
+        return true;
+    case eEventGroup: {
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        if (ev->action() != EventGroup::eChanged) 
+            return false;
         if (m_bIgnoreEvents)
-            return e->param();
+            return true;
         break;
-    case EventDeleteMessage:{
-            Message *msg = (Message*)(e->param());
-            History::del(msg);
-            return e->param();
+    }
+    case eEventDeleteMessage:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            History::del(em->msg());
+            return true;
         }
-    case EventRewriteMessage:{
-            Message *msg = (Message*)(e->param());
-            History::rewrite(msg);
-            return NULL;
+    case eEventRewriteMessage:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            History::rewrite(em->msg());
+            return false;
         }
-    case EventTmplHelp:{
-            QString *str = (QString*)(e->param());
+    case eEventTmplHelp:{
+            EventTmplHelp *eth = static_cast<EventTmplHelp*>(e);
+            QString str = eth->help();
             for (const char **p = helpList; *p;){
-                *str += *(p++);
-                *str += " - ";
-                *str += i18n(*(p++));
-                *str += "\n";
+                str += *(p++);
+                str += " - ";
+                str += i18n(*(p++));
+                str += '\n';
             }
-            *str += "\n";
-            *str += i18n("`<command>` - call <command> and substitute command output\n");
-            return e->param();
+            str += '\n';
+            str += i18n("`<command>` - call <command> and substitute command output\n");
+            eth->setHelp(str);
+            return true;
         }
-    case EventTmplHelpList:
-        return helpList;
-    case EventARRequest:{
-            ARRequest *r = (ARRequest*)(e->param());
+    case eEventTmplHelpList: {
+        EventTmplHelpList *ethl = static_cast<EventTmplHelpList*>(e);
+        ethl->setHelpList(helpList);
+        return true;
+    }
+    case eEventARRequest:{
+            EventARRequest *ear = static_cast<EventARRequest*>(e);
+            ARRequest *r = ear->request();
             ARUserData *ar;
             QString tmpl;
             if (r->contact){
@@ -1788,16 +1207,15 @@ void *CorePlugin::processEvent(Event *e)
                 if (tmpl.isEmpty())
                     tmpl = get_str(ar->AutoReply, STATUS_AWAY);
             }
-            TemplateExpand t;
+            EventTemplate::TemplateExpand t;
             t.contact	= r->contact;
             t.param		= r->param;
             t.receiver	= r->receiver;
             t.tmpl		= tmpl;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
-            return e->param();
+            EventTemplateExpand(&t).process();
+            return true;
         }
-    case EventSaveState:{
+    case eEventSaveState:{
             ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
             for (autoReply *a = autoReplies; a->text; a++){
                 QString t = get_str(ar->AutoReply, a->status);
@@ -1806,10 +1224,11 @@ void *CorePlugin::processEvent(Event *e)
             }
             e->process(this);
             setAutoReplies();
-            return this;
+            return true;
         }
-    case EventPluginChanged:{
-            pluginInfo *info = (pluginInfo*)(e->param());
+    case eEventPluginChanged:{
+            EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
+            pluginInfo *info = p->info();
             if (info->plugin == this){
                 QString profile = getProfile();
                 free_data(coreData, &data);
@@ -1823,63 +1242,68 @@ void *CorePlugin::processEvent(Event *e)
                 removeTranslator();
                 installTranslator();
                 initData();
+                EventUpdateCommandState(CmdOnline).process();
             }
             break;
         }
-    case EventInit:
-        if (!m_bInit && !init(true))
-            return (void*)ABORT_LOADING;
+    case eEventInit: {
+        EventInit *i = static_cast<EventInit*>(e);
+        if (!m_bInit && !init(true)) {
+            i->setAbortLoading();
+            return true;
+        }
         QTimer::singleShot(0, this, SLOT(checkHistory()));
-        return NULL;
-    case EventQuit:
+        return false;
+    }
+    case eEventQuit:
         destroy();
         m_cmds->clear();
-        return NULL;
-    case EventHomeDir:{
-            QString *cfg = (QString*)(e->param());
-            QString fname = *cfg;
+        return false;
+    case eEventHomeDir:{
+            EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
+            QString fname = homedir->homeDir();
             QString profile;
-#ifdef WIN32
-            if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
-#else
-            if (fname[0] != '/')
-#endif
+            if(QDir(fname).isRelative())
                 profile = getProfile();
             if (profile.length())
-                profile += "/";
+                profile += '/';
             profile += fname;
-            if (profile.isEmpty()){
-                *cfg = "";
-            }else{
-                *cfg = profile;
-            }
-            Event eProfile(EventHomeDir, cfg);
+            homedir->setHomeDir(profile);
+            // dunno know if this is correct... :(
+            EventHomeDir eProfile(homedir->homeDir());
             if (!eProfile.process(this))
-                *cfg = app_file(*cfg);
-            makedir(QFile::encodeName(*cfg).data());
-            return cfg;
+                homedir->setHomeDir(app_file(homedir->homeDir()));
+            else
+                homedir->setHomeDir(eProfile.homeDir());
+            makedir(homedir->homeDir());
+            return true;
         }
-    case EventAddPreferences:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventGetProfile:{
+	    EventGetProfile *e_get_profile = static_cast<EventGetProfile*>(e);
+	    e_get_profile->setProfileValue(getProfile());	
+	    return true;    
+	}
+    case eEventAddPreferences:{
+            EventAddPreferences *ap = static_cast<EventAddPreferences*>(e);
+            CommandDef *cmd = ap->def();
             cmd->menu_id = MenuGroup;
-            Event eCmd(EventCommandCreate, cmd);
-            eCmd.process();
+            EventCommandCreate(cmd).process();
             cmd->menu_id = MenuContact;
-            eCmd.process();
+            EventCommandCreate(cmd).process();
             preferences.add(cmd);
-            return e->param();
+            return true;
         }
-    case EventRemovePreferences:{
-            unsigned long id = (unsigned long)(e->param());
-            Event eCmd(EventCommandRemove, (void*)id);
-            eCmd.process();
+    case eEventRemovePreferences:{
+            EventRemovePreferences *rm = static_cast<EventRemovePreferences*>(e);
+            unsigned long id = rm->id();
+            EventCommandRemove(id).process();
             preferences.erase(id);
-            return e->param();
+            return true;
         }
-    case EventClientsChanged:
+    case eEventClientsChanged:
         if (m_bInit)
             loadMenu();
-    case EventClientChanged:		// FALLTHROW
+    case eEventClientChanged:		// FALLTHROUGH
         if (getContacts()->nClients()){
             unsigned i;
             for (i = 0; i < getContacts()->nClients(); i++)
@@ -1889,18 +1313,17 @@ void *CorePlugin::processEvent(Event *e)
                 Client *client = getContacts()->getClient(0);
                 setManualStatus(client->getManualStatus());
                 client->setCommonStatus(true);
-                Event e(EventClientChanged, client);
-                e.process();
+                EventClientChanged(client).process();
             }
         }
-        return NULL;
-    case EventCreateMessageType:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+        return false;
+    case eEventCreateMessageType:{
+            EventCreateMessageType *ecmt = static_cast<EventCreateMessageType*>(e);
+            CommandDef *cmd = ecmt->def();
             if (cmd->menu_grp){
                 cmd->menu_id = MenuMessage;
                 cmd->flags   = COMMAND_CHECK_STATE;
-                Event eCmd(EventCommandCreate, cmd);
-                eCmd.process();
+                EventCommandCreate(cmd).process();
             }
             if (cmd->param){
                 MessageDef *mdef = (MessageDef*)(cmd->param);
@@ -1915,8 +1338,7 @@ void *CorePlugin::processEvent(Event *e)
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
                         cmd.flags	|= COMMAND_CHECK_STATE;
-                        Event eCmd(EventCommandCreate, &cmd);
-                        eCmd.process();
+                        EventCommandCreate(&cmd).process();
                     }
                 }
                 if (mdef->cmdSent){
@@ -1930,8 +1352,7 @@ void *CorePlugin::processEvent(Event *e)
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
                         cmd.flags	|= COMMAND_CHECK_STATE;
-                        Event eCmd(EventCommandCreate, &cmd);
-                        eCmd.process();
+                        EventCommandCreate(&cmd).process();
                     }
                 }
             }
@@ -1943,24 +1364,23 @@ void *CorePlugin::processEvent(Event *e)
             }else{
                 (*itt).second = cmd->id;
             }
-            return e->param();
+            return true;
         }
-    case EventRemoveMessageType:{
-            unsigned long id = (unsigned long)(e->param());
+    case eEventRemoveMessageType:{
+            EventRemoveMessageType *ermt = static_cast<EventRemoveMessageType*>(e);
+            unsigned long id = ermt->id();
             CommandDef *def;
             def = CorePlugin::m_plugin->messageTypes.find(id);
             if (def){
                 MessageDef *mdef = (MessageDef*)(def->param);
                 if (mdef->cmdReceived){
                     for (const CommandDef *c = mdef->cmdReceived; !c->text.isEmpty(); c++){
-                        Event eCmd(EventCommandRemove, (void*)(c->id + CmdReceived));
-                        eCmd.process();
+                        EventCommandRemove(c->id + CmdReceived).process();
                     }
                 }
                 if (mdef->cmdSent){
                     for (const CommandDef *c = mdef->cmdSent; !c->text.isEmpty(); c++){
-                        Event eCmd(EventCommandRemove, (void*)(c->id + CmdReceived));
-                        eCmd.process();
+                        EventCommandRemove(c->id + CmdReceived).process();
                     }
                 }
             }
@@ -1970,35 +1390,51 @@ void *CorePlugin::processEvent(Event *e)
                     break;
                 }
             }
-            Event eCmd(EventCommandRemove, (void*)id);
-            eCmd.process();
+            EventCommandRemove(id).process();
             messageTypes.erase(id);
-            return e->param();
+            return true;
         }
-    case EventContactDeleted:{
-            Contact *contact = (Contact*)(e->param());
-            clearUnread(contact->id());
-            History::remove(contact);
-            return NULL;
+    case eEventContact: {
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
+            switch(ec->action()) {
+                case EventContact::eDeleted:
+                    clearUnread(contact->id());
+                    History::remove(contact);
+                    break;
+                case EventContact::eChanged:
+                    if (m_bIgnoreEvents)
+                        return true;
+                    if (contact->getIgnore())
+                        clearUnread(contact->id());
+                    break;
+                case EventContact::eOnline: {
+                    CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
+                    if (data->OpenOnOnline.toBool()){
+                        Message *msg = new Message(MessageGeneric);
+                        msg->setContact(contact->id());
+                        EventOpenMessage(msg).process();
+                        delete msg; // wasn't here before event changes...
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
         }
-    case EventContactChanged:{
-            if (m_bIgnoreEvents)
-                return e->param();
-            Contact *contact = (Contact*)(e->param());
-            if (contact->getIgnore())
-                clearUnread(contact->id());
-            return NULL;
-        }
-    case EventMessageAcked:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageAcked:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             if (msg->baseType() == MessageFile){
                 QWidget *w = new FileTransferDlg(static_cast<FileMessage*>(msg));
                 raiseWindow(w);
             }
-            return NULL;
+            return false;
         }
-    case EventMessageDeleted:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageDeleted:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             History::del(msg->id());
             for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it){
                 msg_id &m = *it;
@@ -2007,10 +1443,11 @@ void *CorePlugin::processEvent(Event *e)
                     break;
                 }
             }
-            return NULL;
+            return false;
         }
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageReceived:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 if (msg->getTime() == 0){
@@ -2020,7 +1457,7 @@ void *CorePlugin::processEvent(Event *e)
                 if (type == MessageStatus){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                     if ((data == NULL) || !data->LogStatus.toBool())
-                        return NULL;
+                        return false;
                 }else if (type == MessageFile){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                     if (data){
@@ -2029,36 +1466,30 @@ void *CorePlugin::processEvent(Event *e)
                             if (!dir.isEmpty() && !dir.endsWith("/") && !dir.endsWith("\\"))
                                 dir += '/';
                             dir = user_file(dir);
-                            messageAccept ma;
-                            ma.msg       = msg;
-                            ma.dir       = dir;
-                            ma.overwrite = data->OverwriteFiles.toBool() ? Replace : Skip;
-                            Event e(EventMessageAccept, &ma);
-                            e.process();
+                            EventMessageAccept(msg, dir,
+                                               data->OverwriteFiles.toBool() ?
+                                                Replace : Ask).process();
                             return msg;
                         }
                         if (data->AcceptMode.toULong() == 2){
-                            messageDecline md;
-                            md.msg    = msg;
-                            md.reason = data->DeclineMessage.str();
-                            Event e(EventMessageDecline, &md);
-                            e.process();
+                            EventMessageDecline(msg, data->DeclineMessage.str()).process();
                             return msg;
                         }
                     }
                 }else{
                     contact->setLastActive(time(NULL));
-                    Event e(EventContactStatus, contact);
-                    e.process();
+                    EventContact(contact, EventContact::eStatus).process();
                 }
             }
+            // correct
         }
-    case EventSent:{
-            Message *msg = (Message*)(e->param());
+    case eEventSent:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             CommandDef *def = messageTypes.find(msg->type());
             if (def){
                 History::add(msg, typeName(def->text));
-                if ((e->type() == EventMessageReceived) && (msg->type() != MessageStatus)){
+                if ((e->type() == eEventMessageReceived) && (msg->type() != MessageStatus)){
                     msg_id m;
                     m.id = msg->id();
                     m.contact = msg->contact();
@@ -2066,30 +1497,29 @@ void *CorePlugin::processEvent(Event *e)
                     m.type = msg->baseType();
                     unread.push_back(m);
                     if (msg->getFlags() & MESSAGE_NOVIEW)
-                        return NULL;
+                        return false;
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact && (contact->getFlags() & CONTACT_TEMPORARY)){
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-                        Event e(EventContactChanged, contact);
-                        e.process();
+                        EventContact(contact, EventContact::eChanged).process();
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
                         if (data->OpenNewMessage.toULong()){
                             if (data->OpenNewMessage.toULong() == NEW_MSG_MINIMIZE)
                                 msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
-                            Event e(EventOpenMessage, &msg);
-                            e.process();
+                            EventOpenMessage(msg).process();
                         }
                     }
                 }
             } else {
                 log(L_WARN,"No CommandDef for message %u found!",msg->type());
             }
-            return NULL;
+            return false;
         }
-    case EventDefaultAction:{
-            unsigned long contact_id = (unsigned long)(e->param());
+    case eEventDefaultAction:{
+            EventDefaultAction *eda = static_cast<EventDefaultAction*>(e);
+            unsigned long contact_id = eda->id();
             unsigned index = 0;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it, index++){
                 if ((*it).contact != contact_id)
@@ -2097,38 +1527,38 @@ void *CorePlugin::processEvent(Event *e)
                 Command cmd;
                 cmd->id = CmdUnread + index;
                 cmd->menu_id = MenuMain;
-                Event e(EventCommandExec, cmd);
-                return e.process();
+                return EventCommandExec(cmd).process();
             }
-            Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-            CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+            EventMenuGetDef eMenu(MenuMessage);
+            eMenu.process();
+            CommandsDef *cmdsMsg = eMenu.defs();
             CommandsList itc(*cmdsMsg, true);
             CommandDef *c;
             while ((c = ++itc) != NULL){
                 c->param = (void*)(contact_id);
-                Event eCheck(EventCheckState, c);
-                if (eCheck.process()){
-                    Event eCmd(EventCommandExec, c);
-                    return eCmd.process();
+                if(EventCheckCommandState(c).process()) {
+                    return EventCommandExec(c).process();
                 }
             }
-            return NULL;
+            return false;
         }
-    case EventLoadMessage:{
-            MessageID *m = (MessageID*)(e->param());
-            Message *msg = History::load(m->id, m->client, m->contact);
-            return msg;
+    case eEventLoadMessage:{
+            EventLoadMessage *elm = static_cast<EventLoadMessage*>(e);
+            Message *msg = History::load(elm->id(), elm->client(), elm->contact());
+            elm->setMessage(msg);
+            return true;
         }
-    case EventOpenMessage:{
-            Message **msg = (Message**)(e->param());
-            if ((*msg)->getFlags() & MESSAGE_NOVIEW)
-                return NULL;
-            Contact *contact = getContacts()->contact((*msg)->contact());
+    case eEventOpenMessage:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
+            if (msg->getFlags() & MESSAGE_NOVIEW)
+                return false;
+            Contact *contact = getContacts()->contact(msg->contact());
             m_focus = qApp->focusWidget();
             if (m_focus)
                 connect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             if (contact == NULL)
-                return NULL;
+                return false;
             UserWnd		*userWnd	= NULL;
             Container	*container	= NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2139,7 +1569,7 @@ void *CorePlugin::processEvent(Event *e)
                 if (w->inherits("Container")){
                     container =  static_cast<Container*>(w);
                     if (getContainerMode() == 0){
-                        if (container->isReceived() != (((*msg)->getFlags() & MESSAGE_RECEIVED) != 0)){
+                        if (container->isReceived() != ((msg->getFlags() & MESSAGE_RECEIVED) != 0)){
                             container = NULL;
                             ++itw;
                             continue;
@@ -2156,10 +1586,9 @@ void *CorePlugin::processEvent(Event *e)
             if (userWnd == NULL){
                 if (contact->getFlags() & CONTACT_TEMP){
                     contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
-                    Event e(EventContactChanged, contact);
-                    e.process();
+                    EventContact(contact, EventContact::eChanged).process();
                 }
-                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, (*msg)->getFlags() & MESSAGE_RECEIVED);
+                userWnd = new UserWnd(contact->id(), NULL, msg->getFlags() & MESSAGE_RECEIVED, msg->getFlags() & MESSAGE_RECEIVED);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();
                     QWidgetListIt it(*list);
@@ -2214,16 +1643,16 @@ void *CorePlugin::processEvent(Event *e)
                     container = new Container(max_id + 1);
                     bNew = true;
                     if (getContainerMode() == 0)
-                        container->setReceived((*msg)->getFlags() & MESSAGE_RECEIVED);
+                        container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
                 }
-                container->addUserWnd(userWnd, ((*msg)->getFlags() & MESSAGE_NORAISE) == 0);
+                container->addUserWnd(userWnd, (msg->getFlags() & MESSAGE_NORAISE) == 0);
             }else{
-                if (((*msg)->getFlags() & MESSAGE_NORAISE) == 0)
+                if ((msg->getFlags() & MESSAGE_NORAISE) == 0)
                     container->raiseUserWnd(userWnd);
             }
             container->setNoSwitch(true);
             userWnd->setMessage(msg);
-            if ((*msg)->getFlags() & MESSAGE_NORAISE){
+            if (msg->getFlags() & MESSAGE_NORAISE){
                 if (bNew){
                     container->m_bNoRead = true;
 #ifdef WIN32
@@ -2244,28 +1673,16 @@ void *CorePlugin::processEvent(Event *e)
             if (m_focus)
                 disconnect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             m_focus = NULL;
-            return e->param();
+            return true;
         }
-    case EventContactOnline:{
-            Contact *contact = getContacts()->contact((unsigned long)(e->param()));
-            if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                if (data->OpenOnOnline.toBool()){
-                    Message *msg = new Message(MessageGeneric);
-                    msg->setContact(contact->id());
-                    Event e(EventOpenMessage, &msg);
-                    e.process();
-                }
-            }
-            return NULL;
-        }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuEncoding){
                 if (cmd->id == CmdChangeEncoding){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
-                        return NULL;
+                        return false;
                     QTextCodec *codec = getContacts()->getCodec(contact);
                     unsigned nEncoding = 3;
                     QStringList main;
@@ -2274,13 +1691,13 @@ void *CorePlugin::processEvent(Event *e)
                     const ENCODING *enc;
                     for (enc = getContacts()->getEncodings(); enc->language; enc++){
                         if (enc->bMain){
-                            main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                            main.append(i18n(enc->language) + " (" + enc->codec + ')');
                             nEncoding++;
                             continue;
                         }
                         if (!getShowAllEncodings())
                             continue;
-                        nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
                         nEncoding++;
                     }
                     CommandDef *cmds = new CommandDef[nEncoding];
@@ -2307,7 +1724,7 @@ void *CorePlugin::processEvent(Event *e)
                         nEncoding++;
                     }
                     if (!getShowAllEncodings())
-                        return e->param();
+                        return true;
                     cmds[nEncoding++].text = "_";
                     nomain.sort();
                     for (it = nomain.begin(); it != nomain.end(); ++it){
@@ -2323,47 +1740,47 @@ void *CorePlugin::processEvent(Event *e)
                         cmds[nEncoding].text_wrk = (*it);
                         nEncoding++;
                     }
-                    return e->param();
+                    return true;
                 }
                 if (cmd->id == CmdAllEncodings){
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (getShowAllEncodings())
                         cmd->flags |= COMMAND_CHECKED;
-                    return e->param();
+                    return true;
                 }
             }
             if (cmd->id == CmdEnableSpell){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getEnableSpell())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSendClose){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getCloseSend())
                     cmd->flags |= COMMAND_CHECKED;
-                return NULL;
+                return false;
             }
             if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)){
                 Message *msg = (Message*)(cmd->param);
                 if (msg->getFlags() & MESSAGE_TEMP)
-                    return e->param();
-                return NULL;
+                    return true;
+                return false;
             }
             if (cmd->id == CmdContactClients){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 vector<clientContact> ways;
                 getWays(ways, contact);
                 if (cmd->menu_id == MenuMessage){
                     unsigned n = ways.size();
                     if (n < 1)
-                        return NULL;
+                        return false;
                     if (n == 1){
                         QString resources = ways[0].client->resources(ways[0].data);
                         if (resources.isEmpty())
-                            return NULL;
+                            return false;
                         QString wrk = resources;
                         unsigned n = 0;
                         while (!wrk.isEmpty()){
@@ -2377,16 +1794,14 @@ void *CorePlugin::processEvent(Event *e)
                             unsigned long id = CmdContactResource + n;
                             if (n > m_nResourceMenu){
                                 m_nResourceMenu = n;
-                                Event eMenu(EventMenuCreate, (void*)id);
-                                eMenu.process();
+                                EventMenu(id, EventMenu::eAdd).process();
                                 Command cmd;
                                 cmd->id			= CmdContactClients;
                                 cmd->text		= "_";
                                 cmd->menu_id	= id;
                                 cmd->menu_grp	= 0x1000;
                                 cmd->flags		= COMMAND_CHECK_STATE;
-                                Event eCmd(EventCommandCreate, cmd);
-                                eCmd.process();
+                                EventCommandCreate(cmd).process();
                             }
                             cmds[n].id		 = id;
                             cmds[n].text	 = "_";
@@ -2400,7 +1815,7 @@ void *CorePlugin::processEvent(Event *e)
                         }
                         cmd->param = cmds;
                         cmd->flags |= COMMAND_RECURSIVE;
-                        return e->param();
+                        return true;
                     }
                     CommandDef *cmds = new CommandDef[n + 2];
                     cmds[0].text = "_";
@@ -2409,8 +1824,7 @@ void *CorePlugin::processEvent(Event *e)
                         unsigned long id  = CmdContactClients + n;
                         if (n > m_nClientsMenu){
                             m_nClientsMenu = n;
-                            Event eMenu(EventMenuCreate, (void*)id);
-                            eMenu.process();
+                            EventMenu(id, EventMenu::eAdd).process();
 
                             Command cmd;
                             cmd->id			= CmdContactClients;
@@ -2418,14 +1832,13 @@ void *CorePlugin::processEvent(Event *e)
                             cmd->menu_id	= id;
                             cmd->menu_grp	= 0x1000;
                             cmd->flags		= COMMAND_CHECK_STATE;
-                            Event eCmd(EventCommandCreate, cmd);
-                            eCmd.process();
+                            EventCommandCreate(cmd).process();
 
                             cmd->id			= CmdSeparate;
                             cmd->text		= I18N_NOOP("&Separate");
                             cmd->menu_grp	= 0x2000;
                             cmd->flags		= COMMAND_DEFAULT;
-                            eCmd.process();
+                            EventCommandCreate(cmd).process();
                         }
                         cmds[n].id		 = id;
                         cmds[n].text	 = "_";
@@ -2466,7 +1879,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return e->param();
+                    return true;
                 }
                 if (cmd->menu_id > CmdContactResource){
                     unsigned nRes = cmd->menu_id - CmdContactResource - 1;
@@ -2477,8 +1890,9 @@ void *CorePlugin::processEvent(Event *e)
                             getToken(resources, ';');
                             if (nRes-- == 0){
                                 clientContact &cc = ways[n];
-                                Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-                                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                                EventMenuGetDef eMenu(MenuMessage);
+                                eMenu.process();
+                                CommandsDef *cmdsMsg = eMenu.defs();
                                 unsigned nCmds = 0;
                                 {
                                     CommandsList it(*cmdsMsg, true);
@@ -2494,11 +1908,7 @@ void *CorePlugin::processEvent(Event *e)
                                     if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
                                         continue;
                                     if (!cc.client->canSend(c->id, cc.data)){
-                                        CheckSend cs;
-                                        cs.id     = c->id;
-                                        cs.data   = cc.data;
-                                        cs.client = cc.client;
-                                        Event e(EventCheckSend, &cs);
+                                        EventCheckSend e(c->id, cc.client, cc.data);
                                         if (!e.process())
                                             continue;
                                     }
@@ -2510,19 +1920,20 @@ void *CorePlugin::processEvent(Event *e)
                                 }
                                 cmd->param = cmds;
                                 cmd->flags |= COMMAND_RECURSIVE;
-                                return e->param();
+                                return true;
                             }
                         }
                     }
-                    return NULL;
+                    return false;
                 }
                 unsigned n = cmd->menu_id - CmdContactClients - 1;
                 if (n >= ways.size())
-                    return NULL;
+                    return false;
                 clientContact &cc = ways[n];
 
-                Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                EventMenuGetDef eMenu(MenuMessage);
+                eMenu.process();
+                CommandsDef *cmdsMsg = eMenu.defs();
                 unsigned nCmds = 0;
                 {
                     CommandsList it(*cmdsMsg, true);
@@ -2547,11 +1958,7 @@ void *CorePlugin::processEvent(Event *e)
                     if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
                         continue;
                     if (!cc.client->canSend(c->id, cc.data)){
-                        CheckSend cs;
-                        cs.id     = c->id;
-                        cs.data   = cc.data;
-                        cs.client = cc.client;
-                        Event e(EventCheckSend, &cs);
+                        EventCheckSend e(c->id, cc.client, cc.data);
                         if (!e.process())
                             continue;
                     }
@@ -2566,47 +1973,43 @@ void *CorePlugin::processEvent(Event *e)
                     cmds[nCmds++].text = "_";
                     unsigned nRes = 1;
                     for (unsigned i = 0; i < n; i++){
-                        resources = ways[i].client->resources(ways[i].data);
+                        QString resources = ways[i].client->resources(ways[i].data);
                         while (!resources.isEmpty()){
                             getToken(resources, ';');
                             unsigned long id = CmdContactResource + nRes;
                             if (nRes > m_nResourceMenu){
                                 m_nResourceMenu = nRes;
-                                Event eMenu(EventMenuCreate, (void*)id);
-                                eMenu.process();
+                                EventMenu(id, EventMenu::eAdd).process();
                                 Command cmd;
                                 cmd->id			= CmdContactClients;
                                 cmd->text		= "_";
                                 cmd->menu_id	= id;
                                 cmd->menu_grp	= 0x1000;
                                 cmd->flags		= COMMAND_CHECK_STATE;
-                                Event eCmd(EventCommandCreate, cmd);
-                                eCmd.process();
+                                EventCommandCreate(cmd).process();
                             }
                             nRes++;
                         }
                     }
-                    resources = cc.client->resources(cc.data);
+                    QString resources = cc.client->resources(cc.data);
                     while (!resources.isEmpty()){
                         unsigned long id = CmdContactResource + nRes;
                         if (nRes > m_nResourceMenu){
                             m_nResourceMenu = nRes;
-                            Event eMenu(EventMenuCreate, (void*)id);
-                            eMenu.process();
+                            EventMenu(id, EventMenu::eAdd).process();
                             Command cmd;
                             cmd->id			= CmdContactClients;
                             cmd->text		= "_";
                             cmd->menu_id	= id;
                             cmd->menu_grp	= 0x1000;
                             cmd->flags		= COMMAND_CHECK_STATE;
-                            Event eCmd(EventCommandCreate, cmd);
-                            eCmd.process();
+                            EventCommandCreate(cmd).process();
                         }
                         cmds[nCmds].id		 = id;
                         cmds[nCmds].text	 = "_";
                         cmds[nCmds].popup_id = id;
                         QString res = getToken(resources, ';');
-                        cmds[nCmds].icon     = (const char*)(getToken(res, ',').toULong());
+                        cmds[nCmds].icon     = (const char*)getToken(res, ',').toULong();
                         QString t = cc.client->contactName(ways[0].data);
                         t += '/' + res;
                         cmds[nCmds++].text_wrk = t;
@@ -2616,7 +2019,7 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
 
-                return e->param();
+                return true;
             }
             if (cmd->menu_id == MenuContainer){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2654,7 +2057,7 @@ void *CorePlugin::processEvent(Event *e)
                     delete list;
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return e->param();
+                    return true;
                 }
             }
             if (cmd->menu_id == MenuMessage){
@@ -2665,9 +2068,9 @@ void *CorePlugin::processEvent(Event *e)
                     getWays(ways, contact);
                     for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
                         if ((cmd->id == MessageSMS) && ((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS))
-                            return NULL;
+                            return false;
                         if ((*it).client->canSend(cmd->id, (*it).data)){
-                            return e->param();
+                            return true;
                         }
                     }
                     if ((cmd->id == MessageSMS) && !ways.empty()){
@@ -2677,14 +2080,14 @@ void *CorePlugin::processEvent(Event *e)
                                 break;
                         }
                         if (it == ways.end())
-                            return NULL;
+                            return false;
                     }
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
-                        return e->param();
+                        return true;
                 }
-                return NULL;
+                return false;
             }
             if (cmd->menu_id == MenuMsgCommand){
                 Message *msg = (Message*)(cmd->param);
@@ -2692,28 +2095,28 @@ void *CorePlugin::processEvent(Event *e)
                 case CmdMsgQuote:
                 case CmdMsgForward:
                     if ((msg->getFlags() & MESSAGE_RECEIVED) == 0)
-                        return NULL;
+                        return false;
                     QString p = msg->presentation();
                     if (!p.isEmpty()){
                         unsigned type = msg->baseType();
                         switch (type){
                         case MessageFile:
-                            return NULL;
+                            return false;
                         }
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return true;
                     }
                     break;
                 }
-                return NULL;
+                return false;
             }
             if (cmd->menu_id == MenuPhoneState){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (cmd->id == CmdPhoneNoShow + getContacts()->owner()->getPhoneStatus())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return true;
             }
-            if ((cmd->menu_id == MenuLocation) && (cmd->id == CmdLocation)){
+            if ((cmd->menu_id == MenuPhoneLocation) && (cmd->id == CmdPhoneLocation)){
                 unsigned n = 2;
                 QString phones = getContacts()->owner()->getPhones();
                 while (!phones.isEmpty()){
@@ -2722,9 +2125,9 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 CommandDef *cmds = new CommandDef[n];
                 n = 0;
-                cmds[n].id      = CmdLocation;
+                cmds[n].id      = CmdPhoneLocation;
                 cmds[n].text    = I18N_NOOP("Not available");
-                cmds[n].menu_id = MenuLocation;
+                cmds[n].menu_id = MenuPhoneLocation;
                 phones = getContacts()->owner()->getPhones();
                 bool bActive = false;
                 while (!phones.isEmpty()){
@@ -2734,9 +2137,9 @@ void *CorePlugin::processEvent(Event *e)
                     QString number = getToken(item, ',');
                     getToken(item, ',');
                     unsigned long icon = getToken(item, ',').toULong();
-                    cmds[n].id   = CmdLocation + n;
+                    cmds[n].id   = CmdPhoneLocation + n;
                     cmds[n].text = "_";
-                    cmds[n].menu_id  = MenuLocation;
+                    cmds[n].menu_id  = MenuPhoneLocation;
                     cmds[n].text_wrk = number;
                     if (!item.isEmpty()){
                         cmds[n].flags = COMMAND_CHECKED;
@@ -2761,14 +2164,12 @@ void *CorePlugin::processEvent(Event *e)
                     cmds[0].flags = COMMAND_CHECKED;
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdUnread){
-                unsigned contact_id = 0;
-                if (cmd->menu_id == MenuContact){
-                    Contact *contact = (Contact*)(e->param());
-                    contact_id = contact->id();
-                }
+                unsigned long contact_id = 0;
+                if (cmd->menu_id == MenuContact)
+                    contact_id = (unsigned long)cmd->param;
                 MAP_COUNT count;
                 MAP_COUNT::iterator itc;
                 CommandDef *def;
@@ -2792,7 +2193,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 if (count.empty())
-                    return NULL;
+                    return false;
                 CommandDef *cmds = new CommandDef[count.size() + 1];
                 n = 0;
                 for (itc = count.begin(); itc != count.end(); ++itc, n++){
@@ -2830,27 +2231,27 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSendSMS){
                 cmd->flags &= COMMAND_CHECKED;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->canSend(MessageSMS, NULL))
-                        return e->param();
+                        return true;
                 }
-                return NULL;
+                return false;
             }
             if (cmd->id == CmdShowPanel){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (m_statusWnd)
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return true;
             }
             if ((cmd->id == CmdContainer) && (cmd->menu_id == MenuContact)){
-                if (getContainerMode())
-                    return e->param();
-                return NULL;
+                if (getContainerMode() && getContainerMode() != 3)
+                    return true;
+                return false;
             }
             if (cmd->id == CmdCommonStatus){
                 unsigned n = cmd->menu_id - CmdClient;
@@ -2860,19 +2261,18 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (client->getCommonStatus())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return true;
             }
-            if (cmd->id == CmdTitle)
-                if (cmd->param && adjustClientItem(cmd->menu_id, cmd)){
-                    return e->param();
-                }else{
-                    return NULL;
-                }
+            if (cmd->id == CmdTitle) {
+                if (cmd->param && adjustClientItem(cmd->menu_id, cmd))
+                    return true;
+                return false;
+            }
             if (adjustClientItem(cmd->id, cmd))
-                return e->param();
+                return true;
             unsigned n = cmd->menu_id - CmdClient;
             if (n > getContacts()->nClients())
-                return NULL;
+                return false;
             Client *client = getContacts()->getClient(n);
             if (cmd->id == CmdInvisible){
                 if (client->getInvisible()){
@@ -2880,7 +2280,7 @@ void *CorePlugin::processEvent(Event *e)
                 }else{
                     cmd->flags &= ~COMMAND_CHECKED;
                 }
-                return e->param();
+                return true;
             }
             const CommandDef *curStatus = NULL;
             const CommandDef *d;
@@ -2898,25 +2298,32 @@ void *CorePlugin::processEvent(Event *e)
             }else{
                 cmd->flags &= ~COMMAND_CHECKED;
             }
-            return e->param();
+            return true;
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventUpdateCommandState:{
+      EventUpdateCommandState *eucs = static_cast<EventUpdateCommandState*>(e);
+      return updateMainToolbar(eucs->commandID());
+    }
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuEncoding){
                 if (cmd->id == CmdAllEncodings){
                     Command c;
                     c->id     = CmdChangeEncoding;
                     c->param  = cmd->param;
-                    Event eWidget(EventCommandWidget, c);
-                    QToolButton *btn = (QToolButton*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    // FIXME: use qobject_cast in Qt4
+                    QToolButton *btn = dynamic_cast<QToolButton*>(eWidget.widget());
                     if (btn)
                         QTimer::singleShot(0, btn, SLOT(animateClick()));
                     setShowAllEncodings(!getShowAllEncodings());
-                    return e->param();
+                    return true;
                 }
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 QCString codecStr;
                 const char *codec = NULL;
                 if (cmd->id == 1){
@@ -2928,12 +2335,12 @@ void *CorePlugin::processEvent(Event *e)
                     const ENCODING *enc;
                     for (enc = getContacts()->getEncodings(); enc->language; enc++){
                         if (enc->bMain){
-                            main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                            main.append(i18n(enc->language) + " (" + enc->codec + ')');
                             continue;
                         }
                         if (!getShowAllEncodings())
                             continue;
-                        nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
                     }
                     QString str;
                     main.sort();
@@ -2962,27 +2369,25 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 if (codec == NULL)
-                    return NULL;
+                    return false;
                 if (contact->setEncoding(codec)){
-                    Event eContact(EventContactChanged, contact);
-                    eContact.process();
-                    Event eh(EventHistoryConfig, (void*)(contact->id()));
-                    eh.process();
+                    EventContact(contact, EventContact::eChanged).process();
+                    EventHistoryConfig(contact->id()).process();
                 }
-                return NULL;
+                return false;
             }
             if (cmd->id == CmdEnableSpell){
                 setEnableSpell(cmd->flags & COMMAND_CHECKED);
-                return NULL;
+                return false;
             }
             if (cmd->menu_id == MenuMessage){
                 Message *msg;
                 CommandDef *def = messageTypes.find(cmd->id);
                 if (def == NULL)
-                    return NULL;
+                    return false;
                 MessageDef *mdef = (MessageDef*)(def->param);
                 if (mdef->create == NULL)
-                    return NULL;
+                    return false;
                 msg = mdef->create(NULL);
                 msg->setContact((unsigned long)(cmd->param));
                 if (mdef->flags & MESSAGE_SILENT){
@@ -2996,12 +2401,11 @@ void *CorePlugin::processEvent(Event *e)
                                 break;
                         }
                     }
-                    return e->param();
+                    return true;
                 }
-                Event eOpen(EventOpenMessage, &msg);
-                eOpen.process();
+                EventOpenMessage(msg).process();
                 delete msg;
-                return e->param();
+                return true;
             }
             if (cmd->menu_id == MenuMsgCommand){
                 Message *msg = (Message*)(cmd->param);
@@ -3011,7 +2415,7 @@ void *CorePlugin::processEvent(Event *e)
                 case CmdMsgForward:
                     p = msg->presentation();
                     if (p.isEmpty())
-                        return NULL;
+                        return false;
                     p = unquoteText(p);
                     QStringList l = QStringList::split("\n", p);
                     QStringList::Iterator it;
@@ -3031,18 +2435,17 @@ void *CorePlugin::processEvent(Event *e)
                         Contact *contact = getContacts()->contact(msg->contact());
                         if (contact)
                             name = contact->getName();
-                        p = g_i18n("%1 wrote:", contact) .arg(name) + "\n" + p;
+                        p = g_i18n("%1 wrote:", contact) .arg(name) + '\n' + p;
                         m->setFlags(MESSAGE_FORWARD);
                     }else{
                         m->setFlags(MESSAGE_INSERT);
                     }
                     m->setText(p);
-                    Event eOpen(EventOpenMessage, &m);
-                    eOpen.process();
+                    EventOpenMessage(m).process();
                     delete m;
-                    return e->param();
+                    return true;
                 }
-                return NULL;
+                return false;
             }
             if (cmd->id == CmdGrantAuth){
                 Message *from = (Message*)(cmd->param);
@@ -3057,36 +2460,35 @@ void *CorePlugin::processEvent(Event *e)
                         Client *client = it.client();
                         if (!from->client().isEmpty()){
                             if ((client->dataName(data) == from->client()) && client->send(msg, data))
-                                return e->param();
+                                return true;
                         }else{
                             if (client->canSend(MessageAuthGranted, data) && client->send(msg, data))
-                                return e->param();
+                                return true;
                         }
                     }
                 }
                 delete msg;
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdRefuseAuth){
                 Message *from = (Message*)(cmd->param);
                 Message *msg = new AuthMessage(MessageAuthRefused);
                 msg->setContact(from->contact());
                 msg->setClient(from->client());
-                Event eOpen(EventOpenMessage, &msg);
-                eOpen.process();
+                EventOpenMessage(msg).process();
                 delete msg;
-                return e->param();
+                return true;
             }
 
             if (cmd->id == CmdSeparate){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 unsigned n = cmd->menu_id - CmdContactClients - 1;
                 vector<clientContact> ways;
                 getWays(ways, contact);
                 if (n >= ways.size())
-                    return NULL;
+                    return false;
                 clientContact &cc = ways[n];
                 clientData *data;
                 ClientDataIterator it(contact->clientData, cc.client);
@@ -3103,29 +2505,28 @@ void *CorePlugin::processEvent(Event *e)
                 newContact->clientData.join(data, contact->clientData);
                 contact->setup();
                 newContact->setup();
-                Event e1(EventContactChanged, contact);
+                EventContact e1(contact, EventContact::eChanged);
                 e1.process();
-                Event e2(EventContactChanged, newContact);
+                EventContact e2(newContact, EventContact::eChanged);
                 e2.process();
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSendClose){
                 setCloseSend((cmd->flags & COMMAND_CHECKED) != 0);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSendSMS){
                 Contact *contact = getContacts()->contact(0, true);
                 contact->setFlags(CONTACT_TEMP);
                 contact->setName(i18n("Send SMS"));
-                Event eChanged(EventContactChanged, contact);
+                EventContact eChanged(contact, EventContact::eChanged);
                 eChanged.process();
                 Command cmd;
                 cmd->id      = MessageSMS;
                 cmd->menu_id = MenuMessage;
                 cmd->param   = (void*)(contact->id());
-                Event eCmd(EventCommandExec, cmd);
-                eCmd.process();
-                return e->param();
+                EventCommandExec(cmd).process();
+                return true;
             }
             if (cmd->id == CmdHistory){
                 unsigned long id = (unsigned long)(cmd->param);
@@ -3157,12 +2558,12 @@ void *CorePlugin::processEvent(Event *e)
                     m_HistoryThread->set_Viewer(getExtViewer());
                     m_HistoryThread->start();
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdConfigure){
                 if ((cmd->menu_id == MenuContact) || (cmd->menu_id == MenuGroup)){
                     showInfo(cmd);
-                    return e->param();
+                    return true;
                 }
                 if (m_cfg == NULL){
                     m_cfg = new ConfigureDialog;
@@ -3176,7 +2577,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 raiseWindow(m_cfg);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSearch){
                 if (m_search == NULL){
@@ -3191,31 +2592,30 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }
                 raiseWindow(m_search);
-                return NULL;
+                return false;
             }
             if ((cmd->menu_id == MenuContact) || (cmd->menu_id == MenuGroup)){
                 if (cmd->id == CmdInfo){
                     showInfo(cmd);
-                    return e->param();
+                    return true;
                 }
                 CommandDef *def = preferences.find(cmd->id);
                 if (def){
                     showInfo(cmd);
-                    return e->param();
+                    return true;
                 }
             }
             if (cmd->menu_id == MenuPhoneState){
                 Contact *owner = getContacts()->owner();
                 if (owner->getPhoneStatus() != cmd->id - CmdPhoneNoShow){
                     owner->setPhoneStatus(cmd->id - CmdPhoneNoShow);
-                    Event e(EventContactChanged, owner);
-                    e.process();
+                    EventContact(owner, EventContact::eChanged).process();
                 }
-                return e->param();
+                return true;
             }
-            if (cmd->menu_id == MenuLocation){
+            if (cmd->menu_id == MenuPhoneLocation){
                 Contact *owner = getContacts()->owner();
-                unsigned n = cmd->id - CmdLocation;
+                unsigned n = cmd->id - CmdPhoneLocation;
                 QString res;
                 QString phones = owner->getPhones();
                 while (!phones.isEmpty()){
@@ -3224,24 +2624,23 @@ void *CorePlugin::processEvent(Event *e)
                     QString number = getToken(v, ',', false);
                     QString type = getToken(v, ',', false);
                     QString icon = getToken(v, ',', false);
-                    v = number + "," + type + "," + icon;
+                    v = number + ',' + type + ',' + icon;
                     if (--n == 0)
                         v += ",1";
                     if (!res.isEmpty())
-                        res += ";";
+                        res += ';';
                     res += v;
                 }
                 if (res != owner->getPhones()){
                     owner->setPhones(res);
-                    Event e(EventContactChanged, owner);
-                    e.process();
+                    EventContact(owner, EventContact::eChanged).process();
                 }
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdSetup){
                 unsigned n = cmd->menu_id - CmdClient;
                 if (n >= getContacts()->nClients())
-                    return NULL;
+                    return false;
                 Client *client = getContacts()->getClient(n);
                 if (m_cfg == NULL){
                     m_cfg = new ConfigureDialog;
@@ -3249,7 +2648,7 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 static_cast<ConfigureDialog*>(m_cfg)->raisePage(client);
                 raiseWindow(m_cfg);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdPhoneBook){
                 if (m_cfg == NULL){
@@ -3258,12 +2657,12 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 static_cast<ConfigureDialog*>(m_cfg)->raisePhoneBook();
                 raiseWindow(m_cfg);
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdCommonStatus){
                 unsigned n = cmd->menu_id - CmdClient;
                 if (n >= getContacts()->nClients())
-                    return NULL;
+                    return false;
                 Client *client = getContacts()->getClient(n);
                 if (cmd->flags & COMMAND_CHECKED){
                     client->setStatus(getManualStatus(), true);
@@ -3272,26 +2671,25 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i)->getCommonStatus())
-                        return e->param();
+                        return true;
                 }
                 client = getContacts()->getClient(0);
                 if (client){
                     client->setCommonStatus(true);
-                    Event e(EventClientChanged, client);
-                    e.process();
+                    EventClientChanged(client).process();
                 }
-                return e->param();
+                return true;
             }
-            if (cmd->id == CmdChange){
+            if (cmd->id == CmdProfileChange){
                 QTimer::singleShot(0, this, SLOT(selectProfile()));
-                return e->param();
+                return true;
             }
             unsigned n = cmd->menu_id - CmdClient;
             if (n < getContacts()->nClients()){
                 Client *client = getContacts()->getClient(n);
                 if (cmd->id == CmdInvisible){
                     client->setInvisible(!client->getInvisible());
-                    return e->param();
+                    return true;
                 }
                 const CommandDef *d;
                 const CommandDef *curStatus = NULL;
@@ -3300,7 +2698,7 @@ void *CorePlugin::processEvent(Event *e)
                         curStatus = d;
                 }
                 if (curStatus == NULL)
-                    return NULL;
+                    return false;
                 if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) ||
                         (client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
                         (client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
@@ -3308,11 +2706,11 @@ void *CorePlugin::processEvent(Event *e)
                     if (noShow.isEmpty()){
                         AutoReplyDialog dlg(cmd->id);
                         if (!dlg.exec())
-                            return e->param();
+                            return true;
                     }
                 }
                 client->setStatus(cmd->id, false);
-                return e->param();
+                return true;
             }
             if ((cmd->id == CmdCM) || (cmd->id == CmdConnections)){
                 if (m_manager == NULL){
@@ -3320,10 +2718,10 @@ void *CorePlugin::processEvent(Event *e)
                     connect(m_manager, SIGNAL(finished()), this, SLOT(managerFinished()));
                 }
                 raiseWindow(m_manager);
-                return e->param();
+                return true;
             }
+            Message *msg = (Message*)(cmd->param);
             if (cmd->id == CmdFileAccept){
-                Message *msg = (Message*)(cmd->param);
                 Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 QString dir;
@@ -3332,33 +2730,18 @@ void *CorePlugin::processEvent(Event *e)
                 if (!dir.isEmpty() && (!dir.endsWith("/")) && (!dir.endsWith("\\")))
                     dir += '/';
                 dir = user_file(dir);
-                messageAccept ma;
-                ma.msg	     = msg;
-                ma.dir	     = dir;
-                ma.overwrite = Ask;
-                Event e(EventMessageAccept, &ma);
-                e.process();
+                EventMessageAccept(msg, dir, Ask).process();
             }
             if (cmd->id == CmdDeclineWithoutReason){
-                messageDecline md;
-                md.msg    = (Message*)(cmd->param);
-                md.reason = QString::null;
-                Event e(EventMessageDecline, &md);
-                e.process();
+                EventMessageDecline(msg).process();
             }
             if (cmd->id == CmdDeclineReasonBusy){
-                messageDecline md;
-                md.msg    = (Message*)(cmd->param);
-                md.reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
-                Event e(EventMessageDecline, &md);
-                e.process();
+                QString reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
+                EventMessageDecline(msg, reason).process();
             }
             if (cmd->id == CmdDeclineReasonLater){
-                messageDecline md;
-                md.msg    = (Message*)(cmd->param);
-                md.reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
-                Event e(EventMessageDecline, &md);
-                e.process();
+                QString reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
+                EventMessageDecline(msg, reason).process();
             }
             if (cmd->id == CmdDeclineReasonInput){
                 Message *msg = (Message*)(cmd->param);
@@ -3387,14 +2770,13 @@ void *CorePlugin::processEvent(Event *e)
                         Message *msg = History::load((*it).id, (*it).client, (*it).contact);
                         if (msg){
                             msg->setFlags(msg->getFlags() & ~MESSAGE_NORAISE);
-                            Event e(EventOpenMessage, &msg);
-                            e.process();
+                            EventOpenMessage(msg).process();
                             delete msg;
                             break;
                         }
                     }
                 }
-                return e->param();
+                return true;
             }
             if ((cmd->menu_id > CmdContactResource) && (cmd->menu_id <= CmdContactResource + 0x100)){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -3418,8 +2800,7 @@ void *CorePlugin::processEvent(Event *e)
                                 if (data == NULL){
                                     data = cc.data;
                                     cc.client->createData(data, contact);
-                                    Event e(EventContactChanged, contact);
-                                    e.process();
+                                    EventContact(contact, EventContact::eChanged).process();
                                 }
                                 getToken(res, ',');
                                 MessageDef *mdef = (MessageDef*)(def->param);
@@ -3427,15 +2808,14 @@ void *CorePlugin::processEvent(Event *e)
                                 msg->setContact((unsigned long)(cmd->param));
                                 msg->setClient(cc.client->dataName(data));
                                 msg->setResource(res);
-                                Event eOpen(EventOpenMessage, &msg);
-                                eOpen.process();
+                                EventOpenMessage(msg).process();
                                 delete msg;
-                                return e->param();
+                                return true;
                             }
                         }
                     }
                 }
-                return NULL;
+                return false;
             }
             if ((cmd->menu_id > CmdContactClients) && (cmd->menu_id <= CmdContactClients + 0x100)){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -3456,18 +2836,16 @@ void *CorePlugin::processEvent(Event *e)
                         if (data == NULL){
                             data = cc.data;
                             cc.client->createData(data, contact);
-                            Event e(EventContactChanged, contact);
-                            e.process();
+                            EventContact(contact, EventContact::eChanged).process();
                         }
 
                         MessageDef *mdef = (MessageDef*)(def->param);
                         Message *msg = mdef->create(NULL);
                         msg->setContact((unsigned long)(cmd->param));
                         msg->setClient(cc.client->dataName(data));
-                        Event eOpen(EventOpenMessage, &msg);
-                        eOpen.process();
+                        EventOpenMessage(msg).process();
                         delete msg;
-                        return e->param();
+                        return true;
                     }
                 }
             }
@@ -3476,15 +2854,16 @@ void *CorePlugin::processEvent(Event *e)
                 showPanel();
             }
         }
-        return NULL;
-    case EventGoURL:{
-            QString url = *((QString*)(e->param()));
+        return false;
+    case eEventGoURL:{
+            EventGoURL *u = static_cast<EventGoURL*>(e);
+            QString url = u->url();
             QString proto;
             int n = url.find(':');
             if (n < 0)
-                return NULL;
+                return false;
             proto = url.left(n);
-            url = url.mid(n + 1);
+            url = url.mid(n + 1 );
             if (proto == "sms"){
                 while (url[0] == '/')
                     url = url.mid(1);
@@ -3494,13 +2873,12 @@ void *CorePlugin::processEvent(Event *e)
                     cmd->id		 = MessageSMS;
                     cmd->menu_id = MenuMessage;
                     cmd->param	 = (void*)(contact->id());
-                    Event eCmd(EventCommandExec, cmd);
-                    eCmd.process();
+                    EventCommandExec(cmd).process();
                 }
-                return e->param();
+                return true;
             }
             if (proto != "sim")
-                return NULL;
+                return false;
             unsigned long contact_id = url.toULong();
             Contact *contact = getContacts()->contact(contact_id);
             if (contact){
@@ -3508,13 +2886,14 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->id		 = MessageGeneric;
                 cmd->menu_id = MenuMessage;
                 cmd->param	 = (void*)contact_id;
-                Event eCmd(EventCommandExec, cmd);
-                eCmd.process();
+                EventCommandExec(cmd).process();
             }
         }
-        return NULL;
+        return false;
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void CorePlugin::showInfo(CommandDef *cmd)
@@ -3601,14 +2980,15 @@ void CorePlugin::changeProfile()
     QString saveProfile = getProfile();
     destroy();
     getContacts()->clearClients();
-    Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
+    EventPluginsUnload eUnload(this);
     eUnload.process();
     getContacts()->clear();
-    preferences.clear();
-    Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
+//    preferences.clear();
+    EventPluginsLoad eLoad(this);
     eLoad.process();
-    Event eInfo(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(eInfo.process());
+    EventGetPluginInfo eInfo("_core");
+    eInfo.process();
+    pluginInfo *info = eInfo.info();
     free_data(coreData, &data);
     load_data(coreData, &data, info->cfg);
     setStatusTime(time(NULL));
@@ -3624,11 +3004,13 @@ void CorePlugin::changeProfile()
 
 void CorePlugin::selectProfile()
 {
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
-    init(false);
-    Event e2(EventInit);
-    e2.process();
+    bool changed = init(false);
+    if (changed){
+        EventInit e2;
+        e2.process();
+    }
 }
 
 bool CorePlugin::init(bool bInit)
@@ -3639,18 +3021,13 @@ bool CorePlugin::init(bool bInit)
     bool bNew = false;
     bool bCmdLineProfile = false;
 
-    CmdParam p;
-    p.arg   = "-profile:";
-    p.descr = I18N_NOOP("Use specified profile");
-
-    Event e(EventArg, &p);
-    e.process();
-    QString cmd_line_profile = p.value;
+    EventArg e1("-profile:", I18N_NOOP("Use specified profile"));
+    e1.process();
+    QString cmd_line_profile = e1.value();
     if (!cmd_line_profile.isEmpty()){
         bCmdLineProfile = true;
         setProfile(QString::null);
-        QString profileDir = user_file("");
-        profileDir += cmd_line_profile;
+        QString profileDir = user_file(cmd_line_profile);
         QDir d(profileDir);
         if (d.exists()) {
             bCmdLineProfile = false;
@@ -3658,15 +3035,11 @@ bool CorePlugin::init(bool bInit)
         }
     }
 
-    p.arg   = "-uin:";
-    p.descr = I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password");
-    p.value = QString::null;
-
-    Event e1(EventArg, &p);
-    if (e1.process() && !p.value.isEmpty()) {
-        int idx = p.value.find(':');
-        QString uin      = p.value.left(idx);
-        QString passwd   = (idx != -1) ? p.value.mid(idx + 1) : QString::null;
+    EventArg e2("-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"));
+    if (e2.process() && !e2.value().isEmpty()){
+        int idx = e2.value().find(':');
+        QString uin      = e2.value().left(idx);
+        QString passwd   = (idx != -1) ? e2.value().mid(idx + 1) : QString::null;
         setICQUIN(uin);
         setICQPassword(passwd);
 
@@ -3693,7 +3066,7 @@ bool CorePlugin::init(bool bInit)
             LoginDialog dlg(bInit, NULL, "", bInit ? "" : getProfile());
             if (dlg.exec() == 0){
                 if (bInit || dlg.isChanged()){
-                    Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+                    EventPluginsLoad eAbort;
                     eAbort.process();
                 }
                 return false;
@@ -3704,7 +3077,7 @@ bool CorePlugin::init(bool bInit)
         }
     }else if (bInit && !getProfile().isEmpty() && !bCmdLineProfile){
         if (!lockProfile(getProfile(), true)){
-            Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+            EventPluginsLoad eAbort;
             eAbort.process();
             return false;
         }
@@ -3712,6 +3085,33 @@ bool CorePlugin::init(bool bInit)
     if (getProfile().isEmpty() || bCmdLineProfile){
         hideWindows();
         getContacts()->clearClients();
+
+        QString name;
+        setProfile(QString::null);
+        QDir d(user_file(QString::null));
+        while(1) {
+          if (!bCmdLineProfile){
+              bool ok = false;
+              name = QInputDialog::getText(i18n("Create Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, NULL);
+              if(!ok){
+                 EventPluginsLoad eAbort;
+                 eAbort.process();
+                 return false;
+              }
+          } else {
+              name = QString(cmd_line_profile);
+          }
+          if(d.exists(name)) {
+            QMessageBox::information(NULL, i18n("Create Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
+            continue;
+          }
+          else if(!d.mkdir(name)) {
+            QMessageBox::information(NULL, i18n("Create Profile"), i18n("Unable to create the profile.  Please do not use any special characters."), QMessageBox::Ok);
+            continue;
+          }
+          break;
+        }
+        setProfile(name);
 
         NewProtocol *pDlg=NULL;
         if (bCmdLineProfile){
@@ -3723,31 +3123,14 @@ bool CorePlugin::init(bool bInit)
         }
         if (!pDlg->exec() && !pDlg->connected()){
             delete(pDlg);
-            Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+            if (d.exists(name))
+                d.rmdir(name);
+            EventPluginsLoad eAbort;
             eAbort.process();
             return false;
         }
         delete(pDlg);
 
-        Client *client = getContacts()->getClient(0);
-        QString profile = client->name();
-        setProfile(QString::null);
-        QString profileDir = user_file("");
-        if (!bCmdLineProfile){
-            profileDir += profile;
-            for (unsigned i = 1;;i++){
-                 QDir d(profileDir + "." + QString::number(i));
-                 if (!d.exists()){
-                     profile += '.';
-                     profile += QString::number(i);
-                     break;
-                 }
-            }
-        } else {
-            profile = cmd_line_profile;
-        }
-
-        setProfile(profile);
         bLoaded = true;
         bRes = false;
         bNew = true;
@@ -3794,7 +3177,7 @@ bool CorePlugin::init(bool bInit)
     m_bInit = true;
     loadMenu();
     if (!bRes){
-        Event eSave(EventSaveState);
+        EventSaveState eSave;
         eSave.process();
         return true;
     }
@@ -3855,7 +3238,7 @@ void CorePlugin::loadDir()
     QString saveProfile = getProfile();
     setProfile(QString::null);
     bool bOK = false;
-    QString baseName = user_file("");
+    QString baseName = user_file(QString::null);
     QDir dir(baseName);
     dir.setFilter(QDir::Dirs);
     QStringList list = dir.entryList();
@@ -3863,7 +3246,7 @@ void CorePlugin::loadDir()
         QString entry = *it;
         if (entry[0] == '.')
             continue;
-        QString fname = baseName + "/" + entry + "/" + CLIENTS_CONF;
+        QString fname = baseName + '/' + entry + '/' + CLIENTS_CONF;
         QFile f(fname);
         if (f.exists()){
             m_profiles.append(entry);
@@ -3876,17 +3259,17 @@ void CorePlugin::loadDir()
 }
 
 static char BACKUP_SUFFIX[] = "~";
-QString CorePlugin::getConfig()
+QCString CorePlugin::getConfig()
 {
     QString unread_str;
     for (list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread){
         msg_id &m = (*itUnread);
         if (!unread_str.isEmpty())
-            unread_str += ";";
+            unread_str += ';';
         unread_str += QString::number(m.contact);
-        unread_str += ",";
+        unread_str += ',';
         unread_str += QString::number(m.id);
-        unread_str += ",";
+        unread_str += ',';
         unread_str += m.client;
     }
     setUnread(unread_str);
@@ -3932,56 +3315,87 @@ QString CorePlugin::getConfig()
     setContainers(containers);
     if (m_main){
         saveGeometry(m_main, data.geometry);
-        saveToolbar(m_main->bar, data.toolBarState);
+        if (m_main->m_bar)
+        {
+          // Should update main toolbar pos only when toolbar is really exist...
+          saveToolbar(m_main->m_bar, data.toolBarState);
+        }
     }
-    QString cfg = save_data(coreData, &data);
+
+// We should save profile and noshow values in profile-independent _core config, and
+// all other values in profile-dependent config.
+// FIXME: This is a nasty hack, profile management should be rewritten
+
+//Saving profile-independent config:
+static DataDef generalCoreDataDef[] =
+    {
+      { "Profile", DATA_STRING,  1, 0 },
+      { "NoShow",  DATA_BOOL,    1, 0 },
+      { NULL,      DATA_UNKNOWN, 0, 0 }
+    };
+struct TGeneralCoreData
+{
+    SIM::Data	Profile;
+    SIM::Data	NoShow;
+} GeneralCoreData;
+
+
     QString saveProfile = getProfile();
     setProfile(QString::null);
+
+    load_data(generalCoreDataDef, &GeneralCoreData, NULL);  // This will just init data
+    GeneralCoreData.Profile.str() = saveProfile;
+    GeneralCoreData.NoShow.asBool() = getNoShow();
+
+    QString cfg = save_data(generalCoreDataDef, &GeneralCoreData);
+
     QString cfgName = user_file("plugins.conf");
     QFile fCFG(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)cfgName.local8Bit());
+        log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
     }else{
-		QTextStream ts(&fCFG);
-        ts << "[_core]\n"
-           << "enable,"
-           << m_base
-           << "\n"
-           << cfg;
-
+        QCString write = "[_core]\n";
+        write += "enable,";
+		write += QString::number(m_base);
+        write += '\n';
+        write += cfg;
+        fCFG.writeBlock(write, write.length());
+        
+	fCFG.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on fCFG.close
         const int status = fCFG.status();
         const QString errorMessage = fCFG.errorString();
         fCFG.close();
         if (status != IO_Ok) {
-            log(L_ERROR, QString("IO error during writting to file %1 : %2").arg(fCFG.name()).arg(errorMessage));
+            log(L_ERROR, "IO error writing to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
         } else {
             // rename to normal file
             QFileInfo fileInfo(fCFG.name());
             QString desiredFileName = fileInfo.fileName();
             desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                log(L_ERROR, QString("Can't rename file %1 to %2").arg(fileInfo.fileName()).arg(desiredFileName));
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
             }
         }
     }
 
+// Saving profile-dependent config:
     setProfile(saveProfile);
     cfgName = user_file(CLIENTS_CONF);
     QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)cfgName.local8Bit());
+        log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
     }else{
-		QTextStream ts(&f);
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             Protocol *protocol = client->protocol();
             pluginInfo *info = NULL;
             for (unsigned long n = 0;; n++){
-                Event e(EventPluginGetInfo, (void*)n);
-                info = (pluginInfo*)e.process();
+                EventGetPluginInfo e(n);
+                e.process();
+                info = e.info();
                 if (info == NULL)
                     break;
                 if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
@@ -3991,32 +3405,34 @@ QString CorePlugin::getConfig()
             }
             if (info == NULL)
                 continue;
-            ts << "["
-               << info->name
-               << "/"
-               << protocol->description()->text
-               << "]\n";
-            QString line = client->getConfig();
+            QCString line = "[";
+            line += QFile::encodeName(info->name).data();
+            line += '/';
+            line += protocol->description()->text;
+            line += "]\n";
+            f.writeBlock(line, line.length());
+            line = client->getConfig();
             if (line.length()){
-				ts << line << "\n";
+                line += '\n';
+                f.writeBlock(line, line.length());
             }
         }
-
+	f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
         const int status = f.status();
         const QString errorMessage = f.errorString();
         f.close();
         if (status != IO_Ok) {
-            log(L_ERROR, QString("IO error during writting to file %1 : %2").arg(f.name()).arg(errorMessage));
+            log(L_ERROR, "IO error writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
         } else {
             // rename to normal file
             QFileInfo fileInfo(f.name());
             QString desiredFileName = fileInfo.fileName();
             desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                log(L_ERROR, QString("Can't rename file %1 to %2").arg(fileInfo.fileName()).arg(desiredFileName));
+                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
             }
         }
     }
@@ -4025,7 +3441,7 @@ QString CorePlugin::getConfig()
     QString dir = user_file("");
     chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
-    QString res = save_data(coreData, &data);
+    QCString res = save_data(coreData, &data);
     setEditBackground(editBgColor);
     setEditForeground(editFgColor);
     return res;
@@ -4064,7 +3480,7 @@ void CorePlugin::clearUnread(unsigned contact_id)
     }
 }
 
-Message *CorePlugin::createMessage(const QString &type, ConfigBuffer *cfg)
+Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 {
     MAP_TYPES::iterator itt = types.find(type);
     if (itt != types.end()){
@@ -4089,45 +3505,43 @@ void CorePlugin::loadClients(ClientList &clients)
         log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
-    ConfigBuffer cfg(&f);
-    if (cfg.length() == 0){
-        log(L_ERROR, "Can't read %s", cfgName.local8Bit().data());
-        return;
-    }
+    Buffer cfg = f.readAll();
     for (;;){
-        QString section = cfg.getSection();
+        QCString section = cfg.getSection();
         if (section.isEmpty())
             break;
-        Client *client = loadClient(section, &cfg);
+        QString s = section;	// ?
+        Client *client = loadClient(s, &cfg);
         if (client)
             clients.push_back(client);
     }
 }
 
-Client *CorePlugin::loadClient(const QString &name, ConfigBuffer *cfg)
+Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 {
     if (name.isEmpty())
         return NULL;
-    QString clientName = name.section('/',1,1);
-    QString pluginName = name.section('/',0,0);
-    if (pluginName.isEmpty())
+    QString clientName = name;
+    QString pluginName = getToken(clientName, '/');
+    if ((pluginName.isEmpty()) || (clientName.length() == 0))
         return NULL;
-    Event e(EventGetPluginInfo, (void*)pluginName.latin1());
-    pluginInfo *info = (pluginInfo*)e.process();
+    EventGetPluginInfo e(pluginName);
+    e.process();
+    pluginInfo *info = e.info();
     if (info == NULL){
-        log(L_WARN, "Plugin %s not found", pluginName.latin1());
+        log(L_WARN, "Plugin %s not found", pluginName.local8Bit().data());
         return NULL;
     }
     if (info->info == NULL){
-        Event e(EventLoadPlugin, &pluginName);
+        EventLoadPlugin e(pluginName);
         e.process();
     }
     if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-        log(L_DEBUG, "Plugin %s no protocol", pluginName.latin1());
+        log(L_DEBUG, "Plugin %s is not a protocol plugin", pluginName.local8Bit().data());
         return NULL;
     }
     info->bDisabled = false;
-    Event eApply(EventApplyPlugin, &pluginName);
+    EventApplyPlugin eApply(pluginName);
     eApply.process();
     Protocol *protocol;
     ContactList::ProtocolIterator it;
@@ -4168,9 +3582,8 @@ void CorePlugin::destroyManager()
 QString CorePlugin::typeName(const QString &name)
 {
     QString text = name;
-    int n = text.find("&", 0);
-    if (n >= 0)
-        text.replace(n, 1, "");
+
+    text.remove('&');
     if (!text.length())
         log(L_DEBUG,"defText is empty!");
     return text;
@@ -4178,13 +3591,11 @@ QString CorePlugin::typeName(const QString &name)
 
 void CorePlugin::loadMenu()
 {
-    Event eMenuRemove(EventMenuRemove, (void*)MenuConnections);
-    eMenuRemove.process();
+    EventMenu(MenuConnections, EventMenu::eRemove).process();
 
     unsigned nClients = getContacts()->nClients();
 
-    Event eMenu(EventMenuCreate, (void*)MenuConnections);
-    eMenu.process();
+    EventMenu(MenuConnections, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdCM;
@@ -4192,14 +3603,13 @@ void CorePlugin::loadMenu()
     cmd->menu_id     = MenuConnections;
     cmd->menu_grp    = 0x8000;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdShowPanel;
     cmd->text		= I18N_NOOP("Show status panel");
     cmd->menu_grp	= 0x8001;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     if (nClients >= 2){
         cmd->id          = CmdConnections;
@@ -4215,28 +3625,21 @@ void CorePlugin::loadMenu()
         cmd->menu_id	= MenuMain;
         cmd->flags		= COMMAND_DEFAULT;
     }
-    eCmd.process();
-
-    cmd->id			= CmdChange;
-    cmd->text		= I18N_NOOP("Change profile");
-    cmd->menu_grp	= 0x10040;
-    cmd->popup_id	= 0;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     if (m_status == NULL)
         m_status = new CommonStatus;
 
     for (unsigned i = 0; i < m_nClients; i++){
-        Event e(EventMenuRemove, (void*)(CmdClient + i));
-        e.process();
+        EventMenu(CmdClient + i, EventMenu::eRemove).process();
     }
     for (m_nClients = 0; m_nClients < getContacts()->nClients(); m_nClients++){
         unsigned long menu_id = CmdClient + m_nClients;
-        Event e(EventMenuCreate, (void*)menu_id);
-        e.process();
+        EventMenu(menu_id, EventMenu::eAdd).process();
         Client *client = getContacts()->getClient(m_nClients);
         Protocol *protocol = client->protocol();
-        const CommandDef *cmd = protocol->statusList();
+        // FIXME
+        CommandDef *cmd = const_cast<CommandDef*>(protocol->statusList());
         if (cmd){
             Command c;
             c->id       = CmdTitle;
@@ -4244,21 +3647,20 @@ void CorePlugin::loadMenu()
             c->menu_id  = menu_id;
             c->menu_grp = 0x0001;
             c->flags    = COMMAND_CHECK_STATE | COMMAND_TITLE;
-            Event eCmd(EventCommandCreate, c);
-            eCmd.process();
+            EventCommandCreate(c).process();
             c->id		= CmdCommonStatus;
             c->text		= I18N_NOOP("Common status");
             c->menu_id	= menu_id;
             c->menu_grp = 0x3000;
             c->flags	= COMMAND_CHECK_STATE;
-            eCmd.process();
+            EventCommandCreate(c).process();
             c->id		= CmdSetup;
             c->text		= I18N_NOOP("Configure client");
             c->icon		= "configure";
             c->menu_id	= menu_id;
             c->menu_grp = 0x3001;
             c->flags	= COMMAND_DEFAULT;
-            eCmd.process();
+            EventCommandCreate(c).process();
             c->id		= menu_id;
             c->text		= "_";
             c->icon		= QString::null;
@@ -4266,7 +3668,7 @@ void CorePlugin::loadMenu()
             c->menu_grp	= 0x1000 + menu_id;
             c->popup_id	= menu_id;
             c->flags	= COMMAND_CHECK_STATE;
-            eCmd.process();
+            EventCommandCreate(c).process();
             unsigned id = 0x100;
 //            for (; cmd->id; cmd++){
             for (; !cmd->text.isEmpty(); cmd++){
@@ -4274,7 +3676,7 @@ void CorePlugin::loadMenu()
                 c->menu_id = menu_id;
                 c->menu_grp = id++;
                 c->flags = COMMAND_CHECK_STATE;
-                eCmd.process();
+                EventCommandCreate(c).process();
             }
             if (protocol->description()->flags & PROTOCOL_INVISIBLE){
                 c->id		= CmdInvisible;
@@ -4282,7 +3684,7 @@ void CorePlugin::loadMenu()
                 c->icon		= protocol->description()->icon_on;
                 c->menu_grp	= 0x1000;
                 c->flags	= COMMAND_CHECK_STATE;
-                eCmd.process();
+                EventCommandCreate(c).process();
             }
         }
     }
@@ -4346,7 +3748,7 @@ QString CorePlugin::clientName(Client *client)
 {
     QString s = client->name();
     QString res = i18n(getToken(s, '.'));
-    res += " ";
+    res += ' ';
     return res + s;
 }
 

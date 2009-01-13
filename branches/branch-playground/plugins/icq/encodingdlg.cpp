@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "encodingdlg.h"
 #include "icqclient.h"
 
@@ -36,17 +37,17 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
     m_client = client;
     connect(buttonOk, SIGNAL(clicked()), this, SLOT(apply()));
     connect(cmbEncoding, SIGNAL(activated(int)), this, SLOT(changed(int)));
-    cmbEncoding->insertItem("");
+    cmbEncoding->insertItem(QString::null);
     const ENCODING *e = getContacts()->getEncodings();
     for (e++; e->language; e++){
         if (!e->bMain)
             continue;
-        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ")");
+        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ')');
     }
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (e->bMain)
             continue;
-        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ")");
+        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ')');
     }
     buttonOk->setEnabled(false);
 }

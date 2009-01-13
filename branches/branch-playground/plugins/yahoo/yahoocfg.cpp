@@ -15,15 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yahoocfg.h"
-#include "yahooclient.h"
-#include "linklabel.h"
-
 #include <qtimer.h>
 #include <qtabwidget.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
+
+#include "linklabel.h"
+#include "misc.h"
+
+#include "yahoocfg.h"
+#include "yahooclient.h"
 
 YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
         : YahooConfigBase(parent)

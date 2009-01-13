@@ -21,7 +21,7 @@
 
 using namespace SIM;
 
-Plugin *createYahooPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createYahooPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new YahooPlugin(base);
     return plugin;
@@ -47,8 +47,9 @@ CorePlugin *YahooPlugin::core = NULL;
 YahooPlugin::YahooPlugin(unsigned base)
         : Plugin(base)
 {
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
     YahooPacket = registerType();
     getContacts()->addPacketType(YahooPacket, "Yahoo!");
@@ -72,7 +73,7 @@ YahooProtocol::~YahooProtocol()
 {
 }
 
-Client *YahooProtocol::createClient(ConfigBuffer *cfg)
+Client *YahooProtocol::createClient(Buffer *cfg)
 {
     return new YahooClient(this, cfg);
 }

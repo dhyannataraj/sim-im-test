@@ -8,22 +8,21 @@ yahoo_la_SOURCES = \
  yahooauth.cpp \
  yahoocfg.cpp \
  yahoocfgbase.ui \
+ yahoofiletransfer.cpp \
  yahooinfo.cpp \
  yahooinfobase.ui \
  yahoosearch.cpp \
  yahoosearchbase.ui \
  crypt.cpp \
  yahootransformtables.c \
- yahoohttp.cpp \
- md5.c \
- sha.c
+ yahoohttp.cpp
 
 INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 yahoo_la_METASOURCES = AUTO
 yahoo_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
 
-yahoo_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+yahoo_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 
 

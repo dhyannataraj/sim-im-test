@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "cfgdlg.h"
 #include "plugincfg.h"
 #include "maininfo.h"
 #include "arcfg.h"
-#include "stl.h"
 #include "buffer.h"
 #include "core.h"
 
@@ -103,7 +103,7 @@ void ConfigItem::init(unsigned id)
     m_id = id;
     QString key = QString::number(++curIndex);
     while (key.length() < 4)
-        key = "0" + key;
+        key = '0' + key;
     setText(1, key);
 }
 
@@ -179,7 +179,7 @@ void PluginItem::apply()
             m_widget = NULL;
         }
     }
-    Event e(EventApplyPlugin, &m_info->name);
+    EventApplyPlugin e(m_info->name);
     e.process();
 }
 
@@ -251,9 +251,37 @@ private:
 ARItem::ARItem(QListViewItem *item, const CommandDef *d)
         : ConfigItem(item, 0)
 {
+    QString icon;
+
     m_status = d->id;
     setText(0, i18n(d->text));
-    setPixmap(0, Pict(d->icon, listView()->colorGroup().base()));
+    switch (d->id){
+    case STATUS_ONLINE: 
+        icon="SIM_online";
+        break;
+    case STATUS_AWAY:
+        icon="SIM_away";
+        break;
+    case STATUS_NA:
+        icon="SIM_na";
+        break;
+    case STATUS_DND:
+        icon="SIM_dnd";
+        break;
+	case STATUS_OCCUPIED:
+        icon="SIM_occupied";
+        break;
+    case STATUS_FFC:
+        icon="SIM_ffc";
+        break;
+    case STATUS_OFFLINE:
+        icon="SIM_offline";
+        break;
+    default:
+        icon=d->icon;
+        break;
+    }
+    setPixmap(0, Pict(icon, listView()->colorGroup().base()));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -311,12 +339,15 @@ ConfigureDialog::~ConfigureDialog()
 {
     lstBox->clear();
     for (unsigned long n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
-        if (info == NULL) break;
-        if (info->plugin == NULL) continue;
+        EventGetPluginInfo e(n);
+        e.process();
+        const pluginInfo *info = e.info();
+        if (info == NULL)
+            break;
+        if (info->plugin == NULL)
+            continue;
         if (info->bDisabled){
-            Event eUnload(EventUnloadPlugin, &info->name);
+            EventUnloadPlugin eUnload(info->name);
             eUnload.process();
         }
     }
@@ -387,11 +418,13 @@ void ConfigureDialog::fill(unsigned id)
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
-        if (info == NULL) break;
+        EventGetPluginInfo e(n);
+        e.process();
+        pluginInfo *info = e.info();
+        if (info == NULL)
+            break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, &info->name);
+            EventLoadPlugin e(info->name);
             e.process();
         }
         if ((info->info == NULL) || (info->info->title == NULL)) continue;
@@ -472,12 +505,13 @@ void ConfigureDialog::apply()
         for (const DataDef *d = def; d->name; ++d)
             size += d->n_values;
         Data *data = new Data[size];
-        QString cfg = client->getConfig();
+        QCString cfg = client->getConfig();
         if (cfg.isEmpty()){
-            load_data(def, data);
+            load_data(def, data, NULL);
         }else{
-            QString str = "[Title]\n" + cfg;
-            ConfigBuffer config(str);
+            Buffer config;
+            config = "[Title]\n" + cfg;
+            config.setWritePos(0);
             config.getSection();
             load_data(def, data, &config);
         }
@@ -504,17 +538,18 @@ void ConfigureDialog::apply()
     }
     if (lstBox->currentItem())
         static_cast<ConfigItem*>(lstBox->currentItem())->show();
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
 }
 
-void *ConfigureDialog::processEvent(Event *e)
+bool ConfigureDialog::processEvent(Event *e)
 {
-    if (e->type() == EventLanguageChanged)
+    if (e->type() == eEventLanguageChanged)
         bLanguageChanged = true;
-    if (e->type() == EventPluginChanged){
-        pluginInfo *info = (pluginInfo*)(e->param());
-        if (info->plugin == NULL){
+    if (e->type() == eEventPluginChanged){
+        EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
+        pluginInfo *info = p->info();
+        if (info && info->plugin == NULL){
             for (QListViewItem *i = lstBox->firstChild(); i; i = i->nextSibling()){
                 ConfigItem *item = static_cast<ConfigItem*>(i);
                 if (item->type() != PLUGIN_ITEM)
@@ -526,13 +561,13 @@ void *ConfigureDialog::processEvent(Event *e)
             }
         }
     }
-    if (e->type() == EventClientsChanged){
+    if (e->type() == eEventClientsChanged){
         unsigned id = 0;
         if (lstBox->currentItem())
             id = static_cast<ConfigItem*>(lstBox->currentItem())->id();
         fill(id);
     }
-    if (e->type() == EventClientChanged){
+    if (e->type() == eEventClientChanged){
         if (m_nUpdates){
             if (--m_nUpdates == 0){
                 setTitle();
@@ -540,7 +575,7 @@ void *ConfigureDialog::processEvent(Event *e)
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 void ConfigureDialog::setTitle()
@@ -549,7 +584,7 @@ void ConfigureDialog::setTitle()
     if (m_nUpdates){
         title += " [";
         title += i18n("Update info");
-        title += "]";
+        title += ']';
     }
     setCaption(title);
 }

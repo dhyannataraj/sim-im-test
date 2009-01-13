@@ -21,7 +21,7 @@
 
 using namespace SIM;
 
-Plugin *createICQPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createICQPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ICQPlugin(base);
     return plugin;
@@ -50,7 +50,7 @@ ICQProtocol::~ICQProtocol()
 {
 }
 
-Client *ICQProtocol::createClient(ConfigBuffer *cfg)
+Client *ICQProtocol::createClient(Buffer *cfg)
 {
     return new ICQClient(this, cfg, false);
 }
@@ -206,7 +206,7 @@ AIMProtocol::~AIMProtocol()
 {
 }
 
-Client *AIMProtocol::createClient(ConfigBuffer *cfg)
+Client *AIMProtocol::createClient(Buffer *cfg)
 {
     return new ICQClient(this, cfg, true);
 }
@@ -298,8 +298,9 @@ ICQPlugin *ICQPlugin::icq_plugin = NULL;
 ICQPlugin::ICQPlugin(unsigned base)
         : Plugin(base)
 {
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 
     icq_plugin = this;
@@ -314,14 +315,8 @@ ICQPlugin::ICQPlugin(unsigned base)
     m_icq = new ICQProtocol(this);
     m_aim = new AIMProtocol(this);
 
-    Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
-    eMenuSearch.process();
-    Event eMenuGroups(EventMenuCreate, (void*)MenuIcqGroups);
-    eMenuGroups.process();
-    /*
-    Event eMenuCheckInvisible(EventMenuCreate, (void*)MenuCheckInvisible);
-    eMenuCheckInvisible.process();
-    */
+    EventMenu(MenuSearchResult, EventMenu::eAdd).process();
+    EventMenu(MenuIcqGroups, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdVisibleList;
@@ -329,14 +324,12 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->menu_id     = MenuContactGroup;
     cmd->menu_grp    = 0x8010;
     cmd->flags		 = COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdInvisibleList;
     cmd->text		 = I18N_NOOP("Invisible list");
     cmd->menu_grp	 = 0x8011;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdIcqSendMessage;
     cmd->text		 = I18N_NOOP("&Message");
@@ -346,26 +339,26 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->bar_id		 = 0;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdInfo;
     cmd->text		 = I18N_NOOP("User &info");
     cmd->icon		 = "info";
     cmd->menu_grp	 = 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdGroups;
     cmd->text		 = I18N_NOOP("&Add to group");
     cmd->icon		 = QString::null;
     cmd->menu_grp	 = 0x1002;
     cmd->popup_id	 = MenuIcqGroups;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdGroups;
     cmd->text		 = "_";
     cmd->menu_id	 = MenuIcqGroups;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     registerMessages();
 
@@ -384,15 +377,9 @@ ICQPlugin::~ICQPlugin()
     getContacts()->removePacketType(ICQDirectPacket);
     getContacts()->removePacketType(AIMDirectPacket);
 
-    Event eVisible(EventCommandRemove, (void*)CmdVisibleList);
-    eVisible.process();
+    EventCommandRemove(CmdVisibleList).process();
+    EventCommandRemove(CmdInvisibleList).process();
 
-    Event eInvisible(EventCommandRemove, (void*)CmdInvisibleList);
-    eInvisible.process();
-
-    Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
-    eMenuSearch.process();
-
-    Event eMenuGroups(EventMenuRemove, (void*)MenuIcqGroups);
-    eMenuGroups.process();
+    EventMenu(MenuSearchResult, EventMenu::eRemove).process();
+    EventMenu(MenuIcqGroups, EventMenu::eRemove).process();
 }

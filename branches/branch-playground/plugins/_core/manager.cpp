@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "manager.h"
 #include "newprotocol.h"
 #include "connectionsettings.h"
@@ -175,8 +176,7 @@ void ConnectionManager::updateClient()
     Command cmd;
     cmd->id = CmdSetup;
     cmd->menu_id = CmdClient + n;
-    Event e(EventCommandExec, cmd);
-    e.process();
+    EventCommandExec(cmd).process();
 }
 
 #ifndef NO_MOC_INCLUDES

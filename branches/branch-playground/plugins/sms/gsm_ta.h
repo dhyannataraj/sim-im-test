@@ -18,17 +18,19 @@
 #ifndef _GSM_TA_H
 #define _GSM_TA_H
 
+#include <qcstring.h>
+#include <qobject.h>
+#include <vector>
 #include "simapi.h"
-#include "stl.h"
 
 class SerialPort;
 class QTimer;
 
-typedef struct OpInfo
+struct OpInfo
 {
     unsigned	oper;
     std::string	param;
-} OpInfo;
+};
 
 class Phonebook
 {
@@ -48,8 +50,8 @@ public:
     GsmTA(QObject *parent);
     ~GsmTA();
     bool open(const char *device, int baudrate, bool bXonXoff);
-    std::string model();
-    std::string oper();
+    QCString model() const;
+    QCString oper() const;
     void getPhoneBook();
     void setPhoneBookEntry(unsigned index, const QString &phone, const QString &name);
 signals:
@@ -93,37 +95,37 @@ protected:
         PhoneBookStore
     };
     unsigned m_tries;
-    void at(const char *str, unsigned timeout=10000);
-    bool isOK(const char *answer);
-    bool isError(const char *answer);
-    bool isChatOK(const char *amswer, const char *response = NULL,
+    void at(const QCString &str, unsigned timeout=10000);
+    bool isOK(const QCString &answer);
+    bool isError(const QCString &answer);
+    bool isChatOK(const QCString &answer, const char *response = NULL,
                   bool bIgnoreErrors = false, bool bAcceptEmptyResponse = false);
-    bool isChatResponse(const char *answer, const char *response = NULL,
+    bool isChatResponse(const QCString &answer, const char *response = NULL,
                         bool bIgnoreErrors = false);
-    bool isIncoming(const char *answer);
-    bool matchResponse(std::string &answer, const char *responseToMatch);
+    bool isIncoming(const QCString &answer);
+    bool matchResponse(QCString &answer, const char *responseToMatch);
     void processQueue();
-    void parseEntriesList(const char *answ);
-    void parseEntry(const char *answ);
+    void parseEntriesList(const QCString &answ);
+    void parseEntry(const QCString &answ);
     void getNextEntry();
-    std::string normalize(const char *answ);
-    std::string gsmToLatin1(const char *str);
-    std::string latin1ToGsm(const char *str);
-    State			m_state;
-    std::string		m_cmd;
-    std::string		m_manufacturer;
-    std::string		m_model;
-    std::string		m_revision;
-    std::string		m_serialNumber;
-    std::string		m_operator;
-    std::string		m_response;
-    std::string		m_charset;
+    QCString normalize(const QCString &answ);
+    QCString gsmToLatin1(const QCString &str);
+    QCString latin1ToGsm(const QCString &str);
+    State               m_state;
+    QCString		m_cmd;
+    QCString		m_manufacturer;
+    QCString		m_model;
+    QCString		m_revision;
+    QCString		m_serialNumber;
+    QCString		m_operator;
+    QCString		m_response;
+    QCString		m_charset;
     std::list<OpInfo>m_queue;
     Phonebook		m_books[2];
-    Phonebook		*m_book;
-    bool			m_bPing;
+    Phonebook          *m_book;
+    bool                m_bPing;
     unsigned		m_bookType;
-    QTimer			*m_timer;
+    QTimer             *m_timer;
     SerialPort		*m_port;
 };
 

@@ -2,12 +2,15 @@
 <icondef>
   <meta>
     <name>SIM Icons</name>
-    <version>0.9.4</version>
+    <version>0.9.5</version>
     <description>SIM icons.</description>
     <author jid="shutoff@jabber.ru">Vladimir Shutoff</author>
     <creation>2004-06-11</creation>
     <home>http://sim-im.org/</home>
   </meta>
+  <icon name="SIM">
+	<object mime="image/png">sim.png</object>
+  </icon>
   <icon name="about_kde" kicon="about_kde">
   </icon>
   <icon name="ICQ" kicon="licq" flags="65340">
@@ -34,6 +37,24 @@
   <icon name="Yahoo!_dnd">
 	<object mime="image/png">yahoo_dnd.png</object>
   </icon>
+  <icon name="GG">
+    <object mime="image/png">gadu.png</object>
+  </icon>
+  <icon name="GG_away">
+    <object mime="image/png">gadu_away.png</object>
+  </icon>
+  <icon name="GG_na">
+    <object mime="image/png">gadu_na.png</object>
+  </icon>
+  <icon name="GG_dnd">
+    <object mime="image/png">gadu_dnd.png</object>
+  </icon>
+  <icon name="GG_invisible">
+    <object mime="image/png">gadu_invisible.png</object>
+  </icon>
+  <icon name="GG_offline">
+    <object mime="image/png">gadu_offline.png</object>
+  </icon>
   <icon name="away">
 	<object mime="image/png">away.png</object>
   </icon>
@@ -57,9 +78,6 @@
   </icon>
   <icon name="button_cancel" kicon="button_cancel">
 	<object mime="image/png">button_cancel.png</object>
-  </icon>
-  <icon name="1downarrow" kicon="1downarrow">
-	<object mime="image/png">1downarrow.png</object>
   </icon>
   <icon name="1downarrow" kicon="1downarrow">
 	<object mime="image/png">1downarrow.png</object>

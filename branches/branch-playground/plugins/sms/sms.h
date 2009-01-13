@@ -18,8 +18,8 @@
 #ifndef _SMS_H
 #define _SMS_H
 
-#include "simapi.h"
 #include "socket.h"
+#include "log.h"
 
 class SMSProtocol;
 class GsmTA;
@@ -49,13 +49,13 @@ class SMSProtocol : public SIM::Protocol
 public:
     SMSProtocol(SIM::Plugin *plugin);
     ~SMSProtocol();
-    SIM::Client	*createClient(ConfigBuffer *cfg);
+    SIM::Client	*createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     const SIM::DataDef *userDataDef();
 };
 
-typedef struct SMSClientData
+struct SMSClientData
 {
     SIM::Data	Device;
     SIM::Data	BaudRate;
@@ -63,7 +63,7 @@ typedef struct SMSClientData
     SIM::Data	Charge;
     SIM::Data	Charging;
     SIM::Data	Quality;
-} SMSClientData;
+};
 
 const unsigned SMS_SIGN	= 6;
 
@@ -79,7 +79,7 @@ class SMSClient : public SIM::TCPClient
 {
     Q_OBJECT
 public:
-    SMSClient(SIM::Protocol *protocol, ConfigBuffer *cfg);
+    SMSClient(SIM::Protocol *protocol, Buffer *cfg);
     ~SMSClient();
     PROP_STR(Device);
     PROP_ULONG(BaudRate);
@@ -87,11 +87,9 @@ public:
     PROP_ULONG(Charge);
     PROP_BOOL(Charging);
     PROP_ULONG(Quality);
-    std::string model();
-    std::string oper();
-    virtual QString name();
-    virtual QString dataName(void*);
-    virtual void contactInfo(void *, unsigned long &, unsigned &, QString&, QString *icons=NULL);
+    QCString model() const;
+    QCString oper() const;
+    smsUserData* tosmsUserData(SIM::clientData * data);
 protected slots:
     void error();
     void init();
@@ -103,10 +101,12 @@ protected slots:
     void callTimeout();
 protected:
     virtual QString         getServer() const;
-    virtual unsigned short	getPort() const;
+    virtual unsigned short  getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
-    virtual QString getConfig();
+    virtual QCString getConfig();
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual bool	isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool	createData(SIM::clientData*&, SIM::Contact*);
     virtual void	setupContact(SIM::Contact*, void *data);
@@ -118,6 +118,7 @@ protected:
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget	*setupWnd();
     virtual QWidget *searchWindow(QWidget*);
+    virtual void contactInfo(void *,unsigned long &,unsigned int &,QString &,QString *) {}
     QString			m_callNumber;
     QTimer			*m_callTimer;
     SIM::Message	*m_call;

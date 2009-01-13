@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "proxyerror.h"
-#include "proxycfg.h"
-
 #include <qpixmap.h>
 #include <qlayout.h>
 #include <qlabel.h>
+
+#include "icons.h"
+#include "misc.h"
+
+#include "proxyerror.h"
+#include "proxycfg.h"
 
 using namespace SIM;
 
@@ -51,17 +53,17 @@ ProxyError::~ProxyError()
         m_client->setStatus(STATUS_OFFLINE, false);
 }
 
-void *ProxyError::processEvent(Event *e)
+bool ProxyError::processEvent(Event *e)
 {
-    if (e->type() == EventClientsChanged){
+    if (e->type() == eEventClientsChanged){
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == m_client)
-                return NULL;
+                return false;
         }
         m_client = NULL;
         close();
     }
-    return NULL;
+    return false;
 }
 
 void ProxyError::accept()

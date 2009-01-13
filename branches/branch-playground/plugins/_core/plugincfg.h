@@ -18,7 +18,8 @@
 #ifndef _PLUGINCFG_H
 #define _PLUGINCFG_H
 
-#include "simapi.h"
+#include "plugins.h"
+
 #include "plugincfgbase.h"
 
 class PluginCfg : public PluginCfgBase

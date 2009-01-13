@@ -19,6 +19,9 @@
 #define _TEXTSHOW_H
 
 #include "simapi.h"
+#include "event.h"
+#include "core_consts.h"
+#include "msggen.h"
 
 #include <qglobal.h>
 #include <qmainwindow.h>
@@ -90,7 +93,7 @@ protected slots:
     void fgColorChanged(QColor c);
     void fontChanged(const QFont &f);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual void focusOutEvent(QFocusEvent *e);
     void keyPressEvent(QKeyEvent *e);
     QPopupMenu *createPopupMenu(const QPoint& pos);

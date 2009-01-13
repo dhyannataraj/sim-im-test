@@ -19,7 +19,6 @@
 #define SOCKFACTORY_H	1
 
 #include "simapi.h"
-#include "stl.h"
 #include "socket.h"
 
 class QDns;
@@ -53,6 +52,7 @@ protected slots:
     void slotLookupFinished(int);
     void resolveReady(unsigned long addr, const QString &host);
     void timeout();
+	void error(int errcode);
 protected:
     void timerStop();
     unsigned short port;
@@ -108,13 +108,13 @@ class SIMSockets : public SocketFactory
 {
     Q_OBJECT
 public:
-    SIMSockets();
-    ~SIMSockets();
+    SIMSockets(QObject *parent);
+    virtual ~SIMSockets();
     virtual Socket *createSocket();
     virtual ServerSocket *createServerSocket();
     void resolve(const QString &host);
 signals:
-    void resolveReady(unsigned long res, const QString&);
+    void resolveReady(unsigned long res, const QString &);
 public slots:
     void resultsReady();
     void idle();
@@ -155,5 +155,3 @@ protected:
 }
 
 #endif
-
-

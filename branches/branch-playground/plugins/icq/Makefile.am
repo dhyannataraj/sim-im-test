@@ -11,6 +11,7 @@ icq_la_SOURCES = \
  icqlogin.cpp \
  icqbos.cpp \
  icqbuddy.cpp \
+ icqbuffer.cpp \
  icqicmb.cpp \
  icqlists.cpp \
  icqlocation.cpp \
@@ -59,7 +60,8 @@ icq_la_SOURCES = \
  verifydlg.cpp \
  verifydlgbase.ui \
  xml.cpp \
- icqssbi.cpp
+ icqssbi.cpp \
+ snac.cpp
 
 SUBDIRS = sounds
 
@@ -67,6 +69,6 @@ INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 icq_la_METASOURCES = AUTO
 icq_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIBSSL) $(EXTRA_LIBS)
-icq_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+icq_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 

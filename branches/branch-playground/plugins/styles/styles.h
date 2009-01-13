@@ -18,9 +18,14 @@
 #ifndef _STYLES_H
 #define _STYLES_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "plugins.h"
 
-typedef struct StylesData
+class QFont;
+class QStyle;
+class QPalette;
+
+struct StylesData
 {
     SIM::Data	Style;
     SIM::Data	SystemFonts;
@@ -30,12 +35,12 @@ typedef struct StylesData
     SIM::Data	SystemColors;
     SIM::Data	BtnColor;
     SIM::Data	BgColor;
-} StylesData;
+};
 
 class StylesPlugin : public SIM::Plugin
 {
 public:
-    StylesPlugin(unsigned, ConfigBuffer*);
+    StylesPlugin(unsigned, Buffer*);
     ~StylesPlugin();
     PROP_STR(Style);
     PROP_BOOL(SystemFonts);
@@ -45,7 +50,7 @@ public:
     PROP_BOOL(SystemColors);
     PROP_ULONG(BtnColor);
     PROP_ULONG(BgColor);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     QWidget *createConfigWindow(QWidget *parent);
     void setFonts();
     void setupDefaultFonts();

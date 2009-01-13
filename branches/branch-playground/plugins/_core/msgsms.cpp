@@ -40,7 +40,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     m_bExpand  = false;
     m_bCanSend = false;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(PlainText);
@@ -51,8 +51,9 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     Command cmd;
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolCombo *cmbPhone = (CToolCombo*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbPhone)
         connect(cmbPhone->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(m_edit->m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
@@ -82,14 +83,13 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
         m_panel->show();
     }
     if (m_edit->m_edit->text().isEmpty()){
-        TemplateExpand t;
+        EventTemplate::TemplateExpand t;
         if (!data->SMSSignatureBefore.str().isEmpty()){
             t.tmpl = data->SMSSignatureBefore.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
+            EventTemplateExpand(&t).process();
         }else{
             m_bExpand = true;
             if (!data->SMSSignatureAfter.str().isEmpty()){
@@ -97,8 +97,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
                 t.contact = contact;
                 t.receiver = this;
                 t.param = NULL;
-                Event eTmpl(EventTemplateExpand, &t);
-                eTmpl.process();
+                EventTemplateExpand(&t).process();
             }
         }
     }
@@ -106,6 +105,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
 
 MsgSMS::~MsgSMS()
 {
+    m_edit->m_userWnd->setStatus(QString::null); // Clear "Size: %1 / Max. size: %2" from status line
     if (m_panel)
         delete m_panel;
 }
@@ -122,8 +122,9 @@ void MsgSMS::init()
     Command cmd;
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolCombo *cmbPhone = (CToolCombo*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbPhone && cmbPhone->lineEdit()->text().isEmpty()){
         cmbPhone->setFocus();
         return;
@@ -143,14 +144,16 @@ void MsgSMS::textChanged()
     Command cmd;
     cmd->id    = CmdTranslit;
     cmd->param = m_edit;
-    Event eBtn(EventCommandWidget, cmd);
-    CToolButton *btnTranslit = (CToolButton*)(eBtn.process());
+    EventCommandWidget eWidget1(cmd);
+    eWidget1.process();
+    CToolButton *btnTranslit = dynamic_cast<CToolButton*>(eWidget1.widget());
     if (btnTranslit && btnTranslit->isOn())
         msgText = toTranslit(msgText);
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolCombo *cmbPhone = (CToolCombo*)(e.process());
+    EventCommandWidget eWidget2(cmd);
+    eWidget2.process();
+    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget2.widget());
     if (cmbPhone)
         phone = cmbPhone->lineEdit()->text();
     bool bCanSend = !phone.isEmpty() || !msgText.isEmpty();
@@ -158,8 +161,7 @@ void MsgSMS::textChanged()
         m_bCanSend = bCanSend;
         cmd->id    = CmdSend;
         cmd->flags = m_bCanSend ? 0 : COMMAND_DISABLED;
-        Event e(EventCommandDisabled, cmd);
-        e.process();
+        EventCommandDisabled(cmd).process();
     }
     unsigned size = msgText.length();
     unsigned max_size = MAX_SMS_LEN_UNICODE;
@@ -174,17 +176,18 @@ void MsgSMS::textChanged()
     m_edit->m_userWnd->setStatus(status);
 }
 
-void *MsgSMS::processEvent(Event *e)
+bool MsgSMS::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
                 if (cmd->id == CmdPhoneNumber)
                     cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -193,17 +196,18 @@ void *MsgSMS::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
-    }
-    if (e->type() == EventTemplateExpanded){
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    } else
+    if (e->type() == eEventTemplateExpanded){
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         if (m_bExpand){
             m_edit->m_edit->append(t->tmpl);
         }else{
@@ -215,15 +219,15 @@ void *MsgSMS::processEvent(Event *e)
                 SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::m_plugin->sms_data_id));
                 if (!data->SMSSignatureAfter.str().isEmpty()){
                     t->tmpl = data->SMSSignatureAfter.str();
-                    Event eTmpl(EventTemplateExpand, t);
-                    eTmpl.process();
+                    EventTemplateExpand(t).process();
                 }
             }
         }
-        return e->param();
+        return(void*)1;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             unsigned flags = 0;
             QString msgText = m_edit->m_edit->text();
@@ -231,8 +235,9 @@ void *MsgSMS::processEvent(Event *e)
             Command c;
             c->id    = CmdPhoneNumber;
             c->param = m_edit;
-            Event eWidget(EventCommandWidget, c);
-            CToolCombo *cmbPhone = (CToolCombo*)(eWidget.process());
+            EventCommandWidget eWidget(c);
+            eWidget.process();
+            CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
             if (cmbPhone)
                 phone = cmbPhone->lineEdit()->text();
 
@@ -251,8 +256,7 @@ void *MsgSMS::processEvent(Event *e)
                                 contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                                 delete m_panel;
                             }
-                            Event e(EventContactChanged, contact);
-                            e.process();
+                            EventContact(contact, EventContact::eChanged).process();
                         }
                         QString newPhones;
                         QString phones = contact->getPhones();
@@ -266,33 +270,32 @@ void *MsgSMS::processEvent(Event *e)
                             QString phoneType = getToken(phoneStr, ',');
                             if ((phone != msg->getPhone()) || (phoneStr.toUInt() != CELLULAR)){
                                 if (!newPhones.isEmpty())
-                                    newPhones += ";";
+                                    newPhones += ';';
                                 newPhones += item;
                                 continue;
                             }
                             type = phoneType;
                             src  = phoneItem;
                         }
-                        phone += ",";
+                        phone += ',';
                         phone += type;
-                        phone += ",";
+                        phone += ',';
                         phone += QString::number(CELLULAR);
-                        phone += "/";
+                        phone += '/';
                         phone += src;
                         if (!newPhones.isEmpty())
-                            phone += ";";
+                            phone += ';';
                         newPhones = phone + newPhones;
                         if (contact->setPhones(newPhones)){
-                            Event e(EventContactChanged, contact);
-                            e.process();
+                            EventContact(contact, EventContact::eChanged).process();
                         }
                     }
                 }
             }
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 SMSPanel::SMSPanel(QWidget *parent)

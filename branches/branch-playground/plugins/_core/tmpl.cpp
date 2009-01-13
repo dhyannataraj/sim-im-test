@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "tmpl.h"
-#include "exec.h"
+#include <time.h>
+
+#include "log.h"
+
 #include "core.h"
-#include <sockfactory.h>
 
 #ifdef Q_OS_WIN
 #include <winsock.h>
@@ -29,7 +30,10 @@
 
 #include <qtimer.h>
 #include <qdatetime.h>
-#include <time.h>
+#include <qprocess.h>
+
+#include "tmpl.h"
+#include "sockfactory.h"
 
 using namespace std;
 using namespace SIM;
@@ -43,29 +47,30 @@ Tmpl::~Tmpl()
 {
 }
 
-void *Tmpl::processEvent(Event *e)
+bool Tmpl::processEvent(Event *e)
 {
-    if (e->type() == EventTemplateExpand){
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    if (e->type() == eEventTemplateExpand){
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         TmplExpand tmpl;
         tmpl.tmpl = *t;
-        tmpl.exec = NULL;
+        tmpl.process = NULL;
         tmpl.bReady = false;
-        if (!process(&tmpl))
+        if (!process(tmpl))
             tmpls.push_back(tmpl);
-        return e->param();
+        return true;
     }
-    return NULL;
+    return false;
 }
 
 void Tmpl::clear()
 {
-    for (list<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
-        if ((*it).bReady && (*it).exec){
-            delete (*it).exec;
-            (*it).exec = NULL;
+    for (QValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
+        if ((*it).bReady && (*it).process){
+            delete (*it).process;
+            (*it).process = NULL;
             (*it).bReady = false;
-            if (process(&(*it))){
+            if (process(*it)){
                 tmpls.erase(it);
                 it = tmpls.begin();
                 continue;
@@ -77,61 +82,69 @@ void Tmpl::clear()
     }
 }
 
-void Tmpl::ready(Exec *exec, int, const char *out)
+void Tmpl::ready()
 {
-    for (list<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
-        if ((*it).exec != exec)
-            continue;
-        (*it).bReady = true;
-        (*it).res += QString::fromLocal8Bit(out);
-        QTimer::singleShot(0, this, SLOT(clear()));
-        return;
+    for (QValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
+        QProcess *p = (*it).process;
+        if (p && !p->isRunning()){
+            if (p->normalExit() && p->exitStatus() == 0){
+                (*it).bReady = true;
+                (*it).res += QString::fromLocal8Bit(p->readStdout());
+                QTimer::singleShot(0, this, SLOT(clear()));
+                return;
+            }
+        }
     }
 }
 
-bool Tmpl::process(TmplExpand *t)
+bool Tmpl::process(TmplExpand &t)
 {
-    QString head = getToken(t->tmpl.tmpl, '`', false);
-    t->res += process(t, head);
-    if (t->tmpl.tmpl.isEmpty()){
-        t->tmpl.tmpl = t->res;
-        Event e(EventTemplateExpanded, t);
-        t->tmpl.receiver->processEvent(&e);
+    QString head = getToken(t.tmpl.tmpl, '`', false);
+    t.res += process(t, head);
+    if (t.tmpl.tmpl.isEmpty()){
+        t.tmpl.tmpl = t.res;
+        EventTemplateExpanded e(&t.tmpl);
+        t.tmpl.receiver->processEvent(&e);
+        e.setNoProcess();
         return true;
     }
-    QString prg = getToken(t->tmpl.tmpl, '`', false);
+    QString prg = getToken(t.tmpl.tmpl, '`', false);
     prg = process(t, prg);
-    t->exec = new Exec;
-    connect(t->exec, SIGNAL(ready(Exec*, int, const char*)), this, SLOT(ready(Exec*, int, const char*)));
-    t->exec->execute(prg.local8Bit(), "");
+    t.process = new QProcess(prg, parent());
+    connect(t.process, SIGNAL(processExited()), this, SLOT(ready()));
+    t.process->start();
     return false;
 }
 
-QString Tmpl::process(TmplExpand *t, const QString &str)
+QString Tmpl::process(TmplExpand &t, const QString &str)
 {
     QString res;
     QString s = str;
     while (!s.isEmpty()){
         res += getToken(s, '&');
+        if(s.isEmpty())
+            break;
         QString tag = getToken(s, ';');
-        if (tag.isEmpty())
+        if (tag.isEmpty()) {
+            res += tag;
+            log(L_WARN, "Found '&' without ';' while parsing %s", str.local8Bit().data());
             continue;
+        }
         Contact *contact;
         if (tag.startsWith("My")){
             contact = getContacts()->owner();
             tag = tag.mid(2);
         }else{
-            contact = t->tmpl.contact;
+            contact = t.tmpl.contact;
         }
+
         if (contact == NULL)
             continue;
 
         if (tag == "TimeStatus"){
-            QDateTime t;
-            t.setTime_t(CorePlugin::m_plugin->getStatusTime());
-            QString tstr;
-            tstr.sprintf("%02u:%02u", t.time().hour(), t.time().minute());
-            res += tstr;
+            QDateTime dt;
+            dt.setTime_t(CorePlugin::m_plugin->getStatusTime());
+            res += dt.toString("hh:mm");
             continue;
         }
 
@@ -141,11 +154,11 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         }
 
         if (tag == "IP"){
-            Event e(EventGetContactIP, contact);
+            EventGetContactIP e(contact);
             struct in_addr addr;
-            IP* ip = (IP*)e.process();
-            if (ip)
-                addr.s_addr = ip->ip();
+            e.process();
+            if (e.ip())
+                addr.s_addr = e.ip()->ip();
             else
                 addr.s_addr = 0;
             res += inet_ntoa(addr);
@@ -177,13 +190,13 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             continue;
         }
 
-        if (getTag(tag, &contact->data, contact->dataDef(), res))
+        if (getTag(tag, &(contact->data.Group), contact->dataDef(), res))
             continue;
 
-        void *data;
+        clientData *data;
         ClientDataIterator itc(contact->clientData);
         while ((data = ++itc) != NULL){
-            if (getTag(tag, data, itc.client()->protocol()->userDataDef(), res))
+            if (getTag(tag, &(data->Sign), itc.client()->protocol()->userDataDef(), res))
                 break;
         }
         if (data)
@@ -192,7 +205,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         UserDataDef *def;
         ContactList::UserDataIterator it;
         while ((def = ++it) != NULL){
-            void *data = (void*)contact->getUserData(def->id);
+            SIM::Data *data = (SIM::Data*)contact->getUserData(def->id);
             if (data == NULL)
                 continue;
             if (getTag(tag, data, def->def, res)){
@@ -203,35 +216,38 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
     return res;
 }
 
-bool Tmpl::getTag(const QString &name, void *_data, const DataDef *def, QString &res)
+bool Tmpl::getTag(const QString &name, SIM::Data *data, const DataDef *def, QString &res)
 {
-    char *data = (char*)_data;
     const DataDef *d;
     for (d = def; d->name; d++){
         if (name == d->name)
             break;
-        data += d->n_values * sizeof(void*);
+        data += d->n_values;
     }
     if (d->name == NULL)
         return false;
-    char **p = (char**)data;
+
     switch (d->type){
     case DATA_BOOL:
-        if (*((unsigned*)data)){
-            res += i18n("yes");
-        }else{
-            res += i18n("no");
-        }
+        res += data->toBool() ? i18n("yes") : i18n("no");
         break;
     case DATA_ULONG:
-        res += QString::number(*((unsigned long*)data));
+        res += QString::number(data->toULong());
         break;
     case DATA_LONG:
-        res += QString::number(*((long*)data));
+        res += QString::number(data->toLong());
         break;
     case DATA_STRING:
-        if (*p)
-            res += QString::fromLocal8Bit(*p);
+    case DATA_UTF:
+        if(data->str().isEmpty())
+            return false;   // mabye we get a better one in the next contact
+        res += data->str();
+        break;
+    case DATA_CSTRING:
+        if(data->cstr().isEmpty())
+            return false;   // mabye we get a better one in the next contact
+        // this is not encoded correct, but no other way atm
+        res += QString::fromLocal8Bit(data->cstr());
         break;
     default:
         break;

@@ -22,8 +22,8 @@
 
 #include <qframe.h>
 #include <qlabel.h>
+#include <qdatetime.h>
 
-class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSpinBox;
@@ -36,8 +36,8 @@ class EXPORT DatePicker : public QFrame
 public:
     DatePicker(QWidget *parent, const char *name = NULL);
     ~DatePicker();
-    void setDate(int day, int month, int year);
-    void getDate(int &day, int &month, int &year);
+    void setDate(QDate);
+    QDate getDate();
     void setText(const QString&);
     QString text();
 signals:

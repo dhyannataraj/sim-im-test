@@ -28,6 +28,9 @@
 #include <qfontdialog.h>
 #endif
 
+#include "icons.h"
+#include "misc.h"
+
 FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);
@@ -133,7 +136,8 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
 {
     QFont f(def);
     QStringList l = QStringList::split(QRegExp(" *, *"), str);
-    if (l.count() == 0) return f;
+    if (l.count() == 0)
+        return f;
     int weight = QFont::Normal;
     bool italic    = false;
     bool strikeout = false;
@@ -169,17 +173,17 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
             weight = QFont::Black;
             continue;
         }
-        int p = s.find(QRegExp("[0-9]+ *pt"));
+        int p = s.find(QRegExp(" pt.$"));
         if (p >= 0){
-            s = s.mid(p);
+            s = s.left(p);
             int size = s.toInt();
             if (size > 0)
                 f.setPointSize(size);
             continue;
         }
-        p = s.find(QRegExp("[0-9]+ *pix"));
+        p = s.find(QRegExp(" pix.$"));
         if (p >= 0){
-            s = s.mid(p);
+            s = s.left(p);
             int size = s.toInt();
             if (size > 0)
                 f.setPixelSize(size);

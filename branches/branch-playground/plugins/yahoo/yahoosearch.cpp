@@ -15,14 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yahoosearch.h"
-#include "yahooclient.h"
-#include "intedit.h"
-
 #include <qlabel.h>
 #include <qcombobox.h>
 
-using std::string;
+#include "country.h"
+#include "intedit.h"
+#include "log.h"
+#include "misc.h"
+
+#include "yahoosearch.h"
+#include "yahooclient.h"
+
 using namespace SIM;
 
 const ext_info ages[] =
@@ -53,7 +56,7 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
 {
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
-    edtID->setValidator(new RegExpValidator("[0-9A-Za-z \\-_]+", this));
+    edtID->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z \\-_]+"), this));
     initCombo(cmbAge, 0, ages);
     initCombo(cmbGender, 0, genders);
 }
@@ -80,15 +83,14 @@ void YahooSearch::search(const QString &text, int type)
     QString url;
     url = "http://members.yahoo.com/interests?.oc=m&.kw=";
     QCString kw = getContacts()->fromUnicode(NULL, text);
-    for (unsigned i = 0; i < kw.length(); i++){
-        char c = kw.at(i);
-        if ((c <= ' ') || (c == '&') || (c == '=')){
+    for (const char *p = kw; *p; p++){
+        if ((*p <= ' ') || (*p == '&') || (*p == '=')){
             char b[5];
-            sprintf(b, "%%%02X", c & 0xFF);
+            sprintf(b, "%%%02X", *p & 0xFF);
             url += b;
             continue;
         }
-        url += c;
+        url += *p;
     }
     url += "&.sb=";
     url += QString::number(type);
@@ -124,7 +126,7 @@ void YahooSearch::searchName(const QString &first, const QString &last, const QS
     search(s, 2);
 }
 
-bool YahooSearch::done(unsigned code, Buffer &b, const char*)
+bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
 {
     if (code == 200){
         QStringList l;
@@ -156,7 +158,9 @@ bool YahooSearch::done(unsigned code, Buffer &b, const char*)
             b.scan("\x04", age);
             b.scan("\x04", location);
             b.scan("\x04", data);
+
             log(L_DEBUG, "%s %s", id.data(), data.data());
+
             QStringList l;
             l.append("Yahoo!_online");
             l.append(id);
@@ -175,7 +179,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
 {
     if (m_client->findContact(id.utf8(), NULL, contact, false, false))
         return;
-    QString grpName = "";
+    QString grpName;
     Group *grp = NULL;
     ContactList::GroupIterator it;
     while ((grp = ++it) != NULL){

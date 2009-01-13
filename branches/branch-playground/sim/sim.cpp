@@ -16,15 +16,12 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "log.h"
+#include "misc.h"
 
 #ifdef WIN32
 #include <windows.h>
 #include <qlibrary.h>
-#else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#endif
 #endif
 
 #ifdef USE_KDE
@@ -37,6 +34,11 @@
 #include <qapplication.h>
 #endif
 
+#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+//#include <X11/X.h>
+#include <X11/Xlib.h>
+#endif
+
 using namespace SIM;
 
 #ifdef USE_KDE
@@ -46,6 +48,7 @@ public:
     SimApp();
     ~SimApp();
     int newInstance();
+    void commitData(QSessionManager&);
     void saveState(QSessionManager&);
 protected:
     bool firstInstance;
@@ -87,6 +90,7 @@ public:
 SimApp(int argc, char **argv) : QApplication(argc, argv) {}
     ~SimApp();
 protected:
+    void commitData(QSessionManager&);
     void saveState(QSessionManager&);
 };
 
@@ -95,6 +99,11 @@ SimApp::~SimApp()
 }
 
 #endif
+
+void SimApp::commitData(QSessionManager&)
+{
+    save_state();
+}
 
 void SimApp::saveState(QSessionManager &sm)
 {
@@ -153,7 +162,7 @@ static const char *qt_args[] =
         NULL
     };
 
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 extern "C" {
     static int (*old_errhandler)(Display*, XErrorEvent*) = NULL;
     static int x_errhandler( Display *dpy, XErrorEvent *err )
@@ -194,22 +203,27 @@ int main(int argc, char *argv[])
     int res = 1;
 #ifdef WIN32
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
+#elif defined(__OS2__)    
+    HMTX hMutex = NULLHANDLE;
+    if ( DosCreateMutexSem("\\SEM32\\SIM_Mutex", &hMutex, 0, FALSE) != 0 ) {
+        // prevent running another instance
+        return 1;
+    }
 #endif
-    QApplication::setColorSpec( QApplication::ManyColor );
     qInstallMsgHandler(simMessageOutput);
     KAboutData aboutData(PACKAGE,
-                         I18N_NOOP("SIM"),
+                         I18N_NOOP("Sim-IM"),
                          _VERSION,
                          I18N_NOOP("Multiprotocol Instant Messenger"),
                          KAboutData::License_GPL,
                          "Copyright (C) 2002-2004, Vladimir Shutoff\n"
-                         "2005-2006, SIM-IM Development Team",
+                         "2005-2008, Sim-IM Development Team",
                          0,
                          "http://sim-im.org/",
                          "https://mailman.dg.net.ua/listinfo/sim-im-main");
-    aboutData.addAuthor("SIM-IM Development Team",I18N_NOOP("Current development"),0,"http://sim-im.org/");
-    aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Author"),"vovan@shutoff.ru");
-    aboutData.addAuthor("Christian Ehrlicher",I18N_NOOP("Developer"),"Ch.Ehrlicher@gmx.de");
+    aboutData.addAuthor("Sim-IM Development Team",I18N_NOOP("Current development"),	"sim-im-main@lists.sim-im.org",						"http://sim-im.org/");
+    aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Author"),				"vovan@shutoff.ru");
+    aboutData.addAuthor("Christian Ehrlicher"	 ,I18N_NOOP("Developer"),			"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
 #ifndef WIN32
     int _argc = 0;
@@ -276,7 +290,7 @@ int main(int argc, char *argv[])
 #else
     SimApp app(_argc, _argv);
 #endif
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
     old_errhandler = XSetErrorHandler(x_errhandler);
 #endif
 #else
@@ -295,9 +309,8 @@ int main(int argc, char *argv[])
         res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);
+#elif defined(__OS2__)    
+    DosCloseMutexSem(hMutex);
 #endif
-	return 0;
+	return res;
 }
-
-
-

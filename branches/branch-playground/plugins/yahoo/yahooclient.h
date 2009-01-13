@@ -18,10 +18,12 @@
 #ifndef _YAHOOCLIENT_H
 #define _YAHOOCLIENT_H
 
-#include "simapi.h"
 #include "socket.h"
-#include "stl.h"
 #include "fetch.h"
+
+#ifdef __OS2__
+#define PARAM YAHOOPARAM
+#endif
 
 const unsigned YAHOO_SIGN = 9;
 
@@ -118,7 +120,7 @@ struct YahooUserData : public SIM::clientData
     SIM::Data		bTyping;
 };
 
-typedef struct YahooClientData
+struct YahooClientData
 {
     SIM::Data	Server;
     SIM::Data	Port;
@@ -128,7 +130,7 @@ typedef struct YahooClientData
     SIM::Data	AutoHTTP;
     SIM::Data	ListRequests;
     YahooUserData	owner;
-} YahooClientData;
+};
 
 typedef std::pair<unsigned, QCString> PARAM;
 
@@ -141,23 +143,23 @@ public:
 
 class QTextCodec;
 
-typedef struct Message_ID
+struct Message_ID
 {
     SIM::Message	*msg;
     unsigned		id;
-} Message_ID;
+};
 
-typedef struct ListRequest
+struct ListRequest
 {
     unsigned	type;
     QString     name;
-} ListRequest;
+};
 
 class YahooClient : public SIM::TCPClient
 {
     Q_OBJECT
 public:
-    YahooClient(SIM::Protocol*, ConfigBuffer *cfg);
+    YahooClient(SIM::Protocol*, Buffer *cfg);
     ~YahooClient();
     PROP_STR(Server);
     PROP_USHORT(Port);
@@ -166,7 +168,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_STR(ListRequests);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     QString getLogin();
     void setLogin(const QString&);
     QString name();
@@ -177,10 +179,11 @@ public:
     void sendFile(SIM::FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
     std::list<Message_ID>		m_waitMsg;
     std::list<SIM::Message*>	m_ackMsg;
+    YahooUserData* toYahooUserData(SIM::clientData * data);
 protected slots:
     void ping();
 protected:
-    void	*processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void	setStatus(unsigned status);
     virtual void setInvisible(bool bState);
     void	disconnected();
@@ -232,27 +235,27 @@ protected:
     unsigned short m_data_size;
     unsigned short m_service;
     unsigned	   m_ft_id;
-    QString        m_session_id;
+    QCString       m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
     bool m_bFirstTry;
     void authOk();
 };
 
-typedef struct YahooFileData
+struct YahooFileData
 {
     SIM::Data	Url;
     SIM::Data	MsgID;
-} YahooFileData;
+};
 
 class YahooFileMessage : public SIM::FileMessage
 {
 public:
-    YahooFileMessage(ConfigBuffer *cfg=NULL);
+    YahooFileMessage(Buffer *cfg=NULL);
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);
-    virtual	QString save();
+    virtual	QCString save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     YahooFileData data;
@@ -265,7 +268,7 @@ public:
     ~YahooFileTransfer();
     void listen();
     void connect();
-    virtual bool    error_state(const QString &err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code = 0);
 protected:
     YahooClient	*m_client;
     YahooUserData	*m_data;
@@ -288,16 +291,16 @@ protected:
     virtual void	write_ready();
     virtual void	startReceive(unsigned pos);
     virtual void	bind_ready(unsigned short port);
-    virtual bool	error(const char *err);
+    virtual bool	error(const QString &err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const char *str);
+    bool get_line(const QCString &str);
     void send_line(const QString &str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
-    std::string	m_url;
-    std::string	m_host;
-    std::string	m_method;
+    QString	m_url;
+    QString	m_host;
+    QString	m_method;
     SIM::ClientSocket	*m_socket;
 };
 

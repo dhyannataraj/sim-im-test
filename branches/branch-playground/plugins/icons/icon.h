@@ -18,19 +18,20 @@
 #ifndef _ICON_H
 #define _ICON_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "plugins.h"
 
-typedef struct IconsData
+struct IconsData
 {
     SIM::Data	Icon;
     SIM::Data	NIcons;
     SIM::Data	Default;
-} IconsData;
+};
 
 class IconsPlugin : public SIM::Plugin
 {
 public:
-    IconsPlugin(unsigned, ConfigBuffer*);
+    IconsPlugin(unsigned, Buffer*);
     virtual ~IconsPlugin();
     PROP_STRLIST(Icon);
     PROP_ULONG(NIcons);
@@ -38,7 +39,7 @@ public:
     void setIcons(bool bForce);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     IconsData data;
 };
 

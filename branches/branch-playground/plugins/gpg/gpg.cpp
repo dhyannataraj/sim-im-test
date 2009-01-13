@@ -15,22 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "gpg.h"
-#include "gpgcfg.h"
-#include "gpguser.h"
-#include "core.h"
+#include "simapi.h"
+
+#include "log.h"
 #include "msgedit.h"
 #include "textshow.h"
 #include "userwnd.h"
 #include "passphrase.h"
 #include "ballonmsg.h"
 
+#include "gpg.h"
+#include "gpgcfg.h"
+#include "gpguser.h"
+
 #include <qtimer.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qregexp.h>
 #include <qprocess.h>
-#include <qstring.h>
 #include <qapplication.h> //for Linux: qApp->processEvents();
 
 #ifdef HAVE_SYS_STAT_H
@@ -43,7 +45,7 @@ using namespace SIM;
 static QString GPGpath;
 #endif
 
-Plugin *createGpgPlugin(unsigned base, bool, ConfigBuffer *cfg)
+Plugin *createGpgPlugin(unsigned base, bool, Buffer *cfg)
 {
 #ifndef WIN32
     if (GPGpath.isEmpty())
@@ -114,7 +116,7 @@ static DataDef gpgUserData[] =
 
 GpgPlugin *GpgPlugin::plugin = NULL;
 
-GpgPlugin::GpgPlugin(unsigned base, ConfigBuffer *cfg)
+GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
         : Plugin(base), EventReceiver(HighestPriority - 0x100)
 {
     load_data(gpgData, &data, cfg);
@@ -130,18 +132,18 @@ GpgPlugin::~GpgPlugin()
     delete m_passphraseDlg;
     unregisterMessage();
     free_data(gpgData, &data);
-    QValueList<DecryptMsg>::iterator it;
-    for (it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
+    QValueList<DecryptMsg>::ConstIterator it;
+    for (it = m_decrypt.constBegin(); it != m_decrypt.constEnd(); ++it){
         delete (*it).msg;
         delete (*it).process;
     }
-    for (it = m_import.begin(); it != m_import.end(); ++it){
+    for (it = m_import.constBegin(); it != m_import.constEnd(); ++it){
         delete (*it).msg;
         delete (*it).process;
     }
-    for (it = m_public.begin(); it != m_public.end(); ++it)
+    for (it = m_public.constBegin(); it != m_public.constEnd(); ++it)
         delete (*it).process;
-    for (it = m_wait.begin(); it != m_wait.end(); ++it)
+    for (it = m_wait.constBegin(); it != m_wait.constEnd(); ++it)
         delete (*it).msg;
     getContacts()->unregisterUserData(user_data_id);
 }
@@ -292,10 +294,10 @@ void GpgPlugin::decryptReady()
                     m_passphraseDlg = NULL;
                     askPassphrase();
                 } else {
-                    msg->setText(key + "\n" + str);
+                    msg->setText(key + '\n' + str);
                 }
             }
-            Event e(EventMessageReceived, msg);
+            EventMessageReceived e(msg);
             if ((res == 0) && processEvent(&e))
                 return;
             if (!e.process(this))
@@ -327,7 +329,7 @@ void GpgPlugin::importReady()
                     QString key_name;
                     key_name  = err.mid(pos + 1, len - 2);
                     QString text = key_name;
-                    text += " ";
+                    text += ' ';
                     pos = r2.match(err, 0, &len);
                     text += err.mid(pos + 1, len - 2);
                     msg->setText(text);
@@ -355,16 +357,16 @@ void GpgPlugin::importReady()
                 } else {
                     QString str;
                     if(!err.isEmpty())
-                        str = "(" + err + ")";
+                        str = '(' + err + ')';
                     msg->setText(i18n("Importing public key failed") + str);
                 }
             } else {
                 QString str;
                 if(!err.isEmpty())
-                    str = "(" + err + ")";
+                    str = '(' + err + ')';
                 msg->setText(i18n("Importing public key failed") + str);
             }
-            Event e(EventMessageReceived, (*it).msg);
+            EventMessageReceived e((*it).msg);
             if (!e.process(this))
                 delete (*it).msg;
             (*it).msg = NULL;
@@ -375,7 +377,7 @@ void GpgPlugin::importReady()
     log(L_WARN, "No decrypt exec");
 }
 
-QString GpgPlugin::getConfig()
+QCString GpgPlugin::getConfig()
 {
     QStringList keys;
     QStringList passphrases;
@@ -387,7 +389,7 @@ QString GpgPlugin::getConfig()
         clearKeys();
         clearPassphrases();
     }
-    QString res = save_data(gpgData, &data);
+    QCString res = save_data(gpgData, &data);
     for (unsigned i = 0; i < getnPassphrases(); i++){
         setKeys(i + 1, keys[i]);
         setPassphrases(i + 1, passphrases[i]);
@@ -395,55 +397,57 @@ QString GpgPlugin::getConfig()
     return res;
 }
 
-void *GpgPlugin::processEvent(Event *e)
+bool GpgPlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuMessage){
                 if (cmd->id == MessageGPGKey){
                     cmd->flags &= ~COMMAND_CHECKED;
                     CommandDef c = *cmd;
                     c.id = MessageGeneric;
-                    Event eCheck(EventCheckState, &c);
-                    return eCheck.process();
+                    return EventCheckCommandState(&c).process();
                 }
                 if (cmd->id == MessageGPGUse){
                     cmd->flags &= ~COMMAND_CHECKED;
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
-                        return NULL;
+                        return false;
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (!data || data->Key.str().isEmpty())
-                        return NULL;
+                        return false;
                     if (data->Use.toBool())
                         cmd->flags |= COMMAND_CHECKED;
-                    return e->param();
+                    return true;
                 }
             }
-            return NULL;
+            return false;
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if ((cmd->menu_id == MenuMessage) && (cmd->id == MessageGPGUse)){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                 if (data && !data->Key.str().isEmpty())
                     data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         }
-    case EventCheckSend:{
-            CheckSend *cs = (CheckSend*)(e->param());
-            if ((cs->id == MessageGPGKey) && cs->client->canSend(MessageGeneric, cs->data))
-                return e->param();
-            return NULL;
+    case eEventCheckSend:{
+            EventCheckSend *ecs = static_cast<EventCheckSend*>(e);
+            if ((ecs->id() == MessageGPGKey) && ecs->client()->canSend(MessageGeneric, ecs->data()))
+                return true;
+            return false;
         }
-    case EventMessageSent:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageSent:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             for (QValueList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
                 if ((*it).msg == msg){
                     if (msg->getError().isEmpty()){
@@ -451,17 +455,17 @@ void *GpgPlugin::processEvent(Event *e)
                         m.setText((*it).key);
                         m.setClient(msg->client());
                         m.setContact(msg->contact());
-                        Event e(EventSent, &m);
-                        e.process();
+                        EventSent(&m).process();
                     }
                     m_sendKeys.erase(it);
                     break;
                 }
             }
-            return NULL;
+            return false;
         }
-    case EventMessageSend:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageSend:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             if (msg->type() == MessageGeneric){
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
@@ -476,26 +480,25 @@ void *GpgPlugin::processEvent(Event *e)
                     }
                 }
             }
-            return NULL;
+            return false;
         }
-    case EventSend:{
-            messageSend *ms = (messageSend*)(e->param());
-            if ((ms->msg->type() == MessageGeneric) &&
-                    (ms->msg->getFlags() & MESSAGE_SECURE)){
-                Contact *contact = getContacts()->contact(ms->msg->contact());
+    case eEventSend:{
+            EventSend *es = static_cast<EventSend*>(e);
+            if ((es->msg()->type() == MessageGeneric) &&
+                (es->msg()->getFlags() & MESSAGE_SECURE)){
+                Contact *contact = getContacts()->contact(es->msg()->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         QString output = user_file("m.");
-                        output += QString::number((unsigned long)ms->msg);
+                        output += QString::number((unsigned long)es->msg());
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
                             log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
-                            return NULL;
+                            return false;
                         }
-                        QCString *cstr = ms->text;
-                        in.writeBlock(cstr->data(), cstr->length());
+                        in.writeBlock(es->localeText());
                         in.close();
                         QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -512,46 +515,47 @@ void *GpgPlugin::processEvent(Event *e)
                         QProcess proc(sl, this);
 
                         if(!proc.start())
-                            return ms->msg;
+                            return true;
 
                         // FIXME: not soo good...
                         while(proc.isRunning())
                             qApp->processEvents();
 
                         if (!proc.normalExit() || proc.exitStatus() != 0){
-                            ms->msg->setError(I18N_NOOP("Encrypt failed"));
+                            es->msg()->setError(I18N_NOOP("Encrypt failed"));
                             QFile::remove(input);
                             QFile::remove(output);
-                            return ms->msg;
+                            return true;
                         }
                         QFile::remove(input);
                         QFile out(output);
                         if (!out.open(IO_ReadOnly)){
                             QFile::remove(output);
-                            ms->msg->setError(I18N_NOOP("Encrypt failed"));
-                            return ms->msg;
+                            es->msg()->setError(I18N_NOOP("Encrypt failed"));
+                            return true;
                         }
-                        *ms->text = out.readAll();
+                        es->setLocaleText(QCString(out.readAll()));
                         out.close();
                         QFile::remove(output);
-                        return NULL;
+                        return false;
                     }
                 }
             }
-            return NULL;
+            return false;
         }
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageReceived:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             if(!msg)
-                return NULL;
+                return false;
             if ((msg->baseType() == MessageGeneric) && m_bMessage){
                 QString text = msg->getPlainText();
                 const char SIGN_MSG[] = "-----BEGIN PGP MESSAGE-----";
                 const char SIGN_KEY[] = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
                 if (text.startsWith(SIGN_MSG)){
                     if (decode(msg, "", ""))
-                        return msg;
-                    return NULL;
+                        return true;
+                    return false;
                 }
                 if (text.startsWith(SIGN_KEY)){
                     QString input = user_file("m.");
@@ -560,7 +564,7 @@ void *GpgPlugin::processEvent(Event *e)
                     QFile in(input);
                     if (!in.open(IO_WriteOnly | IO_Truncate)){
                         log(L_WARN, "Can't create %s", input.local8Bit().data());
-                        return NULL;
+                        return false;
                     }
                     QCString cstr = text.utf8();
                     in.writeBlock(cstr.data(), cstr.length());
@@ -587,10 +591,12 @@ void *GpgPlugin::processEvent(Event *e)
                     return msg;
                 }
             }
-            return NULL;
+            return false;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 static unsigned decode_index = 0;
@@ -718,7 +724,7 @@ QString GpgPlugin::getHomeDir()
 i18n("%n GPG key", "%n GPG keys", 1);
 #endif
 
-static Message *createGPGKey(ConfigBuffer *cfg)
+static Message *createGPGKey(Buffer *cfg)
 {
     return new Message(MessageGPGKey, cfg);
 }
@@ -763,27 +769,25 @@ void GpgPlugin::registerMessage()
         return;
     m_bMessage = true;
     Command cmd;
-    cmd->id             = MessageGPGKey;
-    cmd->text           = I18N_NOOP("GPG key");
-    cmd->icon           = "encrypted";
-    cmd->param          = &defGPGKey;
-    cmd->menu_grp       = 0x4081;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    cmd->id			 = MessageGPGKey;
+    cmd->text		 = I18N_NOOP("GPG key");
+    cmd->icon		 = "encrypted";
+    cmd->param		 = &defGPGKey;
+    cmd->menu_grp	= 0x4081;
+    EventCreateMessageType(cmd).process();
 
-    cmd->id             = MessageGPGUse;
-    cmd->text           = I18N_NOOP("Use GPG encryption");
-    cmd->icon           = "";
-    cmd->param          = &defGPGUse;
-    cmd->menu_grp       = 0x4080;
-    eMsg.process();
+    cmd->id			 = MessageGPGUse;
+    cmd->text		 = I18N_NOOP("Use GPG encryption");
+    cmd->icon		 = QString::null;
+    cmd->param		 = &defGPGUse;
+    cmd->menu_grp	 = 0x4080;
+    EventCreateMessageType(cmd).process();
 
-    cmd->id      = user_data_id + 1;
-    cmd->text    = I18N_NOOP("&GPG key");
-    cmd->icon    = "encrypted";
-    cmd->param   = (void*)getGpgSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    cmd->id		 = user_data_id;
+    cmd->text	 = I18N_NOOP("&GPG key");
+    cmd->icon	 = "encrypted";
+    cmd->param	 = (void*)getGpgSetup;
+    EventAddPreferences(cmd).process();
 }
 
 void GpgPlugin::unregisterMessage()
@@ -791,12 +795,9 @@ void GpgPlugin::unregisterMessage()
     if (!m_bMessage)
         return;
     m_bMessage = false;
-    Event e(EventRemoveMessageType, (void*)MessageGPGKey);
-    e.process();
-    Event eUse(EventRemoveMessageType, (void*)MessageGPGUse);
-    eUse.process();
-    Event eUser(EventRemovePreferences, (void*)user_data_id);
-    eUser.process();
+    EventRemoveMessageType(MessageGPGKey).process();
+    EventRemoveMessageType(MessageGPGUse).process();
+    EventRemovePreferences(user_data_id).process();
 }
 
 void GpgPlugin::askPassphrase()
@@ -817,7 +818,7 @@ void GpgPlugin::passphraseFinished()
                 ++it;
                 continue;
             }
-            Event e(EventMessageReceived, (*it).msg);
+            EventMessageReceived e((*it).msg);
             if (!e.process(this))
                 delete (*it).msg;
             m_wait.erase(it);
@@ -833,7 +834,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
 {
     m_client = msg->client();
     m_edit   = parent;
-    m_edit->m_edit->setText("");
+    m_edit->m_edit->setText(QString::null);
     m_edit->m_edit->setReadOnly(true);
     m_edit->m_edit->setTextFormat(PlainText);
     m_edit->m_edit->setParam(m_edit);
@@ -842,8 +843,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     cmd->id    = CmdSend;
     cmd->flags = COMMAND_DISABLED;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 
     QString gpg  = GpgPlugin::plugin->GPG();
     QString home = GpgPlugin::plugin->getHomeDir();
@@ -893,41 +893,42 @@ void MsgGPGKey::exportReady()
     cmd->id    = CmdSend;
     cmd->flags = 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 
     delete m_process;
     m_process = 0;
 }
 
-void *MsgGPGKey::processEvent(Event *e)
+bool MsgGPGKey::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return true;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return true;
             }
         }
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             if (!msgText.isEmpty()){
@@ -940,19 +941,14 @@ void *MsgGPGKey::processEvent(Event *e)
                 km.key = m_key;
                 km.msg = msg;
                 GpgPlugin::plugin->m_sendKeys.push_back(km);
-                MsgSend s;
-                s.edit = m_edit;
-                s.msg  = msg;
-                Event e(EventRealSendMessage, &s);
-                e.process();
+                EventRealSendMessage(msg, m_edit).process();
             }
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES
 #include "gpg.moc"
 #endif
-

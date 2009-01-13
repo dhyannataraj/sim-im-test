@@ -16,12 +16,10 @@
  ***************************************************************************/
 
 #include "simapi.h"
-#include "interfacecfg.h"
-#include "userviewcfg.h"
-#include "historycfg.h"
-#include "msgcfg.h"
-#include "smscfg.h"
-#include "core.h"
+
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include <qtabwidget.h>
 #include <qcombobox.h>
@@ -32,12 +30,18 @@
 #include <qlabel.h>
 #include <qdir.h>
 
+#include "log.h"
+
+#include "interfacecfg.h"
+#include "userviewcfg.h"
+#include "historycfg.h"
+#include "msgcfg.h"
+#include "smscfg.h"
+#include "core.h"
+
 #ifdef WIN32
-#include <windows.h>
-
-static char key_name[]   = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-static char value_name[] = "SIM";
-
+static WCHAR key_name[]   = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+static WCHAR value_name[] = L"SIM";
 #endif
 
 using namespace std;
@@ -45,11 +49,11 @@ using namespace SIM;
 
 #ifndef USE_KDE
 
-typedef struct language
+struct language
 {
     const char *code;
     const char *name;
-} language;
+};
 
 static language langs[] =
     {
@@ -146,13 +150,15 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     spnCopy->setValue(CorePlugin::m_plugin->getCopyMessages());
     chkOwnerName->setText(i18n("Show own nickname in window title"));
     chkOwnerName->setChecked(CorePlugin::m_plugin->getShowOwnerName());
+    chkAvatar->setText(i18n("Show user avatar"));
+    chkAvatar->setChecked(CorePlugin::m_plugin->getShowAvatarInContainer());
 #ifdef WIN32
     HKEY subKey;
-    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
+    if (RegOpenKeyExW(HKEY_CURRENT_USER, key_name, 0,
                       KEY_READ | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         DWORD vType = REG_SZ;
         DWORD vCount = 0;
-        if (RegQueryValueExA(subKey, value_name, NULL, &vType, NULL, &vCount) == ERROR_SUCCESS)
+        if (RegQueryValueExW(subKey, value_name, NULL, &vType, NULL, &vCount) == ERROR_SUCCESS)
             chkStart->setChecked(true);
         RegCloseKey(subKey);
     }
@@ -244,6 +250,7 @@ void InterfaceConfig::apply()
         CorePlugin::m_plugin->setSendOnEnter(false);
     }
     CorePlugin::m_plugin->setShowOwnerName(chkOwnerName->isChecked());
+    CorePlugin::m_plugin->setShowAvatarInContainer(chkAvatar->isChecked());
 #ifndef USE_KDE
     if (lang != CorePlugin::m_plugin->getLang()){
         CorePlugin::m_plugin->removeTranslator();
@@ -253,17 +260,17 @@ void InterfaceConfig::apply()
 #endif
 #ifdef WIN32
     HKEY subKey;
-    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
+    if (RegOpenKeyExW(HKEY_CURRENT_USER, key_name, 0,
                       KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         if (chkStart->isChecked()){
             QString path = app_file("sim.exe");
-            DWORD res = RegSetValueExA(subKey, value_name, 0, REG_SZ, (unsigned char*)path.latin1(), path.length());
+            DWORD res = RegSetValueExW(subKey, value_name, 0, REG_SZ, (BYTE*)path.ucs2(), (path.length() + 1) * 2);
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{
-            DWORD res = RegDeleteKeyA(subKey, value_name);
+            DWORD res = RegDeleteValueW(subKey, value_name);
             if (res!=ERROR_SUCCESS && res!=ERROR_FILE_NOT_FOUND)
-                log(L_WARN, "RegDeleteKey fail %u", res);
+                log(L_WARN, "RegDeleteValue fail %u", res);
         }
     }
     RegCloseKey(subKey);

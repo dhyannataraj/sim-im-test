@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="loger"
+	Name="logger"
 	ProjectGUID="{ADB0F409-4880-4887-8B38-1DE8E53408B5}"
 	RootNamespace="loger"
 	>

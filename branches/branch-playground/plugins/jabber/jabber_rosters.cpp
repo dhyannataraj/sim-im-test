@@ -15,11 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "jabber.h"
-#include "jabbermessage.h"
-#include "html.h"
-#include "core.h"
+#include "simapi.h"
 
 #include <time.h>
 
@@ -36,6 +32,16 @@
 #include <qimage.h>
 #include <qfile.h>
 
+#include "html.h"
+#include "log.h"
+#include "unquot.h"
+#include "misc.h"
+#include "core_events.h"
+
+#include "jabberclient.h"
+#include "jabber.h"
+#include "jabbermessage.h"
+
 using namespace std;
 using namespace SIM;
 
@@ -45,9 +51,9 @@ public:
     RostersRequest(JabberClient *client);
     ~RostersRequest();
 protected:
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *str, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
     QString     m_jid;
     QString     m_name;
     QString     m_grp;
@@ -66,7 +72,7 @@ RostersRequest::RostersRequest(JabberClient *client)
     while ((contact = ++itc) != NULL){
         ClientDataIterator it(contact->clientData, client);
         JabberUserData *data;
-        while ((data = (JabberUserData*)(++it)) != NULL)
+        while ((data = m_client->toJabberUserData(++it)) != NULL)
             data->bChecked.asBool() = false;
     }
     client->m_bJoin = false;
@@ -81,7 +87,7 @@ RostersRequest::~RostersRequest()
         ClientDataIterator it(contact->clientData, m_client);
         JabberUserData *data;
         list<void*> dataRemoved;
-        while ((data = (JabberUserData*)(++it)) != NULL){
+        while ((data = m_client->toJabberUserData(++it)) != NULL){
             if (!data->bChecked.toBool()){
                 QString jid = data->ID.str();
                 JabberListRequest *lr = m_client->findRequest(jid, false);
@@ -101,23 +107,22 @@ RostersRequest::~RostersRequest()
         delete *itr;
     m_client->processList();
     if (m_client->m_bJoin){
-        Event e(EventJoinAlert, m_client);
-        e.process();
+        EventJoinAlert(m_client).process();
     }
 }
 
-void RostersRequest::element_start(const char *el, const char **attr)
+void RostersRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (strcmp(el, "item") == 0){
+    if (el == "item"){
         m_subscribe = SUBSCRIBE_NONE;
-        m_grp = "";
-        m_jid = JabberClient::get_attr("jid", attr);
+        m_grp = QString::null;
+        m_jid = attrs.value("jid");
         if (m_jid.length() == 0)
             return;
-        m_name = JabberClient::get_attr("name", attr);
-        m_subscription  = "";
+        m_name = attrs.value("name");
+        m_subscription  = QString::null;
         m_bSubscription = false;
-        QString subscribe = JabberClient::get_attr("subscription", attr);
+        QString subscribe = attrs.value("subscription");
         if (subscribe == "none"){
             m_subscribe = SUBSCRIBE_NONE;
         }else if (subscribe == "from"){
@@ -131,26 +136,39 @@ void RostersRequest::element_start(const char *el, const char **attr)
         }
         return;
     }
-    if (strcmp(el, "group") == 0){
-        m_grp = "";
+    if (el == "group"){
+        m_grp = QString::null;
         m_data = &m_grp;
         return;
     }
-    if (strcmp(el, "subscription") == 0){
+    if (el == "subscription"){
         m_bSubscription = true;
-        m_subscription = "";
+        m_subscription = QString::null;
         m_data = &m_subscription;
         return;
     }
 }
 
-void RostersRequest::element_end(const char *el)
+void RostersRequest::element_end(const QString& el)
 {
-    if (strcmp(el, "group") == 0){
+    if (el == "group"){
         m_data = NULL;
         return;
     }
-    if (strcmp(el, "item") == 0){
+    if (el == "item"){
+        if ( m_jid.find('/') >= 0 )
+	{
+	   // If roster contains two contacts
+	   // user@jabber.ru and user@jabber.ru/some_resource
+	   // than it will be impossible, to move user@jabber.ru from one group to another because
+	   // after reloading sim it will be merged with user@jabber.ru/some_resource
+	   // because sim-im see no difference between them :-/
+	   // So the simplest way to fix this bus is to ignore roster records with explicit resource
+	   // This is a nasty hack, but I see no way to fix it without rewriting all jabber stuff :-(
+	   // N. Shaplov
+	   log(L_DEBUG,"Ignoring contact with explicit resource: %s",m_jid.ascii());    
+	   return;
+	}    
         bool bChanged = false;
         JabberListRequest *lr = m_client->findRequest(m_jid, false);
         Contact *contact;
@@ -164,7 +182,7 @@ void RostersRequest::element_end(const char *el)
                 data = m_client->findContact(m_jid, m_name, true, contact, resource);
                 if (m_bSubscription){
                     contact->setFlags(CONTACT_TEMP);
-                    Event eContact(EventContactChanged, contact);
+                    EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                     m_client->auth_request(m_jid, MessageAuthRequest, m_subscription, true);
                     data = m_client->findContact(m_jid, m_name, false, contact, resource);
@@ -194,7 +212,7 @@ void RostersRequest::element_end(const char *el)
                     group = getContacts()->group(0, true);
                     group->setName(m_grp);
                     grp = group->id();
-                    Event e(EventGroupChanged, group);
+                    EventGroup e(group, EventGroup::eChanged);
                     e.process();
                 }
             }
@@ -218,17 +236,16 @@ void RostersRequest::element_end(const char *el)
             }
         }
         if (bChanged){
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
     }
 }
 
-void RostersRequest::char_data(const char *str, int len)
+void RostersRequest::char_data(const QString& str)
 {
-    if (m_data == NULL)
-        return;
-    m_data->append(QString::fromUtf8(str, len));
+    if (m_data != NULL)
+        *m_data += str;
 }
 
 void JabberClient::rosters_request()
@@ -246,9 +263,9 @@ public:
     InfoRequest(JabberClient *client, JabberUserData *data, bool bVCard);
     ~InfoRequest();
 protected:
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *str, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
     QString	m_jid;
     QString  m_node;
     QString	m_host;
@@ -270,13 +287,13 @@ protected:
     QString	m_region;
     QString	m_pcode;
     QString	m_country;
-    QString	*m_data;
-    Buffer	m_photo;
-    Buffer	m_logo;
-    Buffer	*m_cdata;
+    QString	m_photo;    // a bas64 encoded string
+    QString	m_logo;     // a bas64 encoded string
     bool	m_bPhoto;
     bool	m_bLogo;
     bool	m_bVCard;
+
+    QString	*m_data;
 };
 
 extern DataDef jabberUserData[];
@@ -288,7 +305,6 @@ InfoRequest::InfoRequest(JabberClient *client, JabberUserData *data, bool bVCard
     m_node  = data->Node.str();
     m_bStarted = false;
     m_data  = NULL;
-    m_cdata = NULL;
     m_bPhoto = false;
     m_bLogo  = false;
     m_bVCard = bVCard;
@@ -301,7 +317,7 @@ InfoRequest::~InfoRequest()
         JabberUserData *data;
         JabberUserData u_data;
         if (m_bVCard){
-            load_data(jabberUserData, &u_data);
+            load_data(jabberUserData, &u_data, NULL);
             data = &u_data;
             data->ID.str() = m_jid;
             data->Node.str() = m_node;
@@ -311,7 +327,7 @@ InfoRequest::~InfoRequest()
             }else{
                 QString jid = m_jid;
                 if (jid.find('@') == -1){
-                    jid += "@";
+                    jid += '@';
                     jid += m_host;
                 }
                 QString resource;
@@ -340,19 +356,17 @@ InfoRequest::~InfoRequest()
         bChanged |= data->Phone.setStr(m_phone);
 
         if (m_bVCard){
-            Event e(EventVCard, data);
-            e.process();
+            EventVCard(data).process();
             free_data(jabberUserData, &u_data);
             return;
         }
         QImage photo;
-        if (m_photo.size()){
-            Buffer unpack;
-            unpack.fromBase64(m_photo);
+        if (m_photo.length()){
             QString fName = m_client->photoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                f.writeBlock(unpack.data(), unpack.size());
+                QCString cstr = m_photo.ascii();   // ok, base64 encoded
+                f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 photo.load(fName);
             }else{
@@ -375,13 +389,12 @@ InfoRequest::~InfoRequest()
         }
 
         QImage logo;
-        if (m_logo.size()){
-            Buffer unpack;
-            unpack.fromBase64(m_logo);
+        if (m_logo.length()){
             QString fName = m_client->logoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                f.writeBlock(unpack.data(), unpack.size());
+                QCString cstr = m_logo.ascii();   // ok, base64 encoded
+                f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 logo.load(fName);
             }else{
@@ -406,20 +419,17 @@ InfoRequest::~InfoRequest()
         if (bChanged){
             if (contact){
                 m_client->setupContact(contact, data);
-                Event e(EventContactChanged, (Client*)contact);
-                e.process();
+                EventContact(contact, EventContact::eChanged).process();
             }else{
-                Event e(EventClientChanged, (Client*)m_client);
-                e.process();
+                EventClientChanged(m_client).process();
             }
         }
     }
 }
 
-void InfoRequest::element_start(const char *element, const char**)
+void InfoRequest::element_start(const QString& el, const QXmlAttributes&)
 {
     m_data = NULL;
-    QString el = element ? QString::fromUtf8(element) : "";
     if (el == "vcard"){
         m_bStarted = true;
         return;
@@ -476,7 +486,7 @@ void InfoRequest::element_start(const char *element, const char**)
         m_data = &m_ext;
         return;
     }
-    if (el == "city"){
+    if (el == "locality"){
         m_data = &m_city;
         return;
     }
@@ -502,17 +512,15 @@ void InfoRequest::element_start(const char *element, const char**)
     }
     if (el == "binval"){
         if (m_bPhoto)
-            m_cdata = &m_photo;
+            m_data = &m_photo;
         if (m_bLogo)
-            m_cdata = &m_logo;
+            m_data = &m_logo;
     }
 }
 
-void InfoRequest::element_end(const char *element)
+void InfoRequest::element_end(const QString& el)
 {
     m_data  = NULL;
-    m_cdata = NULL;
-    QString el = element ? QString::fromUtf8(element) : "";
     if (el == "photo"){
         m_bPhoto = false;
         return;
@@ -521,16 +529,16 @@ void InfoRequest::element_end(const char *element)
         m_bLogo = false;
         return;
     }
+	if(el == "vcard")
+	{
+		EventClientChanged(m_client).process();
+	}
 }
 
-void InfoRequest::char_data(const char *str, int len)
+void InfoRequest::char_data(const QString& str)
 {
-    if (m_cdata){
-        m_cdata->pack(str, len);
-        return;
-    }
     if (m_data)
-        m_data->append(QString::fromUtf8(str, len));
+        *m_data += str;
 }
 
 void JabberClient::info_request(JabberUserData *user_data, bool bVCard)
@@ -555,7 +563,7 @@ class SetInfoRequest : public JabberClient::ServerRequest
 public:
     SetInfoRequest(JabberClient *client, JabberUserData *data);
 protected:
-    virtual void element_start(const char *el, const char **attr);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
 };
 
 SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
@@ -563,10 +571,10 @@ SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
 {
 }
 
-void SetInfoRequest::element_start(const char *el, const char **attr)
+void SetInfoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "iq")){
-        QString type = JabberClient::get_attr("type", attr);
+    if (el == "iq"){
+        QString type = attrs.value("type");
         if (type == "result")
             m_client->setInfoUpdated(false);
     }
@@ -574,7 +582,7 @@ void SetInfoRequest::element_start(const char *el, const char **attr)
 
 void JabberClient::setClientInfo(void *_data)
 {
-    JabberUserData *data = static_cast<JabberUserData*>(_data);
+    JabberUserData *data = toJabberUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     if (data != &this->data.owner){
         this->data.owner.FirstName.str() = data->FirstName.str();
         this->data.owner.Nick.str() = data->Nick.str();
@@ -658,11 +666,9 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            Buffer packed;
-            packed.toBase64(b);
-            packed << (char)0;
+            QCString packed = Buffer::toBase64(b);
             req->start_element("PHOTO");
-            req->text_tag("BINVAL", packed.data());
+            req->text_tag("BINVAL", packed);
             req->end_element();
         }
     }
@@ -672,9 +678,7 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            Buffer packed;
-            packed.toBase64(b);
-            packed << (char)0;
+            QCString packed = Buffer::toBase64(b);
             req->start_element("LOGO");
             req->text_tag("BINVAL", packed.data());
             req->end_element();
@@ -689,7 +693,7 @@ class AddRequest : public JabberClient::ServerRequest
 public:
     AddRequest(JabberClient *client, const QString &jid, unsigned grp);
 protected:
-    virtual void element_start(const char *el, const char **attr);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
     QString m_jid;
     unsigned m_grp;
 };
@@ -701,17 +705,17 @@ AddRequest::AddRequest(JabberClient *client, const QString &jid, unsigned grp)
     m_grp = grp;
 }
 
-void AddRequest::element_start(const char *el, const char **attr)
+void AddRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "iq")){
-        QString type = JabberClient::get_attr("type", attr);
+    if (el == "iq"){
+        QString type = attrs.value("type");
         if (type == "result"){
             Contact *contact;
             QString resource;
             JabberUserData *data = m_client->findContact(m_jid, QString::null, true, contact, resource);
             if (data && (contact->getGroup() != m_grp)){
                 contact->setGroup(m_grp);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
         }
@@ -724,7 +728,7 @@ bool JabberClient::add_contact(const char *_jid, unsigned grp)
     QString resource;
     QString jid = QString::fromUtf8(_jid);
     if (findContact(jid, QString::null, false, contact, resource)){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
         return false;
     }
@@ -751,7 +755,7 @@ JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
 static unsigned get_number(QString &s, unsigned digits)
 {
     if (s.length() < digits){
-        s = "";
+        s = QString::null;
         return 0;
     }
     QString p = s.left(digits);
@@ -780,9 +784,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
 {
     unsigned status = STATUS_UNKNOWN;
     bool bInvisible = false;
-    /*
-        m_type - flags after draft-ietf-xmpp-core-16 / 8.4.1
-    */
+    // RFC 3921 "XMPP IM": 2.2.1. Types of Presence
     if (m_type == "unavailable"){
         status = STATUS_OFFLINE;
     }else if (m_type == "subscribe"){
@@ -799,7 +801,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }else if (m_type == "error"){
         log(L_DEBUG, "An error has occurred regarding processing or delivery of a previously-sent presence stanza");
     }else if (m_type.length() == 0){
-        // m_show - flags after draft-ietf-xmpp-im-15 / 4.2
+        // RFC 3921 "XMPP IM": 2.2.2.1. Show
         status = STATUS_ONLINE;
         if (m_show == "away"){
             status = STATUS_AWAY;
@@ -809,9 +811,12 @@ JabberClient::PresenceRequest::~PresenceRequest()
             status = STATUS_NA;
         }else if (m_show == "dnd"){
             status = STATUS_DND;
+		}else if (m_show == "occupied"){
+            status = STATUS_OCCUPIED;
         }else if (m_show == "online"){
             status = STATUS_ONLINE;
         }else if (m_show.isEmpty()){
+            // RFC 3921 "XMPP IM": 2.2.2.2. Status
             status = STATUS_ONLINE;
             if (m_status == "Online"){
                 status = STATUS_ONLINE;
@@ -863,6 +868,9 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     vector<QString> resourceStatus;
                     vector<QString> resourceStatusTime;
                     vector<QString> resourceOnlineTime;
+                    vector<QString> resourceClientName;
+                    vector<QString> resourceClientVersion;
+                    vector<QString> resourceClientOS;
                     for (unsigned n = 1; n <= data->nResources.toULong(); n++){
                         if (i == n)
                             continue;
@@ -871,18 +879,27 @@ JabberClient::PresenceRequest::~PresenceRequest()
                         resourceStatus.push_back(get_str(data->ResourceStatus, n));
                         resourceStatusTime.push_back(get_str(data->ResourceStatusTime, n));
                         resourceOnlineTime.push_back(get_str(data->ResourceOnlineTime, n));
+                        resourceClientName.push_back(get_str(data->ResourceClientName, n));
+                        resourceClientVersion.push_back(get_str(data->ResourceClientVersion, n));
+                        resourceClientOS.push_back(get_str(data->ResourceClientOS, n));
                     }
                     data->Resources.clear();
                     data->ResourceReply.clear();
                     data->ResourceStatus.clear();
                     data->ResourceStatusTime.clear();
                     data->ResourceOnlineTime.clear();
+                    data->ResourceClientName.clear();
+                    data->ResourceClientVersion.clear();
+                    data->ResourceClientOS.clear();
                     for (i = 0; i < resources.size(); i++){
                         set_str(&data->Resources, i + 1, resources[i]);
                         set_str(&data->ResourceReply, i + 1, resourceReply[i]);
                         set_str(&data->ResourceStatus, i + 1, resourceStatus[i]);
                         set_str(&data->ResourceStatusTime, i + 1, resourceStatusTime[i]);
                         set_str(&data->ResourceOnlineTime, i + 1, resourceOnlineTime[i]);
+                        set_str(&data->ResourceClientName, i + 1, resourceClientName[i]);
+                        set_str(&data->ResourceClientVersion, i + 1, resourceClientVersion[i]);
+                        set_str(&data->ResourceClientOS, i + 1, resourceClientOS[i]);
                     }
                     data->nResources.asULong() = resources.size();
                 }
@@ -894,6 +911,8 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     data->nResources.asULong() = i;
                     set_str(&data->Resources, i, resource);
                     set_str(&data->ResourceOnlineTime, i, QString::number(time2 ? time2 : time1));
+                    if (m_client->getUseVersion())
+                        m_client->versionInfo(m_from);
                 }
                 if (QString::number(status) != get_str(data->ResourceStatus, i)){
                     bChanged = true;
@@ -922,6 +941,11 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     data->OnlineTime.asULong() = time1;
                     data->richText.asBool() = true;
                 }
+                if (status == STATUS_OFFLINE && data->IsTyping.toBool()){
+                    data->IsTyping.asBool() = false;
+                    EventContact e(contact, EventContact::eStatus);;
+                    e.process();
+                }
                 data->Status.asULong() = status;
                 data->StatusTime.asULong() = time1;
             }
@@ -930,31 +954,46 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 bChanged = true;
             }
             if (bChanged){
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(m_client->dataName(data));
-                m.setFlags(MESSAGE_RECEIVED);
-                m.setStatus(status);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(m_client->dataName(data));
+                m->setFlags(MESSAGE_RECEIVED);
+                m->setStatus(status);
+                EventMessageReceived e(m);
+                if(!e.process())
+                    delete m;
             }
             if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID.str())){
-                Event e(EventContactOnline, contact);
+                EventContact e(contact, EventContact::eOnline);
                 e.process();
             }
         }
     }
 }
 
-void JabberClient::PresenceRequest::element_start(const char *el, const char **attr)
+void JabberClient::PresenceRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "presence")){
-        m_from = JabberClient::get_attr("from", attr);
-        m_type = JabberClient::get_attr("type", attr);
+    if (el == "presence"){
+        m_from = attrs.value("from");
+        m_type = attrs.value("type");
     }
-    if (!strcmp(el, "x")){
-        if (JabberClient::get_attr("xmlns", attr) == "jabber:x:delay"){
-            QString stamp = JabberClient::get_attr("stamp", attr);
+    // XEP-0203: Delayed Delivery
+    if (el == "delay"){
+        if (attrs.value("xmlns") == "http://www.xmpp.org/extensions/xep-0203.html#ns"){
+            QString stamp = attrs.value("stamp");
+            if (!stamp.isEmpty()){
+                if (m_stamp1.isEmpty()){
+                    m_stamp1 = stamp;
+                }else if (m_stamp2.isEmpty()){
+                    m_stamp2 = stamp;
+                }
+            }
+        }
+    } else
+    if (el == "x"){
+        // XEP-0091: Delayed Delivery
+        if (attrs.value("xmlns") == "jabber:x:delay"){
+            QString stamp = attrs.value("stamp");
             if (!stamp.isEmpty()){
                 if (m_stamp1.isEmpty()){
                     m_stamp1 = stamp;
@@ -964,21 +1003,21 @@ void JabberClient::PresenceRequest::element_start(const char *el, const char **a
             }
         }
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
-void JabberClient::PresenceRequest::element_end(const char *el)
+void JabberClient::PresenceRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "show")){
+    if (el == "show"){
         m_show = m_data;
-    }else if (!strcmp(el, "status")){
+    }else if (el == "status"){
         m_status = m_data;
     }
 }
 
-void JabberClient::PresenceRequest::char_data(const char *str, int len)
+void JabberClient::PresenceRequest::char_data(const QString& str)
 {
-    m_data.append(QString::fromUtf8(str, len));
+    m_data += str;
 }
 
 JabberClient::IqRequest::IqRequest(JabberClient *client)
@@ -1037,7 +1076,7 @@ JabberClient::IqRequest::~IqRequest()
         msg->setClient(m_client->dataName(data));
         msg->setContact(contact->id());
         m_client->m_ackMsg.push_back(msg);
-        Event e(EventMessageReceived, msg);
+        EventMessageReceived e(msg);
         if (e.process()){
             for (list<Message*>::iterator it = m_client->m_ackMsg.begin(); it != m_client->m_ackMsg.end(); ++it){
                 if ((*it) == msg){
@@ -1049,20 +1088,21 @@ JabberClient::IqRequest::~IqRequest()
     }
 }
 
-void JabberClient::IqRequest::element_start(const char *el, const char **attr)
+void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "iq")){
-        m_from = JabberClient::get_attr("from", attr);
-        m_id   = JabberClient::get_attr("id", attr);
+    if (el == "iq"){
+        m_from = attrs.value("from");
+        m_id   = attrs.value("id");
+        m_type = attrs.value("type");
         return;
     }
-    if (!strcmp(el, "query")){
-        m_query = JabberClient::get_attr("xmlns", attr);
-        if (m_query == "jabber:iq:roster"){
-            if (!strcmp(el, "item")){
-                QString jid = JabberClient::get_attr("jid", attr);
-                QString subscription = JabberClient::get_attr("subscription", attr);
-                QString name = JabberClient::get_attr("name", attr);
+    if (el == "query"){
+        m_query = attrs.value("xmlns");
+    }
+    if ( (el == "item") && (m_query == "jabber:iq:roster") ){
+                QString jid = attrs.value("jid");
+                QString subscription = attrs.value("subscription");
+                QString name = attrs.value("name");
                 if (!subscription.isEmpty()){
                     unsigned subscribe = SUBSCRIBE_NONE;
                     if (subscription == "none"){
@@ -1085,7 +1125,7 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                     }
                     if (data && (data->Subscribe.toULong() != subscribe)){
                         data->Subscribe.asULong() = subscribe;
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                         if (m_client->getAutoSubscribe() && ((subscribe & SUBSCRIBE_FROM) == 0)){
                             AuthMessage *msg = new AuthMessage(MessageAuthRequest);
@@ -1095,28 +1135,70 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                         }
                     }
                 }
-            }
-        }
     }
-    if (!strcmp(el, "url"))
+        // XEP-0092: Software Version
+    if ( (el == "query") && (m_query == "jabber:iq:version") ){
+            if (m_type == "get" && m_client->getUseVersion()){
+                // send our version
+                JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from, m_id);
+                req->start_element("query");
+                req->add_attribute("xmlns", "jabber:iq:version");
+                req->text_tag("name", PACKAGE);
+                req->text_tag("version", VERSION);
+                QString version = get_os_version();
+                req->text_tag("os", version);
+                req->send();
+                m_client->m_requests.push_back(req);
+            }
+    }
+    if (el == "url")
         m_data = &m_url;
-    if (!strcmp(el, "desc"))
+    if (el == "desc")
         m_data = &m_descr;
-    if (!strcmp(el, "file")){
-        m_file_name = JabberClient::get_attr("name", attr);
-        m_file_size = JabberClient::get_attr("size", attr).toUInt();
+    if (el == "file"){
+        m_file_name = attrs.value("name");
+        m_file_size = attrs.value("size").toUInt();
     }
 }
 
-void JabberClient::IqRequest::element_end(const char*)
+void JabberClient::IqRequest::element_end(const QString&)
 {
     m_data = NULL;
 }
 
-void JabberClient::IqRequest::char_data(const char *data, int len)
+void JabberClient::IqRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(data, len));
+        *m_data += str;
+}
+
+JabberClient::StreamErrorRequest::StreamErrorRequest(JabberClient *client)
+        : ServerRequest(client, NULL, NULL, NULL)
+{
+}
+
+JabberClient::StreamErrorRequest::~StreamErrorRequest()
+{
+    m_client->socket()->error_state(m_descr);
+}
+
+void JabberClient::StreamErrorRequest::element_start(const QString& el, const QXmlAttributes&)
+{
+    if (el == "text"){
+        m_data = &m_descr;
+        return;
+    }
+}
+
+void JabberClient::StreamErrorRequest::element_end(const QString&)
+{
+    m_data = NULL;
+}
+
+void JabberClient::StreamErrorRequest::char_data(const QString& str)
+{
+    if (m_data)
+        *m_data += str;
 }
 
 class JabberBgParser : public HTMLParser
@@ -1139,7 +1221,7 @@ JabberBgParser::JabberBgParser()
 
 QString JabberBgParser::parse(const QString &text)
 {
-    res = "";
+    res = QString::null;
     HTMLParser::parse(text);
     return res;
 }
@@ -1163,13 +1245,13 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
         }
         return;
     }
-    res += "<";
+    res += '<';
     res += tag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
-        res += " ";
+        res += ' ';
         res += name;
         if (name == "style"){
             list<QString> styles = parseStyle(value);
@@ -1190,7 +1272,7 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
             res += "\'";
         }
     }
-    res += ">";
+    res += '>';
 }
 
 void JabberBgParser::tag_end(const QString &tag)
@@ -1200,7 +1282,7 @@ void JabberBgParser::tag_end(const QString &tag)
     }
     res += "</";
     res += tag;
-    res += ">";
+    res += '>';
 }
 
 JabberClient::MessageRequest::MessageRequest(JabberClient *client)
@@ -1208,12 +1290,13 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
 {
     m_data = NULL;
     m_errorCode = 0;
-    m_bBody = false;
-    m_bCompose = false;
-    m_bEvent = false;
-    m_bRichText = false;
-    m_bRosters = false;
-    m_bError = false;
+    m_bBody		= false;
+    m_bCompose	= false;
+    m_bEvent	= false;
+    m_bRichText	= false;
+	m_bEnc		= false;
+    m_bRosters	= false;
+    m_bError	= false;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
@@ -1230,33 +1313,32 @@ JabberClient::MessageRequest::~MessageRequest()
         contact->setFlags(CONTACT_TEMP);
     }
     Message *msg = NULL;
-    if (!m_id.isEmpty()){
-        if (m_bError)
-            return;
-        QString typing_id = data->TypingId.str();
-        QString new_typing_id;
-        bool bProcess = false;
-        while (!typing_id.isEmpty()){
-            QString id = getToken(typing_id, ';');
-            if (id == m_id){
-                if (!m_bCompose)
-                    continue;
-                bProcess = true;
+
+    if (!m_bError){
+        // JEP-0022 composing event handling
+        if (m_bBody){
+            // Msg contains normal message.
+            // <composing/> here means "send me composing events, please", so we should do it.
+            // But if that tag is absent, we must not send them.
+            data->SendTypingEvents.asBool() = m_bCompose;
+            data->TypingId.str() = (m_bCompose ? m_id : QString::null);
+
+            // also, incoming message implicitly means that user has stopped typing
+            if (data->IsTyping.toBool()){
+                data->IsTyping.asBool() = false;
+                EventContact e(contact, EventContact::eStatus);;
+                e.process();
             }
-            if (!new_typing_id.isEmpty())
-                new_typing_id += ";";
-            new_typing_id += id;
         }
-        if (!bProcess && m_bCompose){
-            if (!new_typing_id.isEmpty())
-                new_typing_id += ";";
-            new_typing_id += m_id;
-        }
-        if (data->TypingId.setStr(new_typing_id)){
-            Event e(EventContactStatus, contact);
+        else{
+            // Msg has no body ==> it is event message.
+            // Presence of <composing/> here means "I'm typing", absence - "I'm not typing anymore".
+            data->IsTyping.asBool() = m_bCompose;
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }
+
     if (m_errorCode || !m_error.isEmpty()){
         if (!m_bEvent){
             JabberMessageError *m = new JabberMessageError;
@@ -1279,8 +1361,11 @@ JabberClient::MessageRequest::~MessageRequest()
     if (msg == NULL)
         return;
     if (m_bBody && m_contacts.isEmpty()){
-        if (m_richText.isEmpty()){
+        if (!m_enc.isEmpty()){
             data->richText.asBool() = false;
+			msg->setText(m_enc);
+		}else if (m_richText.isEmpty()){
+			data->richText.asBool() = false;
             msg->setText(m_body);
         }else{
             JabberBgParser p;
@@ -1308,73 +1393,70 @@ JabberClient::MessageRequest::~MessageRequest()
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     msg->setClient(m_client->dataName(data));
     msg->setContact(contact->id());
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if (!e.process())
         delete msg;
 }
 
-void JabberClient::MessageRequest::element_start(const char *el, const char **attr)
+void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     if (m_bRichText){
-        *m_data += "<";
+        *m_data += '<';
         *m_data += el;
-        if (attr){
-            for (const char **p = attr; *p; ){
-                const char *key = *(p++);
-                const char *val = *(p++);
-                *m_data += " ";
-                *m_data += key;
-                *m_data += "=\'";
-                *m_data += val;
-                *m_data += "\'";
-            }
+        for (int i = 0; i < attrs.count(); i++){
+            *m_data += ' ';
+            *m_data += attrs.qName(i);
+            *m_data += "=\'";
+            *m_data += attrs.value(i);
+            *m_data += "\'";
         }
-        *m_data += ">";
+        *m_data += '>';
         return;
     }
     m_data = NULL;
-    if (!strcmp(el, "message")){
-        m_from = JabberClient::get_attr("from", attr);
-        if (JabberClient::get_attr("type", attr) == "error")
+    if (el == "message"){
+        m_from = attrs.value("from");
+        m_id = attrs.value("id");
+        if (attrs.value("type") == "error")
             m_bError = true;
         return;
     }
-    if (!strcmp(el, "body")){
+    if (el == "body"){
         m_data = &m_body;
         m_bBody = true;
         return;
     }
-    if (!strcmp(el, "subject")){
+    if (el == "subject"){
         m_data = &m_subj;
         return;
     }
-    if (!strcmp(el, "error")){
-        m_errorCode = JabberClient::get_attr("code", attr).toUInt();
+    if (el == "error"){
+        m_errorCode = attrs.value("code").toUInt();
         m_data = &m_error;
         return;
     }
-    if (!strcmp(el, "composing")){
-        m_bCompose = true;
+    if (m_bEvent){
+        // Parsing <x xmlns='jabber:x:event'> tag, which contains JEP-0022 event info
+        if (el == "composing"){
+            m_bCompose = true;
+			return;
+		}
+    }
+    if (el == "url-data"){
+        m_target = attrs.value("target");
+        m_desc = QString::null;
         return;
     }
-    if (!strcmp(el, "id")){
-        m_data = &m_id;
-        return;
-    }
-    if (!strcmp(el, "url-data")){
-        m_target = JabberClient::get_attr("target", attr);
-        m_desc = "";
-    }
-    if (!strcmp(el, "desc")){
+    if (el == "desc"){
         m_data = &m_desc;
         return;
     }
-    if (m_bRosters && !strcmp(el, "item")){
-        QString jid  = JabberClient::get_attr("jid", attr);
-        QString name = JabberClient::get_attr("name", attr);
+    if (m_bRosters && el == "item"){
+        QString jid  = attrs.value("jid");
+        QString name = attrs.value("name");
         if (!jid.isEmpty()){
             if (!m_contacts.isEmpty())
-                m_contacts += ";";
+                m_contacts += ';';
             m_contacts += "jabber:";
             m_contacts += jid;
             if (name.isEmpty()){
@@ -1385,33 +1467,39 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
                     name = jid;
                 }
             }
-            m_contacts += "/";
+            m_contacts += '/';
             m_contacts += name;
-            m_contacts += ",";
+            m_contacts += ',';
             m_contacts += name;
             m_contacts += " (";
             m_contacts += jid;
-            m_contacts += ")";
+            m_contacts += ')';
         }
+        return;
     }
-    if (!strcmp(el, "x")){
-        if (JabberClient::get_attr("xmlns", attr) == "jabber:x:event")
+    if (el == "x"){
+        if (attrs.value("xmlns") == "jabber:x:event")
             m_bEvent = true;
-        if (JabberClient::get_attr("xmlns", attr) == "jabber:x:roster")
+        else if (attrs.value("xmlns") == "jabber:x:roster")
             m_bRosters = true;
+		else if (attrs.value("xmlns") == "jabber:x:encrypted"){
+		    m_data = &m_enc;
+		    *m_data += "-----BEGIN PGP MESSAGE-----\n\n";
+		    m_bEnc = true;
+		}
+        return;
     }
-    if (!strcmp(el, "html")){
-        QString xmlns = JabberClient::get_attr("xmlns", attr);
-        if (xmlns == "http://jabber.org/protocol/xhtml-im"){
+    if (el == "html"){
+        if (attrs.value("xmlns") == "http://jabber.org/protocol/xhtml-im"){
             m_bRichText = true;
             m_data = &m_richText;
         }
+        return;
     }
 }
 
-void JabberClient::MessageRequest::element_end(const char *element)
+void JabberClient::MessageRequest::element_end(const QString& el)
 {
-    QString el = QString::fromUtf8(element);
     if (m_bRichText){
         if (el == "html"){
             m_bRichText = false;
@@ -1420,11 +1508,15 @@ void JabberClient::MessageRequest::element_end(const char *element)
         }
         *m_data += "</";
         *m_data += el;
-        *m_data += ">";
+        *m_data += '>';
         return;
     }
     if (el == "x")
-        m_bRosters = false;
+        if (m_bEnc){
+            m_bEnc = false;
+            *m_data += "\n-----END PGP MESSAGE-----\n";
+        }else
+            m_bRosters = false;
     if (el == "url-data"){
         if (!m_target.isEmpty()){
             if (m_desc.isEmpty())
@@ -1432,16 +1524,16 @@ void JabberClient::MessageRequest::element_end(const char *element)
             m_targets.push_back(m_target);
             m_descs.push_back(m_desc);
         }
-        m_target = "";
-        m_desc = "";
+        m_target = QString::null;
+        m_desc = QString::null;
     }
     m_data = NULL;
 }
 
-void JabberClient::MessageRequest::char_data(const char *str, int len)
+void JabberClient::MessageRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(str, len));
+        *m_data += str;
 }
 
 class AgentRequest : public JabberClient::ServerRequest
@@ -1454,9 +1546,9 @@ protected:
     QString m_data;
     QString m_jid;
     bool   m_bError;
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *el, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
 };
 
 class AgentsDiscoRequest : public JabberClient::ServerRequest
@@ -1464,7 +1556,7 @@ class AgentsDiscoRequest : public JabberClient::ServerRequest
 public:
     AgentsDiscoRequest(JabberClient *client);
 protected:
-    virtual void element_start(const char *el, const char **attr);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
 };
 
 class AgentDiscoRequest : public JabberClient::ServerRequest
@@ -1474,22 +1566,9 @@ public:
     ~AgentDiscoRequest();
 protected:
     JabberAgentsInfo	data;
-    virtual void element_start(const char *el, const char **attr);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
     bool m_bError;
 };
-
-/*
-
-typedef struct JabberAgentsInfo
-{
-	char			*VHost;
-	char			*ID;
-	char			*Name;
-	unsigned		Search;
-	unsigned		Register;
-} JabberAgentsInfo;
-
-*/
 
 static DataDef jabberAgentsInfo[] =
     {
@@ -1505,7 +1584,7 @@ static DataDef jabberAgentsInfo[] =
 AgentDiscoRequest::AgentDiscoRequest(JabberClient *client, const QString &jid)
         : ServerRequest(client, _GET, NULL, jid)
 {
-    load_data(jabberAgentsInfo, &data);
+    load_data(jabberAgentsInfo, &data, NULL);
     data.ID.str() = jid;
     m_bError = false;
 }
@@ -1527,24 +1606,25 @@ AgentDiscoRequest::~AgentDiscoRequest()
     if (!data.Name.str().isEmpty()){
         data.VHost.str() = m_client->VHost();
         data.Client = m_client;
-        Event e(EventAgentFound, &data);
-        e.process();
+// unhandled ...
+//        Event e(EventAgentFound, &data);
+//        e.process();
     }
     free_data(jabberAgentsInfo, &data);
 }
 
-void AgentDiscoRequest::element_start(const char *el, const char **attr)
+void AgentDiscoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "error")){
+    if (el == "error"){
         m_bError = true;
         return;
     }
-    if (!strcmp(el, "identity")){
-        data.Name.str() = JabberClient::get_attr("name", attr);
+    if (el == "identity"){
+        data.Name.str() = attrs.value("name");
         return;
     }
-    if (!strcmp(el, "feature")){
-        QString s = JabberClient::get_attr("var", attr);
+    if (el == "feature"){
+        QString s = attrs.value("var");
         if (s == "jabber:iq:register")
             data.Register.asBool() = true;
         if (s == "jabber:iq:search")
@@ -1557,11 +1637,11 @@ AgentsDiscoRequest::AgentsDiscoRequest(JabberClient *client)
 {
 }
 
-void AgentsDiscoRequest::element_start(const char *el, const char **attr)
+void AgentsDiscoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (strcmp(el, "item"))
+    if (el != "item")
         return;
-    QString jid = JabberClient::get_attr("jid", attr);
+    QString jid = attrs.value("jid");
     if (!jid.isEmpty()){
         AgentDiscoRequest *req = new AgentDiscoRequest(m_client, jid);
         req->start_element("query");
@@ -1574,7 +1654,7 @@ void AgentsDiscoRequest::element_start(const char *el, const char **attr)
 AgentRequest::AgentRequest(JabberClient *client, const QString &jid)
         : ServerRequest(client, _GET, NULL, jid)
 {
-    load_data(jabberAgentsInfo, &data);
+    load_data(jabberAgentsInfo, &data, NULL);
     m_bError = false;
     m_jid    = jid;
 }
@@ -1591,40 +1671,41 @@ AgentRequest::~AgentRequest()
     }
 }
 
-void AgentRequest::element_start(const char *el, const char **attr)
+void AgentRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "agent")){
+    if (el == "agent"){
         free_data(jabberAgentsInfo, &data);
-        load_data(jabberAgentsInfo, &data);
-        m_data = JabberClient::get_attr("jid", attr);
+        load_data(jabberAgentsInfo, &data, NULL);
+        m_data = attrs.value("jid");
         data.ID.str() = m_data;
-    }else if (!strcmp(el, "search")){
+    }else if (el == "search"){
         data.Search.asBool() = true;
-    }else if (!strcmp(el, "register")){
+    }else if (el == "register"){
         data.Register.asBool() = true;
-    }else if (!strcmp(el, "error")){
+    }else if (el == "error"){
         m_bError = true;
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
-void AgentRequest::element_end(const char *el)
+void AgentRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "agent")){
+    if (el == "agent"){
         if (!data.ID.str().isEmpty()){
             data.VHost.str() = m_client->VHost();
             data.Client = m_client;
-            Event e(EventAgentFound, &data);
-            e.process();
+// unhandled ...
+//            Event e(EventAgentFound, &data);
+//            e.process();
         }
-    }else if (!strcmp(el, "name")){
+    }else if (el == "name"){
         data.Name.str() = m_data;
     }
 }
 
-void AgentRequest::char_data(const char *el, int len)
+void AgentRequest::char_data(const QString& str)
 {
-    m_data.append(QString::fromUtf8(el, len));
+    m_data += str;
 }
 
 QString JabberClient::get_agents(const QString &jid)
@@ -1651,27 +1732,10 @@ protected:
     QString m_error;
     bool   m_bError;
     unsigned m_error_code;
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *el, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
 };
-
-/*
-
-typedef struct JabberAgentInfo
-{
-	char			*VHost;
-	char			*ID;
-	char			*Field;
-	char			*Type;
-	char			*Label;
-	char			*Value;
-	void			*Options;
-	void			*OptionLabels;
-	unsigned		nOptions;
-} JabberAgentInfo;
-
-*/
 
 static DataDef jabberAgentInfo[] =
     {
@@ -1698,120 +1762,115 @@ AgentInfoRequest::AgentInfoRequest(JabberClient *client, const QString &jid)
     m_bOption = false;
     m_error_code = 0;
     m_bError = false;
-    load_data(jabberAgentInfo, &data);
+    load_data(jabberAgentInfo, &data, NULL);
 }
 
 AgentInfoRequest::~AgentInfoRequest()
 {
     free_data(jabberAgentInfo, &data);
-    load_data(jabberAgentInfo, &data);
+    load_data(jabberAgentInfo, &data, NULL);
     data.ID.str() = m_jid;
     data.ReqID.str() = m_id;
     data.nOptions.asULong() = m_error_code;
     data.Label.str() = m_error;
-    Event e(EventAgentInfo, &data);
-    e.process();
+    EventAgentInfo(&data).process();
     free_data(jabberAgentInfo, &data);
 }
 
-void AgentInfoRequest::element_start(const char *el, const char **attr)
+void AgentInfoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "error")){
+    if (el == "error"){
         m_bError = true;
-        m_error_code = JabberClient::get_attr("code", attr).toUInt();
+        m_error_code = attrs.value("code").toUInt();
     }
     if (m_bError)
         return;
-    if (!strcmp(el, "field")){
+    if (el == "field"){
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data);
+        load_data(jabberAgentInfo, &data, NULL);
         data.ID.str() = m_jid;
-        m_data = JabberClient::get_attr("var", attr);
+        m_data = attrs.value("var");
         data.Field.str() = m_data;
-        m_data = JabberClient::get_attr("type", attr);
+        m_data = attrs.value("type");
         data.Type.str() = m_data;
-        m_data = JabberClient::get_attr("label", attr);
+        m_data = attrs.value("label");
         data.Label.str() = m_data;
     }
-    if (!strcmp(el, "option")){
+    if (el == "option"){
         m_bOption = true;
-        m_data = JabberClient::get_attr("label", attr);
+        m_data = attrs.value("label");
         set_str(&data.OptionLabels, data.nOptions.toULong(), m_data);
     }
-    if (!strcmp(el, "x")){
+    if (el == "x"){
         data.VHost.str() = m_client->VHost();
         data.Type.str() = "x";
         data.ReqID.str() = m_id;
         data.ID.str() = m_jid;
-        Event e(EventAgentInfo, &data);
-        e.process();
+        EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data);
+        load_data(jabberAgentInfo, &data, NULL);
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
-void AgentInfoRequest::element_end(const char *el)
+void AgentInfoRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "error")){
+    if (el == "error"){
         m_error = m_data;
-        m_data  = "";
+        m_data  = QString::null;
         m_bError = false;
         return;
     }
     if (m_bError)
         return;
-    if (!strcmp(el, "desc")){
+    if (el == "desc"){
         data.Desc.str() = m_data;
         return;
     }
-    if (!strcmp(el, "field")){
+    if (el == "field"){
         if (!data.Field.str().isEmpty()){
             data.VHost.str() = m_client->VHost();
             data.ReqID.str() = m_id;
             data.ID.str() = m_jid;
-            Event e(EventAgentInfo, &data);
-            e.process();
+            EventAgentInfo(&data).process();
             free_data(jabberAgentInfo, &data);
-            load_data(jabberAgentInfo, &data);
+            load_data(jabberAgentInfo, &data, NULL);
         }
-    }else if (!strcmp(el, "option")){
+    }else if (el == "option"){
         m_bOption = false;
         QString str = get_str(data.Options, data.nOptions.toULong());
         if (!str.isEmpty())
             data.nOptions.asULong()++;
-    }else if (!strcmp(el, "value")){
+    }else if (el == "value"){
         if (m_bOption){
             set_str(&data.Options, data.nOptions.toULong(), m_data);
         }else{
             data.Value.str() = m_data;
         }
-    }else if (!strcmp(el, "required")){
+    }else if (el == "required"){
         data.bRequired.asBool() = true;
-    }else if (!strcmp(el, "key") || !strcmp(el, "instructions")){
+    }else if (el == "key" || el == "instructions"){
         data.Value.str() = m_data;
         data.ID.str() = m_jid;
         data.ReqID.str() = m_id;
         data.Type.str() = QString::fromUtf8(el);
-        Event e(EventAgentInfo, &data);
-        e.process();
+        EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data);
-    }else if (strcmp(el, "error") && strcmp(el, "iq") && strcmp(el, "query") && strcmp(el, "x")){
+        load_data(jabberAgentInfo, &data, NULL);
+    }else if (el != "error" && el != "iq" && el != "query" && el != "x"){
         data.Value.str() = m_data;
         data.ID.str() = m_jid;
         data.ReqID.str() = m_id;
         data.Type.str() = QString::fromUtf8(el);
-        Event e(EventAgentInfo, &data);
-        e.process();
+        EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data);
+        load_data(jabberAgentInfo, &data, NULL);
     }
 }
 
-void AgentInfoRequest::char_data(const char *el, int len)
+void AgentInfoRequest::char_data(const QString& str)
 {
-    m_data.append(QString::fromUtf8(el, len));
+    m_data += str;
 }
 
 QString JabberClient::get_agent_info(const QString &jid, const QString &node, const QString &type)
@@ -1825,7 +1884,7 @@ QString JabberClient::get_agent_info(const QString &jid, const QString &node, co
     addLang(req);
     req->send();
     m_requests.push_back(req);
-    return req->m_id.utf8();
+    return req->m_id;
 }
 
 typedef map<my_string, QString> VALUE_MAP;
@@ -1842,24 +1901,10 @@ protected:
     list<QString> m_fields;
     VALUE_MAP    m_values;
     bool m_bReported;
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *el, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
 };
-
-/*
-
-typedef struct JabberSearchData
-{
-	char			*ID;
-	char			*JID;
-	char			*First;
-	char			*Last;
-	char			*Nick;
-	char			*EMail;
-} JabberSearchData;
-
-*/
 
 static DataDef jabberSearchData[] =
     {
@@ -1879,31 +1924,30 @@ static DataDef jabberSearchData[] =
 SearchRequest::SearchRequest(JabberClient *client, const QString &jid)
         : ServerRequest(client, _SET, NULL, jid)
 {
-    load_data(jabberSearchData, &data);
+    load_data(jabberSearchData, &data, NULL);
     m_bReported = false;
 }
 
 SearchRequest::~SearchRequest()
 {
-    Event e(EventSearchDone, (void*)m_id.utf8().data());
-    e.process();
+    EventSearchDone(m_id).process();
     free_data(jabberSearchData, &data);
 }
 
-void SearchRequest::element_start(const char *el, const char **attr)
+void SearchRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "reported")){
+    if (el == "reported"){
         m_bReported = true;
-    }else if (!strcmp(el, "item")){
+    }else if (el == "item"){
         free_data(jabberSearchData, &data);
-        load_data(jabberSearchData, &data);
-        m_data = JabberClient::get_attr("jid", attr);
+        load_data(jabberSearchData, &data, NULL);
+        m_data = attrs.value("jid");
         data.JID.str() = m_data;
-    }else if (!strcmp(el, "field")){
-        QString var = JabberClient::get_attr("var", attr);
+    }else if (el == "field"){
+        QString var = attrs.value("var");
         if (m_bReported){
             if (!var.isEmpty() && (var != "jid")){
-                QString label = JabberClient::get_attr("label", attr);
+                QString label = attrs.value("label");
                 if (label.isEmpty())
                     label = var;
                 m_values.insert(VALUE_MAP::value_type(var, label));
@@ -1913,15 +1957,15 @@ void SearchRequest::element_start(const char *el, const char **attr)
             m_attr = var;
         }
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
-void SearchRequest::element_end(const char *el)
+void SearchRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "reported")){
+    if (el == "reported"){
         m_bReported = false;
         free_data(jabberSearchData, &data);
-        load_data(jabberSearchData, &data);
+        load_data(jabberSearchData, &data, NULL);
         for (list<QString>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
             QString value;
             VALUE_MAP::iterator itv = m_values.find((*it));
@@ -1932,10 +1976,9 @@ void SearchRequest::element_end(const char *el)
             data.nFields.asULong()++;
         }
         data.ID.str() = m_id;
-        Event e(EventSearch, &data);
-        e.process();
+        EventSearch(&data).process();
         m_values.clear();
-    }else if (!strcmp(el, "item")){
+    }else if (el == "item"){
         if (!data.JID.str().isEmpty()){
             for (list<QString>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
                 VALUE_MAP::iterator itv = m_values.find((*it));
@@ -1946,11 +1989,10 @@ void SearchRequest::element_end(const char *el)
                 data.nFields.asULong()++;
             }
             data.ID.str() = m_id;
-            Event e(EventSearch, &data);
-            e.process();
+            EventSearch(&data).process();
             m_values.clear();
         }
-    }else if (!strcmp(el, "value") || !strcmp(el, "field")){
+    }else if (el == "value" || el == "field"){
         if (!m_attr.isEmpty() && !m_data.isEmpty()){
             if (m_attr == "jid"){
                 data.JID.str() = m_data;
@@ -1958,23 +2000,23 @@ void SearchRequest::element_end(const char *el)
                 m_values.insert(VALUE_MAP::value_type(m_attr, m_data));
             }
         }
-        m_attr = "";
-    }else if (!strcmp(el, "first")){
+        m_attr = QString::null;
+    }else if (el == "first"){
         data.First.str() = m_data;
-    }else if (!strcmp(el, "last")){
+    }else if (el == "last"){
         data.Last.str() = m_data;
-    }else if (!strcmp(el, "nick")){
+    }else if (el == "nick"){
         data.Nick.str() = m_data;
-    }else if (!strcmp(el, "email")){
+    }else if (el == "email"){
         data.EMail.str() = m_data;
-    }else if (!strcmp(el, "status")){
+    }else if (el == "status"){
         data.Status.str() = m_data;
     }
 }
 
-void SearchRequest::char_data(const char *el, int len)
+void SearchRequest::char_data(const QString& str)
 {
-    m_data.append(QString::fromUtf8(el, len));
+    m_data += str;
 }
 
 QString JabberClient::search(const QString &jid, const QString &node, const QString &condition)
@@ -2003,9 +2045,9 @@ protected:
     QString   m_error;
     QString  *m_data;
     unsigned m_error_code;
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *el, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
 };
 
 RegisterRequest::RegisterRequest(JabberClient *client, const QString &jid)
@@ -2021,36 +2063,34 @@ RegisterRequest::~RegisterRequest()
     ai.id = m_id;
     ai.err_code = m_error_code;
     ai.error = m_error;
-    Event e(EventAgentRegister, &ai);
-    e.process();
+    EventAgentRegister(&ai).process();
 }
 
-void RegisterRequest::element_start(const char *el, const char **attr)
+void RegisterRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "error")){
-        m_error_code = JabberClient::get_attr("code", attr).toUInt();
+    if (el == "error"){
+        m_error_code = attrs.value("code").toUInt();
         if (m_error_code == 0)
             m_error_code = (unsigned)(-1);
         m_data = &m_error;
         return;
     }
-    if (!strcmp(el, "iq")){
-        QString type = JabberClient::get_attr("type", attr);
+    if (el == "iq"){
+        QString type = attrs.value("type");
         if (type == "result")
             m_error_code = 0;
     }
 }
 
-void RegisterRequest::element_end(const char*)
+void RegisterRequest::element_end(const QString&)
 {
     m_data = NULL;
 }
 
-void RegisterRequest::char_data(const char *el, int len)
+void RegisterRequest::char_data(const QString& str)
 {
-    if (m_data == NULL)
-        return;
-    m_data->append(QString::fromUtf8(el, len));
+    if (m_data != NULL)
+        *m_data += str;
 }
 
 QString JabberClient::process(const QString &jid, const QString &node, const QString &condition, const QString &type)
@@ -2059,7 +2099,7 @@ QString JabberClient::process(const QString &jid, const QString &node, const QSt
     req->start_element("query");
     QString xmlns = "jabber:iq:" + type;
     req->add_attribute("xmlns", xmlns);
-    bool bData = (strcmp(type, "data") == 0);
+    bool bData = (type == "data");
     if (bData)
         req->add_attribute("type", "submit");
     req->add_attribute("node", node);
@@ -2092,75 +2132,15 @@ void JabberClient::processList()
     m_listRequests.clear();
 }
 
-#if 0
-
 class SendFileRequest : public JabberClient::ServerRequest
 {
 public:
     SendFileRequest(JabberClient *client, const QString &jid, FileMessage *msg);
     ~SendFileRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
-    QString *m_data;
-    QString m_error;
-    bool   m_bError;
-    FileMessage *m_msg;
-};
-
-SendFileRequest::SendFileRequest(JabberClient *client, const QString &jid, FileMessage *msg)
-        : JabberClient::ServerRequest(client, _SET, NULL, jid)
-{
-    m_msg    = msg;
-    m_data   = NULL;
-    m_bError = false;
-}
-
-SendFileRequest::~SendFileRequest()
-{
-    if (m_msg && m_bError){
-        if (m_error.isEmpty())
-            m_error = I18N_NOOP("File transfer declined");
-        m_msg->setError(m_error);
-        Event e(EventMessageSent, m_msg);
-        e.process();
-        delete m_msg;
-    }
-}
-
-void SendFileRequest::element_start(const char *el, const char **attr)
-{
-    if (!strcmp(el, "iq")){
-        if (JabberClient::get_attr("type", attr) == "error")
-            m_bError = true;
-    }
-    if (!strcmp(el, "error"))
-        m_data = &m_error;
-}
-
-void SendFileRequest::element_end(const char*)
-{
-    m_data = NULL;
-}
-
-void SendFileRequest::char_data(const char *str, int len)
-{
-    if (m_data)
-        m_data->append(QString::fromUtf8(str, len));
-}
-
-#endif
-
-class SendFileRequest : public JabberClient::ServerRequest
-{
-public:
-    SendFileRequest(JabberClient *client, const QString &jid, FileMessage *msg);
-    ~SendFileRequest();
-protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void	element_end(const QString& el);
+    virtual	void	char_data(const QString& str);
     FileMessage *m_msg;
 };
 
@@ -2174,15 +2154,15 @@ SendFileRequest::~SendFileRequest()
 {
 }
 
-void SendFileRequest::element_start(const char*, const char**)
+void SendFileRequest::element_start(const QString&, const QXmlAttributes&)
 {
 }
 
-void SendFileRequest::element_end(const char*)
+void SendFileRequest::element_end(const QString&)
 {
 }
 
-void SendFileRequest::char_data(const char*, int)
+void SendFileRequest::char_data(const QString&)
 {
 }
 
@@ -2191,20 +2171,20 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     QString jid = data->ID.str();
     if (msg->getResource().isEmpty()){
         if (!data->Resource.str().isEmpty()){
-            jid += "/";
+            jid += '/';
             jid += data->Resource.str();
         }
     }else{
-        jid += "/";
+        jid += '/';
         jid += msg->getResource();
     }
-    SendFileRequest *req = new SendFileRequest(this, jid.utf8(), msg);
+    SendFileRequest *req = new SendFileRequest(this, jid, msg);
     req->start_element("si");
     req->add_attribute("xmlns", "http://jabber.org/protocol/si");
     req->add_attribute("profile", "http://jabber.org/protocol/si/profile/file-transfer");
     req->add_attribute("id", get_unique_id());
     req->start_element("file");
-    req->add_attribute("xmns", "http://jabber.org/protocol/si/profile/file-transfer");
+    req->add_attribute("xmlns", "http://jabber.org/protocol/si/profile/file-transfer");
     req->add_attribute("size", QString::number(size));
     req->add_attribute("name", fname);
     req->start_element("range");
@@ -2225,11 +2205,11 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     req->add_attribute("xmlns", "jabber:iq:oob");
     QString url  = "http://";
     struct in_addr addr;
-    addr.s_addr = m_socket->localHost();
+    addr.s_addr = socket()->localHost();
     url += inet_ntoa(addr);
-    url += ":";
+    url += ':';
 	url += QString::number(port);
-    url += "/";
+    url += '/';
     url += fname;
     QString desc;
     desc = msg->getText();
@@ -2246,11 +2226,11 @@ void JabberClient::sendFileAccept(FileMessage *msg, JabberUserData *data)
     QString jid = data->ID.str();
     if (msg->getResource().isEmpty()){
         if (!data->Resource.str().isEmpty()){
-            jid += "/";
+            jid += '/';
             jid += data->Resource.str();
         }
     }else{
-        jid += "/";
+        jid += '/';
         jid += msg->getResource();
     }
     ServerRequest req(this, ServerRequest::_RESULT, NULL, jid, m->getID());
@@ -2273,9 +2253,9 @@ public:
     DiscoItemsRequest(JabberClient *client, const QString &jid);
     ~DiscoItemsRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void	element_end(const QString& el);
+    virtual	void	char_data(const QString& str);
     QString			*m_data;
     QString			m_error;
     unsigned		m_code;
@@ -2296,46 +2276,44 @@ DiscoItemsRequest::~DiscoItemsRequest()
         item.name	= m_error;
         item.node	= QString::number(m_code);
     }
-    Event e(EventDiscoItem, &item);
-    e.process();
+    EventDiscoItem(&item).process();
 }
 
-void DiscoItemsRequest::element_start(const char *el, const char **attr)
+void DiscoItemsRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "item")){
+    if (el == "item"){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= JabberClient::get_attr("jid", attr);
-        item.name	= JabberClient::get_attr("name", attr);
-        item.node	= JabberClient::get_attr("node", attr);
+        item.jid	= attrs.value("jid");
+        item.name	= attrs.value("name");
+        item.node	= attrs.value("node");
         if (!item.jid.isEmpty()){
-            Event e(EventDiscoItem, &item);
-            e.process();
+            EventDiscoItem(&item).process();
         }
     }
-    if (!strcmp(el, "error")){
-        m_code = JabberClient::get_attr("code", attr).toUInt();
+    if (el == "error"){
+        m_code = attrs.value("code").toUInt();
         m_data = &m_error;
     }
 }
 
-void DiscoItemsRequest::element_end(const char *el)
+void DiscoItemsRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "error"))
+    if (el == "error")
         m_data = NULL;
 }
 
-void DiscoItemsRequest::char_data(const char *buf, int len)
+void DiscoItemsRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(buf, len));
+        *m_data += str;
 }
 
 QString JabberClient::discoItems(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
-    DiscoItemsRequest *req = new DiscoItemsRequest(this, jid.utf8());
+        return QString::null;
+    DiscoItemsRequest *req = new DiscoItemsRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#items");
     req->add_attribute("node", node);
@@ -2351,9 +2329,9 @@ public:
     DiscoInfoRequest(JabberClient *client, const QString &jid);
     ~DiscoInfoRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void	element_end(const QString& el);
+    virtual	void	char_data(const QString& str);
     QString			*m_data;
     QString			m_error;
     QString			m_features;
@@ -2380,8 +2358,7 @@ DiscoInfoRequest::~DiscoInfoRequest()
         item.category	= m_category;
         item.type       = m_type;
         item.features	= m_features;
-        Event e(EventDiscoItem, &item);
-        e.process();
+        EventDiscoItem(&item).process();
     }
     DiscoItem item;
     item.id		= m_id;
@@ -2389,47 +2366,46 @@ DiscoInfoRequest::~DiscoInfoRequest()
         item.name	= m_error;
         item.node	= QString::number(m_code);
     }
-    Event e(EventDiscoItem, &item);
-    e.process();
+    EventDiscoItem(&item).process();
 }
 
-void DiscoInfoRequest::element_start(const char *el, const char **attr)
+void DiscoInfoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "identity")){
-        m_category	= JabberClient::get_attr("category", attr);
-        m_name		= JabberClient::get_attr("name", attr);
-        m_type		= JabberClient::get_attr("type", attr);
+    if (el == "identity"){
+        m_category	= attrs.value("category");
+        m_name		= attrs.value("name");
+        m_type		= attrs.value("type");
     }
-    if (!strcmp(el, "feature")){
-        QString feature = JabberClient::get_attr("var", attr);
+    if (el == "feature"){
+        QString feature = attrs.value("var");
         if (!feature.isEmpty()){
             if (!m_features.isEmpty())
-                m_features += "\n";
+                m_features += '\n';
             m_features += feature;
         }
     }
-    if (!strcmp(el, "error")){
-        m_code = JabberClient::get_attr("code", attr).toUInt();
+    if (el == "error"){
+        m_code = attrs.value("code").toUInt();
         m_data = &m_error;
     }
 }
 
-void DiscoInfoRequest::element_end(const char *el)
+void DiscoInfoRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "error"))
+    if (el == "error")
         m_data = NULL;
 }
 
-void DiscoInfoRequest::char_data(const char *buf, int len)
+void DiscoInfoRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(buf, len));
+        *m_data += str;
 }
 
 QString JabberClient::discoInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     DiscoInfoRequest *req = new DiscoInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#info");
@@ -2445,9 +2421,9 @@ public:
     BrowseRequest(JabberClient *client, const QString &jid);
     ~BrowseRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void	element_end(const QString& el);
+    virtual	void	char_data(const QString& str);
     QString			*m_data;
     QString			m_jid;
     QString			m_error;
@@ -2477,8 +2453,7 @@ BrowseRequest::~BrowseRequest()
         item.type       = m_type;
         item.category   = m_category;
         item.features   = m_features.utf8();
-        Event e(EventDiscoItem, &item);
-        e.process();
+        EventDiscoItem(&item).process();
     }
     DiscoItem item;
     item.id		= m_id;
@@ -2486,17 +2461,16 @@ BrowseRequest::~BrowseRequest()
         item.name	= m_error;
         item.node	= QString::number(m_code);
     }
-    Event e(EventDiscoItem, &item);
-    e.process();
+    EventDiscoItem(&item).process();
 }
 
-void BrowseRequest::element_start(const char *el, const char **attr)
+void BrowseRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "error")){
-        m_code = JabberClient::get_attr("code", attr).toUInt();
+    if (el == "error"){
+        m_code = attrs.value("code").toUInt();
         m_data = &m_error;
     }
-    if (!strcmp(el, "item") || !strcmp(el, "service") || !strcmp(el, "agent") || !strcmp(el, "headline")){
+    if (el == "item" || el == "service" || el == "agent" || el == "headline"){
         if (!m_jid.isEmpty() && !m_name.isEmpty()){
             DiscoItem item;
             item.id         = m_id;
@@ -2505,39 +2479,38 @@ void BrowseRequest::element_start(const char *el, const char **attr)
             item.type       = m_type;
             item.category   = m_category;
             item.features   = m_features;
-            Event e(EventDiscoItem, &item);
-            e.process();
+            EventDiscoItem(&item).process();
         }
-        m_jid		= JabberClient::get_attr("jid", attr);
-        m_name		= JabberClient::get_attr("name", attr);
-        m_type		= JabberClient::get_attr("type", attr);
-        m_category	= JabberClient::get_attr("category", attr);
-        if (!strcmp(el, "headline"))
+        m_jid		= attrs.value("jid");
+        m_name		= attrs.value("name");
+        m_type		= attrs.value("type");
+        m_category	= attrs.value("category");
+        if (el == "headline")
             m_category = "headline";
-        m_features	= "";
+        m_features	= QString::null;
     }
-    if (!strcmp(el, "query")){
-        m_name		= JabberClient::get_attr("name", attr);
-        m_type		= JabberClient::get_attr("type", attr);
-        m_category	= JabberClient::get_attr("category", attr);
+    if (el == "query"){
+        m_name		= attrs.value("name");
+        m_type		= attrs.value("type");
+        m_category	= attrs.value("category");
     }
-    if (!strcmp(el, "ns"))
+    if (el == "ns")
         m_data  = &m_ns;
 }
 
-void BrowseRequest::element_end(const char *el)
+void BrowseRequest::element_end(const QString& el)
 {
-    if (!strcmp(el, "error"))
+    if (el == "error")
         m_data = NULL;
-    if (!strcmp(el, "ns") && !m_ns.isEmpty()){
+    if (el == "ns" && !m_ns.isEmpty()){
         if (!m_features.isEmpty())
-            m_features += "\n";
+            m_features += '\n';
         m_features += m_ns;
-        m_ns = "";
+        m_ns = QString::null;
         m_data = NULL;
     }
-    if ((!strcmp(el, "item") || !strcmp(el, "service") ||
-            !strcmp(el, "agent") || !strcmp(el, "headline"))
+    if ((el == "item" || el == "service" ||
+            el == "agent" || el == "headline")
             && !m_jid.isEmpty()){
         DiscoItem item;
         item.id         = m_id;
@@ -2546,22 +2519,21 @@ void BrowseRequest::element_end(const char *el)
         item.type       = m_type;
         item.category   = m_category;
         item.features   = m_features;
-        Event e(EventDiscoItem, &item);
-        e.process();
-        m_jid = "";
+        EventDiscoItem(&item).process();
+        m_jid = QString::null;
     }
 }
 
-void BrowseRequest::char_data(const char *buf, int len)
+void BrowseRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(buf, len));
+        *m_data += str;
 }
 
 QString JabberClient::browse(const QString &jid)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     BrowseRequest *req = new BrowseRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:browse");
@@ -2573,61 +2545,65 @@ QString JabberClient::browse(const QString &jid)
 class VersionInfoRequest : public JabberClient::ServerRequest
 {
 public:
-    VersionInfoRequest(JabberClient *client, const QString &jid);
+    VersionInfoRequest(JabberClient *client, const QString &jid, const QString &node);
     ~VersionInfoRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void	element_end(const QString& el);
+    virtual	void	char_data(const QString& str);
     QString			*m_data;
+    QString			m_jid;
+    QString			m_node;
     QString			m_name;
     QString			m_version;
     QString			m_os;
 };
 
-VersionInfoRequest::VersionInfoRequest(JabberClient *client, const QString &jid)
+VersionInfoRequest::VersionInfoRequest(JabberClient *client, const QString &jid, const QString &node)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
     m_data = NULL;
+    m_jid = jid;
+    m_node = node;
 }
 
 VersionInfoRequest::~VersionInfoRequest()
 {
-    DiscoItem item;
-    item.id     = m_id;
-    item.jid    = m_version;
-    item.name   = m_name;
-    item.node   = m_os;
-    Event e(EventDiscoItem, &item);
-    e.process();
+    ClientVersionInfo info;
+    info.jid = m_jid;
+    info.node = m_node;
+    info.name = m_name;
+    info.version = m_version;
+    info.os = m_os;
+    EventClientVersion(&info).process();
 }
 
-void VersionInfoRequest::element_start(const char *el, const char**)
+void VersionInfoRequest::element_start(const QString& el, const QXmlAttributes&)
 {
-    if (!strcmp(el, "name"))
+    if (el == "name")
         m_data = &m_name;
-    if (!strcmp(el, "version"))
+    if (el == "version")
         m_data = &m_version;
-    if (!strcmp(el, "os"))
+    if (el == "os")
         m_data = &m_os;
 }
 
-void VersionInfoRequest::element_end(const char*)
+void VersionInfoRequest::element_end(const QString&)
 {
     m_data = NULL;
 }
 
-void VersionInfoRequest::char_data(const char *buf, int len)
+void VersionInfoRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(buf, len));
+        *m_data += str;
 }
 
 QString JabberClient::versionInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
-    VersionInfoRequest *req = new VersionInfoRequest(this, jid);
+        return QString::null;
+    VersionInfoRequest *req = new VersionInfoRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:version");
     req->add_attribute("node", node);
@@ -2642,49 +2618,58 @@ public:
     TimeInfoRequest(JabberClient *client, const QString &jid);
     ~TimeInfoRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
-    virtual void	element_end(const char *el);
-    virtual	void	char_data(const char *str, int len);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void	element_end(const QString& el);
+    virtual	void	char_data(const QString& str);
     QString			*m_data;
-    QString			m_time;
+    QString			m_jid;
+    QString			m_utc;
+    QString			m_tz;
+    QString			m_display;
 };
 
 TimeInfoRequest::TimeInfoRequest(JabberClient *client, const QString &jid)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
     m_data = NULL;
+    m_jid = jid;
 }
 
 TimeInfoRequest::~TimeInfoRequest()
 {
-    DiscoItem item;
-    item.id     = m_id;
-    item.jid    = m_time;
-    Event e(EventDiscoItem, &item);
-    e.process();
+    ClientTimeInfo info;
+    info.jid = m_jid;
+    info.utc = m_utc;
+    info.tz = m_tz;
+    info.display = m_display;
+    EventClientTimeInfo(&info).process();
 }
 
-void TimeInfoRequest::element_start(const char *el, const char**)
+void TimeInfoRequest::element_start(const QString& el, const QXmlAttributes&)
 {
-    if (!strcmp(el, "utc"))
-        m_data = &m_time;
+    if (el == "utc")
+        m_data = &m_utc;
+    if (el == "tz")
+        m_data = &m_tz;
+    if (el == "display")
+        m_data = &m_display;
 }
 
-void TimeInfoRequest::element_end(const char*)
+void TimeInfoRequest::element_end(const QString&)
 {
     m_data = NULL;
 }
 
-void TimeInfoRequest::char_data(const char *buf, int len)
+void TimeInfoRequest::char_data(const QString& str)
 {
     if (m_data)
-        m_data->append(QString::fromUtf8(buf, len));
+        *m_data += str;
 }
 
 QString JabberClient::timeInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     TimeInfoRequest *req = new TimeInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:time");
@@ -2699,29 +2684,30 @@ class LastInfoRequest : public JabberClient::ServerRequest
 public:
     LastInfoRequest(JabberClient *client, const QString &jid);
 protected:
-    virtual void	element_start(const char *el, const char **attr);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
+    QString			m_jid;
 };
 
 LastInfoRequest::LastInfoRequest(JabberClient *client, const QString &jid)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
+    m_jid = jid;
 }
 
-void LastInfoRequest::element_start(const char *el, const char **attr)
+void LastInfoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "query")){
-        DiscoItem item;
-        item.id		= m_id;
-        item.jid	= JabberClient::get_attr("seconds", attr);
-        Event e(EventDiscoItem, &item);
-        e.process();
+    if (el == "query"){
+        ClientLastInfo info;
+        info.jid = m_jid;
+        info.seconds = attrs.value("seconds").toUInt();
+        EventClientLastInfo(&info).process();
     }
 }
 
 QString JabberClient::lastInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     LastInfoRequest *req = new LastInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:last");
@@ -2737,7 +2723,7 @@ public:
     StatRequest(JabberClient *client, const QString &jid, const QString &id);
     ~StatRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
     QString	m_id;
 };
 
@@ -2751,21 +2737,19 @@ StatRequest::~StatRequest()
 {
     DiscoItem item;
     item.id     = m_id;
-    item.jid    = "";
-    Event e(EventDiscoItem, &item);
-    e.process();
+    item.jid    = QString::null;
+    EventDiscoItem(&item).process();
 }
 
-void StatRequest::element_start(const char *el, const char **attr)
+void StatRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "stat")){
+    if (el == "stat"){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= JabberClient::get_attr("name", attr);
-        item.name	= JabberClient::get_attr("units", attr);
-        item.node	= JabberClient::get_attr("value", attr);
-        Event e(EventDiscoItem, &item);
-        e.process();
+        item.jid	= attrs.value("name");
+        item.name	= attrs.value("units");
+        item.node	= attrs.value("value");
+        EventDiscoItem(&item).process();
     }
 }
 
@@ -2775,7 +2759,7 @@ public:
     StatItemsRequest(JabberClient *client, const QString &jid, const QString &node);
     ~StatItemsRequest();
 protected:
-    virtual void	element_start(const char *el, const char **attr);
+    virtual void	element_start(const QString& el, const QXmlAttributes& attrs);
     list<QString>    m_stats;
     QString			m_jid;
     QString			m_node;
@@ -2793,9 +2777,8 @@ StatItemsRequest::~StatItemsRequest()
     if (m_stats.empty()){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= "";
-        Event e(EventDiscoItem, &item);
-        e.process();
+        item.jid	= QString::null;
+        EventDiscoItem(&item).process();
         return;
     }
     StatRequest *req = new StatRequest(m_client, m_jid, m_id);
@@ -2812,10 +2795,10 @@ StatItemsRequest::~StatItemsRequest()
     m_client->m_requests.push_back(req);
 }
 
-void StatItemsRequest::element_start(const char *el, const char **attr)
+void StatItemsRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "stat")){
-        QString name = JabberClient::get_attr("name", attr);
+    if (el == "stat"){
+        QString name = attrs.value("name");
         if (!name.isEmpty())
             m_stats.push_back(name);
     }
@@ -2824,7 +2807,7 @@ void StatItemsRequest::element_start(const char *el, const char **attr)
 QString JabberClient::statInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     StatItemsRequest *req = new StatItemsRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");

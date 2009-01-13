@@ -18,18 +18,19 @@
 #ifndef _COMMANDS_H
 #define _COMMANDS_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
+
+#include "event.h"
 
 class CorePlugin;
 class CMenu;
 
-typedef struct MenuDef
+struct MenuDef
 {
     SIM::CommandsDef *def;
     CMenu			*menu;
     void			*param;
-} MenuDef;
+};
 
 typedef std::map<unsigned, SIM::CommandsDef*> CMDS_MAP;
 typedef std::map<unsigned, MenuDef>		MENU_MAP;
@@ -46,20 +47,20 @@ protected slots:
     void popupActivated();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     SIM::CommandsDef *createBar(unsigned id);
     void removeBar(unsigned id);
     SIM::CommandsDef *createMenu(unsigned id);
     void removeMenu(unsigned id);
-    void *show(unsigned id, QMainWindow *parent);
+    CToolBar *show(unsigned id, QMainWindow *parent);
     CMenu *get(SIM::CommandDef *cmd);
     SIM::CommandsDef *getDef(unsigned id);
     CMenu *processMenu(unsigned id, void *param, int key);
     void customize(SIM::CommandsDef *def);
-    void customizeMenu(unsigned id);
+    void customizeMenu(unsigned long id);
     unsigned cur_id;
     CMDS_MAP bars;
-    MENU_MAP menues;
+    MENU_MAP menus;
 };
 
 #endif

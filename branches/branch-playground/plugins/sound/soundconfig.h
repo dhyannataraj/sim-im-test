@@ -18,7 +18,6 @@
 #ifndef _SOUNDCONFIG_H
 #define _SOUNDCONFIG_H
 
-#include "simapi.h"
 #include "soundconfigbase.h"
 
 class SoundUserConfig;
@@ -37,7 +36,7 @@ public slots:
 protected slots:
     void artsToggled(bool);
 protected:
-    QString sound(QString text, const QString &def);
+    QString sound(const QString &text, const QString &def);
     SoundPlugin		*m_plugin;
     SoundUserConfig *user_cfg;
 };

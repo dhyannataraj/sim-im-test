@@ -18,8 +18,6 @@
 #ifndef _MSNPACKET_H
 #define _MSNPACKET_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "msnclient.h"
 
 class MSNPacket
@@ -58,7 +56,7 @@ public:
 class UsrPacket : public MSNPacket
 {
 public:
-    UsrPacket(MSNClient *client, const char *hash = NULL);
+    UsrPacket(MSNClient *client, const QString &hash = QString::null);
     void answer(const QStringList &args);
 };
 

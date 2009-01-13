@@ -16,14 +16,12 @@
  ***************************************************************************/
 
 #include "simapi.h"
-#ifdef USE_OPENSSL
+
+#ifdef ENABLE_OPENSSL
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <openssl/bio.h>
 #include <openssl/rand.h>
-#endif
-#ifdef HAVE_UNAME
-#include <sys/utsname.h>
 #endif
 #include <time.h>
 #include <qthread.h>
@@ -31,8 +29,9 @@
 
 #include "fetch.h"
 #include "buffer.h"
+#include "log.h"
+#include "misc.h"
 #include "socket.h"
-#include "stl.h"
 
 using namespace std;
 using namespace SIM;
@@ -68,11 +67,11 @@ protected:
     unsigned	m_errCode;
     bool event(QEvent* event);
 #endif
-    virtual bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code = 0);
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void write_ready();
-    bool read_line(string&);
+    bool read_line(QCString &line);
     ClientSocket *m_socket;
     unsigned	m_postSize;
     unsigned	m_received;
@@ -84,7 +83,7 @@ protected:
     Buffer		m_data;
     Buffer		*m_postData;
     enum State{
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         SSLConnect,
 #endif
         None,
@@ -94,7 +93,7 @@ protected:
         Redirect
     };
     State		m_state;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     bool		m_bHTTPS;
 #endif
     friend class FetchManager;
@@ -159,7 +158,7 @@ void FetchThread::error(const char *name)
 void FetchThread::run()
 {
     QString headers;
-    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_COOKIES;
+    DWORD flags = INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_COOKIES | INTERNET_FLAG_RELOAD;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
     QString verb = "GET";
@@ -218,8 +217,8 @@ void FetchThread::run()
     }
     Buffer b;
     b.packetStart();
-    b << verb << " " << uri.latin1() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
-    log_packet(b, true, HTTPPacket);
+    b << verb.latin1() << " " << uri.latin1() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
+    EventLog::log_packet(b, true, HTTPPacket);
     for (;;){
         if (postSize != NO_POSTSIZE){
             INTERNET_BUFFERS BufferIn;
@@ -305,8 +304,10 @@ void FetchThread::run()
         return;
     }
     QString str = QString::fromUcs2((unsigned short*)ba.data());
-    Buffer buf(QCString(str.latin1()));
-    log_packet(buf, false, HTTPPacket);
+    QCString cstr = str.latin1();
+    Buffer buf(cstr.length() + 1);
+    memcpy(buf.data(), cstr.data(), cstr.length() + 1);
+    EventLog::log_packet(buf, false, HTTPPacket);
     getToken(str, ' '); // HTTP/1.1
     QString line = getToken(str, ' ');  // 200 (or an error code)
     m_client->m_code = line.toLong();
@@ -336,12 +337,11 @@ void FetchThread::run()
     QCustomEvent* ce = new QCustomEvent(Q_EVENT_SIM_FETCH_DONE);
     ce->setData(m_client->m_client);
     postEvent(m_client, ce);
-    log(L_DEBUG,"EventPosted!");
 }
 
 #endif
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 class HTTPSClient : public SSLClient
 {
@@ -406,51 +406,8 @@ FetchManager::FetchManager()
 {
     m_done = new list<FetchClientPrivate*>;
     user_agent = "Mozilla/4.0 (" PACKAGE "/" VERSION " ";
-#ifdef WIN32
-    user_agent += "Windows ";
-    OSVERSIONINFOA osvi;
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionExA(&osvi);
-    switch (osvi.dwPlatformId){
-    case VER_PLATFORM_WIN32_NT:
-        if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 2)){
-            user_agent += "2003";
-        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 1)){
-            user_agent += "XP";
-        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 0 )){
-            user_agent += "2000";
-        }else{
-            user_agent += "NT ";
-            user_agent += QString::number(osvi.dwMajorVersion);
-            user_agent += ".";
-            user_agent += QString::number(osvi.dwMinorVersion);
-        }
-        break;
-    case VER_PLATFORM_WIN32_WINDOWS:
-        if (osvi.dwMajorVersion == 4){
-            if (osvi.dwMinorVersion == 0){
-                user_agent += "95";
-                if ((osvi.szCSDVersion[1] == 'C') || (osvi.szCSDVersion[1] == 'B'))
-                    user_agent += " OSR2";
-            }else if (osvi.dwMinorVersion == 10){
-                user_agent += "98";
-                if ( osvi.szCSDVersion[1] == 'A' )
-                    user_agent += " SE";
-            }else if (osvi.dwMinorVersion == 90){
-                user_agent += "Millennium";
-            }
-        }
-        break;
-    case VER_PLATFORM_WIN32s:
-        user_agent += "32s";
-        break;
-    }
-#else
-    struct utsname unamebuf;
-    if (uname(&unamebuf) == 0)
-        user_agent = user_agent + unamebuf.sysname + " " + unamebuf.machine;
-#endif
-    user_agent += ")";
+    user_agent += get_os_version();
+    user_agent += ')';
 #ifdef WIN32
     hInet = InternetOpen((LPCWSTR)user_agent.ucs2(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
     if (hInet == NULL)
@@ -481,7 +438,7 @@ void FetchManager::timeout()
     list<FetchClientPrivate*> done = *m_done;
     m_done->clear();
     for (list<FetchClientPrivate*>::iterator it = done.begin(); it != done.end(); ++it){
-        if ((*it)->error_state("", 0))
+        if ((*it)->error_state(""))
             delete *it;
     }
 }
@@ -541,7 +498,6 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
 bool FetchClientPrivate::event(QEvent* e)
 {
     if (e->type() == Q_EVENT_SIM_FETCH_DONE) {
-        log(L_DEBUG,"customEvent!");
         FetchClient *client = (FetchClient*)((QCustomEvent*)e)->data();
         FetchManager::manager->done(client);
         return true;
@@ -590,34 +546,29 @@ void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool b
 #endif
     m_received = 0;
     m_socket = new ClientSocket(this);
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     m_bHTTPS = false;
 #endif
-    string proto;
-    string host;
-    string user;
-    string pass;
-    string uri;
-    string extra;
+    QString proto, host, user, pass, uri, extra;
     unsigned short port;
     if (!FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra)){
-        m_socket->error_state("Bad URL");
+        m_socket->error_state(I18N_NOOP("Bad URL"));
         return;
     }
     if (proto != "http"){
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         if (proto == "https"){
             m_bHTTPS = true;
         }else{
 #endif
             log(L_WARN, "Unsupported protocol %s", (const char*)m_uri.local8Bit());
             return;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         }
 #endif
     }
-    log(L_DEBUG, "Start connect %s:%u", host.c_str(), port);
-    m_socket->connect(host.c_str(), port, (TCPClient*)(-1));
+    log(L_DEBUG, "Start connect %s:%u", host.latin1(), port);
+    m_socket->connect(host, port, (TCPClient*)(-1));
 }
 
 FetchClientPrivate::~FetchClientPrivate()
@@ -660,31 +611,31 @@ void FetchClientPrivate::stop()
     m_state = None;
 }
 
-bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra)
+bool FetchClient::crackUrl(const QString &_url, QString &protocol, QString &host, unsigned short &port, QString &user, QString &pass, QString &uri, QString &extra)
 {
     port = 80;
-    string url(_url);
+    QString url = _url;
     protocol = getToken(url, ':', false);
-    if (url.substr(0, 2) != "//")
+    if (url.left(2) != "//")
         return false;
-    url = url.substr(2);
+    url = url.mid(2);
     host = getToken(url, '/', false);
     extra = "/";
     extra += url;
     uri = getToken(extra, '?', false);
     user = getToken(host, '@', false);
-    if (host.empty()){
+    if (host.isEmpty()){
         host = user;
-        user = "";
+        user = QString::null;
     }else{
         pass = user;
         user = getToken(pass, ':', false);
     }
     if (protocol == "https")
         port = 443;
-    string h = getToken(host, ':');
-    if (!host.empty()){
-        port = (unsigned short)atol(host.c_str());
+    QString h = getToken(host, ':');
+    if (!host.isEmpty()){
+        port = host.toUShort();
         if (port == 0)
             return false;
     }
@@ -710,12 +661,9 @@ bool FetchClientPrivate::findHeader(const QString &key)
 
 QCString basic_auth(const QString &user, const QString &pass)
 {
-    QString auth = user + ":" + pass;
-    Buffer from;
-    Buffer to;
-    from << (const char*)auth.local8Bit().data();
-    to.toBase64(from);
-    QCString cstr = to.data();
+    QString auth = user + ':' + pass;
+    Buffer from(auth.local8Bit());
+    QCString cstr = Buffer::toBase64(from);
     return cstr;
 }
 
@@ -736,7 +684,7 @@ bool FetchClientPrivate::error_state(const QString &err, unsigned)
     }
     if ((m_state != Done) && ((m_state != Data) || (m_size != UNKNOWN_SIZE))){
         m_code = 0;
-        log(L_DEBUG, "HTTP: %s", err.latin1());
+        log(L_DEBUG, "HTTP: %s", err.local8Bit().data());
     }
     m_bDone = true;
     m_state = None;
@@ -747,13 +695,13 @@ bool FetchClientPrivate::error_state(const QString &err, unsigned)
 
 void FetchClientPrivate::connect_ready()
 {
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     if ((m_state == None) & m_bHTTPS){
         m_socket->setRaw(true);
-        m_socket->readBuffer.init(0);
+        m_socket->readBuffer().init(0);
         HTTPSClient *https = new HTTPSClient(m_socket->socket());
         if (!https->init()){
-            m_socket->error_state("Can't initialize HTTPS");
+            m_socket->error_state(I18N_NOOP("Can't initialize HTTPS"));
             return;
         }
         m_state = SSLConnect;
@@ -765,59 +713,54 @@ void FetchClientPrivate::connect_ready()
 #endif
     log(L_DEBUG, "HTTP connect ready");
     m_socket->setRaw(true);
-    m_socket->writeBuffer.packetStart();
+    m_socket->writeBuffer().packetStart();
 
-    string proto;
-    string host;
-    string user;
-    string pass;
-    string uri;
-    string extra;
+    QString proto, host, user, pass, uri, extra;
     unsigned short port;
     FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
-    if (!extra.empty()){
-        uri += "?";
+    if (!extra.isEmpty()){
+        uri += '?';
         uri += extra;
     }
     unsigned postSize = m_client->post_size();
-    m_socket->writeBuffer
+    m_socket->writeBuffer()
     << ((postSize != NO_POSTSIZE) ? "POST " : "GET ")
-    << uri.c_str()
+    << uri.data()
     << " HTTP/1.0\r\n";
     if (!findHeader("Host"))
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << "Host: "
-        << host.c_str()
+        << host.data()
         << "\r\n";
     if (!findHeader("User-Agent"))
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << "User-Agent: " << FetchManager::manager->user_agent.latin1() << "\r\n";
-    if (!findHeader("Authorization") && !user.empty())
-        m_socket->writeBuffer
+    if (!findHeader("Authorization") && !user.isEmpty())
+        m_socket->writeBuffer()
         << "Authorization: basic "
-        << basic_auth(user.c_str(), pass.c_str()).data()
+        << basic_auth(user.data(), pass.data()).data()
         << "\r\n";
     if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))
-            m_socket->writeBuffer
+            m_socket->writeBuffer()
             << "Content-Length: "
-            << QString::number(postSize)
+            << (const char*)QString::number(postSize).latin1()
             << "\r\n";
         m_postSize = postSize;
     }
     for (HEADERS_MAP::iterator it = m_hOut.begin(); it != m_hOut.end(); ++it){
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << (*it).first.str().latin1()
         << ": "
         << (*it).second.latin1()
         << "\r\n";
     }
-    m_socket->writeBuffer
+    m_socket->writeBuffer()
     << "\r\n";
-    log_packet(m_socket->writeBuffer, true, HTTPPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, HTTPPacket);
     m_socket->write();
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
 }
 
 void FetchClientPrivate::write_ready()
@@ -830,11 +773,11 @@ void FetchClientPrivate::write_ready()
         tail = sizeof(buff);
     const char *data = m_client->read_data(buff, tail);
     if (data == NULL){
-        m_socket->error_state("Read error");
+        m_socket->error_state(I18N_NOOP("Read error"));
         return;
     }
     m_postSize -= tail;
-    m_socket->writeBuffer.pack(data, tail);
+    m_socket->writeBuffer().pack(data, tail);
     m_socket->write();
     if (m_speed){
         m_sendSize += tail;
@@ -852,14 +795,14 @@ void FetchClientPrivate::write_ready()
 
 void FetchClientPrivate::packet_ready()
 {
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
         return;
     for (;;){
         if (m_state == Data){
-            unsigned size = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
+            unsigned size = m_socket->readBuffer().writePos() - m_socket->readBuffer().readPos();
             if (size){
-                if (!m_client->write_data(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size)){
-                    m_socket->error_state("Write error");
+                if (!m_client->write_data(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size)){
+                    m_socket->error_state(I18N_NOOP("Write error"));
                     return;
                 }
             }
@@ -869,76 +812,72 @@ void FetchClientPrivate::packet_ready()
                 m_socket->error_state("");
                 return;
             }
-            m_socket->readBuffer.init(0);
-            m_socket->readBuffer.packetStart();
+            m_socket->readBuffer().init(0);
+            m_socket->readBuffer().packetStart();
             return;
         }
-        log_packet(m_socket->readBuffer, false, HTTPPacket);
-        string line;
-        string opt;
+        EventLog::log_packet(m_socket->readBuffer(), false, HTTPPacket);
+        QCString line;
+        QCString opt;
         if (!read_line(line)){
-            m_socket->readBuffer.init(0);
-            m_socket->readBuffer.packetStart();
+            m_socket->readBuffer().init(0);
+            m_socket->readBuffer().packetStart();
             return;
         }
         switch (m_state){
         case None:
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         case SSLConnect:
 #endif
-            if (getToken(line, ' ').substr(0, 5) != "HTTP/"){
-                m_socket->error_state("Bad HTTP answer");
+            if (getToken(line, ' ').left(5) != "HTTP/"){
+                m_socket->error_state(I18N_NOOP("Bad HTTP answer"));
                 return;
             }
-            m_code = atol(getToken(line, ' ').c_str());
+            m_code = getToken(line, ' ').toUInt();
             m_state = Header;
             break;
         case Header:
-            if (line.empty()){
+            if (line.isEmpty()){
                 m_state = Data;
                 break;
             }
             m_hIn += line;
-            m_hIn += '\x00';
+            m_hIn += '\n';
             opt = getToken(line, ':');
             if (opt == "Content-Length"){
                 const char *p;
-                for (p = line.c_str(); *p; p++)
+                for (p = line.data(); *p; p++)
                     if (*p != ' ')
                         break;
                 m_size = atol(p);
             }
             if ((opt == "Location") && m_bRedirect){
                 const char *p;
-                for (p = line.c_str(); *p; p++)
+                for (p = line.data(); *p; p++)
                     if (*p != ' ')
                         break;
-                string proto;
-                string host;
-                string user;
-                string pass;
-                string uri;
-                string extra;
+                QString proto, host, user, pass, uri, extra;
                 unsigned short port;
-                if (!FetchClient::crackUrl(p, proto, host, port, user, pass, uri, extra)){
+                QString uri_qstring = p;
+                if (!FetchClient::crackUrl(uri_qstring, proto, host, port, user, pass, uri, extra)){
                     FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
-                    extra = "";
+                    extra = QString::null;
                     if (*p == '/'){
                         uri = p;
                     }else{
-                        int n = uri.find_last_of('/');
-                        uri = uri.substr(0, n + 1);
+                        int n = uri.findRev('/');
+                        uri = uri.left(n + 1);
                         uri += p;
                     }
                 }
                 m_uri = proto;
                 m_uri += "://";
                 m_uri += host;
-                m_uri += ":";
+                m_uri += ':';
                 m_uri += QString::number(port);
                 m_uri += uri;
-                if (!extra.empty()){
-                    m_uri += "?";
+                if (!extra.isEmpty()){
+                    m_uri += '?';
                     m_uri += extra;
                 }
                 m_state = Redirect;
@@ -953,16 +892,16 @@ void FetchClientPrivate::packet_ready()
     }
 }
 
-bool FetchClientPrivate::read_line(string &s)
+bool FetchClientPrivate::read_line(QCString &line)
 {
-    while (m_socket->readBuffer.readPos() < m_socket->readBuffer.writePos()){
+    while (m_socket->readBuffer().readPos() < m_socket->readBuffer().writePos()){
         char c;
-        m_socket->readBuffer >> c;
+        m_socket->readBuffer() >> c;
         if (c == '\r')
             continue;
         if (c == '\n')
             return true;
-        s += c;
+        line += c;
     }
     return false;
 }
@@ -974,7 +913,9 @@ const char *FetchClient::read_data(char*, unsigned &size)
     unsigned tail = p->m_postData->size() - p->m_postData->readPos();
     if (size > tail)
         size = tail;
-    return p->m_postData->data(p->m_postData->readPos());
+    const char* res = p->m_postData->data(p->m_postData->readPos());
+    p->m_postData->incReadPos(size);
+    return res;
 }
 
 bool FetchClient::write_data(const char *buf, unsigned size)
@@ -1014,7 +955,11 @@ bool get_connection_state(bool&)
 
 QString get_user_agent()
 {
+#ifdef __OS2__
+    return (const char *)(FetchManager::manager->user_agent);
+#else    
     return FetchManager::manager->user_agent;
+#endif    
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -18,8 +18,8 @@
 #ifndef _SEARCH_H
 #define _SEARCH_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+#include "contacts.h"
 
 #include <qmainwindow.h>
 
@@ -29,12 +29,12 @@ class SearchBase;
 class QStatusBar;
 class QTimer;
 
-typedef struct ClientWidget
+struct ClientWidget
 {
     SIM::Client	*client;
     QWidget		*widget;
     QString		name;
-} ClientWidget;
+};
 
 class SearchDialog : public QMainWindow, public SIM::EventReceiver
 {
@@ -48,7 +48,7 @@ public slots:
     void aboutToShow(QWidget*);
     void resultShow(QWidget*);
     void resultDestroyed();
-    void textChanged(const QString&);
+    void textChanged(const QString &txt = QString::null);
     void toggled(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
@@ -80,7 +80,7 @@ protected:
     QWidget		*m_current;
     QWidget		*m_currentResult;
     QWidget		*m_active;
-    void		*processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void		resizeEvent(QResizeEvent*);
     void		moveEvent(QMoveEvent*);
     void		closeEvent(QCloseEvent*);

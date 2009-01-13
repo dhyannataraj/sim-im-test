@@ -15,26 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qpushbutton.h>
+#include <qgroupbox.h>
+
+#include "icons.h"
+#include "misc.h"
+
 #include "jabberclient.h"
 #include "jidsearch.h"
 #include "jabbersearch.h"
 #include "jidadvsearch.h"
 #include "jabber.h"
 
-#include <qpushbutton.h>
-#include <qgroupbox.h>
-
 using namespace SIM;
 
 JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
-                     const QString &node, const char *type)
+                     const QString &node, const QString &type)
         : JIDSearchBase(parent)
 {
     m_client = client;
     m_jid    = jid;
     m_node	 = node;
-    if (type)
-        m_type	 = type;
+    m_type	 = type;
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClicked()));
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
     QIconSet is = Icon("1rightarrow");
@@ -99,7 +101,7 @@ void JIDSearch::search()
     QString condition = jidSearch->condition(NULL);
     if (m_bAdv){
         if (!condition.isEmpty())
-            condition += ";";
+            condition += ';';
         condition += jidSearch->condition(m_adv);
         advancedClicked();
     }
@@ -108,25 +110,26 @@ void JIDSearch::search()
 
 void JIDSearch::searchStop()
 {
-    m_search_id = "";
+    m_search_id = QString::null;
 }
 
-void *JIDSearch::processEvent(Event *e)
+bool JIDSearch::processEvent(Event *e)
 {
-    if (e->type() == EventSearch){
-        JabberSearchData *data = (JabberSearchData*)(e->param());
+    if (e->type() == eEventJabberSearch){
+        EventSearch *es = static_cast<EventSearch*>(e);
+        JabberSearchData *data = es->searchData();
         if (m_search_id != data->ID.str())
-            return NULL;
+            return false;
         if (data->JID.str().isEmpty()){
             QStringList l;
-            l.append("");
+            l.append(QString::null);
             l.append(i18n("JID"));
             for (unsigned i = 0; i < data->nFields.toULong(); i++){
                 l.append(get_str(data->Fields, i * 2));
                 l.append(i18n(get_str(data->Fields, i * 2 + 1)));
             }
             emit setColumns(l, 0, this);
-            return e->param();
+            return true;
         }
         QString icon = "Jabber";
         if (m_type == "icq"){
@@ -137,6 +140,10 @@ void *JIDSearch::processEvent(Event *e)
             icon = "MSN";
         }else if (m_type == "yahoo"){
             icon = "Yahoo!";
+        }else if (m_type == "sms"){
+            icon = "sms";
+        }else if ((m_type == "x-gadugadu") || (m_type == "gg")){
+            icon = "GG";
         }
         if (!data->Status.str().isEmpty()){
             if (data->Status.str() == "online"){
@@ -153,14 +160,15 @@ void *JIDSearch::processEvent(Event *e)
             l.append(get_str(data->Fields, n));
         emit addItem(l, this);
     }
-    if (e->type() == EventSearchDone){
-        const char *id = (const char*)(e->param());
+    if (e->type() == eEventJabberSearchDone){
+        EventSearchDone *esd = static_cast<EventSearchDone*>(e);
+        QString id = esd->userID();
         if (m_search_id == id){
-            m_search_id = "";
+            m_search_id = QString::null;
             emit searchDone(this);
         }
     }
-    return NULL;
+    return false;
 }
 
 void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)

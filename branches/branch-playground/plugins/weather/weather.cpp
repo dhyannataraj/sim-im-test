@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "weather.h"
-#include "weathercfg.h"
-#include "buffer.h"
-#include "socket.h"
-#include "toolbtn.h"
-#include "icons.h"
-
 #include <time.h>
 
 #include <qapplication.h>
@@ -33,12 +26,23 @@
 #include <qregexp.h>
 #include <qtooltip.h>
 
+#include "buffer.h"
+#include "socket.h"
+#include "toolbtn.h"
+#include "icons.h"
+#include "log.h"
+#include "misc.h"
+#include "unquot.h"
+
+#include "weather.h"
+#include "weathercfg.h"
+
 using namespace SIM;
 
 const unsigned CHECK1_INTERVAL = 30 * 60;
 const unsigned CHECK2_INTERVAL = 120 * 60;
 
-Plugin *createWeatherPlugin(unsigned base, bool bInit, ConfigBuffer *config)
+Plugin *createWeatherPlugin(unsigned base, bool bInit, Buffer *config)
 {
     Plugin *plugin = new WeatherPlugin(base, bInit, config);
     return plugin;
@@ -62,6 +66,7 @@ static DataDef weatherData[] =
     {
         { "ID", DATA_STRING, 1, 0 },
         { "Location", DATA_STRING, 1, 0 },
+        { "Obst", DATA_STRING, 1, 0 },
         { "Time", DATA_ULONG, 1, 0 },
         { "ForecastTime", DATA_ULONG, 1, 0 },
         { "Forecast", DATA_ULONG, 1, DATA(2) },
@@ -103,19 +108,16 @@ static DataDef weatherData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, ConfigBuffer *config)
+WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
         : Plugin(base)
 {
     load_data(weatherData, &data, config);
     BarWeather = registerType();
     CmdWeather = registerType();
-    EventWeather = registerType();
+    EventWeather = (SIM::SIMEvent)registerType();
     m_icons = getIcons()->addIconSet("icons/weather.jisp", true);
-    // work around a cmake 2.4.3 bug (vs only)
-    if(!m_icons)
-        m_icons = getIcons()->addIconSet("icons/weather_.jisp", true);
-    Event eBar(EventToolbarCreate, (void*)BarWeather);
-    eBar.process();
+    EventToolbar(BarWeather, EventToolbar::eAdd).process();
+
     Command cmd;
     cmd->id = CmdWeather;
     cmd->text = I18N_NOOP("Not connected");
@@ -123,8 +125,8 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, ConfigBuffer *config)
     cmd->bar_id = BarWeather;
     cmd->bar_grp = 0x1000;
     cmd->flags = BTN_PICT | BTN_DIV;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
+
     m_bar = NULL;
     if (!bInit){
         showBar();
@@ -135,15 +137,14 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, ConfigBuffer *config)
 
 WeatherPlugin::~WeatherPlugin()
 {
-    if (m_bar)
-        delete m_bar;
-    Event eCmd(EventCommandRemove, (void*)CmdWeather);
-    Event eBar(EventToolbarRemove, (void*)BarWeather);
+    delete m_bar;
+    EventCommandRemove(CmdWeather).process();
+    EventToolbar(BarWeather, EventToolbar::eRemove).process();
     free_data(weatherData, &data);
     getIcons()->removeIconSet(m_icons);
 }
 
-QString WeatherPlugin::getConfig()
+QCString WeatherPlugin::getConfig()
 {
     if (m_bar)
         saveToolbar(m_bar, data.bar);
@@ -162,7 +163,9 @@ void WeatherPlugin::timeout()
         m_bForecast = true;
     QString url = "http://xoap.weather.com/weather/local/";
     url += getID();
-    url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
+    //url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
+	//url += "?unit="; //Quickfix Noragen
+	url += "?cc=*&par=1004517364&key=a29796f587f206b2&unit=";
     url += getUnits() ? "s" : "m";
     if (m_bForecast && getForecast()){
         url += "&dayf=";
@@ -171,30 +174,30 @@ void WeatherPlugin::timeout()
     fetch(url);
 }
 
-void *WeatherPlugin::processEvent(Event *e)
+bool WeatherPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventLanguageChanged)
+    if (e->type() == eEventLanguageChanged)
         updateButton();
-    if (e->type() == EventInit)
+    if (e->type() == eEventInit)
         showBar();
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdWeather) && !getID().isEmpty()){
-            QString url = "http://www.weather.com/outlook/travel/pastweather/";
+            QString url = "http://www.weather.com/outlook/travel/local/";
             url += getID();
-            Event eGo(EventGoURL, (void*)&url);
-            eGo.process();
-            return e->param();
+            EventGoURL(url).process();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
-bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
+bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
 {
     if (code != 200)
         return false;
-    m_data  = "";
+    m_data  = QString::null;
     m_day   = 0;
     m_bBar  = false;
     m_bWind = false;
@@ -202,7 +205,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
     m_bCC	= false;
     m_bMoon	= false;
     reset();
-    if (!parse(data.data(), data.size(), false)){
+    if (!parse(data, false)){
         log(L_WARN, "XML parse error");
         return false;
     }
@@ -291,19 +294,20 @@ void WeatherPlugin::showBar()
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );
     QWidget *w;
+    QMainWindow *main = NULL;
     while ((w=it.current()) != 0) {
         ++it;
-        if (w->inherits("MainWindow"))
+        if (w->inherits("MainWindow")) {
+            main = static_cast<QMainWindow*>(w);
             break;
+        }
     }
     delete list;
-    if (w == NULL)
+    if (main == NULL)
         return;
-    BarShow b;
-    b.bar_id = BarWeather;
-    b.parent = (QMainWindow*)w;
-    Event e(EventShowBar, &b);
-    m_bar = (QToolBar*)e.process();
+    EventToolbar e(BarWeather, main);
+    e.process();
+    m_bar = e.toolBar();
     restoreToolbar(m_bar, data.bar);
     connect(m_bar, SIGNAL(destroyed()), this, SLOT(barDestroyed()));
     QTimer *timer = new QTimer(this);
@@ -324,12 +328,12 @@ void WeatherPlugin::updateButton()
     cmd->bar_id  = BarWeather;
     cmd->bar_grp = 0x1000;
     cmd->flags   = BTN_PICT | BTN_DIV;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
 
     QString text = unquoteText(getButtonText());
     QString tip  = getTipText();
-    QString ftip = getForecastText();
+    QString ftip = i18n("<br><b>Forecast for</b><br>\n");
+	ftip +=getForecastText();
     text = replace(text);
     tip  = replace(tip);
     if (getForecast())
@@ -350,8 +354,9 @@ void WeatherPlugin::updateButton()
     Command cmdw;
     cmdw->id	= CmdWeather;
     cmdw->param	= m_bar;
-    Event e(EventCommandWidget, cmdw);
-    CToolButton *btn = (CToolButton*)e.process();
+    EventCommandWidget eWidget(cmdw);
+    eWidget.process();
+    CToolButton *btn = dynamic_cast<CToolButton*>(eWidget.widget());
     if (btn == NULL)
         return;
     btn->setTextLabel(text);
@@ -371,6 +376,7 @@ i18n("Sunday")
 i18n("weather", "Squalls")
 i18n("weather", "Overcast")
 i18n("weather", "Fog")
+i18n("weather", "Foggy")
 i18n("weather", "Mist")
 i18n("weather", "Haze")
 i18n("weather", "Storm")
@@ -382,12 +388,15 @@ i18n("weather", "Light Rain with Thunder")
 i18n("weather", "Thunder in the Vicinity")
 i18n("weather", "Rain")
 i18n("weather", "Light Rain")
+i18n("weather", "Heavy Rain")
 i18n("weather", "Freezing Rain")
 i18n("weather", "Rain to Snow")
 i18n("weather", "Snow")
 i18n("weather", "Light Snow")
 i18n("weather", "Few Snow")
 i18n("weather", "Scattered Snow")
+i18n("weather", "Ice Crystals")
+i18n("weather", "Sleet")
 i18n("weather", "Clear")
 i18n("weather", "Clearing")
 i18n("weather", "Showers")
@@ -402,11 +411,13 @@ i18n("weather", "Partly Cloudy")
 i18n("weather", "Wind")
 i18n("weather", "Windy")
 i18n("weather", "Drizzle")
+i18n("weather", "Heavy Drizzle")
 i18n("weather", "Freezing Drizzle")
 i18n("weather", "Freezing Rain")
 i18n("weather", "Light Drizzle")
 i18n("weather", "Drifting Snow")
 i18n("weather", "Snow Grains")
+i18n("weather", "Light Snow Grains")
 i18n("weather", "Scattered")
 i18n("weather", "Smoke")
 i18n("weather", "steady")
@@ -457,7 +468,7 @@ i18n("moonphase", "Waning Crescent")
 static QString i18n_conditions(const QString &str)
 {
     if (str.isEmpty())
-        return "";
+        return QString::null;
     int n = str.find(" / ");
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " / " + i18n_conditions(str.mid(n + 3));
@@ -471,8 +482,8 @@ static QString i18n_conditions(const QString &str)
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " " + i18n("weather", "Late");
     QString s = str;
-    s = s.replace(QRegExp(" Showers"), "");
-    s = s.replace(QRegExp(" Shower"), "");
+    s = s.remove(" Showers");
+    s = s.remove(" Shower");
     return i18n("weather", s);
 }
 
@@ -509,8 +520,8 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%h"), QString::number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), QString::number(getWind_speed()) + " " + i18n("weather",getUS()));
     res = res.replace(QRegExp("\\%x"), QString::number(getWind_speed() * 10 / 36) + " " + i18n("m/s"));
-    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust()) + i18n("weather",getUS()) + QString(")") : QString(""));
-    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust") + QString(" ") + QString::number(getWindGust()) + i18n("weather",getUS()) + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust") + QString(" ") + QString::number(getWindGust() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
     res = res.replace(QRegExp("\\%p"), QString::number(getPressure()) + " " + i18n("weather",getUP()));
     res = res.replace(QRegExp("\\%a"), QString::number(getPressure() * 75 / 100)); // depricated!
     res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));
@@ -520,8 +531,9 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%r"), sun_raise);
     res = res.replace(QRegExp("\\%s"), sun_set);
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
-    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n("weather",getUD()) : QString("")));
+    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (getVisibility().toLong() ? ' ' + i18n("weather",getUD()) : QString::null));
     res = res.replace(QRegExp("\\%i"), QString::number(getIcon()));
+	res = res.replace(QRegExp("\\%o"), getObst());
     return res;
 }
 
@@ -537,7 +549,7 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     temp += QChar((unsigned short)176);
     temp += getUT();
     if ((strcmp(getMaxT(m_day), "N/A")) && (maxT != -255)) {
-        temp += "-";
+        temp += '/';
         temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += getUT();
@@ -591,11 +603,10 @@ QString WeatherPlugin::getForecastText()
 {
     QString str = getForecastTip();
     if (str.isEmpty())
-        str = i18n("<br><br>\n"
-                   "<b>Forecast for</b><br>\n"
-                   "<nobr><b>%d %w</b></nobr><br>\n"
-                   "<img src=\"icon:weather%n\"> %c<br>\n"
-                   " Temperature: <b>%t</b><br>\n");
+        str = i18n("<nobr><b>%d %w</b></nobr><br>\n"
+                   "<img src=\"icon:weather%n\"><br>%c<br>\n"
+                   "Temperature: <b>%t</b><br>\n");
+
     return str;
 }
 
@@ -629,74 +640,53 @@ static const char *tags[] =
         "dewp",
         "hi",
         "low",
+		"dnam",
         NULL,
     };
 
-void WeatherPlugin::element_start(const char *el, const char **attr)
+void WeatherPlugin::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     m_bData = false;
-    if (!strcmp(el, "cc")){
+    if (el == "cc"){
         m_bCC = true;
         return;
     }
-    if (!strcmp(el, "bar")){
+    if (el == "bar"){
         m_bBar = true;
         return;
     }
-    if (!strcmp(el, "wind")){
+    if (el == "wind"){
         m_bWind = true;
         return;
     }
-    if (!strcmp(el, "uv")) {
-		m_bUv = true;
+    if (el == "uv") {
+        m_bUv = true;
         return;
     }
-    if (!strcmp(el, "moon")) {
+    if (el == "moon") {
         m_bMoon = true;
         return;
     }
-    if (!strcmp(el, "day")){
+    if (el == "day"){
         m_bDayForecastIsValid = true; // Initial value
-        QString wday;
-        QString day;
-        for (const char **p = attr; *p;){
-            QCString key  = *(p++);
-            QString value = *(p++);
-            if (key == "d"){
-                m_day = value.toLong();
-                continue;
-            }
-            if (key == "dt"){
-                day = value;
-                continue;
-            }
-            if (key == "t"){
-                wday = value;
-                continue;
-            }
-            if (m_day > getForecast()){
-                m_day = 0;
-                continue;
-            }
-        }
+        m_day = attrs.value("d").toLong();
+        QString day = attrs.value("dt");
+        QString wday = attrs.value("t");
+        if (m_day > getForecast())
+            m_day = 0;
         m_day++;
         setDay(m_day, day);
         setWDay(m_day, wday);
         return;
     }
-    if (!strcmp(el, "part")){
-	for (const char **p = attr; *p;){
-	    QCString key  = *(p++);
-	    QString value = *(p++);
-	    if (key == "p"){
-		if (value == "d") m_bDayPart = 'd';
-		if (value == "n") m_bDayPart = 'n';
-	    }
-	}
-	return;
+    if (el == "part"){
+        QString value = attrs.value("p");
+        if (value == "d") m_bDayPart = 'd';
+        if (value == "n") m_bDayPart = 'n';
+        return;
     }
     for (const char **p = tags; *p; p++){
-        if (!strcmp(*p, el)){
+        if (*p == el){
             m_bData = true;
             m_data = QString::null;
             return;
@@ -704,80 +694,85 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
     }
 }
 
-void WeatherPlugin::element_end(const char *el)
+void WeatherPlugin::element_end(const QString& el)
 {
-    if (!strcmp(el, "day")){
+    if (el == "day"){
         if (getMinT(m_day).isEmpty() || getMaxT(m_day).isEmpty())
             m_day--;
         return;
     }
-    if (!strcmp(el, "obst")){
+    if (el == "dnam"){
         setLocation(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "lsup")){
+    if (el == "obst"){
+        setObst(m_data);
+        m_data = QString::null;
+        return;
+    }
+    if (el == "lsup"){
         setUpdated(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "sunr") && (m_day == 0)){
+    if (el == "sunr" && m_day == 0){
         setSun_raise(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "suns") && (m_day == 0)){
+    if (el == "suns" && m_day == 0){
         setSun_set(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "vis") && m_bCC){
+    if (el == "vis" && m_bCC){
         setVisibility(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "tmp") && m_bCC){
+    if (el == "tmp" && m_bCC){
         setTemperature(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "flik") && m_bCC){
+    if (el == "flik" && m_bCC){
         setFeelsLike(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "dewp") && m_bCC){
+    if (el == "dewp" && m_bCC){
         setDewPoint(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "ppcp") && (m_day == 1) ) {
+    if (el == "ppcp" && (m_day == 1) ) {
         if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
     	    setPrecipitation(m_data.toLong());
             m_data = QString::null;
     	    return;
 	}
     }
-    if (!strcmp(el, "hmid") && m_bCC){
+    if (el == "hmid" && m_bCC){
         setHumidity(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "low") && m_day){
+    if (el == "low" && m_day){
         if (m_data == "N/A")
             m_data = QString::null;
         setMinT(m_day, m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "hi") && m_day){
+    if (el == "hi" && m_day){
         if (m_data == "N/A")
             m_data = "-255";
         setMaxT(m_day, m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "t")){
+    if (el == "t"){
         if (!m_bBar && !m_bWind && !m_bUv && !m_bMoon){
             if (m_bCC){
                 setConditions(m_data);
@@ -797,13 +792,13 @@ void WeatherPlugin::element_end(const char *el)
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "i")) {
+    if (el == "i") {
         if (m_bUv && m_bCC)
             setUV_Intensity(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "icon")){
+    if (el == "icon"){
         if (m_bMoon && m_bCC) {
             setMoonIcon(m_data.toLong());
         } else if (m_bCC){
@@ -814,12 +809,12 @@ void WeatherPlugin::element_end(const char *el)
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "ut")){
+    if (el == "ut"){
         setUT(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "up")){
+    if (el == "up"){
         if (m_data == "in"){
 	    setUP("inHg");
 	} else {
@@ -828,30 +823,30 @@ void WeatherPlugin::element_end(const char *el)
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "us")){
+    if (el == "us"){
         setUS(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "ud")){
+    if (el == "ud"){
         setUD(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "gust") && m_bCC){
+    if (el == "gust" && m_bCC){
         setWindGust(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "bar")){
+    if (el == "bar"){
         m_bBar = false;
         return;
     }
-    if (!strcmp(el, "cc")){
+    if (el == "cc"){
         m_bCC = false;
         return;
     }
-    if (!strcmp(el, "r") && m_bBar && m_bCC){
+    if (el == "r" && m_bBar && m_bCC){
         unsigned long v = (unsigned long)m_data.toFloat();
 	if ( QString(getUP()) == "mb" ){
 	    v=v * 75 / 100;
@@ -862,33 +857,33 @@ void WeatherPlugin::element_end(const char *el)
 	}
         return;
     }
-    if (!strcmp(el, "d") && m_bBar && m_bCC){
+    if (el == "d" && m_bBar && m_bCC){
         setPressureD(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "wind")){
+    if (el == "wind"){
         m_bWind = false;
         return;
     }
-    if (!strcmp(el, "s") && m_bWind && m_bCC){
+    if (el == "s" && m_bWind && m_bCC){
         setWind_speed(m_data.toLong());
         return;
     }
-    if (!strcmp(el, "uv")){
+    if (el == "uv"){
         m_bUv = false;
         return;
     }
-    if (!strcmp(el, "moon")){
+    if (el == "moon"){
         m_bMoon = false;
         return;
     }
 }
 
-void WeatherPlugin::char_data(const char *str, int len)
+void WeatherPlugin::char_data(const QString& str)
 {
     if (m_bData)
-        m_data += QString::fromLatin1(str, len);
+        m_data += str;
 }
 
 #ifndef NO_MOC_INCLUDES

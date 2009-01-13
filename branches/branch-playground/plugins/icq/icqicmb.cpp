@@ -15,12 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqclient.h"
-#include "icqmessage.h"
-#include "icq.h"
-#include "core.h"
-#include "html.h"
-
 #include <stdio.h>
 #ifdef WIN32
 #include <winsock.h>
@@ -33,11 +27,23 @@
 #include <ctype.h>
 #endif
 
+#include <algorithm>
+
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qtimer.h>
 #include <qimage.h>
 #include <qregexp.h>
+
+#include "html.h"
+#include "unquot.h"
+#include "log.h"
+#include "core_events.h"
+
+#include "icqclient.h"
+#include "icqmessage.h"
+#include "icqdirect.h"
+#include "icq.h"
 
 using namespace std;
 using namespace SIM;
@@ -71,10 +77,10 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
         log(L_DEBUG, "Message rights granted");
         break;
     case ICQ_SNACxMSG_MTN:{
-            m_socket->readBuffer.incReadPos(10);
-            QString screen = m_socket->readBuffer.unpackScreen();
-            unsigned short type;
-            m_socket->readBuffer >> type;
+            socket()->readBuffer().incReadPos(10);
+            QString screen = socket()->readBuffer().unpackScreen();
+            unsigned short type; //Fixme!!! Local declaration of 'type' hides declaration of the same name in outer scope: Function parameter "type" 
+            socket()->readBuffer() >> type;
             bool bType = (type > 1);
             Contact *contact;
             ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -83,7 +89,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             if (data->bTyping.toBool() == bType)
                 break;
             data->bTyping.asBool() = bType;
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
             break;
         }
@@ -91,7 +97,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             if (seq == 0)
                 break;
             unsigned short error;
-            m_socket->readBuffer >> error;
+            socket()->readBuffer() >> error;
             QString err_str = I18N_NOOP("Unknown error");
             if ((error == 0x0009) && ((m_send.msg == NULL) || (m_send.msg->type() != MessageContacts))){
                 err_str = I18N_NOOP("Not supported by client");
@@ -129,7 +135,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     if (m_send.msg)
                         sendThruServer(m_send.msg, data);
                     m_send.msg    = NULL;
-                    m_send.screen = "";
+                    m_send.screen = QString::null;
                     m_sendTimer->stop();
                     processSendQueue();
                     break;
@@ -137,14 +143,15 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             }else{
                 err_str = error_message(error);
             }
+            if(error == 2)
+                m_snacService->requestRateInfo();
             if (m_send.msg){
                 m_send.msg->setError(err_str);
-                Event e(EventMessageSent, m_send.msg);
-                e.process();
+                EventMessageSent(m_send.msg).process();
                 delete m_send.msg;
             }
             m_send.msg    = NULL;
-            m_send.screen = "";
+            m_send.screen = QString::null;
             m_sendTimer->stop();
             processSendQueue();
             break;
@@ -157,20 +164,20 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             TlvList  lTlv;          // all tlvs in message
             unsigned short missed;  // number of missed messages
             unsigned short error;   // error reason
-            m_socket->readBuffer >> mFormat;
-            screen = m_socket->readBuffer.unpackScreen();
-            m_socket->readBuffer >> wrnLevel;
-            m_socket->readBuffer >> nTlv;
+            socket()->readBuffer() >> mFormat;
+            screen = socket()->readBuffer().unpackScreen();
+            socket()->readBuffer() >> wrnLevel;
+            socket()->readBuffer() >> nTlv;
             for(unsigned i = 0; i < nTlv; i++) {
                 unsigned short num;
                 unsigned short size;
                 const char*    data;
-                m_socket->readBuffer >> num >> size;
-                data = m_socket->readBuffer.data(m_socket->readBuffer.readPos());
+                socket()->readBuffer() >> num >> size;
+                data = socket()->readBuffer().data(socket()->readBuffer().readPos());
                 Tlv* tlv = new Tlv(num,size,data);
                 lTlv += tlv;
             }
-            m_socket->readBuffer >> missed >> error;
+            socket()->readBuffer() >> missed >> error;
             const char *err_str = NULL;
             switch (error) {
             case 0x00:
@@ -197,7 +204,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
     case ICQ_SNACxMSG_BLAMExSRVxACK:
         if ((m_send.id.id_l == seq) && m_send.msg){
             unsigned short oldLevel, newLevel;
-            m_socket->readBuffer >> oldLevel >> newLevel;
+            socket()->readBuffer() >> oldLevel >> newLevel;
             WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
             msg->setOldLevel((unsigned short)(newLevel - oldLevel));
             msg->setNewLevel(newLevel);
@@ -208,9 +215,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
         {
             log(L_DEBUG, "Ack message");
             MessageId id;
-            m_socket->readBuffer >> id.id_l >> id.id_h;
-            m_socket->readBuffer.incReadPos(2);
-            QString screen = m_socket->readBuffer.unpackScreen();
+            socket()->readBuffer() >> id.id_l >> id.id_h;
+            socket()->readBuffer().incReadPos(2);
+            QString screen = socket()->readBuffer().unpackScreen();
             bool bAck = false;
             if (m_send.id == id){
                 if(screen.lower() == m_send.screen.lower())
@@ -234,7 +241,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 }
             }
             m_send.msg    = NULL;
-            m_send.screen = "";
+            m_send.screen = QString::null;
             m_sendTimer->stop();
             processSendQueue();
             break;
@@ -242,24 +249,24 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
     case ICQ_SNACxMSG_AUTOREPLY:{
             MessageId id;
             unsigned short len, channel, reason, version;
-            m_socket->readBuffer >> id.id_l >> id.id_h;
-            m_socket->readBuffer.unpack(channel);
+            socket()->readBuffer() >> id.id_l >> id.id_h;
+            socket()->readBuffer().unpack(channel);
             if (channel == 1) {
                 log(L_DEBUG,"Please send paket to developer!");
                 return;
             }
-            QString screen = m_socket->readBuffer.unpackScreen();
-            m_socket->readBuffer.unpack(reason);
-            m_socket->readBuffer.unpack(len);
-            m_socket->readBuffer.unpack(version);
+            QString screen = socket()->readBuffer().unpackScreen();
+            socket()->readBuffer().unpack(reason);
+            socket()->readBuffer().unpack(len);
+            socket()->readBuffer().unpack(version);
             plugin p;
-            m_socket->readBuffer.unpack((char*)p, sizeof(p));
-            m_socket->readBuffer.incReadPos(len - sizeof(plugin) + 2);
-            m_socket->readBuffer.unpack(len);
-            m_socket->readBuffer.incReadPos(len + 12);
+            socket()->readBuffer().unpack((char*)p, sizeof(p));
+            socket()->readBuffer().incReadPos(len - sizeof(plugin) + 2);
+            socket()->readBuffer().unpack(len);
+            socket()->readBuffer().incReadPos(len + 12);
             unsigned short ackFlags, msgFlags;
-            m_socket->readBuffer.unpack(ackFlags);
-            m_socket->readBuffer.unpack(msgFlags);
+            socket()->readBuffer().unpack(ackFlags);
+            socket()->readBuffer().unpack(msgFlags);
 
             list<SendMsg>::iterator it;
             for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
@@ -278,12 +285,11 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             }
             if ((*it).msg){
                 QCString answer;
-                m_socket->readBuffer >> answer;
+                socket()->readBuffer() >> answer;
                 if (ackMessage((*it).msg, ackFlags, answer)){
                     ackMessage(*it);
                 }else{
-                    Event e(EventMessageSent, (*it).msg);
-                    e.process();
+                    EventMessageSent((*it).msg).process();
                     delete (*it).msg;
                 }
                 replyQueue.erase(it);
@@ -313,18 +319,18 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 }
                 if ((data == NULL) && (plugin_index != PLUGIN_RANDOMxCHAT))
                     break;
-                parsePluginPacket(m_socket->readBuffer, plugin_type, data, screen.toULong(), false);
+                parsePluginPacket(socket()->readBuffer(), plugin_type, data, screen.toULong(), false);
                 break;
             }
 
             if (plugin_type == PLUGIN_AR){
                 QCString answer;
-                m_socket->readBuffer >> answer;
+                socket()->readBuffer() >> answer;
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
-                Contact *contact;
+                Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '300'
                 ICQUserData *data = findContact(screen, NULL, false, contact);
                 if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, answer))){
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
             }
@@ -332,21 +338,22 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxMSG_SERVERxMESSAGE:{
             MessageId id;
-            m_socket->readBuffer >> id.id_l >> id.id_h;
+            socket()->readBuffer() >> id.id_l >> id.id_h;
             unsigned short mFormat;
-            m_socket->readBuffer >> mFormat;
-            QString screen = m_socket->readBuffer.unpackScreen();
+            socket()->readBuffer() >> mFormat;
+            QString screen = socket()->readBuffer().unpackScreen();
             log(L_DEBUG, "Message from %s [%04X]", screen.latin1(), mFormat);
             unsigned short level, nTLV;
-            m_socket->readBuffer >> level >> nTLV;
+            socket()->readBuffer() >> level >> nTLV;
+            TlvList tlvFixed(socket()->readBuffer(), nTLV);
+            TlvList tlvChannel(socket()->readBuffer());
             switch (mFormat){
             case 0x0001:{
-                    TlvList tlv(m_socket->readBuffer);
-                    if (!tlv(2)){
+                    if (!tlvChannel(2)){
                         log(L_WARN, "TLV 0x0002 not found");
                         break;
                     }
-                    Buffer m(*tlv(2));
+                    ICQBuffer m(*tlvChannel(2));
                     TlvList tlv_msg(m);
                     Tlv *m_tlv = tlv_msg(0x101);
                     if (m_tlv == NULL){
@@ -360,7 +367,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     char *m_data = (*m_tlv);
                     unsigned short encoding = (unsigned short)((m_data[0] << 8) + m_data[1]);
                     m_data += 4;
-                    if (encoding == 2){
+                    if(encoding == 2)
+					{
                         QString text;
                         for (int i = 0; i < m_tlv->Size() - 5; i += 2){
                             unsigned char r1 = *(m_data++);
@@ -396,71 +404,73 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     break;
                 }
             case 0x0002:{
-                    TlvList tlv(m_socket->readBuffer);
-                    if (!tlv(5)){
+                    Tlv *tlv5 = tlvChannel(5);
+                    if(!tlv5)
+					{
                         log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    Buffer msg(*tlv(5));
-                    unsigned short type;
+                    ICQBuffer msg(*tlv5);
+					unsigned short type; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '73'
                     msg >> type;
                     switch (type){
                     case 0:
-                        parseAdvancedMessage(screen, msg, tlv(3) != NULL, id);
+                        parseAdvancedMessage(screen, msg, tlvChannel(3) != NULL, id);
                         break;
-                    case 1:{
-                            Contact *contact;
-                            ICQUserData *data = findContact(screen, NULL, false, contact);
-                            if (data){
-                                QString name = dataName(data);
-                                for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-                                    Message *msg = *it;
-                                    if (msg->client() && (name == msg->client())){
-                                        MessageId msg_id;
-                                        switch (msg->type()){
-                                        case MessageICQFile:
-                                            msg_id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
-                                            msg_id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
-                                            break;
-                                        case MessageFile:
-                                            msg_id.id_l = static_cast<AIMFileMessage*>(msg)->getID_L();
-                                            msg_id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
-                                            break;
-                                        }
-                                        if (msg_id == id){
-                                            m_acceptMsg.erase(it);
-                                            Event e(EventMessageDeleted, msg);
-                                            e.process();
-                                            delete msg;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            break;
-                        }
+                    case 1:
+						{
+							Contact *contact;
+							ICQUserData *data = findContact(screen, NULL, false, contact);
+							if (data){
+								QString name = dataName(data);
+								for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+									Message *msg = *it; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '413'
+									if (msg->client() && (name == msg->client())){
+										MessageId msg_id;
+										switch (msg->type()){
+											case MessageICQFile:
+												msg_id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
+												msg_id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
+												break;
+											case MessageFile:
+												msg_id.id_l = static_cast<AIMFileMessage*>(msg)->getID_L();
+												msg_id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
+												break;
+										}
+										if (msg_id == id)
+										{
+											m_acceptMsg.erase(it);
+											EventMessageDeleted(msg).process();
+											delete msg;
+											break;
+										}
+									}
+								}
+							}
+							break;
+						}
                     case 2:
                         log(L_DEBUG, "File ack");
                         break;
                     default:
-                        log(L_WARN, "Unknown type: %u", type);
+                        log(L_WARN, "Unknown type: 0x%04X", type);
                     }
                     break;
                 }
             case 0x0004:{
-                    TlvList tlv(m_socket->readBuffer);
-                    if (!tlv(5)){
-                        log(L_WARN, "Advanced message TLV 0x0005 not found");
+                    Tlv *tlv5 = tlvChannel(5);
+                    if (!tlv5){
+                        log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    Buffer msg(*tlv(5));
+                    ICQBuffer msg(*tlv5);
                     unsigned long msg_uin;
                     msg >> msg_uin;
                     if (msg_uin == 0){
-                        parseAdvancedMessage(screen, msg, tlv(6) != NULL, id);
+                        parseAdvancedMessage(screen, msg, tlvChannel(6) != NULL, id);
                         return;
                     }
-                    unsigned char type, flags;
+					unsigned char type, flags; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '73'
                     QCString msg_str;
                     msg >> type;
                     msg >> flags;
@@ -476,20 +486,20 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             break;
         }
     default:
-        log(L_WARN, "Unknown message family type %04X", type);
+        log(L_WARN, "Unknown message foodgroup type %04X", type);
     }
 }
 
 void ICQClient::icmbRequest()
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
     sendPacket(true);
 }
 
 void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
-    m_socket->writeBuffer
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
+    socket()->writeBuffer()
     << channel << flags
     << (unsigned short)8000		// max message size
     << (unsigned short)880		// max sender warning level
@@ -501,7 +511,7 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
 
 bool ICQClient::sendThruServer(Message *msg, void *_data)
 {
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     Contact *contact = getContacts()->contact(msg->contact());
     if ((contact == NULL) || (data == NULL))
         return false;
@@ -595,22 +605,22 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(const QString &screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck)
+void ICQClient::sendThroughServer(const QString &screen, unsigned short channel, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck)
 {
     // we need informations about channel 2 tlvs !
     unsigned short tlv_type = 5;
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER, true, true);
-    m_socket->writeBuffer << id.id_l << id.id_h;
-    m_socket->writeBuffer << channel;
-    m_socket->writeBuffer.packScreen(screen);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SENDxSERVER, true, true);
+    socket()->writeBuffer() << id.id_l << id.id_h;
+    socket()->writeBuffer() << channel;
+    socket()->writeBuffer().packScreen(screen);
     if (channel == 1)
         tlv_type = 2;
     if (b.size())
-        m_socket->writeBuffer.tlv(tlv_type, b);
+        socket()->writeBuffer().tlv(tlv_type, b);
     if (bReqAck)
-        m_socket->writeBuffer.tlv(3);		// req. ack from server
+        socket()->writeBuffer().tlv(3);		// req. ack from server
     if (bOffline)
-        m_socket->writeBuffer.tlv(6);	// store if user is offline
+        socket()->writeBuffer().tlv(6);	// store if user is offline
     sendPacket(true);
 }
 
@@ -628,7 +638,7 @@ static void b2h(char *&p, char c)
     *(p++) = c2h(c);
 }
 
-void packCap(Buffer &b, const capability &c)
+void packCap(ICQBuffer &b, const capability &c)
 {
     char pack_cap[0x27];
     char *p = pack_cap;
@@ -652,8 +662,7 @@ void ICQClient::ackMessage(SendMsg &s)
 {
     if (s.flags == PLUGIN_AIM_FT){
         s.msg->setError(I18N_NOOP("File transfer declined"));
-        Event e(EventMessageSent, s.msg);
-        e.process();
+        EventMessageSent(s.msg).process();
         delete s.msg;
         s.msg = NULL;
         s.screen = QString::null;
@@ -664,8 +673,7 @@ void ICQClient::ackMessage(SendMsg &s)
     if ((s.msg->getFlags() & MESSAGE_NOHISTORY) == 0){
         if ((s.flags & SEND_MASK) == SEND_RAW){
             s.msg->setClient(dataName(m_send.screen));
-            Event e(EventSent, s.msg);
-            e.process();
+            EventSent(s.msg).process();
         }else if (!s.part.isEmpty()){
             Message m(MessageGeneric);
             m.setContact(s.msg->contact());
@@ -683,16 +691,14 @@ void ICQClient::ackMessage(SendMsg &s)
             }
             m.setFlags(flags);
             m.setClient(dataName(s.screen));
-            Event e(EventSent, &m);
-            e.process();
+            EventSent(&m).process();
         }
     }
     if ((s.text.length() == 0) || (s.msg->type() == MessageWarning)){
-        Event e(EventMessageSent, s.msg);
-        e.process();
+        EventMessageSent(s.msg).process();
         delete s.msg;
         s.msg = NULL;
-        s.screen = "";
+        s.screen = QString::null;
     }else{
         sendFgQueue.push_front(s);
     }
@@ -723,14 +729,14 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString
     return true;
 }
 
-void ICQClient::sendAdvMessage(const QString &screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
+void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
 {
     if (cookie1 == 0){
         m_advCounter--;
         cookie1 = m_advCounter;
-        cookie2 = (plugin_index == PLUGIN_NULL) ? (unsigned short)0x0E : (unsigned short)0x12;
+        cookie2 = (plugin_index == PLUGIN_NULL) ? 0x0E : 0x12;
     }
-    Buffer msgBuf;
+    ICQBuffer msgBuf;
     msgBuf.pack((unsigned short)0x1B);
     msgBuf.pack((unsigned short)0x08);
     msgBuf.pack((char*)plugins[plugin_index], sizeof(plugin));
@@ -746,7 +752,7 @@ void ICQClient::sendAdvMessage(const QString &screen, Buffer &msgText, unsigned 
     sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.toULong() : 0, NULL, type);
 }
 
-static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
+static void copyTlv(ICQBuffer &b, TlvList *tlvs, unsigned nTlv)
 {
     if (tlvs == NULL)
         return;
@@ -756,23 +762,38 @@ static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
     b.tlv(nTlv, *tlv, tlv->Size());
 }
 
-void ICQClient::sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
+void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
 {
-    Buffer b;
+    ICQBuffer b;
     b << (unsigned short)0;
     b << id.id_l << id.id_h;
     b.pack((char*)capabilities[cap], sizeof(capability));
     b.tlv(0x0A, (unsigned short)type);
-    if (port){
-        b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
-        b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
+	if(type != 4)
+		b.tlv(0x0F);
+    copyTlv(b, tlvs, 0x14);
+    if(port)
+	{
+		if(type != 4)
+		{
+			b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
+			if(type != 3)
+			{
+				b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
+			}
+		}
         b.tlv(0x05, port);
+		log(L_DEBUG, "RealIP = %08x, IP = %08x, port = %04x", (get_ip(data.owner.RealIP)), (get_ip(data.owner.IP)), port);
     }
-    b.tlv(0x0F);
+    copyTlv(b, tlvs, 0x17);
     copyTlv(b, tlvs, 0x0E);
     copyTlv(b, tlvs, 0x0D);
     copyTlv(b, tlvs, 0x0C);
-    b.tlv(0x2711, msgBuf);
+    copyTlv(b, tlvs, 0x10);
+    copyTlv(b, tlvs, 0x02);
+    copyTlv(b, tlvs, 0x16);
+	if(type != 4)
+		b.tlv(0x2711, msgBuf);
     copyTlv(b, tlvs, 0x2712);
     copyTlv(b, tlvs, 0x03);
     sendThroughServer(screen, 2, b, id, bOffline, true);
@@ -789,8 +810,9 @@ void ICQClient::clearMsgQueue()
         }
         if ((*it).msg) {
             (*it).msg->setError(I18N_NOOP("Client go offline"));
-            Event e(EventMessageSent, (*it).msg);
-            e.process();
+            EventMessageSent((*it).msg).process();
+            if ((*it).msg == m_send.msg)
+                m_send.msg = NULL;
             delete (*it).msg;
         }
     }
@@ -803,30 +825,195 @@ void ICQClient::clearMsgQueue()
         }
         if ((*it).msg) {
             (*it).msg->setError(I18N_NOOP("Client go offline"));
-            Event e(EventMessageSent, (*it).msg);
-            e.process();
+            EventMessageSent((*it).msg).process();
+            if ((*it).msg == m_send.msg)
+                m_send.msg = NULL;
             delete (*it).msg;
         }
     }
     sendBgQueue.clear();
     if (m_send.msg){
         m_send.msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, m_send.msg);
-        e.process();
+        EventMessageSent(m_send.msg).process();
         delete m_send.msg;
     }
     m_send.msg    = NULL;
-    m_send.screen = "";
+    m_send.screen = QString::null;
 }
 
-void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool needAck, MessageId id)
+void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned long secondary_ip, unsigned short port,const QString &screen, MessageId const& id)
 {
+	log(L_DEBUG, "ICQClient::icbmSendFile()");
+	Tlv *desc = tlv(0x0A);
+	Tlv *info = tlv(0x2711);
+	QString d;
+	unsigned short type;
+	unsigned short nFiles;
+	unsigned long  size;
+	bool is_proxy = tlv(0x10);
+	log(L_DEBUG, "Desc = %d", (uint16_t)(*desc));
+
+	// First, let's find our filetransfer
+	AIMFileTransfer* ft = NULL;
+	for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+	{
+		if((*it)->getICBMCookie() == id)
+		{
+			ft = (*it);
+			break;
+		}
+	}
+	if(ft == NULL)
+	{
+		log(L_DEBUG, "ft == NULL");
+		// Incoming file
+		if(info == NULL) 
+		{
+			// This is baaad
+			log(L_WARN, "No info tlv in send file");
+			return;
+		}
+		ICQBuffer b(*info);
+		b >> type >> nFiles >> size;
+		QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
+		AIMFileMessage *msg = new AIMFileMessage;
+		msg->setPort(port);
+		msg->setBackground(clearTags(d));
+		//msg->setText(d);
+		msg->setSize(size);
+		msg->setID_L(id.id_l);
+		msg->setID_H(id.id_h);
+		if(is_proxy)
+		{
+			msg->isProxy = true;
+		}
+		if(tlv(5))
+		{
+			msg->cookie2 = *tlv(5);
+		}
+		if(type == 2)
+		{
+			d = i18n("Directory");
+			d += ' ';
+			d += name;
+			d += " (";
+			d += i18n("%n file", "%n files", nFiles);
+			d += ')';
+		}
+		else
+		{
+			if (nFiles == 1)
+			{
+				d = name;
+			}
+			else
+			{
+				d = i18n("%n file", "%n files", nFiles);
+			}
+		}
+		msg->setDescription(d);
+		msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
+		m_processMsg.push_back(msg);
+		messageReceived(msg, screen);
+		return;
+	}
+	AIMFileMessage* afm = NULL;
+	for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+	{
+		if ((*it)->type() == MessageFile)
+		{
+			afm = static_cast<AIMFileMessage*>((*it));
+			MessageId this_id;
+			this_id.id_l = afm->getID_L();
+			this_id.id_h = afm->getID_H();
+			if(this_id == id)
+			{
+				afm->setPort(port);
+			}
+		}
+	}
+
+	unsigned short ft_type = *desc;
+	ft->setStage(ft_type);
+	log(L_DEBUG, "stage = %d", ft_type);
+	if(is_proxy) // Connection through proxy
+	{
+		log(L_DEBUG, "Proxy request");
+		for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+		{
+			if((*it)->getICBMCookie() == id)
+			{
+				Contact *contact;
+				ICQUserData *data = findContact(screen, NULL, false, contact);
+				if(data)
+				{
+					if(primary_ip)
+						set_ip(&data->RealIP, primary_ip);
+					AIMFileTransfer *ft = (*it); //Fixme:Local declaration of 'ft' hides declaration from line: 857
+					struct in_addr in;
+					in.s_addr = primary_ip;
+
+					ft->setProxyActive(false);
+					unsigned short cookie2 = 0;
+					if(tlv(5))
+					{
+						cookie2 = *tlv(5);
+					};
+					if(primary_ip)
+						ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, cookie2);
+					else
+					{
+						ft->setProxyActive(true);
+						ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, cookie2);
+					}
+
+					return;
+				}
+			}
+		}
+	}
+	else
+	{
+		log(L_DEBUG, "No Proxy request: %d", ft_type);
+		if(ft_type == 3)
+		{
+			ft->setProxyActive(true);
+			ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
+		}
+		if(ft_type == 2)
+		{
+			for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+			{
+				AIMFileTransfer *ft = (*it); //Fixme:Local declaration of 'ft' hides declaration from line: 857
+				if(ft->getICBMCookie() == id)
+				{
+					if(primary_ip)
+						ft->connect(primary_ip, port);
+					else
+						ft->connect(secondary_ip, port);
+				}
+			}
+		}
+		return;
+	}
+	if(info == NULL && afm) 
+	{
+		afm->setPort(port);
+		return;
+	}
+}
+
+void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool needAck, MessageId id)
+{
+	log(L_DEBUG, "ICQClient::parseAdvancedMessage");
     m.incReadPos(8);    /* msg-id cookie */
     capability cap;
     m.unpack((char*)cap, sizeof(cap));
-    if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
+    if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap)))
+	{
         TlvList tlv(m);
-        if (!tlv(0x2711)){
+        if(!tlv(0x2711))
+		{
             log(L_DEBUG, "TLV 0x2711 not found");
             return;
         }
@@ -836,7 +1023,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         unsigned long remotePort;
         unsigned long localPort1;
         char mode;
-        Buffer adv(*tlv(0x2711));
+        ICQBuffer adv(*tlv(0x2711));
         adv.unpack(req_uin);
         adv.unpack(localIP);
         adv.unpack(localPort);
@@ -863,19 +1050,21 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             ICQFileMessage *msg = static_cast<ICQFileMessage*>(*it);
             if (msg->m_transfer == NULL)
                 continue;
-            ICQFileTransfer *ft = static_cast<ICQFileTransfer*>(msg->m_transfer);
+			/*
+            AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(msg->m_transfer);
             if (ft->m_localPort == remotePort){
                 log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu",
                     screen.local8Bit().data(), inet_ntoa(addr), localPort);
-                ft->reverseConnect(localIP, (unsigned short)localPort);
+                ft->reverseConnect(localIP, localPort);
                 return;
             }
+			*/
         }
         log(L_DEBUG, "Setup reverse connect to %s %s:%lu",
             screen.local8Bit().data(), inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
-        direct->reverseConnect(localIP, (unsigned short)localPort);
+        direct->reverseConnect(localIP, localPort);
         return;
     }
 
@@ -883,19 +1072,31 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
     unsigned long real_ip = 0;
     unsigned long ip = 0;
     unsigned short port = 0;
-    if (tlv(3)) real_ip = htonl((uint32_t)(*tlv(3)));
-    if (tlv(4)) ip = htonl((uint32_t)(*tlv(4)));
-    if (tlv(5)) port = *tlv(5);
-    log(L_DEBUG, "IP: %lX %lX %d", ip, real_ip, port);
-    if (real_ip || ip){
+	unsigned long test_ip = 0;
+
+	if (tlv(2))
+		test_ip = htonl((uint32_t)(*tlv(2)));
+    if (tlv(3))
+        real_ip = htonl((uint32_t)(*tlv(3)));
+    if (tlv(4))
+        ip = htonl((uint32_t)(*tlv(4)));
+    if (tlv(5))
+        port = (*tlv(5));
+
+	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",test_ip, real_ip, ip, port);
+
+    if(real_ip || ip)
+	{
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
-        if (data){
-            if (real_ip && (get_ip(data->RealIP) == 0))
+        if (data)
+		{
+            //if(real_ip && (get_ip(data->RealIP) == 0))
+            if(real_ip)
                 set_ip(&data->RealIP, real_ip);
-            if (ip && (get_ip(data->IP) == 0))
+            if(ip && (get_ip(data->IP) == 0))
                 set_ip(&data->IP, ip);
-            if (port && (data->Port.toULong() == 0))
+            if(port && (data->Port.toULong() == 0))
                 data->Port.asULong() = port;
         }
     }
@@ -905,68 +1106,10 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         return;
     }
 
-    if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap))){
-        log(L_DEBUG, "AIM send file");
-        Tlv *desc = tlv(0x0C);
-        if (desc == NULL){
-            log(L_DEBUG, "Send file ack");
-            list<SendMsg>::iterator it;
-            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
-                if (((*it).id == id) && ((*it).screen == screen)){
-                    if ((*it).msg->type() != MessageFile){
-                        log(L_WARN, "Bad message type for file ack");
-                        return;
-                    }
-                    FileMessage *m = static_cast<FileMessage*>((*it).msg);
-                    replyQueue.erase(it);
-                    m_processMsg.push_back(m);
-                    Event e(EventMessageAcked, m);
-                    e.process();
-                    AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
-                    ft->connect(port);
-                    return;
-                }
-            }
-            log(L_DEBUG, "File message for ack not found");
-            return;
-        }
-        Tlv *info = tlv(0x2711);
-        if (info == NULL){
-            log(L_WARN, "No info tlv in send file");
-            return;
-        }
-        QString d = convert(desc, tlv, 0x0D);
-        Buffer b(*info);
-        unsigned short type;
-        unsigned short nFiles;
-        unsigned long  size;
-        b >> type >> nFiles >> size;
-        QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
-        AIMFileMessage *msg = new AIMFileMessage;
-        msg->setPort(port);
-        msg->setBackground(clearTags(d));
-        msg->setText(d);
-        msg->setSize(size);
-        msg->setID_L(id.id_l);
-        msg->setID_H(id.id_h);
-        if (type == 2){
-            d = i18n("Directory");
-            d += " ";
-            d += name;
-            d += " (";
-            d += i18n("%n file", "%n files", nFiles);
-            d += ")";
-        }else{
-            if (nFiles == 1){
-                d = name;
-            }else{
-                d = i18n("%n file", "%n files", nFiles);
-            }
-        }
-        msg->setDescription(d);
-        msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
-        messageReceived(msg, screen);
-        return;
+    if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap)))
+	{
+		icmbSendFile(tlv, test_ip, ip, port, screen, id);
+		return;
     }
 
     if (!memcmp(cap, capabilities[CAP_AIM_BUDDYLIST], sizeof(cap))){
@@ -975,7 +1118,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             log(L_WARN, "No body in ICMB message found");
             return;
         }
-        Buffer adv(*tlv(0x2711));
+        ICQBuffer adv(*tlv(0x2711));
         QString contacts;
         while (adv.readPos() < adv.size()){
             QString grp;
@@ -986,7 +1129,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                 QString s;
                 adv.unpackStr(s);
                 if (!contacts.isEmpty())
-                    contacts += ";";
+                    contacts += ';';
                 if (s.toULong()){
                     contacts += "icq:";
                     contacts += s;
@@ -1000,10 +1143,10 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                 }
             }
         }
-        snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
-        m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
-        m_socket->writeBuffer.packScreen(screen);
-        m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0002;
+        snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+        socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
+        socket()->writeBuffer().packScreen(screen);
+        socket()->writeBuffer() << 0x0003 << 0x0002 << 0x0002;
         sendPacket(false);
         ContactsMessage *msg = new ContactsMessage;
         msg->setContacts(contacts);
@@ -1027,7 +1170,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         return;
     }
 
-    Buffer adv(*tlv(0x2711));
+    ICQBuffer adv(*tlv(0x2711));
     unsigned short len;
     unsigned short tcp_version;
     plugin p;
@@ -1084,7 +1227,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             return;
         }
         adv.incReadPos(8);
-        plugin p;
+        plugin p; //Fixme: Local declaration of 'p' hides declaration of the same name in outer scope: previous declaration at line '1176'
         adv.unpack((char*)p, sizeof(p));
         unsigned plugin_type;
         for (plugin_type = 0; plugin_type < PLUGIN_NULL; plugin_type++){
@@ -1095,7 +1238,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             log(L_WARN, "Unknown plugin request");
             return;
         }
-        Buffer info;
+        ICQBuffer info;
         pluginAnswer(plugin_type, screen.toULong(), info);
         sendAutoReply(screen, id, plugins[plugin_index],
                       cookie1, cookie2, 0, 0, 0x0200, QString::null, 1, info);
@@ -1154,27 +1297,26 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             ar.param    = &arRequests.back();
             ar.receiver = this;
             ar.status   = req_status;
-            Event e(EventARRequest, &ar);
-            e.process();
+            EventARRequest(&ar).process();
 
             if (!msg.isEmpty()){
-                Contact *contact;
-                ICQUserData *data = findContact(screen, NULL, false, contact);
-                QString m = getContacts()->toUnicode(contact, msg);
+                Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '1278'
+                ICQUserData *data = findContact(screen, NULL, false, contact); //Fixme: Local declaration of 'data' hides declaration of the same name in outer scope, see previous declaration at line '1279'
+                QString m = getContacts()->toUnicode(contact, msg); //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1006'
                 data->AutoReply.str() = m;
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             return;
         }
     }
-    Buffer copy;
+    ICQBuffer copy;
     if (!msg.isEmpty() || (msgType == ICQ_MSGxEXT)){
         if (adv.readPos() < adv.writePos())
             copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
-        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.length(), msgType);
-        if (msg.length() || (msgType == ICQ_MSGxEXT)){
-            Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
+        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.size(), msgType);
+        if (msg.size() || (msgType == ICQ_MSGxEXT)){
+            Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16)); //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1006'
             if (m){
                 if ((m_send.id == id) && (m_send.screen == screen)){
                     replyQueue.push_back(m_send);
@@ -1238,8 +1380,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                             ar.param    = &arRequests.back();
                             ar.receiver = this;
                             ar.status   = getStatus();
-                            Event e(EventARRequest, &ar);
-                            e.process();
+                            EventARRequest(&ar).process();
                             return;
                         }
                     }
@@ -1248,79 +1389,81 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                     if (msgFlags & ICQ_TCPxMSG_LIST)
                         m->setFlags(m->getFlags() | MESSAGE_LIST);
                     needAck = messageReceived(m, screen);
-                }else{
-                    Message *msg = (*it).msg;
+                }
+				else
+				{
+                    Message *msg = (*it).msg; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '1254'
                     replyQueue.erase(it);
-                    if (msg->type() == MessageFile){
+                    if(msg->type() == MessageFile)
+					{
                         Contact *contact;
                         ICQUserData *data = findContact(screen, NULL, false, contact);
                         if ((m->type() != MessageICQFile) || (data == NULL)){
                             log(L_WARN, "Bad answer type");
                             msg->setError(I18N_NOOP("Send failed"));
-                            Event e(EventMessageSent, msg);
-                            e.process();
+                            EventMessageSent(msg).process();
                             delete msg;
                             return;
                         }
-                        if (m_state == 1){
+                        if(m_state == 1)
+						{
                             msg->setError(I18N_NOOP("Message declined"));
-                            Event e(EventMessageSent, msg);
-                            e.process();
+                            EventMessageSent(msg).process();
                             delete msg;
                             return;
                         }
-                        ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                        Event e(EventMessageAcked, msg);
-                        e.process();
-                        m_processMsg.push_back(msg);
-                        ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
-                    }else{
+                        //AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);  //ft is not used, remove?
+                        //EventMessageAcked(msg).process();
+                        //m_processMsg.push_back(msg);
+                        //ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
+                    }
+					else
+					{
                         log(L_WARN, "Unknown message type for ACK");
                         delete msg;
                     }
                 }
             }
         }
-        Buffer copy;
     }
-    if (!needAck) return;
+    if (!needAck)
+        return;
     sendAutoReply(screen, id, p, cookie1, cookie2,
-                  msgType, 0, 0, QString::null, 0, copy);
+                  msgType, 0, 0, QString::null, 0, copy); //variable p seems corrupted, maybe crash?
 }
 
 void ICQClient::sendAutoReply(const QString &screen, MessageId id,
                               const plugin p, unsigned short cookie1, unsigned short cookie2,
                               unsigned short msgType, char msgFlags, unsigned short msgState,
-                              const QString &response, unsigned short response_type, Buffer &copy)
+                              const QString &response, unsigned short response_type, ICQBuffer &copy)
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
-    m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
-    m_socket->writeBuffer.packScreen(screen);
-    m_socket->writeBuffer << 0x0003 << 0x1B00 << 0x0800;
-    m_socket->writeBuffer.pack((char*)p, sizeof(plugin));
-    m_socket->writeBuffer << 0x03000000L << (char)0;
-    m_socket->writeBuffer.pack(cookie1);
-    m_socket->writeBuffer.pack(cookie2);
-    m_socket->writeBuffer.pack(cookie1);
-    m_socket->writeBuffer << 0x00000000L << 0x00000000L << 0x00000000L;
-    m_socket->writeBuffer.pack(msgType);
-    m_socket->writeBuffer << msgFlags << msgState << (char)0;
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+    socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
+    socket()->writeBuffer().packScreen(screen);
+    socket()->writeBuffer() << 0x0003 << 0x1B00 << 0x0800;
+    socket()->writeBuffer().pack((char*)p, sizeof(plugin));
+    socket()->writeBuffer() << 0x03000000L << (char)0;
+    socket()->writeBuffer().pack(cookie1);
+    socket()->writeBuffer().pack(cookie2);
+    socket()->writeBuffer().pack(cookie1);
+    socket()->writeBuffer() << 0x00000000L << 0x00000000L << 0x00000000L;
+    socket()->writeBuffer().pack(msgType);
+    socket()->writeBuffer() << msgFlags << msgState << (char)0;
     if (!response.isEmpty()){
         Contact *contact = NULL;
         findContact(screen, NULL, false, contact);
-        QCString r;
-        r = getContacts()->fromUnicode(contact, response);
+        QCString r = getContacts()->fromUnicode(contact, response);
         unsigned short size = (unsigned short)(r.length() + 1);
-        m_socket->writeBuffer.pack(size);
-        m_socket->writeBuffer.pack(r.data(), size);
+        socket()->writeBuffer().pack(size);
+        socket()->writeBuffer().pack(r.data(), size);
     }else{
-        m_socket->writeBuffer << (char)0x01 << response_type;
+        socket()->writeBuffer() << (char)0x01 << response_type;
     }
     if (response_type != 3){
         if (copy.size()){
-            m_socket->writeBuffer.pack(copy.data(0), copy.writePos());
+            socket()->writeBuffer().pack(copy.data(0), copy.writePos());
         }else{
-            m_socket->writeBuffer << 0x00000000L << 0xFFFFFF00L;
+            socket()->writeBuffer() << 0x00000000L << 0xFFFFFF00L;
         }
     }
     sendPacket(false);
@@ -1330,10 +1473,10 @@ void ICQClient::sendMTN(const QString &screen, unsigned short type)
 {
     if (getDisableTypingNotification())
         return;
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_MTN);
-    m_socket->writeBuffer << 0x00000000L << 0x00000000L << (unsigned short)0x0001;
-    m_socket->writeBuffer.packScreen(screen);
-    m_socket->writeBuffer << type;
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_MTN);
+    socket()->writeBuffer() << 0x00000000L << 0x00000000L << (unsigned short)0x0001;
+    socket()->writeBuffer().packScreen(screen);
+    socket()->writeBuffer() << type;
     sendPacket(true);
 }
 
@@ -1353,6 +1496,7 @@ protected:
 QString AIMParser::parse(const QString &str)
 {
     bPara = false;
+    res = QString::null;
     HTMLParser::parse(str);
     return res;
 }
@@ -1384,7 +1528,7 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
         otag = "FONT";
     if (otag.isEmpty())
         return;
-    res += "<";
+    res += '<';
     res += otag;
     for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
         QString key = *it;
@@ -1400,7 +1544,7 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
                 {
                     res += " FACE=\"";
                     res += value;
-                    res += "\"";
+                    res += '\"';
                 }
                 else if (key == "font-size")
                 {
@@ -1432,23 +1576,25 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
                 {
                     res += " COLOR=\"";
                     res += value;
-                    res += "\"";
+                    res += '\"';
                 }
             }
             continue;
         }
-        res += " ";
+        res += ' ';
         res += key.upper();
         res += "=\"";
         res += value;
-        res += "\"";
+        res += '\"';
     }
     res += ">";*/
 }
 
 void AIMParser::tag_end(const QString &tag)
 {
-    QString dummytag=tag; //remove this cramp later
+    if(tag == "p") {
+        res += '\n';
+    }
     /*QString otag;
     if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))
         otag = tag.upper();
@@ -1468,12 +1614,11 @@ void ICQClient::sendTimeout()
         log(L_WARN, "Send timeout");
         if (m_send.msg){
             m_send.msg->setError(I18N_NOOP("Send timeout"));
-            Event e(EventMessageSent, m_send.msg);
-            e.process();
+            EventMessageSent(m_send.msg).process();
             delete m_send.msg;
         }
         m_send.msg = NULL;
-        m_send.screen = "";
+        m_send.screen = QString::null;
     }
     processSendQueue();
 }
@@ -1493,7 +1638,7 @@ void ICQClient::processSendQueue()
     unsigned send_delay = 0;
     if (m_bReady){
         while (!sendFgQueue.empty()){
-            send_delay = delayTime(SNAC(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
+            send_delay = delayTime(SNAC(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
             if (send_delay){
                 delay = send_delay;
                 break;
@@ -1526,9 +1671,9 @@ void ICQClient::processSendQueue()
             ++m_nFlapSequence;
             packet[2] = (m_nFlapSequence >> 8);
             packet[3] = m_nFlapSequence;
-            socket()->writeBuffer.packetStart();
-            socket()->writeBuffer.pack(r.delayed.data(r.delayed.readPos()), size);
-            log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+            socket()->writeBuffer().packetStart();
+            socket()->writeBuffer().pack(r.delayed.data(r.delayed.readPos()), size);
+            EventLog::log_packet(socket()->writeBuffer(), true, ICQPlugin::icq_plugin->OscarPacket);
             r.delayed.incReadPos(size);
             setNewLevel(r);
             socket()->write();
@@ -1544,7 +1689,7 @@ void ICQClient::processSendQueue()
         delay = send_delay;
     if (m_bReady){
         while (!sendBgQueue.empty()){
-            send_delay = delayTime(SNAC(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
+            send_delay = delayTime(SNAC(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
             if (send_delay){
                 if (send_delay < delay)
                     delay = send_delay;
@@ -1568,7 +1713,7 @@ static QString getUtf8Part(QString &str, unsigned size)
 {
     if (str.utf8().length() < size){
         QString res = str;
-        str = "";
+        str = QString::null;
         return res;
     }
     unsigned s = 0;
@@ -1616,42 +1761,43 @@ bool ICQClient::processMsg()
         if (m_send.msg != NULL)
         {
             m_send.msg->setError(I18N_NOOP("No contact"));
-            Event e(EventMessageSent, m_send.msg);
-            e.process();
+            EventMessageSent(m_send.msg).process();
             delete m_send.msg;
             m_send.msg = NULL;
         }
-        m_send.screen = "";
+        m_send.screen = QString::null;
         return false;
     }
     unsigned short type = 0;
-    if (m_send.msg) {
+    if (m_send.msg)
+	{
         type = m_send.msg->type();
         log(L_DEBUG, "Send: %s %u %X", m_send.screen.latin1(), type, m_send.flags);
     }
-    if (m_send.msg && (m_send.socket == NULL)){
-        Buffer b;
+    if(m_send.msg && (m_send.socket == NULL))
+	{
+        ICQBuffer b;
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
-        switch (m_send.msg->type()){
+        switch (m_send.msg->type())
+		{
         case MessageContacts:
             if (data->Uin.toULong() == 0){
                 CONTACTS_MAP c;
                 QString nc = packContacts(static_cast<ContactsMessage*>(m_send.msg), data, c);
                 if (c.empty()){
                     m_send.msg->setError(I18N_NOOP("No contacts for send"));
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
+                    EventMessageSent(m_send.msg).process();
                     delete m_send.msg;
                     m_send.msg = NULL;
-                    m_send.screen = "";
+                    m_send.screen = QString::null;
                     return false;
                 }
                 static_cast<ContactsMessage*>(m_send.msg)->setContacts(nc);
-                Buffer msgBuf;
+                ICQBuffer msgBuf;
                 vector<alias_group> cc;
                 for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
-                    alias_group c;
+                    alias_group c; //Fixme: Local declaration of 'c' hides declaration of the same name in outer scope, see previous declaration at line '1786'
                     c.alias = (*it).first.str();
                     c.grp   = (*it).second.grp;
                     cc.push_back(c);
@@ -1703,11 +1849,10 @@ bool ICQClient::processMsg()
                 packMessage(b, m_send.msg, data, type, false);
                 QString err = m_send.msg->getError();
                 if (!err.isEmpty()){
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
+                    EventMessageSent(m_send.msg).process();
                     delete m_send.msg;
                     m_send.msg = NULL;
-                    m_send.screen = "";
+                    m_send.screen = QString::null;
                     return false;
                 }
                 sendThroughServer(screen(data), 4, b, m_send.id, true, false);
@@ -1718,18 +1863,29 @@ bool ICQClient::processMsg()
                 return true;
             }
         case MessageFile:
-            packMessage(b, m_send.msg, data, type, false);
-            sendAdvMessage(screen(data), b, PLUGIN_NULL, m_send.id, false, true);
-            return true;
+			{
+				log(L_DEBUG, "processMsg: MessageFile");
+				MessageId id;
+				generateCookie(id);
+				FileMessage* msg = static_cast<FileMessage*>(m_send.msg);
+				AIMOutcomingFileTransfer *ft = new AIMOutcomingFileTransfer(msg, data, this);
+				ft->setICBMCookie(id);
+				ft->listen();
+				QString filename = msg->getDescription();
+				ft->setStage(1);
+				unsigned long filesize = msg->getSize(); //Fixme: filesize is initialized, but not used.
+				ft->requestFT();
+				return true;
+			}
         case MessageWarning:{
                 WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
-                snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
+                snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
                 m_send.id.id_l = m_nMsgSequence;
                 unsigned short flag = 0;
                 if (msg->getAnonymous())
                     flag = 1;
-                m_socket->writeBuffer << flag;
-                m_socket->writeBuffer.packScreen(screen(data));
+                socket()->writeBuffer() << flag;
+                socket()->writeBuffer().packScreen(screen(data));
                 sendPacket(false);
                 return true;
             }
@@ -1746,11 +1902,9 @@ bool ICQClient::processMsg()
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
                 text = getContacts()->fromUnicode(contact, m_send.part);
-                messageSend ms;
-                ms.msg  = m_send.msg;
-                ms.text = &text;
-                Event e(EventSend, &ms);
+                EventSend e(m_send.msg, text);
                 e.process();
+                text = e.localeText();
                 break;
             }
         case SEND_HTML:
@@ -1775,13 +1929,9 @@ bool ICQClient::processMsg()
                     AIMParser p;
                     t += p.parse(m_send.part);
                 }else{
-                    QCString cstr = m_send.part.utf8();
-                    messageSend ms;
-                    ms.msg  = m_send.msg;
-                    ms.text = &cstr;
-                    Event e(EventSend, &ms);
+                    EventSend e(m_send.msg, m_send.part.utf8());
                     e.process();
-                    m_send.part = QString::fromUtf8( cstr );
+                    m_send.part = QString::fromUtf8( e.localeText() );
                     t += quoteString(m_send.part);
                 }
                 //t += "</BODY></HTML>";
@@ -1794,7 +1944,7 @@ bool ICQClient::processMsg()
             return true;
         }
 
-        Buffer msgBuf;
+        ICQBuffer msgBuf;
         unsigned short size  = (unsigned short)(text.length() + 1);
         unsigned short flags = ICQ_TCPxMSG_NORMAL;
         if (m_send.msg->getFlags() & MESSAGE_URGENT)
@@ -1820,13 +1970,16 @@ bool ICQClient::processMsg()
         sendAdvMessage(m_send.screen, msgBuf, PLUGIN_NULL, m_send.id, true, false);
         return true;
     }
-    if (m_send.socket){
-        Buffer msgBuf;
-        if (m_send.flags == PLUGIN_AIM_FT_ACK){
+    if(m_send.socket)
+	{
+        ICQBuffer msgBuf;
+        if(m_send.flags == PLUGIN_AIM_FT_ACK)
+		{
+			log(L_DEBUG, "This way");
             AIMFileMessage *msg = static_cast<AIMFileMessage*>(m_send.msg);
             m_send.id.id_l = msg->getID_L();
             m_send.id.id_h = msg->getID_H();
-            Buffer b;
+            ICQBuffer b;
             b << (unsigned short)0;
             b << m_send.id.id_l << m_send.id.id_h;
             b.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
@@ -1836,12 +1989,13 @@ bool ICQClient::processMsg()
             sendThroughServer(m_send.screen, 2, b, m_send.id, false, false);
             replyQueue.push_back(m_send);
             m_send.msg    = NULL;
-            m_send.screen = "";
+            m_send.screen = QString::null;
             return false;
         }
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
-        if (m_send.flags == PLUGIN_AIM_FT){
+        if(m_send.flags == PLUGIN_AIM_FT)
+		{
             TlvList tlvs;
             tlvs += new Tlv(0x0E, 2, "en");
             char b[15];
@@ -1879,8 +2033,8 @@ bool ICQClient::processMsg()
             QString fname;
             if (it.count() == 1){
                 fname = *(it[0]);
-                fname = fname.replace(QRegExp("\\\\"), "/");
-                int n = fname.findRev("/");
+                fname = fname.replace('\\', '/');
+                int n = fname.findRev('/');
                 if (n >= 0)
                     fname = fname.mid(n + 1);
             }else{
@@ -1921,7 +2075,7 @@ bool ICQClient::processMsg()
         if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
             return false;
 
-        unsigned short type = ICQ_MSGxAR_AWAY;
+        unsigned short type = ICQ_MSGxAR_AWAY; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1771'
         if (status & ICQ_STATUS_DND){
             type = ICQ_MSGxAR_DND;
         }else if (status & ICQ_STATUS_OCCUPIED){
@@ -1932,7 +2086,7 @@ bool ICQClient::processMsg()
             type = ICQ_MSGxAR_FFC;
         }
 
-        Buffer msg;
+        ICQBuffer msg;
         msg.pack(type);
         msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
         msg << 0x0100 << 0x0100 << (char)0;
@@ -1944,15 +2098,15 @@ bool ICQClient::processMsg()
     }else if (m_send.flags == PLUGIN_RANDOMxCHAT){
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
-        Buffer b;
+        ICQBuffer b;
         b << (char)1 << 0x00000000L << 0x00010000L;
         sendAdvMessage(m_send.screen, b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
     }else{
         unsigned plugin_index = m_send.flags;
         log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.latin1(), plugin_index);
 
-        Buffer b;
-        unsigned short type = 0;
+        ICQBuffer b;
+        unsigned short type = 0; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1771'
         switch (plugin_index){
         case PLUGIN_QUERYxINFO:
         case PLUGIN_PHONEBOOK:
@@ -1978,7 +2132,7 @@ bool ICQClient::processMsg()
 
 void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
 {
-    Buffer msgBuf;
+    ICQBuffer msgBuf;
     if (bWide){
         QByteArray ba(text.length() * 2);
         for (int i = 0; i < (int)text.length(); i++) {
@@ -1992,15 +2146,13 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf.pack(ba.data(), ba.size());
     }else{
         QCString msg_text = getContacts()->fromUnicode(getContact(data), text);
-        messageSend ms;
-        ms.msg  = m_send.msg;
-        ms.text = &msg_text;
-        Event e(EventSend, &ms);
+        EventSend e(m_send.msg, msg_text);
         e.process();
+        msg_text = e.localeText();
         msgBuf << 0x0000FFFFL;
         msgBuf << msg_text.data();
     }
-    Buffer b;
+    ICQBuffer b;
     b.tlv(0x0501, "\x01", 1);
     b.tlv(0x0101, msgBuf);
     sendThroughServer(m_send.screen, 1, b, m_send.id, true, true);
@@ -2013,10 +2165,10 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
     MessageId id;
     if (msg->getFlags() & MESSAGE_DIRECT){
         Contact *contact = getContacts()->contact(msg->contact());
-        ICQUserData *data = NULL;
+        ICQUserData *data = NULL; //Fixme: Local declaration of 'data' hides declaration of the same name in outer scope, see previous declaration at line '2163'
         if (contact){
             ClientDataIterator it(contact->clientData, this);
-            while ((data = ((ICQUserData*)(++it))) != NULL){
+            while ((data = (toICQUserData(++it))) != NULL){
                 if (msg->client() && (dataName(data) == msg->client()))
                     break;
                 data = NULL;
@@ -2035,7 +2187,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
     }else{
         id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
         id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
-        Buffer b;
+        ICQBuffer b;
         unsigned short type = ICQ_MSGxEXT;
         packMessage(b, msg, data, type, false, 0);
         unsigned cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
@@ -2051,7 +2203,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact){
             ClientDataIterator it(contact->clientData, this);
-            while ((data = ((ICQUserData*)(++it))) != NULL){
+            while ((data = (toICQUserData(++it))) != NULL){
                 if (dataName(data) == msg->client())
                     break;
                 data = NULL;
@@ -2064,42 +2216,58 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
                 ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
-                Event e(EventMessageAcked, msg);
-                e.process();
+                EventMessageAcked(msg).process();
                 m_processMsg.push_back(msg);
                 bDelete = false;
                 ft->listen();
                 break;
             }
-        case MessageFile:{
-                AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
+        case MessageFile:
+			{	
+                AIMFileTransfer *ft = new AIMIncomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
+				AIMFileMessage* fmsg = static_cast<AIMFileMessage*>(msg);
+				fmsg->m_transfer = ft;
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
-                Event e(EventMessageAcked, msg);
-                e.process();
-                m_processMsg.push_back(msg);
+                EventMessageAcked(msg).process();
+                //m_processMsg.push_back(msg);
                 bDelete = false;
+				ft->setPort(fmsg->getPort());
+				MessageId this_id;
+				this_id.id_l = fmsg->getID_L();
+				this_id.id_h = fmsg->getID_H();
+				ft->setICBMCookie(this_id);
+				log(L_DEBUG, "port = %d", fmsg->getPort());
+				ft->setStage(1);
+				if(fmsg->isProxy)
+				{
+					ft->setICBMCookie2(fmsg->cookie2);
+					ft->setProxyActive(false);
+					ft->forceProxyConnection();
+				}
                 ft->accept();
-                break;
+				return;
             }
         default:
             log(L_DEBUG, "Bad message type %u for accept", msg->type());
         }
     }
-    Event e(EventMessageDeleted, msg);
-    e.process();
+    EventMessageDeleted(msg).process();
     if (bDelete)
+	{
         delete msg;
+	}
 }
 
 void ICQClient::decline(Message *msg, const QString &reason)
 {
+	log(L_WARN, "ICQClient::decline");
     if (msg->getFlags() & MESSAGE_DIRECT){
         Contact *contact = getContacts()->contact(msg->contact());
         ICQUserData *data = NULL;
         if (contact){
             ClientDataIterator it(contact->clientData, this);
-            while ((data = ((ICQUserData*)(++it))) != NULL){
+            while ((data = (toICQUserData(++it))) != NULL){
                 if (msg->client() && (dataName(data) == msg->client()))
                     break;
                 data = NULL;
@@ -2137,7 +2305,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
             contact = getContacts()->contact(msg->contact());
             if (contact){
                 ClientDataIterator it(contact->clientData, this);
-                while ((data = ((ICQUserData*)(++it))) != NULL){
+                while ((data = (toICQUserData(++it))) != NULL){
                     if (dataName(data) == msg->client())
                         break;
                     data = NULL;
@@ -2146,8 +2314,8 @@ void ICQClient::decline(Message *msg, const QString &reason)
         }
         if (data && (id.id_l || id.id_h)){
             if (msg->type() == MessageICQFile){
-                Buffer buf, msgBuf;
-                Buffer b;
+                ICQBuffer buf, msgBuf;
+                ICQBuffer b;
                 packExtendedMessage(msg, buf, msgBuf, data);
                 b.pack((unsigned short)buf.size());
                 b.pack(buf.data(0), buf.size());
@@ -2156,13 +2324,13 @@ void ICQClient::decline(Message *msg, const QString &reason)
                 sendAutoReply(screen(data), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF),
                               (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
             }else{
-                snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
-                m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
-                m_socket->writeBuffer.packScreen(screen(data));
-                m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0001;
+                snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+                socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
+                socket()->writeBuffer().packScreen(screen(data));
+                socket()->writeBuffer() << 0x0003 << 0x0002 << 0x0001;
                 sendPacket(false);
                 if (!reason.isEmpty()){
-                    Message *msg = new Message(MessageGeneric);
+                    Message *msg = new Message(MessageGeneric);  //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '2262'
                     msg->setText(reason);
                     msg->setFlags(MESSAGE_NOHISTORY);
                     msg->setContact(contact->id());
@@ -2172,8 +2340,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
             }
         }
     }
-    Event e(EventMessageDeleted, msg);
-    e.process();
+    EventMessageDeleted(msg).process();
     delete msg;
 }
 

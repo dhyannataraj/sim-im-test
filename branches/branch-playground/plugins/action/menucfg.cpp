@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "menucfg.h"
+#include "editfile.h"
+#include "misc.h"
+
 #include "listview.h"
+#include "menucfg.h"
 #include "action.h"
 #include "additem.h"
-#include "editfile.h"
 
 #include <qpushbutton.h>
 
 using namespace SIM;
 
-MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
+MenuConfig::MenuConfig(QWidget *parent, ActionUserData *data)
         : MenuConfigBase(parent)
 {
     m_data   = data;

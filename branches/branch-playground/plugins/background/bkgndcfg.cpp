@@ -15,17 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "bkgndcfg.h"
-#include "background.h"
-#include "linklabel.h"
-#include "editfile.h"
-#include "preview.h"
+#include "simapi.h"
 
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qimage.h>
+#include <qfile.h>
+
+#include "misc.h"
+#include "linklabel.h"
+#include "editfile.h"
+#include "preview.h"
+
+#include "bkgndcfg.h"
+#include "background.h"
 
 #ifndef USE_KDE
 

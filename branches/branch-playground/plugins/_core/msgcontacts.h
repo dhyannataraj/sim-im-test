@@ -18,7 +18,10 @@
 #ifndef _MSGCONTACTS_H
 #define _MSGCONTACTS_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 class UserList;
@@ -35,7 +38,7 @@ protected slots:
     void editFinished();
     void listFinished();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     UserList   *m_list;
     MsgEdit    *m_edit;
     QString     m_client;

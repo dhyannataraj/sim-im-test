@@ -15,14 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdir.h>
+
+#include "misc.h"
+
 #include "migrate.h"
 #include "migratedlg.h"
 
-#include <qdir.h>
-
 using namespace SIM;
 
-Plugin *createMigratePlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createMigratePlugin(unsigned base, bool, Buffer*)
 {
     MigratePlugin *plugin = new MigratePlugin(base);
     if (!plugin->init()){
@@ -57,7 +59,7 @@ MigratePlugin::~MigratePlugin()
 
 bool MigratePlugin::init()
 {
-    QString dir = user_file("");
+    QString dir = user_file(QString::null);
     QDir d(dir);
     if (!d.exists())
         return false;
@@ -68,7 +70,7 @@ bool MigratePlugin::init()
         if ((*it)[0] == '.')
             continue;
         QString p = dir + (*it);
-        p += "/";
+        p += '/';
         QFile icqConf(p + "icq.conf");
         QFile clientsConf(p + "clients.conf");
         if (icqConf.exists() && !clientsConf.exists()){
@@ -81,3 +83,4 @@ bool MigratePlugin::init()
     dlg.exec();
     return true;
 }
+

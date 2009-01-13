@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "actioncfg.h"
 #include "menucfg.h"
 #include "listview.h"
@@ -32,7 +33,7 @@ using namespace SIM;
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
-ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionPlugin *plugin)
+ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin)
         : ActionConfigBase(parent)
 {
     m_data   = data;
@@ -48,12 +49,12 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
 
     QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
-    item->setPixmap(0, makePixmap("ICQ"));
+    item->setPixmap(0, makePixmap("SIM"));
     item->setText(1, data->OnLine.str());
 
     item = new QListViewItem(lstEvent, i18n("Status changed"));
     item->setText(2, QString::number(CONTACT_STATUS));
-    item->setPixmap(0, makePixmap("ICQ"));
+    item->setPixmap(0, makePixmap("SIM"));
     item->setText(1, data->Status.str());
 
     CommandDef *cmd;
@@ -108,7 +109,7 @@ void ActionConfig::resizeEvent(QResizeEvent *e)
     lstEvent->adjustColumn();
 }
 
-QPixmap ActionConfig::makePixmap(const QString &src)
+QPixmap ActionConfig::makePixmap(const char *src)
 {
     const QPixmap &source = Pict(src);
     int w = source.width();
@@ -133,8 +134,9 @@ void ActionConfig::selectionChanged(QListViewItem *item)
         return;
     m_editItem = item;
     m_edit = new LineEdit(lstEvent->viewport());
-    Event e(EventTmplHelpList);
-    m_edit->helpList = (const char**)e.process();
+    EventTmplHelpList e;
+    e.process();
+    m_edit->helpList = e.helpList();
     QRect rc = lstEvent->itemRect(m_editItem);
     rc.setLeft(rc.left() + lstEvent->columnWidth(0) + 2);
     m_edit->setGeometry(rc);
@@ -176,10 +178,10 @@ void ActionConfig::setEnabled(bool state)
 
 void ActionConfig::help()
 {
-    QString helpString = i18n("In command line you can use:");
-    helpString += "\n";
-    Event e(EventTmplHelp, &helpString);
+    QString helpString = i18n("In command line you can use:") + "\n";
+    EventTmplHelp e(helpString);
     e.process();
+    helpString = e.help();
     helpString += "\n\n";
     helpString += i18n("For message events message text will be sent on standard input of the program.\n"
                        "If the program will return a zero error code message text will be replaced with program output.\n"

@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
                           osd.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
@@ -18,14 +18,10 @@
  Check screen saver state from xscreensaver-command, Copyright (c) 1991-1998
 	by Jamie Zawinski <jwz@jwz.org>
 
+ Set the LEDS Methods are taken from setleds. 
+ CapsLED-Notification, Copyright (c) 2007 by Tobias Franz <noragen@gmx.net>
+
 */
-
-#include "osd.h"
-#include "osdconfig.h"
-#include "simapi.h"
-#include "core.h"
-
-#include "fontedit.h"
 
 #include <qtimer.h>
 #include <qpainter.h>
@@ -36,22 +32,57 @@
 #include <qstyle.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
+#include <qmessagebox.h>
+
+#include "fontedit.h"
+#include "log.h"
+#include "core.h"
+
+#include "osd.h"
+#include "osdconfig.h"
+
+
+
 
 #ifdef WIN32
-#include <windows.h>
-#ifndef CS_DROPSHADOW
-#define CS_DROPSHADOW   0x00020000
-#endif
-#ifndef SPI_GETSCREENSAVERRUNNING
-#define SPI_GETSCREENSAVERRUNNING 114
-#endif
+	#include <windows.h>
+	#include <qlibrary.h>
+	#ifndef CS_DROPSHADOW
+		#define CS_DROPSHADOW   0x00020000
+	#endif
+	#ifndef SPI_GETSCREENSAVERRUNNING
+		#define SPI_GETSCREENSAVERRUNNING 114
+	#endif
+
+	#define SHOW_TIMEOUT	300
+	#define HIDE_TIMEOUT	1000
+
+	typedef BOOL(WINAPI *slwa_ptr)(HWND, COLORREF, BYTE, DWORD);
+	static slwa_ptr slwa = NULL;
+
+	#if _WIN32_WINNT < 0x0500
+		#define WS_EX_LAYERED           0x00080000
+		#define LWA_COLORKEY            0x00000001
+		#define LWA_ALPHA               0x00000002
+	#endif
 
 #else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-#endif
+	/*#include <stdio.h>
+	#include <fcntl.h>
+	#include <string.h>
+	#include <getopt.h>
+	#include <linux/kd.h>
+	#include <sys/ioctl.h>
+
+	#include "local.h"
+	#include "utils.h"
+	#define KD "/dev/console"	*/
+
+	#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+		#include <X11/Xlib.h>
+		#include <X11/Xutil.h>
+		#include <X11/Xatom.h>
+	#endif
 #endif
 
 using namespace std;
@@ -60,7 +91,7 @@ using namespace SIM;
 const unsigned SHADOW_DEF	= 2;
 const unsigned XOSD_MARGIN	= 5;
 
-Plugin *createOSDPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createOSDPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new OSDPlugin(base);
     return plugin;
@@ -80,36 +111,11 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-
-typedef struct OSDUserData
-{
-	unsigned	EnableMessage;
-	unsigned	EnableAlert;
-	unsigned	EnableAlertOnline;,
-	unsigned	EnableAlertAway;
-	unsigned	EnableAlertNA;
-	unsigned	EnableAlertDND;
-	unsigned	EnableAlertOccupied;
-	unsigned	EnableAlertFFC;
-	unsigned	EnableAlertOffline;
-	unsigned	EnableTyping;
-	unsigned	Position;
-	unsigned	Offset;
-	unsigned	Color;
-	char		*Font;
-	unsigned	Timeout;
-	unsigned	Shadow;
-	unsigned	Background;
-	unsigned	BgColor;
-} OSDUserData;
-
-*/
-
 static DataDef osdUserData[] =
     {
         { "EnableMessage", DATA_BOOL, 1, DATA(1) },
         { "EnableMessageShowContent", DATA_BOOL, 1, DATA(0) },
+        { "EnableCapsLockFlash", DATA_BOOL, 1, DATA(0) },
         { "ContentTypes", DATA_ULONG, 1, DATA(3) },
         { "EnableAlert", DATA_BOOL, 1, DATA(1) },
         { "EnableAlertOnline", DATA_BOOL, 1, DATA(1) },
@@ -126,6 +132,7 @@ static DataDef osdUserData[] =
         { "Font", DATA_STRING, 1, 0 },
         { "Timeout", DATA_ULONG, 1, DATA(7) },
         { "Shadow", DATA_BOOL, 1, DATA(1) },
+		{ "Fading", DATA_BOOL, 1, DATA(1) },
         { "Background", DATA_BOOL, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
         { "Screen", DATA_ULONG, 1, 0 },
@@ -146,12 +153,11 @@ OSDPlugin::OSDPlugin(unsigned base)
 
     user_data_id = getContacts()->registerUserData(info.title, osdUserData);
     Command cmd;
-    cmd->id		 = user_data_id + 1;
+    cmd->id		 = user_data_id;
     cmd->text	 = I18N_NOOP("&OSD");
     cmd->icon	 = "alert";
     cmd->param	 = (void*)getOSDSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
 
     m_request.contact = 0;
     m_request.type    = OSD_NONE;
@@ -159,18 +165,20 @@ OSDPlugin::OSDPlugin(unsigned base)
     m_osd   = NULL;
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+	bCapsState = false;
 
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
+    bHaveUnreadMessages=false;
 }
 
 OSDPlugin::~OSDPlugin()
 {
-    if (m_osd)
-        delete m_osd;
+    delete m_osd;
     osdPlugin = NULL;
-    Event e(EventRemovePreferences, (void*)user_data_id);
+    EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
@@ -181,9 +189,44 @@ QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 
 void OSDPlugin::timeout()
 {
-    m_osd->hide();
+#ifdef WIN32
+	Contact *contact  = getContacts()->contact(m_request.contact);
+	if (!contact) return; //avoid crash
+	OSDUserData *data = (OSDUserData*)contact->getUserData(user_data_id);
+	if (data->Fading.toBool()){
+		transOutCounter=0;
+		m_transTimer = new QTimer(this);
+		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
+		SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+		m_transTimer->start(5);
+	}
+	else
+		m_osd->hide();
+	
     m_timer->stop();
     processQueue();
+#else
+	m_osd->hide();	
+    m_timer->stop();
+    processQueue();
+#endif
+}
+
+QFont OSDPlugin::getBaseFont(QFont font)
+{
+    QFont baseFont;
+
+    baseFont = font;
+    int size = baseFont.pixelSize();
+    if (size <= 0){
+        size = baseFont.pointSize();
+        baseFont.setPointSize(size * 2);
+    }else{
+        baseFont.setPixelSize(size * 2);
+    }
+    baseFont.setBold(true);
+
+    return baseFont;
 }
 
 static const char * const arrow_h_xpm[] = {
@@ -199,21 +242,14 @@ static const char * const arrow_h_xpm[] = {
             "+..++..++",
             "..++..+++"};
 
-OSDWidget::OSDWidget()
+OSDWidget::OSDWidget(OSDPlugin *plugin)
         : QWidget(NULL, "osd", WType_TopLevel |
                   WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
                   WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {
-    baseFont = font();
+    m_plugin = plugin;
+    baseFont = m_plugin->getBaseFont(font());
     m_button = NULL;
-    int size = baseFont.pixelSize();
-    if (size <= 0){
-        size = baseFont.pointSize();
-        baseFont.setPointSize(size * 2);
-    }else{
-        baseFont.setPixelSize(size * 2);
-    }
-    baseFont.setBold(true);
     setFocusPolicy(NoFocus);
 }
 
@@ -381,9 +417,69 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
-    QWidget::show();
+#ifdef WIN32
+	//SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+	if (data->Fading.toBool()){
+		slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+		if (slwa == NULL)
+			return;
+		transCounter=100;
+		SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+		BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
+		slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
+		RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
+		m_transTimer = new QTimer(this);
+	}
+	QWidget::show();
     raise();
+	if (data->Fading.toBool()){
+		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
+		m_transTimer->start(5);
+	}
+#else
+	QWidget::show();
+    raise();
+#endif
 }
+
+void OSDWidget::m_transTimerFadeInTimeout(){
+#ifdef WIN32
+	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+    if (slwa == NULL)
+        return;
+	BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
+	slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
+	RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
+	transCounter-=5;
+	if (transCounter==0) {
+		m_transTimer->stop();
+	    disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
+		SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+	}
+#endif
+}
+
+void OSDPlugin::m_transTimerFadeOutTimeout(){
+#ifdef WIN32
+	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+    if (slwa == NULL)
+        return;
+
+	//SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+	BYTE d = (BYTE) QMIN((100 - transOutCounter) * 256 / 100, 255);
+	slwa(m_osd->winId(), m_osd->colorGroup().background().rgb(), d, LWA_ALPHA);
+	RedrawWindow(m_osd->winId(), NULL, NULL, RDW_UPDATENOW);
+	transOutCounter+=5;
+	if (transOutCounter==100){
+		m_osd->hide();
+		m_transTimer->stop();
+		disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
+		SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+	}
+#endif
+}
+
+
 
 void OSDWidget::paintEvent(QPaintEvent*)
 {
@@ -437,6 +533,7 @@ void OSDPlugin::processQueue()
         QString text;
         OSDUserData *data = NULL;
         data = (OSDUserData*)contact->getUserData(user_data_id);
+		uint ms=core->getManualStatus();
         switch (m_request.type){
         case OSD_ALERTONLINE:
             if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
@@ -472,7 +569,7 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && !(core->getManualStatus() == STATUS_OFFLINE)){
+            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && (ms-1) ){
                 text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
@@ -494,8 +591,8 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_MESSAGE:
-            if (data->EnableMessage.toBool() && core){
-                list<msg_id>::iterator it;
+           if (data->EnableMessage.toBool() && core){
+				list<msg_id>::iterator it;
                 TYPE_MAP types;
                 TYPE_MAP::iterator itc;
                 QString msg_text;
@@ -511,12 +608,9 @@ void OSDPlugin::processQueue()
                     }
                     if (!data->EnableMessageShowContent.toBool())
                         continue;
-                    MessageID id;
-                    id.id      = (*it).id;
-                    id.contact = (*it).contact;
-                    id.client  = (*it).client;
-                    Event e(EventLoadMessage, &id);
-                    Message *msg = (Message*)(e.process());
+                    EventLoadMessage e((*it).id, (*it).client, (*it).contact);
+                    e.process();
+                    Message *msg = e.message();
                     if (msg == NULL)
                         continue;
                     QString msgText = msg->getPlainText().stripWhiteSpace();
@@ -547,7 +641,15 @@ void OSDPlugin::processQueue()
                         text += ", ";
                     text += msg;
                 }
-                text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
+
+				
+				if ( core->getManualStatus()==STATUS_NA && 
+				     data->EnableCapsLockFlash.toBool() && 
+				     ! this->running() 
+				   )
+				   
+					this->start(); //Start flashing the CapsLock if enabled
+				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
                 if (msg_text.isEmpty())
                     break;
                 text += ":\n";
@@ -559,7 +661,7 @@ void OSDPlugin::processQueue()
         }
         if (!text.isEmpty()){
             if (m_osd == NULL){
-                m_osd = new OSDWidget;
+                m_osd = new OSDWidget(this);
                 connect(m_osd, SIGNAL(dblClick()), this, SLOT(dblClick()));
                 connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
@@ -573,6 +675,52 @@ void OSDPlugin::processQueue()
     m_request.type = OSD_NONE;
 }
 
+void OSDPlugin::run(){
+	while ( bHaveUnreadMessages ) {
+		flashCapsLockLED(!bCapsState);
+
+#ifdef WIN32
+		sleepTime(200);
+#else
+		sleepTime(1);
+#endif
+	}
+	if (bCapsState) flashCapsLockLED(!bCapsState); //switch LED off
+}
+
+void OSDPlugin::flashCapsLockLED(bool bCapsState){
+
+#ifdef WIN32
+	BYTE keyState[256];
+
+    GetKeyboardState((LPBYTE)&keyState);
+    if( ( !(keyState[VK_CAPITAL] & 1)))
+		//||
+        //(!bCapsState && (keyState[VK_CAPITAL] & 1)) )
+      
+      // Simulate a key press
+         keybd_event( VK_CAPITAL,
+                      0x45,
+                      KEYEVENTF_EXTENDEDKEY | 0,
+                      0 );
+
+	 // Simulate a key release
+         keybd_event( VK_CAPITAL,
+                      0x45,
+                      KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,
+                      0);
+		
+#elif defined(__OS2__)
+    // TODO: add OS/2 code to switch leds
+#else
+    if (bCapsState)
+        system("xset led 3");
+    else
+        system("xset -led 3");
+#endif
+		this->bCapsState= bCapsState;
+}
+
 void OSDPlugin::closeClick()
 {
     if (m_request.type == OSD_MESSAGE){
@@ -581,16 +729,12 @@ void OSDPlugin::closeClick()
                 ++it;
                 continue;
             }
-            MessageID id;
-            id.id      = (*it).id;
-            id.contact = (*it).contact;
-            id.client  = (*it).client;
-            Event e(EventLoadMessage, &id);
-            Message *msg = (Message*)(e.process());
+            EventLoadMessage e((*it).id, (*it).client, (*it).contact);
+            e.process();
+            Message *msg = e.message();
             core->unread.erase(it);
             if (msg){
-                Event e(EventMessageRead, msg);
-                e.process();
+                EventMessageRead(msg).process();
                 delete msg;
             }
             it = core->unread.begin();
@@ -601,38 +745,86 @@ void OSDPlugin::closeClick()
 
 void OSDPlugin::dblClick()
 {
-    Event e(EventDefaultAction, (void*)(m_request.contact));
-    e.process();
+    EventDefaultAction(m_request.contact).process();
     m_timer->stop();
     m_timer->start(100);
 }
 
-void *OSDPlugin::processEvent(Event *e)
+bool OSDPlugin::processEvent(Event *e)
 {
     OSDRequest osd;
-    Contact *contact;
-    Message *msg;
-    OSDUserData *data;
     switch (e->type()){
-    case EventContactOnline:
-        contact = (Contact*)(e->param());
-        if (contact->getIgnore()) break;
-        osd.contact = contact->id();
-        osd.type    = OSD_ALERTONLINE;
-        queue.push_back(osd);
-        processQueue();
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        if (contact->getIgnore())
+            break;
+        switch(ec->action()) {
+        case EventContact::eOnline: {
+            osd.contact = contact->id();
+            osd.type    = OSD_ALERTONLINE;
+            queue.push_back(osd);
+            processQueue();
+            break;
+        }
+        case EventContact::eStatus: {
+            OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+            if (data){
+                unsigned style = 0;
+                QString wrkIcons;
+                QString statusIcon;
+                contact->contactInfo(style, statusIcon, &wrkIcons);
+                bool bTyping = false;
+                while (!wrkIcons.isEmpty()){
+                    if (getToken(wrkIcons, ',') == "typing"){
+                        bTyping = true;
+                        break;
+                    }
+                }
+                if (bTyping){
+                    list<unsigned>::iterator it;
+                    for (it = typing.begin(); it != typing.end(); ++it)
+                        if ((*it) == contact->id())
+                            break;
+                    if (it == typing.end()){
+                        typing.push_back(contact->id());
+                        osd.contact = contact->id();
+                        osd.type    = OSD_TYPING;
+                        queue.push_back(osd);
+                        processQueue();
+                    }
+                }else{
+                    list<unsigned>::iterator it;
+                    for (it = typing.begin(); it != typing.end(); ++it)
+                        if ((*it) == contact->id())
+                            break;
+                    if (it != typing.end())
+                        typing.erase(it);
+                    if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
+                        m_timer->stop();
+                        m_timer->start(100);
+                    }
+                }
+            }
+            break;
+        }
+        default:
+            break;
+        }
         break;
-    case EventMessageDeleted:
-    case EventMessageRead:
-    case EventMessageReceived:
-        msg = (Message*)(e->param());
-        contact = getContacts()->contact(msg->contact());
+    }
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
-        data = (OSDUserData*)(contact->getUserData(user_data_id));
+        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data == NULL)
             break;
         osd.contact = msg->contact();
+	if (! core->unread.empty())
+	    bHaveUnreadMessages=true;
         if (msg->type() == MessageStatus) {
             StatusMessage *smsg = (StatusMessage*)msg;
             switch (smsg->getStatus()) {
@@ -645,7 +837,7 @@ void *OSDPlugin::processEvent(Event *e)
             case STATUS_DND:
                 osd.type = OSD_ALERTDND;
                 break;
-            case 100:    /* STATUS_OCCUPIED, but defined in icqclient.h ! */
+            case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
                 osd.type = OSD_ALERTOCCUPIED;
                 break;
             case STATUS_FFC:
@@ -656,11 +848,11 @@ void *OSDPlugin::processEvent(Event *e)
                 break;
             case STATUS_ONLINE:
                 osd.type = OSD_NONE;
-                return NULL;
+                return false;
             default:
                 log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
                 osd.type = OSD_NONE;
-                return NULL;
+                return false;
             }
             queue.push_back(osd);
             processQueue();
@@ -676,50 +868,68 @@ void *OSDPlugin::processEvent(Event *e)
             }
         }
         break;
-    case EventContactStatus:
-        contact = (Contact*)(e->param());
-        if (contact->getIgnore()) break;
-        data = (OSDUserData*)(contact->getUserData(user_data_id));
-        if (data){
-            unsigned style = 0;
-            QString wrkIcons;
-            QString statusIcon;
-            contact->contactInfo(style, statusIcon, &wrkIcons);
-            bool bTyping = false;
-            while (!wrkIcons.isEmpty()){
-                if (getToken(wrkIcons, ',') == "typing"){
-                    bTyping = true;
-                    break;
-                }
+    }
+    case eEventMessageDeleted:
+    case eEventMessageRead: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        Contact *contact = getContacts()->contact(msg->contact());
+        if (contact == NULL)
+            break;
+        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+        if (data == NULL)
+            break;
+        osd.contact = msg->contact();
+	if (core->unread.empty())
+	    bHaveUnreadMessages=false;
+        if (msg->type() == MessageStatus) {
+            StatusMessage *smsg = (StatusMessage*)msg;
+            switch (smsg->getStatus()) {
+            case STATUS_AWAY:
+                osd.type = OSD_ALERTAWAY;
+                break;
+            case STATUS_NA:
+                osd.type = OSD_ALERTNA;
+                break;
+            case STATUS_DND:
+                osd.type = OSD_ALERTDND;
+                break;
+            case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
+                osd.type = OSD_ALERTOCCUPIED;
+                break;
+            case STATUS_FFC:
+                osd.type = OSD_ALERTFFC;
+                break;
+            case STATUS_OFFLINE:
+                osd.type = OSD_ALERTOFFLINE;
+                break;
+            case STATUS_ONLINE:
+                osd.type = OSD_NONE;
+                return false;
+            default:
+                log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
+                osd.type = OSD_NONE;
+                return false;
             }
-            if (bTyping){
-                list<unsigned>::iterator it;
-                for (it = typing.begin(); it != typing.end(); ++it)
-                    if ((*it) == contact->id())
-                        break;
-                if (it == typing.end()){
-                    typing.push_back(contact->id());
-                    osd.contact = contact->id();
-                    osd.type    = OSD_TYPING;
-                    queue.push_back(osd);
-                    processQueue();
-                }
+            queue.push_back(osd);
+            processQueue();
+        }else{
+            osd.type    = OSD_MESSAGE;
+            if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
+                queue.push_front(osd);
+                m_timer->stop();
+                m_timer->start(100);
             }else{
-                list<unsigned>::iterator it;
-                for (it = typing.begin(); it != typing.end(); ++it)
-                    if ((*it) == contact->id())
-                        break;
-                if (it != typing.end())
-                    typing.erase(it);
-                if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
-                    m_timer->stop();
-                    m_timer->start(100);
-                }
+                queue.push_back(osd);
+                processQueue();
             }
         }
         break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "toolbarcfg.h"
-#include "simapi.h"
 
 #include <qapplication.h>
 #include <qpopupmenu.h>

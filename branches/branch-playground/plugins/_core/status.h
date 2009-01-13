@@ -18,21 +18,23 @@
 #ifndef _STATUS_H
 #define _STATUS_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
+#include <qstring.h>
 #include <qstringlist.h>
+
+#include "event.h"
 
 class QTimer;
 class CorePlugin;
 class BalloonMsg;
 
-typedef struct BalloonItem
+struct BalloonItem
 {
     QString		text;
     QStringList	buttons;
     unsigned	id;
     SIM::Client	*client;
-} BalloonItem;
+};
 
 class CommonStatus : public QObject, public SIM::EventReceiver
 {
@@ -48,7 +50,7 @@ protected slots:
     void showBalloon();
 protected:
     QTimer *m_timer;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void rebuildStatus();
     void checkInvisible();
     bool m_bInit;

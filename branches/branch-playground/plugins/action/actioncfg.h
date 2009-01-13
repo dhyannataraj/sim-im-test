@@ -19,8 +19,8 @@
 #define _ACTIONCFG_H
 
 #include "actioncfgbase.h"
-#include "simapi.h"
 
+struct ActionUserData;
 class ActionPlugin;
 class LineEdit;
 class QListViewItem;
@@ -30,7 +30,7 @@ class ActionConfig : public ActionConfigBase
 {
     Q_OBJECT
 public:
-    ActionConfig(QWidget *parent, struct ActionUserData *data, ActionPlugin *plugin);
+    ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin);
     virtual ~ActionConfig();
 public slots:
     void apply();
@@ -43,8 +43,8 @@ protected:
     MenuConfig		*m_menu;
     void resizeEvent(QResizeEvent *e);
     void setEnabled (bool);
-    QPixmap makePixmap(const QString &src);
-    struct ActionUserData	*m_data;
+    QPixmap makePixmap(const char *src);
+    ActionUserData *m_data;
     ActionPlugin *m_plugin;
 };
 

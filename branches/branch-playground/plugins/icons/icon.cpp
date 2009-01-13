@@ -15,13 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+#include "misc.h"
+
 #include "icon.h"
 #include "iconcfg.h"
-#include "icons.h"
 
+using namespace std;
 using namespace SIM;
 
-Plugin *createIconsPlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createIconsPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new IconsPlugin(base, config);
     return plugin;
@@ -49,7 +52,7 @@ static DataDef iconsData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-IconsPlugin::IconsPlugin(unsigned base, ConfigBuffer *config)
+IconsPlugin::IconsPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(iconsData, &data, config);
@@ -65,24 +68,17 @@ void IconsPlugin::setIcons(bool bForce)
 {
     if (!bForce && getDefault())
         return;
-    QValueList<IconSet*> &sets = getIcons()->m_customSets;
-    for (QValueListIterator<IconSet*> it = sets.begin(); it != sets.end(); ){
-        IconSet *set = *it;
-        it++;
-        delete set;
-    }
-    sets.clear();
+    getIcons()->removeIconSet(NULL);
     if (getDefault()){
         getIcons()->addIconSet("icons/smile.jisp", false);
     }else{
         for (unsigned i = 1; i <= getNIcons(); i++)
             getIcons()->addIconSet(getIcon(i), false);
     }
-    Event e(EventIconChanged, NULL);
-    e.process();
+    EventIconChanged().process();
 }
 
-QString IconsPlugin::getConfig()
+QCString IconsPlugin::getConfig()
 {
     return save_data(iconsData, &data);
 }

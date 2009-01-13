@@ -15,14 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msnclient.h"
-#include "msnconfig.h"
-#include "msnpacket.h"
-#include "msn.h"
-#include "msninfo.h"
-#include "msnsearch.h"
-#include "core.h"
-
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -32,44 +24,35 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #endif
+#include <time.h>
+
+#include <algorithm>
+
+#include <qtimer.h>
+#include <qregexp.h>
+#include <qfile.h>
+
+#include "log.h"
+#include "core.h"
+#include "core_events.h"
+
+#include "msnclient.h"
+#include "msnconfig.h"
+#include "msnpacket.h"
+#include "msn.h"
+#include "msninfo.h"
+#include "msnsearch.h"
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xFFFFFFFF
 #endif
 
-#include <time.h>
-#include <qtimer.h>
-#include <qregexp.h>
-
-#include <qfile.h>
-
 using namespace std;
+using namespace SIM;
 
 const unsigned long PING_TIMEOUT	= 60;
 
-const unsigned long FT_TIMEOUT		= 60;
 const unsigned long TYPING_TIME		= 10;
-const unsigned MAX_FT_PACKET		= 2045;
-
-/*
-typedef struct MSNUserData
-{
-    char		*EMail;
-    char		*ScreenName;
-    unsigned	Status;
-    unsigned	StatusTime;
-    unsigned	OnlineTime;
-	char		*PhoneHome;
-	char		*PhoneWork;
-	char		*PhoneMobile;
-	unsigned	Mobile;
-	unsigned	Group;
-	unsigned	Flags;
-	unsigned	sFlags;
-} MSNUserData;
-*/
-
-using namespace SIM;
 
 static DataDef msnUserData[] =
     {
@@ -95,14 +78,6 @@ static DataDef msnUserData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct MSNClientData
-{
-    char		*Server;
-    unsigned	Port;
-	MSNUserData	owner;
-} MSNClientData;
-*/
 static DataDef msnClientData[] =
     {
         { "Server", DATA_STRING, 1, "messenger.hotmail.com" },
@@ -121,7 +96,7 @@ static DataDef msnClientData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-MSNClient::MSNClient(Protocol *protocol, ConfigBuffer *cfg)
+MSNClient::MSNClient(Protocol *protocol, Buffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(msnClientData, &data, cfg);
@@ -135,7 +110,7 @@ MSNClient::MSNClient(Protocol *protocol, ConfigBuffer *cfg)
         lr.Type = getToken(item, ',').toUInt();
         lr.Name = item;
     }
-    setListRequests("");
+    setListRequests(QString::null);
     m_bJoin = false;
     m_bFirstTry = false;
 }
@@ -157,7 +132,7 @@ QWidget	*MSNClient::setupWnd()
     return new MSNConfig(NULL, this, false);
 }
 
-QString MSNClient::getConfig()
+QCString MSNClient::getConfig()
 {
     QString listRequests;
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
@@ -166,11 +141,11 @@ QString MSNClient::getConfig()
         listRequests += QString::number((*it).Type) + "," + it->Name;
     }
     setListRequests(listRequests);
-    QString res = Client::getConfig();
+    QCString res = Client::getConfig();
     if (res.length())
         res += "\n";
     res += save_data(msnClientData, &data);
-    setListRequests("");
+    setListRequests(QString::null);
     return res;
 }
 
@@ -182,9 +157,9 @@ const DataDef *MSNProtocol::userDataDef()
 void MSNClient::connect_ready()
 {
     m_bFirstTry = false;
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
-    m_socket->setRaw(true);
+    socket()->readBuffer().init(0);
+    socket()->readBuffer().packetStart();
+    socket()->setRaw(true);
     log(L_DEBUG, "Connect ready");
     TCPClient::connect_ready();
     MSNPacket *packet = new VerPacket(this);
@@ -201,8 +176,7 @@ void MSNClient::setStatus(unsigned status)
     data.owner.StatusTime.asULong() = now;
     m_status = status;
     data.owner.Status.asULong() = m_status;
-    Event e(EventClientChanged, static_cast<Client*>(this));
-    e.process();
+    EventClientChanged(this).process();
     if (status == STATUS_OFFLINE){
         if (m_status != STATUS_OFFLINE){
             m_status = status;
@@ -249,7 +223,7 @@ void MSNClient::disconnected()
         bool bChanged = false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (data->Status.toULong() != STATUS_OFFLINE){
                 data->Status.asULong() = STATUS_OFFLINE;
                 data->StatusTime.asULong() = time(NULL);
@@ -261,13 +235,14 @@ void MSNClient::disconnected()
                 bChanged = true;
             }
             if (bChanged){
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data));
-                m.setFlags(MESSAGE_RECEIVED);
-                m.setStatus(STATUS_OFFLINE);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data));
+                m->setFlags(MESSAGE_RECEIVED);
+                m->setStatus(STATUS_OFFLINE);
+                EventMessageReceived e(m);
+                if(!e.process())
+                    delete m;
             }
         }
     }
@@ -292,10 +267,10 @@ void MSNClient::clearPackets()
 
 void MSNClient::packet_ready()
 {
-    if (m_socket->readBuffer.writePos() == 0)
+    if (socket()->readBuffer().writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(socket()->readBuffer(), false, plugin->MSNPacket);
     if (m_msg){
         if (!m_msg->packet())
             return;
@@ -304,19 +279,19 @@ void MSNClient::packet_ready()
     }
     for (;;){
         QCString s;
-        if (!m_socket->readBuffer.scan("\r\n", s))
+        if (!socket()->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
     }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
+    if (socket()->readBuffer().readPos() == socket()->readBuffer().writePos())
+        socket()->readBuffer().init(0);
 }
 
-typedef struct statusText
+struct statusText
 {
     unsigned	status;
     const char	*name;
-} statusText;
+};
 
 statusText st[] =
     {
@@ -383,7 +358,7 @@ void MSNClient::processLST(const QString &mail, const QString &name, unsigned st
     }else{
         data->EMail.str() = mail;
         data->ScreenName.str() = name;
-        if (data->ScreenName.str() != contact->getName())
+        if (name != contact->getName())
             contact->setName(name);
     }
     data->sFlags.asULong() |= MSN_CHECKED;
@@ -433,7 +408,7 @@ void MSNClient::checkEndSync()
     list<Contact*>	contactRemove;
     while ((grp = ++itg) != NULL){
         ClientDataIterator it(grp->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
+        MSNUserData *data = toMSNUserData(++it);
         if (grp->id() && (data == NULL)){
             MSNListRequest lr;
             lr.Type = LR_GROUPxCHANGED;
@@ -452,7 +427,7 @@ void MSNClient::checkEndSync()
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         list<void*> forRemove;
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (data->sFlags.toULong() & MSN_CHECKED){
                 if ((data->sFlags.toULong() & MSN_REVERSE) && ((data->Flags.toULong() & MSN_REVERSE) == 0))
                     auth_message(contact, MessageRemoved, data);
@@ -464,7 +439,7 @@ void MSNClient::checkEndSync()
                     }
                 }
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }else{
                 forRemove.push_back(data);
@@ -482,8 +457,7 @@ void MSNClient::checkEndSync()
     for (list<Group*>::iterator rg = grpRemove.begin(); rg != grpRemove.end(); ++rg)
         delete *rg;
     if (m_bJoin){
-        Event e(EventJoinAlert, this);
-        e.process();
+        EventJoinAlert(this).process();
     }
     m_bFirst = false;
     connected();
@@ -492,9 +466,9 @@ void MSNClient::checkEndSync()
 void MSNClient::getLine(const QCString &line)
 {
     QString l = QString::fromUtf8(line);
-    l = l.replace(QRegExp("\r"), "");
-    log(L_DEBUG, "Get: %s", (const char*)l.local8Bit().data());
-
+    l = l.remove('\r');
+    QCString ll = l.local8Bit();
+    log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
     if ((cmd == "715") || (cmd == "228"))
         return;
@@ -507,13 +481,13 @@ void MSNClient::getLine(const QCString &line)
             unsigned short port = l.toUShort();
             if (host.isEmpty() || (port == 0)){
                 log(L_WARN, "Bad host on XFR");
-                m_socket->error_state(I18N_NOOP("MSN protocol error"));
+                socket()->error_state(I18N_NOOP("MSN protocol error"));
                 return;
             }
             clearPackets();
-            m_socket->close();
-            m_socket->readBuffer.init(0);
-            m_socket->connect(host, port, this);
+            socket()->close();
+            socket()->readBuffer().init(0);
+            socket()->connect(host, port, this);
             return;
         }
         l = id + " " + type + " " + l;
@@ -524,7 +498,7 @@ void MSNClient::getLine(const QCString &line)
         unsigned size = getToken(l, ' ').toUInt();
         if (size == 0){
             log(L_WARN, "Bad server message size");
-            m_socket->error_state(I18N_NOOP("MSN protocol error"));
+            socket()->error_state(I18N_NOOP("MSN protocol error"));
             return;
         }
         m_msg = new MSNServerMessage(this, size);
@@ -559,7 +533,7 @@ void MSNClient::getLine(const QCString &line)
             }
             if (bChanged){
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
         }
@@ -579,13 +553,14 @@ void MSNClient::getLine(const QCString &line)
                 set_ip(&data->RealIP, 0);
             }
             data->StatusTime.asULong() = now;
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data));
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(status);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data));
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(status);
+            EventMessageReceived e(m);
+            if(!e.process())
+                delete m;
         }
         return;
     }
@@ -602,15 +577,16 @@ void MSNClient::getLine(const QCString &line)
             }
             data->StatusTime.asULong() = now;
             data->Status.asULong() = status;
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data));
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(status);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data));
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(status);
+            EventMessageReceived e(m);
+            if(!e.process())
+                delete m;
             if ((status == STATUS_ONLINE) && !contact->getIgnore()){
-                Event e(EventContactOnline, contact);
+                EventContact e(contact, EventContact::eOnline);
                 e.process();
             }
         }
@@ -622,13 +598,14 @@ void MSNClient::getLine(const QCString &line)
         if (data && (data->Status.toULong() != STATUS_OFFLINE)){
             data->StatusTime.asULong() = time(NULL);
             data->Status.asULong() = STATUS_OFFLINE;
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data));
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(STATUS_OFFLINE);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data));
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(STATUS_OFFLINE);
+            EventMessageReceived e(m);
+            if(!e.process())
+                delete m;
         }
         return;
     }
@@ -675,7 +652,7 @@ void MSNClient::getLine(const QCString &line)
         if (data == NULL){
             data = findContact(email, nick, contact);
             contact->setFlags(CONTACT_TEMP);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
@@ -689,7 +666,7 @@ void MSNClient::getLine(const QCString &line)
     }
     if (cmd == "OUT"){
         m_reconnect = NO_RECONNECT;
-        m_socket->error_state(I18N_NOOP("Your account is being used from another location"));
+        socket()->error_state(I18N_NOOP("Your account is being used from another location"));
         return;
     }
     if (cmd == "GTC")
@@ -730,7 +707,7 @@ void MSNClient::getLine(const QCString &line)
         MSNUserData *data = findContact(m_curBuddy, contact);
         if (data == NULL)
             return;
-        Event e(EventContactChanged, contact);
+         EventContact e(contact, EventContact::eChanged);
         e.process();
         QString cmd = getToken(l, ' ');
         if (cmd == "PHH")
@@ -755,7 +732,7 @@ void MSNClient::getLine(const QCString &line)
             }
         }
         if (it == m_packets.end()){
-            m_socket->error_state("Bad packet id");
+            socket()->error_state("Bad packet id");
             return;
         }
         m_packets.erase(it);
@@ -777,16 +754,16 @@ void MSNClient::getLine(const QCString &line)
         }
     }
     if (it == m_packets.end()){
-        m_socket->error_state("Bad packet id");
+        socket()->error_state("Bad packet id");
         return;
     }
     if (cmd != packet->cmd()){
-        m_socket->error_state("Bad answer cmd");
+        socket()->error_state("Bad answer cmd");
         return;
     }
     QStringList args;
     while (l.length())
-        args.append(getToken(l, ' ', false));
+        args.push_back(getToken(l, ' ', false));
     packet->answer(args);
     m_packets.erase(it);
     delete packet;
@@ -795,19 +772,19 @@ void MSNClient::getLine(const QCString &line)
 void MSNClient::sendLine(const QString &line, bool crlf)
 {
     log(L_DEBUG, "Send: %s", line.local8Bit().data());
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer << (const char*)line.utf8();
+    socket()->writeBuffer().packetStart();
+    socket()->writeBuffer() << (const char*)line.utf8();
     if (crlf)
-        m_socket->writeBuffer << "\r\n";
+        socket()->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
-    m_socket->write();
+    EventLog::log_packet(socket()->writeBuffer(), true, plugin->MSNPacket);
+    socket()->write();
 }
 
 void MSNClient::authFailed()
 {
     m_reconnect = NO_RECONNECT;
-    m_socket->error_state(I18N_NOOP("Login failed"), AuthError);
+    socket()->error_state(I18N_NOOP("Login failed"), AuthError);
 }
 
 void MSNClient::authOk()
@@ -905,7 +882,7 @@ static CommandDef cfgMsnWnd[] =
 
 CommandDef *MSNClient::infoWindows(Contact*, void *_data)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString name = i18n(protocol()->description()->text);
     name += " ";
     name += data->EMail.str();
@@ -924,7 +901,7 @@ CommandDef *MSNClient::configWindows()
 
 QWidget *MSNClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned id)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     switch (id){
     case MAIN_INFO:
         return new MSNInfo(parent, data, this);
@@ -947,7 +924,7 @@ bool MSNClient::canSend(unsigned type, void *_data)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.toULong() != MSN_SIGN))
         return false;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     if (getState() != Connected)
         return false;
     switch (type){
@@ -968,7 +945,7 @@ bool MSNClient::send(Message *msg, void *_data)
 {
     if ((_data == NULL) || (getState() != Connected))
         return false;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     MSNPacket *packet;
     switch (msg->type()){
     case MessageAuthGranted:
@@ -982,11 +959,9 @@ bool MSNClient::send(Message *msg, void *_data)
         if (msg->getText().isEmpty()){
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
-                Event e(EventSent, msg);
-                e.process();
+                EventSent(msg).process();
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -1035,7 +1010,7 @@ bool MSNClient::send(Message *msg, void *_data)
 QString MSNClient::dataName(void *_data)
 {
     QString res = name();
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     res += "+";
     res += data->EMail.str();
     return res;
@@ -1045,7 +1020,7 @@ bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
 {
     if (_data->Sign.toULong() != MSN_SIGN)
         return false;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData(_data);
     if (data->EMail.str().lower() == this->data.owner.EMail.str().lower())
         return false;
     MSNUserData *my_data = findContact(data->EMail.str(), contact);
@@ -1059,8 +1034,8 @@ bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
 
 bool MSNClient::createData(clientData *&_data, Contact *contact)
 {
-    MSNUserData *data = (MSNUserData*)_data;
-    MSNUserData *new_data = (MSNUserData*)(contact->clientData.createData(this));
+    MSNUserData *data = toMSNUserData(_data);
+    MSNUserData *new_data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     new_data->EMail.str() = data->EMail.str();
     _data = (clientData*)new_data;
     return true;
@@ -1068,7 +1043,7 @@ bool MSNClient::createData(clientData *&_data, Contact *contact)
 
 void MSNClient::setupContact(Contact *contact, void *_data)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString phones;
     if (!data->PhoneHome.str().isEmpty()){
         phones += data->PhoneHome.str();
@@ -1098,7 +1073,7 @@ void MSNClient::setupContact(Contact *contact, void *_data)
         bChanged |= contact->setName(name);
     }
     if (bChanged){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
 }
@@ -1116,22 +1091,23 @@ QString MSNClient::unquote(const QString &s)
         if (i + 2 > (int)(s.length()))
             break;
         res += QChar((char)((fromHex(s[i]) << 4) + fromHex(s[i+1])));
-        i += 2;
+        i++;
     }
     return res;
 }
 
+// FIXME: what's with non-latin1 characters here?
 QString MSNClient::quote(const QString &s)
 {
     QString res;
     for (int i = 0; i < (int)(s.length()); i++){
         QChar c = s[i];
-        if ((c == '%') || (c == ' ')){
+        if ((c == '%') || (c == ' ') || (c == '+')){
             char b[4];
-            sprintf(b, "%%%2X", (unsigned)c);
+            sprintf(b, "%%%2X", c.latin1());
             res += b;
         }else{
-            res += QChar(c);
+            res += c;
         }
     }
     return res;
@@ -1143,7 +1119,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, Contact *&contact)
     while ((contact = ++itc) != NULL){
         MSNUserData *res;
         ClientDataIterator it(contact->clientData, this);
-        while ((res = (MSNUserData*)(++it)) != NULL){
+        while ((res = toMSNUserData(++it)) != NULL){
             if (res->EMail.str() == mail)
                 return res;
         }
@@ -1153,7 +1129,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, Contact *&contact)
 
 QString MSNClient::contactName(void *clientData)
 {
-    MSNUserData *data = (MSNUserData*)clientData;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)clientData); // FIXME unsafe type conversion
     return "MSN: " + data->EMail.str();
 }
 
@@ -1188,11 +1164,11 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         ContactList::ContactIterator it;
         while ((contact = ++it) != NULL){
             if (contact->getName() == name_str){
-                data = (MSNUserData*)(contact->clientData.createData(this));
+                data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 return data;
             }
@@ -1200,11 +1176,11 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         it.reset();
         while ((contact = ++it) != NULL){
             if (contact->getName().lower() == name_str.lower()){
-                data = (MSNUserData*)(contact->clientData.createData(this));
+                data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 m_bJoin = true;
                 return data;
@@ -1216,11 +1192,11 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
             it.reset();
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name_str.lower()){
-                    data = (MSNUserData*)(contact->clientData.createData(this));
+                    data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                     data->EMail.str() = mail;
                     data->ScreenName.str() = name;
                     setupContact(contact, data);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                     m_bJoin = true;
                     return data;
@@ -1229,11 +1205,11 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         }
     }
     contact = getContacts()->contact(0, true);
-    data = (MSNUserData*)(contact->clientData.createData(this));
+    data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     data->EMail.str() = mail;
     data->ScreenName.str() = name;
     contact->setName(name_str);
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return data;
 }
@@ -1243,12 +1219,12 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
     ContactList::GroupIterator itg;
     while ((grp = ++itg) != NULL){
         ClientDataIterator it(grp->clientData, this);
-        MSNUserData *res = (MSNUserData*)(++it);
+        MSNUserData *res = toMSNUserData(++it);
         if ((res == NULL) || (res->Group.toULong() != id))
             continue;
         if (!name.isEmpty() && res->ScreenName.setStr(name)){
             grp->setName(name);
-            Event e(EventGroupChanged, grp);
+            EventGroup e(grp, EventGroup::eChanged);
             e.process();
         }
         return res;
@@ -1260,17 +1236,17 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
     while ((grp = ++itg) != NULL){
         if (grp->getName() != grpName)
             continue;
-        MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
+        MSNUserData *res = toMSNUserData((SIM::clientData*)grp->clientData.createData(this)); // FIXME unsafe type conversion
         res->Group.asULong() = id;
         res->ScreenName.str() = name;
         return res;
     }
     grp = getContacts()->group(0, true);
-    MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
+    MSNUserData *res = toMSNUserData((SIM::clientData*)grp->clientData.createData(this)); // FIXME unsafe type conversion
     res->Group.asULong() = id;
     res->ScreenName.str() = name;
     grp->setName(grpName);
-    Event e(EventGroupChanged, grp);
+    EventGroup e(grp, EventGroup::eChanged);
     e.process();
     return res;
 }
@@ -1281,52 +1257,50 @@ void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
     msg->setClient(dataName(data));
     msg->setContact(contact->id());
     msg->setFlags(MESSAGE_RECEIVED);
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if(!e.process())
         delete msg;
 }
 
-bool MSNClient::done(unsigned code, Buffer&, const char *headers)
+bool MSNClient::done(unsigned code, Buffer&, const QString &headers)
 {
-    string h;
     switch (m_state){
     case LoginHost:
         if (code == 200){
-            h = getHeader("PassportURLs", headers);
-            if (h.empty()){
-                m_socket->error_state("No PassportURLs answer");
+            QString h = getHeader("PassportURLs", headers);
+            if (h.isEmpty()){
+                socket()->error_state("No PassportURLs answer");
                 break;
             }
-            string loginHost = getValue("DALogin", h.c_str());
-            if (loginHost.empty()){
-                m_socket->error_state("No DALogin in PassportURLs answer");
+            QString loginHost = getValue("DALogin", h);
+            if (loginHost.isEmpty()){
+                socket()->error_state("No DALogin in PassportURLs answer");
                 break;
             }
-            string loginUrl = "https://";
-            loginUrl += loginHost;
-            requestTWN(loginUrl.c_str());
+            QString loginUrl = "https://" + loginHost;
+            requestTWN(loginUrl);
         }else{
-            m_socket->error_state("Bad answer code");
+            socket()->error_state("Bad answer code");
         }
         break;
     case TWN:
         if (code == 200){
-            h = getHeader("Authentication-Info", headers);
-            if (h.empty()){
-                m_socket->error_state("No Authentication-Info answer");
+            QString h = getHeader("Authentication-Info", headers);
+            if (h.isEmpty()){
+                socket()->error_state("No Authentication-Info answer");
                 break;
             }
-            string twn = getValue("from-PP", h.c_str());
-            if (twn.empty()){
-                m_socket->error_state("No from-PP in Authentication-Info answer");
+            QString twn = getValue("from-PP", h);
+            if (twn.isEmpty()){
+                socket()->error_state("No from-PP in Authentication-Info answer");
                 break;
             }
-            MSNPacket *packet = new UsrPacket(this, twn.c_str());
+            MSNPacket *packet = new UsrPacket(this, twn);
             packet->send();
         }else if (code == 401){
             authFailed();
         }else{
-            m_socket->error_state("Bad answer code");
+            socket()->error_state("Bad answer code");
         }
         break;
     default:
@@ -1335,180 +1309,209 @@ bool MSNClient::done(unsigned code, Buffer&, const char *headers)
     return false;
 }
 
-void *MSNClient::processEvent(Event *e)
+bool MSNClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    switch(e->type()) {
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
-            Event eGo(EventGoURL, (void*)&m_init_mail);
-            eGo.process();
-            return e->param();
+            EventGoURL(m_init_mail).process();
+            return true;
         }
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNNewMail){
-            Event eGo(EventGoURL, (void*)&m_new_mail);
-            eGo.process();
-            return e->param();
+            EventGoURL(m_new_mail).process();
+            return true;
         }
+        break;
     }
-    if (e->type() == EventAddContact){
-        addContact *ac = (addContact*)(e->param());
+    case eEventAddContact: {
+        EventAddContact *ec = static_cast<EventAddContact*>(e);
+        EventAddContact::AddContact *ac = ec->addContact();
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
             findContact(ac->addr, ac->nick, contact);
             if (contact && (contact->getGroup() != ac->group)){
                 contact->setGroup(ac->group);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
-            return contact;
+            ec->setContact(contact);
+            return true;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventDeleteContact){
-        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
+    case eEventDeleteContact: {
+        EventDeleteContact *ec = static_cast<EventDeleteContact*>(e);
+        QString addr = ec->alias();
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
             MSNUserData *data;
             ClientDataIterator itc(contact->clientData, this);
-            while ((data = (MSNUserData*)(++itc)) != NULL){
+            while ((data = toMSNUserData(++itc)) != NULL){
                 if (data->EMail.str() == addr){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
                         delete contact;
-                    return e->param();
+                    return true;
                 }
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventGetContactIP){
-        Contact *contact = (Contact*)(e->param());
+    case eEventGetContactIP: {
+        EventGetContactIP *ei = static_cast<EventGetContactIP*>(e);
+        Contact *contact = ei->contact();
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            if (data->IP.ip())
-                return data->IP.ip();
+        while ((data = toMSNUserData(++it)) != NULL){
+            if (data->IP.ip()) {
+                ei->setIP(data->IP.ip());
+                return true;
+            }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageAccept){
-        messageAccept *ma = static_cast<messageAccept*>(e->param());
-        Contact *contact = getContacts()->contact(ma->msg->contact());
+    case eEventMessageAccept: {
+        EventMessageAccept *ema = static_cast<EventMessageAccept*>(e);
+        Contact *contact = getContacts()->contact(ema->msg()->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            if (dataName(data) == ma->msg->client()){
+        while ((data = toMSNUserData(++it)) != NULL){
+            if (dataName(data) == ema->msg()->client()){
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
-                    sock->acceptMessage(ma->msg, ma->dir, ma->overwrite);
-                return e->param();
+                    sock->acceptMessage(ema->msg(), ema->dir(), ema->mode());
+                return true;
             }
         }
+        break;
     }
-    if (e->type() == EventMessageDecline){
-        messageDecline *md = (messageDecline*)(e->param());
-        Contact *contact = getContacts()->contact(md->msg->contact());
+    case eEventMessageDecline: {
+        EventMessageDecline *emd = static_cast<EventMessageDecline*>(e);
+        Contact *contact = getContacts()->contact(emd->msg()->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            if (dataName(data) == md->msg->client()){
+        while ((data = toMSNUserData(++it)) != NULL){
+            if (dataName(data) == emd->msg()->client()){
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
-                    sock->declineMessage(md->msg, md->reason);
-                return e->param();
+                    sock->declineMessage(emd->msg(), emd->reason());
+                return true;
             }
         }
+        break;
     }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        MSNUserData *data;
-        ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            bool bChanged = false;
-            if (contact->getIgnore() != ((data->Flags.toULong() & MSN_BLOCKED) != 0))
-                bChanged = true;
-            if (contact->getGroup() != (data->Group.toULong()))
-                bChanged = true;
-            if (contact->getName() != data->ScreenName.str())
-                bChanged = true;
-            if (!bChanged)
-                continue;
-            findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
-            MSNListRequest lr;
-            lr.Type = LR_CONTACTxCHANGED;
-            lr.Name = data->EMail.str();
-            m_requests.push_back(lr);
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                MSNUserData *data;
+                ClientDataIterator it(contact->clientData, this);
+                while ((data = toMSNUserData(++it)) != NULL){
+                    findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
+                    MSNListRequest lr;
+                    if (data->Group.toULong() != NO_GROUP){
+                        lr.Type  = LR_CONTACTxREMOVED;
+                        lr.Name  = data->EMail.str();
+                        lr.Group = data->Group.toULong();
+                        m_requests.push_back(lr);
+                    }
+                    if (data->Flags.toULong() & MSN_BLOCKED){
+                        lr.Type = LR_CONTACTxREMOVED_BL;
+                        lr.Name  = data->EMail.str();
+                        m_requests.push_back(lr);
+                    }
+                }
+                processRequests();
+                break;
+            }
+            case EventContact::eChanged: {
+                MSNUserData *data;
+                ClientDataIterator it(contact->clientData, this);
+                while ((data = toMSNUserData(++it)) != NULL){
+                    bool bChanged = false;
+                    if (contact->getIgnore() != ((data->Flags.toULong() & MSN_BLOCKED) != 0))
+                        bChanged = true;
+                    if (contact->getGroup() != (data->Group.toULong()))
+                        bChanged = true;
+                    if (contact->getName() != data->ScreenName.str())
+                        bChanged = true;
+                    if (!bChanged)
+                        continue;
+                    findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
+                    MSNListRequest lr;
+                    lr.Type = LR_CONTACTxCHANGED;
+                    lr.Name = data->EMail.str();
+                    m_requests.push_back(lr);
+                }
+                processRequests();
+                break;
+            }
+            default:
+                break;
         }
-        processRequests();
-        return NULL;
+        break;
     }
-    if (e->type() == EventContactDeleted){
-        Contact *contact = (Contact*)(e->param());
-        MSNUserData *data;
-        ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
-            MSNListRequest lr;
-            if (data->Group.toULong() != NO_GROUP){
-                lr.Type  = LR_CONTACTxREMOVED;
-                lr.Name  = data->EMail.str();
-                lr.Group = data->Group.toULong();
+    case eEventGroup: {
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        Group *grp = ev->group();
+        switch (ev->action()) {
+        case EventGroup::eChanged: {
+            ClientDataIterator it(grp->clientData, this);
+            MSNUserData *data = toMSNUserData(++it);
+            if ((data == NULL) || (grp->getName() != data->ScreenName.str())){
+                findRequest(grp->id(), LR_GROUPxCHANGED, true);
+                MSNListRequest lr;
+                lr.Type = LR_GROUPxCHANGED;
+                lr.Name = QString::number(grp->id());
                 m_requests.push_back(lr);
+                processRequests();
             }
-            if (data->Flags.toULong() & MSN_BLOCKED){
-                lr.Type = LR_CONTACTxREMOVED_BL;
-                lr.Name  = data->EMail.str();
+            break;
+        }
+        case EventGroup::eDeleted: {
+            ClientDataIterator it(grp->clientData, this);
+            MSNUserData *data = toMSNUserData(++it);
+            if (data){
+                findRequest(grp->id(), LR_GROUPxCHANGED, true);
+                MSNListRequest lr;
+                lr.Type = LR_GROUPxREMOVED;
+                lr.Name = QString::number(data->Group.toULong());
                 m_requests.push_back(lr);
+                processRequests();
             }
+            break;
         }
-        processRequests();
-        return NULL;
-    }
-    if (e->type() == EventGroupChanged){
-        Group *grp = (Group*)(e->param());
-        ClientDataIterator it(grp->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
-        if ((data == NULL) || (grp->getName() != data->ScreenName.str())){
-            findRequest(grp->id(), LR_GROUPxCHANGED, true);
-            MSNListRequest lr;
-            lr.Type = LR_GROUPxCHANGED;
-            lr.Name = QString::number(grp->id());
-            m_requests.push_back(lr);
-            processRequests();
+        case EventGroup::eAdded:
+            break;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventGroupDeleted){
-        Group *grp = (Group*)(e->param());
-        ClientDataIterator it(grp->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
-        if (data){
-            findRequest(grp->id(), LR_GROUPxCHANGED, true);
-            MSNListRequest lr;
-            lr.Type = LR_GROUPxREMOVED;
-            lr.Name = QString::number(data->Group.toULong());
-            m_requests.push_back(lr);
-            processRequests();
-        }
-    }
-    if (e->type() == EventMessageCancel){
-        Message *msg = (Message*)(e->param());
+    case eEventMessageCancel: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         for (list<SBSocket*>::iterator it = m_SBsockets.begin(); it != m_SBsockets.end(); ++it){
             if ((*it)->cancelMessage(msg))
                 return msg;
         }
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
-void MSNClient::requestLoginHost(const char *url)
+void MSNClient::requestLoginHost(const QString &url)
 {
     if (!isDone())
         return;
@@ -1516,7 +1519,7 @@ void MSNClient::requestLoginHost(const char *url)
     fetch(url);
 }
 
-void MSNClient::requestTWN(const char *url)
+void MSNClient::requestTWN(const QString &url)
 {
     if (!isDone())
         return;
@@ -1530,13 +1533,13 @@ void MSNClient::requestTWN(const char *url)
     fetch(url, auth);
 }
 
-string MSNClient::getValue(const char *key, const char *str)
+QString MSNClient::getValue(const QString &key, const QString &str)
 {
-    string s = str;
-    while (!s.empty()){
-        string k = getToken(s, '=');
-        string v;
-        if (s[0] == '\''){
+    QString s = str;
+    while (!s.isEmpty()){
+        QString k = getToken(s, '=');
+        QString v;
+        if (s.startsWith("\'")){
             getToken(s, '\'');
             v = getToken(s, '\'');
             getToken(s, ',');
@@ -1546,22 +1549,22 @@ string MSNClient::getValue(const char *key, const char *str)
         if (k == key)
             return v;
     }
-    return "";
+    return QString::null;
 }
 
-string MSNClient::getHeader(const char *_name, const char *_headers)
+QString MSNClient::getHeader(const QString &name, const QString &headers)
 {
-    QCString hdr = _headers;
-    QCString name = _name;
-    int idx = hdr.find(name + ":");
+    int idx = headers.find(name + ':');
     if(idx != -1) {
-        const char *p;
-        for (p = &hdr[idx]; *p; p++)
-            if (*p != ' ')
-                break;
-        return p;
+        int end = headers.find('\n', idx);
+        QString res;
+        if(end == -1)
+            res = headers.mid(idx);
+        else
+            res = headers.mid(idx, end - idx + 1);
+        return res.stripWhiteSpace();
     }
-    return "";
+    return QString::null;
 }
 
 MSNListRequest *MSNClient::findRequest(unsigned long id, unsigned type, bool bDelete)
@@ -1626,10 +1629,12 @@ void MSNClient::processRequests()
                 unsigned grp_id = 0;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
-                    ClientDataIterator it(grp->clientData, this);
-                    MSNUserData *res = (MSNUserData*)(++it);
-                    if (res)
-                        grp_id = res->Group.toULong();
+                    if(grp) {
+                        ClientDataIterator it(grp->clientData, this);
+                        MSNUserData *res = toMSNUserData(++it);
+                        if (res)
+                            grp_id = res->Group.toULong();
+                    }
                 }
                 if (((data->Flags.toULong() & MSN_FORWARD) == 0) || (data->Group.toULong() == NO_GROUP)){
                     if (packet)
@@ -1676,12 +1681,12 @@ void MSNClient::processRequests()
             grp = getContacts()->group(it->Name.toULong());
             if (grp){
                 ClientDataIterator it(grp->clientData, this);
-                data = (MSNUserData*)(++it);
+                data = toMSNUserData(++it);
                 if (data){
                     packet = new RegPacket(this, data->Group.toULong(), quote(grp->getName()));
                 }else{
                     packet = new AdgPacket(this, grp->id(), quote(grp->getName()));
-                    data = (MSNUserData*)(grp->clientData.createData(this));
+                    data = toMSNUserData((SIM::clientData*)grp->clientData.createData(this)); // FIXME unsafe type conversion
                 }
                 data->ScreenName.str() = grp->getName();
             }
@@ -1703,7 +1708,7 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
     if (data){
         if (contact->getGroup() != grp){
             contact->setGroup(grp);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         return false;
@@ -1712,14 +1717,14 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
     if (data == NULL)
         return false;
     contact->setGroup(grp);
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return true;
 }
 
 bool MSNClient::compareData(void *d1, void *d2)
 {
-    return (((MSNUserData*)d1)->EMail.str() == ((MSNUserData*)d2)->EMail.str());
+    return (toMSNUserData((SIM::clientData*)d1)->EMail.str() == (toMSNUserData((SIM::clientData*)d2)->EMail.str())); // FIXME unsafe type conversion
 }
 
 static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
@@ -1734,7 +1739,6 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
         if (item == icon)
             return;
     }
-
     if (!s->isEmpty())
         *s += ',';
     *s += icon;
@@ -1742,7 +1746,7 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 
 void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned cmp_status = data->Status.toULong();
     const CommandDef *def;
     for (def = protocol()->statusList(); def->text; def++){
@@ -1753,7 +1757,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
         cmp_status = STATUS_AWAY;
     if (data->Status.toULong() > curStatus){
         curStatus = data->Status.toULong();
-        if (statusIcon && icons){
+        if (!statusIcon.isEmpty() && icons){
             QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
@@ -1761,7 +1765,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
         }
         statusIcon = def->icon;
     }else{
-        if (statusIcon){
+        if (!statusIcon.isEmpty()){
             addIcon(icons, def->icon, statusIcon);
         }else{
             statusIcon = def->icon;
@@ -1773,7 +1777,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
 
 QString MSNClient::contactTip(void *_data)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned long status = STATUS_UNKNOWN;
     unsigned style  = 0;
     QString statusIcon;
@@ -1833,6 +1837,42 @@ QWidget *MSNClient::searchWindow(QWidget *parent)
     return new MSNSearch(this, parent);
 }
 
+
+MSNUserData* MSNClient::toMSNUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into MSNUserData*
+   // It will at least warn if the content of the structure is not MSNUserData
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != MSN_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into MSN_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (MSNUserData*) data;
+}
+
+
 SBSocket::SBSocket(MSNClient *client, Contact *contact, MSNUserData *data)
 {
     m_state		= Unknown;
@@ -1860,7 +1900,7 @@ SBSocket::~SBSocket()
         m_data->sb.clear();
         if (m_data->typing_time.toULong()){
             m_data->typing_time.asULong() = 0;
-            Event e(EventContactStatus, m_contact);
+            EventContact e(m_contact, EventContact::eStatus);;
             e.process();
         }
     }
@@ -1868,22 +1908,19 @@ SBSocket::~SBSocket()
     for (itm = m_queue.begin(); itm != m_queue.end(); ++itm){
         Message *msg = (*itm);
         msg->setError(I18N_NOOP("Contact go offline"));
-        Event e(EventMessageSent, msg);
-        e.process();
+        EventMessageSent(msg).process();
         delete msg;
     }
     list<msgInvite>::iterator itw;
     for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); ++itw){
         Message *msg = (*itw).msg;
         msg->setError(I18N_NOOP("Contact go offline"));
-        Event e(EventMessageSent, msg);
-        e.process();
+        EventMessageSent(msg).process();
         delete msg;
     }
     for (itw = m_acceptMsg.begin(); itw != m_acceptMsg.end(); ++itw){
         Message *msg = (*itw).msg;
-        Event e(EventMessageDeleted, msg);
-        e.process();
+        EventMessageDeleted(msg).process();
         delete msg;
     }
 }
@@ -1952,13 +1989,13 @@ bool SBSocket::error_state(const QString&, unsigned)
 
 void SBSocket::connect_ready()
 {
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     QString args = m_client->data.owner.EMail.str();
-    args += " ";
+    args += ' ';
     args += m_cookie;
-    m_cookie = "";
+    m_cookie = QString::null;
     switch (m_state){
     case ConnectingSend:
         send("USR", args);
@@ -1978,36 +2015,36 @@ void SBSocket::connect_ready()
 
 void SBSocket::packet_ready()
 {
-    if (m_socket->readBuffer.writePos() == 0)
+    if (m_socket->readBuffer().writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false, plugin->MSNPacket);
     for (;;){
         if (m_messageSize && !getMessage())
             break;
         QCString s;
-        if (!m_socket->readBuffer.scan("\r\n", s))
+        if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
     }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
+        m_socket->readBuffer().init(0);
 }
 
 void SBSocket::getMessage(unsigned size)
 {
     m_messageSize = size;
-    m_message = "";
+    m_message = QString::null;
     getMessage();
 }
 
 bool SBSocket::getMessage()
 {
-    unsigned tail = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
+    unsigned tail = m_socket->readBuffer().writePos() - m_socket->readBuffer().readPos();
     if (tail > m_messageSize)
         tail = m_messageSize;
     QString msg;
-    m_socket->readBuffer.unpack(msg, tail);
+    m_socket->readBuffer().unpack(msg, tail);
     m_message += msg;
     m_messageSize -= tail;
     if (m_messageSize)
@@ -2018,19 +2055,19 @@ bool SBSocket::getMessage()
 
 void SBSocket::send(const QString &cmd, const QString &args)
 {
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer()
     << (const char*)cmd.utf8()
     << " "
     << (const char*)QString::number(++m_packet_id).utf8();
     if (!args.isEmpty()){
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << " "
         << (const char*)args.utf8();
     }
-    m_socket->writeBuffer << "\r\n";
+    m_socket->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2068,10 +2105,9 @@ void SBSocket::getLine(const QCString &_line)
             return;
         Message *msg = m_queue.front();
         if (cmd == "NAK"){
-            m_msgText = "";
+            m_msgText = QString::null;
             msg->setError(I18N_NOOP("Send message failed"));
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             m_queue.erase(m_queue.begin());
             process(false);
@@ -2085,15 +2121,13 @@ void SBSocket::getLine(const QCString &_line)
             m.setForeground(msg->getForeground());
             m.setBackground(0xFFFFFF);
             m.setFont(msg->getFont());
-            Event e(EventSent, &m);
-            e.process();
+            EventSent(&m).process();
         }
         if (m_msgText.isEmpty()){
             if (msg->type() == MessageFile){
                 sendFile();
             }else{
-                Event e(EventMessageSent, msg);
-                e.process();
+                EventMessageSent(msg).process();
                 delete msg;
                 m_queue.erase(m_queue.begin());
             }
@@ -2185,11 +2219,11 @@ void SBSocket::messageReady()
     if (content_type == "text/plain"){
         if (m_data->typing_time.toULong()){
             m_data->typing_time.asULong() = 0;
-            Event e(EventContactStatus, m_contact);
+            EventContact e(m_contact, EventContact::eStatus);;
             e.process();
         }
         QString msg_text = m_message;
-        msg_text = msg_text.replace(QRegExp("\\r"), "");
+        msg_text = msg_text.remove('\r');
         Message *msg = new Message(MessageGeneric);
         msg->setFlags(MESSAGE_RECEIVED);
         if (bColor){
@@ -2200,7 +2234,7 @@ void SBSocket::messageReady()
         msg->setText(msg_text);
         msg->setContact(m_contact->id());
         msg->setClient(m_client->dataName(m_data));
-        Event e(EventMessageReceived, msg);
+        EventMessageReceived e(msg);
         if (!e.process())
             delete msg;
         return;
@@ -2210,7 +2244,7 @@ void SBSocket::messageReady()
             bool bEvent = (m_data->typing_time.toULong() == 0);
             m_data->typing_time.asULong() = time(NULL);
             if (bEvent){
-                Event e(EventContactStatus, m_contact);
+                EventContact e(m_contact, EventContact::eStatus);;
                 e.process();
             }
         }
@@ -2232,7 +2266,7 @@ void SBSocket::messageReady()
             int n = m_message.find("\r\n");
             if (n < 0){
                 line = m_message;
-                m_message = "";
+                m_message = QString::null;
             }else{
                 line = m_message.left(n);
                 m_message = m_message.mid(n + 2);
@@ -2308,7 +2342,7 @@ void SBSocket::messageReady()
             m.msg    = msg;
             m.cookie = cookie;
             m_acceptMsg.push_back(m);
-            Event e(EventMessageReceived, msg);
+            EventMessageReceived e(msg);
             if (e.process()){
                 for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
                     if ((*it).msg == msg){
@@ -2348,15 +2382,13 @@ void SBSocket::messageReady()
                         ft->auth_cookie = auth_cookie;
 
                         if (bNew){
-                            Event e(EventMessageAcked, msg);
-                            e.process();
+                            EventMessageAcked(msg).process();
                         }
                         ft->connect();
                         break;
                     }
                     msg->setError("Bad type");
-                    Event e(EventMessageSent, msg);
-                    e.process();
+                    EventMessageSent(msg).process();
                     delete msg;
                     return;
                 }
@@ -2371,8 +2403,7 @@ void SBSocket::messageReady()
                     if ((*it).cookie == cookie){
                         Message *msg = (*it).msg;
                         msg->setError(I18N_NOOP("Message declined"));
-                        Event e(EventMessageSent, msg);
-                        e.process();
+                        EventMessageSent(msg).process();
                         delete msg;
                         m_waitMsg.erase(it);
                         break;
@@ -2386,8 +2417,7 @@ void SBSocket::messageReady()
             for (it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
                 if ((*it).cookie == cookie){
                     Message *msg = (*it).msg;
-                    Event e(EventMessageDeleted, msg);
-                    e.process();
+                    EventMessageDeleted(msg).process();
                     delete msg;
                     m_acceptMsg.erase(it);
                     break;
@@ -2407,7 +2437,7 @@ void SBSocket::timer(unsigned now)
     if (m_data->typing_time.toULong()){
         if (now >= m_data->typing_time.toULong() + TYPING_TIME){
             m_data->typing_time.asULong() = 0;
-            Event e(EventContactStatus, m_contact);
+            EventContact e(m_contact, EventContact::eStatus);;
             e.process();
         }
     }
@@ -2438,8 +2468,8 @@ void SBSocket::sendTyping()
 
 void SBSocket::sendMessage(const QString &str, const char *type)
 {
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer()
     << "MSG "
     << (const char*)QString::number(++m_packet_id).utf8()
     << " "
@@ -2449,7 +2479,7 @@ void SBSocket::sendMessage(const QString &str, const char *type)
     << "\r\n"
     << (const char*)str.utf8();
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2458,8 +2488,8 @@ bool SBSocket::cancelMessage(Message *msg)
     if (m_queue.empty())
         return false;
     if (m_queue.front() == msg){
-        m_msgPart = "";
-        m_msgText = "";
+        m_msgPart = QString::null;
+        m_msgText = QString::null;
         m_msg_id = 0;
         m_queue.erase(m_queue.begin());
         process();
@@ -2511,8 +2541,8 @@ void SBSocket::sendFile()
             name = *it[0];
         size = it.size();
     }
-    name = name.replace(QRegExp("\\\\"), "/");
-    int n = name.findRev("/");
+    name = name.replace('\\', '/');
+    int n = name.findRev('/');
     if (n >= 0)
         name = name.mid(n + 1);
     message += m_client->quote(name);
@@ -2530,14 +2560,9 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
-        m_msgText = msg->getPlainText();
-        QCString cstr = m_msgText.utf8();
-        messageSend ms;
-        ms.msg  = msg;
-        ms.text = &cstr;
-        Event e(EventSend, &ms);
+        EventSend e(msg, msg->getPlainText().utf8());
         e.process();
-        m_msgText = QString::fromUtf8(cstr);
+        m_msgText = QString::fromUtf8( e.localeText() );
         if (msg->type() == MessageUrl){
             UrlMessage *m = static_cast<UrlMessage*>(msg);
             QString msgText = m->getUrl();
@@ -2546,18 +2571,17 @@ void SBSocket::process(bool bTyping)
             m_msgText = msgText;
         }
         if ((msg->type() == MessageFile) && static_cast<FileMessage*>(msg)->m_transfer)
-            m_msgText = "";
+            m_msgText = QString::null;
         if (m_msgText.isEmpty()){
             if (msg->type() == MessageFile){
                 sendFile();
                 return;
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             m_queue.erase(m_queue.begin());
         }
-        m_msgText = m_msgText.replace(QRegExp("\\n"), "\r\n");
+        m_msgText = m_msgText.replace('\n', "\r\n");
     }
     if (m_msgText.isEmpty())
         return;
@@ -2588,7 +2612,7 @@ void SBSocket::process(bool bTyping)
                     type = font_type.mid(n);
                     font_type = font_type.mid(n + 2);
                 }else{
-                    font_type = "";
+                    font_type = QString::null;
                 }
                 if (type == "bold")
                     effect += "B";
@@ -2614,384 +2638,6 @@ void SBSocket::process(bool bTyping)
     m_msg_id = m_packet_id;
 }
 
-MSNFileTransfer::MSNFileTransfer(FileMessage *msg, MSNClient *client, MSNUserData *data)
-        : FileTransfer(msg)
-{
-    m_socket = new ClientSocket(this);
-    m_client = client;
-    m_state  = None;
-    m_data	 = data;
-    m_timer  = NULL;
-    m_size   = msg->getSize();
-    m_bHeader  = false;
-    m_nFiles   = 1;
-}
-
-MSNFileTransfer::~MSNFileTransfer()
-{
-    if (m_socket)
-        delete m_socket;
-}
-
-
-void MSNFileTransfer::setSocket(Socket *s)
-{
-    m_state  = Incoming;
-    m_socket->setSocket(s);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
-    m_socket->setRaw(true);
-    send("VER MSNFTP");
-    FileTransfer::m_state = FileTransfer::Negotiation;
-    if (m_notify)
-        m_notify->process();
-}
-
-void MSNFileTransfer::listen()
-{
-    if (m_notify)
-        m_notify->createFile(m_msg->getDescription(), m_size, false);
-}
-
-void MSNFileTransfer::connect()
-{
-    FileTransfer::m_state = FileTransfer::Connect;
-    if (m_notify)
-        m_notify->process();
-    if ((m_state == None) || (m_state == Wait)){
-        m_state = ConnectIP1;
-        if (ip1 && port1){
-            struct in_addr addr;
-            addr.s_addr = ip1;
-            m_socket->connect(inet_ntoa(addr), port1, NULL);
-            return;
-        }
-    }
-    if (m_state == ConnectIP1){
-        m_state = ConnectIP2;
-        if (ip2 && port2){
-            struct in_addr addr;
-            addr.s_addr = ip2;
-            m_socket->connect(inet_ntoa(addr), port2, NULL);
-            return;
-        }
-    }
-    if (m_state == ConnectIP2){
-        m_state = ConnectIP3;
-        if (ip2 && port1){
-            struct in_addr addr;
-            addr.s_addr = ip2;
-            m_socket->connect(inet_ntoa(addr), port1, NULL);
-            return;
-        }
-    }
-    error_state(I18N_NOOP("Can't established direct connection"), 0);
-}
-
-bool MSNFileTransfer::error_state(const QString &err, unsigned)
-{
-    if (m_state == WaitDisconnect)
-        FileTransfer::m_state = FileTransfer::Done;
-    if (m_state == ConnectIP1){
-        connect();
-        return false;
-    }
-    if (m_state == Wait)
-        return false;
-    if (FileTransfer::m_state != FileTransfer::Done){
-        m_state = None;
-        FileTransfer::m_state = FileTransfer::Error;
-        m_msg->setError(err);
-    }
-    m_msg->m_transfer = NULL;
-    m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
-    Event e(EventMessageSent, m_msg);
-    e.process();
-    return true;
-}
-
-void MSNFileTransfer::packet_ready()
-{
-    if (m_state == Receive){
-        if (m_bHeader){
-            char cmd;
-            char s1, s2;
-            m_socket->readBuffer >> cmd >> s1 >> s2;
-            log(L_DEBUG, "MSN FT header: %02X %02X %02X", cmd & 0xFF, s1 & 0xFF, s2 & 0xFF);
-            if (cmd != 0){
-                m_socket->error_state(I18N_NOOP("Transfer canceled"), 0);
-                return;
-            }
-            unsigned size = (unsigned char)s1 + ((unsigned char)s2 << 8);
-            m_bHeader = false;
-            log(L_DEBUG, "MSN FT header: %u", size);
-            m_socket->readBuffer.init(size);
-        }else{
-            unsigned size = m_socket->readBuffer.size();
-            if (size == 0)
-                return;
-            log(L_DEBUG, "MSN FT data: %u", size);
-            m_file->writeBlock(m_socket->readBuffer.data(), size);
-            m_socket->readBuffer.incReadPos(size);
-            m_bytes      += size;
-            m_totalBytes += size;
-            m_transferBytes += size;
-            if (m_notify)
-                m_notify->process();
-            m_size -= size;
-            if (m_size <= 0){
-                m_socket->readBuffer.init(0);
-                m_socket->setRaw(true);
-                send("BYE 16777989");
-                m_state = WaitDisconnect;
-                if (m_notify)
-                    m_notify->transfer(false);
-                return;
-            }
-            m_bHeader = true;
-            m_socket->readBuffer.init(3);
-        }
-        return;
-    }
-    if (m_socket->readBuffer.writePos() == 0)
-        return;
-    MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
-    for (;;){
-        QCString s;
-        if (!m_socket->readBuffer.scan("\r\n", s))
-            break;
-        if (getLine(s))
-            return;
-    }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
-}
-
-void MSNFileTransfer::connect_ready()
-{
-    log(L_DEBUG, "Connect ready");
-    m_state = Connected;
-    FileTransfer::m_state = Negotiation;
-    if (m_notify)
-        m_notify->process();
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
-    m_socket->setRaw(true);
-}
-
-void MSNFileTransfer::startReceive(unsigned pos)
-{
-    if (pos > m_size){
-        SBSocket *sock = dynamic_cast<SBSocket*>(m_data->sb.object());
-        FileTransfer::m_state = FileTransfer::Done;
-        m_state = None;
-        if (sock)
-            sock->declineMessage(cookie);
-        m_socket->error_state("", 0);
-        return;
-    }
-    m_timer = new QTimer(this);
-    QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
-    m_timer->start(FT_TIMEOUT * 1000);
-    m_state = Listen;
-    FileTransfer::m_state = FileTransfer::Listen;
-    if (m_notify)
-        m_notify->process();
-    bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
-}
-
-void MSNFileTransfer::send(const QString &line)
-{
-    log(L_DEBUG, "Send: %s", line.local8Bit().data());
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer << (const char*)line.utf8();
-    m_socket->writeBuffer << "\r\n";
-    MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
-    m_socket->write();
-}
-
-bool MSNFileTransfer::getLine(const QCString &line)
-{
-    QString l = QString::fromUtf8(line);
-    l = l.replace(QRegExp("\r"), "");
-    log(L_DEBUG, "Get: %s", (const char*)l.local8Bit().data());
-
-    QString cmd = getToken(l, ' ');
-    if ((cmd == "VER") && (l == "MSNFTP")){
-        if (m_state == Incoming){
-            QString usr = "USR ";
-            usr += m_client->quote(m_client->data.owner.EMail.str());
-            usr += " ";
-            usr += QString::number(auth_cookie);
-            send(usr);
-        }else{
-            send("VER MSNFTP");
-        }
-        return false;
-    }
-    if (cmd == "USR"){
-        QString mail = m_client->unquote(getToken(l, ' '));
-        unsigned auth = l.toUInt();
-        if (mail.lower() != m_data->EMail.str().lower()){
-            error_state("Bad address", 0);
-            return false;
-        }
-        if (auth != auth_cookie){
-            error_state("Bad auth cookie", 0);
-            return false;
-        }
-        if (m_file == NULL){
-            for (;;){
-                if (!openFile()){
-                    if (FileTransfer::m_state == FileTransfer::Done)
-                        m_socket->error_state("");
-                    if (m_notify)
-                        m_notify->transfer(false);
-                    return false;
-                }
-                if (!isDirectory())
-                    break;
-            }
-        }
-        QString cmd = "FIL ";
-        cmd += QString::number(m_fileSize);
-        send(cmd);
-        return false;
-    }
-    if (cmd == "TFR"){
-        FileTransfer::m_state = FileTransfer::Write;
-        m_state = Send;
-        if (m_notify)
-            m_notify->transfer(true);
-        write_ready();
-        return false;
-    }
-    if (cmd == "FIL"){
-        send("TFR");
-        m_bHeader = true;
-        m_socket->readBuffer.init(3);
-        m_socket->readBuffer.packetStart();
-        m_state = Receive;
-        m_socket->setRaw(false);
-        FileTransfer::m_state = FileTransfer::Read;
-        m_size = l.toULong();
-        m_bytes = 0;
-        if (m_notify){
-            m_notify->transfer(true);
-            m_notify->process();
-        }
-        return true;
-    }
-    if (cmd == "BYE"){
-        if (m_notify)
-            m_notify->transfer(false);
-        for (bool doloop=true;doloop;){
-            if (!openFile()){
-                if (FileTransfer::m_state == FileTransfer::Done)
-                    m_socket->error_state("");
-                return true;
-            }
-            if (isDirectory()){
-                doloop=false;
-                continue;
-            }
-            m_state = Wait;
-            FileTransfer::m_state = FileTransfer::Wait;
-            if (!((Client*)m_client)->send(m_msg, m_data))
-                error_state(I18N_NOOP("File transfer failed"), 0);
-        }
-        if (m_notify)
-            m_notify->process();
-        m_socket->close();
-        return true;
-    }
-    error_state("Bad line", 0);
-    return false;
-}
-
-void MSNFileTransfer::timeout()
-{
-}
-
-void MSNFileTransfer::write_ready()
-{
-    if (m_state != Send){
-        ClientSocketNotify::write_ready();
-        return;
-    }
-    if (m_transfer){
-        m_transferBytes += m_transfer;
-        m_transfer = 0;
-        if (m_notify)
-            m_notify->process();
-    }
-    if (m_bytes >= m_fileSize){
-        m_state = WaitBye;
-        return;
-    }
-    time_t now = time(NULL);
-    if ((unsigned)now != m_sendTime){
-        m_sendTime = now;
-        m_sendSize = 0;
-    }
-    if (m_sendSize > (m_speed << 18)){
-        m_socket->pause(1);
-        return;
-    }
-    unsigned long tail = m_fileSize - m_bytes;
-    if (tail > MAX_FT_PACKET) tail = MAX_FT_PACKET;
-    m_socket->writeBuffer.packetStart();
-    char buf[MAX_FT_PACKET + 3];
-    buf[0] = 0;
-    buf[1] = (char)(tail & 0xFF);
-    buf[2] = (char)((tail >> 8) & 0xFF);
-    int readn = m_file->readBlock(&buf[3], tail);
-    if (readn <= 0){
-        m_socket->error_state("Read file error");
-        return;
-    }
-    m_transfer    = readn;
-    m_bytes      += readn;
-    m_totalBytes += readn;
-    m_sendSize   += readn;
-    m_socket->writeBuffer.pack(buf, readn + 3);
-    m_socket->write();
-}
-
-bool MSNFileTransfer::accept(Socket *s, unsigned long ip)
-{
-    struct in_addr addr;
-    addr.s_addr = ip;
-    log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
-    m_socket->setSocket(s);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
-    m_socket->setRaw(true);
-    FileTransfer::m_state = Negotiation;
-    m_state = Incoming;
-    if (m_notify)
-        m_notify->process();
-    send("VER MSNFTP");
-    return true;
-}
-
-void MSNFileTransfer::bind_ready(unsigned short port)
-{
-    SBSocket *sock = dynamic_cast<SBSocket*>(m_data->sb.object());
-    if (sock == NULL){
-        error_state("No switchboard socket", 0);
-        return;
-    }
-    sock->acceptMessage(port, cookie, auth_cookie);
-}
-
-bool MSNFileTransfer::error(const char *err)
-{
-    return error_state(QString::fromUtf8(err), 0);
-}
-
 void SBSocket::acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie)
 {
     QString message;
@@ -3003,7 +2649,7 @@ void SBSocket::acceptMessage(unsigned short port, unsigned cookie, unsigned auth
     message += inet_ntoa(addr);
     message += "\r\n"
                "IP-Address-Internal: ";
-    addr.s_addr = m_client->m_socket->localHost();
+    addr.s_addr = m_client->socket()->localHost();
     message += inet_ntoa(addr);
     message += "\r\n"
                "Port: ";
@@ -3035,11 +2681,9 @@ bool SBSocket::acceptMessage(Message *msg, const QString &dir, OverwriteMode mod
         ft->setOverwrite(mode);
         ft->auth_cookie = get_random();
         ft->cookie = cookie;
-        Event e(EventMessageAcked, msg);
-        e.process();
+        EventMessageAcked(msg).process();
         ft->listen();
-        Event eDel(EventMessageDeleted, msg);
-        eDel.process();
+        EventMessageDeleted(msg).process();
         return true;
     }
     return false;

@@ -18,6 +18,7 @@
 
 #include "html.h"
 #include "buffer.h"
+#include "log.h"
 
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
@@ -69,9 +70,9 @@ static std::string current_tag;
 <s_tag>[A-Za-z]+			{ BEGIN(s_attr); return ATTR; }
 <s_tag>.					{ return SKIP; }
 <s_attr>"="					{ BEGIN(s_value); return SKIP; }
-<s_attr>">"					{ if (current_tag == "script"){
+<s_attr>">"					{ if (current_tag.compare("script")==0){
 							    BEGIN(s_script);
-							  }else if (current_tag == "style"){
+							  }else if (current_tag.compare("style")==0){
 							    BEGIN(s_style);
 							  }else{
 								BEGIN(INITIAL); 
@@ -174,11 +175,11 @@ void HTMLParser::parse(Buffer &buf)
 	yy_delete_buffer(yy_current_buffer);
 }
 
-typedef struct Symbol
+struct Symbol
 {
 	const char		*name;
 	unsigned short	value;
-} Symbol;
+};
 
 static Symbol symbols[] = 
 {
@@ -213,7 +214,7 @@ void HTMLParser::parse()
 		case SPACE:
 			if (p->text.isEmpty())
 				p->text_pos = p->start_pos;
-			p->text += " ";
+			p->text += ' ';
 			break;
 		case SKIP:
 			break;
@@ -354,9 +355,9 @@ QString HTMLParser::makeStyle(const list<QString> &opt)
 			break;
 		QString value = (*it);
 		if (!res.isEmpty())
-			res += ";";
+			res += ';';
 		res += name;
-		res += ":";
+		res += ':';
 		int n;
 		int end = value.length();
 		for (n = 0; n < end; n++)

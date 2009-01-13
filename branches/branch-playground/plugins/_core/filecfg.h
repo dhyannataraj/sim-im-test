@@ -18,7 +18,6 @@
 #ifndef _FILECFG_H
 #define _FILECFG_H
 
-#include "simapi.h"
 #include "filecfgbase.h"
 
 class QCheckBox;

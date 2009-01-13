@@ -18,7 +18,6 @@
 #ifndef _JIDADVSEARCH_H
 #define _JIDADVSEARCH_H
 
-#include "simapi.h"
 #include "jidadvsearchbase.h"
 
 class JIDAdvSearch : public JIDAdvSearchBase

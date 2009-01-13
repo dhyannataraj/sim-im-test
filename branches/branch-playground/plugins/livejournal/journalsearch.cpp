@@ -39,9 +39,9 @@ void JournalSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (edtCommunity->text().isEmpty())
         return;
-    if (m_client->findContact(edtCommunity->text().utf8(), contact, false))
+    if (m_client->findContact(edtCommunity->text(), contact, false))
         return;
-    m_client->findContact(edtCommunity->text().utf8(), contact, true, false);
+    m_client->findContact(edtCommunity->text(), contact, true, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

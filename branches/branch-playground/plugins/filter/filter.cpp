@@ -15,20 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filter.h"
-#include "filtercfg.h"
-#include "simapi.h"
+#include <qregexp.h>
+
 #include "ballonmsg.h"
-#include "core.h"
+#include "unquot.h"
 #include "msgedit.h"
 #include "msgview.h"
 #include "userwnd.h"
 
-#include <qregexp.h>
+#include "filter.h"
+#include "filtercfg.h"
 
 using namespace SIM;
 
-Plugin *createFilterPlugin(unsigned base, bool, ConfigBuffer *cfg)
+Plugin *createFilterPlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new FilterPlugin(base, cfg);
     return plugin;
@@ -48,12 +48,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct FilterData
-{
-	unsigned FromList;
-} FilterData;
-*/
 static DataDef filterData[] =
     {
         { "FromList", DATA_BOOL, 1, 0 },
@@ -74,7 +68,7 @@ static QWidget *getFilterConfig(QWidget *parent, void *data)
     return new FilterConfig(parent, (FilterUserData*)data, filterPlugin, false);
 }
 
-FilterPlugin::FilterPlugin(unsigned base, ConfigBuffer *cfg)
+FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
         : Plugin(base), EventReceiver(HighPriority - 1)
 {
     filterPlugin = this;
@@ -92,9 +86,7 @@ FilterPlugin::FilterPlugin(unsigned base, ConfigBuffer *cfg)
     cmd->menu_id     = MenuContactGroup;
     cmd->menu_grp    = 0x8080;
     cmd->flags		 = COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdIgnore;
     cmd->text        = I18N_NOOP("Ignore user");
@@ -104,131 +96,138 @@ FilterPlugin::FilterPlugin(unsigned base, ConfigBuffer *cfg)
     cmd->bar_id		 = ToolBarContainer;
     cmd->bar_grp	 = 0x7001;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdIgnoreText;
     cmd->text        = I18N_NOOP("Ignore this phrase");
-    cmd->icon		 = "";
+    cmd->icon		 = QString::null;
     cmd->menu_id     = MenuTextEdit;
     cmd->menu_grp    = 0x7000;
     cmd->bar_id		 = 0;
     cmd->bar_grp	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->menu_id     = MenuMsgView;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
-    cmd->id			 = user_data_id + 1;
+    cmd->id			 = user_data_id;
     cmd->text		 = I18N_NOOP("&Filter");
     cmd->icon		 = "filter";
     cmd->menu_id	 = 0;
     cmd->menu_grp	 = 0;
     cmd->param		 = (void*)getFilterConfig;
-    Event ePref(EventAddPreferences, cmd);
-    ePref.process();
+    EventAddPreferences(cmd).process();
 }
 
 FilterPlugin::~FilterPlugin()
 {
     free_data(filterData, &data);
 
-    Event ePref(EventRemovePreferences, (void*)user_data_id);
-    ePref.process();
-
-    Event eCmd(EventCommandRemove, (void*)CmdIgnoreList);
-    eCmd.process();
-
+    EventCommandRemove(CmdIgnoreList).process();
+    EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
-QString FilterPlugin::getConfig()
+QCString FilterPlugin::getConfig()
 {
     return save_data(filterData, &data);
 }
 
-void *FilterPlugin::processEvent(Event *e)
+bool FilterPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    switch (e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            break;
+        Contact *contact = ec->contact();
         if (contact->getGroup()){
             Command cmd;
             cmd->id		= CmdIgnore;
             cmd->flags	= BTN_HIDE;
             cmd->param  = (void*)(contact->id());
-            Event eShow(EventCommandShow, cmd);
-            eShow.process();
+            EventCommandShow(cmd).process();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageReceived){
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (!msg || (msg->type() == MessageStatus))
-            return NULL;
+            return false;
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
         // check if we accept only from users on the list
-        if ( ((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
-	          (getFromList() || (getAuthFromList() && msg->type() <= MessageContacts))
-            ) {
+        if (
+            ((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
+	    (
+	        (getFromList() && msg->type() != MessageAuthRequest && msg->type() != MessageAuthGranted && msg->type() != MessageAuthRefused)||
+		( getAuthFromList() && msg->type() <= MessageContacts)
+            )
+	) {
             delete msg;
             delete contact;
             return msg;
         }
         if (!contact)
-            return NULL;
+            return false;
         // check if the user is a ignored user
         if (contact->getIgnore()){
             delete msg;
-            return msg;
+            return true;
         }
 
         // get filter-data
         data = (FilterUserData*)(contact->getUserData(user_data_id));
-        if (data && !data->SpamList.str().isEmpty()){
+		if (data && !data->SpamList.str().isEmpty() && ((contact == NULL) || (contact->getFlags() & CONTACT_TEMPORARY) )) {
             if (checkSpam(msg->getPlainText(), data->SpamList.str())){
                 delete msg;
-                return msg;
+                return true;
             }
-        }
-        return NULL;
+		}
+        break;
     }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdIgnore){
             cmd->flags &= ~BTN_HIDE;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact && contact->getGroup())
                 cmd->flags |= BTN_HIDE;
-            return e->param();
+            return true;
         }
         if (cmd->id == CmdIgnoreText){
             cmd->flags &= ~COMMAND_CHECKED;
             if (cmd->menu_id == MenuMsgView){
                 MsgViewBase *edit = (MsgViewBase*)(cmd->param);
                 if (edit->hasSelectedText())
-                    return e->param();
-            }else if (cmd->menu_id == MenuTextEdit){
+                    return true;
+            } else
+            if (cmd->menu_id == MenuTextEdit){
                 TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
                 if (edit->hasSelectedText())
-                    return e->param();
+                    return true;
             }
-            return NULL;
+            return false;
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 cmd->flags &= COMMAND_CHECKED;
                 if (contact->getIgnore())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return true;
             }
         }
+        break;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdIgnore){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact){
@@ -236,11 +235,12 @@ void *FilterPlugin::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdIgnore;
                 cmd->param	= (void*)(contact->id());
-                Event e(EventCommandWidget, cmd);
-                QWidget *w = (QWidget*)(e.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                QWidget *w = eWidget.widget();
                 BalloonMsg::ask((void*)(contact->id()), text, w, SLOT(addToIgnore(void*)), NULL, NULL, this);
             }
-            return e->param();
+            return true;
         }
         if (cmd->id == CmdIgnoreText){
             QString text;
@@ -272,7 +272,7 @@ void *FilterPlugin::processEvent(Event *e)
             QString s = data->SpamList.str();
             while (!text.isEmpty()){
                 QString line = getToken(text, '\n');
-                line = line.replace(QRegExp("\r"), "");
+                line = line.remove('\r');
                 if (line.isEmpty())
                     continue;
                 bool bSpace = false;
@@ -282,27 +282,30 @@ void *FilterPlugin::processEvent(Event *e)
                         break;
                     }
                 if (bSpace)
-                    line = QString("\"") + line + "\"";
+                    line = '\"' + line + '\"';
                 if (!s.isEmpty())
-                    s += " ";
+                    s += ' ';
                 s += line;
             }
             data->SpamList.str() = s;
-            return NULL;
+            return false;
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdIgnoreList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 contact->setIgnore((cmd->flags & COMMAND_CHECKED) == 0);
-                Event eContact(EventContactChanged, contact);
-                eContact.process();
-                return e->param();
+                EventContact(contact, EventContact::eChanged).process();
+                return true;
             }
         }
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 QWidget *FilterPlugin::createConfigWindow(QWidget *parent)
@@ -393,7 +396,7 @@ void FilterPlugin::getWords(const QString &text, QStringList &words, bool bPatte
         if (word.isEmpty())
             continue;
         words.append(word);
-        word = "";
+        word = QString::null;
     }
     if (!word.isEmpty())
         words.append(word);
@@ -404,8 +407,7 @@ void FilterPlugin::addToIgnore(void *p)
     Contact *contact = getContacts()->contact((unsigned long)p);
     if (contact && !contact->getIgnore()){
         contact->setIgnore(true);
-        Event e(EventContactChanged, contact);
-        e.process();
+        EventContact(contact, EventContact::eChanged).process();
     }
 }
 

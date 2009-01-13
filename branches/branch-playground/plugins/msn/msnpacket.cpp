@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msnpacket.h"
-#include "msnclient.h"
-#include "msn.h"
-
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -31,6 +27,13 @@
 
 #include <stdio.h>
 #include <qtimer.h>
+
+#include "log.h"
+#include "misc.h"
+
+#include "msnpacket.h"
+#include "msnclient.h"
+#include "msn.h"
 
 using namespace std;
 using namespace SIM;
@@ -64,11 +67,11 @@ void MSNPacket::send()
     m_client->m_packets.push_back(this);
 }
 
-typedef struct err_str
+struct err_str
 {
     unsigned	code;
     const char	*str;
-} err_str;
+};
 
 static err_str msn_errors[] =
     {
@@ -148,11 +151,11 @@ void MSNPacket::error(unsigned code)
         if (err->code == code)
             break;
     if (err->code){
-        m_client->m_socket->error_state(err->str);
+        m_client->socket()->error_state(err->str);
         return;
     }
     log(L_WARN, "Unknown error code %u", code);
-    m_client->m_socket->error_state("Protocol error");
+    m_client->socket()->error_state("Protocol error");
 }
 
 VerPacket::VerPacket(MSNClient *client)
@@ -183,11 +186,11 @@ void CvrPacket::answer(const QStringList &arg)
     packet->send();
 }
 
-UsrPacket::UsrPacket(MSNClient *client, const char *digest)
+UsrPacket::UsrPacket(MSNClient *client, const QString &digest)
         : MSNPacket(client, "USR")
 {
     addArg("TWN");
-    if (digest){
+    if (!digest.isEmpty()){
         addArg("S");
         addArg(digest);
     }else{
@@ -268,7 +271,7 @@ void SynPacket::answer(const QStringList &args)
     while ((grp = ++itg) != NULL){
         MSNUserData *data;
         ClientDataIterator it(grp->clientData, m_client);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = m_client->toMSNUserData(++it)) != NULL){
             data->sFlags.asULong() = data->Flags.toULong();
             if (args.size() > 1)
                 data->Flags.asULong()  = 0;
@@ -279,7 +282,7 @@ void SynPacket::answer(const QStringList &args)
     while ((contact = ++itc) != NULL){
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = m_client->toMSNUserData(++it)) != NULL){
             data->sFlags.asULong() = data->Flags.toULong();
             if (args.size() > 1)
                 data->Flags.asULong()  = 0;
@@ -326,9 +329,9 @@ void AdgPacket::answer(const QStringList &args)
         return;
     MSNUserData *data;
     ClientDataIterator it(grp->clientData, m_client);
-    data = (MSNUserData*)(++it);
+    data = m_client->toMSNUserData(++it);
     if (data == NULL)
-        data = (MSNUserData*)(grp->clientData.createData(m_client));
+        data = m_client->toMSNUserData((SIM::clientData*)grp->clientData.createData(m_client)); // FIXME unsafe type conversion
     data->Group.asULong() = args[2].toULong();
 }
 
@@ -366,14 +369,16 @@ void AddPacket::error(unsigned)
         if (contact->clientData.size() == 0)
             delete contact;
     }
-    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.latin1()));
-    e.process();
+// not handled anywhere
+//    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.latin1()));
+//    e.process();
 }
 
 void AddPacket::answer(const QStringList&)
 {
-    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
-    e.process();
+// not handled anywhere
+//    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
+//    e.process();
 }
 
 RemPacket::RemPacket(MSNClient *client, const QString &listType, const QString &mail, unsigned group)
@@ -445,14 +450,14 @@ MSNServerMessage::~MSNServerMessage()
             line = msg;
             msg  = QString::null;
         }
-        n = line.find(":");
+        n = line.find(':');
         if (n < 0)
             continue;
         values.insert(KEY_MAP::value_type(line.left(n), line.mid(n + 1).stripWhiteSpace()));
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())
-        set_ip(&m_client->data.owner.IP, inet_addr((*it).second.latin1()));
+        set_ip(&m_client->data.owner.IP, inet_addr((*it).second));
     it = values.find("Content-Type");
     if (it != values.end()){
         QString content_type = (*it).second;
@@ -470,15 +475,15 @@ MSNServerMessage::~MSNServerMessage()
                 return;
             unsigned nUnread = (*it).second.toUInt();
             if (nUnread){
-                clientErrorData data;
+                EventError::ClientErrorData data;
                 data.client     = m_client;
                 data.err_str    = "%1";
-                data.options    = NULL;
+                data.options    = QString::null;
                 data.args       = i18n("You have %n unread message.", "You have %n unread messages.", nUnread);
                 data.code       = 0;
-                data.flags      = ERR_INFO;
+                data.flags      = EventError::ClientErrorData::E_INFO;
                 data.id         = static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
-                Event e(EventShowError, &data);
+                EventShowError e(data);
                 e.process();
             }
         }
@@ -497,15 +502,15 @@ MSNServerMessage::~MSNServerMessage()
             QString msg = i18n("You have new mail");
             if (!from.isEmpty())
                 msg = i18n("%1 from %2") .arg(msg) .arg(from);
-            clientErrorData data;
+            EventError::ClientErrorData data;
             data.client     = m_client;
             data.err_str    = "%1";
-            data.options    = NULL;
+            data.options    = QString::null;
             data.args       = msg;
             data.code       = 0;
-            data.flags      = ERR_INFO;
+            data.flags      = EventError::ClientErrorData::E_INFO;
             data.id         = static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNNewMail;
-            Event e(EventShowError, &data);
+            EventShowError e(data);
             e.process();
         }
     }
@@ -513,7 +518,7 @@ MSNServerMessage::~MSNServerMessage()
 
 bool MSNServerMessage::packet()
 {
-    Buffer &b = m_client->m_socket->readBuffer;
+    Buffer &b = m_client->socket()->readBuffer();
     unsigned size = b.writePos() - b.readPos();
     if (size > m_size)
         size = m_size;

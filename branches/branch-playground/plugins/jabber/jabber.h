@@ -18,17 +18,11 @@
 #ifndef _JABBER_H
 #define _JABBER_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 const unsigned JabberCmdBase	= 0x00050000;
 
-const unsigned EventAgentFound		= JabberCmdBase + 1;
-const unsigned EventAgentInfo		= JabberCmdBase + 2;
-const unsigned EventAgentRegister	= JabberCmdBase + 3;
-const unsigned EventSearch			= JabberCmdBase + 4;
-const unsigned EventSearchDone		= JabberCmdBase + 5;
-const unsigned EventDiscoItem		= JabberCmdBase + 6;
-const unsigned EventVCard			= JabberCmdBase + 7;
+#include "jabber_events.h"
 
 const unsigned long CmdJabberMessage		= JabberCmdBase + 1;
 const unsigned long CmdGroups			= JabberCmdBase + 2;
@@ -62,24 +56,24 @@ class JabberProtocol : public SIM::Protocol
 public:
     JabberProtocol(SIM::Plugin *plugin);
     ~JabberProtocol();
-    SIM::Client	*createClient(ConfigBuffer *cfg);
+    SIM::Client	*createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();
 };
 
-typedef struct JabberData
+struct JabberData
 {
     SIM::Data		browser_bar[7];
     SIM::Data		BrowserHistory;
     SIM::Data		AllLevels;
     SIM::Data		BrowseType;
-} JabberData;
+};
 
 class JabberPlugin : public SIM::Plugin
 {
 public:
-    JabberPlugin(unsigned base, ConfigBuffer *cfg);
+    JabberPlugin(unsigned base, Buffer *cfg);
     virtual ~JabberPlugin();
     unsigned JabberPacket;
     void registerMessages();
@@ -90,7 +84,7 @@ public:
     PROP_ULONG(BrowseType);
     static JabberPlugin *plugin;
 protected:
-    virtual QString getConfig();
+    virtual QCString getConfig();
     SIM::Protocol *m_protocol;
 };
 

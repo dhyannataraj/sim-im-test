@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "jabberclient.h"
 #include "jabberbrowser.h"
 #include "jabbersearch.h"
@@ -25,6 +26,7 @@
 #include "jidsearch.h"
 #include "ballonmsg.h"
 #include "core.h"
+#include "core_consts.h"
 
 #include <qpixmap.h>
 #include <qtoolbar.h>
@@ -37,10 +39,10 @@ using namespace SIM;
 
 const unsigned BROWSE_INFO	= 8;
 
-JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
+JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type)
         : QWizard(parent, NULL, FALSE, WType_TopLevel | WDestructiveClose)
 {
-    m_type = QString::fromUtf8(type);
+    m_type = type;
     m_search = new JabberSearch;
     m_search->init(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
@@ -73,10 +75,11 @@ void JabberWizard::slotSelected(const QString&)
     m_id = m_search->m_client->process(m_search->m_jid, m_search->m_node, condition, m_type);
 }
 
-void *JabberWizard::processEvent(Event *e)
+bool JabberWizard::processEvent(Event *e)
 {
-    if (e->type() == EventAgentRegister){
-        agentRegisterInfo *ai = (agentRegisterInfo*)(e->param());
+    if (e->type() == eEventAgentRegister){
+        EventAgentRegister *ear = static_cast<EventAgentRegister*>(e);
+        agentRegisterInfo *ai = ear->registerInfo();
         if (m_id == ai->id){
             if (ai->err_code){
                 QString err = i18n(ai->error);
@@ -88,10 +91,10 @@ void *JabberWizard::processEvent(Event *e)
                 setFinishEnabled(m_result, true);
                 QTimer::singleShot(0, this, SLOT(close()));
             }
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void JabberWizard::setNext()
@@ -121,11 +124,9 @@ JabberBrowser::JabberBrowser()
     connect(m_list, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(m_list, SIGNAL(dragStart()), this, SLOT(dragStart()));
 
-    BarShow b;
-    b.bar_id = BarBrowser;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)e.process();
+    EventToolbar e(BarBrowser, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam(this);
     restoreToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
     m_bar->show();
@@ -136,8 +137,9 @@ JabberBrowser::JabberBrowser()
     Command cmd;
     cmd->id		= CmdUrl;
     cmd->param	= this;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbUrl){
         QString h = JabberPlugin::plugin->getBrowserHistory();
         while (h.length())
@@ -169,7 +171,7 @@ void JabberBrowser::setClient(JabberClient *client)
         url = m_client->getVHost();
     if (url.isEmpty())
         url = m_client->getServer();
-    goUrl(url, "");
+    goUrl(url, QString::null);
 }
 
 void JabberBrowser::goUrl(const QString &url, const QString &node)
@@ -201,20 +203,23 @@ void JabberBrowser::go(const QString &url, const QString &node)
     cmd->id		= CmdBrowseInfo;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseSearch;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdRegister;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseConfigure;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     m_bInProcess = true;
     QListViewItem *item = new QListViewItem(m_list);
     item->setText(COL_JID, url);
@@ -237,12 +242,15 @@ void JabberBrowser::go(const QString &url, const QString &node)
     item->setPixmap(COL_NAME, Pict("empty"));
     cmd->id		= CmdUrl;
     cmd->param	= this;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbUrl)
         cmbUrl->setText(url);
     cmd->id		= CmdNode;
-    CToolCombo *cmbNode = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget2(cmd);
+    eWidget2.process();
+    CToolCombo *cmbNode = dynamic_cast<CToolCombo*>(eWidget2.widget());
     if (cmbNode)
         cmbNode->setText(node);
     startProcess();
@@ -259,8 +267,7 @@ void JabberBrowser::startProcess()
     cmd->bar_grp	 = 0x2000;
     cmd->flags		 = BTN_COMBO_CHECK;
     cmd->param		 = this;
-    Event e(EventCommandChange, cmd);
-    e.process();
+    EventCommandChange(cmd).process();
 }
 
 void JabberBrowser::showEvent(QShowEvent *e)
@@ -279,22 +286,24 @@ void JabberBrowser::save()
     saveToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
 }
 
-void *JabberBrowser::processEvent(Event *e)
+bool JabberBrowser::processEvent(Event *e)
 {
-    if (e->type() == EventAgentInfo){
-        JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
+    if (e->type() == eEventAgentInfo){
+        EventAgentInfo *eai = static_cast<EventAgentInfo*>(e);
+        JabberAgentInfo *data = eai->agentInfo();
         if (m_search_id == data->ReqID.str()){
             if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
                     QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
-                    m_search_id = "";
+                    m_search_id = QString::null;
                     Command cmd;
                     cmd->id		= CmdBrowseSearch;
                     cmd->param	= this;
-                    Event eWidget(EventCommandWidget, cmd);
-                    QWidget *parent = (QWidget*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QWidget *parent = eWidget.widget();
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
@@ -305,12 +314,12 @@ void *JabberBrowser::processEvent(Event *e)
                     emit addSearch(m_search, m_client, m_search->m_jid);
                     disconnect(this, SIGNAL(addSearch(QWidget*, SIM::Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, SIM::Client*, const QString&)));
                 }
-                m_search_id = "";
+                m_search_id = QString::null;
                 m_search    = NULL;
-                return e->param();
+                return true;
             }
             m_search->jidSearch->addWidget(data);
-            return e->param();
+            return true;
         }
         if (m_reg_id == data->ReqID.str()) {
             if (data->Type.str().isEmpty()){
@@ -318,14 +327,15 @@ void *JabberBrowser::processEvent(Event *e)
                     QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
-                    m_reg_id = "";
+                    m_reg_id = QString::null;
                     delete m_reg;
                     m_reg = NULL;
                     Command cmd;
                     cmd->id		= CmdRegister;
                     cmd->param	= this;
-                    Event eWidget(EventCommandWidget, cmd);
-                    QWidget *parent = (QWidget*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QWidget *parent = eWidget.widget();
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
@@ -333,12 +343,12 @@ void *JabberBrowser::processEvent(Event *e)
                     m_reg->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showReg()));
                 }
-                m_reg_id = "";
-                return e->param();
+                m_reg_id = QString::null;
+                return true;
             }
             if (m_reg)
                 m_reg->m_search->addWidget(data);
-            return e->param();
+            return true;
         }
         if (m_config_id == data->ReqID.str()){
             if (data->Type.str().isEmpty()){
@@ -346,14 +356,15 @@ void *JabberBrowser::processEvent(Event *e)
                     QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
-                    m_config_id = "";
+                    m_config_id = QString::null;
                     delete m_config;
                     m_config = NULL;
                     Command cmd;
-                    cmd->id		= CmdBrowseConfigure;
+                    cmd->id     = CmdBrowseConfigure;
                     cmd->param	= this;
-                    Event eWidget(EventCommandWidget, cmd);
-                    QWidget *parent = (QWidget*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QWidget *parent = eWidget.widget();
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
@@ -361,75 +372,76 @@ void *JabberBrowser::processEvent(Event *e)
                     m_config->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showConfig()));
                 }
-                m_config_id = "";
-                return e->param();
+                m_config_id = QString::null;
+                return true;
             }
             if (m_config)
                 m_config->m_search->addWidget(data);
-            return e->param();
+            return true;
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuSearchOptions) && isVisible()){
             cmd->flags &= ~COMMAND_CHECKED;
             switch (cmd->id){
             case CmdBrowseSearch:
                 if (haveFeature("jabber:iq:search"))
-                    return e->param();
+                    return true;
                 break;
             case CmdRegister:
                 if (haveFeature("jabber:iq:register"))
-                    return e->param();
+                    return true;
                 break;
             case CmdBrowseConfigure:
                 if (haveFeature("jabber:iq:data"))
-                    return e->param();
+                    return true;
                 break;
             }
-            return NULL;
+            return false;
         }
         if (cmd->param != this)
-            return NULL;
+            return false;
         if (cmd->menu_id != MenuBrowser)
-            return NULL;
+            return false;
         cmd->flags &= ~COMMAND_CHECKED;
         switch (cmd->id){
         case CmdOneLevel:
             if (!JabberPlugin::plugin->getAllLevels())
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return true;
         case CmdAllLevels:
             if (JabberPlugin::plugin->getAllLevels())
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return true;
         case CmdModeDisco:
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return true;
         case CmdModeBrowse:
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return true;
         case CmdModeAgents:
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_AGENTS)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return true;
         }
-    }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (((cmd->menu_id == MenuSearchItem) || (cmd->menu_id == MenuSearchOptions)) && isVisible()){
             Command c;
             c->id    = cmd->id;
             if (cmd->id == CmdSearchInfo)
                 c->id = CmdBrowseInfo;
             c->param = this;
-            Event e(EventCommandExec, c);
-            return e.process();
+            EventCommandExec(c).process();
         }
         if (cmd->param != this)
-            return NULL;
+            return false;
         QListViewItem *item = m_list->currentItem();
         if (cmd->menu_id == MenuBrowser){
             cmd->flags &= ~COMMAND_CHECKED;
@@ -438,60 +450,60 @@ void *JabberBrowser::processEvent(Event *e)
             case CmdOneLevel:
                 JabberPlugin::plugin->setAllLevels(false);
                 changeMode();
-                return e->param();
+                return true;
             case CmdAllLevels:
                 JabberPlugin::plugin->setAllLevels(true);
                 changeMode();
-                return e->param();
+                return true;
             case CmdModeDisco:
                 mode ^= BROWSE_DISCO;
                 JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
-                return e->param();
+                return true;
             case CmdModeBrowse:
                 mode ^= BROWSE_BROWSE;
                 JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
-                return e->param();
+                return true;
             case CmdModeAgents:
                 mode ^= BROWSE_AGENTS;
                 JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
-                return e->param();
+                return true;
             }
-            return NULL;
+            return false;
         }
         if (item){
             if (cmd->id == CmdBrowseSearch){
                 if (m_search)
                     delete m_search;
-                m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE).utf8());
-                m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, "", false);
+                m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE));
+                m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, QString::null, false);
                 m_search_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "search");
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdRegister){
                 if (m_reg)
                     delete m_reg;
-                m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
+                m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID), item->text(COL_NODE), "register");
                 connect(m_reg, SIGNAL(destroyed()), this, SLOT(regFinished()));
                 m_reg_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "register");
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdBrowseConfigure){
                 if (m_config)
                     delete m_config;
-                m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
+                m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID), item->text(COL_NODE), "data");
                 connect(m_config, SIGNAL(destroyed()), this, SLOT(configFinished()));
                 m_config_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "data");
-                return e->param();
+                return true;
             }
             if (cmd->id == CmdBrowseInfo){
                 if (m_info == NULL)
                     m_info = new DiscoInfo(this, m_list->currentItem()->text(COL_FEATURES), item->text(COL_NAME), item->text(COL_TYPE), item->text(COL_CATEGORY));
                 m_info->reset();
                 raiseWindow(m_info);
-                return e->param();
+                return true;
             }
         }
         if (cmd->id == CmdBack){
@@ -512,41 +524,45 @@ void *JabberBrowser::processEvent(Event *e)
         }
         if (cmd->id == CmdUrl){
             if (m_bInProcess){
-                stop("");
-                return e->param();
+                stop(QString::null);
+                return true;
             }
             QString jid;
             QString node;
             Command cmd;
-            cmd->id		= CmdUrl;
-            cmd->param	= this;
-            Event eWidget(EventCommandWidget, cmd);
-            CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+            cmd->id    = CmdUrl;
+            cmd->param = this;
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
             if (cmbUrl)
                 jid = cmbUrl->lineEdit()->text();
-            cmd->id		= CmdNode;
-            CToolCombo *cmbNode = (CToolCombo*)(eWidget.process());
+            cmd->id = CmdNode;
+            EventCommandWidget eWidget2(cmd);
+            eWidget2.process();
+            CToolCombo *cmbNode = dynamic_cast<CToolCombo*>(eWidget2.widget());
             if (cmbNode)
                 node = cmbNode->lineEdit()->text();
             if (!jid.isEmpty()){
                 addHistory(jid);
                 goUrl(jid, node);
             }
-            return e->param();
+            return true;
         }
-    }
-    if (e->type() == EventDiscoItem){
+    } else
+    if (e->type() == eEventDiscoItem){
         if (!m_bInProcess)
-            return NULL;
-        DiscoItem *item = (DiscoItem*)(e->param());
-        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id.utf8());
+            return false;
+        EventDiscoItem *edi = static_cast<EventDiscoItem*>(e);
+        DiscoItem *item = edi->item();
+        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id);
         if (it){
             if (item->jid.isEmpty()){
-                it->setText(COL_ID_DISCO_ITEMS, "");
+                it->setText(COL_ID_DISCO_ITEMS, QString::null);
                 if (it != m_list->firstChild()){
                     checkDone();
                     adjustColumn(it);
-                    return e->param();
+                    return true;
                 }
                 QString err;
                 if (!item->name.isEmpty()){
@@ -562,7 +578,7 @@ void *JabberBrowser::processEvent(Event *e)
                 }
                 checkDone();
                 adjustColumn(it);
-                return e->param();
+                return true;
             }
             if (it->firstChild() == NULL){
                 it->setExpandable(true);
@@ -573,7 +589,7 @@ void *JabberBrowser::processEvent(Event *e)
             for (i = it->firstChild(); i; i = i->nextSibling()){
                 if ((i->text(COL_JID) == item->jid) &&
                         (i->text(COL_NODE) == item->node))
-                    return e->param();
+                    return true;
             }
             i = new QListViewItem(it);
             i->setText(COL_JID, item->jid);
@@ -587,15 +603,15 @@ void *JabberBrowser::processEvent(Event *e)
             i->setText(COL_MODE, QString::number(mode));
             if (JabberPlugin::plugin->getAllLevels())
                 loadItem(i);
-            return e->param();
+            return true;
         }
-        it = findItem(COL_ID_DISCO_INFO, item->id.utf8());
+        it = findItem(COL_ID_DISCO_INFO, item->id);
         if (it){
             if (item->jid.isEmpty()){
-                it->setText(COL_ID_DISCO_INFO, "");
+                it->setText(COL_ID_DISCO_INFO, QString::null);
                 checkDone();
                 adjustColumn(it);
-                return e->param();
+                return true;
             }
             if (it->text(COL_NAME) == it->text(COL_JID))
                 it->setText(COL_NAME, item->name);
@@ -607,16 +623,16 @@ void *JabberBrowser::processEvent(Event *e)
             setItemPict(it);
             if (it == m_list->currentItem())
                 currentChanged(it);
-            return e->param();
+            return true;
         }
-        it = findItem(COL_ID_BROWSE, item->id.utf8());
+        it = findItem(COL_ID_BROWSE, item->id);
         if (it){
             if (item->jid.isEmpty()){
-                it->setText(COL_ID_BROWSE, "");
+                it->setText(COL_ID_BROWSE, QString::null);
                 if (it != m_list->firstChild()){
                     checkDone();
                     adjustColumn(it);
-                    return e->param();
+                    return true;
                 }
                 QString err;
                 if (!item->name.isEmpty()){
@@ -632,7 +648,7 @@ void *JabberBrowser::processEvent(Event *e)
                 }
                 checkDone();
                 adjustColumn(it);
-                return e->param();
+                return true;
             }
             if (it->text(COL_JID) != item->jid){
                 QListViewItem *i;
@@ -658,17 +674,17 @@ void *JabberBrowser::processEvent(Event *e)
             }
             if (it->text(COL_NAME).isEmpty() || (it->text(COL_NAME) == it->text(COL_JID)))
                 it->setText(COL_NAME, item->name);
-            it->setText(COL_NODE, "");
+            it->setText(COL_NODE, QString::null);
             it->setText(COL_CATEGORY, item->category);
             it->setText(COL_TYPE, item->type);
             it->setText(COL_FEATURES, item->features);
             if (JabberPlugin::plugin->getAllLevels() || (it == m_list->currentItem()))
                 loadItem(it);
             setItemPict(it);
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void JabberBrowser::configFinished()
@@ -687,12 +703,12 @@ void JabberBrowser::setNavigation()
     cmd->id		= CmdBack;
     cmd->flags	= m_historyPos ? 0 : COMMAND_DISABLED;
     cmd->param	= this;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdForward;
     cmd->flags	= (m_historyPos + 1 < (int)(m_history.size())) ? 0 : COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void JabberBrowser::currentChanged(QListViewItem*)
@@ -701,17 +717,20 @@ void JabberBrowser::currentChanged(QListViewItem*)
     cmd->id		= CmdBrowseInfo;
     cmd->flags	= m_list->currentItem() ? 0 : COMMAND_DISABLED;
     cmd->param	= this;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseSearch;
     cmd->flags	= haveFeature("jabber:iq:search") ? 0 : COMMAND_DISABLED;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdRegister;
     cmd->flags	= haveFeature("jabber:iq:register") ? 0 : COMMAND_DISABLED;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseConfigure;
     cmd->flags	= haveFeature("jabber:iq:data") ? 0 : COMMAND_DISABLED;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     QListViewItem *item = m_list->currentItem();
     if (item == NULL)
         return;
@@ -795,14 +814,14 @@ void JabberBrowser::stop(const QString &err)
     cmd->bar_grp	 = 0x2000;
     cmd->flags		 = BTN_COMBO_CHECK;
     cmd->param		 = this;
-    Event e(EventCommandChange, cmd);
-    e.process();
+    EventCommandChange(cmd).process();
     if (!err.isEmpty()){
         Command cmd;
         cmd->id		= CmdUrl;
         cmd->param	= this;
-        Event eWidget(EventCommandWidget, cmd);
-        QWidget *parent = (QWidget*)(eWidget.process());
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        QWidget *parent = eWidget.widget();
         if (parent == NULL)
             parent = this;
         BalloonMsg::message(err, parent);
@@ -830,8 +849,9 @@ void JabberBrowser::addHistory(const QString &str)
     Command cmd;
     cmd->id		= CmdUrl;
     cmd->param	= this;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbUrl)
         cmbUrl->clear();
     unsigned i = 0;
@@ -839,7 +859,7 @@ void JabberBrowser::addHistory(const QString &str)
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         cmbUrl->insertItem(*it);
         res += quoteChars(*it, ";");
     }
@@ -885,14 +905,14 @@ void JabberBrowser::showConfig()
     }
 }
 
-QListViewItem *JabberBrowser::findItem(unsigned col, const char *id)
+QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id)
 {
     if (m_list->firstChild() == NULL)
         return NULL;
     return findItem(col, id, m_list->firstChild());
 }
 
-QListViewItem *JabberBrowser::findItem(unsigned col, const char *id, QListViewItem *item)
+QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id, QListViewItem *item)
 {
     if (item->text(col) == id)
         return item;
@@ -907,7 +927,7 @@ QListViewItem *JabberBrowser::findItem(unsigned col, const char *id, QListViewIt
 void JabberBrowser::checkDone()
 {
     if (m_list->firstChild() && checkDone(m_list->firstChild()))
-        stop("");
+        stop(QString::null);
 }
 
 bool JabberBrowser::checkDone(QListViewItem *item)

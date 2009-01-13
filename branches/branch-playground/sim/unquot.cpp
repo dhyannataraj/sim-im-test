@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qregexp.h>
+
 #include "html.h"
 #include "icons.h"
-
-#include <qregexp.h>
+#include "unquot.h"
 
 using namespace std;
 using namespace SIM;
@@ -45,7 +46,7 @@ UnquoteParser::UnquoteParser()
 
 QString UnquoteParser::parse(const QString &str)
 {
-    res = "";
+    res = QString::null;
     m_bPar = false;
     m_bTD  = false;
     m_bTR  = false;
@@ -62,7 +63,7 @@ void UnquoteParser::text(const QString &text)
     for (int i = 0; i < len; i++){
         QChar c = text[i];
         if (c.unicode() == 160){
-            res += " ";
+            res += ' ';
         }else{
             res += c;
         }
@@ -73,26 +74,26 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 {
     if (tag == "pre"){
         if (!m_bPre)
-            res += "\n";
+            res += '\n';
     }else if (tag == "br"){
-        res += "\n";
+        res += '\n';
     }else if (tag == "hr"){
         if (!res.isEmpty() && (res[(int)(res.length() - 1)] != '\n'))
-            res += "\n";
+            res += '\n';
         res += "---------------------------------------------------\n";
     }else if (tag == "td"){
         if (m_bTD){
-            res += "\t";
+            res += '\t';
             m_bTD = false;
         }
     }else if (tag == "tr"){
         if (m_bTR){
-            res += "\n";
+            res += '\n';
             m_bTR = false;
         }
     }else if (tag == "p"){
         if (m_bPar){
-            res += "\n";
+            res += '\n';
             m_bPar = false;
         }
     }else if (tag == "img"){
@@ -125,7 +126,7 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 void UnquoteParser::tag_end(const QString &tag)
 {
     if (tag == "pre"){
-        res += "\n";
+        res += '\n';
         m_bPre = true;
     }
     if (tag == "p")
@@ -155,30 +156,33 @@ QString SIM::unquoteText(const QString &text)
 QString SIM::unquoteString(const QString &text)
 {
     QString res = text;
-    res = res.replace(QRegExp("&gt;"), ">");
-    res = res.replace(QRegExp("&lt;"), "<");
-    res = res.replace(QRegExp("&quot;"), "\"");
-    res = res.replace(QRegExp("&amp;"), "&");
-    res = res.replace(QRegExp("&nbsp;"), " ");
-    res = res.replace(QRegExp("<br/?>"), "\n");
+    res = res.replace("&gt;",   ">");
+    res = res.replace("&lt;",   "<");
+    res = res.replace("&quot;", "\"");
+    res = res.replace("&amp;",  "&");
+    res = res.replace("&nbsp;", " ");
+    res = res.replace("<br/?>", "\n");
     return res;
 }
 
 EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuoteSpaces)
 {
     QString str = _str;
-    str.replace(QRegExp("&"), "&amp;");
-    str.replace(QRegExp("<"), "&lt;");
-    str.replace(QRegExp(">"), "&gt;");
-    str.replace(QRegExp("\""), "&quot;");
-    str.replace(QRegExp("\r"), "");
-    str.replace(QRegExp("\t"), "&nbsp;&nbsp;");
+    str.replace("&", "&amp;");
+    str.replace("<", "&lt;");
+    str.replace(">", "&gt;");
+    str.replace("\"", "&quot;");
+    str.replace("\r", QString::null);
+    str.replace("\t", "&nbsp;&nbsp;");
     switch (mode){
     case quoteHTML:
-        str.replace(QRegExp("\n"), "<br>\n");
+        str.replace("\n", "<br>\n");
         break;
     case quoteXML:
-        str.replace(QRegExp("\n"), "<br/>\n");
+        str.replace("\n", "<br/>\n");
+        break;
+    case quoteXMLattr:
+        str.replace("'", "&apos;");
         break;
     default:
         break;
@@ -202,5 +206,5 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuote
 EXPORT QString SIM::quote_nbsp(const QString &str)
 {
     QString s = str;
-    return s.replace(QRegExp("&nbsp;"), QString("&#160;"));
+    return s.replace("&nbsp;", QString("&#160;"));
 }   

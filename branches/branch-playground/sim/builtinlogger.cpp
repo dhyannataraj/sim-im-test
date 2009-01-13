@@ -35,38 +35,32 @@ BuiltinLogger::~BuiltinLogger()
 {
 }
 
-void *BuiltinLogger::processEvent(Event *e)
+bool BuiltinLogger::processEvent(Event *e)
 {
-    using namespace SIM;
     using namespace std;
 
     // validate params
-    if (!e) {
-        return 0;
-    }
-    if (e->type() != EventLog) {
-        return 0;
-    }
-    LogInfo *li = static_cast<LogInfo*>(e->param());
-    if (!li) {
-        return 0;
-    }
+    if (!e || e->type() != eEventLog)
+        return false;
+
+    EventLog *l = static_cast<EventLog*>(e);
+
     // filter by log level
-    if (!(li->log_level & m_logLevel)) {
+    if (!(l->logLevel() & m_logLevel))
         return 0;
-    }
+
     // filter out packets: there is LoggerPlugin for packets logging.
-    if (li->packet_id) {
+    if (l->packetID()) {
         return 0;
     }
     cout << "SIM-IM: ";
-    if (li->log_info) {
-        cout << static_cast<char*>(li->log_info);
+    if (!l->logData().isEmpty()) {
+        cout << l->logData().data();
     } else {
-        cout << "Some log event of type " << level_name(li->log_level) << " occured";
+        cout << "Some log event of type " << level_name(l->logLevel()) << " occurred";
     }
     cout << endl;
-    return e;
+    return true;
 }
 
 }

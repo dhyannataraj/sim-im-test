@@ -18,7 +18,6 @@
 #ifndef _ICQSEARCH_H
 #define _ICQSEARCH_H
 
-#include "simapi.h"
 #include "icqsearchbase.h"
 #include <qvaluelist.h>
 
@@ -60,13 +59,13 @@ protected:
         Full
     };
     static inline const QString extractUIN(const QString& str);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void showEvent(QShowEvent*);
     void setAdv(bool);
     void icq_search();
     void addColumns();
     void add(const QString &screen, unsigned tmpFlags, SIM::Contact *&contact);
-    QValueList<unsigned>	m_uins;
+    QValueList<unsigned>    m_uins;
     ICQClient			*m_client;
     QWidget				*m_adv;
     bool				m_bAdv;

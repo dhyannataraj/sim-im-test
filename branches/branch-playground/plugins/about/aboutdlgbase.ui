@@ -17,7 +17,7 @@
     </property>
     <property>
         <name>caption</name>
-        <string>About SIM</string>
+        <string>About Sim-IM</string>
     </property>
     <grid>
         <property>

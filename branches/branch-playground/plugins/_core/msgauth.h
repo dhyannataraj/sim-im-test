@@ -18,7 +18,10 @@
 #ifndef _MSGAUTH_H
 #define _MSGAUTH_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 
@@ -30,7 +33,7 @@ public:
 protected slots:
     void init();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QString     m_client;
     unsigned    m_type;
     MsgEdit    *m_edit;

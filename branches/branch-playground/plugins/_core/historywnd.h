@@ -18,10 +18,12 @@
 #ifndef _HISTORYWND_H
 #define _HISTORYWND_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+#include "event.h"
 
 #include <qmainwindow.h>
+#include <qpixmap.h>
+#include <qlabel.h>
 
 class MsgViewBase;
 class CToolBar;
@@ -42,13 +44,14 @@ protected slots:
     void fill();
     void next();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void setName();
     void addHistory(const QString &str);
     QStatusBar	*m_status;
     MsgViewBase	*m_view;
     CToolBar	*m_bar;
+    CToolBar	*m_avatar_bar;
     QString     m_filter;
     HistoryProgressBar	*m_progress;
     HistoryIterator		*m_it;

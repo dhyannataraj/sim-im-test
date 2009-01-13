@@ -29,8 +29,8 @@ class EXPORT FontEdit : public QFrame
     Q_OBJECT
 public:
     FontEdit(QWidget *parent, const char *name=NULL);
-    void setFont(const QString &);
     QString getFont();
+    void setFont(const QString&);
     void setWinFont(const QFont&);
     const QFont &winFont() { return f; }
     static QFont str2font(const QString &font, const QFont &defFont);

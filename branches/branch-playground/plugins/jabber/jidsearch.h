@@ -18,7 +18,6 @@
 #ifndef _JIDSEARCH_H
 #define _JIDSEARCH_H
 
-#include "simapi.h"
 #include "jidsearchbase.h"
 
 class JabberClient;
@@ -28,7 +27,7 @@ class JIDSearch : public JIDSearchBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JIDSearch(QWidget *parent, JabberClient *client, const QString &jid, const QString &m_node, const char *type);
+    JIDSearch(QWidget *parent, JabberClient *client, const QString &jid, const QString &m_node, const QString &type);
     QString m_jid;
     QString m_node;
 signals:
@@ -46,7 +45,7 @@ protected slots:
     void searchStop();
     void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void showEvent(QShowEvent*);
     QString	 m_search_id;
     QString	 m_type;

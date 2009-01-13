@@ -17,7 +17,6 @@
 
 #include "floaty.h"
 #include "floatywnd.h"
-#include "simapi.h"
 
 #include "core.h"
 
@@ -29,9 +28,9 @@
 using namespace SIM;
 
 const unsigned BLINK_TIMEOUT	= 500;
-const unsigned BLINK_COUNT		= 8;
+const unsigned BLINK_COUNT      = 8;
 
-Plugin *createFloatyPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createFloatyPlugin(unsigned base, bool, Buffer*)
 {
     FloatyPlugin *plugin = new FloatyPlugin(base);
     if (plugin->core == NULL){
@@ -55,17 +54,9 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct FloatyUserData
-{
-	unsigned	X;
-	unsigned	Y;
-} FloatyUserData;
-*/
-
 static DataDef floatyUserData[] =
     {
-        { "FloatyPosition", DATA_ULONG, 2, 0 },
+        { "FloatyPosition", DATA_LONG, 2, DATA((unsigned long)-1>>1)}, // 0x7FFFFFFF - maximum value of sigend long
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -80,17 +71,17 @@ FloatyPlugin::FloatyPlugin(unsigned base)
     connect(unreadTimer, SIGNAL(timeout()), this, SLOT(unreadBlink()));
 
     Command cmd;
-    cmd->id		  = CmdFloaty;
+    cmd->id       = CmdFloaty;
     cmd->text	  = I18N_NOOP("Floating on");
     cmd->icon	  = "floating";
     cmd->menu_id  = MenuContact;
     cmd->menu_grp = 0xB000;
     cmd->flags	  = COMMAND_CHECK_STATE;
-    Event e(EventCommandCreate, cmd);
-    e.process();
+    EventCommandCreate(cmd).process();
 
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 }
 
@@ -105,8 +96,7 @@ FloatyPlugin::~FloatyPlugin()
         ++it;
     }
     delete list;
-    Event e(EventCommandRemove, (void*)CmdFloaty);
-    e.process();
+    EventCommandRemove(CmdFloaty).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
@@ -114,25 +104,31 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
 {
     QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
-    QWidget * w;
+    QWidget *w;
+    FloatyWnd *wnd = NULL;
+    bool found = false;
     while ((w = it.current()) != NULL) {
         if (w->inherits("FloatyWnd")){
-            FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-            if (wnd->id() == id)
+            wnd = static_cast<FloatyWnd*>(w);
+            if (wnd->id() == id) {
+                found = true;
                 break;
+            }
         }
         ++it;
     }
     delete list;
-    if (w)
-        return static_cast<FloatyWnd*>(w);
+    if( found ) {
+        Q_ASSERT( wnd );
+        return wnd;
+    }
     return NULL;
 }
 
-void *FloatyPlugin::processEvent(Event *e)
+bool FloatyPlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventInit:{
+    case eEventInit:{
             Contact *contact;
             ContactList::ContactIterator it;
             while ((contact = ++it) != NULL){
@@ -140,13 +136,14 @@ void *FloatyPlugin::processEvent(Event *e)
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
-                wnd->move(data->X.toULong(), data->Y.toULong());
+                wnd->move(data->X.toLong(), data->Y.toLong());
                 wnd->show();
             }
             break;
         }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
@@ -159,12 +156,13 @@ void *FloatyPlugin::processEvent(Event *e)
                         cmd->flags &= ~COMMAND_CHECKED;
                     }
                 }
-                return e->param();
+                return true;
             }
             break;
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
@@ -176,19 +174,22 @@ void *FloatyPlugin::processEvent(Event *e)
                         contact->userData.freeUserData(user_data_id);
                     }else{
                         data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
+                        data->X.asLong() = 0;
+                        data->Y.asLong() = 0;
                         FloatyWnd *wnd = new FloatyWnd(this, (unsigned long)(cmd->param));
                         wnd->move(0, 0);
                         wnd->show();
                     }
                 }
-                return e->param();
+                return true;
             }
             break;
         }
-    case EventMessageDeleted:
-    case EventMessageRead:
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageDeleted:
+    case eEventMessageRead:
+    case eEventMessageReceived:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             FloatyWnd *wnd = findFloaty(msg->contact());
             if (wnd){
                 wnd->init();
@@ -196,10 +197,11 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventContactClient:
-    case EventContactStatus:
-    case EventContactChanged:{
-            Contact *contact = (Contact*)(e->param());
+    case eEventContactClient: {
+            EventContactClient *ecc = static_cast<EventContactClient*>(e);
+            Contact *contact = ecc->contact();
+            if(!contact)
+                break;
             FloatyWnd *wnd = findFloaty(contact->id());
             if (wnd){
                 wnd->init();
@@ -207,21 +209,30 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventContactOnline:{
-            Contact *contact = (Contact*)(e->param());
+    case eEventContact: {
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
             FloatyWnd *wnd = findFloaty(contact->id());
-            if (wnd)
-                wnd->startBlink();
+            if(!wnd)
+                break;
+            switch(ec->action()) {
+                case EventContact::eDeleted:
+                    delete wnd;
+                    break;
+                case EventContact::eStatus:
+                case EventContact::eChanged:
+                    wnd->init();
+                    wnd->repaint();
+                    break;
+                case EventContact::eOnline:
+                    wnd->startBlink();
+                    break;
+                default:
+                    break;
+            }
             break;
         }
-    case EventContactDeleted:{
-            Contact *contact = (Contact*)(e->param());
-            FloatyWnd *wnd = findFloaty(contact->id());
-            if (wnd)
-                delete wnd;
-            break;
-        }
-    case EventRepaintView:{
+    case eEventRepaintView:{
             QWidgetList *list = QApplication::topLevelWidgets();
             QWidgetListIt it(*list);
             QWidget * w;
@@ -236,19 +247,19 @@ void *FloatyPlugin::processEvent(Event *e)
             delete list;
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void FloatyPlugin::showPopup()
 {
-    ProcessMenuParam mp;
-    mp.id    = MenuContact;
-    mp.param = (void*)(popupId);
-    mp.key	 = 0;
-    Event eMenu(EventProcessMenu, &mp);
-    QPopupMenu *menu = (QPopupMenu*)eMenu.process();
-    menu->popup(popupPos);
+    EventMenuProcess eMenu(MenuContact, (void*)popupId);
+    eMenu.process();
+    QPopupMenu *popup = eMenu.menu();
+    if(popup)
+        popup->popup(popupPos);
 }
 
 void FloatyPlugin::startBlink()

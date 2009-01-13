@@ -15,9 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "monitor.h"
-#include "netmonitor.h"
-#include "textshow.h"
+#include "simapi.h"
 
 #include <qmenubar.h>
 #include <qpopupmenu.h>
@@ -31,6 +29,15 @@
 #else
 #include <qfiledialog.h>
 #endif
+
+#include "icons.h"
+#include "log.h"
+#include "misc.h"
+#include "textshow.h"
+#include "unquot.h"
+
+#include "monitor.h"
+#include "netmonitor.h"
 
 using namespace SIM;
 
@@ -99,18 +106,18 @@ void MonitorWindow::save()
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-	QTextStream ts(&f);
+    QTextStream ts(&f);
     QString t;
     if (edit->hasSelectedText()){
         t = unquoteText(edit->selectedText());
     }else{
         t = unquoteText(edit->text());
     }
-#ifdef WIN32
-    t.replace(QRegExp("\n"),"\r\n");
+#if defined(WIN32) || defined(__OS2__)
+    t.replace('\n',"\r\n");
 #endif
     ts << t;
-	f.close();
+    f.close();
 }
 
 void MonitorWindow::exit()
@@ -164,11 +171,11 @@ void MonitorWindow::pause()
     bPause = !bPause;
 }
 
-typedef struct level_def
+struct level_def
 {
     unsigned	level;
     const char	*name;
-} level_def;
+};
 
 static level_def levels[] =
     {
@@ -195,52 +202,58 @@ void MonitorWindow::adjustLog()
     }
 }
 
-typedef struct LevelColorDef
+struct LevelColorDef
 {
     unsigned	level;
     const char	*color;
-} LevelColorDef;
+};
 
 static LevelColorDef levelColors[] =
     {
-        { L_DEBUG,		"008000" },
-        { L_WARN,		"808000" },
-        { L_ERROR,		"800000" },
+        { L_DEBUG,	"008000" },
+        { L_WARN,	"808000" },
+        { L_ERROR,	"800000" },
         { L_PACKET_IN,	"000080" },
         { L_PACKET_OUT, "000000" },
-        { 0,			NULL }
+        { 0,		 NULL 	 }
     };
 
-void *MonitorWindow::processEvent(Event *e)
+bool MonitorWindow::processEvent(Event *e)
 {
     if (!e) {
-        return 0;
+        return false;
     }
-    if ((e->type() == EventLog) && !bPause){
-        LogInfo *li = (LogInfo*)e->param();
-        if (((li->packet_id == 0) && (li->log_level & m_plugin->getLogLevel())) ||
-                (li->packet_id && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(li->packet_id)))){
-            const char *font = NULL;
-            for (const LevelColorDef *d = levelColors; d->color; d++){
-                if (li->log_level == d->level){
-                    font = d->color;
-                    break;
-                }
-            }
-            QString logString = "<p><pre>";
-            if (font)
-                logString += QString("<font color=\"#%1\">") .arg(font);
-            QString s = make_packet_string(li);
-            logString += quoteString(s);
-            if (font)
-                logString += QString("</font>");
-            logString += "</pre></p>";
-            QMutexLocker lock(&m_mutex);
-            m_logStrings += logString;
-            QTimer::singleShot(10, this, SLOT(outputLog()));
-        }
+
+	EventLog *l = static_cast<EventLog*>(e);
+
+    if (e->type() == eEventLog && !bPause &&
+			(
+			((l->packetID() == 0 && (l->logLevel() & m_plugin->getLogLevel())) ||     
+			( l->packetID()      && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(l->packetID()))))
+			)
+		)
+	{
+
+		const char *font = NULL;
+        for (const LevelColorDef *d = levelColors; d->color; d++)
+			if (l->logLevel() == d->level){
+				font = d->color;
+				break;
+			}
+		
+		QString logString = "<p><pre>";
+		if (font)
+			logString += QString("<font color=\"#%1\">") .arg(font);
+		QString s = EventLog::make_packet_string(*l);
+		logString += quoteString(s);
+		if (font)
+			logString += QString("</font>");
+		logString += "</pre></p>";
+		QMutexLocker lock(&m_mutex);
+		m_logStrings += logString;
+		QTimer::singleShot(10, this, SLOT(outputLog()));
     }
-    return NULL;
+    return false;
 }
 
 void MonitorWindow::outputLog()

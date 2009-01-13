@@ -18,7 +18,7 @@
 #ifndef _ICQ_H
 #define _ICQ_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 class CorePlugin;
 
@@ -26,12 +26,7 @@ class CorePlugin;
 
 const unsigned IcqCmdBase	= 0x00040000;
 
-const unsigned EventSearch			= IcqCmdBase;
-const unsigned EventSearchDone		= IcqCmdBase + 1;
-const unsigned EventAutoReplyFail	= IcqCmdBase + 2;
-const unsigned EventRandomChat		= IcqCmdBase + 3;
-const unsigned EventRandomChatInfo	= IcqCmdBase + 4;
-const unsigned EventServiceReady	= IcqCmdBase + 5;
+#include "icq_events.h"
 
 const unsigned long CmdVisibleList		= IcqCmdBase;
 const unsigned long CmdInvisibleList    = IcqCmdBase + 1;
@@ -48,7 +43,7 @@ class ICQProtocol : public SIM::Protocol
 public:
     ICQProtocol(SIM::Plugin *plugin);
     ~ICQProtocol();
-    SIM::Client	*createClient(ConfigBuffer *cfg);
+    SIM::Client	*createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     static const SIM::CommandDef *_statusList();
@@ -61,7 +56,7 @@ class AIMProtocol : public SIM::Protocol
 public:
     AIMProtocol(SIM::Plugin *plugin);
     ~AIMProtocol();
-    SIM::Client	*createClient(ConfigBuffer *cfg);
+    SIM::Client	*createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();

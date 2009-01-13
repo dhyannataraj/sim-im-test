@@ -18,7 +18,6 @@
 #ifndef _JABBERPICTURE_H
 #define _JABBERPICTURE_H
 
-#include "simapi.h"
 #include "jabberpicturebase.h"
 
 class JabberClient;
@@ -29,7 +28,7 @@ class JabberPicture : public JabberPictureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberPicture(QWidget *parent, struct JabberUserData *data, JabberClient *client, bool bPhoto);
+    JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
@@ -37,11 +36,11 @@ protected slots:
     void clearPicture();
     void pictSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setPict(QImage &img);
     bool m_bPhoto;
-    struct JabberUserData	*m_data;
+    JabberUserData	*m_data;
     JabberClient			*m_client;
 };
 

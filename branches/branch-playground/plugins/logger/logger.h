@@ -18,18 +18,22 @@
 #ifndef _LOGGER_H
 #define _LOGGER_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
 
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QFile;
 const unsigned short L_PACKETS = 0x08;
 // const unsigned short L_EVENTS  = 0x10;
 
-typedef struct LoggerData
+struct LoggerData
 {
     SIM::Data LogLevel;
     SIM::Data LogPackets;
     SIM::Data File;
-} LoggerData;
+};
 
 class QFile;
 
@@ -37,7 +41,7 @@ class LoggerPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
-    LoggerPlugin(unsigned, ConfigBuffer*);
+    LoggerPlugin(unsigned, Buffer*);
     virtual ~LoggerPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);
@@ -46,10 +50,10 @@ public:
     void setLogType(unsigned id, bool bLog);
 protected:
 //    bool eventFilter(QObject *o, QEvent *e);
-    QValueList<unsigned> m_packets;
+    std::list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QString getConfig();
-    void *processEvent(SIM::Event*);
+    virtual QCString getConfig();
+    virtual bool processEvent(SIM::Event *e);
     void openFile();
     QFile *m_file;
     LoggerData data;

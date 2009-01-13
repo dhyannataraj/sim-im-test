@@ -18,15 +18,22 @@
 #ifndef _WINDOCK_H
 #define _WINDOCK_H
 
-#include "simapi.h"
+#include <qobject.h>
 
-typedef struct WinDockData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
+class QTimer;
+
+struct WinDockData
 {
     SIM::Data	AutoHide;
     SIM::Data	State;
     SIM::Data	Height;
     SIM::Data	Width;
-} WinDocData;
+};
 
 class QTimer;
 
@@ -34,7 +41,7 @@ class WinDockPlugin : public QObject, public SIM::Plugin, public SIM::EventRecei
 {
     Q_OBJECT
 public:
-    WinDockPlugin(unsigned, ConfigBuffer*);
+    WinDockPlugin(unsigned, Buffer*);
     virtual ~WinDockPlugin();
     PROP_BOOL(AutoHide);
     PROP_USHORT(State);
@@ -45,9 +52,9 @@ protected slots:
     void slotSetState();
     void slotAutoHide();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual QString getConfig();
+    virtual QCString getConfig();
     QWidget *getMainWindow();
     unsigned CmdAutoHide;
     bool m_bInit;

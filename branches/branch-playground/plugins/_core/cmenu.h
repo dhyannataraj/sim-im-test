@@ -19,7 +19,8 @@
 #define _CMENU_H
 
 #include "simapi.h"
-#include "stl.h"
+
+#include <vector>
 
 #ifdef USE_KDE
 #include <kpopupmenu.h>
@@ -27,11 +28,11 @@
 #include "kpopup.h"
 #endif
 
-typedef struct CMD
+struct CMD
 {
     unsigned	id;
     unsigned	base_id;
-} CMD;
+};
 
 class CMenu : public KPopupMenu
 {

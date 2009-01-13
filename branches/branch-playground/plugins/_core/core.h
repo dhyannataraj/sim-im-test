@@ -18,21 +18,27 @@
 #ifndef _CORE_H
 #define _CORE_H
 
-#include "simapi.h"
-#include "buffer.h"
-#include "stl.h"
+#include <vector>
 
-#include<qthread.h>
+#include <qfont.h>
+#include <qobject.h>
+#include <qthread.h>
+
+#include "cmddef.h"
+#include "event.h"
+#include "misc.h"
+#include "plugins.h"
+#include "core_consts.h"
 
 typedef std::map<QString, unsigned> MAP_TYPES;
 
-typedef struct msg_id
+struct msg_id
 {
     unsigned    id;
     unsigned    contact;
     unsigned    type;
     QString     client;
-} msg_id;
+};
 
 class FileLock;
 class QWidget;
@@ -46,7 +52,7 @@ class CommonStatus;
 class StatusWnd;
 class ConnectionManager;
 
-typedef struct CoreData
+struct CoreData
 {
     SIM::Data	Profile;
     SIM::Data	SavePasswd;
@@ -95,6 +101,7 @@ typedef struct CoreData
     SIM::Data	HistoryDirection;
     SIM::Data	HistorySize[2];
     SIM::Data	HistoryBar[7];
+    SIM::Data	HistoryAvatarBar[7];
     SIM::Data	HistorySearch;
     SIM::Data	Unread;
     SIM::Data	NoShowAutoReply;
@@ -114,7 +121,9 @@ typedef struct CoreData
     SIM::Data	SearchClient;
     SIM::Data	NoScroller;
     SIM::Data	CfgGeometry[5];
-} CoreData;
+    SIM::Data	ShowAvatarInHistory;
+    SIM::Data	ShowAvatarInContainer;
+};
 
 const unsigned CONTAINER_SIMPLE	= 0;
 const unsigned CONTAINER_NEW	= 1;
@@ -132,7 +141,7 @@ const unsigned NEW_MSG_NOOPEN	= 0;
 const unsigned NEW_MSG_MINIMIZE	= 1;
 const unsigned NEW_MSG_RAISE	= 2;
 
-typedef struct CoreUserData
+struct CoreUserData
 {
     SIM::Data	LogStatus;
     SIM::Data	LogMessage;
@@ -142,38 +151,38 @@ typedef struct CoreUserData
     SIM::Data	AcceptMode;
     SIM::Data	OverwriteFiles;
     SIM::Data	DeclineMessage;
-} CoreUserData;
+};
 
-typedef struct SMSUserData
+struct SMSUserData
 {
     SIM::Data	SMSSignatureBefore;
     SIM::Data	SMSSignatureAfter;
-} SMSUserData;
+};
 
-typedef struct ARUserData
+struct ARUserData
 {
     SIM::Data	AutoReply;
-} ARUserData;
+};
 
-typedef struct ListUserData
+struct ListUserData
 {
     SIM::Data	OfflineOpen;
     SIM::Data	OnlineOpen;
     SIM::Data	ShowAlways;
-} ListUserData;
+};
 
-typedef struct TranslitUserData
+struct TranslitUserData
 {
     SIM::Data	Translit;
-} TranslitUserData;
+};
 
-typedef struct HistoryUserData
+struct HistoryUserData
 {
     SIM::Data	CutSize;
     SIM::Data	MaxSize;
     SIM::Data	CutDays;
     SIM::Data	Days;
-} HistoryUserData;
+};
 
 class ClientList : public std::vector<SIM::Client*>
 {
@@ -183,195 +192,8 @@ public:
     void addToContacts();
 };
 
-const unsigned long CmdBase					= 0x00020000;
-const unsigned long CmdInfo					= (CmdBase + 1);
-const unsigned long CmdSearch				= (CmdBase + 2);
-const unsigned long CmdConnections			= (CmdBase + 3);
-const unsigned long CmdCM					= (CmdBase + 4);
-const unsigned long CmdChange				= (CmdBase + 5);
-const unsigned long CmdShowPanel			= (CmdBase + 6);
-const unsigned long CmdCommonStatus			= (CmdBase + 7);
-const unsigned long CmdTitle				= (CmdBase + 8);
-const unsigned long CmdSetup				= (CmdBase + 9);
-const unsigned long CmdMainWindow			= (CmdBase + 11);
-const unsigned long CmdUserView				= (CmdBase + 12);
-const unsigned long CmdContainer			= (CmdBase + 13);
-const unsigned long CmdClose				= (CmdBase + 14);
-const unsigned long CmdContainerContact		= (CmdBase + 15);
-const unsigned long CmdContainerContacts	= (CmdBase + 16);
-const unsigned long CmdSendMessage			= (CmdBase + 17);
-const unsigned long CmdSend					= (CmdBase + 18);
-const unsigned long CmdStatusMenu			= (CmdBase + 20);
-const unsigned long CmdStatusBar			= (CmdBase + 21);
-const unsigned long CmdQuit					= (CmdBase + 23);
-const unsigned long CmdMenu					= (CmdBase + 23);
-const unsigned long CmdOnline				= (CmdBase + 24);
-const unsigned long CmdGroup				= (CmdBase + 25);
-const unsigned long CmdGrpOff				= (CmdBase + 26);
-const unsigned long CmdGrpMode1				= (CmdBase + 27);
-const unsigned long CmdGrpMode2				= (CmdBase + 28);
-const unsigned long CmdGrpCreate			= (CmdBase + 29);
-const unsigned long CmdGrpRename			= (CmdBase + 30);
-const unsigned long CmdGrpDelete			= (CmdBase + 31);
-const unsigned long CmdGrpTitle				= (CmdBase + 32);
-const unsigned long CmdGrpUp				= (CmdBase + 33);
-const unsigned long CmdGrpDown				= (CmdBase + 34);
-const unsigned long CmdContactTitle			= (CmdBase + 35);
-const unsigned long CmdContactRename		= (CmdBase + 36);
-const unsigned long CmdContactDelete		= (CmdBase + 37);
-const unsigned long CmdConfigure			= (CmdBase + 38);
-const unsigned long CmdMessageType			= (CmdBase + 39);
-const unsigned long CmdSendClose			= (CmdBase + 40);
-const unsigned long CmdSmile				= (CmdBase + 41);
-const unsigned long CmdMultiply				= (CmdBase + 42);
-const unsigned long CmdSendSMS				= (CmdBase + 43);
-const unsigned long CmdInvisible			= (CmdBase + 44);
-const unsigned long CmdHistory				= (CmdBase + 45);
-const unsigned long CmdHistorySave			= (CmdBase + 46);
-const unsigned long CmdHistoryDirection		= (CmdBase + 47);
-const unsigned long CmdHistoryNext			= (CmdBase + 48);
-const unsigned long CmdHistoryPrev			= (CmdBase + 49);
-const unsigned long CmdMsgOpen				= (CmdBase + 51);
-const unsigned long CmdMsgQuote				= (CmdBase + 53);
-const unsigned long CmdMsgAnswer			= (CmdBase + 54);
-const unsigned long CmdMsgForward			= (CmdBase + 55);
-const unsigned long CmdCopy					= (CmdBase + 56);
-const unsigned long CmdCut					= (CmdBase + 57);
-const unsigned long CmdPaste				= (CmdBase + 58);
-const unsigned long CmdSelectAll			= (CmdBase + 59);
-const unsigned long CmdUndo					= (CmdBase + 60);
-const unsigned long CmdRedo					= (CmdBase + 61);
-const unsigned long CmdClear				= (CmdBase + 62);
-const unsigned long CmdSeparate				= (CmdBase + 63);
-const unsigned long CmdNextMessage			= (CmdBase + 65);
-const unsigned long CmdGrantAuth			= (CmdBase + 66);
-const unsigned long CmdRefuseAuth			= (CmdBase + 67);
-const unsigned long CmdPhones				= (CmdBase + 71);
-const unsigned long CmdLocation				= (CmdBase + 72);
-const unsigned long CmdPhoneState			= (CmdBase + 73);
-const unsigned long CmdPhoneNoShow			= (CmdBase + 74);
-const unsigned long CmdPhoneAvailable		= (CmdBase + 75);
-const unsigned long CmdPhoneBusy			= (CmdBase + 76);
-const unsigned long CmdPhoneBook			= (CmdBase + 77);
-const unsigned long CmdShowAlways			= (CmdBase + 78);
-const unsigned long CmdFileAccept			= (CmdBase + 79);
-const unsigned long CmdFileDecline			= (CmdBase + 80);
-const unsigned long CmdDeclineWithoutReason	= (CmdBase + 81);
-const unsigned long CmdDeclineReasonInput	= (CmdBase + 82);
-const unsigned long CmdDeclineReasonBusy	= (CmdBase + 83);
-const unsigned long CmdDeclineReasonLater	= (CmdBase + 84);
-const unsigned long CmdHistoryFind			= (CmdBase + 85);
-const unsigned long CmdFileName				= (CmdBase + 86);
-const unsigned long CmdPhoneNumber			= (CmdBase + 87);
-const unsigned long CmdTranslit				= (CmdBase + 88);
-const unsigned long CmdUrlInput				= (CmdBase + 89);
-const unsigned long CmdCutHistory			= (CmdBase + 90);
-const unsigned long CmdDeleteMessage		= (CmdBase + 91);
-const unsigned long CmdEditList				= (CmdBase + 92);
-const unsigned long CmdRemoveList			= (CmdBase + 93);
-const unsigned long CmdStatusWnd			= (CmdBase + 94);
-const unsigned long CmdEmptyGroup			= (CmdBase + 95);
-const unsigned long CmdEnableSpell			= (CmdBase + 96);
-const unsigned long CmdSpell				= (CmdBase + 97);
-const unsigned long CmdChangeEncoding		= (CmdBase + 98);
-const unsigned long CmdAllEncodings			= (CmdBase + 99);
-const unsigned long CmdSearchInfo			= (CmdBase + 101);
-const unsigned long CmdSearchMsg			= (CmdBase + 102);
-const unsigned long CmdSearchOptions		= (CmdBase + 103);
-const unsigned long CmdFetchAway            = (CmdBase + 104);
 
-const unsigned long CmdContactGroup			= (CmdBase + 0x100);
-const unsigned long CmdUnread				= (CmdBase + 0x200);
-const unsigned long CmdContactClients		= (CmdBase + 0x300);
-const unsigned long CmdMsgSpecial			= (CmdBase + 0x400);
-const unsigned long CmdClient				= (CmdBase + 0x500);
-const unsigned long CmdContactResource		= (CmdBase + 0x600);
-const unsigned long CmdReceived				= 0x600;
-
-const unsigned long MenuConnections			= (CmdBase + 1);
-const unsigned long MenuContainerContact	= (CmdBase + 2);
-const unsigned long MenuStatus				= (CmdBase + 3);
-const unsigned long MenuGroups				= (CmdBase + 4);
-const unsigned long MenuMsgView				= (CmdBase + 5);
-const unsigned long MenuTextEdit			= (CmdBase + 6);
-const unsigned long MenuMsgCommand			= (CmdBase + 7);
-const unsigned long MenuPhones				= (CmdBase + 8);
-const unsigned long MenuLocation			= (CmdBase + 9);
-const unsigned long MenuPhoneState			= (CmdBase + 10);
-const unsigned long MenuFileDecline			= (CmdBase + 11);
-const unsigned long MenuMailList			= (CmdBase + 12);
-const unsigned long MenuPhoneList			= (CmdBase + 13);
-const unsigned long MenuStatusWnd			= (CmdBase + 14);
-const unsigned long MenuEncoding			= (CmdBase + 15);
-const unsigned long MenuSearchItem			= (CmdBase + 16);
-const unsigned long MenuSearchGroups		= (CmdBase + 17);
-const unsigned long MenuSearchOptions		= (CmdBase + 18);
-
-const unsigned long EventCreateMessageType	= (CmdBase + 1);
-const unsigned long EventRemoveMessageType	= (CmdBase + 2);
-const unsigned long EventRealSendMessage	= (CmdBase + 3);
-const unsigned long EventHistoryConfig		= (CmdBase + 4);
-const unsigned long EventTemplateExpand		= (CmdBase + 5);
-const unsigned long EventTemplateExpanded	= (CmdBase + 6);
-const unsigned long EventARRequest			= (CmdBase + 7);
-const unsigned long EventClientStatus		= (CmdBase + 8);
-const unsigned long EventLoadMessage		= (CmdBase + 9);
-const unsigned long EventDefaultAction		= (CmdBase + 10);
-const unsigned long EventContactClient      = (CmdBase + 11);
-const unsigned long EventGetIcons			= (CmdBase + 12);
-const unsigned long EventSortChanged		= (CmdBase + 13);
-const unsigned long EventActiveContact		= (CmdBase + 14);
-const unsigned long EventMessageRetry		= (CmdBase + 15);
-const unsigned long EventHistoryColors		= (CmdBase + 16);
-const unsigned long EventHistoryFont		= (CmdBase + 17);
-const unsigned long EventCheckSend			= (CmdBase + 18);
-const unsigned long EventCutHistory			= (CmdBase + 19);
-const unsigned long EventTmplHelp			= (CmdBase + 20);
-const unsigned long EventTmplHelpList		= (CmdBase + 21);
-const unsigned long EventDeleteMessage		= (CmdBase + 22);
-const unsigned long EventRewriteMessage		= (CmdBase + 23);
-const unsigned long EventJoinAlert			= (CmdBase + 24);
-
-const unsigned long BarHistory				= (CmdBase + 1);
-
-class MsgEdit;
-class Tmpl;
-
-typedef struct CheckSend
-{
-    unsigned		id;
-    SIM::Client		*client;
-    void			*data;
-} CheckSend;
-
-typedef struct MessageID
-{
-    unsigned	id;
-    const char	*client;
-    unsigned	contact;
-} MessageID;
-
-typedef struct ARRequest
-{
-    SIM::Contact		*contact;
-    unsigned			status;
-    SIM::EventReceiver	*receiver;
-    void				*param;
-} ARReuest;
-
-typedef struct TemplateExpand
-{
-    QString				tmpl;
-    SIM::Contact		*contact;
-    SIM::EventReceiver	*receiver;
-    void				*param;
-} TemplateExpand;
-
-typedef struct MsgSend
-{
-    SIM::Message *msg;
-    MsgEdit		 *edit;
-} MsgSend;
+#include "core_events.h"
 
 const unsigned	MESSAGE_DEFAULT		= 0x0000;
 const unsigned	MESSAGE_SILENT		= 0x0001;
@@ -389,25 +211,29 @@ const unsigned  STYLE_UNDER		= 1;
 const unsigned  STYLE_ITALIC	= 2;
 const unsigned  STYLE_STRIKE	= 4;
 
-typedef struct MessageDef
+class MsgEdit;
+
+struct MessageDef
 {
     const SIM::CommandDef	*cmdReceived;
     const SIM::CommandDef	*cmdSent;
     unsigned			flags;
     const char			*singular;
     const char			*plural;
-    SIM::Message*		(*create)(ConfigBuffer *cfg);
+    SIM::Message*		(*create)(Buffer *cfg);
     QObject*			(*generate)(MsgEdit *edit, SIM::Message *msg);
     SIM::Message*		(*drag)(QMimeSource*);
-} MessageDef;
+};
 
-typedef struct clientContact
+struct clientContact
 {
     SIM::clientData	*data;
     SIM::Client	*client;
     bool		bNew;
-} clientContact;
+};
 
+
+class Tmpl;
 class XSL;
 class BalloonMsg;
 
@@ -426,7 +252,7 @@ class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    CorePlugin(unsigned, ConfigBuffer*);
+    CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
     PROP_STR(Profile)
     PROP_BOOL(SavePasswd)
@@ -488,6 +314,8 @@ public:
     PROP_BOOL(RemoveHistory);
     PROP_STR(SearchClient);
     PROP_BOOL(NoScroller);
+    PROP_BOOL(ShowAvatarInHistory);
+    PROP_BOOL(ShowAvatarInContainer);
     void setRegNew(bool p_new) {m_RegNew=p_new;}
     bool getRegNew() const {return m_RegNew;}
     void setICQUIN(QString p_uin) {m_ICQUIN=p_uin;}
@@ -510,7 +338,7 @@ public:
 
     QFont editFont;
     static CorePlugin	*m_plugin;
-    SIM::Message *createMessage(const QString &type, ConfigBuffer *cfg);
+    SIM::Message *createMessage(const char *type, Buffer *cfg);
     QString clientName(SIM::Client *client);
 
     XSL	*historyXSL;
@@ -529,8 +357,8 @@ protected slots:
     void focusDestroyed();
     void showMain();
 protected:
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event*);
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void showInfo(SIM::CommandDef *cmd);
     bool init(bool bFirst);
@@ -539,7 +367,7 @@ protected:
     void loadClients(ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
-    SIM::Client *loadClient(const QString &name, ConfigBuffer *cfg);
+    SIM::Client *loadClient(const QString &name, Buffer *cfg);
     bool adjustClientItem(unsigned id, SIM::CommandDef *cmd);
     void showPanel();
     void hideWindows();
@@ -552,7 +380,16 @@ protected:
     void getWays(std::vector<clientContact> &ways, SIM::Contact *contact);
     QString typeName(const QString &name);
     void setAutoReplies();
-    bool lockProfile(const QString&, bool bSend = false);
+    bool lockProfile(const QString &profile, bool bSend = false);
+
+    void createMainToolbar();
+    bool updateMainToolbar(unsigned long commandID);
+    void createHistoryToolbar();
+    void createContainerToolbar();
+    void createMsgEditToolbar();
+    void createTextEditToolbar();
+    void createMenuMsgView(); // in msgview_menu.cpp
+
     bool                m_bInit;
     QStringList         m_profiles;
     QWidget             *m_cfg;

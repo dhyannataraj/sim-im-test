@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "icqclient.h"
 
 using namespace SIM;
@@ -32,7 +34,7 @@ void ICQClient::snac_ping(unsigned short type, unsigned short)
     case ICQ_SNACxPING_REPORTxINTERVALL:
         break;
     default:
-        log(L_WARN, "Unknown ping family type %04X", type);
+        log(L_WARN, "Unknown ping foodgroup type %04X", type);
     }
 }
 

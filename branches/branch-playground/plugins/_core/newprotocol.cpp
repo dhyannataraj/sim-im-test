@@ -15,14 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "newprotocol.h"
-#include "connectwnd.h"
-#include "core.h"
+#include <algorithm>
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qtimer.h>
+
+#include "icons.h"
+
+#include "newprotocol.h"
+#include "connectwnd.h"
+#include "core.h"
 
 using namespace std;
 using namespace SIM;
@@ -52,22 +56,23 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect)
     setCaption(caption());
     helpButton()->hide();
     for (unsigned long n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
+        EventGetPluginInfo e(n);
+        e.process();
+        pluginInfo *info = e.info();
         if (info == NULL)
             break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, &info->name);
+            EventLoadPlugin e(info->name);
             e.process();
             if (info->info && !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-                Event e(EventUnloadPlugin, &info->name);
+                EventUnloadPlugin e(info->name);
                 e.process();
             }
         }
         if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
         info->bDisabled = false;
-        Event eApply(EventApplyPlugin, &info->name);
+        EventApplyPlugin eApply(info->name);
         eApply.process();
     }
     Protocol *protocol;
@@ -102,8 +107,9 @@ NewProtocol::~NewProtocol()
     if (m_client)
         delete m_client;
     for (unsigned long n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
+        EventGetPluginInfo e(n);
+        e.process();
+        pluginInfo *info = e.info();
         if (info == NULL)
             break;
         if ((info->info == NULL) ||
@@ -118,9 +124,9 @@ NewProtocol::~NewProtocol()
         if (i < getContacts()->nClients())
             continue;
         info->bDisabled = true;
-        Event eApply(EventApplyPlugin, &info->name);
+        EventApplyPlugin eApply(info->name);
         eApply.process();
-        Event eUnload(EventUnloadPlugin, &info->name);
+        EventUnloadPlugin eUnload(info->name);
         eUnload.process();
     }
 }
@@ -169,7 +175,7 @@ void NewProtocol::protocolChanged(int n)
     }
     setNextEnabled(currentPage(), true);
     setIcon(Pict(protocol->description()->icon));
-    Event e(EventRaiseWindow, this);
+    EventRaiseWindow e(this);
     e.process();
 }
 
@@ -228,39 +234,41 @@ void NewProtocol::loginComplete()
     m_client = NULL;
     cancelButton()->hide();
     backButton()->hide();
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
     accept();
 }
 
-void *NewProtocol::processEvent(Event *e)
+bool NewProtocol::processEvent(Event *e)
 {
-    if (m_client == NULL)
-        return NULL;
-    if (m_bConnect){
-        clientErrorData *d;
-        switch (e->type()){
-        case EventClientChanged:
+    if (m_client == NULL || !m_bConnect)
+        return false;
+
+    switch (e->type()){
+        case eEventClientChanged:
             if (m_client->getState() == Client::Connected){
                 QTimer::singleShot(0, this, SLOT(loginComplete()));
-                return NULL;
+                return false;
             }
             break;
-        case EventClientError:
-            d = (clientErrorData*)(e->param());
-            if (d->client == m_client){
-                m_connectWnd->setErr(i18n(d->err_str),
-                    (d->code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
+        case eEventClientError: {
+            EventClientError *ee = static_cast<EventClientError*>(e);
+            const EventError::ClientErrorData &d = ee->data();
+            if (d.client == m_client){
+                m_connectWnd->setErr(i18n(d.err_str),
+                    (d.code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
                 m_bConnect = false;
                 m_client->setStatus(STATUS_OFFLINE, false);
                 setBackEnabled(m_connectWnd, true);
                 setFinishEnabled(m_connectWnd, false);
-                return e->param();
+                return true;
             }
             break;
         }
+        default:
+            break;
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

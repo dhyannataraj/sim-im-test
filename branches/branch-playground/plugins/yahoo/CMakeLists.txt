@@ -8,6 +8,7 @@ if(OPENSSL_FOUND)
             yahooauth.cpp
             yahoocfg.cpp
             yahooclient.cpp
+            yahoofiletransfer.cpp
             yahoohttp.cpp
             yahooinfo.cpp
             yahoosearch.cpp

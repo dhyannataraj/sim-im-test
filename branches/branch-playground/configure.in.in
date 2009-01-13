@@ -1,6 +1,7 @@
 #MIN_CONFIG
 AC_PREREQ(2.50)
 AC_LANG_CPLUSPLUS
+AC_LANG_C
 AM_INIT_AUTOMAKE(sim,0.9.5)
 AC_PROG_LIBTOOL
 AC_STDC_HEADERS
@@ -50,8 +51,6 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_STAT
 
-AC_LIB_LTDL
-
 AC_CACHE_CHECK(for tm_gmtoff in struct tm, ac_cv_struct_tm_gmtoff,
   AC_TRY_COMPILE([
     #include <time.h>
@@ -72,6 +71,7 @@ AC_CHECK_FUNCS([strcspn strdup strerror strstr strtol strtoul])
 
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])
 AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
+AC_CHECK_FUNC(uname,[AC_DEFINE(HAVE_UNAME,1,[Have uname])])
 
 AC_EGREP_HEADER(in_addr_t, netinet/in.h,, AC_DEFINE(in_addr_t,int,[defaults in_addr_t to int]))
 AC_EGREP_HEADER(socklen_t, sys/socket.h,, AC_DEFINE(socklen_t,int,[defaults socklen_t to int]))
@@ -83,9 +83,6 @@ AC_MSG_CHECKING([for The Ultimate Answer])
 AC_MSG_RESULT([42])
 
 EXTRA_LIBS=""
-if test "$use_kde" = "yes" ; then
-KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
-fi
 KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Have qsyntaxhighlighter.h])])
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_SUBST(EXTRA_LIBS)
@@ -148,6 +145,7 @@ AM_CONDITIONAL(QT_WIN, test "$kde_use_qt_win" = "yes")
 if test "$kde_use_qt_win" = "yes"; then
    AC_SUBST(SIM_RC_OBJ, "sim_rc.o")
    AC_SUBST(GMSGFMT, "$GMSGFMT --qt")
+   AC_DEFINE(SIMAPI_EXPORTS, 1, [build libsim.dll])
 fi
 
 AM_CONDITIONAL(ENABLE_UPDATE, false)

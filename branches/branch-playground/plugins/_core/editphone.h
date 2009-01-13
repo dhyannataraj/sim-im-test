@@ -18,7 +18,6 @@
 #ifndef _EDITPHONE_H
 #define _EDITPHONE_H
 
-#include "simapi.h"
 #include "editphonebase.h"
 
 class PhoneDetails;

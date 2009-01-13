@@ -18,7 +18,6 @@
 #ifndef _STYLESCFG_H
 #define _STYLESCFG_H
 
-#include "simapi.h"
 #include "stylescfgbase.h"
 
 class StylesPlugin;

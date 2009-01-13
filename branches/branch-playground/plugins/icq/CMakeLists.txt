@@ -13,6 +13,7 @@ SET(icq_SRCS
         icq.cpp
         icqbos.cpp
         icqbuddy.cpp
+        icqbuffer.cpp
         icqclient.cpp
         icqconfig.cpp
         icqdirect.cpp
@@ -39,6 +40,7 @@ SET(icq_SRCS
         warndlg.cpp
         workinfo.cpp
         xml.cpp
+		snac.cpp
 )
 
 SET(icq_HDRS
@@ -50,13 +52,16 @@ SET(icq_HDRS
         encodingdlg.h
         homeinfo.h
         icq.h
+        icqbuffer.h
         icqclient.h
         icqconfig.h
         icqinfo.h
         icqmessage.h
+		icqdirect.h
         icqpicture.h
         icqsearch.h
         icqsecure.h
+        icqssbi.h
         interestsinfo.h
         moreinfo.h
         pastinfo.h
@@ -66,6 +71,7 @@ SET(icq_HDRS
         warndlg.h
         workinfo.h
         xml.h
+		snac.h
 )
 
 SET(icq_UICS

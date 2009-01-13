@@ -18,17 +18,15 @@
 #ifndef _REMOTE_H
 #define _REMOTE_H
 
-#include "simapi.h"
 #include "socket.h"
-#include "stl.h"
 
-typedef struct RemoteData
+struct RemoteData
 {
     SIM::Data	Path;
 #ifdef WIN32
     SIM::Data	EnableMenu;
 #endif
-} RemoteData;
+};
 
 class ControlSocket;
 class CorePlugin;
@@ -50,7 +48,7 @@ class RemotePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
-    RemotePlugin(unsigned, ConfigBuffer*);
+    RemotePlugin(unsigned, Buffer*);
     ~RemotePlugin();
     PROP_STR(Path);
 #ifdef WIN32
@@ -65,10 +63,10 @@ public slots:
 protected:
     virtual bool accept(SIM::Socket*, unsigned long ip);
     virtual void bind_ready(unsigned short port);
-    virtual bool error(const char *err);
+    virtual bool error(const QString &err);
 
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event *e);
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32
     IPC		*ipc;
@@ -85,7 +83,7 @@ protected:
     SIM::ClientSocket	*m_socket;
     RemotePlugin	*m_plugin;
     void write(const char*);
-    virtual bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code = 0);
     virtual void connect_ready();
     virtual void packet_ready();
 };

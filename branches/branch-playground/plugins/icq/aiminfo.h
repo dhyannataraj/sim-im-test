@@ -18,23 +18,23 @@
 #ifndef _AIMINFO_H
 #define _AIMINFO_H
 
-#include "simapi.h"
 #include "aiminfobase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class AIMInfo : public AIMInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    AIMInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
+    AIMInfo(QWidget *parent, ICQUserData*, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
-    struct ICQUserData *m_data;
+    ICQUserData *m_data;
     unsigned  m_contact;
     ICQClient *m_client;
 };

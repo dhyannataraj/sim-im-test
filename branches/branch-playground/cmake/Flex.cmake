@@ -1,17 +1,10 @@
 # flex a .ll file
 
-# search flex
-MACRO(FIND_FLEX)
-    IF(NOT FLEX_EXECUTABLE)
-        FIND_PROGRAM(FLEX_EXECUTABLE flex)
-        IF (NOT FLEX_EXECUTABLE)
-          MESSAGE(FATAL_ERROR "flex not found - aborting")
-        ENDIF (NOT FLEX_EXECUTABLE)
-    ENDIF(NOT FLEX_EXECUTABLE)
-ENDMACRO(FIND_FLEX)
+INCLUDE(FindFlex)
+
 
 MACRO(ADD_FLEX_FILES _sources )
-    FIND_FLEX()
+    FIND_PACKAGE(Flex QUIET REQUIRED)
 
     FOREACH (_current_FILE ${ARGN})
       GET_FILENAME_COMPONENT(_in ${_current_FILE} ABSOLUTE)

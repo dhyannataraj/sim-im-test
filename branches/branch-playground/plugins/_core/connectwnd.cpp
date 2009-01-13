@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
 #include "connectwnd.h"
 #include "linklabel.h"
 

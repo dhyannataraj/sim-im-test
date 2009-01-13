@@ -2,8 +2,10 @@
 #include "config.h"
 #endif
 
-#ifdef STDC_HEADERS
+#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
+#endif
+#ifdef HAVE_STDDEF_H
 #include <stddef.h>
 #endif
 #ifdef HAVE_INTTYPES_H
@@ -29,12 +31,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <pwd.h>
-#endif
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable: 4786)  
-#endif
 #endif
 
 #include <string>
@@ -331,10 +327,11 @@ Processor *createProcessor(const char *addr_str)
     }
 
     char local_name[256];
-    strcpy(local_name, "/tmp/sim.XXXXX");
-    mkstemp(local_name);
-    if (local_name == NULL)
+    int tmpfd;
+    strcpy(local_name, "/tmp/sim.XXXXXX");
+    if ((tmpfd = mkstemp(local_name)) == -1)
         return NULL;
+    close(tmpfd);
 
     struct sockaddr_un sun_local;
     sun_local.sun_family = AF_UNIX;

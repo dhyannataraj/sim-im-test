@@ -15,6 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "simapi.h"
+
+#include "icons.h"
+#include "log.h"
+
 #include "historywnd.h"
 #include "core.h"
 #include "msgview.h"
@@ -30,6 +35,7 @@
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qmessagebox.h>
+#include <qdockarea.h>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
@@ -77,6 +83,7 @@ void HistoryProgressBar::setProgress(unsigned n)
 HistoryWindow::HistoryWindow(unsigned long id)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
+    m_avatar_bar=NULL;
 
     setWFlags(WDestructiveClose);
     m_id = id;
@@ -85,11 +92,10 @@ HistoryWindow::HistoryWindow(unsigned long id)
     setName();
     m_view = new MsgViewBase(this, NULL, id);
     setCentralWidget(m_view);
-    BarShow b;
-    b.bar_id = BarHistory;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)e.process();
+
+    EventToolbar eHistoryBar(ToolBarHistory, this);
+    eHistoryBar.process();
+    m_bar = eHistoryBar.toolBar();
     m_bar->setParam((void*)m_id);
     restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
@@ -97,11 +103,13 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_progress = NULL;
     m_page = 0;
 
-    Command cmd;
-    cmd->id		= CmdHistoryFind;
-    cmd->param	= (void*)m_id;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
+    Command cmdHistory;
+    cmdHistory->id	= CmdHistoryFind;
+    cmdHistory->param	= (void*)m_id;
+    EventCommandWidget eHistoryWidget(cmdHistory);
+    eHistoryWidget.process();
+    // FIXME: use qobject_cast in Qt4
+    CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eHistoryWidget.widget());
     if (cmbFind){
         QString history = CorePlugin::m_plugin->getHistorySearch();
         while (history.length()){
@@ -113,6 +121,52 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_bDirection = CorePlugin::m_plugin->getHistoryDirection();
     m_bar->checkState();
     m_bar->show();
+
+    if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
+        unsigned j=0;
+        QImage img;
+        while (j < getContacts()->nClients()){
+           Client *client = getContacts()->getClient(j++);
+           img = client->userPicture(id);
+           if (!img.isNull())
+               break;
+        }
+
+        if (!img.isNull()) {
+            EventToolbar(ToolBarHistoryAvatar, EventToolbar::eAdd).process();
+            EventToolbar e(ToolBarHistoryAvatar, this);
+            e.process();
+            m_avatar_bar = e.toolBar();
+            m_avatar_bar->setOrientation(Qt::Vertical);
+            m_avatar_bar->setHorizontalStretchable(false);
+            m_avatar_bar->setVerticalStretchable(false);
+            //restoreToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
+
+            Command cmd;
+            cmd->id = CmdHistoryAvatar;
+            cmd->bar_id = ToolBarHistoryAvatar;
+            cmd->bar_grp	 = 0x2000;
+            cmd->text = QString::null;
+            cmd->icon = "empty";
+            cmd->flags = BTN_LABEL;
+
+            EventCommandCreate(cmd).process();
+
+            Command cmdw;
+            cmdw->id	= CmdHistoryAvatar;
+            EventCommandWidget eWidget(cmdw);
+            eWidget.process();
+            CToolLabel *lblAvatar = dynamic_cast<CToolLabel*>(eWidget.widget());
+
+            if (lblAvatar) {
+                lblAvatar->setPixmap(img);
+            }
+            m_avatar_bar->checkState();
+            m_avatar_bar->show();
+            m_avatar_bar->area()->moveDockWindow(m_avatar_bar, 0);
+        }
+    }
+
     fill();
 }
 
@@ -128,40 +182,50 @@ void HistoryWindow::setName()
     Contact *contact = getContacts()->contact(m_id);
     if (contact)
         name = contact->getName();
-    setCaption(i18n("History") + " " + name);
+    setCaption(i18n("History") + ' ' + name);
 }
 
-void *HistoryWindow::processEvent(Event *e)
+bool HistoryWindow::processEvent(Event *e)
 {
-    if (e->type() == EventContactDeleted){
-        Contact *contact = (Contact*)(e->param());
-        if (contact->id() == m_id)
-            QTimer::singleShot(0, this, SLOT(close()));
+    switch(e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        if (contact->id() != m_id)
+            break;
+        switch(ec->action()) {
+            case EventContact::eDeleted:
+                QTimer::singleShot(0, this, SLOT(close()));
+                break;
+            case EventContact::eChanged:
+                setName();
+                break;
+            default:
+                break;
+        }
+        break;
     }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        if (contact->id() == m_id)
-            setName();
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdHistoryDirection) && ((unsigned long)(cmd->param) == m_id)){
             cmd->flags &= ~COMMAND_CHECKED;
             if (m_bDirection)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return true;
         }
         if (((cmd->id == CmdDeleteMessage) || (cmd->id == CmdCutHistory)) &&
                 (cmd->param == m_view) && m_view->currentMessage()){
             cmd->flags &= ~COMMAND_CHECKED;
-            return e->param();
+            return true;
         }
-        return NULL;
+        return false;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((unsigned long)(cmd->param) != m_id)
-            return NULL;
+            return false;
         if (cmd->id == CmdHistoryDirection){
             bool bDirection = ((cmd->flags & COMMAND_CHECKED) != 0);
             CorePlugin::m_plugin->setHistoryDirection(bDirection);
@@ -171,21 +235,21 @@ void *HistoryWindow::processEvent(Event *e)
                 m_states.clear();
                 fill();
             }
-            return e->param();
+            return true;
         }
         if (cmd->id == CmdHistoryNext){
             if (m_page + 1 < m_states.size()){
                 m_page++;
                 fill();
             }
-            return e->param();
+            return true;
         }
         if (cmd->id == CmdHistoryPrev){
             if (m_page > 0){
                 m_page--;
                 fill();
             }
-            return e->param();
+            return true;
         }
         if (cmd->id == CmdHistorySave){
             QString str = QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
@@ -214,7 +278,7 @@ void *HistoryWindow::processEvent(Event *e)
                 if (!res)
                     QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
             }
-            return e->param();
+            return true;
         }
         if (cmd->id == CmdHistoryFind){
             m_filter = "";
@@ -222,8 +286,10 @@ void *HistoryWindow::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdHistoryFind;
                 cmd->param	= (void*)m_id;
-                Event eWidget(EventCommandWidget, cmd);
-                CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                // FIXME: use qobject_cast in Qt4
+                CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eWidget.widget());
                 if (cmbFind){
                     QString text = cmbFind->lineEdit()->text();
                     if (!text.isEmpty()){
@@ -236,10 +302,14 @@ void *HistoryWindow::processEvent(Event *e)
             m_states.clear();
             m_view->setSelect(m_filter);
             fill();
-            return e->param();
+            return true;
         }
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 void HistoryWindow::resizeEvent(QResizeEvent *e)
@@ -252,6 +322,7 @@ void HistoryWindow::resizeEvent(QResizeEvent *e)
 void HistoryWindow::toolbarChanged(QToolBar*)
 {
     saveToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
+    //saveToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
 }
 
 void HistoryWindow::fill()
@@ -284,12 +355,10 @@ void HistoryWindow::fill()
     cmd->id		= CmdHistoryNext;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= (void*)m_id;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
     cmd->id		= CmdHistoryPrev;
     cmd->flags  = (m_page > 0) ? 0 : COMMAND_DISABLED;
-    Event ePrev(EventCommandDisabled, cmd);
-    ePrev.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void HistoryWindow::next()
@@ -297,7 +366,13 @@ void HistoryWindow::next()
     if ( (m_it == NULL) )
         return;
 
-    for (;;){
+	//Quickfix Noragen, Stop at 1000 Messages, if there are Problems with storing the size.
+	if (m_history_page_count > 1000) 
+		m_history_page_count=1000;
+		
+	m_progress->setTotalSteps(m_history_page_count);
+
+	for (;;){
         QString state = m_it->state();
         Message *msg = NULL;
         if (m_bDirection){
@@ -312,8 +387,7 @@ void HistoryWindow::next()
                 cmd->id		= CmdHistoryNext;
                 cmd->flags  = 0;
                 cmd->param	= (void*)m_id;
-                Event eNext(EventCommandDisabled, cmd);
-                eNext.process();
+                EventCommandDisabled(cmd).process();
                 msg = NULL;
                 if (m_page+1>=m_states.size())
                    m_states.push_back(state);
@@ -357,7 +431,7 @@ void HistoryWindow::addHistory(const QString &str)
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += quoteChars(*it, ";");
     }
     CorePlugin::m_plugin->setHistorySearch(res);

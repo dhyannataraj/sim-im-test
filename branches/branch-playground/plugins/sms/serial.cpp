@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "serial.h"
-#include "buffer.h"
-
 #include <qapplication.h>
 #include <qevent.h>
 #include <qstringlist.h>
@@ -25,13 +22,15 @@
 #include <qdir.h>
 #include <qsocketnotifier.h>
 
+#include "buffer.h"
+#include "log.h"
+#include "serial.h"
+
 using namespace SIM;
 
 #ifdef WIN32
 
 #include <windows.h>
-
-using std::string;
 
 const unsigned SERIAL_TIMEOUT	= 1000;
 
@@ -50,9 +49,9 @@ SerialEvent::SerialEvent(unsigned reason)
     m_reason = reason;
 }
 
-const unsigned EventComplete	= 0;
-const unsigned EventError		= 1;
-const unsigned EventTimeout		= 2;
+const unsigned SerialEventComplete	= 0;
+const unsigned SerialEventError		= 1;
+const unsigned SerialEventTimeout   = 2;
 
 enum PortState
 {
@@ -79,7 +78,7 @@ public:
     SerialPort	*m_port;
     int			m_baudrate;
     bool		m_bXonXoff;
-    string		m_line;
+    QCString	m_line;
     PortState	m_state;
     Buffer		m_buff;
     int			m_time;
@@ -108,7 +107,7 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
                     p->m_state = None;
-                    QApplication::postEvent(p->m_port, new SerialEvent(EventError));
+                    QApplication::postEvent(p->m_port, new SerialEvent(SerialEventError));
                 }else{
                     timeout = p->m_read_time;
                 }
@@ -119,12 +118,12 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                 memset(&p->over, 0, sizeof(p->over));
                 p->over.hEvent = p->hEvent;
                 p->m_state = Write;
-                if (WriteFile(p->hPort, p->m_line.c_str(), p->m_line.length(), &bytesWritten, &p->over))
+                if (WriteFile(p->hPort, p->m_line.data(), p->m_line.length(), &bytesWritten, &p->over))
                     break;
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
                     p->m_state = None;
-                    QApplication::postEvent(p->m_port, new SerialEvent(EventError));
+                    QApplication::postEvent(p->m_port, new SerialEvent(SerialEventError));
                 }else{
                     timeout = SERIAL_TIMEOUT;
                 }
@@ -133,9 +132,9 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
         case Read:
         case Write:
             if (res == WAIT_TIMEOUT){
-                QApplication::postEvent(p->m_port, new SerialEvent(EventTimeout));
+                QApplication::postEvent(p->m_port, new SerialEvent(SerialEventTimeout));
             }else{
-                QApplication::postEvent(p->m_port, new SerialEvent(EventComplete));
+                QApplication::postEvent(p->m_port, new SerialEvent(SerialEventComplete));
             }
             break;
         default:
@@ -203,13 +202,13 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     d->m_time	  = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    string port; // = "\\\\.\\";
+    QCString port; // = "\\\\.\\";
     port += device;
     port += ":";
-    d->hPort = CreateFileA(port.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+    d->hPort = CreateFileA(port.data(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
     if (d->hPort == INVALID_HANDLE_VALUE){
         close();
-        log(L_WARN, "Can' open %s", port.c_str());
+        log(L_WARN, "Can' open %s", port.data());
         return false;
     }
     FlushFileBuffers(d->hPort);
@@ -336,7 +335,7 @@ bool SerialPort::event(QEvent *e)
     if (e->type() != QEvent::User)
         return QObject::event(e);
     switch (static_cast<SerialEvent*>(e)->reason()){
-    case EventComplete:{
+    case SerialEventComplete:{
             DWORD bytes;
             if (GetOverlappedResult(d->hPort, &d->over, &bytes, true)){
                 if (d->m_state == Read){
@@ -358,14 +357,14 @@ bool SerialPort::event(QEvent *e)
             emit error();
             break;
         }
-    case EventTimeout:{
+    case SerialEventTimeout:{
             log(L_WARN, "IO timeout");
             CancelIo(d->hPort);
             close();
             emit error();
             break;
         }
-    case EventError:{
+    case SerialEventError:{
             log(L_WARN, "IO error");
             close();
             emit error();
@@ -382,11 +381,9 @@ QStringList SerialPort::devices()
 {
     QStringList res;
     for (unsigned i = 1; i <= 8; i++){
-        QString port = "COM";
-        port += QString::number(i);
-        QString fullPort = "\\\\.\\";
-        fullPort += port;
-        HANDLE hPort = CreateFileA(fullPort.latin1(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
+        QString port = "COM" + QString::number(i);
+        QString fullPort = "\\\\.\\" + port;
+        HANDLE hPort = CreateFile((LPCWSTR)fullPort.ucs2(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
         if (hPort == INVALID_HANDLE_VALUE)
             continue;
         res.append(port);
@@ -403,8 +400,6 @@ QStringList SerialPort::devices()
 #include <fcntl.h>
 #include <termios.h>
 #include <errno.h>
-
-using std::string;
 
 enum PortState
 {
@@ -473,31 +468,31 @@ SerialPort::~SerialPort()
 bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
     close();
-    string fname = "/dev/";
+    QCString fname = "/dev/";
     fname += device;
     d->m_time = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    d->fd = open(fname.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+    d->fd = open(fname.data(), O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (d->fd == -1){
-        log(L_WARN, "Can't open %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Can't open %s: %s", fname.data(), strerror(errno));
         return false;
     }
     int fdFlags;
     if ((fdFlags = fcntl(d->fd, F_GETFL)) == -1){
-        log(L_WARN, "Can't get flags %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Can't get flags %s: %s", fname.data(), strerror(errno));
         close();
         return false;
     }
     fdFlags &= ~O_NONBLOCK;
     if (fcntl(d->fd, F_SETFL, fdFlags) == -1){
-        log(L_WARN, "Can't set flags %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Can't set flags %s: %s", fname.data(), strerror(errno));
         close();
         return false;
     }
     int mctl = TIOCM_DTR;
     if (ioctl(d->fd, TIOCMBIC, &mctl) < 0){
-        log(L_WARN, "Clear бей failed %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Clear failed %s: %s", fname.data(), strerror(errno));
         close();
         return false;
     }

@@ -18,7 +18,8 @@
 #ifndef _ARCFG_H
 #define _ARCFG_H
 
-#include "simapi.h"
+#include "contacts.h"
+
 #include "arcfgbase.h"
 
 class ARConfig : public ARConfigBase

@@ -18,13 +18,13 @@
 #ifndef _SPELLHIGHLIGHT_H
 #define _SPELLHIGHLIGHT_H
 
-#include "simapi.h"
-#include "html.h"
+#include <stack>
 
+#include <qstring.h>
+#include <qstringlist.h>
 #include <qsyntaxhighlighter.h>
 
-#include <qdict.h>
-#include <qstringlist.h>
+#include "html.h"
 
 #include "spell.h"
 
@@ -50,7 +50,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void flush();
     void flushText();
     int m_pos;

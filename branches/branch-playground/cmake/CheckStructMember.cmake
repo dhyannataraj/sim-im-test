@@ -13,6 +13,12 @@
 #  CMAKE_REQUIRED_DEFINITIONS = list of macros to define (-DFOO=bar)
 #  CMAKE_REQUIRED_INCLUDES = list of include directories
 
+# Copyright (c) 2006, Alexander Neundorf, <neundorf@kde.org>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
+
 INCLUDE(CheckCXXSourceCompiles)
 
 MACRO (CHECK_STRUCT_MEMBER _STRUCT _MEMBER _HEADER _RESULT)
@@ -33,3 +39,4 @@ int main()
    CHECK_CXX_SOURCE_COMPILES("${_CHECK_STRUCT_MEMBER_SOURCE_CODE}" ${_RESULT})
 
 ENDMACRO (CHECK_STRUCT_MEMBER)
+

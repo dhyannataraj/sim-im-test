@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "securedlg.h"
 #include "icqclient.h"
 #include "icqmessage.h"
@@ -27,7 +28,7 @@
 
 using namespace SIM;
 
-SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data)
+SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data)
         : SecureDlgBase(NULL, "securedlg", false, WDestructiveClose)
 {
     SET_WNDPROC("secure")
@@ -44,10 +45,8 @@ SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *da
 
 SecureDlg::~SecureDlg()
 {
-    if (m_msg){
-        Event e(EventMessageCancel, m_msg);
-        e.process();
-    }
+    if (m_msg)
+        EventMessageCancel(m_msg).process();
 }
 
 void SecureDlg::start()
@@ -62,16 +61,26 @@ void SecureDlg::start()
     }
 }
 
-void *SecureDlg::processEvent(Event *e)
+bool SecureDlg::processEvent(Event *e)
 {
-    if (e->type() == EventContactDeleted){
-        close();
-        return NULL;
+    switch(e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                close();
+                break;
+            }
+            default:
+                break;
+        }
+        break;
     }
-    if (e->type() == EventMessageSent){
-        Message *msg = (Message*)(e->param());
+    case eEventMessageSent: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg != m_msg)
-            return NULL;
+            return false;
         QString err = msg->getError();
         if (!err.isEmpty()){
             error(err);
@@ -79,12 +88,15 @@ void *SecureDlg::processEvent(Event *e)
             m_msg = NULL;
             close();
         }
-        return e->param();
+        return true;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
-void SecureDlg::error(const char *err)
+void SecureDlg::error(const QString &err)
 {
     QString errText = i18n(err);
     m_msg = NULL;

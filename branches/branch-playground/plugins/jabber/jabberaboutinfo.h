@@ -18,7 +18,6 @@
 #ifndef _JABBERABOUTINFO_H
 #define _JABBERABOUTINFO_H
 
-#include "simapi.h"
 #include "jabberaboutinfobase.h"
 
 class JabberClient;
@@ -27,14 +26,14 @@ class JabberAboutInfo : public JabberAboutInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberAboutInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client);
+    JabberAboutInfo(QWidget *parent, JabberUserData *data, JabberClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill(JabberUserData *data);
-    struct JabberUserData *m_data;
+    JabberUserData *m_data;
     JabberClient *m_client;
 };
 

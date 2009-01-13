@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "country.h"
+#include "icons.h"
+#include "misc.h"
+
 #include "editphone.h"
 #include "phonedetails.h"
 #include "pagerdetails.h"

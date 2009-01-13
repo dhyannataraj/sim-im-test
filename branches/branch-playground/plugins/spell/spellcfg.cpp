@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "spellcfg.h"
-#include "spell.h"
-#include "speller.h"
-#include "editfile.h"
-#include "linklabel.h"
-#include "listview.h"
-
 #ifdef WIN32
 #include "spellfind.h"
 #endif
@@ -32,6 +25,15 @@
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qstyle.h>
+
+#include "editfile.h"
+#include "linklabel.h"
+#include "listview.h"
+#include "log.h"
+
+#include "spellcfg.h"
+#include "spell.h"
+#include "speller.h"
 
 using namespace SIM;
 
@@ -67,22 +69,21 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
 SpellConfig::~SpellConfig()
 {
 #ifdef WIN32
-    if (m_find)
-        delete m_find;
+    delete m_find;
 #endif
 }
 
 void SpellConfig::apply()
 {
 #ifdef WIN32
-    m_plugin->setPath(QFile::encodeName(edtPath->text()));
+    m_plugin->setPath(edtPath->text());
 #endif
     QString lang;
     for (QListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
-        if (item->text(COL_CHECKED) == "")
+        if (item->text(COL_CHECKED).isEmpty())
             continue;
         if (!lang.isEmpty())
-            lang += ";";
+            lang += ';';
         lang += item->text(COL_NAME);
     }
     m_plugin->setLang(lang);
@@ -111,9 +112,9 @@ void SpellConfig::textChanged(const QString&)
         lnkAspell->hide();
         btnFind->hide();
 #ifdef WIN32
-        SpellerBase base(QFile::encodeName(str));
+        SpellerBase base(str);
 #else
-        SpellerBase base;
+        SpellerBase base(QString::null);
 #endif
         SpellerConfig cfg(base);
         langs = cfg.getLangs();
@@ -167,7 +168,7 @@ void SpellConfig::langClicked(QListViewItem *item)
     if(!item)
         return;
     SIM::log(SIM::L_DEBUG, "langClicked");
-    if (item->text(COL_CHECKED) == ""){
+    if (item->text(COL_CHECKED).isEmpty()){
         item->setText(COL_CHECKED, "1");
     }else{
         item->setText(COL_CHECKED, "");

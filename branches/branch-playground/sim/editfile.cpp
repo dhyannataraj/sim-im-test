@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "editfile.h"
-#include "preview.h"
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #include <qlineedit.h>
 #include <qpushbutton.h>
@@ -27,13 +28,21 @@
 #include <qregexp.h>
 #include <qpopupmenu.h>
 #include <qclipboard.h>
+
 #ifdef USE_KDE
-#include <kfiledialog.h>
-#include <kdiroperator.h>
-#define QFileDialog	KFileDialog
+# include <kfiledialog.h>
+# include <kdiroperator.h>
+# define QFileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+# include <qfiledialog.h>
 #endif
+
+#include "editfile.h"
+#include "event.h"
+#include "icons.h"
+#include "misc.h"
+#include "preview.h"
+#include "unquot.h"
 
 using namespace SIM;
 
@@ -152,16 +161,15 @@ void EditFile::showFiles()
         QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, topLevelWidget());
         if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
             for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-                *it = QString("\"") + *it + QString("\"");
+                *it ='\"' + *it + '\"';
             }
         }
         s = lst.join(" ");
     }else{
         if (s.isEmpty()){
             s = startDir;
-            if (!s.isEmpty()){
-                makedir(QFile::encodeName(QDir::convertSeparators(s)).data());
-            }
+            if (!s.isEmpty())
+                makedir(s);
         }
         if (createPreview){
             FileDialog *dlg = new FileDialog( s, filter, topLevelWidget(), title.isEmpty() ? i18n("Open") : title);
@@ -185,7 +193,7 @@ void EditFile::showFiles()
 #endif
             dlg->setFilter(filter);
             QString result;
-            s = "";
+            s = QString::null;
             if (dlg->exec() == QDialog::Accepted){
                 s = dlg->selectedFile();
             }
@@ -232,9 +240,13 @@ EditSound::EditSound(QWidget *p, const char *name)
     btnPlay->setPixmap(Pict("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
 #ifdef USE_KDE
-    filter = i18n("*.wav|Sounds");
+    filter = i18n("*.wav *.mp3 *.flac *.ogg *.aiff|Sounds");
+#else
+#if defined(USE_AUDIERE) || (!defined(WIN32) && !defined(__OS2__))
+    filter = i18n("Sounds (*.wav *.mp3 *.flac *.ogg *.aiff *.mod *.s3m *.xm *.it)");
 #else
     filter = i18n("Sounds(*.wav)");
+#endif
 #endif
     startDir = app_file("sound");
     title = i18n("Select sound");
@@ -246,8 +258,7 @@ EditSound::~EditSound()
 
 void EditSound::play()
 {
-    QString s = edtFile->text();
-    Event e(EventPlaySound, (void*)&s);
+    EventPlaySound e(edtFile->text());
     e.process();
 }
 
@@ -281,11 +292,11 @@ QPopupMenu *LineEdit::createPopupMenu()
         int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
-            s = s.replace(QRegExp("\\&"), "&&");
+            s = s.replace('&', "&&");
             QString text = unquoteText(i18n(*p++));
             text += " (";
             text += s;
-            text += ")";
+            text += ')';
             popup->insertItem(text, id++);
         }
     }
@@ -320,11 +331,11 @@ QPopupMenu *MultiLineEdit::createPopupMenu()
         int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
-            s = s.replace(QRegExp("\\&"), "&&");
+            s = s.replace('&', "&&");
             QString text = unquoteText(i18n(*p++));
             text += " (";
             text += s;
-            text += ")";
+            text += ')';
             popup->insertItem(text, id++);
         }
     }

@@ -18,8 +18,11 @@
 #ifndef _SMSSETUP_H
 #define _SMSSETUP_H
 
+#include <qobject.h>
+
+#include "contacts.h"
+
 #include "smssetupbase.h"
-#include "simapi.h"
 
 class SMSClient;
 

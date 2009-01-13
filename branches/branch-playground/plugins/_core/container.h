@@ -18,12 +18,15 @@
 #ifndef _CONTAINER_H
 #define _CONTAINER_H
 
-#include "simapi.h"
-#include "stl.h"
+#include "cfg.h"
+#include "event.h"
+#include "message.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
 #include <qtabbar.h>
+#include <qpixmap.h>
+#include <qlabel.h>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;
@@ -37,7 +40,7 @@ class CorePlugin;
 class Container;
 class QAccel;
 
-typedef struct ContainerData
+struct ContainerData
 {
     SIM::Data	Id;
     SIM::Data	Windows;
@@ -46,7 +49,7 @@ typedef struct ContainerData
     SIM::Data	barState[7];
     SIM::Data	StatusSize;
     SIM::Data	WndConfig;
-} ContainerData;
+};
 
 class ContainerStatus : public QStatusBar
 {
@@ -93,7 +96,7 @@ public:
     UserWnd *wnd(unsigned id);
     UserWnd *wnd();
     std::list<UserWnd*> windows();
-    QString getState();
+    QCString getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
     void setNoSwitch(bool bState);
@@ -123,7 +126,7 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void showBar();
     void setupAccel();
     ContainerData	data;
@@ -134,6 +137,8 @@ protected:
     bool			m_bReceived;
     bool			m_bNoSwitch;
     CToolBar		*m_bar;
+    QDockWindow		m_avatar_window;
+    QLabel		m_avatar_label;
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;

@@ -15,18 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _WINDOCK_H
-#define _WINDOCK_H
+#ifndef _OSD_H
+#define _OSD_H
 
-#include "simapi.h"
-#include "stl.h"
-
+#include <simapi.h>
+#include <qfont.h>
 #include <qpixmap.h>
+#include <qwidget.h>
+#include <qthread.h>
 
-typedef struct OSDUserData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+#ifdef WIN32
+	#include <windows.h>
+#else  // assume POSIX
+	#include <unistd.h>
+#endif
+
+inline void sleepTime(int i) {
+#ifdef WIN32
+  Sleep(i);
+#else
+  sleep(i);
+#endif
+}
+
+class QPushButton;
+
+struct OSDUserData
 {
     SIM::Data	EnableMessage;
-    SIM::Data    EnableMessageShowContent;
+    SIM::Data	EnableMessageShowContent;
+	SIM::Data	EnableCapsLockFlash;
     SIM::Data	ContentLines;
     SIM::Data	EnableAlert;
     SIM::Data	EnableAlertOnline;
@@ -43,10 +65,11 @@ typedef struct OSDUserData
     SIM::Data	Font;
     SIM::Data	Timeout;
     SIM::Data	Shadow;
+	SIM::Data	Fading;
     SIM::Data	Background;
     SIM::Data	BgColor;
     SIM::Data	Screen;
-} OSDUserData;
+};
 
 enum OSDType
 {
@@ -62,27 +85,30 @@ enum OSDType
     OSD_MESSAGE
 };
 
-typedef struct OSDRequest
+struct OSDRequest
 {
     unsigned long	contact;
-    OSDType			type;
-} OSDRequest;
+    OSDType		type;
+};
 
 class QTimer;
 class QPushButton;
 class CorePlugin;
+class OSDPlugin;
 
 class OSDWidget : public QWidget
 {
     Q_OBJECT
 public:
-    OSDWidget();
+    OSDWidget(OSDPlugin* plugin);
     void showOSD(const QString &text, OSDUserData *data);
 signals:
     void dblClick();
     void closeClick();
 protected slots:
     void slotCloseClick();
+	void m_transTimerFadeInTimeout();
+
 protected:
     bool isScreenSaverActive();
     void paintEvent(QPaintEvent*);
@@ -90,29 +116,41 @@ protected:
     QFont	baseFont;
     QPixmap bgPict;
     QPushButton	*m_button;
+    OSDPlugin	*m_plugin;
+	QTimer		*m_transTimer;
+	uint transCounter;
 };
 
-class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
 {
     Q_OBJECT
 public:
     OSDPlugin(unsigned);
+    QFont getBaseFont(QFont font);
     virtual ~OSDPlugin();
     unsigned long user_data_id;
 protected slots:
     void timeout();
+	void m_transTimerFadeOutTimeout();
     void dblClick();
     void closeClick();
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void *processEvent(SIM::Event*);
-    void processQueue();
+    virtual bool processEvent(SIM::Event *e);
+    virtual void run();
+	void processQueue();
+	void flashCapsLockLED(bool);
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;
     std::list<unsigned>		typing;
     CorePlugin	*core;
     QWidget		*m_osd;
     QTimer		*m_timer;
+	bool bCapsState;
+	QTimer		*m_transTimer;
+	uint transOutCounter;
+	bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size() 
+				  // see pacth #2304 for more info.
 };
 
 #endif

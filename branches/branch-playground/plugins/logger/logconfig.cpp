@@ -15,11 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "logconfig.h"
-#include "logger.h"
-#include "editfile.h"
-#include "listview.h"
-
 #include <qstyle.h>
 #include <qlayout.h>
 #include <qheader.h>
@@ -27,7 +22,15 @@
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qbutton.h>
-#include <qfile.h>
+#include <qfileinfo.h>
+
+#include "editfile.h"
+#include "listview.h"
+#include "log.h"
+#include "misc.h"
+
+#include "logconfig.h"
+#include "logger.h"
 
 using namespace SIM;
 
@@ -64,7 +67,7 @@ void LogConfig::apply()
     QFile file(edtFile->text());
     if (!file.open(IO_Append | IO_ReadWrite)) {
         log(L_DEBUG,"Logfile %s isn't a valid file - discarded!",edtFile->text().latin1());
-        edtFile->setText("");
+        edtFile->setText(QString::null);
     } else {
         file.close();
     }
@@ -127,7 +130,7 @@ void LogConfig::setCheck(QListViewItem *item)
 {
     int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
-    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
+int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
@@ -139,11 +142,11 @@ void LogConfig::setCheck(QListViewItem *item)
     item->setPixmap(COL_CHECK, pixInd);
 }
 
-void *LogConfig::processEvent(Event *e)
+bool LogConfig::processEvent(Event *e)
 {
-    if ((e->type() == EventPluginChanged) || (e->type() == EventLanguageChanged))
+    if ((e->type() == eEventPluginChanged) || (e->type() == eEventLanguageChanged))
         fill();
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

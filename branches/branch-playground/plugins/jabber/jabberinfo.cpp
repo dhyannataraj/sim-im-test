@@ -15,12 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "simapi.h"
-#include "jabberinfo.h"
-#include "datepicker.h"
-#include "ballonmsg.h"
-
 #include <qmultilineedit.h>
 #include <qlineedit.h>
 #include <qstringlist.h>
@@ -30,9 +24,17 @@
 #include <qlabel.h>
 #include <qtabwidget.h>
 
+#include "ballonmsg.h"
+#include "datepicker.h"
+#include "icons.h"
+#include "misc.h"
+
+#include "jabberclient.h"
+#include "jabberinfo.h"
+
 using namespace SIM;
 
-JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
+JabberInfo::JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
         : JabberInfoBase(parent)
 {
     m_client  = client;
@@ -42,6 +44,7 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
     edtID->setReadOnly(true);
+    edtClient->setReadOnly(true);
     if (m_data){
         edtFirstName->setReadOnly(true);
         edtNick->setReadOnly(true);
@@ -104,6 +107,7 @@ void JabberInfo::resourceActivated(int i)
     unsigned statusTime;
     unsigned onlineTime;
     QString autoReply;
+    QString clientName, clientVersion, clientOS;
     if ((n == 0) || (n > data->nResources.toULong())){
         status = m_data ? m_data->Status.toULong() : m_client->getStatus();
         statusTime = data->StatusTime.toULong();
@@ -113,6 +117,9 @@ void JabberInfo::resourceActivated(int i)
         statusTime = get_str(data->ResourceStatusTime, n).toUInt();
         onlineTime = get_str(data->ResourceOnlineTime, n).toUInt();
         autoReply = get_str(data->ResourceReply, n);
+        clientName = get_str(data->ResourceClientName, n);
+        clientVersion = get_str(data->ResourceClientVersion, n);
+        clientOS = get_str(data->ResourceClientOS, n);
     }
     int current = 0;
     const char *text = NULL;
@@ -128,7 +135,7 @@ void JabberInfo::resourceActivated(int i)
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ":");
+        lblOnline->setText(i18n("Last online") + ':');
         edtOnline->setText(formatDateTime(statusTime));
         lblOnline->show();
         edtOnline->show();
@@ -159,26 +166,39 @@ void JabberInfo::resourceActivated(int i)
         edtAutoReply->show();
         edtAutoReply->setText(autoReply);
     }
+    if (clientName.isEmpty()){
+        edtClient->setEnabled(false);
+    }else{
+        edtClient->setEnabled(true);
+        QString clientString = clientName + ' ' + clientVersion;
+        if (!clientOS.isEmpty())
+            clientString += " / " + clientOS;
+        edtClient->setText(clientString);
+    }
 }
 
-void *JabberInfo::processEvent(Event *e)
+bool JabberInfo::processEvent(Event *e)
 {
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
             fill();
-    }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    } else
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void JabberInfo::fill()
@@ -210,7 +230,7 @@ void JabberInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->FirstName.str() = edtFirstName->text();
     data->Nick.str()      = edtNick->text();
     data->Bday.str()      = edtDate->text();
@@ -222,7 +242,7 @@ void JabberInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 }
 

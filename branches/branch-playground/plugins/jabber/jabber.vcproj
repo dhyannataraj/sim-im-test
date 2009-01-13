@@ -513,6 +513,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\jabberbuffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="jabberclient.cpp"
 				>
 				<FileConfiguration
@@ -577,6 +581,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\jabberfiletransfer.cpp"
+				>
 			</File>
 			<File
 				RelativePath="jabberhomeinfo.cpp"
@@ -1502,6 +1510,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\jabber_events.h"
+				>
+			</File>
+			<File
 				RelativePath=".\jabber_pch.h"
 				>
 				<FileConfiguration
@@ -1638,6 +1650,10 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\jabberbuffer.h"
+				>
 			</File>
 			<File
 				RelativePath="jabberclient.h"

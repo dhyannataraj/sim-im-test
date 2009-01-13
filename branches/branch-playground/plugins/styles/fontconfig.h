@@ -18,7 +18,6 @@
 #ifndef _FONTCONFIG_H
 #define _FONTCONFIG_H
 
-#include "simapi.h"
 #include "fontconfigbase.h"
 
 class StylesPlugin;

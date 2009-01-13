@@ -22,6 +22,8 @@
 #define SIMBUILTINLOGGER_H
 
 #include "simapi.h"
+#include "event.h"
+#include "log.h"
 
 namespace SIM {
 
@@ -32,7 +34,7 @@ public:
     virtual ~BuiltinLogger();
 
 private:
-    virtual void *processEvent(Event *e);
+    virtual bool processEvent(Event *e);
     unsigned m_logLevel;
 };
 

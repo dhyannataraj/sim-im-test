@@ -15,24 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msgedit.h"
-#include "icons.h"
-#include "textshow.h"
-#include "toolbtn.h"
-#include "core.h"
-#include "msgsms.h"
-#include "msgfile.h"
-#include "msggen.h"
-#include "msgauth.h"
-#include "msgurl.h"
-#include "msgcontacts.h"
-#include "msgrecv.h"
-#include "ballonmsg.h"
-#include "userwnd.h"
-#include "userlist.h"
-#include "history.h"
-#include "container.h"
-#include "buffer.h"
+#include <time.h>
+#include <stdio.h>
+
+#include <algorithm>
 
 #include <qfontmetrics.h>
 #include <qtoolbar.h>
@@ -45,12 +31,31 @@
 #include <qregexp.h>
 #include <qtooltip.h>
 
-#include <time.h>
-#include <stdio.h>
+#include "simapi.h"
 
 #ifdef USE_KDE
 #include "kdeisversion.h"
 #endif
+
+#include "ballonmsg.h"
+#include "buffer.h"
+#include "icons.h"
+#include "textshow.h"
+#include "toolbtn.h"
+
+#include "msgedit.h"
+#include "core.h"
+#include "msgsms.h"
+#include "msgfile.h"
+#include "msggen.h"
+#include "msgauth.h"
+#include "msgurl.h"
+#include "msgcontacts.h"
+#include "msgrecv.h"
+#include "userwnd.h"
+#include "userlist.h"
+#include "history.h"
+#include "container.h"
 
 using namespace std;
 using namespace SIM;
@@ -79,8 +84,9 @@ QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
     cmd->param		= parentWidget()->parentWidget();
     cmd->flags		= COMMAND_NEW_POPUP;
     m_popupPos = pos;
-    Event e(EventGetMenu, cmd);
-    return (QPopupMenu*)(e.process());
+    EventMenuGet e(cmd);
+    e.process();
+    return e.menu();
 }
 
 Message *MsgTextEdit::createMessage(QMimeSource *src)
@@ -97,8 +103,7 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
                 c->id      = cmd->id;
                 c->menu_id = MenuMessage;
                 c->param	 = (void*)(m_edit->m_userWnd->id());
-                Event e(EventCheckState, c);
-                if (e.process())
+                if (EventCheckCommandState(c).process())
                     break;
                 delete msg;
                 msg = NULL;
@@ -114,8 +119,7 @@ void MsgTextEdit::contentsDropEvent(QDropEvent *e)
     if (msg){
         e->accept();
         msg->setContact(m_edit->m_userWnd->id());
-        Event eOpen(EventOpenMessage, &msg);
-        eOpen.process();
+        EventOpenMessage(msg).process();
         delete msg;
         return;
     }
@@ -192,11 +196,9 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
     m_layout->addWidget(m_edit);
 
-    BarShow b;
-    b.bar_id = ToolBarMsgEdit;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)(e.process());
+    EventToolbar e(ToolBarMsgEdit, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam(this);
 
     if (CorePlugin::m_plugin->getContainerMode() == 0)
@@ -235,8 +237,7 @@ void MsgEdit::execCommand()
     if (m_cmd.param == NULL)
         return;
     Message *msg = (Message*)(m_cmd.param);
-    Event e(EventCommandExec, &m_cmd);
-    e.process();
+    EventCommandExec(&m_cmd).process();
     delete msg;
     m_cmd.param = NULL;
     switch (m_cmd.id){
@@ -260,8 +261,7 @@ void MsgEdit::showCloseSend(bool bState)
     cmd->param		= this;
     if (CorePlugin::m_plugin->getCloseSend())
         cmd->flags |= COMMAND_CHECKED;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
 }
 
 void MsgEdit::resizeEvent(QResizeEvent *e)
@@ -275,8 +275,6 @@ void MsgEdit::editFontChanged(const QFont &f)
     if (!CorePlugin::m_plugin->getEditSaveFont())
         return;
     CorePlugin::m_plugin->editFont = f;
-    Event e(EventHistoryFont);
-    e.process();
 }
 
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
@@ -307,7 +305,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
             return false;
         create = def->generate;
         if (create){
-            m_userWnd->setStatus("");
+            m_userWnd->setStatus(QString::null);
             processor = create(this, msg);
         }
     }
@@ -326,8 +324,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
-        Event e(EventContactClient, contact);
-        e.process();
+        EventContactClient(contact).process();
     }
 
     m_bar->checkState();
@@ -341,8 +338,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         cmd->flags = COMMAND_CHECKED;
         m_userWnd->showListView(true);
     }
-    Event eChange(EventCommandChecked, cmd);
-    eChange.process();
+    EventCommandChecked(cmd).process();
 
     if (m_processor && bSetFocus)
         QTimer::singleShot(0, m_processor, SLOT(init()));
@@ -417,7 +413,7 @@ void MsgEdit::setInput()
     }
 }
 
-static Message *createGeneric(ConfigBuffer *cfg)
+static Message *createGeneric(Buffer *cfg)
 {
     return new Message(MessageGeneric, cfg);
 }
@@ -443,7 +439,7 @@ static MessageDef defGeneric =
         NULL
     };
 
-static Message *createSMS(ConfigBuffer *cfg)
+static Message *createSMS(Buffer *cfg)
 {
     return new SMSMessage(cfg);
 }
@@ -473,7 +469,7 @@ static MessageDef defSMS =
 i18n("URL", "%n URLs", 1);
 #endif
 
-static Message *createUrl(ConfigBuffer *cfg)
+static Message *createUrl(Buffer *cfg)
 {
     return new UrlMessage(MessageUrl, cfg);
 }
@@ -510,7 +506,7 @@ static MessageDef defUrl =
         dropUrl
     };
 
-static Message *createContacts(ConfigBuffer *cfg)
+static Message *createContacts(Buffer *cfg)
 {
     return new ContactsMessage(MessageContacts, cfg);
 }
@@ -526,7 +522,7 @@ static Message *dropContacts(QMimeSource *src)
         Contact *contact = ContactDragObject::decode(src);
         ContactsMessage *msg = new ContactsMessage;
         QString name = contact->getName();
-        msg->setContacts(QString("sim:") + QString::number(contact->id()) + "," + getToken(name, '/'));
+        msg->setContacts(QString("sim:") + QString::number(contact->id()) + ',' + getToken(name, '/'));
         return msg;
     }
     return NULL;
@@ -548,7 +544,7 @@ static MessageDef defContacts =
         dropContacts
     };
 
-static Message *createFile(ConfigBuffer *cfg)
+static Message *createFile(Buffer *cfg)
 {
     return new FileMessage(MessageFile, cfg);
 }
@@ -566,10 +562,10 @@ Message *dropFile(QMimeSource *src)
             QString fileName;
             for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                 if (!fileName.isEmpty())
-                    fileName += ",";
-                fileName += "\"";
+                    fileName += ',';
+                fileName += '\"';
                 fileName += *it;
-                fileName += "\"";
+                fileName += '\"';
             }
             FileMessage *m = new FileMessage;
             m->setFile(fileName);
@@ -630,7 +626,7 @@ static MessageDef defFile =
         dropFile
     };
 
-static Message *createAuthRequest(ConfigBuffer *cfg)
+static Message *createAuthRequest(Buffer *cfg)
 {
     return new AuthMessage(MessageAuthRequest, cfg);
 }
@@ -649,9 +645,9 @@ static CommandDef authRequestCommands[] =
         CommandDef (
             CmdGrantAuth,
             I18N_NOOP("&Grant"),
-            "",
-            "",
-            "",
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1080,
             MenuMessage,
@@ -664,9 +660,9 @@ static CommandDef authRequestCommands[] =
         CommandDef (
             CmdRefuseAuth,
             I18N_NOOP("&Refuse"),
-            "",
-            "",
-            "",
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1081,
             MenuMessage,
@@ -674,7 +670,7 @@ static CommandDef authRequestCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            ""
+            QString::null
         ),
         CommandDef ()
     };
@@ -691,7 +687,7 @@ static MessageDef defAuthRequest =
         NULL
     };
 
-static Message *createAuthGranted(ConfigBuffer *cfg)
+static Message *createAuthGranted(Buffer *cfg)
 {
     return new AuthMessage(MessageAuthGranted, cfg);
 }
@@ -712,7 +708,7 @@ static MessageDef defAuthGranted =
         NULL
     };
 
-static Message *createAuthRefused(ConfigBuffer *cfg)
+static Message *createAuthRefused(Buffer *cfg)
 {
     return new AuthMessage(MessageAuthRefused, cfg);
 }
@@ -733,7 +729,7 @@ static MessageDef defAuthRefused =
         NULL
     };
 
-static Message *createAdded(ConfigBuffer *cfg)
+static Message *createAdded(Buffer *cfg)
 {
     return new AuthMessage(MessageAdded, cfg);
 }
@@ -754,7 +750,7 @@ static MessageDef defAdded =
         NULL
     };
 
-static Message *createRemoved(ConfigBuffer *cfg)
+static Message *createRemoved(Buffer *cfg)
 {
     return new AuthMessage(MessageRemoved, cfg);
 }
@@ -775,7 +771,7 @@ static MessageDef defRemoved =
         NULL
     };
 
-static Message *createStatus(ConfigBuffer *cfg)
+static Message *createStatus(Buffer *cfg)
 {
     return new StatusMessage(cfg);
 }
@@ -838,8 +834,7 @@ bool MsgEdit::sendMessage(Message *msg)
     }
     if (m_msg){
         delete msg;
-        Event e(EventMessageCancel, m_msg);
-        if (e.process())
+        if (EventMessageCancel(m_msg).process())
             m_msg = NULL;
         stopSend(false);
         return false;
@@ -850,8 +845,10 @@ bool MsgEdit::sendMessage(Message *msg)
         Command cmd;
         cmd->id		= CmdSendClose;
         cmd->param	= this;
-        Event e(EventCommandWidget, cmd);
-        QToolButton *btnClose = (QToolButton*)(e.process());
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        // FIXME: use qobject_cast in Qt4
+        QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
         if (btnClose)
             bClose = btnClose->isOn();
     }
@@ -900,8 +897,7 @@ bool MsgEdit::sendMessage(Message *msg)
     cmd->icon	= "cancel";
     cmd->flags	= BTN_PICT;
     cmd->param	= this;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
     m_msg = msg;
     return send();
 }
@@ -913,8 +909,7 @@ bool MsgEdit::send()
     bool bSent = false;
     void *data = NULL;
     if (contact){
-        Event e(EventMessageSend, m_msg);
-        e.process();
+        EventMessageSend(m_msg).process();
         if (client_str.isEmpty()){
             m_type = m_msg->type();
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
@@ -952,13 +947,12 @@ bool MsgEdit::send()
             m_msg = NULL;
         }
         stopSend();
-        CToolButton *btnSend = NULL;
         Command cmd;
         cmd->id		= CmdSend;
         cmd->param	= this;
-        Event e(EventCommandWidget, cmd);
-        btnSend = (CToolButton*)(e.process());
-        QWidget *msgWidget = btnSend;
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        QWidget *msgWidget = eWidget.widget();
         if (msgWidget == NULL)
             msgWidget = this;
         BalloonMsg::message(i18n("No such client for send message"), msgWidget);
@@ -973,13 +967,12 @@ void MsgEdit::stopSend(bool bCheck)
         Command cmd;
         m_userWnd->showListView(false);
         cmd->id			= CmdMultiply;
-        cmd->text		= I18N_NOOP("&Multiply send");
+        cmd->text		= I18N_NOOP("Multi&ply send");
         cmd->icon		= "1rightarrow";
         cmd->icon_on	= "1leftarrow";
         cmd->flags		= COMMAND_DEFAULT;
         cmd->param		= this;
-        Event eChange(EventCommandChange, cmd);
-        eChange.process();
+        EventCommandChange(cmd).process();
     }
     multiply.clear();
     Command cmd;
@@ -990,8 +983,7 @@ void MsgEdit::stopSend(bool bCheck)
     cmd->bar_grp	= 0x8000;
     cmd->flags		= BTN_PICT;
     cmd->param		= this;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
     if (bCheck && (m_msg == NULL))
         return;
     if (m_msg)
@@ -1018,7 +1010,7 @@ bool MsgEdit::setType(unsigned type)
     Message *msg = mdef->create(NULL);
     if (msg == NULL)
         return false;
-    m_userWnd->setMessage(&msg);
+    m_userWnd->setMessage(msg);
     delete msg;
     return true;
 }
@@ -1031,17 +1023,18 @@ bool MsgEdit::adjustType()
     cmd->menu_id = MenuMessage;
     cmd->param = (void*)(m_userWnd->m_id);
     cmd->id = m_userWnd->getMessageType();
-    Event e1(EventCheckState, cmd);
-    if ((m_userWnd->getMessageType() != m_type) && e1.process()){
-        if (setType(m_userWnd->getMessageType()))
-            return true;
+    if (m_userWnd->getMessageType() != m_type) {
+        if(EventCheckCommandState(cmd).process()) {
+            if (setType(m_userWnd->getMessageType()))
+                return true;
+        }
     }
     cmd->id = m_type;
-    Event e(EventCheckState, cmd);
-    if (e.process())
+    if(EventCheckCommandState(cmd).process())
         return true;
-    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList itc(*cmdsMsg, true);
     CommandDef *c;
     unsigned desired = m_userWnd->getMessageType();
@@ -1050,8 +1043,7 @@ bool MsgEdit::adjustType()
         if (c->id == CmdContactClients)
             continue;
         c->param = (void*)(m_userWnd->m_id);
-        Event eCheck(EventCheckState, c);
-        if (!eCheck.process())
+        if (!EventCheckCommandState(c).process())
             continue;
         if (setType(c->id)){
             bSet = true;
@@ -1062,20 +1054,25 @@ bool MsgEdit::adjustType()
     return bSet;
 }
 
-void *MsgEdit::processEvent(Event *e)
+bool MsgEdit::processEvent(Event *e)
 {
-    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() == m_userWnd->m_id)){
+    switch (e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if (ec->contact()->id() != m_userWnd->m_id)
+            break;
         adjustType();
-        return NULL;
+        break;
     }
-    if (e->type() == EventClientChanged){
+    case eEventClientChanged: {
         adjustType();
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageReceived){
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->getFlags() & MESSAGE_NOVIEW)
-            return NULL;
+            return false;
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
             if (CorePlugin::m_plugin->getContainerMode()){
                 bool bSetFocus = false;
@@ -1090,16 +1087,19 @@ void *MsgEdit::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(setupNext()));
             }
         }
+        break;
     }
-    if (e->type() == EventRealSendMessage){
-        MsgSend *s = (MsgSend*)(e->param());
-        if (s->edit == this){
-            sendMessage(s->msg);
-            return e->param();
+    case eEventRealSendMessage: {
+        EventRealSendMessage *ersm = static_cast<EventRealSendMessage*>(e);
+        if (ersm->edit() == this){
+            sendMessage(ersm->msg());
+            return true;
         }
+        break;
     }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
@@ -1108,76 +1108,79 @@ void *MsgEdit::processEvent(Event *e)
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (data->Translit.toBool())
                         cmd->flags |= COMMAND_CHECKED;
+                    // FIXME: return true; missing here?
                 }
             }
-            return NULL;
+            return false;
         }
         if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
-            return NULL;
+            return false;
         cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
         switch (cmd->id){
         case CmdUndo:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
             if (!m_edit->isUndoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         case CmdRedo:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
             if (!m_edit->isRedoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         case CmdCut:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
         case CmdCopy:
             if (!m_edit->hasSelectedText())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         case CmdPaste:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
             if (QApplication::clipboard()->text().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         case CmdClear:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
         case CmdSelectAll:
             if (m_edit->text().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return true;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
         if (cmd->id == CmdEnableSpell){
             m_edit->setCheckSpellingEnabled(cmd->flags & COMMAND_CHECKED);
-            return NULL;
+            return false;
         }
         if ((cmd->id == CmdSpell) && (cmd->param == this)){
             m_edit->checkSpelling();
-            return e->param();
+            return true;
         }
 #endif
 #endif
         if ((cmd->id == CmdSmile) && (cmd->param == this)){
-            Event eBtn(EventCommandWidget, cmd);
-            QToolButton *btnSmile = (QToolButton*)(eBtn.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            QToolButton *btnSmile = dynamic_cast<QToolButton*>(eWidget.widget());
             if (btnSmile){
                 SmilePopup *popup = new SmilePopup(this);
                 QSize s = popup->minimumSizeHint();
                 popup->resize(s);
-                connect(popup, SIGNAL(insert(const char*)), this, SLOT(insertSmile(const char*)));
+                connect(popup, SIGNAL(insert(const QString &)), this, SLOT(insertSmile(const QString &)));
                 QPoint p = CToolButton::popupPos(btnSmile, popup);
                 popup->move(p);
                 popup->show();
             }
-            return e->param();
+            return true;
         }
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
@@ -1185,11 +1188,11 @@ void *MsgEdit::processEvent(Event *e)
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
                 data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();;
+            return true;
         }
         if ((cmd->id == CmdMultiply) && (cmd->param == this)){
             m_userWnd->showListView((cmd->flags & COMMAND_CHECKED) != 0);
-            return e->param();
+            return true;
         }
         if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
             switch (cmd->id){
@@ -1197,8 +1200,7 @@ void *MsgEdit::processEvent(Event *e)
                     Message *msg = new Message(MessageGeneric);
                     msg->setContact(m_userWnd->id());
                     msg->setClient(m_client);
-                    Event e(EventOpenMessage, &msg);
-                    e.process();
+                    EventOpenMessage(msg).process();
                     delete msg;
                 }
             case CmdNextMessage:
@@ -1207,46 +1209,49 @@ void *MsgEdit::processEvent(Event *e)
             }
         }
         if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
-            return NULL;
+            return false;
         switch (cmd->id){
         case CmdUndo:
             m_edit->undo();
-            return e->param();
+            return true;
         case CmdRedo:
             m_edit->redo();
-            return e->param();
+            return true;
         case CmdCut:
             m_edit->cut();
-            return e->param();
+            return true;
         case CmdCopy:
             m_edit->copy();
-            return e->param();
+            return true;
         case CmdPaste:
             m_edit->paste();
-            return e->param();
+            return true;
         case CmdClear:
             m_edit->clear();
-            return e->param();
+            return true;
         case CmdSelectAll:
             m_edit->selectAll();
-            return e->param();
+            return true;
         }
-        return NULL;
+        break;
     }
-    if ((e->type() == EventMessageSent) || (e->type() == EventMessageAcked)){
-        Message *msg = (Message*)(e->param());
+    case eEventMessageSent:
+    case eEventMessageAcked: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg == m_msg){
-            QString err;
-            QString err_str = msg->getError();
-            err = i18n(err_str);
+            QString err = msg->getError();
+            if (!err.isEmpty())
+                err = i18n(err);
             Contact *contact = getContacts()->contact(msg->contact());
-            if (!err.isEmpty()){
+            if (err){
                 stopSend();
                 Command cmd;
                 cmd->id		= CmdSend;
                 cmd->param	= this;
-                Event e(EventCommandWidget, cmd);
-                QWidget *msgWidget = (QWidget*)(e.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                QWidget *msgWidget = eWidget.widget();
                 if (msgWidget == NULL)
                     msgWidget = this;
                 if (msg->getRetryCode()){
@@ -1256,24 +1261,25 @@ void *MsgEdit::processEvent(Event *e)
                     m_retry.msg  = new Message(msg->type());
                     m_retry.msg->setRetryCode(msg->getRetryCode());
                     m_retry.msg->setError(msg->getError());
-                    Event e(EventMessageRetry, &m_retry);
+                    EventMessageRetry e(&m_retry);
                     if (e.process())
-                        return NULL;
+                        return false;
                 }else{
                     BalloonMsg::message(err, msgWidget);
                 }
             }else{
                 if (contact){
                     contact->setLastActive(time(NULL));
-                    Event e(EventContactStatus, contact);
-                    e.process();
+                    EventContact(contact, EventContact::eStatus).process();
                 }
                 if (!multiply.empty() && (multiply_it != multiply.end())){
                     CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
-                        QString cfg = m_msg->save();
-                        ConfigBuffer config( "[Title]\n" + cfg );
+                        QCString cfg = m_msg->save();
+                        Buffer config;
+                        config = "[Title]\n" + cfg;
+                        config.setWritePos(0);
                         config.getSection();
                         m_msg = (mdef->create)(&config);
                         m_msg->setContact(*multiply_it);
@@ -1283,7 +1289,7 @@ void *MsgEdit::processEvent(Event *e)
                         if (multiply_it == multiply.end())
                             m_msg->setFlags(m_msg->getFlags() | MESSAGE_LAST);
                         send();
-                        return NULL;
+                        return false;
                     }
                 }
                 stopSend();
@@ -1293,8 +1299,9 @@ void *MsgEdit::processEvent(Event *e)
                     Command cmd;
                     cmd->id		= CmdSendClose;
                     cmd->param	= this;
-                    Event e(EventCommandWidget, cmd);
-                    QToolButton *btnClose = (QToolButton*)(e.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
                     if (btnClose)
                         bClose = btnClose->isOn();
                 }
@@ -1308,23 +1315,26 @@ void *MsgEdit::processEvent(Event *e)
                     m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
                 }
             }
-            return NULL;
         }
+        break;
     }
-    return NULL;
+    default:
+        break;
+    }
+    return false;
 }
 
 void MsgEdit::setEmptyMessage()
 {
-    m_edit->setText("");
-    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    m_edit->setText(QString::null);
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList itc(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++itc) != NULL){
         c->param = (void*)(m_userWnd->m_id);
-        Event eCheck(EventCheckState, c);
-        if (eCheck.process()){
+        if (EventCheckCommandState(c).process()){
             Message *msg;
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(c->id);
             if (def == NULL)
@@ -1337,8 +1347,7 @@ void MsgEdit::setEmptyMessage()
             if (mdef->flags & MESSAGE_SILENT)
                 continue;
             msg->setFlags(MESSAGE_NORAISE);
-            Event eOpen(EventOpenMessage, &msg);
-            eOpen.process();
+            EventOpenMessage(msg).process();
             delete msg;
             return;
         }
@@ -1421,11 +1430,10 @@ void MsgEdit::colorsChanged()
 {
     CorePlugin::m_plugin->setEditBackground(m_edit->background().rgb());
     CorePlugin::m_plugin->setEditForeground(m_edit->foreground().rgb());
-    Event e(EventHistoryColors);
-    e.process();
+    EventHistoryColors().process();
 }
 
-void MsgEdit::insertSmile(const char *id)
+void MsgEdit::insertSmile(const QString &id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
         QStringList smiles = getIcons()->getSmile(id);
@@ -1441,7 +1449,7 @@ void MsgEdit::insertSmile(const char *id)
     // determine the current position of the cursor
     m_edit->insert("\255", false, true, true);
     m_edit->getCursorPosition(&para,&index);
-    // RTF doesnt like < and >
+    // RTF doesn't like < and >
     QString txt = m_edit->text();
     txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);
@@ -1458,8 +1466,7 @@ void MsgEdit::goNext()
         Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         if (msg == NULL)
             continue;
-        Event e(EventOpenMessage, &msg);
-        e.process();
+        EventOpenMessage(msg).process();
         delete msg;
         return;
     }
@@ -1475,8 +1482,9 @@ void MsgEdit::setupNext()
     Command cmd;
     cmd->id    = CmdNextMessage;
     cmd->param = this;
-    Event e(EventCommandWidget, cmd);
-    CToolButton *btnNext = (CToolButton*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolButton *btnNext = dynamic_cast<CToolButton*>(eWidget.widget());
     if (btnNext == NULL)
         return;
 
@@ -1496,7 +1504,7 @@ void MsgEdit::setupNext()
     CommandDef *def = NULL;
     def = CorePlugin::m_plugin->messageTypes.find(type);
 
-    CommandDef c = *btnNext->def();
+    CommandDef c = btnNext->def();
     c.text_wrk = str;
     if (def)
         c.icon     = def->icon;
@@ -1513,14 +1521,12 @@ void MsgEdit::editEnterPressed()
     Command cmd;
     cmd->id = CmdSend;
     cmd->param = this;
-    Event e(EventCommandExec, cmd);
-    e.process();
+    EventCommandExec(cmd).process();
 }
 
-SmileLabel::SmileLabel(const char *_id, QWidget *parent)
-        : QLabel(parent)
+SmileLabel::SmileLabel(const QString &_id, QWidget *parent)
+        : QLabel(parent), id(_id)
 {
-    id = _id;
     QIconSet icon = Icon(_id);
     QPixmap pict;
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
@@ -1534,9 +1540,8 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
     QStringList smiles = getIcons()->getSmile(_id);
     QString tip = smiles.front();
     QString name = getIcons()->getSmileName(_id);
-    QChar c = name[0];
-    if ((c < '0') || (c > '9')){
-        tip += " ";
+    if ((name[0] < '0') || (name[0] > '9')){
+        tip += ' ';
         tip += i18n(name);
     }
     QToolTip::add(this, tip);
@@ -1544,7 +1549,7 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
 
 void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 {
-    emit clicked(id.latin1());
+    emit clicked(id);
 }
 
 SmilePopup::SmilePopup(QWidget *popup)
@@ -1558,7 +1563,7 @@ SmilePopup::SmilePopup(QWidget *popup)
     if (smiles.empty())
         return;
     unsigned nSmiles = 0;
-    QValueListIterator<QString> it;
+    QStringList::iterator it;
     for (it = smiles.begin(); it != smiles.end(); ++it){
         QIconSet is = Icon(*it);
         if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
@@ -1591,7 +1596,7 @@ SmilePopup::SmilePopup(QWidget *popup)
             continue;
         QWidget *w = new SmileLabel(*it, this);
         w->setMinimumSize(s);
-        connect(w, SIGNAL(clicked(const char*)), this, SLOT(labelClicked(const char*)));
+        connect(w, SIGNAL(clicked(const QString &)), this, SLOT(labelClicked(const QString &)));
         lay->addWidget(w, i, j);
         if (++j >= cols){
             i++;
@@ -1601,7 +1606,7 @@ SmilePopup::SmilePopup(QWidget *popup)
     resize(minimumSizeHint());
 }
 
-void SmilePopup::labelClicked(const char *id)
+void SmilePopup::labelClicked(const QString &id)
 {
     insert(id);
     close();
@@ -1618,8 +1623,7 @@ void MsgEdit::setupMessages()
     cmd->accel		= "Ctrl+M";
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defGeneric;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageFile;
     cmd->text		= I18N_NOOP("&File");
@@ -1628,7 +1632,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3020;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defFile;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageUrl;
     cmd->text		 = I18N_NOOP("&URL");
@@ -1637,16 +1641,16 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	 = 0x3030;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defUrl;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageSMS;
-    cmd->text		= I18N_NOOP("&SMS");
+    cmd->text		= I18N_NOOP("SMS");
     cmd->icon		= "sms";
     cmd->accel		= "Ctrl+S";
     cmd->menu_grp	= 0x3040;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defSMS;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageContacts;
     cmd->text		= I18N_NOOP("&Contact list");
@@ -1654,7 +1658,7 @@ void MsgEdit::setupMessages()
     cmd->accel		= "Ctrl+L";
     cmd->menu_grp	= 0x3050;
     cmd->param		= &defContacts;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAuthRequest;
     cmd->text		= I18N_NOOP("&Authorization request");
@@ -1663,7 +1667,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3060;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRequest;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAuthGranted;
     cmd->text		= I18N_NOOP("&Grant autorization");
@@ -1672,7 +1676,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3070;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthGranted;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAuthRefused;
     cmd->text		= I18N_NOOP("&Refuse autorization");
@@ -1681,7 +1685,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3071;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRefused;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAdded;
     cmd->text		= I18N_NOOP("Added");
@@ -1689,7 +1693,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAdded;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageRemoved;
     cmd->text		= I18N_NOOP("Removed");
@@ -1697,7 +1701,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defRemoved;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageStatus;
     cmd->text		= I18N_NOOP("Status");
@@ -1705,7 +1709,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defStatus;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 }
 
 #ifndef NO_MOC_INCLUDES

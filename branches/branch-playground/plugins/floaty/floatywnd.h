@@ -18,7 +18,6 @@
 #ifndef _FLOATYWND_H
 #define _FLOATYWND_H
 
-#include "simapi.h"
 
 #include <qwidget.h>
 
@@ -36,13 +35,13 @@ public:
     unsigned long id() { return m_id; }
     void init();
     void startBlink();
-protected slots:
+private slots:
     void showTip();
     void hideTip();
     void tipDestroyed();
     void startMove();
     void blink();
-protected:
+private:
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
@@ -54,16 +53,17 @@ protected:
     void dropEvent(QDropEvent*);
     void dragEvent(QDropEvent *e, bool isDrop);
     void setFont(QPainter *p);
-    QPoint   mousePos;
-    QPoint	 initMousePos;
-    QString  m_text;
-    QString  m_icons;
-    QString  m_statusIcon;
+    QPoint	mousePos;
+    QPoint	initMousePos;
+    QString	m_text;
+    QString	m_icons;
+    QString m_statusIcon;
     unsigned long m_id;
     unsigned m_style;
     unsigned m_unread;
     unsigned m_blink;
     unsigned long m_status;
+	bool b_ignoreMouseClickRelease;
     TipLabel *m_tip;
     QTimer	 *blinkTimer;
     QTimer	 *tipTimer;

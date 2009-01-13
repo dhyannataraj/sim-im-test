@@ -18,9 +18,16 @@
 #ifndef _AUTOAWAY_H
 #define _AUTOAWAY_H
 
-#include "simapi.h"
+#include <qobject.h>
 
-typedef struct AutoAwayData
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QTimer;
+class CorePlugin;
+
+struct AutoAwayData
 {
     SIM::Data	AwayTime;
     SIM::Data	EnableAway;
@@ -29,16 +36,14 @@ typedef struct AutoAwayData
     SIM::Data	OffTime;
     SIM::Data	EnableOff;
     SIM::Data	DisableAlert;
-} AutoAwayData;
-
-class QTimer;
-class CorePlugin;
+    SIM::Data	RealManualStatus;
+};
 
 class AutoAwayPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    AutoAwayPlugin(unsigned, ConfigBuffer*);
+    AutoAwayPlugin(unsigned, Buffer*);
     ~AutoAwayPlugin();
     PROP_ULONG(AwayTime);
     PROP_BOOL(EnableAway);
@@ -47,18 +52,18 @@ public:
     PROP_ULONG(OffTime);
     PROP_BOOL(EnableOff);
     PROP_BOOL(DisableAlert);
+    PROP_ULONG(RealManualStatus);
 protected slots:
     void timeout();
 protected:
-    virtual void *processEvent(SIM::Event*);
-    virtual QString getConfig();
+    virtual bool processEvent(SIM::Event*);
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     unsigned getIdleTime();
     bool bAway;
     bool bNA;
     bool bOff;
     CorePlugin *core;
-    unsigned long oldStatus;
     QTimer *m_timer;
     AutoAwayData data;
 };

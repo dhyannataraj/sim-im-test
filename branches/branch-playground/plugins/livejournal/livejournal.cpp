@@ -15,13 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "livejournal.h"
-#include "livejournalcfg.h"
-#include "msgjournal.h"
-#include "journalsearch.h"
-#include "fetch.h"
-#include "html.h"
-#include "core.h"
+#include "simapi.h"
 
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
@@ -33,10 +27,21 @@
 #include <qregexp.h>
 #include <stdio.h>
 
+#include "fetch.h"
+#include "html.h"
+#include "log.h"
+#include "unquot.h"
+#include "core.h"
+
+#include "livejournal.h"
+#include "livejournalcfg.h"
+#include "msgjournal.h"
+#include "journalsearch.h"
+
 using namespace std;
 using namespace SIM;
 
-Plugin *createLiveJournalPlugin(unsigned base, bool, ConfigBuffer*)
+Plugin *createLiveJournalPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new LiveJournalPlugin(base);
     return plugin;
@@ -68,7 +73,7 @@ static DataDef journalMessageData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-JournalMessage::JournalMessage(ConfigBuffer *cfg)
+JournalMessage::JournalMessage(Buffer *cfg)
         : Message(MessageJournal, cfg)
 {
     load_data(journalMessageData, &data, cfg);
@@ -79,10 +84,10 @@ JournalMessage::~JournalMessage()
     free_data(journalMessageData, &data);
 }
 
-QString JournalMessage::save()
+QCString JournalMessage::save()
 {
-    QString cfg = Message::save();
-    QString my_cfg = save_data(journalMessageData, &data);
+    QCString cfg = Message::save();
+    QCString my_cfg = save_data(journalMessageData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";
@@ -106,7 +111,7 @@ i18n("LiveJournal post", "%n LiveJournal posts", 1);
 i18n("Friends updated", "Friends updated %n", 1);
 #endif
 
-static Message *createJournalMessage(ConfigBuffer *cfg)
+static Message *createJournalMessage(Buffer *cfg)
 {
     return new JournalMessage(cfg);
 }
@@ -160,7 +165,7 @@ static MessageDef defWWWJournalMessage =
         NULL
     };
 
-static Message *createUpdatedMessage(ConfigBuffer *cfg)
+static Message *createUpdatedMessage(Buffer *cfg)
 {
     return new Message(MessageUpdated, cfg);
 }
@@ -185,8 +190,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 {
     m_protocol = new LiveJournalProtocol(this);
 
-    Event eMenu(EventMenuCreate, (void*)MenuWeb);
-    eMenu.process();
+    EventMenu(MenuWeb, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id			 = CmdMenuWeb;
@@ -194,8 +198,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->menu_id	 = MenuWeb;
     cmd->menu_grp	 = 0x1000;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = MessageJournal;
     cmd->text		 = I18N_NOOP("LiveJournal &post");
@@ -204,44 +207,42 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->menu_grp	 = 0x3080;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defJournalMessage;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = CmdMenuWeb;
     cmd->text		 = I18N_NOOP("LiveJournal &WWW");
-    cmd->icon		 = "";
-    cmd->accel		 = "";
+    cmd->icon		 = QString::null;
+    cmd->accel		 = QString::null;
     cmd->menu_grp	 = 0x3090;
     cmd->popup_id	 = MenuWeb;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defWWWJournalMessage;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageUpdated;
     cmd->text		 = I18N_NOOP("Friends updated");
     cmd->icon		 = "LiveJournal_upd";
-    cmd->accel		 = "";
+    cmd->accel		 = QString::null;
     cmd->menu_grp	 = 0;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defUpdatedMessage;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 }
 
 LiveJournalPlugin::~LiveJournalPlugin()
 {
-    Event eMenu(EventMenuRemove, (void*)MenuWeb);
-    eMenu.process();
-    Event eMsg(EventRemoveMessageType, (void*)MessageJournal);
-    eMsg.process();
-    Event eMsgWWW(EventRemoveMessageType, (void*)CmdMenuWeb);
-    eMsgWWW.process();
-    Event eMsgUpd(EventRemoveMessageType, (void*)MessageUpdated);
-    eMsgUpd.process();
+    EventMenu(MenuWeb, EventMenu::eRemove).process();
+
+    EventRemoveMessageType(MessageJournal).process();
+    EventRemoveMessageType(CmdMenuWeb).process();
+    EventRemoveMessageType(MessageUpdated).process();
+
     delete m_protocol;
 }
 
@@ -254,7 +255,7 @@ LiveJournalProtocol::~LiveJournalProtocol()
 {
 }
 
-Client *LiveJournalProtocol::createClient(ConfigBuffer *cfg)
+Client *LiveJournalProtocol::createClient(Buffer *cfg)
 {
     return new LiveJournalClient(this, cfg);
 }
@@ -265,7 +266,7 @@ static CommandDef livejournal_descr =
         I18N_NOOP("LiveJournal"),
         "LiveJournal",
         QString::null,
-        QString::null,
+        "http://www.livejournal.com/lostinfo.bml",
         0,
         0,
         0,
@@ -349,7 +350,7 @@ static DataDef liveJournalClientData[] =
         { "Menu", DATA_STRLIST, 1, 0 },
         { "MenuURL", DATA_STRLIST, 1, 0 },
         { "FastServer", DATA_BOOL, 1, 0 },
-        { "UseFormatting", DATA_BOOL, 1, DATA(1) },
+        { "UseFormatting", DATA_BOOL, 1, 0 },
         { "UseSignature", DATA_BOOL, 1, DATA(1) },
         { "Signature", DATA_UTF, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// LastUpdate
@@ -362,7 +363,7 @@ const DataDef *LiveJournalProtocol::userDataDef()
     return liveJournalUserData;
 }
 
-LiveJournalClient::LiveJournalClient(Protocol *proto, ConfigBuffer *cfg)
+LiveJournalClient::LiveJournalClient(Protocol *proto, Buffer *cfg)
         : TCPClient(proto, cfg)
 {
     load_data(liveJournalClientData, &data, cfg);
@@ -377,10 +378,10 @@ LiveJournalClient::~LiveJournalClient()
     free_data(liveJournalClientData, &data);
 }
 
-QString LiveJournalClient::getConfig()
+QCString LiveJournalClient::getConfig()
 {
-    QString cfg = TCPClient::getConfig();
-    QString my_cfg = save_data(liveJournalClientData, &data);
+    QCString cfg = TCPClient::getConfig();
+    QCString my_cfg = save_data(liveJournalClientData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";
@@ -392,15 +393,15 @@ QString LiveJournalClient::getConfig()
 class MessageRequest : public LiveJournalRequest
 {
 public:
-    MessageRequest(LiveJournalClient *client, JournalMessage *msg, const char *journal);
+    MessageRequest(LiveJournalClient *client, JournalMessage *msg, const QString &journal);
     ~MessageRequest();
 protected:
-    void result(const char *key, const char *value);
+    void result(const QString &key, const QString &value);
     JournalMessage *m_msg;
-    QString		m_err;
-    unsigned	m_id;
-    bool		m_bResult;
-    bool		m_bEdit;
+    QString         m_err;
+    unsigned        m_id;
+    bool            m_bResult;
+    bool            m_bEdit;
 };
 
 class BRParser : public HTMLParser
@@ -436,8 +437,8 @@ void BRParser::text(const QString &text)
     if (m_bSkip)
         return;
     QString s = text;
-    s = s.replace(QRegExp("\r"), "");
-    s = s.replace(QRegExp("\n"), "");
+    s = s.remove('\r');
+    s = s.remove('\n');
     m_str += s;
 }
 
@@ -500,7 +501,7 @@ void BRParser::add_color()
     m_str += s;
 }
 
-MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, const char *journal)
+MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, const QString &journal)
         : LiveJournalRequest(client, msg->getID() ? "editevent" : "postevent")
 {
     m_msg = msg;
@@ -532,10 +533,10 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     now = msg->getTime();
     struct tm *tm = localtime(&now);
     addParam("year", QString::number(tm->tm_year + 1900));
-    addParam("mon", QString::number(tm->tm_mon + 1));
-    addParam("day", QString::number(tm->tm_mday));
+    addParam("mon",  QString::number(tm->tm_mon + 1));
+    addParam("day",  QString::number(tm->tm_mday));
     addParam("hour", QString::number(tm->tm_hour));
-    addParam("min", QString::number(tm->tm_min));
+    addParam("min",  QString::number(tm->tm_min));
     if (msg->getPrivate()){
         switch (msg->getPrivate()){
         case 0:
@@ -552,7 +553,7 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     }
     if (msg->getMood())
         addParam("prop_current_moodid", QString::number(msg->getMood()));
-    if (journal)
+    if (!journal.isEmpty())
         addParam("usejournal", journal);
     if (msg->getComments() == COMMENT_NO_MAIL){
         addParam("prop%5Fopt%5Fnoemail", "1");
@@ -568,16 +569,13 @@ MessageRequest::~MessageRequest()
             if (m_bEdit){
                 m_msg->setId(m_msg->getOldID());
                 if (m_msg->getRichText().isEmpty()){
-                    Event e(EventDeleteMessage, m_msg);
-                    e.process();
+                    EventDeleteMessage(m_msg).process();
                 }else{
-                    Event e(EventRewriteMessage, m_msg);
-                    e.process();
+                    EventRewriteMessage(m_msg).process();
                 }
             }else{
                 m_msg->setID(m_id);
-                Event e(EventSent, m_msg);
-                e.process();
+                EventSent(m_msg).process();
             }
         }
     }else{
@@ -585,30 +583,29 @@ MessageRequest::~MessageRequest()
             m_err = I18N_NOOP("Posting failed");
         m_msg->setError(m_err);
     }
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     delete m_msg;
 }
 
-void MessageRequest::result(const char *key, const char *value)
+void MessageRequest::result(const QString &key, const QString &value)
 {
-    if (!strcmp(key, "errmsg"))
+    if (key == "errmsg")
         m_err = value;
-    if (!strcmp(key, "success") && !strcmp(value, "OK"))
+    if (key == "success" && value == "OK")
         m_bResult = true;
-    if (!strcmp(key, "itemid"))
-        m_id = atol(value);
+    if (key == "itemid")
+        m_id = value.toUInt();
 }
 
 bool LiveJournalClient::send(Message *msg, void *_data)
 {
     if (!canSend(msg->type(), _data))
         return false;
-    LiveJournalUserData *data = (LiveJournalUserData*)_data;
+    LiveJournalUserData *data = toLiveJournalUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString journal;
     if (data->User.str() != this->data.owner.User.str())
         journal = data->User.str();
-    m_requests.append(new MessageRequest(this, static_cast<JournalMessage*>(msg), journal));
+    m_requests.push_back(new MessageRequest(this, static_cast<JournalMessage*>(msg), journal));
     msg->setClient(dataName(_data));
     send();
     return true;
@@ -624,8 +621,8 @@ bool LiveJournalClient::canSend(unsigned type, void *_data)
         return true;
     }
     if (type == CmdMenuWeb){
-        LiveJournalUserData *data = (LiveJournalUserData*)_data;
-        if (data->User.str().isEmpty() || data->User.str() != this->data.owner.User.str())
+        LiveJournalUserData *data = toLiveJournalUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
+        if (data->User.str() != this->data.owner.User.str())
             return false;
         return true;
     }
@@ -652,16 +649,13 @@ QString LiveJournalClient::dataName(void *data)
 {
     QString res = name();
     res += ".";
-    res += ((LiveJournalUserData*)data)->User.str();
+    res += toLiveJournalUserData((SIM::clientData*)data)->User.str(); // FIXME unsafe type conversion
     return res;
 }
 
 QString LiveJournalClient::name()
 {
-    QString res;
-    res = "LiveJournal.";
-    res += data.owner.User.str();
-    return res;
+    return "LiveJournal." + data.owner.User.str();
 }
 
 QWidget	*LiveJournalClient::setupWnd()
@@ -699,10 +693,10 @@ static CommandDef cfgLiveJournalWnd[] =
 
 CommandDef *LiveJournalClient::configWindows()
 {
-    QString title = name();
-    int n = title.find(".");
+    QString title =name();
+    int n = title.find('.');
     if (n > 0)
-        title = title.left(n) + " " + title.mid(n + 1);
+        title = title.left(n) + ' ' + title.mid(n + 1);
     cfgLiveJournalWnd[0].text_wrk = title;
     return cfgLiveJournalWnd;
 }
@@ -714,7 +708,7 @@ QWidget *LiveJournalClient::configWindow(QWidget *parent, unsigned id)
     return NULL;
 }
 
-bool LiveJournalClient::add(const char *name)
+bool LiveJournalClient::add(const QString &name)
 {
     Contact *contact;
     LiveJournalUserData *data = findContact(name, contact, false);
@@ -724,34 +718,33 @@ bool LiveJournalClient::add(const char *name)
     return true;
 }
 
-LiveJournalUserData *LiveJournalClient::findContact(const char *user, Contact *&contact, bool bCreate, bool bJoin)
+LiveJournalUserData *LiveJournalClient::findContact(const QString &user, Contact *&contact, bool bCreate, bool bJoin)
 {
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+        while ((data = toLiveJournalUserData(++itc)) != NULL){
             if (data->User.str() == user)
                 return data;
         }
     }
     if (!bCreate)
         return NULL;
-    QString sname = QString::fromUtf8(user);
     if (bJoin){
         it.reset();
         while ((contact = ++it) != NULL){
-            if (contact->getName().lower() == sname.lower())
+            if (contact->getName().lower() == user.lower())
                 break;;
         }
     }
     if (contact == NULL){
         contact = getContacts()->contact(0, true);
-        contact->setName(sname);
+        contact->setName(user);
     }
-    LiveJournalUserData *data = (LiveJournalUserData*)(contact->clientData.createData(this));
+    LiveJournalUserData *data = toLiveJournalUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     data->User.str() = user;
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return data;
 }
@@ -768,7 +761,7 @@ void LiveJournalClient::auth_ok()
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+        while ((data = toLiveJournalUserData(++itc)) != NULL){
             if (!data->Shared.toBool())
                 continue;
             if (data->bChecked.toBool())
@@ -791,7 +784,7 @@ void LiveJournalClient::statusChanged()
     while ((contact = ++it) != NULL){
         ClientDataIterator itc(contact->clientData, this);
         if ((++itc) != NULL){
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
     }
@@ -806,11 +799,11 @@ QString LiveJournalClient::getSignatureText()
     return res;
 }
 
-static void addIcon(QString *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 {
     if (s == NULL)
         return;
-    if (statusIcon && !strcmp(statusIcon, icon))
+    if (statusIcon == icon)
         return;
     QString str = *s;
     while (!str.isEmpty()){
@@ -833,7 +826,7 @@ void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, 
     }
     if (status > curStatus){
         curStatus = status;
-        if (statusIcon && icons){
+        if (!statusIcon.isEmpty() && icons){
             QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
@@ -841,7 +834,7 @@ void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, 
         }
         statusIcon = dicon;
     }else{
-        if (statusIcon){
+        if (!statusIcon.isEmpty()){
             addIcon(icons, dicon, statusIcon);
         }else{
             statusIcon = dicon;
@@ -849,11 +842,11 @@ void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, 
     }
 }
 
-typedef struct Mood
+struct Mood
 {
     unsigned	id;
-    QString		name;
-} Mood;
+    QString     name;
+};
 
 class LoginRequest : public LiveJournalRequest
 {
@@ -861,7 +854,7 @@ public:
     LoginRequest(LiveJournalClient *client);
     ~LoginRequest();
 protected:
-    void result(const char *key, const char *value);
+    void result(const QString &key, const QString &value);
     bool m_bOK;
     bool m_bResult;
     vector<Mood> m_moods;
@@ -893,18 +886,17 @@ LoginRequest::~LoginRequest()
             m_err = I18N_NOOP("Login failed");
         m_client->auth_fail(m_err);
     }
-    Event e(EventClientChanged, m_client);
-    e.process();
+    EventClientChanged(m_client).process();
 }
 
-void LoginRequest::result(const char *key, const char *value)
+void LoginRequest::result(const QString &key, const QString &value)
 {
     m_bResult = true;
-    if (!strcmp(key, "success") && !strcmp(value, "OK")){
+    if (key == "success" && value == "OK"){
         m_bOK = true;
         return;
     }
-    if (!strcmp(key, "errmsg")){
+    if (key == "errmsg"){
         m_err = value;
         return;
     }
@@ -920,7 +912,7 @@ void LoginRequest::result(const char *key, const char *value)
             m_moods.push_back(m);
         }
         if (k == "id")
-            m_moods[id].id = atol(value);
+            m_moods[id].id = value.toUInt();
         if (k == "name")
             m_moods[id].name = value;
     }
@@ -963,7 +955,7 @@ void LiveJournalClient::setStatus(unsigned status)
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+        while ((data = toLiveJournalUserData(++itc)) != NULL){
             data->bChecked.asBool() = false;
             if (data->User.str() == this->data.owner.User.str())
                 data->bChecked.asBool() = true;
@@ -984,7 +976,7 @@ void LiveJournalClient::setStatus(unsigned status)
     req->addParam("clientversion", version);
     req->addParam("getmoods", QString::number(getMoods()));
     req->addParam("getmenus", "1");
-    m_requests.append(req);
+    m_requests.push_back(req);
     send();
 }
 
@@ -998,7 +990,7 @@ void LiveJournalClient::packet_ready()
 {
 }
 
-void LiveJournalClient::auth_fail(const char *err)
+void LiveJournalClient::auth_fail(const QString &err)
 {
     m_reconnect = NO_RECONNECT;
     error_state(err, AuthError);
@@ -1009,7 +1001,7 @@ QWidget *LiveJournalClient::searchWindow(QWidget *parent)
     return new JournalSearch(this, parent);
 }
 
-bool LiveJournalClient::done(unsigned code, Buffer &data, const char*)
+bool LiveJournalClient::done(unsigned code, Buffer &data, const QString &)
 {
     if (code == 200){
         m_request->result(&data);
@@ -1025,42 +1017,44 @@ bool LiveJournalClient::done(unsigned code, Buffer &data, const char*)
     return false;
 }
 
-void *LiveJournalClient::processEvent(Event *e)
+bool LiveJournalClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventOpenMessage){
-        Message **msg = (Message**)(e->param());
-        if ((*msg)->type() != MessageUpdated)
-            return NULL;
-        if (dataName(&data.owner) != (*msg)->client())
-            return NULL;
-        Event eDel(EventMessageDeleted, msg);
-        eDel.process();
+    if (e->type() == eEventOpenMessage){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        if (msg->type() != MessageUpdated)
+            return false;
+        if (dataName(&data.owner) != msg->client())
+            return false;
+        EventMessageDeleted(msg).process();
         QString url = "http://";
         url += getServer();
         if (getPort() != 80){
             url += ":";
             url += QString::number(getPort());
         }
-        url += "/";
-        Event eGo(EventGoURL, (void*)&url);
-        eGo.process();
+        url += '/';
+        EventGoURL(url).process();
         if (getState() == Connected)
             m_timer->start(getInterval() * 60 * 1000, true);
-        return e->param();
+        return true;
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdDeleteJournalMessage){
             Message *msg = (Message*)(cmd->param);
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact == NULL)
-                return NULL;
+                return false;
             LiveJournalUserData *data;
             ClientDataIterator it(contact->clientData, this);
-            while ((data = (LiveJournalUserData*)(++it)) != NULL){
+            while ((data = toLiveJournalUserData(++it)) != NULL){
                 if (dataName(data) == msg->client()){
-                    ConfigBuffer cfg( "[Title]\n" + msg->save() );
+                    Buffer cfg;
+                    cfg = "[Title]\n" + msg->save();
+                    cfg.setWritePos(0);
                     cfg.getSection();
                     JournalMessage *m = new JournalMessage(&cfg);
                     m->setContact(msg->contact());
@@ -1068,68 +1062,66 @@ void *LiveJournalClient::processEvent(Event *e)
                     m->setText("");
                     if (!send(m, data))
                         delete m;
-                    return e->param();
+                    return true;
                 }
             }
-            return NULL;
+            return false;
         }
         unsigned menu_id = cmd->menu_id - MenuWeb;
         if (menu_id > LiveJournalPlugin::MenuCount)
-            return NULL;
+            return false;
         unsigned item_id = cmd->id - CmdMenuWeb;
         if ((item_id == 0) || (item_id >= 0x100))
-            return NULL;
+            return false;
         QString url = getMenuUrl(menu_id * 0x100 + item_id);
         if (url.isEmpty())
-            return NULL;
-        Event eUrl(EventGoURL, (void*)&url);
+            return false;
+        EventGoURL eUrl(url);
         eUrl.process();
-        return e->param();
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+        return true;
+    } else
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdMenuWeb){
             unsigned menu_id = cmd->menu_id - MenuWeb;
             if (menu_id > LiveJournalPlugin::MenuCount)
-                return NULL;
+                return false;
             unsigned nItems = 0;
             unsigned list_id = menu_id * 0x100 + 1;
             for (;;){
-                const char *text = getMenu(list_id);
-                if ((text == NULL) || (*text == 0))
+                if (getMenu(list_id).isEmpty())
                     break;
                 nItems++;
                 list_id++;
             }
             if (nItems == 0)
-                return NULL;
+                return false;
             CommandDef *cmds = new CommandDef[nItems + 1];
             list_id = menu_id * 0x100 + 1;
             for (unsigned i = 0;; i++){
-                const char *text = getMenu(list_id);
-                if ((text == NULL) || (*text == 0))
+                QString text = getMenu(list_id);
+                if (text.isEmpty())
                     break;
                 cmds[i].text = "_";
-                if (strcmp(text, "-")){
+                if (text !=  "-"){
                     cmds[i].id = CmdMenuWeb + i + 1;
                     cmds[i].text = "_";
-                    QString s = i18n(text);
-                    cmds[i].text_wrk = s;
-                    const char *url = getMenuUrl(list_id);
-                    if (url && (*url == '@')){
-                        unsigned nSub = atol(url + 1);
+                    cmds[i].text_wrk = i18n(text);
+                    QString url = getMenuUrl(list_id);
+                    if (url.startsWith("@")){
+                        url = url.mid(1);
+                        unsigned nSub = url.toUInt();
                         while (nSub > LiveJournalPlugin::MenuCount){
                             unsigned long menu_id = MenuWeb + (++LiveJournalPlugin::MenuCount);
-                            Event eMenu(EventMenuCreate, (void*)menu_id);
-                            eMenu.process();
-                            Command cmd;
-                            cmd->id       = CmdMenuWeb;
-                            cmd->text     = "_";
-                            cmd->menu_id  = menu_id;
-                            cmd->menu_grp = 0x1000;
-                            cmd->flags    = COMMAND_CHECK_STATE;
-                            Event e(EventCommandCreate, cmd);
-                            e.process();
+                            EventMenu(menu_id, EventMenu::eAdd).process();
+                            CommandDef c;
+                            c.id       = CmdMenuWeb;
+                            c.text     = "_";
+                            c.menu_id  = menu_id;
+                            c.menu_grp = 0x1000;
+                            c.flags    = COMMAND_CHECK_STATE;
+                            EventCommandCreate(&c).process();
                         }
                         cmds[i].popup_id = MenuWeb + nSub;
                     }
@@ -1140,18 +1132,18 @@ void *LiveJournalClient::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void LiveJournalClient::send()
 {
-    if ((m_requests.count() == 0) || m_request)
+    if ((m_requests.size() == 0) || m_request)
         return;
-    m_request = m_requests.first();
-    m_requests.remove(m_request);
+    m_request = m_requests.front();
+    m_requests.erase(m_requests.begin());
     QString url;
     url = "http://";
     url += getServer();
@@ -1178,11 +1170,11 @@ public:
     CheckFriendsRequest(LiveJournalClient *client);
     ~CheckFriendsRequest();
 protected:
-    void result(const char *key, const char *value);
-    bool		m_bOK;
-    bool		m_bChanged;
+    void result(const QString &key, const QString &value);
+    bool        m_bOK;
+    bool        m_bChanged;
     unsigned	m_interval;
-    QString		m_err;
+    QString     m_err;
 };
 
 CheckFriendsRequest::CheckFriendsRequest(LiveJournalClient *client)
@@ -1204,7 +1196,7 @@ void LiveJournalClient::messageUpdated()
     msg->setContact(contact->id());
     msg->setClient(dataName(data));
     msg->setFlags(MESSAGE_TEMP | MESSAGE_NOVIEW);
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if (!e.process())
         delete msg;
 }
@@ -1222,26 +1214,26 @@ CheckFriendsRequest::~CheckFriendsRequest()
     m_client->error_state(m_err, 0);
 }
 
-void CheckFriendsRequest::result(const char *key, const char *value)
+void CheckFriendsRequest::result(const QString &key, const QString &value)
 {
-    if (!strcmp(key, "success") && !strcmp(value, "OK")){
+    if (key == "success" && value == "OK"){
         m_bOK = true;
         return;
     }
-    if (!strcmp(key, "lastupdate")){
+    if (key == "lastupdate"){
         m_client->setLastUpdate(value);
         return;
     }
-    if (!strcmp(key, "new")){
-        if (atol(value))
+    if (key == "new"){
+        if (value.toULong())
             m_bChanged = true;
         return;
     }
-    if (!strcmp(key, "interval")){
-        m_interval = atol(value);
+    if (key == "interval"){
+        m_interval = value.toUInt();
         return;
     }
-    if (!strcmp(key, "errmsg")){
+    if (key == "errmsg"){
         m_err = value;
         return;
     }
@@ -1252,24 +1244,59 @@ void LiveJournalClient::timeout()
     if (getState() != Connected)
         return;
     m_timer->stop();
-    m_requests.append(new CheckFriendsRequest(this));
+    m_requests.push_back(new CheckFriendsRequest(this));
     send();
+}
+
+
+LiveJournalUserData* LiveJournalClient::toLiveJournalUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into LiveJournalUserData*
+   // It will at least warn if the content of the structure is not LiveJournalUserData*
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != LIVEJOURNAL_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into LIVEJOURNAL_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (LiveJournalUserData*) data;
 }
 
 LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mode)
 {
     m_client = client;
     m_buffer = new Buffer;
-    addParam("mode", QString::fromUtf8(mode));
+    addParam("mode", mode);
     addParam("ver", "1");
     if (!client->data.owner.User.str().isEmpty())
         addParam("user", client->data.owner.User.str());
     QByteArray pass = md5(client->getPassword().utf8());
     QString hpass;
     for (unsigned i = 0; i < pass.size(); i++){
-        char b[5];
-        sprintf(b, "%02x", pass[(int)i] & 0xFF);
-        hpass += b;
+      char b[5];
+      sprintf(b, "%02x", pass[(int)i] & 0xFF);
+      hpass += b;
     }
     addParam("hpassword", hpass);
 }
@@ -1286,8 +1313,9 @@ void LiveJournalRequest::addParam(const QString &key, const QString &value)
         m_buffer->pack("&", 1);
     m_buffer->pack(key.utf8(), key.utf8().length());
     m_buffer->pack("=", 1);
-    for (unsigned i = 0; i < value.length(); i++){
-        char c = value[(int)i].latin1();
+    QCString cstr = value.utf8();
+    for (unsigned i = 0; i < cstr.length(); i++){
+        char c = cstr[(int)i];
         if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || ((c >= '0') && (c <= '9')) ||
                 (c == '.') || (c == '-') || (c == '/') || (c == '_')){
             m_buffer->pack(&c, 1);
@@ -1307,7 +1335,7 @@ void LiveJournalRequest::result(Buffer *b)
         if (!getLine(b, key) || !getLine(b, value))
             break;
         log(L_DEBUG, "Result: %s=%s", key.data(), value.data());
-        result(key, value);
+        result(QString::fromUtf8(key), QString::fromUtf8(value));
     }
 }
 
@@ -1465,10 +1493,14 @@ I18N_NOOP("Your To-Do List")
 I18N_NOOP("Change Settings")
 I18N_NOOP("Support")
 I18N_NOOP("Personal Info")
+I18N_NOOP("Customize Journal")
 I18N_NOOP("Journal Settings")
+I18N_NOOP("Upgrade your account")
 
 #endif
 
 #ifndef NO_MOC_INCLUDES
 #include "livejournal.moc"
 #endif
+
+

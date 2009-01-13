@@ -18,20 +18,16 @@
 
 #include <stdio.h>
 
-#ifdef WIN32
-#define vsnprintf _vsnprintf
-#pragma warning(disable:4355)
-#endif
-
-#include "icqclient.h"
-#include "core.h"
-
-#include <qtextcodec.h>
-
 #include <vector>
 #include <stack>
 #include <stdarg.h>
 
+#include <qtextcodec.h>
+
+#include "unquot.h"
+#include "log.h"
+
+#include "icqclient.h"
 
 #define UP				1	
 #define DOWN			2
@@ -342,7 +338,7 @@ void Level::resetTag(TagEnum tag)
            Thus, for each tag we remove from the actual tag stack, we also
            try to remove a yet-to-be-printed tag, and only if there are no
            yet-to-be-printed tags left, we start closing the tags we pop.
-           The tags have one space - needed for umlaute (צהü) and .utf8()
+           The tags have one space - needed for umlaute (ן¿½) and .utf8()
         */
         if (p->oTags.empty()){
             switch (nTag){
@@ -506,7 +502,7 @@ void RTF2HTML::FlushParagraph()
           // for the official ICQ client).
           bPendingEmptyParagraph = true;
     }
-    
+
     // Clear up the paragraph members
     sParagraph = "";
 }
@@ -514,8 +510,8 @@ void RTF2HTML::FlushParagraph()
 void RTF2HTML::setAnsiCodePage(unsigned short cp)
 {
     for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
-		if (!c->bMain)
-			continue;
+        if (!c->bMain)
+            continue;
         if ((unsigned)c->cp_code == cp){
             encoding = c->codec;
             return;

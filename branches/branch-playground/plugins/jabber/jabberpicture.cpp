@@ -15,19 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
 #include "simapi.h"
-#include "jabberpicture.h"
-#include "editfile.h"
-#include "preview.h"
-#include "ballonmsg.h"
 
 #include <qtabwidget.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qfile.h>
 #include <time.h>
+
+#include "ballonmsg.h"
+#include "editfile.h"
+#include "misc.h"
+#include "preview.h"
+
+#include "jabberclient.h"
+#include "jabberpicture.h"
 
 using namespace SIM;
 
@@ -40,7 +44,7 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-JabberPicture::JabberPicture(QWidget *parent, struct JabberUserData *data, JabberClient *client, bool bPhoto)
+JabberPicture::JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto)
         : JabberPictureBase(parent)
 {
     m_data   = data;
@@ -78,7 +82,7 @@ void JabberPicture::apply(Client *client, void*)
         return;
     QString pict = edtPict->text();
     if (lblPict->pixmap() == NULL)
-        pict = "";
+        pict = QString::null;
     if (m_bPhoto){
         m_client->setPhoto(pict);
     }else{
@@ -86,14 +90,17 @@ void JabberPicture::apply(Client *client, void*)
     }
 }
 
-void *JabberPicture::processEvent(Event *e)
+bool JabberPicture::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void JabberPicture::fill()
@@ -119,7 +126,7 @@ void JabberPicture::fill()
 
 void JabberPicture::clearPicture()
 {
-    edtPict->setText("");
+    edtPict->setText(QString::null);
 }
 
 void JabberPicture::pictSelected(const QString &file)

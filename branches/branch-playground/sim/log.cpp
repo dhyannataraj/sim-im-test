@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "log.h"
 #include "buffer.h"
+#include "event.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -72,17 +73,12 @@ void log_string(unsigned short l, const char *s)
 {
     time_t now = time(NULL);
     struct tm *tm = localtime(&now);
-    string m;
-    format(m, "%02u/%02u/%04u %02u:%02u:%02u [%s] ",
+    QCString m;
+    m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] ",
            tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
            tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
     m += s;
-    LogInfo li;
-    li.log_level = l;
-    li.log_info = (void*)m.c_str();
-    li.packet_id = 0;
-    li.add_info  = NULL;
-    Event e(EventLog, &li);
+    EventLog e(l, m);
     e.process();
 }
 
@@ -98,69 +94,7 @@ void log(unsigned short l, const char *fmt, ...)
 
 void log(unsigned short l, const QString &str)
 {
-	log_string(l, str.local8Bit().data());
-}
-
-EXPORT QString make_packet_string(LogInfo *l)
-{
-    QString m;
-    if (l->packet_id){
-        PacketType *type = getContacts()->getPacketType(l->packet_id);
-        if (type == NULL)
-            return m;
-        Buffer *b = (Buffer*)(l->log_info);
-        unsigned start = b->packetStartPos();
-        time_t now = time(NULL);
-        struct tm *tm = localtime(&now);
-        QString name = type->name();
-        if (l->add_info && *l->add_info){
-            name += ".";
-            name += l->add_info;
-        }
-        m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
-               tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
-               tm->tm_hour, tm->tm_min, tm->tm_sec,
-               name.latin1(),
-               (l->log_level & L_PACKET_IN) ? "Read" : "Write",
-               b->size() - start);
-        if (type->isText()){
-            m += QString::fromLatin1(b->data(start), b->size() - start);
-        }else{
-            char line[81];
-            char *p1 = line;
-            char *p2 = line;
-            unsigned n = 20;
-            unsigned offs = 0;
-            for (unsigned i = start; i < b->size(); i++, n++){
-                char buf[32];
-                if (n == 16){
-                    m += line;
-                    m += "\n";
-                }
-                if (n >= 16){
-                    memset(line, ' ', 80);
-                    line[80] = 0;
-                    snprintf(buf, sizeof(buf), "%04X: ", offs);
-                    memcpy(line, buf, strlen(buf));
-                    p1 = line + strlen(buf);
-                    p2 = p1 + 52;
-                    n = 0;
-                    offs += 0x10;
-                }
-                if (n == 8) p1++;
-                unsigned char c = (unsigned char)*(b->data(i));
-                *(p2++) = ((c >= ' ') && (c != 0x7F)) ? c : '.';
-                snprintf(buf, sizeof(buf), "%02X ", c);
-                memcpy(p1, buf, 3);
-                p1 += 3;
-            }
-            if (n <= 16)
-                m += line;
-        }
-    }else{
-        m = (const char*)(l->log_info);
-    }
-    return m;
+    log_string(l, str.local8Bit().data());
 }
 
 }

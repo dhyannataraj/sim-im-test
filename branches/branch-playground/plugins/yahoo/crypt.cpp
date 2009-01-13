@@ -22,7 +22,6 @@
  * already had. isn't that lovely. people should just use linux or
  * freebsd, crypt works properly on those systems. i hate solaris */
 
-#include "simapi.h"
 #include "socket.h"
 
 /* Define our magic string to mark salt for MD5 "encryption"

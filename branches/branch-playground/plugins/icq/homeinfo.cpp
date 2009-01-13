@@ -15,17 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "homeinfo.h"
 #include "icqclient.h"
 
 #include <qlineedit.h>
 #include <qmultilineedit.h>
 #include <qcombobox.h>
+#include <qpushbutton.h>
 
 using namespace SIM;
 
-HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+HomeInfo::HomeInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : HomeInfoBase(parent)
 {
     m_data    = data;
@@ -40,6 +40,8 @@ HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, 
         disableWidget(cmbZone);
     }
     fill();
+    btnWebLocation->setText(i18n("map"));
+    connect(btnWebLocation, SIGNAL(clicked()), this, SLOT(goUrl()));
 }
 
 void HomeInfo::apply()
@@ -50,7 +52,7 @@ void HomeInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->Address.str() = edtAddress->text();
     data->City.str()    = edtCity->text();
     data->State.str()   = edtState->text();
@@ -58,19 +60,22 @@ void HomeInfo::apply(Client *client, void *_data)
     data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
-void *HomeInfo::processEvent(Event *e)
+bool HomeInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return false;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 static QString formatTime(char n)
@@ -110,6 +115,20 @@ void HomeInfo::fill()
     edtZip->setText(data->Zip.str());
     initCombo(cmbCountry, data->Country.toULong(), getCountries());
     initTZCombo(cmbZone, data->TimeZone.toULong());
+}
+
+void HomeInfo::goUrl()
+{
+    ICQUserData *data = m_data;
+    if (data == NULL)
+        data = &m_client->data.owner;
+    QString url = QString("http://www.mapquest.com/maps/map.adp?city=%1&state=%2&country=%3&zip=%4")
+                    .arg(edtCity->text())
+                    .arg(edtState->text())
+                    .arg(cmbCountry->currentText())
+                    .arg(edtZip->text());
+    EventGoURL e(url);
+    e.process();
 }
 
 #ifndef NO_MOC_INCLUDES

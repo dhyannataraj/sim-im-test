@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "replacecfg.h"
 #include "replace.h"
 #include "listview.h"

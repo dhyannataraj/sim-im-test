@@ -12,8 +12,10 @@ SET(jabber_SRCS
         jabberaboutinfo.cpp
         jabberadd.cpp
         jabberbrowser.cpp
+        jabberbuffer.cpp
         jabberclient.cpp
         jabberconfig.cpp
+        jabberfiletransfer.cpp
         jabberhomeinfo.cpp
         jabberinfo.cpp
         jabbermessage.cpp
@@ -28,10 +30,12 @@ SET(jabber_HDRS
         discoinfo.h
         infoproxy.h
         jabber.h
+        jabber_events.h
         jabber_ssl.h
         jabberaboutinfo.h
         jabberadd.h
         jabberbrowser.h
+        jabberbuffer.h
         jabberclient.h
         jabberconfig.h
         jabberhomeinfo.h

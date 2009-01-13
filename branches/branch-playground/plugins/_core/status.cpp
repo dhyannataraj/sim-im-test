@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "status.h"
-#include "simapi.h"
-#include "core.h"
-#include "socket.h"
-#include "ballonmsg.h"
-#include "statuswnd.h"
-#include "logindlg.h"
-#include "autoreply.h"
+#include <map>
 
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
 
-#include <map>
+#include "ballonmsg.h"
+#include "unquot.h"
+
+#include "status.h"
+#include "core.h"
+#include "socket.h"
+#include "statuswnd.h"
+#include "logindlg.h"
+#include "autoreply.h"
 
 using namespace std;
 using namespace SIM;
@@ -42,8 +43,7 @@ CommonStatus::CommonStatus()
     m_timer   = NULL;
     m_balloon = NULL;
 
-    Event eMenu(EventMenuCreate, (void*)MenuStatus);
-    eMenu.process();
+    EventMenu(MenuStatus, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdStatusMenu;
@@ -53,8 +53,7 @@ CommonStatus::CommonStatus()
     cmd->popup_id    = MenuStatus;
     cmd->flags		 = COMMAND_IMPORTANT;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     m_bInit = false;
     rebuildStatus();
@@ -63,16 +62,14 @@ CommonStatus::CommonStatus()
 
 CommonStatus::~CommonStatus()
 {
-    Event eGroup(EventCommandRemove, (void*)CmdStatusBar);
-    eGroup.process();
-    Event eMenuRemove(EventMenuRemove, (void*)MenuStatus);
-    eMenuRemove.process();
+    EventCommandRemove(CmdStatusBar).process();
+    EventMenu(MenuStatus, EventMenu::eRemove).process();
 }
 
 void CommonStatus::setBarStatus()
 {
     const char *text = I18N_NOOP("Inactive");
-    const char *icon = "inactive";
+    const char *icon = "SIM_inactive";
 
     m_bConnected = false;
     bool bActive = getSocketFactory()->isActive();
@@ -111,19 +108,11 @@ void CommonStatus::setBarStatus()
             }
             unsigned status;
             if (m_bBlink){
-                icon = "online";
+                icon = "SIM_online";
                 status = CorePlugin::m_plugin->getManualStatus();
             }else{
-                icon = "offline";
+                icon = "SIM_offline";
                 status = STATUS_OFFLINE;
-            }
-            if (protocol){
-                for (const CommandDef *d = protocol->statusList(); !d->text.isEmpty(); d++){
-                    if (d->id == status){
-                        icon = d->icon;
-                        break;
-                    }
-                }
             }
         }else{
             if (m_timer){
@@ -137,7 +126,7 @@ void CommonStatus::setBarStatus()
                 if (!client->getCommonStatus())
                     continue;
                 if (client->getState() == Client::Error){
-                    icon = "error";
+                    icon = "SIM_error";
                     text = I18N_NOOP("Error");
                     break;
                 }
@@ -151,7 +140,7 @@ void CommonStatus::setBarStatus()
                         for (i = 0; i < getContacts()->nClients(); i++){
                             Client *client = getContacts()->getClient(i);
                             if (client->protocol()->description()->flags & PROTOCOL_INVISIBLE){
-                                icon = client->protocol()->description()->icon_on;
+                                icon = "SIM_invisible";
                                 text = I18N_NOOP("&Invisible");
                                 break;
                             }
@@ -159,11 +148,33 @@ void CommonStatus::setBarStatus()
                     }
                     if (i >= getContacts()->nClients()){
                         for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
-                            if (d->id == status){
-                                icon = d->icon;
-                                text = d->text;
-                                break;
-                            }
+                             if (d->id == status){
+                                 switch (status){
+                                 case STATUS_ONLINE: 
+                                     icon="SIM_online";
+                                     break;
+                                 case STATUS_AWAY:
+                                     icon="SIM_away";
+                                     break;
+                                 case STATUS_NA:
+                                     icon="SIM_na";
+                                     break;
+                                 case STATUS_DND:
+                                     icon="SIM_dnd";
+                                     break;
+                                 case STATUS_OCCUPIED:
+                                     icon="SIM_occupied";
+                                     break;
+                                 case STATUS_FFC:
+                                     icon="SIM_ffc";
+                                     break;
+                                 case STATUS_OFFLINE:
+                                     icon="SIM_offline";
+                                     break;
+                                 }
+                                 text = d->text;
+                                 break;
+                             }
                         }
                     }
                 }
@@ -180,16 +191,15 @@ void CommonStatus::setBarStatus()
     cmd->popup_id    = MenuStatus;
     cmd->flags		 = BTN_PICT;
 
-    Event eCmd(m_bInit ? EventCommandChange : EventCommandCreate, cmd);
-    eCmd.process();
+    if(!m_bInit)
+        EventCommandCreate(cmd).process();
+    else
+        EventCommandChange(cmd).process();
 
     m_bInit = true;
 
-    Event eIcon(EventSetMainIcon, (void*)icon);
-    eIcon.process();
-
-    Event eText(EventSetMainText, (void*)text);
-    eText.process();
+    EventSetMainIcon(icon).process();
+    EventSetMainText(text).process();
 }
 
 void CommonStatus::timeout()
@@ -219,16 +229,14 @@ void CommonStatus::rebuildStatus()
             nInvisible = i;
     }
     if (nInvisible != -1){
-        Client *client = getContacts()->getClient(nInvisible);
         Command cmd;
         cmd->id			= CmdInvisible;
         cmd->text		= I18N_NOOP("&Invisible");
-        cmd->icon		= client->protocol()->description()->icon_on;
+        cmd->icon		= "SIM_invisible";
         cmd->menu_id	= MenuStatus;
         cmd->menu_grp	= 0x2000;
         cmd->flags		= COMMAND_CHECK_STATE;
-        Event e(EventCommandCreate, &cmd);
-        e.process();
+        EventCommandCreate(cmd).process();
     }
     Client *client = getContacts()->getClient(0);
     unsigned id = 0x1000;
@@ -245,11 +253,33 @@ void CommonStatus::rebuildStatus()
             FirstStatus = cmd->id;
         if ((ManualStatus == 0) && (CorePlugin::m_plugin->getManualStatus() == cmd->id))
             ManualStatus = cmd->id;
+        switch (c.id){
+        case STATUS_ONLINE: 
+            c.icon="SIM_online";
+            break;
+        case STATUS_AWAY:
+            c.icon="SIM_away";
+            break;
+        case STATUS_NA:
+            c.icon="SIM_na";
+            break;
+        case STATUS_DND:
+            c.icon="SIM_dnd";
+            break;
+        case STATUS_OCCUPIED:
+            c.icon="SIM_occupied";
+            break;
+        case STATUS_FFC:
+            c.icon="SIM_ffc";
+            break;
+        case STATUS_OFFLINE:
+            c.icon="SIM_offline";
+            break;
+        }
         c.menu_id  = MenuStatus;
         c.menu_grp = id++;
         c.flags = COMMAND_CHECK_STATE;
-        Event e(EventCommandCreate, &c);
-        e.process();
+        EventCommandCreate(&c).process();
     }
     if (ManualStatus == 0)
         ManualStatus = FirstStatus;
@@ -279,44 +309,45 @@ void CommonStatus::checkInvisible()
     }
 }
 
-void *CommonStatus::processEvent(Event *e)
+bool CommonStatus::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventClientChanged:
+    case eEventClientChanged:
         checkInvisible();
         setBarStatus();
         break;
-    case EventShowError:{
-            clientErrorData *data = (clientErrorData*)(e->param());
+    case eEventShowError:{
+            EventShowError *ee = static_cast<EventShowError*>(e);
+            const EventError::ClientErrorData &data = ee->data();
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-                if ((*it).id == data->id)
-                    return e->param();
+                if ((*it).id == data.id)
+                    return true;
             }
             BalloonItem item;
-            item.id     = data->id;
-            item.client = data->client;
-            item.text   = i18n(data->err_str);
-            if (!data->args.isEmpty()){
+            item.id     = data.id;
+            item.client = data.client;
+            item.text   = i18n(data.err_str);
+            if (!data.args.isEmpty()){
                 if (item.text.find("%1") >= 0)
-                    item.text = item.text.arg(data->args);
+                    item.text = item.text.arg(data.args);
             }
             QString title = "SIM";
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i) == data->client){
-                        title = data->client->name();
+                    if (getContacts()->getClient(i) == data.client){
+                        title = data.client->name();
                         int n = title.find(".");
                         if (n > 0)
-                            title = title.left(n) + " " + title.mid(n + 1);
+                            title = title.left(n) + ' ' + title.mid(n + 1);
                         break;
                     }
                 }
             }
             item.text	= QString("<img src=\"icon:%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
-                        .arg((data->flags & ERR_INFO) ? "info" : "error")
+                .arg((data.flags & EventError::ClientErrorData::E_INFO) ? "info" : "error")
                         .arg(title) + quoteString(item.text) + "</center>";
-            if (data->options){
-                for (const char *p = data->options; *p; p += strlen(p) + 1)
+            if (data.options){
+                for (const char *p = data.options; *p; p += strlen(p) + 1)
                     item.buttons.append(i18n(p));
             }else{
                 item.buttons.append(i18n("OK"));
@@ -326,31 +357,29 @@ void *CommonStatus::processEvent(Event *e)
                 showBalloon();
             break;
         }
-    case EventClientError:{
-            clientErrorData *data = (clientErrorData*)(e->param());
-            if (data->code == AuthError){
+    case eEventClientError:{
+            EventClientError *ee = static_cast<EventClientError*>(e);
+            const EventError::ClientErrorData &data = ee->data();
+            if (data.code == AuthError){
                 QString msg;
-                if (!data->err_str.isEmpty()){
-                    msg = i18n(data->err_str);
-                    msg = msg.arg(data->args);
-                }
-                LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
+                if (!data.err_str.isEmpty())
+                    msg = i18n(data.err_str).arg(data.args);
+                LoginDialog *loginDlg = new LoginDialog(false, data.client, msg, NULL);
                 raiseWindow(loginDlg);
             }else{
-                Event eShow(EventShowError, data);
+                EventShowError eShow(data);
                 eShow.process();
             }
-            return e->param();
+            return true;
         }
-    case EventClientStatus:
-    case EventSocketActive:
-    case EventInit:
+    case eEventClientStatus:
+    case eEventSocketActive:
+    case eEventInit:
         setBarStatus();
         break;
-    case EventClientsChanged:{
-            unsigned i;
-            bool bCommon		  = false;
-            for (i = 0; i < getContacts()->nClients(); i++){
+    case eEventClientsChanged:{
+            bool bCommon = false;
+            for (unsigned i = 0; i < getContacts()->nClients(); i++){
                 Client *client = getContacts()->getClient(i);
                 if (client->getCommonStatus())
                     bCommon = true;
@@ -359,16 +388,16 @@ void *CommonStatus::processEvent(Event *e)
                 Client *client = getContacts()->getClient(0);
                 if (client){
                     client->setCommonStatus(true);
-                    Event e(EventClientChanged, client);
-                    e.process();
+                    EventClientChanged(client).process();
                 }
             }
             checkInvisible();
             rebuildStatus();
             break;
         }
-    case EventCheckState:{
-            CommandDef *def = (CommandDef*)(e->param());
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+            CommandDef *def = ecs->cmd();
             if (def->menu_id == MenuStatus){
                 if (def->id == CmdInvisible){
                     if (CorePlugin::m_plugin->getInvisible()){
@@ -376,7 +405,7 @@ void *CommonStatus::processEvent(Event *e)
                     }else{
                         def->flags &= ~COMMAND_CHECKED;
                     }
-                    return e->param();
+                    return true;
                 }
                 Client *client = getContacts()->getClient(0);
                 if (client == NULL)
@@ -398,19 +427,20 @@ void *CommonStatus::processEvent(Event *e)
                 }else{
                     def->flags &= ~COMMAND_CHECKED;
                 }
-                return e->param();
+                return true;
             }
             return 0;
         }
-    case EventCommandExec:{
-            CommandDef *def = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *def = ece->cmd();
             if (def->menu_id == MenuStatus){
                 if (def->id == CmdInvisible){
                     CorePlugin::m_plugin->setInvisible(!CorePlugin::m_plugin->getInvisible());
                     for (unsigned i = 0; i < getContacts()->nClients(); i++){
                         getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->getInvisible());
                     }
-                    return e->param();
+                    return true;
                 }
                 Client *client = getContacts()->getClient(0);
                 if (client == NULL)
@@ -422,10 +452,9 @@ void *CommonStatus::processEvent(Event *e)
                         curStatus = d;
                 }
                 if (curStatus == NULL)
-                    return 0;
-                unsigned i;
+                    return false;
                 bool bOfflineStatus = false;
-                for (i = 0; i < getContacts()->nClients(); i++){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getCommonStatus() &&
                             (client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE)){
@@ -440,21 +469,23 @@ void *CommonStatus::processEvent(Event *e)
                     if (noShow.isEmpty()){
                         AutoReplyDialog dlg(def->id);
                         if (!dlg.exec())
-                            return e->param();
+                            return true;
                     }
                 }
                 CorePlugin::m_plugin->setManualStatus(def->id);
-                for (i = 0; i < getContacts()->nClients(); i++){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getCommonStatus())
                         client->setStatus(def->id, true);
                 }
-                return e->param();
+                return true;
             }
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void CommonStatus::showBalloon()
@@ -463,8 +494,9 @@ void CommonStatus::showBalloon()
         return;
     Command cmd;
     cmd->id = CmdStatusBar;
-    Event eWidget(EventCommandWidget, cmd);
-    QWidget *widget = (QWidget*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    QWidget *widget = eWidget.widget();
     if (widget == NULL){
         m_queue.erase(m_queue.begin());
         return;
@@ -488,8 +520,7 @@ void CommonStatus::yes_action(void*)
         Command cmd;
         cmd->id    = item.id;
         cmd->param = item.client;
-        Event e(EventCommandExec, cmd);
-        e.process();
+        EventCommandExec(cmd).process();
     }
 }
 

@@ -1,3 +1,7 @@
+IF(NOT WIN32)
+    ADD_SUBDIRECTORY(png)
+ENDIF(NOT WIN32)
+
 ######################
 # target sim library #
 ######################
@@ -13,6 +17,7 @@ SET(sim_LIB_SRCS
         country.cpp
         datepicker.cpp
         editfile.cpp
+        event.cpp
         exec.cpp
         fetch.cpp
         fontedit.cpp
@@ -22,13 +27,13 @@ SET(sim_LIB_SRCS
         listview.cpp
         log.cpp
         message.cpp
+        misc.cpp
         plugins.cpp
         preview.cpp
         qchildwidget.cpp
         qcolorbutton.cpp
         qkeybutton.cpp
         sax.cpp
-        simapi.cpp
         socket.cpp
         sockfactory.cpp
         sslclient.cpp
@@ -47,8 +52,13 @@ SET(sim_LIB_HDRS
         ballonmsg.h
         buffer.h
         builtinlogger.h
+        cfg.h
+        cmddef.h
+        contacts.h
+        country.h
         datepicker.h
         editfile.h
+        event.h
         exec.h
         fetch.h
         fontedit.h
@@ -56,6 +66,10 @@ SET(sim_LIB_HDRS
         intedit.h
         linklabel.h
         listview.h
+        log.h
+        message.h
+        misc.h
+        plugins.h
         preview.h
         qchildwidget.h
         qcolorbutton.h
@@ -67,6 +81,7 @@ SET(sim_LIB_HDRS
         textshow.h
         toolbtn.h
         translit.h
+        unquot.h
         xsl.h
         qzip/ioapi.h
         qzip/qzip.h
@@ -89,7 +104,8 @@ ELSE(WIN32 AND NOT MINGW)
 ENDIF(WIN32 AND NOT MINGW)
 
 #some needed defines
-ADD_DEFINITIONS(-DSIMAPI_EXPORTS -DNOUNCRYPT)
+SET_TARGET_PROPERTIES(simlib PROPERTIES DEFINE_SYMBOL SIMAPI_EXPORTS)
+ADD_DEFINITIONS(-DNOUNCRYPT)
 
 # additional include dirs - at least ${CMAKE_CURRENT_BINARY_DIR} is needed
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
@@ -101,11 +117,11 @@ if(OPENSSL_FOUND)
   TARGET_LINK_LIBRARIES(simlib ${OPENSSL_LIBRARIES} ${OPENSSL_EAY_LIBRARIES})
 endif(OPENSSL_FOUND)
 
-IF(USE_KDE3)
+IF(ENABLE_KDE3)
   ADD_DEFINITIONS(${KDE3_DEFINITIONS})
   LINK_DIRECTORIES(${KDE3_LIB_DIR})
   TARGET_LINK_LIBRARIES(simlib ${QT_AND_KDECORE_LIBS} kdeui kio)
-ENDIF(USE_KDE3)
+ENDIF(ENABLE_KDE3)
 
 # we need wsock32 on win32
 if (WIN32)
@@ -135,22 +151,30 @@ ENDIF(WIN32)
 SET(sim_EXE_SRCS
     sim.cpp
 )
-if(MINGW)
-  # resource compilation for mingw
-  ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
-                     COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
-                                         -i${CMAKE_CURRENT_SOURCE_DIR}/sim.rc
-                                         -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
-  SET(sim_EXE_SRCS ${sim_EXE_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
-else(MINGW)
-  SET(sim_EXE_SRCS ${sim_EXE_SRCS} sim.rc)
-endif(MINGW)
+
+if(WIN32)
+  if(MINGW)
+    # resource compilation for mingw
+    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
+                                           -i${CMAKE_CURRENT_SOURCE_DIR}/sim.rc
+                                           -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+    SET(sim_EXE_SRCS ${sim_EXE_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+  else(MINGW)
+    SET(sim_EXE_SRCS ${sim_EXE_SRCS} sim.rc)
+  endif(MINGW)
+endif(WIN32)
 
 # i18n
 COMPILE_PO_FILES(${CMAKE_SOURCE_DIR}/po sim_EXE_SRCS)
 
 # sim executable
 ADD_EXECUTABLE(sim WIN32 ${sim_EXE_SRCS})
+
+IF(SIM_ENABLE_FPIE)
+    SET_TARGET_PROPERTIES(sim PROPERTIES COMPILE_FLAGS "${SIM_CXX_FPIE_FLAGS}")
+    SET_TARGET_PROPERTIES(sim PROPERTIES LINK_FLAGS "${SIM_PIE_LDFLAGS}")
+ENDIF(SIM_ENABLE_FPIE)
 
 # only needs simlib
 TARGET_LINK_LIBRARIES(sim simlib ${QT_QTMAIN_LIBRARY})
@@ -163,6 +187,10 @@ SET_TARGET_PROPERTIES(sim PROPERTIES OUTPUT_NAME sim${SIM_FLAVOUR})
 IF(WIN32)
     SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 ENDIF(WIN32)
+
+IF(NOT WIN32)
+    INSTALL(FILES sim.desktop DESTINATION ${XDG_APPS_DIR})
+ENDIF(NOT WIN32)
 
 # some needed libs for win32
 if(WIN32)

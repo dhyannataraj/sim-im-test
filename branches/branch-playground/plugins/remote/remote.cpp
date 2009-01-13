@@ -15,26 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "remote.h"
-#include "remotecfg.h"
-#include "simapi.h"
-#include "stl.h"
+#include <time.h>
 
-#include "core.h"
+#include <algorithm>
+#include <iostream>
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qfile.h>
+#include <qpixmap.h>
 #include <qregexp.h>
 #include <qtimer.h>
-#include <qfile.h>
 #include <qthread.h>
-#include <qpixmap.h>
-#include <time.h>
+#include <qwidgetlist.h>
+
+#include "icons.h"
+#include "log.h"
+
+#include "remote.h"
+#include "remotecfg.h"
+#include "core.h"
 
 using namespace std;
 using namespace SIM;
 
-Plugin *createRemotePlugin(unsigned base, bool, ConfigBuffer *config)
+Plugin *createRemotePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new RemotePlugin(base, config);
     return plugin;
@@ -76,7 +80,7 @@ class IPC : public QThread
 public:
     IPC();
     ~IPC();
-    string prefix();
+    QString prefix();
     void    process();
 protected:
     unsigned *s;
@@ -101,18 +105,18 @@ protected:
 IPC::IPC()
 {
     s = NULL;
-    string name = prefix() + "mem";
-    hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, N_SLOTS * sizeof(unsigned), name.c_str());
+    QString name = prefix() + "mem";
+    hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, N_SLOTS * sizeof(unsigned), name.latin1());
     if (hMem)
         s = (unsigned*)MapViewOfFile(hMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if (s)
         memset(s, 0, N_SLOTS * sizeof(unsigned));
     name = prefix() + "mutex";
-    hMutex = CreateMutexA(NULL, FALSE, name.c_str());
+    hMutex = CreateMutexA(NULL, FALSE, name.latin1());
     name = prefix() + "in";
-    hEventIn = CreateEventA(NULL, TRUE, FALSE, name.c_str());
+    hEventIn = CreateEventA(NULL, TRUE, FALSE, name.latin1());
     name = prefix() + "out";
-    hEventOut = CreateEventA(NULL, TRUE, FALSE, name.c_str());
+    hEventOut = CreateEventA(NULL, TRUE, FALSE, name.latin1());
     bExit = false;
     start();
 }
@@ -153,8 +157,7 @@ void IPC::process()
             continue;
         QString in;
         QString out;
-        QString name = prefix();
-        name += QString::number(i);
+        QString name = prefix() + QString::number(i);
         HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.latin1());
         if (hMem == NULL){
             s[i] = SLOT_NONE;
@@ -203,9 +206,9 @@ void IPC::process()
 #define SM_REMOTESESSION	0x1000
 #endif
 
-string IPC::prefix()
+QString IPC::prefix()
 {
-    string res;
+    QString res;
     if (GetSystemMetrics(SM_REMOTECONTROL) || GetSystemMetrics(SM_REMOTESESSION))
         res = "Global/";
     res += SIM_SHARED;
@@ -225,12 +228,13 @@ IPCLock::~IPCLock()
 
 #endif
 
-RemotePlugin::RemotePlugin(unsigned base, ConfigBuffer *config)
+RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(remoteData, &data, config);
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
     bind();
 #ifdef WIN32
@@ -249,7 +253,7 @@ RemotePlugin::~RemotePlugin()
     free_data(remoteData, &data);
 }
 
-QString RemotePlugin::getConfig()
+QCString RemotePlugin::getConfig()
 {
     return save_data(remoteData, &data);
 }
@@ -259,9 +263,9 @@ QWidget *RemotePlugin::createConfigWindow(QWidget *parent)
     return new RemoteConfig(parent, this);
 }
 
-void *RemotePlugin::processEvent(Event*)
+bool RemotePlugin::processEvent(Event*)
 {
-    return NULL;
+    return false;
 }
 
 static char TCP[] = "tcp:";
@@ -290,10 +294,10 @@ void RemotePlugin::bind_ready(unsigned short)
 {
 }
 
-bool RemotePlugin::error(const char *err)
+bool RemotePlugin::error(const QString &err)
 {
-    if (*err)
-        log(L_DEBUG, "Remote: %s", err);
+    if (!err.isEmpty())
+        log(L_DEBUG, "Remote: %s", err.local8Bit().data());
     return true;
 }
 
@@ -324,14 +328,14 @@ const unsigned CMD_SMS			= 15;
 const unsigned CMD_ICON			= 16;
 #endif
 
-typedef struct cmdDef
+struct cmdDef
 {
     const char *cmd;
     const char *shortDescr;
     const char *longDescr;
     unsigned minArgs;
     unsigned maxArgs;
-} cmdDef;
+};
 
 static cmdDef cmds[] =
     {
@@ -375,8 +379,8 @@ static bool cmpStatus(const char *s1, const char *s2)
 {
     QString ss1 = s1;
     QString ss2 = s2;
-    ss1 = ss1.replace(QRegExp("\\&"), "");
-    ss2 = ss2.replace(QRegExp("\\&"), "");
+    ss1 = ss1.remove('&');
+    ss2 = ss2.remove('&');
     return ss1.lower() == ss2.lower();
 }
 
@@ -393,14 +397,14 @@ static QWidget *findWidget(const char *className)
     return w;
 }
 
-typedef struct ContactInfo
+struct ContactInfo
 {
     QString		name;
     unsigned	id;
     unsigned	group;
     QString		key;
-    string		icon;
-} ContactInfo;
+    QString		icon;
+};
 
 static bool cmp_info(const ContactInfo &p1, const ContactInfo &p2)
 {
@@ -536,9 +540,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     }
     unsigned nCmd = 0;
     const cmdDef *c;
-    for (c = cmds; c->cmd; c++, nCmd++)
-        if (cmd == c->cmd)
+	for (c = cmds; c->cmd; c++, nCmd++)
+		if (QString(cmd) == QString(c->cmd))
             break;
+	
     if (c->cmd == NULL){
         out = "Unknown command ";
         out += cmd;
@@ -554,7 +559,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     switch (nCmd){
 #ifdef WIN32
     case CMD_ICON:{
-            IconWidget w(Pict(args[0]));
+            IconWidget w(Pict(args[0].utf8()));
             HICON icon = w.icon();
             ICONINFO info;
             if (!GetIconInfo(icon, &info))
@@ -565,12 +570,11 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             return true;
         }
 #endif
-    case CMD_SENDFILE:{
+    case CMD_SENDFILE:{   //fix me, concepted only for ICQ-Proto
             FileMessage *msg = new FileMessage;
-            msg->setContact(args[1].toUInt());
-            msg->setFile(args[0]);
-            Event e(EventOpenMessage, &msg);
-            e.process();
+            msg->setContact(args[1].toUInt());   //anyhow
+            msg->setFile(args[0]);               //this should
+            EventOpenMessage(msg).process();     //be tested, or be rewritten
             delete msg;
             return true;
         }
@@ -604,8 +608,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                         cmd->id      = type;
                         cmd->menu_id = MenuMessage;
                         cmd->param   = (void*)(contact->id());
-                        Event e(EventCheckState, cmd);
-                        if (!e.process())
+                        if (!EventCheckCommandState(cmd).process())
                             continue;
                     }
                     unsigned style = 0;
@@ -646,7 +649,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     }
                     info.name  = contact->getName();
                     info.id    = contact->id();
-                    info.icon  = statusIcon.latin1();
+                    info.icon  = statusIcon;
                     info.group = contact->getGroup();
                     if (core->getGroupMode()){
                         info.group = contact->getGroup();
@@ -669,7 +672,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     out += " ";
                     out += QString::number((*itl).group);
                     out += " ";
-                    out += (*itl).icon.c_str();
+                    out += (*itl).icon;
                     out += " ";
                     out += (*itl).name;
                 }
@@ -685,7 +688,6 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += args[0];
                 return false;
             }
-            string line;
             bool bOpen = false;
             unsigned uin = 0;
             Buffer sf;
@@ -698,20 +700,21 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 if (line == "[ICQ Message User]")
                     bOpen = true;
                 if (line.left(4) == "UIN=")
-                    uin = line.mid(4).toULong();
+                    uin = line.mid(4).toUInt();
             }
             if (uin == 0){
                 out = "Bad file ";
                 out += args[0];
                 return false;
             }
-            addContact ac;
+            EventAddContact::AddContact ac;
             ac.proto = "ICQ";
             ac.addr  = QString::number(uin);
-            ac.nick  = "";
+            ac.nick  = QString::null;
             ac.group = 0;
-            Event e(EventAddContact, &ac);
-            Contact *contact = (Contact*)(e.process());
+            EventAddContact e(&ac);
+            e.process();
+            Contact *contact = e.contact();
             if (contact == NULL){
                 out = "Can't add user";
                 return false;
@@ -719,8 +722,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             if (bOpen){
                 Message *m = new Message(MessageGeneric);
                 m->setContact(contact->id());
-                Event e(EventOpenMessage, &m);
-                e.process();
+                EventOpenMessage(m).process();
                 delete m;
             }
             return true;
@@ -730,7 +732,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             unsigned status = STATUS_UNKNOWN;
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
-                for (const CommandDef *d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
+                for (const CommandDef *d = client->protocol()->statusList(); d->text; d++){
                     if (cmpStatus(d->text, args[0].latin1())){
                         status = d->id;
                         break;
@@ -751,10 +753,9 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             }
             if (core->getManualStatus() == status)
                 return true;
-            core->data.ManualStatus.asULong() = status;
+            core->data.ManualStatus.asULong()  = status;
             core->data.StatusTime.asULong() = time(NULL);
-            Event e(EventClientStatus);
-            e.process();
+            EventClientStatus().process();
             return true;
         }
         for (n = 0; n < getContacts()->nClients(); n++){
@@ -823,8 +824,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 }else{
                     Command cc;
                     cc->id = CmdSearch;
-                    Event e(EventCommandExec, cc);
-                    e.process();
+                    EventCommandExec(cc).process();
                 }
             }else{
                 if (w)
@@ -838,8 +838,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_QUIT:{
             Command cc;
             cc->id = CmdQuit;
-            Event e(EventCommandExec, cc);
-            e.process();
+            EventCommandExec(cc).process();
             break;
         }
     case CMD_CLOSE:
@@ -861,27 +860,24 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     bNewGrp = true;
                 }
             }
-            addContact ac;
+            EventAddContact::AddContact ac;
             ac.proto = args[0];
             ac.addr  = args[1];
-            if (args.size() > 2){
+            if (args.size() > 2)
                 ac.nick = args[2];
-            }
-            ac.group = 0;
-            if (grp)
-                ac.group = grp->id();
-            Event e(EventAddContact, &ac);
-            Contact *contact = (Contact*)(e.process());
+            ac.group = grp ? grp->id() : 0;
+            EventAddContact e(&ac);
+            e.process();
+            Contact *contact = e.contact();
             if (contact){
                 if (bNewGrp){
-                    Event e(EventGroupChanged, grp);
+                    EventGroup e(grp, EventGroup::eChanged);
                     e.process();
                 }
                 if (nCmd == CMD_OPEN){
                     Message *m = new Message(MessageGeneric);
                     m->setContact(contact->id());
-                    Event e(EventOpenMessage, &m);
-                    e.process();
+                    EventOpenMessage(m).process();
                     delete m;
                 }
                 return true;
@@ -901,7 +897,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     return true;
                 }
             }
-            Event e(EventDeleteContact, &args[0]);
+            EventDeleteContact e(args[0]);
             if (e.process())
                 return true;
             out = "Contact ";
@@ -913,9 +909,9 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Command cmd;
             if (core->unread.size())
                 cmd->id = CmdUnread;
-            else return false;
-            Event e(EventCommandExec, cmd);
-            e.process();
+            else
+                return false;
+            EventCommandExec(cmd).process();
             return true;
         }
     case CMD_SMS:{
@@ -936,7 +932,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += c->cmd;
                 out += "\t";
                 out += c->shortDescr;
-                out += "\n";
+                out += "\r\n";       
             }
         }else{
             args[0] = args[0].upper();
@@ -951,7 +947,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             out = c->cmd;
             out += "\t";
             out += c->shortDescr;
-            out += "\n";
+            out += "\r\n";          //Fixme WIN32
             out += c->longDescr;
         }
         return true;
@@ -959,7 +955,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     return false;
 }
 
-static char CRLF[] = "\r\n>";
+static char Prompt[] = "\r\n>"; 
 
 ControlSocket::ControlSocket(RemotePlugin *plugin, Socket *socket)
 {
@@ -968,9 +964,9 @@ ControlSocket::ControlSocket(RemotePlugin *plugin, Socket *socket)
     m_socket = new ClientSocket(this);
     m_socket->setSocket(socket);
     m_socket->setRaw(true);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
-    write(CRLF);
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
+    write(Prompt);
 }
 
 ControlSocket::~ControlSocket()
@@ -987,15 +983,15 @@ ControlSocket::~ControlSocket()
 void ControlSocket::write(const char *msg)
 {
     log(L_DEBUG, "Remote write %s", msg);
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer.pack(msg, strlen(msg));
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer().pack(msg, strlen(msg));
     m_socket->write();
 }
 
 bool ControlSocket::error_state(const QString &err, unsigned)
 {
     if (!err.isEmpty())
-        log(L_WARN, "ControlSocket error %s", err.latin1());
+        log(L_WARN, "ControlSocket error %s", err.local8Bit().data());
     return true;
 }
 
@@ -1006,35 +1002,43 @@ void ControlSocket::connect_ready()
 void ControlSocket::packet_ready()
 {
     QCString line;
-    if (!m_socket->readBuffer.scan("\n", line))
+    if (!m_socket->readBuffer().scan("\n", line))
         return;
     if (line.isEmpty())
         return;
-    if (line[(int)line.size() - 1] == '\r')
-        line = line.left(line.size() - 1);
-    log(L_DEBUG, "Remote read: %s", line.data());
+	QString strLine=QString(line.data()).stripWhiteSpace();
+    /*if (line[(int)line.length() - 1] == '\r')
+        line = line.left(line.size() - 1);*/
+    log(L_DEBUG, "Remote read: %s", strLine.latin1());
     QString out;
     bool bError = false;
-    bool bRes = m_plugin->command(QString::fromLocal8Bit(line), out, bError);
+	bool bRes = m_plugin->command(strLine.latin1(), out, bError);
     if (bError){
         m_socket->error_state("");
         return;
     }
     if (!bRes)
         write("? ");
-    string s;
+    QCString s;
     if (!out.isEmpty())
         s = out.local8Bit();
-    string res;
-    for (const char *p = s.c_str(); *p; p++){
+    QCString res;
+	strLine=QString(s).stripWhiteSpace();
+	
+	//if (!strLine.contains('\n'))
+	strLine += "\r\n";
+	if (strLine.stripWhiteSpace() == 0) return;
+	res=strLine.local8Bit();
+	
+    /*for (const char *p = s.data(); *p ; p++){
         if (*p == '\r')
             continue;
         if (*p == '\n')
             res += '\r';
         res += *p;
-    }
-    write(res.c_str());
-    write(CRLF);
+    }*/
+    write(res);
+    write(Prompt);
 }
 
 #ifndef NO_MOC_INCLUDES
