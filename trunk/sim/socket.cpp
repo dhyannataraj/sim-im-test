@@ -62,8 +62,7 @@ void Socket::error(const QString &err_text, unsigned code)
 {
     if (notify)
         notify->error_state(err_text, code);
-}
-
+} 
 ServerSocket::ServerSocket()
 {
     notify = NULL;

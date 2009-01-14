@@ -77,6 +77,8 @@ enum SIMEvent
     eEventQuit	= 0x0102,	// last event until plugins are unloaded
     eEventExec	= 0x0110,	// execute an external program
     eEventSocketActive      = 0x0112,	// change socket activity state
+	eEventInterfaceDown		= 0x0113,	// emmited when socket detects eth down
+	eEventInterfaceUp		= 0x0114,
 
     eEventArg               = 0x0201,   // get command line argument
     eEventGetArgs           = 0x0202,   // get all command line arguments
@@ -299,6 +301,18 @@ public:
 	bool active() const { return m_bActive; }
 protected:
 	bool		m_bActive;
+};
+
+class EXPORT EventInterfaceDown : public Event
+{
+public:
+	EventInterfaceDown() : Event(eEventInterfaceDown) {};
+};
+
+class EXPORT EventInterfaceUp : public Event
+{
+public:
+	EventInterfaceUp() : Event(eEventInterfaceUp) {};
 };
 
 class EXPORT EventArg : public Event

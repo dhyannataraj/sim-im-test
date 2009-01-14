@@ -31,6 +31,8 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <pwd.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
 #endif
 
 #include <errno.h>
@@ -200,6 +202,7 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
     QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
     bInWrite = false;
     timer = NULL;
+	m_carrierCheckTimer = 0;
 }
 
 SIMClientSocket::~SIMClientSocket()
@@ -323,6 +326,10 @@ void SIMClientSocket::slotConnected()
     timerStop();
     if (notify) notify->connect_ready();
     getSocketFactory()->setActive(true);
+	m_state = true;
+#ifndef WIN32
+	m_carrierCheckTimer = startTimer(10000); // FIXME hardcoded
+#endif
 }
 
 void SIMClientSocket::slotConnectionClosed()
@@ -342,6 +349,80 @@ void SIMClientSocket::timeout()
 {
     QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
 }
+
+void SIMClientSocket::timerEvent(QTimerEvent* ev)
+{
+	if(m_carrierCheckTimer != 0 && ev->timerId() == m_carrierCheckTimer)
+	{
+		checkInterface();
+	}
+}
+
+void SIMClientSocket::checkInterface()
+{
+#ifdef WIN32
+	return;
+#endif
+	if(!sock)
+		return;
+#ifndef WIN32
+	int fd = sock->socket();
+	if(fd == -1)
+	{
+		return;
+	}
+	struct ifreq ifr;
+	struct ifreq* ifrp;
+	struct ifreq ibuf[16];
+	struct ifconf	ifc;
+
+	ifc.ifc_len = sizeof(ifr)*16;
+	ifc.ifc_buf = (caddr_t)&ibuf;
+	memset(ibuf, 0, sizeof(struct ifreq)*16);
+
+	int hret = ioctl(fd, SIOCGIFCONF, &ifc);
+	if(hret == -1)
+	{
+		return;
+	}
+	for(int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)
+	{
+		ifrp = ibuf + i; 
+		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
+		if(strcmp(ifr.ifr_name, "lo") == 0)
+			continue;
+		hret = ioctl(fd, SIOCGIFFLAGS, &ifr);
+		if(hret != -1)
+		{
+			int state = ifr.ifr_flags & IFF_RUNNING;
+			if(state < 0)
+			{
+				log(L_DEBUG, "Incorrect state: %d (%s)", state, ifr.ifr_name);
+				return;
+			}
+			if((state == 0) && (m_state))
+			{
+				m_state = false;
+				log(L_DEBUG, "Carrier lost at: %s", ifr.ifr_name);
+				EventInterfaceDown e;
+				e.process();
+				return;
+			}
+			if((state != 0) && (!m_state))
+			{
+				m_state = true;
+				log(L_DEBUG, "Carrier is up again at: %s", ifr.ifr_name);
+				EventInterfaceUp e;
+				e.process();
+				return;
+			}
+			return;
+		}
+	}
+	return;
+#endif
+}
+
 void SIMClientSocket::error(int errcode)
 {
 	log(L_DEBUG, "SIMClientSocket::error(%d), SocketDevice error: %d", errcode, sock->socketDevice()->error());
