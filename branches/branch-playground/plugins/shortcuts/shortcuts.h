@@ -22,6 +22,9 @@
 
 #include <qobject.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QEvent>
 
 #include "cfg.h"
 #include "event.h"
@@ -90,7 +93,7 @@ public:
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual bool processEvent(SIM::Event *e);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void applyKeys(unsigned long);
     void applyKey(SIM::CommandDef*);

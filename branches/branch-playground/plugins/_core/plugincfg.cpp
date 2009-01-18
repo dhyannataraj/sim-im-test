@@ -25,17 +25,19 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
 
 using namespace SIM;
 
-PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info)
-        : PluginCfgBase(parent)
+PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
+        //: PluginCfgBase(parent)
 {
     m_info = info;
     if (m_info->plugin){
         QWidget *w = m_info->plugin->createConfigWindow(addWnd);
         if (w){
-            QVBoxLayout *lay = new QVBoxLayout(addWnd);
+            Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
             lay->addWidget(w);
             QObject::connect(parent->topLevelWidget(), SIGNAL(applyChanges()), w, SLOT(apply()));
             // adjust plugin widget
@@ -77,8 +79,10 @@ void PluginCfg::apply()
 {
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "plugincfg.moc"
 #endif
+*/
 
 

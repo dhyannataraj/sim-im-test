@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include <qpushbutton.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 #include "icons.h"
 #include "misc.h"
@@ -30,17 +32,18 @@
 using namespace SIM;
 
 JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
-                     const QString &node, const QString &type)
-        : JIDSearchBase(parent)
+                     const QString &node, const QString &type) : QWidget(parent)
+        //: JIDSearchBase(parent)
 {
+	setupUi(this);
     m_client = client;
     m_jid    = jid;
     m_node	 = node;
     m_type	 = type;
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClicked()));
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
-    QIconSet is = Icon("1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
+    QIcon is = Icon("1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull()){
         btnBrowser->setIconSet(is);
         btnAdvanced->setIconSet(is);
     }
@@ -59,20 +62,24 @@ void JIDSearch::browserClicked()
 
 void JIDSearch::showEvent(QShowEvent *e)
 {
-    JIDSearchBase::showEvent(e);
+    QWidget::showEvent(e);
     if (!m_bInit){
         m_bInit = true;
         connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
         connect(this, SIGNAL(showResult(QWidget*)), topLevelWidget(), SLOT(showResult(QWidget*)));
         connect(this, SIGNAL(addResult(QWidget*)), topLevelWidget(), SLOT(addResult(QWidget*)));
-        if (m_adv->grpSearch->children()){
+        if(!m_adv->grpSearch->children().empty())
+		{
             emit addResult(m_adv);
-        }else{
+        }
+		else
+		{
             btnAdvanced->hide();
             m_adv->hide();
         }
     }
-    if (m_bAdv){
+    if (m_bAdv)
+	{
         m_bAdv = false;
         advancedClicked();
     }
@@ -83,14 +90,14 @@ void JIDSearch::advancedClicked()
 {
     if (m_bAdv){
         m_bAdv = false;
-        QIconSet is = Icon("1rightarrow");
-        if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        QIcon is = Icon("1rightarrow");
+        if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             btnAdvanced->setIconSet(is);
         emit showResult(NULL);
     }else{
         m_bAdv = true;
-        QIconSet is = Icon("1leftarrow");
-        if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+        QIcon is = Icon("1leftarrow");
+        if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
             btnAdvanced->setIconSet(is);
         emit showResult(m_adv);
     }
@@ -192,7 +199,9 @@ i18n("Organization Name")
 i18n("Organization Unit")
 #endif
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jidsearch.moc"
 #endif
+*/
 

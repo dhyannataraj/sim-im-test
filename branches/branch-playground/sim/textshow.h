@@ -24,18 +24,24 @@
 #include "msggen.h"
 
 #include <qglobal.h>
-#include <qmainwindow.h>
+#include <QMainWindow>
 #include <qtoolbutton.h>
 #include <qlabel.h>
 
-#include <qtextedit.h>
+#include <q3textedit.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <Q3Frame>
+#include <QKeyEvent>
+#include <Q3PopupMenu>
+#include <QFocusEvent>
 #ifdef USE_KDE
 #include <ktextedit.h>
-#define QTextEdit KTextEdit
+#define Q3TextEdit KTextEdit
 #endif
 
 class CToolBar;
-class QTextDrag;
+class Q3TextDrag;
 
 const unsigned TextCmdBase	= 0x00030000;
 const unsigned CmdBgColor	= TextCmdBase;
@@ -45,7 +51,7 @@ const unsigned CmdItalic	= TextCmdBase + 3;
 const unsigned CmdUnderline	= TextCmdBase + 4;
 const unsigned CmdFont		= TextCmdBase + 5;
 
-class EXPORT TextShow : public QTextEdit
+class EXPORT TextShow : public Q3TextEdit
 {
     Q_OBJECT
 public:
@@ -70,7 +76,7 @@ public:
     TextEdit(QWidget *parent, const char *name = NULL);
     ~TextEdit();
     void setCtrlMode(bool);
-    void setTextFormat(QTextEdit::TextFormat);
+    void setTextFormat(Qt::TextFormat);
     const QColor &foreground() const;
     const QColor &defForeground() const;
     void setForeground(const QColor&, bool bDef);
@@ -96,7 +102,7 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     virtual void focusOutEvent(QFocusEvent *e);
     void keyPressEvent(QKeyEvent *e);
-    QPopupMenu *createPopupMenu(const QPoint& pos);
+    Q3PopupMenu *createPopupMenu(const QPoint& pos);
     void *m_param;
     bool m_bBold;
     bool m_bItalic;
@@ -111,7 +117,7 @@ protected:
     bool m_bInClick;
 };
 
-class QToolBar;
+class Q3ToolBar;
 
 class EXPORT ColorLabel : public QLabel
 {
@@ -127,7 +133,7 @@ protected:
     unsigned m_id;
 };
 
-class EXPORT ColorPopup : public QFrame
+class EXPORT ColorPopup : public Q3Frame
 {
     Q_OBJECT
 public:
@@ -147,8 +153,8 @@ public:
     RichTextEdit(QWidget *parent, const char *name = NULL);
     void setText(const QString&);
     QString text();
-    void setTextFormat(QTextEdit::TextFormat);
-    QTextEdit::TextFormat textFormat();
+    void setTextFormat(Qt::TextFormat);
+    Qt::TextFormat textFormat();
     void setReadOnly(bool bState);
     void showBar();
 protected:

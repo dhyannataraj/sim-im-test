@@ -138,12 +138,12 @@ QString HomeDirPlugin::defaultPath()
         s = os2home;
         s += "\\";
     }
-    s += ".sim";
+    s += ".sim-qt4";
     if ( access( s, F_OK ) != 0 ) {
     	mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
     }
 #else
-    s += ".sim";
+    s += ".sim-qt4";
 #endif
 
 #endif

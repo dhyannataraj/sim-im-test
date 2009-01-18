@@ -34,7 +34,7 @@ using namespace std;
 using namespace SIM;
 
 SpellFind::SpellFind(EditFile *edt)
-        : SpellFindBase(NULL, NULL, false, WDestructiveClose)
+        : SpellFindBase(NULL, NULL, false, Qt::WDestructiveClose)
 {
     SET_WNDPROC("find")
     setIcon(Pict("find"));

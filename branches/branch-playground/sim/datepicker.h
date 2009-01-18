@@ -20,9 +20,12 @@
 
 #include "simapi.h"
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qlabel.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QMouseEvent>
 
 class QLineEdit;
 class QPushButton;
@@ -30,7 +33,7 @@ class QSpinBox;
 
 class PickerLabel;
 
-class EXPORT DatePicker : public QFrame
+class EXPORT DatePicker : public Q3Frame
 {
     Q_OBJECT
 public:
@@ -52,7 +55,7 @@ protected:
     QPushButton	*m_button;
 };
 
-class PickerPopup : public QFrame
+class PickerPopup : public Q3Frame
 {
     Q_OBJECT
 public:

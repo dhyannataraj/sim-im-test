@@ -34,6 +34,8 @@
 #include <qtimer.h>
 #include <qimage.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "html.h"
 #include "unquot.h"
@@ -284,7 +286,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 break;
             }
             if ((*it).msg){
-                QCString answer;
+                Q3CString answer;
                 socket()->readBuffer() >> answer;
                 if (ackMessage((*it).msg, ackFlags, answer)){
                     ackMessage(*it);
@@ -324,7 +326,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             }
 
             if (plugin_type == PLUGIN_AR){
-                QCString answer;
+                Q3CString answer;
                 socket()->readBuffer() >> answer;
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
                 Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '300'
@@ -425,7 +427,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
 								QString name = dataName(data);
 								for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
 									Message *msg = *it; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '413'
-									if (msg->client() && (name == msg->client())){
+									if((!msg->client().isNull()) && (name == msg->client())){
 										MessageId msg_id;
 										switch (msg->type()){
 											case MessageICQFile:
@@ -471,7 +473,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         return;
                     }
 					unsigned char type, flags; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '73'
-                    QCString msg_str;
+                    Q3CString msg_str;
                     msg >> type;
                     msg >> flags;
                     msg >> msg_str;
@@ -706,7 +708,7 @@ void ICQClient::ackMessage(SendMsg &s)
     processSendQueue();
 }
 
-bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString &msg_str)
+bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const Q3CString &msg_str)
 {
     switch (ackFlags){
     case ICQ_TCPxACK_OCCUPIED:
@@ -1251,7 +1253,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    QCString msg;
+    Q3CString msg;
     adv >> msg;
 
     switch (msgType){
@@ -1452,7 +1454,7 @@ void ICQClient::sendAutoReply(const QString &screen, MessageId id,
     if (!response.isEmpty()){
         Contact *contact = NULL;
         findContact(screen, NULL, false, contact);
-        QCString r = getContacts()->fromUnicode(contact, response);
+        Q3CString r = getContacts()->fromUnicode(contact, response);
         unsigned short size = (unsigned short)(r.length() + 1);
         socket()->writeBuffer().pack(size);
         socket()->writeBuffer().pack(r.data(), size);
@@ -1890,7 +1892,7 @@ bool ICQClient::processMsg()
                 return true;
             }
         }
-        QCString text;
+        Q3CString text;
         switch (m_send.flags & SEND_MASK){
         case SEND_RTF:
             text = createRTF(m_send.text, m_send.part, m_send.msg->getForeground(), contact, MAX_TYPE2_MESSAGE_SIZE);
@@ -2013,7 +2015,7 @@ bool ICQClient::processMsg()
             }
             QString charset = bWide ? "unicode-2-0" : "us-ascii";
             tlvs += new Tlv(0x0D, charset.length(), charset.latin1());
-            QCString st;
+            Q3CString st;
             if (bWide){
                 for (i = 0; i < (int)(text.length()); i++){
                     unsigned short s = text[i].unicode();
@@ -2145,7 +2147,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf << 0x00020000L;
         msgBuf.pack(ba.data(), ba.size());
     }else{
-        QCString msg_text = getContacts()->fromUnicode(getContact(data), text);
+        Q3CString msg_text = getContacts()->fromUnicode(getContact(data), text);
         EventSend e(m_send.msg, msg_text);
         e.process();
         msg_text = e.localeText();
@@ -2169,7 +2171,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
         if (contact){
             ClientDataIterator it(contact->clientData, this);
             while ((data = (toICQUserData(++it))) != NULL){
-                if (msg->client() && (dataName(data) == msg->client()))
+                if((!msg->client().isNull()) && (dataName(data) == msg->client()))
                     break;
                 data = NULL;
             }
@@ -2197,65 +2199,66 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
 
 void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite)
 {
-    ICQUserData *data = NULL;
-    bool bDelete = true;
-    if (msg->client()){
-        Contact *contact = getContacts()->contact(msg->contact());
-        if (contact){
-            ClientDataIterator it(contact->clientData, this);
-            while ((data = (toICQUserData(++it))) != NULL){
-                if (dataName(data) == msg->client())
-                    break;
-                data = NULL;
-            }
-        }
-    }
-    if (data){
-        switch (msg->type()){
-        case MessageICQFile:{
-                ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                ft->setDir(dir);
-                ft->setOverwrite(overwrite);
-                EventMessageAcked(msg).process();
-                m_processMsg.push_back(msg);
-                bDelete = false;
-                ft->listen();
-                break;
-            }
-        case MessageFile:
-			{	
-                AIMFileTransfer *ft = new AIMIncomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
-				AIMFileMessage* fmsg = static_cast<AIMFileMessage*>(msg);
-				fmsg->m_transfer = ft;
-                ft->setDir(dir);
-                ft->setOverwrite(overwrite);
-                EventMessageAcked(msg).process();
-                //m_processMsg.push_back(msg);
-                bDelete = false;
-				ft->setPort(fmsg->getPort());
-				MessageId this_id;
-				this_id.id_l = fmsg->getID_L();
-				this_id.id_h = fmsg->getID_H();
-				ft->setICBMCookie(this_id);
-				log(L_DEBUG, "port = %d", fmsg->getPort());
-				ft->setStage(1);
-				if(fmsg->isProxy)
-				{
-					ft->setICBMCookie2(fmsg->cookie2);
-					ft->setProxyActive(false);
-					ft->forceProxyConnection();
-				}
-                ft->accept();
-				return;
-            }
-        default:
-            log(L_DEBUG, "Bad message type %u for accept", msg->type());
-        }
-    }
-    EventMessageDeleted(msg).process();
-    if (bDelete)
+	ICQUserData *data = NULL;
+	bool bDelete = true;
+	if(!msg->client().isNull())
 	{
-        delete msg;
+		Contact *contact = getContacts()->contact(msg->contact());
+		if (contact){
+			ClientDataIterator it(contact->clientData, this);
+			while ((data = (toICQUserData(++it))) != NULL){
+				if (dataName(data) == msg->client())
+					break;
+				data = NULL;
+			}
+		}
+	}
+	if (data){
+		switch (msg->type()){
+			case MessageICQFile:{
+									ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
+									ft->setDir(dir);
+									ft->setOverwrite(overwrite);
+									EventMessageAcked(msg).process();
+									m_processMsg.push_back(msg);
+									bDelete = false;
+									ft->listen();
+									break;
+								}
+			case MessageFile:
+								{	
+									AIMFileTransfer *ft = new AIMIncomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
+									AIMFileMessage* fmsg = static_cast<AIMFileMessage*>(msg);
+									fmsg->m_transfer = ft;
+									ft->setDir(dir);
+									ft->setOverwrite(overwrite);
+									EventMessageAcked(msg).process();
+									//m_processMsg.push_back(msg);
+									bDelete = false;
+									ft->setPort(fmsg->getPort());
+									MessageId this_id;
+									this_id.id_l = fmsg->getID_L();
+									this_id.id_h = fmsg->getID_H();
+									ft->setICBMCookie(this_id);
+									log(L_DEBUG, "port = %d", fmsg->getPort());
+									ft->setStage(1);
+									if(fmsg->isProxy)
+									{
+										ft->setICBMCookie2(fmsg->cookie2);
+										ft->setProxyActive(false);
+										ft->forceProxyConnection();
+									}
+									ft->accept();
+									return;
+								}
+			default:
+								log(L_DEBUG, "Bad message type %u for accept", msg->type());
+		}
+	}
+	EventMessageDeleted(msg).process();
+	if (bDelete)
+	{
+		delete msg;
 	}
 }
 
@@ -2265,10 +2268,12 @@ void ICQClient::decline(Message *msg, const QString &reason)
     if (msg->getFlags() & MESSAGE_DIRECT){
         Contact *contact = getContacts()->contact(msg->contact());
         ICQUserData *data = NULL;
-        if (contact){
+        if (contact)
+		{
             ClientDataIterator it(contact->clientData, this);
-            while ((data = (toICQUserData(++it))) != NULL){
-                if (msg->client() && (dataName(data) == msg->client()))
+            while((data = (toICQUserData(++it))) != NULL)
+			{
+                if((!msg->client().isNull()) && (dataName(data) == msg->client()))
                     break;
                 data = NULL;
             }
@@ -2301,7 +2306,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
         }
         ICQUserData *data = NULL;
         Contact *contact = NULL;
-        if (msg->client()){
+        if (!msg->client().isNull()){
             contact = getContacts()->contact(msg->contact());
             if (contact){
                 ClientDataIterator it(contact->clientData, this);

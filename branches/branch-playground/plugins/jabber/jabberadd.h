@@ -19,7 +19,9 @@
 #define _JABBERADD_H
 
 #include "jabberclient.h"
-#include "jabberaddbase.h"
+#include "ui_jabberaddbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class JabberClient;
 class JabberBrowser;
@@ -44,7 +46,7 @@ struct AgentSearch
     QString		type;
 };
 
-class JabberAdd : public JabberAddBase, public SIM::EventReceiver
+class JabberAdd : public QWidget, public Ui::JabberAdd, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

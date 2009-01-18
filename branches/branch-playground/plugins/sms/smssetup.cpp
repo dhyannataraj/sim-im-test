@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
                           smssetup.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
@@ -20,7 +20,7 @@
 #include <qcheckbox.h>
 #include <qtimer.h>
 #include <qlabel.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qtabwidget.h>
 
 #include "misc.h"
@@ -31,9 +31,9 @@
 
 using namespace SIM;
 
-SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
-        : SMSSetupBase(parent)
+SMSSetup::SMSSetup(QWidget *parent, SMSClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     QStringList res = SerialPort::devices();
     unsigned n = 0;
@@ -87,8 +87,4 @@ void SMSSetup::init()
 {
     emit okEnabled(true);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "smssetup.moc"
-#endif
 

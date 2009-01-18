@@ -20,14 +20,14 @@
 
 #include "event.h"
 
-#include "icqpicturebase.h"
+#include "ui_icqpicturebase.h"
 
 class ICQClient;
 struct ICQUserData;
 
 class QImage;
 
-class ICQPicture : public ICQPictureBase, public SIM::EventReceiver
+class ICQPicture : public QWidget, public Ui::ICQPictureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

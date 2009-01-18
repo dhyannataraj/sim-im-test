@@ -19,6 +19,8 @@
 #define _USERLIST_H
 
 #include "listview.h"
+//Added by qt3to4:
+#include <QMouseEvent>
 
 class UserListBase;
 class QTimer;
@@ -35,7 +37,7 @@ const unsigned CONTACT_ICONS	= 2;
 const unsigned CONTACT_ACTIVE	= 3;
 const unsigned CONTACT_STATUS	= 4;
 
-class UserViewItemBase : public QListViewItem
+class UserViewItemBase : public Q3ListViewItem
 {
 public:
     UserViewItemBase(UserListBase *view);
@@ -115,15 +117,15 @@ protected:
     virtual int heightItem(UserViewItemBase *base);
     unsigned getUserStatus(SIM::Contact *contact, unsigned &style, QString &icons);
     virtual unsigned getUnread(unsigned contact_id);
-    GroupItem *findGroupItem(unsigned id, QListViewItem *p = NULL);
-    ContactItem *findContactItem(unsigned id, QListViewItem *p = NULL);
-    void addSortItem(QListViewItem *item);
-    void addUpdatedItem(QListViewItem *item);
+    GroupItem *findGroupItem(unsigned id, Q3ListViewItem *p = NULL);
+    ContactItem *findContactItem(unsigned id, Q3ListViewItem *p = NULL);
+    void addSortItem(Q3ListViewItem *item);
+    void addUpdatedItem(Q3ListViewItem *item);
     void addGroupForUpdate(unsigned long id);
     void addContactForUpdate(unsigned long id);
-    virtual void deleteItem(QListViewItem *item);
-    std::list<QListViewItem*> sortItems;
-    std::list<QListViewItem*> updatedItems;
+    virtual void deleteItem(Q3ListViewItem *item);
+    std::list<Q3ListViewItem*> sortItems;
+    std::list<Q3ListViewItem*> updatedItems;
     std::list<unsigned long>	updGroups;
     std::list<unsigned long>	updContacts;
     bool m_bDirty;
@@ -147,7 +149,7 @@ protected:
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     bool isSelected(unsigned id);
     bool isGroupSelected(unsigned id);
-    int drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState, const QColorGroup &cg);
+    int drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg);
 };
 
 #endif

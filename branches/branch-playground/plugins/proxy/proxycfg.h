@@ -19,14 +19,16 @@
 #define _PROXYCFG_H
 
 #include "proxy.h"
-#include "proxycfgbase.h"
+#include "ui_proxycfgbase.h"
 
 #include <vector>
+//Added by qt3to4:
+#include <QPaintEvent>
 
 class ProxyPlugin;
 class QTabWidget;
 
-class ProxyConfig : public ProxyConfigBase, public SIM::EventReceiver
+class ProxyConfig : public QWidget, public Ui::ProxyConfigBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -19,13 +19,17 @@
 #define _LOGINDLG_H
 
 
-#include "logindlgbase.h"
+#include "event.h"
+#include "ui_logindlgbase.h"
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QLabel>
 
 class QLabel;
 class QLineEdit;
 class LinkLabel;
 
-class LoginDialog : public LoginDialogBase, public SIM::EventReceiver
+class LoginDialog : public QDialog, public Ui::LoginDialogBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

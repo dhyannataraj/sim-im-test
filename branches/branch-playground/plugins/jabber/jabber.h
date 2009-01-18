@@ -19,6 +19,8 @@
 #define _JABBER_H
 
 #include "contacts.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 const unsigned JabberCmdBase	= 0x00050000;
 
@@ -84,7 +86,7 @@ public:
     PROP_ULONG(BrowseType);
     static JabberPlugin *plugin;
 protected:
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     SIM::Protocol *m_protocol;
 };
 

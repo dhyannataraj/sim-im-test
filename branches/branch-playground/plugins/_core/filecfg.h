@@ -18,11 +18,11 @@
 #ifndef _FILECFG_H
 #define _FILECFG_H
 
-#include "filecfgbase.h"
+#include "ui_filecfgbase.h"
 
 class QCheckBox;
 
-class FileConfig : public FileConfigBase
+class FileConfig : public QWidget, public Ui::FileConfigBase
 {
     Q_OBJECT
 public:

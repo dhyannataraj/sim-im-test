@@ -28,6 +28,14 @@
 #include <qspinbox.h>
 #include <qpainter.h>
 #include <qvalidator.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <QPaintEvent>
+#include <Q3GridLayout>
+#include <Q3Frame>
+#include <QLabel>
+#include <QMouseEvent>
+#include <Q3VBoxLayout>
 
 class DateValidator : public QValidator
 {
@@ -63,11 +71,11 @@ DateEdit::DateEdit(QWidget *parent)
 }
 
 DatePicker::DatePicker(QWidget *parent, const char *name)
-        : QFrame(parent, name)
+        : Q3Frame(parent, name)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
     setLineWidth(0);
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    Q3HBoxLayout *lay = new Q3HBoxLayout(this);
     m_edit = new DateEdit(this);
     QFontMetrics fm(m_edit->font());
     m_edit->setFixedWidth(fm.width("0000-00-00") + 14);
@@ -117,7 +125,7 @@ void DatePicker::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
-    QFrame::paintEvent(e);
+    Q3Frame::paintEvent(e);
 }
 
 void DatePicker::setDate(QDate date)
@@ -191,7 +199,7 @@ QString MonthSpinBox::mapValueToText(int v)
 }
 
 PickerPopup::PickerPopup(DatePicker *picker)
-        : QFrame(NULL, "calendar", WType_Popup | WStyle_Customize | WStyle_Tool | WDestructiveClose)
+        : Q3Frame(NULL, "calendar", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
 {
     m_picker = picker;
 
@@ -201,9 +209,9 @@ PickerPopup::PickerPopup(DatePicker *picker)
 
     QDate d = QDate::currentDate();
     QLabel *lbl = new QLabel(this);
-    lbl->setBackgroundMode(PaletteBase);
-    QVBoxLayout *l = new QVBoxLayout(this);
-    QHBoxLayout *hLay = new QHBoxLayout(l);
+    //lbl->setBackgroundMode(PaletteBase);
+    Q3VBoxLayout *l = new Q3VBoxLayout(this);
+    Q3HBoxLayout *hLay = new Q3HBoxLayout(l);
     hLay->setMargin(0);
     hLay->setSpacing(4);
 
@@ -227,7 +235,7 @@ PickerPopup::PickerPopup(DatePicker *picker)
     f.setBold(true);
 
     m_labels = new QLabel*[7 * 6];
-    QGridLayout *lay = new QGridLayout(lbl, 7, 7);
+    Q3GridLayout *lay = new Q3GridLayout(lbl, 7, 7);
     lay->setMargin(6);
     lay->setSpacing(4);
     unsigned n = 0;
@@ -235,11 +243,11 @@ PickerPopup::PickerPopup(DatePicker *picker)
         for (unsigned i = 0; i < 7; i++){
             QLabel *l = new PickerLabel(lbl);
             l->setFont(f);
-            l->setAlignment(AlignRight);
+            l->setAlignment(Qt::AlignRight);
             l->setText("99");
             l->setMinimumSize(l->sizeHint());
             l->setText(QString::number(n));
-            l->setBackgroundMode(PaletteBase);
+            //l->setBackgroundMode(PaletteBase);
             lay->addWidget(l, i, j + 1);
             m_labels[n++] = l;
             if (i >= 5)
@@ -251,7 +259,7 @@ PickerPopup::PickerPopup(DatePicker *picker)
         QLabel *l = new QLabel(lbl);
         l->setFont(f);
         l->setText(i18n(day_name[i]));
-        l->setBackgroundMode(PaletteBase);
+        //l->setBackgroundMode(PaletteBase);
         lay->addWidget(l, i, 0);
         if (i >= 5)
             l->setPalette(pal);
@@ -345,7 +353,9 @@ void PickerLabel::mouseReleaseEvent(QMouseEvent*)
     emit clicked(this);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "datepicker.moc"
 #endif
+*/
 

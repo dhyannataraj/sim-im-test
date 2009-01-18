@@ -24,11 +24,13 @@
 #include <qtabwidget.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
 
 using namespace SIM;
 
-PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group)
-        : PrefConfigBase(parent)
+PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group) : QWidget(parent)
+        //: PrefConfigBase(parent)
 {
     m_cmd = cmd;
     m_contact = contact;
@@ -47,7 +49,7 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
     if (data)
         w = ((getPreferencesWindow)(cmd->param))(addWnd, data);
     if (w){
-        QVBoxLayout *lay = new QVBoxLayout(addWnd);
+        Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
         lay->addWidget(w);
         connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
         addWnd->setMinimumSize(w->minimumSizeHint());
@@ -85,8 +87,10 @@ void PrefConfig::overrideToggled(bool bState)
     addWnd->setEnabled(bState);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "prefcfg.moc"
 #endif
+*/
 
 

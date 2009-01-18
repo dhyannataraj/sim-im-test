@@ -62,8 +62,10 @@ CommandsDefPrivate::CommandsDefPrivate(unsigned id, bool bMenu)
 bool CommandsDefPrivate::changeCommand(const CommandDef *cmd)
 {
     list<CommandDef>::iterator it;
-    for (it = buttons.begin(); it != buttons.end(); ++it){
-        if ((*it).id == cmd->id){
+    for (it = buttons.begin(); it != buttons.end(); ++it)
+	{
+        if ((*it).id == cmd->id)
+		{
             (*it) = *cmd;
             return true;
         }
@@ -76,9 +78,11 @@ bool CommandsDefPrivate::addCommand(const CommandDef *cmd)
     if (changeCommand(cmd))
         return false;
     unsigned item_grp = m_bMenu ? cmd->menu_grp : cmd->bar_grp;
-    if (item_grp){
+    if (item_grp)
+	{
         list<CommandDef>::iterator it;
-        for (it = buttons.begin(); it != buttons.end(); ++it){
+        for (it = buttons.begin(); it != buttons.end(); ++it)
+		{
             unsigned grp = m_bMenu ? (*it).menu_grp : (*it).bar_grp;
             if (grp > item_grp){
                 buttons.insert(it, *cmd);
@@ -103,40 +107,43 @@ bool CommandsDefPrivate::delCommand(unsigned id)
 
 bool CommandsDefPrivate::processEvent(Event *e)
 {
-    list<CommandDef>::iterator it;
-    switch (e->type()){
-    case eEventCommandCreate: {
-        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
-        CommandDef *def = ecc->cmd();
-        if (((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || def->icon)){
-            if (addCommand(def))
-                cfg.clear();
-        }
-        break;
-    }
-    case eEventCommandChange: {
-        EventCommandChange *ecc = static_cast<EventCommandChange*>(e);
-        CommandDef *def = ecc->cmd();
-        if (def->param == NULL){
-            for (it = buttons.begin(); it != buttons.end(); ++it){
-                if ((*it).id == def->id){
-                    *it = *def;
-                    break;
-                }
-            }
-        }
-        break;
-    }
-    case eEventCommandRemove: {
-        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
-        if (delCommand(ecr->id()))
-            cfg.clear();
-        break;
-    }
-    default:
-        break;
-    }
-    return false;
+	list<CommandDef>::iterator it;
+	switch (e->type()){
+		case eEventCommandCreate:
+			{
+				EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+				CommandDef *def = ecc->cmd();
+				if(((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || !def->icon.isNull())){
+					if (addCommand(def))
+						cfg.clear();
+				}
+				break;
+			}
+		case eEventCommandChange:
+			{
+				EventCommandChange *ecc = static_cast<EventCommandChange*>(e);
+				CommandDef *def = ecc->cmd();
+				if (def->param == NULL){
+					for (it = buttons.begin(); it != buttons.end(); ++it){
+						if ((*it).id == def->id){
+							*it = *def;
+							break;
+						}
+					}
+				}
+				break;
+			}
+		case eEventCommandRemove:
+			{
+				EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+				if (delCommand(ecr->id()))
+					cfg.clear();
+				break;
+			}
+		default:
+			break;
+	}
+	return false;
 }
 
 void CommandsDefPrivate::setConfig(const QString &cfg_str)
@@ -150,9 +157,10 @@ void CommandsDefPrivate::setConfig(const QString &cfg_str)
 
 void CommandsDefPrivate::generateConfig()
 {
-    if (cfg.size())
+    if(cfg.size())
         return;
-    if (config.length()){
+    if(config.length())
+	{
         list<unsigned> processed;
         QString active = config;
         QString noactive;
@@ -161,20 +169,23 @@ void CommandsDefPrivate::generateConfig()
             active   = config.left(n);
             noactive = config.mid(n + 1);
         }
-        while (active.length()){
+        while (active.length())
+		{
             QString v = getToken(active, ',');
             unsigned id = v.toUInt();
             cfg.push_back(id);
             if (id)
                 processed.push_back(id);
         }
-        while (noactive.length()){
+        while (noactive.length())
+		{
             QString v = getToken(noactive, ',');
             unsigned id = v.toUInt();
             if (id)
                 processed.push_back(id);
         }
-        for (list<CommandDef>::iterator it = buttons.begin(); it != buttons.end(); ++it){
+        for (list<CommandDef>::iterator it = buttons.begin(); it != buttons.end(); ++it)
+		{
             CommandDef &c = (*it);
             unsigned grp = m_bMenu ? c.menu_grp : c.bar_grp;
             if (grp == 0)
@@ -207,14 +218,18 @@ void CommandsDefPrivate::generateConfig()
             }
             cfg.insert(it_p, c.id);
         }
-    }else{
+    }
+	else
+	{
         unsigned cur_grp = 0;
-        for (list<CommandDef>::iterator it = buttons.begin(); it != buttons.end(); ++it){
+        for (list<CommandDef>::iterator it = buttons.begin(); it != buttons.end(); ++it)
+		{
             CommandDef &c = (*it);
             unsigned grp = m_bMenu ? c.menu_grp : c.bar_grp;
             if (grp == 0)
                 continue;
-            if ((grp & ~0xFF) != (cur_grp & ~0xFF)){
+            if ((grp & ~0xFF) != (cur_grp & ~0xFF))
+			{
                 if (cur_grp)
                     cfg.push_back(0);
             }
@@ -292,29 +307,33 @@ static CommandDef SeparatorDef = CommandDef ();
 
 CommandDef *CommandsListPrivateShort::next()
 {
-    for (;;++it){
-        if (it == m_def->cfg.end())
-            return NULL;
-        unsigned id = (*it);
-        if (id == 0){
-            ++it;
-            return &SeparatorDef;
-        }
-        for (list<CommandDef>::iterator itb = m_def->buttons.begin(); itb != m_def->buttons.end(); ++itb){
-            if ((*itb).id == id){
-                ++it;
-                return &(*itb);
-            }
-        }
-    }
+	for (;;++it)
+	{
+		if (it == m_def->cfg.end())
+			return NULL;
+		unsigned id = (*it);
+		if (id == 0){
+			++it;
+			return &SeparatorDef;
+		}
+		for (list<CommandDef>::iterator itb = m_def->buttons.begin(); itb != m_def->buttons.end(); ++itb){
+			if ((*itb).id == id){
+				++it;
+				return &(*itb);
+			}
+		}
+	}
 }
 
 CommandsList::CommandsList(CommandsDef &def, bool bFull)
 {
     def.p->generateConfig();
-    if (bFull){
+    if (bFull)
+	{
         p = new CommandsListPrivateFull(def.p);
-    }else{
+    }
+	else
+	{
         p = new CommandsListPrivateShort(def.p);
     }
 }
@@ -414,7 +433,6 @@ bool CommandsMap::erase(unsigned id)
 
 void CommandsMap::clear()
 {
-    log(L_DEBUG, "CommandsMap::clear %p", this);
     p->clear();
 }
 
@@ -430,7 +448,6 @@ CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
 
 CommandsMapIterator::CommandsMapIterator(CommandsMap &m)
 {
-    log(L_DEBUG, "CommandsMapIterator for %p", &m);
     p = new CommandsMapIteratorPrivate(*m.p);
 }
 

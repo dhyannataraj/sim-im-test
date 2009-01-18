@@ -20,6 +20,8 @@
 #include <list>
 
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "simapi.h"
 #include "buffer.h"
@@ -149,7 +151,7 @@ void JabberFileTransfer::packet_ready()
         JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
         EventLog::log_packet(m_socket->readBuffer(), false, plugin->JabberPacket);
         for (;;){
-            QCString s;
+            Q3CString s;
             if (!m_socket->readBuffer().scan("\n", s))
                 break;
             if (!s.isEmpty() && (s[(int)s.length() - 1] == '\r'))
@@ -276,9 +278,9 @@ void JabberFileTransfer::write_ready()
     m_socket->write();
 }
 
-bool JabberFileTransfer::get_line(const QCString &str)
+bool JabberFileTransfer::get_line(const Q3CString &str)
 {
-    QCString line = str;
+    Q3CString line = str;
     if (line.isEmpty()){
         if (m_state == Connect){
             m_socket->error_state(I18N_NOOP("File transfer failed"));
@@ -363,7 +365,7 @@ bool JabberFileTransfer::get_line(const QCString &str)
         return false;
     }
     if (m_state == ListenWait){
-        QCString t = getToken(line, ' ');
+        Q3CString t = getToken(line, ' ');
         if (t == "GET"){
             m_answer = 404;
             t = getToken(line, ' ');
@@ -376,7 +378,7 @@ bool JabberFileTransfer::get_line(const QCString &str)
         return true;
     }
     if (m_state == Connect){
-        QCString t = getToken(line, ' ');
+        Q3CString t = getToken(line, ' ');
         t = getToken(t, '/');
         if (t != "HTTP"){
             m_socket->error_state(I18N_NOOP("File transfer fail"));
@@ -398,7 +400,7 @@ bool JabberFileTransfer::get_line(const QCString &str)
         return true;
     }
     if (m_state == ReadHeader){
-        QCString t = getToken(line, ':');
+        Q3CString t = getToken(line, ':');
         if (t == "Content-Length"){
             const char *p;
             for (p = line.data(); *p; p++)
@@ -422,7 +424,7 @@ bool JabberFileTransfer::get_line(const QCString &str)
         }
         return true;
     }
-    QCString t = getToken(line, ':');
+    Q3CString t = getToken(line, ':');
     if (t == "Range"){
         const char *p = line.data();
         for (; *p; p++)
@@ -442,10 +444,10 @@ bool JabberFileTransfer::get_line(const QCString &str)
 
 void JabberFileTransfer::send_line(const QString &line)
 {
-    send_line(line.utf8());
+    send_line(line.toUtf8().data());
 }
 
-void JabberFileTransfer::send_line(const QCString &line)
+void JabberFileTransfer::send_line(const Q3CString &line)
 {
     send_line(line.data());
 }

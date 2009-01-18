@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "ballonmsg.h"
 #include "unquot.h"
@@ -129,7 +131,7 @@ FilterPlugin::~FilterPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-QCString FilterPlugin::getConfig()
+Q3CString FilterPlugin::getConfig()
 {
     return save_data(filterData, &data);
 }
@@ -257,7 +259,7 @@ bool FilterPlugin::processEvent(Event *e)
                 TextEdit *edit = medit->m_edit;
                 if (edit->hasSelectedText()){
                     text = edit->selectedText();
-                    if (edit->textFormat() == QTextEdit::RichText)
+                    if (edit->textFormat() == Qt::RichText)
                         text = unquoteText(text);
                     id = medit->m_userWnd->id();
                 }
@@ -411,6 +413,3 @@ void FilterPlugin::addToIgnore(void *p)
     }
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "filter.moc"
-#endif

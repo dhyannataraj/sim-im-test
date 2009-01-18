@@ -20,6 +20,8 @@
 
 #include "socket.h"
 #include "fetch.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 const unsigned MSN_SIGN			= 0x0003;
 
@@ -113,7 +115,7 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     void send(const QString &cmd, const QString &args);
-    void getLine(const QCString &line);
+    void getLine(const Q3CString &line);
     void getMessage(unsigned size);
     bool getMessage();
     void messageReady();
@@ -169,7 +171,7 @@ public:
     ~MSNClient();
     virtual QString     name();
     virtual QWidget    *setupWnd();
-    virtual QCString    getConfig();
+    virtual Q3CString    getConfig();
     PROP_STR(Server);
     PROP_USHORT(Port);
     PROP_ULONG(ListVer);
@@ -226,7 +228,7 @@ protected:
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
     SIM::Socket *createSocket();
-    void getLine(const QCString &line);
+    void getLine(const Q3CString &line);
     void clearPackets();
     void sendStatus();
     void checkEndSync();
@@ -312,7 +314,7 @@ protected:
     virtual void    bind_ready(unsigned short port);
     virtual bool    error(const QString &err);
     void            send(const QString &line);
-    bool            getLine(const QCString &line);
+    bool            getLine(const Q3CString &line);
     bool            m_bHeader;
     unsigned        m_size;
     State           m_state;

@@ -19,6 +19,8 @@
 #define _FILTER_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -56,7 +58,7 @@ protected:
     unsigned long CmdIgnoreText;
     virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     bool checkSpam(const QString &text, const QString &filter);
     void getWords(const QString &text, QStringList &words, bool bPattern);
     FilterData data;

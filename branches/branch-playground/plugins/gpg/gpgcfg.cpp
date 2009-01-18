@@ -31,13 +31,15 @@
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qtimer.h>
-#include <qprocess.h>
+#include <q3process.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
-GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
-        : GpgCfgBase(parent)
+GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     m_process= NULL;
     m_bNew   = false;
@@ -142,12 +144,12 @@ void GpgCfg::fillSecret(const QByteArray &ba)
     cmbKey->clear();
     cmbKey->insertItem(i18n("None"));
     if (!ba.isEmpty()){
-        QCString all(ba);
+        Q3CString all(ba);
         for (;;){
-            QCString line = getToken(all, '\n');
+            Q3CString line = getToken(all, '\n');
             if(line.isEmpty())
                 break;
-            QCString type = getToken(line, ':');
+            Q3CString type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
                 getToken(line, ':');
@@ -159,7 +161,7 @@ void GpgCfg::fillSecret(const QByteArray &ba)
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                QCString name = getToken(line, ':');
+                Q3CString name = getToken(line, ':');
                 cmbKey->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
                                    QString::fromLocal8Bit(name));
                 n++;
@@ -197,7 +199,7 @@ void GpgCfg::refresh()
     sl += home;
     sl += QStringList::split(' ', GpgPlugin::plugin->getSecretList());
 
-    m_process = new QProcess(sl, this);
+    m_process = new Q3Process(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
     if (!m_process->start()) {
@@ -245,6 +247,3 @@ void GpgCfg::selectKey(int n)
     }
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "gpgcfg.moc"
-#endif

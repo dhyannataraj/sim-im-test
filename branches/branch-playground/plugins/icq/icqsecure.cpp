@@ -21,25 +21,25 @@
 #include "ballonmsg.h"
 
 #include <qcheckbox.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qtabwidget.h>
 #include <qlineedit.h>
 
 using namespace SIM;
 
-ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
-        : ICQSecureBase(parent)
+ICQSecure::ICQSecure(QWidget *parent, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     connect(chkHideIP, SIGNAL(toggled(bool)), this, SLOT(hideIpToggled(bool)));
     setListView(lstVisible);
     setListView(lstInvisible);
     fill();
-    connect(lstVisible, SIGNAL(deleteItem(QListViewItem*)), this, SLOT(deleteVisibleItem(QListViewItem*)));
-    connect(lstInvisible, SIGNAL(deleteItem(QListViewItem*)), this, SLOT(deleteInvisibleItem(QListViewItem*)));
+    connect(lstVisible, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deleteVisibleItem(Q3ListViewItem*)));
+    connect(lstInvisible, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deleteInvisibleItem(Q3ListViewItem*)));
 }
 
-void ICQSecure::deleteVisibleItem(QListViewItem *item)
+void ICQSecure::deleteVisibleItem(Q3ListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
@@ -53,7 +53,7 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
     }
 }
 
-void ICQSecure::deleteInvisibleItem(QListViewItem *item)
+void ICQSecure::deleteInvisibleItem(Q3ListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
@@ -133,26 +133,26 @@ void ICQSecure::setListView(ListView *lst)
     lst->addColumn(i18n("Nick"));
     lst->addColumn(i18n("Name"));
     lst->addColumn(i18n("EMail"));
-    lst->setColumnAlignment(0, AlignRight);
+    lst->setColumnAlignment(0, Qt::AlignRight);
     lst->setExpandingColumn(3);
 }
 
-class ListViewItem : public QListViewItem
+class ListViewItem : public Q3ListViewItem
 {
 public:
-    ListViewItem(QListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4);
+    ListViewItem(Q3ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4);
     virtual QString key ( int column, bool ascending ) const;
 };
 
-ListViewItem::ListViewItem(QListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4)
-        : QListViewItem(view, t1, t2, t3, t4)
+ListViewItem::ListViewItem(Q3ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4)
+        : Q3ListViewItem(view, t1, t2, t3, t4)
 {
 }
 
 QString ListViewItem::key(int column, bool ascending) const
 {
     if (column)
-        return QListViewItem::key(column, ascending);
+        return Q3ListViewItem::key(column, ascending);
     QString res = text(0);
     while (res.length() < 13){
         res = QString("0") + res;
@@ -188,7 +188,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
                         mails += ", ";
                     mails += mailItem;
                 }
-                QListViewItem *item = new QListViewItem(lst);
+                Q3ListViewItem *item = new Q3ListViewItem(lst);
                 item->setText(0,QString::number(data->Uin.toULong()));
                 item->setText(1,contact->getName());
                 item->setText(2,firstName);
@@ -214,8 +214,4 @@ void ICQSecure::hideIpToggled(bool bOn)
         grpDirect->setEnabled(true);
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqsecure.moc"
-#endif
 

@@ -20,6 +20,8 @@
 
 #include <qimage.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -47,7 +49,7 @@ public:
     virtual ~BackgroundPlugin();
 protected:
     virtual bool processEvent(SIM::Event *e);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     PROP_STR(Background);
     PROP_ULONG(Position);

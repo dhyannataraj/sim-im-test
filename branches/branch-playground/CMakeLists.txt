@@ -8,20 +8,23 @@ SET(CMAKE_COLOR_MAKEFILE ON)
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-SET(QT_MT_REQUIRED True)
-INCLUDE(FindQt3)
+if(COMMAND cmake_policy)
+	cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+
 INCLUDE(MacroEnsureOutOfSourceBuild)
 
 IF(NOT WIN32)
 MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
 ENDIF(NOT WIN32)
 
+#SET(CMAKE_VERBOSE_MAKEFILE ON)
+
 INCLUDE(Flex)
 INCLUDE(Jisp)
-INCLUDE(KDE3Macros)
 INCLUDE(MacroBoolTo01)
 INCLUDE(Po)
-INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
 INCLUDE(DistTarget)
 INCLUDE(CheckCXXCompilerFlag)
@@ -30,42 +33,37 @@ OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 
 SIM_FIND_PLUGINS(${Sim-IM_SOURCE_DIR}/plugins)
 
+FIND_PACKAGE(Qt4 REQUIRED)
 IF(NOT QT_FOUND)
-    MESSAGE(FATAL_ERROR "Could not find Qt3 - cannot compile Sim-IM here")
+    MESSAGE(FATAL_ERROR "Could not find Qt4 - cannot compile Sim-IM here")
 ENDIF(NOT QT_FOUND)
 
 # needed packages
-FIND_PACKAGE(Qt3 REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(LibXslt REQUIRED)
 FIND_PACKAGE(ZLIB REQUIRED)
-FIND_PACKAGE(OpenSSL REQUIRED)
+#FIND_PACKAGE(OpenSSL REQUIRED)
 IF(WIN32)
     FIND_PACKAGE(LibIconv REQUIRED)
 ENDIF(WIN32)
+
+SET(QT_USE_QTXML 1)
+SET(QT_USE_QTUITOOLS 1)
+SET(QT_USE_QTNETWORK 1)
+SET(QT_USE_QT3SUPPORT 1)
+INCLUDE(${QT_USE_FILE})
 
 # optional packages
 FIND_PACKAGE(ASPELL)
 
 INCLUDE(FindX11)
 
-IF(NOT WIN32)
-    INCLUDE(FindKDE3)
-    IF(KDE3_FOUND)
-        OPTION(ENABLE_KDE3 "Use kde3 integration" YES)
-        IF(ENABLE_KDE3)
-            INCLUDE_DIRECTORIES(${KDE3_INCLUDE_DIRS})
-            LINK_DIRECTORIES(${KDE3_LIB_DIR})
-        ENDIF(ENABLE_KDE3)
-    ENDIF(KDE3_FOUND)
-ENDIF(NOT WIN32)
-
 # do config checks
 INCLUDE(ConfigureChecks.cmake)
 
-MACRO_BOOL_TO_01(OPENSSL_FOUND ENABLE_OPENSSL)
+#MACRO_BOOL_TO_01(OPENSSL_FOUND ENABLE_OPENSSL)
 MACRO_BOOL_TO_01(X11_FOUND HAVE_X)
-MACRO_BOOL_TO_01(ENABLE_KDE3 USE_KDE)
+#MACRO_BOOL_TO_01(ENABLE_KDE3 USE_KDE)
 
 # development or release builds
 OPTION(DEV_BUILD "Build development version" YES)

@@ -30,9 +30,9 @@
 
 using namespace SIM;
 
-AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
-        : AIMConfigBase(parent)
+AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig) : QDialog(parent)
 {
+	setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig){
@@ -92,9 +92,4 @@ void AIMConfig::changed()
            edtPort->text().toUShort();
     emit okEnabled(bOK);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "aimconfig.moc"
-#endif
-
 

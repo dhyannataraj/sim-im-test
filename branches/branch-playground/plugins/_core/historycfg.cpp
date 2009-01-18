@@ -33,10 +33,14 @@
 #include <qtimer.h>
 #include <qtabwidget.h>
 #include <qspinbox.h>
-#include <qsyntaxhighlighter.h>
+#include <q3syntaxhighlighter.h>
 
+#include <Q3TextStream>
+#include <QKeyEvent>
+#include <QEvent>
 #ifdef USE_KDE
 # include <qapplication.h>
+//Added by qt3to4:
 # include <kglobal.h>
 # include <kstddirs.h>
 #endif
@@ -58,15 +62,15 @@
 static char STYLES[] = "styles/";
 static char EXT[]    = ".xsl";
 
-#undef QTextEdit
+#undef Q3TextEdit
 
 using namespace std;
 using namespace SIM;
 
-class XmlHighlighter : public QSyntaxHighlighter
+class XmlHighlighter : public Q3SyntaxHighlighter
 {
 public:
-XmlHighlighter(QTextEdit *textEdit) : QSyntaxHighlighter(textEdit) {}
+XmlHighlighter(Q3TextEdit *textEdit) : Q3SyntaxHighlighter(textEdit) {}
     virtual int highlightParagraph( const QString &text, int endStateOfLastPara ) ;
 };
 
@@ -183,9 +187,10 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
 }
 
 
-HistoryConfig::HistoryConfig(QWidget *parent)
-        : HistoryConfigBase(parent)
+HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
+        //: HistoryConfigBase(parent)
 {
+	setupUi(this);
     chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
     chkExtViewer->setChecked(CorePlugin::m_plugin->getUseExtViewer());
@@ -206,8 +211,8 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     }
     lblPage1->setText(str1);
     lblPage2->setText(str2);
-    edtStyle->setWordWrap(QTextEdit::NoWrap);
-    edtStyle->setTextFormat(QTextEdit::RichText);
+    edtStyle->setWordWrap(Q3TextEdit::NoWrap);
+    edtStyle->setTextFormat(Qt::RichText);
     highlighter = new XmlHighlighter(edtStyle);
     addStyles(user_file(STYLES), true);
     str1 = i18n("Use external viewer");
@@ -271,8 +276,8 @@ void HistoryConfig::apply()
         name += m_styles[i].name;
         name += EXT;
         name = user_file(name);
-        QFile f(name + BACKUP_SUFFIX); // use backup file for this ...
-        if (f.open(IO_WriteOnly | IO_Truncate)){
+        QFile f(QString(name).append(BACKUP_SUFFIX)); // use backup file for this ...
+        if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             QString s;
             s = m_styles[i].text;
             f.writeBlock(s.utf8(), s.utf8().length());
@@ -418,7 +423,7 @@ void HistoryConfig::copy()
         n = app_file(n);
     }
     QFile from(n);
-    if (!from.open(IO_ReadOnly)){
+    if (!from.open(QIODevice::ReadOnly)){
         log(L_WARN, "Can't open %s", n.local8Bit().data());
         return;
     }
@@ -426,8 +431,8 @@ void HistoryConfig::copy()
     n += newName;
     n += EXT;
     n = user_file(n);
-    QFile to(n + BACKUP_SUFFIX);
-    if (!to.open(IO_WriteOnly | IO_Truncate)){
+    QFile to(QString(n).append(BACKUP_SUFFIX));
+    if (!to.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_WARN, "Cam't create %s", n.local8Bit().data());
         return;
     }
@@ -554,8 +559,8 @@ void HistoryConfig::realRename()
         nn = user_file(nn);
         if (m_styles[m_edit].text.isEmpty()){
             QFile f(nn);
-            if (f.open(IO_ReadOnly)){
-                QTextStream ts(&f);
+            if (f.open(QIODevice::ReadOnly)){
+                Q3TextStream ts(&f);
                 m_styles[m_edit].text = ts.read();
             }
         }
@@ -567,22 +572,24 @@ void HistoryConfig::realRename()
 
 bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::FocusOut){
-        QTimer::singleShot(0, this, SLOT(realRename()));
-    }
-    if (e->type() == QEvent::KeyPress){
-        QKeyEvent *ke = static_cast<QKeyEvent*>(e);
-        switch (ke->key()){
-        case Key_Enter:
-        case Key_Return:
-            QTimer::singleShot(0, this, SLOT(realRename()));
-            return true;
-        case Key_Escape:
-            QTimer::singleShot(0, this, SLOT(cancelRename()));
-            return true;
-        }
-    }
-    return HistoryConfigBase::eventFilter(o, e);
+	if(e->type() == QEvent::FocusOut)
+	{
+		QTimer::singleShot(0, this, SLOT(realRename()));
+	}
+	if (e->type() == QEvent::KeyPress)
+	{
+		QKeyEvent *ke = static_cast<QKeyEvent*>(e);
+		switch (ke->key()){
+			case Qt::Key_Enter:
+			case Qt::Key_Return:
+				QTimer::singleShot(0, this, SLOT(realRename()));
+				return true;
+			case Qt::Key_Escape:
+				QTimer::singleShot(0, this, SLOT(cancelRename()));
+				return true;
+		}
+	}
+	return QWidget::eventFilter(o, e);
 }
 
 void HistoryConfig::viewChanged(QWidget *w)
@@ -605,8 +612,8 @@ void HistoryConfig::viewChanged(QWidget *w)
             name += EXT;
             name = m_styles[cur].bCustom ? user_file(name) : app_file(name);
             QFile f(name);
-            if (f.open(IO_ReadOnly)){
-                QTextStream ts(&f);
+            if (f.open(QIODevice::ReadOnly)){
+                Q3TextStream ts(&f);
                 xsl = ts.read();
             }else{
                 log(L_WARN, "Can't open %s", name.local8Bit().data());
@@ -713,7 +720,9 @@ void HistoryConfig::toggledExtViewer(bool bState)
     edtExtViewer->setEnabled(bState);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "historycfg.moc"
 #endif
+*/
 

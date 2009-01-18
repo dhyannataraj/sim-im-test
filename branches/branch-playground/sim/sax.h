@@ -18,7 +18,7 @@
 #ifndef _SAX_H
 #define _SAX_H
 
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <qxml.h>
 #include "simapi.h"
 

@@ -22,11 +22,11 @@
 
 #include "contacts.h"
 
-#include "smssetupbase.h"
+#include "ui_smssetupbase.h"
 
 class SMSClient;
 
-class SMSSetup : public SMSSetupBase
+class SMSSetup : public QWidget, public Ui::SMSSetupBase
 {
     Q_OBJECT
 public:

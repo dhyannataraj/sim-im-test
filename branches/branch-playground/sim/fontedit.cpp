@@ -21,6 +21,9 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3Frame>
 
 #ifdef USE_KDE
 #include <kfontdialog.h>
@@ -31,9 +34,9 @@
 #include "icons.h"
 #include "misc.h"
 
-FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
+FontEdit::FontEdit(QWidget *parent, const char *name) : Q3Frame(parent, name)
 {
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    Q3HBoxLayout *lay = new Q3HBoxLayout(this);
     lblFont = new QLabel("...", this);
     lblFont->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     lay->addWidget(lblFont);
@@ -41,7 +44,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
     QPushButton *btnFont = new QPushButton(this);
     btnFont->setPixmap(SIM::Pict("text"));
     lay->addWidget(btnFont);
-    lblFont->setFrameShape(QFrame::Box);
+    lblFont->setFrameShape(Q3Frame::Box);
     lblFont->setLineWidth(1);
     lblFont->setMargin(3);
     connect(btnFont, SIGNAL(clicked()), this, SLOT(chooseFont()));
@@ -197,6 +200,8 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
     return f;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "fontedit.moc"
 #endif
+*/

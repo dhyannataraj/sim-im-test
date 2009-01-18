@@ -22,6 +22,10 @@
 #include <qdialog.h>
 #include <qbitmap.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QMouseEvent>
+#include <QEvent>
 
 #include "simapi.h"
 

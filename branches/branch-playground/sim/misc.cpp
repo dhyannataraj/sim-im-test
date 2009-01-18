@@ -39,19 +39,21 @@
 #include <stdio.h>
 #include <qwidget.h>
 #include <qpixmap.h>
-#include <qiconset.h>
+#include <qicon.h>
 #include <qpushbutton.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qstringlist.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qdatetime.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qregexp.h>
 
 #include <qdesktopwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -84,7 +86,7 @@ QString i18n(const char *comment, const char *text)
         return QString::null;
     if (comment == NULL)
         return i18n(text);
-    QCString s;
+    Q3CString s;
     s = "_: ";
     s += comment;
     s += '\n';
@@ -395,28 +397,26 @@ bool raiseWindow(QWidget *w, unsigned)
 
 void setButtonsPict(QWidget *w)
 {
-    QObjectList *l = w->queryList( "QPushButton" );
-    QObjectListIt it( *l );
-    QObject *obj;
-    while ( (obj = it.current()) != 0 ) {
-        ++it;
-        QPushButton *btn = static_cast<QPushButton*>(obj);
-        if (btn->pixmap()) continue;
-        const QString &text = btn->text();
-        const char *icon = NULL;
-        if ((text == i18n("&OK")) || (text == i18n("&Yes")) ||
-                (text == i18n("&Apply")) || (text == i18n("&Register"))){
-            icon = "button_ok";
-        }else if ((text == i18n("&Cancel")) || (text == i18n("Close")) || (text == i18n("&Close")) ||
-                  (text == i18n("&No"))){
-            icon = "button_cancel";
-        }else if (text == i18n("&Help")){
-            icon = "help";
-        }
-        if (icon == NULL) continue;
-        btn->setIconSet(Icon(icon));
-    }
-    delete l;
+    QObjectList l = w->queryList( "QPushButton" );
+	for(QObjectList::iterator it = l.begin(); it != l.end(); ++it)
+	{
+		QObject *obj = *it;
+		QPushButton *btn = static_cast<QPushButton*>(obj);
+		if (btn->pixmap()) continue;
+		const QString &text = btn->text();
+		const char *icon = NULL;
+		if ((text == i18n("&OK")) || (text == i18n("&Yes")) ||
+				(text == i18n("&Apply")) || (text == i18n("&Register"))){
+			icon = "button_ok";
+		}else if ((text == i18n("&Cancel")) || (text == i18n("Close")) || (text == i18n("&Close")) ||
+				(text == i18n("&No"))){
+			icon = "button_cancel";
+		}else if (text == i18n("&Help")){
+			icon = "help";
+		}
+		if (icon == NULL) continue;
+		btn->setIconSet(Icon(icon));
+	}
 }
 
 EXPORT QString formatDateTime(unsigned long t)
@@ -542,7 +542,7 @@ EXPORT void disableWidget(QWidget *w)
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);
     }else if (w->inherits("QMulitLineEdit")){
-        static_cast<QMultiLineEdit*>(w)->setReadOnly(true);
+        static_cast<Q3MultiLineEdit*>(w)->setReadOnly(true);
     }else{
         w->setEnabled(false);
     }

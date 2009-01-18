@@ -59,6 +59,8 @@ void ExecManager::checkChilds()
 #endif
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "exec.moc"
 #endif
+*/

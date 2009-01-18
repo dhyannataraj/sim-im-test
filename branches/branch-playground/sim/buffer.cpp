@@ -28,6 +28,8 @@
 #include "buffer.h"
 #include "event.h"
 #include "log.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace std;
 using namespace SIM;
@@ -54,7 +56,7 @@ Buffer::Buffer(const QByteArray &ba)
     m_posWrite = ba.size();
 }
 
-Buffer::Buffer(const QCString &cstr)
+Buffer::Buffer(const Q3CString &cstr)
     : QByteArray(cstr.copy())
 {
     uint len = cstr.length();
@@ -88,12 +90,13 @@ bool Buffer::add(uint addSize)
 
 bool Buffer::resize(uint size)
 {
-    bool bRet = QByteArray::resize(size);
+    //bool bRet = QByteArray::resize(size);
+    QByteArray::resize(size);
     if (m_posWrite > size)
         m_posWrite = size;
     if (m_posRead > size)
         m_posRead = size;
-    return bRet;
+    return true;
 }
 
 void Buffer::setWritePos(unsigned n)
@@ -117,10 +120,13 @@ void Buffer::pack(const char *d, unsigned s)
         return;
     if(m_posWrite+s > size())
         resize(m_posWrite+s);
-    if(d) {
-        memcpy(data() + m_posWrite, d, s);
-    } else {
-        memcpy(data() + m_posWrite, "", 1);
+    if(d)
+	{
+        memcpy((char*)data() + m_posWrite, d, s);
+    }
+	else
+	{
+        memcpy((char*)data() + m_posWrite, "", 1);
     }
     m_posWrite += s;
 }
@@ -190,7 +196,7 @@ Buffer &Buffer::operator >> (long &c)
     return *this;
 }
 
-bool Buffer::scan(const char *substr, QCString &res)
+bool Buffer::scan(const char *substr, Q3CString &res)
 {
     char c = *substr;
     for (unsigned pos = readPos(); pos < writePos(); pos++){
@@ -252,9 +258,9 @@ static int findEndSection(const Buffer *pBuf, unsigned start)
     }
 }
 
-QCString Buffer::getSection(bool bSkip)
+Q3CString Buffer::getSection(bool bSkip)
 {
-    QCString str;
+    Q3CString str;
     unsigned start = m_posRead;
     unsigned end = m_posRead;
 
@@ -268,7 +274,7 @@ QCString Buffer::getSection(bool bSkip)
         return str;
     m_startSection = m_posRead = start;
 
-    str = QCString( data() + start + 1, end - start );
+    str = Q3CString( data() + start + 1, end - start );
 
     m_posRead = end + 1;
     if ( m_posRead < size() )
@@ -283,7 +289,7 @@ QCString Buffer::getSection(bool bSkip)
     return str;
 }
 
-QCString Buffer::getLine()
+Q3CString Buffer::getLine()
 {
     if (readPos() >= writePos())
         return "";
@@ -291,7 +297,7 @@ QCString Buffer::getLine()
     int end = find('\n', start);
     if(end == -1)
         end = size();
-    QCString res = QCString(data() + start, end - start + 1);
+    Q3CString res = Q3CString(data() + start, end - start + 1);
     m_posRead = end + 1; 
     if ( m_posRead < size() )
         if ( at(m_posRead) == '\n' )
@@ -301,17 +307,17 @@ QCString Buffer::getLine()
 }
 
 // for Buffer::scan()
-unsigned Buffer::unpack(QCString &d, unsigned s)
+unsigned Buffer::unpack(Q3CString &d, unsigned s)
 {
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QCString(data() + m_posRead, readn + 1);
+    d = Q3CString(data() + m_posRead, readn + 1);
     m_posRead += readn;
     return readn;
 }
 
-Buffer Buffer::fromBase64(QCString &from)
+Buffer Buffer::fromBase64(Q3CString &from)
 {
     unsigned n = 0;
     unsigned tmp2 = 0;
@@ -363,11 +369,11 @@ static const char alphabet[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-QCString Buffer::toBase64(Buffer &from)
+Q3CString Buffer::toBase64(Buffer &from)
 {
     unsigned char b[3];
     char res[5];
-    QCString to;
+    Q3CString to;
 
     res[4] = '\0';
     while (from.readPos() + 3 <= from.size()){

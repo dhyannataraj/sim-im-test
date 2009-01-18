@@ -18,7 +18,7 @@
 #ifndef _CFG_H
 #define _CFG_H
 
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <qmap.h>
 #include <qstring.h>
 
@@ -113,9 +113,9 @@ public:
     QByteArray &asBinary();
     bool setBinary(const QByteArray &d);
     // QString
-    const QCString &cstr() const;
-    QCString &cstr();
-    bool setCStr(const QCString &s);
+    const Q3CString &cstr() const;
+    Q3CString &cstr();
+    bool setCStr(const Q3CString &s);
 
 protected:
     bool checkType(DataType type) const;
@@ -128,9 +128,9 @@ protected:
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
-EXPORT QCString save_data(const DataDef *def, void *data);
+EXPORT Q3CString save_data(const DataDef *def, void *data);
 
-EXPORT const QString &get_str(const Data &strlist, unsigned index);
+EXPORT const QString get_str(const Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
 EXPORT unsigned long get_ip(const Data &ip);
 EXPORT QString get_host(const Data &ip);
@@ -179,8 +179,8 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const QString &host=QString::n
     virtual void set##A(bool r) { data.A.setBool(r); }
 
 #define PROP_CSTR(A) \
-    QCString get##A() const { return data.A.cstr(); } \
-    bool set##A(const QCString &r) { return data.A.setCStr( r ); }
+    Q3CString get##A() const { return data.A.cstr(); } \
+    bool set##A(const Q3CString &r) { return data.A.setCStr( r ); }
 
 const int LEFT      = 0;
 const int TOP       = 1;
@@ -208,7 +208,7 @@ EXPORT bool makedir(const QString &dir);
 EXPORT void save_state();
 
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
-EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
+EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash = true);
 

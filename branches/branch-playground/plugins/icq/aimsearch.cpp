@@ -18,21 +18,20 @@
 #include "misc.h"
 
 #include "aimsearch.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 using namespace SIM;
 
-AIMSearch::AIMSearch()
+AIMSearch::AIMSearch() : QWidget(NULL)
 {
+	setupUi(this);
     initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
 }
 
 void AIMSearch::showEvent(QShowEvent *e)
 {
-    AIMSearchBase::showEvent(e);
+    QWidget::showEvent(e);
     emit enableOptions(false);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "aimsearch.moc"
-#endif
 

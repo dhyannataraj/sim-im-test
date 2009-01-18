@@ -23,12 +23,22 @@
 #include "userview.h"
 #include "toolbtn.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <qpixmap.h>
 #include <qlayout.h>
 #include <qtimer.h>
 #include <qsizegrip.h>
 #include <qstatusbar.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <QCloseEvent>
+#include <QResizeEvent>
+#include <QFocusEvent>
+#include <QChildEvent>
+#include <QMouseEvent>
+#include <QEvent>
+#include <Q3VBoxLayout>
+#include <QDesktopWidget>
 
 using namespace SIM;
 
@@ -63,8 +73,7 @@ protected:
     virtual void childEvent(QChildEvent *e);
 };
 
-MainWindowWidget::MainWindowWidget(QWidget *p)
-        : QWidget(p)
+MainWindowWidget::MainWindowWidget(QWidget *p) : QWidget(p)
 {
 }
 
@@ -74,15 +83,7 @@ void MainWindowWidget::childEvent(QChildEvent *e)
     QTimer::singleShot(0, parent(), SLOT(setGrip()));
 }
 
-MainWindow::MainWindow(Geometry &geometry)
-        : QMainWindow(NULL, "mainwnd",
-                      WType_TopLevel | WStyle_Customize |
-                      WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu 
-#ifdef __OS2__                      
-	| WStyle_MinMax 
-#endif	
-	),
-        EventReceiver(LowestPriority)
+MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Window), EventReceiver(LowestPriority)
 {
     m_grip	 = NULL;
     h_lay	 = NULL;
@@ -95,9 +96,12 @@ MainWindow::MainWindow(Geometry &geometry)
 
 #ifdef WIN32
     pMain = this;
-    if (IsWindowUnicode(winId())){
+    if (IsWindowUnicode(winId()))
+	{
         oldProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)wndProc);
-    }else{
+    }
+	else
+	{
         oldProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)wndProc);
     }
 #endif
@@ -110,10 +114,11 @@ MainWindow::MainWindow(Geometry &geometry)
     lay = new QVBoxLayout(main);
 
     QStatusBar *status = statusBar();
-    status->hide();
+    status->show();
     status->installEventFilter(this);
     
-    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1)){
+    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1))
+	{
         geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
         geometry[WIDTH].asLong()  = geometry[HEIGHT].toLong() / 3;
     }
@@ -121,7 +126,7 @@ MainWindow::MainWindow(Geometry &geometry)
         geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
         geometry[TOP].asLong() = 5;
     }
-    restoreGeometry(this, geometry, true, true);
+    //restoreGeometry(this, geometry, true, true);
 }
 
 MainWindow::~MainWindow()
@@ -149,7 +154,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             return true;
         case QEvent::MouseMove:
             me = static_cast<QMouseEvent*>(e);
-            if (me->state() != LeftButton)
+            if (me->state() != Qt::LeftButton)
                 break;
             QWidget *tlw = grip->topLevelWidget();
             QRect rc = tlw->geometry();
@@ -180,7 +185,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             return true;
         }
     }
-    if (e->type() == QEvent::ChildInserted){
+    if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
         if (ce->child()->inherits("QSizeGrip"))
             ce->child()->installEventFilter(this);
@@ -195,7 +200,8 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                 break;
             }
         }
-        if (statusWidgets.size() == 0){
+        if(statusWidgets.size() == 0)
+		{
             statusBar()->hide();
             setGrip();
         }
@@ -205,57 +211,65 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 bool MainWindow::processEvent(Event *e)
 {
-    switch(e->type()){
-    case eEventSetMainIcon: {
-        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
-        m_icon = smi->icon();
-        setIcon(Pict(m_icon));
-        break;
-    }
-    case eEventInit:{
-            setTitle();
-            EventToolbar e(ToolBarMain, this);
-            e.process();
-            m_bar = e.toolBar();
-            restoreToolbar(m_bar, CorePlugin::m_plugin->data.toolBarState);
-            raiseWindow(this);
-            break;
-        }
-    case eEventCommandExec: {
-        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
-        CommandDef *cmd = ece->cmd();
-        if (cmd->id == CmdQuit)
-            quit();
-        break;
-    }
-    case eEventAddWidget: {
-        EventAddWidget *aw = static_cast<EventAddWidget*>(e);
-        switch(aw->place()) {
-        case EventAddWidget::eMainWindow:
-            addWidget(aw->widget(), aw->down());
-            break;
-        case EventAddWidget::eStatusWindow:
-            addStatus(aw->widget(), aw->down());
-            break;
-        default:
-            return false;
-        }
-        return true;
-    }
-    case eEventIconChanged:
-        setIcon(Pict(m_icon));
-        break;
-    case eEventContact:{
-            EventContact *ec = static_cast<EventContact*>(e);
-            Contact *contact = ec->contact();
-            if (contact == getContacts()->owner())
-                setTitle();
-            break;
-        }
-    default:
-        break;
-    }
-    return false;
+	switch(e->type()){
+		case eEventSetMainIcon:
+			{
+				EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+				m_icon = smi->icon();
+				setIcon(Pict(m_icon));
+				break;
+			}
+		case eEventInit:
+			{
+				setTitle();
+				EventToolbar e(ToolBarMain, this);
+				e.process();
+				m_bar = e.toolBar();
+				this->addToolBar(m_bar);
+				m_bar->setMaximumHeight(30);
+				m_bar->setMinimumHeight(30); // FIXME
+				//restoreToolbar(m_bar, CorePlugin::m_plugin->data.toolBarState);
+				raiseWindow(this);
+				break;
+			}
+		case eEventCommandExec:
+			{
+				EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+				CommandDef *cmd = ece->cmd();
+				if (cmd->id == CmdQuit)
+					quit();
+				break;
+			}
+		case eEventAddWidget:
+			{
+				EventAddWidget *aw = static_cast<EventAddWidget*>(e);
+				switch(aw->place()) {
+					case EventAddWidget::eMainWindow:
+						addWidget(aw->widget(), aw->down());
+						break;
+					case EventAddWidget::eStatusWindow:
+						addStatus(aw->widget(), aw->down());
+						break;
+					default:
+						return false;
+				}
+				return true;
+			}
+		case eEventIconChanged:
+			setIcon(Pict(m_icon));
+			break;
+		case eEventContact:
+			{
+				EventContact *ec = static_cast<EventContact*>(e);
+				Contact *contact = ec->contact();
+				if (contact == getContacts()->owner())
+					setTitle();
+				break;
+			}
+		default:
+			break;
+	}
+	return false;
 }
 
 void MainWindow::quit()
@@ -356,7 +370,8 @@ void MainWindow::setGrip()
         int index = lay->findWidget(w);
         lay->insertWidget(index - 1, oldWidget);
     }
-    if (w && (w->sizePolicy().verData() == QSizePolicy::Fixed) && !statusBar()->isVisible()){
+    if (w && (w->sizePolicy().verData() == QSizePolicy::Fixed) && !statusBar()->isVisible())
+	{
         w->reparent(this, QPoint());
         w->reparent(main, QPoint());
         h_lay = new QHBoxLayout(lay);
@@ -367,7 +382,7 @@ void MainWindow::setGrip()
         m_grip->installEventFilter(this);
 #endif
         m_grip->setFixedSize(m_grip->sizeHint());
-        h_lay->addWidget(m_grip, 0, AlignBottom);
+        h_lay->addWidget(m_grip, 0, Qt::AlignBottom);
         w->show();
         m_grip->show();
     }
@@ -391,8 +406,10 @@ void MainWindow::focusInEvent(QFocusEvent *e)
         CorePlugin::m_plugin->m_view->setFocus();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "mainwin.moc"
 #endif
+*/
 
 

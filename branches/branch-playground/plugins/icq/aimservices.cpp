@@ -20,6 +20,8 @@
 #include "icqclient.h"
 
 #include <map>
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace std;
 using namespace SIM;
@@ -166,7 +168,7 @@ static bool bLatin1(const QString &s)
 
 void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
-    QCString str;
+    Q3CString str;
     if (bLatin){
         str = s.latin1();
     }else{
@@ -227,14 +229,14 @@ void SearchSocket::process()
                 addTlv(0x21, sl[9], bLatin);
         }
         sendPacket();
-        m_seq.insert(SEQ_MAP::value_type(m_nMsgSequence, it.key()));
+        m_seq.insert(m_nMsgSequence, it.key());
     }
     m_requests.clear();
 }
 
 unsigned short SearchSocket::add(const QStringList &name)
 {
-    m_requests.insert(REQUEST_MAP::value_type(++m_id, name));
+    m_requests.insert(++m_id, name);
     process();
     return m_id;
 }

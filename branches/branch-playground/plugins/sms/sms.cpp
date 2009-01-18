@@ -25,8 +25,12 @@
 
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qobjectlist.h>
+#include <qwidget.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QChildEvent>
+#include <QEvent>
 
 using namespace SIM;
 
@@ -116,40 +120,32 @@ SMSPlugin::~SMSPlugin()
 
 void SMSPlugin::setPhoneCol()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w;
-    while ((w=it.current()) != NULL){
-        ++it;
-        QObjectList * l = w->queryList("MainInfo");
-        QObjectListIt itw(*l);
-        QObject * obj;
-        while ((obj=itw.current()) != NULL) {
-            ++itw;
-            setPhoneCol(static_cast<MainInfo*>(obj));
-        }
-        delete l;
-    }
-    delete list;
+    QWidgetList list = QApplication::topLevelWidgets();
+    for(QWidgetList::iterator it = list.begin(); it!= list.end(); ++it)
+	{
+		QWidget* w = *it;
+		QObjectList l = w->queryList("MainInfo");
+		for(QObjectList::iterator itw = l.begin(); itw != l.end(); ++itw)
+		{
+			QObject* obj = *itw;
+			setPhoneCol(static_cast<MainInfo*>(obj));
+		}
+	}
 }
 
 void SMSPlugin::removePhoneCol()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w;
-    while ((w=it.current()) != NULL){
-        ++it;
-        QObjectList * l = w->queryList("MainInfo");
-        QObjectListIt itw(*l);
-        QObject * obj;
-        while ((obj=itw.current()) != NULL) {
-            ++itw;
-            removePhoneCol(static_cast<MainInfo*>(obj));
-        }
-        delete l;
-    }
-    delete list;
+    QWidgetList list = QApplication::topLevelWidgets();
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget* w = *it;
+		QObjectList l = w->queryList("MainInfo");
+		for(QObjectList::iterator itw = l.begin(); itw != l.end(); ++itw)
+		{
+			QObject* obj = *itw;
+			removePhoneCol(static_cast<MainInfo*>(obj));
+		}
+	}
 }
 
 void SMSPlugin::setPhoneCol(MainInfo *w)
@@ -283,10 +279,10 @@ SMSClient::~SMSClient()
     free_data(smsClientData, &data);
 }
 
-QCString SMSClient::getConfig()
+Q3CString SMSClient::getConfig()
 {
-    QCString cfg = TCPClient::getConfig();
-    QCString my_cfg = save_data(smsClientData, &data);
+    Q3CString cfg = TCPClient::getConfig();
+    Q3CString my_cfg = save_data(smsClientData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";
@@ -295,14 +291,14 @@ QCString SMSClient::getConfig()
     return cfg;
 }
 
-QCString SMSClient::model() const
+Q3CString SMSClient::model() const
 {
     if (getState() == Connected)
         return m_ta->model();
     return "";
 }
 
-QCString SMSClient::oper() const
+Q3CString SMSClient::oper() const
 {
     if (getState() == Connected)
         return m_ta->oper();
@@ -647,6 +643,3 @@ QWidget *SMSClient::searchWindow(QWidget*)
     return NULL;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "sms.moc"
-#endif

@@ -21,17 +21,23 @@
 #include "ballonmsg.h"
 #include "toolbtn.h"
 #include "socket.h"
+#include "log.h"
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qtooltip.h>
 #include <qtimer.h>
-#include <qframe.h>
+#include <QFrame>
 #include <qtoolbutton.h>
 #include <qpainter.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
+#include <QResizeEvent>
+#include <QPixmap>
+#include <QMouseEvent>
 
 using namespace std;
 using namespace SIM;
@@ -91,8 +97,11 @@ void StatusLabel::setPict()
             icon += "_inactive";
             text = I18N_NOOP("Inactive");
         }
-    }else{
-        if (m_timer){
+    }
+	else
+	{
+        if (m_timer)
+		{
             delete m_timer;
             m_timer = NULL;
         }
@@ -131,10 +140,10 @@ void StatusLabel::timeout()
 
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
-    if (me->button() == RightButton){
+    if (me->button() == Qt::RightButton){
         EventMenuProcess eMenu(m_id, (void *)winId());
         eMenu.process();
-        QPopupMenu *popup = eMenu.menu();
+        Q3PopupMenu *popup = eMenu.menu();
         if (popup){
             QPoint pos = CToolButton::popupPos(this, popup);
             popup->popup(pos);
@@ -142,9 +151,9 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
     }
 }
 
-StatusFrame::StatusFrame(QWidget *parent)
-        : QFrame(parent), EventReceiver(LowPriority + 1)
+StatusFrame::StatusFrame(QWidget *parent) : QFrame(parent), EventReceiver(LowPriority + 1)
 {
+	log(L_DEBUG, "StatusFrame::StatusFrame()");
     setFrameStyle(NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     m_frame = new QFrame(this);
@@ -158,12 +167,12 @@ StatusFrame::StatusFrame(QWidget *parent)
 
 void StatusFrame::mousePressEvent(QMouseEvent *me)
 {
-    if (me->button() == RightButton){
+    if (me->button() == Qt::RightButton){
         Command cmd;
         cmd->id = MenuConnections;
         EventMenuGet e(cmd);
         e.process();
-        QPopupMenu *popup = e.menu();
+        Q3PopupMenu *popup = e.menu();
         if (popup)
             popup->popup(me->globalPos());
     }
@@ -172,71 +181,74 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
 bool StatusFrame::processEvent(Event *e)
 {
     switch (e->type()){
-    case eEventSocketActive:{
-        QObjectList *l = queryList("StatusLabel");
-        QObjectListIt itObject(*l);
-        QObject *obj;
-        while ((obj=itObject.current()) != NULL) {
-            ++itObject;
-            StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-            lbl->setPict();
-        }
-        delete l;
-        break;
-    }
-    case eEventCheckCommandState: {
-        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
-        CommandDef *cmd = ecs->cmd();
-        if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
-            unsigned n = 0;
-            {
-                QObjectList *l = queryList("StatusLabel");
-                QObjectListIt itObject(*l);
-                QObject *obj;
-                while ((obj=itObject.current()) != NULL) {
-                    ++itObject;
-                    StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-                    if (lbl->x() + lbl->width() > width())
-                        n++;
-                }
-                delete l;
-            }
-            CommandDef *cmds = new CommandDef[n + 1];
-            QObjectList *l = queryList("StatusLabel");
-            QObjectListIt itObject(*l);
-            QObject *obj;
-            n = 0;
-            while ((obj=itObject.current()) != NULL) {
-                ++itObject;
-                StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-                if (lbl->x() + lbl->width() > width()){
-                    cmds[n].id = 1;
-                    cmds[n].text = "_";
-                    cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
-                    cmds[n].popup_id = lbl->m_id;
-                    if (lbl->m_client->getState() == Client::Error){
-                        cmds[n].icon = "error";
-                    }else{
-                        Protocol *protocol = lbl->m_client->protocol();
-                        const CommandDef *cmd = protocol->description();
-                        cmds[n].icon = cmd->icon;
-                        for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
-                            if (cmd->id == lbl->m_client->getStatus()){
-                                cmds[n].icon = cmd->icon;
-                                break;
-                            }
-                        }
-                    }
-                    n++;
-                }
-            }
-            delete l;
-            cmd->param = cmds;
-            cmd->flags |= COMMAND_RECURSIVE;
-            return true;
-        }
-        break;
-    }
+    case eEventSocketActive:
+		{
+			QObjectList l = queryList("StatusLabel");
+			QObjectList::iterator itObject = l.begin();
+			QObject *obj;
+			while((obj = *itObject) != NULL) {
+				++itObject;
+				StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+				lbl->setPict();
+			}
+			break;
+		}
+    case eEventCheckCommandState:
+		{
+			EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+			CommandDef *cmd = ecs->cmd();
+			if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
+				unsigned n = 0;
+				{
+					QObjectList l = queryList("StatusLabel");
+					QObjectList::iterator itObject = l.begin();
+					QObject *obj;
+					while ((obj = *itObject) != NULL) {
+						++itObject;
+						StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+						if (lbl->x() + lbl->width() > width())
+							n++;
+					}
+				}
+				CommandDef *cmds = new CommandDef[n + 1];
+				QObjectList l = queryList("StatusLabel");
+				QObjectList::iterator itObject = l.begin();
+				QObject *obj;
+				n = 0;
+				while ((obj = *itObject) != NULL)
+				{
+					++itObject;
+					StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+					if (lbl->x() + lbl->width() > width()){
+						cmds[n].id = 1;
+						cmds[n].text = "_";
+						cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
+						cmds[n].popup_id = lbl->m_id;
+						if (lbl->m_client->getState() == Client::Error)
+						{
+							cmds[n].icon = "error";
+						}
+						else
+						{
+							Protocol *protocol = lbl->m_client->protocol();
+							const CommandDef *cmd = protocol->description();
+							cmds[n].icon = cmd->icon;
+							for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
+								if (cmd->id == lbl->m_client->getStatus()){
+									cmds[n].icon = cmd->icon;
+									break;
+								}
+							}
+						}
+						n++;
+					}
+				}
+				cmd->param = cmds;
+				cmd->flags |= COMMAND_RECURSIVE;
+				return true;
+			}
+			break;
+		}
     case eEventClientsChanged:
         addClients();
         break;
@@ -248,14 +260,13 @@ bool StatusFrame::processEvent(Event *e)
         break;
     }
     case eEventIconChanged:{
-            QObjectList *l = queryList("StatusLabel");
-            QObjectListIt itObject(*l);
+            QObjectList l = queryList("StatusLabel");
+			QObjectList::iterator itObject = l.begin();
             QObject *obj;
-            while ((obj=itObject.current()) != NULL) {
+            while ((obj = *itObject) != NULL) {
                 ++itObject;
                 static_cast<StatusLabel*>(obj)->setPict();
             }
-            delete l;
             break;
         }
     default:
@@ -267,17 +278,20 @@ bool StatusFrame::processEvent(Event *e)
 void StatusFrame::addClients()
 {
     list<StatusLabel*> lbls;
-    QObjectList* l = m_frame->queryList("StatusLabel");
-    QObjectListIt itObject(*l);
+    QObjectList l = m_frame->queryList("StatusLabel");
+	QObjectList::iterator itObject = l.begin();
     QObject *obj;
-    while ((obj=itObject.current()) != NULL){
+    while((obj = *itObject) != NULL)
+	{
+		if(itObject == l.end())
+			break;
         ++itObject;
         lbls.push_back(static_cast<StatusLabel*>(obj));
     }
-    delete l;
     for (list<StatusLabel*>::iterator it = lbls.begin(); it != lbls.end(); ++it)
         delete *it;
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
+    for (unsigned i = 0; i < getContacts()->nClients(); i++)
+	{
         Client *client = getContacts()->getClient(i);
         QWidget *w = new StatusLabel(m_frame, client, CmdClient + i);
         m_lay->addWidget(w);
@@ -289,17 +303,15 @@ void StatusFrame::addClients()
 
 StatusLabel *StatusFrame::findLabel(Client *client)
 {
-    QObjectList* l = m_frame->queryList("StatusLabel");
-    QObjectListIt itObject(*l);
+    QObjectList l = m_frame->queryList("StatusLabel");
+	QObjectList::iterator itObject = l.begin();
     QObject *obj;
-    while ((obj=itObject.current()) != NULL){
+    while ((obj = *itObject) != NULL){
         ++itObject;
         if (static_cast<StatusLabel*>(obj)->m_client == client){
-            delete l;
             return static_cast<StatusLabel*>(obj);
         }
     }
-    delete l;
     return NULL;
 }
 
@@ -331,14 +343,16 @@ void StatusFrame::adjustPos()
     emit showButton(width() < s.width());
     repaint();
     m_frame->repaint();
-    QObjectList* l = m_frame->queryList("StatusLabel");
-    QObjectListIt itObject(*l);
+    QObjectList l = m_frame->queryList("StatusLabel");
+	QObjectList::iterator itObject = l.begin();
     QObject *obj;
-    while ((obj=itObject.current()) != NULL){
+    while ((obj = *itObject) != NULL)
+	{
+		if(itObject == l.end())
+			break;
         ++itObject;
         static_cast<StatusLabel*>(obj)->repaint();
     }
-    delete l;
 }
 
 static const char * const arrow_h_xpm[] = {
@@ -354,8 +368,9 @@ static const char * const arrow_h_xpm[] = {
             "+..++..++",
             "..++..+++"};
 
-StatusWnd::StatusWnd()
+StatusWnd::StatusWnd() : QFrame(NULL)
 {
+	log(L_DEBUG, "StatusWnd::StatusWnd()");
     setFrameStyle(NoFrame);
     m_lay = new QHBoxLayout(this);
     m_frame = new StatusFrame(this);
@@ -386,7 +401,7 @@ void StatusWnd::clicked()
     cmd->flags    = COMMAND_NEW_POPUP;
     EventMenuGet e(cmd);
     e.process();
-    QPopupMenu *popup = e.menu();
+    Q3PopupMenu *popup = e.menu();
     if (popup){
         QPoint pos = CToolButton::popupPos(m_btn, popup);
         popup->popup(pos);
@@ -405,8 +420,10 @@ BalloonMsg *StatusWnd::showError(const QString &text, QStringList &buttons, Clie
     return new BalloonMsg(NULL, text, buttons, lbl);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "statuswnd.moc"
 #endif
+*/
 
 

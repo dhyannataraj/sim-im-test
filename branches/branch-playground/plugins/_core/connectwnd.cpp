@@ -21,20 +21,21 @@
 
 #include <qlabel.h>
 #include <qmovie.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qfile.h>
 
-ConnectWnd::ConnectWnd(bool bStart)
+ConnectWnd::ConnectWnd(bool bStart) : QDialog(NULL)
 {
+	setupUi(this);
     using SIM::app_file;
     m_bStart = bStart;
     setConnecting(true);
     QMovie movie(app_file("pict/connect.gif"));
     if (movie.isNull())
-        movie = QMovie(app_file("pict/connect.mng"));
+        movie.setFileName(app_file("pict/connect.mng"));
     if (!movie.isNull()){
-        lblMovie->setMovie(movie);
-        movie.connectUpdate(this, SLOT(updateMovie()));
+        lblMovie->setMovie(&movie);
+		connect(this, SIGNAL(updated()), this, SLOT(updateMovie()));
         movie.restart();
         updateMovie();
     }
@@ -85,7 +86,9 @@ void ConnectWnd::setErr(const QString &text, const char *url)
     }
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "connectwnd.moc"
 #endif
+*/
 

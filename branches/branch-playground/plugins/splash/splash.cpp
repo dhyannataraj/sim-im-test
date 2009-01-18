@@ -15,12 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qapplication.h>
-#include <qfile.h>
-#include <qpainter.h>
-#include <qsplashscreen.h>
+#include <QWidget>
+#include <QPixmap>
+#include <QApplication>
+#include <QFile>
+#include <QPainter>
+#include <QSplashScreen>
+#include <QBitmap>
+#include <QDesktopWidget>
 
 #include "aboutdata.h"
 #include "misc.h"
@@ -57,11 +59,12 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
     if (m_bStart){
         QPixmap pict(app_file("pict/splash.png"));
 		// FIXME: better use QSplash with QSplashScreen::drawContents()
-        if (!pict.isNull()){
-			KAboutData *about_data = getAboutData();
-			QString text = about_data->programName();
+        if(!pict.isNull())
+		{
+			//KAboutData *about_data = getAboutData();
+			QString text = "";// about_data->programName();
 			text += " ";
-			text += about_data->version();
+			//text += about_data->version();
 			QPainter p(&pict);
 			QFont f = qApp->font();
 			f.setBold(true);
@@ -75,11 +78,9 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
 			y -= 2;
 			p.setPen(QColor(0xFF, 0xFF, 0xE0));
 			p.drawText(x, y, text);
-			splash = new QWidget(NULL, "splash",
-								 QWidget::WType_TopLevel | QWidget::WStyle_Customize |
-								 QWidget::WStyle_NoBorderEx | QWidget::WStyle_StaysOnTop);
+			splash = new QWidget(NULL, "splash", Qt::SplashScreen);
 
-			QWidget *desktop =  qApp->desktop();  //QApplication::desktop();
+			QDesktopWidget *desktop =  qApp->desktop();  //QApplication::desktop();
 			int desk_width = desktop->geometry().width();
 			int desk_height = desktop->geometry().height();
 			if ((desk_width/desk_height)==2) //widescreen or double screen
@@ -89,10 +90,10 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
 			splash->setBackgroundPixmap(pict);
 			splash->resize(pict.width(), pict.height());
 			splash->repaint();
-			const QBitmap *mask = pict.mask();
+			const QBitmap mask = pict.mask();
 			p.end();
-			if (mask)
-				splash->setMask(*mask);
+			if (!mask.isNull())
+				splash->setMask(mask);
 			splash->show();
         }
     }

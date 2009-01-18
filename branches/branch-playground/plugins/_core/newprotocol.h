@@ -21,12 +21,12 @@
 #include <vector>
 #include "contacts.h"
 
-#include "newprotocolbase.h"
+#include "ui_newprotocolbase.h"
 
 class ConnectWnd;
 class CorePlugin;
 
-class NewProtocol : public NewProtocolBase, public SIM::EventReceiver
+class NewProtocol : public Q3Wizard, public Ui::NewProtocolBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

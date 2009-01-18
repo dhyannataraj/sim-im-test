@@ -21,21 +21,25 @@
 #include "connectionsettings.h"
 #include "core.h"
 
-#include <qlistview.h>
-#include <qheader.h>
+#include <q3listview.h>
+#include <q3header.h>
 #include <qscrollbar.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QCloseEvent>
 
 using namespace SIM;
 
-ConnectionManager::ConnectionManager(bool bModal)
-        : ConnectionManagerBase(NULL, "manager", bModal)
+ConnectionManager::ConnectionManager(bool bModal) : QDialog(NULL, "manager")
+        //: ConnectionManagerBase(NULL, "manager", bModal)
 {
+	setupUi(this);
     SET_WNDPROC("manager")
     setIcon(Pict("configure"));
     setButtonsPict(this);
     setCaption(caption());
-    lstConnection->setHScrollBarMode(QScrollView::AlwaysOff);
+    lstConnection->setHScrollBarMode(Q3ScrollView::AlwaysOff);
     lstConnection->header()->hide();
     lstConnection->setSorting(1);
     fill();
@@ -51,13 +55,13 @@ ConnectionManager::ConnectionManager(bool bModal)
 void ConnectionManager::fill(Client *current)
 {
     lstConnection->clear();
-    QListViewItem *curItem = NULL;
+    Q3ListViewItem *curItem = NULL;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         Protocol *protocol = client->protocol();
         const CommandDef *descr = protocol->description();
         QString text = CorePlugin::m_plugin->clientName(client);
-        QListViewItem *item = new QListViewItem(lstConnection, text);
+        Q3ListViewItem *item = new Q3ListViewItem(lstConnection, text);
         if (descr)
             item->setPixmap(0, Pict(descr->icon, lstConnection->colorGroup().base()));
         if (current == client)
@@ -74,7 +78,7 @@ void ConnectionManager::fill(Client *current)
 
 void ConnectionManager::selectionChanged()
 {
-    QListViewItem *item = lstConnection->currentItem();
+    Q3ListViewItem *item = lstConnection->currentItem();
     if (item == NULL){
         btnUp->setEnabled(false);
         btnDown->setEnabled(false);
@@ -86,7 +90,7 @@ void ConnectionManager::selectionChanged()
     btnRemove->setEnabled(true);
     int n = 0;
     int index = -1;
-    for (QListViewItem *i = lstConnection->firstChild(); i; i = i->nextSibling(), n++){
+    for (Q3ListViewItem *i = lstConnection->firstChild(); i; i = i->nextSibling(), n++){
         if (i == item)
             index = n;
     }
@@ -96,13 +100,13 @@ void ConnectionManager::selectionChanged()
 
 void ConnectionManager::closeEvent(QCloseEvent *e)
 {
-    ConnectionManagerBase::closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
 void ConnectionManager::resizeEvent(QResizeEvent *e)
 {
-    ConnectionManagerBase::resizeEvent(e);
+    QDialog::resizeEvent(e);
     int w = lstConnection->width() - 4;
     if (lstConnection->verticalScrollBar()->isVisible())
         w -= lstConnection->verticalScrollBar()->width();
@@ -118,12 +122,12 @@ void ConnectionManager::addClient()
 
 Client *ConnectionManager::currentClient()
 {
-    QListViewItem *item = lstConnection->currentItem();
+    Q3ListViewItem *item = lstConnection->currentItem();
     if (item == NULL)
         return NULL;
     unsigned n = 0;
     int index = -1;
-    for (QListViewItem *i = lstConnection->firstChild(); i; i = i->nextSibling(), n++){
+    for (Q3ListViewItem *i = lstConnection->firstChild(); i; i = i->nextSibling(), n++){
         if (i == item){
             index = n;
             break;
@@ -179,7 +183,9 @@ void ConnectionManager::updateClient()
     EventCommandExec(cmd).process();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "manager.moc"
 #endif
+*/
 

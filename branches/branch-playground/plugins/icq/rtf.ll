@@ -135,7 +135,7 @@ public:
     void reset();
     void resetTag(TagEnum tag);
 protected:
-    QCString text;
+    QString text;
     void Init();
     RTF2HTML *p;
     void resetColors() { m_nRed = m_nGreen = m_nBlue = 0; m_bColorInit = false; }
@@ -799,7 +799,7 @@ void Level::flush()
     if (encoding == NULL)
 		encoding = p->encoding;
 	QTextCodec *codec = getContacts()->getCodecByName(encoding);
-    p->PrintQuoted(codec->toUnicode(text.data(), text.length()));
+    p->PrintQuoted(codec->toUnicode(text.toLocal8Bit()));
     text = "";
 }
 
@@ -1027,14 +1027,15 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
     return s;
 }
 
-bool ICQClient::parseRTF(const QCString &rtf, Contact *contact, QString &res)
+bool ICQClient::parseRTF(const QString &rtf, Contact *contact, QString &res)
 {
 	const char _RTF[] = "{\\rtf";
 	// codec to use when no other information is in the rtf stream
 	QTextCodec *codec = getContacts()->getCodec(contact);
-	if (!qstrncmp(rtf.data(), _RTF, strlen(_RTF))){
+	if (!qstrncmp(rtf.toUtf8().data(), _RTF, strlen(_RTF)))
+	{
 		RTF2HTML p;
-		res = p.Parse(rtf.data(), codec->name());
+		res = p.Parse(rtf.toUtf8().data(), codec->name().data());
 		return true;
 	}
 	res = codec->toUnicode(rtf);

@@ -18,12 +18,16 @@
 #ifndef _JIDSEARCH_H
 #define _JIDSEARCH_H
 
-#include "jidsearchbase.h"
+#include "ui_jidsearchbase.h"
+#include "event.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
+class JabberUserData;
 class JabberClient;
 class JIDAdvSearch;
 
-class JIDSearch : public JIDSearchBase, public SIM::EventReceiver
+class JIDSearch : public QWidget, public Ui::JIDSearchBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

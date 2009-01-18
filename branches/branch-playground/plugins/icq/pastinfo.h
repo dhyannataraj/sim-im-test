@@ -21,12 +21,12 @@
 #include "country.h"
 #include "event.h"
 
-#include "pastinfobase.h"
+#include "ui_pastinfobase.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class PastInfo : public PastInfoBase, public SIM::EventReceiver
+class PastInfo : public QWidget, public Ui::PastInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

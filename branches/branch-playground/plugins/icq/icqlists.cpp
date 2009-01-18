@@ -31,6 +31,9 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qimage.h>
+#include <QCryptographicHash>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "log.h"
 
@@ -679,8 +682,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
             QString screen = socket()->readBuffer().unpackScreen();
-            QCString message;
-            QCString charset;
+            Q3CString message;
+            Q3CString charset;
             unsigned short have_charset;
             socket()->readBuffer().unpackStr(message);
             socket()->readBuffer() >> have_charset;
@@ -711,7 +714,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             /* we treat future grant as normal grant but it isn't the same...
                http://iserverd1.khstu.ru/oscar/snac_13_15.html */
             QString screen = socket()->readBuffer().unpackScreen();
-            QCString message;
+            Q3CString message;
             Message *m = NULL;
 
             socket()->readBuffer().unpackStr(message);
@@ -733,8 +736,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             QString screen = socket()->readBuffer().unpackScreen();
             char auth_ok;
             socket()->readBuffer() >> auth_ok;
-            QCString message;
-            QCString charset;
+            Q3CString message;
+            Q3CString charset;
             unsigned short have_charset;
             socket()->readBuffer().unpackStr(message);
             socket()->readBuffer() >> have_charset;
@@ -1079,7 +1082,7 @@ unsigned short ICQClient::getListId()
 TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
     TlvList *tlv = new TlvList;
-    QCString name = contact->getName().utf8();
+    Q3CString name = contact->getName().utf8();
     *tlv += new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if(data->WaitAuth.toBool())
 	{
@@ -1125,7 +1128,7 @@ unsigned short ICQClient::ssiAddBuddy(QString& screen, unsigned short group_id, 
 {
 	log(L_DEBUG, "ICQClient::ssiAddBuddy");
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_CREATE, true, false);
-    QCString utfscreen = screen.utf8();
+    Q3CString utfscreen = screen.utf8();
 	socket()->writeBuffer() << (unsigned short)utfscreen.length();
 	socket()->writeBuffer().pack(utfscreen.data(), utfscreen.length());
 	socket()->writeBuffer() << group_id << buddy_id << buddy_type;
@@ -1145,7 +1148,7 @@ unsigned short ICQClient::ssiDeleteBuddy(QString& screen, unsigned short group_i
 {
 	log(L_DEBUG, "ICQClient::ssiDeleteBuddy");
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_DELETE, true, false);
-    QCString utfscreen = screen.utf8();
+    Q3CString utfscreen = screen.utf8();
 	socket()->writeBuffer() << (unsigned short)utfscreen.length();
 	socket()->writeBuffer().pack(utfscreen.data(), utfscreen.length());
 	socket()->writeBuffer() << group_id << buddy_id << buddy_type;
@@ -1183,7 +1186,7 @@ void ICQClient::getGroupIDs(unsigned short group_id, ICQBuffer* buf)
 
 unsigned short ICQClient::ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id)
 {
-    QCString sName = groupname.utf8();
+    Q3CString sName = groupname.utf8();
 	snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true, false);
 	socket()->writeBuffer() << (unsigned short)sName.length();
 	socket()->writeBuffer().pack(sName.data(), sName.length());
@@ -1217,7 +1220,7 @@ unsigned short ICQClient::ssiRemoveFromGroup(QString& groupname, unsigned short 
 		}
 	}
 
-    QCString sName = groupname.utf8();
+    Q3CString sName = groupname.utf8();
 	snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true, false);
 	socket()->writeBuffer() << (unsigned short)sName.length();
 	socket()->writeBuffer().pack(sName.data(), sName.length());
@@ -1240,7 +1243,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
     sendPacket(true);
 
     snac(ICQ_SNACxFOOD_LISTS, cmd, true, false);
-    QCString sName = name.utf8();
+    Q3CString sName = name.utf8();
     socket()->writeBuffer().pack(static_cast<unsigned short>( htons(sName.length()) ) );
     socket()->writeBuffer().pack(sName.data(), sName.length());
     socket()->writeBuffer()
@@ -1258,7 +1261,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 
 void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId)
 {
-    QCString sName = name.utf8();
+    Q3CString sName = name.utf8();
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true, false);
     socket()->writeBuffer().pack(sName.data(), sName.length());
     socket()->writeBuffer()
@@ -1487,8 +1490,8 @@ unsigned ICQClient::processListRequest()
                     break;
 
                 QByteArray ba;
-                QBuffer buf(ba);
-                if(!buf.open(IO_WriteOnly)) {
+                QBuffer buf(&ba);
+                if(!buf.open(QIODevice::WriteOnly)) {
                     log(L_ERROR, "Can't open QByteArray for writing!");
                     break;
                 }
@@ -1497,7 +1500,7 @@ unsigned ICQClient::processListRequest()
                     break;
                 }
                 buf.close();
-                QByteArray hash = md5(ba.data(), ba.size());
+                QByteArray hash = QCryptographicHash::hash(ba, QCryptographicHash::Md5);
                 if(hash == this->data.owner.buddyHash.toBinary() &&
                    1 == this->data.owner.buddyID.toULong()) {
                     log(L_DEBUG, "No need to upload buddy");
@@ -1700,7 +1703,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
 
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH, true, false);
     socket()->writeBuffer().packScreen(screen(data));
-    QCString message;
+    Q3CString message;
     QString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF))
 	{
@@ -1764,8 +1767,8 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_AUTHxSEND, true, false);
     socket()->writeBuffer().packScreen(screen(data));
 
-    QCString message;
-    QCString charset;
+    Q3CString message;
+    Q3CString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
         message = msg->getPlainText().utf8();
         charset = "utf-8";

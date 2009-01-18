@@ -21,13 +21,13 @@
 #include "cfg.h"
 
 #include "listview.h"
-#include "icqsecurebase.h"
+#include "ui_icqsecurebase.h"
 
 class ICQClient;
 class ListView;
 struct ICQUserData;
 
-class ICQSecure : public ICQSecureBase, public SIM::EventReceiver
+class ICQSecure : public QWidget, public Ui::ICQSecureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -36,8 +36,8 @@ public slots:
     void apply();
     void apply(SIM::Client*, void*);
     void hideIpToggled(bool);
-    void deleteVisibleItem(QListViewItem *item);
-    void deleteInvisibleItem(QListViewItem *item);
+    void deleteVisibleItem(Q3ListViewItem *item);
+    void deleteInvisibleItem(Q3ListViewItem *item);
 protected:
     virtual bool processEvent(SIM::Event *e);
     void fill();

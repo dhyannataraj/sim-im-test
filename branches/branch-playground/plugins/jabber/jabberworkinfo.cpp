@@ -24,9 +24,10 @@
 
 using namespace SIM;
 
-JabberWorkInfo::JabberWorkInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
-        : JabberWorkInfoBase(parent)
+JabberWorkInfo::JabberWorkInfo(QWidget *parent, JabberUserData *data, JabberClient *client) : QWidget(parent)
+        //: JabberWorkInfoBase(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data	  = data;
     if (m_data){
@@ -86,7 +87,9 @@ void JabberWorkInfo::apply(Client *client, void *_data)
     data->Role.str()    = edtRole->text();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberworkinfo.moc"
 #endif
+*/
 

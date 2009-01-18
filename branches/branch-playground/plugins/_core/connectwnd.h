@@ -18,9 +18,10 @@
 #ifndef _CONNECTWND_H
 #define _CONNECTWND_H
 
-#include "connectwndbase.h"
+#include <QDialog>
+#include "ui_connectwndbase.h"
 
-class ConnectWnd : public ConnectWndBase
+class ConnectWnd : public QDialog, public Ui::ConnectWndBase
 {
     Q_OBJECT
 public:

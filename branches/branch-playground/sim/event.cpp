@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 // system includes
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <time.h>
 // own header
 #include "event.h"
@@ -28,15 +30,15 @@ namespace SIM
 {
 
 // this is all not thread-safe!
-static QValueList<EventReceiver*> *receivers = NULL;
+static Q3ValueList<EventReceiver*> *receivers = NULL;
 static bool g_bChanged = false;
 static int g_iLevel = 0;
 
 EventReceiver::EventReceiver(unsigned priority)
 {
     m_priority = priority;
-    QValueList<EventReceiver*>::iterator it;
-    QValueList<EventReceiver*>::iterator end = receivers->end();
+    Q3ValueList<EventReceiver*>::iterator it;
+    Q3ValueList<EventReceiver*>::iterator end = receivers->end();
     for (it = receivers->begin(); it != end; ++it)
         if ((*it)->priority() >= priority)
             break;
@@ -66,8 +68,8 @@ bool Event::process(EventReceiver *from)
     if (receivers == NULL)
         return false;
     g_iLevel++;
-    QValueList<EventReceiver*>::ConstIterator it = receivers->begin();
-    QValueList<EventReceiver*>::ConstIterator end = receivers->constEnd();
+    Q3ValueList<EventReceiver*>::ConstIterator it = receivers->begin();
+    Q3ValueList<EventReceiver*>::ConstIterator end = receivers->constEnd();
     if (from){
         it = receivers->find(from);
         if(it != end)
@@ -101,7 +103,7 @@ bool Event::process(EventReceiver *from)
 
 void EventReceiver::initList()
 {
-    receivers = new QValueList<EventReceiver*>;
+    receivers = new Q3ValueList<EventReceiver*>;
 }
 
 void EventReceiver::destroyList()
@@ -116,7 +118,8 @@ void EventReceiver::destroyList()
 QString EventLog::make_packet_string(const EventLog &l)
 {
     QString m;
-    if (l.isPacketLog()){
+    if (l.isPacketLog())
+	{
         PacketType *type = getContacts()->getPacketType(l.packetID());
         if (type == NULL)
             return m;
@@ -170,17 +173,21 @@ QString EventLog::make_packet_string(const EventLog &l)
             if (n <= 16)
                 m += line;
         }
-    }else{
+    }
+	else
+	{
         m = QString::fromAscii(l.logData());
     }
     return m;
 }
 
-void EventLog::log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QCString addInfo)
+/*
+void EventLog::log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo)
 {
     EventLog e(packetBuf, bOut, packetID, addInfo);
     e.process();
 }
+*/
 
 void EventLog::log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo)
 {

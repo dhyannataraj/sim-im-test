@@ -20,12 +20,12 @@
 
 #include "contacts.h"
 
-#include "aboutinfobase.h"
+#include "ui_aboutinfobase.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class AboutInfo : public AboutInfoBase, public SIM::EventReceiver
+class AboutInfo : public QWidget, public Ui::AboutInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

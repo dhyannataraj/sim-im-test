@@ -19,14 +19,13 @@
 #define _FILETRANSFER_H
 
 #include "message.h"
-
-#include "filetransferbase.h"
+#include "ui_filetransferbase.h"
 
 class QTimer;
-class QProgressBar;
+class Q3ProgressBar;
 class BalloonMsg;
 
-class FileTransferDlg : public FileTransferBase
+class FileTransferDlg : public QDialog, public Ui::FileTransferBase
 {
     Q_OBJECT
 public:
@@ -39,7 +38,7 @@ protected slots:
     void action(int, void*);
     void goDir();
 protected:
-    void setProgress(QProgressBar *bar, unsigned bytes, unsigned size);
+    void setProgress(Q3ProgressBar *bar, unsigned bytes, unsigned size);
     void process();
     void notifyDestroyed();
     void printTime();

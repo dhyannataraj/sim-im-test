@@ -18,12 +18,13 @@
 #ifndef _YAHOOINFO_H
 #define _YAHOOINFO_H
 
-#include "yahooinfobase.h"
+#include "ui_yahooinfobase.h"
+#include "event.h"
 
 class YahooClient;
 struct YahooUserData;
 
-class YahooInfo : public YahooInfoBase, public SIM::EventReceiver
+class YahooInfo : public QWidget, public Ui::YahooInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "log.h"
 #include "textshow.h"
@@ -29,8 +31,8 @@ using namespace std;
 using namespace SIM;
 const unsigned ErrorColor = 0xFF0101;
 
-SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
-        : QSyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
+SpellHighlighter::SpellHighlighter(Q3TextEdit *edit, SpellPlugin *plugin)
+        : Q3SyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
 {
     m_paragraph = -1;
     m_bDirty = false;
@@ -142,7 +144,7 @@ void SpellHighlighter::flush()
 {
     if (m_curWord.isEmpty())
         return;
-    QCString ss;
+    Q3CString ss;
     if (!m_curWord.isEmpty())
         ss = m_curWord.local8Bit();
     SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", ss.data(), m_index, m_curStart, m_pos);
@@ -327,8 +329,4 @@ void SpellHighlighter::restore()
     m_bDisable = false;
     rehighlight();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "spellhighlight.moc"
-#endif
 

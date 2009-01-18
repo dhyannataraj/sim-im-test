@@ -26,6 +26,8 @@
 
 #include <qtextcodec.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "html.h"
 #include "icons.h"
@@ -223,7 +225,7 @@ class RTFGenParser : public HTMLParser
 {
 public:
     RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
-    QCString parse(const QString &text);
+    Q3CString parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
@@ -236,7 +238,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
-    QCString res;
+    Q3CString res;
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
@@ -324,9 +326,9 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
     return m_fontFaces.size() - 1;
 }
 
-QCString RTFGenParser::parse(const QString &text)
+Q3CString RTFGenParser::parse(const QString &text)
 {
-    res = QString::null;
+    res = 0;//QString::null;
     m_res_size = 0;
     m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
@@ -380,7 +382,7 @@ QCString RTFGenParser::parse(const QString &text)
     m_bSpace = true;
     HTMLParser::parse(text);
 
-    QCString s;
+    Q3CString s;
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
@@ -498,7 +500,7 @@ void RTFGenParser::text(const QString &text)
         QString s;
         s += c;
         if (m_codec){
-            QCString plain = m_codec->fromUnicode(s);
+            Q3CString plain = m_codec->fromUnicode(s);
             if ((plain.length() == 1) && (m_codec->toUnicode(plain) == s)){
                 char b[5];
                 snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
@@ -546,238 +548,241 @@ static const char *def_smiles[] =
 
 void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 {
-    if (m_res_size)
-        return;
-    CharStyle parentStyle, style;
-    {
-        Tag* pParentTag = m_tags.getTopTagWithCharStyle();
-        if (pParentTag != NULL)
-        {
-            parentStyle = *(pParentTag->pCharStyle);
-        }
-    }
-    style = parentStyle;
-    if ((tagName == "b") || (tagName == "i") || (tagName == "u") ||
-            (tagName == "font") || (tagName == "p") || (tagName == "span")){
-        QString tag = tagName;
-        QString option;
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString key = *it;
-            ++it;
-            QString value = *it;
-            option += ' ';
-            option += key;
-            if (!value.isEmpty()){
-                option += "=\"";
-                option += value;
-                option += "\"";
-            }
-        }
-        tags.push(tag);
-        options.push(option);
-    }
+	if (m_res_size)
+		return;
+	CharStyle parentStyle, style;
+	{
+		Tag* pParentTag = m_tags.getTopTagWithCharStyle();
+		if (pParentTag != NULL)
+		{
+			parentStyle = *(pParentTag->pCharStyle);
+		}
+	}
+	style = parentStyle;
+	if ((tagName == "b") || (tagName == "i") || (tagName == "u") ||
+			(tagName == "font") || (tagName == "p") || (tagName == "span")){
+		QString tag = tagName;
+		QString option;
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+			QString key = *it;
+			++it;
+			QString value = *it;
+			option += ' ';
+			option += key;
+			if (!value.isEmpty()){
+				option += "=\"";
+				option += value;
+				option += "\"";
+			}
+		}
+		tags.push(tag);
+		options.push(option);
+	}
 
-    if (tagName == "b"){
-        style.bold = true;
-    }
-    else if (tagName == "i"){
-        style.italic = true;
-    }
-    else if (tagName == "u"){
-        style.underline = true;
-    }
-    else if (tagName == "font"){
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); it++){
-            QString name = (*it);
-            ++it;
-            QString value = (*it);
-            if (name == "color")
-            {
-                style.colorIdx = getColorIdx(value);
-            }
-            else if (name == "face")
-            {
-                style.faceIdx = getFontFaceIdx(value);
-            }
-            else if (name == "size")
-            {
-                int logicalSize = value.toInt();
-                if (value[0] == '+' || value[0] == '-')
-                    logicalSize += 3;
-                if (logicalSize < 1)
-                    logicalSize = 1;
-                else if (logicalSize > 7)
-                    logicalSize = 7;
-                style.sizePt = htmlFontSizeToPt(logicalSize);
-            }
-        }
-    }
-    else if (tagName == "p"){
-        m_paragraphDir = DirUnknown;
-        m_lastParagraphPos = res.length();
-        m_bSpace = true;
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it).lower();
-            ++it;
-            QString value = (*it);
-            if (name == "dir")
-            {
-                QString dir = value.lower();
-                if (dir == "ltr")
-                {
-                    res += "\\ltrpar";
-                    m_paragraphDir = DirLTR;
-                }
-                if (dir == "rtl")
-                {
-                    res += "\\rtlpar";
-                    m_paragraphDir = DirRTL;
-                }
-            }
-        }
+	if (tagName == "b"){
+		style.bold = true;
+	}
+	else if (tagName == "i"){
+		style.italic = true;
+	}
+	else if (tagName == "u"){
+		style.underline = true;
+	}
+	else if (tagName == "font"){
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); it++){
+			QString name = (*it);
+			++it;
+			QString value = (*it);
+			if (name == "color")
+			{
+				style.colorIdx = getColorIdx(value);
+			}
+			else if (name == "face")
+			{
+				style.faceIdx = getFontFaceIdx(value);
+			}
+			else if (name == "size")
+			{
+				int logicalSize = value.toInt();
+				if (value[0] == '+' || value[0] == '-')
+					logicalSize += 3;
+				if (logicalSize < 1)
+					logicalSize = 1;
+				else if (logicalSize > 7)
+					logicalSize = 7;
+				style.sizePt = htmlFontSizeToPt(logicalSize);
+			}
+		}
+	}
+	else if (tagName == "p"){
+		m_paragraphDir = DirUnknown;
+		m_lastParagraphPos = res.length();
+		m_bSpace = true;
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+			QString name = (*it).lower();
+			++it;
+			QString value = (*it);
+			if (name == "dir")
+			{
+				QString dir = value.lower();
+				if (dir == "ltr")
+				{
+					res += "\\ltrpar";
+					m_paragraphDir = DirLTR;
+				}
+				if (dir == "rtl")
+				{
+					res += "\\rtlpar";
+					m_paragraphDir = DirRTL;
+				}
+			}
+		}
 
-    }
-    else if (tagName == "br"){
-        res += "\\line";
-        m_bSpace = true;
-    }
-    else if (tagName == "img"){
-        QString src;
-        QString alt;
-        for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it);
-            ++it;
-            QString value = (*it);
-            if (name == "src"){
-                src = value;
-                break;
-            }
-            if (name == "alt"){
-                alt = value;
-                break;
-            }
-        }
-        if (src.startsWith("icon:")){
-            QStringList smiles = getIcons()->getSmile(src.mid(5));
-            for (QStringList::iterator its = smiles.begin(); its != smiles.end(); ++its){
-                QString s = *its;
-                for (unsigned nSmile = 0; nSmile < 26; nSmile++){
-                    if (s != def_smiles[nSmile])
-                        continue;
-                    res += "<##icqimage00";
-                    char buf[4];
-                    sprintf(buf, "%02X", nSmile);
-                    res += buf;
-                    res += '>';
-                    return;
-                }
-            }
-            if (!smiles.empty()){
-                text(smiles.front());
-                return;
-            }
-        }
-        text(alt);
-        return;
-    }
+	}
+	else if (tagName == "br"){
+		res += "\\line";
+		m_bSpace = true;
+	}
+	else if (tagName == "img"){
+		QString src;
+		QString alt;
+		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+			QString name = (*it);
+			++it;
+			QString value = (*it);
+			if (name == "src"){
+				src = value;
+				break;
+			}
+			if (name == "alt"){
+				alt = value;
+				break;
+			}
+		}
+		if (src.startsWith("icon:")){
+			QStringList smiles = getIcons()->getSmile(src.mid(5));
+			for (QStringList::iterator its = smiles.begin(); its != smiles.end(); ++its){
+				QString s = *its;
+				for (unsigned nSmile = 0; nSmile < 26; nSmile++){
+					if (s != def_smiles[nSmile])
+						continue;
+					res += "<##icqimage00";
+					char buf[4];
+					sprintf(buf, "%02X", nSmile);
+					res += buf;
+					res += '>';
+					return;
+				}
+			}
+			if (!smiles.empty()){
+				text(smiles.front());
+				return;
+			}
+		}
+		text(alt);
+		return;
+	}
 
-    // Process attributes which all tags share.
+	// Process attributes which all tags share.
 
-    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-        QString name = (*it).lower();
-        ++it;
-        QString value = (*it);
+	for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
+		QString name = (*it).lower();
+		++it;
+		QString value = (*it);
 
-        // Any tag might have a STYLE.
-        if (name == "style"){
-            // A really crude CSS parser goes here:
-            QRegExp cssReNum("[0-9]+");
-            list<QString> cssProp = parseStyle(value);
-            for (list<QString>::iterator it = cssProp.begin(); it != cssProp.end(); ++it){
-                QString cssPropName = *it;
-                ++it;
-                if (it == cssProp.end())
-                    break;
-                QString cssPropValue = *it;
-                if (cssPropName == "font-family")
-                {
-                    style.faceIdx = getFontFaceIdx(cssPropValue);
-                }
-                else if (cssPropName == "font-size")
-                {
-                    cssPropValue = cssPropValue.lower();
-                    int length;
-                    if (cssReNum.match(cssPropValue, 0, &length) == 0){
-                        float number = cssPropValue.left(length).toFloat();
-                        QString type = cssPropValue.mid(length);
-                        if (type == "pt")
-                        {
-                            style.sizePt = static_cast<int>(number);
-                        }
-                        else if (type == "px")
-                        {
-                            // for now, handle like 'pt', though it's wrong
-                            style.sizePt = static_cast<int>(number);
-                        }
-                        else if (type == "%")
-                        {
-                            style.sizePt = static_cast<int>(parentStyle.sizePt * (number/100));
-                        }
-                        // We don't handle 'cm', 'em' etc.
-                    }
-                    else if (cssPropValue == "smaller")
-                    {
-                        // FONT SIZE=3 is 'normal', 2 is 'smaller'
-                        style.sizePt = htmlFontSizeToPt(2, parentStyle.sizePt);
-                    }
-                    else if (cssPropValue == "larger")
-                    {
-                        // FONT SIZE=3 is 'normal', 4 is 'larger'
-                        style.sizePt = htmlFontSizeToPt(4, parentStyle.sizePt);
-                    }
+		// Any tag might have a STYLE.
+		if (name == "style"){
+			// A really crude CSS parser goes here:
+			QRegExp cssReNum("[0-9]+");
+			list<QString> cssProp = parseStyle(value);
+			for (list<QString>::iterator it = cssProp.begin(); it != cssProp.end(); ++it)
+			{
+				QString cssPropName = *it;
+				++it;
+				if (it == cssProp.end())
+					break;
+				QString cssPropValue = *it;
+				if (cssPropName == "font-family")
+				{
+					style.faceIdx = getFontFaceIdx(cssPropValue);
+				}
+				else if (cssPropName == "font-size")
+				{
+					cssPropValue = cssPropValue.lower();
+					int length;
+					if(cssReNum.indexIn(cssPropValue) != -1)
+					{
+						length = cssReNum.matchedLength();
+						float number = cssPropValue.left(length).toFloat();
+						QString type = cssPropValue.mid(length);
+						if (type == "pt")
+						{
+							style.sizePt = static_cast<int>(number);
+						}
+						else if (type == "px")
+						{
+							// for now, handle like 'pt', though it's wrong
+							style.sizePt = static_cast<int>(number);
+						}
+						else if (type == "%")
+						{
+							style.sizePt = static_cast<int>(parentStyle.sizePt * (number/100));
+						}
+						// We don't handle 'cm', 'em' etc.
+					}
+					else if (cssPropValue == "smaller")
+					{
+						// FONT SIZE=3 is 'normal', 2 is 'smaller'
+						style.sizePt = htmlFontSizeToPt(2, parentStyle.sizePt);
+					}
+					else if (cssPropValue == "larger")
+					{
+						// FONT SIZE=3 is 'normal', 4 is 'larger'
+						style.sizePt = htmlFontSizeToPt(4, parentStyle.sizePt);
+					}
 
-                    // We don't handle 'small', 'medium' etc. It goes too far
-                    // beyond our basic implementation.
-                    // Also, empty 'type' would be invalid CSS, thus ignored.
-                }
-                else if (cssPropName == "font-style")
-                {
-                    style.italic = (cssPropValue.lower() == "italic");
-                }
-                else if (cssPropName == "font-weight")
-                {
-                    style.bold = (cssPropValue.toInt() >= 600);
-                }
-                else if (cssPropName == "text-decoration")
-                {
-                    style.underline = (cssPropValue.lower() == "underline");
-                }
-                else if (cssPropName == "color")
-                {
-                    style.colorIdx = getColorIdx(cssPropValue);
-                }
-                else if (cssPropName == "background-color")
-                {
-                    style.bgColorIdx = getColorIdx(cssPropValue);
-                }
-            }
-        }
-    }
+					// We don't handle 'small', 'medium' etc. It goes too far
+					// beyond our basic implementation.
+					// Also, empty 'type' would be invalid CSS, thus ignored.
+				}
+				else if (cssPropName == "font-style")
+				{
+					style.italic = (cssPropValue.lower() == "italic");
+				}
+				else if (cssPropName == "font-weight")
+				{
+					style.bold = (cssPropValue.toInt() >= 600);
+				}
+				else if (cssPropName == "text-decoration")
+				{
+					style.underline = (cssPropValue.lower() == "underline");
+				}
+				else if (cssPropName == "color")
+				{
+					style.colorIdx = getColorIdx(cssPropValue);
+				}
+				else if (cssPropName == "background-color")
+				{
+					style.bgColorIdx = getColorIdx(cssPropValue);
+				}
+			}
+		}
+	}
 
-    Tag& tag = *(m_tags.pushNew());
-    tag.name = tagName;
-    // Check if anything changed in the style.
-    // Only then the tag deserves getting a charStyle.
-    if (parentStyle != style)
-    {
-        QString rtf = style.getDiffRTF(parentStyle);
-        if (!rtf.isEmpty())
-        {
-            res += rtf.utf8();
-            m_bSpace = true;
-        }
-        tag.setCharStyle(style);
-    }
+	Tag& tag = *(m_tags.pushNew());
+	tag.name = tagName;
+	// Check if anything changed in the style.
+	// Only then the tag deserves getting a charStyle.
+	if (parentStyle != style)
+	{
+		QString rtf = style.getDiffRTF(parentStyle);
+		if (!rtf.isEmpty())
+		{
+			res += rtf.utf8();
+			m_bSpace = true;
+		}
+		tag.setCharStyle(style);
+	}
 }
 
 void RTFGenParser::tag_end(const QString &tagName)
@@ -847,10 +852,10 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
+Q3CString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
-    QCString res = p.parse(text);
+    Q3CString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
         text = QString::null;
@@ -882,7 +887,7 @@ protected:
     virtual void tag_end(const QString &tag);
     void startBody();
     void endBody();
-    QCString res;
+    Q3CString res;
     bool	 m_bBody;
     bool	 m_bIcq;
 };
@@ -894,7 +899,7 @@ ImageParser::ImageParser(bool bIcq)
 
 QString ImageParser::parse(const QString &text)
 {
-    res = QString::null;
+    res = 0; //QString::null;
     startBody();
     HTMLParser::parse(text);
     endBody();
@@ -904,7 +909,7 @@ QString ImageParser::parse(const QString &text)
 void ImageParser::startBody()
 {
     m_bBody = true;
-    res = QString::null;
+    res = 0;//QString::null;
 }
 
 void ImageParser::endBody()
@@ -924,8 +929,9 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
     QString oTag = tag;
 
-    if (tag == "html"){
-        res = QString::null;
+    if (tag == "html")
+	{
+        res = 0; //QString::null;
         m_bBody = false;
         return;
     }

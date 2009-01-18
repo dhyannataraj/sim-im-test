@@ -19,12 +19,14 @@
 #define _FONTEDIT_H
 
 #include "simapi.h"
-#include <qframe.h>
+#include <q3frame.h>
 #include <qfont.h>
+//Added by qt3to4:
+#include <QLabel>
 
 class QLabel;
 
-class EXPORT FontEdit : public QFrame
+class EXPORT FontEdit : public Q3Frame
 {
     Q_OBJECT
 public:

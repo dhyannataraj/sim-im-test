@@ -26,8 +26,12 @@
 #include "container.h"
 #include "history.h"
 
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QCloseEvent>
+#include <Q3ValueList>
 
 using namespace std;
 using namespace SIM;
@@ -47,46 +51,52 @@ static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
 }
 
 UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
-        : QSplitter(Horizontal, NULL)
+        : QSplitter(Qt::Vertical, NULL)
 {
-    load_data(userWndData, &data, cfg);
-    m_id = id;
-    m_bResize = false;
-    m_bClosed = false;
-    m_bTyping = false;
-    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    m_hSplitter = new QSplitter(Horizontal, this);
-    m_splitter = new QSplitter(Vertical, m_hSplitter);
-    m_list = NULL;
-    m_view = NULL;
+	load_data(userWndData, &data, cfg);
+	m_id = id;
+	m_bResize = false;
+	m_bClosed = false;
+	m_bTyping = false;
+	//setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	/*
+	m_hSplitter = new QSplitter(Qt::Horizontal, this);
+	*/
+	m_splitter = new QSplitter(Qt::Vertical, this);
+	m_list = NULL;
+	m_view = NULL;
 
-    if (cfg == NULL)
-        copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
+	if (cfg == NULL)
+		copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
 
-    m_bBarChanged = true;
-    if (CorePlugin::m_plugin->getContainerMode())
-        bReceived = false;
-    m_edit = new MsgEdit(m_splitter, this);
-    setFocusProxy(m_edit);
-    restoreToolbar(m_edit->m_bar, data.editBar);
-    m_edit->m_bar->show();
-    m_bBarChanged = false;
+	m_bBarChanged = true;
+	if (CorePlugin::m_plugin->getContainerMode())
+		bReceived = false;
+	addWidget(m_splitter);
+	m_edit = new MsgEdit(m_splitter, this);
+	setFocusProxy(m_edit);
+	restoreToolbar(m_edit->m_bar, data.editBar);
+	m_edit->m_bar->show();
+	m_bBarChanged = false;
+	//m_hSplitter->addWidget(m_splitter);
+	m_splitter->addWidget(m_edit);
 
-    connect(m_edit, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
-    connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
-    connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
-    modeChanged();
+	//connect(m_edit, SIGNAL(toolBarPositionChanged(Q3ToolBar*)), this, SLOT(toolbarChanged(Q3ToolBar*)));
+	connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+	connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
+	modeChanged();
 
-    if (!bAdjust && getMessageType() == 0)
-        return;
+	if (!bAdjust && getMessageType() == 0)
+		return;
 
-    if (!m_edit->adjustType()){
-        unsigned type = getMessageType();
-        Message *msg = new Message(MessageGeneric);
-        setMessage(msg);
-        delete msg;
-        setMessageType(type);
-    }
+	if (!m_edit->adjustType())
+	{
+		unsigned type = getMessageType();
+		Message *msg = new Message(MessageGeneric);
+		setMessage(msg);
+		delete msg;
+		setMessageType(type);
+	}
 }
 
 UserWnd::~UserWnd()
@@ -100,7 +110,7 @@ UserWnd::~UserWnd()
     }
 }
 
-QCString UserWnd::getConfig()
+Q3CString UserWnd::getConfig()
 {
     return save_data(userWndData, &data);
 }
@@ -128,7 +138,8 @@ QString UserWnd::getLongName()
     if (client && data){
         res += ' ';
         res += client->contactName(data);
-        if (!m_edit->m_resource.isEmpty()){
+        if (!m_edit->m_resource.isEmpty())
+		{
             res += '/';
             res += m_edit->m_resource;
         }
@@ -178,7 +189,8 @@ QString UserWnd::getIcon()
 
 void UserWnd::modeChanged()
 {
-    if (CorePlugin::m_plugin->getContainerMode()){
+    if (CorePlugin::m_plugin->getContainerMode())
+	{
         if (m_view == NULL)
             m_view = new MsgView(m_splitter, m_id);
         m_splitter->moveToFirst(m_view);
@@ -188,14 +200,16 @@ void UserWnd::modeChanged()
         if (editHeight == 0)
             editHeight = CorePlugin::m_plugin->getEditHeight();
         if (editHeight){
-            QValueList<int> s;
+            Q3ValueList<int> s;
             s.append(1);
             s.append(editHeight);
             m_bResize = true;
             m_splitter->setSizes(s);
             m_bResize = false;
         }
-    }else{
+    }
+	else
+	{
         if (m_view){
             delete m_view;
             m_view = NULL;
@@ -211,7 +225,7 @@ void UserWnd::editHeightChanged(int h)
     }
 }
 
-void UserWnd::toolbarChanged(QToolBar*)
+void UserWnd::toolbarChanged(Q3ToolBar*)
 {
     if (m_bBarChanged)
         return;
@@ -229,18 +243,21 @@ void UserWnd::setMessage(Message *msg)
     bool bSetFocus = false;
 
     Container *container = NULL;
-    if (topLevelWidget() && topLevelWidget()->inherits("Container")){
+    if (topLevelWidget() && topLevelWidget()->inherits("Container"))
+	{
         container = static_cast<Container*>(topLevelWidget());
         if (container->wnd() == this)
             bSetFocus = true;
     }
-    if (!m_edit->setMessage(msg, bSetFocus)){
+    if (!m_edit->setMessage(msg, bSetFocus))
+	{
         // if this does not work as expected, we have to go back
         // to EventOpenMessage with Message** :(
         *msg = Message(MessageGeneric);
         m_edit->setMessage(msg, bSetFocus);
     }
-    if (container){
+    if (container)
+	{
         container->setMessageType(msg->baseType());
         container->contactChanged(getContacts()->contact(m_id));
     }
@@ -260,12 +277,16 @@ void UserWnd::setStatus(const QString &status)
 
 void UserWnd::showListView(bool bShow)
 {
-    if (bShow){
+    if(bShow)
+	{
         if (m_list == NULL){
+			/*
             m_list = new UserList(m_hSplitter);
             m_hSplitter->setResizeMode(m_list, QSplitter::Stretch);
             connect(m_list, SIGNAL(selectChanged()), this, SLOT(selectChanged()));
-            if (topLevelWidget()->inherits("Container")){
+			*/
+            if(topLevelWidget()->inherits("Container"))
+			{
                 Container *c = static_cast<Container*>(topLevelWidget());
                 list<UserWnd*> wnd = c->windows();
                 for (list<UserWnd*>::iterator it = wnd.begin(); it != wnd.end(); ++it)
@@ -313,8 +334,4 @@ void UserWnd::markAsRead()
         it = CorePlugin::m_plugin->unread.begin();
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "userwnd.moc"
-#endif
 

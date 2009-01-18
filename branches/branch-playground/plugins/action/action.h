@@ -19,6 +19,8 @@
 #define _ACTION_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "cfg.h"
 #include "event.h"
@@ -26,7 +28,7 @@
 
 class QWidget;
 class CorePlugin;
-class QProcess;
+class Q3Process;
 
 struct ActionUserData
 {
@@ -50,8 +52,8 @@ protected slots:
     void msg_ready();
     void clear();
 protected:
-    QValueList<QProcess*> m_exec;
-    QValueList<QProcess*> m_delete;
+    Q3ValueList<Q3Process*> m_exec;
+    Q3ValueList<Q3Process*> m_delete;
     unsigned long CmdAction;
     virtual bool processEvent(SIM::Event*);
     QWidget *createConfigWindow(QWidget *parent);

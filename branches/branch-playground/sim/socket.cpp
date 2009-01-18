@@ -17,6 +17,8 @@
 
 #include <qmutex.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #ifdef WIN32
 #include <winsock.h>
@@ -50,10 +52,10 @@ struct SocketFactoryPrivate
 {
     bool m_bActive;
 
-    QValueList<ClientSocket*> errSockets;
-    QValueList<ClientSocket*> errSocketsCopy;
-    QValueList<Socket*> removedSockets;
-    QValueList<ServerSocket*> removedServerSockets;
+    Q3ValueList<ClientSocket*> errSockets;
+    Q3ValueList<ClientSocket*> errSocketsCopy;
+    Q3ValueList<Socket*> removedSockets;
+    Q3ValueList<ServerSocket*> removedServerSockets;
 
     SocketFactoryPrivate() : m_bActive(true) {}
 };
@@ -157,7 +159,7 @@ void ClientSocket::read_ready()
                 break;
             unsigned pos = readBuffer().writePos();
             readBuffer().setWritePos(readBuffer().writePos() + readn);
-            memcpy(readBuffer().data(pos), b, readn);
+            memcpy((void*)readBuffer().data(pos), b, readn);
         }
         if (m_notify)
             m_notify->packet_ready();
@@ -166,8 +168,7 @@ void ClientSocket::read_ready()
     for (;;){
         if (bClosed || errString.length())
           break;
-        int readn = m_sock->read(readBuffer().data(readBuffer().writePos()),
-                                 readBuffer().size() - readBuffer().writePos());
+        int readn = m_sock->read((char*)readBuffer().data(readBuffer().writePos()), (readBuffer().size() - readBuffer().writePos()));
         if (readn < 0){
             error_state(I18N_NOOP("Read socket error"));
             return;
@@ -284,7 +285,7 @@ bool SocketFactory::add(ClientSocket *s)
 
 bool SocketFactory::erase(ClientSocket *s)
 {
-  QValueList<ClientSocket*>::iterator it = d->errSocketsCopy.find(s);
+  Q3ValueList<ClientSocket*>::iterator it = d->errSocketsCopy.find(s);
   if(it != d->errSocketsCopy.end())
     *it = NULL;
   return(d->errSockets.remove(s) > 0);
@@ -295,7 +296,7 @@ void SocketFactory::idle()
     d->errSocketsCopy = d->errSockets;  // important! error_state() modifes d->errSockets
     d->errSockets.clear();
 
-    QValueList<ClientSocket*>::iterator it = d->errSocketsCopy.begin();
+    Q3ValueList<ClientSocket*>::iterator it = d->errSocketsCopy.begin();
     for ( ; it != d->errSocketsCopy.end(); ++it){
         ClientSocket *s = *it;
         // can be removed in SocketFactory::erase();
@@ -310,19 +311,18 @@ void SocketFactory::idle()
         }
     }
 
-    QValueList<Socket*>::iterator its = d->removedSockets.begin();
+    Q3ValueList<Socket*>::iterator its = d->removedSockets.begin();
     for ( ; its != d->removedSockets.end(); ++its)
         delete *its;
     d->removedSockets.clear();
 
-    QValueList<ServerSocket*>::iterator itss = d->removedServerSockets.begin();
+    Q3ValueList<ServerSocket*>::iterator itss = d->removedServerSockets.begin();
     for ( ; itss != d->removedServerSockets.end(); ++itss)
         delete *itss;
     d->removedServerSockets.clear();
 }
 
-TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
-        : Client(protocol, cfg), EventReceiver(priority)
+TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority) : Client(protocol, cfg), EventReceiver(priority)
 {
     m_clientSocket = NULL;
     m_ip     = 0;
@@ -336,7 +336,8 @@ TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
 
 bool TCPClient::processEvent(Event *e)
 {
-    if (e->type() == eEventSocketActive){
+    if (e->type() == eEventSocketActive)
+	{
 		EventSocketActive *s = static_cast<EventSocketActive*>(e);
         if (m_bWaitReconnect && s->active())
             reconnect();
@@ -505,8 +506,10 @@ void ServerSocketNotify::bind(const char *path)
 
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "socket.moc"
 #endif
+*/
 
 

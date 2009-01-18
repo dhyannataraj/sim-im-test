@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <ctype.h>
 
 #include "log.h"
@@ -73,7 +75,7 @@ void GsmTA::write_ready()
 
 void GsmTA::read_ready()
 {
-    QCString line = m_port->readLine();
+    Q3CString line = m_port->readLine();
     if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))
         line = line.left(line.length() - 1);
     if (!line.isEmpty()){
@@ -295,9 +297,9 @@ void GsmTA::port_error()
     emit error();
 }
 
-void GsmTA::at(const QCString &str, unsigned timeout)
+void GsmTA::at(const Q3CString &str, unsigned timeout)
 {
-    QCString cmd = "AT";
+    Q3CString cmd = "AT";
     cmd += str;
     m_cmd = cmd;
     Buffer b(cmd);
@@ -308,7 +310,7 @@ void GsmTA::at(const QCString &str, unsigned timeout)
     m_port->writeLine(cmd.data(), timeout);
 }
 
-bool GsmTA::isOK(const QCString &answer)
+bool GsmTA::isOK(const Q3CString &answer)
 {
     if (isIncoming(answer))
         return false;
@@ -319,9 +321,9 @@ bool GsmTA::isOK(const QCString &answer)
     return false;
 }
 
-QCString GsmTA::normalize(const QCString &ans)
+Q3CString GsmTA::normalize(const Q3CString &ans)
 {
-    QCString answer = ans;
+    Q3CString answer = ans;
     size_t start = 0, end = answer.length();
     bool changed = true;
     while (start < end && changed){
@@ -338,11 +340,11 @@ QCString GsmTA::normalize(const QCString &ans)
     return answer;
 }
 
-bool GsmTA::isError(const QCString &ans)
+bool GsmTA::isError(const Q3CString &ans)
 {
     if (isIncoming(ans))
         return false;
-    QCString answer = normalize(ans);
+    Q3CString answer = normalize(ans);
     if (answer.isEmpty())
         return false;
     if (matchResponse(answer, "+CME ERROR:") ||
@@ -354,11 +356,11 @@ bool GsmTA::isError(const QCString &ans)
     return false;
 }
 
-bool GsmTA::isChatOK(const QCString &ans, const char *response,  bool bIgnoreErrors, bool bAcceptEmptyResponse)
+bool GsmTA::isChatOK(const Q3CString &ans, const char *response,  bool bIgnoreErrors, bool bAcceptEmptyResponse)
 {
     if (isIncoming(ans))
         return false;
-    QCString answer = normalize(ans);
+    Q3CString answer = normalize(ans);
     if (answer.isEmpty() || (answer == m_cmd))
         return false;
     if (matchResponse(answer, "+CME ERROR:") ||
@@ -385,11 +387,11 @@ bool GsmTA::isChatOK(const QCString &ans, const char *response,  bool bIgnoreErr
     return false;
 }
 
-bool GsmTA::isChatResponse(const QCString &ans, const char *response, bool bIgnoreErrors)
+bool GsmTA::isChatResponse(const Q3CString &ans, const char *response, bool bIgnoreErrors)
 {
     if (isIncoming(ans))
         return false;
-    QCString answer = normalize(ans);
+    Q3CString answer = normalize(ans);
     if (answer.isEmpty() || (answer == m_cmd))
         return false;
     if (matchResponse(answer, "+CME ERROR:") ||
@@ -411,9 +413,9 @@ bool GsmTA::isChatResponse(const QCString &ans, const char *response, bool bIgno
     return false;
 }
 
-bool GsmTA::isIncoming(const QCString &ans)
+bool GsmTA::isIncoming(const Q3CString &ans)
 {
-    QCString answer = normalize(ans);
+    Q3CString answer = normalize(ans);
     if (matchResponse(answer, "+CLIP:")){
         QString number = getToken(answer, ',');
         if (!number.isEmpty() && (number[0] == '\"')){
@@ -428,7 +430,7 @@ bool GsmTA::isIncoming(const QCString &ans)
     return false;
 }
 
-bool GsmTA::matchResponse(QCString &answer, const char *responseToMatch)
+bool GsmTA::matchResponse(Q3CString &answer, const char *responseToMatch)
 {
     if (answer.left(strlen(responseToMatch)) == responseToMatch){
         answer = normalize(answer.data() + strlen(responseToMatch));
@@ -437,9 +439,9 @@ bool GsmTA::matchResponse(QCString &answer, const char *responseToMatch)
     return false;
 }
 
-QCString GsmTA::model() const
+Q3CString GsmTA::model() const
 {
-    QCString res = m_manufacturer;
+    Q3CString res = m_manufacturer;
     if (!m_model.isEmpty()){
         if (!res.isEmpty())
             res += " ";
@@ -448,7 +450,7 @@ QCString GsmTA::model() const
     return res;
 }
 
-QCString GsmTA::oper() const
+Q3CString GsmTA::oper() const
 {
     return m_operator;
 }
@@ -500,14 +502,14 @@ void GsmTA::getNextEntry()
     processQueue();
 }
 
-void GsmTA::parseEntry(const QCString &answ)
+void GsmTA::parseEntry(const Q3CString &answ)
 {
-    QCString answer = normalize(answ);
+    Q3CString answer = normalize(answ);
     unsigned index = getToken(answer, ',').toUInt();
     answer = normalize(answer);
     if (answer.isEmpty())
         return;
-    QCString phone;
+    Q3CString phone;
     if (answer[0] == '\"'){
         getToken(answer, '\"');
         phone = getToken(answer, '\"');
@@ -520,7 +522,7 @@ void GsmTA::parseEntry(const QCString &answ)
     answer = normalize(answer);
     getToken(answer, ',');
     answer = normalize(answer);
-    QCString name;
+    Q3CString name;
     if (answer[0] == '\"'){
         getToken(answer, '\"');
         name = getToken(answer, '\"');
@@ -562,7 +564,7 @@ void GsmTA::getPhoneBook()
     at("+CPBS=SM");
 }
 
-void GsmTA::parseEntriesList(const QCString &str)
+void GsmTA::parseEntriesList(const Q3CString &str)
 {
     for (unsigned i = 0; i < str.length(); i++){
         char c = str[(int)i];
@@ -649,9 +651,9 @@ GsmLatin1::GsmLatin1()
 
 static GsmLatin1 gsmTable;
 
-QCString GsmTA::gsmToLatin1(const QCString &str)
+Q3CString GsmTA::gsmToLatin1(const Q3CString &str)
 {
-    QCString res;
+    Q3CString res;
     for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
         if (*p >= 0x80)
             continue;
@@ -663,9 +665,9 @@ QCString GsmTA::gsmToLatin1(const QCString &str)
     return res;
 }
 
-QCString GsmTA::latin1ToGsm(const QCString &str)
+Q3CString GsmTA::latin1ToGsm(const Q3CString &str)
 {
-    QCString res;
+    Q3CString res;
     for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
         unsigned char c = gsmTable.latin1ToGsmTable[*p];
         if (c == GSM_NOP)
@@ -674,8 +676,4 @@ QCString GsmTA::latin1ToGsm(const QCString &str)
     }
     return res;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "gsm_ta.moc"
-#endif
 

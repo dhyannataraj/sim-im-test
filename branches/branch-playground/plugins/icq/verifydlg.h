@@ -19,12 +19,14 @@
 #define _VERIFYDLG_H
 
 #include "event.h"
-#include "verifydlgbase.h"
+#include "ui_verifydlgbase.h"
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 class QPixmap;
 
-class VerifyDlg : public VerifyDlgBase, public SIM::EventReceiver
+class VerifyDlg : public QDialog, public Ui::VerifyDlgBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

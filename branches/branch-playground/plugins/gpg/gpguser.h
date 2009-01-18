@@ -18,13 +18,13 @@
 #ifndef _GPGUSER_H
 #define _GPGUSER_H
 
-#include "gpguserbase.h"
+#include "ui_gpguserbase.h"
 
 struct GpgUserData;
 class GpgPlugin;
-class QProcess;
+class Q3Process;
 
-class GpgUser : public GpgUserBase
+class GpgUser : public QWidget, public Ui::GpgUserBase
 {
     Q_OBJECT
 public:
@@ -35,7 +35,7 @@ public slots:
     void refresh();
     void publicReady();
 protected:
-    QProcess   *m_process;
+    Q3Process   *m_process;
     QString     m_key;
 };
 

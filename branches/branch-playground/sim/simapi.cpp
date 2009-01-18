@@ -38,16 +38,16 @@
 #include <stdio.h>
 #include <qwidget.h>
 #include <qpixmap.h>
-#include <qiconset.h>
+#include <qicon.h>
 #include <qpushbutton.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qstringlist.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qdatetime.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qregexp.h>
 
 #include <qdesktopwidget.h>
@@ -595,7 +595,7 @@ EXPORT void disableWidget(QWidget *w)
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);
     }else if (w->inherits("QMulitLineEdit")){
-        static_cast<QMultiLineEdit*>(w)->setReadOnly(true);
+        static_cast<Q3MultiLineEdit*>(w)->setReadOnly(true);
     }else{
         w->setEnabled(false);
     }

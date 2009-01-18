@@ -18,16 +18,18 @@
 #ifndef _SPELLCFG_H
 #define _SPELLCFG_H
 
-#include "spellcfgbase.h"
+#include "ui_spellcfgbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class SpellPlugin;
-class QListViewItem;
+class Q3ListViewItem;
 
 #ifdef WIN32
 class SpellFind;
 #endif
 
-class SpellConfig : public SpellConfigBase
+class SpellConfig : public QWidget, public Ui::SpellConfigBase
 {
     Q_OBJECT
 public:
@@ -38,9 +40,9 @@ public slots:
     void find();
     void findFinished();
     void textChanged(const QString &str);
-    void langClicked(QListViewItem*);
+    void langClicked(Q3ListViewItem*);
 protected:
-    void setCheck(QListViewItem *item);
+    void setCheck(Q3ListViewItem *item);
     void resizeEvent(QResizeEvent *e);
 #ifdef WIN32
     SpellFind	*m_find;

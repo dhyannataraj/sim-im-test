@@ -21,10 +21,12 @@
 #include <vector>
 
 #include "qcolorbutton.h"
-#include "historycfgbase.h"
+//Added by qt3to4:
+#include <QEvent>
+#include "ui_historycfgbase.h"
 
 class CorePlugin;
-class QSyntaxHighlighter;
+class Q3SyntaxHighlighter;
 
 struct StyleDef
 {
@@ -35,7 +37,7 @@ struct StyleDef
     bool	operator < (const StyleDef &s) const { return name < s.name; }
 };
 
-class HistoryConfig : public HistoryConfigBase
+class HistoryConfig : public QWidget, public Ui::HistoryConfigBase
 {
     Q_OBJECT
 public:
@@ -66,7 +68,7 @@ protected:
     int  m_cur;
     int  m_edit;
     std::vector<StyleDef> m_styles;
-    QSyntaxHighlighter* highlighter;
+    Q3SyntaxHighlighter* highlighter;
 };
 
 #endif

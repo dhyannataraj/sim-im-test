@@ -22,6 +22,8 @@
 
 #include <qlineedit.h>
 #include <qtoolbutton.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 const unsigned long MessageICQ              = 0x100;
 const unsigned long MessageICQUrl           = 0x101;
@@ -60,7 +62,7 @@ public:
     ~ICQAuthMessage();
     PROP_STR(Charset);
     virtual QString getText() const;
-    virtual QCString save();
+    virtual Q3CString save();
     virtual unsigned baseType() { return m_baseType; }
 protected:
     unsigned m_baseType;
@@ -91,7 +93,7 @@ public:
     PROP_ULONG(Cookie);
     PROP_ULONG(Extended);
     virtual QString getDescription();
-    virtual QCString  save();
+    virtual Q3CString  save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     ICQFileMessageData data;
@@ -133,7 +135,7 @@ public:
     PROP_BOOL(Anonymous);
     PROP_USHORT(OldLevel);
     PROP_USHORT(NewLevel);
-    virtual QCString  save();
+    virtual Q3CString  save();
     QString presentation();
 protected:
     MessageWarningData data;

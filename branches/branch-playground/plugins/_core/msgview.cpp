@@ -21,6 +21,8 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 #include "icons.h"
 #include "html.h"
@@ -193,13 +195,13 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
     m_popupPos = QPoint(0, 0);
     xsl = NULL;
 
-    QStyleSheet *style = new QStyleSheet(this);
-    QStyleSheetItem *style_p = style->item("p");
+    Q3StyleSheet *style = new Q3StyleSheet(this);
+    Q3StyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTF's defaut look for paragraphs.
-    style_p->setMargin(QStyleSheetItem::MarginTop, 0);
-    style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
+    style_p->setMargin(Q3StyleSheetItem::MarginTop, 0);
+    style_p->setMargin(Q3StyleSheetItem::MarginBottom, 0);
     setStyleSheet(style);
 
     setColors();
@@ -351,8 +353,9 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         }
         if ((client == NULL) && getContacts()->nClients())
             client = getContacts()->getClient(0);
-        if (client){
-            for (def = client->protocol()->statusList(); def->text; def++){
+        if(client)
+		{
+            for (def = client->protocol()->statusList(); !def->text.isNull(); def++){
                 if (def->id == sm->getStatus()){
                     icon = def->icon;
                     status = i18n(def->text);
@@ -1118,7 +1121,7 @@ Message *MsgViewBase::currentMessage()
     return NULL;
 }
 
-QPopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
+Q3PopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
 {
     m_popupPos = pos;
     Command cmd;
@@ -1474,7 +1477,9 @@ QString MsgViewBase::parseText(const QString &text, bool bIgnoreColors, bool bUs
     return parser.parse(text);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "msgview.moc"
 #endif
+*/
 

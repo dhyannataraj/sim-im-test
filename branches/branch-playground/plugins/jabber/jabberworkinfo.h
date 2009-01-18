@@ -18,11 +18,13 @@
 #ifndef _JABBERWORKINFO_H
 #define _JABBERWORKINFO_H
 
-#include "jabberworkinfobase.h"
+#include "ui_jabberworkinfobase.h"
+#include "event.h"
 
+class JabberUserData;
 class JabberClient;
 
-class JabberWorkInfo : public JabberWorkInfoBase, public SIM::EventReceiver
+class JabberWorkInfo : public QWidget, public Ui::JabberWorkInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

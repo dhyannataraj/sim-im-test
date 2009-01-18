@@ -21,6 +21,8 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;
@@ -75,7 +77,7 @@ public:
 protected:
     virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
 };
 
 #endif

@@ -26,14 +26,17 @@
 #endif
 
 #ifndef WIN32
-#include <qurl.h>
+#include <q3url.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3MemArray>
 #endif
 
 using namespace std;
 using namespace SIM;
 
 #ifdef WIN32
-#include <qprocess.h>
+#include <q3process.h>
 #include <windows.h>
 #include <ddeml.h>
 
@@ -207,7 +210,7 @@ QString RegEntry::value(const QString &key)
     long size = 0;
     if (RegQueryValue(hKey, (LPCWSTR)key.ucs2(), NULL, &size) != ERROR_SUCCESS)
         return QString::null;
-    QMemArray<unsigned short> ba(size + 1);
+    Q3MemArray<unsigned short> ba(size + 1);
 	ba.fill(0);
     if (RegQueryValue(hKey, (LPCWSTR)key.ucs2(), (LPWSTR)ba.data(), &size) != ERROR_SUCCESS)
 		return QString::null;
@@ -456,7 +459,7 @@ bool NavigatePlugin::processEvent(Event *e)
             if (proto == "file")
                 url = url.mid(5);
 			//ShellExecuteA(NULL, NULL, url.data(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
-			QProcess openPathInExplorer;
+			Q3Process openPathInExplorer;
 			QString path(url);
 			//path.replace("%20", " ");
 			openPathInExplorer.addArgument("explorer");
@@ -484,11 +487,13 @@ bool NavigatePlugin::processEvent(Event *e)
             url = url.mid(proto.length() + 1);
         }else{
             param = getBrowser();
-			QUrl qurl(url);
+			Q3Url qurl(url);
 			QString encodedUrl = qurl.toString(true, false);
 			url = encodedUrl;
         }
-        EventExec(param, url).process();
+		QStringList ul;
+		ul.append(url);
+        EventExec(param, ul).process();
 #endif        
 #endif // WIN32
         return true;
@@ -586,7 +591,7 @@ bool NavigatePlugin::processEvent(Event *e)
     return false;
 }
 
-QCString NavigatePlugin::getConfig()
+Q3CString NavigatePlugin::getConfig()
 {
     return save_data(navigateData, &data);
 }

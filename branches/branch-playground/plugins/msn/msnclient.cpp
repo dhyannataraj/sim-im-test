@@ -31,6 +31,8 @@
 #include <qtimer.h>
 #include <qregexp.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "log.h"
 #include "core.h"
@@ -132,7 +134,7 @@ QWidget	*MSNClient::setupWnd()
     return new MSNConfig(NULL, this, false);
 }
 
-QCString MSNClient::getConfig()
+Q3CString MSNClient::getConfig()
 {
     QString listRequests;
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
@@ -141,7 +143,7 @@ QCString MSNClient::getConfig()
         listRequests += QString::number((*it).Type) + "," + it->Name;
     }
     setListRequests(listRequests);
-    QCString res = Client::getConfig();
+    Q3CString res = Client::getConfig();
     if (res.length())
         res += "\n";
     res += save_data(msnClientData, &data);
@@ -278,7 +280,7 @@ void MSNClient::packet_ready()
         m_msg = NULL;
     }
     for (;;){
-        QCString s;
+        Q3CString s;
         if (!socket()->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
@@ -463,11 +465,11 @@ void MSNClient::checkEndSync()
     connected();
 }
 
-void MSNClient::getLine(const QCString &line)
+void MSNClient::getLine(const Q3CString &line)
 {
     QString l = QString::fromUtf8(line);
     l = l.remove('\r');
-    QCString ll = l.local8Bit();
+    Q3CString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
     if ((cmd == "715") || (cmd == "228"))
@@ -1090,7 +1092,7 @@ QString MSNClient::unquote(const QString &s)
         i++;
         if (i + 2 > (int)(s.length()))
             break;
-        res += QChar((char)((fromHex(s[i]) << 4) + fromHex(s[i+1])));
+        res += QChar((char)((fromHex(s[i].toAscii()) << 4) + fromHex(s[i+1].toAscii())));
         i++;
     }
     return res;
@@ -1329,7 +1331,8 @@ bool MSNClient::processEvent(Event *e)
     case eEventAddContact: {
         EventAddContact *ec = static_cast<EventAddContact*>(e);
         EventAddContact::AddContact *ac = ec->addContact();
-        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+        if ((!ac->proto.isNull()) && !strcmp(protocol()->description()->text, ac->proto))
+		{
             Contact *contact = NULL;
             findContact(ac->addr, ac->nick, contact);
             if (contact && (contact->getGroup() != ac->group)){
@@ -1749,7 +1752,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
     MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned cmp_status = data->Status.toULong();
     const CommandDef *def;
-    for (def = protocol()->statusList(); def->text; def++){
+    for (def = protocol()->statusList(); !def->text.isNull(); def++){
         if (def->id == cmp_status)
             break;
     }
@@ -2022,7 +2025,7 @@ void SBSocket::packet_ready()
     for (;;){
         if (m_messageSize && !getMessage())
             break;
-        QCString s;
+        Q3CString s;
         if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
@@ -2071,7 +2074,7 @@ void SBSocket::send(const QString &cmd, const QString &args)
     m_socket->write();
 }
 
-void SBSocket::getLine(const QCString &_line)
+void SBSocket::getLine(const Q3CString &_line)
 {
     QString line = QString::fromUtf8(_line);
     QString cmd = getToken(line, ' ');
@@ -2593,7 +2596,7 @@ void SBSocket::process(bool bTyping)
     message += "MIME-Version: 1.0\r\n";
     message += "Content-Type: text/plain; charset=UTF-8\r\n";
     message += "X-MMS_IM-Format: ";
-    if (msg->getFont()){
+    if (!msg->getFont().isNull()){
         QString font = msg->getFont();
         if (!font.isEmpty()){
             QString font_type;
@@ -2724,6 +2727,3 @@ bool SBSocket::declineMessage(Message *msg, const QString &reason)
     return false;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "msnclient.moc"
-#endif

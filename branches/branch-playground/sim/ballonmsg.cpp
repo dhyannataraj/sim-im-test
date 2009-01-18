@@ -19,17 +19,26 @@
 
 #include <qapplication.h>
 #include <qbitmap.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qimage.h>
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qpainter.h>
-#include <qpointarray.h>
+#include <q3pointarray.h>
 #include <qpushbutton.h>
-#include <qsimplerichtext.h>
-#include <qstylesheet.h>
+#include <q3simplerichtext.h>
+#include <q3stylesheet.h>
 #include <qtimer.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <QPaintEvent>
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QEvent>
+#include <Q3VBoxLayout>
+#include <Q3MimeSourceFactory>
+#include <QDesktopWidget>
 
 #include "misc.h"
 #include "unquot.h"
@@ -58,7 +67,7 @@ SIM_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
     int pixels = image.depth() > 8 ? image.width()*image.height() :
                  image.numColors();
     unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
-                         (unsigned int *)image.colorTable();
+                         (unsigned int *)image.colorTable().data();
 
     bool brighten = (percent >= 0);
     if(percent < 0)
@@ -112,8 +121,8 @@ SIM_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWidget *parent, const QRect *rcParent,
                        bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
         : QDialog(parent, "ballon", bModal,
-                  (bAutoHide ? WType_Popup : WType_TopLevel | WStyle_StaysOnTop)
-                  | WStyle_Customize | WStyle_NoBorderEx | WStyle_Tool | WDestructiveClose | WX11BypassWM)
+                  (bAutoHide ? Qt::WType_Popup : Qt::WType_TopLevel | Qt::WStyle_StaysOnTop)
+                  | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WDestructiveClose | Qt::WX11BypassWM)
 {
     m_param = param;
     m_parent = parent;
@@ -124,9 +133,9 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
-    QFrame *frm = new QFrame(this);
+    Q3Frame *frm = new Q3Frame(this);
     frm->setPalette(palette());
-    QVBoxLayout *vlay = new QVBoxLayout(frm);
+    Q3VBoxLayout *vlay = new Q3VBoxLayout(frm);
     vlay->setMargin(0);
     m_check = NULL;
     if (!box_msg.isEmpty()){
@@ -135,7 +144,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
         if (m_bChecked)
             m_check->setChecked(*m_bChecked);
     }
-    QHBoxLayout *lay = new QHBoxLayout(vlay);
+    Q3HBoxLayout *lay = new Q3HBoxLayout(vlay);
     lay->setSpacing(5);
     lay->addStretch();
     unsigned id = 0;
@@ -164,7 +173,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     }
     if (rc.width() > txtWidth) txtWidth = rc.width();
 
-    QSimpleRichText richText(_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+    Q3SimpleRichText richText(_text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.setWidth(wndWidth);
     richText.adjustSize();
     QSize s(richText.widthUsed(), richText.height());
@@ -233,7 +242,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     p.drawEllipse(w - BALLOON_R * 2 + BALLOON_SHADOW, pos + BALLOON_SHADOW, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(w - BALLOON_R * 2 + BALLOON_SHADOW, pos + h - BALLOON_R * 2 + BALLOON_SHADOW, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(BALLOON_SHADOW, pos + h - BALLOON_R * 2 + BALLOON_SHADOW, BALLOON_R * 2, BALLOON_R * 2);
-    QPointArray arr(3);
+    Q3PointArray arr(3);
     arr.setPoint(0, tailX, bTailDown ? h : pos);
     arr.setPoint(1, tailX + BALLOON_TAIL_WIDTH, bTailDown ? h : pos);
     arr.setPoint(2, tailX - BALLOON_TAIL_WIDTH, bTailDown ? height() - BALLOON_SHADOW : 0);
@@ -272,9 +281,9 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     }
     p.end();
     setBackgroundPixmap(pict);
-    setAutoMask(true);
+    //setAutoMask(true);
     if (!bAutoHide)
-        setFocusPolicy(NoFocus);
+        setFocusPolicy(Qt::NoFocus);
 
     QWidget *top = NULL;
     if (parent)
@@ -309,7 +318,7 @@ bool BalloonMsg::eventFilter(QObject *o, QEvent *e)
 void BalloonMsg::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+    Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.setWidth(m_width);
     richText.adjustSize();
     richText.draw(&p, (width() - textRect.width()) / 2, textRect.y(), QRect(0, 0, width(), height()), QToolTip::palette().active());
@@ -385,7 +394,9 @@ void BalloonButton::click()
 }
 
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "ballonmsg.moc"
 #endif
+*/
 

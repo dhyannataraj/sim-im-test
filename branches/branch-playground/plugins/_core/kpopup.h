@@ -19,12 +19,20 @@
 #define _KPOPUP_H "$Id: kpopupmenu.h 465272 2005-09-29 09:47:40Z mueller $"
 
 #include "simapi.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QHideEvent>
+#include <QMouseEvent>
+#include <QContextMenuEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
+#include <QPaintEvent>
 
 #ifndef USE_KDE
 
 #define INCLUDE_MENUITEM_DEF
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 /**
  * @short KPopupMenu title widget.
  *
@@ -103,7 +111,7 @@ private:
  * @author Daniel M. Duley <mosfet@kde.org>
  * @author Hamish Rodda <rodda@kde.org>
  */
-class KPopupMenu : public QPopupMenu {
+class KPopupMenu : public Q3PopupMenu {
     Q_OBJECT
 public:
     /**
@@ -186,13 +194,13 @@ public:
      * Returns the context menu associated with this menu
      * @since 3.2
      */
-    QPopupMenu* contextMenu();
+    Q3PopupMenu* contextMenu();
 
     /**
      * Returns the context menu associated with this menu
      * @since 3.2
      */
-    const QPopupMenu* contextMenu() const;
+    const Q3PopupMenu* contextMenu() const;
 
     /**
      * Hides the context menu if shown
@@ -232,7 +240,7 @@ signals:
      * @param ctxMenu The context menu itself
      * @since 3.2
      */
-    void aboutToShowContextMenu(KPopupMenu* menu, int menuItem, QPopupMenu* ctxMenu);
+    void aboutToShowContextMenu(KPopupMenu* menu, int menuItem, Q3PopupMenu* ctxMenu);
 
 protected:
     virtual void closeEvent(QCloseEvent *);

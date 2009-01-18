@@ -20,9 +20,9 @@
 
 #include "event.h"
 
-#include "infoproxybase.h"
+#include "ui_infoproxybase.h"
 
-class InfoProxy : public InfoProxyBase, public SIM::EventReceiver
+class InfoProxy : public QWidget, public Ui::InfoProxyBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

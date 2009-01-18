@@ -18,7 +18,10 @@
 #include "simapi.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QEvent>
 
 #ifdef WIN32
 #include <windows.h>
@@ -185,7 +188,7 @@ bool OnTopPlugin::processEvent(Event *e)
     return false;
 }
 
-QCString OnTopPlugin::getConfig()
+Q3CString OnTopPlugin::getConfig()
 {
     getState();
     return save_data(onTopData, &data);
@@ -193,17 +196,19 @@ QCString OnTopPlugin::getConfig()
 
 QWidget *OnTopPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
-        if (w->inherits("MainWindow")){
-            delete list;
-            return w;
-        }
-    }
-    delete list;
+    QWidgetList list = QApplication::topLevelWidgets();
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+
+		QWidget *w = *it;
+		while((w = *it) != 0)
+		{
+			if (w->inherits("MainWindow"))
+			{
+				return w;
+			}
+		}
+	}
     return NULL;
 }
 
@@ -242,29 +247,30 @@ void OnTopPlugin::setState()
 #endif
 #endif
     }
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w;
-    while ((w = it.current()) != NULL){
-        ++it;
-        if (w->inherits("Container")){
+    QWidgetList list = QApplication::topLevelWidgets();
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget *w = *it;
+			if (w->inherits("Container")){
 #ifdef WIN32
-            HWND hState = HWND_NOTOPMOST;
-            if (getContainerOnTop()) hState = HWND_TOPMOST;
-            SetWindowPos(w->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+				HWND hState = HWND_NOTOPMOST;
+				if (getContainerOnTop()) hState = HWND_TOPMOST;
+				SetWindowPos(w->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
-            if (getContainerOnTop()){
-                KWin::setState(w->winId(), NET::StaysOnTop);
-            }else{
-                KWin::clearState(w->winId(), NET::StaysOnTop);
-            }
+				if (getContainerOnTop())
+				{
+					KWin::setState(w->winId(), NET::StaysOnTop);
+				}
+				else
+				{
+					KWin::clearState(w->winId(), NET::StaysOnTop);
+				}
 #endif
 #endif
-        }
-    }
-    delete list;
-}
+			}
+		}
+	}
 
 #if defined(USE_KDE) || defined(WIN32)
 QWidget *OnTopPlugin::createConfigWindow(QWidget *parent)
@@ -318,6 +324,3 @@ bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "ontop.moc"
-#endif

@@ -28,6 +28,9 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 #include "log.h"
 
@@ -233,7 +236,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     unsigned char type, flag;
                     struct tm sendTM;
                     memset(&sendTM, 0, sizeof(sendTM));
-                    QCString message;
+                    Q3CString message;
                     unsigned short year;
                     unsigned char month, day, hours, min;
                     msg.unpack(uin);
@@ -389,7 +392,7 @@ QString FullInfoRequest::unpack_list(ICQBuffer &b, Contact *contact)
     for (; n > 0; n--){
         unsigned short c;
         b.unpack(c);
-        QCString s;
+        Q3CString s;
         b >> s;
         if (c == 0) continue;
         if (res.length())
@@ -423,8 +426,8 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
             char webAware;
             char allowDC;
             char hideEmail;
-            QCString Nick, FirstName, LastName, EMail, City, State;
-            QCString HomePhone, HomeFax, Address, PrivateCellular, Zip;
+            Q3CString Nick, FirstName, LastName, EMail, City, State;
+            Q3CString HomePhone, HomeFax, Address, PrivateCellular, Zip;
             b
             >> Nick
             >> FirstName
@@ -466,7 +469,7 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
         }
     case ICQ_SRVxMORE_INFO:{
             char c;
-            QCString Homepage;
+            Q3CString Homepage;
             b >> c;
             data->Age.asULong() = c;
             b >> c;
@@ -496,7 +499,7 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
             for (;c > 0;c--){
                 char d;
                 b >> d;
-                QCString s;
+                Q3CString s;
                 b >> s;
                 if (mail.length())
                     mail += ';';
@@ -510,8 +513,8 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
         }
     case ICQ_SRVxWORK_INFO:{
             unsigned short n;
-            QCString WorkCity, WorkState, WorkPhone, WorkFax, WorkAddress, WorkZip;
-            QCString WorkName, WorkDepartment, WorkPosition, WorkHomepage;
+            Q3CString WorkCity, WorkState, WorkPhone, WorkFax, WorkAddress, WorkZip;
+            Q3CString WorkName, WorkDepartment, WorkPosition, WorkHomepage;
             b
             >> WorkCity
             >> WorkState
@@ -543,7 +546,7 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
             break;
         }
     case ICQ_SRVxABOUT_INFO: {
-            QCString About;
+            Q3CString About;
             b >> About;
             data->About.str() = getContacts()->toUnicode(contact, About);
             break;
@@ -689,7 +692,7 @@ void SearchWPRequest::fail(unsigned short)
 
 bool SearchWPRequest::answer(ICQBuffer &b, unsigned short nSubType)
 {
-    QCString Nick, FirstName, LastName, EMail;
+    Q3CString Nick, FirstName, LastName, EMail;
     SearchResult res;
     res.id = m_id;
     res.client = m_client;
@@ -767,12 +770,12 @@ unsigned short ICQClient::findByMail(const QString &_mail)
 {
     if (getState() != Connected)
         return (unsigned short)~0U;
-    QCString mail = getContacts()->fromUnicode(NULL, _mail);
+    Q3CString mail = getContacts()->fromUnicode(NULL, _mail);
 
     serverRequest(ICQ_SRVxREQ_MORE);
     socket()->writeBuffer()
     << ICQ_SRVxREQ_WP_MAIL;
-    socket()->writeBuffer().tlvLE(TLV_EMAIL, mail);
+    socket()->writeBuffer().tlvLE(TLV_EMAIL, mail.data());
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;
@@ -782,7 +785,7 @@ void ICQClient::packTlv(unsigned short tlv, unsigned short code, const QString &
 {
     if ((code == 0) && _keywords.isEmpty())
         return;
-    QCString data = getContacts()->fromUnicode(NULL, _keywords);
+    Q3CString data = getContacts()->fromUnicode(NULL, _keywords);
 
     ICQBuffer b;
     b.pack(code);
@@ -794,8 +797,8 @@ void ICQClient::packTlv(unsigned short tlv, const QString &_data)
 {
     if(_data.isEmpty())
         return;
-    QCString data = getContacts()->fromUnicode(NULL, _data);
-    socket()->writeBuffer().tlvLE(tlv, data);
+    Q3CString data = getContacts()->fromUnicode(NULL, _data);
+    socket()->writeBuffer().tlvLE(tlv, data.data());
 }
 
 void ICQClient::packTlv(unsigned short tlv, unsigned short data)
@@ -949,7 +952,7 @@ bool SetMainInfoRequest::answer(ICQBuffer&, unsigned short)
 // ******************************************
 static Tlv makeSString(unsigned id, const QString &str)
 {
-    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    Q3CString cstr = getContacts()->fromUnicode(NULL, str);
     unsigned len = cstr.length() + 1; // including '\0'
     QByteArray ba( len + 2 );
     ba[0] = (char)((len     ) & 0xff);
@@ -971,7 +974,7 @@ static Tlv makeBCombo(unsigned id, unsigned long y, unsigned long m, unsigned lo
 
 static Tlv makeECombo(unsigned id, const QString &str)
 {
-    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    Q3CString cstr = getContacts()->fromUnicode(NULL, str);
     unsigned len = cstr.length() + 1; // including '\0'
     QByteArray ba( len + 3 );
     ba[0] = (char)((len     ) & 0xff);
@@ -981,13 +984,13 @@ static Tlv makeECombo(unsigned id, const QString &str)
     return Tlv( id, ba.size(), ba.data() );
 }
 
-static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
+static Q3ValueList<Tlv> makeICombo(unsigned id, const QString &str)
 {
-    QValueList<Tlv> list;
+    Q3ValueList<Tlv> list;
     if ( str.isEmpty() )
         return list;
 
-    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    Q3CString cstr = getContacts()->fromUnicode(NULL, str);
     int cur = 0;
     int idx = 0;
     do {
@@ -1019,7 +1022,7 @@ static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
             }
         } while (idx == -1);
 
-        QCString data = cstr.mid( start_pos, idx - start_pos );
+        Q3CString data = cstr.mid( start_pos, idx - start_pos );
         cur = idx + 1;
 
         int len = data.length();
@@ -1086,7 +1089,7 @@ static QString getECombo(const char *tlvData)
     unsigned len;
     const unsigned char *data = (const unsigned char*)tlvData;
     len = data[0] | ( data[1] << 8 );
-    QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
+    QString ret = getContacts()->toUnicode(NULL, Q3CString( &tlvData[2], len));
     return ret;
 }
 
@@ -1129,14 +1132,14 @@ static char getUInt8(const char *tlvData)
 class ChangeInfoRequest : public ServerRequest
 {
 public:
-    ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs);
+    ChangeInfoRequest(ICQClient *client, unsigned short id, const Q3ValueList<Tlv> &clientInfoTLVs);
 protected:
     bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
-    QValueList<Tlv> m_clientInfoTLVs;
+    Q3ValueList<Tlv> m_clientInfoTLVs;
 };
 
-ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs)
+ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const Q3ValueList<Tlv> &clientInfoTLVs)
         : ServerRequest(id), m_client(client), m_clientInfoTLVs(clientInfoTLVs)
 {
 }
@@ -1333,7 +1336,7 @@ void ICQClient::setClientInfo(void *_data)
         return;
     }
 
-    QValueList<Tlv> clientInfoTLVs;
+    Q3ValueList<Tlv> clientInfoTLVs;
 
     if (d->FirstName.str() != data.owner.FirstName.str())
         clientInfoTLVs.append(makeSString(TLV_FIRST_NAME, d->FirstName.str()));
@@ -1546,7 +1549,7 @@ bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
     if (code == 0x0100){
         if (m_client->smsQueue.empty())
             return true;
-        QCString errStr = b.data(b.readPos());
+        Q3CString errStr = b.data(b.readPos());
         SendMsg &s = m_client->smsQueue.front();
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
         m_client->smsQueue.erase(m_client->smsQueue.begin());
@@ -1555,8 +1558,8 @@ bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
         delete sms;
     }else{
         b.incReadPos(6);
-        QCString provider;
-        QCString answer_QCString;
+        Q3CString provider;
+        Q3CString answer_QCString;
         b.unpackStr(provider);
         b.unpackStr(answer_QCString);
 // FIXME

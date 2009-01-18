@@ -17,6 +17,9 @@
 
 #include <qtimer.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3ValueList>
 
 #include "misc.h"
 #include "core_consts.h"
@@ -62,7 +65,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 {
     load_data(monitorData, &data, config);
 
-    if (getLogPackets()){
+    if (!getLogPackets().isNull()){
         QString packets = getLogPackets();
         while (packets.length()){
             QString v = getToken(packets, ',');
@@ -97,12 +100,12 @@ NetmonitorPlugin::~NetmonitorPlugin()
     free_data(monitorData, &data);
 }
 
-QCString NetmonitorPlugin::getConfig()
+Q3CString NetmonitorPlugin::getConfig()
 {
     saveState();
     setShow(monitor != NULL);
     QString packets;
-    QValueList<unsigned>::ConstIterator it;
+    Q3ValueList<unsigned>::ConstIterator it;
     for (it = m_packets.constBegin(); it != m_packets.constEnd(); ++it){
         if (packets.length())
             packets += ',';
@@ -119,7 +122,7 @@ bool NetmonitorPlugin::isLogType(unsigned id)
 
 void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
 {
-    QValueList<unsigned>::iterator it = m_packets.find(id);
+    Q3ValueList<unsigned>::iterator it = m_packets.find(id);
     if (bLog){
         if (it == m_packets.end())
             m_packets.push_back(id);
@@ -176,6 +179,3 @@ void NetmonitorPlugin::saveState()
     saveGeometry(monitor, data.geometry);
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "netmonitor.moc"
-#endif

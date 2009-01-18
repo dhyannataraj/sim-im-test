@@ -19,12 +19,12 @@
 #define _PROXYERROR_H
 
 #include "socket.h"
-#include "proxyerrorbase.h"
+#include "ui_proxyerrorbase.h"
 
 class ProxyConfig;
 class ProxyPlugin;
 
-class ProxyError : public ProxyErrorBase, public SIM::EventReceiver
+class ProxyError : public QDialog, public Ui::ProxyErrorBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

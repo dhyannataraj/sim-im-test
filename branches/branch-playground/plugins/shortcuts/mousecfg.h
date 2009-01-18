@@ -18,11 +18,12 @@
 #ifndef _MOUSECFG_H
 #define _MOUSECFG_H
 
-#include "mousecfgbase.h"
+#include "ui_mousecfgbase.h"
+#include <QResizeEvent>
 
 class ShortcutsPlugin;
 
-class MouseConfig : public MouseConfigBase
+class MouseConfig : public QWidget, public Ui::MouseConfigBase
 {
     Q_OBJECT
 public:

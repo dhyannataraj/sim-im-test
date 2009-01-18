@@ -18,12 +18,14 @@
 #ifndef _MENUCFG_H
 #define _MENUCFG_H
 
-#include "menucfgbase.h"
+#include "ui_menucfgbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
 
-class QListViewItem;
+class Q3ListViewItem;
 struct ActionUserData;
 
-class MenuConfig : public MenuConfigBase
+class MenuConfig : public QWidget, public Ui::MenuConfigBase
 {
     Q_OBJECT
 public:
@@ -31,7 +33,7 @@ public:
     virtual ~MenuConfig();
 public slots:
     void apply(void*);
-    void selectionChanged(QListViewItem*);
+    void selectionChanged(Q3ListViewItem*);
     void add();
     void edit();
     void remove();

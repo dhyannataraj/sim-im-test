@@ -20,11 +20,14 @@
 #include "toolsetup.h"
 #include "core.h"
 #include "cmenu.h"
+#include "log.h"
 
 #include <qapplication.h>
-#include <qpopupmenu.h>
-#include <qwidgetlist.h>
-#include <qaccel.h>
+#include <q3popupmenu.h>
+#include <qwidget.h>
+#include <q3accel.h>
+//Added by qt3to4:
+#include <QEvent>
 
 using namespace SIM;
 
@@ -141,11 +144,12 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         CommandDef *cmd;
         while ((cmd = ++list) !=NULL){
             int cmdKey;
-            if ((key & ALT) && ((key & ~MODIFIER_MASK) != Key_Alt)){
+            if ((key & Qt::ALT) && ((key & ~Qt::MODIFIER_MASK) != Qt::Key_Alt)){
                 if (cmd->text.isEmpty())
                     continue;
-                cmdKey = QAccel::shortcutKey(i18n(cmd->text));
-                if ((cmdKey & ~UNICODE_ACCEL) == key){
+                cmdKey = Q3Accel::shortcutKey(i18n(cmd->text));
+                if((cmdKey & ~Qt::UNICODE_ACCEL) == key)
+				{
                     cmd->param = param;
                     EventCommandExec eCmd(cmd);
                     if (eCmd.process())
@@ -154,7 +158,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             }
             if (cmd->accel.isEmpty())
                 continue;
-            cmdKey = QAccel::stringToKey(i18n(cmd->accel));
+            cmdKey = Q3Accel::stringToKey(i18n(cmd->accel));
             if (cmdKey == key){
                 cmd->param = param;
                 EventCommandExec eCmd(cmd);
@@ -185,59 +189,66 @@ CommandsDef *Commands::getDef(unsigned id)
 
 bool Commands::processEvent(Event *e)
 {
-    switch (e->type()){
-    case eEventPluginsUnload:
-        clear();
-        break;
-    case eEventToolbar: {
-        EventToolbar *et = static_cast<EventToolbar*>(e);
-        switch(et->action()) {
-            case EventToolbar::eAdd:
-                createBar(et->id());
-                break;
-            case EventToolbar::eShow:
-                et->setToolbar(show(et->id(), et->parent()));
-                break;
-            case EventToolbar::eRemove:
-                removeBar(et->id());
-                break;
-        }
-        return true;
-    }
-    case eEventMenu: {
-        EventMenu *em = static_cast<EventMenu*>(e);
-        switch(em->action()) {
-            case EventMenu::eAdd:
-                createMenu(em->id());
-                break;
-            case EventMenu::eRemove:
-                removeMenu(em->id());
-                break;
-            case EventMenu::eCustomize:
-                customizeMenu(em->id());
-                break;
-        }
-        return true;
-    }
-    case eEventMenuGet: {
-        EventMenuGet *egm = static_cast<EventMenuGet*>(e);
-        egm->setMenu(get(egm->def()));
-        return true;
-    }
-    case eEventMenuGetDef: {
-        EventMenuGetDef *mgd = static_cast<EventMenuGetDef*>(e);
-        mgd->setCommandsDef(getDef(mgd->id()));
-        return true;
-    }
-    case eEventMenuProcess: {
-        EventMenuProcess *emp = static_cast<EventMenuProcess*>(e);
-        emp->setMenu(processMenu(emp->id(), emp->param(), emp->key()));
-        return true;
-    }
-    default:
-        break;
-    }
-    return false;
+	switch (e->type())
+	{
+		case eEventPluginsUnload:
+			clear();
+			break;
+		case eEventToolbar:
+			{
+				EventToolbar *et = static_cast<EventToolbar*>(e);
+				switch(et->action())
+				{
+					case EventToolbar::eAdd:
+						createBar(et->id());
+						break;
+					case EventToolbar::eShow:
+						et->setToolbar(show(et->id(), et->parent()));
+						break;
+					case EventToolbar::eRemove:
+						removeBar(et->id());
+						break;
+				}
+				return true;
+			}
+		case eEventMenu:
+			{
+				EventMenu *em = static_cast<EventMenu*>(e);
+				switch(em->action()) {
+					case EventMenu::eAdd:
+						createMenu(em->id());
+						break;
+					case EventMenu::eRemove:
+						removeMenu(em->id());
+						break;
+					case EventMenu::eCustomize:
+						customizeMenu(em->id());
+						break;
+				}
+				return true;
+			}
+		case eEventMenuGet:
+			{
+				EventMenuGet *egm = static_cast<EventMenuGet*>(e);
+				egm->setMenu(get(egm->def()));
+				return true;
+			}
+		case eEventMenuGetDef:
+			{
+				EventMenuGetDef *mgd = static_cast<EventMenuGetDef*>(e);
+				mgd->setCommandsDef(getDef(mgd->id()));
+				return true;
+			}
+		case eEventMenuProcess:
+			{
+				EventMenuProcess *emp = static_cast<EventMenuProcess*>(e);
+				emp->setMenu(processMenu(emp->id(), emp->param(), emp->key()));
+				return true;
+			}
+		default:
+			break;
+	}
+	return false;
 }
 
 bool Commands::eventFilter(QObject *o, QEvent *e)
@@ -254,7 +265,7 @@ bool Commands::eventFilter(QObject *o, QEvent *e)
                     id = bar->m_def->id();
                 }
                 if (id){
-                    QPopupMenu *popup = static_cast<QPopupMenu*>(o);
+                    Q3PopupMenu *popup = static_cast<Q3PopupMenu*>(o);
                     popup->insertItem(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
                     cur_id = id;
                 }
@@ -274,24 +285,22 @@ void Commands::popupActivated()
 
 void Commands::customize(CommandsDef *def)
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget * w;
-    ToolBarSetup *wnd = NULL;
-    while ( (w=it.current()) != 0 ){
-        ++it;
-        if (!w->inherits("ToolBarSetup"))
-            continue;
-        ToolBarSetup *swnd = static_cast<ToolBarSetup*>(w);
-        if (swnd->m_def != def)
-            continue;
-        wnd = swnd;
-        break;
-    }
+    QWidgetList list = QApplication::topLevelWidgets();
+	ToolBarSetup *wnd = NULL;
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget * w = *it;
+		if(!w->inherits("ToolBarSetup"))
+			continue;
+		ToolBarSetup *swnd = static_cast<ToolBarSetup*>(w);
+		if (swnd->m_def != def)
+			continue;
+		wnd = swnd;
+		break;
+	}
     if (wnd == NULL)
         wnd = new ToolBarSetup(this, def);
     raiseWindow(wnd);
-    delete list;
 }
 
 void Commands::customizeMenu(unsigned long id)
@@ -313,8 +322,4 @@ void Commands::set(CommandsDef *def, const char *str)
         EventToolbarChanged(def).process();
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "commands.moc"
-#endif
 

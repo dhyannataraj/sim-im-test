@@ -34,7 +34,7 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -157,7 +157,9 @@ bool MsgUrl::processEvent(Event *e)
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "msgurl.moc"
 #endif
+*/
 

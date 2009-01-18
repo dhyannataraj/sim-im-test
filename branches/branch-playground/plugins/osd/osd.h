@@ -23,6 +23,9 @@
 #include <qpixmap.h>
 #include <qwidget.h>
 #include <qthread.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QPaintEvent>
 
 #include "cfg.h"
 #include "event.h"
@@ -121,7 +124,7 @@ protected:
 	uint transCounter;
 };
 
-class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
+class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver//, public QThread
 {
     Q_OBJECT
 public:

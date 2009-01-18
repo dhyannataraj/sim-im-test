@@ -26,6 +26,10 @@
 #include <time.h>
 #include <qthread.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QCustomEvent>
+#include <Q3CString>
+#include <QEvent>
 
 #include "fetch.h"
 #include "buffer.h"
@@ -71,7 +75,7 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void write_ready();
-    bool read_line(QCString &line);
+    bool read_line(Q3CString &line);
     ClientSocket *m_socket;
     unsigned	m_postSize;
     unsigned	m_received;
@@ -304,7 +308,7 @@ void FetchThread::run()
         return;
     }
     QString str = QString::fromUcs2((unsigned short*)ba.data());
-    QCString cstr = str.latin1();
+    Q3CString cstr = str.latin1();
     Buffer buf(cstr.length() + 1);
     memcpy(buf.data(), cstr.data(), cstr.length() + 1);
     EventLog::log_packet(buf, false, HTTPPacket);
@@ -659,11 +663,11 @@ bool FetchClientPrivate::findHeader(const QString &key)
     return (it != m_hOut.end());
 }
 
-QCString basic_auth(const QString &user, const QString &pass)
+Q3CString basic_auth(const QString &user, const QString &pass)
 {
     QString auth = user + ':' + pass;
     Buffer from(auth.local8Bit());
-    QCString cstr = Buffer::toBase64(from);
+    Q3CString cstr = Buffer::toBase64(from);
     return cstr;
 }
 
@@ -725,12 +729,12 @@ void FetchClientPrivate::connect_ready()
     unsigned postSize = m_client->post_size();
     m_socket->writeBuffer()
     << ((postSize != NO_POSTSIZE) ? "POST " : "GET ")
-    << uri.data()
+    << (char*)uri.data()
     << " HTTP/1.0\r\n";
     if (!findHeader("Host"))
         m_socket->writeBuffer()
         << "Host: "
-        << host.data()
+        << (char*)host.data()
         << "\r\n";
     if (!findHeader("User-Agent"))
         m_socket->writeBuffer()
@@ -738,7 +742,7 @@ void FetchClientPrivate::connect_ready()
     if (!findHeader("Authorization") && !user.isEmpty())
         m_socket->writeBuffer()
         << "Authorization: basic "
-        << basic_auth(user.data(), pass.data()).data()
+        << basic_auth(user, pass).data()
         << "\r\n";
     if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))
@@ -817,8 +821,8 @@ void FetchClientPrivate::packet_ready()
             return;
         }
         EventLog::log_packet(m_socket->readBuffer(), false, HTTPPacket);
-        QCString line;
-        QCString opt;
+        Q3CString line;
+        Q3CString opt;
         if (!read_line(line)){
             m_socket->readBuffer().init(0);
             m_socket->readBuffer().packetStart();
@@ -892,7 +896,7 @@ void FetchClientPrivate::packet_ready()
     }
 }
 
-bool FetchClientPrivate::read_line(QCString &line)
+bool FetchClientPrivate::read_line(Q3CString &line)
 {
     while (m_socket->readBuffer().readPos() < m_socket->readBuffer().writePos()){
         char c;
@@ -962,8 +966,10 @@ QString get_user_agent()
 #endif    
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "fetch.moc"
 #endif
+*/
 
 

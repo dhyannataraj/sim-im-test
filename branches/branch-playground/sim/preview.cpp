@@ -20,13 +20,16 @@
 #include <kpreviewwidgetbase.h>
 #include <kurl.h>
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qimage.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <QPixmap>
 
 FilePreview::FilePreview(QWidget *parent)
 #ifdef USE_KDE
@@ -63,7 +66,7 @@ void FilePreview::clearPreview()
 
 #else
 
-void FilePreview::previewUrl(const QUrl &url)
+void FilePreview::previewUrl(const Q3Url &url)
 {
     if (!url.isLocalFile()){
         showPreview(NULL);
@@ -81,15 +84,16 @@ PictPreview::PictPreview(QWidget *parent)
         : FilePreview(parent)
 {
     label = new QLabel(this);
-    label->setAlignment(AlignHCenter | AlignVCenter);
+    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     label->setMinimumSize(QSize(70, 70));
-    QVBoxLayout *lay = new QVBoxLayout(this);
+    Q3VBoxLayout *lay = new Q3VBoxLayout(this);
     lay->addWidget(label);
 }
 
 void PictPreview::showPreview(const QString &file)
 {
-    if (file == NULL){
+    if(file.isEmpty())
+	{
         label->setPixmap(QPixmap());
         return;
     }

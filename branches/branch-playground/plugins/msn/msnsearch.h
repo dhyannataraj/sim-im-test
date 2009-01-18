@@ -20,12 +20,14 @@
 
 #include "contacts.h"
 
-#include "msnsearchbase.h"
+#include "ui_msnsearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class MSNClient;
 class GroupRadioButton;
 
-class MSNSearch : public MSNSearchBase
+class MSNSearch : public QWidget, public Ui::MSNSearchBase
 {
     Q_OBJECT
 public:

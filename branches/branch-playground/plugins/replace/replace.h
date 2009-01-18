@@ -19,6 +19,9 @@
 #define _REPLACE_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QEvent>
 
 #include "cfg.h"
 #include "plugins.h"
@@ -40,7 +43,7 @@ public:
     PROP_UTFLIST(Key)
     PROP_UTFLIST(Value)
 protected:
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     bool eventFilter(QObject *o, QEvent *e);
     ReplaceData data;

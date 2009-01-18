@@ -32,9 +32,10 @@
 
 using SIM::getContacts;
 
-SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
-        : SoundConfigBase(parent)
+SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin) : QWidget(parent)
+        //: SoundConfigBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     user_cfg = NULL;
 #ifdef USE_KDE
@@ -116,8 +117,4 @@ void SoundConfig::artsToggled(bool)
     lblPlayer->setEnabled(!chkArts->isChecked());
     edtPlayer->setEnabled(!chkArts->isChecked());
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "soundconfig.moc"
-#endif
 

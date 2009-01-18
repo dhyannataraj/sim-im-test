@@ -180,7 +180,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
-                if(f.open(IO_WriteOnly))
+                if(f.open(QIODevice::WriteOnly))
                   f.writeBlock(icon);
                 else
                   log(L_WARN, QString("Can't open %1").arg(filename));
@@ -223,7 +223,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
-                if(f.open(IO_WriteOnly))
+                if(f.open(QIODevice::WriteOnly))
                   f.writeBlock(icon);
                 else
                   log(L_WARN, QString("Can't open %1").arg(filename));
@@ -284,20 +284,23 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
     }
 
     QByteArray ba;
-    QBuffer buf(ba);
+    QBuffer buf(&ba);
     unsigned short len;
-    if(!buf.open(IO_WriteOnly)) {
+    if(!buf.open(QIODevice::WriteOnly))
+	{
         log(L_ERROR, "Can't open QByteArray for writing!");
         return;
     }
-    if(!img.save(&buf, "JPEG")) {
+    if(!img.save(&buf, "JPEG"))
+	{
         log(L_ERROR, "Can't save QImage to QBuffer");
         return;
     }
     buf.close();
 
     len = ba.size();
-    if(ba.size() > 0xffff) {
+    if(ba.size() > 0xffff)
+	{
         log(L_ERROR, "Image is to big (max: %d bytes)", 0xffff);
         len = 0xffff;
     }
@@ -337,6 +340,3 @@ void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, con
     sendPacket();
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "icqssbi.moc"
-#endif

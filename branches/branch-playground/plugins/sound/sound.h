@@ -22,7 +22,9 @@
 
 #include <qobject.h>
 #include <qthread.h>
-#include <qprocess.h>
+#include <q3process.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -82,7 +84,7 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
+class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver//, public QThread
 
 {
     Q_OBJECT
@@ -107,7 +109,7 @@ protected slots:
 protected:
     unsigned long user_data_id;
     virtual bool processEvent(SIM::Event *e);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 	virtual void run();
     QString fullName(const QString &name);
@@ -119,7 +121,7 @@ protected:
     QSound         *m_sound;
     QTimer         *m_checkTimer;
 	QString		    m_snd;
-	QProcess* m_process;
+	Q3Process* m_process;
 
 #if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;

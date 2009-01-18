@@ -27,6 +27,9 @@
 #include <qlineedit.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3Frame>
 
 using namespace SIM;
 
@@ -43,7 +46,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -212,7 +215,7 @@ bool MsgSMS::processEvent(Event *e)
             m_edit->m_edit->append(t->tmpl);
         }else{
             m_edit->m_edit->setText(t->tmpl);
-            m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+            m_edit->m_edit->moveCursor(Q3TextEdit::MoveEnd, false);
             m_bExpand = true;
             Contact *contact = getContacts()->contact(m_id);
             if (contact){
@@ -299,10 +302,10 @@ bool MsgSMS::processEvent(Event *e)
 }
 
 SMSPanel::SMSPanel(QWidget *parent)
-        : QFrame(parent)
+        : Q3Frame(parent)
 {
     setMargin(3);
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    Q3HBoxLayout *lay = new Q3HBoxLayout(this);
     chkSave = new QCheckBox(i18n("Save phone in contact list"), this);
     lay->addSpacing(7);
     lay->addWidget(chkSave);
@@ -311,7 +314,9 @@ SMSPanel::SMSPanel(QWidget *parent)
 SMSPanel::~SMSPanel()
 {}
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "msgsms.moc"
 #endif
+*/
 

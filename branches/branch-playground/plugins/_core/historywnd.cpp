@@ -31,17 +31,21 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qstatusbar.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qmessagebox.h>
-#include <qdockarea.h>
+#include <q3dockarea.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <QResizeEvent>
+#include <QLabel>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog KFileDialog
+#define Q3FileDialog KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 #include <time.h>
@@ -55,18 +59,18 @@ public:
     void setTotalSteps(unsigned);
     void setProgress(unsigned);
 protected:
-    QProgressBar *m_bar;
+    Q3ProgressBar *m_bar;
 };
 
 HistoryProgressBar::HistoryProgressBar(QWidget *parent)
         : QWidget(parent)
 {
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    Q3HBoxLayout *lay = new Q3HBoxLayout(this);
     lay->setSpacing(4);
     lay->addSpacing(4);
     QLabel *label = new QLabel(i18n("Loading"), this);
     lay->addWidget(label);
-    m_bar = new QProgressBar(this);
+    m_bar = new Q3ProgressBar(this);
     lay->addWidget(m_bar);
 }
 
@@ -85,7 +89,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
     m_avatar_bar=NULL;
 
-    setWFlags(WDestructiveClose);
+    setWindowFlags(Qt::WDestructiveClose);
     m_id = id;
     SET_WNDPROC("history")
     setIcon(Pict("history"));
@@ -110,36 +114,43 @@ HistoryWindow::HistoryWindow(unsigned long id)
     eHistoryWidget.process();
     // FIXME: use qobject_cast in Qt4
     CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eHistoryWidget.widget());
-    if (cmbFind){
+    if(cmbFind)
+	{
         QString history = CorePlugin::m_plugin->getHistorySearch();
-        while (history.length()){
+        while(history.length())
+		{
             cmbFind->insertItem(getToken(history, ';'));
         }
         cmbFind->setText(QString::null);
     }
-    m_it	= NULL;
+    m_it = NULL;
     m_bDirection = CorePlugin::m_plugin->getHistoryDirection();
     m_bar->checkState();
     m_bar->show();
 
-    if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
-        unsigned j=0;
+    if(CorePlugin::m_plugin->getShowAvatarInHistory())
+	{
+        unsigned j = 0;
         QImage img;
-        while (j < getContacts()->nClients()){
+        while(j < getContacts()->nClients())
+		{
            Client *client = getContacts()->getClient(j++);
            img = client->userPicture(id);
            if (!img.isNull())
                break;
         }
 
-        if (!img.isNull()) {
+        if(!img.isNull())
+		{
             EventToolbar(ToolBarHistoryAvatar, EventToolbar::eAdd).process();
             EventToolbar e(ToolBarHistoryAvatar, this);
             e.process();
             m_avatar_bar = e.toolBar();
             m_avatar_bar->setOrientation(Qt::Vertical);
+			/*
             m_avatar_bar->setHorizontalStretchable(false);
             m_avatar_bar->setVerticalStretchable(false);
+			*/
             //restoreToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
 
             Command cmd;
@@ -158,12 +169,13 @@ HistoryWindow::HistoryWindow(unsigned long id)
             eWidget.process();
             CToolLabel *lblAvatar = dynamic_cast<CToolLabel*>(eWidget.widget());
 
-            if (lblAvatar) {
-                lblAvatar->setPixmap(img);
+            if(lblAvatar)
+			{
+                lblAvatar->setPixmap(QPixmap::fromImage(img));
             }
             m_avatar_bar->checkState();
             m_avatar_bar->show();
-            m_avatar_bar->area()->moveDockWindow(m_avatar_bar, 0);
+            //m_avatar_bar->area()->moveDockWindow(m_avatar_bar, 0);
         }
     }
 
@@ -252,8 +264,8 @@ bool HistoryWindow::processEvent(Event *e)
             return true;
         }
         if (cmd->id == CmdHistorySave){
-            QString str = QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
-            if (str && !str.isEmpty()){
+            QString str = Q3FileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
+            if(!str.isNull() && !str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){
                     QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 
@@ -276,7 +288,7 @@ bool HistoryWindow::processEvent(Event *e)
                 }else
                     res = History::save(m_id, str);
                 if (!res)
-                    QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
+                    QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, Qt::NoButton, Qt::NoButton);
             }
             return true;
         }
@@ -437,6 +449,9 @@ void HistoryWindow::addHistory(const QString &str)
     CorePlugin::m_plugin->setHistorySearch(res);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "historywnd.moc"
 #endif
+*/
+

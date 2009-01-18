@@ -18,11 +18,12 @@
 #ifndef _JABBERCONFIG_H
 #define _JABBERCONFIG_H
 
-#include "jabberconfigbase.h"
+#include "ui_jabberconfigbase.h"
+#include "event.h"
 
 class JabberClient;
 
-class JabberConfig : public JabberConfigBase
+class JabberConfig : public QWidget, public Ui::JabberConfigBase
 {
     Q_OBJECT
 public:

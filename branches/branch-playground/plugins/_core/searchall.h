@@ -21,11 +21,13 @@
 #ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
 #include "simapi.h"
 #endif
-#include "searchallbase.h"
+#include "ui_searchallbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 typedef std::map<QWidget*, QStringList>	WND_MAP;
 
-class SearchAll : public SearchAllBase
+class SearchAll : public QWidget, public Ui::SearchAll
 {
     Q_OBJECT
 public:

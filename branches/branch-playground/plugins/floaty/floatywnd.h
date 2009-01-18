@@ -20,6 +20,12 @@
 
 
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QMouseEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 
 class FloatyPlugin;
 class QTimer;

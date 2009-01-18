@@ -20,18 +20,21 @@
 
 #include "simapi.h"
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
+#include <Q3HBoxLayout>
 
-class QHBoxLayout;
+class Q3HBoxLayout;
 class EditFile;
 class FilePreview;
-class QPopupMenu;
+class Q3PopupMenu;
 
 typedef FilePreview *CreatePreview(QWidget *parent);
 
-class EXPORT EditFile : public QFrame
+class EXPORT EditFile : public Q3Frame
 {
     Q_OBJECT
 public:
@@ -62,7 +65,7 @@ protected:
     QString filter;
     QString startDir;
     QString title;
-    QHBoxLayout   *lay;
+    Q3HBoxLayout   *lay;
     QLineEdit     *edtFile;
     CreatePreview *createPreview;
 };
@@ -86,10 +89,10 @@ public:
 protected slots:
     void menuActivated(int);
 protected:
-    QPopupMenu *createPopupMenu();
+    Q3PopupMenu *createPopupMenu();
 };
 
-class EXPORT MultiLineEdit : public QMultiLineEdit
+class EXPORT MultiLineEdit : public Q3MultiLineEdit
 {
     Q_OBJECT
 public:
@@ -98,7 +101,7 @@ public:
 protected slots:
     void menuActivated(int);
 protected:
-    QPopupMenu *createPopupMenu();
+    Q3PopupMenu *createPopupMenu();
 };
 
 #endif

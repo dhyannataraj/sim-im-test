@@ -27,6 +27,7 @@
 #include <qpixmap.h>
 #include <qfile.h>
 #include <time.h>
+#include <QImageReader>
 
 using namespace SIM;
 
@@ -39,20 +40,30 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client)
-        : ICQPictureBase(parent)
+ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data   = data;
     m_client = client;
-    if (m_data){
+    if (m_data)
+	{
         edtPict->hide();
         btnClear->hide();
-    }else{
-        QString format = QString("*.jpg ") + QString("*." + QStringList::fromStrList(QImage::inputFormats()).join(" *.")).lower();
+    }
+	else
+	{
+		QStringList l;
+		QList<QByteArray> fmts = QImageReader::supportedImageFormats();
+		for(QList<QByteArray>::iterator it = fmts.begin(); it != fmts.end(); ++it)
+		{
+			l.push_back(QString::fromAscii(*it));
+		}
+
+        QString format = QString("*.jpg ") + QString("*." + l.join(" *.")).lower();
 #ifdef USE_KDE
-        edtPict->setFilter(i18n("%1|Graphics") .arg(format));
+        edtPict->setFilter(i18n("%1|Graphics").arg(format));
 #else
-        edtPict->setFilter(i18n("Graphics(%1)") .arg(format));
+        edtPict->setFilter(i18n("Graphics(%1)").arg(format));
         edtPict->setFilePreview(createPreview);
 #endif
         edtPict->setReadOnly(true);
@@ -132,8 +143,4 @@ void ICQPicture::setPict(const QImage &img)
     lblPict->setPixmap(pict);
     lblPict->setMinimumSize(pict.size());
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqpicture.moc"
-#endif
 

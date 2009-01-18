@@ -20,15 +20,17 @@
 #include "gpguser.h"
 #include "gpg.h"
 
-#include <qprocess.h>
+#include <q3process.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
-GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
-        : GpgUserBase(parent)
+GpgUser::GpgUser(QWidget *parent, GpgUserData *data) : QWidget(parent)
 {
+	setupUi(this);
     if(data)
         m_key = data->Key.str();
     m_process = NULL;
@@ -71,7 +73,7 @@ void GpgUser::refresh()
     sl += home;
     sl += QStringList::split(' ', GpgPlugin::plugin->getPublicList());
 
-    m_process = new QProcess(sl, this);
+    m_process = new Q3Process(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(publicReady()));
     m_process->start();
@@ -84,25 +86,25 @@ void GpgUser::publicReady()
     cmbPublic->clear();
     cmbPublic->insertItem(i18n("None"));
     if (m_process->normalExit() && m_process->exitStatus() == 0){
-        QCString str(m_process->readStdout());
+        Q3CString str(m_process->readStdout());
         for (;;){
-            QCString line;
+            Q3CString line;
             line = getToken(str, '\n');
             if(line.isEmpty())
                     break;
-            QCString type = getToken(line, ':');
+            Q3CString type = getToken(line, ':');
             if (type == "pub"){
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                QCString sign = getToken(line, ':');
+                Q3CString sign = getToken(line, ':');
                 if (QString::fromLocal8Bit(sign) == m_key)
                     cur = n;
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                QCString name = getToken(line, ':');
+                Q3CString name = getToken(line, ':');
                 cmbPublic->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
                                       QString::fromLocal8Bit(name));
                 n++;
@@ -113,8 +115,4 @@ void GpgUser::publicReady()
     delete m_process;
     m_process = 0;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "gpguser.moc"
-#endif
 

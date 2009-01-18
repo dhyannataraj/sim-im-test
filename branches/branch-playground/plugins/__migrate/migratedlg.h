@@ -18,13 +18,16 @@
 #ifndef _MIGRATEDLG_H
 #define _MIGRATEDLG_H
 
-#include "migratedlgbase.h"
+#include "ui_migratedlgbase.h"
 
 #include <qcheckbox.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QCloseEvent>
 #include "simapi.h"
 
-class MigrateDialog : public MigrateDialogBase
+class MigrateDialog : public Q3Wizard, public Ui::MigrateDialogBase
 {
     Q_OBJECT
 public:
@@ -40,16 +43,16 @@ protected:
     void error(const QString&);
     void flush();
 
-    QCString	m_owner;
+    Q3CString	m_owner;
 
     unsigned m_uin;
-    QCString	m_passwd;
-    QCString	m_name;
+    Q3CString	m_passwd;
+    Q3CString	m_name;
     int			m_state;
-    QCString	m_message;
-    QCString	m_time;
-    QCString	m_direction;
-    QCString	m_charset;
+    Q3CString	m_message;
+    Q3CString	m_time;
+    Q3CString	m_direction;
+    Q3CString	m_charset;
 
     unsigned m_grpId;
     unsigned m_contactId;

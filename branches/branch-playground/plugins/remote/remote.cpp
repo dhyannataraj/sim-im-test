@@ -26,7 +26,9 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qthread.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "icons.h"
 #include "log.h"
@@ -84,10 +86,10 @@ public:
     void    process();
 protected:
     unsigned *s;
-    HANDLE	hMem;
-    HANDLE	hMutex;
-    HANDLE	hEventIn;
-    HANDLE	hEventOut;
+    Qt::HANDLE	hMem;
+    Qt::HANDLE	hMutex;
+    Qt::HANDLE	hEventIn;
+    Qt::HANDLE	hEventOut;
     bool    bExit;
     virtual void run();
     friend class IPCLock;
@@ -158,7 +160,7 @@ void IPC::process()
         QString in;
         QString out;
         QString name = prefix() + QString::number(i);
-        HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.latin1());
+        Qt::HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.latin1());
         if (hMem == NULL){
             s[i] = SLOT_NONE;
             PulseEvent(hEventOut);
@@ -253,7 +255,7 @@ RemotePlugin::~RemotePlugin()
     free_data(remoteData, &data);
 }
 
-QCString RemotePlugin::getConfig()
+Q3CString RemotePlugin::getConfig()
 {
     return save_data(remoteData, &data);
 }
@@ -386,14 +388,14 @@ static bool cmpStatus(const char *s1, const char *s2)
 
 static QWidget *findWidget(const char *className)
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w;
-    while ((w = it.current()) != NULL){
-        if (w->inherits(className))
-            break;
-        ++it;
-    }
+    QWidgetList list = QApplication::topLevelWidgets();
+	QWidget* w;
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		w = *it;
+		if (w->inherits(className))
+			break;
+	}
     return w;
 }
 
@@ -683,7 +685,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
         }
     case CMD_FILE:{
             QFile f(args[0]);
-            if (!f.open(IO_ReadOnly)){
+            if (!f.open(QIODevice::ReadOnly)){
                 out = "Can't open ";
                 out += args[0];
                 return false;
@@ -693,7 +695,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Buffer sf;
             sf = f.readAll();
             while (sf.readPos() < sf.size()){
-                QCString line;
+                Q3CString line;
                 sf.scan("\n", line);
                 if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))
                     line = line.left(line.length() - 1);
@@ -732,7 +734,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             unsigned status = STATUS_UNKNOWN;
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
-                for (const CommandDef *d = client->protocol()->statusList(); d->text; d++){
+                for (const CommandDef *d = client->protocol()->statusList(); !d->text.isNull(); d++){
                     if (cmpStatus(d->text, args[0].latin1())){
                         status = d->id;
                         break;
@@ -762,7 +764,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Client *client = getContacts()->getClient(n);
             if (client->getCommonStatus()){
                 const CommandDef *d = NULL;
-                for (d = client->protocol()->statusList(); d->text; d++){
+                for (d = client->protocol()->statusList(); !d->text.isNull(); d++){
                     if (d->id == core->getManualStatus())
                         break;
                 }
@@ -1001,7 +1003,7 @@ void ControlSocket::connect_ready()
 
 void ControlSocket::packet_ready()
 {
-    QCString line;
+    Q3CString line;
     if (!m_socket->readBuffer().scan("\n", line))
         return;
     if (line.isEmpty())
@@ -1019,15 +1021,15 @@ void ControlSocket::packet_ready()
     }
     if (!bRes)
         write("? ");
-    QCString s;
+    Q3CString s;
     if (!out.isEmpty())
         s = out.local8Bit();
-    QCString res;
+    Q3CString res;
 	strLine=QString(s).stripWhiteSpace();
 	
 	//if (!strLine.contains('\n'))
 	strLine += "\r\n";
-	if (strLine.stripWhiteSpace() == 0) return;
+	if (strLine.stripWhiteSpace().isEmpty()) return;
 	res=strLine.local8Bit();
 	
     /*for (const char *p = s.data(); *p ; p++){
@@ -1041,6 +1043,3 @@ void ControlSocket::packet_ready()
     write(Prompt);
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "remote.moc"
-#endif

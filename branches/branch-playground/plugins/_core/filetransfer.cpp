@@ -24,7 +24,7 @@
 #include <qslider.h>
 #include <qlabel.h>
 #include <qtimer.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qfile.h>
@@ -142,19 +142,19 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             skip();
             return;
         case Replace:
-            if (ft->m_file->open(IO_WriteOnly | IO_Truncate)){
+            if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Truncate)){
                 ft->startReceive(0);
                 return;
             }
             break;
         case Resume:
-            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
+            if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Append)){
                 resume();
                 return;
             }
             break;
         default:
-            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
+            if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Append)){
                 QStringList buttons;
                 QString forAll;
                 if (ft->files())
@@ -172,7 +172,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             }
         }
     }else{
-        if (ft->m_file->open(IO_WriteOnly)){
+        if (ft->m_file->open(QIODevice::WriteOnly)){
             ft->startReceive(0);
             return;
         }
@@ -194,7 +194,7 @@ void FileTransferDlgNotify::replace()
 {
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
     ft->m_file->close();
-    ft->m_file->open(IO_WriteOnly | IO_Truncate);
+    ft->m_file->open(QIODevice::WriteOnly | QIODevice::Truncate);
     ft->startReceive(0);
 }
 
@@ -212,9 +212,10 @@ void FileTransferDlgNotify::resume()
     return;
 }
 
-FileTransferDlg::FileTransferDlg(FileMessage *msg)
-        : FileTransferBase(NULL, "filetransfer", false, WDestructiveClose)
+FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL)
+        //: FileTransferBase(NULL, "filetransfer", false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     m_msg = msg;
     SET_WNDPROC("filetransfer")
     setIcon(Pict("file"));
@@ -404,7 +405,7 @@ void FileTransferDlg::setBars()
     }
 }
 
-void FileTransferDlg::setProgress(QProgressBar *bar, unsigned bytes, unsigned size)
+void FileTransferDlg::setProgress(Q3ProgressBar *bar, unsigned bytes, unsigned size)
 {
     while (size > 0x1000000){
         size  = size  >> 1;
@@ -534,7 +535,9 @@ void FileTransferDlg::goDir()
     e.process();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "filetransfer.moc"
 #endif
+*/
 

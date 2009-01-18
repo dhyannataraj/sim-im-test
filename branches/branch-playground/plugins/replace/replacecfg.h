@@ -18,14 +18,18 @@
 #ifndef _REPLACECFG_H
 #define _REPLACECFG_H
 
-#include "replacecfgbase.h"
+#include "ui_replacecfgbase.h"
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <Q3Frame>
+#include <QEvent>
 
 class ReplacePlugin;
 class IntLineEdit;
-class QFrame;
-class QListViewItem;
+class Q3Frame;
+class Q3ListViewItem;
 
-class ReplaceCfg : public ReplaceCfgBase
+class ReplaceCfg : public QWidget, public Ui::ReplaceCfgBase
 {
     Q_OBJECT
 public:
@@ -35,7 +39,7 @@ public slots:
     void apply();
     void selectionChanged();
     void sizeChange(int,int,int);
-    void mouseButtonPressed(int, QListViewItem*, const QPoint&, int);
+    void mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int);
 protected:
     bool eventFilter(QObject*, QEvent*);
     void flush();
@@ -43,7 +47,7 @@ protected:
     unsigned	  m_col;
     void resizeEvent(QResizeEvent *e);
     ReplacePlugin *m_plugin;
-    QListViewItem *m_editItem;
+    Q3ListViewItem *m_editItem;
     unsigned	  m_editCol;
     unsigned	  m_count;
     void		  setEdit();

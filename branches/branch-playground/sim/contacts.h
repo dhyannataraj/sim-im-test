@@ -23,6 +23,8 @@
 #include "message.h"
 
 #include <qimage.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 namespace SIM {
 
@@ -31,7 +33,7 @@ class EXPORT UserData
 public:
     UserData();
     ~UserData();
-    QCString save();
+    Q3CString save();
     void load(unsigned long id, const DataDef *def, Buffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
@@ -55,7 +57,7 @@ class EXPORT ClientUserData
 public:
     ClientUserData();
     ~ClientUserData();
-    QCString save();
+    Q3CString save();
     void load(Client *client, Buffer *cfg);
     void *getData(Client *client);
     bool have(void*);
@@ -262,7 +264,7 @@ public:
     Protocol *protocol() const { return m_protocol; }
     virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
@@ -411,8 +413,8 @@ public:
     Contact *contactByPhone(const QString &phone);
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const QString &p1, const QString &p2);
-    QString toUnicode(Contact *contact, const QCString &str, int length=-1);
-    QCString fromUnicode(Contact *contact, const QString &str);
+    QString toUnicode(Contact *contact, const Q3CString &str, int length=-1);
+    Q3CString fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
     QTextCodec *getCodecByName(const char *encoding);
     static const ENCODING *getEncodings();

@@ -18,7 +18,9 @@
 #ifndef _JABBERCLIENT_H
 #define _JABBERCLIENT_H
 
-#include <qvaluestack.h>
+#include <q3valuestack.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "simapi.h"
 #include "sax.h"
@@ -223,7 +225,7 @@ public:
         virtual void element_end(const QString& el);
         virtual void char_data(const QString& str);
         QString  		m_element;
-        QValueStack<QString>	m_els;
+        Q3ValueStack<QString>	m_els;
         QString		    m_id;
         JabberClient	*m_client;
         friend class JabberClient;
@@ -318,7 +320,7 @@ public:
     virtual QString name();
     virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QImage userPicture(unsigned id);
     QImage userPicture(JabberUserData *d);
 
@@ -504,9 +506,9 @@ protected:
     virtual void    bind_ready(unsigned short port);
     virtual bool    error(const QString &err);
     virtual bool    accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const QCString &str);
+    bool get_line(const Q3CString &str);
     void send_line(const QString &str);
-    void send_line(const QCString &str);
+    void send_line(const Q3CString &str);
     void send_line(const char *str);
     unsigned m_startPos;
     unsigned m_endPos;

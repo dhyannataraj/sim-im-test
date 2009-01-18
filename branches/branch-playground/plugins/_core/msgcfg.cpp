@@ -21,14 +21,15 @@
 #include "core.h"
 
 #include <qcheckbox.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
+#include <q3buttongroup.h>
+#include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qtabwidget.h>
 
-MessageConfig::MessageConfig(QWidget *parent, void *_data)
-        : MessageConfigBase(parent)
+MessageConfig::MessageConfig(QWidget *parent, void *_data) : QWidget(parent)
+        //: MessageConfigBase(parent)
 {
+	setupUi(this);
     m_file = NULL;
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -75,10 +76,12 @@ void MessageConfig::setEnabled(bool state)
 {
     if (m_file)
         m_file->setEnabled(state);
-    MessageConfigBase::setEnabled(state);
+    QWidget::setEnabled(state);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "msgcfg.moc"
 #endif
+*/
 

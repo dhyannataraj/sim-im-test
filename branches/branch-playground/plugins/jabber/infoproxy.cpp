@@ -21,9 +21,10 @@
 
 using namespace SIM;
 
-InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title)
-        : InfoProxyBase(parent)
+InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title) : QWidget(parent)
+        //: InfoProxyBase(parent)
 {
+	setupUi(this);
     connect(this, SIGNAL(sig_apply()), child, SLOT(apply()));
     connect(this, SIGNAL(sig_apply(SIM::Client*, void*)), child, SLOT(apply(SIM::Client*, void*)));
     tabInfo->addTab(child, title);
@@ -40,7 +41,9 @@ void InfoProxy::apply(Client *client, void *data)
     emit sig_apply(client, data);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "infoproxy.moc"
 #endif
+*/
 

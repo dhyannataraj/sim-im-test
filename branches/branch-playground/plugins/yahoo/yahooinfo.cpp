@@ -30,9 +30,9 @@
 
 using namespace SIM;
 
-YahooInfo::YahooInfo(QWidget *parent, YahooUserData *data, YahooClient *client)
-        : YahooInfoBase(parent)
+YahooInfo::YahooInfo(QWidget *parent, YahooUserData *data, YahooClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data    = data;
     edtOnline->setReadOnly(true);
@@ -149,8 +149,4 @@ void YahooInfo::apply(Client *client, void *_data)
     data->First.str() = edtFirst->text();
     data->Last.str()  = edtLast->text();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "yahooinfo.moc"
-#endif
 

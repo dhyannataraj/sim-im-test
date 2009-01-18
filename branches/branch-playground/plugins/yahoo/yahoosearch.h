@@ -21,12 +21,14 @@
 #include "contacts.h"
 #include "fetch.h"
 
-#include "yahoosearchbase.h"
+#include "ui_yahoosearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class YahooClient;
 class GroupRadioButton;
 
-class YahooSearch : public YahooSearchBase, public FetchClient
+class YahooSearch : public QWidget, public Ui::YahooSearchBase, public FetchClient
 {
     Q_OBJECT
 public:

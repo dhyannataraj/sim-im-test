@@ -29,9 +29,9 @@
 
 using namespace SIM;
 
-MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
-        : MSNConfigBase(parent)
+MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig)
@@ -92,8 +92,4 @@ void MSNConfig::autoToggled(bool bState)
 {
     chkHTTP->setEnabled(!bState);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "msnconfig.moc"
-#endif
 

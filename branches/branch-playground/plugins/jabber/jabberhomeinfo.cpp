@@ -20,14 +20,15 @@
 #include "jabber.h"
 
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qstringlist.h>
 
 using namespace SIM;
 
-JabberHomeInfo::JabberHomeInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
-        : JabberHomeInfoBase(parent)
+JabberHomeInfo::JabberHomeInfo(QWidget *parent, JabberUserData *data, JabberClient *client) : QWidget(parent)
+        //: JabberHomeInfoBase(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data    = data;
     if (m_data){
@@ -93,7 +94,9 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     data->Country.str() = edtCountry->text();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberhomeinfo.moc"
 #endif
+*/
 

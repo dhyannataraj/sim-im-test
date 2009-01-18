@@ -20,6 +20,8 @@
 
 #include "icon.h"
 #include "iconcfg.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace std;
 using namespace SIM;
@@ -78,7 +80,7 @@ void IconsPlugin::setIcons(bool bForce)
     EventIconChanged().process();
 }
 
-QCString IconsPlugin::getConfig()
+Q3CString IconsPlugin::getConfig()
 {
     return save_data(iconsData, &data);
 }
@@ -87,3 +89,4 @@ QWidget *IconsPlugin::createConfigWindow(QWidget *parent)
 {
     return new IconCfg(parent, this);
 }
+

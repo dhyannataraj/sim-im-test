@@ -18,12 +18,13 @@
 #ifndef _SECUREDLG_H
 #define _SECUREDLG_H
 
-#include "securedlgbase.h"
+#include "ui_securedlgbase.h"
+#include "event.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class SecureDlg : public SecureDlgBase, public SIM::EventReceiver
+class SecureDlg : public QDialog, public Ui::SecureDlgBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

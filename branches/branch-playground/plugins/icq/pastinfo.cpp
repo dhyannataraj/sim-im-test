@@ -23,9 +23,9 @@
 
 using namespace SIM;
 
-PastInfo::PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : PastInfoBase(parent)
+PastInfo::PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data   = data;
     m_client = client;
     m_contact = contact;
@@ -307,8 +307,4 @@ QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
     res += quoteChars(edt->text(), ",;");
     return res;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "pastinfo.moc"
-#endif
 

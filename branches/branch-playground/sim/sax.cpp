@@ -35,6 +35,8 @@ public:
                     const QString &qName);
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException & exception);
+private:
+	bool m_started;
 };
 
 SAXParserPrivate::SAXParserPrivate(SAXParser *parser)
@@ -43,13 +45,26 @@ SAXParserPrivate::SAXParserPrivate(SAXParser *parser)
     m_reader.setFeature("http://xml.org/sax/features/namespace-prefixes", TRUE);
     m_reader.setContentHandler(this);
     m_reader.setErrorHandler(this);
-    m_reader.parse(&m_source, true);
+	m_started = false;
+    //m_reader.parse(&m_source, true);
 }
 
 bool SAXParserPrivate::parse(const QByteArray& data)
 {
-    m_source.setData(data);
-    return m_reader.parseContinue();
+	if(data.count() > 0)
+	{
+		m_source.setData(data);
+		if(m_started)
+		{
+			return m_reader.parseContinue();
+		}
+		else
+		{
+			m_started = true;
+			return m_reader.parse(&m_source, true);
+		}
+	}
+	return true;
 }
 
 bool SAXParserPrivate::startElement(const QString&,
@@ -93,7 +108,8 @@ SAXParser::~SAXParser()
 
 void SAXParser::reset()
 {
-    if (p){
+    if (p)
+	{
         delete p;
         p = NULL;
     }
@@ -105,7 +121,8 @@ bool SAXParser::parse(const QByteArray& data, bool bChunk)
         reset();
     if (p == NULL)
         p = new SAXParserPrivate(this);
-    if (!p->parse(data)){
+    if (!p->parse(data))
+	{
         reset();
         return false;
     }

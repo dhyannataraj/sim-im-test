@@ -23,6 +23,9 @@
 #include <qfont.h>
 #include <qobject.h>
 #include <qthread.h>
+#include <q3cstring.h>
+//Added by qt3to4:
+#include <QTranslator>
 
 #include "cmddef.h"
 #include "event.h"
@@ -358,7 +361,7 @@ protected slots:
     void showMain();
 protected:
     virtual bool processEvent(SIM::Event*);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void showInfo(SIM::CommandDef *cmd);
     bool init(bool bFirst);

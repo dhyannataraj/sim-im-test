@@ -24,9 +24,10 @@
 
 using namespace SIM;
 
-DeclineDlg::DeclineDlg(Message *msg)
-        : DeclineDlgBase(NULL, NULL, false, WDestructiveClose)
+DeclineDlg::DeclineDlg(Message *msg) : QDialog(NULL)
+        //: DeclineDlgBase(NULL, NULL, false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     m_msg = msg;
     SET_WNDPROC("decline")
     setIcon(Pict("file"));
@@ -41,7 +42,7 @@ DeclineDlg::~DeclineDlg()
 void DeclineDlg::accept()
 {
     EventMessageDecline(m_msg, edtReason->text());
-    DeclineDlgBase::accept();
+    QDialog::accept();
 }
 
 bool DeclineDlg::processEvent(Event *e)
@@ -55,7 +56,9 @@ bool DeclineDlg::processEvent(Event *e)
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "declinedlg.moc"
 #endif
+*/
 

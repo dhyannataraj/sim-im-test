@@ -22,9 +22,10 @@
 #include <qspinbox.h>
 #include <qlabel.h>
 
-UserHistoryCfg::UserHistoryCfg(QWidget *parent, void *d)
-        : UserHistoryCfgBase(parent)
+UserHistoryCfg::UserHistoryCfg(QWidget *parent, void *d) : QWidget(parent)
+        //: UserHistoryCfgBase(parent)
 {
+	setupUi(this);
     HistoryUserData *data = (HistoryUserData*)d;
     chkDays->setChecked(data->CutDays.toBool());
     chkSize->setChecked(data->CutSize.toBool());
@@ -63,7 +64,9 @@ void UserHistoryCfg::toggledSize(bool bState)
     edtSize->setEnabled(bState);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "userhistorycfg.moc"
 #endif
+*/
 

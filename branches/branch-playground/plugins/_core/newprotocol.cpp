@@ -40,9 +40,10 @@ static bool cmp_protocol(Protocol *p1, Protocol *p2)
     return s1 < s2;
 }
 
-NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect)
-        : NewProtocolBase(parent, "new_protocol", true)
+NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) : Q3Wizard(parent, "new_protocol")
+       // : NewProtocolBase(parent, "new_protocol", true)
 {
+	setupUi(this);
     m_setup  = NULL;
     m_client = NULL;
     m_last   = NULL;
@@ -217,7 +218,7 @@ void NewProtocol::reject()
         back();
         return;
     }
-    QWizard::reject();
+    Q3Wizard::reject();
 }
 
 void NewProtocol::loginComplete()
@@ -271,7 +272,9 @@ bool NewProtocol::processEvent(Event *e)
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "newprotocol.moc"
 #endif
+*/
 

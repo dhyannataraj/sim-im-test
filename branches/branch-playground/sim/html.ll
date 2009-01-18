@@ -160,7 +160,7 @@ HTMLParser::~HTMLParser()
 void HTMLParser::parse(const QString &str)
 {
 	p->init();
-	QCString cstr = str.utf8();
+	Q3CString cstr = str.utf8();
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
 	parse();
 	yy_delete_buffer(yy_current_buffer);
@@ -170,7 +170,7 @@ void HTMLParser::parse(Buffer &buf)
 {
 	p->init();
 	buf << (char)YY_END_OF_BUFFER_CHAR << (char)YY_END_OF_BUFFER_CHAR;
-    YY_BUFFER_STATE yy_current_buffer = yy_scan_buffer(buf.data(), buf.writePos());
+    YY_BUFFER_STATE yy_current_buffer = yy_scan_buffer((char*)buf.data(), buf.writePos());
 	parse();
 	yy_delete_buffer(yy_current_buffer);
 }

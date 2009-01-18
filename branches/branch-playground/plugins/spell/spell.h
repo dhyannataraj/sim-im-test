@@ -20,6 +20,9 @@
 
 #include <qobject.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -37,12 +40,12 @@ struct SpellData
 };
 
 class TextEdit;
-class QSyntaxHighlighter;
+class Q3SyntaxHighlighter;
 class KDictSpellingHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef std::map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+typedef std::map<TextEdit*, Q3SyntaxHighlighter*>	MAP_EDITS;
 typedef std::map<SIM::my_string, bool> MAP_BOOL;
 
 class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -70,7 +73,7 @@ protected slots:
 protected:
     bool eventFilter(QObject *o, QEvent *e);
     virtual bool processEvent(SIM::Event *e);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void activate();
     void deactivate();

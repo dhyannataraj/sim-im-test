@@ -30,9 +30,9 @@
 
 using namespace SIM;
 
-WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
-        : WarnDlgBase(parent, NULL, false, WDestructiveClose)
+WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client) : QDialog(parent, NULL, false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     SET_WNDPROC("warn")
     setIcon(Pict("error"));
     setButtonsPict(this);
@@ -93,8 +93,4 @@ bool WarnDlg::processEvent(Event *e)
     }
     return false;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "warndlg.moc"
-#endif
 

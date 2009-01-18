@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 
-#include <qcolor.h>
+#include <QColor>
 #include "contacts.h"
 #include "country.h"
 
 class KAboutData;
 class QComboBox;
-class QIconSet;
+class QIcon;
 
 //class Data;
 
@@ -54,6 +54,8 @@ EXPORT void resetPlural();
 #endif
 
 namespace SIM {
+
+EXPORT QString formatDateTime(unsigned long t);
 
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);

@@ -19,6 +19,14 @@
 #define _USERVIEW_H
 
 #include "userlist.h"
+//Added by qt3to4:
+#include <QEvent>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <QDragMoveEvent>
+#include <QKeyEvent>
+#include <QFocusEvent>
 
 class CorePlugin;
 class IntLineEdit;
@@ -40,7 +48,7 @@ public:
     CorePlugin *m_plugin;
     IntLineEdit *edtGroup;
     IntLineEdit *edtContact;
-    QListViewItem *mTipItem;
+    Q3ListViewItem *mTipItem;
     bool	 m_bUnreadBlink;
 public slots:
     void editGroupEnter();
@@ -66,7 +74,7 @@ protected:
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
-    virtual bool getMenu(QListViewItem *item, unsigned long &id, void* &param);
+    virtual bool getMenu(Q3ListViewItem *item, unsigned long &id, void* &param);
     virtual bool processEvent(SIM::Event*);
     void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
@@ -81,19 +89,19 @@ protected:
     void contentsDropEvent(QDropEvent *e);
     void focusOutEvent(QFocusEvent*);
     void sortAll();
-    void sortAll(QListViewItem*);
+    void sortAll(Q3ListViewItem*);
     void dragEvent(QDropEvent *e, bool isDrop);
-    void search(std::list<QListViewItem*> &items);
-    void search(QListViewItem*, std::list<QListViewItem*> &items);
+    void search(std::list<Q3ListViewItem*> &items);
+    void search(Q3ListViewItem*, std::list<Q3ListViewItem*> &items);
     void stopSearch();
-    void showTip(QListViewItem*);
-    QDragObject *dragObject();
-    virtual void deleteItem(QListViewItem *item);
+    void showTip(Q3ListViewItem*);
+    Q3DragObject *dragObject();
+    virtual void deleteItem(Q3ListViewItem *item);
     std::list<BlinkCount> blinks;
-    std::list<QListViewItem*> closed_items;
+    std::list<Q3ListViewItem*> closed_items;
     unsigned long m_dropContactId;
-    QListViewItem *m_dropItem;
-    QListViewItem *m_current;
+    Q3ListViewItem *m_dropItem;
+    Q3ListViewItem *m_current;
     TipLabel *m_tip;
     TipLabel *m_searchTip;
     bool	 m_bBlink;
@@ -102,7 +110,7 @@ protected:
     QTimer	 *unreadTimer;
     QString	 m_search;
     bool	 m_bRemoveHistory;
-    QListViewItem *m_searchItem;
+    Q3ListViewItem *m_searchItem;
 };
 
 #endif

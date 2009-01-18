@@ -19,6 +19,8 @@
 #include "misc.h"
 
 #include "advsearch.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 using namespace SIM;
 
@@ -42,8 +44,9 @@ const ext_info ages[] =
 
 const ext_info *p_ages = ages;
 
-AdvSearch::AdvSearch()
+AdvSearch::AdvSearch() : QWidget(NULL)
 {
+	setupUi(this);
     initCombo(cmbGender, 0, p_genders);
     initCombo(cmbAge, 0, ages);
     initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());
@@ -56,11 +59,7 @@ AdvSearch::AdvSearch()
 
 void AdvSearch::showEvent(QShowEvent *e)
 {
-    AdvSearchBase::showEvent(e);
+    QWidget::showEvent(e);
     emit enableOptions(false);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "advsearch.moc"
-#endif
 

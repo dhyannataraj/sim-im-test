@@ -21,15 +21,21 @@
 #include "simapi.h"
 #include "event.h"
 
-#include <qtoolbar.h>
+#include <QToolBar>
 #include <qtoolbutton.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QHideEvent>
+#include <QMouseEvent>
+#include <QContextMenuEvent>
+#include <QPaintEvent>
 
 class QMainWindow;
-class QAccel;
+class Q3Accel;
 class ButtonsMap;
 
 // Base class for all Widgets in CToolBar
@@ -79,7 +85,7 @@ protected:
     void setAccel(int key);
     void enableAccel(bool bState);
     unsigned accelKey;
-    QAccel *accel;
+    Q3Accel *accel;
     QPoint popupPos(QWidget *p);
 };
 

@@ -54,9 +54,12 @@ bool BuiltinLogger::processEvent(Event *e)
         return 0;
     }
     cout << "SIM-IM: ";
-    if (!l->logData().isEmpty()) {
-        cout << l->logData().data();
-    } else {
+    if (!l->logData().isEmpty())
+	{
+        cout << l->logData().toUtf8().data();
+    }
+	else
+	{
         cout << "Some log event of type " << level_name(l->logLevel()) << " occurred";
     }
     cout << endl;

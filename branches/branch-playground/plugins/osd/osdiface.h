@@ -18,11 +18,11 @@
 #ifndef _OSDIFACE_H
 #define _OSDIFACE_H
 
-#include "osdifacebase.h"
+#include "ui_osdifacebase.h"
 
 class OSDPlugin;
 
-class OSDIface : public OSDIfaceBase
+class OSDIface : public QWidget, public Ui::OSDIfaceBase
 {
     Q_OBJECT
 public:

@@ -18,10 +18,10 @@
 #ifndef _ICQCONFIG_H
 #define _ICQCONFIG_H
 
-#include "icqconfigbase.h"
+#include "ui_icqconfigbase.h"
 #include "icqclient.h"
 
-class ICQConfig : public ICQConfigBase
+class ICQConfig : public QWidget, public Ui::ICQConfigBase
 {
     Q_OBJECT
 public:

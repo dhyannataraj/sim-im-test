@@ -18,23 +18,28 @@
 #include "userlist.h"
 #include "core.h"
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qtimer.h>
 #include <qbitmap.h>
 #include <qstyle.h>
-#include <qbutton.h>
+//#include <qbutton.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QAbstractButton>
+#include "log.h"
 
 using namespace std;
 using namespace SIM;
 
 UserViewItemBase::UserViewItemBase(UserListBase *parent)
-        : QListViewItem(parent)
+        : Q3ListViewItem(parent)
 {
 }
 
 UserViewItemBase::UserViewItemBase(UserViewItemBase *parent)
-        : QListViewItem(parent)
+        : Q3ListViewItem(parent)
 {
 }
 
@@ -92,16 +97,17 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
         }else{
             p->setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
         }
-        p->moveTo(0, 0);
-        p->lineTo(width - 1, 0);
-        p->lineTo(width - 1, height() - 1);
-        p->lineTo(0, height() - 1);
-        p->lineTo(0, 0);
+		p->drawLine(0, 0, width - 1, 0);
+		p->drawLine(width - 1, 0, width - 1, height() -1);
+		p->drawLine(width - 1, height() -1, 0, height() - 1);
+		p->drawLine(0, height() - 1, 0, 0);
+
         p->setPen(cg.shadow());
-        p->moveTo(width - 2, 1);
-        p->lineTo(1, 1);
-        p->lineTo(1, height() - 2);
-    }else{
+		p->drawLine(width - 2, 1, 1, 1);
+		p->drawLine(1, 1, 1, height() - 2);
+    }
+	else
+	{
         p->drawPixmap(QPoint(0, 0), bg);
     }
 }
@@ -109,15 +115,17 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
 int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &text)
 {
     QRect br;
-    p->drawText(x, 0, width, height(), AlignLeft | AlignVCenter, text, -1, &br);
+    p->drawText(x, 0, width, height(), Qt::AlignLeft | Qt::AlignVCenter, text, -1, &br);
     return br.right() + 5;
 }
 
 void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg)
 {
-    if (x < width - 6){
+    if (x < width - 6)
+	{
         QRect rcSep(x, height()/2, width - 6 - x, 1);
-        listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
+		p->drawLine(x, height() / 2, x + width - 6, height() / 2);
+        //listView()->style()->drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
     }
 }
 
@@ -181,7 +189,7 @@ void GroupItem::update(Group *grp, bool bInit)
     setText(0, s);
     if (bInit)
         return;
-    QListViewItem *p = parent();
+    Q3ListViewItem *p = parent();
     if (p){
         p->sort();
         return;
@@ -294,7 +302,7 @@ void UserListBase::drawUpdates()
 {
     m_bDirty = false;
     updTimer->stop();
-    QListViewItem *item;
+    Q3ListViewItem *item;
     int x = contentsX();
     int y = contentsY();
     viewport()->setUpdatesEnabled(false);
@@ -578,7 +586,7 @@ void UserListBase::drawUpdates()
         }
     }
     updContacts.clear();
-    for (list<QListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
+    for (list<Q3ListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
         if ((*it_sort)->firstChild() == NULL)
             continue;
         (*it_sort)->sort();
@@ -590,7 +598,7 @@ void UserListBase::drawUpdates()
     if (bChanged){
         viewport()->repaint();
     }else{
-        for (list<QListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
+        for (list<Q3ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
             (*it)->repaint();
     }
     updatedItems.clear();
@@ -651,18 +659,18 @@ void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGro
     }
 }
 
-void UserListBase::addSortItem(QListViewItem *item)
+void UserListBase::addSortItem(Q3ListViewItem *item)
 {
-    for (list<QListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
+    for (list<Q3ListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
         if ((*it) == item)
             return;
     }
     sortItems.push_back(item);
 }
 
-void UserListBase::addUpdatedItem(QListViewItem *item)
+void UserListBase::addUpdatedItem(Q3ListViewItem *item)
 {
-    for (list<QListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
+    for (list<Q3ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
         if ((*it) == item)
             return;
     }
@@ -819,7 +827,7 @@ void UserListBase::fill()
     adjustColumn();
 }
 
-static void resort(QListViewItem *item)
+static void resort(Q3ListViewItem *item)
 {
     if (!item->isExpandable())
         return;
@@ -832,7 +840,7 @@ bool UserListBase::processEvent(Event *e)
 {
     if (e->type() == eEventRepaintView){
         sort();
-        for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+        for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling())
             resort(item);
         viewport()->repaint();
     }
@@ -860,7 +868,7 @@ bool UserListBase::processEvent(Event *e)
                         deleteItem(grpItem);
                         break;
                     case 2:
-                        QListViewItem *item;
+                        Q3ListViewItem *item;
                         for (item = firstChild(); item; item = item->nextSibling()){
                             UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
                             if (i->type() != DIV_ITEM) continue;
@@ -904,7 +912,7 @@ bool UserListBase::processEvent(Event *e)
                                 }
                             }
                         }else{
-                            QListViewItem *p = item->parent();
+                            Q3ListViewItem *p = item->parent();
                             deleteItem(item);
                             if (p->firstChild() == NULL)
                                 deleteItem(p);
@@ -945,9 +953,9 @@ bool UserListBase::processEvent(Event *e)
     return ListView::processEvent(e);
 }
 
-GroupItem *UserListBase::findGroupItem(unsigned id, QListViewItem *p)
+GroupItem *UserListBase::findGroupItem(unsigned id, Q3ListViewItem *p)
 {
-    for (QListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
         UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
         if (i->type() == GRP_ITEM){
             GroupItem *grpItem = static_cast<GroupItem*>(item);
@@ -963,9 +971,9 @@ GroupItem *UserListBase::findGroupItem(unsigned id, QListViewItem *p)
     return NULL;
 }
 
-ContactItem *UserListBase::findContactItem(unsigned id, QListViewItem *p)
+ContactItem *UserListBase::findContactItem(unsigned id, Q3ListViewItem *p)
 {
-    for (QListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
         UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
         if (i->type() == USR_ITEM){
             ContactItem *contactItem = static_cast<ContactItem*>(item);
@@ -987,7 +995,7 @@ unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, QString 
     QString wrkIcons;
     QString statusIcon;
     unsigned long status = contact->contactInfo(style, statusIcon, &wrkIcons);
-    if (statusIcon)
+    if (!statusIcon.isNull())
         icons = statusIcon;
     if (wrkIcons.length()){
         if (icons.length())
@@ -997,12 +1005,12 @@ unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, QString 
     return status;
 }
 
-void UserListBase::deleteItem(QListViewItem *item)
+void UserListBase::deleteItem(Q3ListViewItem *item)
 {
     if (item == NULL)
         return;
     if (item == currentItem()) {
-        QListViewItem *nextItem = item->nextSibling();
+        Q3ListViewItem *nextItem = item->nextSibling();
         if (nextItem == NULL){
             if (item->parent()){
                 nextItem = item->parent()->firstChild();
@@ -1125,17 +1133,18 @@ bool UserList::isGroupSelected(unsigned id)
     return bRes;
 }
 
-#define CHECK_OFF	QStyle::Style_Off
-#define CHECK_ON	QStyle::Style_On
-#define CHECK_NOCHANGE	QStyle::Style_NoChange
+#define CHECK_OFF	QStyle::State_Off
+#define CHECK_ON	QStyle::State_On
+#define CHECK_NOCHANGE	QStyle::State_NoChange
 
-int UserList::drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState, const QColorGroup &cg)
+int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg)
 {
     int state = bState ? CHECK_ON : CHECK_OFF;
-    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
+    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
+    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QRect rc(x, (item->height() - h) / 2, w, h);
-    style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, state);
+	SIM::log(SIM::L_DEBUG, "UserList::drawIndicator() FIXMEEEE");
+    //style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, state);
     x += w + 2;
     return x;
 }
@@ -1151,20 +1160,26 @@ int UserListBase::heightItem(UserViewItemBase*)
 
 void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-    QListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+    Q3ListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
     if (list_item == NULL)
         return;
     switch (static_cast<UserViewItemBase*>(list_item)->type()){
-    case USR_ITEM:{
+    case USR_ITEM:
+		{
             ContactItem *item = static_cast<ContactItem*>(list_item);
-            if (isSelected(item->id())){
-                for (list<unsigned>::iterator it = selected.begin(); it != selected.end(); ++it){
-                    if ((*it) == item->id()){
+            if (isSelected(item->id()))
+			{
+                for (list<unsigned>::iterator it = selected.begin(); it != selected.end(); ++it)
+				{
+                    if ((*it) == item->id())
+					{
                         selected.erase(it);
                         break;
                     }
                 }
-            }else{
+            }
+			else
+			{
                 selected.push_back(item->id());
             }
             item->repaint();
@@ -1174,12 +1189,16 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
         }
     case GRP_ITEM:{
             GroupItem *item = static_cast<GroupItem*>(list_item);
-            if (isGroupSelected(item->id())){
-                for (QListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
+            if(isGroupSelected(item->id()))
+			{
+                for(Q3ListViewItem *i = item->firstChild(); i; i = i->nextSibling())
+				{
                     ContactItem *ci = static_cast<ContactItem*>(i);
                     list<unsigned>::iterator it;
-                    for (it = selected.begin(); it != selected.end(); ++it){
-                        if ((*it) == ci->id()){
+                    for(it = selected.begin(); it != selected.end(); ++it)
+					{
+                        if((*it) == ci->id())
+						{
                             selected.erase(it);
                             break;
                         }
@@ -1187,7 +1206,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
                     ci->repaint();
                 }
             }else{
-                for (QListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
+                for (Q3ListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
                     ContactItem *ci = static_cast<ContactItem*>(i);
                     list<unsigned>::iterator it;
                     for (it = selected.begin(); it != selected.end(); ++it)
@@ -1207,7 +1226,9 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
     m_pressedItem = NULL;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "userlist.moc"
 #endif
+*/
 

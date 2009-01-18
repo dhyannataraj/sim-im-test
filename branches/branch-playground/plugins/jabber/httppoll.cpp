@@ -21,6 +21,8 @@
 #include "log.h"
 
 #include "jabberclient.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
@@ -40,8 +42,8 @@ protected:
     JabberBuffer readData;
     JabberBuffer writeData;
     QString m_url;
-    QCString m_key;
-    QCString m_seed;
+    Q3CString m_key;
+    Q3CString m_seed;
     QString m_cookie;
     virtual unsigned long localHost();
     virtual void pause(unsigned);

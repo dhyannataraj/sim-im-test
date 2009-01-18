@@ -17,9 +17,11 @@
 
 #include <qpixmap.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qtabwidget.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 #include "icons.h"
 #include "listview.h"
@@ -36,9 +38,10 @@ using namespace SIM;
 extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
-                     const QString &name, const QString &type, const QString &category)
-        : DiscoInfoBase(browser, NULL, false, WDestructiveClose)
+                     const QString &name, const QString &type, const QString &category) : QDialog(browser, NULL, false, Qt::WDestructiveClose)
+        //: DiscoInfoBase(browser, NULL, false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     m_browser = browser;
     SET_WNDPROC("jbrowser")
     setIcon(Pict("Jabber_online"));
@@ -208,7 +211,7 @@ bool DiscoInfo::processEvent(Event *e)
                 m_statId = QString::null;
                 return true;
             }
-            QListViewItem *i = new QListViewItem(lstStat);
+            Q3ListViewItem *i = new Q3ListViewItem(lstStat);
             i->setText(0, item->jid);
             i->setText(1, item->name);
             i->setText(2, item->node);
@@ -263,14 +266,14 @@ bool DiscoInfo::processEvent(Event *e)
 
 void DiscoInfo::resizeEvent(QResizeEvent *e)
 {
-    DiscoInfoBase::resizeEvent(e);
+    QDialog::resizeEvent(e);
     lstStat->adjustColumn();
 }
 
 void DiscoInfo::accept()
 {
     apply();
-    DiscoInfoBase::accept();
+    QDialog::accept();
 }
 
 void DiscoInfo::apply()
@@ -301,7 +304,9 @@ void DiscoInfo::urlChanged(const QString &text)
     btnUrl->setEnabled(!text.isEmpty());
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "discoinfo.moc"
 #endif
+*/
 

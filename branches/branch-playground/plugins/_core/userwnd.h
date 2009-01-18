@@ -22,12 +22,15 @@
 #include "message.h"
 
 #include <qsplitter.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QCloseEvent>
 
 class MsgEdit;
 class MsgView;
 class ListView;
 class CorePlugin;
-class QToolBar;
+class Q3ToolBar;
 class UserList;
 
 struct UserWndData
@@ -43,7 +46,7 @@ class UserWnd : public QSplitter
 public:
     UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
-    QCString getConfig();
+    Q3CString getConfig();
     unsigned long id() const { return m_id; }
     QString getName();
     QString getLongName();
@@ -65,7 +68,7 @@ signals:
 protected slots:
     void modeChanged();
     void editHeightChanged(int);
-    void toolbarChanged(QToolBar*);
+    void toolbarChanged(Q3ToolBar*);
     void selectChanged();
 protected:
     PROP_ULONG(EditHeight);

@@ -20,11 +20,11 @@
 
 #include "contacts.h"
 
-#include "msnconfigbase.h"
+#include "ui_msnconfigbase.h"
 
 class MSNClient;
 
-class MSNConfig : public MSNConfigBase
+class MSNConfig : public QWidget, public Ui::MSNConfigBase
 {
     Q_OBJECT
 public:

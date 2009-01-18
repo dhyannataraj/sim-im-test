@@ -27,9 +27,10 @@
 
 using namespace SIM;
 
-PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
-        : PhoneDetailsBase(p)
+PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber) : QWidget(p)
+        //: PhoneDetailsBase(p)
 {
+	setupUi(this);
     QString number = oldNumber;
     QString areaCode;
     QString extension;
@@ -132,7 +133,9 @@ void PhoneDetails::textChanged(const QString&)
     getNumber();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "phonedetails.moc"
 #endif
+*/
 

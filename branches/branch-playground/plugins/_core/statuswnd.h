@@ -19,8 +19,13 @@
 #define _STATUSWND_H
 
 
-#include <qframe.h>
+#include "event.h"
+#include <QFrame>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QHBoxLayout>
 
 class CorePlugin;
 

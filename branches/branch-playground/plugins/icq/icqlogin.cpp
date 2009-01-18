@@ -16,8 +16,11 @@
  ***************************************************************************/
 
 #include <stdio.h>
-#include <qpixmap.h>
-#include <qapplication.h>
+#include <QPixmap>
+#include <QApplication>
+#include <QCryptographicHash>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "log.h"
 #include "buffer.h"
@@ -96,20 +99,22 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
         log(L_DEBUG, "Sending MD5 key");
         if (!data.owner.Screen.str().isEmpty() || data.owner.Uin.toULong()){
-            QCString md5_key;
+            Q3CString md5_key;
             socket()->readBuffer().unpackStr(md5_key);
             snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             if (data.owner.Uin.toULong()){
                 char uin[20];
                 sprintf(uin, "%lu", data.owner.Uin.toULong());
                 socket()->writeBuffer().tlv(0x0001, uin);
-            }else{
-                socket()->writeBuffer().tlv(0x0001, data.owner.Screen.str());
             }
-            QCString md = md5_key;
+			else
+			{
+                socket()->writeBuffer().tlv(0x0001, data.owner.Screen.str().toUtf8().data());
+            }
+            QByteArray md = md5_key;
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
-            md = md5(md);
+            md = QCryptographicHash::hash(md, QCryptographicHash::Md5);
             socket()->writeBuffer().tlv(0x0025, md.data(), md.length());
 	        if (data.owner.Uin.toULong()){
                 socket()->writeBuffer().tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");  //ToDo: Should be updated anytime
@@ -166,7 +171,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
+            Q3CString pswd = getContacts()->fromUnicode(NULL, getPassword());
             unsigned short len = (unsigned short)(pswd.length() + 1);
             msg.pack(len);
             msg.pack(pswd.data(), len);
@@ -220,11 +225,12 @@ void ICQClient::chn_login()
         socket()->writeBuffer() << 0x00000001L;
         sendPacket(true);
         snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
-        if (data.owner.Uin.toULong()){
+        if (data.owner.Uin.toULong())
+		{
             QString uin = QString::number(data.owner.Uin.toULong());
-            socket()->writeBuffer().tlv(0x0001, uin);
+            socket()->writeBuffer().tlv(0x0001, uin.toUtf8().data());
         }else{
-            socket()->writeBuffer().tlv(0x0001, data.owner.Screen.str());
+            socket()->writeBuffer().tlv(0x0001, data.owner.Screen.str().toUtf8().data());
         }
         socket()->writeBuffer().tlv(0x004B);
         socket()->writeBuffer().tlv(0x005A);
@@ -251,7 +257,7 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    Q3CString pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
     msg.pack(pswd.data(), len);
@@ -373,7 +379,7 @@ void ICQClient::chn_close()
         socket()->error_state(I18N_NOOP("Close packet from server"));
         return;
     }
-    QCString host = tlv_host->byteArray().data();
+    QString host = tlv_host->byteArray().data();
     int idx = host.find(':');
     if (idx == -1){
         log(L_ERROR, "Bad host address %s", host.data());

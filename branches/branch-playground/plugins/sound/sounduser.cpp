@@ -26,21 +26,25 @@
 #include <qfile.h>
 #include <qlabel.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 using namespace SIM;
 
 unsigned ONLINE_ALERT = 0x10000;
 
-SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)
-        : SoundUserConfigBase(parent)
+SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin) : QWidget(parent)
+        //: SoundUserConfigBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     lstSound->addColumn(i18n("Sound"));
     lstSound->addColumn(i18n("File"));
     lstSound->setExpandingColumn(1);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"),
+    Q3ListViewItem *item = new Q3ListViewItem(lstSound, i18n("Online alert"),
                                             plugin->fullName(user_data->Alert.str()));
     item->setText(2, QString::number(ONLINE_ALERT));
     item->setPixmap(0, makePixmap("SIM"));
@@ -49,7 +53,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if ((def == NULL) || (cmd->icon == NULL) ||
+        if ((def == NULL) || (cmd->icon.isNull()) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY | MESSAGE_CHILD)))
             continue;
         if ((def->singular == NULL) || (def->plural == NULL) ||
@@ -63,7 +67,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
             type = type.left(pos);
         }
         type = type.left(1).upper() + type.mid(1);
-        item = new QListViewItem(lstSound, type,
+        item = new Q3ListViewItem(lstSound, type,
                                  m_plugin->messageSound(cmd->id, user_data));
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));
@@ -75,7 +79,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     toggled(user_data->Disable.toBool());
     m_edit = NULL;
     m_editItem = NULL;
-    connect(lstSound, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+    connect(lstSound, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
 }
 
 QPixmap SoundUserConfig::makePixmap(const char *src)
@@ -95,7 +99,7 @@ void SoundUserConfig::apply(void *data)
 {
     selectionChanged(NULL);
     SoundUserData *user_data = (SoundUserData*)data;
-    for (QListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (text.isEmpty())
@@ -114,7 +118,7 @@ void SoundUserConfig::apply(void *data)
 
 void SoundUserConfig::resizeEvent(QResizeEvent *e)
 {
-    SoundUserConfigBase::resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstSound->adjustColumn();
 }
 
@@ -123,7 +127,7 @@ void SoundUserConfig::toggled(bool bState)
     lstSound->setEnabled(!bState);
 }
 
-void SoundUserConfig::selectionChanged(QListViewItem *item)
+void SoundUserConfig::selectionChanged(Q3ListViewItem *item)
 {
     if (m_editItem){
         m_editItem->setText(1, m_edit->text());
@@ -142,8 +146,4 @@ void SoundUserConfig::selectionChanged(QListViewItem *item)
     m_edit->show();
     m_edit->setFocus();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "sounduser.moc"
-#endif
 

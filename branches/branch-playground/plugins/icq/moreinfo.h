@@ -18,12 +18,13 @@
 #ifndef _MOREINFO_H
 #define _MOREINFO_H
 
-#include "moreinfobase.h"
+#include "ui_moreinfobase.h"
 
+#include "event.h"
 class ICQClient;
 struct ICQUserData;
 
-class MoreInfo : public MoreInfoBase, public SIM::EventReceiver
+class MoreInfo : public QWidget, public Ui::MoreInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

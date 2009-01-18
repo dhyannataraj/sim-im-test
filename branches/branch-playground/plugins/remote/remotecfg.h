@@ -18,11 +18,11 @@
 #ifndef _REMOTECFG_H
 #define _REMOTECFG_H
 
-#include "remotecfgbase.h"
+#include "ui_remotecfgbase.h"
 
 class RemotePlugin;
 
-class RemoteConfig : public RemoteConfigBase
+class RemoteConfig : public QWidget, public Ui::RemoteConfigBase
 {
     Q_OBJECT
 public:

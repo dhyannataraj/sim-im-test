@@ -18,12 +18,13 @@
 #ifndef _WORKINFO_H
 #define _WORKINFO_H
 
-#include "workinfobase.h"
+#include "ui_workinfobase.h"
+#include "event.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class WorkInfo : public WorkInfoBase, public SIM::EventReceiver
+class WorkInfo : public QWidget, public Ui::WorkInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

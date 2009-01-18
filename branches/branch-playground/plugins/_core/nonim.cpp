@@ -19,12 +19,15 @@
 
 #include "nonim.h"
 #include "intedit.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 using namespace SIM;
 
-NonIM::NonIM(QWidget *parent)
-        : NonIMBase(parent)
+NonIM::NonIM(QWidget *parent) : QWidget(parent)
+        //: NonIMBase(parent)
 {
+	setupUi(this);
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
     edtPhone->setValidator(new PhoneValidator(edtPhone));
@@ -32,7 +35,7 @@ NonIM::NonIM(QWidget *parent)
 
 void NonIM::showEvent(QShowEvent *e)
 {
-    NonIMBase::showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(true);
 }
 
@@ -66,7 +69,9 @@ void NonIM::createContact(unsigned tmpFlags, Contact *&contact)
 }
 
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "nonim.moc"
 #endif
+*/
 

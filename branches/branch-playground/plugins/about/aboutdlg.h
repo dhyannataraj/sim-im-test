@@ -19,15 +19,17 @@
 #define _ABOUTDLG_H
 
 #include "simapi.h"
+//Added by qt3to4:
+#include <QCloseEvent>
 
 #ifndef USE_KDE
 
-#include "aboutdlgbase.h"
+#include "ui_aboutdlgbase.h"
 
 class KAboutData;
 class KAboutPerson;
 
-class KAboutApplication : public AboutDlgBase
+class KAboutApplication : public QDialog, public Ui::AboutDlgBase
 {
     Q_OBJECT
 public:

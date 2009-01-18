@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "fetch.h"
 #include "log.h"
@@ -114,13 +116,13 @@ bool MSNHttpPool::done(unsigned code, Buffer &data, const QString &headers)
     }
     // FIXME
     for (const char *p = headers; *p; p += strlen(p) + 1){
-        QCString h = p;
+        Q3CString h = p;
         if (getToken(h, ':') == "X-MSN-Messenger"){
-            QCString h = h.stripWhiteSpace ();
+            Q3CString h = h.stripWhiteSpace ();
             while (!h.isEmpty()){
-                QCString part = getToken(h, ';');
-                QCString v = part.stripWhiteSpace ();
-                QCString k = getToken(v, '=');
+                Q3CString part = getToken(h, ';');
+                Q3CString v = part.stripWhiteSpace ();
+                Q3CString k = getToken(v, '=');
                 if (k == "SessionID"){
                     m_session_id = QString::fromUtf8(v);
                 }else if (k == "GW-IP"){
@@ -169,9 +171,4 @@ Socket *MSNClient::createSBSocket()
         return new MSNHttpPool(this, true);
     return NULL;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "msnhttp.moc"
-#endif
-
 

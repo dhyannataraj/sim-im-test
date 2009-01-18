@@ -29,10 +29,12 @@
 #include "core_consts.h"
 
 #include <qpixmap.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qapplication.h>
+#include <QShowEvent>
+#include <QDesktopWidget>
 
 using namespace std;
 using namespace SIM;
@@ -40,7 +42,7 @@ using namespace SIM;
 const unsigned BROWSE_INFO	= 8;
 
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type)
-        : QWizard(parent, NULL, FALSE, WType_TopLevel | WDestructiveClose)
+        : Q3Wizard(parent, NULL, FALSE, Qt::WType_TopLevel | Qt::WDestructiveClose)
 {
     m_type = type;
     m_search = new JabberSearch;
@@ -120,7 +122,7 @@ JabberBrowser::JabberBrowser()
     m_list->addColumn(i18n("Node"));
     m_list->setExpandingColumn(0);
     m_list->setMenu(0);
-    connect(m_list, SIGNAL(currentChanged(QListViewItem*)), this, SLOT(currentChanged(QListViewItem*)));
+    connect(m_list, SIGNAL(currentChanged(Q3ListViewItem*)), this, SLOT(currentChanged(Q3ListViewItem*)));
     connect(m_list, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(m_list, SIGNAL(dragStart()), this, SLOT(dragStart()));
 
@@ -221,7 +223,7 @@ void JabberBrowser::go(const QString &url, const QString &node)
     EventCommandDisabled(cmd).process();
 
     m_bInProcess = true;
-    QListViewItem *item = new QListViewItem(m_list);
+    Q3ListViewItem *item = new Q3ListViewItem(m_list);
     item->setText(COL_JID, url);
     item->setText(COL_NAME, url);
     item->setText(COL_NODE, node);
@@ -442,7 +444,7 @@ bool JabberBrowser::processEvent(Event *e)
         }
         if (cmd->param != this)
             return false;
-        QListViewItem *item = m_list->currentItem();
+        Q3ListViewItem *item = m_list->currentItem();
         if (cmd->menu_id == MenuBrowser){
             cmd->flags &= ~COMMAND_CHECKED;
             unsigned mode = JabberPlugin::plugin->getBrowseType();
@@ -555,7 +557,7 @@ bool JabberBrowser::processEvent(Event *e)
             return false;
         EventDiscoItem *edi = static_cast<EventDiscoItem*>(e);
         DiscoItem *item = edi->item();
-        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id);
+        Q3ListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id);
         if (it){
             if (item->jid.isEmpty()){
                 it->setText(COL_ID_DISCO_ITEMS, QString::null);
@@ -585,13 +587,13 @@ bool JabberBrowser::processEvent(Event *e)
                 if ((it == m_list->firstChild()) || (it == m_list->currentItem()))
                     it->setOpen(true);
             }
-            QListViewItem *i;
+            Q3ListViewItem *i;
             for (i = it->firstChild(); i; i = i->nextSibling()){
                 if ((i->text(COL_JID) == item->jid) &&
                         (i->text(COL_NODE) == item->node))
                     return true;
             }
-            i = new QListViewItem(it);
+            i = new Q3ListViewItem(it);
             i->setText(COL_JID, item->jid);
             i->setText(COL_NAME, item->name.isEmpty() ? item->jid : item->name);
             i->setText(COL_NODE, item->node);
@@ -651,7 +653,7 @@ bool JabberBrowser::processEvent(Event *e)
                 return true;
             }
             if (it->text(COL_JID) != item->jid){
-                QListViewItem *i;
+                Q3ListViewItem *i;
                 for (i = it->firstChild(); i; i = i->nextSibling()){
                     if ((i->text(COL_JID) == item->jid) &&
                             (i->text(COL_NODE) == item->node))
@@ -665,7 +667,7 @@ bool JabberBrowser::processEvent(Event *e)
                         if ((it == m_list->firstChild()) || (it == m_list->currentItem()))
                             it->setOpen(true);
                     }
-                    it = new QListViewItem(it);
+                    it = new Q3ListViewItem(it);
                     it->setText(COL_JID, item->jid);
                     it->setText(COL_MODE, "0");
                     if (JabberPlugin::plugin->getAllLevels())
@@ -711,7 +713,7 @@ void JabberBrowser::setNavigation()
     EventCommandDisabled(cmd).process();
 }
 
-void JabberBrowser::currentChanged(QListViewItem*)
+void JabberBrowser::currentChanged(Q3ListViewItem*)
 {
     Command cmd;
     cmd->id		= CmdBrowseInfo;
@@ -731,13 +733,13 @@ void JabberBrowser::currentChanged(QListViewItem*)
     cmd->flags	= haveFeature("jabber:iq:data") ? 0 : COMMAND_DISABLED;
     EventCommandDisabled(cmd).process();
 
-    QListViewItem *item = m_list->currentItem();
+    Q3ListViewItem *item = m_list->currentItem();
     if (item == NULL)
         return;
     loadItem(item);
 }
 
-void JabberBrowser::loadItem(QListViewItem *item)
+void JabberBrowser::loadItem(Q3ListViewItem *item)
 {
     bool bProcess = false;
     unsigned mode = item->text(COL_MODE).toLong();
@@ -780,7 +782,7 @@ void JabberBrowser::changeMode()
     }
 }
 
-void JabberBrowser::changeMode(QListViewItem *item)
+void JabberBrowser::changeMode(Q3ListViewItem *item)
 {
     loadItem(item);
     for (item = item->firstChild(); item; item = item->nextSibling())
@@ -789,7 +791,7 @@ void JabberBrowser::changeMode(QListViewItem *item)
 
 void JabberBrowser::dragStart()
 {
-    QListViewItem *item = m_list->currentItem();
+    Q3ListViewItem *item = m_list->currentItem();
     if (item == NULL)
         return;
     Contact *contact;
@@ -876,7 +878,7 @@ bool JabberBrowser::haveFeature(const char *feature)
 
 bool JabberBrowser::haveFeature(const char *feature, const QString &features)
 {
-    if (features == NULL)
+    if (features.isNull())
         return false;
     QString ff = features;
     while (!ff.isEmpty()){
@@ -905,19 +907,19 @@ void JabberBrowser::showConfig()
     }
 }
 
-QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id)
+Q3ListViewItem *JabberBrowser::findItem(unsigned col, const QString &id)
 {
     if (m_list->firstChild() == NULL)
         return NULL;
     return findItem(col, id, m_list->firstChild());
 }
 
-QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id, QListViewItem *item)
+Q3ListViewItem *JabberBrowser::findItem(unsigned col, const QString &id, Q3ListViewItem *item)
 {
     if (item->text(col) == id)
         return item;
     for (item = item->firstChild(); item; item = item->nextSibling()){
-        QListViewItem *res = findItem(col, id, item);
+        Q3ListViewItem *res = findItem(col, id, item);
         if (res)
             return res;
     }
@@ -930,7 +932,7 @@ void JabberBrowser::checkDone()
         stop(QString::null);
 }
 
-bool JabberBrowser::checkDone(QListViewItem *item)
+bool JabberBrowser::checkDone(Q3ListViewItem *item)
 {
     if (!item->text(COL_ID_DISCO_ITEMS).isEmpty() ||
             !item->text(COL_ID_DISCO_INFO).isEmpty() ||
@@ -944,7 +946,7 @@ bool JabberBrowser::checkDone(QListViewItem *item)
     return true;
 }
 
-void JabberBrowser::setItemPict(QListViewItem *item)
+void JabberBrowser::setItemPict(Q3ListViewItem *item)
 {
     const char *name = "Jabber";
     QString category = item->text(COL_CATEGORY);
@@ -977,7 +979,7 @@ void JabberBrowser::setItemPict(QListViewItem *item)
     item->setPixmap(COL_NAME, Pict(name, item->listView()->colorGroup().base()));
 }
 
-void JabberBrowser::adjustColumn(QListViewItem *item)
+void JabberBrowser::adjustColumn(Q3ListViewItem *item)
 {
     for (; item; item = item->parent()){
         if (item->isExpandable() && !item->isOpen())
@@ -1000,7 +1002,9 @@ I18N_NOOP("Choose a user and password to register with the server");
 
 #endif
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberbrowser.moc"
 #endif
+*/
 

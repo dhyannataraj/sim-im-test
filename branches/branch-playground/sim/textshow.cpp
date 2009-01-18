@@ -22,9 +22,17 @@
 # include <kstdaccel.h>
 # include <kglobal.h>
 # include <kfiledialog.h>
-# define QFileDialog	KFileDialog
+# define Q3FileDialog	KFileDialog
 #else
-# include <qfiledialog.h>
+# include <q3filedialog.h>
+//Added by qt3to4:
+#include <QContextMenuEvent>
+#include <QKeyEvent>
+#include <QLabel>
+#include <Q3GridLayout>
+#include <Q3Frame>
+#include <QFocusEvent>
+#include <QMouseEvent>
 #endif
 
 #ifdef USE_KDE
@@ -36,20 +44,20 @@
 #endif
 
 #include <qdatetime.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qpainter.h>
 #include <qregexp.h>
-#include <qobjectlist.h>
-#include <qvaluelist.h>
+#include <qobject.h>
+#include <q3valuelist.h>
 #include <qtimer.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qlineedit.h>
-#include <qaccel.h>
-#include <qdragobject.h>
+#include <q3accel.h>
+#include <q3dragobject.h>
 #include <qtoolbutton.h>
 #include <qstatusbar.h>
 #include <qtooltip.h>
@@ -130,7 +138,7 @@ void TextEdit::slotClicked(int,int)
     m_bInClick = false;
 }
 
-QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
+Q3PopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
 {
     if (m_bInClick)
         return NULL;
@@ -142,7 +150,7 @@ bool TextEdit::isEmpty()
 {
     if (paragraphs() < 2){
         QString t = text(0);
-        if (textFormat() == QTextEdit::RichText)
+        if(textFormat() == Qt::RichText)
             t = unquoteText(t);
         return t.isEmpty() || (t == " ");
     }
@@ -161,7 +169,7 @@ void TextEdit::slotColorChanged(const QColor &c)
     int parag;
     int index;
     getCursorPosition(&parag, &index);
-    if (QTextEdit::text(parag).isEmpty()){
+    if (Q3TextEdit::text(parag).isEmpty()){
         setColor(curFG);
         return;
     }
@@ -232,14 +240,14 @@ void TextEdit::setCtrlMode(bool mode)
 
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
-    if (((e->key() == Key_Enter) || (e->key() == Key_Return)))
+    if (((e->key() == Qt::Key_Enter) || (e->key() == Qt::Key_Return)))
     {
         //   in m_bCtrlMode:    enter      --> newLine
         //                      ctrl+enter --> sendMsg
         //   in !m_bCtrlMode:   enter      --> sendMsg
         //                      ctrl+enter --> newLine
         // the (bool) is required due to the bitmap
-        if (m_bCtrlMode == (bool)(e->state() & ControlButton)){
+        if (m_bCtrlMode == (bool)(e->state() & Qt::ControlButton)){
             emit ctrlEnterPressed();
             return;
         }
@@ -265,7 +273,7 @@ bool TextEdit::processEvent(Event *e)
         case CmdItalic:
         case CmdUnderline:
         case CmdFont:
-            if ((textFormat() == RichText) && !isReadOnly()){
+            if ((textFormat() == Qt::RichText) && !isReadOnly()){
                 cmd->flags &= ~BTN_HIDE;
             }else{
                 cmd->flags |= BTN_HIDE;
@@ -373,23 +381,23 @@ const QColor &TextEdit::defForeground() const
     return defFG;
 }
 
-void TextEdit::setTextFormat(QTextEdit::TextFormat format)
+void TextEdit::setTextFormat(Qt::TextFormat format)
 {
     if (format == textFormat())
         return;
-    if (format == RichText){
-        QTextEdit::setTextFormat(format);
+    if (format == Qt::RichText){
+        Q3TextEdit::setTextFormat(format);
         return;
     }
     QString t = unquoteText(text());
-    QTextEdit::setTextFormat(format);
+    Q3TextEdit::setTextFormat(format);
     setText(t);
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
-        : QTextEdit(p, name)
+        : Q3TextEdit(p, name)
 {
-    setTextFormat(RichText);
+    setTextFormat(Qt::RichText);
     setReadOnly(true);
 }
 
@@ -433,7 +441,7 @@ void TextShow::setSource(const QString &name)
 {
 #ifndef QT_NO_CURSOR
     if ( isVisible() )
-        qApp->setOverrideCursor( waitCursor );
+        qApp->setOverrideCursor( Qt::waitCursor );
 #endif
     QString source = name;
     QString mark;
@@ -513,7 +521,7 @@ RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
 
 void RichTextEdit::setText(const QString &str)
 {
-    if (m_edit->textFormat() != QTextEdit::RichText)
+    if (m_edit->textFormat() != Qt::RichText)
         m_edit->setText(str);
     BgColorParser p(m_edit);
     p.parse(str);
@@ -522,7 +530,7 @@ void RichTextEdit::setText(const QString &str)
 
 QString RichTextEdit::text()
 {
-    if (m_edit->textFormat() != QTextEdit::RichText)
+    if (m_edit->textFormat() != Qt::RichText)
         return m_edit->text();
     char bg[20];
     sprintf(bg, "%06X", m_edit->background().rgb());
@@ -535,12 +543,12 @@ QString RichTextEdit::text()
     return res;
 }
 
-void RichTextEdit::setTextFormat(QTextEdit::TextFormat format)
+void RichTextEdit::setTextFormat(Qt::TextFormat format)
 {
     m_edit->setTextFormat(format);
 }
 
-QTextEdit::TextFormat RichTextEdit::textFormat()
+Qt::TextFormat RichTextEdit::textFormat()
 {
     return m_edit->textFormat();
 }
@@ -584,12 +592,12 @@ static unsigned colors[16] =
 const int CUSTOM_COLOR	= 100;
 
 ColorPopup::ColorPopup(QWidget *popup, QColor color)
-        : QFrame(popup, "colors", WType_Popup | WStyle_Customize | WStyle_Tool | WDestructiveClose)
+        : Q3Frame(popup, "colors", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
 {
     m_color = color;
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
-    QGridLayout *lay = new QGridLayout(this, 5, 4);
+    Q3GridLayout *lay = new Q3GridLayout(this, 5, 4);
     lay->setMargin(4);
     lay->setSpacing(2);
     for (unsigned i = 0; i < 4; i++){
@@ -640,7 +648,7 @@ ColorLabel::ColorLabel(QWidget *parent, QColor c, int id, const QString &text)
     m_id = id;
     setText(text);
     setBackgroundColor(c);
-    setAlignment(AlignHCenter | AlignVCenter);
+    setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     setFrameShape(StyledPanel);
     setFrameShadow(Sunken);
     setLineWidth(2);
@@ -667,6 +675,9 @@ QSize ColorLabel::minimumSizeHint() const
     return s;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "textshow.moc"
 #endif
+*/
+

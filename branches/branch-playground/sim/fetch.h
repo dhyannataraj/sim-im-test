@@ -18,12 +18,11 @@
 #ifndef _FETCH_H
 #define _FETCH_H
 
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <qobject.h>
 #include <qstring.h>
 
 #include "simapi.h"     // COPY_RESTRICTED
-#include "simapi.h"
 
 #ifdef WIN32
     #define Q_EVENT_SIM_FETCH_DONE (QEvent::User+1)
@@ -71,7 +70,7 @@ protected slots:
     void timeout();
 };
 
-EXPORT QCString basic_auth(const QString &user, const QString &pass);
+EXPORT Q3CString basic_auth(const QString &user, const QString &pass);
 EXPORT bool get_connection_state(bool &state);
 EXPORT QString get_user_agent();
 

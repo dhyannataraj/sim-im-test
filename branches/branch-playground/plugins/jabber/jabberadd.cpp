@@ -18,11 +18,14 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 #include "icons.h"
 #include "intedit.h"
 #include "listview.h"
 #include "misc.h"
+#include "log.h"
 
 #include "jabberclient.h"
 #include "jabberadd.h"
@@ -39,9 +42,10 @@ const unsigned FILL_NICK	= 0x0004;
 const unsigned FILL_MAIL	= 0x0008;
 const unsigned FILL_ALL		= (FILL_FIRST + FILL_LAST + FILL_NICK + FILL_MAIL);
 
-JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
-        : JabberAddBase(parent)
+JabberAdd::JabberAdd(JabberClient *client, QWidget *parent) : QWidget(parent)
+        //: JabberAddBase(parent)
 {
+	setupUi(this);
     m_client   = client;
     m_browser  = NULL;
     m_bBrowser = false;
@@ -52,8 +56,8 @@ JabberAdd::JabberAdd(JabberClient *client, QWidget *parent)
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClick()));
-    QIconSet is = Icon("1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon("1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnBrowser->setIconSet(is);
 }
 
@@ -71,16 +75,22 @@ void JabberAdd::browserDestroyed()
 void JabberAdd::radioToggled(bool)
 {
     setBrowser(false);
+	log(L_DEBUG, "JabberAdd::radioToggled() FIXMEEEE!!!!");
+	/*
     if (isVisible())
         emit setAdd(grpJID->isChecked());
+		*/
 }
 
 void JabberAdd::showEvent(QShowEvent *e)
 {
-    JabberAddBase::showEvent(e);
+	log(L_DEBUG, "JabberAdd::showEvent() FIXMEEEE!!!!");
+    QWidget::showEvent(e);
+		/*
     emit setAdd(grpJID->isChecked());
     if (m_browser && m_bBrowser)
         emit showResult(m_browser);
+		*/
 }
 
 void JabberAdd::browserClick()
@@ -100,8 +110,8 @@ void JabberAdd::setBrowser(bool bBrowser)
         connect(m_browser, SIGNAL(destroyed()), this, SLOT(browserDestroyed()));
     }
     emit showResult(m_bBrowser ? m_browser : NULL);
-    QIconSet is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnBrowser->setIconSet(is);
     if (m_bBrowser){
         edtJID->setEnabled(false);
@@ -114,14 +124,17 @@ void JabberAdd::setBrowser(bool bBrowser)
         lblNick->setEnabled(false);
         emit setAdd(false);
     }else{
-        grpJID->slotToggled();
-        grpName->slotToggled();
-        grpMail->slotToggled();
+		log(L_DEBUG, "JabberAdd::setBrowser() FIXMEEEE!!!!");
+        //grpJID->slotToggled();
+        //grpName->slotToggled();
+        //grpMail->slotToggled();
     }
 }
 
 void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
 {
+	log(L_DEBUG, "JabberAdd::createContact() FIXMEEEE!!!!");
+	/*
     if (!grpJID->isChecked() || edtJID->text().isEmpty())
         return;
     QString resource;
@@ -133,16 +146,20 @@ void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
         name = name.left(n);
     m_client->findContact(edtJID->text(), name, true, contact, resource, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
+	*/
 }
 
 void JabberAdd::search()
 {
+	log(L_DEBUG, "JabberAdd::search() FIXMEEEE!!!!");
+	/*
     if (m_bBrowser)
         return;
     if (grpName->isChecked())
         searchName(edtFirst->text(), edtLast->text(), edtNick->text());
     if (grpMail->isChecked())
         searchMail(edtMail->text());
+		*/
 }
 
 void JabberAdd::searchMail(const QString &mail)
@@ -469,7 +486,9 @@ void JabberAdd::createContact(const QString &name, unsigned tmpFlags, Contact *&
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberadd.moc"
 #endif
+*/
 

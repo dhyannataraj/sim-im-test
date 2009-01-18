@@ -35,14 +35,16 @@
 #endif
 
 #include <qfile.h>
-#include <qtoolbar.h>
-#include <qmainwindow.h>
+#include <q3toolbar.h>
+#include <q3mainwindow.h>
 #include <qstringlist.h>
 #include <qapplication.h>
 #include <qdir.h>
 #include <qstyle.h>
 #ifdef _DEBUG
 # include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3CString>
 #endif
 
 #ifdef USE_KDE
@@ -85,7 +87,7 @@ EXPORT bool makedir(const QString &p)
     ZeroMemory(&sa, sizeof(sa));
     sa.nLength = sizeof(sa);
     sa.lpSecurityDescriptor = NULL;
-    if(QApplication::winVersion()&Qt::WV_NT_based){
+    if(QApplication::winVersion()&QSysInfo::WV_NT_based){
         InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
         SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
         sa.lpSecurityDescriptor = &sd;
@@ -294,9 +296,9 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
     return res;
 }
 
-EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
+EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEscape)
 {
-    QCString res;
+    Q3CString res;
     int i;
     for (i = 0; i < (int)from.length(); i++){
         if (from[i] == c)
@@ -313,7 +315,7 @@ EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
     if (i < (int)from.length()){
         from = from.mid(i + 1);
     }else{
-        from = QCString();
+        from = Q3CString();
     }
     return res;
 }
@@ -358,7 +360,7 @@ QString get_host(const Data &p)
 
 // _______________________________________________________________________________________
 
-EXPORT const QString &get_str(const Data &d, unsigned index)
+EXPORT const QString get_str(const Data &d, unsigned index)
 {
     const Data::STRING_MAP &sm = d.strMap();
     Data::STRING_MAP::const_iterator it = sm.find(index);
@@ -419,7 +421,7 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_CSTRING:
                 // when all our sources are utf-8, use QString::fromUtf8() here!
-                data->cstr() = def->def_value ? QCString(def->def_value) : "";
+                data->cstr() = def->def_value ? Q3CString(def->def_value) : "";
                 break;
             case DATA_STRLIST: {
                 // this breaks on non latin1 defaults!
@@ -482,9 +484,9 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
     return NULL;
 }
 
-static QCString quoteInternal(const QCString &str)
+static Q3CString quoteInternal(const Q3CString &str)
 {
-    QCString res("\"");
+    Q3CString res("\"");
     if (!str.isEmpty()){
         for (unsigned i = 0; i < str.length(); i++){
             unsigned char p = str[(int)i];
@@ -518,7 +520,7 @@ static QCString quoteInternal(const QCString &str)
     return res;
 }
 
-static bool unquoteInternal(QCString &val, QCString &str)
+static bool unquoteInternal(Q3CString &val, Q3CString &str)
 {
     int idx1 = val.find('\"');
     if(idx1 == -1)
@@ -565,14 +567,14 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         return;
     unsigned read_pos = cfg->readPos();
     for (;;){
-        QCString line = cfg->getLine();
+        Q3CString line = cfg->getLine();
         if (line.isEmpty())
             break;
         int idx = line.find('=');
         if(idx == -1)
             continue;
-        QCString name = line.left( idx );
-        QCString val  = line.mid( idx + 1 );
+        Q3CString name = line.left( idx );
+        Q3CString val  = line.mid( idx + 1 );
         if(name.isEmpty() || val.isEmpty())
             continue;
 
@@ -585,7 +587,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         switch (def->type){
         case DATA_IP: {
             int idx = val.find(',');
-            QCString ip, url;
+            Q3CString ip, url;
             if(idx == -1) {
                 ip = val;
             } else {
@@ -598,7 +600,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_UTFLIST:
         case DATA_STRLIST: {
             // <number>,"<text>"(u)
-            QCString v;
+            Q3CString v;
             int idx1 = val.find(',');
             if(idx1 == -1)
                 break;
@@ -622,7 +624,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_CSTRING: {
             // "<text>"(u),"<text>"(u),"<text>"(u),"<text>"(u),...
             for (unsigned i = 0; i < def->n_values; ld++, i++){
-                QCString v;
+                Q3CString v;
                 if(!unquoteInternal(val, v))
                     break;
 
@@ -692,15 +694,15 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     cfg->setReadPos(read_pos);
 }
 
-EXPORT QCString save_data(const DataDef *def, void *_data)
+EXPORT Q3CString save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
-    QCString res;
+    Q3CString res;
     for (; def->name; def++){
-        QCString value;
+        Q3CString value;
         bool bSave = false;
         if (def->type == DATA_STRUCT){
-            QCString s = save_data((DataDef*)(def->def_value), data);
+            Q3CString s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
                     res += '\n';
@@ -738,7 +740,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                             res += QString::number(it.key());
                             res += ',';
                             QString s = it.data();
-                            QCString ls = s.local8Bit();
+                            Q3CString ls = s.local8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 res += quoteInternal(ls);
                             }else{
@@ -764,7 +766,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                             }
                         }
                         if (bSave){
-                            QCString ls = str.local8Bit();
+                            Q3CString ls = str.local8Bit();
                             if (QString::fromLocal8Bit(ls) == str){
                                 value += quoteInternal(ls);
                             }else{
@@ -788,7 +790,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                                 bSave = true;
                         }
                         if (bSave){
-                            QCString ls = str.local8Bit();
+                            Q3CString ls = str.local8Bit();
                             if (QString::fromLocal8Bit(ls) == str){
                                 value += quoteInternal(ls);
                             }else{
@@ -801,7 +803,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                 }
             case DATA_CSTRING:{
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
-                        QCString &str = ld->cstr();
+                        Q3CString &str = ld->cstr();
                         if (value.length())
                             value += ',';
                         if (def->def_value){
@@ -915,9 +917,10 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
     geo[HEIGHT].asLong() = size.height();
     // if window is not visible QT return geometry without frame sizes
     // may work for X versions too
-    if ( !w->isShown() ) {
-        int th = w->style().pixelMetric( QStyle::PM_TitleBarHeight, w );
-        int fw = w->style().pixelMetric( QStyle::PM_DefaultFrameWidth, w );
+    if(!w->isShown())
+	{
+        int th = w->style()->pixelMetric(QStyle::PM_TitleBarHeight, 0, w);
+        int fw = w->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, w);
         geo[0].asLong() -= fw * 2; // + size of left frame border
         geo[1].asLong() -= th + fw; // + size of title and border
     }
@@ -980,20 +983,22 @@ const long SAVE_STATE = -1;
 
 EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
+	/*
     for(int i = 0; i < 7; i++)
         state[i].clear();
     if (bar == NULL)
         return;
-    QMainWindow *main = NULL;
+    Q3MainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
         if (w->inherits("QMainWindow")){
-            main = static_cast<QMainWindow*>(w);
+            main = static_cast<Q3MainWindow*>(w);
             break;
         }
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock;
+    //Q3MainWindow::ToolBarDock dock;
+	Qt::Dock dock;
     int  index;
     bool nl;
     int  extraOffset;
@@ -1003,20 +1008,23 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
     state[2].asLong() = index;
     state[3].asLong() = nl ? 1 : 0;
     state[4].asLong() = extraOffset;
-    if (dock == QMainWindow::TornOff){
+    if (dock == Qt::TornOff){
         QPoint pos = bar->geometry().topLeft();
         state[5].asLong() = pos.x();
         state[6].asLong() = pos.y();
     }
+	*/
 }
 
 EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
+	/*
     if (bar == NULL)
         return;
-    if (state[0].asLong() != SAVE_STATE){
+    if (state[0].asLong() != SAVE_STATE)
+	{
         if (state[1].asLong() == 0)
-            state[1].asLong() = (unsigned)(QMainWindow::Top);
+			state[1].asLong() = (unsigned)(Qt::Top);
         state[2].asLong() = 0;
         state[3].asLong() = 0;
         state[4].asLong() = SAVE_STATE;
@@ -1024,18 +1032,21 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
         state[6].asLong() = 0;
     }
     QMainWindow *main = NULL;
-    for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
-        if (w->inherits("QMainWindow")){
+    for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget())
+	{
+        if (w->inherits("QMainWindow"))
+		{
             main = static_cast<QMainWindow*>(w);
             break;
         }
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].asLong();
+    Q3MainWindow::ToolBarDock dock = (Qt::ToolBarDock)state[1].asLong();
     main->moveToolBar(bar, dock, state[2].asLong() != 0, state[3].asLong() != 0, state[4].asLong());
-    if (dock == QMainWindow::TornOff)
+    if (dock == Q3MainWindow::TornOff)
         bar->move(state[5].asLong(), state[6].asLong());
+		*/
 }
 
 // ----------------------------
@@ -1050,7 +1061,7 @@ public:
     QObject             *m_dataAsObject;
     IP                  *m_dataAsIP;
     QByteArray          *m_dataAsBinary;
-    QCString            *m_dataAsQCString;
+    Q3CString            *m_dataAsQCString;
     DataPrivate() : m_dataAsValue(0), m_dataAsBool(false), m_dataAsQString(NULL),
                     m_dataAsQStringMap(NULL), m_dataAsObject(NULL), m_dataAsIP(NULL),
                     m_dataAsBinary(NULL), m_dataAsQCString(NULL) {}
@@ -1060,7 +1071,7 @@ public:
     static QString myStaticDummyQString;
     static Data::STRING_MAP myStaticDummyQStringMap;
     static QByteArray myStaticDummyQByteArray;
-    static QCString myStaticDummyQCString;
+    static Q3CString myStaticDummyQCString;
 };
 
 unsigned long DataPrivate::myStaticDummyULong = ~0U;
@@ -1068,7 +1079,7 @@ bool DataPrivate::myStaticDummyBool = false;
 QString DataPrivate::myStaticDummyQString = QString("Wrong datatype!");
 Data::STRING_MAP DataPrivate::myStaticDummyQStringMap = Data::STRING_MAP();
 QByteArray DataPrivate::myStaticDummyQByteArray = QByteArray();
-QCString DataPrivate::myStaticDummyQCString = QCString("Wrong datatype!");
+Q3CString DataPrivate::myStaticDummyQCString = Q3CString("Wrong datatype!");
 
 Data::Data()
  : m_type(DATA_UNKNOWN), m_name("unknown"), data(NULL)
@@ -1344,32 +1355,32 @@ bool Data::setIP(const IP *d)
     return true;
 }
 
-const QCString &Data::cstr() const
+const Q3CString &Data::cstr() const
 {
     if(!checkType(DATA_CSTRING))
         return DataPrivate::myStaticDummyQCString;
     if(!data->m_dataAsQCString)
-        data->m_dataAsQCString = new QCString();
+        data->m_dataAsQCString = new Q3CString();
     return *data->m_dataAsQCString;
 }
 
-QCString &Data::cstr()
+Q3CString &Data::cstr()
 {
     if(!checkType(DATA_CSTRING))
         return DataPrivate::myStaticDummyQCString;
     if(!data->m_dataAsQCString)
-        data->m_dataAsQCString = new QCString();
+        data->m_dataAsQCString = new Q3CString();
     return *data->m_dataAsQCString;
 }
 
-bool Data::setCStr(const QCString &s)
+bool Data::setCStr(const Q3CString &s)
 {
     if(!checkType(DATA_CSTRING))
         return false;
     if(data->m_dataAsQCString && s == *data->m_dataAsQCString)
         return false;
     if(!data->m_dataAsQCString)
-        data->m_dataAsQCString = new QCString(s);
+        data->m_dataAsQCString = new Q3CString(s);
     else
         *data->m_dataAsQCString = s;
     return true;

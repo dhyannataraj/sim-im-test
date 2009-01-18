@@ -24,9 +24,9 @@
 #include "navcfg.h"
 #include "navigate.h"
 
-NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin)
-        : NavCfgBase(parent)
+NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
 #ifdef WIN32
     chkNew->setChecked(plugin->getNewWindow());
@@ -71,9 +71,4 @@ void NavCfg::useKDEtoggled(bool on)
 #endif
 	off=false;
 }
-
-
-#ifndef NO_MOC_INCLUDES
-#include "navcfg.moc"
-#endif
 

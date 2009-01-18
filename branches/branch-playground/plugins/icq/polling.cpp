@@ -398,8 +398,3 @@ Socket *ICQClient::createSocket()
     return NULL;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "polling.moc"
-#endif
-
-

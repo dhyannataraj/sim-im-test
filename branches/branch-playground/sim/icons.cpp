@@ -19,18 +19,23 @@
 # include "config.h"
 #endif
 
-#include <qiconset.h>
+#include <qicon.h>
 #include <qmime.h>
 #include <qimage.h>
 #include <qpainter.h>
 #include <qbitmap.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <qfile.h>
 #include <qmime.h>
 #include <qapplication.h>
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QPixmap>
+#include <Q3MimeSourceFactory>
+#include <QImageReader>
 
 #ifdef USE_KDE
 # include <kapp.h>
@@ -75,7 +80,7 @@ public:
     void getSmiles(QStringList &smiles, QStringList &used);
 protected:
     PIXMAP_MAP      m_icons;
-    QValueList<smileDef>    m_smiles;
+    Q3ValueList<smileDef>    m_smiles;
 };
 
 class WrkIconSet : public IconSet
@@ -110,7 +115,7 @@ protected:
     UnZip      *m_zip;
 };
 
-class MyMimeSourceFactory : public QMimeSourceFactory
+class MyMimeSourceFactory : public Q3MimeSourceFactory
 {
 public:
     MyMimeSourceFactory() {};
@@ -120,8 +125,8 @@ public:
 
 class IconsPrivate {
 public:
-    QValueList<IconSet*>    defSets;
-    QValueList<IconSet*>    customSets;
+    Q3ValueList<IconSet*>    defSets;
+    Q3ValueList<IconSet*>    customSets;
 };
 
 /*************************************
@@ -153,16 +158,16 @@ static QPixmap getPixmap(PictDef *d, const char*)
     return p;
 }
 
-QIconSet Icon(const QString &name)
+QIcon Icon(const QString &name)
 {
     PictDef *pict = getPict(name);
     if (pict == NULL)
-        return QIconSet();
-    QIconSet res(getPixmap(pict, name));
+        return QIcon();
+    QIcon res(getPixmap(pict, name));
     QString bigName = "big." + name;
     pict = getPict(bigName);
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName), QIconSet::Large);
+        res.setPixmap(getPixmap(pict, bigName), QIcon::Large);
     return res;
 }
 
@@ -187,7 +192,7 @@ QPixmap Pict(const QString &name, const QColor&)
 **********************/
 void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, QString &name)
 {
-    QValueListIterator<smileDef> it;
+    Q3ValueListIterator<smileDef> it;
     for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
         QString pat = (*it).smile;
         int n = text.find(pat);
@@ -205,7 +210,7 @@ void IconSet::getSmiles(QStringList &smiles, QStringList &used)
 {
     QString name;
     bool bOK = false;
-    QValueListIterator<smileDef> it;
+    Q3ValueListIterator<smileDef> it;
     for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
         if (name != (*it).name){
             if (bOK && !name.isEmpty())
@@ -230,7 +235,7 @@ QStringList IconSet::getSmile(const QString &name)
     PIXMAP_MAP::iterator it = m_icons.find(name);
     if (it == m_icons.end())
         return res;
-    QValueListIterator<smileDef> its;
+    Q3ValueListIterator<smileDef> its;
     for (its = m_smiles.begin(); its != m_smiles.end(); ++its){
         if ((*its).name != name)
             continue;
@@ -259,7 +264,7 @@ static QImage makeOffline(unsigned flags, const QImage &p)
     QImage image = p.copy();
     unsigned swapColor = flags & ICON_COLOR_MASK;
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
-                         (unsigned int *)image.colorTable();
+                         (unsigned int *)image.colorTable().data();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
 
@@ -283,7 +288,7 @@ static QImage makeInactive(const QImage &p)
 {
     QImage image = p.copy();
     unsigned int *data = (image.depth() > 8) ? (unsigned int *)image.bits() :
-                         (unsigned int *)image.colorTable();
+                         (unsigned int *)image.colorTable().data();
     int pixels = (image.depth() > 8) ? image.width()*image.height() :
                  image.numColors();
 
@@ -454,7 +459,7 @@ PictDef *WrkIconSet::add(const QString &name, const QImage &pict, unsigned flags
     PictDef p;
     p.image = pict;
     p.flags = flags;
-    m_icons.insert(PIXMAP_MAP::value_type(name, p));
+    m_icons.insert(name, p);
     return &m_icons.find(name).data();
 }
 
@@ -487,9 +492,9 @@ PictDef *FileIconSet::getPict(const QString &name)
         if (!it.data().system.isEmpty()){
             QPixmap pict;
              if (!name.startsWith("big.")){
-                pict = SmallIconSet(it.data().system).pixmap(QIconSet::Small, QIconSet::Normal);
+                pict = SmallIconSet(it.data().system).pixmap(QIcon::Small, QIcon::Normal);
             }else{
-                pict = DesktopIconSet(it.data().system).pixmap(QIconSet::Large, QIconSet::Normal);
+                pict = DesktopIconSet(it.data().system).pixmap(QIcon::Large, QIcon::Normal);
             }
             if (!pict.isNull()){
                 it.data().image = pict.convertToImage();
@@ -545,7 +550,12 @@ void FileIconSet::element_start(const QString& el, const QXmlAttributes& attrs)
         if (!mime.startsWith("image"))
             return;
         mime = mime.mid(n + 1);
-        QStringList l = QImage::inputFormatList();
+        QStringList l;
+	   	QList<QByteArray> fmts_list = QImageReader::supportedImageFormats();
+		for(QList<QByteArray>::iterator it = fmts_list.begin(); it != fmts_list.end(); ++it)
+		{
+			l.push_back(QString::fromUtf8(*it));
+		}
         for (unsigned i = 0; i < l.count(); i++){
             if (l[i].lower() != mime.lower())
                 continue;
@@ -571,7 +581,7 @@ void FileIconSet::element_end(const QString& el)
 #endif
         PIXMAP_MAP::iterator it = m_icons.find(m_name);
         if (it == m_icons.end())
-            m_icons.insert(PIXMAP_MAP::value_type(m_name, p));
+            m_icons.insert(m_name, p);
 #ifdef USE_KDE
         if (!m_name.startsWith("big.")){
             QString big_name = "big." + m_name;
@@ -612,9 +622,9 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
         name = name.mid(5);
         PictDef *p = getPict(name);
         if (p)
-            ((QMimeSourceFactory*)this)->setImage(abs_name, p->image);
+            ((Q3MimeSourceFactory*)this)->setImage(abs_name, p->image);
     }
-    return QMimeSourceFactory::data(abs_name);
+    return Q3MimeSourceFactory::data(abs_name);
 }
 
 /*****************
@@ -627,10 +637,10 @@ Icons::Icons()
        I had a similar idea with setting the old defaultFactory in
        the destructor but this won't work :(
        Christian */
-    QMimeSourceFactory* oldDefaultFactory = QMimeSourceFactory::takeDefaultFactory();
-    QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
+    Q3MimeSourceFactory* oldDefaultFactory = Q3MimeSourceFactory::takeDefaultFactory();
+    Q3MimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
     if (oldDefaultFactory)
-        QMimeSourceFactory::addFactory( oldDefaultFactory );
+        Q3MimeSourceFactory::addFactory( oldDefaultFactory );
     addIconSet("icons/sim.jisp", true);
     d->defSets.append(new WrkIconSet);
     addIconSet("icons/smiles.jisp", false);
@@ -640,7 +650,7 @@ Icons::Icons()
 
 Icons::~Icons()
 {
-    QValueListIterator<IconSet*> it;
+    Q3ValueListIterator<IconSet*> it;
     for (it = d->customSets.begin(); it != d->customSets.end(); ++it)
         delete *it;
     for (it = d->defSets.begin(); it != d->defSets.end(); ++it)
@@ -651,7 +661,7 @@ Icons::~Icons()
 bool Icons::processEvent(Event *e)
 {
     if (e->type() == eEventIconChanged){
-        QValueListIterator<IconSet*> it;
+        Q3ValueListIterator<IconSet*> it;
         for (it = d->customSets.begin(); it != d->customSets.end(); ++it)
             (*it)->clear();
         for (it = d->defSets.begin(); it != d->defSets.end(); ++it)
@@ -667,7 +677,7 @@ void Icons::iconChanged(int)
 
 PictDef *Icons::getPict(const QString &name)
 {
-    QValueListIterator<IconSet*> it;
+    Q3ValueListIterator<IconSet*> it;
     for (it = d->customSets.begin(); it != d->customSets.end(); ++it){
         PictDef *res = (*it)->getPict(name);
         if (res)
@@ -683,7 +693,7 @@ PictDef *Icons::getPict(const QString &name)
 
 QStringList Icons::getSmile(const QString &name)
 {
-    QValueListIterator<IconSet*> it;
+    Q3ValueListIterator<IconSet*> it;
     for (it = d->customSets.begin(); it != d->customSets.end(); ++it){
         QStringList res = (*it)->getSmile(name);
         if (!res.empty())
@@ -694,7 +704,7 @@ QStringList Icons::getSmile(const QString &name)
 
 QString Icons::getSmileName(const QString &name)
 {
-    QValueListIterator<IconSet*> it;
+    Q3ValueListIterator<IconSet*> it;
     for (it = d->customSets.begin(); it != d->customSets.end(); ++it){
         QString res = (*it)->getSmileName(name);
         if (!res.isEmpty())
@@ -706,7 +716,7 @@ QString Icons::getSmileName(const QString &name)
 void Icons::getSmiles(QStringList &smiles)
 {
     QStringList used;
-    QValueListIterator<IconSet*> it;
+    Q3ValueListIterator<IconSet*> it;
     for (it = d->customSets.begin(); it != d->customSets.end(); ++it)
         (*it)->getSmiles(smiles, used);
 }
@@ -719,7 +729,7 @@ QString Icons::parseSmiles(const QString &str)
         unsigned start = (unsigned)(-1);
         unsigned size  = 0;
         QString smile;
-        QValueListIterator<IconSet*> it;
+        Q3ValueListIterator<IconSet*> it;
         for (it = d->customSets.begin(); it != d->customSets.end(); ++it){
             unsigned pos    = ~0U;
             unsigned length = 0;
@@ -762,7 +772,7 @@ IconSet *Icons::addIconSet(const QString &name, bool bDefault)
 void Icons::removeIconSet(IconSet *is)
 {
     if(!is) {
-        for (QValueListIterator<IconSet*> it = d->customSets.begin(); it != d->customSets.end(); ){
+        for (Q3ValueListIterator<IconSet*> it = d->customSets.begin(); it != d->customSets.end(); ){
             IconSet *set = *it;
             it++;
             delete set;
@@ -770,7 +780,7 @@ void Icons::removeIconSet(IconSet *is)
         d->customSets.clear();
         return;
     }
-    QValueListIterator<IconSet*> it;
+    Q3ValueListIterator<IconSet*> it;
     it = d->customSets.find( is );
     if(it != d->customSets.end()){
         delete is;
@@ -787,6 +797,8 @@ void Icons::removeIconSet(IconSet *is)
 
 };
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "icons.moc"
 #endif
+*/

@@ -33,6 +33,9 @@
 #include <qregexp.h>
 #include <qpushbutton.h>
 #include <qmessagebox.h>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <QDesktopWidget>
 
 #include "fontedit.h"
 #include "log.h"
@@ -146,8 +149,7 @@ static QWidget *getOSDSetup(QWidget *parent, void *data)
     return new OSDConfig(parent, data, osdPlugin);
 }
 
-OSDPlugin::OSDPlugin(unsigned base)
-        : Plugin(base)
+OSDPlugin::OSDPlugin(unsigned base) : Plugin(base)
 {
     osdPlugin    = this;
 
@@ -243,14 +245,14 @@ static const char * const arrow_h_xpm[] = {
             "..++..+++"};
 
 OSDWidget::OSDWidget(OSDPlugin *plugin)
-        : QWidget(NULL, "osd", WType_TopLevel |
-                  WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
-                  WStyle_Tool |WRepaintNoErase | WX11BypassWM)
+        : QWidget(NULL, "osd", Qt::WType_TopLevel |
+                  Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
+                  Qt::WStyle_Tool |Qt::WNoAutoErase | Qt::WX11BypassWM)
 {
     m_plugin = plugin;
     baseFont = m_plugin->getBaseFont(font());
     m_button = NULL;
-    setFocusPolicy(NoFocus);
+    setFocusPolicy(Qt::NoFocus);
 }
 
 QPixmap& intensity(QPixmap &pict, float percent);
@@ -299,12 +301,12 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     rcScreen = QRect(0, 0,
                      rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
                      rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
-    QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+    QRect rc = p.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
     if (rc.height() >= rcScreen.height() / 2){
         rcScreen = QRect(0, 0,
                          rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
                          rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
-        rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
+        rc = p.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
     }
     p.end();
     if (data->EnableMessageShowContent.toBool() && data->ContentLines.toULong()){
@@ -384,12 +386,12 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
             p.setFont(font());
             if (data->Shadow.toBool()){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
-                p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
                 rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
-                p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
             }else{
                 rc = QRect(0, 0, w, h);
-                p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
             }
         }
         p.end();
@@ -408,13 +410,13 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         }
         QBrush bg(data->BgColor.toULong());
         p.fillRect(rc, bg);
-        style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
+        //style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());
     p.setPen(QColor(data->Color.toULong()));
     rc.setTop(text_y);
-    p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
+    p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
     p.end();
     bgPict = pict;
 #ifdef WIN32
@@ -644,11 +646,11 @@ void OSDPlugin::processQueue()
 
 				
 				if ( core->getManualStatus()==STATUS_NA && 
-				     data->EnableCapsLockFlash.toBool() && 
-				     ! this->running() 
+				     data->EnableCapsLockFlash.toBool() //&& 
+				     //! this->running() 
 				   )
 				   
-					this->start(); //Start flashing the CapsLock if enabled
+					//this->start(); //Start flashing the CapsLock if enabled
 				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
                 if (msg_text.isEmpty())
                     break;
@@ -931,8 +933,4 @@ bool OSDPlugin::processEvent(Event *e)
     }
     return false;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "osd.moc"
-#endif
 

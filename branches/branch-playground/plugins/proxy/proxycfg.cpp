@@ -23,6 +23,9 @@
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qtabwidget.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QPixmap>
 
 #include "icons.h"
 #include "misc.h"
@@ -34,9 +37,10 @@
 
 using namespace SIM;
 
-ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
-        : ProxyConfigBase(parent)
+ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client) : QWidget(parent)
+        //: ProxyConfigBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     m_client = client;
     m_current = (unsigned)(-1);
@@ -258,7 +262,9 @@ void ProxyConfig::get(ProxyData *data)
     data->bInit = true;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "proxycfg.moc"
 #endif
+*/
 

@@ -18,15 +18,17 @@
 #ifndef _ICQSEARCH_H
 #define _ICQSEARCH_H
 
-#include "icqsearchbase.h"
-#include <qvaluelist.h>
+#include "ui_icqsearchbase.h"
+#include <q3valuelist.h>
+#include <QShowEvent>
+#include "event.h"
 
 class ICQClient;
 class AdvSearch;
 class AIMSearch;
 class GroupRadioButton;
 
-class ICQSearch : public ICQSearchBase, public SIM::EventReceiver
+class ICQSearch : public QWidget, public Ui::ICQSearchBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -65,7 +67,7 @@ protected:
     void icq_search();
     void addColumns();
     void add(const QString &screen, unsigned tmpFlags, SIM::Contact *&contact);
-    QValueList<unsigned>    m_uins;
+    Q3ValueList<unsigned>    m_uins;
     ICQClient			*m_client;
     QWidget				*m_adv;
     bool				m_bAdv;

@@ -19,13 +19,12 @@
 #define _INTERESTSINFO_H
 
 #include "event.h"
-
-#include "interestsinfobase.h"
+#include "ui_interestsinfobase.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class InterestsInfo : public InterestsInfoBase, public SIM::EventReceiver
+class InterestsInfo : public QWidget, public Ui::InterestsInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

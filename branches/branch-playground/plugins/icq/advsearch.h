@@ -18,9 +18,11 @@
 #ifndef _ADVSEARCH_H
 #define _ADVSEARCH_H
 
-#include "advsearchbase.h"
+#include "ui_advsearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
-class AdvSearch : public AdvSearchBase
+class AdvSearch : public QWidget, public Ui::AdvSearchBase
 {
     Q_OBJECT
 public:

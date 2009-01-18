@@ -30,9 +30,9 @@
 
 using namespace SIM;
 
-PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key)
-        : PassphraseDlgBase(NULL, "passphrase", false, WDestructiveClose)
+PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key) : QDialog(NULL, "passphrase", false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     m_plugin = plugin;
     SET_WNDPROC("passphrase")
     setIcon(Pict("encrypted"));
@@ -66,8 +66,4 @@ void PassphraseDlg::error()
     raiseWindow(this);
     BalloonMsg::message(i18n("Bad passphrase"), btnOk);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "passphrase.moc"
-#endif
 

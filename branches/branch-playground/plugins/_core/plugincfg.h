@@ -20,9 +20,9 @@
 
 #include "plugins.h"
 
-#include "plugincfgbase.h"
+#include "ui_plugincfgbase.h"
 
-class PluginCfg : public PluginCfgBase
+class PluginCfg : public QWidget, public Ui::PluginCfgBase
 {
     Q_OBJECT
 public:

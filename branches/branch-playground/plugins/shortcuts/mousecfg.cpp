@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qlabel.h>
 #include <qregexp.h>
-#include <qaccel.h>
+#include <q3accel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 #include "cmddef.h"
 #include "misc.h"
@@ -32,9 +34,10 @@
 
 using namespace SIM;
 
-MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin)
-        : MouseConfigBase(parent)
+MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin) : QWidget(parent)
+        //: MouseConfigBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     lstCmd->setSorting(0);
     loadMenu(MenuMain);
@@ -62,14 +65,14 @@ MouseConfig::~MouseConfig()
 
 void MouseConfig::apply()
 {
-    for (QListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling()){
         m_plugin->setMouse(item->text(2).toUInt(), item->text(1).latin1());
     }
 }
 
 void MouseConfig::resizeEvent(QResizeEvent *e)
 {
-    MouseConfigBase::resizeEvent(e);
+    QWidget::resizeEvent(e);
     adjustColumns();
 }
 
@@ -97,7 +100,7 @@ void MouseConfig::loadMenu(unsigned long id)
             QString title = i18n(s->text);
             if (title == "_")
                 continue;
-            QListViewItem *item;
+            Q3ListViewItem *item;
             for (item = lstCmd->firstChild(); item; item = item->nextSibling()){
                 if (QString::number(s->popup_id) == item->text(3))
                     break;
@@ -105,14 +108,14 @@ void MouseConfig::loadMenu(unsigned long id)
             if (item)
                 continue;
             title = title.remove('&');
-            new QListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
+            new Q3ListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
         }
     }
 }
 
 void MouseConfig::selectionChanged()
 {
-    QListViewItem *item = lstCmd->currentItem();
+    Q3ListViewItem *item = lstCmd->currentItem();
     if (item == NULL){
         lblCmd->setText("");
         cmbButton->setCurrentItem(0);
@@ -122,9 +125,9 @@ void MouseConfig::selectionChanged()
     lblCmd->setText(item->text(0));
     int n = ShortcutsPlugin::stringToButton(item->text(1).latin1());
     if (n == 0)
-        chkAlt->setChecked((n & AltButton) != 0);
-    chkCtrl->setChecked((n & ControlButton) != 0);
-    chkShift->setChecked((n & ShiftButton) != 0);
+        chkAlt->setChecked((n & Qt::AltButton) != 0);
+    chkCtrl->setChecked((n & Qt::ControlButton) != 0);
+    chkShift->setChecked((n & Qt::ShiftButton) != 0);
     cmbButton->setEnabled(true);
     cmbButton->setCurrentItem(n);
     buttonChanged(0);
@@ -153,21 +156,17 @@ void MouseConfig::changed(bool)
     int n = cmbButton->currentItem();
     if (n){
         if (chkAlt->isChecked())
-            n |= AltButton;
+            n |= Qt::AltButton;
         if (chkCtrl->isChecked())
-            n |= ControlButton;
+            n |= Qt::ControlButton;
         if (chkShift->isChecked())
-            n |= ShiftButton;
+            n |= Qt::ShiftButton;
         res = ShortcutsPlugin::buttonToString(n);
     }
-    QListViewItem *item = lstCmd->currentItem();
+    Q3ListViewItem *item = lstCmd->currentItem();
     if (item == NULL)
         return;
     item->setText(1, res);
     adjustColumns();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "mousecfg.moc"
-#endif
 

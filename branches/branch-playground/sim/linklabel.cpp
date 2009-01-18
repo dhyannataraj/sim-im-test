@@ -20,18 +20,23 @@
 #include "misc.h"
 
 #include <qcursor.h>
-#include <qvaluevector.h>
-#include <qstylesheet.h>
+#include <q3valuevector.h>
+#include <q3stylesheet.h>
 #include <qtooltip.h>
 #include <qpainter.h>
-#include <qsimplerichtext.h>
+#include <q3simplerichtext.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QLabel>
+#include <Q3Frame>
+#include <Q3MimeSourceFactory>
 
 using namespace SIM;
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
         : QLabel(parent, name)
 {
-    setCursor(QCursor(PointingHandCursor));
+    setCursor(QCursor(Qt::PointingHandCursor));
     QFont f = font();
     f.setUnderline(true);
     setFont(f);
@@ -44,18 +49,18 @@ void LinkLabel::setUrl(const QString &url)
 
 void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
-    if ((e->button() == LeftButton) && !m_url.isEmpty()){
+    if ((e->button() == Qt::LeftButton) && !m_url.isEmpty()){
         EventGoURL e(m_url);
         e.process();
     }
 }
 
 TipLabel::TipLabel(const QString &text)
-        : QLabel(NULL, "toolTipTip", WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM)
+        : QLabel(NULL, "toolTipTip", Qt::WStyle_StaysOnTop | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WX11BypassWM)
 {
     setMargin(3);
-    setAutoMask( FALSE );
-    setFrameStyle(QFrame::Plain | QFrame::Box);
+    //setAutoMask( FALSE );
+    setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
     setLineWidth(1);
     polish();
     m_text = text;
@@ -81,7 +86,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
     int y = 0;
     unsigned totalH = 0;
     QStringList l;
-    QValueVector<unsigned> heights;
+    Q3ValueVector<unsigned> heights;
     QRect rc = screenGeometry();
     for (unsigned nDiv = 0;; nDiv++){
         bool bState = _bState;
@@ -115,7 +120,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             text += part;
             text += "</td></tr></table>";
         }
-        QSimpleRichText richText(text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+        Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
         richText.adjustSize();
         QSize s(richText.widthUsed() + 8, richText.height() + 8);
         resize(s.width(), s.height());
@@ -146,7 +151,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             l = QStringList::split(DIV, m_text);
             unsigned i = 0;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                QSimpleRichText richText(*it, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+                Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
                 richText.adjustSize();
                 heights.push_back(richText.height() + 8);
             }
@@ -158,12 +163,14 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
 
 void TipLabel::drawContents(QPainter *p)
 {
-    QSimpleRichText richText(m_text, font(), "", QStyleSheet::defaultSheet(), QMimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+    Q3SimpleRichText richText(m_text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
     richText.adjustSize();
     richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "linklabel.moc"
 #endif
+*/
 

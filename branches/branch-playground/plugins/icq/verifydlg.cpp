@@ -18,6 +18,8 @@
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "log.h"
 
@@ -25,9 +27,9 @@
 
 using namespace SIM;
 
-VerifyDlg::VerifyDlg(QWidget *parent, const QPixmap& picture)
-        : VerifyDlgBase(parent, NULL, false)
+VerifyDlg::VerifyDlg(QWidget *parent, const QPixmap& picture) : QDialog(parent, NULL, false)
 {
+	setupUi(this);
     QTimer::singleShot(0, this, SLOT(changed()));
     connect(edtVerify, SIGNAL(textChanged(const QString&)), SLOT(changed(const QString&)));
     lblPicture->setPixmap(picture);
@@ -51,6 +53,3 @@ void VerifyDlg::changed(const QString& text)
     buttonOk->setEnabled(!text.isEmpty());
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "verifydlg.moc"
-#endif

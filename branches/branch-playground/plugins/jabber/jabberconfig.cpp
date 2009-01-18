@@ -33,9 +33,10 @@
 
 using namespace SIM;
 
-JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
-        : JabberConfigBase(parent)
+JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig) : QWidget(parent)
+        //: JabberConfigBase(parent)
 {
+	setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
     QTimer::singleShot(0, this, SLOT(changed()));
@@ -200,7 +201,9 @@ void JabberConfig::changed()
     emit okEnabled(bOK);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberconfig.moc"
 #endif
+*/
 

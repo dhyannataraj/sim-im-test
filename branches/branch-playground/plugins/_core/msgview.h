@@ -21,6 +21,8 @@
 #include <vector>
 
 #include "textshow.h"
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 class CorePlugin;
 class XSL;
@@ -43,7 +45,7 @@ class MsgViewBase : public TextShow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgViewBase(QWidget *parent, const char *name, unsigned id=(unsigned)(-1));
+    MsgViewBase(QWidget *parent, const char *name="", unsigned id=(unsigned)(-1));
     ~MsgViewBase();
     void		addMessage(SIM::Message *msg, bool bUnread=false, bool bSync=true);
     bool		findMessage(SIM::Message *msg);
@@ -56,7 +58,7 @@ public:
 protected slots:
     void		update();
 protected:
-    virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
+    virtual		Q3PopupMenu *createPopupMenu( const QPoint& pos );
     virtual bool processEvent(SIM::Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);

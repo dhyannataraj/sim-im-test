@@ -22,7 +22,7 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qsyntaxhighlighter.h>
+#include <q3syntaxhighlighter.h>
 
 #include "html.h"
 
@@ -30,11 +30,11 @@
 
 using std::stack;
 
-class SpellHighlighter : public QObject, public QSyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
+class SpellHighlighter : public QObject, public Q3SyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    SpellHighlighter(QTextEdit *edit, SpellPlugin *m_plugin);
+    SpellHighlighter(Q3TextEdit *edit, SpellPlugin *m_plugin);
     ~SpellHighlighter();
 signals:
     void check(const QString &);

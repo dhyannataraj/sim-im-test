@@ -30,9 +30,9 @@
 
 using namespace SIM;
 
-ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
-        : ICQConfigBase(parent)
+ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
     EventGetPluginInfo ePlugin("_core");
@@ -148,9 +148,4 @@ void ICQConfig::changed()
            edtPort->text().toUShort();
     emit okEnabled(bOK);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqconfig.moc"
-#endif
-
 

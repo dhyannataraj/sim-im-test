@@ -23,6 +23,8 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 struct NavigateData
 {
@@ -58,7 +60,7 @@ protected:
 #ifdef USE_KDE
     PROP_BOOL(UseKDE);
 #endif
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     NavigateData data;
     friend class NavCfg;

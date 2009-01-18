@@ -54,6 +54,8 @@
 #include <qtextcodec.h>
 #include <qregexp.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "html.h"
 #include "icons.h"
@@ -143,9 +145,9 @@ YahooClient::~YahooClient()
     free_data(yahooClientData, &data);
 }
 
-QCString YahooClient::getConfig()
+Q3CString YahooClient::getConfig()
 {
-    QCString res = TCPClient::getConfig();
+    Q3CString res = TCPClient::getConfig();
     if (res.length())
         res += "\n";
     QString requests;
@@ -273,10 +275,10 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
 
 void YahooClient::addParam(unsigned key, const char *value)
 {
-    m_values.push_back(PARAM(key, QCString(value)));
+    m_values.push_back(PARAM(key, Q3CString(value)));
 }
 
-void YahooClient::addParam(unsigned key, const QCString &value)
+void YahooClient::addParam(unsigned key, const Q3CString &value)
 {
     m_values.push_back(PARAM(key, value));
 }
@@ -318,8 +320,8 @@ void YahooClient::scan_packet()
     int param7_cnt = 0;
 
     for (;;){
-        QCString key;
-        QCString value;
+        Q3CString key;
+        Q3CString value;
         if (!(socket()->readBuffer().scan("\xC0\x80", key) &&
                 socket()->readBuffer().scan("\xC0\x80", value)))
             break;
@@ -635,7 +637,7 @@ QString TextParser::parse(const char *msg)
     Buffer b;
     b.pack(msg, strlen(msg));
     for (;;){
-        QCString part;
+        Q3CString part;
         if (!b.scan("\x1B\x5B", part))
             break;
         addText(part, part.length());
@@ -1013,7 +1015,7 @@ void YahooClient::process_fileurl(const char *id, const char *msg, const char *u
 void YahooClient::disconnected()
 {
     m_values.clear();
-    m_session_id = QString::null;
+    m_session_id = 0; //QString::null;
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -1112,16 +1114,16 @@ void YahooClient::loadList(const char *str)
         }
     }
     if (str){
-        QCString s = str;
+        Q3CString s = str;
         while (!s.isEmpty()){
-            QCString line = getToken(s, '\n');
-            QCString grp = getToken(line, ':');
+            Q3CString line = getToken(s, '\n');
+            Q3CString grp = getToken(line, ':');
             if (line.isEmpty()){
                 line = grp;
                 grp = "";
             }
             while (!line.isEmpty()){
-                QCString id = getToken(line, ',');
+                Q3CString id = getToken(line, ',');
                 ListRequest *lr = findRequest(QString::fromUtf8(id));
                 if (lr)
                     continue;
@@ -1299,53 +1301,61 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 
 void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QString &statusIcon, QString *icons)
 {
-    YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    unsigned cmp_status = STATUS_OFFLINE;
-    switch (data->Status.toULong()){
-    case YAHOO_STATUS_AVAILABLE:
-        cmp_status = STATUS_ONLINE;
-        break;
-    case YAHOO_STATUS_BUSY:
-        cmp_status = STATUS_DND;
-        break;
-    case YAHOO_STATUS_NOTATHOME:
-    case YAHOO_STATUS_NOTATDESK:
-    case YAHOO_STATUS_NOTINOFFICE:
-    case YAHOO_STATUS_ONVACATION:
-        cmp_status = STATUS_NA;
-        break;
-    case YAHOO_STATUS_OFFLINE:
-        break;
-    case YAHOO_STATUS_CUSTOM:
-        cmp_status = data->bAway.toBool() ? STATUS_AWAY : STATUS_ONLINE;
-        break;
-    default:
-        cmp_status = STATUS_AWAY;
-    }
+	YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
+	unsigned cmp_status = STATUS_OFFLINE;
+	switch (data->Status.toULong())
+	{
+		case YAHOO_STATUS_AVAILABLE:
+			cmp_status = STATUS_ONLINE;
+			break;
+		case YAHOO_STATUS_BUSY:
+			cmp_status = STATUS_DND;
+			break;
+		case YAHOO_STATUS_NOTATHOME:
+		case YAHOO_STATUS_NOTATDESK:
+		case YAHOO_STATUS_NOTINOFFICE:
+		case YAHOO_STATUS_ONVACATION:
+			cmp_status = STATUS_NA;
+			break;
+		case YAHOO_STATUS_OFFLINE:
+			break;
+		case YAHOO_STATUS_CUSTOM:
+			cmp_status = data->bAway.toBool() ? STATUS_AWAY : STATUS_ONLINE;
+			break;
+		default:
+			cmp_status = STATUS_AWAY;
+	}
 
-    const CommandDef *def;
-    for (def = protocol()->statusList(); def->text; def++){
-        if (def->id == cmp_status)
-            break;
-    }
-    if (cmp_status > status){
-        status = cmp_status;
-        if (!statusIcon.isEmpty() && icons){
-            QString iconSave = *icons;
-            *icons = statusIcon;
-            if (iconSave.length())
-                addIcon(icons, iconSave, statusIcon);
-        }
-        statusIcon = def->icon;
-    }else{
-        if (statusIcon){
-            addIcon(icons, def->icon, statusIcon);
-        }else{
-            statusIcon = def->icon;
-        }
-    }
-    if (icons && data->bTyping.toBool())
-        addIcon(icons, "typing", statusIcon);
+	const CommandDef *def;
+	for (def = protocol()->statusList(); !(def->text.isNull()); def++)
+	{
+		if (def->id == cmp_status)
+			break;
+	}
+	if (cmp_status > status)
+	{
+		status = cmp_status;
+		if (!statusIcon.isEmpty() && icons){
+			QString iconSave = *icons;
+			*icons = statusIcon;
+			if (iconSave.length())
+				addIcon(icons, iconSave, statusIcon);
+		}
+		statusIcon = def->icon;
+	}
+	else
+	{
+		if(!statusIcon.isNull())
+		{
+			addIcon(icons, def->icon, statusIcon);
+		}
+		else
+		{
+			statusIcon = def->icon;
+		}
+	}
+	if (icons && data->bTyping.toBool())
+		addIcon(icons, "typing", statusIcon);
 }
 
 QString YahooClient::contactTip(void *_data)
@@ -2035,7 +2045,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     QString nn;
     Contact *contact;
     findContact(data->Login.str().utf8(), NULL, contact);
-    QCString ff = getContacts()->fromUnicode(contact, fn);
+    Q3CString ff = getContacts()->fromUnicode(contact, fn);
     for (const char *p = ff; *p; p++){
         if (((*p >= 'a') && (*p <='z')) || ((*p >= 'A') && (*p < 'Z')) || ((*p >= '0') && (*p <= '9')) || (*p == '.')){
             nn += *p;
@@ -2134,7 +2144,7 @@ YahooFileMessage::~YahooFileMessage()
     free_data(yahoMessageFile, &data);
 }
 
-QCString YahooFileMessage::save()
+Q3CString YahooFileMessage::save()
 {
     return save_data(yahoMessageFile, &data);
 }
@@ -2163,6 +2173,3 @@ ListRequest *YahooClient::findRequest(const QString &name)
     return NULL;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "yahooclient.moc"
-#endif

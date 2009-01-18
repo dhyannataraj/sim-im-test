@@ -19,6 +19,8 @@
 #define _LOGGER_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -52,7 +54,7 @@ protected:
 //    bool eventFilter(QObject *o, QEvent *e);
     std::list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual bool processEvent(SIM::Event *e);
     void openFile();
     QFile *m_file;

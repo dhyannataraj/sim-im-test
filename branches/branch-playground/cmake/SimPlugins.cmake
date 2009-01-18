@@ -7,11 +7,13 @@ MACRO(SIM_ADD_PLUGIN _name)
     SET(_uics ${${_name}_UICS})
     SET(_libs ${${_name}_LIBS})
 
-    KDE3_AUTOMOC(${_srcs})
+	#KDE3_AUTOMOC(${_srcs})
+	QT4_WRAP_CPP(_mocs ${_hdrs})
+	QT4_WRAP_UI(_uis ${_uics})
     
-    QT3_ADD_UI_FILES(_srcs ${_uics})
+	#QT3_ADD_UI_FILES(_srcs ${_uics})
 
-    ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs})
+    ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs} ${_mocs} ${_uis})
 
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 

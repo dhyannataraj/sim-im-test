@@ -17,6 +17,9 @@
 
 #include <qlabel.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QShowEvent>
 
 #include "country.h"
 #include "intedit.h"
@@ -51,9 +54,9 @@ i18n("male")
 i18n("female")
 #endif
 
-YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
-        : YahooSearchBase(parent)
+YahooSearch::YahooSearch(YahooClient *client, QWidget *parent) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtID->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z \\-_]+"), this));
@@ -63,12 +66,13 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
-    YahooSearchBase::showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(false);
 }
 
 void YahooSearch::search()
 {
+	/*
     if (grpID->isChecked()){
         search(edtID->text(), 1);
     }else if (grpName->isChecked()){
@@ -76,13 +80,15 @@ void YahooSearch::search()
     }else if (grpKeyword->isChecked()){
         search(edtKeyword->text(), 0);
     }
+	*/
+	log(L_DEBUG, "YahooSearch::search() FIXME!!!");
 }
 
 void YahooSearch::search(const QString &text, int type)
 {
     QString url;
     url = "http://members.yahoo.com/interests?.oc=m&.kw=";
-    QCString kw = getContacts()->fromUnicode(NULL, text);
+    Q3CString kw = getContacts()->fromUnicode(NULL, text);
     for (const char *p = kw; *p; p++){
         if ((*p <= ' ') || (*p == '&') || (*p == '=')){
             char b[5];
@@ -139,7 +145,7 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
         l.append("location");
         l.append(i18n("Location"));
         emit setColumns(l, 0, this);
-        QCString data;
+        Q3CString data;
         b.scan("\x04", data);
         b.scan("\x04", data);
         b.scan("\x04", data);
@@ -150,10 +156,10 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
             b.scan("\x04", data);
             if (data.length() < 2)
                 break;
-            QCString id;
+            Q3CString id;
             id = data.mid(2);
             b.scan("\x04", data);
-            QCString gender, age, location;
+            Q3CString gender, age, location;
             b.scan("\x04", gender);
             b.scan("\x04", age);
             b.scan("\x04", location);
@@ -191,8 +197,4 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
     m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName), contact, false, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "yahoosearch.moc"
-#endif
 

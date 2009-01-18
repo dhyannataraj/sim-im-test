@@ -37,7 +37,7 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString text = msg->getPlainText();
     if (!text.isEmpty())
         parent->m_edit->setText(text);
@@ -96,7 +96,9 @@ bool MsgAuth::processEvent(Event *e)
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "msgauth.moc"
 #endif
+*/
 

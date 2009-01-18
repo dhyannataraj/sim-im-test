@@ -24,8 +24,12 @@
 #include "core.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QChildEvent>
+#include <QEvent>
 #include <algorithm>
 
 using namespace std;
@@ -148,19 +152,17 @@ void SpellPlugin::reset()
 
 void SpellPlugin::activate()
 {
-    if (m_bActive)
-        return;
-    m_bActive = true;
-    qApp->installEventFilter(this);
-    QWidgetList  *list = QApplication::allWidgets();
-    QWidgetListIt it( *list );
-    QWidget * w;
-    while ( (w=it.current()) != 0 ){
-        ++it;
-        if (w->inherits("TextEdit"))
-            new PSpellHighlighter(static_cast<TextEdit*>(w), this);
-    }
-    delete list;
+	if (m_bActive)
+		return;
+	m_bActive = true;
+	qApp->installEventFilter(this);
+	QWidgetList list = QApplication::allWidgets();
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget* w = *it;
+		if (w->inherits("TextEdit"))
+			new PSpellHighlighter(static_cast<TextEdit*>(w), this);
+	}
 }
 
 void SpellPlugin::deactivate()
@@ -174,7 +176,7 @@ void SpellPlugin::deactivate()
     m_edits.clear();
 }
 
-QCString SpellPlugin::getConfig()
+Q3CString SpellPlugin::getConfig()
 {
     return save_data(spellData, &data);
 }
@@ -287,6 +289,3 @@ QStringList SpellPlugin::suggestions(const QString &word)
     return res;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "spell.moc"
-#endif

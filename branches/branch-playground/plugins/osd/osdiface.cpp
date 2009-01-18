@@ -29,9 +29,9 @@
 
 using namespace SIM;
 
-OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
-        : OSDIfaceBase(parent)
+OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
 #ifndef WIN32
@@ -119,8 +119,4 @@ void OSDIface::apply(void *d)
         data->Screen.asULong() = cmbScreen->currentItem();
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "osdiface.moc"
-#endif
 

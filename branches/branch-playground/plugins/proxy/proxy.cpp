@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include <qtabwidget.h>
-#include <qobjectlist.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #ifdef WIN32
 #include <winsock.h>
@@ -828,7 +830,7 @@ protected:
         WaitEmpty
     };
     State m_state;
-    bool readLine(QCString &s);
+    bool readLine(Q3CString &s);
 };
 
 HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
@@ -879,7 +881,7 @@ static char HTTP[] = "HTTP/";
 void HTTPS_Proxy::send_auth()
 {
     if (getAuth()){
-        QCString s = basic_auth(getUser(), getPassword());
+        Q3CString s = basic_auth(getUser(), getPassword());
         bOut << "Proxy-Authorization: Basic ";
         bOut << s.data();
         bOut << "\r\n";
@@ -898,7 +900,7 @@ void HTTPS_Proxy::error_state(const QString &text, unsigned code)
 void HTTPS_Proxy::read_ready()
 {
     if (m_state == WaitConnect){
-        QCString s;
+        Q3CString s;
         if (!readLine(s))
             return;
         if (s.length() < strlen(HTTP)){
@@ -927,7 +929,7 @@ void HTTPS_Proxy::read_ready()
     }
     if (m_state == WaitEmpty){
         for (;;){
-            QCString s;
+            Q3CString s;
             if (!readLine(s))
                 return;
             if (s.length() == 0)
@@ -937,7 +939,7 @@ void HTTPS_Proxy::read_ready()
     }
 }
 
-bool HTTPS_Proxy::readLine(QCString &s)
+bool HTTPS_Proxy::readLine(Q3CString &s)
 {
     for (;;){
         char c;
@@ -986,7 +988,7 @@ protected:
     Buffer		m_out;
     bool		m_bHTTP;
     unsigned	m_size;
-    QCString	m_head;
+    Q3CString	m_head;
 };
 
 HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
@@ -1016,7 +1018,7 @@ void HTTP_Proxy::read_ready()
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    QCString str = m_head.mid(idx + 1);
+    Q3CString str = m_head.mid(idx + 1);
     int code = str.toInt();
     if (code == 407){
         error_state(AUTH_ERROR, m_plugin->ProxyErr);
@@ -1087,7 +1089,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         return;
     }
     m_out.pack(buf, size);
-    QCString line;
+    Q3CString line;
     if (m_state == WaitHeader){
         if (!m_out.scan("\r\n", line))
             return;
@@ -1109,9 +1111,9 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
             }
             if (line.isEmpty())
                 break;
-            QCString param = getToken(line, ':');
+            Q3CString param = getToken(line, ':');
             if (param == "Content-Length"){
-                QCString p = line.stripWhiteSpace();
+                Q3CString p = line.stripWhiteSpace();
                 m_size = p.toUInt();
             }
             bOut << param.data() << ":" << line.data() << "\r\n";
@@ -1180,12 +1182,14 @@ QString ProxyPlugin::clientName(TCPClient *client)
 
 void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
 {
-    for (unsigned i = 1;; i++){
+    for(unsigned i = 1;; i++)
+	{
         const char *proxyCfg = getClients(i);
         if ((proxyCfg == NULL) || (*proxyCfg == 0))
             break;
         ProxyData wdata(proxyCfg);
-        if (clientName(client) == wdata.Client.str()){
+        if (clientName(client) == wdata.Client.str())
+		{
             cdata = wdata;
             cdata.Default.asBool() = false;
             cdata.Client.str() = clientName(client);
@@ -1201,11 +1205,10 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
 static QObject *findObject(QObject *w, const char *className)
 {
     QObject *res = NULL;
-    QObjectList *l = w->queryList(className);
-    QObjectListIt it(*l);
-    if (it.current() != NULL)
-        res = it.current();
-    delete l;
+    QObjectList l = w->queryList(className);
+	QObjectList::iterator it = l.begin();
+    if (it != l.end())
+        res = *it;
     return res;
 }
 
@@ -1248,7 +1251,8 @@ bool ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(esl->client(), data);
         Listener *listener = NULL;
-        switch (data.Type.toULong()){
+        switch (data.Type.toULong())
+		{
         case PROXY_SOCKS4:
             listener = new SOCKS4_Listener(this, &data, esl->notify(), esl->client()->ip());
             break;
@@ -1297,7 +1301,7 @@ bool ProxyPlugin::processEvent(Event *e)
     return false;
 }
 
-QCString ProxyPlugin::getConfig()
+Q3CString ProxyPlugin::getConfig()
 {
     return save_data(_proxyData, &data);
 }

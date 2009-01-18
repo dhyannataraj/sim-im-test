@@ -18,13 +18,17 @@
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
-#include <qprogressbar.h>
+#include <q3progressbar.h>
 #include <qfile.h>
 #include <qdir.h>
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qapplication.h>
 #include <qtextcodec.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QCloseEvent>
+#include <Q3VBoxLayout>
 
 #include "ballonmsg.h"
 #include "buffer.h"
@@ -36,15 +40,16 @@
 using namespace std;
 using namespace SIM;
 
-MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
-        : MigrateDialogBase(NULL, "migrate", true)
+MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs) : Q3Wizard(NULL, "migrate")
+        //: MigrateDialogBase(NULL, "migrate", true)
 {
+	setupUi(this);
     SET_WNDPROC("migrate")
     setCaption(caption());
     m_dir      = dir;
     m_cnvDirs  = cnvDirs;
     m_bProcess = false;
-    QVBoxLayout *lay = (QVBoxLayout*)(page1->layout());
+    Q3VBoxLayout *lay = (Q3VBoxLayout*)(page1->layout());
     for (QStringList::Iterator it = m_cnvDirs.begin(); it != m_cnvDirs.end(); ++it){
         QCheckBox *chk = new QCheckBox(*it, page1);
         lay->insertWidget(1, chk);
@@ -60,7 +65,7 @@ MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
 void MigrateDialog::closeEvent(QCloseEvent *e)
 {
     if (!m_bProcess){
-        MigrateDialogBase::closeEvent(e);
+        Q3Wizard::closeEvent(e);
         return;
     }
     e->ignore();
@@ -70,7 +75,7 @@ void MigrateDialog::closeEvent(QCloseEvent *e)
 void MigrateDialog::reject()
 {
     if (!m_bProcess){
-        MigrateDialogBase::reject();
+        Q3Wizard::reject();
         return;
     }
     ask();
@@ -151,15 +156,15 @@ void MigrateDialog::process()
         clientsConf.setName(path + "clients.conf");
         contactsConf.setName(path + "contacts.conf");
         lblStatus->setText(path + "icq.conf");
-        if (!icqConf.open(IO_ReadOnly)){
+        if (!icqConf.open(QIODevice::ReadOnly)){
             error(i18n("Can't open %1") .arg(path + "icq.conf"));
             return;
         }
-        if (!clientsConf.open(IO_WriteOnly | IO_Truncate)){
+        if (!clientsConf.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             error(i18n("Can't open %1") .arg(path + "clients.conf"));
             return;
         }
-        if (!contactsConf.open(IO_WriteOnly | IO_Truncate)){
+        if (!contactsConf.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             error(i18n("Can't open %1") .arg(path + "contacts.conf"));
             return;
         }
@@ -172,7 +177,7 @@ void MigrateDialog::process()
         cfg.init(icqConf.size());
         icqConf.readBlock(cfg.data(), icqConf.size());
         for (;;){
-            QCString section = cfg.getSection();
+            Q3CString section = cfg.getSection();
             if (section.isEmpty())
                 break;
             m_state = 3;
@@ -183,11 +188,11 @@ void MigrateDialog::process()
             if (!m_bProcess)
                 return;
             for (;;){
-                QCString l = cfg.getLine();
+                Q3CString l = cfg.getLine();
                 if (l.isEmpty())
                     break;
-                QCString line = l;
-                QCString name = getToken(line, '=');
+                Q3CString line = l;
+                Q3CString name = getToken(line, '=');
                 if (name == "UIN")
                     m_uin = line.toUInt();
                 if (name == "EncryptPassword")
@@ -224,18 +229,18 @@ void MigrateDialog::process()
             hFrom.setName(h_path + (*it));
             lblStatus->setText(h_path + (*it));
             hTo.setName(h_path + QString(m_owner) + '.' + (*it).left((*it).find('.')));
-            if (!hFrom.open(IO_ReadOnly)){
+            if (!hFrom.open(QIODevice::ReadOnly)){
                 error(i18n("Can't open %1") .arg(hFrom.name()));
                 return;
             }
-            if (!hTo.open(IO_WriteOnly | IO_Truncate)){
+            if (!hTo.open(QIODevice::WriteOnly | QIODevice::Truncate)){
                 error(i18n("Can't open %1") .arg(hTo.name()));
                 return;
             }
             cfg.init(hFrom.size());
             hFrom.readBlock(cfg.data(), hFrom.size());
             for (;;){
-                QCString section = cfg.getSection();
+                Q3CString section = cfg.getSection();
                 if (section.isEmpty())
                     break;
                 m_state = 3;
@@ -244,11 +249,11 @@ void MigrateDialog::process()
                 if (!m_bProcess)
                     return;
                 for (;;){
-                    QCString l = cfg.getLine();
+                    Q3CString l = cfg.getLine();
                     if (l.isEmpty())
                         break;
-                    QCString line = l;
-                    QCString name = getToken(line, '=');
+                    Q3CString line = l;
+                    Q3CString name = getToken(line, '=');
                     if (name == "Message")
                         m_message = line;
                     if (name == "Time")
@@ -287,7 +292,7 @@ void MigrateDialog::process()
 
 void MigrateDialog::flush()
 {
-    QCString output;
+    Q3CString output;
     switch (m_state){
     case 0:
         output = "[icq/ICQ]\n";
@@ -304,7 +309,7 @@ void MigrateDialog::flush()
                 };
             for (int i = 0; i < (int)m_passwd.length(); i++)
                 m_passwd[i] = (char)(m_passwd[i] ^ xor_table[i]);
-            QCString new_passwd;
+            Q3CString new_passwd;
             unsigned short temp = 0x4345;
             for (int i = 0; i < (int)m_passwd.length(); i++) {
                 temp ^= m_passwd[i];
@@ -388,7 +393,9 @@ void MigrateDialog::flush()
     m_charset	= "";
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "migratedlg.moc"
 #endif
+*/
 

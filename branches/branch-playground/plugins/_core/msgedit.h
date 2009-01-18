@@ -20,14 +20,24 @@
 
 #include "core.h"
 #include "textshow.h"
+#include "event.h"
 
-#include <qmainwindow.h>
+#include <QMainWindow>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QResizeEvent>
+#include <QFrame>
+#include <QMouseEvent>
+#include <Q3PopupMenu>
+#include <Q3VBoxLayout>
+#include <QDragEnterEvent>
 
 class CorePlugin;
 class UserWnd;
 class CToolBar;
-class QVBoxLayout;
+class Q3VBoxLayout;
 class QFrame;
 class TextEdit;
 
@@ -44,7 +54,7 @@ class MsgTextEdit : public TextEdit
 public:
     MsgTextEdit(MsgEdit *edit, QWidget *parent);
 protected:
-    virtual QPopupMenu *createPopupMenu(const QPoint& pos);
+    virtual Q3PopupMenu *createPopupMenu(const QPoint& pos);
     virtual void contentsDropEvent(QDropEvent*);
     virtual void contentsDragEnterEvent(QDragEnterEvent*);
     virtual void contentsDragMoveEvent(QDragMoveEvent*);

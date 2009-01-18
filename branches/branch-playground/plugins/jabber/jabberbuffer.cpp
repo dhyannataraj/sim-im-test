@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "jabberbuffer.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
@@ -32,12 +34,12 @@ JabberBuffer::~JabberBuffer()
 
 JabberBuffer &JabberBuffer::operator << (const QString &s)
 {
-    QCString utf8 = s.utf8();
+    Q3CString utf8 = s.utf8();
     Buffer::pack(utf8.data(), utf8.length());
     return *this;
 }
 
-JabberBuffer &JabberBuffer::operator << (const QCString &s)
+JabberBuffer &JabberBuffer::operator << (const Q3CString &s)
 {
     Buffer::pack(s.data(), s.length());
     return *this;

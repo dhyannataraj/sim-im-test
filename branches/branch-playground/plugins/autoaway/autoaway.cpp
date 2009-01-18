@@ -34,6 +34,8 @@ Copyright (C) 2003  Tarkvara Design Inc.
 #define _WIN32_WINNT 0x0500
 #include <windows.h>
 #include <qlibrary.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include "idleui.h"
 
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
@@ -54,7 +56,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <time.h>
 #include <qapplication.h>
 #include <qtimer.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 
 using namespace SIM;
 
@@ -206,48 +208,47 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
 AutoAwayPlugin::~AutoAwayPlugin()
 {
 #ifdef WIN32
-    // nothing to do
+	// nothing to do
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
-    RemoveEventLoopTimer(mTimerRef);
+	RemoveEventLoopTimer(mTimerRef);
 #elif defined(__OS2__)
-    // ---
+	// ---
 #else
-    // We load static Xss in our autoaway.so's process space, but the bastard
-    // registers for shutdown in the XDisplay variable, so after autoaway.so
-    // unloads, its code will still be called (as part of the XCloseDisplay).
-    // As Xss offers no function to unregister itself, we'll have to be a little
-    // messy here:
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w = it.current();
-    delete list;
-    if (w != NULL)
-    {
-       Display* dpy = w->x11Display();
-       LockDisplay(dpy);
-       // Original code from Xlib's ClDisplay.c
-       _XExtension *ext, *prev_ext = NULL;
-       for (ext = dpy->ext_procs; ext; prev_ext = ext, ext = ext->next)
-       {
-           if (ext->name && (strcmp(ext->name, ScreenSaverName) == 0))
-           {
-               if (ext->close_display)
-                  (*ext->close_display)(dpy, &ext->codes);
-               if (prev_ext)
-                   prev_ext->next = ext->next;
-               else
-                   dpy->ext_procs = ext->next;
-               Xfree((char*)ext);
-               break;
-           }
-       }
-       UnlockDisplay(dpy);
-    }
+	// We load static Xss in our autoaway.so's process space, but the bastard
+	// registers for shutdown in the XDisplay variable, so after autoaway.so
+	// unloads, its code will still be called (as part of the XCloseDisplay).
+	// As Xss offers no function to unregister itself, we'll have to be a little
+	// messy here:
+	QWidgetList list = QApplication::topLevelWidgets();
+	QWidgetList::iterator it = list.begin();
+	QWidget *w = *it;
+	if(w != NULL)
+	{
+		Display* dpy = w->x11Display();
+		LockDisplay(dpy);
+		// Original code from Xlib's ClDisplay.c
+		_XExtension *ext, *prev_ext = NULL;
+		for (ext = dpy->ext_procs; ext; prev_ext = ext, ext = ext->next)
+		{
+			if (ext->name && (strcmp(ext->name, ScreenSaverName) == 0))
+			{
+				if (ext->close_display)
+					(*ext->close_display)(dpy, &ext->codes);
+				if (prev_ext)
+					prev_ext->next = ext->next;
+				else
+					dpy->ext_procs = ext->next;
+				Xfree((char*)ext);
+				break;
+			}
+		}
+		UnlockDisplay(dpy);
+	}
 #endif
-    free_data(autoAwayData, &data);
+	free_data(autoAwayData, &data);
 }
 
-QCString AutoAwayPlugin::getConfig()
+Q3CString AutoAwayPlugin::getConfig()
 {
     return save_data(autoAwayData, &data);
 }
@@ -368,10 +369,9 @@ unsigned AutoAwayPlugin::getIdleTime()
     }
     return (WinGetCurrentTime(WinQueryAnchorBlock(HWND_DESKTOP)) - lastInp) / 1000;
 #else
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget *w = it.current();
-    delete list;
+    QWidgetList list = QApplication::topLevelWidgets();
+	QWidgetList::iterator it = list.begin();
+    QWidget *w = *it;
     if (w == NULL)
         return 0;
 
@@ -387,15 +387,14 @@ unsigned AutoAwayPlugin::getIdleTime()
         m_timer->stop();
         return 0;
     }
+	/*
     if (!XScreenSaverQueryInfo(w->x11Display(), qt_xrootwin(), mit_info)) {
         log(L_WARN, "XScreenSaverQueryInfo failed, disabling auto-away.");
         m_timer->stop();
         return 0;
     }
+	*/
     return (mit_info->idle / 1000);
 #endif
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "autoaway.moc"
-#endif

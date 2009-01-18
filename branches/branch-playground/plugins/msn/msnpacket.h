@@ -19,6 +19,8 @@
 #define _MSNPACKET_H
 
 #include "msnclient.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 class MSNPacket
 {
@@ -153,7 +155,7 @@ public:
     ~MSNServerMessage();
     bool packet();
 protected:
-    QCString    m_msg;
+    Q3CString    m_msg;
     MSNClient  *m_client;
     unsigned    m_size;
 };

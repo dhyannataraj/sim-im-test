@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include <qtimer.h>
-#include <qprocess.h>
+#include <q3process.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "log.h"
 #include "unquot.h"
@@ -98,7 +100,7 @@ ActionPlugin::ActionPlugin(unsigned base)
 ActionPlugin::~ActionPlugin()
 {
     clear();
-    QValueList<QProcess*>::ConstIterator it;
+    Q3ValueList<Q3Process*>::ConstIterator it;
     for (it = m_exec.constBegin(); it != m_exec.constEnd(); ++it)
         delete *it;
     m_exec.clear();
@@ -114,13 +116,13 @@ QWidget *ActionPlugin::createConfigWindow(QWidget *parent)
     return new ActionConfig(parent, data, this);
 }
 
-class MsgProcess : public QProcess
+class MsgProcess : public Q3Process
 {
 protected:
     Message *m_msg;
 public:
     MsgProcess(const QString &prog, Message *msg, QObject *parent = 0)
-        : QProcess(prog, parent), m_msg(msg) {}
+        : Q3Process(prog, parent), m_msg(msg) {}
     Message *msg() const { return m_msg; }
 };
 
@@ -249,12 +251,12 @@ bool ActionPlugin::processEvent(Event *e)
         EventTemplate *et = static_cast<EventTemplate*>(e);
         EventTemplate::TemplateExpand *t = et->templateExpand();
         Message *msg = (Message*)(t->param);
-        QProcess *proc;
+        Q3Process *proc;
         if (msg){
             QString text = t->tmpl + unquoteText(msg->presentation());
             proc = new MsgProcess(text, msg, this);
         }else{
-            proc = new QProcess(t->tmpl, this);
+            proc = new Q3Process(t->tmpl, this);
         }
         m_exec.push_back(proc);
         connect(proc, SIGNAL(processExited()), this, SLOT(ready()));
@@ -269,8 +271,8 @@ bool ActionPlugin::processEvent(Event *e)
 
 void ActionPlugin::ready()
 {
-    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
-        QProcess *p = *it;
+    for (Q3ValueList<Q3Process*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
+        Q3Process *p = *it;
         if (p && !p->isRunning()){
             m_exec.erase(it);
             m_delete.push_back(p);
@@ -284,8 +286,8 @@ void ActionPlugin::ready()
 
 void ActionPlugin::msg_ready()
 {
-    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
-        QProcess *p = *it;
+    for (Q3ValueList<Q3Process*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
+        Q3Process *p = *it;
         if (p && !p->isRunning()){
             m_exec.erase(it);
             m_delete.push_back(p);
@@ -314,12 +316,9 @@ void ActionPlugin::msg_ready()
 
 void ActionPlugin::clear()
 {
-    QValueList<QProcess*>::ConstIterator it;
+    Q3ValueList<Q3Process*>::ConstIterator it;
     for (it = m_delete.constBegin(); it != m_delete.constEnd(); ++it)
         delete (*it);
     m_delete.clear();
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "action.moc"
-#endif

@@ -20,6 +20,8 @@
 
 #include <map>
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "message.h"
 
@@ -31,7 +33,7 @@ class HistoryFileIterator;
 
 struct msg_save
 {
-    QCString	msg;
+    Q3CString	msg;
     QString     client;
     unsigned    contact;
 };

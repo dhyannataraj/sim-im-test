@@ -25,14 +25,16 @@
 #endif
 
 #ifdef USE_KDE
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kuniqueapplication.h>
 #else
 #include "aboutdata.h"
-#include <qapplication.h>
 #endif
+#include <QApplication>
 
 #if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 //#include <X11/X.h>
@@ -65,13 +67,17 @@ SimApp::~SimApp()
 
 int SimApp::newInstance()
 {
-    if (firstInstance){
+    if (firstInstance)
+	{
         firstInstance = false;
-    }else{
+    }
+	else
+	{
         QWidgetList  *list = QApplication::topLevelWidgets();
         QWidgetListIt it( *list );
         QWidget *w;
-        while ( (w=it.current()) != 0 ) {
+        while((w = it.current()) != 0 )
+		{
             ++it;
             if (w->inherits("MainWindow")){
                 raiseWindow(w);
@@ -87,7 +93,9 @@ int SimApp::newInstance()
 class SimApp : public QApplication
 {
 public:
-SimApp(int argc, char **argv) : QApplication(argc, argv) {}
+	SimApp(int argc, char **argv) : QApplication(argc, argv)
+	{
+	}
     ~SimApp();
 protected:
     void commitData(QSessionManager&);
@@ -190,7 +198,7 @@ class Debug
 {
 public:
     Debug()		{}
-    ~Debug()	{ /*_CrtDumpMemoryLeaks();*/ } //causes crash on close in win32 by noragen
+    ~Debug()	{} //causes crash on close in win32 by noragen
 };
 
 Debug d;
@@ -202,7 +210,7 @@ int main(int argc, char *argv[])
 {
     int res = 1;
 #ifdef WIN32
-    HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
+    Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #elif defined(__OS2__)    
     HMTX hMutex = NULLHANDLE;
     if ( DosCreateMutexSem("\\SEM32\\SIM_Mutex", &hMutex, 0, FALSE) != 0 ) {
@@ -211,6 +219,7 @@ int main(int argc, char *argv[])
     }
 #endif
     qInstallMsgHandler(simMessageOutput);
+	/*
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("Sim-IM"),
                          _VERSION,
@@ -225,6 +234,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Author"),				"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher"	 ,I18N_NOOP("Developer"),			"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
+	*/
 #ifndef WIN32
     int _argc = 0;
     char **_argv = new char*[argc + 1];
@@ -295,7 +305,7 @@ int main(int argc, char *argv[])
 #endif
 #else
     for (int i = 0; i < argc; i++){
-        QCString arg = argv[i];
+        Q3CString arg = argv[i];
         if ((arg[0] == '/') || (arg[0] == '-'))
             arg = arg.mid(1);
         if ((arg == "reinstall") || (arg == "showicons") || (arg == "hideicons"))

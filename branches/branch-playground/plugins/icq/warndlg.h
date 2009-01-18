@@ -18,12 +18,12 @@
 #ifndef _WARNDLG_H
 #define _WARNDLG_H
 
-#include "warndlgbase.h"
+#include "ui_warndlgbase.h"
 #include "icqclient.h"
 
 class WarningMessage;
 
-class WarnDlg : public WarnDlgBase, public SIM::EventReceiver
+class WarnDlg : public QDialog, public Ui::WarnDlgBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -18,16 +18,19 @@
 #include "simapi.h"
 
 #include <qmenubar.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qfile.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QCloseEvent>
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+#define Q3FileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 #include "icons.h"
@@ -55,7 +58,7 @@ const int mnuAutoscroll = 10;
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : QMainWindow(NULL, "monitor", WType_TopLevel)
+        : Q3MainWindow(NULL, "monitor", Qt::WType_TopLevel)
 {
     bPause = true;  // no debug output during creation
     m_plugin = plugin;
@@ -64,10 +67,10 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     setIcon(Pict("network"));
 
     edit = new TextShow(this);
-    edit->setWordWrap(QTextEdit::NoWrap);
+    edit->setWordWrap(Q3TextEdit::NoWrap);
     setCentralWidget(edit);
     QMenuBar *menu = menuBar();
-    menuFile = new QPopupMenu(this);
+    menuFile = new Q3PopupMenu(this);
     menuFile->setCheckable(true);
     connect(menuFile, SIGNAL(aboutToShow()), this, SLOT(adjustFile()));
     menuFile->insertItem(Pict("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
@@ -77,12 +80,12 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     menuFile->insertSeparator();
     menuFile->insertItem(Pict("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
     menu->insertItem(i18n("&File"), menuFile);
-    menuEdit = new QPopupMenu(this);
+    menuEdit = new Q3PopupMenu(this);
     connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(adjustEdit()));
     menuEdit->insertItem(i18n("&Copy"), this, SLOT(copy()), 0, mnuCopy);
     menuEdit->insertItem(i18n("&Erase"), this, SLOT(erase()), 0, mnuErase);
     menu->insertItem(i18n("&Edit"), menuEdit);
-    menuLog = new QPopupMenu(this);
+    menuLog = new Q3PopupMenu(this);
     menuLog->setCheckable(true);
     connect(menuLog, SIGNAL(aboutToShow()), this, SLOT(adjustLog()));
     connect(menuLog, SIGNAL(activated(int)), this, SLOT(toggleType(int)));
@@ -93,20 +96,20 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
 {
-    QMainWindow::closeEvent(e);
+    Q3MainWindow::closeEvent(e);
     emit finished();
 }
 
 void MonitorWindow::save()
 {
-    QString s = QFileDialog::getSaveFileName ("sim.log", QString::null, this);
+    QString s = Q3FileDialog::getSaveFileName ("sim.log", QString::null, this);
     if (s.isEmpty()) return;
     QFile f(s);
-    if (!f.open(IO_WriteOnly)){
+    if (!f.open(QIODevice::WriteOnly)){
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-    QTextStream ts(&f);
+    Q3TextStream ts(&f);
     QString t;
     if (edit->hasSelectedText()){
         t = unquoteText(edit->selectedText());
@@ -272,8 +275,4 @@ void MonitorWindow::outputLog()
         edit->scrollToBottom();
     setLogEnable(true);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "monitor.moc"
-#endif
 

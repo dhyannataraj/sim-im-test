@@ -18,9 +18,10 @@
 #ifndef _DECLINEDLG_H
 #define _DECLINEDLG_H
 
-#include "declinedlgbase.h"
+#include "ui_declinedlgbase.h"
+#include "event.h"
 
-class DeclineDlg : public DeclineDlgBase, public SIM::EventReceiver
+class DeclineDlg : public QDialog, public Ui::DeclineDlgBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

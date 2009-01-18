@@ -17,6 +17,9 @@
 
 #include <qpainter.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3CString>
 
 #include "misc.h"
 
@@ -74,7 +77,7 @@ BackgroundPlugin::~BackgroundPlugin()
     free_data(backgroundData, &data);
 }
 
-QCString BackgroundPlugin::getConfig()
+Q3CString BackgroundPlugin::getConfig()
 {
     return save_data(backgroundData, &data);
 }

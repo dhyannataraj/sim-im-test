@@ -18,12 +18,12 @@
 #ifndef _SOUNDCONFIG_H
 #define _SOUNDCONFIG_H
 
-#include "soundconfigbase.h"
+#include "ui_soundconfigbase.h"
 
 class SoundUserConfig;
 class SoundPlugin;
 
-class SoundConfig : public SoundConfigBase
+class SoundConfig : public QWidget, public Ui::SoundConfigBase
 {
     Q_OBJECT
 public:

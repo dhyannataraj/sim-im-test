@@ -34,11 +34,13 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "buffer.h"
 #include "socket.h"
@@ -364,7 +366,7 @@ bool ICQClient::compareData(void *d1, void *d2)
     return (data1->Screen.str() == data2->Screen.str());
 }
 
-QCString ICQClient::getConfig()
+Q3CString ICQClient::getConfig()
 {
     QString listRequest;
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
@@ -375,7 +377,7 @@ QCString ICQClient::getConfig()
         listRequest += (*it).screen;
     }
     setListRequests(listRequest);
-    QCString res = Client::getConfig();
+    Q3CString res = Client::getConfig();
     if (res.length())
         res += '\n';
     return res += save_data(icqClientData, &data);
@@ -891,7 +893,7 @@ QByteArray ICQClient::cryptPassword()
             0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
-    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    Q3CString pswd = getContacts()->fromUnicode(NULL, getPassword());
     char buf[8];
     int len=0;
     for (int j = 0; j < 8; j++){
@@ -1023,8 +1025,10 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     if (uin == 0)
                         data->Screen.str() = s;
                     bool bChanged = false;
-                    if (alias){
-                        if (*alias){
+                    if(alias)
+					{
+                        if(!(alias->isNull()))
+						{
                             bChanged = contact->setName(*alias);
                         }
                         data->Alias.str() = *alias;
@@ -1128,7 +1132,7 @@ void ICQClient::setOffline(ICQUserData *data)
     for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
         Message *msg = *it; //will sometimes not work, content: it is broken then:	0xcdcdcdcd, reason seems to be Filetransfer.. however..
 
-        if (msg->client() && (name == msg->client())){
+        if((!msg->client().isNull()) && (name == msg->client())){
             EventMessageDeleted(msg).process();
             delete msg;
             m_acceptMsg.erase(it);
@@ -1219,7 +1223,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             }
         }
     }
-    if (dicon == NULL)
+    if(dicon.isNull())
         return;
     if (status == STATUS_OCCUPIED)
         status = STATUS_DND;
@@ -1367,7 +1371,7 @@ void ICQClient::setupContact(Contact *contact, void *_data)
         phones += ",Private Cellular,";
         phones += QString::number(CELLULAR);
     }
-    if (!data->PhoneBook.str()){
+    if(data->PhoneBook.str().isNull()){
         if (phones.length())
             phones += ';';
         phones += data->PhoneBook.str();
@@ -1530,7 +1534,7 @@ QString ICQClient::contactTip(void *_data)
             }
         }
         QString url="pict://icqavatar." + QString::number(data->Uin.toULong());
-        QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+        Q3MimeSourceFactory::defaultFactory()->setPixmap(url, pict);
         res += "<br><img src=\"" + url + "\" width=\"";
         res += QString::number(w);
         res += "\" height=\"";
@@ -2471,7 +2475,7 @@ bool ICQClient::processEvent(Event *e)
             ICQUserData *data = findContact(ar.screen, NULL, false, contact);
             DirectClient *dc = dynamic_cast<DirectClient*>(data ? data->Direct.object() : 0);
             if (dc){
-                QCString answer;
+                Q3CString answer;
                 if (data->Version.toULong() >= 10){
                     answer = t->tmpl.utf8();
                 }else{
@@ -2847,34 +2851,37 @@ bool ICQClient::processEvent(Event *e)
             return false;
         ICQUserData *data = NULL;
         ClientDataIterator it(contact->clientData, this);
-        if (client){
-            while ((data = toICQUserData(++it)) != NULL){
+        if(!client.isNull())
+		{
+            while ((data = toICQUserData(++it)) != NULL)
+			{
                 if (dataName(data) == client)
                     break;
             }
-        }else{
+        }
+		else
+		{
             while ((data = toICQUserData(++it)) != NULL)
                 break;
         }
         if (data == NULL)
             return false;
-        if (msg->type() == MessageOpenSecure){
+        if (msg->type() == MessageOpenSecure)
+		{
             SecureDlg *dlg = NULL;
-            QWidgetList  *list = QApplication::topLevelWidgets();
-            QWidgetListIt it(*list);
-            QWidget * w;
-            while ((w=it.current()) != NULL) {
-                ++it;
-                if (!w->inherits("SecureDlg"))
-                    continue;
-                dlg = static_cast<SecureDlg*>(w);
-                if ((dlg->m_client == this) &&
-                        (dlg->m_contact == contact->id()) &&
-                        (dlg->m_data == data))
-                    break;
-                dlg = NULL;
-            }
-            delete list;
+            QWidgetList list = QApplication::topLevelWidgets();
+			for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+			{
+				QWidget* w = *it;
+				if (!w->inherits("SecureDlg"))
+					continue;
+				dlg = static_cast<SecureDlg*>(w);
+				if ((dlg->m_client == this) &&
+						(dlg->m_contact == contact->id()) &&
+						(dlg->m_data == data))
+					break;
+				dlg = NULL;
+			}
             if (dlg == NULL)
                 dlg = new SecureDlg(this, contact->id(), data);
             raiseWindow(dlg);
@@ -3333,7 +3340,7 @@ QImage ICQClient::userPicture(ICQUserData *d)
         }
    }
 
-   return img.scale(w, h);
+   return img.scaled(w, h);
 }
 
 
@@ -3423,6 +3430,3 @@ ICQUserData* ICQClient::toICQUserData(SIM::clientData * data)
    return (ICQUserData*) data;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "icqclient.moc"
-#endif

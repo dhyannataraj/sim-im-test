@@ -19,6 +19,8 @@
 #define _REMOTE_H
 
 #include "socket.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 struct RemoteData
 {
@@ -66,7 +68,7 @@ protected:
     virtual bool error(const QString &err);
 
     virtual bool processEvent(SIM::Event *e);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32
     IPC		*ipc;

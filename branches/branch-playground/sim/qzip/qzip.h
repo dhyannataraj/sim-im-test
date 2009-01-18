@@ -23,7 +23,7 @@
 
 #include <simapi.h>
 #include <qstring.h>
-#include <qcstring.h>
+#include <q3cstring.h>
 
 class QStringList;
 

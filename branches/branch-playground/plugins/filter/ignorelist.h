@@ -18,28 +18,28 @@
 #ifndef _IGNORELIST_H
 #define _IGNORELIST_H
 
-#include "ignorelistbase.h"
+#include "ui_ignorelistbase.h"
 
 #include "event.h"
 
-class QListViewItem;
+class Q3ListViewItem;
 
-class IgnoreList : public IgnoreListBase, public SIM::EventReceiver
+class IgnoreList : public QWidget, public Ui::IgnoreListBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     IgnoreList(QWidget *parent);
 protected slots:
-    void deleteItem(QListViewItem*);
+    void deleteItem(Q3ListViewItem*);
     void dragStart();
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
 protected:
     virtual bool processEvent(SIM::Event *e);
-    void removeItem(QListViewItem*);
-    void updateItem(QListViewItem*, SIM::Contact*);
-    void unignoreItem(QListViewItem*);
-    QListViewItem *findItem(SIM::Contact*);
+    void removeItem(Q3ListViewItem*);
+    void updateItem(Q3ListViewItem*, SIM::Contact*);
+    void unignoreItem(Q3ListViewItem*);
+    Q3ListViewItem *findItem(SIM::Contact*);
 };
 
 #endif

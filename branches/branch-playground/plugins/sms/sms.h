@@ -20,6 +20,9 @@
 
 #include "socket.h"
 #include "log.h"
+//Added by qt3to4:
+#include <Q3CString>
+#include <QEvent>
 
 class SMSProtocol;
 class GsmTA;
@@ -87,8 +90,8 @@ public:
     PROP_ULONG(Charge);
     PROP_BOOL(Charging);
     PROP_ULONG(Quality);
-    QCString model() const;
-    QCString oper() const;
+    Q3CString model() const;
+    Q3CString oper() const;
     smsUserData* tosmsUserData(SIM::clientData * data);
 protected slots:
     void error();
@@ -104,7 +107,7 @@ protected:
     virtual unsigned short  getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QString name();
     virtual QString dataName(void*);
     virtual bool	isMyData(SIM::clientData*&, SIM::Contact*&);

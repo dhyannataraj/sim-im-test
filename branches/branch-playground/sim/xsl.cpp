@@ -23,6 +23,8 @@
 
 #include <qfile.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3TextStream>
 
 #include "log.h"
 #include "misc.h"
@@ -65,19 +67,19 @@ static char EXT[]    = ".xsl";
 
 XSL::XSL(const QString &name)
 {
-    QString fname = STYLES + name + EXT;
+    QString fname = QString(STYLES).append(name).append(EXT);
     QFile f(user_file(fname));
     bool bOK = true;
-    if (f.size() == 0 || !f.open(IO_ReadOnly)){
+    if (f.size() == 0 || !f.open(QIODevice::ReadOnly)){
         f.setName(app_file(fname));
-        if (f.size() == 0 || !f.open(IO_ReadOnly)){
+        if (f.size() == 0 || !f.open(QIODevice::ReadOnly)){
             log(L_WARN, "Can't open / empty file %s", f.name().local8Bit().data());
             bOK = false;
         }
     }
     QString xsl;
     if(bOK){
-        QTextStream ts(&f);
+        Q3TextStream ts(&f);
         xsl = ts.read();
     }
     d = new XSLPrivate(xsl);

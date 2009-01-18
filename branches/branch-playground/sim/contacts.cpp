@@ -23,6 +23,8 @@ email                : vovan@shutoff.ru
 #include <qdir.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "buffer.h"
 #include "event.h"
@@ -47,7 +49,7 @@ public:
     void clear(bool bClearAll);
     unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const QCString &section, Buffer *cfg);
+    void flush(Contact *c, Group *g, const Q3CString &section, Buffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -146,7 +148,7 @@ void Contact::setup()
         setFirstName(QString::null);
     str = getLastName();
     getToken(str, '/');
-    if (str != '-')
+    if(!str.contains('-'))
         setLastName(QString::null);
     QString res;
     str = getEMails();
@@ -494,38 +496,47 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
             bPager = true;
     }
     if (bCell){
-        if (statusIcon){
-            if (icons){
+        if(!statusIcon.isNull())
+		{
+            if(icons)
+			{
                 if (icons->length())
                     *icons += ',';
-                *icons += "cell";
+                icons->append("cell");
             }
-        }else{
+        }
+		else
+		{
             statusIcon = "cell";
         }
     }
-    if (bPager){
-        if (statusIcon){
-            if (icons){
-                if (icons->length())
+    if(bPager)
+	{
+        if(!statusIcon.isNull())
+		{
+            if(icons)
+			{
+                if(icons->length())
                     *icons += ',';
                 *icons += "pager";
             }
-        }else{
+        }
+		else
+		{
             statusIcon = "pager";
         }
     }
     if (status == STATUS_UNKNOWN){
-        if (statusIcon == NULL){
+        if (statusIcon.isNull()){
             QString mails = getEMails();
             if (!mails.isEmpty())
                 statusIcon = "mail_generic";
         }
-        if (statusIcon == NULL)
+        if (statusIcon.isNull())
             statusIcon = "nonim";
         return STATUS_UNKNOWN;
     }
-    if (statusIcon == NULL)
+    if (statusIcon.isNull())
         statusIcon = "empty";
     return status;
 }
@@ -567,9 +578,12 @@ QString Client::contactTip(void*)
 
 void Client::updateInfo(Contact *contact, void *data)
 {
-    if (data){
+    if(data)
+	{
         EventContact(contact, EventContact::eFetchInfoFailed).process();
-    }else{
+    }
+	else
+	{
         EventClientChanged(this).process();
     }
 }
@@ -1137,7 +1151,7 @@ void Client::freeData()
     free_data(_clientData, &data);
 }
 
-QCString Client::getConfig()
+Q3CString Client::getConfig()
 {
     QString real_pswd = getPassword();
     QString pswd = getPassword();
@@ -1158,7 +1172,7 @@ QCString Client::getConfig()
         setPassword(prev);
     if (!getSavePassword())
         setPassword(NULL);
-    QCString res = save_data(_clientData, &data);
+    Q3CString res = save_data(_clientData, &data);
     setPassword(real_pswd);
     return res;
 }
@@ -1332,14 +1346,14 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     return client;
 }
 
-QCString ClientUserData::save()
+Q3CString ClientUserData::save()
 {
-    QCString res;
+    Q3CString res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
         if (d.client->protocol()->description()->flags & PROTOCOL_TEMP_DATA)
             continue;
-        QCString cfg = save_data(d.client->protocol()->userDataDef(), d.data);
+        Q3CString cfg = save_data(d.client->protocol()->userDataDef(), d.data);
         if (cfg.length()){
             if (res.length())
                 res += '\n';
@@ -1625,16 +1639,16 @@ void UserData::freeUserData(unsigned id)
     }
 }
 
-QCString UserData::save()
+Q3CString UserData::save()
 {
-    QCString res;
+    Q3CString res;
     UserDataMap::Iterator userDataIt;
     for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
         list<UserDataDef> &d = getContacts()->p->userDataDef;
         for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
             if ((*it).id != userDataIt.key())
                 continue;
-            QCString cfg = save_data((*it).def, userDataIt.data());
+            Q3CString cfg = save_data((*it).def, userDataIt.data());
             if (cfg.length()){
                 if (res.length())
                     res += '\n';
@@ -1674,19 +1688,19 @@ static char BACKUP_SUFFIX[] = "~";
 void ContactList::save()
 {
     QString cfgName = user_file(CONTACTS_CONF);
-    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
-    if (!f.open(IO_WriteOnly | IO_Truncate)){
+    QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
-    QCString line = p->userData.save();
+    Q3CString line = p->userData.save();
     if (line.length()){
         line += '\n';
         f.writeBlock(line, line.length());
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
-        QCString cfg  = "[";
+        Q3CString cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
         line += '\n';
@@ -1759,9 +1773,9 @@ void ContactList::save()
     QFileInfo fileInfo(f.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#if defined( WIN32 ) || defined( __OS2__ )
+//#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
-#endif
+//#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
         log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
         return;
@@ -1778,7 +1792,7 @@ void ContactList::load()
     clear();
     QString cfgName = user_file(CONTACTS_CONF);
     QFile f(cfgName);
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
@@ -1787,7 +1801,7 @@ void ContactList::load()
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
-        QCString s = cfg.getSection();
+        Q3CString s = cfg.getSection();
 		QString section = s;	// is ascii - ok here
         if (section.isEmpty())
             break;
@@ -1830,7 +1844,7 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const QCString &_section, Buffer *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const Q3CString &_section, Buffer *cfg)
 {
     if (cfg == NULL)
         return;
@@ -1906,7 +1920,7 @@ void *ContactList::getUserData(unsigned id)
 static QString stripPhone(const QString &phone)
 {
     QString res;
-    if (phone == NULL)
+    if (phone.isNull())
         return res;
     for (unsigned i = 0; i < phone.length(); i++){
         const QChar &c = phone[(int)i];
@@ -2083,7 +2097,7 @@ QTextCodec *ContactList::getCodec(Contact *contact)
     return getCodecByName(owner()->getEncoding());
 }
 
-QString ContactList::toUnicode(Contact *contact, const QCString &str, int length)
+QString ContactList::toUnicode(Contact *contact, const Q3CString &str, int length)
 {
     if (!str.isEmpty()){
         if (length < 0)
@@ -2094,7 +2108,7 @@ QString ContactList::toUnicode(Contact *contact, const QCString &str, int length
     return QString::null;
 }
 
-QCString ContactList::fromUnicode(Contact *contact, const QString &str)
+Q3CString ContactList::fromUnicode(Contact *contact, const QString &str)
 {
     if (str.isEmpty())
         return "";

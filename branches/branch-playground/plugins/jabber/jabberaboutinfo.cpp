@@ -19,13 +19,14 @@
 #include "jabberaboutinfo.h"
 #include "jabber.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 
 using namespace SIM;
 
-JabberAboutInfo::JabberAboutInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
-        : JabberAboutInfoBase(parent)
+JabberAboutInfo::JabberAboutInfo(QWidget *parent, JabberUserData *data, JabberClient *client) : QWidget(parent)
+        //: JabberAboutInfoBase(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data    = data;
     if (m_data)
@@ -75,7 +76,9 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     data->Desc.str() = edtAbout->text();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberaboutinfo.moc"
 #endif
+*/
 

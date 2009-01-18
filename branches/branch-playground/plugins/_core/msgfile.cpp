@@ -30,9 +30,9 @@
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+#define Q3FileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 using namespace SIM;
@@ -47,7 +47,7 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(PlainText);
+    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -107,7 +107,7 @@ void MsgFile::selectFile()
     if (edtName == NULL)
         return;
     QString s = edtName->text();
-    QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
+    QStringList lst = Q3FileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             *it = '\"' + QDir::convertSeparators(*it) + '\"';
@@ -213,7 +213,9 @@ bool MsgFile::processEvent(Event *e)
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "msgfile.moc"
 #endif
+*/
 

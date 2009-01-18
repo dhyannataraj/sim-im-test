@@ -27,9 +27,9 @@ using namespace SIM;
 
 class ICQClient;
 
-EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
-        : EncodingDlgBase(parent, NULL, true)
+EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client) : QDialog(parent, NULL, true)
 {
+	setupUi(this);
     SET_WNDPROC("encoding")
     setIcon(Pict("encoding"));
     setButtonsPict(this);
@@ -86,8 +86,4 @@ void EncodingDlg::changed(int n)
 {
     buttonOk->setEnabled(n > 0);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "encodingdlg.moc"
-#endif
 

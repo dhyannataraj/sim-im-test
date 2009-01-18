@@ -21,12 +21,16 @@
 #include <qpoint.h>
 #include <qsize.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QTranslator>
+#include <Q3CString>
+#include <Q3PopupMenu>
 
 #include "buffer.h"
 
 class CToolBar;
 class QMainWindow;
-class QPopupMenu;
+class Q3PopupMenu;
 class QTranslator;
 
 namespace SIM {
@@ -230,32 +234,32 @@ protected:
 class EXPORT EventLog : public Event
 {
 public:
-    EventLog(unsigned logLevel, const QCString &logData)
+    EventLog(unsigned logLevel, const QString &logData)
         : Event(eEventLog), m_logLevel(logLevel), m_logData(logData),
           m_packetID(0), m_addInfo(), m_Buffer()
     {}
     // FIXME: 0x10 / 0x20
-    EventLog(const Buffer &packetBuf, bool bOut, unsigned packetID, const QCString addInfo = QCString())
+    EventLog(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo = QString())
         : Event(eEventLog), m_logLevel(bOut ? 0x20 : 0x10), m_logData(),
           m_packetID(packetID), m_addInfo(addInfo), m_Buffer(packetBuf)
     {}
 
     unsigned logLevel() const { return m_logLevel; }
-    const QCString &logData() const { return m_logData; }
+    const QString &logData() const { return m_logData; }
     unsigned packetID() const { return m_packetID; }
-    const QCString &additionalInfo() const { return m_addInfo; }
+    const QString &additionalInfo() const { return m_addInfo; }
     const Buffer &buffer() const { return m_Buffer; }
     bool isPacketLog() const { return m_Buffer.size() > 0; }
 
     static QString make_packet_string(const EventLog &l);
-    static void log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QCString addInfo = QCString());
-    static void log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo);
+    static void log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo = QString());
+    //static void log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo);
 
 protected:
     unsigned m_logLevel;
-    QCString m_logData;
+    QString m_logData;
     unsigned m_packetID;
-    QCString m_addInfo;
+    QString m_addInfo;
     Buffer m_Buffer;
 };
 
@@ -790,11 +794,11 @@ public:
     
     CommandDef *def() const { return m_def; }
     // out
-    void setMenu(QPopupMenu *m) { m_menu = m; }
-    QPopupMenu *menu() const { return m_menu; }
+    void setMenu(Q3PopupMenu *m) { m_menu = m; }
+    Q3PopupMenu *menu() const { return m_menu; }
 protected:
     CommandDef *m_def;
-    QPopupMenu *m_menu;
+    Q3PopupMenu *m_menu;
 };
 
 class EXPORT EventMenuGetDef : public Event
@@ -822,13 +826,13 @@ public:
     void *param() const { return m_param; }
     int key() const { return m_key; }
     // out
-    void setMenu(QPopupMenu *m) { m_menu = m; }
-    QPopupMenu *menu() const { return m_menu; }
+    void setMenu(Q3PopupMenu *m) { m_menu = m; }
+    Q3PopupMenu *menu() const { return m_menu; }
 protected:
     unsigned long m_id;
     void *m_param;
     int m_key;
-    QPopupMenu *m_menu;
+    Q3PopupMenu *m_menu;
 };
 
 
@@ -1200,14 +1204,14 @@ public:
 class EventSend : public EventMessage
 {
 public:
-    EventSend(Message *msg, const QCString &localeText)
+    EventSend(Message *msg, const Q3CString &localeText)
         : EventMessage(eEventSend, msg), m_text(localeText) {}
 
     // in & out
-    const QCString &localeText() const { return m_text; }
-    void setLocaleText(const QCString &text) { m_text = text; }
+    const Q3CString &localeText() const { return m_text; }
+    void setLocaleText(const Q3CString &text) { m_text = text; }
 protected:
-    QCString m_text;
+    Q3CString m_text;
 };
 
 } // namespace SIM

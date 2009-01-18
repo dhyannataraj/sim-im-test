@@ -18,17 +18,17 @@
 #ifndef _GPGCFG_H
 #define _GPGCFG_H
 
-#include "gpgcfgbase.h"
+#include "ui_gpgcfgbase.h"
 
 class GpgPlugin;
 class GpgAdvanced;
-class QProcess;
+class Q3Process;
 
 #ifdef WIN32
 class GpgFind;
 #endif
 
-class GpgCfg : public GpgCfgBase
+class GpgCfg : public QWidget, public Ui::GpgCfgBase
 {
     Q_OBJECT
 public:
@@ -45,7 +45,7 @@ public slots:
 protected:
     void fillSecret(const QByteArray &ba = QByteArray());
     bool        m_bNew;
-    QProcess   *m_process;
+    Q3Process   *m_process;
     GpgPlugin  *m_plugin;
 #ifdef WIN32
     GpgFind    *m_find;

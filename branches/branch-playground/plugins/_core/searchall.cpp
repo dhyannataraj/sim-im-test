@@ -18,22 +18,26 @@
 #include "searchall.h"
 #include "search.h"
 #include "intedit.h"
+#include "log.h"
 
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 using namespace std;
 using namespace SIM;
 
-SearchAll::SearchAll(QWidget *parent)
-        : SearchAllBase(parent)
+SearchAll::SearchAll(QWidget *parent) : QWidget(parent)
+        //: SearchAllBase(parent)
 {
+	setupUi(this);
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
 }
 
 void SearchAll::showEvent(QShowEvent *e)
 {
-    SearchAllBase::showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(false);
 }
 
@@ -63,13 +67,18 @@ void SearchAll::refresh()
 
 void SearchAll::search()
 {
-    if (grpMail->isChecked() && !edtMail->text().isEmpty()){
+	log(L_DEBUG, "SearchAll::search() FIXME!!!!!111oneone");
+	/*
+    if(grpMail->isChecked() && !edtMail->text().isEmpty()){
+
         if (!makeSearches())
             return;
         emit searchMail(edtMail->text());
     }
-    if (grpName->isChecked() && makeSearches())
+    if(grpName->isChecked() && makeSearches())
         emit searchName(edtFirst->text(), edtLast->text(), edtNick->text());
+		*/
+	
 }
 
 void SearchAll::searchStop()
@@ -171,7 +180,9 @@ void SearchAll::slotAddItem(const QStringList &attrs, QWidget *w)
     emit addItem(la, w);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "searchall.moc"
 #endif
+*/
 

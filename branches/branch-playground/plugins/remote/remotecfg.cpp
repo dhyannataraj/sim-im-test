@@ -18,7 +18,7 @@
 #include "remotecfg.h"
 #include "remote.h"
 
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
@@ -27,9 +27,9 @@
 
 static char TCP[] = "tcp:";
 
-RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
-        : RemoteConfigBase(parent)
+RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     QString path = m_plugin->getPath();
     edtPort->setValue(3000);
@@ -110,8 +110,4 @@ void RemoteConfig::toggled(bool state)
 {
     edtPort->setEnabled(state);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "remotecfg.moc"
-#endif
 

@@ -17,12 +17,14 @@
 
 #include <qstyle.h>
 #include <qlayout.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qpainter.h>
-#include <qbutton.h>
+#include <QAbstractButton>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 #include "editfile.h"
 #include "listview.h"
@@ -40,9 +42,10 @@ const unsigned COL_CHECKED	= 2;
 const unsigned COL_LEVEL	= 3;
 const unsigned COL_PACKET	= 4;
 
-LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
-        : LogConfigBase(parent)
+LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin) : QWidget(parent)
+        //: LogConfigBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     edtFile->setText(m_plugin->getFile());
     edtFile->setCreate(true);
@@ -50,13 +53,13 @@ LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
     lstLevel->addColumn("");
     lstLevel->setExpandingColumn(0);
     lstLevel->header()->hide();
-    connect(lstLevel, SIGNAL(clickItem(QListViewItem*)), this, SLOT(clickItem(QListViewItem*)));
+    connect(lstLevel, SIGNAL(clickItem(Q3ListViewItem*)), this, SLOT(clickItem(Q3ListViewItem*)));
     fill();
 }
 
 void LogConfig::resizeEvent(QResizeEvent *e)
 {
-    LogConfigBase::resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstLevel->adjustColumn();
 }
 
@@ -65,7 +68,7 @@ void LogConfig::apply()
     unsigned log_level = 0;
     /* test if file exist */
     QFile file(edtFile->text());
-    if (!file.open(IO_Append | IO_ReadWrite)) {
+    if (!file.open(QIODevice::Append | QIODevice::ReadWrite)) {
         log(L_DEBUG,"Logfile %s isn't a valid file - discarded!",edtFile->text().latin1());
         edtFile->setText(QString::null);
     } else {
@@ -74,7 +77,7 @@ void LogConfig::apply()
     m_plugin->setFile(edtFile->text());
 
     /* check selected protocols */
-    for (QListViewItem *item = lstLevel->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstLevel->firstChild(); item; item = item->nextSibling()){
         unsigned level = item->text(COL_LEVEL).toUInt();
         if (!item->text(COL_CHECKED).isEmpty()){
             if (level){
@@ -106,7 +109,7 @@ void LogConfig::fill()
     }
 }
 
-void LogConfig::clickItem(QListViewItem *item)
+void LogConfig::clickItem(Q3ListViewItem *item)
 {
     item->setText(COL_CHECKED, item->text(COL_CHECKED).isEmpty() ? "1" : "");
     setCheck(item);
@@ -114,7 +117,7 @@ void LogConfig::clickItem(QListViewItem *item)
 
 void LogConfig::addItem(const char *name, bool bChecked, unsigned level, unsigned packet)
 {
-    QListViewItem *item = new QListViewItem(lstLevel, i18n(name));
+    Q3ListViewItem *item = new Q3ListViewItem(lstLevel, i18n(name));
     if (bChecked)
         item->setText(COL_CHECKED, "1");
     item->setText(COL_LEVEL, QString::number(level));
@@ -122,22 +125,23 @@ void LogConfig::addItem(const char *name, bool bChecked, unsigned level, unsigne
     setCheck(item);
 }
 
-#define CHECK_OFF       QStyle::Style_Off
-#define CHECK_ON        QStyle::Style_On
-#define CHECK_NOCHANGE  QStyle::Style_NoChange
+#define CHECK_OFF       QStyle::State_Off
+#define CHECK_ON        QStyle::State_On
+#define CHECK_NOCHANGE  QStyle::State_NoChange
 
-void LogConfig::setCheck(QListViewItem *item)
+void LogConfig::setCheck(Q3ListViewItem *item)
 {
     int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
-int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
+	int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
+    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
     QRect rc(0, 0, w, h);
     pInd.setBrush(cg.background());
     pInd.eraseRect(rc);
-    style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
+	log(L_DEBUG, "LogConfig::setCheck() FIXME!!!!");
+    //style()->drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
     pInd.end();
     item->setPixmap(COL_CHECK, pixInd);
 }
@@ -149,7 +153,9 @@ bool LogConfig::processEvent(Event *e)
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "logconfig.moc"
 #endif
+*/
 

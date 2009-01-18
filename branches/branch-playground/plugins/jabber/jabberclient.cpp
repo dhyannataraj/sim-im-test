@@ -31,7 +31,9 @@
 #include <qpixmap.h>
 #include <qfile.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "html.h"
 #include "icons.h"
@@ -146,23 +148,28 @@ static DataDef jabberClientData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
-        : TCPClient(protocol, cfg)
+JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg) : TCPClient(protocol, cfg)
 {
     load_data(jabberClientData, &data, cfg);
     QString jid = data.owner.ID.str();
+	//log(L_DEBUG, "JID: %s", jid.toUtf8().data());
 
     //For old configs, where server part in own jid is missing
-    if (!jid.isEmpty() && jid.find('@')==-1) {
+    if (!jid.isEmpty() && jid.find('@')==-1)
+	{
         jid += '@';
-        if (getUseVHost()) {
-            jid += getVHost();
-        } else {
-            jid += getServer();
-        }
+        if (getUseVHost())
+		{
+			jid += getVHost();
+		}
+		else
+		{
+			jid += getServer();
+		}
         data.owner.ID.str()=jid;
     }
-    if (data.owner.Resource.str().isEmpty()){
+    if (data.owner.Resource.str().isEmpty())
+	{
         QString resource = PACKAGE;
         data.owner.Resource.str() = resource.simplifyWhiteSpace();
     }
@@ -211,7 +218,7 @@ void JabberClient::setID(const QString &id)
     data.owner.ID.str() = id;
 }
 
-QCString JabberClient::getConfig()
+Q3CString JabberClient::getConfig()
 {
     QString lr;
     for (list<JabberListRequest>::iterator it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
@@ -224,7 +231,7 @@ QCString JabberClient::getConfig()
             lr += ",1";
     }
     setListRequest(lr);
-    QCString res = Client::getConfig();
+    Q3CString res = Client::getConfig();
     if (res.length())
         res += '\n';
     return res += save_data(jabberClientData, &data);
@@ -302,6 +309,7 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     EventLog::log_packet(socket()->readBuffer(), false, plugin->JabberPacket);
+	//log(L_DEBUG, "JABBER PACKET: %s\n", socket()->readBuffer().data());
     if (!parse(socket()->readBuffer(), true))
         socket()->error_state("XML parse error");
     socket()->readBuffer().init(0);
@@ -315,7 +323,7 @@ bool JabberClient::processEvent(Event *e)
     case eEventAddContact: {
         EventAddContact *ec = static_cast<EventAddContact*>(e);
         EventAddContact::AddContact *ac = ec->addContact();
-        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+        if(!ac->proto.isNull() && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
             QString resource;
             findContact(ac->addr, ac->nick, true, contact, resource);
@@ -533,8 +541,10 @@ bool JabberClient::processEvent(Event *e)
 
 void JabberClient::setStatus(unsigned status)
 {
-    if (getInvisible() && (status != STATUS_OFFLINE)){
-        if (m_status != status){
+    if (getInvisible() && (status != STATUS_OFFLINE))
+	{
+        if (m_status != status)
+		{
             m_status = status;
             EventClientChanged(this).process();
         }
@@ -675,40 +685,61 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     QString element = el.lower();
     const char *id = NULL;
-    if (m_depth){
-        if (m_curRequest){
+    if (m_depth)
+	{
+        if (m_curRequest)
+		{
             m_curRequest->element_start(element, attrs);
-        }else{
-            if (element == "iq"){
+        }
+		else
+		{
+            if (element == "iq")
+			{
                 QString id = attrs.value("id");
                 QString type = attrs.value("type");
-                if (id.isEmpty() || type == "set" || type == "get"){
+				//log(L_DEBUG, "IQ: type = %s", type.toUtf8().data());
+                if(id.isEmpty() || type == "set" || type == "get")
+				{
                     m_curRequest = new IqRequest(this);
                     m_curRequest->element_start(element, attrs);
-                }else{
+                }
+				else
+				{
                     list<ServerRequest*>::iterator it;
-                    for (it = m_requests.begin(); it != m_requests.end(); ++it){
+                    for (it = m_requests.begin(); it != m_requests.end(); ++it)
+					{
                         if ((*it)->m_id == id)
                             break;
                     }
-                    if (it != m_requests.end()){
+                    if (it != m_requests.end())
+					{
                         m_curRequest = *it;
                         m_requests.erase(it);
                         m_curRequest->element_start(element, attrs);
-                    }else{
+                    }
+					else
+					{
                         log(L_WARN, "Packet %s not found", id.latin1());
                     }
                 }
-            }else if (element == "presence"){
+            }
+			else if (element == "presence")
+			{
                 m_curRequest = new PresenceRequest(this);
                 m_curRequest->element_start(element, attrs);
-            }else if (element == "message"){
+            }
+			else if (element == "message")
+			{
                 m_curRequest = new MessageRequest(this);
                 m_curRequest->element_start(element, attrs);
-            }else if (element == "stream:error"){
+            }
+			else if (element == "stream:error")
+			{
                 m_curRequest = new StreamErrorRequest(this);
                 m_curRequest->element_start(element, attrs);
-            }else if (element != "a"){
+            }
+			else if (element != "a")
+			{
                 log(L_DEBUG, "Bad tag %s", element.data());
             }
         }
@@ -996,7 +1027,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
                 data->ID.str() = jid;
                 if (!resource.isEmpty())
                     data->Resource.str() = resource;
-                if (name)
+                if (!name.isNull())
                     data->Name.str() = name;
                 info_request(data, false);
                 EventContact e(contact, EventContact::eChanged);
@@ -1041,11 +1072,11 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool invisible)
 {
     const CommandDef *def = protocol()->statusList();
-    for (; def->text; def++){
+    for (; !def->text.isNull(); def++){
         if (def->id == status)
             break;
     }
-    if ((def == NULL) || (def->text == NULL))
+    if ((def == NULL) || (def->text.isNull()))
         return "Jabber_offline";
     const char *dicon = def->icon;
     if (invisible)
@@ -1209,19 +1240,26 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
 {
     JabberUserData *data = toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     const char *dicon = get_icon(data, data->Status.toULong(), data->invisible.toBool());
-    if (data->Status.toULong() > curStatus){
+    if (data->Status.toULong() > curStatus)
+	{
         curStatus = data->Status.toULong();
-        if (statusIcon && icons){
+        if(!statusIcon.isNull() && icons)
+		{
             QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
                 addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = dicon;
-    }else{
-        if (statusIcon){
+    }
+	else
+	{
+        if (!statusIcon.isNull())
+		{
             addIcon(icons, dicon, statusIcon);
-        }else{
+        }
+		else
+		{
             statusIcon = dicon;
         }
     }
@@ -1382,7 +1420,7 @@ QString JabberClient::contactTip(void *_data)
                 }
             }
             QString url="pict://jabber.logo."+data->ID.str();
-            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+            Q3MimeSourceFactory::defaultFactory()->setPixmap(url, pict);
             res += "<br/><img src=\"" + url + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
@@ -1409,7 +1447,7 @@ QString JabberClient::contactTip(void *_data)
                 }
             }
             QString url="pict://jabber.photo."+data->ID.str();
-            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+            Q3MimeSourceFactory::defaultFactory()->setPixmap(url, pict);
             res += "<br/><img src=\"" + url + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
@@ -1751,7 +1789,8 @@ bool JabberClient::canSend(unsigned type, void *_data)
     if (getState() != Connected)
         return false;
     JabberUserData *data = toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    switch (type){
+    switch (type)
+	{
     case MessageGeneric:
     case MessageFile:
     case MessageContacts:
@@ -2113,10 +2152,10 @@ bool JabberClient::send(Message *msg, void *_data)
             socket()->writeBuffer()
                 << "<message type=\'chat\' to=\'"
                 << data->ID.str();
-            if (!msg->getResource().isEmpty()){
-                socket()->writeBuffer()
-                    << '/' << encodeXMLattr(msg->getResource());
-            }
+            if(!msg->getResource().isEmpty())
+			{
+				socket()->writeBuffer() << QString("/") << encodeXMLattr(msg->getResource());
+			}
             if (getTyping()){
                 data->composeId.asULong() = ++m_msg_id;
                 QString msg_id = "msg";
@@ -2180,7 +2219,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << '/' << encodeXMLattr(msg->getResource());
+                    << QString("/") << encodeXMLattr(msg->getResource());
             }
             socket()->writeBuffer()
                 << "\'>\n<body>" << encodeXML(m->getUrl());
@@ -2279,7 +2318,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << '/' << encodeXMLattr(msg->getResource());
+                    << QString("/") << encodeXMLattr(msg->getResource());
             }
             socket()->writeBuffer()
                 << "\'>\n<x xmlns='jabber:x:roster'>\n";
@@ -2566,7 +2605,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     msg->setContact(contact->id());
     msg->setClient(dataName(data));
     msg->setFlags(MESSAGE_RECEIVED);
-    if (text)
+    if(!text.isNull())
         msg->setText(unquoteString(text));
     EventMessageReceived e(msg);
     e.process();
@@ -2676,7 +2715,7 @@ QImage JabberClient::userPicture(JabberUserData *d)
         }
     }
 
-    return img.scale(w, h);
+    return img.scaled(w, h);
 }
 
 QImage JabberClient::userPicture(unsigned id)
@@ -2731,7 +2770,9 @@ JabberUserData* JabberClient::toJabberUserData(SIM::clientData * data)
    return (JabberUserData*) data;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberclient.moc"
 #endif
+*/
 

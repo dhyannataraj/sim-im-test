@@ -24,6 +24,8 @@
 #include <qdir.h>
 #include <qstringlist.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "message.h"
 #include "misc.h"
@@ -93,13 +95,13 @@ void Message::setClient(const QString &client)
     m_client = client;
 }
 
-QCString Message::save()
+Q3CString Message::save()
 {
     if (getTime() == 0)
         setTime(time(NULL));
     unsigned saveFlags = getFlags();
     setFlags(getFlags() & MESSAGE_SAVEMASK);
-    QCString res = save_data(messageData, &data);
+    Q3CString res = save_data(messageData, &data);
     setFlags(saveFlags);
     return res;
 }
@@ -136,10 +138,10 @@ SMSMessage::~SMSMessage()
     free_data(messageSMSData, &data);
 }
 
-QCString SMSMessage::save()
+Q3CString SMSMessage::save()
 {
-    QCString s = Message::save();
-    QCString s1 = save_data(messageSMSData, &data);
+    Q3CString s = Message::save();
+    Q3CString s1 = save_data(messageSMSData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -179,10 +181,10 @@ UrlMessage::~UrlMessage()
     free_data(messageUrlData, &data);
 }
 
-QCString UrlMessage::save()
+Q3CString UrlMessage::save()
 {
-    QCString s = Message::save();
-    QCString s1 = save_data(messageUrlData, &data);
+    Q3CString s = Message::save();
+    Q3CString s1 = save_data(messageUrlData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -221,10 +223,10 @@ ContactsMessage::~ContactsMessage()
     free_data(messageContactsData, &data);
 }
 
-QCString ContactsMessage::save()
+Q3CString ContactsMessage::save()
 {
-    QCString s = Message::save();
-    QCString s1 = save_data(messageContactsData, &data);
+    Q3CString s = Message::save();
+    Q3CString s1 = save_data(messageContactsData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -478,10 +480,10 @@ bool FileMessage::setDescription(const QString &str)
     return data.Description.setStr(str);
 }
 
-QCString FileMessage::save()
+Q3CString FileMessage::save()
 {
-    QCString s = Message::save();
-    QCString s1 = save_data(messageFileData, &data);
+    Q3CString s = Message::save();
+    Q3CString s1 = save_data(messageFileData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -591,7 +593,7 @@ bool FileTransfer::openFile()
     m_bDir = false;
     m_name = fn.mid(m_base.length());
     m_file = new QFile(fn);
-    if (!m_file->open(IO_ReadOnly)){
+    if (!m_file->open(QIODevice::ReadOnly)){
         m_msg->setError(i18n("Can't open %1") .arg(fn));
         setError();
         return false;
@@ -637,10 +639,10 @@ StatusMessage::StatusMessage(Buffer *cfg)
     load_data(messageStatusData, &data, cfg);
 }
 
-QCString StatusMessage::save()
+Q3CString StatusMessage::save()
 {
-    QCString s = Message::save();
-    QCString s1 = save_data(messageStatusData, &data);
+    Q3CString s = Message::save();
+    Q3CString s1 = save_data(messageStatusData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';

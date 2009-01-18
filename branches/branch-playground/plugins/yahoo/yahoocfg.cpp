@@ -27,9 +27,9 @@
 #include "yahoocfg.h"
 #include "yahooclient.h"
 
-YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
-        : YahooConfigBase(parent)
+YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig)
@@ -88,8 +88,4 @@ void YahooConfig::changed()
                    !edtServer->text().isEmpty() &&
                    edtPort->text().toUShort());
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "yahoocfg.moc"
-#endif
 

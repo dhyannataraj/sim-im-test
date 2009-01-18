@@ -18,12 +18,12 @@
 #ifndef _MSGCFG_H
 #define _MSGCFG_H
 
-#include "msgcfgbase.h"
+#include "ui_msgcfgbase.h"
 
 class QCheckBox;
 class FileConfig;
 
-class MessageConfig : public MessageConfigBase
+class MessageConfig : public QWidget, public Ui::MessageConfigBase
 {
     Q_OBJECT
 public:

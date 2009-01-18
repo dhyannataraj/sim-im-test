@@ -20,7 +20,7 @@
 #include "icqclient.h"
 
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>
 #include <qpixmap.h>
@@ -28,9 +28,9 @@
 
 using namespace SIM;
 
-AIMInfo::AIMInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : AIMInfoBase(parent)
+AIMInfo::AIMInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data    = data;
     m_contact = contact;
@@ -222,8 +222,4 @@ void AIMInfo::fill()
         edtClient->setText(name);
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "aiminfo.moc"
-#endif
 

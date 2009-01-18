@@ -26,9 +26,14 @@
 #include "shortcutcfg.h"
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qaccel.h>
-#include <qpopupmenu.h>
+#include <qwidget.h>
+#include <q3accel.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QEvent>
+#include <Q3CString>
+#include <QX11Info>
 
 #ifdef WIN32
 #include <windows.h>
@@ -101,8 +106,8 @@ static vkCode vkCodes[] =
         { VK_PAUSE,		Qt::Key_Pause },
         { VK_ESCAPE,	Qt::Key_Escape },
         { VK_SPACE,		Qt::Key_Space },
-        { VK_PRIOR,		Qt::Key_Prior },
-        { VK_NEXT,		Qt::Key_Next },
+        { VK_PRIOR,		Qt::Key_PageUp },
+        { VK_NEXT,		Qt::Key_PageDown },
         { VK_END,		Qt::Key_End },
         { VK_HOME,		Qt::Key_Home },
         { VK_LEFT,		Qt::Key_Left },
@@ -185,7 +190,7 @@ static void getKey(const char *key_str, int &mod, int &key)
 {
     mod = 0;
     key = 0;
-    int kkey = QAccel::stringToKey(key_str);
+    int kkey = Q3Accel::stringToKey(key_str);
     if (kkey & Qt::ALT) mod |= MOD_ALT;
     if (kkey & Qt::CTRL) mod |= MOD_CONTROL;
     if (kkey & Qt::SHIFT) mod |= MOD_SHIFT;
@@ -288,8 +293,8 @@ static const TransKey g_rgQtToSymX[] =
         { Qt::Key_Up,         XK_Up },
         { Qt::Key_Right,      XK_Right },
         { Qt::Key_Down,       XK_Down },
-        { Qt::Key_Prior,      XK_Prior },
-        { Qt::Key_Next,       XK_Next },
+        { Qt::Key_PageUp,      XK_Prior },
+        { Qt::Key_PageDown,       XK_Next },
         { Qt::Key_CapsLock,   XK_Caps_Lock },
         { Qt::Key_NumLock,    XK_Num_Lock },
         { Qt::Key_ScrollLock, XK_Scroll_Lock },
@@ -360,29 +365,30 @@ static void initializeMods()
     int min_keycode, max_keycode;
     int keysyms_per_keycode = 0;
 
-    XModifierKeymap* xmk = XGetModifierMapping( qt_xdisplay() );
-    XDisplayKeycodes( qt_xdisplay(), &min_keycode, &max_keycode );
-    XFree( XGetKeyboardMapping( qt_xdisplay(), min_keycode, 1, &keysyms_per_keycode ));
+    XModifierKeymap* xmk = XGetModifierMapping(QX11Info::display() );
+    XDisplayKeycodes(QX11Info::display(), &min_keycode, &max_keycode );
+    XFree( XGetKeyboardMapping(QX11Info::display(), min_keycode, 1, &keysyms_per_keycode ));
     for( int i = Mod2MapIndex; i < 8; i++ ) {
         uint mask = (1 << i);
         uint keySymX = NoSymbol;
         for( int j = 0; j < xmk->max_keypermod && keySymX == NoSymbol; ++j )
             for( int k = 0; k < keysyms_per_keycode && keySymX == NoSymbol; ++k )
-                keySymX = XKeycodeToKeysym( qt_xdisplay(), xmk->modifiermap[xmk->max_keypermod * i + j], k );
-        switch( keySymX ) {
+                keySymX = XKeycodeToKeysym(QX11Info::display(), xmk->modifiermap[xmk->max_keypermod * i + j], k );
+        switch(keySymX)
+		{
             case XK_Num_Lock:    g_modXNumLock = mask; break;     // Normally Mod2Mask
             case XK_Scroll_Lock: g_modXScrollLock = mask; break;  // Normally Mod5Mask
             case XK_Mode_switch: g_modXModeSwitch = mask; break; 
         }
     }
-    XFreeModifiermap( xmk );
+    XFreeModifiermap(xmk);
     g_keyModMaskXOnOrOff = LockMask | g_modXNumLock | g_modXScrollLock | g_modXModeSwitch;
 }
 
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
     m_cmd = *cmd;
-    m_key = QAccel::stringToKey(cmd->accel);
+    m_key = Q3Accel::stringToKey(cmd->accel);
     m_state = 0;
     if (m_key & Qt::SHIFT){
         m_key &= ~Qt::SHIFT;
@@ -407,16 +413,18 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     if(!g_keyModMaskXOnOrOff)
         initializeMods();
 
-    m_key = XKeysymToKeycode( qt_xdisplay(), m_key);
-    XSync( qt_xdisplay(), 0 );
+    m_key = XKeysymToKeycode(QX11Info::display(), m_key);
+    XSync(QX11Info::display(), 0 );
     XErrorHandler savedErrorHandler = XSetErrorHandler(XGrabErrorHandler);
 
     uint keyModMaskX = ~g_keyModMaskXOnOrOff;
+	/*
     for( uint irrelevantBitsMask = 0; irrelevantBitsMask <= 0xff; irrelevantBitsMask++ )
         if( (irrelevantBitsMask & keyModMaskX) == 0 )
-            XGrabKey( qt_xdisplay(), m_key, m_state | irrelevantBitsMask, qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+            XGrabKey(QX11Info::display(), m_key, m_state | irrelevantBitsMask, qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+			*/
 
-    XSync( qt_xdisplay(), 0 );
+    XSync(QX11Info::display(), 0 );
     XSetErrorHandler( savedErrorHandler );
 }
 
@@ -424,21 +432,23 @@ GlobalKey::~GlobalKey()
 {
     uint keyModMaskX = ~g_keyModMaskXOnOrOff;
 
+	/*
     for( uint irrelevantBitsMask = 0; irrelevantBitsMask <= 0xff; irrelevantBitsMask++ )
         if( (irrelevantBitsMask & keyModMaskX) == 0 )
             XUngrabKey( qt_xdisplay(), m_key, m_state | irrelevantBitsMask, qt_xrootwin());
+			*/
 }
 
 typedef int (*QX11EventFilter) (XEvent*);
-QX11EventFilter qt_set_x11_event_filter (QX11EventFilter filter);
+//QX11EventFilter qt_set_x11_event_filter (QX11EventFilter filter);
 static QX11EventFilter oldFilter;
 
 static int X11EventFilter(XEvent *e)
 {
     if ((e->type == KeyPress) && globalKeys){
         if ( !QWidget::keyboardGrabber() && !QApplication::activePopupWidget() ) {
-                XUngrabKeyboard( qt_xdisplay(), e->xkey.time );
-                XFlush( qt_xdisplay());
+                XUngrabKeyboard(QX11Info::display(), e->xkey.time );
+                XFlush(QX11Info::display());
         }
         unsigned state = e->xkey.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask | 0x2000);
 
@@ -468,7 +478,7 @@ ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
 #else
     applyKeys();
 #ifndef USE_KDE
-    oldFilter = qt_set_x11_event_filter(X11EventFilter);
+//    oldFilter = qt_set_x11_event_filter(X11EventFilter);
 #endif
 #endif
 }
@@ -486,14 +496,14 @@ ShortcutsPlugin::~ShortcutsPlugin()
     }
 #else
 #ifndef USE_KDE
-    qt_set_x11_event_filter(oldFilter);
+    //qt_set_x11_event_filter(oldFilter);
 #endif
 #endif
     releaseKeys();
     free_data(shortcutsData, &data);
 }
 
-QCString ShortcutsPlugin::getConfig()
+Q3CString ShortcutsPlugin::getConfig()
 {
     return save_data(shortcutsData, &data);
 }
@@ -653,19 +663,20 @@ unsigned ShortcutsPlugin::stringToButton(const QString &cfg)
     for (; config.length(); ){
         QString t = getToken(config, '+');
         if (t == "Alt"){
-            res |= AltButton;
+            res |= Qt::AltButton;
             continue;
         }
         if (t == "Ctrl"){
-            res |= ControlButton;
+            res |= Qt::ControlButton;
             continue;
         }
         if (t == "Shift"){
-            res |= ShiftButton;
+            res |= Qt::ShiftButton;
             continue;
         }
         unsigned i = 1;
-        for (const char **p = states; *p; p++, i++){
+        for (const char **p = states; *p; p++, i++)
+		{
             if (t == *p){
                 res |= i;
                 return res;
@@ -679,11 +690,11 @@ unsigned ShortcutsPlugin::stringToButton(const QString &cfg)
 QString ShortcutsPlugin::buttonToString(unsigned n)
 {
     QString res;
-    if (n & AltButton)
+    if (n & Qt::AltButton)
         res = "Alt+";
-    if (n & ControlButton)
+    if (n & Qt::ControlButton)
         res = "Ctrl+";
-    if (n & ShiftButton)
+    if (n & Qt::ShiftButton)
         res = "Shift+";
     n = n & 7;
     if (n == 0)
@@ -727,7 +738,8 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
             s->flags |= COMMAND_GLOBAL_ACCEL;
         }
     }
-    if (s->accel && (s->flags & COMMAND_GLOBAL_ACCEL)){
+    if (!s->accel.isNull() && (s->flags & COMMAND_GLOBAL_ACCEL))
+	{
         if (globalKeys == NULL)
             globalKeys = new list<GlobalKey*>;
         globalKeys->push_back(new GlobalKey(s));
@@ -765,13 +777,13 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::MouseButtonPress){
         me = static_cast<QMouseEvent*>(e);
         switch (me->button()){
-        case LeftButton:
+        case Qt::LeftButton:
             button = 1;
             break;
-        case RightButton:
+        case Qt::RightButton:
             button = 2;
             break;
-        case MidButton:
+        case Qt::MidButton:
             button = 3;
             break;
         default:
@@ -781,13 +793,13 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::MouseButtonDblClick){
         me = static_cast<QMouseEvent*>(e);
         switch (me->button()){
-        case LeftButton:
+        case Qt::LeftButton:
             button = 4;
             break;
-        case RightButton:
+        case Qt::RightButton:
             button = 5;
             break;
-        case MidButton:
+        case Qt::MidButton:
             button = 6;
             break;
         default:
@@ -795,13 +807,13 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
         }
     }
     if (me){
-        button |= me->state() & (AltButton | ControlButton | ShiftButton);
+        button |= me->state() & (Qt::AltModifier | Qt::ControlModifier | Qt::ShiftModifier);
         MAP_CMDS::iterator it = mouseCmds.find(button);
         if (it != mouseCmds.end()){
             CommandDef *cmd = &(*it).second;
             EventMenuGet e(cmd);
             e.process();
-            QPopupMenu *popup = e.menu();
+            Q3PopupMenu *popup = e.menu();
             if (popup){
                 popup->popup(me->globalPos());
                 return true;
@@ -813,20 +825,15 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
 
 QWidget *ShortcutsPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
-        if (w->inherits("MainWindow")){
-            delete list;
-            return w;
-        }
-    }
-    delete list;
+    QWidgetList list = QApplication::topLevelWidgets();
+    for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget *w = *it;
+		if(w->inherits("MainWindow"))
+		{
+			return w;
+		}
+	}
     return NULL;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "shortcuts.moc"
-#endif

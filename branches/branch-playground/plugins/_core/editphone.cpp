@@ -26,7 +26,7 @@
 #include <qlineedit.h>
 #include <qpixmap.h>
 #include <qpushbutton.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
 
@@ -36,8 +36,10 @@ extern ext_info phoneIcons[];
 extern const char *phoneTypeNames[];
 
 EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type, unsigned icon, bool bPublish, bool bShowPublish)
-        : EditPhoneBase(parent, "editphone", true)
+		:QDialog(parent, "editphone")
+        //: EditPhoneBase(parent, "editphone", true)
 {
+	setupUi(this);
     SET_WNDPROC("editphone")
     setIcon(Pict("phone"));
     setButtonsPict(this);
@@ -145,10 +147,12 @@ void EditPhone::accept()
     }
     icon = cmbType->currentItem();
     publish = chkPublish->isChecked();
-    EditPhoneBase::accept();
+    QDialog::accept();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "editphone.moc"
 #endif
+*/
 

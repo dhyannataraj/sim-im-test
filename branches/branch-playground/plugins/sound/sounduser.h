@@ -18,13 +18,16 @@
 #ifndef _SOUNDUSER_H
 #define _SOUNDUSER_H
 
-#include "sounduserbase.h"
+#include "ui_sounduserbase.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 class SoundPlugin;
 class EditSound;
-class QListViewItem;
+class Q3ListViewItem;
 
-class SoundUserConfig : public SoundUserConfigBase
+class SoundUserConfig : public QWidget, public Ui::SoundUserConfigBase
 {
     Q_OBJECT
 public:
@@ -32,10 +35,10 @@ public:
 public slots:
     void apply(void *data);
     void toggled(bool);
-    void selectionChanged(QListViewItem*);
+    void selectionChanged(Q3ListViewItem*);
 protected:
     EditSound		*m_edit;
-    QListViewItem	*m_editItem;
+    Q3ListViewItem	*m_editItem;
     void resizeEvent(QResizeEvent*);
     QPixmap makePixmap(const char *source);
     SoundPlugin *m_plugin;

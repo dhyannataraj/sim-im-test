@@ -28,9 +28,9 @@
 
 using namespace SIM;
 
-SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data)
-        : SecureDlgBase(NULL, "securedlg", false, WDestructiveClose)
+SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data) : QDialog(NULL, "securedlg", false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     SET_WNDPROC("secure")
     setIcon(Pict("encrypted"));
     setButtonsPict(this);
@@ -103,8 +103,4 @@ void SecureDlg::error(const QString &err)
     lblError->setText(errText);
     btnCancel->setText(i18n("&Close"));
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "securedlg.moc"
-#endif
 

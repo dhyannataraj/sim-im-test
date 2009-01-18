@@ -18,13 +18,13 @@
 #ifndef _FILTERCFG_H
 #define _FILTERCFG_H
 
-#include "filtercfgbase.h"
+#include "ui_filtercfgbase.h"
 
 struct FilterUserData;
 class FilterPlugin;
 class IgnoreList;
 
-class FilterConfig : public FilterConfigBase
+class FilterConfig : public QWidget, public Ui::FilterConfigBase
 {
     Q_OBJECT
 public:

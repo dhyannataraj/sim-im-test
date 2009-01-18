@@ -18,12 +18,13 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qcheckbox.h>
 
-SMSConfig::SMSConfig(QWidget *parent, void *_data)
-        : SMSConfigBase(parent)
+SMSConfig::SMSConfig(QWidget *parent, void *_data) : QWidget(parent)
+        //: SMSConfigBase(parent)
 {
+	setupUi(this);
     SMSUserData *data = (SMSUserData*)(_data);
     edtBefore->setText(data->SMSSignatureBefore.str());
     edtAfter->setText(data->SMSSignatureAfter.str());
@@ -36,7 +37,9 @@ void SMSConfig::apply(void *_data)
     data->SMSSignatureAfter.str() = edtAfter->text();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "smscfg.moc"
 #endif
+*/
 

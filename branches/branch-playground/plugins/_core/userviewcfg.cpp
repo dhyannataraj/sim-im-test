@@ -25,9 +25,10 @@
 
 using namespace SIM;
 
-UserViewConfig::UserViewConfig(QWidget *parent)
-        : UserViewConfigBase(parent)
+UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
+        //: UserViewConfigBase(parent)
 {
+	setupUi(this);
     chkDblClick->setChecked(CorePlugin::m_plugin->getUseDblClick());
     chkSysColors->setChecked(CorePlugin::m_plugin->getUseSysColors());
     btnOnline->setColor(CorePlugin::m_plugin->getColorOnline());
@@ -239,7 +240,10 @@ unsigned UserViewConfig::getSortMode()
     return (m3 << 16) + (m2 << 8) + m1;
 }
 
+
+/*
 #ifndef NO_MOC_INCLUDES
 #include "userviewcfg.moc"
 #endif
+*/
 

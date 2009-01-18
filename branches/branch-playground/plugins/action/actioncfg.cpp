@@ -27,15 +27,18 @@
 #include <qtabwidget.h>
 #include <qpainter.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QPixmap>
 
 using namespace SIM;
 
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
-ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin)
-        : ActionConfigBase(parent)
+ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_data   = data;
     m_plugin = plugin;
     m_menu   = NULL;
@@ -47,12 +50,12 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
 
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 
-    QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
+    Q3ListViewItem *item = new Q3ListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
     item->setPixmap(0, makePixmap("SIM"));
     item->setText(1, data->OnLine.str());
 
-    item = new QListViewItem(lstEvent, i18n("Status changed"));
+    item = new Q3ListViewItem(lstEvent, i18n("Status changed"));
     item->setText(2, QString::number(CONTACT_STATUS));
     item->setPixmap(0, makePixmap("SIM"));
     item->setText(1, data->Status.str());
@@ -61,7 +64,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if ((def == NULL) || (cmd->icon == NULL) ||
+        if ((def == NULL) || (cmd->icon.isNull()) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY | MESSAGE_CHILD)))
             continue;
         if ((def->singular == NULL) || (def->plural == NULL) ||
@@ -75,14 +78,14 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
             type = type.left(pos);
         }
         type = type.left(1).upper() + type.mid(1);
-        QListViewItem *item = new QListViewItem(lstEvent, type);
+        Q3ListViewItem *item = new Q3ListViewItem(lstEvent, type);
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));
         item->setText(1, get_str(data->Message, cmd->id));
     }
     m_edit = NULL;
     m_editItem = NULL;
-    connect(lstEvent, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
+    connect(lstEvent, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -105,7 +108,7 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::resizeEvent(QResizeEvent *e)
 {
-    ActionConfigBase::resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstEvent->adjustColumn();
 }
 
@@ -122,7 +125,7 @@ QPixmap ActionConfig::makePixmap(const char *src)
     return pict;
 }
 
-void ActionConfig::selectionChanged(QListViewItem *item)
+void ActionConfig::selectionChanged(Q3ListViewItem *item)
 {
     if (m_editItem){
         m_editItem->setText(1, m_edit->text());
@@ -156,7 +159,7 @@ void ActionConfig::apply(void *_data)
     ActionUserData *data = (ActionUserData*)_data;
     if (m_menu)
         m_menu->apply(data);
-    for (QListViewItem *item = lstEvent->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstEvent->firstChild(); item; item = item->nextSibling()){
         unsigned id = item->text(2).toUInt();
         QString text = item->text(1);
         if (id == CONTACT_ONLINE){
@@ -173,7 +176,7 @@ void ActionConfig::setEnabled(bool state)
 {
     if (m_menu)
         m_menu->setEnabled(state);
-    ActionConfigBase::setEnabled(state);
+    QWidget::setEnabled(state);
 }
 
 void ActionConfig::help()
@@ -189,8 +192,4 @@ void ActionConfig::help()
                        "Thus it is possible to organize additional messages filters.\n");
     BalloonMsg::message(helpString, btnHelp, false, 400);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "actioncfg.moc"
-#endif
 

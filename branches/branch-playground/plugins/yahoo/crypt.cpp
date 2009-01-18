@@ -22,6 +22,8 @@
  * already had. isn't that lovely. people should just use linux or
  * freebsd, crypt works properly on those systems. i hate solaris */
 
+#include <QCryptographicHash>
+
 #include "socket.h"
 
 /* Define our magic string to mark salt for MD5 "encryption"
@@ -38,7 +40,6 @@ const char b64t[] =
 
 char *yahoo_crypt(const char *key, const char *salt)
 {
-    using SIM::md5;
     static char *buffer = NULL;
     static int buflen = 0;
     int needed = 3 + strlen (salt) + 1 + 26 + 1;
@@ -70,7 +71,7 @@ char *yahoo_crypt(const char *key, const char *salt)
     std::string ct_alt = key;
     ct_alt += salt;
     ct_alt += key;
-    ct_alt = md5(ct_alt.c_str());
+    ct_alt = (QCryptographicHash::hash(QByteArray(ct_alt.c_str(), ct_alt.length()), QCryptographicHash::Md5)).data();
 
     /* Add for any character in the key one byte of the alternate sum.  */
     for (cnt = key_len; cnt > 16; cnt -= 16)
@@ -87,7 +88,7 @@ char *yahoo_crypt(const char *key, const char *salt)
         ct.append((cnt & 1) != 0 ? nil : key, 1);
 
     /* Create intermediate result.  */
-    ct_alt = md5(ct.c_str(), ct.length());
+    ct_alt = (QCryptographicHash::hash(QByteArray(ct.c_str(), ct.length()), QCryptographicHash::Md5)).data();
 
     /* Now comes another weirdness.  In fear of password crackers here
        comes a quite long loop which just processes the output of the
@@ -117,7 +118,7 @@ char *yahoo_crypt(const char *key, const char *salt)
             ct += key;
 
         /* Create intermediate result.  */
-        ct_alt = md5(ct.c_str(), ct.length());
+        ct_alt = (QCryptographicHash::hash(QByteArray(ct.c_str(), ct.length()), QCryptographicHash::Md5)).data();
     }
 
     /* Now we can construct the result string.  It consists of three

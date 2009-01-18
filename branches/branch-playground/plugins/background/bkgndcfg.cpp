@@ -23,6 +23,9 @@
 #include <qlayout.h>
 #include <qimage.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3StrList>
+#include <QImageReader>
 
 #include "misc.h"
 #include "linklabel.h"
@@ -41,21 +44,23 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
-        : BkgndCfgBase(parent)
+BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
+        //: BkgndCfgBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     edtPicture->setText(plugin->getBackground());
     edtPicture->setStartDir(SIM::app_file("pict/"));
     edtPicture->setTitle(i18n("Select background picture"));
-    QStrList formats = QImageIO::inputFormats();
+    QList<QByteArray> formats = QImageReader::supportedImageFormats();
     QString format;
-    QStrListIterator it(formats);
-    char *fmt;
-    while ((fmt = ++it) != NULL){
+    QByteArray fmt;
+	for(QList<QByteArray>::iterator it = formats.begin(); it != formats.end(); ++it)
+	{
+		fmt = *it;
         if (format.length())
             format += " ";
-        QString f = fmt;
+        QString f(fmt);
         f = f.lower();
         format += "*." + f;
         if (f == "jpeg")
@@ -90,7 +95,9 @@ void BkgndCfg::apply()
     m_plugin->redraw();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "bkgndcfg.moc"
 #endif
+*/
 

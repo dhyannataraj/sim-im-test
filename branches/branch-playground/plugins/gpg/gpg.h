@@ -20,7 +20,9 @@
 
 #include <qobject.h>
 #include <qstring.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -53,12 +55,12 @@ struct GpgUserData
     SIM::Data   Use;
 };
 
-class QProcess;
+class Q3Process;
 
 struct DecryptMsg
 {
     SIM::Message *msg;
-    QProcess    *process;
+    Q3Process    *process;
     QString     infile;
     QString     outfile;
     unsigned    contact;
@@ -95,7 +97,7 @@ public:
     QString GPG();
     void reset();
     static GpgPlugin *plugin;
-    QValueList<KeyMsg>	 m_sendKeys;
+    Q3ValueList<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
     QString getHomeDir();
 protected slots:
@@ -107,17 +109,17 @@ protected slots:
     void passphraseApply(const QString&);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual bool processEvent(SIM::Event *e);
     void registerMessage();
     void unregisterMessage();
     void askPassphrase();
     bool decode(SIM::Message *msg, const QString &pass, const QString &key);
     bool m_bMessage;
-    QValueList<DecryptMsg> m_decrypt;
-    QValueList<DecryptMsg> m_import;
-    QValueList<DecryptMsg> m_public;
-    QValueList<DecryptMsg> m_wait;
+    Q3ValueList<DecryptMsg> m_decrypt;
+    Q3ValueList<DecryptMsg> m_import;
+    Q3ValueList<DecryptMsg> m_public;
+    Q3ValueList<DecryptMsg> m_wait;
     class PassphraseDlg     *m_passphraseDlg;
     GpgData data;
 };
@@ -138,7 +140,7 @@ protected:
     QString     m_client;
     QString     m_key;
     MsgEdit     *m_edit;
-    QProcess    *m_process;
+    Q3Process    *m_process;
 };
 
 #endif

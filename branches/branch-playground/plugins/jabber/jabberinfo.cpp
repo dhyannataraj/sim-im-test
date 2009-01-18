@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qlineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>
@@ -34,8 +34,8 @@
 
 using namespace SIM;
 
-JabberInfo::JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
-        : JabberInfoBase(parent)
+JabberInfo::JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *client) : QWidget(parent)
+        //: JabberInfoBase(parent)
 {
     m_client  = client;
     m_data    = data;
@@ -251,7 +251,9 @@ void JabberInfo::urlChanged(const QString &text)
     btnUrl->setEnabled(!text.isEmpty());
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberinfo.moc"
 #endif
+*/
 

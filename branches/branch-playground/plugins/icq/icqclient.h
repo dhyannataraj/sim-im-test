@@ -22,6 +22,9 @@
 #include <vector>
 
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 #include "misc.h"
 #include "snac.h"
@@ -526,7 +529,7 @@ public:
     virtual QString getScreen();
     virtual QString     dataName(void*);
     virtual QWidget    *setupWnd();
-    virtual QCString    getConfig();
+    virtual Q3CString    getConfig();
     virtual void contactsLoaded();
     void setUin(unsigned long);
     void setScreen(const QString &);
@@ -599,9 +602,9 @@ public:
     void requestReverseConnection(const QString &screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
+                          const Q3CString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(SIM::Message*, const QString &screen);
-    static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
+    static bool parseRTF(const QString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
     virtual QImage userPicture(unsigned id);
     QImage userPicture(ICQUserData *d);
@@ -754,7 +757,7 @@ protected:
     bool isOwnData(const QString &screen);
     void packInfoList(const QString &str);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    QCString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+    Q3CString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const QString &dir, SIM::OverwriteMode overwrite);
@@ -778,7 +781,7 @@ protected:
     void pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &b);
     void packMessage(ICQBuffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
     void packExtendedMessage(SIM::Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data);
-    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QCString &str);
+    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const Q3CString &str);
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
@@ -947,7 +950,7 @@ protected:
     void sendPacket();
     void processMsgQueue();
     bool copyQueue(DirectClient *to);
-    QValueList<SendDirectMsg> m_queue;
+    Q3ValueList<SendDirectMsg> m_queue;
     QString name();
     QString m_name;
 #ifdef ENABLE_OPENSSL

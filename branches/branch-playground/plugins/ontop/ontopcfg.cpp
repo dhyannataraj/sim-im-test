@@ -20,9 +20,10 @@
 
 #include <qcheckbox.h>
 
-OnTopCfg::OnTopCfg(QWidget *parent, OnTopPlugin *plugin)
-        : OnTopCfgBase(parent)
+OnTopCfg::OnTopCfg(QWidget *parent, OnTopPlugin *plugin) : QWidget(parent)
+        //: OnTopCfgBase(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     chkInTask->setChecked(m_plugin->getInTask());
     chkContainer->setChecked(m_plugin->getContainerOnTop());
@@ -34,8 +35,4 @@ void OnTopCfg::apply()
     m_plugin->setContainerOnTop(chkContainer->isChecked());
     m_plugin->setState();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "ontopcfg.moc"
-#endif
 

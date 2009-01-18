@@ -19,6 +19,8 @@
 
 #include "buffer.h"
 #include "socket.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 class JabberBuffer : public Buffer
 {
@@ -28,7 +30,7 @@ public:
     virtual ~JabberBuffer();
 
     JabberBuffer &operator << (const QString &s);
-    JabberBuffer &operator << (const QCString &s);
+    JabberBuffer &operator << (const Q3CString &s);
     JabberBuffer &operator << (const char *s);      // interpreted as utf-8
 };
 

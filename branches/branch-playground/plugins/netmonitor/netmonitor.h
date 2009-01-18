@@ -19,7 +19,9 @@
 #define _NETMONITOR_H
 
 #include <qobject.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -51,11 +53,11 @@ protected slots:
     void realFinished();
 protected:
     virtual bool processEvent(SIM::Event *e);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     void showMonitor();
     void saveState();
     unsigned long CmdNetMonitor;
-    QValueList<unsigned> m_packets;
+    Q3ValueList<unsigned> m_packets;
     NetMonitorData data;
     MonitorWindow *monitor;
 };

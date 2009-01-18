@@ -28,8 +28,10 @@
 #include <qregexp.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qtextstream.h>
-#include <qprocess.h>
+#include <q3textstream.h>
+#include <q3process.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "sockfactory.h"
 #include "fetch.h"
@@ -79,7 +81,7 @@ QWidget *Plugin::createConfigWindow(QWidget*)
     return NULL;
 }
 
-QCString Plugin::getConfig()
+Q3CString Plugin::getConfig()
 {
     return "";
 }
@@ -554,7 +556,8 @@ bool PluginManagerPrivate::setInfo(const QString &name)
     pluginInfo *info = getInfo(name);
     if (info == NULL)
         return false;
-    if (info->bDisabled){
+    if (info->bDisabled)
+	{
         if (info->plugin == NULL)
             return false;
         release(*info);
@@ -591,14 +594,14 @@ void PluginManagerPrivate::saveState()
         return;
     getContacts()->save();
     QString cfgName = user_file(PLUGINS_CONF);
-    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
-    if (!f.open(IO_WriteOnly | IO_Truncate)){
+    QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
     for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
-        QCString line = "[";
+        Q3CString line = "[";
         line += QFile::encodeName(info.name);
         line += "]\n";
         line += info.bDisabled ? DISABLE : ENABLE;
@@ -607,7 +610,7 @@ void PluginManagerPrivate::saveState()
         line += '\n';
         f.writeBlock(line, line.length());
         if (info.plugin){
-            QCString cfg = info.plugin->getConfig();
+            Q3CString cfg = info.plugin->getConfig();
             if (cfg.length()){
                 cfg += '\n';
                 f.writeBlock(cfg, cfg.length());
@@ -627,9 +630,9 @@ void PluginManagerPrivate::saveState()
     QFileInfo fileInfo(f.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#if defined( WIN32 ) || defined( __OS2__ )
+//#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
-#endif
+//#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
         log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
         return;
@@ -668,7 +671,7 @@ void PluginManagerPrivate::loadState()
                 return;
             }
         }
-        if (f.open(IO_WriteOnly))
+        if (f.open(QIODevice::WriteOnly))
             f.close();
         else {
             log(L_ERROR, "Can't create %s",f.name().ascii());
@@ -676,7 +679,7 @@ void PluginManagerPrivate::loadState()
         }
     }
 
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
@@ -686,7 +689,7 @@ void PluginManagerPrivate::loadState()
     bool continuos=TRUE;
     while(continuos) {
 
-        QCString section = cfg.getSection();
+        Q3CString section = cfg.getSection();
 
         if (section.isEmpty())
             return;
@@ -701,11 +704,11 @@ void PluginManagerPrivate::loadState()
             continue;
 
         pluginInfo &info = plugins[i];
-        QCString line = cfg.getLine();
+        Q3CString line = cfg.getLine();
 
         if (line.isEmpty())
             continue;
-        QCString token = getToken(line, ',');
+        Q3CString token = getToken(line, ',');
         if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;
@@ -718,9 +721,10 @@ void PluginManagerPrivate::loadState()
 			continue;
 
         bool ok = false;
-        info.base = line.toULong( &ok );
-        if ( !ok ) {
-            log(L_DEBUG, QString("Cannot convert base for config line '%1'").arg( line ) );
+        info.base = line.toULong(&ok);
+        if(!ok)
+		{
+            log(L_DEBUG, QString("Cannot convert base for config line '%1'").arg(QString::fromUtf8(line)));
         }
 
         if (info.base > m_base)
@@ -821,7 +825,7 @@ Q_ULONG PluginManagerPrivate::execute(const QString &prg, const QStringList &arg
 
     arglist = s + args;
 
-    QProcess *proc = new QProcess(arglist);
+    Q3Process *proc = new Q3Process(arglist);
     if( proc->start() ) {
         child = proc->processIdentifier();
     } else {

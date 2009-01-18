@@ -25,7 +25,13 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <QEvent>
+#include <QPaintEvent>
+#include <QDesktopWidget>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -51,10 +57,10 @@ compose_floaty_name( unsigned long id )
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
         : QWidget(NULL, aux::compose_floaty_name( id ).ascii(),
-                  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
-                  WStyle_StaysOnTop | WRepaintNoErase
-                    | WPaintClever
-                    | WX11BypassWM
+                  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool |
+                  Qt::WStyle_StaysOnTop | Qt::WNoAutoErase
+                    | Qt::WPaintClever
+                    | Qt::WX11BypassWM
                 )
 {
     m_plugin = plugin;
@@ -63,7 +69,7 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
 	b_ignoreMouseClickRelease=false;
     init();
     setAcceptDrops(true);
-    setBackgroundMode(NoBackground);
+    setBackgroundMode(Qt::NoBackground);
 #ifdef USE_KDE
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
@@ -98,7 +104,7 @@ void FloatyWnd::init()
     setFont(&p);
     m_blink = blink;
     QRect br = qApp->desktop()->rect();
-    br = p.boundingRect(br, AlignLeft | AlignVCenter, m_text);
+    br = p.boundingRect(br, Qt::AlignLeft | Qt::AlignVCenter, m_text);
     p.end();
     unsigned h = br.height();
     unsigned w = br.width() + 5;
@@ -188,7 +194,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }
     QRect br;
     setFont(&p);
-    p.drawText(x, 0, w, h, AlignLeft | AlignVCenter, m_text, -1, &br);
+    p.drawText(x, 0, w, h, Qt::AlignLeft | Qt::AlignVCenter, m_text, -1, &br);
     x = br.right() + 5;
     QString icons = m_icons;
     while (icons.length()){
@@ -203,26 +209,24 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     p.begin(this);
     p.drawPixmap(QPoint(2, 2), pict);
     QColorGroup cg;
+
     p.setPen(cg.dark());
-    p.moveTo(1, 1);
-    p.lineTo(width() - 2, 1);
-    p.lineTo(width() - 2, height() - 2);
-    p.lineTo(1, height() - 2);
-    p.lineTo(1, 1);
+	p.drawLine(1, 1, width() - 2, 1);
+	p.drawLine(width() - 2, 1, width() - 2, height() - 2);
+	p.drawLine(width() - 2, height() - 2, 1, height() - 2);
+	p.drawLine(1, height() - 2, 1, 1);
+
     p.setPen(colorGroup().shadow());
-    p.moveTo(0, height() - 1);
-    p.lineTo(width() - 1, height() - 1);
-    p.lineTo(width() - 1, 1);
-    p.moveTo(width() - 3, 2);
-    p.lineTo(2, 2);
-    p.lineTo(2, height() - 3);
+	p.drawLine(0, height() - 1, width() - 1, height() - 1);
+	p.drawLine(width() - 1, height() - 1, width() - 1, 1);
+	p.drawLine(width() - 3, 2, 2, 2);
+	p.drawLine(2, 2, 2, height() - 3);
+
     p.setPen(colorGroup().light());
-    p.moveTo(2, height() - 3);
-    p.lineTo(width() - 3, height() - 3);
-    p.lineTo(width() - 3, 2);
-    p.moveTo(width() - 1, 0);
-    p.lineTo(0, 0);
-    p.lineTo(0, height() - 1);
+	p.drawLine(2, height() - 3, width() - 3, height() - 3);
+	p.drawLine(width() - 3, height() - 3, width() - 3, 2);
+	p.drawLine(width() - 1, 0, 0, 0);
+	p.drawLine(0, 0, 0, height() - 1);
 }
 
 void FloatyWnd::setFont(QPainter *p)
@@ -262,11 +266,11 @@ void FloatyWnd::setFont(QPainter *p)
 
 void FloatyWnd::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == LeftButton){
+    if (e->button() == Qt::LeftButton){
         initMousePos = e->pos();
         moveTimer->start(QApplication::startDragTime());
     }
-    if (e->button() == RightButton){
+    if (e->button() == Qt::RightButton){
         m_plugin->popupPos = e->globalPos();
         m_plugin->popupId  = m_id;
         QTimer::singleShot(0, m_plugin, SLOT(showPopup()));
@@ -300,49 +304,49 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
 
 void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 {
-    if ((e->state() & QObject::LeftButton) && !initMousePos.isNull() &&
+    if ((e->state() & Qt::LeftButton) && !initMousePos.isNull() &&
             (QPoint(e->pos() - initMousePos).manhattanLength() > QApplication::startDragDistance()))
         startMove();
 	if (!mousePos.isNull()) {
 		
-		QWidgetList *list = QApplication::topLevelWidgets();
-        QWidgetListIt it(*list);
-        QWidget * w;
-        while ((w = it.current()) != NULL) {
-			if (w->inherits("FloatyWnd")){
+		QWidgetList list = QApplication::topLevelWidgets();
+        for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+		{
+			QWidget* w = *it;
+			if (w->inherits("FloatyWnd"))
+			{
 				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
-
-				int dist=4;
+				int dist = 4;
 				move(e->globalPos() - mousePos);
 				//Top left:
 				if (this->pos().x() + this->width()  - refwnd->pos().x() <= dist &&  //== x Top left
-					this->pos().x() + this->width()  - refwnd->pos().x() >= 0 &&
-					this->pos().y() + this->height() - refwnd->pos().y() <= dist &&
-					this->pos().y() + this->height() - refwnd->pos().y() >= 0) {
+						this->pos().x() + this->width()  - refwnd->pos().x() >= 0 &&
+						this->pos().y() + this->height() - refwnd->pos().y() <= dist &&
+						this->pos().y() + this->height() - refwnd->pos().y() >= 0) {
 					this->move(refwnd->pos().x()-this->width(),   //== x Top left
-							   refwnd->pos().y()-this->height());
+							refwnd->pos().y()-this->height());
 					b_ignoreMouseClickRelease=true;
 					cout << "TOP LEFT" << endl;
 					return;
 				}
-				
+
 				//Bottom left
 				if (this->pos().x() + this->width()  - refwnd->pos().x() <= dist &&
-					this->pos().x() + this->width()  - refwnd->pos().x() >=0 && //== x Top left
-					this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
-					this->pos().y() - refwnd->pos().y() - refwnd->height() >=0 ) {
+						this->pos().x() + this->width()  - refwnd->pos().x() >=0 && //== x Top left
+						this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
+						this->pos().y() - refwnd->pos().y() - refwnd->height() >=0 ) {
 					this->move(refwnd->pos().x()-this->width(),   //== x Top left
-						       refwnd->pos().y()+refwnd->height());
+							refwnd->pos().y()+refwnd->height());
 					b_ignoreMouseClickRelease=true;
 					cout << "BOTTOM LEFT" << endl;
 					return;
 				}
-			
+
 				//Top right
 				if (this->pos().x() + refwnd->width() - this->pos().x() <= dist &&
-					this->pos().y() + this->height() - refwnd->pos().y() <= dist ) {//== y Top left
+						this->pos().y() + this->height() - refwnd->pos().y() <= dist ) {//== y Top left
 					this->move(refwnd->pos().x()+refwnd->width(),
-							   refwnd->pos().y()-this->height());  //== y Top left
+							refwnd->pos().y()-this->height());  //== y Top left
 					b_ignoreMouseClickRelease=true;
 					cout << "TOP RIGHT" << endl;
 					return;
@@ -350,11 +354,11 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 
 				//Bottom right
 				if (this->pos().x() + refwnd->width() - this->pos().x() <= dist &&
-					this->pos().x() + refwnd->width() - this->pos().x() >=0 && //== x Top right
-					this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
-					this->pos().y() - refwnd->pos().y() - refwnd->height() >=0  ) { //== y Bottom left
+						this->pos().x() + refwnd->width() - this->pos().x() >=0 && //== x Top right
+						this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
+						this->pos().y() - refwnd->pos().y() - refwnd->height() >=0  ) { //== y Bottom left
 					this->move(refwnd->pos().x()+refwnd->width(),	 //== x Top right
-							   refwnd->pos().y()-refwnd->height());  //== y Bottom left
+							refwnd->pos().y()-refwnd->height());  //== y Bottom left
 					b_ignoreMouseClickRelease=true;
 					cout << "BOTTOM LEFT" << endl;
 					return;
@@ -363,26 +367,26 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				if (this->pos().y()+this->height()-refwnd->pos().y() <= dist ) {
 					if (this->pos().x() == refwnd->pos().x()) {//add distance
 						this->move(refwnd->pos().x(),	 //== x Top right
-								   refwnd->pos().y()-this->height());  //== y Top left
+								refwnd->pos().y()-this->height());  //== y Top left
 						b_ignoreMouseClickRelease=true;
 						cout << "TOP dock left" << endl;
 						return;
 					}
-					
+
 					if (this->pos().x() + this->width() == refwnd->pos().x() + refwnd->width()) {//add distance
 						this->move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
-								   refwnd->pos().y()-this->height());  //== y Top left
+								refwnd->pos().y()-this->height());  //== y Top left
 						b_ignoreMouseClickRelease=true;
 						cout << "TOP dock right" << endl;
 						return;
 					}
 				}
-					
+
 				//Bottom
 				if (refwnd->pos().y()+refwnd->height()-this->pos().y() <= dist ) {
 					if (this->pos().x() == refwnd->pos().x()) {  //add distance
 						this->move(refwnd->pos().x(),	 //== x Top right
-								   refwnd->pos().y()+refwnd->height());  //== y Bottem left
+								refwnd->pos().y()+refwnd->height());  //== y Bottem left
 						b_ignoreMouseClickRelease=true;
 						cout << "BOTTOM dock left" << endl;
 						return;
@@ -390,7 +394,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 
 					if (this->pos().x() + this->width() == refwnd->pos().x() + refwnd->width()) {//add distance
 						this->move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
-								   refwnd->pos().y()+refwnd->height());  //== y Bottem left
+								refwnd->pos().y()+refwnd->height());  //== y Bottem left
 						b_ignoreMouseClickRelease=true;
 						cout << "BOTTOM dock right" << endl;
 						return;
@@ -399,27 +403,27 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 
 				//Left
 				if (this->pos().x()+this->width()-refwnd->pos().x() <= dist && 
-					this->pos().x()+this->width()-refwnd->pos().x() >= 0
-					) 
+						this->pos().x()+this->width()-refwnd->pos().x() >= 0
+				   ) 
 					if (this->pos().y()   - refwnd->pos().y() < dist ||
-						refwnd->pos().y() - this->pos().y()   < dist ) {
+							refwnd->pos().y() - this->pos().y()   < dist ) {
 						this->move(refwnd->pos().x() - this->width(),	 
-								   refwnd->pos().y());
+								refwnd->pos().y());
 						b_ignoreMouseClickRelease=true;
 						cout << "LEFT" << endl;
 						return;
 					}
-				
+
 
 
 				//Right
 				if (refwnd->pos().x()+refwnd->width()-this->pos().x() <= dist &&
-					refwnd->pos().x()+refwnd->width()-this->pos().x() >=0
-				    ) 
+						refwnd->pos().x()+refwnd->width()-this->pos().x() >=0
+				   ) 
 					if (this->pos().y()   - refwnd->pos().y() < dist ||
-						refwnd->pos().y() - this->pos().y()   < dist ) {
+							refwnd->pos().y() - this->pos().y()   < dist ) {
 						this->move(refwnd->pos().x() + refwnd->width(),	 
-								   refwnd->pos().y());	
+								refwnd->pos().y());	
 						b_ignoreMouseClickRelease=true;
 						cout << "RIGHT" << endl;
 						return;
@@ -428,9 +432,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				//this->size();
 				this->repaint();
 			}
-			++it;
 		}
-        delete list;
 	}
 }
 
@@ -536,9 +538,9 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         delete msg;
         return;
     }
-    if (QTextDrag::canDecode(e)){
+    if (Q3TextDrag::canDecode(e)){
         QString str;
-        if (QTextDrag::decode(e, str)){
+        if (Q3TextDrag::decode(e, str)){
             e->accept();
             if (isDrop){
                 Message *msg = new Message(MessageGeneric);
@@ -551,8 +553,4 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         }
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "floatywnd.moc"
-#endif
 

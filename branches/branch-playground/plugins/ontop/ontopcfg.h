@@ -18,11 +18,11 @@
 #ifndef _ONTOPCFG_H
 #define _ONTOPCFG_H
 
-#include "ontopcfgbase.h"
+#include "ui_ontopcfgbase.h"
 
 class OnTopPlugin;
 
-class OnTopCfg : public OnTopCfgBase
+class OnTopCfg : public QWidget, public Ui::OnTopCfgBase
 {
     Q_OBJECT
 public:

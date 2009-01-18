@@ -18,7 +18,8 @@
 #ifndef _COMMANDS_H
 #define _COMMANDS_H
 
-#include <qobject.h>
+#include <QObject>
+#include <QEvent>
 
 #include "event.h"
 

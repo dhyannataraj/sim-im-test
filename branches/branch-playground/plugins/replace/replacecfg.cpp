@@ -22,13 +22,16 @@
 #include "listview.h"
 #include "intedit.h"
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qlayout.h>
-#include <qheader.h>
+#include <q3header.h>
+#include <QResizeEvent>
+#include <QEvent>
+#include <QKeyEvent>
 
-ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
-        : ReplaceCfgBase(parent)
+ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_count = 0;
     m_plugin = plugin;
     lstKeys->addColumn(i18n("You type"));
@@ -40,9 +43,9 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
         QString value = m_plugin->getValue(i);
         if (key.isEmpty())
             continue;
-        new QListViewItem(lstKeys, key, value, QString::number(m_count++));
+        new Q3ListViewItem(lstKeys, key, value, QString::number(m_count++));
     }
-    new QListViewItem(lstKeys, "", "", QString::number(m_count++));
+    new Q3ListViewItem(lstKeys, "", "", QString::number(m_count++));
     lstKeys->adjustColumn();
     m_edit = new IntLineEdit(lstKeys->viewport());
     m_edit->installEventFilter(this);
@@ -55,7 +58,7 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
     setEdit();
     connect(lstKeys, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(lstKeys->header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
-    connect(lstKeys, SIGNAL(mouseButtonPressed(int, QListViewItem*, const QPoint&, int)), this, SLOT(mouseButtonPressed(int, QListViewItem*, const QPoint&, int)));
+    connect(lstKeys, SIGNAL(mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int)), this, SLOT(mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int)));
 }
 
 ReplaceCfg::~ReplaceCfg()
@@ -67,7 +70,7 @@ void ReplaceCfg::apply()
     if (m_editItem)
         m_editItem->setText(m_editCol, m_edit->text());
     unsigned n = 0;
-    for (QListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
         if (item->text(0).isEmpty())
             continue;
         n++;
@@ -79,7 +82,7 @@ void ReplaceCfg::apply()
 
 void ReplaceCfg::resizeEvent(QResizeEvent *e)
 {
-    ReplaceCfgBase::resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstKeys->adjustColumn();
 }
 
@@ -87,21 +90,21 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::KeyPress){
         QKeyEvent *ke = (QKeyEvent*)e;
-        if ((ke->key() == Key_Right) && (m_col == 0)){
+        if ((ke->key() == Qt::Key_Right) && (m_col == 0)){
             if (!m_edit->hasMarkedText() && (m_edit->cursorPosition() == (int)m_edit->text().length())){
                 m_col = 1;
                 setEdit();
                 return true;
             }
         }
-        if ((ke->key() == Key_Left) && (m_col == 1)){
+        if ((ke->key() == Qt::Key_Left) && (m_col == 1)){
             if (!m_edit->hasMarkedText() && (m_edit->cursorPosition() == 0)){
                 m_col = 0;
                 setEdit();
                 return true;
             }
         }
-        if ((ke->key() == Key_Enter) || (ke->key() == Key_Return)){
+        if ((ke->key() == Qt::Key_Enter) || (ke->key() == Qt::Key_Return)){
             QString text = m_edit->text();
             flush();
             if ((m_col == 0) && !text.isEmpty())
@@ -109,13 +112,13 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
             setEdit();
             return true;
         }
-        if (ke->key() == Key_Escape){
+        if (ke->key() == Qt::Key_Escape){
             m_edit->setText(m_editItem->text(m_col));
             m_edit->setSelection(0, m_edit->text().length());
             return true;
         }
     }
-    return ReplaceCfgBase::eventFilter(o, e);
+    return QWidget::eventFilter(o, e);
 }
 
 void ReplaceCfg::flush()
@@ -132,13 +135,13 @@ void ReplaceCfg::flush()
         return;
     }
     if ((m_editCol == 0) && m_editItem->text(0).isEmpty())
-        new QListViewItem(lstKeys, "", "", QString::number(m_count++));
+        new Q3ListViewItem(lstKeys, "", "", QString::number(m_count++));
     m_editItem->setText(m_editCol, m_edit->text());
 }
 
 void ReplaceCfg::setEdit()
 {
-    QListViewItem *item = lstKeys->currentItem();
+    Q3ListViewItem *item = lstKeys->currentItem();
     if (item == NULL){
         m_edit->hide();
     }else{
@@ -175,15 +178,11 @@ void ReplaceCfg::sizeChange(int,int,int)
     setEdit();
 }
 
-void ReplaceCfg::mouseButtonPressed(int, QListViewItem *item, const QPoint&, int col)
+void ReplaceCfg::mouseButtonPressed(int, Q3ListViewItem *item, const QPoint&, int col)
 {
     if (item){
         m_col = col;
         setEdit();
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "replacecfg.moc"
-#endif
 

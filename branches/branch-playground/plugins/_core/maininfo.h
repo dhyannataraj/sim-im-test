@@ -18,11 +18,11 @@
 #ifndef _MAININFO_H
 #define _MAININFO_H
 
-#include "maininfobase.h"
+#include "ui_maininfobase.h"
 
-class QListViewItem;
+class Q3ListViewItem;
 
-class MainInfo : public MainInfoBase, public SIM::EventReceiver
+class MainInfo : public QWidget, public Ui::MainInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -31,10 +31,10 @@ protected slots:
     void apply();
     void mailSelectionChanged();
     void phoneSelectionChanged();
-    void deleteMail(QListViewItem *item);
-    void deletePhone(QListViewItem *item);
-    void editMail(QListViewItem *item);
-    void editPhone(QListViewItem *item);
+    void deleteMail(Q3ListViewItem *item);
+    void deletePhone(Q3ListViewItem *item);
+    void editMail(Q3ListViewItem *item);
+    void editPhone(Q3ListViewItem *item);
     void addMail();
     void editMail();
     void deleteMail();
@@ -44,7 +44,7 @@ protected slots:
 protected:
     void fill();
     virtual bool processEvent(SIM::Event*);
-    void fillPhoneItem(QListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
+    void fillPhoneItem(Q3ListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
     void fillCurrentCombo();
     void fillEncoding();
     void getEncoding(bool SendContactChangedEvent = true);

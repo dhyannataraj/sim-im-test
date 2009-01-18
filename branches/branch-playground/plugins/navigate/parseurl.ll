@@ -19,6 +19,8 @@
 #include "unquot.h"
 
 #include "navigate.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 #define TXT			1
 #define URL			2
@@ -72,7 +74,7 @@ int yywrap() { return 1; }
 
 QString NavigatePlugin::parseUrl(const QString &text)
 {
-    QCString str = text.utf8();
+    Q3CString str = text.utf8();
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(str);
     yy_start = 1;	/* == BEGIN(INITIAL) - go to initial state since yy_start
                        is static and can have an old invalid value */

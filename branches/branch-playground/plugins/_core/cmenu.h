@@ -27,6 +27,7 @@
 #else
 #include "kpopup.h"
 #endif
+#include "event.h"
 
 struct CMD
 {

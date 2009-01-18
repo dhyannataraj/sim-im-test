@@ -18,12 +18,13 @@
 #ifndef _AIMINFO_H
 #define _AIMINFO_H
 
-#include "aiminfobase.h"
+#include "ui_aiminfobase.h"
+#include "event.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class AIMInfo : public AIMInfoBase, public SIM::EventReceiver
+class AIMInfo : public QWidget, public Ui::AIMInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

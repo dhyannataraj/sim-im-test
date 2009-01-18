@@ -20,11 +20,14 @@
 
 #include "jabberclient.h"
 
-#include <qmainwindow.h>
-#include <qwizard.h>
+#include <QMainWindow>
+#include <q3wizard.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QLabel>
 
 class ListView;
-class QListViewItem;
+class Q3ListViewItem;
 class QStatusBar;
 class CToolBar;
 class DiscoInfo;
@@ -45,7 +48,7 @@ const unsigned COL_MODE				= 9;
 class JabberSearch;
 class JIDSearch;
 
-class JabberWizard : public QWizard, public SIM::EventReceiver
+class JabberWizard : public Q3Wizard, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -80,7 +83,7 @@ signals:
     void addSearch(QWidget*, SIM::Client*, const QString&);
 protected slots:
     void selectionChanged();
-    void currentChanged(QListViewItem*);
+    void currentChanged(Q3ListViewItem*);
     void dragStart();
     void showReg();
     void showConfig();
@@ -96,16 +99,16 @@ protected:
     void addHistory(const QString &str);
     bool haveFeature(const char*);
     bool haveFeature(const char*, const QString&);
-    QListViewItem *findItem(unsigned col, const QString &id);
-    QListViewItem *findItem(unsigned col, const QString &id, QListViewItem *item);
-    void setItemPict(QListViewItem *item);
-    void adjustColumn(QListViewItem *item);
-    void loadItem(QListViewItem *item);
+    Q3ListViewItem *findItem(unsigned col, const QString &id);
+    Q3ListViewItem *findItem(unsigned col, const QString &id, Q3ListViewItem *item);
+    void setItemPict(Q3ListViewItem *item);
+    void adjustColumn(Q3ListViewItem *item);
+    void loadItem(Q3ListViewItem *item);
     void checkDone();
-    bool checkDone(QListViewItem*);
+    bool checkDone(Q3ListViewItem*);
     void startProcess();
     void changeMode();
-    void changeMode(QListViewItem *item);
+    void changeMode(Q3ListViewItem *item);
     void showEvent(QShowEvent*);
     bool		 m_bInProcess;
     JabberClient *m_client;

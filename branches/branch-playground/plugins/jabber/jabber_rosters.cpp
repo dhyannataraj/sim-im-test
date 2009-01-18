@@ -31,6 +31,8 @@
 
 #include <qimage.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "html.h"
 #include "log.h"
@@ -364,8 +366,8 @@ InfoRequest::~InfoRequest()
         if (m_photo.length()){
             QString fName = m_client->photoFile(data);
             QFile f(fName);
-            if (f.open(IO_WriteOnly | IO_Truncate)){
-                QCString cstr = m_photo.ascii();   // ok, base64 encoded
+            if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
+                Q3CString cstr = m_photo.ascii();   // ok, base64 encoded
                 f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 photo.load(fName);
@@ -392,8 +394,8 @@ InfoRequest::~InfoRequest()
         if (m_logo.length()){
             QString fName = m_client->logoFile(data);
             QFile f(fName);
-            if (f.open(IO_WriteOnly | IO_Truncate)){
-                QCString cstr = m_logo.ascii();   // ok, base64 encoded
+            if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
+                Q3CString cstr = m_logo.ascii();   // ok, base64 encoded
                 f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 logo.load(fName);
@@ -662,11 +664,11 @@ void JabberClient::setClientInfo(void *_data)
     req->end_element();
     if (!getPhoto().isEmpty()){
         QFile img(getPhoto());
-        if (img.open(IO_ReadOnly)){
+        if (img.open(QIODevice::ReadOnly)){
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            QCString packed = Buffer::toBase64(b);
+            Q3CString packed = Buffer::toBase64(b);
             req->start_element("PHOTO");
             req->text_tag("BINVAL", packed);
             req->end_element();
@@ -674,11 +676,11 @@ void JabberClient::setClientInfo(void *_data)
     }
     if (!getLogo().isEmpty()){
         QFile img(getLogo());
-        if (img.open(IO_ReadOnly)){
+        if (img.open(QIODevice::ReadOnly)){
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            QCString packed = Buffer::toBase64(b);
+            Q3CString packed = Buffer::toBase64(b);
             req->start_element("LOGO");
             req->text_tag("BINVAL", packed.data());
             req->end_element();

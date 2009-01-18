@@ -27,6 +27,9 @@
 
 #include <stdio.h>
 #include <qtimer.h>
+#include <QCryptographicHash>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "log.h"
 #include "misc.h"
@@ -299,8 +302,9 @@ QryPacket::QryPacket(MSNClient *client, const QString &qry)
     char qry_add[] = "VT6PX?UQTM4WM%YR";
     QString md = qry;
     md += qry_add;
-    QByteArray ba = md5(md.utf8());
-    for (unsigned i = 0; i < ba.size(); i++){
+    QByteArray ba = QCryptographicHash::hash(md.toUtf8(), QCryptographicHash::Md5);
+    for (unsigned i = 0; i < ba.size(); i++)
+	{
         char b[3];
         sprintf(b, "%02x", ba[(int)i] & 0xFF);
         m_line += b;
@@ -478,7 +482,7 @@ MSNServerMessage::~MSNServerMessage()
                 EventError::ClientErrorData data;
                 data.client     = m_client;
                 data.err_str    = "%1";
-                data.options    = QString::null;
+                data.options    = 0;// QString::null;
                 data.args       = i18n("You have %n unread message.", "You have %n unread messages.", nUnread);
                 data.code       = 0;
                 data.flags      = EventError::ClientErrorData::E_INFO;
@@ -505,7 +509,7 @@ MSNServerMessage::~MSNServerMessage()
             EventError::ClientErrorData data;
             data.client     = m_client;
             data.err_str    = "%1";
-            data.options    = QString::null;
+            data.options    = 0; //QString::null;
             data.args       = msg;
             data.code       = 0;
             data.flags      = EventError::ClientErrorData::E_INFO;
@@ -523,7 +527,7 @@ bool MSNServerMessage::packet()
     if (size > m_size)
         size = m_size;
     if (size > 0){
-        m_msg += QCString(b.data(b.readPos()), size);
+        m_msg += Q3CString(b.data(b.readPos()), size);
         b.incReadPos(size);
         m_size -= size;
     }

@@ -18,12 +18,13 @@
 #ifndef _ICQINFO_H
 #define _ICQINFO_H
 
-#include "icqinfobase.h"
+#include "ui_icqinfobase.h"
+#include "event.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class ICQInfo : public ICQInfoBase, public SIM::EventReceiver
+class ICQInfo : public QWidget, public Ui::ICQInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

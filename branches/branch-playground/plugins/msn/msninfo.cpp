@@ -30,9 +30,9 @@
 
 using namespace SIM;
 
-MSNInfo::MSNInfo(QWidget *parent, MSNUserData *data, MSNClient *client)
-        : MSNInfoBase(parent)
+MSNInfo::MSNInfo(QWidget *parent, MSNUserData *data, MSNClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data    = data;
     edtOnline->setReadOnly(true);
@@ -124,8 +124,4 @@ void MSNInfo::apply(Client *client, void *_data)
     MSNUserData *data = m_client->toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->ScreenName.str() = nick;
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "msninfo.moc"
-#endif
 

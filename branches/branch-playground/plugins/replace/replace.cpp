@@ -22,6 +22,10 @@
 #include "misc.h"
 
 #include <qapplication.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QEvent>
+#include <QKeyEvent>
 
 using namespace std;
 using namespace SIM;
@@ -66,7 +70,7 @@ ReplacePlugin::~ReplacePlugin()
     free_data(replaceData, &data);
 }
 
-QCString ReplacePlugin::getConfig()
+Q3CString ReplacePlugin::getConfig()
 {
     return save_data(replaceData, &data);
 }
@@ -113,7 +117,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
 {
     if ((e->type() == QEvent::KeyPress) && o->inherits("MsgTextEdit")){
         QKeyEvent *ke = (QKeyEvent*)e;
-        if ((ke->key() == Key_Enter) || (ke->key() == Key_Return) || (ke->key() == Key_Space)){
+        if ((ke->key() == Qt::Key_Enter) || (ke->key() == Qt::Key_Return) || (ke->key() == Qt::Key_Space)){
             TextEdit *edit = (TextEdit*)o;
             int paraFrom, paraTo, indexFrom, indexTo;
             edit->getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
@@ -140,6 +144,3 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "replace.moc"
-#endif

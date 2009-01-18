@@ -18,9 +18,10 @@
 #ifndef _CONNECTIONSETTINGS_H
 #define _CONNECTIONSETTINGS_H
 
-#include "connectionsettingsbase.h"
+#include "ui_connectionsettingsbase.h"
+#include "event.h"
 
-class ConnectionSettings : public ConnectionSettingsBase
+class ConnectionSettings : public QDialog, public Ui::ConnectionSettingsBase
 {
     Q_OBJECT
 public:

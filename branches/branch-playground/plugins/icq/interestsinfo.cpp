@@ -23,9 +23,9 @@
 
 using namespace SIM;
 
-InterestsInfo::InterestsInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : InterestsInfoBase(parent)
+InterestsInfo::InterestsInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
@@ -240,8 +240,4 @@ void InterestsInfo::cmbChanged(int)
         edts[n]->setText(QString::null);
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "interestsinfo.moc"
-#endif
 

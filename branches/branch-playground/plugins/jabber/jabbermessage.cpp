@@ -18,6 +18,8 @@
 #include "jabbermessage.h"
 #include "jabber.h"
 #include "core.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
@@ -38,10 +40,10 @@ JabberMessage::~JabberMessage()
     free_data(jabberMessageData, &data);
 }
 
-QCString JabberMessage::save()
+Q3CString JabberMessage::save()
 {
-    QCString res = Message::save();
-    QCString s = save_data(jabberMessageData, &data);
+    Q3CString res = Message::save();
+    Q3CString s = save_data(jabberMessageData, &data);
     if (!s.isEmpty()){
         if (!res.isEmpty())
             res += '\n';
@@ -93,10 +95,10 @@ JabberMessageError::~JabberMessageError()
     free_data(jabberMessageErrorData, &data);
 }
 
-QCString JabberMessageError::save()
+Q3CString JabberMessageError::save()
 {
-    QCString res = Message::save();
-    QCString s = save_data(jabberMessageErrorData, &data);
+    Q3CString res = Message::save();
+    Q3CString s = save_data(jabberMessageErrorData, &data);
     if (!s.isEmpty()){
         if (!res.isEmpty())
             res += '\n';

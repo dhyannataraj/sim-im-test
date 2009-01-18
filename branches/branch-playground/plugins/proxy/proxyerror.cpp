@@ -18,6 +18,8 @@
 #include <qpixmap.h>
 #include <qlayout.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
 
 #include "icons.h"
 #include "misc.h"
@@ -27,9 +29,10 @@
 
 using namespace SIM;
 
-ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& msg)
-        : ProxyErrorBase(NULL, NULL, false, WDestructiveClose)
+ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& msg) : QDialog(NULL, NULL, false, Qt::WDestructiveClose)
+        //: ProxyErrorBase(NULL, NULL, false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     SET_WNDPROC("proxy")
     setIcon(Pict("error"));
     setButtonsPict(this);
@@ -38,7 +41,7 @@ ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& ms
     m_client = client;
     lblMessage->setText(msg);
     if (layout() && layout()->inherits("QBoxLayout")){
-        QBoxLayout *lay = static_cast<QBoxLayout*>(layout());
+        Q3BoxLayout *lay = static_cast<Q3BoxLayout*>(layout());
         ProxyConfig *cfg = new ProxyConfig(this, m_plugin, NULL, m_client);
         lay->insertWidget(1, cfg);
         cfg->show();
@@ -72,10 +75,12 @@ void ProxyError::accept()
         emit apply();
         m_client->setStatus(m_client->getManualStatus(), m_client->getCommonStatus());
     }
-    ProxyErrorBase::accept();
+    QDialog::accept();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "proxyerror.moc"
 #endif
+*/
 

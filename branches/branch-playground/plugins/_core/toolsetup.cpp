@@ -22,16 +22,19 @@
 #include "toolsetup.h"
 #include "commands.h"
 
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 using namespace std;
 using namespace SIM;
 
-ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
-        : ToolBarSetupBase(NULL, "toolbar_setup", false, WDestructiveClose)
+ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "toolbar_setup")
+        //: ToolBarSetupBase(NULL, "toolbar_setup", false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     SET_WNDPROC("configure")
     setIcon(Pict("configure"));
     setCaption(def->isMenu() ?
@@ -45,7 +48,7 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
     CommandsList list(*m_def);
     CommandDef *s;
     while ((s = ++list) != NULL){
-        if (s->id && (s->text == NULL))
+        if (s->id && (s->text.isNull()))
             continue;
         active.push_back(s->id);
     }
@@ -116,7 +119,7 @@ void ToolBarSetup::applyClick()
     }
 }
 
-void ToolBarSetup::addButton(QListBox *lst, unsigned id)
+void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
 {
     if (id == 0){
         lst->insertItem(Pict("separator"), i18n("Separator"));
@@ -125,10 +128,10 @@ void ToolBarSetup::addButton(QListBox *lst, unsigned id)
     CommandsList list(*m_def, true);
     CommandDef *s;
     while ((s = ++list) != NULL){
-        if ((s->id == id) && s->text){
+        if ((s->id == id) && !s->text.isNull()){
             QString name = i18n(s->text);
             name = name.remove('&');
-            if (s->icon){
+            if (!s->icon.isNull()){
                 lst->insertItem(Pict(s->icon), name);
             }else{
                 lst->insertItem(name);
@@ -242,7 +245,9 @@ void ToolBarSetup::downClick()
     bDirty = true;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "toolsetup.moc"
 #endif
+*/
 

@@ -28,9 +28,9 @@
 
 using namespace SIM;
 
-AddItem::AddItem(QWidget *parent)
-        : AddItemBase(parent, NULL, true)
+AddItem::AddItem(QWidget *parent) : QDialog(parent, NULL, true)
 {
+	setupUi(this);
     SET_WNDPROC("additem")
     setIcon(Pict("run"));
     setButtonsPict(this);
@@ -61,8 +61,4 @@ void AddItem::help()
     e.process();
     BalloonMsg::message(e.help(), buttonHelp, false, 400);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "additem.moc"
-#endif
 

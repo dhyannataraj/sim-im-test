@@ -19,6 +19,8 @@
 #include "jabber.h"
 #include "misc.h"
 #include "core_consts.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
@@ -369,7 +371,7 @@ JabberPlugin::~JabberPlugin()
     free_data(jabberData, &data);
 }
 
-QCString JabberPlugin::getConfig()
+Q3CString JabberPlugin::getConfig()
 {
     return save_data(jabberData, &data);
 }

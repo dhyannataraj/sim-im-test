@@ -19,11 +19,11 @@
 #define _ICONCFG_H
 
 
-#include "iconcfgbase.h"
+#include "ui_iconcfgbase.h"
 
 class IconsPlugin;
 
-class IconCfg : public IconCfgBase
+class IconCfg : public QWidget, public Ui::IconCfgBase
 {
     Q_OBJECT
 public:

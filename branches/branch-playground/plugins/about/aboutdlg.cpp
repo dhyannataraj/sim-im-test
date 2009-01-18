@@ -25,6 +25,9 @@
 #include <qtabwidget.h>
 #include <qfile.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QCloseEvent>
 
 #include "aboutdata.h"
 #include "icons.h"
@@ -36,73 +39,77 @@
 
 using namespace SIM;
 
-KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
-        : AboutDlgBase(parent, name, modal)
+KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal) : QDialog(parent, name, modal)
 {
+	setupUi(this);
 	SET_WNDPROC("about");
-    setButtonsPict(this);
-    setCaption(caption());
+	setButtonsPict(this);
+	setCaption(caption());
 
-    connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(SIM::Pict("SIM"));
-    QIconSet icon = SIM::Icon("SIM");
-    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
-        lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
-    edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
-    edtVersion->setReadOnly(true);
-    QPalette p = palette();
-    p.setColor(QColorGroup::Base, colorGroup().background());
-    edtVersion->setPalette(p);
-    txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
-                       "<a href=\"%3\">%4</a><br><br>" +
-                       i18n("Bug report") + ": <a href=\"%5\">%6</a><br>" +
-                       i18n("Note: This is an english mailing list") +
-                       "</center>")
-                      .arg(quote(aboutData->shortDescription()))
-                      .arg(quote(aboutData->copyrightStatement()))
-                      .arg(quote(aboutData->homepage()))
-                      .arg(quote(aboutData->homepage()))
-                      .arg(quote(aboutData->bugAddress()))
-                      .arg(quote(aboutData->bugAddress())));
-    QString txt;
-    QValueList<KAboutPerson>::ConstIterator it;
-    for (it = aboutData->authors().constBegin();
-            it != aboutData->authors().constEnd(); ++it)
-    {
-        txt += addPerson(&(*it));
-        txt += "<br>";
-    }
-    txtAuthors->setText(txt);
-    txt = QString::null;
-    QValueList<KAboutTranslator> translators = aboutData->translators();
-    QValueList<KAboutTranslator>::ConstIterator itt;
-    if (!translators.isEmpty()){
-        for (itt = translators.begin();
-                itt != translators.end(); ++itt)
-        {
-            const KAboutTranslator &t = *itt;
-            txt += QString("<br><center>%1<br>&lt;<a href=\"mailto:%2\">%3</a>&gt;")
-                   .arg(quote(t.name()))
-                   .arg(quote(t.emailAddress()))
-                   .arg(quote(t.emailAddress()));
-            txt += "</center>";
-        }
-        txtTranslations->setText(txt);
-    }else{
-        tabMain->removePage(tabTranslation);
-    }
-    QString license = aboutData->license();
-    license += "\n\n";
-    QFile f(SIM::app_file("COPYING"));
-    if (f.open(IO_ReadOnly)){
-        for (;;){
-            QString s;
-            if (f.readLine(s, 512) == -1)
-                break;
-            license += s;
-        }
-    }
-    txtLicence->setText(quote(license));
+	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
+	setIcon(SIM::Pict("SIM"));
+	QIcon icon = SIM::Icon("SIM");
+	if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
+		lblIcon->setPixmap(icon.pixmap(QIcon::Large, QIcon::Normal));
+	edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
+	edtVersion->setReadOnly(true);
+	QPalette p = palette();
+	p.setColor(QColorGroup::Base, colorGroup().background());
+	edtVersion->setPalette(p);
+	txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
+				"<a href=\"%3\">%4</a><br><br>" +
+				i18n("Bug report") + ": <a href=\"%5\">%6</a><br>" +
+				i18n("Note: This is an english mailing list") +
+				"</center>")
+			.arg(quote(aboutData->shortDescription()))
+			.arg(quote(aboutData->copyrightStatement()))
+			.arg(quote(aboutData->homepage()))
+			.arg(quote(aboutData->homepage()))
+			.arg(quote(aboutData->bugAddress()))
+			.arg(quote(aboutData->bugAddress())));
+	QString txt;
+	Q3ValueList<KAboutPerson>::ConstIterator it;
+	for (it = aboutData->authors().constBegin();
+			it != aboutData->authors().constEnd(); ++it)
+	{
+		txt += addPerson(&(*it));
+		txt += "<br>";
+	}
+	txtAuthors->setText(txt);
+	txt = QString::null;
+	Q3ValueList<KAboutTranslator> translators = aboutData->translators();
+	Q3ValueList<KAboutTranslator>::ConstIterator itt;
+	if (!translators.isEmpty())
+	{
+		for (itt = translators.begin(); itt != translators.end(); ++itt)
+		{
+			const KAboutTranslator &t = *itt;
+			txt += QString("<br><center>%1<br>&lt;<a href=\"mailto:%2\">%3</a>&gt;")
+				.arg(quote(t.name()))
+				.arg(quote(t.emailAddress()))
+				.arg(quote(t.emailAddress()));
+			txt += "</center>";
+		}
+		txtTranslations->setText(txt);
+	}
+	else
+	{
+		tabMain->removePage(tabTranslation);
+	}
+	QString license = aboutData->license();
+	license += "\n\n";
+	QFile f(SIM::app_file("COPYING"));
+	if (f.open(QIODevice::ReadOnly))
+	{
+		for (;;)
+		{
+			QString s = QString(f.readLine(512));
+			if(s.isEmpty() || s.isNull())
+				break;
+			license += s;
+		}
+	}
+	txtLicence->setText(quote(license));
 	this->setFixedSize(this->width()+50,this->height());
 }
 
@@ -112,7 +119,7 @@ KAboutApplication::~KAboutApplication()
 
 void KAboutApplication::closeEvent(QCloseEvent *e)
 {
-    AboutDlgBase::closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
@@ -145,8 +152,5 @@ QString KAboutApplication::quote(const QString &s)
     return res;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "aboutdlg.moc"
-#endif
 #endif
 

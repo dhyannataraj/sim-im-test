@@ -18,12 +18,12 @@
 #ifndef _EDITPHONE_H
 #define _EDITPHONE_H
 
-#include "editphonebase.h"
+#include "ui_editphonebase.h"
 
 class PhoneDetails;
 class PagerDetails;
 
-class EditPhone : public EditPhoneBase
+class EditPhone : public QDialog, public Ui::EditPhoneBase
 {
     Q_OBJECT
 public:

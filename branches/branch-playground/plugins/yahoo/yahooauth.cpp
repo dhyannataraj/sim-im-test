@@ -49,6 +49,8 @@
 #include <openssl/md5.h>
 
 #include <ctype.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 extern "C"
 {
@@ -933,7 +935,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         socket()->error_state("Unknown auth method");
         return;
     }
-    QCString password = getPassword().ascii();
+    Q3CString password = getPassword().ascii();
     const char *pass = password.data();
 
     unsigned char       result[16];

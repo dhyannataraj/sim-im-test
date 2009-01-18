@@ -44,9 +44,10 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-JabberPicture::JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto)
-        : JabberPictureBase(parent)
+JabberPicture::JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto) : QWidget(parent)
+        //: JabberPictureBase(parent)
 {
+	setupUi(this);
     m_data   = data;
     m_client = client;
     m_bPhoto = bPhoto;
@@ -168,7 +169,9 @@ void JabberPicture::setPict(QImage &img)
     lblPict->setMinimumSize(pict.size());
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "jabberpicture.moc"
 #endif
+*/
 

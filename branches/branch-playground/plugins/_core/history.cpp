@@ -20,7 +20,9 @@
 #include <qdir.h>
 #include <qregexp.h>
 #include <qtextcodec.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include <time.h>
 
@@ -120,13 +122,13 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
         log(L_ERROR, "%s is not a file!", fi.filePath().local8Bit().data());
     }
     if (!exists()){
-        QFile bak(name() + REMOVED);
+        QFile bak(QString(name()).append(REMOVED));
         if (bak.exists()){
             QFileInfo fInfo(name());
             fInfo.dir().rename(bak.name(), name());
         }
     }
-    open(IO_ReadOnly);
+    open(QIODevice::ReadOnly);
 }
 
 Message *HistoryFile::load(unsigned id)
@@ -135,7 +137,7 @@ Message *HistoryFile::load(unsigned id)
         return NULL;
     Buffer cfg;
     cfg = readAll();
-    QCString type = cfg.getSection();
+    Q3CString type = cfg.getSection();
     Message *msg = CorePlugin::m_plugin->createMessage(type, &cfg);
     if (msg == NULL)
         return NULL;
@@ -165,7 +167,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *c
         Message m(MessageGeneric, cfg);
         QString text = m.data.Text.str();
         if (text.isEmpty()){
-            QCString serverText = m.getServerText();
+            Q3CString serverText = m.getServerText();
             if (serverText.isEmpty())
                 return;
             if (m_codec == NULL)
@@ -263,7 +265,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             blockEnd += BLOCK_SIZE;
             unsigned size = config.size();
             config.resize(BLOCK_SIZE);
-            int readn = file.readBlock(config.data(size), BLOCK_SIZE);
+            int readn = file.readBlock((char*)config.data(size), BLOCK_SIZE);
             if (readn < 0){
                 log(L_WARN, "Can't read %s", file.name().latin1());
                 clear();
@@ -292,7 +294,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             }
             config.setWritePos(0);
         }
-        QCString type = config.getSection(!bUp && (m_block != 0));
+        Q3CString type = config.getSection(!bUp && (m_block != 0));
         if (type.isEmpty())
             continue;
         if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
@@ -554,7 +556,7 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
         Buffer config;
         config = ms.msg;
         config.setWritePos(0);
-        QCString type = config.getSection();
+        Q3CString type = config.getSection();
         Message *msg = createMessage(id, type, &config);
         if (msg){
             msg->setClient(ms.client);
@@ -571,7 +573,7 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
 
 void History::add(Message *msg, const QString &type)
 {
-    QCString line = "[";
+    Q3CString line = "[";
     line += type;
     line += "]\n";
     line += msg->save();
@@ -595,7 +597,7 @@ void History::add(Message *msg, const QString &type)
     QString name = msg->client();
     if (name.isEmpty())
         name = QString::number(msg->contact());
-    QString f_name = HISTORY_PATH + name;
+    QString f_name = QString(HISTORY_PATH).append(name);
 
     f_name = user_file(f_name);
 
@@ -614,7 +616,7 @@ void History::add(Message *msg, const QString &type)
     }
 
     QFile f(f_name);
-    if (!f.open(IO_ReadWrite | IO_Append)){
+    if (!f.open(QIODevice::ReadWrite | QIODevice::Append)){
         log(L_ERROR, "Can't open %s", f_name.local8Bit().data());
         return;
     }
@@ -670,13 +672,13 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
 
 void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy, Message *msg)
 {
-    QFile f(user_file(HISTORY_PATH + name));
-    if (!f.open(IO_ReadOnly)){
+    QFile f(user_file(QString(HISTORY_PATH).append(name)));
+    if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
         return;
     }
     QFile t(f.name() + '~');
-    if (!t.open(IO_ReadWrite | IO_Truncate)){
+    if (!t.open(QIODevice::ReadWrite | QIODevice::Truncate)){
         log(L_ERROR, "Can't open %s", (const char*)t.name().local8Bit());
         return;
     }
@@ -708,7 +710,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
             return;
         }
         config.resize(size + readn);
-        QCString section = config.getSection();
+        Q3CString section = config.getSection();
         if (section.isEmpty()){
             if (readn == 0)
                 return;
@@ -725,7 +727,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         }
     }
     unsigned skip_size = config.writePos() - config.startSection();
-    QCString line = "\n";
+    Q3CString line = "\n";
     if (msg){
         line += msg->save();
         line += '\n';
@@ -819,7 +821,7 @@ void History::remove(Contact *contact)
             continue;
         if (bRename){
             QFileInfo fInfo(f.name());
-            fInfo.dir().rename(fInfo.fileName(), fInfo.fileName() + REMOVED);
+            fInfo.dir().rename(fInfo.fileName(), QString(fInfo.fileName()).append(REMOVED));
         }else{
             f.remove();
         }
@@ -829,11 +831,12 @@ void History::remove(Contact *contact)
 bool History::save(unsigned id, const QString& file_name, bool bAppend)
 {
     QFile f(file_name);
-    int mode = IO_WriteOnly | IO_Translate;
+	QIODevice::OpenMode mode = QIODevice::WriteOnly | QIODevice::Text;
     if (bAppend)
-        mode |= IO_Append;
-    if (f.open(mode)){
-        QTextStream stream(&f);
+        mode |= QIODevice::Append;
+    if(f.open(mode))
+	{
+        Q3TextStream stream(&f);
         HistoryIterator it(id);
         it.begin();
         const QString owner = getContacts()->owner()->getName(),

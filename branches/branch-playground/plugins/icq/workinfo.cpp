@@ -21,14 +21,14 @@
 
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qcombobox.h>
 
 using namespace SIM;
 
-WorkInfo::WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : WorkInfoBase(parent)
+WorkInfo::WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
@@ -156,8 +156,4 @@ void WorkInfo::apply(Client *client, void *_data)
     data->WorkPosition.str()    = edtPosition->text();
     data->WorkHomepage.str()    = edtSite->text();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "workinfo.moc"
-#endif
 

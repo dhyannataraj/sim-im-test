@@ -23,6 +23,9 @@
 #endif
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -70,7 +73,7 @@ protected:
 #if defined(USE_KDE) || defined(WIN32)
     virtual QWidget *createConfigWindow(QWidget *parent);
 #endif
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     void getState();
     void setState();
     QWidget *getMainWindow();

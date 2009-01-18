@@ -20,8 +20,13 @@
 
 #include <vector>
 #include "contacts.h"
+#include "ui_searchbase.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QMoveEvent>
+#include <QCloseEvent>
 
 class CorePlugin;
 class ListView;
@@ -36,7 +41,14 @@ struct ClientWidget
     QString		name;
 };
 
-class SearchDialog : public QMainWindow, public SIM::EventReceiver
+class SearchWidget : public QWidget, public Ui::SearchBase
+{
+	Q_OBJECT
+public:
+	SearchWidget(QWidget* parent);
+};
+
+class SearchDialog : public Q3MainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -94,7 +106,7 @@ protected:
     bool		m_bColumns;
     unsigned	m_id;
     unsigned	m_result_id;
-    SearchBase	*m_search;
+    SearchWidget *m_search;
     QStatusBar	*m_status;
     QTimer		*m_update;
     friend class SearchAll;

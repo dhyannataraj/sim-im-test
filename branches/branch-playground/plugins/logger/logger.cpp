@@ -20,6 +20,8 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #ifdef Q_OS_WIN
 # include <windows.h>
@@ -93,7 +95,7 @@ LoggerPlugin::~LoggerPlugin()
     free_data(loggerData, &data);
 }
 
-QCString LoggerPlugin::getConfig()
+Q3CString LoggerPlugin::getConfig()
 {
     QString packets;
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
@@ -141,7 +143,7 @@ void LoggerPlugin::openFile()
     }
     // now open file
     m_file = new QFile(fname);
-    if (!m_file->open(IO_Append | IO_ReadWrite)){
+    if (!m_file->open(QIODevice::Append | QIODevice::ReadWrite)){
         delete m_file;
         m_file = NULL;
         log(L_WARN, "Can't open %s", (const char*)fname);
@@ -187,13 +189,16 @@ QWidget *LoggerPlugin::createConfigWindow(QWidget *parent)
 
 bool LoggerPlugin::processEvent(Event *e)
 {
-    if (e->type() == eEventLog){
+    if(e->type() == eEventLog)
+	{
         EventLog *l = static_cast<EventLog*>(e);
         if (((l->packetID() == 0) && (l->logLevel() & getLogLevel())) ||
-                (l->packetID() && ((getLogLevel() & L_PACKETS) || isLogType(l->packetID())))){
+                (l->packetID() && ((getLogLevel() & L_PACKETS) || isLogType(l->packetID()))))
+		{
             QString s;
             s = EventLog::make_packet_string(*l);
-            if (m_file){
+            if (m_file)
+			{
 #if defined(Q_OS_WIN) || defined(__OS2__)
                 s += "\r\n";
 #else
@@ -203,7 +208,8 @@ bool LoggerPlugin::processEvent(Event *e)
             }
 #ifdef Q_OS_WIN
             QStringList slist = QStringList::split('\n',s);
-            for (unsigned i = 0 ; i < slist.count() ; i++){
+            for(unsigned i = 0 ; i < slist.count() ; i++)
+			{
                 QString out = slist[i];
                 if (out.length() > 256){
                     while (!out.isEmpty()){
@@ -217,20 +223,24 @@ bool LoggerPlugin::processEvent(Event *e)
                         }
                         OutputDebugStringA(l.local8Bit().data());
                     }
-                }else{
+                }
+				else
+				{
                     OutputDebugStringA(out.local8Bit().data());
                 }
                 OutputDebugStringA("\n");
             }
 #else
-            fprintf(stderr, "%s\n", s.local8Bit().data());
+            fprintf(stderr, "%s\n", s.toUtf8().data());
 #endif
         }
     }
     return false;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "logger.moc"
 #endif
+*/
 

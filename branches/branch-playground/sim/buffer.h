@@ -18,8 +18,8 @@
 #ifndef _BUFFER_H
 #define _BUFFER_H
 
-#include <qcstring.h>
-#include <qptrlist.h>
+#include <q3cstring.h>
+#include <q3ptrlist.h>
 #include <qstring.h>
 
 #include "simapi.h"
@@ -36,7 +36,7 @@ class EXPORT Buffer : public QByteArray
 public:
     Buffer(unsigned size=0);
     Buffer(const QByteArray &ba);
-    Buffer(const QCString &cstr);
+    Buffer(const Q3CString &cstr);
     virtual ~Buffer();
 
     bool add(uint size);
@@ -48,7 +48,8 @@ public:
     void setWritePos(unsigned size);
     void setReadPos(unsigned size);
 
-    char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
+    const char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
+    char* data(unsigned pos=0) { return (char*)QByteArray::data() + pos; }
 
     void packetStart();
     unsigned long packetStartPos() const { return m_packetStartPos; }
@@ -75,21 +76,21 @@ public:
     Buffer &operator >> (long &c);
     Buffer &operator >> (unsigned long &c) { return operator >> ((long&)c); }
 
-    bool scan(const char *substr, QCString &res);
+    bool scan(const char *substr, Q3CString &res);
 
     void init(unsigned size);
 
-    QCString	getSection(bool bSkip=false);
+    Q3CString	getSection(bool bSkip=false);
     unsigned	startSection() { return m_startSection; }
-    QCString	getLine();
+    Q3CString	getLine();
 
-    static Buffer fromBase64(QCString &from);
-    static QCString toBase64(Buffer &from);
+    static Buffer fromBase64(Q3CString &from);
+    static Q3CString toBase64(Buffer &from);
 
     // still needed for msn until it has an ownbuffer too
     unsigned unpack(QString &d, unsigned size); // utf8
 protected:
-    unsigned unpack(QCString &d, unsigned size);
+    unsigned unpack(Q3CString &d, unsigned size);
 
     unsigned m_packetStartPos;
     unsigned m_posRead;

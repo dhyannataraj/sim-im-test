@@ -18,11 +18,15 @@
 #ifndef _MANAGER_H
 #define _MANAGER_H
 
-#include "managerbase.h"
+#include "ui_managerbase.h"
+#include "event.h"
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QResizeEvent>
 
 class CorePlugin;
 
-class ConnectionManager : public ConnectionManagerBase
+class ConnectionManager : public QDialog, public Ui::ConnectionManagerBase
 {
     Q_OBJECT
 public:

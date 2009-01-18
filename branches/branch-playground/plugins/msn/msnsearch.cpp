@@ -22,14 +22,16 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 using namespace SIM;
 
 class MSNClient;
 
-MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
-        : MSNSearchBase(parent)
+MSNSearch::MSNSearch(MSNClient *client, QWidget *parent) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
     edtMail->setValidator(new EMailValidator(edtMail));
@@ -37,7 +39,7 @@ MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)
 
 void MSNSearch::showEvent(QShowEvent *e)
 {
-    MSNSearchBase::showEvent(e);
+    QWidget::showEvent(e);
     emit setAdd(true);
 }
 
@@ -56,8 +58,4 @@ void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
     m_client->findContact(mail, name, contact, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "msnsearch.moc"
-#endif
 

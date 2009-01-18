@@ -18,11 +18,12 @@
 #ifndef _ARCFG_H
 #define _ARCFG_H
 
+#include <QWidget>
 #include "contacts.h"
 
-#include "arcfgbase.h"
+#include "ui_arcfgbase.h"
 
-class ARConfig : public ARConfigBase
+class ARConfig : public QWidget, public Ui::ARConfigBase
 {
     Q_OBJECT
 public:

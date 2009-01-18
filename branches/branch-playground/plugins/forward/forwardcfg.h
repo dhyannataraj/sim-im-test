@@ -18,11 +18,11 @@
 #ifndef _FORWARDCFG_H
 #define _FORWARDCFG_H
 
-#include "forwardcfgbase.h"
+#include "ui_forwardcfgbase.h"
 
 class ForwardPlugin;
 
-class ForwardConfig : public ForwardConfigBase
+class ForwardConfig : public QWidget, public Ui::ForwardConfigBase
 {
     Q_OBJECT
 public:

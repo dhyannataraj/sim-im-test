@@ -18,11 +18,11 @@
 #ifndef _NAVCFG_H
 #define _NAVCFG_H
 
-#include "navcfgbase.h"
+#include "ui_navcfgbase.h"
 
 class NavigatePlugin;
 
-class NavCfg : public NavCfgBase
+class NavCfg : public QWidget, public Ui::NavCfgBase
 {
     Q_OBJECT
 public:

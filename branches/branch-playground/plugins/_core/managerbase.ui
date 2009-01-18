@@ -1,202 +1,139 @@
-<!DOCTYPE UI><UI>
-<class>ConnectionManagerBase</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
-        <cstring>Connection</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>ConnectionManagerBase</class>
+  <widget class="QDialog" name="Connection" >
+    <property name="geometry" stdset="0" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>306</width>
+        <height>252</height>
+      </rect>
     </property>
-    <property>
-        <name>geometry</name>
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>306</width>
-            <height>252</height>
-        </rect>
+    <property name="windowTitle" stdset="0" >
+      <string>Connection manager</string>
     </property>
-    <property>
-        <name>caption</name>
-        <string>Connection manager</string>
+    <property name="sizeGripEnabled" stdset="0" >
+      <bool>true</bool>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
-        <bool>true</bool>
-    </property>
-    <grid>
-        <property>
-            <name>margin</name>
-            <number>11</number>
-        </property>
-        <property>
-            <name>spacing</name>
-            <number>6</number>
-        </property>
-        <widget row="2"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnUpdate</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Configure</string>
-            </property>
+    <layout class="QGridLayout" >
+      <property name="margin" stdset="0" >
+        <number>11</number>
+      </property>
+      <property name="spacing" stdset="0" >
+        <number>6</number>
+      </property>
+      <item row="2" column="1" >
+        <widget class="QPushButton" name="btnUpdate" >
+          <property name="text" stdset="0" >
+            <string>&amp;Configure</string>
+          </property>
         </widget>
-        <widget row="0"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnUp</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Up</string>
-            </property>
-            <property>
-                <name>autoDefault</name>
-                <bool>true</bool>
-            </property>
+      </item>
+      <item row="0" column="1" >
+        <widget class="QPushButton" name="btnUp" >
+          <property name="text" stdset="0" >
+            <string>&amp;Up</string>
+          </property>
+          <property name="autoDefault" stdset="0" >
+            <bool>true</bool>
+          </property>
         </widget>
-        <widget row="0"  column="0"  rowspan="6"  colspan="1" >
-            <class>QListView</class>
-            <column>
-                <property>
-                    <name>text</name>
-                    <string>Connection</string>
-                </property>
-                <property>
-                    <name>clickable</name>
-                    <bool>true</bool>
-                </property>
-                <property>
-                    <name>resizeable</name>
-                    <bool>true</bool>
-                </property>
-            </column>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lstConnection</cstring>
+      </item>
+      <item rowspan="6" row="0" column="0" colspan="1" >
+        <widget class="Q3ListView" name="lstConnection" >
+          <column>
+            <property name="text" >
+              <string>Connection</string>
             </property>
+            <property name="clickable" >
+              <bool>true</bool>
+            </property>
+            <property name="resizable" >
+              <bool>true</bool>
+            </property>
+          </column>
         </widget>
-        <widget row="1"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnDown</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Down</string>
-            </property>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QPushButton" name="btnDown" >
+          <property name="text" stdset="0" >
+            <string>&amp;Down</string>
+          </property>
         </widget>
-        <widget row="4"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnRemove</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;Remove</string>
-            </property>
+      </item>
+      <item row="4" column="1" >
+        <widget class="QPushButton" name="btnRemove" >
+          <property name="text" stdset="0" >
+            <string>&amp;Remove</string>
+          </property>
         </widget>
-        <widget row="3"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnAdd</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>&amp;New connection</string>
-            </property>
+      </item>
+      <item row="3" column="1" >
+        <widget class="QPushButton" name="btnAdd" >
+          <property name="text" stdset="0" >
+            <string>&amp;New connection</string>
+          </property>
         </widget>
-        <spacer row="5"  column="1" >
-            <property>
-                <name>name</name>
-                <cstring>Spacer4</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Vertical</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="5" column="1" >
+        <spacer name="Spacer4" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+          </property>
         </spacer>
-        <widget row="6"  column="0"  rowspan="1"  colspan="2" >
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout4</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>buttonCancel</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Close</string>
-                    </property>
-                    <property>
-                        <name>autoDefault</name>
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-    </grid>
-</widget>
-<connections>
-    <connection>
-        <sender>buttonCancel</sender>
-        <signal>clicked()</signal>
-        <receiver>Connection</receiver>
-        <slot>reject()</slot>
-    </connection>
-</connections>
-<tabstops>
+      </item>
+      <item rowspan="1" row="6" column="0" colspan="2" >
+        <layout class="QHBoxLayout" >
+          <property name="margin" stdset="0" >
+            <number>0</number>
+          </property>
+          <property name="spacing" stdset="0" >
+            <number>6</number>
+          </property>
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" stdset="0" >
+                <string>&amp;Close</string>
+              </property>
+              <property name="autoDefault" stdset="0" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
     <tabstop>lstConnection</tabstop>
     <tabstop>btnUp</tabstop>
     <tabstop>btnDown</tabstop>
@@ -204,5 +141,13 @@
     <tabstop>btnAdd</tabstop>
     <tabstop>btnRemove</tabstop>
     <tabstop>buttonCancel</tabstop>
-</tabstops>
-</UI>
+  </tabstops>
+  <connections>
+    <connection>
+      <sender>buttonCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>Connection</receiver>
+      <slot>reject()</slot>
+    </connection>
+  </connections>
+</ui>

@@ -21,18 +21,21 @@
 #include "advsearch.h"
 #include "aimsearch.h"
 #include "intedit.h"
+#include "log.h"
 
 #include <qpushbutton.h>
 #include <qlabel.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 using namespace std;
 using namespace SIM;
 
-ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
-        : ICQSearchBase(parent)
+ICQSearch::ICQSearch(ICQClient *client, QWidget *parent) : QWidget(parent)
 {
+	setupUi(this);
     m_client = client;
     m_bAdv	 = false;
     m_id_icq = 0;
@@ -66,8 +69,8 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     edtMail->setValidator(new EMailValidator(edtMail));
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
-    QIconSet is = Icon("1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    QIcon is = Icon("1rightarrow");
+    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
         btnAdvanced->setIconSet(is);
 }
 
@@ -84,16 +87,20 @@ void ICQSearch::advDestroyed()
 
 void ICQSearch::showEvent(QShowEvent *e)
 {
-    ICQSearchBase::showEvent(e);
+    QWidget::showEvent(e);
+	log(L_DEBUG, "ICQSearch::showEvent FIXME!!!");
+	/*
     emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
     if (m_adv && m_bAdv)
         emit showResult(m_adv);
+		*/
 }
 
 void ICQSearch::radioToggled(bool)
 {
     setAdv(false);
-    emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
+	log(L_DEBUG, "ICQSearch::radioToggled FIXME!!!");
+    //emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
 }
 
 void ICQSearch::advClick()
@@ -108,46 +115,60 @@ void ICQSearch::advClick()
 
 void ICQSearch::setAdv(bool bAdv)
 {
-    if (m_bAdv == bAdv)
-        return;
-    m_bAdv = bAdv;
-    QIconSet is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
-    if (!is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
-        btnAdvanced->setIconSet(is);
-    if (m_bAdv){
-        if (m_client->m_bAIM){
-            edtMail->setEnabled(false);
-            edtAOL_UIN->setEnabled(false);
-            edtScreen->setEnabled(false);
-        }else{
-            edtMail->setEnabled(true);
-            edtFirst->setEnabled(true);
-            edtLast->setEnabled(true);
-            edtNick->setEnabled(true);
-            lblFirst->setEnabled(true);
-            lblLast->setEnabled(true);
-            lblNick->setEnabled(true);
-            edtUIN->setEnabled(false);
-            edtAOL->setEnabled(false);
-        }
-        emit setAdd(false);
-    }else{
-        if (m_client->m_bAIM){
-            grpScreen->slotToggled();
-            grpAOL_UIN->slotToggled();
-        }else{
-            grpUin->slotToggled();
-            grpAOL->slotToggled();
-            grpName->slotToggled();
-        }
-        grpMail->slotToggled();
-        radioToggled(false);
-    }
-    emit showResult(m_bAdv ? m_adv : NULL);
+	if (m_bAdv == bAdv)
+		return;
+	m_bAdv = bAdv;
+	QIcon is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
+	if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
+		btnAdvanced->setIconSet(is);
+	if (m_bAdv)
+	{
+		if (m_client->m_bAIM)
+		{
+			edtMail->setEnabled(false);
+			edtAOL_UIN->setEnabled(false);
+			edtScreen->setEnabled(false);
+		}
+		else
+		{
+			edtMail->setEnabled(true);
+			edtFirst->setEnabled(true);
+			edtLast->setEnabled(true);
+			edtNick->setEnabled(true);
+			lblFirst->setEnabled(true);
+			lblLast->setEnabled(true);
+			lblNick->setEnabled(true);
+			edtUIN->setEnabled(false);
+			edtAOL->setEnabled(false);
+		}
+		emit setAdd(false);
+	}
+	else
+	{
+		log(L_DEBUG, "ICQSearch::setAdv FIXME!!!");
+		/*
+		if (m_client->m_bAIM)
+		{
+			grpScreen->slotToggled();
+			grpAOL_UIN->slotToggled();
+		}
+		else
+		{
+			grpUin->slotToggled();
+			grpAOL->slotToggled();
+			grpName->slotToggled();
+		}
+		grpMail->slotToggled();
+		radioToggled(false);
+		*/
+	}
+	emit showResult(m_bAdv ? m_adv : NULL);
 }
 
 void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
+	log(L_DEBUG, "ICQSearch::createContact FIXME!!!");
+	/*
     if (m_client->m_bAIM){
 
         if (grpScreen->isChecked() && !edtScreen->text().isEmpty())
@@ -164,6 +185,7 @@ void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
             add(edtAOL->text(), tmpFlags, contact);
 
     }
+	*/
 }
 
 void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
@@ -276,18 +298,26 @@ void ICQSearch::search()
                        adv->edtNick->text(),
                        adv->edtZip->text(),
                        adv->edtState->text());
-    }else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty()){
+    }
+	log(L_DEBUG, "ICQSearch::search FIXME!!!");
+	/*
+	else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty())
+	{
         m_type = UIN;
         m_uin  = extractUIN(edtUIN->text()).toULong();
         icq_search();
-    }else if (grpMail->isChecked() && !edtMail->text().isEmpty()){
-        if (!m_client->m_bAIM){
+    }
+	else if (grpMail->isChecked() && !edtMail->text().isEmpty())
+	{
+        if (!m_client->m_bAIM)
+		{
             m_type = Mail;
             m_mail = edtMail->text();
             icq_search();
         }
         m_id_aim = m_client->aimEMailSearch(edtMail->text());
-    }else if (!m_client->m_bAIM && grpName->isChecked() &&
+    }
+	else if (!m_client->m_bAIM && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
         m_type = Name;
         m_first		= edtFirst->text();
@@ -297,6 +327,7 @@ void ICQSearch::search()
         m_id_aim = m_client->aimInfoSearch(edtFirst->text(), edtLast->text(), QString::null, QString::null,
                                            QString::null, QString::null, QString::null, edtNick->text(), QString::null, QString::null);
     }
+		*/
     if ((m_id_icq == 0) && (m_id_aim == 0))
         return;
     addColumns();
@@ -459,8 +490,4 @@ void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqsearch.moc"
-#endif
 

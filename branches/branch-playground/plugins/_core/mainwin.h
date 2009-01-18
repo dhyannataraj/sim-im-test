@@ -19,13 +19,19 @@
 #define _MAINWIN_H
 
 #include "simapi.h"
+#include "event.h"
 
 #include "cfg.h"
 
-#include <qmainwindow.h>
+#include <QMainWindow>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QFocusEvent>
+#include <QVBoxLayout>
+#include <QEvent>
+#include <QCloseEvent>
+#include <QHBoxLayout>
 
-class QVBoxLayout;
-class QHBoxLayout;
 class QToolBat;
 class CorePlugin;
 class QSizeGrip;
@@ -41,11 +47,11 @@ public:
 protected slots:
     void setGrip();
 protected:
-    QWidget		*main;
-    CToolBar	*m_bar;
-    QVBoxLayout	*lay;
-    QHBoxLayout	*h_lay;
-    QSizeGrip	*m_grip;
+    QWidget *main;
+    CToolBar *m_bar;
+    QVBoxLayout *lay;
+    QHBoxLayout *h_lay;
+    QSizeGrip *m_grip;
     void focusInEvent(QFocusEvent*);
     virtual bool processEvent(SIM::Event*);
 	void setTitle();

@@ -19,12 +19,14 @@
 #define _TMPL_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "event.h"
 #include "misc.h"
 #include "core_events.h"
 
-class QProcess;
+class Q3Process;
 
 class Tmpl : public QObject, public SIM::EventReceiver
 {
@@ -39,7 +41,7 @@ protected:
     struct TmplExpand
     {
         EventTemplate::TemplateExpand	tmpl;
-        QProcess		*process;
+        Q3Process		*process;
         bool			bReady;
         QString			res;
     };
@@ -47,7 +49,7 @@ protected:
     bool process(TmplExpand &t);
     QString process(TmplExpand &t, const QString &str);
     bool getTag(const QString &name, SIM::Data *data, const SIM::DataDef *def, QString &res);
-    QValueList<TmplExpand> tmpls;
+    Q3ValueList<TmplExpand> tmpls;
 };
 
 #endif

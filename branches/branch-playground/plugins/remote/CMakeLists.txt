@@ -13,12 +13,14 @@ SET(remote_UI_FILES
 )
 
 # moc, if needed
-KDE3_AUTOMOC(${remote_LIB_SRCS})
+#KDE3_AUTOMOC(${remote_LIB_SRCS})
+QT4_WRAP_CPP(remote_mocs ${remote_LIB_SRCS})
 
 # don't forget our ui's
-QT3_ADD_UI_FILES(remote_LIB_SRCS ${remote_UI_FILES})
+#QT3_ADD_UI_FILES(remote_LIB_SRCS ${remote_UI_FILES})
+QT4_WRAP_UI(remote_uis ${remote_UI_FILES})
 
-ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS})
+ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS} ${remote_mocs} ${remote_uis})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

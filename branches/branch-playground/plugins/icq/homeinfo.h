@@ -21,12 +21,12 @@
 #include "contacts.h"
 #include "event.h"
 
-#include "homeinfobase.h"
+#include "ui_homeinfobase.h"
 
 class ICQClient;
 struct ICQUserData;
 
-class HomeInfo : public HomeInfoBase, public SIM::EventReceiver
+class HomeInfo : public QWidget, public Ui::HomeInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

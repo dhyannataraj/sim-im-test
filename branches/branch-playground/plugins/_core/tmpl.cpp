@@ -30,7 +30,9 @@
 
 #include <qtimer.h>
 #include <qdatetime.h>
-#include <qprocess.h>
+#include <q3process.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "tmpl.h"
 #include "sockfactory.h"
@@ -65,7 +67,7 @@ bool Tmpl::processEvent(Event *e)
 
 void Tmpl::clear()
 {
-    for (QValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
+    for (Q3ValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
         if ((*it).bReady && (*it).process){
             delete (*it).process;
             (*it).process = NULL;
@@ -84,8 +86,8 @@ void Tmpl::clear()
 
 void Tmpl::ready()
 {
-    for (QValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
-        QProcess *p = (*it).process;
+    for (Q3ValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
+        Q3Process *p = (*it).process;
         if (p && !p->isRunning()){
             if (p->normalExit() && p->exitStatus() == 0){
                 (*it).bReady = true;
@@ -110,7 +112,7 @@ bool Tmpl::process(TmplExpand &t)
     }
     QString prg = getToken(t.tmpl.tmpl, '`', false);
     prg = process(t, prg);
-    t.process = new QProcess(prg, parent());
+    t.process = new Q3Process(prg, parent());
     connect(t.process, SIGNAL(processExited()), this, SLOT(ready()));
     t.process->start();
     return false;
@@ -255,8 +257,10 @@ bool Tmpl::getTag(const QString &name, SIM::Data *data, const DataDef *def, QStr
     return true;
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "tmpl.moc"
 #endif
+*/
 
 

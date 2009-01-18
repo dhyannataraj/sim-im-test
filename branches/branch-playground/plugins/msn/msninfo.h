@@ -18,12 +18,13 @@
 #ifndef _MSNINFO_H
 #define _MSNINFO_H
 
-#include "msninfobase.h"
+#include "ui_msninfobase.h"
+#include "event.h"
 
 struct MSNUserData;
 class MSNClient;
 
-class MSNInfo : public MSNInfoBase, public SIM::EventReceiver
+class MSNInfo : public QWidget, public Ui::MSNInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

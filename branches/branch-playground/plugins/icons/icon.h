@@ -20,6 +20,8 @@
 
 #include "cfg.h"
 #include "plugins.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 struct IconsData
 {
@@ -39,7 +41,7 @@ public:
     void setIcons(bool bForce);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     IconsData data;
 };
 

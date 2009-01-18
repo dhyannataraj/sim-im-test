@@ -21,10 +21,13 @@
 
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qstyle.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QResizeEvent>
 
 #include "editfile.h"
 #include "linklabel.h"
@@ -41,9 +44,9 @@ const unsigned COL_NAME		= 0;
 const unsigned COL_CHECK	= 1;
 const unsigned COL_CHECKED	= 2;
 
-SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
-        : SpellConfigBase(parent)
+SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
 #ifdef WIN32
     edtPath->setText(m_plugin->getPath());
@@ -57,7 +60,7 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
 #endif
     connect(edtPath, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(btnFind, SIGNAL(clicked()), this, SLOT(find()));
-    connect(lstLang, SIGNAL(clickItem(QListViewItem*)), this, SLOT(langClicked(QListViewItem*)));
+    connect(lstLang, SIGNAL(clickItem(Q3ListViewItem*)), this, SLOT(langClicked(Q3ListViewItem*)));
     lstLang->addColumn("");
     lstLang->addColumn("");
     lstLang->header()->hide();
@@ -79,7 +82,7 @@ void SpellConfig::apply()
     m_plugin->setPath(edtPath->text());
 #endif
     QString lang;
-    for (QListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
+    for (Q3ListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
         if (item->text(COL_CHECKED).isEmpty())
             continue;
         if (!lang.isEmpty())
@@ -92,7 +95,7 @@ void SpellConfig::apply()
 
 void SpellConfig::resizeEvent(QResizeEvent *e)
 {
-    SpellConfigBase::resizeEvent(e);
+    QWidget::resizeEvent(e);
     lstLang->adjustColumn();
 }
 
@@ -139,7 +142,7 @@ void SpellConfig::textChanged(const QString&)
                     break;
                 }
             }
-            QListViewItem *item = new QListViewItem(lstLang, l, "", bCheck ? "1" : "");
+            Q3ListViewItem *item = new Q3ListViewItem(lstLang, l, "", bCheck ? "1" : "");
             setCheck(item);
         }
     }
@@ -163,7 +166,7 @@ void SpellConfig::findFinished()
 #endif
 }
 
-void SpellConfig::langClicked(QListViewItem *item)
+void SpellConfig::langClicked(Q3ListViewItem *item)
 {
     if(!item)
         return;
@@ -176,27 +179,24 @@ void SpellConfig::langClicked(QListViewItem *item)
     setCheck(item);
 }
 
-#define CHECK_OFF       QStyle::Style_Off
-#define CHECK_ON        QStyle::Style_On
-#define CHECK_NOCHANGE  QStyle::Style_NoChange
+#define CHECK_OFF       QStyle::State_Off
+#define CHECK_ON        QStyle::State_On
+#define CHECK_NOCHANGE  QStyle::State_NoChange
 
-void SpellConfig::setCheck(QListViewItem *item)
+void SpellConfig::setCheck(Q3ListViewItem *item)
 {
     int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
-    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
+    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
+    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
     pInd.setBrush(cg.background());
     QRect rc(0, 0, w, h);
     pInd.eraseRect(rc);
-    style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
+	log(L_DEBUG, "SpellConfig::setCheck FIXME!!!");
+    //style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
     pInd.end();
     item->setPixmap(COL_CHECK, pixInd);
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "spellcfg.moc"
-#endif
 

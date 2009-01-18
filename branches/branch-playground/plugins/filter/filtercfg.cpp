@@ -24,11 +24,11 @@
 #include <qcheckbox.h>
 #include <qtabwidget.h>
 #include <qlabel.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 
-FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
-        : FilterConfigBase(parent)
+FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     m_data   = data;
     m_ignore = NULL;
@@ -69,8 +69,4 @@ void FilterConfig::apply(void *_data)
     FilterUserData *data = (FilterUserData*)_data;
     data->SpamList.str() = edtFilter->text();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "filtercfg.moc"
-#endif
 

@@ -31,9 +31,9 @@
 
 using SIM::getContacts;
 
-OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
-        : OSDConfigBase(parent)
+OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
     chkMessage->setChecked(data->EnableMessage.toBool());
@@ -114,8 +114,4 @@ void OSDConfig::contentToggled(bool bState)
     edtLines->setEnabled(bState && chkMessage->isChecked());
     lblLines->setEnabled(bState && chkMessage->isChecked());
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "osdconfig.moc"
-#endif
 

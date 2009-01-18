@@ -24,24 +24,33 @@
 #include "searchall.h"
 #include "toolbtn.h"
 #include "ballonmsg.h"
-#include "searchbase.h"
+//#include "ui_searchbase.h"
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qlineedit.h>
 #include <qvalidator.h>
-#include <qobjectlist.h>
-#include <qpopupmenu.h>
+#include <qobject.h>
+#include <q3popupmenu.h>
 #include <qstatusbar.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QResizeEvent>
+#include <QMoveEvent>
+#include <QCloseEvent>
 
 using namespace std;
 using namespace SIM;
 
 const unsigned COL_KEY			= 0x100;
 const unsigned COL_SEARCH_WND	= 0x101;
+
+SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent)
+{
+}
 
 SearchDialog::SearchDialog()
 {
@@ -55,7 +64,7 @@ SearchDialog::SearchDialog()
     m_id		= 0;
     m_result_id = 0;
     m_active	= NULL;
-    m_search	= new SearchBase(this);
+    m_search	= new SearchWidget(this);
     m_update = new QTimer(this);
     connect(m_update, SIGNAL(timeout()), this, SLOT(update()));
     setCentralWidget(m_search);
@@ -73,7 +82,7 @@ SearchDialog::SearchDialog()
     m_result->addColumn(i18n("Results"));
     m_result->setShowSortIndicator(true);
     m_result->setExpandingColumn(0);
-    m_result->setFrameShadow(QFrame::Sunken);
+    m_result->setFrameShadow(Q3Frame::Sunken);
     m_result->setLineWidth(1);
     addResult(m_result);
     showResult(NULL);
@@ -93,27 +102,31 @@ SearchDialog::SearchDialog()
 
 SearchDialog::~SearchDialog()
 {
-    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+    //saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
 {
-    QMainWindow::resizeEvent(e);
+    Q3MainWindow::resizeEvent(e);
     m_result->adjustColumn();
+	/*
     if (isVisible())
         saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+		*/
 }
 
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
-    QMainWindow::moveEvent(e);
+    Q3MainWindow::moveEvent(e);
+	/*
     if (isVisible())
         saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+		*/
 }
 
 void SearchDialog::closeEvent(QCloseEvent *e)
 {
-    QMainWindow::closeEvent(e);
+    Q3MainWindow::closeEvent(e);
     emit finished();
 }
 
@@ -129,7 +142,7 @@ void SearchDialog::setAdd(bool bAdd)
 void SearchDialog::setAddButton()
 {
     QString text;
-    QIconSet icon;
+    QIcon icon;
     if (m_active){
         icon = Icon("cancel");
         text = i18n("&Cancel");
@@ -141,7 +154,7 @@ void SearchDialog::setAddButton()
         text = i18n("&Search");
     }
     m_search->btnSearch->setText(text);
-    if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
+    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
         m_search->btnSearch->setIconSet(icon);
 }
 
@@ -252,8 +265,8 @@ void SearchDialog::fillClients()
                 searchDone(m_active);
             if (widgets[n].widget == m_current)
                 m_current = NULL;
-            for (QListViewItem *item = m_result->firstChild(); item; ){
-                QListViewItem *next = item->nextSibling();
+            for (Q3ListViewItem *item = m_result->firstChild(); item; ){
+                Q3ListViewItem *next = item->nextSibling();
                 if ((QWidget*)(item->text(COL_SEARCH_WND).toULong()) == widgets[n].widget)
                     delete item;
                 if (next == NULL)
@@ -459,10 +472,10 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
 {
     if (w == NULL)
         return true;
-    QObjectList *l = w->queryList();
-    QObjectListIt it(*l);
+    QObjectList l = w->queryList();
+	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ((obj = *it) != NULL){
         if (!obj->inherits("QWidget")){
             ++it;
             continue;
@@ -483,7 +496,6 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
                             bEnable = true;
                         }else{
                             bEnable = false;
-                            delete l;
                             return false;
                         }
                     }else{
@@ -498,16 +510,15 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
         }
         ++it;
     }
-    delete l;
     return true;
 }
 
 void SearchDialog::detach(QWidget *w)
 {
-    QObjectList *l = w->queryList();
-    QObjectListIt it(*l);
+    QObjectList l = w->queryList();
+	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ((obj = *it) != NULL){
         if (obj->inherits("QLineEdit"))
             disconnect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QComboBox"))
@@ -516,17 +527,16 @@ void SearchDialog::detach(QWidget *w)
             disconnect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
         ++it;
     }
-    delete l;
 }
 
 void SearchDialog::attach(QWidget *w)
 {
     if (w == NULL)
         return;
-    QObjectList *l = w->queryList();
-    QObjectListIt it(*l);
+    QObjectList l = w->queryList();
+	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj=it.current()) != NULL){
+    while ((obj = *it) != NULL){
         if (obj->inherits("QLineEdit"))
             connect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QComboBox"))
@@ -535,7 +545,6 @@ void SearchDialog::attach(QWidget *w)
             connect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
         ++it;
     }
-    delete l;
 }
 
 void SearchDialog::aboutToShow(QWidget *w)
@@ -589,7 +598,7 @@ void SearchDialog::searchClick()
         if (CorePlugin::m_plugin->getGroupMode()){
             EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
             eMenu.process();
-            QPopupMenu *popup = eMenu.menu();
+            Q3PopupMenu *popup = eMenu.menu();
             if (popup)
                 popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
         }else{
@@ -663,24 +672,24 @@ void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
     m_result->adjustColumn();
 }
 
-class SearchViewItem : public QListViewItem
+class SearchViewItem : public Q3ListViewItem
 {
 public:
-SearchViewItem(QListView *view) : QListViewItem(view) {}
+SearchViewItem(Q3ListView *view) : Q3ListViewItem(view) {}
     QString key(int column, bool ascending) const;
 };
 
 QString SearchViewItem::key(int column, bool ascending) const
 {
     if (column)
-        return QListViewItem::key(column, ascending);
+        return Q3ListViewItem::key(column, ascending);
     QString res = text(COL_KEY);
     return res;
 }
 
 void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
-    QListViewItem *item;
+    Q3ListViewItem *item;
     for (item = m_result->firstChild(); item; item = item->nextSibling()){
         if (item->text(COL_KEY) == values[1])
             break;
@@ -739,7 +748,7 @@ void SearchDialog::addClick()
     if (CorePlugin::m_plugin->getGroupMode()){
         EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
         eMenu.process();
-        QPopupMenu *popup = eMenu.menu();
+        Q3PopupMenu *popup = eMenu.menu();
         if (popup)
             popup->popup(CToolButton::popupPos(m_search->btnAdd, popup));
     }else{
@@ -776,7 +785,7 @@ void SearchDialog::optionsClick()
 {
     EventMenuProcess eMenu(MenuSearchOptions, NULL);
     eMenu.process();
-    QPopupMenu *popup = eMenu.menu();
+    Q3PopupMenu *popup = eMenu.menu();
     if (popup)
         popup->popup(CToolButton::popupPos(m_search->btnOptions, popup));
 }
@@ -784,11 +793,13 @@ void SearchDialog::optionsClick()
 void SearchDialog::newSearch()
 {
     searchStop();
-    QObjectList *l = queryList();
-    QObjectListIt it(*l);
+    QObjectList l = queryList();
+	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj=it.current()) != NULL){
-        if (!obj->inherits("QWidget")){
+    while((obj = *it) != NULL)
+	{
+        if (!obj->inherits("QWidget"))
+		{
             ++it;
             continue;
         }
@@ -799,7 +810,6 @@ void SearchDialog::newSearch()
             static_cast<QComboBox*>(obj)->setCurrentItem(0);
         ++it;
     }
-    delete l;
     m_result->clear();
     for (int i = m_result->columns() - 1; i >= 0; i--)
         m_result->removeColumn(i);
@@ -840,7 +850,9 @@ void SearchDialog::showClient(Client *client)
     }
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "search.moc"
 #endif
+*/
 

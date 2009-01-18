@@ -28,9 +28,9 @@
 
 using namespace SIM;
 
-MoreInfo::MoreInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : MoreInfoBase(parent)
+MoreInfo::MoreInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
@@ -253,8 +253,4 @@ void MoreInfo::urlChanged(const QString &text)
 {
     btnHomePage->setEnabled(!text.isEmpty());
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "moreinfo.moc"
-#endif
 

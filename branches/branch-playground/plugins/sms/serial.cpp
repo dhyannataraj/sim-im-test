@@ -21,6 +21,8 @@
 #include <qtimer.h>
 #include <qdir.h>
 #include <qsocketnotifier.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "buffer.h"
 #include "log.h"
@@ -70,15 +72,15 @@ public:
     SerialPortPrivate(SerialPort *port);
     ~SerialPortPrivate();
     void close();
-    HANDLE		hPort;
-    HANDLE		hEvent;
-    HANDLE		hThread;
+    Qt::HANDLE		hPort;
+    Qt::HANDLE		hEvent;
+    Qt::HANDLE		hThread;
     OVERLAPPED	over;
     QTimer		*m_timer;
     SerialPort	*m_port;
     int			m_baudrate;
     bool		m_bXonXoff;
-    QCString	m_line;
+    Q3CString	m_line;
     PortState	m_state;
     Buffer		m_buff;
     int			m_time;
@@ -202,7 +204,7 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     d->m_time	  = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    QCString port; // = "\\\\.\\";
+    Q3CString port; // = "\\\\.\\";
     port += device;
     port += ":";
     d->hPort = CreateFileA(port.data(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
@@ -318,9 +320,9 @@ void SerialPort::setTimeout(unsigned read_time)
     SetEvent(d->hEvent);
 }
 
-QCString SerialPort::readLine()
+Q3CString SerialPort::readLine()
 {
-    QCString res;
+    Q3CString res;
     if (d->hPort == INVALID_HANDLE_VALUE)
         return res;
     if (d->m_buff.scan("\n", res)){
@@ -383,7 +385,7 @@ QStringList SerialPort::devices()
     for (unsigned i = 1; i <= 8; i++){
         QString port = "COM" + QString::number(i);
         QString fullPort = "\\\\.\\" + port;
-        HANDLE hPort = CreateFile((LPCWSTR)fullPort.ucs2(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
+        Qt::HANDLE hPort = CreateFile((LPCWSTR)fullPort.ucs2(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
         if (hPort == INVALID_HANDLE_VALUE)
             continue;
         res.append(port);
@@ -468,7 +470,7 @@ SerialPort::~SerialPort()
 bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
     close();
-    QCString fname = "/dev/";
+    Q3CString fname = "/dev/";
     fname += device;
     d->m_time = DTRtime;
     d->m_baudrate = baudrate;
@@ -547,9 +549,9 @@ void SerialPort::setTimeout(unsigned timeRead)
     d->m_readTimer->start(d->m_timeout, true);
 }
 
-QCString SerialPort::readLine()
+Q3CString SerialPort::readLine()
 {
-    QCString res;
+    Q3CString res;
     if (d->fd == -1)
         return res;
     if (d->m_buf.scan("\n", res)){
@@ -630,9 +632,5 @@ QStringList SerialPort::devices()
     return res;
 }
 
-#endif
-
-#ifndef NO_MOC_INCLUDES
-#include "serial.moc"
 #endif
 

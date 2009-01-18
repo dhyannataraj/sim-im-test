@@ -21,9 +21,9 @@
 
 using namespace SIM;
 
-AboutInfo::AboutInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : AboutInfoBase(parent)
+AboutInfo::AboutInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data   = data;
     m_client = client;
     if (m_data)
@@ -65,19 +65,18 @@ bool AboutInfo::processEvent(Event *e)
 void AboutInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
-    if (data->Uin.toULong()){
-        edtAbout->setTextFormat(QTextEdit::PlainText);
+    if(data == NULL) data = &m_client->data.owner;
+    if(data->Uin.toULong())
+	{
+        edtAbout->setTextFormat(Qt::PlainText);
         edtAbout->setText(data->About.str());
-    }else{
-        edtAbout->setTextFormat(QTextEdit::RichText);
+    }
+	else
+	{
+        edtAbout->setTextFormat(Qt::RichText);
         edtAbout->setText(data->About.str());
         if (m_data == NULL)
             edtAbout->showBar();
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "aboutinfo.moc"
-#endif
 

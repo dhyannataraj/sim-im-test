@@ -21,7 +21,7 @@
 #include "ballonmsg.h"
 
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>
 #include <qpixmap.h>
@@ -47,9 +47,9 @@ const ext_info chat_groups[] =
 
 const ext_info *p_chat_groups = chat_groups;
 
-ICQInfo::ICQInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : ICQInfoBase(parent)
+ICQInfo::ICQInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_client	= client;
     m_data		= data;
     m_contact	= contact;
@@ -270,8 +270,4 @@ void ICQInfo::fill()
         edtClient->setText(name);
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqinfo.moc"
-#endif
 

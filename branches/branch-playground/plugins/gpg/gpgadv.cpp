@@ -20,9 +20,9 @@
 
 #include <qlineedit.h>
 
-GpgAdvanced::GpgAdvanced(QWidget *parent, GpgPlugin *plugin)
-        : GpgAdvancedBase(parent)
+GpgAdvanced::GpgAdvanced(QWidget *parent, GpgPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     edtGenKey->setText(m_plugin->getGenKey());
     edtPublic->setText(m_plugin->getPublicList());
@@ -48,7 +48,4 @@ void GpgAdvanced::apply()
     m_plugin->setDecrypt(edtDecrypt->text());
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "gpgadv.moc"
-#endif
 

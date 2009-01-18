@@ -33,6 +33,9 @@ QColorButton::QColorButton( QWidget *parent, const char *name)
 #include <qapplication.h>
 #include <qstyle.h>
 #include <qcolordialog.h>
+#include <QStyle>
+#include <QStyleOption>
+#include <QStyleOptionButton>
 
 QColorButton::QColorButton( QWidget *parent, const char *name )
         : QPushButton( parent, name )
@@ -49,38 +52,45 @@ void QColorButton::setColor( const QColor &c )
     }
 }
 
-void QColorButton::drawButtonLabel( QPainter *painter )
+void QColorButton::drawButtonLabel(QPainter *painter)
 {
-    int x, y, w, h;
-    QRect r = style().subRect( QStyle::SR_PushButtonContents, this );
-    r.rect(&x, &y, &w, &h);
+	int x, y, w, h;
+	QStyleOptionButton option;
+	option.initFrom(this);
+	QRect r = style()->subElementRect(QStyle::SE_PushButtonContents, &option, this);
+	r.rect(&x, &y, &w, &h);
 
-    int margin = style().pixelMetric( QStyle::PM_ButtonMargin, this );
-    x += margin;
-    y += margin;
-    w -= 2*margin;
-    h -= 2*margin;
+	int margin = style()->pixelMetric(QStyle::PM_ButtonMargin, &option, this);
+	x += margin;
+	y += margin;
+	w -= 2*margin;
+	h -= 2*margin;
 
-    if (isOn() || isDown()) {
-      x += style().pixelMetric( QStyle::PM_ButtonShiftHorizontal, this );
-      y += style().pixelMetric( QStyle::PM_ButtonShiftVertical, this );
-    }
+	if(isOn() || isDown())
+	{
+		x += style()->pixelMetric(QStyle::PM_ButtonShiftHorizontal, &option, this);
+		y += style()->pixelMetric(QStyle::PM_ButtonShiftVertical, &option, this);
+	}
 
-    QColor fillCol = isEnabled() ? col : backgroundColor();
-    qDrawShadePanel( painter, x, y, w, h, colorGroup(), true, 1, NULL);
-    if ( fillCol.isValid() )
-      painter->fillRect( x+1, y+1, w-2, h-2, fillCol );
+	QColor fillCol = isEnabled() ? col : backgroundColor();
+	qDrawShadePanel(painter, x, y, w, h, colorGroup(), true, 1, NULL);
+	if(fillCol.isValid())
+		painter->fillRect(x + 1, y + 1, w - 2, h - 2, fillCol);
 
-    if ( hasFocus() ) {
-      QRect focusRect = style().subRect( QStyle::SR_PushButtonFocusRect, this );
-      style().drawPrimitive( QStyle::PE_FocusRect, painter, focusRect, colorGroup() );
-    }
+	if(hasFocus())
+	{
+		QRect focusRect = style()->subElementRect(QStyle::SE_PushButtonFocusRect, &option, this);
+		option.rect = focusRect;
+		//style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, painter, colorGroup());
+		style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, painter, this);
+	}
 }
 
 QSize QColorButton::sizeHint() const
 {
-    return style().sizeFromContents(QStyle::CT_PushButton, this, QSize(40, 15)).
-        expandedTo(QApplication::globalStrut());
+	QStyleOptionButton option;
+	option.initFrom(this);
+    return style()->sizeFromContents(QStyle::CT_PushButton, &option, QSize(40, 15), this).expandedTo(QApplication::globalStrut());
 }
 
 void QColorButton::chooseColor()
@@ -90,9 +100,11 @@ void QColorButton::chooseColor()
         setColor( c );
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "qcolorbutton.moc"
 #endif
+*/
 
 #endif
 

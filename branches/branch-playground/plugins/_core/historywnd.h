@@ -21,9 +21,11 @@
 #include <vector>
 #include "event.h"
 
-#include <qmainwindow.h>
+#include <QMainWindow>
 #include <qpixmap.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QResizeEvent>
 
 class MsgViewBase;
 class CToolBar;

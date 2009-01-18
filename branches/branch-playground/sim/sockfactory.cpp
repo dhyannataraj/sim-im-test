@@ -37,8 +37,8 @@
 
 #include <qfile.h>
 #include <qregexp.h>
-#include <qsocket.h>
-#include <qsocketdevice.h>
+#include <q3socket.h>
+#include <q3socketdevice.h>
 #include <qsocketnotifier.h>
 #include <qtimer.h>
 
@@ -46,9 +46,9 @@
 // name resolving
 #include <netdb.h> 
 #include <arpa/inet.h>
-#include <qdns.h>
+#include <q3dns.h>
 #else
-#include <qdns.h>
+#include <q3dns.h>
 #endif
 
 #ifndef INADDR_NONE
@@ -100,7 +100,7 @@ SIMResolver::SIMResolver(QObject *parent, const QString &host)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
     timer->start(20000);
-    dns = new QDns(host, QDns::A);
+    dns = new Q3Dns(host, Q3Dns::A);
     connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
 }
 
@@ -188,11 +188,11 @@ ServerSocket *SIMSockets::createServerSocket()
     return new SIMServerSocket();
 }
 
-SIMClientSocket::SIMClientSocket(QSocket *s)
+SIMClientSocket::SIMClientSocket(Q3Socket *s)
 {
     sock = s;
     if (sock == NULL)
-        sock = new QSocket(NULL);
+        sock = new Q3Socket(NULL);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
@@ -209,7 +209,7 @@ SIMClientSocket::~SIMClientSocket()
     timerStop();
     sock->close();
 
-    if (sock->state() == QSocket::Closing)
+    if (sock->state() == Q3Socket::Closing)
         sock->connect(sock, SIGNAL(delayedCloseFinished()), SLOT(deleteLater()));
     else
         delete sock;
@@ -407,7 +407,7 @@ void SIMClientSocket::pause(unsigned t)
 SIMServerSocket::SIMServerSocket()
 {
     sn = NULL;
-    sock = new QSocketDevice;
+    sock = new Q3SocketDevice;
 }
 
 SIMServerSocket::~SIMServerSocket()
@@ -476,7 +476,7 @@ void SIMServerSocket::bind(const char *path)
         error("Can't create listener");
         return;
     }
-    sock->setSocket(s, QSocketDevice::Stream);
+    sock->setSocket(s, Q3SocketDevice::Stream);
 
     struct sockaddr_un nsun;
     nsun.sun_family = AF_UNIX;
@@ -520,7 +520,7 @@ void SIMServerSocket::activated(int)
     if (fd >= 0){
         log(L_DEBUG, "accept ready");
         if (notify){
-            QSocket *s = new QSocket;
+            Q3Socket *s = new Q3Socket;
             s->setSocket(fd);
             if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
                 if (notify)
@@ -587,7 +587,7 @@ void IP::set(unsigned long ip, const QString &host)
 
 void IP::resolve()
 {
-    if (m_host)
+    if(!m_host.isNull())
         return;
     if (pResolver == NULL)
         pResolver = new IPResolver;
@@ -601,8 +601,8 @@ void IP::resolve()
 
 IPResolver::IPResolver()
 {
-    resolver = new QDns;
-    resolver->setRecordType(QDns::Ptr);
+    resolver = new Q3Dns;
+    resolver->setRecordType(Q3Dns::Ptr);
     QObject::connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 }
 
@@ -665,12 +665,15 @@ void IPResolver::start_resolve()
     log(L_DEBUG, "start resolve %s", inet_ntoa(inaddr));
     if (resolver)
         delete resolver;
-    resolver = new QDns(QHostAddress(htonl(m_addr)), QDns::Ptr);
+    resolver = new Q3Dns(QHostAddress(htonl(m_addr)), Q3Dns::Ptr);
     connect(resolver, SIGNAL(resultsReady()), this, SLOT(resolve_ready()));
 }
 
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "sockfactory.moc"
 #endif
+*/
+

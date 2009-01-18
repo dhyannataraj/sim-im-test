@@ -25,9 +25,10 @@
 
 using namespace SIM;
 
-ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact)
-        : ARConfigBase(p)
+ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact) : QWidget(p)
+        //: Ui::ARConfigBase(p)
 {
+	setupUi(this);
     m_status  = status;
     m_contact = contact;
     setButtonsPict(this);
@@ -101,7 +102,9 @@ void ARConfig::help()
     BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "arcfg.moc"
 #endif
+*/
 

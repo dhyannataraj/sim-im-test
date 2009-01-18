@@ -26,9 +26,10 @@
 
 using namespace SIM;
 
-PagerDetails::PagerDetails(QWidget *p, const QString &oldNumber)
-        : PagerDetailsBase(p)
+PagerDetails::PagerDetails(QWidget *p, const QString &oldNumber) : QWidget(p)
+        //: PagerDetailsBase(p)
 {
+	setupUi(this);
     cmbProvider->setEditable(true);
     for (const pager_provider *provider = getProviders(); *provider->szName; provider++)
         cmbProvider->insertItem(provider->szName);
@@ -87,7 +88,9 @@ void PagerDetails::textChanged(const QString&)
     getNumber();
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "pagerdetails.moc"
 #endif
+*/
 

@@ -18,6 +18,8 @@
 #include "icqclient.h"
 
 #include <qtextcodec.h>
+//Added by qt3to4:
+#include <Q3CString>
 #ifdef Q_OS_WIN32
 # include <winsock.h>
 #else
@@ -57,7 +59,7 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    QCString charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
+    Q3CString charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
     Tlv *tlvCharset = NULL;
     for (unsigned i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];
@@ -418,7 +420,7 @@ static inline bool isWide(const SIM::Data &data)
 void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide)
 {
     if (str.isEmpty()){
-        socket()->writeBuffer().tlv(nTlv, QString::null);
+        socket()->writeBuffer().tlv(nTlv);
         return;
     }
     QString m = str;
@@ -444,12 +446,12 @@ void ICQClient::encodeString(const QString &m, const QString &type, unsigned sho
         for (int i = 0; i < (int)(m.length()); i++)
             *(t++) = htons(m[i].unicode());
         content_type += "unicode-2\"";
-        socket()->writeBuffer().tlv(charsetTlv, content_type);
+        socket()->writeBuffer().tlv(charsetTlv, content_type.toUtf8().data());
         socket()->writeBuffer().tlv(infoTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
         content_type += "us-ascii\"";
-        socket()->writeBuffer().tlv(charsetTlv, content_type);
+        socket()->writeBuffer().tlv(charsetTlv, content_type.toUtf8().data());
         socket()->writeBuffer().tlv(infoTlv, m.latin1());
     }
 }
@@ -594,7 +596,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
     }
     snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
     QString encoding = bWide ? "unicode-2-0" : "us-ascii";
-    socket()->writeBuffer().tlv(0x1C, encoding);
+    socket()->writeBuffer().tlv(0x1C, encoding.toUtf8().data());
     socket()->writeBuffer().tlv(0x0A, (unsigned short)0x01);
     encodeString(data->FirstName.str(), 0x01, bWide);
     encodeString(data->LastName.str(), 0x02, bWide);

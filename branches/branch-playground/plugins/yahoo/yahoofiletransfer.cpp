@@ -41,6 +41,8 @@
 #include <list>
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "simapi.h"
 
@@ -177,7 +179,7 @@ void YahooFileTransfer::packet_ready()
     if (m_state != Receive){
         EventLog::log_packet(m_socket->readBuffer(), false, YahooPlugin::YahooPacket);
         for (;;){
-            QCString s;
+            Q3CString s;
             if (!m_socket->readBuffer().scan("\n", s))
                 break;
             if (!s.isEmpty() && (s[(int)s.length() - 1] == '\r'))
@@ -303,9 +305,9 @@ void YahooFileTransfer::write_ready()
     m_socket->write();
 }
 
-bool YahooFileTransfer::get_line(const QCString &_line)
+bool YahooFileTransfer::get_line(const Q3CString &_line)
 {
-    QCString line = _line;
+    Q3CString line = _line;
     if (line.isEmpty()){
         if (m_state == Connect){
             m_socket->error_state(I18N_NOOP("File transfer failed"));
@@ -394,7 +396,7 @@ bool YahooFileTransfer::get_line(const QCString &_line)
         return false;
     }
     if (m_state == ListenWait){
-        QCString t = getToken(line, ' ');
+        Q3CString t = getToken(line, ' ');
         if ((t == "GET") || (t == "HEAD")){
             m_method = t;
             m_answer = 200;
@@ -403,7 +405,7 @@ bool YahooFileTransfer::get_line(const QCString &_line)
         return true;
     }
     if (m_state == Connect){
-        QCString t = getToken(line, ' ');
+        Q3CString t = getToken(line, ' ');
         t = getToken(t, '/');
         if (t != "HTTP"){
             m_socket->error_state(I18N_NOOP("File transfer fail"));
@@ -425,7 +427,7 @@ bool YahooFileTransfer::get_line(const QCString &_line)
         return true;
     }
     if (m_state == ReadHeader){
-        QCString t = getToken(line, ':');
+        Q3CString t = getToken(line, ':');
         // FIXME: this should be easier with QCString::find() !
         if ((t == "Content-Length") || (t == "Content-length")){
             const char *p;
@@ -450,7 +452,7 @@ bool YahooFileTransfer::get_line(const QCString &_line)
         }
         return true;
     }
-    QCString t = getToken(line, ':');
+    Q3CString t = getToken(line, ':');
     if (t == "Range"){
         const char *p = line.data();
         for (; *p; p++)

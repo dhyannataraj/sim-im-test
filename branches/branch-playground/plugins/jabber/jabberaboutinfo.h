@@ -18,11 +18,14 @@
 #ifndef _JABBERABOUTINFO_H
 #define _JABBERABOUTINFO_H
 
-#include "jabberaboutinfobase.h"
+#include "ui_jabberaboutinfobase.h"
+#include "event.h"
 
+
+class JabberUserData;
 class JabberClient;
 
-class JabberAboutInfo : public JabberAboutInfoBase, public SIM::EventReceiver
+class JabberAboutInfo : public QWidget, public Ui::JabberAboutInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

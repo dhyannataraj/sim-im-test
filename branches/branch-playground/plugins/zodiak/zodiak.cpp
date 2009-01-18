@@ -17,11 +17,19 @@
 
 #include <qapplication.h>
 #include <qlayout.h>
-#include <qframe.h>
-#include <qwidgetlist.h>
-#include <qobjectlist.h>
+#include <q3frame.h>
+#include <qwidget.h>
+#include <qobject.h>
 #include <qpushbutton.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <QPaintEvent>
+#include <Q3GridLayout>
+#include <QChildEvent>
+#include <QPixmap>
+#include <QLabel>
+#include <QEvent>
 
 #include "datepicker.h"
 #include "misc.h"
@@ -66,22 +74,18 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 ZodiakPlugin::ZodiakPlugin(unsigned base)
         : Plugin(base)
 {
-    qApp->installEventFilter(this);
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget * w;
-    while ((w = it.current()) != NULL){
-        QObjectList * l = w->queryList("DatePicker");
-        QObjectListIt it1(*l);
-        QObject * obj;
-        while ((obj=it1.current()) != NULL){
-            ++it1;
-            createLabel(static_cast<DatePicker*>(obj));
-        }
-        delete l;
-        ++it;
-    }
-    delete list;
+	qApp->installEventFilter(this);
+	QWidgetList list = QApplication::topLevelWidgets();
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget* w = *it;
+		QObjectList l = w->queryList("DatePicker");
+		for(QObjectList::iterator it1 = l.begin(); it1 != l.end(); ++it1)
+		{
+			QObject* obj = *it1;
+			createLabel(static_cast<DatePicker*>(obj));
+		}
+	}
 }
 
 ZodiakPlugin::~ZodiakPlugin()
@@ -98,7 +102,7 @@ void ZodiakPlugin::createLabel(DatePicker *picker)
     p.label  = new ZodiakWnd(picker);
     m_pickers.append(p);
     if (p.picker->layout())
-        static_cast<QBoxLayout*>(p.picker->layout())->addWidget(p.label);
+        static_cast<Q3BoxLayout*>(p.picker->layout())->addWidget(p.label);
     p.label->show();
 }
 
@@ -111,11 +115,11 @@ bool ZodiakPlugin::processEvent(Event *e)
 
 bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::ChildInserted){
+    if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
-            QValueListIterator<Picker> it;
+            Q3ValueListIterator<Picker> it;
             for (it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker)
                     break;
@@ -128,7 +132,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
-            for (QValueListIterator<Picker> it = m_pickers.begin(); it != m_pickers.end(); ++it){
+            for (Q3ValueListIterator<Picker> it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker){
                     m_pickers.remove(it);
                     break;
@@ -140,11 +144,11 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 }
 
 ZodiakWnd::ZodiakWnd(DatePicker *parent)
-        : QFrame(parent)
+        : Q3Frame(parent)
 {
     m_picker = parent;
     setLineWidth(0);
-    QGridLayout *lay = new QGridLayout(this, 2, 2);
+    Q3GridLayout *lay = new Q3GridLayout(this, 2, 2);
     lay->setSpacing(2);
     lay->setMargin(4);
     m_picture = new QLabel(this);
@@ -156,7 +160,7 @@ ZodiakWnd::ZodiakWnd(DatePicker *parent)
     QFont f(font());
     f.setBold(true);
     m_name->setFont(f);
-    m_name->setAlignment(AlignVCenter | AlignHCenter);
+    m_name->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
     lay->addWidget(m_name, 0, 1);
     m_button = new QPushButton(this);
     m_button->setText(i18n("View horoscope"));
@@ -175,7 +179,7 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
-    QFrame::paintEvent(e);
+    Q3Frame::paintEvent(e);
 }
 
 static const char *signes[] =
@@ -258,6 +262,3 @@ int ZodiakWnd::getSign(int day, int month)
     return month;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "zodiak.moc"
-#endif

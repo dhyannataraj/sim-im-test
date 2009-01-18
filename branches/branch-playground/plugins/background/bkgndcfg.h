@@ -18,11 +18,11 @@
 #ifndef _BKGNDCFG_H
 #define _BKGNDCFG_H
 
-#include "bkgndcfgbase.h"
+#include "ui_bkgndcfgbase.h"
 
 class BackgroundPlugin;
 
-class BkgndCfg : public BkgndCfgBase
+class BkgndCfg : public QWidget, public Ui::BkgndCfgBase
 {
     Q_OBJECT
 public:

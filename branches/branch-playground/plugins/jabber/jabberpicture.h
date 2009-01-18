@@ -18,13 +18,15 @@
 #ifndef _JABBERPICTURE_H
 #define _JABBERPICTURE_H
 
-#include "jabberpicturebase.h"
+#include "ui_jabberpicturebase.h"
+#include "event.h"
 
+class JabberUserData;
 class JabberClient;
 
 class QImage;
 
-class JabberPicture : public JabberPictureBase, public SIM::EventReceiver
+class JabberPicture : public QWidget, public Ui::JabberPictureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

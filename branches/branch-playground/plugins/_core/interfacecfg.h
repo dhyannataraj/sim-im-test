@@ -20,14 +20,14 @@
 
 #include "simapi.h"
 
-#include "interfacecfgbase.h"
+#include "ui_interfacecfgbase.h"
 
 class UserViewConfig;
 class HistoryConfig;
 class MessageConfig;
 class SMSConfig;
 
-class InterfaceConfig : public InterfaceConfigBase
+class InterfaceConfig : public QWidget, public Ui::InterfaceConfigBase
 {
     Q_OBJECT
 public:

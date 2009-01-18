@@ -18,9 +18,11 @@
 #ifndef _AIMSEARCH_H
 #define _AIMSEARCH_H
 
-#include "aimsearchbase.h"
+#include "ui_aimsearchbase.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
-class AIMSearch : public AIMSearchBase
+class AIMSearch : public QWidget, public Ui::AIMSearchBase
 {
     Q_OBJECT
 public:

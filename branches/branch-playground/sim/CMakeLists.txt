@@ -7,95 +7,95 @@ ENDIF(NOT WIN32)
 ######################
 
 SET(sim_LIB_SRCS
-        aboutdata.cpp
-        ballonmsg.cpp
-        buffer.cpp
-        builtinlogger.cpp
-        cfg.cpp
-        cmddef.cpp
-        contacts.cpp
-        country.cpp
-        datepicker.cpp
-        editfile.cpp
-        event.cpp
-        exec.cpp
-        fetch.cpp
-        fontedit.cpp
-        icons.cpp
-        intedit.cpp
-        linklabel.cpp
-        listview.cpp
-        log.cpp
-        message.cpp
-        misc.cpp
-        plugins.cpp
-        preview.cpp
-        qchildwidget.cpp
-        qcolorbutton.cpp
-        qkeybutton.cpp
-        sax.cpp
-        socket.cpp
-        sockfactory.cpp
-        sslclient.cpp
-        textshow.cpp
-        toolbtn.cpp
-        translit.cpp
-        unquot.cpp
-        xsl.cpp
-        qzip/ioapi.c
-        qzip/qzip.cpp
-        qzip/unzip.c
-    )
-
+	#aboutdata.cpp
+		ballonmsg.cpp
+		buffer.cpp
+		builtinlogger.cpp
+		cfg.cpp
+		cmddef.cpp
+		contacts.cpp
+		country.cpp
+		datepicker.cpp
+		editfile.cpp
+		event.cpp
+		exec.cpp
+		fetch.cpp
+		fontedit.cpp
+		icons.cpp
+		intedit.cpp
+		linklabel.cpp
+		listview.cpp
+		log.cpp
+		message.cpp
+		misc.cpp
+		plugins.cpp
+		preview.cpp
+		qchildwidget.cpp
+		qcolorbutton.cpp
+		qkeybutton.cpp
+		sax.cpp
+		socket.cpp
+		sockfactory.cpp
+		sslclient.cpp
+		textshow.cpp
+		toolbtn.cpp
+		translit.cpp
+		unquot.cpp
+		xsl.cpp
+		qzip/ioapi.c
+		qzip/qzip.cpp
+		qzip/unzip.c
+	)
 SET(sim_LIB_HDRS
-        aboutdata.h
-        ballonmsg.h
-        buffer.h
-        builtinlogger.h
-        cfg.h
-        cmddef.h
-        contacts.h
-        country.h
-        datepicker.h
-        editfile.h
-        event.h
-        exec.h
-        fetch.h
-        fontedit.h
-        icons.h
-        intedit.h
-        linklabel.h
-        listview.h
-        log.h
-        message.h
-        misc.h
-        plugins.h
-        preview.h
-        qchildwidget.h
-        qcolorbutton.h
-        qkeybutton.h
-        sax.h
-        simapi.h
-        socket.h
-        sockfactory.h
-        textshow.h
-        toolbtn.h
-        translit.h
-        unquot.h
-        xsl.h
-        qzip/ioapi.h
-        qzip/qzip.h
-        qzip/unzip.h
-    )
+	#aboutdata.h
+		ballonmsg.h
+		buffer.h
+		builtinlogger.h
+		cfg.h
+		cmddef.h
+		contacts.h
+		country.h
+		datepicker.h
+		editfile.h
+		event.h
+		exec.h
+		fetch.h
+		fontedit.h
+		icons.h
+		intedit.h
+		linklabel.h
+		listview.h
+		log.h
+		message.h
+		misc.h
+		plugins.h
+		preview.h
+		qchildwidget.h
+		qcolorbutton.h
+		qkeybutton.h
+		sax.h
+		simapi.h
+		socket.h
+		sockfactory.h
+		textshow.h
+		toolbtn.h
+		translit.h
+		unquot.h
+		xsl.h
+		qzip/ioapi.h
+		qzip/qzip.h
+		qzip/unzip.h
+	)
 
 # moc the sources
-KDE3_AUTOMOC(${sim_LIB_SRCS})
+#KDE3_AUTOMOC(${sim_LIB_HDRS})
+QT4_WRAP_CPP(MOC_SRCS ${sim_LIB_HDRS})
 
 # don't forget flex
 ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
 
 # our target
-ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS})
+ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS} ${MOC_SRCS})
 
 IF(WIN32 AND NOT MINGW)
     SET_TARGET_PROPERTIES(simlib PROPERTIES VERSION 0.0.0 SOVERSION 0)
@@ -130,7 +130,8 @@ endif(WIN32)
 
 # libxml, libxslt and iconv
 INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${LIBICONV_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(simlib ${QT_QT_LIBRARY} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${ZLIB_LIBRARIES})
+#TARGET_LINK_LIBRARIES(simlib ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${ZLIB_LIBRARIES})
+TARGET_LINK_LIBRARIES(simlib ${QT_LIBRARIES} ${LIBXML2_LIBRAARIES} ${LIBXSLT_LIBRARIES})
 
 IF(WIN32)
   TARGET_LINK_LIBRARIES(simlib ${LIBICONV_LIBRARIES})
@@ -177,7 +178,7 @@ IF(SIM_ENABLE_FPIE)
 ENDIF(SIM_ENABLE_FPIE)
 
 # only needs simlib
-TARGET_LINK_LIBRARIES(sim simlib ${QT_QTMAIN_LIBRARY})
+TARGET_LINK_LIBRARIES(sim simlib ${QT_LIBRARIES})
 
 # set correct install path
 INSTALL(TARGETS sim RUNTIME DESTINATION ${BINDIR})

@@ -21,6 +21,8 @@
 #include <qfile.h>
 #include <qsound.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #ifdef USE_KDE
 	#include <kaudioplayer.h>
@@ -149,7 +151,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     m_sound	 = NULL;
 #if !defined( WIN32 ) && !defined( __OS2__ )
     m_player = 0;
-    connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
+	connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
 #endif
     m_checkTimer = new QTimer(this);
     connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
@@ -175,7 +177,7 @@ SoundPlugin::~SoundPlugin()
 	getContacts()->unregisterUserData(user_data_id);
 }
 
-QCString SoundPlugin::getConfig()
+Q3CString SoundPlugin::getConfig()
 {
     return save_data(soundData, &data);
 }
@@ -304,7 +306,7 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         return QString::null;
     if (sound.isEmpty()){
         def = core->messageTypes.find(type);
-        if ((def == NULL) || (def->icon == NULL))
+        if ((def == NULL) || (def->icon.isNull()))
             return QString::null;
         MessageDef *mdef = (MessageDef*)(def->param);
         if (mdef->flags & MESSAGE_SYSTEM){
@@ -391,7 +393,7 @@ void SoundPlugin::processQueue()
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
     can take 5 seconds to return a value */
-    bool bSound = !getPlayer() && QSound::available();
+    bool bSound = getPlayer().isNull() && QSound::available();
 #endif
 	if (bSound){
 		if (!QSound::available()){
@@ -477,7 +479,7 @@ void SoundPlugin::run()
 	*/
 	if((!m_process) && (!getPlayer().isEmpty()) && (!m_snd.isEmpty()))
 	{
-		m_process = new QProcess(this);
+		m_process = new Q3Process(this);
 		m_process->addArgument(getPlayer());
 		m_process->addArgument(m_snd);
 		m_process->start();
@@ -546,6 +548,3 @@ void SoundPlugin::childExited(int pid, int)
 
 #endif
 
-#ifndef NO_MOC_INCLUDES
-#include "sound.moc"
-#endif

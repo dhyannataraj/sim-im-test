@@ -18,12 +18,12 @@
 #ifndef _GPGGEN_H
 #define _GPGGEN_H
 
-#include "gpggenbase.h"
+#include "ui_gpggenbase.h"
 
-class QProcess;
+class Q3Process;
 class GpgCfg;
 
-class GpgGen : public GpgGenBase
+class GpgGen : public QDialog, public Ui::GpgGenBase
 {
     Q_OBJECT
 public:
@@ -34,7 +34,7 @@ protected slots:
     void genKeyReady();
 protected:
     void accept();
-    QProcess *m_process;
+    Q3Process *m_process;
     GpgCfg   *m_cfg;
 };
 

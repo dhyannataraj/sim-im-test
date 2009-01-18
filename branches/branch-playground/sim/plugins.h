@@ -19,6 +19,8 @@
 #define _PLUGINS_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include "simapi.h"
 
 class QFile;
@@ -26,7 +28,8 @@ class QLibrary;
 class QWidget;
 class Buffer;
 
-namespace SIM {
+namespace SIM
+{
 
 /* PluginManager - base class for main application */
 
@@ -56,7 +59,7 @@ public:
     Plugin(unsigned base);
     virtual ~Plugin() {}
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     unsigned registerType();
     void boundTypes();
 protected:

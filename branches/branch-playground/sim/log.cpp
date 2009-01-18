@@ -16,15 +16,18 @@
  ***************************************************************************/
 
 #include "log.h"
-#include "buffer.h"
+//#include "buffer.h"
 #include "event.h"
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
+#include <string>
 
+#include <QApplication>
+#include <QString>
 #ifdef QT_DLL
-#include <qapplication.h>
+//Added by qt3to4:
 #endif
 
 namespace SIM
@@ -73,11 +76,9 @@ void log_string(unsigned short l, const char *s)
 {
     time_t now = time(NULL);
     struct tm *tm = localtime(&now);
-    QCString m;
-    m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] ",
-           tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
-           tm->tm_hour, tm->tm_min, tm->tm_sec, level_name(l));
-    m += s;
+    QString m = QString("%1/%2/%3 %4:%5:%6 [%7] ").arg(tm->tm_mday).arg(tm->tm_mon + 1)
+			.arg(tm->tm_year + 1900).arg(tm->tm_hour).arg(tm->tm_min).arg(tm->tm_sec).arg(level_name(l));
+	m += s;
     EventLog e(l, m);
     e.process();
 }

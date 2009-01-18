@@ -20,11 +20,12 @@
 
 #include <vector>
 
-#include "toolsetupbase.h"
+#include "event.h"
+#include "ui_toolsetupbase.h"
 
 class Commands;
 
-class ToolBarSetup : public ToolBarSetupBase
+class ToolBarSetup : public QDialog, public Ui::ToolBarSetupBase
 {
     Q_OBJECT
 public:
@@ -43,7 +44,7 @@ protected:
     Commands	*m_bars;
     std::vector<unsigned> active;
     bool bDirty;
-    void addButton(QListBox *lst, unsigned id);
+    void addButton(Q3ListBox *lst, unsigned id);
     void setButtons();
     friend class Commands;
 };

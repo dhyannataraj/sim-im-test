@@ -24,7 +24,7 @@
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qlabel.h>
@@ -82,10 +82,12 @@ static language langs[] =
     };
 #endif
 
-InterfaceConfig::InterfaceConfig(QWidget *parent)
-        : InterfaceConfigBase(parent)
+InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
+       // : InterfaceConfigBase(parent)
 {
-    for (QObject *p = parent; p != NULL; p = p->parent()){
+	setupUi(this);
+    for(QObject *p = parent; p != NULL; p = p->parent())
+	{
         if (!p->inherits("QTabWidget"))
             continue;
         QTabWidget *tab = static_cast<QTabWidget*>(p);
@@ -197,14 +199,17 @@ void InterfaceConfig::modeChanged(int mode)
 {
     if (mode == 2) //chkSaveFont
         return;
-    if (mode){
-        if (!grpContainer->isEnabled())
+    if (mode)
+	{
+        if(!grpContainer->isEnabled())
         {
             grpContainer->setEnabled(true);
             grpContainer->setButton(2);
         }
-    }else{
-        QButton *btn = grpContainer->selected();
+    }
+	else
+	{
+        QAbstractButton *btn = grpContainer->selected();
         if (btn)
             btn->toggle();
         chkEnter->setChecked(false);
@@ -277,7 +282,9 @@ void InterfaceConfig::apply()
 #endif
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "interfacecfg.moc"
 #endif
+*/
 

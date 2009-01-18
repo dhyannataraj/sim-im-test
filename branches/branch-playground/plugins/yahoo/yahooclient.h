@@ -20,6 +20,8 @@
 
 #include "socket.h"
 #include "fetch.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 #ifdef __OS2__
 #define PARAM YAHOOPARAM
@@ -132,7 +134,7 @@ struct YahooClientData
     YahooUserData	owner;
 };
 
-typedef std::pair<unsigned, QCString> PARAM;
+typedef std::pair<unsigned, Q3CString> PARAM;
 
 class Params : public std::list<PARAM>
 {
@@ -168,7 +170,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_STR(ListRequests);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     QString getLogin();
     void setLogin(const QString&);
     QString name();
@@ -208,7 +210,7 @@ protected:
     void process_auth_0x0b(const char *seed, const char *sn);
     void sendPacket(unsigned short service, unsigned long status=YAHOO_STATUS_AVAILABLE);
     void addParam(unsigned key, const char *value);
-    void addParam(unsigned key, const QCString &value);
+    void addParam(unsigned key, const Q3CString &value);
     void addParam(unsigned key, const QString &value);
     void loadList(const char *data);
     void contact_added(const char *id, const char *message);
@@ -235,7 +237,7 @@ protected:
     unsigned short m_data_size;
     unsigned short m_service;
     unsigned	   m_ft_id;
-    QCString       m_session_id;
+    Q3CString       m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
     bool m_bFirstTry;
@@ -255,7 +257,7 @@ public:
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);
-    virtual	QCString save();
+    virtual	Q3CString save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     YahooFileData data;
@@ -293,7 +295,7 @@ protected:
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const QString &err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const QCString &str);
+    bool get_line(const Q3CString &str);
     void send_line(const QString &str);
     unsigned m_startPos;
     unsigned m_endPos;

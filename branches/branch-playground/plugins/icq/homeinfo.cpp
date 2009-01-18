@@ -19,15 +19,15 @@
 #include "icqclient.h"
 
 #include <qlineedit.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
 
 using namespace SIM;
 
-HomeInfo::HomeInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
-        : HomeInfoBase(parent)
+HomeInfo::HomeInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
+	setupUi(this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;
@@ -130,8 +130,4 @@ void HomeInfo::goUrl()
     EventGoURL e(url);
     e.process();
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "homeinfo.moc"
-#endif
 

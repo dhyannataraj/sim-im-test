@@ -20,9 +20,9 @@
 
 #include "core.h"
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qtimer.h>
 
 using namespace SIM;
@@ -87,38 +87,36 @@ FloatyPlugin::FloatyPlugin(unsigned base)
 
 FloatyPlugin::~FloatyPlugin()
 {
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget * w;
-    while ( (w=it.current()) != 0 ) {
-        if (w->inherits("FloatyWnd"))
-            delete w;
-        ++it;
-    }
-    delete list;
+    QWidgetList list = QApplication::topLevelWidgets();
+    for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget* w = *it;
+		if (w->inherits("FloatyWnd"))
+			delete w;
+	}
     EventCommandRemove(CmdFloaty).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
 FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
 {
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
+    QWidgetList list = QApplication::topLevelWidgets();
     QWidget *w;
     FloatyWnd *wnd = NULL;
     bool found = false;
-    while ((w = it.current()) != NULL) {
-        if (w->inherits("FloatyWnd")){
-            wnd = static_cast<FloatyWnd*>(w);
-            if (wnd->id() == id) {
-                found = true;
-                break;
-            }
-        }
-        ++it;
-    }
-    delete list;
-    if( found ) {
+    for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		w = *it;
+		if (w->inherits("FloatyWnd")){
+			wnd = static_cast<FloatyWnd*>(w);
+			if (wnd->id() == id) {
+				found = true;
+				break;
+			}
+		}
+	}
+    if(found)
+	{
         Q_ASSERT( wnd );
         return wnd;
     }
@@ -233,18 +231,16 @@ bool FloatyPlugin::processEvent(Event *e)
             break;
         }
     case eEventRepaintView:{
-            QWidgetList *list = QApplication::topLevelWidgets();
-            QWidgetListIt it(*list);
-            QWidget * w;
-            while ((w = it.current()) != NULL) {
-                if (w->inherits("FloatyWnd")){
-                    FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-                    wnd->init();
-                    wnd->repaint();
-                }
-                ++it;
-            }
-            delete list;
+            QWidgetList list = QApplication::topLevelWidgets();
+			for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+			{
+				QWidget * w = *it;
+				if (w->inherits("FloatyWnd")){
+					FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
+					wnd->init();
+					wnd->repaint();
+				}
+			}
             break;
         }
     default:
@@ -257,7 +253,7 @@ void FloatyPlugin::showPopup()
 {
     EventMenuProcess eMenu(MenuContact, (void*)popupId);
     eMenu.process();
-    QPopupMenu *popup = eMenu.menu();
+    Q3PopupMenu *popup = eMenu.menu();
     if(popup)
         popup->popup(popupPos);
 }
@@ -272,18 +268,16 @@ void FloatyPlugin::startBlink()
 
 void FloatyPlugin::unreadBlink()
 {
-    m_bBlink = !m_bBlink;
-    QWidgetList *list = QApplication::topLevelWidgets();
-    QWidgetListIt it(*list);
-    QWidget * w;
-    while ((w = it.current()) != NULL) {
-        if (w->inherits("FloatyWnd")){
-            FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-            wnd->repaint();
-        }
-        ++it;
-    }
-    delete list;
+	m_bBlink = !m_bBlink;
+	QWidgetList list = QApplication::topLevelWidgets();
+	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+	{
+		QWidget* w = *it;
+		if (w->inherits("FloatyWnd")){
+			FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
+			wnd->repaint();
+		}
+	}
 }
 
 void FloatyWnd::startBlink()
@@ -293,6 +287,3 @@ void FloatyWnd::startBlink()
     repaint();
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "floaty.moc"
-#endif

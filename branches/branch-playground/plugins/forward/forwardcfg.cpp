@@ -26,9 +26,9 @@
 
 using namespace SIM;
 
-ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin)
-        : ForwardConfigBase(parent)
+ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
     ForwardUserData *data = (ForwardUserData*)_data;
     chkFirst->setChecked(data->Send1st.toBool());
@@ -57,8 +57,4 @@ void ForwardConfig::apply()
 {
     apply(getContacts()->getUserData(m_plugin->user_data_id));
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "forwardcfg.moc"
-#endif
 

@@ -29,9 +29,9 @@
 
 using namespace SIM;
 
-AutoReplyDialog::AutoReplyDialog(unsigned status)
-        : AutoReplyBase(NULL, NULL, true)
+AutoReplyDialog::AutoReplyDialog(unsigned status) : QDialog(NULL)
 {
+	setupUi(this);
     m_status = status;
     SET_WNDPROC("mainwnd");
     QString text, icon;
@@ -128,7 +128,7 @@ void AutoReplyDialog::accept()
     CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
     ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
     set_str(&ar->AutoReply, m_status, edtAutoResponse->text());
-    AutoReplyBase::accept();
+	QDialog::accept();
 }
 
 void AutoReplyDialog::help()
@@ -140,7 +140,9 @@ void AutoReplyDialog::help()
     BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "autoreply.moc"
 #endif
+*/
 

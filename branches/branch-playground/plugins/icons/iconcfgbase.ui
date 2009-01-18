@@ -1,132 +1,102 @@
-<!DOCTYPE UI><UI>
-<class>IconCfgBase</class>
-<widget>
-    <class>QWidget</class>
-    <property stdset="1">
-        <name>name</name>
-        <cstring>Form1</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>IconCfgBase</class>
+  <widget class="QWidget" name="Form1" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>382</width>
+        <height>262</height>
+      </rect>
     </property>
-    <property stdset="1">
-        <name>geometry</name>
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>382</width>
-            <height>262</height>
-        </rect>
+    <property name="windowTitle" >
+      <string>Form1</string>
     </property>
-    <property stdset="1">
-        <name>caption</name>
-        <string>Form1</string>
-    </property>
-    <grid>
-        <property stdset="1">
-            <name>margin</name>
-            <number>11</number>
-        </property>
-        <property stdset="1">
-            <name>spacing</name>
-            <number>6</number>
-        </property>
-        <widget row="0"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnUp</cstring>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>&amp;Up</string>
-            </property>
-            <property stdset="1">
-                <name>autoDefault</name>
-                <bool>true</bool>
-            </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>11</number>
+      </property>
+      <property name="spacing" >
+        <number>6</number>
+      </property>
+      <item row="0" column="1" >
+        <widget class="QPushButton" name="btnUp" >
+          <property name="text" >
+            <string>&amp;Up</string>
+          </property>
+          <property name="autoDefault" >
+            <bool>true</bool>
+          </property>
         </widget>
-        <widget row="1"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnDown</cstring>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>&amp;Down</string>
-            </property>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QPushButton" name="btnDown" >
+          <property name="text" >
+            <string>&amp;Down</string>
+          </property>
         </widget>
-        <widget row="3"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnRemove</cstring>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>&amp;Remove</string>
-            </property>
+      </item>
+      <item row="3" column="1" >
+        <widget class="QPushButton" name="btnRemove" >
+          <property name="text" >
+            <string>&amp;Remove</string>
+          </property>
         </widget>
-        <widget row="2"  column="1" >
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>btnAdd</cstring>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>&amp;New</string>
-            </property>
+      </item>
+      <item row="2" column="1" >
+        <widget class="QPushButton" name="btnAdd" >
+          <property name="text" >
+            <string>&amp;New</string>
+          </property>
         </widget>
-        <spacer row="4"  column="1" >
-            <property>
-                <name>name</name>
-                <cstring>Spacer5</cstring>
-            </property>
-            <property>
-                <name>orientation</name>
-                <enum>Vertical</enum>
-            </property>
-            <property>
-                <name>sizeType</name>
-                <enum>Expanding</enum>
-            </property>
-            <property>
-                <name>sizeHint</name>
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item row="4" column="1" >
+        <spacer name="Spacer5" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+          </property>
         </spacer>
-        <widget row="0"  column="0"  rowspan="5"  colspan="1" >
-            <class>QListBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>lstIcon</cstring>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<customwidgets>
+      </item>
+      <item rowspan="5" row="0" column="0" colspan="1" >
+        <widget class="Q3ListBox" name="lstIcon" />
+      </item>
+    </layout>
+  </widget>
+  <customwidgets>
     <customwidget>
-        <class>QWidget</class>
-        <header location="global">qwidget.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
-        </sizepolicy>
-        <pixmap>image0</pixmap>
-        <property type="String">text</property>
+      <class>QWidget</class>
+      <extends>QWidget</extends>
+      <header location="global" >qwidget.h</header>
+      <sizehint>
+        <width>-1</width>
+        <height>-1</height>
+      </sizehint>
+      <container>0</container>
+      <sizepolicy>
+        <hordata>5</hordata>
+        <verdata>5</verdata>
+      </sizepolicy>
+      <pixmap>image0</pixmap>
+      <properties>
+        <property type="String" >text</property>
+      </properties>
     </customwidget>
-</customwidgets>
-<images>
-    <image>
-        <name>image0</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
+  </customwidgets>
+  <images>
+    <image name="image0" >
+      <data format="XPM.GZ" length="646" >789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
     </image>
-</images>
-</UI>
+  </images>
+</ui>

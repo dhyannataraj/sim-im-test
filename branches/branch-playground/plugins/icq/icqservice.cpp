@@ -26,6 +26,9 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qimage.h>
+#include <QCryptographicHash>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "log.h"
 
@@ -110,7 +113,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 				Tlv *tlv_cookie = tlv(0x06);
 				for(; i >= 0; i--)
 				{
-				
+
 					setServiceSocket(tlv_adr,tlv_cookie,food[i]);
 				}
 				break;
@@ -274,8 +277,9 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 					break;
 
 				QByteArray ba;
-				QBuffer l_buf(ba);
-				if(!l_buf.open(IO_WriteOnly)) {
+				QBuffer l_buf(&ba);
+				if(!l_buf.open(QIODevice::WriteOnly))
+				{
 					log(L_ERROR, "Can't open QByteArray for writing!");
 					break;
 				}
@@ -284,7 +288,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 					break;
 				}
 				l_buf.close();
-				QByteArray hash = md5(ba.data(), ba.size());
+				QByteArray hash = QCryptographicHash::hash(ba.data(), QCryptographicHash::Md5);
 
 				if(hash != shash) {
 					log(L_WARN, "The buddyIcon on server does not match the local one - updating");
@@ -445,7 +449,7 @@ void SnacIcqService::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned s
         return;
     }
     unsigned short port = m_client->getPort();
-    QCString addr(tlv_addr->byteArray());
+    Q3CString addr(tlv_addr->byteArray());
     int idx = addr.find(':');
     if(idx != -1) {
         port = addr.mid(idx + 1).toUShort();
@@ -669,3 +673,4 @@ void SnacIcqService::requestService(ServiceSocket *s)
     m_client->socket()->writeBuffer() << s->id();
     m_client->sendPacket(true);
 }
+

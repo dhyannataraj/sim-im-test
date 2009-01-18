@@ -21,8 +21,12 @@
 #include "simapi.h"
 
 #include <qlineedit.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qvalidator.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QMoveEvent>
+#include <QKeyEvent>
 
 class EXPORT IntLineEdit : public QLineEdit
 {
@@ -50,7 +54,7 @@ public:
 
 class QRadioButton;
 
-class EXPORT RadioGroup : public QGroupBox
+class EXPORT RadioGroup : public Q3GroupBox
 {
     Q_OBJECT
 public:

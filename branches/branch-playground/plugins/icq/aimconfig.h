@@ -18,10 +18,10 @@
 #ifndef _AIMCONFIG_H
 #define _AIMCONFIG_H
 
-#include "aimconfigbase.h"
+#include "ui_aimconfigbase.h"
 #include "icqclient.h"
 
-class AIMConfig : public AIMConfigBase
+class AIMConfig : public QDialog, public Ui::AIMConfigBase
 {
     Q_OBJECT
 public:

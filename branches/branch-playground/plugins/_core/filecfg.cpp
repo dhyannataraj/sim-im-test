@@ -21,15 +21,16 @@
 #include "core.h"
 
 #include <qcheckbox.h>
-#include <qbuttongroup.h>
-#include <qmultilineedit.h>
+#include <q3buttongroup.h>
+#include <q3multilineedit.h>
 #include <qradiobutton.h>
 
 using namespace SIM;
 
-FileConfig::FileConfig(QWidget *parent, void *_data)
-        : FileConfigBase(parent)
+FileConfig::FileConfig(QWidget *parent, void *_data) : QWidget(parent)
+        //: FileConfigBase(parent)
 {
+	setupUi(this);
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
     edtPath->setText(user_file(data->IncomingPath.str()));
@@ -80,7 +81,9 @@ void FileConfig::acceptClicked(int id)
     edtDecline->setEnabled(id == 2);
 }
 
+/*
 #ifndef NO_MOC_INCLUDES
 #include "filecfg.moc"
 #endif
+*/
 

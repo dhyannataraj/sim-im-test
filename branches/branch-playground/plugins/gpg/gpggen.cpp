@@ -26,16 +26,16 @@
 
 #include <qlineedit.h>
 #include <qcombobox.h>
-#include <qprocess.h>
+#include <q3process.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qfile.h>
 
 using namespace SIM;
 
-GpgGen::GpgGen(GpgCfg *cfg)
-        : GpgGenBase(NULL, NULL, true)
+GpgGen::GpgGen(GpgCfg *cfg) : QDialog(NULL, NULL, true)
 {
+	setupUi(this);
     SET_WNDPROC("genkey")
     setIcon(Pict("encrypted"));
     setButtonsPict(this);
@@ -127,7 +127,7 @@ void GpgGen::accept()
     }
     QString fname = user_file("keys/genkey.txt");
     QFile f(fname);
-    f.open(IO_WriteOnly | IO_Truncate);
+    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
     f.writeBlock(in.utf8(), in.utf8().length());
     f.close();
 
@@ -140,7 +140,7 @@ void GpgGen::accept()
     sl += fname;
 
     delete m_process;	// to be sure...
-    m_process = new QProcess(sl, this);
+    m_process = new Q3Process(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
 
@@ -158,35 +158,35 @@ void GpgGen::accept()
 
 void GpgGen::genKeyReady()
 {
-    QFile::remove(user_file("keys/genkey.txt"));
-    if (m_process->normalExit() && m_process->exitStatus() == 0){
-        GpgGenBase::accept();
-    } else {
-        QByteArray ba1, ba2;
-        ba1 = m_process->readStderr();
-        ba2 = m_process->readStdout();
-        QString s(" (");
-        if (!ba1.isEmpty())
-            s += QString::fromLocal8Bit(ba1.data(), ba1.size());
-        if (!ba2.isEmpty()) {
-            if(!s.isEmpty())
-                s += ' ';
-            s += QString::fromLocal8Bit(ba2.data(), ba2.size());
-        }
-        s += ')';
-        if(s == " ()")
-            s = QString::null;
-        edtName->setEnabled(true);
-        cmbMail->setEnabled(true);
-        edtComment->setEnabled(true);
-        lblProcess->setText(QString::null);
-        buttonOk->setEnabled(true);
-        BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
-    }
-    delete m_process;
-    m_process = 0;
+	QFile::remove(user_file("keys/genkey.txt"));
+	if(m_process->normalExit() && m_process->exitStatus() == 0)
+	{
+		QDialog::accept();
+	}
+	else
+	{
+		QByteArray ba1, ba2;
+		ba1 = m_process->readStderr();
+		ba2 = m_process->readStdout();
+		QString s(" (");
+		if (!ba1.isEmpty())
+			s += QString::fromLocal8Bit(ba1.data(), ba1.size());
+		if (!ba2.isEmpty()) {
+			if(!s.isEmpty())
+				s += ' ';
+			s += QString::fromLocal8Bit(ba2.data(), ba2.size());
+		}
+		s += ')';
+		if(s == " ()")
+			s = QString::null;
+		edtName->setEnabled(true);
+		cmbMail->setEnabled(true);
+		edtComment->setEnabled(true);
+		lblProcess->setText(QString::null);
+		buttonOk->setEnabled(true);
+		BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
+	}
+	delete m_process;
+	m_process = 0;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "gpggen.moc"
-#endif

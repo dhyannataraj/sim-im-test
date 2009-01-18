@@ -19,6 +19,8 @@
 #define _AUTOAWAY_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -57,7 +59,7 @@ protected slots:
     void timeout();
 protected:
     virtual bool processEvent(SIM::Event*);
-    virtual QCString getConfig();
+    virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     unsigned getIdleTime();
     bool bAway;

@@ -22,11 +22,20 @@
 #include "event.h"
 #include "message.h"
 
-#include <qmainwindow.h>
+#include <QMainWindow>
+#include <QDockWidget>
 #include <qstatusbar.h>
 #include <qtabbar.h>
 #include <qpixmap.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QStackedWidget>
+#include <Q3CString>
+#include <QEvent>
+#include <QMoveEvent>
+#include <QMouseEvent>
+#include <list>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;
@@ -38,7 +47,7 @@ class CToolBar;
 class QWidgetStack;
 class CorePlugin;
 class Container;
-class QAccel;
+class Q3Accel;
 
 struct ContainerData
 {
@@ -62,11 +71,28 @@ protected:
     void resizeEvent(QResizeEvent*);
 };
 
+class UserWnd;
+class UserTab
+{
+public:
+    UserTab(UserWnd *wnd, bool bBold, int tabid);
+    UserWnd	*wnd() { return m_wnd; }
+    bool setBold(bool bState);
+    bool isBold() { return m_bBold; }
+	int getID() { return m_id;}
+protected:
+	int m_id;
+    UserWnd	*m_wnd;
+    bool	m_bBold;
+    friend class UserTabBar;
+};
+
 class UserTabBar : public QTabBar
 {
     Q_OBJECT
 public:
     UserTabBar(QWidget *parent);
+    virtual ~UserTabBar();
     void raiseTab(unsigned id);
     UserWnd *wnd(unsigned id);
     UserWnd *currentWnd();
@@ -75,6 +101,7 @@ public:
     void changeTab(unsigned id);
     void setBold(unsigned id, bool bState);
     void setCurrent(unsigned i);
+	int addTab(UserWnd* wnd, QString const& text);
     unsigned current();
     bool isBold(UserWnd *wnd);
 public slots:
@@ -83,20 +110,23 @@ protected:
     virtual void layoutTabs();
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
-    virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
+	std::list<UserTab*> m_tabs;
+//    virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
 };
 
 class Container : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
+	static const int WndType = QVariant::UserType + 1;
+
     Container(unsigned id, const char *cfg = NULL);
     ~Container();
     QString name();
     UserWnd *wnd(unsigned id);
     UserWnd *wnd();
     std::list<UserWnd*> windows();
-    QCString getState();
+    Q3CString getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
     void setNoSwitch(bool bState);
@@ -137,13 +167,13 @@ protected:
     bool			m_bReceived;
     bool			m_bNoSwitch;
     CToolBar		*m_bar;
-    QDockWindow		m_avatar_window;
-    QLabel		m_avatar_label;
+    QDockWidget		m_avatar_window;
+    QLabel			m_avatar_label;
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;
-    QWidgetStack	*m_wnds;
-    QAccel			*m_accel;
+    QStackedWidget	*m_wnds;
+    Q3Accel			*m_accel;
     std::list<UserWnd*> m_childs;
 };
 

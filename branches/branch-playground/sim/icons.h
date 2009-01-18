@@ -19,10 +19,12 @@
 #define _ICONS_H
 
 #include <qcolor.h>
-#include <qiconset.h>
+#include <qicon.h>
 #include <qimage.h>
 #include <qstring.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "simapi.h"
 #include "event.h"
@@ -66,7 +68,7 @@ protected:
 
 EXPORT Icons *getIcons();
 
-EXPORT QIconSet Icon(const QString &name);
+EXPORT QIcon Icon(const QString &name);
 EXPORT QPixmap Pict(const QString &name, const QColor &bgColor = QColor());
 EXPORT QImage  Image(const QString &name);
 

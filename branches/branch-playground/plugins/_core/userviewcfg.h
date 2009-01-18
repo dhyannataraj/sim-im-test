@@ -19,11 +19,11 @@
 #define _USERVIEWCFG_H
 
 #include "qcolorbutton.h"
-#include "userviewcfgbase.h"
+#include "ui_userviewcfgbase.h"
 
 class CorePlugin;
 
-class UserViewConfig : public UserViewConfigBase
+class UserViewConfig : public QWidget, public Ui::UserViewConfigBase
 {
     Q_OBJECT
 public:

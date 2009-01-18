@@ -18,12 +18,12 @@
 #ifndef _OSDCONFIG_H
 #define _OSDCONFIG_H
 
-#include "osdconfigbase.h"
+#include "ui_osdconfigbase.h"
 
 class OSDPlugin;
 class OSDIface;
 
-class OSDConfig : public OSDConfigBase
+class OSDConfig : public QWidget, public Ui::OSDConfigBase
 {
     Q_OBJECT
 public:
