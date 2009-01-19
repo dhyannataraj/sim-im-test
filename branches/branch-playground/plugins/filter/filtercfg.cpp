@@ -29,26 +29,29 @@
 FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain) : QWidget(parent)
 {
 	setupUi(this);
-    m_plugin = plugin;
-    m_data   = data;
-    m_ignore = NULL;
-    if (bMain){
-        chkFromList->setChecked(m_plugin->getFromList());
-        chkAuthFromList->setChecked(m_plugin->getAuthFromList());
-        for (QObject *p = parent; p != NULL; p = p->parent()){
-            if (!p->inherits("QTabWidget"))
-                continue;
-            QTabWidget *tab = static_cast<QTabWidget*>(p);
-            m_ignore = new IgnoreList(tab);
-            tab->addTab(m_ignore, i18n("Ignore list"));
-            break;
-        }
-    }else{
-        chkFromList->hide();
-        chkAuthFromList->hide();
-        lblFilter->hide();
-    }
-    edtFilter->setText(data->SpamList.str());
+	m_plugin = plugin;
+	m_data   = data;
+	m_ignore = NULL;
+	if(bMain)
+	{
+		chkFromList->setChecked(m_plugin->getFromList());
+		chkAuthFromList->setChecked(m_plugin->getAuthFromList());
+		for (QObject *p = parent; p != NULL; p = p->parent()){
+			if (!p->inherits("QTabWidget"))
+				continue;
+			QTabWidget *tab = static_cast<QTabWidget*>(p);
+			m_ignore = new IgnoreList(tab);
+			tab->addTab(m_ignore, i18n("Ignore list"));
+			break;
+		}
+	}
+	else
+	{
+		chkFromList->hide();
+		chkAuthFromList->hide();
+		lblFilter->hide();
+	}
+	edtFilter->setText(data->SpamList.str());
 }
 
 FilterConfig::~FilterConfig()

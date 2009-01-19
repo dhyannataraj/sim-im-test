@@ -21,6 +21,7 @@
 #include "maininfo.h"
 #include "core.h"
 #include "arcfg.h"
+#include "log.h"
 
 #include <qpixmap.h>
 #include <q3listview.h>
@@ -91,9 +92,10 @@ void ConfigItem::init(unsigned id)
 
 void ConfigItem::show()
 {
-    UserConfig *dlg = static_cast<UserConfig*>(listView()->topLevelWidget());
+    UserConfig *dlg = dynamic_cast<UserConfig*>(listView()->topLevelWidget());
 	if(!dlg)
 		return;
+	log(L_DEBUG, "ConfigItem::show()");
     if(m_widget == NULL)
 	{
         m_widget = getWidget(dlg);
@@ -266,8 +268,7 @@ static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
     return w;
 }
 
-UserConfig::UserConfig(Contact *contact, Group *group) : QDialog(NULL, "userconfig")
-        //: ConfigureDialogBase(NULL, "userconfig", false, Qt::WDestructiveClose)
+UserConfig::UserConfig(Contact *contact, Group *group) : QDialog(NULL, "userconfig", false, Qt::WDestructiveClose)
 {
 	setupUi(this);
     m_contact  = contact;
@@ -397,7 +398,8 @@ void UserConfig::fill()
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::m_plugin->preferences);
     m_defaultPage = 0;
-    while ((cmd = ++itc) != NULL){
+    while((cmd = ++itc) != NULL)
+	{
         new PrefItem(parentItem, cmd);
         if (m_defaultPage == 0)
             m_defaultPage = cmd->id;

@@ -27,7 +27,6 @@
 #include <qtabwidget.h>
 
 MessageConfig::MessageConfig(QWidget *parent, void *_data) : QWidget(parent)
-        //: MessageConfigBase(parent)
 {
 	setupUi(this);
     m_file = NULL;

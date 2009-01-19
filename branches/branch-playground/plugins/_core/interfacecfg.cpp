@@ -83,7 +83,6 @@ static language langs[] =
 #endif
 
 InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
-       // : InterfaceConfigBase(parent)
 {
 	setupUi(this);
     for(QObject *p = parent; p != NULL; p = p->parent())
@@ -109,7 +108,8 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     QStringList items = getLangItems();
     cmbLang->insertStringList(items);
     int nCurrent = 0;
-    if (!cur.isEmpty()){
+    if(!cur.isEmpty())
+	{
         const language *l;
         for (l = langs; l->code; l++)
             if (cur == l->code)

@@ -69,7 +69,6 @@ ext_info phoneIcons[] =
     };
 
 MainInfo::MainInfo(QWidget *parent, Contact *contact) : QWidget(parent)
-        //: MainInfoBase(parent)
 {
 	setupUi(this);
     m_contact = contact;

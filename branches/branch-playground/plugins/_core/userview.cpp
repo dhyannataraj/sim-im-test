@@ -394,7 +394,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
 
 bool UserView::processEvent(Event *e)
 {
-    switch (e->type()){
+    switch (e->type())
+	{
     case eEventRepaintView:
         setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
         break;
@@ -402,7 +403,9 @@ bool UserView::processEvent(Event *e)
         m_bInit = true;
         fill();
         break;
-    case eEventContact: {
+    case eEventContact:
+	 	{
+			log(L_DEBUG, "UserView::processEvents(eEventContact)");
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eOnline)
             break;
@@ -430,13 +433,16 @@ bool UserView::processEvent(Event *e)
     }
     case eEventMessageReceived:
     case eEventMessageDeleted:
-    case eEventMessageRead:{
+    case eEventMessageRead:
+		{
+			log(L_DEBUG, "UserView::processEvents(eEventMessageRead)");
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         addContactForUpdate(msg->contact());
         break;
     }
-    case eEventCommandExec:{
+    case eEventCommandExec:
+		{
 			log(L_DEBUG, "UserView::processEvents(eEventCheckCommandExec)");
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
             CommandDef *cmd = ece->cmd();
@@ -484,7 +490,10 @@ bool UserView::processEvent(Event *e)
                         QWidgetList list = QApplication::topLevelWidgets();
 						QWidgetList::iterator it = list.begin();
                         QWidget * w;
-                        while ((w = *it) != NULL){
+                        while ((w = *it) != NULL)
+						{
+							if(it == list.end())
+								break;
                             if (w->inherits("Container")){
                                 Container *c =  static_cast<Container*>(w);
                                 wnd = c->wnd((unsigned long)(cmd->param));
@@ -531,7 +540,10 @@ bool UserView::processEvent(Event *e)
 					QWidgetList::iterator it = list.begin();
                     QWidget * w;
                     unsigned max_id = 0;
-                    while ((w = *it) != NULL){
+                    while ((w = *it) != NULL)
+					{
+						if(it == list.end())
+							break;
                         if (w->inherits("Container")){
                             Container *c = static_cast<Container*>(w);
                             if (c->getId() == cmd->id)
@@ -689,7 +701,10 @@ bool UserView::processEvent(Event *e)
                     QWidgetList list = QApplication::topLevelWidgets();
 					QWidgetList::iterator it = list.begin();
                     QWidget * w;
-                    while ((w = *it) != NULL){
+                    while ((w = *it) != NULL)
+					{
+						if(it == list.end())
+							break;
                         if (w->inherits("Container")){
                             wnd = static_cast<Container*>(w)->wnd((unsigned long)(cmd->param));
                             if (wnd)

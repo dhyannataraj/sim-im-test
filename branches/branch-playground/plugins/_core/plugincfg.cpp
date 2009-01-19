@@ -25,16 +25,16 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qpainter.h>
-//Added by qt3to4:
 #include <Q3VBoxLayout>
 
 using namespace SIM;
 
 PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
-        //: PluginCfgBase(parent)
 {
+	setupUi(this);
     m_info = info;
-    if (m_info->plugin){
+    if(m_info->plugin)
+	{
         QWidget *w = m_info->plugin->createConfigWindow(addWnd);
         if (w){
             Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
@@ -49,9 +49,12 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
         }
     }
     // adjust description
-    if (m_info->info && m_info->info->description){
+    if(m_info->info && m_info->info->description)
+	{
         lblDescription->setText(i18n(m_info->info->description));
-    }else{
+    }
+	else
+	{
         lblDescription->setText("");
     }
     // adjust tab
@@ -78,11 +81,4 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
 void PluginCfg::apply()
 {
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "plugincfg.moc"
-#endif
-*/
-
 

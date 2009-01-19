@@ -30,29 +30,34 @@
 using namespace SIM;
 
 PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group) : QWidget(parent)
-        //: PrefConfigBase(parent)
 {
+	setupUi(this);
     m_cmd = cmd;
     m_contact = contact;
     m_group = group;
     void *data = NULL;
-    if (m_contact){
+    if (m_contact)
+	{
         data = m_contact->getUserData(m_cmd->id);
         if (m_contact->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
-    }else if (m_group){
+    }
+	else if (m_group)
+	{
         data = m_group->getUserData(m_cmd->id);
         if (m_group->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
     }
     QWidget *w = NULL;
-    if (data)
+    if(data)
         w = ((getPreferencesWindow)(cmd->param))(addWnd, data);
-    if (w){
+    if(w)
+	{
         Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
         lay->addWidget(w);
         connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
-        addWnd->setMinimumSize(w->minimumSizeHint());
+		if(addWnd)
+			addWnd->setMinimumSize(w->minimumSizeHint());
         setMinimumSize(sizeHint());
     }
     tabWnd->setCurrentPage(0);
@@ -64,33 +69,35 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
 
 void PrefConfig::apply()
 {
-    if (chkOverride->isChecked()){
-        void *data = NULL;
-        if (m_contact){
-            data = m_contact->userData.getUserData(m_cmd->id, true);
-        }else if (m_group){
-            data = m_group->userData.getUserData(m_cmd->id, true);
-        }
-        if (data)
-            emit apply(data);
-    }else{
-        if (m_contact){
-            m_contact->userData.freeUserData(m_cmd->id);
-        }else if (m_group){
-            m_group->userData.freeUserData(m_cmd->id);
-        }
-    }
+	if (chkOverride->isChecked())
+	{
+		void *data = NULL;
+		if (m_contact)
+		{
+			data = m_contact->userData.getUserData(m_cmd->id, true);
+		}
+		else if (m_group)
+		{
+			data = m_group->userData.getUserData(m_cmd->id, true);
+		}
+		if (data)
+			emit apply(data);
+	}
+	else
+	{
+		if (m_contact)
+		{
+			m_contact->userData.freeUserData(m_cmd->id);
+		}
+		else if(m_group)
+		{
+			m_group->userData.freeUserData(m_cmd->id);
+		}
+	}
 }
 
 void PrefConfig::overrideToggled(bool bState)
 {
     addWnd->setEnabled(bState);
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "prefcfg.moc"
-#endif
-*/
-
 
