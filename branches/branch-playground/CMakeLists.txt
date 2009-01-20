@@ -13,11 +13,11 @@ if(COMMAND cmake_policy)
 endif(COMMAND cmake_policy)
 
 
-INCLUDE(MacroEnsureOutOfSourceBuild)
+#INCLUDE(MacroEnsureOutOfSourceBuild)
 
-IF(NOT WIN32)
-MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
-ENDIF(NOT WIN32)
+#IF(NOT WIN32)
+#MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
+#ENDIF(NOT WIN32)
 
 #SET(CMAKE_VERBOSE_MAKEFILE ON)
 
