@@ -8,6 +8,7 @@
  ***************************************************************************/
 
 #pragma once
+#define QT3_SUPPORT
 
 #include <windows.h>
 #include <process.h>
@@ -15,6 +16,7 @@
 #include <qglobal.h>
 
 #include <QApplication>
+#include <QString>
 #include <QBitmap>
 #include <Q3Button>
 #include <QPushButton>
@@ -47,19 +49,20 @@
 #include <QTooltip>
 #include <QValidator>
 
-#ifndef NO_QT_MOC_HEADER
+//Fixme:
+//#ifndef NO_QT_MOC_HEADER
 #include <QMetaobject>
-#include <private/qucomextra_p>
+/*#include <private/qucomextra_p>
 #include <QSignalslotimp>
-#endif
+#endif*/
 
 #ifdef ENABLE_OPENSSL
-#include <openssl/ssl>
-#include <openssl/err>
-#include <openssl/bio>
-#include <openssl/rand>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
+#include <openssl/rand.h>
 #endif
-#include <libxml/parser>
+#include <libxml/parser.h>
 
 #include "aboutdata.h"
 #include "ballonmsg.h"
