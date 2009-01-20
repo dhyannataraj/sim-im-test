@@ -33,11 +33,11 @@
 #include <QMouseEvent>
 #include <QEvent>
 #include <Q3CString>
-#include <QX11Info>
 
 #ifdef WIN32
 #include <windows.h>
 #else
+#include <QX11Info>
 #ifdef USE_KDE
 #include <kglobalaccel.h>
 #else

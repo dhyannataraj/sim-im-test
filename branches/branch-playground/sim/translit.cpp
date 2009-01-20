@@ -27,7 +27,8 @@ namespace SIM
 EXPORT QString toTranslit(const QString &str)
 {
     QString res;
-    for (unsigned i = 0; i < str.length(); i++){
+    for(int i = 0; i < str.length(); i++)
+	{
         unsigned short wc = str[(int)i].unicode();
         res += johab_hangul_decompose(wc);
         int indx = -1;

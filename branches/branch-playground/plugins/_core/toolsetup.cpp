@@ -32,7 +32,6 @@ using namespace std;
 using namespace SIM;
 
 ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "toolbar_setup")
-        //: ToolBarSetupBase(NULL, "toolbar_setup", false, Qt::WDestructiveClose)
 {
 	setupUi(this);
     SET_WNDPROC("configure")

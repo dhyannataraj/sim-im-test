@@ -340,7 +340,7 @@ void FetchThread::run()
     close();
     QCustomEvent* ce = new QCustomEvent(Q_EVENT_SIM_FETCH_DONE);
     ce->setData(m_client->m_client);
-    postEvent(m_client, ce);
+	QApplication::postEvent(m_client, ce);
 }
 
 #endif
@@ -965,11 +965,4 @@ QString get_user_agent()
     return FetchManager::manager->user_agent;
 #endif    
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "fetch.moc"
-#endif
-*/
-
 

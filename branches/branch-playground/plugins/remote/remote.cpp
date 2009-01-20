@@ -485,12 +485,12 @@ public:
 
 IconWidget::IconWidget(const QPixmap &p)
 {
-    setIcon(p);
+    setWindowIcon(p);
 }
 
 HICON IconWidget::icon()
 {
-    return topData()->winIcon;
+    return 0; //topData()->winIcon;
 }
 
 #endif

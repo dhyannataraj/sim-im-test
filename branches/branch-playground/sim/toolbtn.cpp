@@ -363,11 +363,6 @@ QSize CToolPictButton::minimumSizeHint() const
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: minimumSizeHint();
     QToolBar *bar = static_cast<QToolBar*>(parent());
-    Qt::ToolBarDock tDock;
-    int index;
-    bool nl;
-    int extraOffset;
-    //bar->window()->getLocation(bar, tDock, index, nl, extraOffset);
     if(bar->isFloating())
 	{
         if(bar->orientation() == Qt::Vertical)
@@ -391,10 +386,6 @@ QSize CToolPictButton::sizeHint() const
 	int wChar = QFontMetrics(font()).width('0');
 	QSize p = QToolButton:: sizeHint();
 	QToolBar *bar = static_cast<QToolBar*>(parent());
-	Qt::ToolBarDock tDock;
-	int index;
-	bool nl;
-	int extraOffset;
 	if(bar->isFloating())
 	{
 		if (bar->orientation() == Qt::Vertical)
@@ -423,77 +414,83 @@ void CToolPictButton::setState()
 
 void CToolPictButton::paintEvent(QPaintEvent*)
 {
-    QPixmap pict(width(), height());
-    QPainter p(&pict);
-    QWidget *pw = static_cast<QWidget*>(parent());
-    if (pw){
-        if (pw->backgroundPixmap()){
-            p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
-        }else{
-            p.fillRect(0, 0, width(), height(), colorGroup().button());
-        }
-    }
-	//QToolButton::render(&p);
-    int w = 4;
-    QRect rc(4, 4, width() - 4, height() - 4);
-    if(!m_def.icon.isNull() && strcmp(m_def.icon, "empty"))
+	QPixmap pict(width(), height());
+	QPainter p(&pict);
+	QWidget *pw = static_cast<QWidget*>(parent());
+	if(pw)
 	{
-        QIcon icons = Icon(m_def.icon);
-        if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-            const QPixmap &pict = icons.pixmap(QIcon::Small, isEnabled() ? QIcon::Active : QIcon::Disabled);
-            QToolBar *bar = static_cast<QToolBar*>(parent());
-            if (bar->orientation() == Qt::Vertical){
-                p.drawPixmap((width() - pict.width()) / 2, 4, pict);
-                QMatrix m;
-                m.rotate(90);
-                p.setWorldMatrix(m);
-                rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
-                w = pict.height() + 4;
-            }else{
-                p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
-                rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
-                w = pict.width() + 4;
-            }
-        }
-    }
+		if (pw->backgroundPixmap())
+		{
+			p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
+		}
+		else
+		{
+			p.fillRect(0, 0, width(), height(), colorGroup().button());
+		}
+	}
+	//QToolButton::render(&p);
+	int w = 4;
+	QRect rc(4, 4, width() - 4, height() - 4);
+	if(!m_def.icon.isNull() && strcmp(m_def.icon, "empty"))
+	{
+		QIcon icons = Icon(m_def.icon);
+		if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
+			const QPixmap &pict = icons.pixmap(QIcon::Small, isEnabled() ? QIcon::Active : QIcon::Disabled);
+			QToolBar *bar = static_cast<QToolBar*>(parent());
+			if (bar->orientation() == Qt::Vertical){
+				p.drawPixmap((width() - pict.width()) / 2, 4, pict);
+				QMatrix m;
+				m.rotate(90);
+				p.setWorldMatrix(m);
+				rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
+				w = pict.height() + 4;
+			}else{
+				p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
+				rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
+				w = pict.width() + 4;
+			}
+		}
+	}
 	else
 	{
-        QToolBar *bar = static_cast<QToolBar*>(parent());
-        if (bar->orientation() == Qt::Vertical){
-            QMatrix m;
-            m.rotate(90);
-            p.setWorldMatrix(m);
-            rc = QRect(4, -4, height() - 4, 4 - width());
-        }else{
-            rc = QRect(4, 4, width() - 4, height() - 4);
-        }
-    }
-    const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
-    p.setPen(cg.text());
-    QString text = m_text;
-    if (text.isEmpty())
-        text = i18n(m_def.text);
-    if ((m_def.flags & BTN_DIV) && (text.find(" | ") >= 0)){
-        QStringList parts = QStringList::split(" | ", text);
-        unsigned n;
-        for (n = parts.count(); n > 0; n--){
-            text = QString::null;
-            for (unsigned i = 0; i < n; i++){
-                if (!text.isEmpty())
-                    text += ' ';
-                text += parts[i];
-            }
-            QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());
-            rcb = p.boundingRect(rcb, Qt::AlignLeft | Qt::ShowPrefix | Qt::SingleLine, text);
-            if (rcb.width() + w < rc.width())
-                break;
-        }
-    }
-    p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix | Qt::SingleLine, text);
-    p.end();
-    p.begin(this);
-    p.drawPixmap(0, 0, pict);
-    p.end();
+		QToolBar *bar = static_cast<QToolBar*>(parent());
+		if (bar->orientation() == Qt::Vertical){
+			QMatrix m;
+			m.rotate(90);
+			p.setWorldMatrix(m);
+			rc = QRect(4, -4, height() - 4, 4 - width());
+		}else{
+			rc = QRect(4, 4, width() - 4, height() - 4);
+		}
+	}
+	const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
+	p.setPen(cg.text());
+	QString text = m_text;
+	if (text.isEmpty())
+		text = i18n(m_def.text);
+	if ((m_def.flags & BTN_DIV) && (text.find(" | ") >= 0)){
+		QStringList parts = QStringList::split(" | ", text);
+		unsigned n;
+		for (n = parts.count(); n > 0; n--)
+		{
+			text = QString::null;
+			for (unsigned i = 0; i < n; i++)
+			{
+				if (!text.isEmpty())
+					text += ' ';
+				text += parts[i];
+			}
+			QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());
+			rcb = p.boundingRect(rcb, Qt::AlignLeft | Qt::ShowPrefix | Qt::SingleLine, text);
+			if (rcb.width() + w < rc.width())
+				break;
+		}
+	}
+	p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix | Qt::SingleLine, text);
+	p.end();
+	p.begin(this);
+	p.drawPixmap(0, 0, pict);
+	p.end();
 }
 
 /*****************************

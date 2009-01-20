@@ -176,7 +176,7 @@ void ClientSocket::read_ready()
         if (readn == 0)
           break;
         readBuffer().setWritePos(readBuffer().writePos() + readn);
-        if (readBuffer().writePos() < readBuffer().size())
+        if(readBuffer().writePos() < readBuffer().size())
           break;
         if (m_notify)
             m_notify->packet_ready();

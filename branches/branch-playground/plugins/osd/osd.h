@@ -121,7 +121,7 @@ protected:
     QPushButton	*m_button;
     OSDPlugin	*m_plugin;
 	QTimer		*m_transTimer;
-	uint transCounter;
+	int transCounter;
 };
 
 class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver//, public QThread
@@ -151,7 +151,7 @@ protected:
     QTimer		*m_timer;
 	bool bCapsState;
 	QTimer		*m_transTimer;
-	uint transOutCounter;
+	int transOutCounter;
 	bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size() 
 				  // see pacth #2304 for more info.
 };

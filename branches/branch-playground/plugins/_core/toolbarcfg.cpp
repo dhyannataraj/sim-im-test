@@ -35,10 +35,13 @@ ToolbarsCfg::~ToolbarsCfg()
 
 bool ToolbarsCfg::eventFilter(QObject *o, QEvent *e)
 {
-    if ((e->type() == QEvent::Show) && o->inherits("QPopupMenu")){
-        if (!o->inherits("CMenu")){
+    if((e->type() == QEvent::Show) && o->inherits("QPopupMenu"))
+	{
+        if(!o->inherits("CMenu"))
+		{
             QObject *parent = o->parent();
-            if (parent && (parent->inherits("MainWindow") || parent->inherits("CToolBar"))){
+            if(parent && (parent->inherits("MainWindow") || parent->inherits("CToolBar")))
+			{
                 Q3PopupMenu *popup = static_cast<Q3PopupMenu*>(o);
                 popup->insertItem(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
             }
@@ -50,10 +53,4 @@ bool ToolbarsCfg::eventFilter(QObject *o, QEvent *e)
 void ToolbarsCfg::popupActivated()
 {
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "toolbarcfg.moc"
-#endif
-*/
 
