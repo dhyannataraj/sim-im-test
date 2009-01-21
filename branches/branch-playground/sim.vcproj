@@ -164,7 +164,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libjpeg.lib sim\win32\libeay32MDd.lib sim\win32\ssleay32MDd.lib $(QTDIR)\lib\qtmain.lib Wininet.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libjpeg.lib sim\win32\libeay32MDd.lib sim\win32\ssleay32MDd.lib Qt3Supportd4.lib QtUiToolsd.lib QtGuid4.lib QtXmld4.lib QtSqld4.lib QtNetworkd4.lib QtCored4.lib Wininet.lib"
 				OutputFile=".\Debug/sim.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
