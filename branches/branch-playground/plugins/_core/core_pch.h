@@ -8,7 +8,7 @@
 
 #include <qapplication.h>
 #include <qbitmap.h>
-#include <qbutton.h>
+#include <q3button.h>
 #include <qclipboard.h>
 #include <qcursor.h>
 #include <qdialog.h>
@@ -37,11 +37,12 @@
 #include <qtooltip.h>
 #include <qvalidator.h>
 
-#ifndef NO_QT_MOC_HEADER
+//Fixme:
+//#ifndef NO_QT_MOC_HEADER
 #include <qmetaobject.h>
-#include <private/qucomextra_p.h>
+/*#include <private/qucomextra_p.h>
 #include <qsignalslotimp.h>
-#endif
+#endif*/
 
 #include "arcfg.h"
 #include "arcfgbase.h"
