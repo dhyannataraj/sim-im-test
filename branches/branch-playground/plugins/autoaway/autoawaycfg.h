@@ -18,7 +18,7 @@
 #ifndef _AUTOAWAYCFG_H
 #define _AUTOAWAYCFG_H
 
-#include "ui_autoawaycfgbase.h"
+#include "autoawaycfgbase.h"
 
 class AutoAwayPlugin;
 

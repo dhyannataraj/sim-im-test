@@ -18,7 +18,7 @@
 #ifndef _YAHOOINFO_H
 #define _YAHOOINFO_H
 
-#include "ui_yahooinfobase.h"
+#include "yahooinfobase.h"
 #include "event.h"
 
 class YahooClient;

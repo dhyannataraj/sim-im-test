@@ -18,7 +18,7 @@
 #ifndef _FILTERCFG_H
 #define _FILTERCFG_H
 
-#include "ui_filtercfgbase.h"
+#include "filtercfgbase.h"
 
 struct FilterUserData;
 class FilterPlugin;

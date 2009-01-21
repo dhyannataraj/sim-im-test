@@ -18,7 +18,7 @@
 #ifndef _CFGDLG_H
 #define _CFGDLG_H
 
-#include "ui_cfgdlgbase.h"
+#include "cfgdlgbase.h"
 //Added by qt3to4:
 #include <QCloseEvent>
 #include "event.h"

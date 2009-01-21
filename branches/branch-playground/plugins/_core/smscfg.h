@@ -18,7 +18,7 @@
 #ifndef _SMSCFG_H
 #define _SMSCFG_H
 
-#include "ui_smscfgbase.h"
+#include "smscfgbase.h"
 
 class SMSConfig : public QWidget, public Ui::SMSConfigBase
 {

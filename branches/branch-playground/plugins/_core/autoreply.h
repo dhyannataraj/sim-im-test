@@ -18,7 +18,7 @@
 #ifndef _AUTOREPLY_H
 #define _AUTOREPLY_H
 
-#include "ui_autoreplybase.h"
+#include "autoreplybase.h"
 
 class AutoReplyDialog : public QDialog, public Ui::AutoReplyBase
 {

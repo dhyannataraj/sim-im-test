@@ -18,7 +18,7 @@
 #ifndef _FILECFG_H
 #define _FILECFG_H
 
-#include "ui_filecfgbase.h"
+#include "filecfgbase.h"
 
 class QCheckBox;
 

@@ -18,7 +18,7 @@
 #ifndef _IGNORELIST_H
 #define _IGNORELIST_H
 
-#include "ui_ignorelistbase.h"
+#include "ignorelistbase.h"
 
 #include "event.h"
 

@@ -19,7 +19,7 @@
 #define _DISCOINFO_H
 
 #include "jabberclient.h"
-#include "ui_discoinfobase.h"
+#include "discoinfobase.h"
 //Added by qt3to4:
 #include <QResizeEvent>
 

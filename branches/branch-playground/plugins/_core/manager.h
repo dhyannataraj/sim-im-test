@@ -18,7 +18,7 @@
 #ifndef _MANAGER_H
 #define _MANAGER_H
 
-#include "ui_managerbase.h"
+#include "managerbase.h"
 #include "event.h"
 //Added by qt3to4:
 #include <QCloseEvent>

@@ -19,7 +19,7 @@
 #define _PROXYCFG_H
 
 #include "proxy.h"
-#include "ui_proxycfgbase.h"
+#include "proxycfgbase.h"
 
 #include <vector>
 //Added by qt3to4:

@@ -18,7 +18,7 @@
 #ifndef _MOREINFO_H
 #define _MOREINFO_H
 
-#include "ui_moreinfobase.h"
+#include "moreinfobase.h"
 
 #include "event.h"
 class ICQClient;

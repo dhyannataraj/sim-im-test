@@ -18,7 +18,7 @@
 #ifndef _MSGCFG_H
 #define _MSGCFG_H
 
-#include "ui_msgcfgbase.h"
+#include "msgcfgbase.h"
 
 class QCheckBox;
 class FileConfig;

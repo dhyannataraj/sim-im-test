@@ -18,7 +18,7 @@
 #ifndef _ENCODINGDLG_H
 #define _ENCODINGDLG_H
 
-#include "ui_encodingdlgbase.h"
+#include "encodingdlgbase.h"
 
 class ICQClient;
 

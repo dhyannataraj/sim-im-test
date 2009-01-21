@@ -18,7 +18,7 @@
 #ifndef _ICQSEARCH_H
 #define _ICQSEARCH_H
 
-#include "ui_icqsearchbase.h"
+#include "icqsearchbase.h"
 #include <q3valuelist.h>
 #include <QShowEvent>
 #include "event.h"

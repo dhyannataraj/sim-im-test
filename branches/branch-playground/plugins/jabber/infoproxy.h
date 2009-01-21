@@ -20,7 +20,7 @@
 
 #include "event.h"
 
-#include "ui_infoproxybase.h"
+#include "infoproxybase.h"
 
 class InfoProxy : public QWidget, public Ui::InfoProxyBase, public SIM::EventReceiver
 {

@@ -18,7 +18,7 @@
 #ifndef _GPGADV_H
 #define _GPGADV_H
 
-#include "ui_gpgadvbase.h"
+#include "gpgadvbase.h"
 
 class GpgPlugin;
 

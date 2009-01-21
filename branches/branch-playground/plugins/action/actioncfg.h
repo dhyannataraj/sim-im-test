@@ -18,7 +18,7 @@
 #ifndef _ACTIONCFG_H
 #define _ACTIONCFG_H
 
-#include "ui_actioncfgbase.h"
+#include "actioncfgbase.h"
 //Added by qt3to4:
 #include <QPixmap>
 #include <QResizeEvent>

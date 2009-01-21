@@ -20,7 +20,7 @@
 
 #include "contacts.h"
 
-#include "ui_yahoocfgbase.h"
+#include "yahoocfgbase.h"
 
 class YahooClient;
 

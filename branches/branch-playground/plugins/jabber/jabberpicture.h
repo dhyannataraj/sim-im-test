@@ -18,7 +18,7 @@
 #ifndef _JABBERPICTURE_H
 #define _JABBERPICTURE_H
 
-#include "ui_jabberpicturebase.h"
+#include "jabberpicturebase.h"
 #include "event.h"
 
 class JabberUserData;

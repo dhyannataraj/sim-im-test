@@ -18,7 +18,7 @@
 #ifndef _JIDADVSEARCH_H
 #define _JIDADVSEARCH_H
 
-#include "ui_jidadvsearchbase.h"
+#include "jidadvsearchbase.h"
 //Added by qt3to4:
 #include <QShowEvent>
 

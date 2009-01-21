@@ -18,7 +18,7 @@
 #ifndef _REPLACECFG_H
 #define _REPLACECFG_H
 
-#include "ui_replacecfgbase.h"
+#include "replacecfgbase.h"
 //Added by qt3to4:
 #include <QResizeEvent>
 #include <Q3Frame>

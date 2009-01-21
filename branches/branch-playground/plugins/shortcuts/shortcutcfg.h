@@ -18,7 +18,7 @@
 #ifndef _SHORTCUTCFG_H
 #define _SHORTCUTCFG_H
 
-#include "ui_shortcutcfgbase.h"
+#include "shortcutcfgbase.h"
 #include <QResizeEvent>
 
 class MouseConfig;

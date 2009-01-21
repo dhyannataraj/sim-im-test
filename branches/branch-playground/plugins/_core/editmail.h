@@ -18,7 +18,7 @@
 #ifndef _EDITMAIL_H
 #define _EDITMAIL_H
 
-#include "ui_editmailbase.h"
+#include "editmailbase.h"
 
 class EditMail : public QDialog, public Ui::EditMailBase
 {

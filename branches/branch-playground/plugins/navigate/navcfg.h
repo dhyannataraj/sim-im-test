@@ -18,7 +18,7 @@
 #ifndef _NAVCFG_H
 #define _NAVCFG_H
 
-#include "ui_navcfgbase.h"
+#include "navcfgbase.h"
 
 class NavigatePlugin;
 

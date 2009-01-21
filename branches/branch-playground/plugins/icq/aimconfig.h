@@ -18,7 +18,7 @@
 #ifndef _AIMCONFIG_H
 #define _AIMCONFIG_H
 
-#include "ui_aimconfigbase.h"
+#include "aimconfigbase.h"
 #include "icqclient.h"
 
 class AIMConfig : public QDialog, public Ui::AIMConfigBase

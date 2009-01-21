@@ -19,7 +19,7 @@
 #define _FILETRANSFER_H
 
 #include "message.h"
-#include "ui_filetransferbase.h"
+#include "filetransferbase.h"
 
 class QTimer;
 class Q3ProgressBar;

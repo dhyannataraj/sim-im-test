@@ -18,7 +18,7 @@
 #ifndef _ADVSEARCH_H
 #define _ADVSEARCH_H
 
-#include "ui_advsearchbase.h"
+#include "advsearchbase.h"
 //Added by qt3to4:
 #include <QShowEvent>
 

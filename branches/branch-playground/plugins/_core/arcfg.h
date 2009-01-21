@@ -21,7 +21,7 @@
 #include <QWidget>
 #include "contacts.h"
 
-#include "ui_arcfgbase.h"
+#include "arcfgbase.h"
 
 class ARConfig : public QWidget, public Ui::ARConfigBase
 {

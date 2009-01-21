@@ -18,7 +18,7 @@
 #ifndef _GPGGEN_H
 #define _GPGGEN_H
 
-#include "ui_gpggenbase.h"
+#include "gpggenbase.h"
 
 class Q3Process;
 class GpgCfg;

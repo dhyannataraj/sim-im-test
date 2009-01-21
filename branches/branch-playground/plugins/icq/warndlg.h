@@ -18,7 +18,7 @@
 #ifndef _WARNDLG_H
 #define _WARNDLG_H
 
-#include "ui_warndlgbase.h"
+#include "warndlgbase.h"
 #include "icqclient.h"
 
 class WarningMessage;

@@ -18,7 +18,7 @@
 #ifndef _PAGERDETAILS_H
 #define _PAGERDETAILS_H
 
-#include "ui_pagerbase.h"
+#include "pagerbase.h"
 #include "event.h"
 
 class PagerDetails : public QWidget, public Ui::PagerDetailsBase

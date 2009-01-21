@@ -18,7 +18,7 @@
 #ifndef _MENUCFG_H
 #define _MENUCFG_H
 
-#include "ui_menucfgbase.h"
+#include "menucfgbase.h"
 //Added by qt3to4:
 #include <QResizeEvent>
 

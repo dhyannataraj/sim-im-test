@@ -21,7 +21,7 @@
 #include "country.h"
 #include "event.h"
 
-#include "ui_pastinfobase.h"
+#include "pastinfobase.h"
 
 class ICQClient;
 struct ICQUserData;

@@ -21,7 +21,7 @@
 #include "cfg.h"
 
 #include "listview.h"
-#include "ui_icqsecurebase.h"
+#include "icqsecurebase.h"
 
 class ICQClient;
 class ListView;

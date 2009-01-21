@@ -19,7 +19,7 @@
 #define _ICONCFG_H
 
 
-#include "ui_iconcfgbase.h"
+#include "iconcfgbase.h"
 
 class IconsPlugin;
 

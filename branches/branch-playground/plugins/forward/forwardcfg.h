@@ -18,7 +18,7 @@
 #ifndef _FORWARDCFG_H
 #define _FORWARDCFG_H
 
-#include "ui_forwardcfgbase.h"
+#include "forwardcfgbase.h"
 
 class ForwardPlugin;
 

@@ -22,7 +22,7 @@
 
 #include "contacts.h"
 
-#include "ui_smssetupbase.h"
+#include "smssetupbase.h"
 
 class SMSClient;
 

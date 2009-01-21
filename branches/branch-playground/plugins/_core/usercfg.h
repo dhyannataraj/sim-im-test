@@ -18,7 +18,7 @@
 #ifndef _USERCFG_H
 #define _USERCFG_H
 
-#include "ui_cfgdlgbase.h"
+#include "cfgdlgbase.h"
 #include "event.h"
 //Added by qt3to4:
 #include <QResizeEvent>

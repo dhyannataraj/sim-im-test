@@ -21,7 +21,7 @@
 #include "cmddef.h"
 #include "contacts.h"
 
-#include "ui_prefcfgbase.h"
+#include "prefcfgbase.h"
 
 class PrefConfig : public QWidget, public Ui::PrefConfigBase
 {

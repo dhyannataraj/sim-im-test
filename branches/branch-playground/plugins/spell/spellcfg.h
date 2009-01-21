@@ -18,7 +18,7 @@
 #ifndef _SPELLCFG_H
 #define _SPELLCFG_H
 
-#include "ui_spellcfgbase.h"
+#include "spellcfgbase.h"
 //Added by qt3to4:
 #include <QResizeEvent>
 

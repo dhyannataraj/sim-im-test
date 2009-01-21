@@ -24,7 +24,7 @@
 #include "searchall.h"
 #include "toolbtn.h"
 #include "ballonmsg.h"
-//#include "ui_searchbase.h"
+//#include "searchbase.h"
 
 #include <qpixmap.h>
 #include <qpushbutton.h>

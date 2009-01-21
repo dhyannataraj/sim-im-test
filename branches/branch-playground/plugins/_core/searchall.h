@@ -21,7 +21,7 @@
 #ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
 #include "simapi.h"
 #endif
-#include "ui_searchallbase.h"
+#include "searchallbase.h"
 //Added by qt3to4:
 #include <QShowEvent>
 

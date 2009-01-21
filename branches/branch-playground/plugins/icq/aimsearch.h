@@ -18,7 +18,7 @@
 #ifndef _AIMSEARCH_H
 #define _AIMSEARCH_H
 
-#include "ui_aimsearchbase.h"
+#include "aimsearchbase.h"
 //Added by qt3to4:
 #include <QShowEvent>
 

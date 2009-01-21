@@ -18,7 +18,7 @@
 #ifndef _MSNINFO_H
 #define _MSNINFO_H
 
-#include "ui_msninfobase.h"
+#include "msninfobase.h"
 #include "event.h"
 
 struct MSNUserData;

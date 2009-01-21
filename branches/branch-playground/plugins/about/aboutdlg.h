@@ -24,7 +24,7 @@
 
 #ifndef USE_KDE
 
-#include "ui_aboutdlgbase.h"
+#include "aboutdlgbase.h"
 
 class KAboutData;
 class KAboutPerson;

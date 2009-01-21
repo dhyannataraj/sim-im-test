@@ -20,7 +20,7 @@
 
 #include "plugins.h"
 
-#include "ui_plugincfgbase.h"
+#include "plugincfgbase.h"
 
 class PluginCfg : public QWidget, public Ui::PluginCfgBase
 {

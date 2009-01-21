@@ -18,7 +18,7 @@
 #ifndef _ADDITEM_H
 #define _ADDITEM_H
 
-#include "ui_additembase.h"
+#include "additembase.h"
 
 class AddItem : public QDialog, public Ui::AddItemBase
 {

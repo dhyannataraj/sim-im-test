@@ -19,7 +19,7 @@
 #define _USERHISTORYCFG_H
 
 
-#include "ui_userhistorycfgbase.h"
+#include "userhistorycfgbase.h"
 
 class UserHistoryCfg : public QWidget, public Ui::UserHistoryCfgBase
 {

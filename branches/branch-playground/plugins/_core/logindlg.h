@@ -20,7 +20,7 @@
 
 
 #include "event.h"
-#include "ui_logindlgbase.h"
+#include "logindlgbase.h"
 //Added by qt3to4:
 #include <QCloseEvent>
 #include <QLabel>

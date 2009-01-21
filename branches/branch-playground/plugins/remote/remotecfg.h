@@ -18,7 +18,7 @@
 #ifndef _REMOTECFG_H
 #define _REMOTECFG_H
 
-#include "ui_remotecfgbase.h"
+#include "remotecfgbase.h"
 
 class RemotePlugin;
 

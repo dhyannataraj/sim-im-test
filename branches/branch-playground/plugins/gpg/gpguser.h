@@ -18,7 +18,7 @@
 #ifndef _GPGUSER_H
 #define _GPGUSER_H
 
-#include "ui_gpguserbase.h"
+#include "gpguserbase.h"
 
 struct GpgUserData;
 class GpgPlugin;

@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "event.h"
-#include "ui_toolsetupbase.h"
+#include "toolsetupbase.h"
 
 class Commands;
 
