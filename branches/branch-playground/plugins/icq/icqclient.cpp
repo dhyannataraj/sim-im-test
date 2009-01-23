@@ -734,7 +734,8 @@ void ICQClient::packet(unsigned long size)
 {
 	ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
 	EventLog::log_packet(socket()->readBuffer(), false, plugin->OscarPacket);
-	switch (m_nChannel){
+	switch (m_nChannel)
+	{
 		case ICQ_CHNxNEW:
 			chn_login();
 			break;
@@ -747,30 +748,27 @@ void ICQClient::packet(unsigned long size)
 				unsigned short flags, seq, cmd;
 				socket()->readBuffer() >> food >> type >> flags >> cmd >> seq;
 				unsigned short unknown_length = 0;
-				if ((flags & 0x8000)) {	// some unknown data before real snac data
+				if((flags & 0x8000))
+				{	// some unknown data before real snac data
 					// just read the length and forget it ;-)
 					socket()->readBuffer() >> unknown_length;
 					socket()->readBuffer().incReadPos(unknown_length);
 				}
 				// now just take a look at the type because 0x0001 == error
 				// in all foodgroups
-				if (type == 0x0001) {
+				if(type == 0x0001)
+				{
 					unsigned short err_code;
 					socket()->readBuffer() >> err_code;
 					log(L_DEBUG,"Error! foodgroup: %04X reason: %s",food,error_message(err_code));
 					// now decrease for icqicmb & icqvarious
 					socket()->readBuffer().decReadPos(sizeof(unsigned short));
 				}
-				switch (food){
-					//case ICQ_SNACxFOOD_SERVICE:
-					//	snac_service(type, seq);
-					//	break;
+				switch (food)
+				{
 					case ICQ_SNACxFOOD_LOCATION:
 						snac_location(type, seq);
 						break;
-					//case ICQ_SNACxFOOD_BUDDY:
-					//	snac_buddy(type, seq);
-					//	break;
 					case ICQ_SNACxFOOD_MESSAGE:
 						snac_icmb(type, seq);
 						break;
@@ -916,7 +914,8 @@ unsigned long ICQClient::getFullStatus()
 unsigned long ICQClient::fullStatus(unsigned s)
 {
     unsigned long status = 0;
-    switch (s){
+    switch (s)
+	{
     case STATUS_ONLINE:
         status = ICQ_STATUS_ONLINE;
         break;
@@ -936,9 +935,10 @@ unsigned long ICQClient::fullStatus(unsigned s)
         status = ICQ_STATUS_FFC;
         break;
     }
-    if (data.owner.WebAware.toBool())
+    if(data.owner.WebAware.toBool())
         status |= ICQ_STATUS_FxWEBxPRESENCE;
-    if (getHideIP()){
+    if(getHideIP())
+	{
         status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
     }else{
         switch (getDirectMode()){

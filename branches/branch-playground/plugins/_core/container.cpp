@@ -26,8 +26,6 @@
 #include "buffer.h"
 #include "icons.h"
 
-#include <q3mainwindow.h>
-#include <q3frame.h>
 #include <qsplitter.h>
 #include <qlayout.h>
 #include <qstatusbar.h>
@@ -118,7 +116,7 @@ static DataDef containerData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-Container::Container(unsigned id, const char *cfg) :m_avatar_window(this), m_avatar_label(&m_avatar_window)
+Container::Container(unsigned id, const char *cfg) : QMainWindow(), m_avatar_window(this), m_avatar_label(&m_avatar_window)
 {
     m_bInit   = false;
     m_bInSize = false;
@@ -156,13 +154,15 @@ Container::Container(unsigned id, const char *cfg) :m_avatar_window(this), m_ava
         setId(id);
         copyData(data.barState, CorePlugin::m_plugin->data.ContainerBar, 7);
         copyData(data.geometry, CorePlugin::m_plugin->data.ContainerGeometry, 5);
-        if ((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1)){
+        if((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1))
+		{
             QWidget *desktop = QApplication::desktop();
             data.geometry[WIDTH].asLong() = desktop->width() / 3;
             data.geometry[HEIGHT].asLong() = desktop->height() / 3;
         }
         bPos = false;
-        if ((data.geometry[TOP].toLong() != -1) || (data.geometry[LEFT].toLong() != -1)){
+        if((data.geometry[TOP].toLong() != -1) || (data.geometry[LEFT].toLong() != -1))
+		{
             bPos = true;
             QWidgetList list = QApplication::topLevelWidgets();
             for(int i = 0; i < 2; i++)
@@ -183,7 +183,8 @@ Container::Container(unsigned id, const char *cfg) :m_avatar_window(this), m_ava
 							dw = -dw;
 						if (dh < 0)
 							dh = -dh;
-						if ((dw < 3) && (dh < 3)){
+						if ((dw < 3) && (dh < 3))
+						{
 							long nl = data.geometry[LEFT].toLong();
 							long nt = data.geometry[TOP].toLong();
 							nl += 21;
@@ -255,6 +256,7 @@ void Container::init()
     connect(m_accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     setupAccel();
     showBar();
+	setStatusBar(m_status);
 
     for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it)
 	{

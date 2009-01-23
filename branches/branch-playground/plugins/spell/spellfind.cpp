@@ -33,9 +33,9 @@
 using namespace std;
 using namespace SIM;
 
-SpellFind::SpellFind(EditFile *edt)
-        : SpellFindBase(NULL, NULL, false, Qt::WDestructiveClose)
+SpellFind::SpellFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiveClose)
 {
+	setupUi(this);
     SET_WNDPROC("find")
     setIcon(Pict("find"));
     setButtonsPict(this);
@@ -116,6 +116,3 @@ bool SpellFind::checkPath()
     return false;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "spellfind.moc"
-#endif

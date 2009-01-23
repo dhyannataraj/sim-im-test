@@ -18,6 +18,8 @@
 #include "linklabel.h"
 #include "event.h"
 #include "misc.h"
+#include "icons.h"
+#include "log.h"
 
 #include <qcursor.h>
 #include <q3valuevector.h>
@@ -25,16 +27,16 @@
 #include <qtooltip.h>
 #include <qpainter.h>
 #include <q3simplerichtext.h>
-//Added by qt3to4:
+#include <QUrl>
 #include <QMouseEvent>
 #include <QLabel>
 #include <Q3Frame>
 #include <Q3MimeSourceFactory>
+#include <QApplication>
 
 using namespace SIM;
 
-LinkLabel::LinkLabel(QWidget *parent, const char *name)
-        : QLabel(parent, name)
+LinkLabel::LinkLabel(QWidget *parent, const char *name) : QLabel(parent, name)
 {
     setCursor(QCursor(Qt::PointingHandCursor));
     QFont f = font();
@@ -56,15 +58,14 @@ void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 }
 
 TipLabel::TipLabel(const QString &text)
-        : QLabel(NULL, "toolTipTip", Qt::WStyle_StaysOnTop | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::WX11BypassWM)
+        : QLabel(NULL, "toolTipTip", Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint), m_doc()
 {
-    setMargin(3);
-    //setAutoMask( FALSE );
-    setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
+    setFrameStyle(QFrame::Plain | QFrame::StyledPanel);
     setLineWidth(1);
+    //setAutoMask( FALSE );
     polish();
-    m_text = text;
     setPalette(QToolTip::palette());
+    m_text = text;
 }
 
 TipLabel::~TipLabel()
@@ -81,96 +82,136 @@ static char DIV[] = "<br>__________<br>";
 
 void TipLabel::show(const QRect &tipRect, bool _bState)
 {
-    int prevH = 0;
-    int x = 0;
-    int y = 0;
-    unsigned totalH = 0;
-    QStringList l;
-    Q3ValueVector<unsigned> heights;
-    QRect rc = screenGeometry();
-    for (unsigned nDiv = 0;; nDiv++){
-        bool bState = _bState;
-        QString text = m_text;
-        if (nDiv){
-            text = "<table><tr><td>";
-            unsigned hPart = totalH / (nDiv + 1);
-            unsigned h = 0;
-            unsigned i = 0;
-            QString part;
-            for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                if (!part.isEmpty()){
-                    if (heights[i] >= hPart){
-                        text += part;
-                        text += "</td><td>";
-                        part = QString::null;
-                        h = 0;
-                    }else{
-                        part += DIV;
-                    }
-                }
-                part += *it;
-                h += heights[i];
-                if (h >= hPart){
-                    text += part;
-                    text += "</td><td>";
-                    part = QString::null;
-                    h = 0;
-                }
-            }
-            text += part;
-            text += "</td></tr></table>";
-        }
-        Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-        richText.adjustSize();
-        QSize s(richText.widthUsed() + 8, richText.height() + 8);
-        resize(s.width(), s.height());
-        x = tipRect.left() + tipRect.width() / 2 - width();
-        if (x < 0)
-            x = tipRect.left() + tipRect.width() / 2;
-        if (x + width() > rc.width() - 2)
-            x = rc.width() - 2 - width();
-        y = 0;
-        if (bState){
-            y = tipRect.top() - 4 - height();
-            if (y < 0)
-                bState = false;
-        }
-        if (!bState)
-            y = tipRect.top() + tipRect.height() + 4;
-        if (y + height() > rc.height())
-            y = tipRect.top() - 4 - height();
-        if (y < 0)
-            y = tipRect.top() + tipRect.height() + 4;
-        if ((y + s.height() < rc.height()) || (prevH == s.height())){
-            m_text = text;
-            break;
-        }
-        prevH = s.height();
-        if (totalH == 0){
-            totalH = prevH;
-            l = QStringList::split(DIV, m_text);
-            unsigned i = 0;
-            for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-                richText.adjustSize();
-                heights.push_back(richText.height() + 8);
-            }
-        }
-    }
-    move(x, y);
-    QLabel::show();
-}
-
-void TipLabel::drawContents(QPainter *p)
-{
-    Q3SimpleRichText richText(m_text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
-    richText.adjustSize();
-    richText.draw(p, 4, 4, QRect(0, 0, width(), height()), QToolTip::palette().active());
-}
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "linklabel.moc"
-#endif
+	/*
+	int prevH = 0;
+	int x = 0;
+	int y = 0;
+	unsigned totalH = 0;
+	QStringList l;
+	QVector<unsigned> heights;
+	QRect rc = screenGeometry();
+	for(unsigned nDiv = 0;; nDiv++)
+	{
+		bool bState = _bState;
+		QString text = m_text;
+		if(nDiv)
+		{
+			text = "<table><tr><td>";
+			unsigned hPart = totalH / (nDiv + 1);
+			unsigned h = 0;
+			unsigned i = 0;
+			QString part;
+			for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++)
+			{
+				if (!part.isEmpty())
+				{
+					if (heights[i] >= hPart)
+					{
+						text += part;
+						text += "</td><td>";
+						part = QString::null;
+						h = 0;
+					}
+					else
+					{
+						part += DIV;
+					}
+				}
+				part += *it;
+				h += heights[i];
+				if (h >= hPart){
+					text += part;
+					text += "</td><td>";
+					part = QString::null;
+					h = 0;
+				}
+			}
+			text += part;
+			text += "</td></tr></table>";
+		}
+		Q3SimpleRichText richText(text, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::blue, false);
+		richText.adjustSize();
+		QSize s(richText.widthUsed() + 8, richText.height() + 8);
+		resize(s.width(), s.height());
+		x = tipRect.left() + tipRect.width() / 2 - width();
+		if (x < 0)
+			x = tipRect.left() + tipRect.width() / 2;
+		if (x + width() > rc.width() - 2)
+			x = rc.width() - 2 - width();
+		y = 0;
+		if (bState)
+		{
+			y = tipRect.top() - 4 - height();
+			if (y < 0)
+				bState = false;
+		}
+		if (!bState)
+			y = tipRect.top() + tipRect.height() + 4;
+		if (y + height() > rc.height())
+			y = tipRect.top() - 4 - height();
+		if (y < 0)
+			y = tipRect.top() + tipRect.height() + 4;
+		if ((y + s.height() < rc.height()) || (prevH == s.height()))
+		{
+			m_text = text;
+			break;
+		}
+		prevH = s.height();
+		if (totalH == 0)
+		{
+			totalH = prevH;
+			l = QStringList::split(DIV, m_text);
+			unsigned i = 0;
+			for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++)
+			{
+				Q3SimpleRichText richText(*it, font(), "", Q3StyleSheet::defaultSheet(), Q3MimeSourceFactory::defaultFactory(), -1, Qt::red, false);
+				richText.adjustSize();
+				heights.push_back(richText.height() + 8);
+			}
+		}
+	}
 */
+	remakeDoc();
+	int x = tipRect.left() + 4, y = tipRect.top() - 48;
+	move(x, y);
+	QLabel::show();
+}
+
+void TipLabel::remakeDoc()
+{
+	QRegExp rx("icon:([^\"]*)");
+	int pos = 0;
+	while((pos = rx.indexIn(m_text, pos)) != -1)
+	{
+		pos += rx.matchedLength();
+		m_doc.addResource(QTextDocument::ImageResource, QUrl(rx.cap(0)), QVariant(Pict(rx.cap(1))));
+		log(L_DEBUG, "url: %s/%s", rx.cap(0).toUtf8().data(), rx.cap(1).toUtf8().data());
+	}
+	rx.setPattern("pict://([^\"]*)");
+	pos = 0;
+	while((pos = rx.indexIn(m_text, pos)) != -1)
+	{
+		pos += rx.matchedLength();
+		m_doc.addResource(QTextDocument::ImageResource, QUrl(rx.cap(0)), QVariant(Pict(rx.cap(1))));
+		log(L_DEBUG, "url: %s/%s", rx.cap(0).toUtf8().data(), rx.cap(1).toUtf8().data());
+	}
+	m_doc.setHtml(m_text);
+	m_doc.adjustSize();
+	QRect r(0, 0, m_doc.size().width() + 2, m_doc.size().height() + 2);
+	resize(r.size());
+}
+
+void TipLabel::paintEvent(QPaintEvent *ev)
+{
+	QPainter p(this);
+	QPen pen;
+	pen.setColor(QColor(0, 0, 0));
+	p.setPen(pen);
+	p.setBrush(QApplication::palette().toolTipBase());
+	QRect r = rect();
+	r.adjust(0, 0, -1, -1);
+		
+	p.drawRect(r);
+	m_doc.drawContents(&p, rect());
+}
 

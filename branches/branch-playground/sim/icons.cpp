@@ -723,50 +723,54 @@ void Icons::getSmiles(QStringList &smiles)
 
 QString Icons::parseSmiles(const QString &str)
 {
-    QString s = str;
-    QString res;
-    while (!s.isEmpty()){
-        unsigned start = (unsigned)(-1);
-        unsigned size  = 0;
-        QString smile;
-        Q3ValueListIterator<IconSet*> it;
-        for (it = d->customSets.begin(); it != d->customSets.end(); ++it){
-            unsigned pos    = ~0U;
-            unsigned length = 0;
-            QString n_smile;
-            (*it)->parseSmiles(s, pos, length, n_smile);
-            if (length == 0)
-                continue;
-            if (pos < start){
-                start = pos;
-                size  = length;
-                smile = n_smile;
-            }
-        }
-        if (size == 0){
-            res += quoteString(s);
-            break;
-        }
-        res += s.left(start);
-        res += "<img src=\"icon:";
-        res += smile;
-        res += "\" alt=\"";
-        res += quoteString(s.mid(start, size));
-        res += "\">";
-        s = s.mid(start + size);
-    }
-    return res;
+	QString s = str;
+	QString res;
+	while (!s.isEmpty()){
+		unsigned start = (unsigned)(-1);
+		unsigned size  = 0;
+		QString smile;
+		Q3ValueListIterator<IconSet*> it;
+		for (it = d->customSets.begin(); it != d->customSets.end(); ++it){
+			unsigned pos    = ~0U;
+			unsigned length = 0;
+			QString n_smile;
+			(*it)->parseSmiles(s, pos, length, n_smile);
+			if (length == 0)
+				continue;
+			if (pos < start)
+			{
+				start = pos;
+				size  = length;
+				smile = n_smile;
+			}
+		}
+		if (size == 0){
+			res += quoteString(s);
+			break;
+		}
+		res += s.left(start);
+		res += "<img src=\"icon:";
+		res += smile;
+		res += "\" alt=\"";
+		res += quoteString(s.mid(start, size));
+		res += "\">";
+		s = s.mid(start + size);
+	}
+	return res;
 }
 
 IconSet *Icons::addIconSet(const QString &name, bool bDefault)
 {
-    FileIconSet *is = new FileIconSet(name);
-    if (bDefault){
-        d->defSets.prepend(is);
-    }else{
-        d->customSets.append(is);
-    }
-    return is;
+	FileIconSet *is = new FileIconSet(name);
+	if (bDefault)
+	{
+		d->defSets.prepend(is);
+	}
+	else
+	{
+		d->customSets.append(is);
+	}
+	return is;
 }
 
 void Icons::removeIconSet(IconSet *is)
@@ -797,8 +801,3 @@ void Icons::removeIconSet(IconSet *is)
 
 };
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "icons.moc"
-#endif
-*/

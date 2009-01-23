@@ -634,29 +634,34 @@ void UserListBase::addContactForUpdate(unsigned long id)
 
 void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {
-    if (base->type() == DIV_ITEM){
-        DivItem *divItem = static_cast<DivItem*>(base);
-        QString text;
-        switch (divItem->m_type){
-        case DIV_ONLINE:
-            text = i18n("Online");
-            break;
-        case DIV_OFFLINE:
-            text = i18n("Offline");
-            break;
-        }
-        QFont f(font());
-        int size = f.pixelSize();
-        if (size <= 0){
-            size = f.pointSize();
-            f.setPointSize(size * 3 / 4);
-        }else{
-            f.setPixelSize(size * 3 / 4);
-        }
-        p->setFont(f);
-        int x = base->drawText(p, 24 + margin, width, text);
-        base->drawSeparator(p, x, width, cg);
-    }
+	if (base->type() == DIV_ITEM)
+	{
+		DivItem *divItem = static_cast<DivItem*>(base);
+		QString text;
+		switch (divItem->m_type)
+		{
+			case DIV_ONLINE:
+				text = i18n("Online");
+				break;
+			case DIV_OFFLINE:
+				text = i18n("Offline");
+				break;
+		}
+		QFont f(font());
+		int size = f.pixelSize();
+		if (size <= 0)
+		{
+			size = f.pointSize();
+			f.setPointSize(size * 3 / 4);
+		}
+		else
+		{
+			f.setPixelSize(size * 3 / 4);
+		}
+		p->setFont(f);
+		int x = base->drawText(p, 24 + margin, width, text);
+		base->drawSeparator(p, x, width, cg);
+	}
 }
 
 void UserListBase::addSortItem(Q3ListViewItem *item)

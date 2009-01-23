@@ -21,8 +21,8 @@
 #include "simapi.h"
 
 #include <qlabel.h>
-//Added by qt3to4:
 #include <QMouseEvent>
+#include <QTextDocument>
 
 class EXPORT LinkLabel : public QLabel
 {
@@ -43,10 +43,12 @@ public:
     ~TipLabel();
     void setText(const QString &text);
     void show(const QRect &tipRect, bool bState = false);
+	void remakeDoc();
 signals:
     void finished();
 protected:
-    virtual void drawContents(QPainter*);
+	QTextDocument m_doc;
+    virtual void paintEvent(QPaintEvent*);
     QString m_text;
 };
 

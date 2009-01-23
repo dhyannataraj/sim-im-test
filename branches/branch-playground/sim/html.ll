@@ -292,38 +292,54 @@ list<QString> HTMLParser::parseStyle(const QString &str)
 	list<QString> res;
 	int i = 0;
 	int end = str.length();
-	while (i < end){
+	while (i < end)
+	{
 		QString name;
 		QString value;
 		for (; i < end; i++)
+		{
 			if ((str[i] != ' ') && (str[i] != '\t'))
 				break;
-		for (; i < end; i++){
+		}
+		for (; i < end; i++)
+		{
 			if ((str[i] == ' ') || (str[i] == ':'))
 				break;
 			name += str[i];
 		}
 		for (; i < end; i++)
+		{
 			if (str[i] == ':')
 				break;
+		}
 		if (i >= end)
 			break;
 		for (i++; i < end; i++)
+		{
 			if (str[i] != ' ')
 				break;
-		if (str[i] == '\''){
+		}
+		if(i >= end)
+			break;
+		if (str[i] == '\'')
+		{
 			for (i++; i < end; i++){
 				if (str[i] == '\'')
 					break;
 				value += str[i];
 			}
-		}else if (str[i] == '\"'){
-			for (i++; i < end; i++){
+		}
+		else if (str[i] == '\"')
+		{
+			for (i++; i < end; i++)
+			{
 				if (str[i] == '\"')
 					break;
 				value += str[i];
 			}
-		}else{
+		}
+		else
+		{
 			for (; i < end; i++){
 				if (str[i] == ';')
 					break;

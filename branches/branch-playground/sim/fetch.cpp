@@ -23,13 +23,14 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #endif
+
 #include <time.h>
-#include <qthread.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QThread>
+#include <QTimer>
 #include <QCustomEvent>
 #include <Q3CString>
 #include <QEvent>
+#include <QApplication>
 
 #include "fetch.h"
 #include "buffer.h"
