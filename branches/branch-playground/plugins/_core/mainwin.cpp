@@ -158,8 +158,8 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                 break;
             QWidget *tlw = grip->topLevelWidget();
             QRect rc = tlw->geometry();
-            if (tlw->testWState(WState_ConfigPending))
-                break;
+            //if (tlw->testWState(WState_ConfigPending)) //portme, testWState, WState_ConfigPending unknown 
+            //    break;
             QPoint np(me->globalPos());
             int w = np.x() - p.x() + s.width();
             int h = np.y() - p.y() + s.height();

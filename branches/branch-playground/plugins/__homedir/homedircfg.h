@@ -22,7 +22,7 @@
 
 class HomeDirPlugin;
 
-class HomeDirConfig : public HomeDirConfigBase
+class HomeDirConfig : public Ui::HomeDirConfigBase
 {
     Q_OBJECT
 public:

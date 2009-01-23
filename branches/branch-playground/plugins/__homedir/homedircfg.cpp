@@ -25,13 +25,13 @@
 #include <qdir.h>
 
 HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
-        : HomeDirConfigBase(parent)
+: Ui::HomeDirConfigBase()
 {
     m_plugin = plugin;
 #ifdef WIN32 // ER
     chkDefault->setChecked(plugin->m_bDefault);
 #endif    
-    connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
+    //connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
     edtPath->setText(QDir::convertSeparators(plugin->m_homeDir));
     edtPath->setDirMode(true);

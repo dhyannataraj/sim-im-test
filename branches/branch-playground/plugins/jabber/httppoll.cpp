@@ -62,7 +62,7 @@ JabberHttpPool::JabberHttpPool(const QString &url)
             char c = get_random() & 0xFF;
             k.pack(&c, 1);
         }
-        QCString to = Buffer::toBase64(k);
+        Q3CString to = Buffer::toBase64(k);
         m_seed.append(to.data(), to.size());
     */
     m_seed = "foo";

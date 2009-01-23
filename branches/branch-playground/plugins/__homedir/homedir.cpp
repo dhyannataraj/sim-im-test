@@ -24,7 +24,7 @@
 #include <shlobj.h>
 
 #include <qlibrary.h>
-#include <qsettings.h>
+#include <QSettings>
 
 #include "homedircfg.h"
 
@@ -83,9 +83,9 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 {
 #ifdef WIN32
     m_bSave    = true;
-    QSettings setting( QSettings::Native );
+	QSettings setting( path_value, QSettings::NativeFormat );
     setting.setPath( key_name, "", QSettings::User );
-    m_homeDir = setting.readEntry( path_value );
+    m_homeDir = setting.readEntry( key_name, QString("%APPDATA%") );
     m_bDefault = m_homeDir.isNull();
 #endif
     QString d;
@@ -202,15 +202,19 @@ QString HomeDirPlugin::defaultPath()
 
 QWidget *HomeDirPlugin::createConfigWindow(QWidget *parent)
 {
-    return new HomeDirConfig(parent, this);
+	return new HomeDirConfig(parent, this);
 }
 
-QCString HomeDirPlugin::getConfig()
+Q3CString HomeDirPlugin::getConfig()
 {
     if (!m_bSave)
         return "";
-    QSettings setting( QSettings::Native );
+    QSettings setting( path_value, QSettings::NativeFormat );
     setting.setPath( key_name, "", QSettings::User );
+
+    //m_homeDir = setting.readEntry( key_name, QString("%APPDATA%") );
+
+
 
     if (!m_bDefault){
         setting.writeEntry( path_value, m_homeDir );
