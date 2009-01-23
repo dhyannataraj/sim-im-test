@@ -149,7 +149,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4067,4127"
+				DisableSpecificWarnings="4067, 4127"
 				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool
