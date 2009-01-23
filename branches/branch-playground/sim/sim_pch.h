@@ -8,7 +8,9 @@
  ***************************************************************************/
 
 #pragma once
-#define QT3_SUPPORT
+#ifndef QT3_SUPPORT
+	#define QT3_SUPPORT
+#endif
 
 #include <windows.h>
 #include <process.h>
