@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "mainwin.h"
 
 #include <qapplication.h>
 #include <qwidget.h>
@@ -197,18 +198,9 @@ Q3CString OnTopPlugin::getConfig()
 QWidget *OnTopPlugin::getMainWindow()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
-	{
-
-		QWidget *w = *it;
-		while((w = *it) != 0)
-		{
-			if (w->inherits("MainWindow"))
-			{
-				return w;
-			}
-		}
-	}
+    for (int i = 0; i < list.size(); ++i) 
+         if (MainWindow *w = qobject_cast<MainWindow *>(list.at(i)))
+             return w;
     return NULL;
 }
 

@@ -826,14 +826,9 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
 QWidget *ShortcutsPlugin::getMainWindow()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-    for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
-	{
-		QWidget *w = *it;
-		if(w->inherits("MainWindow"))
-		{
-			return w;
-		}
-	}
+    for (int i = 0; i < list.size(); ++i) 
+         if (MainWindow *w = qobject_cast<MainWindow *>(list.at(i)))
+             return w;
     return NULL;
 }
 

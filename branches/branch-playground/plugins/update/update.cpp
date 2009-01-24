@@ -21,6 +21,7 @@
 #include "ballonmsg.h"
 #include "aboutdata.h"
 #include "log.h"
+#include "mainwin.h"
 
 #include <time.h>
 #include <stdio.h>
