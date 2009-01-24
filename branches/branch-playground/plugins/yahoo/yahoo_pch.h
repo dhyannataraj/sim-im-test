@@ -42,9 +42,9 @@
 
 #include "yahoo.h"
 #include "yahoocfg.h"
-#include "yahoocfgbase.h"
+#include "ui_yahoocfgbase.h"
 #include "yahooclient.h"
 #include "yahooinfo.h"
-#include "yahooinfobase.h"
+#include "ui_yahooinfobase.h"
 #include "yahoosearch.h"
-#include "yahoosearchbase.h"
+#include "ui_yahoosearchbase.h"

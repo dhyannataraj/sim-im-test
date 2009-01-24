@@ -18,7 +18,7 @@
 #ifndef _TRANSPARENTCFG_H
 #define _TRANSPARENTCFG_H
 
-#include "transparentcfgbase.h"
+#include "ui_transparentcfgbase.h"
 
 class TransparentPlugin;
 
