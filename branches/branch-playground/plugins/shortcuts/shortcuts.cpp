@@ -24,6 +24,7 @@
 
 #include "shortcuts.h"
 #include "shortcutcfg.h"
+#include "mainwin.h"
 
 #include <qapplication.h>
 #include <qwidget.h>
