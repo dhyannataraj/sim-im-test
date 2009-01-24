@@ -24,6 +24,7 @@
 #include "misc.h"
 
 #include "transparent.h"
+#include "mainwin.h"
 #include "transparentcfg.h"
 #include "../floaty/floatywnd.h" //Handle Floatings
 
@@ -137,17 +138,10 @@ TransparentPlugin::~TransparentPlugin()
 	
 	//Handle Floatings
 
-	QWidgetList *list = QApplication::topLevelWidgets();
-	QWidgetListIt it(*list);
-	QWidget * w;
-	while ((w = it.current()) != NULL)
-	{
-		if (w->inherits("FloatyWnd")){
-			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
-			SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
-		}
-		++it;
-	}
+	QWidgetList list = QApplication::topLevelWidgets();
+    for (int i = 0; i < list.size(); ++i) 
+         if (FloatyWnd *refwnd = qobject_cast<FloatyWnd *>(list.at(i)))
+             SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 
 #else
     if (top)
@@ -156,24 +150,17 @@ TransparentPlugin::~TransparentPlugin()
     free_data(transparentData, &data);
 }
 
-QCString TransparentPlugin::getConfig()
+Q3CString TransparentPlugin::getConfig()
 {
     return save_data(transparentData, &data);
 }
 
 QWidget *TransparentPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
-        if (w->inherits("MainWindow")){
-            delete list;
-            return w;
-        }
-    }
-    delete list;
+	QWidgetList list = QApplication::topLevelWidgets();
+    for (int i = 0; i < list.size(); ++i) 
+         if (MainWindow *w = qobject_cast<MainWindow *>(list.at(i)))
+             return w;
     return NULL;
 }
 
@@ -192,23 +179,13 @@ void TransparentPlugin::tickMouse()
         if (main->frameGeometry().contains(p))
             bMouse = true;
     }
-	
-	
+		
 	//Handle Floatings//
-	QWidgetList *list = QApplication::topLevelWidgets();
-	QWidgetListIt it(*list);
-	QWidget * w;
-	while ((w = it.current()) != NULL) {
-		if (w->inherits("FloatyWnd")){
-			if (w->frameGeometry().contains(p))
-            bMouse = true;
-		}
-		++it;
-	}
-	delete list; //Handle Floatings//
-
-
-
+	QWidgetList list = QApplication::topLevelWidgets();
+    for (int i = 0; i < list.size(); ++i) 
+         if (FloatyWnd *w = qobject_cast<FloatyWnd *>(list.at(i)))
+			 bMouse= w->frameGeometry().contains(p) ? true : false;
+	//Handle Floatings//
 
     if (bMouse != m_bHaveMouse){
         m_bHaveMouse = bMouse;
@@ -248,7 +225,7 @@ bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
 void TransparentPlugin::setState()
 {
     QWidget *main = getMainWindow();
-	QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetList list = QApplication::topLevelWidgets();
         
     if (main == NULL)
         return;
@@ -270,29 +247,26 @@ void TransparentPlugin::setState()
         m_bState  = !m_bActive;
 		
 		//Handle Floatings
-		
-			QWidgetListIt it(*list);
-			QWidget * w;
-			while ((w = it.current()) != NULL) {
-				if (w->inherits("FloatyWnd")){
-					FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
-					refwnd->installEventFilter(this);
-					if (getIfFloatings()) {
-						SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-						slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), 0, LWA_ALPHA);
-						RedrawWindow(refwnd->winId(), NULL, NULL, RDW_UPDATENOW);
-					}
-					else 
-						SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+		QWidgetList list = QApplication::topLevelWidgets();
+		for (int i = 0; i < list.size(); ++i) {
+			if (FloatyWnd *refwnd = qobject_cast<FloatyWnd *>(list.at(i))){
+				refwnd->installEventFilter(this);
+				if (getIfFloatings()) {
+					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+					slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), 0, LWA_ALPHA);
+					RedrawWindow(refwnd->winId(), NULL, NULL, RDW_UPDATENOW);
 				}
-				++it;
+				else 
+					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 			}
-			delete list; //Handle Floatings//
+
+		}
+		 //Handle Floatings//
 		
     }
     bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
-		BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
+		BYTE d = (BYTE)(bNewState ? 255 : QMIN(((int)( (100 - getTransparency()) * 256 / 100)), 255));
 		if (getIfMainWindow()) {
 			SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
 			slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
@@ -303,11 +277,8 @@ void TransparentPlugin::setState()
 
 		
 		//Handle Floatings
-		QWidgetListIt it(*list);
-		QWidget * w;
-		while ((w = it.current()) != NULL) {
-			if (w->inherits("FloatyWnd")){
-				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+		for (int i = 0; i < list.size(); ++i) {
+			if (FloatyWnd *refwnd = qobject_cast<FloatyWnd *>(list.at(i))){
 				refwnd->installEventFilter(this);
 				if (getIfFloatings()) {
 					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -317,9 +288,8 @@ void TransparentPlugin::setState()
 				else 
 					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 			}
-			++it;
 		}
-		delete list;//Handle Floatings//
+		//Handle Floatings//
         return;
     }
     m_bState = bNewState;
@@ -351,7 +321,7 @@ void TransparentPlugin::tick()
     if (m_bState)
         time = timeout - time;
 
-    BYTE d = (BYTE)QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
+    BYTE d = (BYTE)QMIN((int)((100 - getTransparency() * time / timeout) * 256 / 100), 255);
 	if (getIfMainWindow()) 
 		slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
 	else
@@ -359,21 +329,17 @@ void TransparentPlugin::tick()
 
 	//Handle Floatings
 	
-	QWidgetList *list = QApplication::topLevelWidgets();
-	QWidgetListIt it(*list);
-	QWidget * w;
-	while ((w = it.current()) != NULL) {
-		if (w->inherits("FloatyWnd")){
+	QWidgetList list = QApplication::topLevelWidgets();
+	for (int i = 0; i < list.size(); ++i) {
+		if (FloatyWnd *refwnd = qobject_cast<FloatyWnd *>(list.at(i))){
 			//w->installEventFilter(this);
 			//w->setMouseTracking(true);
-			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
 			refwnd->installEventFilter(this);
 			if (getIfFloatings()) 
 				slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), d, LWA_ALPHA);
 			else
 				SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 		}
-		++it;
 	}//Handle Floatings//
 	
 #endif
