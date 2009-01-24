@@ -19,7 +19,7 @@
 #define _CONNECTWND_H
 
 #include <QDialog>
-#include "connectwndbase.h"
+#include "ui_connectwndbase.h"
 
 class ConnectWnd : public QDialog, public Ui::ConnectWndBase
 {

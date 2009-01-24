@@ -19,7 +19,7 @@
 #define _JABBERADD_H
 
 #include "jabberclient.h"
-#include "jabberaddbase.h"
+#include "ui_jabberaddbase.h"
 //Added by qt3to4:
 #include <QShowEvent>
 

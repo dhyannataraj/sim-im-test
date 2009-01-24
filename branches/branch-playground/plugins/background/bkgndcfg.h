@@ -18,7 +18,7 @@
 #ifndef _BKGNDCFG_H
 #define _BKGNDCFG_H
 
-#include "bkgndcfgbase.h"
+#include "ui_bkgndcfgbase.h"
 
 class BackgroundPlugin;
 

@@ -19,7 +19,7 @@
 #define _VERIFYDLG_H
 
 #include "event.h"
-#include "verifydlgbase.h"
+#include "ui_verifydlgbase.h"
 #include <qlineedit.h>
 //Added by qt3to4:
 #include <QPixmap>

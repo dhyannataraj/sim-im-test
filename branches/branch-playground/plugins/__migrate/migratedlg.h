@@ -18,7 +18,7 @@
 #ifndef _MIGRATEDLG_H
 #define _MIGRATEDLG_H
 
-#include "migratedlgbase.h"
+#include "ui_migratedlgbase.h"
 
 #include <qcheckbox.h>
 #include <qfile.h>

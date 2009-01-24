@@ -18,7 +18,7 @@
 #ifndef _PASSPHRASE_H
 #define _PASSPHRASE_H
 
-#include "passphrasebase.h"
+#include "ui_passphrasebase.h"
 
 class GpgPlugin;
 

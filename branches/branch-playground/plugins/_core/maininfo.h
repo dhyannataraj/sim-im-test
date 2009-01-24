@@ -18,7 +18,7 @@
 #ifndef _MAININFO_H
 #define _MAININFO_H
 
-#include "maininfobase.h"
+#include "ui_maininfobase.h"
 
 class Q3ListViewItem;
 

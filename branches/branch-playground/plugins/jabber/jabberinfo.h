@@ -18,7 +18,7 @@
 #ifndef _JABBERINFO_H
 #define _JABBERINFO_H
 
-#include "jabberinfobase.h"
+#include "ui_jabberinfobase.h"
 #include "event.h"
 
 class JabberUserData;

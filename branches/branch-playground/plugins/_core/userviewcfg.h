@@ -19,7 +19,7 @@
 #define _USERVIEWCFG_H
 
 #include "qcolorbutton.h"
-#include "userviewcfgbase.h"
+#include "ui_userviewcfgbase.h"
 
 class CorePlugin;
 

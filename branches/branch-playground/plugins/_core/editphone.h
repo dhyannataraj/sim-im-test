@@ -18,7 +18,7 @@
 #ifndef _EDITPHONE_H
 #define _EDITPHONE_H
 
-#include "editphonebase.h"
+#include "ui_editphonebase.h"
 
 class PhoneDetails;
 class PagerDetails;

@@ -19,7 +19,7 @@
 #define _PROXYERROR_H
 
 #include "socket.h"
-#include "proxyerrorbase.h"
+#include "ui_proxyerrorbase.h"
 
 class ProxyConfig;
 class ProxyPlugin;

@@ -18,7 +18,7 @@
 #ifndef _ICQINFO_H
 #define _ICQINFO_H
 
-#include "icqinfobase.h"
+#include "ui_icqinfobase.h"
 #include "event.h"
 
 class ICQClient;

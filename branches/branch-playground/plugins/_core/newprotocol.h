@@ -21,7 +21,7 @@
 #include <vector>
 #include "contacts.h"
 
-#include "newprotocolbase.h"
+#include "ui_newprotocolbase.h"
 
 class ConnectWnd;
 class CorePlugin;

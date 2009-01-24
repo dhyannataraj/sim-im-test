@@ -36,7 +36,7 @@ CMenu::CMenu(CommandsDef *def)
     m_def = def;
     m_param = NULL;
     m_bInit = false;
-    setCheckable(true);
+    setCheckable(false);
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
     connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
@@ -229,10 +229,4 @@ void CMenu::menuActivated(int n)
         }
     }
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "cmenu.moc"
-#endif
-*/
 

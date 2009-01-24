@@ -18,7 +18,7 @@
 #ifndef _SOUNDCONFIG_H
 #define _SOUNDCONFIG_H
 
-#include "soundconfigbase.h"
+#include "ui_soundconfigbase.h"
 
 class SoundUserConfig;
 class SoundPlugin;

@@ -556,9 +556,3 @@ bool LoginDialog::processEvent(Event *e)
     return false;
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "logindlg.moc"
-#endif
-*/
-

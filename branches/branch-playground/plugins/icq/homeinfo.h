@@ -21,7 +21,7 @@
 #include "contacts.h"
 #include "event.h"
 
-#include "homeinfobase.h"
+#include "ui_homeinfobase.h"
 
 class ICQClient;
 struct ICQUserData;

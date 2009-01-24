@@ -140,15 +140,17 @@ void StatusLabel::timeout()
 
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
-    if (me->button() == Qt::RightButton){
-        EventMenuProcess eMenu(m_id, (void *)winId());
-        eMenu.process();
-        Q3PopupMenu *popup = eMenu.menu();
-        if (popup){
-            QPoint pos = CToolButton::popupPos(this, popup);
-            popup->popup(pos);
-        }
-    }
+	if(me->button() == Qt::RightButton)
+	{
+		EventMenuProcess eMenu(m_id, (void *)winId());
+		eMenu.process();
+		Q3PopupMenu *popup = eMenu.menu();
+		if(popup)
+		{
+			QPoint pos = CToolButton::popupPos(this, popup);
+			popup->popup(pos);
+		}
+	}
 }
 
 StatusFrame::StatusFrame(QWidget *parent) : QFrame(parent), EventReceiver(LowPriority + 1)
@@ -419,11 +421,4 @@ BalloonMsg *StatusWnd::showError(const QString &text, QStringList &buttons, Clie
         return NULL;
     return new BalloonMsg(NULL, text, buttons, lbl);
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "statuswnd.moc"
-#endif
-*/
-
 

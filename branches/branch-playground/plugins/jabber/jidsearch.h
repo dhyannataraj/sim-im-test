@@ -18,7 +18,7 @@
 #ifndef _JIDSEARCH_H
 #define _JIDSEARCH_H
 
-#include "jidsearchbase.h"
+#include "ui_jidsearchbase.h"
 #include "event.h"
 //Added by qt3to4:
 #include <QShowEvent>

@@ -18,7 +18,7 @@
 #ifndef _AIMINFO_H
 #define _AIMINFO_H
 
-#include "aiminfobase.h"
+#include "ui_aiminfobase.h"
 #include "event.h"
 
 class ICQClient;

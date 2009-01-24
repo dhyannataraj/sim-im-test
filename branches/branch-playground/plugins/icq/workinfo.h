@@ -18,7 +18,7 @@
 #ifndef _WORKINFO_H
 #define _WORKINFO_H
 
-#include "workinfobase.h"
+#include "ui_workinfobase.h"
 #include "event.h"
 
 class ICQClient;

@@ -18,7 +18,7 @@
 #ifndef _ONTOPCFG_H
 #define _ONTOPCFG_H
 
-#include "ontopcfgbase.h"
+#include "ui_ontopcfgbase.h"
 
 class OnTopPlugin;
 

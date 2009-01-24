@@ -20,7 +20,7 @@
 
 #include "event.h"
 
-#include "icqpicturebase.h"
+#include "ui_icqpicturebase.h"
 
 class ICQClient;
 struct ICQUserData;

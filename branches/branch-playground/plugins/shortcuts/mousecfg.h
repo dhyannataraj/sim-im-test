@@ -18,7 +18,7 @@
 #ifndef _MOUSECFG_H
 #define _MOUSECFG_H
 
-#include "mousecfgbase.h"
+#include "ui_mousecfgbase.h"
 #include <QResizeEvent>
 
 class ShortcutsPlugin;

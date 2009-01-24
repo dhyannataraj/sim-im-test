@@ -20,7 +20,7 @@
 
 #include <stack>
 #include <qdir.h>
-#include "spellfindbase.h"
+#include "ui_spellfindbase.h"
 
 class EditFile;
 

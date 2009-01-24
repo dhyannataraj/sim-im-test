@@ -18,7 +18,7 @@
 #ifndef _PHONEDETAILS_H
 #define _PHONEDETAILS_H
 
-#include "phonebase.h"
+#include "ui_phonebase.h"
 #include "event.h"
 
 class PhoneDetails : public QWidget, public Ui::PhoneDetailsBase

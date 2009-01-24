@@ -20,7 +20,7 @@
 
 #include <vector>
 #include "contacts.h"
-#include "searchbase.h"
+#include "ui_searchbase.h"
 
 #include <q3mainwindow.h>
 //Added by qt3to4:

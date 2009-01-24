@@ -18,7 +18,7 @@
 #ifndef _SECUREDLG_H
 #define _SECUREDLG_H
 
-#include "securedlgbase.h"
+#include "ui_securedlgbase.h"
 #include "event.h"
 
 class ICQClient;

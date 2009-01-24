@@ -18,7 +18,7 @@
 #ifndef _JABBERCONFIG_H
 #define _JABBERCONFIG_H
 
-#include "jabberconfigbase.h"
+#include "ui_jabberconfigbase.h"
 #include "event.h"
 
 class JabberClient;

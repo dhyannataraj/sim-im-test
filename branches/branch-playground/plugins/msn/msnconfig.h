@@ -20,7 +20,7 @@
 
 #include "contacts.h"
 
-#include "msnconfigbase.h"
+#include "ui_msnconfigbase.h"
 
 class MSNClient;
 

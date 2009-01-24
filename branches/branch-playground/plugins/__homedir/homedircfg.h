@@ -18,7 +18,7 @@
 #ifndef _HOMEDIRCFG_H
 #define _HOMEDIRCFG_H
 
-#include "homedircfgbase.h"
+#include "ui_homedircfgbase.h"
 
 class HomeDirPlugin;
 

@@ -18,7 +18,7 @@
 #ifndef _OSDCONFIG_H
 #define _OSDCONFIG_H
 
-#include "osdconfigbase.h"
+#include "ui_osdconfigbase.h"
 
 class OSDPlugin;
 class OSDIface;

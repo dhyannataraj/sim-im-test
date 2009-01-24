@@ -18,7 +18,7 @@
 #ifndef _OSDIFACE_H
 #define _OSDIFACE_H
 
-#include "osdifacebase.h"
+#include "ui_osdifacebase.h"
 
 class OSDPlugin;
 

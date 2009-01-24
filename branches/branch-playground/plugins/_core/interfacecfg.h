@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-#include "interfacecfgbase.h"
+#include "ui_interfacecfgbase.h"
 
 class UserViewConfig;
 class HistoryConfig;

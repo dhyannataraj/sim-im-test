@@ -18,7 +18,7 @@
 #ifndef _GPGCFG_H
 #define _GPGCFG_H
 
-#include "gpgcfgbase.h"
+#include "ui_gpgcfgbase.h"
 
 class GpgPlugin;
 class GpgAdvanced;

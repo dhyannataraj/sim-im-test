@@ -18,7 +18,7 @@
 #ifndef _NONIM_H
 #define _NONIM_H
 
-#include "nonimbase.h"
+#include "ui_nonimbase.h"
 #include "event.h"
 //Added by qt3to4:
 #include <QShowEvent>

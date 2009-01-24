@@ -18,7 +18,7 @@
 #ifndef _SOUNDUSER_H
 #define _SOUNDUSER_H
 
-#include "sounduserbase.h"
+#include "ui_sounduserbase.h"
 //Added by qt3to4:
 #include <QPixmap>
 #include <QResizeEvent>

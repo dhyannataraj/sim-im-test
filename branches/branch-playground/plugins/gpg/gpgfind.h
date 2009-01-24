@@ -18,7 +18,7 @@
 #ifndef _GPGFIND_H
 #define _GPGFIND_H
 
-#include "gpgfindbase.h"
+#include "ui_gpgfindbase.h"
 
 #include <qdir.h>
 #include <qfileinfo.h>

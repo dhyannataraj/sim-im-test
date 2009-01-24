@@ -19,7 +19,7 @@
 #define _INTERESTSINFO_H
 
 #include "event.h"
-#include "interestsinfobase.h"
+#include "ui_interestsinfobase.h"
 
 class ICQClient;
 struct ICQUserData;

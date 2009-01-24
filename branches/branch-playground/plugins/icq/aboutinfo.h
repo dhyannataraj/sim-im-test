@@ -20,7 +20,7 @@
 
 #include "contacts.h"
 
-#include "aboutinfobase.h"
+#include "ui_aboutinfobase.h"
 
 class ICQClient;
 struct ICQUserData;
