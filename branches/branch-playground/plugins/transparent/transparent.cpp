@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qapplication.h>
-#include <qwidgetlist.h>
+#include <QApplication>
+#include <QWidgetlist>
 #include <qtimer.h>
 #include <qcursor.h>
 #include <qpainter.h>

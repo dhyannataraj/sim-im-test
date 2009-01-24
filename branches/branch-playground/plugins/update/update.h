@@ -26,7 +26,8 @@
 #include "plugins.h"
 #include "mainwin.h"
 #include <qhttp.h>
-#include <qbuffer.h>
+#include <QBuffer>
+#include <QDate>
 
 
 struct UpdateData
@@ -64,8 +65,8 @@ protected:
 	QString m_updateMsg;
 	PROP_ULONG(Time);
     UpdateData data;
-	QByteArray bytes;
-	QByteArray bytes_um;
+	QByteArray* bytes;
+	QByteArray* bytes_um;
 	QHttp *http;
 	QHttp *httpmsg;
 	QFile *file;

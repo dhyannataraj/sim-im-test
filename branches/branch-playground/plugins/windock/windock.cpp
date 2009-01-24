@@ -19,7 +19,7 @@
 #include <windowsx.h>
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <QWidgetlist>
 #include <qmessagebox.h>
 #include <qtimer.h>
 
@@ -489,24 +489,17 @@ bool WinDockPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-QCString WinDockPlugin::getConfig()
+Q3CString WinDockPlugin::getConfig()
 {
     return save_data(winDockData, &data);
 }
 
 QWidget *WinDockPlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
-        if (w->inherits("MainWindow")){
-            delete list;
-            return w;
-        }
-    }
-    delete list;
+	QWidgetList list = QApplication::topLevelWidgets();
+    for (int i = 0; i < list.size(); ++i) 
+         if (MainWindow *w = qobject_cast<MainWindow *>(list.at(i)))
+             return w;
     return NULL;
 }
 

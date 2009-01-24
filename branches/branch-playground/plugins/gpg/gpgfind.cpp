@@ -41,8 +41,8 @@ GpgFind::GpgFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiveClo
     setCaption(caption());
     m_edit = edt;
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
-    m_drives = *QDir::drives();
-    m_drive  = m_drives.first();
+    //m_drives = *QDir::drives(); //portme
+    //m_drive  = m_drives.first(); //portme
     QTimer::singleShot(0, this, SLOT(next()));
 }
 
@@ -84,7 +84,7 @@ void GpgFind::next()
     m_path = m_path.replace('/', '\\');
     if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
         return;
-    m_drive = m_drives.next();
+    //m_drive = m_drives.next(); //portme
     QTimer::singleShot(0, this, SLOT(next()));
 }
 

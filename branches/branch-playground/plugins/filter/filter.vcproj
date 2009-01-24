@@ -56,6 +56,7 @@
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DisableSpecificWarnings="4127"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -144,6 +145,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4127"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -577,7 +579,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -587,7 +589,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputName).ui ..."
-						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -600,7 +602,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -610,7 +612,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputName).ui ..."
-						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -o $(InputName).cpp&#x0D;&#x0A;%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp"
 					/>
 				</FileConfiguration>

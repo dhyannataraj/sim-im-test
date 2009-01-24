@@ -22,8 +22,9 @@
 #include <qslider.h>
 
 TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin)
-        : TransparentCfgBase(parent)
+: Ui::TransparentCfgBase()
 {
+	this->setupUi(parent);
     m_plugin = plugin;
     sldTransparency->setValue(m_plugin->getTransparency());
 #ifdef WIN32

@@ -27,12 +27,12 @@
 #include <windows.h>
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <QWidgetlist>
 #include <qregexp.h>
-#include <qurloperator.h>
+#include <Q3Url>
 #include <qmessagebox.h>
 #include <qfile.h>
-#include <qprocess.h>
+#include <Q3Process>
 #include <qevent.h>
 
 using namespace SIM;
@@ -41,17 +41,10 @@ using namespace SIM;
 
 QWidget *UpdatePlugin::getMainWindow()
 {
-    QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );
-    QWidget *w;
-    while ( (w=it.current()) != 0 ) {
-        ++it;
-        if (w->inherits("MainWindow")){
-            delete list;
-            return w;
-        }
-    }
-    delete list;
+	QWidgetList list = QApplication::topLevelWidgets();
+    for (int i = 0; i < list.size(); ++i) 
+         if (MainWindow *w = qobject_cast<MainWindow *>(list.at(i)))
+             return w;
     return NULL;
 }
 
@@ -108,7 +101,7 @@ UpdatePlugin::~UpdatePlugin()
     free_data(updateData, &data);
 }
 
-QCString UpdatePlugin::getConfig()
+Q3CString UpdatePlugin::getConfig()
 {
     return save_data(updateData, &data);
 }
@@ -163,7 +156,7 @@ void UpdatePlugin::testForUpdate(){
                 versionurl += (char)c;
             }
         }*/
-		QUrl um(QString("http://www.sim.gosign.de/updatemsg.php"));
+		Q3Url um(QString("http://www.sim.gosign.de/updatemsg.php"));
 		httpmsg = new QHttp(this);
 		connect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
 		QBuffer *buffer_um = new QBuffer(bytes_um);
@@ -179,11 +172,11 @@ void UpdatePlugin::UpdateMsgDownloadFinished(int requestId, bool error){
 			  || msgret==QMessageBox::Ok
 			  || upToDate) return; //Don't show the dialog more than once SIM starts.
 	if (Request_um==requestId) {
-		QString updateMsg(bytes_um);
+		QString updateMsg( QString( ( Q3CString ) *bytes_um ));
 		this->m_updateMsg=updateMsg;
 		this->bupdateMsgMissing=false;
 		disconnect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
-		QUrl u=QUrl(versionurl);
+		Q3Url u=Q3Url(versionurl);
 		http = new QHttp(this);
 		connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
 		QBuffer *buffer = new QBuffer(bytes);
@@ -202,7 +195,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 
 	
     if (Request==requestId) {
-		QString remoteVersion(bytes);
+		QString remoteVersion(QString( ( Q3CString ) *bytes ));
 		QDate date=QDate::fromString(remoteVersion,Qt::LocalDate);
 		QString currentVersion = SIM::getAboutData()->version();
 		QString majorVersion = currentVersion.section(' ',0,2,QString::SectionDefault);
@@ -319,7 +312,7 @@ void UpdatePlugin::installFile(){
 #ifdef WIN32
 	if (isInstalling) return;
 	
-	QProcess *proc = new QProcess( this );
+	Q3Process *proc = new Q3Process( this );
 	proc->addArgument( ".\\setup.exe" );
 
 	if ( !proc->start() ) {
@@ -347,7 +340,7 @@ void UpdatePlugin::installFile(){
 
 void UpdatePlugin::downloadFile()
  {
-     QUrl url(address);
+     Q3Url url(address);
      QFileInfo fileInfo(url.path());
      QString fileName = fileInfo.fileName();
 

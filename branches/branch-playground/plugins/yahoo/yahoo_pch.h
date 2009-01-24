@@ -5,7 +5,7 @@
 
 #include <qapplication.h>
 #include <qbitmap.h>
-#include <qbutton.h>
+#include <q3button.h>
 #include <qclipboard.h>
 #include <qcursor.h>
 #include <qdialog.h>
@@ -36,8 +36,8 @@
 
 #ifndef NO_QT_MOC_HEADER
 #include <qmetaobject.h>
-#include <private/qucomextra_p.h>
-#include <qsignalslotimp.h>
+//#include <private/qucomextra_p.h>
+//#include <qsignalslotimp.h>
 #endif
 
 #include "yahoo.h"

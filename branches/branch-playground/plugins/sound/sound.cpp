@@ -154,7 +154,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 	connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
 #endif
     m_checkTimer = new QTimer(this);
-    connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
+	QObject::connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
 #ifndef __OS2__
 	// Under OS/2, playing startup sound leads SIM to crash on next sounds
 	// under investigation

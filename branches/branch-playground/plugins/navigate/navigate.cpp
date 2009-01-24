@@ -14,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <Q3MemArray>
 
 #include "navigate.h"
 #include "navcfg.h"
@@ -26,10 +27,9 @@
 #endif
 
 #ifndef WIN32
-#include <q3url.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <Q3MemArray>
+	#include <q3url.h>
+	//Added by qt3to4:
+	#include <Q3CString>
 #endif
 
 using namespace std;

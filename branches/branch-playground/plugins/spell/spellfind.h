@@ -20,11 +20,11 @@
 
 #include <stack>
 #include <qdir.h>
-#include "ui_spellfindbase.h"
+#include "spellfindbase.h"
 
 class EditFile;
 
-class SpellFind : public QDialog, public SpellFindBase
+class SpellFind : public QDialog, public Ui::SpellFindBase
 {
     Q_OBJECT
 public:
