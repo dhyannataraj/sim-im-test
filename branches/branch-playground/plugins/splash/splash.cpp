@@ -52,14 +52,15 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 SplashPlugin::SplashPlugin(unsigned base, bool bStart)
-        : Plugin(base), EventReceiver(LowestPriority)
+        : Plugin(base), EventReceiver(LowestPriority), XEventHandler(100)
 {
-    splash = NULL;
-    m_bStart = bStart;
-    if (m_bStart){
-        QPixmap pict(app_file("pict/splash.png"));
+	splash = NULL;
+	m_bStart = bStart;
+	if (m_bStart)
+	{
+		QPixmap pict(app_file("pict/splash.png"));
 		// FIXME: better use QSplash with QSplashScreen::drawContents()
-        if(!pict.isNull())
+		if(!pict.isNull())
 		{
 			//KAboutData *about_data = getAboutData();
 			QString text = "";// about_data->programName();
@@ -95,8 +96,8 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
 			if (!mask.isNull())
 				splash->setMask(mask);
 			splash->show();
-        }
-    }
+		}
+	}
 }
 
 SplashPlugin::~SplashPlugin()
@@ -104,10 +105,17 @@ SplashPlugin::~SplashPlugin()
     delete splash;
 }
 
+XEventHandler::tFlowControl SplashPlugin::handle(SIM::XEvent* event)
+{
+
+}
+
 bool SplashPlugin::processEvent(Event *e)
 {
-    if(e->type() == eEventInit) {
-        if (splash){
+    if(e->type() == eEventInit)
+	{
+        if (splash)
+		{
             delete splash;
             splash = NULL;
         }

@@ -140,7 +140,8 @@ TransparentPlugin::~TransparentPlugin()
 	QWidgetList *list = QApplication::topLevelWidgets();
 	QWidgetListIt it(*list);
 	QWidget * w;
-	while ((w = it.current()) != NULL) {
+	while ((w = it.current()) != NULL)
+	{
 		if (w->inherits("FloatyWnd")){
 			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
 			SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));

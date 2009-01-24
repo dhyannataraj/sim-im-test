@@ -39,6 +39,7 @@
 #include "misc.h"
 #include "xsl.h"
 #include "builtinlogger.h"
+#include "xevent.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -264,11 +265,22 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     }
     EventInit eStart;
     eStart.process();
-    if (eStart.abortLoading()) {
+    if(eStart.abortLoading())
+	{
         log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
         return;
     }
+	XEvent startEvent("AppInit");
+	startEvent.process();
+    if(startEvent.getBool("Abort"))
+	{
+        log(L_ERROR,"EventInit failed - aborting!");
+        m_bAbort = true;
+        return;
+    }
+	
+
     for (QStringList::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
         if ((*it_args).length()){
             usage(*it_args);

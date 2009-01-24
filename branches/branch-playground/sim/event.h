@@ -33,7 +33,8 @@ class QMainWindow;
 class Q3PopupMenu;
 class QTranslator;
 
-namespace SIM {
+namespace SIM
+{
 
 class Client;
 class ClientSocket;

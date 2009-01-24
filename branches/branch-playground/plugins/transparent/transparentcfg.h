@@ -22,7 +22,7 @@
 
 class TransparentPlugin;
 
-class TransparentCfg : public Ui::TransparentCfgBase
+class TransparentCfg : public QWidget, public Ui::TransparentCfgBase
 {
     Q_OBJECT
 public:

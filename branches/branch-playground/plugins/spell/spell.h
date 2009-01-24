@@ -28,6 +28,7 @@
 #include "event.h"
 #include "misc.h"
 #include "plugins.h"
+#include "xevent.h"
 
 using std::list;
 

@@ -111,7 +111,8 @@ private:
  * @author Daniel M. Duley <mosfet@kde.org>
  * @author Hamish Rodda <rodda@kde.org>
  */
-class KPopupMenu : public Q3PopupMenu {
+class KPopupMenu : public Q3PopupMenu
+{
     Q_OBJECT
 public:
     /**

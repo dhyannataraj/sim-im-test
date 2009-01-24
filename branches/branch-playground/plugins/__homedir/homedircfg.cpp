@@ -24,9 +24,9 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 
-HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
-: Ui::HomeDirConfigBase()
+HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin) : QWidget(parent)
 {
+	setupUi(this);
     m_plugin = plugin;
 #ifdef WIN32 // ER
     chkDefault->setChecked(plugin->m_bDefault);

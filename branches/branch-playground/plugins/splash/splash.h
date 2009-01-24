@@ -20,15 +20,18 @@
 
 #include "event.h"
 #include "plugins.h"
+#include "xeventhandler.h"
 
 class QWidget;
 
-class SplashPlugin : public SIM::Plugin, public SIM::EventReceiver
+class SplashPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::XEventHandler
 {
 public:
     SplashPlugin(unsigned base, bool bStart);
     virtual ~SplashPlugin();
     virtual bool processEvent(SIM::Event *e);
+	virtual XEventHandler::tFlowControl handle(SIM::XEvent* event);
+
 protected:
     QWidget *splash;
     bool m_bStart;
