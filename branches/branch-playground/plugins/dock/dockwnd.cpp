@@ -106,11 +106,48 @@ void DockWnd::addIconToTaskbar()
     }
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
-    notifyIconData.hIcon = topData()->winIcon;
+	notifyIconData.hIcon = QPixmap2HIcon(topLevelWidget()->icon());
     notifyIconData.hWnd = winId();
     notifyIconData.uCallbackMessage = WM_DOCK;
     notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     Shell_NotifyIconW(NIM_ADD, &notifyIconData);
+}
+
+HICON DockWnd::QPixmap2HIcon(const QPixmap *pix)
+{
+     if ( pix->isNull() )
+         return 0;
+ 
+     ICONINFO ii;
+     ii.fIcon    = true;
+     ii.hbmMask  = QPixmapMask2HBitmap( pix );
+     ii.hbmColor = pix->toWinHBITMAP( QPixmap::PremultipliedAlpha );
+     ii.xHotspot = 0;
+     ii.yHotspot = 0;
+     HICON result = CreateIconIndirect( &ii );
+ 
+     DeleteObject( ii.hbmMask );
+     DeleteObject( ii.hbmColor );
+ 
+     return result;
+}
+
+HBITMAP DockWnd::QPixmapMask2HBitmap(const QPixmap *pix)
+{
+     QBitmap bm = pix->mask();
+     if( bm.isNull() ) {
+         bm = QBitmap( pix->size() );
+         bm.fill( Qt::color1 );
+     }
+     QImage im = bm.toImage().convertToFormat( QImage::Format_Mono );
+     im.invertPixels();                  // funny blank'n'white games on windows
+     int w = im.width();
+     int h = im.height();
+     int bpl = (( w + 15 ) / 16 ) * 2;   // bpl, 16 bit alignment
+     QByteArray bits( bpl * h, '\0' );
+     for (int y=0; y < h; y++)
+         memcpy( bits.data() + y * bpl, im.scanLine( y ), bpl );
+     return CreateBitmap( w, h, 1, 1, bits );
 }
 
 void DockWnd::callProc(unsigned long param)
