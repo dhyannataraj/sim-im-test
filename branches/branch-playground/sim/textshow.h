@@ -117,7 +117,7 @@ protected:
     bool m_bInClick;
 };
 
-class Q3ToolBar;
+class QToolBar;
 
 class EXPORT ColorLabel : public QLabel
 {

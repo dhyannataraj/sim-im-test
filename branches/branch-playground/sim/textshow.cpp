@@ -54,7 +54,7 @@
 #include <qtimer.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
-#include <q3toolbar.h>
+#include <QToolBar.h>
 #include <qlineedit.h>
 #include <q3accel.h>
 #include <q3dragobject.h>
