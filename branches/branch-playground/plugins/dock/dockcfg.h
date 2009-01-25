@@ -22,7 +22,7 @@
 
 class DockPlugin;
 
-class DockCfg : public Ui::DockCfgBase , public QWidget
+class DockCfg :  public QWidget, public Ui::DockCfgBase
 {
     Q_OBJECT
 public:

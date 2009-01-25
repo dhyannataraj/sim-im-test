@@ -28,8 +28,7 @@
 #include <kwin.h>
 #endif
 
-DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
-        : QWidget(parent)
+DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin) : QWidget(parent)
 {
     setupUi(this);
 	m_plugin = plugin;
