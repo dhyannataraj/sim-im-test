@@ -174,7 +174,3 @@ void WeatherCfg::char_data(const QString& str)
         m_data += str;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "weathercfg.moc"
-#endif
-

@@ -48,7 +48,4 @@ void TransparentCfg::apply()
     m_plugin->setState();
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "transparentcfg.moc"
-#endif
 

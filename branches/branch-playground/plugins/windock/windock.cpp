@@ -503,6 +503,3 @@ QWidget *WinDockPlugin::getMainWindow()
     return NULL;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "windock.moc"
-#endif

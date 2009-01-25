@@ -885,6 +885,3 @@ void WeatherPlugin::char_data(const QString& str)
         m_data += str;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "weather.moc"
-#endif

@@ -377,6 +377,3 @@ bool TransparentPlugin::processEvent(Event *e)
     return false;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "transparent.moc"
-#endif

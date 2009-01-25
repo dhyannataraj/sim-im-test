@@ -1501,8 +1501,5 @@ I18N_NOOP("Upgrade your account")
 
 #endif
 
-#ifndef NO_MOC_INCLUDES
-#include "livejournal.moc"
-#endif
 
 

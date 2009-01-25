@@ -97,7 +97,4 @@ void LiveJournalCfg::useSigToggled(bool value)
     edtSignature->setEnabled(value);
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "livejournalcfg.moc"
-#endif
 

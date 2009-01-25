@@ -115,6 +115,3 @@ bool GpgFind::checkPath()
     return false;
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "gpgfind.moc"
-#endif
