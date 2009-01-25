@@ -43,9 +43,10 @@
 #include <QMouseEvent>
 #include <QEvent>
 #include <QPaintEvent>
-#include <QX11Info>
+
 
 #ifdef USE_KDE
+#include <QX11Info>
 #include <kwin.h>
 #include <kpopupmenu.h>
 #else
