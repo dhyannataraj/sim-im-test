@@ -440,11 +440,11 @@ GlobalKey::~GlobalKey()
 			*/
 }
 
-typedef int (*QX11EventFilter) (XEvent*);
+typedef int (*QX11EventFilter) (::XEvent*);
 //QX11EventFilter qt_set_x11_event_filter (QX11EventFilter filter);
 static QX11EventFilter oldFilter;
 
-static int X11EventFilter(XEvent *e)
+static int X11EventFilter(::XEvent *e)
 {
     if ((e->type == KeyPress) && globalKeys){
         if ( !QWidget::keyboardGrabber() && !QApplication::activePopupWidget() ) {

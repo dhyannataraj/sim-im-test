@@ -5,7 +5,7 @@
 namespace SIM
 {
 
-XEvent::XEvent(const QString& eventid) : m_id(eventid)
+XEvent::XEvent(unsigned long id) : m_id(id)
 {
 }
 
@@ -18,7 +18,7 @@ void XEvent::process()
 	XEventHandlerManager::instance()->handle(this);
 }
 
-const QString& XEvent::id()
+unsigned long XEvent::id()
 {
 	return m_id;
 }

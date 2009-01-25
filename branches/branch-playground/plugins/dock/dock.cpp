@@ -382,6 +382,3 @@ void DockPlugin::timer()
     }
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "dock.moc"
-#endif

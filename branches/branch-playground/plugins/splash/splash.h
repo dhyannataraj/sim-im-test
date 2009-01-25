@@ -24,7 +24,7 @@
 
 class QWidget;
 
-class SplashPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::XEventHandler
+class SplashPlugin : public SIM::Plugin, public SIM::XEventHandler
 {
 public:
     SplashPlugin(unsigned base, bool bStart);

@@ -52,6 +52,7 @@
 #   define  LTDL_SHLIB_EXT ".dll"
 #  else
 #   define  LTDL_SHLIB_EXT ".so"
+#   include <dlfcn.h>
 #  endif
 # endif
 #endif
@@ -271,7 +272,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         m_bAbort = true;
         return;
     }
-	XEvent startEvent("AppInit");
+	XEvent startEvent(eEventInit);
 	startEvent.process();
     if(startEvent.getBool("Abort"))
 	{
@@ -417,6 +418,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         info.module = new QLibrary(fullName);
         if (info.module == NULL)
             fprintf(stderr, "Can't load plugin %s\n", info.name.local8Bit().data());
+
     }
     if (info.module == NULL)
         return;

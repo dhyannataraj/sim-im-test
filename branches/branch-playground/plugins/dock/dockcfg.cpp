@@ -66,7 +66,3 @@ void DockCfg::customize()
     SIM::EventMenu(m_plugin->DockMenu, SIM::EventMenu::eCustomize).process();
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "dockcfg.moc"
-#endif
-
