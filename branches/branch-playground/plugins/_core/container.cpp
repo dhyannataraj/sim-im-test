@@ -32,7 +32,7 @@
 #include <q3progressbar.h>
 #include <QStackedWidget>
 #include <qtimer.h>
-#include <q3toolbar.h>
+#include <QToolBar.h>
 #include <q3popupmenu.h>
 #include <q3accel.h>
 #include <qpainter.h>

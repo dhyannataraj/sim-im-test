@@ -29,7 +29,7 @@
 #include "core_consts.h"
 
 #include <qpixmap.h>
-#include <q3toolbar.h>
+#include <QToolBar.h>
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qapplication.h>

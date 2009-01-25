@@ -30,7 +30,7 @@ class MsgEdit;
 class MsgView;
 class ListView;
 class CorePlugin;
-class Q3ToolBar;
+class QToolBar;
 class UserList;
 
 struct UserWndData
@@ -68,7 +68,7 @@ signals:
 protected slots:
     void modeChanged();
     void editHeightChanged(int);
-    void toolbarChanged(Q3ToolBar*);
+    void toolbarChanged(QToolBar*);
     void selectChanged();
 protected:
     PROP_ULONG(EditHeight);

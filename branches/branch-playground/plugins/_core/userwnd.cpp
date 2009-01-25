@@ -26,7 +26,7 @@
 #include "container.h"
 #include "history.h"
 
-#include <q3toolbar.h>
+#include <QToolBar.h>
 #include <qtimer.h>
 //Added by qt3to4:
 #include <Q3CString>
@@ -81,7 +81,7 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
 	//m_hSplitter->addWidget(m_splitter);
 	m_splitter->addWidget(m_edit);
 
-	//connect(m_edit, SIGNAL(toolBarPositionChanged(Q3ToolBar*)), this, SLOT(toolbarChanged(Q3ToolBar*)));
+	//connect(m_edit, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
 	connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 	connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
 	modeChanged();
@@ -225,7 +225,7 @@ void UserWnd::editHeightChanged(int h)
     }
 }
 
-void UserWnd::toolbarChanged(Q3ToolBar*)
+void UserWnd::toolbarChanged(QToolBar*)
 {
     if (m_bBarChanged)
         return;

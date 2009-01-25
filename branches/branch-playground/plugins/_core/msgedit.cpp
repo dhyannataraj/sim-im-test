@@ -21,7 +21,7 @@
 #include <algorithm>
 
 #include <qfontmetrics.h>
-#include <q3toolbar.h>
+#include <QToolBar.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qtimer.h>
