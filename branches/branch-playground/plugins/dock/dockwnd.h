@@ -54,8 +54,8 @@ public:
 #ifdef WIN32
     void callProc(unsigned long);
     void addIconToTaskbar();
-	HICON QPixmap2HIcon(const QPixmap *pix);
-	HBITMAP QPixmapMask2HBitmap(const QPixmap *pix);
+	HICON QPixmap2HIcon(const QPixmap pix);
+	HBITMAP QPixmapMask2HBitmap(const QPixmap pix);
 #endif
     void mouseEvent( QMouseEvent *e);
     virtual void mouseDoubleClickEvent( QMouseEvent *e);

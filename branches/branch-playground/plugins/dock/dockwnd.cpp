@@ -108,22 +108,22 @@ void DockWnd::addIconToTaskbar()
     }
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
-	notifyIconData.hIcon = QPixmap2HIcon(topLevelWidget()->icon());
+	notifyIconData.hIcon = QPixmap2HIcon(drawIcon);
     notifyIconData.hWnd = winId();
     notifyIconData.uCallbackMessage = WM_DOCK;
     notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     Shell_NotifyIconW(NIM_ADD, &notifyIconData);
 }
 
-HICON DockWnd::QPixmap2HIcon(const QPixmap *pix)
+HICON DockWnd::QPixmap2HIcon(const QPixmap pix)
 {
-     if ( pix->isNull() )
+     if ( pix.isNull() )
          return 0;
  
      ICONINFO ii;
      ii.fIcon    = true;
      ii.hbmMask  = QPixmapMask2HBitmap( pix );
-     ii.hbmColor = pix->toWinHBITMAP( QPixmap::PremultipliedAlpha );
+     ii.hbmColor = pix.toWinHBITMAP( QPixmap::PremultipliedAlpha );
      ii.xHotspot = 0;
      ii.yHotspot = 0;
      HICON result = CreateIconIndirect( &ii );
@@ -134,11 +134,11 @@ HICON DockWnd::QPixmap2HIcon(const QPixmap *pix)
      return result;
 }
 
-HBITMAP DockWnd::QPixmapMask2HBitmap(const QPixmap *pix)
+HBITMAP DockWnd::QPixmapMask2HBitmap(const QPixmap pix)
 {
-     QBitmap bm = pix->mask();
+     QBitmap bm = pix.mask();
      if( bm.isNull() ) {
-         bm = QBitmap( pix->size() );
+         bm = QBitmap( pix.size() );
          bm.fill( Qt::color1 );
      }
      QImage im = bm.toImage().convertToFormat( QImage::Format_Mono );
@@ -1095,7 +1095,7 @@ void DockWnd::setIcon(const QString &icon)
     NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
-    notifyIconData.hIcon = QPixmap2HIcon(topLevelWidget()->icon());
+    notifyIconData.hIcon = QPixmap2HIcon(drawIcon);
     notifyIconData.hWnd = winId();
     notifyIconData.uFlags = NIF_ICON;
     Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
@@ -1129,7 +1129,7 @@ void DockWnd::setTip(const QString &text)
     NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
-    notifyIconData.hIcon = QPixmap2HIcon(topLevelWidget()->icon());
+    notifyIconData.hIcon = QPixmap2HIcon(drawIcon);
     notifyIconData.hWnd = winId();
     unsigned size = tip.length();
     if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
