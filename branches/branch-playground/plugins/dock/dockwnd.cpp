@@ -682,8 +682,8 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 #ifdef WIN32
-    if((QApplication::winVersion() & WV_NT_based) &&
-       (QApplication::winVersion() & WV_NT) == 0)
+    if((QApplication::winVersion() & Qt::WV_NT_based) &&
+       (QApplication::winVersion() & Qt::WV_NT) == 0)
         m_bBalloon = true;
     else
         m_bBalloon = false;
@@ -1093,7 +1093,7 @@ void DockWnd::setIcon(const QString &icon)
     NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
-    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hIcon = QPixmap2HIcon(topLevelWidget()->icon());
     notifyIconData.hWnd = winId();
     notifyIconData.uFlags = NIF_ICON;
     Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
@@ -1127,7 +1127,7 @@ void DockWnd::setTip(const QString &text)
     NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
-    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hIcon = QPixmap2HIcon(topLevelWidget()->icon());
     notifyIconData.hWnd = winId();
     unsigned size = tip.length();
     if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
