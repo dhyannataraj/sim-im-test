@@ -298,7 +298,7 @@ void WeatherPlugin::showBar()
 	QWidgetList list = QApplication::topLevelWidgets();
 	MainWindow *main=NULL;
     for (int i = 0; i < list.size(); ++i) 
-         if (main = qobject_cast<MainWindow *>(list.at(i)))
+         if (main = dynamic_cast<MainWindow *>(list.at(i)))
 			 break;
              
 	if (main == NULL)

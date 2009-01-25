@@ -21,7 +21,7 @@
 #include <qcheckbox.h>
 #include <qslider.h>
 
-TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin) : QWdiget(parent)
+TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin) : QWidget(parent)
 {
 	setupUi(this);
     m_plugin = plugin;

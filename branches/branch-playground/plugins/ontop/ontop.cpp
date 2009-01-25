@@ -199,7 +199,7 @@ QWidget *OnTopPlugin::getMainWindow()
 {
     QWidgetList list = QApplication::topLevelWidgets();
     for (int i = 0; i < list.size(); ++i) 
-         if (MainWindow *w = qobject_cast<MainWindow *>(list.at(i)))
+         if (MainWindow *w = dynamic_cast<MainWindow *>(list.at(i)))
              return w;
     return NULL;
 }
