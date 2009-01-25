@@ -296,12 +296,13 @@ void WeatherPlugin::showBar()
         return;
  
 	QWidgetList list = QApplication::topLevelWidgets();
-	MainWindow *main;
+	MainWindow *main=NULL;
     for (int i = 0; i < list.size(); ++i) 
          if (main = qobject_cast<MainWindow *>(list.at(i)))
-             if (main == NULL)
-				return;
-
+			 break;
+             
+	if (main == NULL)
+		return;
     
     EventToolbar e(BarWeather, main);
     e.process();

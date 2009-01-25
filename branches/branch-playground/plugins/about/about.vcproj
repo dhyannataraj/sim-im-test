@@ -393,6 +393,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputName).ui ..."
 						CommandLine="%qtdir%\bin\uic.exe -o $(InputDir)\ui_$(InputName).h $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)ui_$(InputName).h"
 					/>
