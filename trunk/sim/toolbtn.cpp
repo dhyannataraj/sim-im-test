@@ -118,7 +118,8 @@ void CToolItem::setState()
 
 void CToolItem::checkState()
 {
-    if (m_def.flags & COMMAND_CHECK_STATE){
+    if (m_def.flags & COMMAND_CHECK_STATE)
+	{
         m_def.param = static_cast<CToolBar*>(widget()->parent())->param();
         EventCheckCommandState(&m_def).process();
         m_def.flags |= COMMAND_CHECK_STATE;
@@ -645,9 +646,10 @@ CToolBar::~CToolBar()
 
 void CToolBar::checkState()
 {
-    for (ButtonsMap::iterator it = buttons->begin(); it != buttons->end(); ++it){
-        (*it).second->checkState();
-    }
+	for (ButtonsMap::iterator it = buttons->begin(); it != buttons->end(); ++it)
+	{
+		(*it).second->checkState();
+	}
 }
 
 void CToolBar::mousePressEvent(QMouseEvent *e)

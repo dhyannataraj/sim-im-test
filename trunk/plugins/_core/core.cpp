@@ -3164,6 +3164,7 @@ bool CorePlugin::init(bool bInit)
     m_main = new MainWindow(data.geometry);
     m_view = new UserView;
 
+	bNew = bInit;
     if (!bNew){
         QString containers = getContainers();
         while (!containers.isEmpty()){
