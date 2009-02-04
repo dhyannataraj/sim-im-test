@@ -3,6 +3,9 @@
 PROJECT(Sim-IM)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.4)
+if(COMMAND cmake_policy)
+	cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
 SET(CMAKE_COLOR_MAKEFILE ON)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
@@ -11,6 +14,11 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 SET(QT_MT_REQUIRED True)
 INCLUDE(FindQt3)
 INCLUDE(MacroEnsureOutOfSourceBuild)
+
+SET(CPACK_IGNORE_FILES "/CVS/;.*~;/\\.svn/;\\.swp$;\\.#;/#")
+SET(CPACK_SOURCE_IGNORE_FILES "/CVS/;.*~;/\\.svn/;\\.swp$;\\.#;/#")
+SET(CPACK_PACKAGE_VERSION "0.9.5")
+INCLUDE(CPack)
 
 IF(NOT WIN32)
 MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")

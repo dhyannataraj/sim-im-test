@@ -476,7 +476,8 @@ bool ICQClient::createData(clientData *&_data, Contact *contact)
 
 OscarSocket::OscarSocket()
 {
-    m_nFlapSequence = (unsigned short)(rand() & 0x7FFF);
+    //m_nFlapSequence = (unsigned short)(rand() & 0x7FFF);
+	m_nFlapSequence = 8984;
     m_nMsgSequence  = 0;
 }
 
@@ -843,11 +844,11 @@ void OscarSocket::sendPacket(bool bSend)
     packet[4] = (char)((size >> 8) & 0xFF);
     packet[5] = (char)(size & 0xFF);
     if (bSend){
-        ++m_nFlapSequence;
         packet[2] = (m_nFlapSequence >> 8);
         packet[3] = m_nFlapSequence;
         EventLog::log_packet(socket()->writeBuffer(), true, ICQPlugin::icq_plugin->OscarPacket);
         socket()->write();
+        ++m_nFlapSequence;
     }
 }
 
