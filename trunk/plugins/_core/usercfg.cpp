@@ -329,9 +329,8 @@ void UserConfig::fill()
 {
     ConfigItem::curIndex = 1;
     lstBox->clear();
-    QListViewItem *parentItem;
+    QListViewItem *parentItem=new MainInfoItem(lstBox, CmdInfo);;
     if (m_contact){
-        parentItem = new MainInfoItem(lstBox, CmdInfo);
         ClientDataIterator it(m_contact->clientData);
         void *data;
         while ((data = ++it) != NULL){
@@ -340,6 +339,7 @@ void UserConfig::fill()
                 continue;
             CommandDef *cmds = client->infoWindows(m_contact, data);
             if (cmds){
+				delete parentItem;
                 parentItem = NULL;
                 for (; !cmds->text.isEmpty(); cmds++){
                     if (parentItem){
@@ -352,7 +352,7 @@ void UserConfig::fill()
             }
         }
     }
-
+	delete parentItem;
     parentItem = NULL;
     ClientUserData* data;
     if (m_contact) {
@@ -360,17 +360,17 @@ void UserConfig::fill()
     } else {
         data = &m_group->clientData;
     }
-    ClientDataIterator it(*data);
+    ClientDataIterator cd_it(*data);
     list<unsigned> st;
-    while (++it){
-        if ((it.client()->protocol()->description()->flags & PROTOCOL_AR_USER) == 0)
+    while (++cd_it){
+        if ((cd_it.client()->protocol()->description()->flags & PROTOCOL_AR_USER) == 0)
             continue;
         if (parentItem == NULL){
             parentItem = new ConfigItem(lstBox, 0);
             parentItem->setText(0, i18n("Autoreply"));
             parentItem->setOpen(true);
         }
-        for (const CommandDef *d = it.client()->protocol()->statusList(); !d->text.isEmpty(); d++){
+        for (const CommandDef *d = cd_it.client()->protocol()->statusList(); !d->text.isEmpty(); d++){
             if ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE))
                 continue;
             list<unsigned>::iterator it;
