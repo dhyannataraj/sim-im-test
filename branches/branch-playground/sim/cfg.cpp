@@ -57,7 +57,7 @@
 namespace SIM
 {
 
-void save_state()
+EXPORT void save_state()
 {
     EventSaveState e;
     e.process();

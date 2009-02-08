@@ -289,12 +289,12 @@ KAboutData::license() const
 
 static KAboutData *appAbout = NULL;
 
-EXPORT void SIM::setAboutData(KAboutData *data)
+void SIM::setAboutData(KAboutData *data)
 {
     appAbout = data;
 }
 
-EXPORT KAboutData *SIM::getAboutData()
+KAboutData *SIM::getAboutData()
 {
     return appAbout;
 }

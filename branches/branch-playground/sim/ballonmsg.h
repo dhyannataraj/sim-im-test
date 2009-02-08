@@ -36,9 +36,9 @@ class EXPORT BalloonMsg : public QDialog
 {
     Q_OBJECT
 public:
-    BalloonMsg(void *param, const QString &text, QStringList&, QWidget *p,
-               const QRect *rc = NULL, bool bModal=false, bool bAutoHide=true,
-               unsigned width=150, const QString &boxText = QString::null, bool *bChecked=NULL);
+    BalloonMsg(void *param, const QString &_text, QStringList&, QWidget *parent,
+               const QRect *rcParent = NULL, bool bModal=false, bool bAutoHide=true,
+               unsigned bwidth=150, const QString &box_msg = QString::null, bool *bChecked=NULL);
     ~BalloonMsg();
     static void message(const QString &text, QWidget *parent, bool bModal=false, unsigned width=150, const QRect *rc=NULL);
     static void ask(void *param, const QString &text, QWidget *parent, const char *slotYes, const char *slotNo, const QRect *rc=NULL, QObject *receiver=NULL, const QString &boxText = QString::null, bool *bChecked=NULL);
