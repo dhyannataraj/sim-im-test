@@ -504,7 +504,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
     EventMenu(MenuContainer, EventMenu::eAdd).process();
 
-
+    cmd->bar_id		=0;
     cmd->id			= user_data_id;
     cmd->text		= I18N_NOOP("&Messages");
     cmd->accel		= QString::null;
