@@ -167,6 +167,7 @@ void CorePlugin::createMsgEditToolbar()
   cmd->id       = CmdSend;
   cmd->text     = I18N_NOOP("&Send");
   cmd->icon     = "mail_generic";
+  cmd->icon_on  = QString::null;
   cmd->bar_id   = ToolBarMsgEdit;
   cmd->bar_grp  = 0x8000;
   cmd->flags    = BTN_PICT | COMMAND_CHECK_STATE;
