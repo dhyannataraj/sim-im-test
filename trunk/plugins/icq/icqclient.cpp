@@ -2663,6 +2663,8 @@ bool ICQClient::processEvent(Event *e)
         }
         if(cmd->id == CmdFetchAway) {
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+			if (contact == NULL) 
+				return false;
             ClientDataIterator it(contact->clientData, this);
             ICQUserData *data;
             while ((data = toICQUserData(++it)) != NULL){
