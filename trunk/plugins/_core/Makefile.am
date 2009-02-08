@@ -87,7 +87,8 @@ _core_la_SOURCES = \
  toolbar_container.cpp \
  toolbar_msgedit.cpp \
  toolbar_textedit.cpp \
- msgview_menu.cpp 
+ msgview_menu.cpp \
+ textedit_menu.cpp 
 
 
 
