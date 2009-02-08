@@ -53,7 +53,11 @@ protected slots:
     void resolveReady(unsigned long addr, const QString &host);
     void timeout();
 	void error(int errcode);
+	void checkInterface();
+	void timerEvent(QTimerEvent* ev);
 protected:
+	int m_carrierCheckTimer;
+	bool m_state;
     void timerStop();
     unsigned short port;
     QString host;

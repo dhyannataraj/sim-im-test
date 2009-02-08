@@ -1178,6 +1178,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\textedit_menu.cpp"
+				>
+			</File>
+			<File
 				RelativePath="tmpl.cpp"
 				>
 				<FileConfiguration

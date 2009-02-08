@@ -455,6 +455,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config) : Plugin(base), EventRecei
 	createMsgEditToolbar();
 	createTextEditToolbar();
 	createMenuMsgView();
+	createMenuTextEdit();
 
 	MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
 	// because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, witch are
@@ -505,77 +506,9 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config) : Plugin(base), EventRecei
 	cmd->bar_grp	= 0x8000;
 	EventCommandCreate(cmd).process();
 
-	EventMenu(MenuTextEdit, EventMenu::eAdd).process();
 	EventMenu(MenuContainer, EventMenu::eAdd).process();
 
-	cmd->id			= CmdUndo;
-	cmd->text		= I18N_NOOP("&Undo");
-	cmd->accel		= "Ctrl+Z";
-	cmd->icon		= "undo";
-	cmd->menu_id	= MenuTextEdit;
-	cmd->menu_grp	= 0x1000;
 	cmd->bar_id		= 0;
-	cmd->bar_grp	= 0;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
-
-	cmd->id			= CmdRedo;
-	cmd->text		= I18N_NOOP("&Redo");
-	cmd->accel		= "Ctrl+Y";
-	cmd->icon		= "redo";
-	cmd->menu_grp	= 0x1001;
-	EventCommandCreate(cmd).process();
-
-	cmd->id			= CmdCut;
-	cmd->text		= I18N_NOOP("Cu&t");
-	cmd->icon		= "editcut";
-	cmd->accel		= "Ctrl+X";
-	cmd->menu_grp	= 0x2000;
-	EventCommandCreate(cmd).process();
-
-	cmd->id			= CmdCopy;
-	cmd->text		= I18N_NOOP("&Copy");
-	cmd->icon		= "editcopy";
-	cmd->accel		= "Ctrl+C";
-	cmd->menu_grp	= 0x2001;
-	EventCommandCreate(cmd).process();
-
-	cmd->id			= CmdPaste;
-	cmd->text		= I18N_NOOP("&Paste");
-	cmd->icon		= "editpaste";
-	cmd->accel		= "Ctrl+V";
-	cmd->menu_grp	= 0x2002;
-	EventCommandCreate(cmd).process();
-
-	cmd->id			= CmdClear;
-	cmd->text		= I18N_NOOP("Clear");
-	cmd->icon		= QString::null;
-	cmd->accel		= QString::null;
-	cmd->menu_grp	= 0x3000;
-	EventCommandCreate(cmd).process();
-
-	cmd->id			= CmdSelectAll;
-	cmd->text		= I18N_NOOP("Select All");
-	cmd->accel		= "Ctrl+A";
-	cmd->menu_grp	= 0x3001;
-	EventCommandCreate(cmd).process();
-
-#ifdef USE_KDE
-#if KDE_IS_VERSION(3,2,0)
-	cmd->id		= CmdEnableSpell;
-	cmd->text		= I18N_NOOP("Enable spell check");
-	cmd->accel		= QString::null;
-	cmd->menu_grp	= 0x4000;
-	EventCommandCreate(cmd).process();
-
-	cmd->id		= CmdSpell;
-	cmd->text		= I18N_NOOP("Spell check");
-	cmd->menu_grp	= 0x4001;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
-#endif
-#endif
-
 	cmd->id			= user_data_id;
 	cmd->text		= I18N_NOOP("&Messages");
 	cmd->accel		= QString::null;
@@ -3236,6 +3169,7 @@ bool CorePlugin::init(bool bInit)
 	m_main = new MainWindow(data.geometry);
 	m_view = new UserView;
 
+	bNew = bInit;
 	if (!bNew){
 		QString containers = getContainers();
 		while (!containers.isEmpty()){

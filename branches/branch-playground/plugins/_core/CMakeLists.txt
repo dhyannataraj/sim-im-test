@@ -50,6 +50,7 @@ SET(_core_SRCS
         smscfg.cpp
         status.cpp
         statuswnd.cpp
+        textedit_menu.cpp
         tmpl.cpp
         toolbar_container.cpp
         toolbar_history.cpp
