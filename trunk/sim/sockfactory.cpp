@@ -194,7 +194,7 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
 {
     sock = s;
     if (sock == NULL)
-        sock = new QSocket(NULL);
+        sock = new QSocket(this);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));

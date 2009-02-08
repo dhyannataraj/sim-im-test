@@ -21,6 +21,8 @@
 #include <qstring.h>
 #include <qdialog.h>
 #include <qbitmap.h>
+#include <qframe.h>
+#include <qlayout.h>
 #include <qpushbutton.h>
 
 #include "simapi.h"
@@ -55,6 +57,9 @@ protected:
     QBitmap mask;
     QWidget *m_parent;
     QCheckBox *m_check;
+	QVBoxLayout *m_vlay;
+	QHBoxLayout *m_hlay;
+	QFrame *m_frm;
     bool m_bAutoHide;
     bool m_bYes;
     bool *m_bChecked;

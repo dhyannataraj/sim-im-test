@@ -430,7 +430,7 @@ CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
 
 CommandsMapIterator::CommandsMapIterator(CommandsMap &m)
 {
-    log(L_DEBUG, "CommandsMapIterator for %p", &m);
+    //log(L_DEBUG, "CommandsMapIterator for %p", &m);
     p = new CommandsMapIteratorPrivate(*m.p);
 }
 

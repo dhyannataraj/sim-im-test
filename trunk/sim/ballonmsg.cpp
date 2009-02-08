@@ -19,10 +19,10 @@
 
 #include <qapplication.h>
 #include <qbitmap.h>
-#include <qframe.h>
+
 #include <qimage.h>
 #include <qcheckbox.h>
-#include <qlayout.h>
+
 #include <qpainter.h>
 #include <qpointarray.h>
 #include <qpushbutton.h>
@@ -124,35 +124,35 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     bool bTailDown = true;
     setPalette(QToolTip::palette());
     text = _text;
-    QFrame *frm = new QFrame(this);
-    frm->setPalette(palette());
-    QVBoxLayout *vlay = new QVBoxLayout(frm);
-    vlay->setMargin(0);
+    m_frm = new QFrame(this);
+    m_frm->setPalette(palette());
+    m_vlay = new QVBoxLayout(m_frm);
+    m_vlay->setMargin(0);
     m_check = NULL;
     if (!box_msg.isEmpty()){
-        m_check = new QCheckBox(box_msg, frm);
-        vlay->addWidget(m_check);
+        m_check = new QCheckBox(box_msg, m_frm);
+        m_vlay->addWidget(m_check);
         if (m_bChecked)
             m_check->setChecked(*m_bChecked);
     }
-    QHBoxLayout *lay = new QHBoxLayout(vlay);
-    lay->setSpacing(5);
-    lay->addStretch();
+    m_hlay = new QHBoxLayout(m_vlay);
+    m_hlay->setSpacing(5);
+    m_hlay->addStretch();
     unsigned id = 0;
     bool bFirst = true;
     for (QStringList::Iterator it = btn.begin(); it != btn.end(); ++it, id++){
-        BalloonButton *b = new BalloonButton(*it, frm, id);
+        BalloonButton *b = new BalloonButton(*it, m_frm, id);
         connect(b, SIGNAL(action(int)), this, SLOT(action(int)));
-        lay->addWidget(b);
+        m_hlay->addWidget(b);
         if (bFirst){
             b->setDefault(true);
             bFirst = false;
         }
     }
     setButtonsPict(this);
-    lay->addStretch();
-    int wndWidth = frm->minimumSizeHint().width();
-    int hButton  = frm->minimumSizeHint().height();
+    m_hlay->addStretch();
+    int wndWidth = m_frm->minimumSizeHint().width();
+    int hButton  = m_frm->minimumSizeHint().height();
 
     int txtWidth = bwidth;
     QRect rc;
@@ -168,7 +168,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     richText.setWidth(wndWidth);
     richText.adjustSize();
     QSize s(richText.widthUsed(), richText.height());
-    QSize sMin = frm->minimumSizeHint();
+    QSize sMin = m_frm->minimumSizeHint();
     if (s.width() < sMin.width())
         s.setWidth(sMin.width());
     int BALLOON_SHADOW = BALLOON_SHADOW_DEF;
@@ -208,8 +208,8 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     if (!bTailDown)
         pos += BALLOON_TAIL;
     textRect.setRect(BALLOON_R, pos + BALLOON_R, w - BALLOON_R * 2, h);
-    frm->resize(s.width(), hButton);
-    frm->move(BALLOON_R, pos + h - BALLOON_R - hButton);
+    m_frm->resize(s.width(), hButton);
+    m_frm->move(BALLOON_R, pos + h - BALLOON_R - hButton);
     QPainter p;
     p.begin(&mask);
 #ifdef WIN32
