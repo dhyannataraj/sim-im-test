@@ -2239,7 +2239,7 @@ bool AIMFileTransfer::writeOFT(OftData* oft)
 	m_socket->writeBuffer().pack(oft->nencode);
 	m_socket->writeBuffer().pack(oft->nlanguage);
 	m_socket->writeBuffer().pack(oft->name.data(), oft->name.size() - 1);
-	if(oft->name.size() < 0x40)
+	if(oft->name.size() - 1 <= 0x40)
 	{
 		for(unsigned int i = 0; i < 0x40 - oft->name.size() + 1; i++)
 		{
@@ -2568,12 +2568,12 @@ void AIMIncomingFileTransfer::packet_ready()
 			{
 				if(m_bytes < m_fileSize)
 				{
-					long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos()); //Fixme: Local declaration of 'size' hides declaration of the same name in outer scope, see previous declaration at line '2502'
+					long recvd_size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos()); 
 					if(size < 0)
 					{
 						return;
 					}
-					receiveNextBlock(size);
+					receiveNextBlock(recvd_size);
 				}
 				if(m_bytes >= m_fileSize)
 				{
@@ -2608,7 +2608,7 @@ void AIMIncomingFileTransfer::packet_ready()
 			break;
 	}
 }
-void AIMIncomingFileTransfer::startReceive(unsigned pos) //Unused Parameter pos
+void AIMIncomingFileTransfer::startReceive(unsigned /*pos*/)
 {
 	m_oft.type = OFT_answer;
 	*((unsigned long*)&m_oft.cookie[0]) = htonl(m_cookie.id_l);
@@ -3008,13 +3008,6 @@ void AIMOutcomingFileTransfer::write_ready()
 		}
 	}
 }
-
-/*
-void AIMOutcomingFileTransfer::read_ready()
-{
-	log(L_DEBUG, "AIMOutcomingFileTransfer::read_ready()");
-}
-*/
 
 void AIMOutcomingFileTransfer::connect_timeout()
 {
