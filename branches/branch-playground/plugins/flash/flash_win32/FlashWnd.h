@@ -21,7 +21,8 @@
 #endif // _MSC_VER > 1000
 
 //#import "c:\\winnt\\system32\\macromed\\flash\\flash.ocx" named_guids
-#import "C:\\WINNT\\system32\\Macromed\\Flash\\Flash9b.ocx" named_guids
+
+#import "c:\\WINNT\\system32\\macromed\\flash\\Flash10a.ocx" named_guids no_auto_exclude
 
 #define NOTIMPLEMENTED return E_NOTIMPL
 
@@ -38,11 +39,11 @@
 	ULONG STDMETHODCALLTYPE Release();
 
 
-OLECONTAINER_DEF class COleContainerWnd : 
-											virtual public IOleClientSite,
-											virtual public IOleInPlaceSiteWindowless,
-											virtual public IOleInPlaceFrame,
-											virtual public IStorage
+OLECONTAINER_DEF class COleContainerWnd :
+/*virtual*/ public IOleClientSite,
+/*virtual*/ public IOleInPlaceSiteWindowless,
+/*virtual*/ public IOleInPlaceFrame,
+/*virtual*/ public IStorage
 																						  
 {
 public:						 
@@ -563,7 +564,8 @@ OLECONTAINER(void)::Draw(HDC hdcDraw, const RECT *rcDraw, BOOL bErase)
 	if (!m_bTransparent)
 	{
 		RECT rTotal;
-			::GetClientRect(hwnd, &rTotal);
+		if (!::GetClientRect(hwnd, &rTotal))
+			return;
 		if (lpV)
 		{
 			if (!hdcDraw)

@@ -71,7 +71,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 //	g_flashWnd->Create(ShockwaveFlashObjects::CLSID_ShockwaveFlash,
 //		0, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS,
 //		g_hWnd, g_hInst);
-	
 
 	// Main message loop:
 	while (GetMessage(&msg, NULL, 0, 0)) 
@@ -152,7 +151,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-   
 
    g_hWnd = hWnd;
 
@@ -187,7 +185,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				case IDM_ABOUT:
 				   DialogBox(hInst, (LPCTSTR)IDD_ABOUTBOX, hWnd, (DLGPROC)About);
-				   
 				   break;
 				case IDM_EXIT:
 				   DestroyWindow(hWnd);
