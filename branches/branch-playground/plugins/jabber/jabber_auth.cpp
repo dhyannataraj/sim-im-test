@@ -20,6 +20,7 @@
 #include "jabberclient.h"
 
 #include <qtimer.h>
+#include <QCryptographicHash>
 
 using namespace SIM;
 
@@ -99,7 +100,7 @@ void JabberClient::auth_digest()
 
     QString digest = m_id;
     digest += getPassword();
-    QByteArray md = sha1(digest.utf8());
+    QByteArray md = QCryptographicHash::hash(digest.toUtf8(), QCryptographicHash::Sha1);
     digest = QString::null;
     for (unsigned i = 0; i < md.size(); i++){
         char b[3];

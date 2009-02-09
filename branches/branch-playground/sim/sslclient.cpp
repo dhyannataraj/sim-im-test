@@ -25,7 +25,6 @@
 #include <openssl/err.h>
 #include <openssl/bio.h>
 #include <openssl/rand.h>
-#include <openssl/md5.h>
 
 #include "log.h"
 #include "misc.h"
@@ -435,33 +434,6 @@ bool SSLClient::initTLS1(bool bDH)
     return true;
 }
 
-QByteArray md5(const char *str, int size)
-{
-    MD5_CTX c;
-    unsigned char md[MD5_DIGEST_LENGTH];
-    if (size < 0)
-        size = strlen(str);
-    MD5_Init(&c);
-    MD5_Update(&c, str, size);
-    MD5_Final(md, &c);
-    QByteArray ba;
-    ba.duplicate((char*)md, sizeof(md));
-    return ba;
-}
-
-QByteArray sha1(const char *str, int size)
-{
-    unsigned char digest[20];
-    SHA_CTX ctx;
-    if (size < 0)
-        size = strlen(str);
-    SHA1_Init(&ctx);
-    SHA1_Update(&ctx, str, size);
-    SHA1_Final(digest, &ctx);
-    QByteArray ba;
-    ba.duplicate((char*)digest, sizeof(digest));
-    return ba;
-}
 
 } // namespace SIM
 

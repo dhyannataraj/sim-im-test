@@ -84,10 +84,13 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin
 #ifdef WIN32
-					, public QThread
+    : public QThread,
+#else
+    : public QObject,
 #endif
+      public SIM::Plugin, public SIM::EventReceiver
 
 {
     Q_OBJECT

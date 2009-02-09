@@ -8,16 +8,19 @@ SET(remote_LIB_SRCS
         remotecfg.cpp
 )
 
+SET(remote_LIB_HDRS
+        remote.h
+        remotecfg.h
+)
+
 SET(remote_UI_FILES
         remotecfgbase.ui
 )
 
 # moc, if needed
-#KDE3_AUTOMOC(${remote_LIB_SRCS})
-QT4_WRAP_CPP(remote_mocs ${remote_LIB_SRCS})
+QT4_WRAP_CPP(remote_mocs ${remote_LIB_HDRS})
 
 # don't forget our ui's
-#QT3_ADD_UI_FILES(remote_LIB_SRCS ${remote_UI_FILES})
 QT4_WRAP_UI(remote_uis ${remote_UI_FILES})
 
 ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS} ${remote_mocs} ${remote_uis})
@@ -36,6 +39,7 @@ INSTALL(TARGETS remote LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATIO
 # next target - simctrl #
 #########################
 
+IF(0)
 ADD_EXECUTABLE(simctrl simctrl.cpp)
 IF(SIM_ENABLE_FPIE)
     SET_TARGET_PROPERTIES(simctrl PROPERTIES COMPILE_FLAGS "${SIM_CXX_FPIE_FLAGS}")
@@ -47,7 +51,6 @@ IF(NOT WIN32)
     INSTALL(FILES simctrl.desktop DESTINATION ${SERVICES_INSTALL_DIR})
 ENDIF(NOT WIN32)
     
-IF(0)
 #doesn't work yet
 ########################
 # next target - simext #

@@ -29,7 +29,6 @@ class SplashPlugin : public SIM::Plugin, public SIM::XEventHandler
 public:
     SplashPlugin(unsigned base, bool bStart);
     virtual ~SplashPlugin();
-    virtual bool processEvent(SIM::Event *e);
 	virtual XEventHandler::tFlowControl handle(SIM::XEvent* event);
 
 protected:

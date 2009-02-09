@@ -25,6 +25,7 @@
 
 #include <qtimer.h>
 #include <qregexp.h>
+#include <QCryptographicHash>
 //Added by qt3to4:
 #include <Q3CString>
 #include <stdio.h>
@@ -1293,7 +1294,7 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
     addParam("ver", "1");
     if (!client->data.owner.User.str().isEmpty())
         addParam("user", client->data.owner.User.str());
-    QByteArray pass = md5(client->getPassword().utf8());
+    QByteArray pass = QCryptographicHash::hash(client->getPassword().toUtf8(), QCryptographicHash::Md5);
     QString hpass;
     for (unsigned i = 0; i < pass.size(); i++){
       char b[5];

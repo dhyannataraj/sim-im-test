@@ -7,7 +7,7 @@ ENDIF(NOT WIN32)
 ######################
 
 SET(sim_LIB_SRCS
-	#aboutdata.cpp
+	    aboutdata.cpp
 		ballonmsg.cpp
 		buffer.cpp
 		builtinlogger.cpp
@@ -51,7 +51,7 @@ SET(sim_LIB_SRCS
 		qzip/unzip.c
 	)
 SET(sim_LIB_HDRS
-	#aboutdata.h
+	    aboutdata.h
 		ballonmsg.h
 		buffer.h
 		builtinlogger.h
@@ -141,7 +141,7 @@ INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${LIBICONV_INC
 TARGET_LINK_LIBRARIES(simlib ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
 
 IF(WIN32)
-  TARGET_LINK_LIBRARIES(simlib ${LIBICONV_LIBRARIES} ${QT_QTMAIN_LIBRARY})
+  TARGET_LINK_LIBRARIES(simlib ${LIBICONV_LIBRARIES})
 ENDIF(WIN32)
 
 # set correct install path
@@ -185,7 +185,7 @@ IF(SIM_ENABLE_FPIE)
 ENDIF(SIM_ENABLE_FPIE)
 
 # only needs simlib
-TARGET_LINK_LIBRARIES(sim simlib ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(sim simlib ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
 
 # set correct install path
 INSTALL(TARGETS sim RUNTIME DESTINATION ${BINDIR})

@@ -237,9 +237,6 @@ private:
 
 #ifdef ENABLE_OPENSSL
 
-EXPORT QByteArray md5(const char*, int size = -1);
-EXPORT QByteArray sha1(const char*, int size = -1);
-
 class EXPORT SSLClient : public SocketNotify, public Socket
 {
 public:

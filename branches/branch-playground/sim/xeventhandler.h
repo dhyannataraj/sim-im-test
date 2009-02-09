@@ -2,15 +2,14 @@
 #ifndef SIM_XEVENTHANDLER_H
 #define SIM_XEVENTHANDLER_H
 
-#include <QString>
-#include <map>
+#include "simapi.h"
 
 namespace SIM
 {
 class XEvent;
 
 
-class XEventHandler
+class EXPORT XEventHandler
 {
 public:
 	typedef enum

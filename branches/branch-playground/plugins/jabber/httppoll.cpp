@@ -21,8 +21,8 @@
 #include "log.h"
 
 #include "jabberclient.h"
-//Added by qt3to4:
-#include <Q3CString>
+#include <QCryptographicHash>
+#include <QByteArray>
 
 using namespace SIM;
 
@@ -42,8 +42,8 @@ protected:
     JabberBuffer readData;
     JabberBuffer writeData;
     QString m_url;
-    Q3CString m_key;
-    Q3CString m_seed;
+    QByteArray m_key;
+    QByteArray m_seed;
     QString m_cookie;
     virtual unsigned long localHost();
     virtual void pause(unsigned);
@@ -56,15 +56,14 @@ JabberHttpPool::JabberHttpPool(const QString &url)
 {
     m_cookie = "0";
 #ifdef ENABLE_OPENSSL
-    /*
+/*
         Buffer k;
         for (unsigned i = 0; i < 48; i++){
             char c = get_random() & 0xFF;
             k.pack(&c, 1);
         }
-        Q3CString to = Buffer::toBase64(k);
-        m_seed.append(to.data(), to.size());
-    */
+        m_seed += Buffer::toBase64(k);
+*/
     m_seed = "foo";
 #endif
 }
@@ -80,7 +79,7 @@ QString JabberHttpPool::getKey()
         m_key = m_seed;
         return m_key;
     }
-    QByteArray digest = sha1(m_key);
+    QByteArray digest = QCryptographicHash::hash(m_key, QCryptographicHash::Sha1);
     Buffer b;
     b.pack(digest, digest.size());
     m_key = Buffer::toBase64(b);
