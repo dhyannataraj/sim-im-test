@@ -29,6 +29,7 @@
 #include "misc.h"
 #include "plugins.h"
 #include "core_consts.h"
+#include "log.h"
 
 typedef std::map<QString, unsigned> MAP_TYPES;
 

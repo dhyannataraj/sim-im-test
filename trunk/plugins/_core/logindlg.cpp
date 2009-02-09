@@ -78,6 +78,8 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     profileChanged(cmbProfile->currentItem());
     
     CorePlugin::m_plugin->setProfile(QString::null); // This will minimize the risk of loosing current profile on 
+	log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
+
                               // QApplication::commitData() when no profile is selected yet.
 			      
 			      // FIXME: To completely remove this risk, one should not setProfile before profile is
@@ -133,6 +135,7 @@ void LoginDialog::accept()
         CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
         CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
         CorePlugin::m_plugin->setProfile(QString::null);
+		log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
         CorePlugin::m_plugin->changeProfile();
         LoginDialogBase::accept();
         return;
@@ -353,6 +356,7 @@ void LoginDialog::fill()
     }else{
         cmbProfile->setCurrentItem(cmbProfile->count() - 1);
         CorePlugin::m_plugin->setProfile(QString::null);
+		log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
     }
 }
 
@@ -392,6 +396,7 @@ void LoginDialog::profileDelete()
     CorePlugin::m_plugin->setProfile(curProfile);
     rmDir(user_file(""));
     CorePlugin::m_plugin->setProfile(QString::null);
+	log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
     CorePlugin::m_plugin->changeProfile();
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
@@ -411,6 +416,7 @@ void LoginDialog::profileRename()
     
   QString name = old_name;
   CorePlugin::m_plugin->setProfile(QString::null);
+  log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
   QString profileDir=user_file("");
   QDir d(user_file(""));
   while(1) {

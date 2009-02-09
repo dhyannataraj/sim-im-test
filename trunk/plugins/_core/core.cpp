@@ -2961,6 +2961,7 @@ bool CorePlugin::init(bool bInit)
     if (!cmd_line_profile.isEmpty()){
         bCmdLineProfile = true;
         setProfile(QString::null);
+		log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
         QString profileDir = user_file(cmd_line_profile);
         QDir d(profileDir);
         if (d.exists()) {
@@ -3022,6 +3023,7 @@ bool CorePlugin::init(bool bInit)
 
         QString name;
         setProfile(QString::null);
+		log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
         QDir d(user_file(QString::null));
         while(1) {
           if (!bCmdLineProfile){
@@ -3172,6 +3174,7 @@ void CorePlugin::loadDir()
 {
     QString saveProfile = getProfile();
     setProfile(QString::null);
+	log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
     bool bOK = false;
     QString baseName = user_file(QString::null);
     QDir dir(baseName);
@@ -3276,7 +3279,8 @@ struct TGeneralCoreData
 
 
     QString saveProfile = getProfile();
-    setProfile(QString::null);
+    setProfile(QString::null); 
+	log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
 
     load_data(generalCoreDataDef, &GeneralCoreData, NULL);  // This will just init data
     GeneralCoreData.Profile.str() = saveProfile;

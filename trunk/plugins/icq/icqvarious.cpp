@@ -1330,6 +1330,7 @@ void ICQClient::setClientInfo(void *_data)
         data.owner.About.str() = d->About.str();
         setAIMInfo(d);
         setProfile(d);
+		
         return;
     }
 
