@@ -265,6 +265,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 		while ((data = toICQUserData(++itd)) != NULL)
 			data->Alias.str() = contact->getName();
 	}
+	m_connectionLost = false;
 
 }
 
@@ -2840,6 +2841,23 @@ bool ICQClient::processEvent(Event *e)
         }
         break;
     }
+	case eEventInterfaceDown:
+	{
+		setState(Error, "Interface down");
+		setStatus(STATUS_OFFLINE, false);
+		m_connectionLost = true;
+		break;
+	}
+	case eEventInterfaceUp:
+	{
+		if(m_connectionLost)
+		{
+			setState(Connecting);
+			setStatus(STATUS_ONLINE, false);
+			m_connectionLost = false;
+		}
+		break;
+	}
     case eEventOpenMessage: {
         if (getState() != Connected)
             return false;
