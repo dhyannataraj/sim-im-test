@@ -36,7 +36,7 @@ void QChildWidget::childEvent(QChildEvent *e)
         m_bInit = true;
         if (e->child()->inherits("QWidget")){
 			// WHAT IS THIS????
-            if (!static_cast<QWidget*>(e->child())->windowFlags() & Qt::Popup)
+            if ((static_cast<QWidget*>(e->child())->windowFlags() & Qt::Popup) == 0)
                 e->child()->installEventFilter(this);
         }
     }

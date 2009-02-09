@@ -43,6 +43,7 @@
 #include <q3socketdevice.h>
 #include <qsocketnotifier.h>
 #include <qtimer.h>
+#include <QTimerEvent>
 
 #ifndef WIN32
 	// name resolving
