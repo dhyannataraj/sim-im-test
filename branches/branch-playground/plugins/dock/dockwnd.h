@@ -69,7 +69,7 @@ protected slots:
     void showPopup();
 protected:
 #ifdef WIN32
-    virtual bool winEvent(MSG *msg);
+    virtual bool winEvent(MSG * message, long * result);
 #endif
     virtual bool processEvent(SIM::Event *e);
     void  reset();

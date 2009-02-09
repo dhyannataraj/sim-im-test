@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
     }
 #endif
     qInstallMsgHandler(simMessageOutput);
-	/*
+
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("Sim-IM"),
                          _VERSION,
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Author"),				"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher"	 ,I18N_NOOP("Developer"),			"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
-	*/
+
 #ifndef WIN32
     int _argc = 0;
     char **_argv = new char*[argc + 1];

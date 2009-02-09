@@ -88,7 +88,7 @@ static UINT    WM_TASKBARCREATED = 0;
 #define NIN_BALLOONUSERCLICK	(WM_USER + 5)
 #endif
 
-bool DockWnd::winEvent(MSG *msg)
+bool DockWnd::winEvent(MSG * msg, long * result)
 {
     if(msg->message == WM_DOCK || msg->message == 0)
         callProc(msg->lParam);

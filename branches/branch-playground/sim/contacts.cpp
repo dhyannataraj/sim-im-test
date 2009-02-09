@@ -707,7 +707,7 @@ ContactList::ContactList()
 
 ContactList::~ContactList()
 {
-    delete [] p;
+    delete p;
 }
 
 unsigned ContactList::registerUserData(const QString &name, const DataDef *def)
