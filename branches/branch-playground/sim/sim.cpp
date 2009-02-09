@@ -18,6 +18,7 @@
 #include "simapi.h"
 #include "log.h"
 #include "misc.h"
+#include "xeventhandlermanager.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -37,7 +38,6 @@
 #if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 //#include <X11/X.h>
 #include <X11/Xlib.h>
-#include "xeventhandlermanager.h"
 #endif
 
 using namespace SIM;
@@ -207,9 +207,7 @@ Debug d;
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_OS_UNIX
 	new XEventHandlerManager();
-#endif
     int res = 1;
 #ifdef WIN32
     Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");

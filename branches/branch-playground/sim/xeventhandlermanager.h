@@ -6,11 +6,12 @@
 
 #include "xeventhandler.h"
 #include "xevent.h"
+#include "simapi.h"
 
 namespace SIM
 {
 
-class XEventHandlerManager
+class EXPORT XEventHandlerManager
 {
 public:
 	XEventHandlerManager();
