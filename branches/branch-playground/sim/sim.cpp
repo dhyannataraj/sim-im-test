@@ -18,7 +18,6 @@
 #include "simapi.h"
 #include "log.h"
 #include "misc.h"
-#include "xeventhandlermanager.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -27,8 +26,6 @@
 
 #ifdef USE_KDE
 #include <qwidget.h>
-//Added by qt3to4:
-#include <Q3CString>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kuniqueapplication.h>
@@ -40,6 +37,7 @@
 #if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 //#include <X11/X.h>
 #include <X11/Xlib.h>
+#include "xeventhandlermanager.h"
 #endif
 
 using namespace SIM;
@@ -209,7 +207,9 @@ Debug d;
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_UNIX
 	new XEventHandlerManager();
+#endif
     int res = 1;
 #ifdef WIN32
     Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
 #endif
 #else
     for (int i = 0; i < argc; i++){
-        Q3CString arg = argv[i];
+        QByteArray arg = argv[i];
         if ((arg[0] == '/') || (arg[0] == '-'))
             arg = arg.mid(1);
         if ((arg == "reinstall") || (arg == "showicons") || (arg == "hideicons"))
