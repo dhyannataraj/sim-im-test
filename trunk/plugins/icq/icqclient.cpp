@@ -2960,20 +2960,6 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && ((data->Status.toULong() & 0xFFFF) != ICQ_STATUS_OFFLINE))
 		{
 			log(L_DEBUG, "send: MessageFile");
-			/*
-            if (data->Uin.toULong())
-			{
-                DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
-                if (!dc){
-                    if (data->bNoDirect.toBool())
-                        return sendThruServer(msg, data);
-                    dc = new DirectClient(data, this, PLUGIN_NULL);
-                    data->Direct.setObject(dc);
-                    dc->connect();
-                }
-                return dc->sendMessage(msg);
-            }
-				*/
             if (!hasCap(data, CAP_AIM_SENDFILE))
 				return false;
 			sendThruServer(msg, data);

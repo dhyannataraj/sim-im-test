@@ -1,5 +1,5 @@
 /***************************************************************************
-                          icqvarious.cpp  -  description
+                          icqssbi.cpp  -  description
                              -------------------
     begin                : Sun Oct 17 2006
     copyright            : (C) 2006 by Christian Ehrlicher
