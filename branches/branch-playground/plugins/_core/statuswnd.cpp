@@ -185,14 +185,10 @@ bool StatusFrame::processEvent(Event *e)
     switch (e->type()){
     case eEventSocketActive:
 		{
-			QObjectList l = queryList("StatusLabel");
-			QObjectList::iterator itObject = l.begin();
-			QObject *obj;
-			while((obj = *itObject) != NULL) {
-				++itObject;
-				StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-				lbl->setPict();
-			}
+			QObjectList list = queryList("StatusLabel");
+			for (int i = 0; i < list.size(); ++i) 
+				if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i)))
+					lbl->setPict();
 			break;
 		}
     case eEventCheckCommandState:
@@ -202,47 +198,46 @@ bool StatusFrame::processEvent(Event *e)
 			if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
 				unsigned n = 0;
 				{
-					QObjectList l = queryList("StatusLabel");
-					QObjectList::iterator itObject = l.begin();
-					QObject *obj;
-					while ((obj = *itObject) != NULL) {
-						++itObject;
-						StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-						if (lbl->x() + lbl->width() > width())
-							n++;
-					}
+					QObjectList list = queryList("StatusLabel");
+					for (int i = 0; i < list.size(); ++i) 
+						if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i)))
+							if (lbl->x() + lbl->width() > width())
+								n++;
+
 				}
 				CommandDef *cmds = new CommandDef[n + 1];
-				QObjectList l = queryList("StatusLabel");
-				QObjectList::iterator itObject = l.begin();
-				QObject *obj;
 				n = 0;
-				while ((obj = *itObject) != NULL)
+				QObjectList list = queryList("StatusLabel");
+				for (int i = 0; i < list.size(); ++i)
 				{
-					++itObject;
-					StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-					if (lbl->x() + lbl->width() > width()){
-						cmds[n].id = 1;
-						cmds[n].text = "_";
-						cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
-						cmds[n].popup_id = lbl->m_id;
-						if (lbl->m_client->getState() == Client::Error)
+					if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i))) 
+					{
+						if (lbl->x() + lbl->width() > width())
 						{
-							cmds[n].icon = "error";
-						}
-						else
-						{
-							Protocol *protocol = lbl->m_client->protocol();
-							const CommandDef *cmd = protocol->description();
-							cmds[n].icon = cmd->icon;
-							for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
-								if (cmd->id == lbl->m_client->getStatus()){
-									cmds[n].icon = cmd->icon;
-									break;
+							cmds[n].id = 1;
+							cmds[n].text = "_";
+							cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
+							cmds[n].popup_id = lbl->m_id;
+							if (lbl->m_client->getState() == Client::Error)
+							{
+								cmds[n].icon = "error";
+							}
+							else
+							{
+								Protocol *protocol = lbl->m_client->protocol();
+								const CommandDef *cmd = protocol->description();
+								cmds[n].icon = cmd->icon;
+								for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++)
+								{
+									if (cmd->id == lbl->m_client->getStatus())
+									{
+										cmds[n].icon = cmd->icon;
+										break;
+									}
 								}
 							}
+							n++;
 						}
-						n++;
 					}
 				}
 				cmd->param = cmds;
@@ -262,13 +257,10 @@ bool StatusFrame::processEvent(Event *e)
         break;
     }
     case eEventIconChanged:{
-            QObjectList l = queryList("StatusLabel");
-			QObjectList::iterator itObject = l.begin();
-            QObject *obj;
-            while ((obj = *itObject) != NULL) {
-                ++itObject;
-                static_cast<StatusLabel*>(obj)->setPict();
-            }
+            QObjectList list = queryList("StatusLabel");
+			for (int i = 0; i < list.size(); ++i) 
+				if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i)))
+					lbl->setPict();
             break;
         }
     default:
