@@ -36,7 +36,7 @@
 using namespace SIM;
 
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
-        : QWidget(parent)
+        : QWidget(parent), m_iface(0)
 {
 	setupUi(this);
     m_plugin = plugin;
@@ -60,8 +60,8 @@ WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
 
 WeatherCfg::~WeatherCfg()
 {
-    if (m_iface)
-        delete m_iface;
+// do not delete - it gets deleted when QTabWidget (=parent) goes away
+//    delete m_iface;
 }
 
 void WeatherCfg::textChanged(const QString &text)

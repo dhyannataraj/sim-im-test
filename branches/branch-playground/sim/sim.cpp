@@ -315,6 +315,7 @@ int main(int argc, char *argv[])
 #endif
     QApplication::addLibraryPath( app.applicationDirPath() + "/plugins" );
     PluginManager p(argc, argv);
+    app.setQuitOnLastWindowClosed( false );
     if (p.isLoaded())
         res = app.exec();
 #ifdef WIN32

@@ -27,6 +27,7 @@ class WIfaceCfg : public QWidget, public Ui::WIfaceCfgBase
     Q_OBJECT
 public:
     WIfaceCfg(QWidget *parent, WeatherPlugin*);
+    virtual ~WIfaceCfg();
 public slots:
     void apply();
     void help();

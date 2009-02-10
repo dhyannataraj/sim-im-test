@@ -94,10 +94,8 @@ ConfigItem::~ConfigItem()
 
 void ConfigItem::deleteWidget()
 {
-    if (m_widget){
-        delete m_widget;
-        m_widget = NULL;
-    }
+    delete m_widget;
+    m_widget = NULL;
 }
 
 void ConfigItem::init(unsigned id)
@@ -319,7 +317,7 @@ using namespace ConfigDlg;
 
 ConfigureDialog::ConfigureDialog() : QDialog(NULL)
 {
-	setupUi(this);
+    setupUi(this);
     m_nUpdates = 0;
     SET_WNDPROC("configure")
     setIcon(Pict("configure"));
@@ -469,7 +467,7 @@ bool ConfigureDialog::setCurrentItem(Q3ListViewItem *parent, unsigned id)
 
 void ConfigureDialog::closeEvent(QCloseEvent *e)
 {
-    //ConfigureDialogBase::closeEvent(e);
+    QDialog::closeEvent(e);
     emit finished();
 }
 
@@ -490,7 +488,7 @@ void ConfigureDialog::apply(Q3ListViewItem *item)
 
 void ConfigureDialog::reject()
 {
-    //ConfigureDialogBase::reject();
+    QDialog::reject();
     emit finished();
 }
 
@@ -598,7 +596,7 @@ void ConfigureDialog::accept()
 {
     apply();
     if (m_bAccept){
-        //ConfigureDialogBase::accept();
+        QDialog::accept();
         emit finished();
     }
 }
@@ -696,11 +694,3 @@ Q3ListViewItem *ConfigureDialog::findItem(QWidget *w, Q3ListViewItem *parent)
     }
     return NULL;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "cfgdlg.moc"
-#endif
-*/
-
-

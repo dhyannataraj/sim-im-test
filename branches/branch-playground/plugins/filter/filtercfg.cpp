@@ -56,8 +56,8 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
 
 FilterConfig::~FilterConfig()
 {
-    if (m_ignore)
-        delete m_ignore;
+// do not delete - it gets deleted when QTabWidget (=parent) goes away
+//    delete m_ignore;
 }
 
 void FilterConfig::apply()

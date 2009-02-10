@@ -39,7 +39,7 @@ using namespace SIM;
 
 GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_plugin = plugin;
     m_process= NULL;
     m_bNew   = false;
@@ -80,7 +80,8 @@ GpgCfg::~GpgCfg()
 #ifdef WIN32
     delete m_find;
 #endif
-    delete m_adv;
+// do not delete - it gets deleted when QTabWidget (=parent) goes away
+//    delete m_adv;
 }
 
 void GpgCfg::apply()
