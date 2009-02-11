@@ -82,14 +82,13 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
     connect(btnRename, SIGNAL(clicked()), this, SLOT(profileRename()));
     profileChanged(cmbProfile->currentItem());
-    
-    CorePlugin::m_plugin->setProfile(QString::null); // This will minimize the risk of loosing current profile on 
-                              // QApplication::commitData() when no profile is selected yet.
-			      
-			      // FIXME: To completely remove this risk, one should not setProfile before profile is
-			      // really loaded, or set a flag, that profile is not really loaded and check in when
-			      // writing configure files
-}
+
+  	//CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->getProfile()); //This was a temporary testfix ;)
+	//init setProfile with QString::null is here a bad idea because f.e. on icq-disconnect or any bad login/password combination this dialog comes up,
+	//the profile-name is still the same, but get lost if empty initialized, and SIM saves all content, history, styles, pictures not in Profile but in GLOBAL Folder, this has to be prevented.
+
+	//log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
+
 
 LoginDialog::~LoginDialog()
 {
@@ -269,7 +268,7 @@ void LoginDialog::profileChanged(int)
         buttonOk->setEnabled(false);
         pswdChanged("");
     	CorePlugin::m_plugin->setProfile(save_profile);   // We should not change Profile value in _core before "Ok" button
-							  // is pressed otherwise sim will overwrite wrong config file on 
+							  // is pressed otherwise sim will overwrite wrong config file on
 							  // exit.
     }
     QTimer::singleShot(0, this, SLOT(adjust()));
@@ -424,9 +423,9 @@ void LoginDialog::profileRename()
   if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
     return;
 
-  QString old_name = CorePlugin::m_plugin->m_profiles[n];  
+  QString old_name = CorePlugin::m_plugin->m_profiles[n];
   QString current_profile = CorePlugin::m_plugin->getProfile();
-    
+
   QString name = old_name;
   CorePlugin::m_plugin->setProfile(QString::null);
   QString profileDir=user_file("");
