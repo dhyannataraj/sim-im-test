@@ -2677,6 +2677,9 @@ void AIMIncomingFileTransfer::write_ready()
 		m_client->deleteFileMessage(m_cookie);
 		if(m_notify)
 			m_notify->process();
+		// I'm not sure who is responsible for connection closing in this case.
+		// If sender is icq6, it closes this socket itself. Pidgin, however, does not.
+		m_socket->close();
 	}
 }
 
