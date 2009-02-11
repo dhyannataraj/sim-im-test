@@ -88,7 +88,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 	//the profile-name is still the same, but get lost if empty initialized, and SIM saves all content, history, styles, pictures not in Profile but in GLOBAL Folder, this has to be prevented.
 
 	//log(L_WARN, QString("PROFILE SET TO QString::null in File: %1 Function: %2 Line: %3").arg(__FILE__).arg(__FUNCTION__).arg(__LINE__));
-
+}
 
 LoginDialog::~LoginDialog()
 {
