@@ -212,7 +212,7 @@ void FileTransferDlgNotify::resume()
     return;
 }
 
-FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL)
+FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL, Qt::WDestructiveClose | Qt::WStyle_Title| Qt::WStyle_NormalBorder |Qt::WStyle_Customize | Qt::WStyle_MinMax | Qt::WStyle_SysMenu)
         //: FileTransferBase(NULL, "filetransfer", false, Qt::WDestructiveClose)
 {
 	setupUi(this);
