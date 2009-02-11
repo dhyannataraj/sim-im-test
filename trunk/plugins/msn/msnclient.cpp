@@ -470,7 +470,7 @@ void MSNClient::getLine(const QCString &line)
     QCString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
-    log(L_DEBUG, "Command: %s", cmd.ascii());
+    log(L_DEBUG, QString("Command: %1").arg(cmd));
     if ((cmd == "715") || (cmd == "228"))
         return;
     if (cmd == "XFR"){
@@ -683,14 +683,14 @@ void MSNClient::getLine(const QCString &line)
         if (size == 0){
             log(L_WARN, "Empty server personal message size");
             //return;
-        }
-	else
-	{
-		m_msg = new MSNServerMessage(this, size);
-		// only we post the message in log now.....
-		 log(L_WARN, "Personal message: %s", m_msg);
+		}
+		else
+		{
+			m_msg = new MSNServerMessage(this, size);
+			// only we post the message in log now.....
+			log(L_WARN, "Personal message: %s", m_msg);
         	//packet_ready();
-	}
+		}
         return;
     }
     if (cmd == "LSG"){
