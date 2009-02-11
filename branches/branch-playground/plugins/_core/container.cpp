@@ -608,10 +608,16 @@ void Container::accelActivated(int id)
     }
     switch (id){
     case 11:
-        m_tabBar->setCurrent(m_tabBar->current() - 1);
+		if (m_tabBar->current() == 0)
+			m_tabBar->setCurrent(m_tabBar->count() - 1);
+		else
+		    m_tabBar->setCurrent(m_tabBar->current() - 1);
         break;
     case 12:
-        m_tabBar->setCurrent(m_tabBar->current() + 1);
+		if (m_tabBar->current() == m_tabBar->count() - 1)
+			m_tabBar->setCurrent(0);
+		else 
+			m_tabBar->setCurrent(m_tabBar->current() + 1);
         break;
     case 13:
         m_tabBar->setCurrent(0);
