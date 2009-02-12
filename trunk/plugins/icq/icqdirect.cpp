@@ -2143,8 +2143,6 @@ void AIMFileTransfer::setICBMCookie2(unsigned short cookie2)
 	m_cookie2 = cookie2;
 }
 	
-
-
 bool AIMFileTransfer::readOFT(OftData* oft)
 {
 	log(L_DEBUG, "reading OFT");
@@ -2423,6 +2421,18 @@ AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserD
 AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 {
 	//m_client->deleteFileMessage(m_cookie);
+}
+
+bool AIMIncomingFileTransfer::error_state(const QString &err, unsigned code)
+{
+	log(L_DEBUG, "AIMFileTransfer::error_state: %s, %d", err.utf8().data(), code);
+	if(m_stage == 1)
+	{
+		// Well, this is hack, but, i think, it is not so ugly as it seems :)
+		connect_timeout();
+		return false;
+	}
+	return true;
 }
 
 bool AIMIncomingFileTransfer::accept(SIM::Socket* /*s*/, unsigned long /*ip*/)
