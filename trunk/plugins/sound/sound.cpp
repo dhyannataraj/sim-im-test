@@ -459,7 +459,7 @@ void SoundPlugin::run()
 	return;
 #endif
 
-#if !defined( WIN32 ) && !defined( __OS2__ )
+#if !defined( WIN32 ) && !defined( __OS2__ ) && !defined( USE_KDE )
 	/*
 	if(bDone)
 	{
