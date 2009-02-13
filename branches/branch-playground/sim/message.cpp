@@ -454,12 +454,21 @@ QString FileMessage::getDescription()
             shortName = shortName.mid(n + 1);
         return shortName;
     }
-    QString res;
+
+	QString res=i18n("Files:")+"<br>";
+    const QString *name = ++it; 
+    while (name != NULL)
+    {
+		res += *name;
+		res += "<br>";
+		name = ++it;
+    }
+    res += "<br>";
     if (it.dirs()){
         if (it.dirs() == 1){
-            res = "1 directory";
+            res = i18n("1 directory");
         }else{
-            res = QString("%1 directories") .arg(it.dirs());
+            res = i18n("%1 directories") .arg(it.dirs());
         }
     }
     int nFiles = it.count() - it.dirs();
@@ -467,9 +476,9 @@ QString FileMessage::getDescription()
         if (it.dirs())
             res += ", ";
         if (nFiles == 1){
-            res += "1 file";
+            res += i18n("1 file");
         }else{
-            res += QString("%1 files") .arg(nFiles);
+            res += i18n("%1 files") .arg(nFiles);
         }
     }
     return res;
@@ -501,11 +510,11 @@ QString FileMessage::presentation()
         res += ' ';
 
         if (size >= 1024 * 1024){
-            res += i18n("%1 Mbytes") .arg(size / (1024 * 1024));
+            res += i18n("%1 MBytes") .arg(size / (1024 * 1024));
         }else if (size >= 1024){
-            res += i18n("%1 kbytes") .arg(size / 1024);
+            res += i18n("%1 kBytes") .arg(size / 1024);
         }else{
-            res += i18n("%1 bytes") .arg(size);
+            res += i18n("%1 Bytes") .arg(size);
         }
 
     }

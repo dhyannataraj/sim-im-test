@@ -137,6 +137,7 @@ protected slots:
 	virtual void connect_timeout();
 protected:
     virtual void startReceive(unsigned pos);
+	virtual bool error_state(const QString &err, unsigned code);
     enum State
     {
         None,

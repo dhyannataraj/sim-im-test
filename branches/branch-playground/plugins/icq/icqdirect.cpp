@@ -2346,7 +2346,7 @@ void AIMFileTransfer::negotiateWithProxy()
 		// And the last one is magic caps chunk
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
 		m_socket->writeBuffer().pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
-        EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
+        //EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer
 		m_socket->write();
 	}
 	else // Remote host initiated proxy transfer
@@ -2365,7 +2365,7 @@ void AIMFileTransfer::negotiateWithProxy()
 		// And the last one is magic caps chunk
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
 		m_socket->writeBuffer().pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
-        EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
+        //EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer
 		m_socket->write();
 	}
 }
@@ -2427,6 +2427,18 @@ AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserD
 AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 {
 	//m_client->deleteFileMessage(m_cookie);
+}
+
+bool AIMIncomingFileTransfer::error_state(const QString &err, unsigned code)
+{
+	log(L_DEBUG, "AIMFileTransfer::error_state: %s, %d", err.utf8().data(), code);
+	if(m_stage == 1)
+	{
+		// Well, this is hack, but, i think, it is not so ugly as it seems :)
+		connect_timeout();
+		return false;
+	}
+	return true;
 }
 
 bool AIMIncomingFileTransfer::accept(SIM::Socket* /*s*/, unsigned long /*ip*/)
@@ -2584,7 +2596,7 @@ void AIMIncomingFileTransfer::packet_ready()
 					/// TODO Calculate and verify checksum
 					m_oft.type = OFT_success;
 					writeOFT(&m_oft);
-					EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
+					//EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer
 					m_socket->write();
 
 					if(m_totalBytes >= m_totalSize)
@@ -2618,7 +2630,7 @@ void AIMIncomingFileTransfer::startReceive(unsigned /*pos*/)
 	*((unsigned long*)&m_oft.cookie[0]) = htonl(m_cookie.id_l);
 	*((unsigned long*)&m_oft.cookie[4]) = htonl(m_cookie.id_h);
 	writeOFT(&m_oft);
-	EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
+	//EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer
 	m_socket->write();
 	m_nFile = m_oft.total_files - m_oft.files_left + 1;	
 	m_nFiles = m_oft.total_files;	
@@ -2802,15 +2814,15 @@ void AIMOutcomingFileTransfer::initOFTSending()
 		m_oft.name.duplicate(filename().toUtf8().data(), filename().length() + 1);
 	}
 	writeOFT(&m_oft);
-	EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
+	//EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer
 	m_socket->write();
 }
 
 void AIMOutcomingFileTransfer::packet_ready()
 {
 	log(L_DEBUG, "AIMOutcomingFileTransfer::packet_ready %d", m_state);
-	ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-	EventLog::log_packet(m_socket->readBuffer(), false, plugin->AIMDirectPacket, m_client->screen(m_data));
+	//ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin()); //commented out due to problems with netmon while transfer
+	//EventLog::log_packet(m_socket->readBuffer(), false, plugin->AIMDirectPacket, m_client->screen(m_data)); //commented out due to problems with netmon while transfer
 	switch(m_state)
 	{
 		case ProxyNegotiation:
@@ -2949,6 +2961,8 @@ void AIMOutcomingFileTransfer::packet_ready()
 	{
 		return;
 	}
+	//ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin()); //commented out due to problems with netmon while transfer
+	//EventLog::log_packet(m_socket->readBuffer(), false, plugin->AIMDirectPacket, m_client->screen(m_data)); //commented out due to problems with netmon while transfer
 	m_socket->readBuffer().init(0);
 }
 

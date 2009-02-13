@@ -2233,7 +2233,6 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
 									ft->setDir(dir);
 									ft->setOverwrite(overwrite);
 									EventMessageAcked(msg).process();
-									//m_processMsg.push_back(msg);
 									bDelete = false;
 									ft->setPort(fmsg->getPort());
 									MessageId this_id;
