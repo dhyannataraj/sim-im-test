@@ -366,6 +366,8 @@ void SIMClientSocket::checkInterface()
 	if(!sock)
 		return;
 #ifndef WIN32
+	// crissi: disabled until detection is fixed, see below FIXME
+	return;
 	int fd = sock->socket();
 	if(fd == -1)
 	{
@@ -394,6 +396,7 @@ void SIMClientSocket::checkInterface()
 		hret = ioctl(fd, SIOCGIFFLAGS, &ifr);
 		if(hret != -1)
 		{
+			// FIXME!!! check only interface where default route points (i.e. if default route points to eth1 and eth0 is up or not configured -> failes always
 			int state = ifr.ifr_flags & IFF_RUNNING;
 			if(state < 0)
 			{
