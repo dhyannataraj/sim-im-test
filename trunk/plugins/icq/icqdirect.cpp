@@ -2258,49 +2258,51 @@ unsigned long AIMFileTransfer::calculateChecksum()
 		log(L_WARN, "No file for checksum calculation");
 		return 0;
 	}
-	unsigned long checksum = 0xFFFF0000;
-    //FileStream infile = null;
-	QByteArray* chunk=new QByteArray(1024);
+	unsigned long checksum = 0xFFFF;
+	bool high = true;
+	QByteArray chunk(1024);
 	Q_ULONG bytesread = 0;
 	long streamposition = 0;
-	bcontinue=true;
 	m_file->reset();
 	do
     {
-		bytesread = m_file->readBlock(chunk->data(), chunk->size());
-        checksum = checksumChunk(chunk, (unsigned int)bytesread, checksum);
+		bytesread = m_file->readBlock(chunk.data(), chunk.size());
+        checksum = checksumChunk(&chunk, (unsigned int)bytesread, checksum);
         streamposition += bytesread;
 
     }
-	while (bytesread == chunk->size() && bcontinue);
-	
-	if (!bcontinue)
-		return 0xFFFFFFFF;
+	while (bytesread == chunk.size());
 
-	return (checksum >> 16);
+	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
+	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
+	
+	log(L_WARN, "Calculating checksum: %s (%08x)", m_file->name().utf8().data(), checksum);
+	return checksum;
 }
 
 unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int chunklength, unsigned int start)
 {
-	unsigned long checksum = (start >> 16) & 0xFFFF, prevchecksum;
+	uint32_t checksum = start, prevchecksum;
 	bool high = false;
 	for (unsigned long i = 0; i < filechunk->size() && i < chunklength; i++)
     {
 		prevchecksum = checksum;
 
 		if(high)
-			checksum -= ((unsigned short)(filechunk->at(i)) << 8);
+		{
+			checksum -= (((uint32_t)(filechunk->at(i)) & 0xff) << 8);
+		}
 		else
-			checksum -= ((unsigned short)(filechunk->at(i)));
+		{
+			checksum -= ((uint32_t)(filechunk->at(i)) & 0xff);
+		}
 		high = !high;
 
 		if(checksum > prevchecksum)
 			checksum--;
 	}
-	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
-	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 
-	return checksum << 16;
+	return checksum;
 }
 
 void AIMFileTransfer::connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2)
@@ -2680,7 +2682,7 @@ void AIMIncomingFileTransfer::write_ready()
 	if(m_state == Done)
 	{
 		FileTransfer::m_state = FileTransfer::Done;
-		m_client->deleteFileMessage(m_cookie);
+		//m_client->deleteFileMessage(m_cookie);
 		if(m_notify)
 			m_notify->process();
 		// I'm not sure who is responsible for connection closing in this case.
