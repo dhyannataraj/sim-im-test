@@ -2259,7 +2259,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 		return 0;
 	}
 	unsigned long checksum = 0xFFFF;
-	bool high = true;
+
 	QByteArray chunk(1024);
 	Q_ULONG bytesread = 0;
 	long streamposition = 0;
@@ -2780,7 +2780,6 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	m_oft.lsizeoffset = 0x11;
 	memset(m_oft.dummy, 0, 69);
 	memset(m_oft.macfileinfo, 0, 16);
-	FileMessage* msg = static_cast<FileMessage*>(m_msg); //Fixme: msg is initialized, but not used.
 
 //	QString filename = filename();
 	bool bWide = false;
