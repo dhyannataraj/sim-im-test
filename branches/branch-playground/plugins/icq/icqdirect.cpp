@@ -1713,7 +1713,7 @@ void ICQFileTransfer::initReceive(char cmd)
     m_socket->readBuffer() >> isDir >> stdStrFileName;
 	Q3CString qcfilename(stdStrFileName.c_str());
 	QString fName = getContacts()->toUnicode(m_client->getContact(m_data), qcfilename);
-	
+
 	string stdStrDir;
     unsigned long n;
     m_socket->readBuffer() >> stdStrDir;
@@ -2073,7 +2073,7 @@ void AIMFileTransfer::requestFT()
 	this_port = ~(htons(m_port));
 	b.tlv(0x17, this_port);
 
-	unsigned long this_ip = m_ip; 
+	unsigned long this_ip = m_ip;
 	if(m_ip == 0)
 		this_ip = htonl(get_ip(m_client->data.owner.RealIP));
 
@@ -2146,7 +2146,7 @@ void AIMFileTransfer::setICBMCookie2(unsigned short cookie2)
 {
 	m_cookie2 = cookie2;
 }
-	
+
 
 
 bool AIMFileTransfer::readOFT(OftData* oft)
@@ -2165,7 +2165,7 @@ bool AIMFileTransfer::readOFT(OftData* oft)
 	m_socket->readBuffer().unpack(oft->cookie, 8);
 	m_socket->readBuffer().unpack(oft->encrypt);
 	m_socket->readBuffer().unpack(oft->compress);
-	
+
 	m_socket->readBuffer().unpack(oft->total_files);
 	oft->total_files = ntohs(oft->total_files);
 	m_socket->readBuffer().unpack(oft->files_left);
@@ -2202,7 +2202,7 @@ bool AIMFileTransfer::readOFT(OftData* oft)
 	{
 		for(unsigned int i = 0; i < oft->name.size() ; i++)
 		{
-			unsigned char tmp = oft->name.data()[i + 1]; 
+			unsigned char tmp = oft->name.data()[i + 1];
 			oft->name.data()[i + 1] = oft->name.data()[i];
 			oft->name.data()[i] = tmp;
 		}
@@ -2264,49 +2264,51 @@ unsigned long AIMFileTransfer::calculateChecksum()
 		log(L_WARN, "No file for checksum calculation");
 		return 0;
 	}
-	unsigned long checksum = 0xFFFF0000;
-    //FileStream infile = null;
-	QByteArray* chunk=new QByteArray(1024);
+	unsigned long checksum = 0xFFFF;
+	bool high = true;
+	QByteArray chunk(1024);
 	Q_ULONG bytesread = 0;
 	long streamposition = 0;
-	bcontinue=true;
 	m_file->reset();
 	do
     {
-		bytesread = m_file->readBlock(chunk->data(), chunk->size());
-        checksum = checksumChunk(chunk, (unsigned int)bytesread, checksum);
+		bytesread = m_file->readBlock(chunk.data(), chunk.size());
+        checksum = checksumChunk(&chunk, (unsigned int)bytesread, checksum);
         streamposition += bytesread;
 
     }
-	while (bytesread == chunk->size() && bcontinue);
-	
-	if (!bcontinue)
-		return 0xFFFFFFFF;
+	while (bytesread == chunk.size());
 
-	return (checksum >> 16);
+	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
+	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
+
+	log(L_WARN, "Calculating checksum: %s (%08x)", m_file->name().utf8().data(), checksum);
+	return checksum;
 }
 
 unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int chunklength, unsigned int start)
 {
-	unsigned long checksum = (start >> 16) & 0xFFFF, prevchecksum;
+	uint32_t checksum = start, prevchecksum;
 	bool high = false;
 	for (unsigned long i = 0; i < filechunk->size() && i < chunklength; i++)
     {
 		prevchecksum = checksum;
 
 		if(high)
-			checksum -= ((unsigned short)(filechunk->at(i)) << 8);
+		{
+			checksum -= (((uint32_t)(filechunk->at(i)) & 0xff) << 8);
+		}
 		else
-			checksum -= ((unsigned short)(filechunk->at(i)));
+		{
+			checksum -= ((uint32_t)(filechunk->at(i)) & 0xff);
+		}
 		high = !high;
 
 		if(checksum > prevchecksum)
 			checksum--;
 	}
-	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
-	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 
-	return checksum << 16;
+	return checksum;
 }
 
 void AIMFileTransfer::connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2)
@@ -2536,7 +2538,7 @@ void AIMIncomingFileTransfer::packet_ready()
 					m_socket->readBuffer() >> status;
 					log(L_DEBUG, "status = %04x", status);
 					// TODO Handle errors
-					if(status == 0x0003) 
+					if(status == 0x0003)
 					{
 						m_socket->readBuffer().incReadPos(6);
 						m_socket->readBuffer() >> m_cookie2;
@@ -2584,7 +2586,7 @@ void AIMIncomingFileTransfer::packet_ready()
 			{
 				if(m_bytes < m_fileSize)
 				{
-					long recvd_size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos()); 
+					long recvd_size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
 					if(size < 0)
 					{
 						return;
@@ -2632,8 +2634,8 @@ void AIMIncomingFileTransfer::startReceive(unsigned /*pos*/)
 	writeOFT(&m_oft);
 	//EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer
 	m_socket->write();
-	m_nFile = m_oft.total_files - m_oft.files_left + 1;	
-	m_nFiles = m_oft.total_files;	
+	m_nFile = m_oft.total_files - m_oft.files_left + 1;
+	m_nFiles = m_oft.total_files;
 	m_fileSize = m_oft.size;
 	m_totalSize = m_oft.total_size;
 }
@@ -2686,7 +2688,7 @@ void AIMIncomingFileTransfer::write_ready()
 	if(m_state == Done)
 	{
 		FileTransfer::m_state = FileTransfer::Done;
-		m_client->deleteFileMessage(m_cookie);
+		//m_client->deleteFileMessage(m_cookie);
 		if(m_notify)
 			m_notify->process();
 		// I'm not sure who is responsible for connection closing in this case.
@@ -2764,7 +2766,7 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	m_oft.encrypt = 0;
 	m_oft.compress = 0;
 	m_oft.total_files = files();
-	m_oft.files_left = files() - file(); 
+	m_oft.files_left = files() - file();
 	m_oft.total_parts = 1; //FIXME if needed
 	m_oft.parts_left = 1;
 	m_oft.total_size = totalSize();
@@ -2836,7 +2838,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 					m_socket->readBuffer() >> status;
 					log(L_DEBUG, "status = %04x", status);
 					// TODO Handle errors
-					if(status == 0x0003) 
+					if(status == 0x0003)
 					{
 						m_socket->readBuffer().incReadPos(6);
 						m_socket->readBuffer() >> m_cookie2;

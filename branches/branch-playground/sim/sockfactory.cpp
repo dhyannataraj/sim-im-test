@@ -47,7 +47,7 @@
 
 #ifndef WIN32
 	// name resolving
-	#include <netdb.h> 
+	#include <netdb.h>
 	#include <arpa/inet.h>
 	#include <q3dns.h>
 #else
@@ -66,7 +66,7 @@ namespace SIM
 using namespace std;
 
 SIMSockets::SIMSockets(QObject *parent)
- : SocketFactory(parent) 
+ : SocketFactory(parent)
 {
 }
 
@@ -136,7 +136,7 @@ unsigned long SIMResolver::addr()
     if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
         log( L_WARN, "gethostbyname failed\n" );
         return htonl(dns->addresses().first().ip4Addr());
-    } 
+    }
     return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
 }
 
@@ -278,7 +278,7 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
 {
     port = _port;
     host = _host;
-    if (host.isNull()) 
+    if (host.isNull())
         host=""; // Avoid crashing when _host is NULL
 #ifdef WIN32
     bool bState;
@@ -367,6 +367,9 @@ void SIMClientSocket::checkInterface()
 	if(!sock)
 		return;
 #ifndef WIN32
+	// crissi: disabled until detection is fixed, see below FIXME
+	// FIXME!!! check only interface where default route points (i.e. if default route points to eth1 and eth0 is up or not configured -> failes always
+	return;
 	int fd = sock->socket();
 	if(fd == -1)
 	{
@@ -388,7 +391,7 @@ void SIMClientSocket::checkInterface()
 	}
 	for(int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)
 	{
-		ifrp = ibuf + i; 
+		ifrp = ibuf + i;
 		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
 		if(strcmp(ifr.ifr_name, "lo") == 0)
 			continue;
