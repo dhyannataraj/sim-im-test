@@ -96,6 +96,8 @@ SET(icq_UICS
         workinfobase.ui
 )
 
+SET(icq_MESSAGE_SOURCES ${icq_SRCS} ${icq_UICS} PARENT_SCOPE)
+
 ADD_FLEX_FILES(icq_SRCS rtf.ll)
 
 SIM_ADD_PLUGIN(icq)

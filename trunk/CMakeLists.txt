@@ -2,6 +2,21 @@
 
 PROJECT(Sim-IM)
 
+
+
+
+
+FIND_PROGRAM(XGETTEXT_EXECUTABLE xgettext)
+IF (XGETTEXT_EXECUTABLE)
+    MESSAGE(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
+ELSE()
+    MESSAGE(FATAL_ERROR "Xgettext not found")
+ENDIF()
+
+
+
+
+
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.4)
 if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
@@ -37,7 +52,8 @@ INCLUDE(CheckCXXCompilerFlag)
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 
-SIM_FIND_PLUGINS(${Sim-IM_SOURCE_DIR}/plugins)
+SET(Sim-IM_PLUGINS_SOURCE_DIR ${Sim-IM_SOURCE_DIR}/plugins)
+SIM_FIND_PLUGINS(${Sim-IM_PLUGINS_SOURCE_DIR})
 
 IF(NOT QT_FOUND)
     MESSAGE(FATAL_ERROR "Could not find Qt3 - cannot compile Sim-IM here")
@@ -85,7 +101,7 @@ ADD_DEFINITIONS(${QT_DEFINITIONS} -DHAVE_CONFIG_H)
 INCLUDE_DIRECTORIES(${QT_INCLUDE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${Sim-IM_SOURCE_DIR}/sim
-                    ${Sim-IM_SOURCE_DIR}/plugins/_core)
+                    ${Sim-IM_PLUGINS_SOURCE_DIR}/_core)
 LINK_DIRECTORIES(${QT_LIB_DIR})
 
 # windows, microsoft compiler
@@ -191,3 +207,57 @@ CONFIGURE_FILE(
 # uninstall target
 ADD_CUSTOM_TARGET(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
+
+CONFIGURE_FILE(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_update_messages.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_update_messages.cmake"
+  IMMEDIATE @ONLY)
+
+ADD_CUSTOM_TARGET(update-messages)
+#    "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_update_messages.cmake")
+
+
+MESSAGE(STATUS "===========")
+
+SET(new_pot "${CMAKE_CURRENT_BINARY_DIR}/new_messages")
+SET(fake_ui_cpp_root "${CMAKE_CURRENT_BINARY_DIR}/fake_ui_cpp")
+
+ADD_CUSTOM_COMMAND(TARGET update-messages
+    COMMAND echo \"msgid \\\"\\\"\" > ${new_pot}.po
+    COMMAND echo \"msgstr \\\"Content-Type: text/plain\; charset=UTF-8\\\"\" >> ${new_pot}.po
+
+#    rm -f ${new_pot}.po \; touch ${new_pot}.po  # make sure that new pot file exists and empty
+)
+
+FOREACH(plugin ${SIM_PLUGINS})
+    ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo Processing plugin ${plugin}
+    )
+    FOREACH(file ${${plugin}_MESSAGE_SOURCES})
+        ADD_CUSTOM_COMMAND(TARGET update-messages
+           COMMAND mkdir -p ${fake_ui_cpp_root}/plugins/${plugin}
+        )
+        GET_FILENAME_COMPONENT(ext ${file} EXT)
+        IF(ext STREQUAL .ui)
+            ADD_CUSTOM_COMMAND(TARGET update-messages
+                COMMAND echo UI-file ${file}
+            )
+            ADD_CUSTOM_COMMAND(TARGET update-messages
+                COMMAND ${CMAKE_COMMAND}
+                   -D IN_FILE:STRING=${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}
+                   -D OUT_FILE:STRING=${fake_ui_cpp_root}/plugins/${plugin}/${file}
+                   -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UiToFakeCpp.cmake
+               COMMAND cd ${fake_ui_cpp_root} \;
+                    xgettext -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale -d${new_pot} plugins/${plugin}/${file}
+            )
+        ELSEIF(ext STREQUAL .cpp)
+            FILE(RELATIVE_PATH rel_path ${Sim-IM_SOURCE_DIR} ${Sim-IM_PLUGINS_SOURCE_DIR}) 
+            SET(full_name "${rel_path}/${plugin}/${file}")
+            ADD_CUSTOM_COMMAND(TARGET update-messages
+                COMMAND echo CPP-file ${full_name}
+                COMMAND cd ${Sim-IM_SOURCE_DIR} \; xgettext -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale -d${new_pot} ${full_name}
+            )
+        ENDIF(ext STREQUAL .ui)
+    ENDFOREACH(file)
+ENDFOREACH(plugin)

@@ -41,8 +41,6 @@ MACRO(SIM_FIND_PLUGINS sim_plugin_dir)
                 ## append
                 SET(SIM_PLUGINS ${SIM_PLUGINS} ${plugin})
             ENDIF(${uc_plugin} MATCHES "^_.*$")
-            
-
         ENDIF(cmakefile)
     ENDFOREACH(_cur_dir)
 ENDMACRO(SIM_FIND_PLUGINS sim_plugin_dir)
@@ -55,6 +53,7 @@ MACRO(SIM_INCLUDE_PLUGINS)
             ADD_SUBDIRECTORY(plugins/${plugin})
         ELSE(ENABLE_PLUGIN_${uc_plugin})
             MESSAGE(STATUS "Skipping plugin " ${plugin})
+            ADD_SUBDIRECTORY(plugins/${plugin} EXCLUDE_FROM_ALL)  # FIXME: nedded only for message_update
         ENDIF(ENABLE_PLUGIN_${uc_plugin})
     ENDFOREACH(plugin ${SIM_PLUGINS})
 ENDMACRO(SIM_INCLUDE_PLUGINS)
