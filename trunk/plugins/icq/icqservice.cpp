@@ -492,11 +492,9 @@ void SnacIcqService::sendClientReady()
 
 void SnacIcqService::sendLogonStatus()
 {
-	/*
     if (m_client->getInvisible())
         m_client->sendInvisible(false);
     m_client->sendContactList();
-	*/
 
     time_t now = time(NULL);
     if (m_client->data.owner.PluginInfoTime.toULong() == 0)
@@ -536,11 +534,9 @@ void SnacIcqService::sendLogonStatus()
     m_client->socket()->writeBuffer().tlv(0x001d, b);
     m_client->socket()->writeBuffer().tlv(0x001f, (unsigned short)0);
     m_client->sendPacket(true);
-	/*
     if (!m_client->getInvisible())
         m_client->sendInvisible(true);
-		*/
-    //sendIdleTime();
+    sendIdleTime();
     m_client->m_status = m_client->m_logonStatus;
 }
 
