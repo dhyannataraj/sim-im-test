@@ -619,9 +619,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(QString::null);
 
-            sendICMB(1, 0x010b);
-            sendICMB(2, 3);
-            sendICMB(4, 3);
 
 			snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE, true, false);
 			sendPacket(true);
@@ -667,10 +664,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 break;
             }
             sendCapability();
+            sendICMB(0, 0x070b);
             snacService()->sendLogonStatus();
             snacService()->sendClientReady();
-			snac(ICQ_SNACxFOOD_MESSAGE, 0x10);
-			sendPacket(true);
+			//snac(ICQ_SNACxFOOD_MESSAGE, 0x10);
+			//sendPacket(true);
 			/*
             snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE, true, false);
             sendPacket(true);
