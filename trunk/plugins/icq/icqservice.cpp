@@ -291,7 +291,21 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 					m_client->uploadBuddy(&m_client->data.owner);
 					break;
 				}
-				m_client->uploadBuddyIcon(1, img);
+				log(L_DEBUG, "SRV_EXT_STATUS");
+				if(flags & FirstSend)
+				{
+					m_client->uploadBuddyIcon(1, img);
+				}
+				else
+				{
+					ICQUserData* data = &m_client->data.owner;
+					data->buddyHash.setBinary(hash);
+					/*
+					   m_client->sendCapability(QString::null);
+					   m_client->requestBuddy(data);
+					   */
+				}
+
 			}
 			break;
 		case ICQ_SNACxSRV_NAMExINFO:

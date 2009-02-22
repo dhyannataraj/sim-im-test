@@ -491,10 +491,11 @@ void ICQClient::sendCapability(const QString &away_msg)
         addCapability(cap, CAP_AIM_SENDFILE);
         addCapability(cap, CAP_AIM_BUDDYLIST);
     }else{
+        addCapability(cap, CAP_AIM_BUDDYCON);
         addCapability(cap, CAP_AIM_SENDFILE); //Since we add this, ICQ6 accepts the client as filetransfer partner
 		addCapability(cap, CAP_DIRECT);
         addCapability(cap, CAP_SRV_RELAY);
-        addCapability(cap, CAP_XTRAZ);
+        addCapability(cap, CAP_XTRAZ); // What? We don't support it. Yet.
         if (getSendFormat() <= 1)
             addCapability(cap, CAP_UTF);
         if (getSendFormat() == 0)

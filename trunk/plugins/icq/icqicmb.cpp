@@ -739,7 +739,7 @@ void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsign
     ICQBuffer msgBuf;
     msgBuf.pack((unsigned short)0x1B);
     msgBuf.pack((unsigned short)0x08);
-    msgBuf.pack((char*)plugins[plugin_index], sizeof(plugin));
+	msgBuf.pack((char*)plugins[plugin_index], sizeof(plugin));
     msgBuf.pack(0x00000003L);
     msgBuf.pack((char)(type ? 4 : 0));
     msgBuf.pack(cookie1);
