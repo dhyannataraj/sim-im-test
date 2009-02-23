@@ -101,8 +101,11 @@ public:
     virtual void process(ICQClient *client, unsigned short res)
     {
         Q_UNUSED(res);
-        client->snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_SAVE, true, false);
-        client->sendPacket(true);
+		if(client->isSSITransaction())
+		{
+			client->snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_SAVE, true, false);
+			client->sendPacket(true);
+		}
     }
 
     unsigned short seq() const { return m_seq; }
@@ -618,6 +621,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Rosters OK");
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(QString::null);
+			snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE, true, false);
+			sendPacket(true);
             if (m_bAIM){
                 Group *grp;
                 ContactList::GroupIterator it;
@@ -635,7 +640,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 if (m_logonStatus == STATUS_ONLINE){
                     m_status = STATUS_ONLINE;
                     sendCapability();
-                    sendICMB(1, 11);
+					sendICMB(1, 0x0b);
                     sendICMB(2,  3);
                     sendICMB(4,  3);
                     fetchProfiles();
@@ -653,8 +658,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     ar.status   = m_logonStatus;
                     EventARRequest(&ar).process();
                 }
-                snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE, true, false);
-                sendPacket(true);
                 m_snacService->sendClientReady();
                 setState(Connected);
                 m_bReady = true;
@@ -662,13 +665,15 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 break;
             }
             sendCapability();
-            sendICMB(1, 11);
-            sendICMB(2,  3);
-            sendICMB(4,  3);
+            sendICMB(0, 0x070b);
             snacService()->sendLogonStatus();
             snacService()->sendClientReady();
+			//snac(ICQ_SNACxFOOD_MESSAGE, 0x10);
+			//sendPacket(true);
+			/*
             snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE, true, false);
             sendPacket(true);
+			*/
             sendMessageRequest();
 
             setState(Connected);
@@ -1112,6 +1117,10 @@ void ICQClient::uploadBuddy(const ICQUserData *data)
 
 void ICQClient::ssiStartTransaction()
 {
+	if(m_ssiTransaction)
+		return;
+
+	m_ssiTransaction = true;
 	log(L_DEBUG, "ICQClient::ssiStartTransaction");
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_EDIT, true, false);
     sendPacket(true);
@@ -1119,6 +1128,10 @@ void ICQClient::ssiStartTransaction()
 
 void ICQClient::ssiEndTransaction()
 {
+	if(!m_ssiTransaction)
+		return;
+
+	m_ssiTransaction = false;
 	log(L_DEBUG, "ICQClient::ssiEndTransaction");
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_SAVE, true, false);
     sendPacket(true);
@@ -1232,6 +1245,25 @@ unsigned short ICQClient::ssiRemoveFromGroup(QString& groupname, unsigned short 
 	socket()->writeBuffer() << tlvs;
 	sendPacket(true);
     return m_nMsgSequence;
+}
+
+unsigned short ICQClient::ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv)
+{
+	snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true, false);
+	QByteArray sName = name.utf8();
+	socket()->writeBuffer().pack(static_cast<unsigned short>(htons(sName.size())));
+	socket()->writeBuffer().pack(sName.data(), sName.size());
+	socket()->writeBuffer()
+		<< grp_id
+		<< usr_id
+		<< subCmd;
+	if (tlv){
+		socket()->writeBuffer() << *tlv;
+	}else{
+		socket()->writeBuffer() << (unsigned short)0;
+	}
+	sendPacket(true);
+	return m_nMsgSequence;
 }
 
 unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, unsigned short grp_id,
@@ -1481,7 +1513,7 @@ unsigned ICQClient::processListRequest()
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, QString::null);
             }
             break;
-        case LIST_BUDDY_CHECKSUM:
+		case LIST_BUDDY_CHECKSUM:
             if (lr.icqUserData){
                 log(L_DEBUG, "Add/Modify buddy icon checksum");
 
@@ -1490,8 +1522,8 @@ unsigned ICQClient::processListRequest()
                     break;
 
                 QByteArray ba;
-                QBuffer buf(&ba);
-                if(!buf.open(QIODevice::WriteOnly)) {
+                QBuffer buf(ba);
+                if(!buf.open(IO_WriteOnly)) {
                     log(L_ERROR, "Can't open QByteArray for writing!");
                     break;
                 }
@@ -1500,11 +1532,11 @@ unsigned ICQClient::processListRequest()
                     break;
                 }
                 buf.close();
-                QByteArray hash = QCryptographicHash::hash(ba, QCryptographicHash::Md5);
+                QByteArray hash = md5(ba.data(), ba.size());
                 if(hash == this->data.owner.buddyHash.toBinary() &&
                    1 == this->data.owner.buddyID.toULong()) {
                     log(L_DEBUG, "No need to upload buddy");
-                    break;
+                 //   break;
                 }
 
                 TlvList *tlvList = new TlvList;
@@ -1513,11 +1545,12 @@ unsigned ICQClient::processListRequest()
                 ba.data()[0] = 0x01;
                 ba.data()[1] = hash.size();
                 memcpy(&ba.data()[2], hash.data(), hash.size());
-                *tlvList += new Tlv(TLV_BUDDYHASH, ba.size(), ba.data());
                 *tlvList += new Tlv(TLV_ALIAS, 0, NULL);
+                *tlvList += new Tlv(TLV_BUDDYHASH, ba.size(), ba.data());
 
-                unsigned short seq = sendRoster(lr.icq_id ? ICQ_SNACxLISTS_UPDATE : ICQ_SNACxLISTS_CREATE,
-                                                "1", lr.grp_id, lr.icq_id, ICQ_BUDDY_CHECKSUM, tlvList);
+                //unsigned short seq = sendRoster(lr.icq_id ? ICQ_SNACxLISTS_UPDATE : ICQ_SNACxLISTS_CREATE,
+                 //                               "1", lr.grp_id, lr.icq_id, ICQ_BUDDY_CHECKSUM, tlvList);
+                unsigned short seq = ssiModifyBuddy("1", lr.grp_id, lr.icq_id, ICQ_BUDDY_CHECKSUM, tlvList);
                 m_listRequest = new SetBuddyRequest(seq, &this->data.owner);
             }
             break;

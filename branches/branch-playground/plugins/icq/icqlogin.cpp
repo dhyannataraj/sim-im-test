@@ -207,13 +207,14 @@ void ICQClient::chn_login()
         socket()->writeBuffer() << 0x00000001L;
         socket()->writeBuffer().tlv(0x0001, uin);
         socket()->writeBuffer().tlv(0x0002, pswd.data(), pswd.size());
+		// Thanks to pidgin guys for those values
         socket()->writeBuffer().tlv(0x0003, "ICQBasic");  // ID String, currently ICQ 5.1 (21.08.2006)
-        socket()->writeBuffer().tlv(0x0016, 0x014A); // ID Number
-        socket()->writeBuffer().tlv(0x0017, 0x0024); // major
-        socket()->writeBuffer().tlv(0x0018, 0x003D); // minor
+        socket()->writeBuffer().tlv(0x0016, 0x010A); // ID Number
+        socket()->writeBuffer().tlv(0x0017, 0x0014); // major
+        socket()->writeBuffer().tlv(0x0018, 0x0034); // minor
         socket()->writeBuffer().tlv(0x0019, 0x0000);      // lesser
-        socket()->writeBuffer().tlv(0x001A, 0x0bb8);      // build number
-        socket()->writeBuffer().tlv(0x0014, 0x00000442L); // distribution number
+        socket()->writeBuffer().tlv(0x001A, 0x0c18);      // build number
+        socket()->writeBuffer().tlv(0x0014, 0x0000043dL); // distribution number
         socket()->writeBuffer().tlv(0x000f, "en");		//Todo Send right language shortcut
         socket()->writeBuffer().tlv(0x000e, "us");
         sendPacket(true);

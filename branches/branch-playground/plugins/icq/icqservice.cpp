@@ -295,7 +295,21 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 					m_client->uploadBuddy(&m_client->data.owner);
 					break;
 				}
-				m_client->uploadBuddyIcon(1, img);
+				log(L_DEBUG, "SRV_EXT_STATUS");
+				if(flags & FirstSend)
+				{
+					m_client->uploadBuddyIcon(1, img);
+				}
+				else
+				{
+					ICQUserData* data = &m_client->data.owner;
+					data->buddyHash.setBinary(hash);
+					/*
+					   m_client->sendCapability(QString::null);
+					   m_client->requestBuddy(data);
+					   */
+				}
+
 			}
 			break;
 		case ICQ_SNACxSRV_NAMExINFO:
@@ -466,16 +480,16 @@ void SnacIcqService::sendClientReady()
 {
     snac(ICQ_SNACxSRV_READYxCLIENT);
     m_client->socket()->writeBuffer()
-    << 0x00010004L << 0x011008E4L
-    << 0x00130004L << 0x011008E4L
-    << 0x00020001L << 0x011008E4L
-    << 0x00030001L << 0x011008E4L
-    << 0x00150001L << 0x011008E4L
-    << 0x00040001L << 0x011008E4L
-    << 0x00060001L << 0x011008E4L
-    << 0x00090001L << 0x011008E4L
-    << 0x000A0001L << 0x011008E4L
-    << 0x000B0001L << 0x011008E4L;
+    << 0x00010004L << 0x0110164FL
+    << 0x00130004L << 0x0110164FL
+    << 0x00020001L << 0x0110164FL
+    << 0x00030001L << 0x0110164FL
+    << 0x00150001L << 0x0110164FL
+    << 0x00040001L << 0x0110164FL
+    << 0x00060001L << 0x0110164FL
+    << 0x00090001L << 0x0110164FL
+    << 0x000A0001L << 0x0110164FL
+    << 0x000B0001L << 0x0110164FL;
 
     m_client->sendPacket(true);
 }
@@ -513,10 +527,16 @@ void SnacIcqService::sendLogonStatus()
 
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
-    m_client->socket()->writeBuffer().tlv(0x0008, (unsigned short)0);
+    m_client->socket()->writeBuffer().tlv(0x0008, (unsigned short)0x0a06);
     m_client->socket()->writeBuffer().tlv(0x000C, directInfo);
-    m_client->socket()->writeBuffer().tlv(0x001f, (unsigned short)0);
+	Buffer b;
+	b << (unsigned short)0x000e
+		<< (unsigned short)0x0000
+		<< (unsigned short)0x0002
+		<< (unsigned short)0x0000;
 
+    m_client->socket()->writeBuffer().tlv(0x001d, b);
+    m_client->socket()->writeBuffer().tlv(0x001f, (unsigned short)0);
     m_client->sendPacket(true);
     if (!m_client->getInvisible())
         m_client->sendInvisible(true);
@@ -607,6 +627,7 @@ void SnacIcqService::sendUpdate()
 void SnacIcqService::fillDirectInfo(ICQBuffer &directInfo)
 {
     set_ip(&m_client->data.owner.RealIP, m_client->socket()->localHost());
+	/*
     if (m_client->getHideIP()){
         directInfo
         << (unsigned long)0
@@ -633,19 +654,30 @@ void SnacIcqService::fillDirectInfo(ICQBuffer &directInfo)
     default:
         break;
     }
+	*/
     directInfo
-    << mode
+	<< (unsigned long)0
+	<< (unsigned long)0
+	<< (char)0x00//mode
     << (char)0x00
-    << (char)ICQ_TCP_VERSION;
-
-    directInfo
+    << (char)ICQ_TCP_VERSION
     << m_client->data.owner.DCcookie.toULong()
+	<< 0x00000000L
+	<< 0x00000000L
+	<< 0x00000000L
+	<< 0x00000000L
+	<< 0x00000000L
+	<< (unsigned short)0x0000;
+
+	/*
+    directInfo
     << 0x00000050L
     << 0x00000003L
     << m_client->data.owner.InfoUpdateTime.toULong()
     << m_client->data.owner.PluginInfoTime.toULong()
     << m_client->data.owner.PluginStatusTime.toULong()
     << (unsigned short) 0x0000;
+	*/
 }
 
 void SnacIcqService::sendIdleTime()

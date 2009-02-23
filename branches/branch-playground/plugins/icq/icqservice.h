@@ -31,6 +31,7 @@ public:
 	void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);
 	void sendIdleTime();
 	void requestService(ServiceSocket *s);
+	static const unsigned int FirstSend = 0x40;
 
 protected:
 	void fillDirectInfo(ICQBuffer &directInfo);

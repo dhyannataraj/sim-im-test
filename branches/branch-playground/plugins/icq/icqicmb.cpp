@@ -503,11 +503,18 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
     snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
     socket()->writeBuffer()
     << channel << flags
+	<< (unsigned short)0x1f40
+	<< (unsigned short)0x30e7
+	<< (unsigned short)0x30e7
+	<< (unsigned short)0x0000
+	<< (unsigned short)0x0000;
+	/* //old:
     << (unsigned short)8000		// max message size
     << (unsigned short)880		// max sender warning level
     << (unsigned short)880		// max receiver warning level
     << (unsigned short)0		// min message interval
     << (unsigned short)0;		// unknown
+	*/
     sendPacket(true);
 }
 

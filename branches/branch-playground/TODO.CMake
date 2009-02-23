@@ -1,3 +1,7 @@
+Todo: 
+-  merge trunk changes (rev. 2471/2472) for cmake files to playground and test.
+
+
 Needed:
 - create/update sim.pot and *.po
 - install mo - files
