@@ -162,7 +162,6 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             QByteArray hash(16), icon(1024);
             uint16_t iconID, iconSize;
 			uint8_t unknown_byte;
-            unsigned short iconID, iconSize;
             char iconFlags, hashSize;
 
             screen = socket()->readBuffer().unpackScreen();

@@ -1522,8 +1522,8 @@ unsigned ICQClient::processListRequest()
                     break;
 
                 QByteArray ba;
-                QBuffer buf(ba);
-                if(!buf.open(IO_WriteOnly)) {
+                QBuffer buf(&ba);
+                if(!buf.open(QIODevice::WriteOnly)) {
                     log(L_ERROR, "Can't open QByteArray for writing!");
                     break;
                 }
@@ -1532,7 +1532,7 @@ unsigned ICQClient::processListRequest()
                     break;
                 }
                 buf.close();
-                QByteArray hash = md5(ba.data(), ba.size());
+                QByteArray hash = QCryptographicHash::hash(ba, QCryptographicHash::Md5);
                 if(hash == this->data.owner.buddyHash.toBinary() &&
                    1 == this->data.owner.buddyID.toULong()) {
                     log(L_DEBUG, "No need to upload buddy");
