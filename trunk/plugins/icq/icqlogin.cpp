@@ -112,13 +112,13 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             md = md5(md);
             socket()->writeBuffer().tlv(0x0025, md.data(), md.length());
 	        if (data.owner.Uin.toULong()){
-                socket()->writeBuffer().tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");  //ToDo: Should be updated anytime
-                socket()->writeBuffer().tlv(0x0016, 0x014A); // ID Number
-                socket()->writeBuffer().tlv(0x0017, 0x0024); // major
-                socket()->writeBuffer().tlv(0x0018, 0x003D); // minor
-                socket()->writeBuffer().tlv(0x0019, 0x0001);
-                socket()->writeBuffer().tlv(0x001A, 0x0F4C);
-                socket()->writeBuffer().tlv(0x0014, 0x00000055L);
+                socket()->writeBuffer().tlv(0x0003, "ICQBasic");  //ToDo: Should be updated anytime
+                socket()->writeBuffer().tlv(0x0016, 0x010A); // ID Number
+                socket()->writeBuffer().tlv(0x0017, 0x0014); // major
+                socket()->writeBuffer().tlv(0x0018, 0x0034); // minor
+                socket()->writeBuffer().tlv(0x0019, 0x0009);
+                socket()->writeBuffer().tlv(0x001A, 0x0c18);
+                socket()->writeBuffer().tlv(0x0014, 0x0000043dL);
                 socket()->writeBuffer().tlv(0x000f, "en");
                 socket()->writeBuffer().tlv(0x000e, "us");
 	        }else{
