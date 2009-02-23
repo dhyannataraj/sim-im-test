@@ -357,8 +357,8 @@ void FileTransferDlg::notifyDestroyed()
     sldSpeed->hide();
     m_timer->stop();
     btnCancel->setText(i18n("&Close"));
-    if (m_state == FileTransfer::Done){
-        EventSent(m_msg).process();
+    if(m_state == FileTransfer::Done)
+	{
         if (chkClose->isChecked())
             close();
         return;

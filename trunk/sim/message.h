@@ -63,6 +63,7 @@ const unsigned  MESSAGE_INSERT      = 0x00400000;
 const unsigned  MESSAGE_OPEN        = 0x00800000;
 const unsigned  MESSAGE_NORAISE     = 0x01000000;
 const unsigned  MESSAGE_TEMP        = 0x10000000;
+const unsigned  MESSAGE_FT          = 0x20000000;
 
 struct MessageData
 {

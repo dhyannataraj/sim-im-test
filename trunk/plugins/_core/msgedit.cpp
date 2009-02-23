@@ -1056,39 +1056,43 @@ bool MsgEdit::adjustType()
 
 bool MsgEdit::processEvent(Event *e)
 {
-    switch (e->type()) {
-    case eEventContact: {
+    switch (e->type())
+	{
+    case eEventContact:
+		{
         EventContact *ec = static_cast<EventContact*>(e);
         if (ec->contact()->id() != m_userWnd->m_id)
             break;
         adjustType();
         break;
     }
-    case eEventClientChanged: {
+    case eEventClientChanged:
+		{
         adjustType();
         break;
     }
-    case eEventMessageReceived: {
-        EventMessage *em = static_cast<EventMessage*>(e);
-        Message *msg = em->msg();
-        if (msg->getFlags() & MESSAGE_NOVIEW)
-            return false;
-        if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
-            if (CorePlugin::m_plugin->getContainerMode()){
-                bool bSetFocus = false;
-                if (topLevelWidget() && topLevelWidget()->inherits("Container")){
-                    Container *container = static_cast<Container*>(topLevelWidget());
-                    if (container->wnd() == m_userWnd)
-                        bSetFocus = true;
-                }
-                setMessage(msg, bSetFocus);
-            }else{
-                if (m_edit->isReadOnly())
-                    QTimer::singleShot(0, this, SLOT(setupNext()));
-            }
-        }
-        break;
-    }
+    case eEventMessageReceived:
+		{
+			EventMessage *em = static_cast<EventMessage*>(e);
+			Message *msg = em->msg();
+			if (msg->getFlags() & MESSAGE_NOVIEW)
+				return false;
+			if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
+				if (CorePlugin::m_plugin->getContainerMode()){
+					bool bSetFocus = false;
+					if (topLevelWidget() && topLevelWidget()->inherits("Container")){
+						Container *container = static_cast<Container*>(topLevelWidget());
+						if (container->wnd() == m_userWnd)
+							bSetFocus = true;
+					}
+					setMessage(msg, bSetFocus);
+				}else{
+					if (m_edit->isReadOnly())
+						QTimer::singleShot(0, this, SLOT(setupNext()));
+				}
+			}
+			break;
+		}
     case eEventRealSendMessage: {
         EventRealSendMessage *ersm = static_cast<EventRealSendMessage*>(e);
         if (ersm->edit() == this){
