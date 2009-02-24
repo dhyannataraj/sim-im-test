@@ -1182,8 +1182,7 @@ void MsgView::init()
 
 bool MsgView::processEvent(Event *e)
 {
-    if ((e->type() == eEventSent) || (e->type() == eEventMessageReceived))
-	{
+    if ((e->type() == eEventSent) || (e->type() == eEventMessageReceived)){
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)

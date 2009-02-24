@@ -2925,7 +2925,6 @@ void AIMOutcomingFileTransfer::packet_ready()
 				if(this_oft.type == OFT_success)
 				{
 					log(L_DEBUG, "File transfer OK(4)");
-					EventSent(m_msg).process();
 					if(totalBytes() >= totalSize())
 					{
 						FileTransfer::m_state = FileTransfer::Done;

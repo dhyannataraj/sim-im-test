@@ -2524,9 +2524,7 @@ bool ICQClient::processEvent(Event *e)
                 break;
             }
             case EventContact::eChanged: {
-				log(L_DEBUG, "ICQClient::processEvents(EventContact::eChanged) Client state: %d", getState());
-                if ((getState() == Connected) || getState() == Connecting)
-				{
+                if (getState() == Connected){
                     if (!m_bAIM)
                         m_snacBuddy->addBuddy(contact);
                     if (contact == getContacts()->owner()){

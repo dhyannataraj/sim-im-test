@@ -1697,7 +1697,7 @@ bool CorePlugin::processEvent(Event *e)
             }
             if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)){
                 Message *msg = (Message*)(cmd->param);
-                if (msg->getFlags() & MESSAGE_FT)
+                if (msg->getFlags() & MESSAGE_TEMP)
                     return true;
                 return false;
             }
@@ -3429,9 +3429,7 @@ Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
             if (mdef->create){
                 Message *msg = (mdef->create)(cfg);
                 if (msg)
-				{
-					return msg;
-				}
+                    return msg;
             }
         }
     }

@@ -919,7 +919,7 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 			}
 		}
 		msg->setDescription(d);
-		msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_FT);
+		msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
 		m_processMsg.push_back(msg);
 		messageReceived(msg, screen);
 		return;

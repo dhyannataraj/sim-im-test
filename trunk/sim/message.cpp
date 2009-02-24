@@ -396,7 +396,6 @@ FileMessage::FileMessage(unsigned type, Buffer *cfg)
 {
     load_data(messageFileData, &data, cfg);
     m_transfer = NULL;
-	setFlags(getFlags() | MESSAGE_FT);
 }
 
 FileMessage::~FileMessage()

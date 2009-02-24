@@ -408,7 +408,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
         m->setServerText(QCString(fileDescr.data()));
         m->setSize(fileSize);
         m->setPort(port);
-        m->setFlags(MESSAGE_FT);
+        m->setFlags(MESSAGE_TEMP);
         m->setID_L(id.id_l);
         m->setID_H(id.id_h);
         m->setCookie(cookie);
