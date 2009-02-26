@@ -639,7 +639,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 if (m_logonStatus == STATUS_ONLINE){
                     m_status = STATUS_ONLINE;
                     sendCapability();
-                    sendICMB(1, 0x0b);
+                    sendICMB(1, 11);
                     sendICMB(2,  3);
                     sendICMB(4,  3);
                     fetchProfiles();
@@ -664,7 +664,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 break;
             }
             sendCapability();
-            sendICMB(0, 0x070b);
+            //sendICMB(0, 0x070b);
             snacService()->sendLogonStatus();
             snacService()->sendClientReady();
 			//snac(ICQ_SNACxFOOD_MESSAGE, 0x10);

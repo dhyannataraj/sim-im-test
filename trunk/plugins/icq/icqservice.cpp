@@ -476,16 +476,16 @@ void SnacIcqService::sendClientReady()
 {
     snac(ICQ_SNACxSRV_READYxCLIENT);
     m_client->socket()->writeBuffer()
-    << 0x00010004L << 0x0110164FL
-    << 0x00130004L << 0x0110164FL
-    << 0x00020001L << 0x0110164FL
-    << 0x00030001L << 0x0110164FL
-    << 0x00150001L << 0x0110164FL
-    << 0x00040001L << 0x0110164FL
-    << 0x00060001L << 0x0110164FL
-    << 0x00090001L << 0x0110164FL
-    << 0x000A0001L << 0x0110164FL
-    << 0x000B0001L << 0x0110164FL;
+    << 0x00010004L << 0x011008E4L
+    << 0x00130004L << 0x011008E4L
+    << 0x00020001L << 0x011008E4L
+    << 0x00030001L << 0x011008E4L
+    << 0x00150001L << 0x011008E4L
+    << 0x00040001L << 0x011008E4L
+    << 0x00060001L << 0x011008E4L
+    << 0x00090001L << 0x011008E4L
+    << 0x000A0001L << 0x011008E4L
+    << 0x000B0001L << 0x011008E4L;
 
     m_client->sendPacket(true);
 }
