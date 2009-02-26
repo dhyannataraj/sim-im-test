@@ -358,7 +358,9 @@ void FileTransferDlg::notifyDestroyed()
     m_timer->stop();
     btnCancel->setText(i18n("&Close"));
     if (m_state == FileTransfer::Done){
-        EventSent(m_msg).process();
+		// EventSent shouldn't be processed here
+		// Protocol plugin should decide itself when to send it
+        //EventSent(m_msg).process();
         if (chkClose->isChecked())
             close();
         return;

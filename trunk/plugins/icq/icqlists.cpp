@@ -664,15 +664,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 break;
             }
             sendCapability();
-            //sendICMB(0, 0x070b);
+			// 0x070b will send html text.
+			// Probably, later we can use it.
+            sendICMB(0, 0x000b);
             snacService()->sendLogonStatus();
             snacService()->sendClientReady();
-			//snac(ICQ_SNACxFOOD_MESSAGE, 0x10);
-			//sendPacket(true);
-			/*
-            snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE, true, false);
-            sendPacket(true);
-			*/
             sendMessageRequest();
 
             setState(Connected);
