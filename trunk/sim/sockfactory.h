@@ -125,6 +125,7 @@ public slots:
     void checkState();
 protected:
     std::list<SIMResolver*> resolvers;
+
 };
 
 class IP

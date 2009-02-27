@@ -105,7 +105,7 @@ void ICQPicture::clearPicture()
     edtPict->setText(QString::null);
 }
 
-const unsigned short MAX_PICTURE_SIZE      = 8081;
+const unsigned short MAX_PICTURE_SIZE = 7168;
 
 void ICQPicture::pictSelected(const QString &file)
 {

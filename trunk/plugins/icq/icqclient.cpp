@@ -2534,11 +2534,13 @@ bool ICQClient::processEvent(Event *e)
                             data.owner.PluginInfoTime.asULong() = now;
                             snacService()->sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                         }
+						/*
                         if (getPicture() != data.owner.Picture.str()){
                             data.owner.Picture.str() = getPicture();
                             data.owner.PluginInfoTime.asULong() = now;
                             snacService()->sendPluginInfoUpdate(PLUGIN_PICTURE);
                         }
+						*/
                         if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
                             data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
                             data.owner.PluginStatusTime.asULong() = now;

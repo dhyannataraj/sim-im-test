@@ -1466,7 +1466,7 @@ void ICQClient::setClientInfo(void *_data)
     }
 
     setChatGroup();
-    snacService()->sendStatus();
+    //snacService()->sendStatus();
 }
 
 class SetPasswordRequest : public ServerRequest

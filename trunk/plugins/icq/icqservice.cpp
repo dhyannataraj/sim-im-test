@@ -476,16 +476,16 @@ void SnacIcqService::sendClientReady()
 {
     snac(ICQ_SNACxSRV_READYxCLIENT);
     m_client->socket()->writeBuffer()
-    << 0x00010004L << 0x011008E4L
-    << 0x00130004L << 0x011008E4L
-    << 0x00020001L << 0x011008E4L
-    << 0x00030001L << 0x011008E4L
-    << 0x00150001L << 0x011008E4L
-    << 0x00040001L << 0x011008E4L
-    << 0x00060001L << 0x011008E4L
-    << 0x00090001L << 0x011008E4L
-    << 0x000A0001L << 0x011008E4L
-    << 0x000B0001L << 0x011008E4L;
+    << 0x00010004L << 0x0110164FL
+    << 0x00130004L << 0x0110164FL
+    << 0x00020001L << 0x0110164FL
+    << 0x00030001L << 0x0110164FL
+    << 0x00150001L << 0x0110164FL
+    << 0x00040001L << 0x0110164FL
+    << 0x00060001L << 0x0110164FL
+    << 0x00090001L << 0x0110164FL
+    << 0x000A0001L << 0x0110164FL
+    << 0x000B0001L << 0x0110164FL;
 
     m_client->sendPacket(true);
 }
@@ -542,6 +542,7 @@ void SnacIcqService::sendLogonStatus()
 
 void SnacIcqService::setInvisible()
 {
+	log(L_DEBUG, "SnacIcqService::setInvisible");
     if(m_client->getInvisible())
         m_client->sendInvisible(false);
     snac(ICQ_SNACxSRV_SETxSTATUS);
@@ -553,6 +554,7 @@ void SnacIcqService::setInvisible()
 
 void SnacIcqService::sendStatus()
 {
+	log(L_DEBUG, "SnacIcqService::sendStatus");
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
     m_client->sendPacket(true);
@@ -561,6 +563,7 @@ void SnacIcqService::sendStatus()
 
 void SnacIcqService::sendPluginInfoUpdate(unsigned plugin_id)
 {
+	log(L_DEBUG, "SnacIcqService::sendPluginInfoUpdate");
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
     ICQBuffer directInfo(25);
@@ -582,6 +585,7 @@ void SnacIcqService::sendPluginInfoUpdate(unsigned plugin_id)
 
 void SnacIcqService::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
 {
+	log(L_DEBUG, "SnacIcqService::sendPluginInfoUpdate");
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->fullStatus(m_client->m_logonStatus));
     ICQBuffer directInfo(25);

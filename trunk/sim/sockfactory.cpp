@@ -190,6 +190,7 @@ ServerSocket *SIMSockets::createServerSocket()
     return new SIMServerSocket();
 }
 
+
 SIMClientSocket::SIMClientSocket(QSocket *s)
 {
     sock = s;
@@ -363,11 +364,7 @@ void SIMClientSocket::checkInterface()
 #ifdef WIN32
 	return;
 #endif
-	if(!sock)
-		return;
 #ifndef WIN32
-	// crissi: disabled until detection is fixed, see below FIXME
-	return;
 	int fd = sock->socket();
 	if(fd == -1)
 	{
@@ -376,7 +373,7 @@ void SIMClientSocket::checkInterface()
 	struct ifreq ifr;
 	struct ifreq* ifrp;
 	struct ifreq ibuf[16];
-	struct ifconf	ifc;
+	struct ifconf ifc;
 
 	ifc.ifc_len = sizeof(ifr)*16;
 	ifc.ifc_buf = (caddr_t)&ibuf;
@@ -393,10 +390,12 @@ void SIMClientSocket::checkInterface()
 		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
 		if(strcmp(ifr.ifr_name, "lo") == 0)
 			continue;
+		if(htonl(((sockaddr_in*)&ifrp->ifr_addr)->sin_addr.s_addr) != sock->address().toIPv4Address())
+			continue;
+
 		hret = ioctl(fd, SIOCGIFFLAGS, &ifr);
 		if(hret != -1)
 		{
-			// FIXME!!! check only interface where default route points (i.e. if default route points to eth1 and eth0 is up or not configured -> failes always
 			int state = ifr.ifr_flags & IFF_RUNNING;
 			if(state < 0)
 			{
@@ -406,7 +405,6 @@ void SIMClientSocket::checkInterface()
 			if((state == 0) && (m_state))
 			{
 				m_state = false;
-				log(L_DEBUG, "Carrier lost at: %s", ifr.ifr_name);
 				EventInterfaceDown e;
 				e.process();
 				return;
@@ -414,7 +412,6 @@ void SIMClientSocket::checkInterface()
 			if((state != 0) && (!m_state))
 			{
 				m_state = true;
-				log(L_DEBUG, "Carrier is up again at: %s", ifr.ifr_name);
 				EventInterfaceUp e;
 				e.process();
 				return;
@@ -422,7 +419,6 @@ void SIMClientSocket::checkInterface()
 			return;
 		}
 	}
-	return;
 #endif
 }
 
