@@ -1422,7 +1422,7 @@ unsigned ICQClient::processListRequest()
                 }
                 break;
             }
-            if (data->IcqID.toULong() == 0)
+            if ((data->IcqID.toULong() == 0) || (data->Uin.toULong() == 0))
                 break;
             if (isContactRenamed(data, contact)){
                 log(L_DEBUG, "%s rename", userStr(contact, data).local8Bit().data());
