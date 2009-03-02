@@ -630,7 +630,7 @@ public:
 	// SSI:
 	void ssiStartTransaction();
 	void ssiEndTransaction();
-	bool isSSITransaction(return false);
+	bool isSSITransaction(){return false;};
 	unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
 	unsigned short ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv);
 	unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
@@ -638,7 +638,7 @@ public:
 	unsigned short ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
 	unsigned short ssiRemoveFromGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
-	
+
 	// Snac handlers accessors
 	SnacIcqService* snacService() { return m_snacService; }
 	SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
@@ -828,7 +828,7 @@ protected:
     friend class ICQFileTransfer;
     friend class SetBuddyRequest;
     friend class SSBISocket;
-	
+
 	friend class SnacIcqBuddy;
 	friend class SnacIcqService;
 };
