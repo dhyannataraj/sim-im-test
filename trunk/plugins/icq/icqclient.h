@@ -630,7 +630,7 @@ public:
 	// SSI:
 	void ssiStartTransaction();
 	void ssiEndTransaction();
-	bool isSSITransaction(){return false;};
+	bool isSSITransaction(){return false;}
 	unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
 	unsigned short ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv);
 	unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
