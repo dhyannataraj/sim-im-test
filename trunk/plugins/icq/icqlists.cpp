@@ -1777,10 +1777,6 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     delete msg;
     return true;
 }
-bool ICQClient::isSSITransaction()
-{
-	return false; //m_ssiTransaction;
-}
 
 bool ICQClient::sendAuthRefused(Message *msg, void *_data)
 {

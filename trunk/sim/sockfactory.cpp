@@ -388,10 +388,11 @@ void SIMClientSocket::checkInterface()
 	{
 		ifrp = ibuf + i; 
 		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
-		if(strcmp(ifr.ifr_name, "lo") == 0)
-			continue;
-		if(htonl(((sockaddr_in*)&ifrp->ifr_addr)->sin_addr.s_addr) != sock->address().toIPv4Address())
-			continue;
+
+		if  (
+				strcmp(ifr.ifr_name, "lo") == 0 ||
+				(htonl(((sockaddr_in*)&ifrp->ifr_addr)->sin_addr.s_addr) != sock->address().toIPv4Address())
+			)	continue;
 
 		hret = ioctl(fd, SIOCGIFFLAGS, &ifr);
 		if(hret != -1)
