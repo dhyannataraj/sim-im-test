@@ -407,7 +407,7 @@ void SIMClientSocket::checkInterface()
 			if((state == 0) && (m_state))
 			{
 				m_state = false;
-				log(L_DEBUG, "Carrier lost at: %s", ifr.ifr_name);
+				//log(L_DEBUG, "Carrier lost at: %s", ifr.ifr_name);
 				EventInterfaceDown e;
 				e.process();
 				return;
@@ -415,7 +415,7 @@ void SIMClientSocket::checkInterface()
 			if((state != 0) && (!m_state))
 			{
 				m_state = true;
-				log(L_DEBUG, "Carrier is up again at: %s", ifr.ifr_name);
+				//log(L_DEBUG, "Carrier is up again at: %s", ifr.ifr_name);
 				EventInterfaceUp e;
 				e.process();
 				return;
@@ -423,7 +423,6 @@ void SIMClientSocket::checkInterface()
 			return;
 		}
 	}
-	return;
 #endif
 }
 
