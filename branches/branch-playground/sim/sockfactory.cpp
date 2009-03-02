@@ -364,12 +364,7 @@ void SIMClientSocket::checkInterface()
 #ifdef WIN32
 	return;
 #endif
-	if(!sock)
-		return;
 #ifndef WIN32
-	// crissi: disabled until detection is fixed, see below FIXME
-	// FIXME!!! check only interface where default route points (i.e. if default route points to eth1 and eth0 is up or not configured -> failes always
-	return;
 	int fd = sock->socket();
 	if(fd == -1)
 	{
@@ -393,8 +388,13 @@ void SIMClientSocket::checkInterface()
 	{
 		ifrp = ibuf + i;
 		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
-		if(strcmp(ifr.ifr_name, "lo") == 0)
+		if  (
+			strcmp(ifr.ifr_name, "lo") == 0 ||
+		    (htonl(((sockaddr_in*)&ifrp->ifr_addr)->sin_addr.s_addr) != sock->address().toIPv4Address())
+		    )
 			continue;
+
+
 		hret = ioctl(fd, SIOCGIFFLAGS, &ifr);
 		if(hret != -1)
 		{

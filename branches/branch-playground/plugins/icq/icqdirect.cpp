@@ -2937,6 +2937,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 						FileTransfer::m_state = FileTransfer::Done;
 						m_socket->close();
 						m_socket->error_state(QString::null);
+						EventSent(m_msg).process();
 						if(m_notify)
 						{
 							m_notify->transfer(false);

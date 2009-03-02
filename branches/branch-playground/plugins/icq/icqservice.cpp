@@ -546,6 +546,7 @@ void SnacIcqService::sendLogonStatus()
 
 void SnacIcqService::setInvisible()
 {
+	log(L_DEBUG, "SnacIcqService::setInvisible");
     if(m_client->getInvisible())
         m_client->sendInvisible(false);
     snac(ICQ_SNACxSRV_SETxSTATUS);
@@ -557,6 +558,7 @@ void SnacIcqService::setInvisible()
 
 void SnacIcqService::sendStatus()
 {
+	log(L_DEBUG, "SnacIcqService::sendStatus");
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
     m_client->sendPacket(true);
@@ -565,6 +567,7 @@ void SnacIcqService::sendStatus()
 
 void SnacIcqService::sendPluginInfoUpdate(unsigned plugin_id)
 {
+	log(L_DEBUG, "SnacIcqService::sendPluginInfoUpdate");
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
     ICQBuffer directInfo(25);
@@ -586,6 +589,7 @@ void SnacIcqService::sendPluginInfoUpdate(unsigned plugin_id)
 
 void SnacIcqService::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
 {
+	log(L_DEBUG, "SnacIcqService::sendPluginInfoUpdate");
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->fullStatus(m_client->m_logonStatus));
     ICQBuffer directInfo(25);
