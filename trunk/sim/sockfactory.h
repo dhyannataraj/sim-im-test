@@ -42,6 +42,11 @@ public:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
+
+signals:
+	void interfaceDown(int sockfd); // Probably, sockfd is not needed
+	void interfaceUp(int sockfd);
+
 protected slots:
     void slotConnected();
     void slotConnectionClosed();

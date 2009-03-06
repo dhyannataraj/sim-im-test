@@ -509,16 +509,16 @@ void ICQClient::connect_ready()
 
 void ICQClient::setNewLevel(RateInfo &r)
 {
-    QDateTime now = QDateTime::currentDateTime();
-    unsigned delta = 0;
-    if (now.date() == r.m_lastSend.date())
-        delta = r.m_lastSend.time().msecsTo(now.time());
-    unsigned res = (((r.m_winSize - 1) * r.m_curLevel) + delta) / r.m_winSize;
-    if (res > r.m_maxLevel)
-        res = r.m_maxLevel;
-    r.m_curLevel = res;
-    r.m_lastSend = now;
-    log(L_DEBUG, "Level: %04X [%04X %04X]", res, r.m_minLevel, r.m_winSize);
+	QDateTime now = QDateTime::currentDateTime();
+	unsigned delta = 0;
+	if (now.date() == r.m_lastSend.date())
+		delta = r.m_lastSend.time().msecsTo(now.time());
+	unsigned res = (((r.m_winSize - 1) * r.m_curLevel) + delta) / 4 * r.m_winSize;
+	if (res > r.m_maxLevel)
+		res = r.m_maxLevel;
+	r.m_curLevel = res;
+	r.m_lastSend = now;
+	log(L_DEBUG, "Level: %04X [%04X %04X]", res, r.m_minLevel, r.m_winSize);
 }
 
 RateInfo *ICQClient::rateInfo(unsigned snac)
@@ -533,7 +533,10 @@ unsigned ICQClient::delayTime(unsigned snac)
 {
     RateInfo *r = rateInfo(snac);
     if (r == NULL)
+	{
+		log(L_DEBUG, "No rate info for %d", snac);
         return 0;
+	}
     return delayTime(*r);
 }
 
@@ -958,6 +961,10 @@ unsigned long ICQClient::fullStatus(unsigned s)
         status &= ~(ICQ_STATUS_FxDIRECTxLISTED | ICQ_STATUS_FxDIRECTxAUTH);
     }
     return status;
+}
+
+void ICQClient::interfaceDown(int sockfd)
+{
 }
 
 ICQUserData *ICQClient::findContact(unsigned long l, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)

@@ -406,6 +406,7 @@ void SIMClientSocket::checkInterface()
 			if((state == 0) && (m_state))
 			{
 				m_state = false;
+				emit interfaceDown(fd);
 				EventInterfaceDown e;
 				e.process();
 				return;
@@ -413,6 +414,7 @@ void SIMClientSocket::checkInterface()
 			if((state != 0) && (!m_state))
 			{
 				m_state = true;
+				emit interfaceUp(fd);
 				EventInterfaceUp e;
 				e.process();
 				return;

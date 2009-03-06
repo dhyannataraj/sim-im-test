@@ -110,7 +110,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
             md = md5(md);
-            socket()->writeBuffer().tlv(0x0025, md.data(), md.length());
+            socket()->writeBuffer().tlv(0x0025, md.data(), md.size());
 	        if (data.owner.Uin.toULong()){
                 socket()->writeBuffer().tlv(0x0003, "ICQBasic");  //ToDo: Should be updated anytime
                 socket()->writeBuffer().tlv(0x0016, 0x010A); // ID Number

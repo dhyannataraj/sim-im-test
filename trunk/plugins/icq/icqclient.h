@@ -647,6 +647,7 @@ protected slots:
     void processSendQueue();
     void sendTimeout();
     void retry(int n, void*);
+	void interfaceDown(int sockfd);
 protected:
 	void generateCookie(MessageId& id);
 
