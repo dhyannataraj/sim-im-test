@@ -407,7 +407,7 @@ void SIMClientSocket::checkInterface()
 			{
 				m_state = false;
 				emit interfaceDown(fd);
-				EventInterfaceDown e;
+				EventInterfaceDown e(fd);
 				e.process();
 				return;
 			}
@@ -415,7 +415,7 @@ void SIMClientSocket::checkInterface()
 			{
 				m_state = true;
 				emit interfaceUp(fd);
-				EventInterfaceUp e;
+				EventInterfaceUp e(fd);
 				e.process();
 				return;
 			}
@@ -485,6 +485,11 @@ void SIMClientSocket::slotError(int err)
 void SIMClientSocket::pause(unsigned t)
 {
     QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
+}
+
+int SIMClientSocket::getFd()
+{
+	return sock->socket();
 }
 
 SIMServerSocket::SIMServerSocket()

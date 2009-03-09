@@ -42,6 +42,7 @@ public:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
+	virtual int getFd();
 
 signals:
 	void interfaceDown(int sockfd); // Probably, sockfd is not needed

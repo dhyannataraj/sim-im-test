@@ -2848,18 +2848,26 @@ bool ICQClient::processEvent(Event *e)
     }
 	case eEventInterfaceDown:
 	{
-		setState(Error, "Interface down");
-		setStatus(STATUS_OFFLINE, false);
-		m_connectionLost = true;
+		EventInterfaceDown* ev = static_cast<EventInterfaceDown*>(e);
+		if(ev->getFd() == socket()->socket()->getFd())
+		{
+			setState(Error, "Interface down");
+			setStatus(STATUS_OFFLINE, false);
+			m_connectionLost = true;
+		}
 		break;
 	}
 	case eEventInterfaceUp:
 	{
-		if(m_connectionLost)
+		EventInterfaceUp* ev = static_cast<EventInterfaceUp*>(e);
+		if(ev->getFd() == socket()->socket()->getFd())
 		{
-			setState(Connecting);
-			setStatus(STATUS_ONLINE, false);
-			m_connectionLost = false;
+			if(m_connectionLost)
+			{
+				setState(Connecting);
+				setStatus(STATUS_ONLINE, false);
+				m_connectionLost = false;
+			}
 		}
 		break;
 	}
