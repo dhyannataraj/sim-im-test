@@ -667,7 +667,6 @@ void ICQClient::disconnected()
         delete m_listener;
         m_listener = NULL;
     }
-	m_nFlapSequence = 8984;
 }
 
 const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
