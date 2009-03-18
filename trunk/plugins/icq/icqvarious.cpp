@@ -317,7 +317,6 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 
 void ICQClient::sendServerRequest()
 {
-    log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
     ICQBuffer &b = socket()->writeBuffer();
     char *packet = b.data(b.packetStartPos());
     unsigned short packet_size = (unsigned short)(b.size() - b.packetStartPos());

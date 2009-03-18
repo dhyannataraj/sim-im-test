@@ -41,6 +41,7 @@ protected slots:
     void searchStop();
     void searchMail(const QString&);
     void searchName(const QString&, const QString&, const QString&);
+	void createContact(unsigned tmpFlags, SIM::Contact *&contact);
     void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
 protected:
     YahooClient *m_client;

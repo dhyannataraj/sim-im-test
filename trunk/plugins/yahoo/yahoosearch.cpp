@@ -59,12 +59,13 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
     edtID->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z \\-_]+"), this));
     initCombo(cmbAge, 0, ages);
     initCombo(cmbGender, 0, genders);
+    emit setAdd(true);
 }
 
 void YahooSearch::showEvent(QShowEvent *e)
 {
     YahooSearchBase::showEvent(e);
-    emit setAdd(false);
+    emit setAdd(true);
 }
 
 void YahooSearch::search()
@@ -173,6 +174,12 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
     }
     emit searchDone(this);
     return false;
+}
+void YahooSearch::createContact(unsigned tmpFlags, Contact *&contact)
+{
+    QString resource;
+    QString name = edtID->text();
+	createContact(name, tmpFlags, contact);
 }
 
 void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&contact)
