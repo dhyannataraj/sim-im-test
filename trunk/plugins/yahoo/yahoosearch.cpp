@@ -56,7 +56,7 @@ YahooSearch::YahooSearch(YahooClient *client, QWidget *parent)
 {
     m_client = client;
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
-    edtID->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z \\-_]+"), this));
+    edtID->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z \\.\\-_]+"), this));
     initCombo(cmbAge, 0, ages);
     initCombo(cmbGender, 0, genders);
     emit setAdd(true);
