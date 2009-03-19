@@ -21,4 +21,7 @@ SET(action_UICS
         menucfgbase.ui
 )
 
+SET(action_MESSAGE_SOURCES ${action_SRCS} ${action_UICS}  PARENT_SCOPE)
+
+
 SIM_ADD_PLUGIN(action)

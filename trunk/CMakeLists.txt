@@ -51,6 +51,7 @@ INCLUDE(DistTarget)
 INCLUDE(CheckCXXCompilerFlag)
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
+OPTION(ENABLE_TARGET_UPDATE_MESSAGES "Enables target that allows to extract i18n messages from the code, and update *.po files with them")
 
 SET(Sim-IM_PLUGINS_SOURCE_DIR ${Sim-IM_SOURCE_DIR}/plugins)
 SIM_FIND_PLUGINS(${Sim-IM_PLUGINS_SOURCE_DIR})
@@ -209,55 +210,62 @@ ADD_CUSTOM_TARGET(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 
-CONFIGURE_FILE(
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_update_messages.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/cmake_update_messages.cmake"
-  IMMEDIATE @ONLY)
+########################################
+# update-messages target
+#######################################
+IF ( ENABLE_TARGET_UPDATE_MESSAGES )
 
-ADD_CUSTOM_TARGET(update-messages)
-#    "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_update_messages.cmake")
+    ADD_CUSTOM_TARGET(update-messages)
+
+    SET(XGETTEXT_OPTIONS -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale)
+
+    SET(new_pot "${CMAKE_CURRENT_BINARY_DIR}/new_messages")
+    SET(fake_ui_cpp_root "${CMAKE_CURRENT_BINARY_DIR}/fake_ui_cpp")
 
 
-MESSAGE(STATUS "===========")
-
-SET(new_pot "${CMAKE_CURRENT_BINARY_DIR}/new_messages")
-SET(fake_ui_cpp_root "${CMAKE_CURRENT_BINARY_DIR}/fake_ui_cpp")
-
-ADD_CUSTOM_COMMAND(TARGET update-messages
-    COMMAND echo \"msgid \\\"\\\"\" > ${new_pot}.po
-    COMMAND echo \"msgstr \\\"Content-Type: text/plain\; charset=UTF-8\\\"\" >> ${new_pot}.po
-
-#    rm -f ${new_pot}.po \; touch ${new_pot}.po  # make sure that new pot file exists and empty
-)
-
-FOREACH(plugin ${SIM_PLUGINS})
+    # creating new po file with correct charset in it
+    # if this file is created automaticly charset will not be set
+    # and there would be a lot of warnings while adding new messages in it
     ADD_CUSTOM_COMMAND(TARGET update-messages
-        COMMAND echo Processing plugin ${plugin}
+        COMMAND echo \"msgid \\\"\\\"\" > ${new_pot}.po
+        COMMAND echo \"msgstr \\\"Content-Type: text/plain\; charset=UTF-8\\\"\" >> ${new_pot}.po
     )
-    FOREACH(file ${${plugin}_MESSAGE_SOURCES})
+
+    FOREACH(plugin ${SIM_PLUGINS})
         ADD_CUSTOM_COMMAND(TARGET update-messages
-           COMMAND mkdir -p ${fake_ui_cpp_root}/plugins/${plugin}
+            COMMAND echo Processing plugin ${plugin}
         )
-        GET_FILENAME_COMPONENT(ext ${file} EXT)
-        IF(ext STREQUAL .ui)
-            ADD_CUSTOM_COMMAND(TARGET update-messages
-                COMMAND echo UI-file ${file}
-            )
-            ADD_CUSTOM_COMMAND(TARGET update-messages
-                COMMAND ${CMAKE_COMMAND}
-                   -D IN_FILE:STRING=${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}
-                   -D OUT_FILE:STRING=${fake_ui_cpp_root}/plugins/${plugin}/${file}
-                   -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UiToFakeCpp.cmake
-               COMMAND cd ${fake_ui_cpp_root} \;
-                    xgettext -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale -d${new_pot} plugins/${plugin}/${file}
-            )
-        ELSEIF(ext STREQUAL .cpp)
-            FILE(RELATIVE_PATH rel_path ${Sim-IM_SOURCE_DIR} ${Sim-IM_PLUGINS_SOURCE_DIR}) 
-            SET(full_name "${rel_path}/${plugin}/${file}")
-            ADD_CUSTOM_COMMAND(TARGET update-messages
-                COMMAND echo CPP-file ${full_name}
-                COMMAND cd ${Sim-IM_SOURCE_DIR} \; xgettext -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale -d${new_pot} ${full_name}
-            )
-        ENDIF(ext STREQUAL .ui)
-    ENDFOREACH(file)
-ENDFOREACH(plugin)
+        ADD_CUSTOM_COMMAND(TARGET update-messages
+            COMMAND mkdir -p ${fake_ui_cpp_root}/plugins/${plugin}
+        )
+        FOREACH(file ${${plugin}_MESSAGE_SOURCES})
+            GET_FILENAME_COMPONENT(ext ${file} EXT)
+            IF(ext STREQUAL .ui)
+                # creatig fake .cpp file where messages are located in the same lines as in .ui file
+                # and put it with the whole relative path to ${fake_ui_cpp_root}
+                ADD_CUSTOM_COMMAND(TARGET update-messages
+                    COMMAND echo UI-file ${file}
+                    COMMAND ${CMAKE_COMMAND}
+                       -D IN_FILE:STRING=${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}
+                       -D OUT_FILE:STRING=${fake_ui_cpp_root}/plugins/${plugin}/${file}
+                       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UiToFakeCpp.cmake
+                )
+                # parsing fake .cpp file from the ${fake_ui_cpp_root} in order to get the same path as 
+                # path to the real .ui file
+                ADD_CUSTOM_COMMAND(TARGET update-messages
+                    COMMAND xgettext ${XGETTEXT_OPTIONS} -d${new_pot} plugins/${plugin}/${file}
+                    WORKING_DIRECTORY ${fake_ui_cpp_root}
+                )
+            ELSEIF(ext STREQUAL .cpp)
+                # just parse .cpp file
+                FILE(RELATIVE_PATH rel_path ${Sim-IM_SOURCE_DIR} ${Sim-IM_PLUGINS_SOURCE_DIR}) 
+                SET(full_name "${rel_path}/${plugin}/${file}")
+                ADD_CUSTOM_COMMAND(TARGET update-messages
+                    COMMAND echo CPP-file ${full_name}
+                    COMMAND xgettext ${XGETTEXT_OPTIONS} -d${new_pot} ${full_name}
+                    WORKING_DIRECTORY ${Sim-IM_SOURCE_DIR}
+                )
+            ENDIF(ext STREQUAL .ui)
+        ENDFOREACH(file)
+    ENDFOREACH(plugin)
+ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )

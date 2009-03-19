@@ -16,4 +16,6 @@ SET(about_UICS
         aboutdlgbase.ui
 )
 
+SET(about_MESSAGE_SOURCES ${about_SRCS} ${about_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(about)

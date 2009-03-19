@@ -15,4 +15,6 @@ SET(__migrate_UICS
         migratedlgbase.ui
 )
 
+SET(__migrate_MESSAGE_SOURCES ${__migrate_SRCS} ${__migrate_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(__migrate)

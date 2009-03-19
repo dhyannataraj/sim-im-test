@@ -190,4 +190,9 @@ ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
 INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
 
+SET(_core_MESSAGE_SOURCES ${_core_SRCS} ${_core_UICS}  PARENT_SCOPE)
+IF(WIN32)
+  SET(_core_MESSAGE_SOURCES  ${_core_MESSAGE_SOURCES}  libintl.cpp  PARENT_SCOPE)
+ENDIF(WIN32)
+
 SIM_ADD_PLUGIN(_core)
