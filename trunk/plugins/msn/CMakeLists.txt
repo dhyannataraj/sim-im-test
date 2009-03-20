@@ -28,4 +28,6 @@ SET(msn_UICS
         msnsearchbase.ui
 )
 
+SET(msn_MESSAGE_SOURCES  ${msn_SRCS}  ${msn_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(msn)

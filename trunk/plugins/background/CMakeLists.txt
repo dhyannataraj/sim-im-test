@@ -15,4 +15,6 @@ SET(background_UICS
         bkgndcfgbase.ui
 )
 
+SET(background_MESSAGE_SOURCES  ${background_SRCS}  ${background_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(background)

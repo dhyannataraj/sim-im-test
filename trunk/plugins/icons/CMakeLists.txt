@@ -15,4 +15,6 @@ SET(icons_UICS
         iconcfgbase.ui
 )
 
+SET(icons_MESSAGE_SOURCES  ${icons_SRCS}  ${icons_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(icons)

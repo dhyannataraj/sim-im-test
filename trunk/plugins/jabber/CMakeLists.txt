@@ -62,6 +62,8 @@ SET(jabber_UICS
         jidsearchbase.ui
 )
 
+SET(jabber_MESSAGE_SOURCES  ${jabber_SRCS}  ${jabber_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(jabber)
 
 # install some sounds

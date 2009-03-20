@@ -11,4 +11,6 @@ SET(floaty_HDRS
         floatywnd.h
 )
 
+SET(floaty_MESSAGE_SOURCES  ${floaty_SRCS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(floaty)

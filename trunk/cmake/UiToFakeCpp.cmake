@@ -28,6 +28,9 @@ MACRO(STRING_TAG_TO_I18N_FUN result_name str_param)
   string(REGEX REPLACE "\n" "\\\\n" str1 "${str1}") # replace new lines with \n"
 
   string(REGEX REPLACE "&amp\\[SEMICOLON!!!!!!\\]" "&" str1 "${str1}")
+  string(REGEX REPLACE "&lt\\[SEMICOLON!!!!!!\\]" "<" str1 "${str1}")
+  string(REGEX REPLACE "&gt\\[SEMICOLON!!!!!!\\]" ">" str1 "${str1}")
+  
   string(REGEX REPLACE "<string>" "i18n(\"" str1 "${str1}")
   string(REGEX REPLACE "</string>" "\");" str1 "${str1}")
   SET(${result_name} "${str1}")

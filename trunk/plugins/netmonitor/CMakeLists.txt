@@ -13,4 +13,6 @@ SET(netmonitor_HDRS
         netmonitor.h
 )
 
+SET(netmonitor_MESSAGE_SOURCES  ${netmonitor_SRCS} PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(netmonitor)

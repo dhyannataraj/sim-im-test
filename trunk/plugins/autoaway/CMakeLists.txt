@@ -64,3 +64,5 @@ IF(COMPILE_PLUGIN)
 ELSE(COMPILE_PLUGIN)
     MESSAGE(STATUS "XScreenSaver library not found, autoaway plugin disabled")
 ENDIF(COMPILE_PLUGIN)
+ 
+SET(autoaway_MESSAGE_SOURCES autoaway.cpp  autoawaycfg.cpp  autoawaycfgbase.ui idleui.cpp PARENT_SCOPE)

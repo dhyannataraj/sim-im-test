@@ -21,4 +21,6 @@ SET(livejournal_UICS
         msgjournalbase.ui
 )
 
+SET(livejournal_MESSAGE_SOURCES  ${livejournal_SRCS}  ${livejournal_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(livejournal)

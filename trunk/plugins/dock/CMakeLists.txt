@@ -17,4 +17,6 @@ SET(dock_UICS
         dockcfgbase.ui
 )
 
+SET(dock_MESSAGE_SOURCES  ${dock_SRCS}  ${dock_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(dock)

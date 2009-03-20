@@ -14,5 +14,6 @@ SET(logger_HDRS
 SET(logger_UICS
         logconfigbase.ui
 )
+SET(logger_MESSAGE_SOURCES  ${logger_SRCS}  ${logger_UICS}  PARENT_SCOPE)
 
 SIM_ADD_PLUGIN(logger)
