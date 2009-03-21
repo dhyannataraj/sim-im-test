@@ -2434,6 +2434,11 @@ bool AIMIncomingFileTransfer::error_state(const QString &err, unsigned code)
 		connect_timeout();
 		return false;
 	}
+	else if(m_stage == 2)
+	{
+		// It can occur, so skip this stage, and wait for proxy FT request from the other peer
+		return false;
+	}
 	return true;
 }
 
@@ -2470,11 +2475,6 @@ void AIMIncomingFileTransfer::connect_timeout()
 		m_stage++;
 		requestFT();
 		m_state = ProxyConnection;
-		/*
-		m_proxy = true;
-		setProxyActive(true);
-		connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
-		*/
 		// TODO Here we should really open the socket and wait for incoming connection,
 		// but we'll cheat for now - skip this step and wait for request for proxy transfer
 	}
