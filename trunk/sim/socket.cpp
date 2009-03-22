@@ -514,7 +514,11 @@ InterfaceChecker::InterfaceChecker(int polltime, bool raiseevents) : QObject(), 
 InterfaceChecker::~InterfaceChecker()
 {
 	killTimer(m_timerID);
+#ifdef WIN32
+	closesocket(m_testSocket);
+#else
 	close(m_testSocket);
+#endif
 }
 
 void InterfaceChecker::setPollTime(int polltime)

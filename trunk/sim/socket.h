@@ -237,7 +237,7 @@ private:
     ClientSocket	*m_clientSocket;
 };
 
-class InterfaceChecker : public QObject
+class EXPORT InterfaceChecker : public QObject
 {
 	Q_OBJECT
 public:
