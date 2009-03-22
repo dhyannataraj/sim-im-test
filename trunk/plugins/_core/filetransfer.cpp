@@ -278,7 +278,6 @@ void FileTransferDlg::process()
         m_state = m_msg->m_transfer->state();
         m_file  = m_msg->m_transfer->file();
         QString status;
-        QString fn;
         switch (m_state){
         case FileTransfer::Listen:
             status = i18n("Listen");
@@ -290,11 +289,12 @@ void FileTransferDlg::process()
             status = i18n("Negotiation");
             break;
         case FileTransfer::Read:{
-                status = i18n("Receive file");
                 FileMessage::Iterator it(*m_msg);
                 const QString *n = it[m_file];
+		QString fn2;
                 if (n)
                     fn = *n;
+                status = i18n("Receive file: %1").arg(fn);
                 break;
             }
         case FileTransfer::Write:
@@ -463,10 +463,10 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
         speedText += i18n("Mb/s");
         break;
     case 1:
-        speedText += i18n("kb/s");
+        speedText += i18n("Kb/s");
         break;
     default:
-        speedText += i18n("b/s");
+        speedText += i18n("B/s");
     }
     if (edtSpeed->text() != speedText)
         edtSpeed->setText(speedText);

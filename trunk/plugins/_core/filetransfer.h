@@ -62,6 +62,7 @@ protected:
     unsigned m_totalBytes;
     unsigned m_totalSize;
     QString  m_dir;
+    QString fn;
     BalloonMsg *m_ask;
     SIM::FileTransfer::State m_state;
     friend class FileTransferDlgNotify;
