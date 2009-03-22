@@ -70,6 +70,7 @@ protected:
     QSocket *sock;
     QTimer  *timer;
     bool bInWrite;
+	QString m_interface;
 };
 
 class SIMServerSocket : public QObject, public ServerSocket

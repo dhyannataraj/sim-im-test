@@ -294,6 +294,7 @@ struct ICQClientData
     SIM::Data		UseHTTP;
     SIM::Data		AutoHTTP;
     SIM::Data		KeepAlive;
+	SIM::Data		MediaSense;
     ICQUserData	owner;
 };
 
@@ -516,6 +517,8 @@ typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
 typedef std::map<unsigned short, SnacHandler*> mapSnacHandlers;
 
+class SIM::InterfaceChecker;
+
 class ICQClient : public SIM::TCPClient, public OscarSocket
 {
     Q_OBJECT
@@ -560,6 +563,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_BOOL(KeepAlive);
+	PROP_BOOL(MediaSense);
     ICQClientData   data;
     // reimplement socket() to get correct Buffer
     virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
@@ -647,7 +651,8 @@ protected slots:
     void processSendQueue();
     void sendTimeout();
     void retry(int n, void*);
-	void interfaceDown(int sockfd);
+	void interfaceDown(QString);
+	void interfaceUp(QString);
 protected:
 	void generateCookie(MessageId& id);
 
@@ -832,6 +837,9 @@ protected:
 
 	friend class SnacIcqBuddy;
 	friend class SnacIcqService;
+
+private:
+	SIM::InterfaceChecker* m_ifChecker;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket

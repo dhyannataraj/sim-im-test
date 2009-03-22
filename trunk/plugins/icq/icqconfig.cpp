@@ -83,6 +83,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     connect(chkInvisible, SIGNAL(toggled(bool)), this, SLOT(invisibleToggled(bool)));
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
+	//chkMediaSense->setChecked(!client->getMediaSense());
     cmbAck->setCurrentItem(client->getAckMode());
 }
 
@@ -123,6 +124,7 @@ void ICQConfig::apply()
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setKeepAlive(chkKeepAlive->isChecked());
     m_client->setAckMode(cmbAck->currentItem());
+	//m_client->setMediaSense(!chkMediaSense->isChecked());
 }
 
 void ICQConfig::changed(const QString&)

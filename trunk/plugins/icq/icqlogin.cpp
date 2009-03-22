@@ -184,6 +184,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
 
 void ICQClient::chn_login()
 {
+	m_connectionLost = false;
     if (m_cookie.size()){
         flap(ICQ_CHNxNEW);
         socket()->writeBuffer() << 0x00000001L;

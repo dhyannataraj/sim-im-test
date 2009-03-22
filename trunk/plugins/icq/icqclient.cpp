@@ -210,6 +210,7 @@ static DataDef icqClientData[] =
         { "UseHTTP", DATA_BOOL, 1, DATA(0) },
         { "AutoHTTP", DATA_BOOL, 1, DATA(0) },
         { "KeepAlive", DATA_BOOL, 1, DATA(1) },
+        { "MediaSense", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
@@ -264,7 +265,9 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 			data->Alias.str() = contact->getName();
 	}
 	m_connectionLost = false;
-
+	m_ifChecker = new SIM::InterfaceChecker();
+	connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
+	connect(m_ifChecker, SIGNAL(interfaceUp(QString)), this, SLOT(interfaceUp(QString)));
 }
 
 ICQClient::~ICQClient()
@@ -534,7 +537,6 @@ unsigned ICQClient::delayTime(unsigned snac)
     RateInfo *r = rateInfo(snac);
     if (r == NULL)
 	{
-		log(L_DEBUG, "No rate info for %d", snac);
         return 0;
 	}
     return delayTime(*r);
@@ -962,8 +964,22 @@ unsigned long ICQClient::fullStatus(unsigned s)
     return status;
 }
 
-void ICQClient::interfaceDown(int sockfd)
+void ICQClient::interfaceDown(QString ifname)
 {
+	log(L_DEBUG, "icq: interface down: %s", ifname.utf8().data());
+}
+
+void ICQClient::interfaceUp(QString ifname)
+{
+	if(getMediaSense())
+	{
+		log(L_DEBUG, "icq: interface up: %s", ifname.utf8().data());
+		if(m_connectionLost)
+		{
+			// Try to connect
+			setStatus(STATUS_ONLINE, false);
+		}
+	}
 }
 
 ICQUserData *ICQClient::findContact(unsigned long l, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
@@ -2847,25 +2863,20 @@ bool ICQClient::processEvent(Event *e)
     }
 	case eEventInterfaceDown:
 	{
-		EventInterfaceDown* ev = static_cast<EventInterfaceDown*>(e);
-		if(ev->getFd() == socket()->socket()->getFd())
+		if(getMediaSense())
 		{
-			setState(Error, "Interface down");
-			setStatus(STATUS_OFFLINE, false);
-			m_connectionLost = true;
-		}
-		break;
-	}
-	case eEventInterfaceUp:
-	{
-		EventInterfaceUp* ev = static_cast<EventInterfaceUp*>(e);
-		if(ev->getFd() == socket()->socket()->getFd())
-		{
-			if(m_connectionLost)
+			EventInterfaceDown* ev = static_cast<EventInterfaceDown*>(e);
+			if(socket() != NULL)
 			{
-				setState(Connecting);
-				setStatus(STATUS_ONLINE, false);
-				m_connectionLost = false;
+				if(socket()->socket() != NULL)
+				{
+					if(ev->getFd() == socket()->socket()->getFd())
+					{
+						setState(Error, "Interface down");
+						setStatus(STATUS_OFFLINE, false);
+						m_connectionLost = true;
+					}
+				}
 			}
 		}
 		break;
