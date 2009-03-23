@@ -52,7 +52,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
         }else{
             chkNew->setChecked(true);
         }
-        edtUin->setValidator(new QIntValidator(1000, 0x1FFFFFFF, edtUin));
+        edtUin->setValidator(new QIntValidator(1000, 0x7FFFFFFF, edtUin));  //FIXME: we will have to do something when UIN is grater than signed int
         connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     }else{
