@@ -2028,7 +2028,11 @@ AIMFileTransfer::~AIMFileTransfer()
 		for(std::list<AIMFileTransfer*>::iterator it = m_client->m_filetransfers.begin(); it != m_client->m_filetransfers.end(); ++it)
 		{
 			if((*it) == this) // FIXME make comparison by cookie
-			{
+			{	
+				// crissi
+				FileMessage* msg = static_cast<FileMessage*>(m_msg);
+				QString filename = msg->getDescription();
+				log(L_DEBUG,QString("file: "+filename), this );
 				m_client->m_filetransfers.erase(it);
 				break;
 			}

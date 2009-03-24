@@ -289,19 +289,19 @@ void FileTransferDlg::process()
             status = i18n("Negotiation");
             break;
         case FileTransfer::Read:{
-                FileMessage::Iterator it(*m_msg);
-                const QString *n = it[m_file];
-                if (n)
-                    m_fn = *n;
-                status = i18n("Receive file: %1").arg(m_fn);
+				m_fn = m_msg->getDescription();
+                //const QString *n = it[m_file];
+                //if (n)
+                //    m_fn = *n;
+				status = i18n(QString("Receiving file: %1").arg(m_fn));
                 break;
             }
         case FileTransfer::Write:
-            status = i18n("Send file");
             m_fn = m_msg->m_transfer->filename();
+			status = i18n("Sending file: %1").arg(m_fn);
             break;
         case FileTransfer::Done:
-            status = i18n("Transfer done");
+            status = i18n(QString("Transfer done: %1").arg(m_fn));
             edtEstimated->setText("0:00:00");
             if (!m_dir.isEmpty())
                 btnGo->show();
