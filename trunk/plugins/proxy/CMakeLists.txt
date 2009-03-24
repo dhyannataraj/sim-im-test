@@ -23,6 +23,8 @@ SET(proxy_UICS
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
+SET(proxy_MESSAGE_SOURCES  ${proxy_SRCS}  ${proxy_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(proxy)
 
 ADD_DEPENDENCIES(proxy _core)

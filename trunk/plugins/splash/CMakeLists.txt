@@ -8,6 +8,7 @@ SET(splash_SRCS
 SET(splash_HDRS
         splash.h
 )
+SET(splash_MESSAGE_SOURCES  ${splash_SRCS}  PARENT_SCOPE)
 
 SIM_ADD_PLUGIN(splash)
 

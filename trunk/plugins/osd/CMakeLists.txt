@@ -18,4 +18,6 @@ SET(osd_UICS
         osdifacebase.ui
 )
 
+SET(osd_MESSAGE_SOURCES  ${osd_SRCS}  ${osd_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(osd)

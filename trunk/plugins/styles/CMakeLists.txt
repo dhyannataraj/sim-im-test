@@ -21,4 +21,6 @@ SET(styles_UICS
         stylescfgbase.ui
 )
 
+SET(styles_MESSAGE_SOURCES  ${styles_SRCS}  ${styles_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(styles)

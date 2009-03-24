@@ -12,6 +12,8 @@ SET(remote_UI_FILES
         remotecfgbase.ui
 )
 
+SET(remote_MESSAGE_SOURCES  ${remote_LIB_SRCS}  ${remote_UI_FILES}  PARENT_SCOPE)
+
 # moc, if needed
 KDE3_AUTOMOC(${remote_LIB_SRCS})
 

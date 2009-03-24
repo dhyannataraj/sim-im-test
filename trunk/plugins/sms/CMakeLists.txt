@@ -22,6 +22,8 @@ SET(sms_UICS
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
+SET(sms_MESSAGE_SOURCES  ${sms_SRCS}  ${sms_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(sms)
 
 ADD_DEPENDENCIES(sms _core)

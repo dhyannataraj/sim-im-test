@@ -230,7 +230,7 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
         COMMAND echo \"msgid \\\"\\\"\" > ${new_pot}.po
         COMMAND echo \"msgstr \\\"Content-Type: text/plain\; charset=UTF-8\\\"\" >> ${new_pot}.po
     )
-
+    LIST(SORT SIM_PLUGINS)
     FOREACH(plugin ${SIM_PLUGINS})
         ADD_CUSTOM_COMMAND(TARGET update-messages
             COMMAND echo Processing plugin ${plugin}
@@ -238,13 +238,14 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
         ADD_CUSTOM_COMMAND(TARGET update-messages
             COMMAND mkdir -p ${fake_ui_cpp_root}/plugins/${plugin}
         )
+        LIST(SORT ${plugin}_MESSAGE_SOURCES)
         FOREACH(file ${${plugin}_MESSAGE_SOURCES})
             GET_FILENAME_COMPONENT(ext ${file} EXT)
             IF(ext STREQUAL .ui)
                 # creatig fake .cpp file where messages are located in the same lines as in .ui file
                 # and put it with the whole relative path to ${fake_ui_cpp_root}
                 ADD_CUSTOM_COMMAND(TARGET update-messages
-                    COMMAND echo UI-file ${file}
+                    COMMAND echo "Extracting messages from  UI-file" plugins/${plugin}/${file}
                     COMMAND ${CMAKE_COMMAND}
                        -D IN_FILE:STRING=${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}
                        -D OUT_FILE:STRING=${fake_ui_cpp_root}/plugins/${plugin}/${file}
@@ -261,7 +262,7 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
                 FILE(RELATIVE_PATH rel_path ${Sim-IM_SOURCE_DIR} ${Sim-IM_PLUGINS_SOURCE_DIR}) 
                 SET(full_name "${rel_path}/${plugin}/${file}")
                 ADD_CUSTOM_COMMAND(TARGET update-messages
-                    COMMAND echo CPP-file ${full_name}
+                    COMMAND echo  Extracting messages from CPP-file ${full_name}
                     COMMAND xgettext ${XGETTEXT_OPTIONS} -d${new_pot} ${full_name}
                     WORKING_DIRECTORY ${Sim-IM_SOURCE_DIR}
                 )

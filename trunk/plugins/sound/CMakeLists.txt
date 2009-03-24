@@ -18,6 +18,8 @@ SET(sound_UICS
         sounduserbase.ui
 )
 
+SET(sound_MESSAGE_SOURCES  ${sound_SRCS}  ${sound_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(sound)
 
 # install some sounds

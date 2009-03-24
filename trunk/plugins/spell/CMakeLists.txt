@@ -1,37 +1,46 @@
+SET(spell_SRCS
+        spell.cpp
+        spellcfg.cpp
+        speller.cpp
+        spellhighlight.cpp
+)
+
+SET(spell_UICS
+        spellcfgbase.ui
+        spellfindbase.ui
+)
+
+SET(spell_HDRS
+        spell.h
+        spellcfg.h
+        speller.h
+        spellhighlight.h
+)
+
+IF(WIN32)
+  SET(spell_SRCS
+          ${spell_SRCS}
+          spellfind.cpp
+  )
+  SET(spell_HDRS
+          ${spell_HDRS}
+          spellfind.h
+  )
+ENDIF(WIN32)
+
+SET(spell_MESSAGE_SOURCES  ${spell_SRCS}  ${spell_UICS})
+IF(NOT WIN32)
+  SET(spell_MESSAGE_SOURCES ${spell_MESSAGE_SOURCES} spellfind.cpp)
+ENDIF(NOT WIN32)
+SET(spell_MESSAGE_SOURCES  ${spell_MESSAGE_SOURCES}  PARENT_SCOPE)
+
 IF(ASPELL_FOUND AND NOT ENABLE_KDE3)
 
     #################
     # spell library #
     #################
-    SET(spell_SRCS
-            spell.cpp
-            spellcfg.cpp
-            speller.cpp
-            spellhighlight.cpp
-    )
 
-    SET(spell_HDRS
-            spell.h
-            spellcfg.h
-            speller.h
-            spellhighlight.h
-    )
 
-    IF(WIN32)
-      SET(spell_SRCS
-              ${spell_SRCS}
-              spellfind.cpp
-      )
-      SET(spell_HDRS
-              ${spell_HDRS}
-              spellfind.h
-      )
-    ENDIF(WIN32)
-
-    SET(spell_UICS
-            spellcfgbase.ui
-            spellfindbase.ui
-    )
     
     SET(spell_LIBS
             ${ASPELL_LIBRARIES}

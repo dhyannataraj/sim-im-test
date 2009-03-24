@@ -18,4 +18,6 @@ SET(shortcuts_UICS
         shortcutcfgbase.ui
 )
 
+SET(shortcuts_MESSAGE_SOURCES  ${shortcuts_SRCS}  ${shortcuts_UICS}  PARENT_SCOPE)
+
 SIM_ADD_PLUGIN(shortcuts)

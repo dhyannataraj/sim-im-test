@@ -14,5 +14,6 @@ SET(replace_HDRS
 SET(replace_UICS
         replacecfgbase.ui
 )
+SET(replace_MESSAGE_SOURCES  ${replace_SRCS}  ${replace_UICS}  PARENT_SCOPE)
 
 SIM_ADD_PLUGIN(replace)
