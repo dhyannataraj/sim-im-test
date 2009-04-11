@@ -639,9 +639,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 if (m_logonStatus == STATUS_ONLINE){
                     m_status = STATUS_ONLINE;
                     sendCapability();
-                    sendICMB(1, 11);
-                    sendICMB(2,  3);
-                    sendICMB(4,  3);
+                    snacICBM()->sendICMB(1, 11);
+                    snacICBM()->sendICMB(2,  3);
+                    snacICBM()->sendICMB(4,  3);
                     fetchProfiles();
                 }else{
                     m_status = STATUS_AWAY;
@@ -660,13 +660,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 m_snacService->sendClientReady();
                 setState(Connected);
                 m_bReady = true;
-                processSendQueue();
+                snacICBM()->processSendQueue();
                 break;
             }
             sendCapability();
 			// 0x070b will send html text.
 			// Probably, later we can use it.
-            sendICMB(0, 0x000b);
+            snacICBM()->sendICMB(0, 0x000b);
             snacService()->sendLogonStatus();
             snacService()->sendClientReady();
             sendMessageRequest();
@@ -809,7 +809,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             m_listRequest->process(this, res);
             delete m_listRequest;
             m_listRequest = NULL;
-            processSendQueue();
+            snacICBM()->processSendQueue();
         }
         break;
     default:
@@ -1034,7 +1034,7 @@ void SetBuddyRequest::process(ICQClient *client, unsigned short res)
         lr.icq_id      = m_icqUserData->buddyRosterID.toULong();
         lr.icqUserData = m_icqUserData;
         client->listRequests.push_back(lr);
-        client->processSendQueue();
+        client->snacICBM()->processSendQueue();
     }
     if(res != 0)
         return;
@@ -1107,7 +1107,7 @@ void ICQClient::uploadBuddy(const ICQUserData *data)
     lr.icq_id      = data->buddyRosterID.toULong();
     lr.icqUserData = data;
     listRequests.push_back(lr);
-    processSendQueue();
+    snacICBM()->processSendQueue();
 }
 
 void ICQClient::ssiStartTransaction()
@@ -1559,7 +1559,7 @@ void ICQClient::checkListRequest()
         m_listRequest->process(this, (unsigned short)(-1));
         delete m_listRequest;
         m_listRequest = NULL;
-        processSendQueue();
+        snacICBM()->processSendQueue();
     }
 }
 
@@ -1580,7 +1580,7 @@ void ICQClient::addGroupRequest(Group *group)
         lr.type   = LIST_GROUP_CHANGED;
         lr.screen = QString::number(group->id());
         listRequests.push_back(lr);
-        processSendQueue();
+        snacICBM()->processSendQueue();
         return;
     }
     list<ListRequest>::iterator it;
@@ -1598,7 +1598,7 @@ void ICQClient::addGroupRequest(Group *group)
     lr.icq_id  = (unsigned short)(data->IcqID.toULong());
     lr.screen  = QString::number(group->id());
     listRequests.push_back(lr);
-    processSendQueue();
+    snacICBM()->processSendQueue();
 }
 
 void ICQClient::addContactRequest(Contact *contact)
@@ -1676,7 +1676,7 @@ void ICQClient::addContactRequest(Contact *contact)
         lr.type   = LIST_USER_CHANGED;
         lr.screen = screen(data);
         listRequests.push_back(lr);
-        processSendQueue();
+        snacICBM()->processSendQueue();
     }
 }
 

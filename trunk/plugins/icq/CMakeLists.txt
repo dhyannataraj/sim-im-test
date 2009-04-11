@@ -55,12 +55,14 @@ SET(icq_HDRS
         icqbuffer.h
         icqclient.h
         icqconfig.h
+		icqicmb.h
         icqinfo.h
         icqmessage.h
 		icqdirect.h
         icqpicture.h
         icqsearch.h
         icqsecure.h
+		icqservice.h
         icqssbi.h
         interestsinfo.h
         moreinfo.h

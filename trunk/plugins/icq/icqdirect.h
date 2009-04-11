@@ -65,6 +65,7 @@ public:
 	void forceProxyConnection() { m_proxy = true;}
 	void requestFT();
 
+	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
 	virtual tTransferDirection getDirection() = 0;
 
 	static const unsigned long OFT_magic = 0x3254464f;
@@ -85,7 +86,6 @@ protected:
     virtual void startReceive(unsigned pos);
     virtual void bind_ready(unsigned short port);
     virtual bool error(const QString &err);
-	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
 	void negotiateWithProxy();
 
 	bool readOFT(OftData* oft);

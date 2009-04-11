@@ -11,7 +11,7 @@ public:
 	virtual ~SnacHandler();
 
 	unsigned short getType() { return m_snac; };
-	virtual bool process(unsigned short subtype, ICQBuffer* buf) = 0;
+	virtual bool process(unsigned short subtype, ICQBuffer* buf, unsigned short seq) = 0;
 
 	void snac(const unsigned short subtype, bool bMsgID = true, bool bType = false);
 protected:

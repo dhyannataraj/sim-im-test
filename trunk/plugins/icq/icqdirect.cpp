@@ -884,7 +884,7 @@ void DirectClient::processPacket()
             unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
             if (isSecure())
                 flags |= MESSAGE_SECURE;
-            if (m_client->ackMessage(msg, ackFlags, msg_str)){
+            if (m_client->snacICBM()->ackMessage(msg, ackFlags, msg_str)){
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     if (msg->type() == MessageGeneric){
                         Message m; //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope, see previous declaration at line '842'
@@ -1061,7 +1061,7 @@ bool DirectClient::error_state(const QString &_err, unsigned code)
     for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         SendDirectMsg &sm = *it;
         if (sm.msg){
-            if (!m_client->sendThruServer(sm.msg, m_data)){
+            if (!m_client->snacICBM()->sendThruServer(sm.msg, m_data)){
                 sm.msg->setError(err);
                 EventMessageSent(sm.msg).process();
                 delete sm.msg;
@@ -1752,12 +1752,12 @@ void ICQFileTransfer::bind_ready(unsigned short port)
 {
     m_localPort = port;
     if (m_state == WaitReverse){
-        m_client->requestReverseConnection(m_client->screen(m_data), this);
+        m_client->snacICBM()->requestReverseConnection(m_client->screen(m_data), this);
         return;
     }
     m_state = Listen;
     static_cast<ICQFileMessage*>(m_msg)->setPort(port);
-    m_client->accept(m_msg, m_data);
+    m_client->snacICBM()->accept(m_msg, m_data);
 }
 
 void ICQFileTransfer::login_timeout()
@@ -2028,11 +2028,7 @@ AIMFileTransfer::~AIMFileTransfer()
 		for(std::list<AIMFileTransfer*>::iterator it = m_client->m_filetransfers.begin(); it != m_client->m_filetransfers.end(); ++it)
 		{
 			if((*it) == this) // FIXME make comparison by cookie
-			{	
-				// crissi
-				FileMessage* msg = static_cast<FileMessage*>(m_msg);
-				QString filename = msg->getDescription();
-				log(L_DEBUG,QString("file: "+filename), this );
+			{
 				m_client->m_filetransfers.erase(it);
 				break;
 			}
@@ -2120,7 +2116,7 @@ void AIMFileTransfer::requestFT()
 	{
 		b.tlv(0x2712, charset.ascii(), charset.length());
 	}
-    m_client->sendThroughServer(m_client->screen(m_data), 2, b, m_cookie, false, true);
+    m_client->snacICBM()->sendThroughServer(m_client->screen(m_data), 2, b, m_cookie, false, true);
 }
 
 void AIMFileTransfer::accept()
@@ -2500,7 +2496,7 @@ void AIMIncomingFileTransfer::connect_ready()
 		ICQBuffer buf;
 		buf << 0x0002 << m_cookie.id_l << m_cookie.id_h;
 		buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
-		m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
+		m_client->snacICBM()->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 
 		FileTransfer::m_state = FileTransfer::Negotiation;
 		if(m_notify)
@@ -2555,7 +2551,7 @@ void AIMIncomingFileTransfer::packet_ready()
 						buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
 						buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
 
-						m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
+						m_client->snacICBM()->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 						FileTransfer::m_state = FileTransfer::Negotiation;
 						if(m_notify)
 							m_notify->process();
@@ -2609,7 +2605,7 @@ void AIMIncomingFileTransfer::packet_ready()
 						if(m_file)
 							m_file->flush();
 
-						m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
+						m_client->snacICBM()->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 						m_state = Done;
 					}
 					else
@@ -2855,7 +2851,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 							buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
 							buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
 
-							m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
+							m_client->snacICBM()->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 						}
 						m_socket->readBuffer().incReadPos(packet_length - 4);
 						FileTransfer::m_state = FileTransfer::Negotiation;

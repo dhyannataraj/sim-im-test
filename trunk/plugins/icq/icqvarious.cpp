@@ -226,7 +226,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 setChatGroup();
                 addFullInfoRequest(data.owner.Uin.toULong());
                 m_bReady = true;
-                processSendQueue();
+                snacICBM()->processSendQueue();
                 break;
             case ICQ_SRVxOFFLINE_MSG:{
                     unsigned long uin;
@@ -644,7 +644,7 @@ void ICQClient::addFullInfoRequest(unsigned long uin)
     r.request_id = 0;
     r.start_time = 0;
     infoRequests.push_back(r);
-    processSendQueue();
+    snacICBM()->processSendQueue();
 }
 
 void ICQClient::removeFullInfoRequest(unsigned long uin)
@@ -1543,13 +1543,14 @@ SMSRequest::SMSRequest(ICQClient *client, unsigned short id)
 bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
 {
     m_client->m_sendSmsId = 0;
-    if (code == 0x0100){
-        if (m_client->smsQueue.empty())
+    if (code == 0x0100)
+	{
+        if (m_client->snacICBM()->smsQueue.empty())
             return true;
         QCString errStr = b.data(b.readPos());
-        SendMsg &s = m_client->smsQueue.front();
+        SendMsg &s = m_client->snacICBM()->smsQueue.front();
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
-        m_client->smsQueue.erase(m_client->smsQueue.begin());
+        m_client->snacICBM()->smsQueue.erase(m_client->snacICBM()->smsQueue.begin());
         sms->setError(errStr.data());
         EventMessageSent(sms).process();
         delete sms;
@@ -1587,8 +1588,8 @@ bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
         }
 
         if (error.isEmpty()){
-            if (!m_client->smsQueue.empty()){
-                SendMsg &s = m_client->smsQueue.front();
+            if (!m_client->snacICBM()->smsQueue.empty()){
+                SendMsg &s = m_client->snacICBM()->smsQueue.front();
                 SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
                 sms->setNetwork(network);
                 if ((sms->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -1601,31 +1602,31 @@ bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
                 }
             }
         }else{
-            if (!m_client->smsQueue.empty()){
-                SendMsg &s = m_client->smsQueue.front();
+            if (!m_client->snacICBM()->smsQueue.empty()){
+                SendMsg &s = m_client->snacICBM()->smsQueue.front();
                 s.msg->setError(error);
                 EventMessageSent(s.msg).process();
                 delete s.msg;
-                m_client->smsQueue.erase(m_client->smsQueue.begin());
+                m_client->snacICBM()->smsQueue.erase(m_client->snacICBM()->smsQueue.begin());
             }
         }
     }
-    m_client->processSendQueue();
+    m_client->snacICBM()->processSendQueue();
     return true;
 }
 
 void SMSRequest::fail(unsigned short)
 {
-    if (m_client->smsQueue.empty())
+    if (m_client->snacICBM()->smsQueue.empty())
         return;
-    SendMsg &s = m_client->smsQueue.front();
+    SendMsg &s = m_client->snacICBM()->smsQueue.front();
     Message *sms = s.msg;
     sms->setError(I18N_NOOP("SMS send fail"));
-    m_client->smsQueue.erase(m_client->smsQueue.begin());
+    m_client->snacICBM()->smsQueue.erase(m_client->snacICBM()->smsQueue.begin());
     EventMessageSent(sms).process();
     delete sms;
     m_client->m_sendSmsId = 0;
-    m_client->processSendQueue();
+    m_client->snacICBM()->processSendQueue();
 }
 
 const unsigned MAX_SMS_LEN_LATIN1   = 160;
@@ -1663,16 +1664,16 @@ unsigned ICQClient::processSMSQueue()
     if (m_sendSmsId)
         return 0;
     for (;;){
-        if (smsQueue.empty())
+        if (snacICBM()->smsQueue.empty())
             break;
         unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV));
         if (delay)
             return delay;
-        SendMsg &s = smsQueue.front();
+        SendMsg &s = snacICBM()->smsQueue.front();
         if (s.text.isEmpty() || (!(s.flags & SEND_1STPART) && (s.msg->getFlags() & MESSAGE_1ST_PART))){
             EventMessageSent(s.msg).process();
             delete s.msg;
-            smsQueue.erase(smsQueue.begin());
+            snacICBM()->smsQueue.erase(snacICBM()->smsQueue.begin());
             continue;
         }
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
@@ -1726,12 +1727,12 @@ unsigned ICQClient::processSMSQueue()
 
 void ICQClient::clearSMSQueue()
 {
-    for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
+    for (list<SendMsg>::iterator it = snacICBM()->smsQueue.begin(); it != snacICBM()->smsQueue.end(); ++it){
         (*it).msg->setError(I18N_NOOP("Client go offline"));
         EventMessageSent((*it).msg).process();
         delete (*it).msg;
     }
-    smsQueue.clear();
+    snacICBM()->smsQueue.clear();
     m_sendSmsId = 0;
 }
 
