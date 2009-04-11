@@ -57,6 +57,7 @@ SET(icq_HDRS
         icqconfig.h
 		icqicmb.h
         icqinfo.h
+		icqlocation.h
         icqmessage.h
 		icqdirect.h
         icqpicture.h

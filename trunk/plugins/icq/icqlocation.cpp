@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqlocation.h"
 
 #include <qtextcodec.h>
 #ifdef Q_OS_WIN32
