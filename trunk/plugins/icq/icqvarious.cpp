@@ -308,7 +308,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
 
 void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 {
-    snac(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
+    snac(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV, true, false);
     socket()->writeBuffer().tlv(0x0001, 0);
     socket()->writeBuffer().pack(data.owner.Uin.toULong());
     socket()->writeBuffer() << cmd;
@@ -1507,10 +1507,13 @@ void SetPasswordRequest::fail(unsigned short error_code)
 void ICQClient::changePassword(const QString &new_pswd)
 {
     QString pwd = new_pswd;
+	unsigned short passlen = htons(pwd.length() + 1);
     serverRequest(ICQ_SRVxREQ_MORE);
     socket()->writeBuffer()
     << ICQ_SRVxREQ_CHANGE_PASSWD
-    << (const char*)getContacts()->fromUnicode(NULL, pwd).data();
+	<< passlen
+    << (const char*)getContacts()->fromUnicode(NULL, pwd).data()
+	<< (unsigned char)0x00;
     sendServerRequest();
     varRequests.push_back(new SetPasswordRequest(this, m_nMsgSequence, new_pswd));
 }
