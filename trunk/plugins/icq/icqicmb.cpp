@@ -120,7 +120,6 @@ SnacIcqICBM::SnacIcqICBM(ICQClient* client) : QObject(NULL), SnacHandler(client,
 {
 	m_sendTimer = new QTimer(this);
 	connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
-	m_client = client;
 }
 
 SnacIcqICBM::~SnacIcqICBM()
@@ -129,7 +128,7 @@ SnacIcqICBM::~SnacIcqICBM()
 
 void SnacIcqICBM::rightsRequest()
 {
-    m_client->snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
+    client()->snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
     m_client->sendPacket(true);
 }
 
