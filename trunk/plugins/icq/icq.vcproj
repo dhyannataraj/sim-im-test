@@ -2646,6 +2646,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\icqicmb.h"
+				>
+			</File>
+			<File
 				RelativePath="icqinfo.h"
 				>
 				<FileConfiguration
