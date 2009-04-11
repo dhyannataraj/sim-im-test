@@ -1722,6 +1722,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\moc_icqicmb.cpp"
+					>
+				</File>
+				<File
 					RelativePath="moc_icqinfo.cpp"
 					>
 					<FileConfiguration
@@ -1764,6 +1768,10 @@
 							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\moc_icqlocation.cpp"
+					>
 				</File>
 				<File
 					RelativePath="moc_icqpicture.cpp"
@@ -2648,6 +2656,26 @@
 			<File
 				RelativePath=".\icqicmb.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="icqinfo.h"
@@ -2676,6 +2704,26 @@
 			<File
 				RelativePath=".\icqlocation.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="icqmessage.h"
