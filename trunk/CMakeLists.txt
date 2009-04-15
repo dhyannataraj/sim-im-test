@@ -49,6 +49,7 @@ INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
 INCLUDE(DistTarget)
 INCLUDE(CheckCXXCompilerFlag)
+INCLUDE(XGetText)
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 OPTION(ENABLE_TARGET_UPDATE_MESSAGES "Enables target that allows to extract i18n messages from the code, and update *.po files with them")
@@ -238,33 +239,7 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
         )
         LIST(SORT ${plugin}_MESSAGE_SOURCES)
         FOREACH(file ${${plugin}_MESSAGE_SOURCES})
-            SET(relative_name "${plugins_dir_relative}/${plugin}/${file}")
-            GET_FILENAME_COMPONENT(ext ${file} EXT)
-            IF(ext STREQUAL .ui)
-                # creatig fake .cpp file where messages are located in the same lines as in .ui file
-                # and put it with the whole relative path to ${fake_ui_cpp_root}
-                ADD_CUSTOM_COMMAND(TARGET update-messages
-                    COMMAND echo "Extracting messages from  UI-file " ${relative_name}
-                    COMMAND ${CMAKE_COMMAND}
-                       -D IN_FILE:STRING=${Sim-IM_SOURCE_DIR}/${relative_name}
-                       -D OUT_FILE:STRING=${fake_ui_cpp_root}/${relative_name}
-                       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/UiToFakeCpp.cmake
-                )
-                # parsing fake .cpp file from the ${fake_ui_cpp_root} in order to get the same path as 
-                # path to the real .ui file
-                ADD_CUSTOM_COMMAND(TARGET update-messages
-                    COMMAND xgettext ${XGETTEXT_OPTIONS} -d${new_pot} ${relative_name}
-                    WORKING_DIRECTORY ${fake_ui_cpp_root}
-                )
-            ELSEIF(ext STREQUAL .cpp)
-                # just parse .cpp file
-                FILE(RELATIVE_PATH rel_path ${Sim-IM_SOURCE_DIR} ${Sim-IM_PLUGINS_SOURCE_DIR})
-                ADD_CUSTOM_COMMAND(TARGET update-messages
-                    COMMAND echo  Extracting messages from CPP-file ${relative_name}
-                    COMMAND xgettext ${XGETTEXT_OPTIONS} -d${new_pot} ${relative_name}
-                    WORKING_DIRECTORY ${Sim-IM_SOURCE_DIR}
-                )
-            ENDIF(ext STREQUAL .ui)
+            EXTRACT_MESSAGES("${plugins_dir_relative}/${plugin}/${file}" ${new_pot})
         ENDFOREACH(file)
     ENDFOREACH(plugin)
 ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )
