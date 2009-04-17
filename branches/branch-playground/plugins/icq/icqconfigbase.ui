@@ -131,7 +131,7 @@
                   </property>
                 </widget>
               </item>
-              <item rowspan="1" row="6" column="0" colspan="3" >
+              <item rowspan="1" row="7" column="0" colspan="3" >
                 <widget class="Line" name="Line1" >
                   <property name="frameShape" stdset="0" >
                     <enum>QFrame::HLine</enum>
@@ -205,7 +205,7 @@
                   </property>
                 </spacer>
               </item>
-              <item rowspan="1" row="7" column="0" colspan="3" >
+              <item rowspan="1" row="8" column="0" colspan="3" >
                 <widget class="QLabel" name="TextLabel1_2" >
                   <property name="text" stdset="0" >
                     <string>Port range for direct connections:</string>
@@ -294,6 +294,13 @@
                 <widget class="QCheckBox" name="chkKeepAlive" >
                   <property name="text" stdset="0" >
                     <string>&amp;Keep-alive connection</string>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="6" column="0" colspan="3" >
+                <widget class="QCheckBox" name="chkMediaSense" >
+                  <property name="text" stdset="0" >
+                    <string>Activate Network &amp;Media Sense</string>
                   </property>
                 </widget>
               </item>

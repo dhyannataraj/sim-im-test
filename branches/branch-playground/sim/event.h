@@ -310,14 +310,18 @@ protected:
 
 class EXPORT EventInterfaceDown : public Event
 {
+	int m_fd;
 public:
-	EventInterfaceDown() : Event(eEventInterfaceDown) {};
+	EventInterfaceDown(int fd) : Event(eEventInterfaceDown), m_fd(fd) {};
+	int getFd() { return m_fd; }
 };
 
 class EXPORT EventInterfaceUp : public Event
 {
+	int m_fd;
 public:
-	EventInterfaceUp() : Event(eEventInterfaceUp) {};
+	EventInterfaceUp(int fd) : Event(eEventInterfaceUp), m_fd(fd) {};
+	int getFd() { return m_fd; }
 };
 
 class EXPORT EventArg : public Event

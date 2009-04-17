@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqlocation.h"
 
 #include <qtextcodec.h>
 //Added by qt3to4:
@@ -40,6 +41,14 @@ const unsigned short ICQ_SNACxLOC_SETxDIRxINFO		= 0x0009;
 const unsigned short ICQ_SNACxLOC_RESPONSExSETxINFO	= 0x000A;
 const unsigned short ICQ_SNACxLOC_REQUESTxDIRxINFO  = 0x000B;
 const unsigned short ICQ_SNACxLOC_DIRxINFO          = 0x000C;
+
+SnacIcqLocation::SnacIcqLocation(ICQClient* client) : QObject(NULL), SnacHandler(client, 0x0002)
+{
+}
+
+SnacIcqLocation::~SnacIcqLocation()
+{
+}
 
 static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data, Contact *c = NULL)
 {
@@ -632,4 +641,8 @@ void ICQClient::setProfile(ICQUserData *data)
     sendPacket(false);
 }
 
-
+/*
+#ifndef NO_MOC_INCLUDES
+#include "icqlocation.moc"
+#endif
+*/

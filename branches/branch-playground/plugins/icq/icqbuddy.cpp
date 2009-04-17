@@ -73,7 +73,7 @@ SnacIcqBuddy::~SnacIcqBuddy()
 {
 }
 
-bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf)
+bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned short seq)
 {
     switch (subtype)
 	{

@@ -212,6 +212,7 @@ static DataDef icqClientData[] =
         { "UseHTTP", DATA_BOOL, 1, DATA(0) },
         { "AutoHTTP", DATA_BOOL, 1, DATA(0) },
         { "KeepAlive", DATA_BOOL, 1, DATA(1) },
+		{ "MediaSense", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
@@ -236,10 +237,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 	m_listRequest = NULL;
 	data.owner.DCcookie.asULong() = rand();
 	m_bBirthday = false;
-	m_sendTimer = new QTimer(this);
-	connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
-	m_processTimer = new QTimer(this);
-	connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
 	QString requests = getListRequests();
 	while (requests.length()){
 		QString req = getToken(requests, ';');
@@ -251,9 +248,14 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 	}
 
 	m_snacBuddy = new SnacIcqBuddy(this);
+	m_snacICBM = new SnacIcqICBM(this);
 	m_snacService = new SnacIcqService(this);
 	addSnacHandler(m_snacBuddy);
+	addSnacHandler(m_snacICBM);
 	addSnacHandler(m_snacService);
+
+	m_processTimer = new QTimer(this);
+	connect(m_processTimer, SIGNAL(timeout()), m_snacICBM, SLOT(processSendQueue()));
 
 	disconnected();
 	m_bFirstTry = false;
@@ -266,6 +268,9 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 			data->Alias.str() = contact->getName();
 	}
 	m_connectionLost = false;
+	m_ifChecker = new SIM::InterfaceChecker();
+	connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
+	connect(m_ifChecker, SIGNAL(interfaceUp(QString)), this, SLOT(interfaceUp(QString)));
 
 }
 
@@ -511,16 +516,16 @@ void ICQClient::connect_ready()
 
 void ICQClient::setNewLevel(RateInfo &r)
 {
-    QDateTime now = QDateTime::currentDateTime();
-    unsigned delta = 0;
-    if (now.date() == r.m_lastSend.date())
-        delta = r.m_lastSend.time().msecsTo(now.time());
-    unsigned res = (((r.m_winSize - 1) * r.m_curLevel) + delta) / r.m_winSize;
-    if (res > r.m_maxLevel)
-        res = r.m_maxLevel;
-    r.m_curLevel = res;
-    r.m_lastSend = now;
-    log(L_DEBUG, "Level: %04X [%04X %04X]", res, r.m_minLevel, r.m_winSize);
+	QDateTime now = QDateTime::currentDateTime();
+	unsigned delta = 0;
+	if (now.date() == r.m_lastSend.date())
+		delta = r.m_lastSend.time().msecsTo(now.time());
+	unsigned res = (((r.m_winSize - 1) * r.m_curLevel) + delta) / 4 * r.m_winSize;
+	if (res > r.m_maxLevel)
+		res = r.m_maxLevel;
+	r.m_curLevel = res;
+	r.m_lastSend = now;
+	log(L_DEBUG, "Level: %04X [%04X %04X]", res, r.m_minLevel, r.m_winSize);
 }
 
 RateInfo *ICQClient::rateInfo(unsigned snac)
@@ -621,12 +626,12 @@ void ICQClient::disconnected()
 {
     m_rates.clear();
     m_rate_grp.clear();
-    m_sendTimer->stop();
+    snacICBM()->getSendTimer()->stop();
     m_processTimer->stop();
     clearServerRequests();
     clearListServerRequest();
     clearSMSQueue();
-    clearMsgQueue();
+    snacICBM()->clearMsgQueue();
     buddies.clear();
     Contact *contact;
     ContactList::ContactIterator it;
@@ -767,11 +772,16 @@ void ICQClient::packet(unsigned long size)
 					// now decrease for icqicmb & icqvarious
 					socket()->readBuffer().decReadPos(sizeof(unsigned short));
 				}
-				switch (food)
-				{
+				switch (food){
+					//case ICQ_SNACxFOOD_SERVICE:
+					//	snac_service(type, seq);
+					//	break;
 					case ICQ_SNACxFOOD_LOCATION:
 						snac_location(type, seq);
 						break;
+					//case ICQ_SNACxFOOD_BUDDY:
+					//	snac_buddy(type, seq);
+					//	break;
 					case ICQ_SNACxFOOD_MESSAGE:
 						snac_icmb(type, seq);
 						break;
@@ -804,7 +814,7 @@ void ICQClient::packet(unsigned long size)
 								b.setReadPos(0);
 								b.setWritePos(size - unknown_length);
 								socket()->readBuffer().unpack(b.data(), size - unknown_length);
-								it->second->process(type, &b);
+								it->second->process(type, &b, seq);
 							}
 						}
 				}
@@ -960,6 +970,24 @@ unsigned long ICQClient::fullStatus(unsigned s)
         status &= ~(ICQ_STATUS_FxDIRECTxLISTED | ICQ_STATUS_FxDIRECTxAUTH);
     }
     return status;
+}
+
+void ICQClient::interfaceDown(QString ifname)
+{
+	log(L_DEBUG, "icq: interface down: %s", ifname.utf8().data());
+}
+
+void ICQClient::interfaceUp(QString ifname)
+{
+	if(getMediaSense())
+	{
+		log(L_DEBUG, "icq: interface up: %s", ifname.utf8().data());
+		if(m_connectionLost)
+		{
+			// Try to connect
+			setStatus(STATUS_ONLINE, false);
+		}
+	}
 }
 
 ICQUserData *ICQClient::findContact(unsigned long l, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
@@ -1330,7 +1358,7 @@ void ICQClient::ping()
                 sendPacket(false);
             }
         }
-        processSendQueue();
+        snacICBM()->processSendQueue();
         checkListRequest();
         checkInfoRequest();
         QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
@@ -2405,7 +2433,7 @@ bool ICQClient::processEvent(Event *e)
             if ((*it)->id() == ema->msg()->id()){
                 Message *msg = *it;
                 m_acceptMsg.erase(it);
-                accept(msg, ema->dir(), ema->mode());
+                snacICBM()->accept(msg, ema->dir(), ema->mode());
                 return msg;
             }
         }
@@ -2417,7 +2445,7 @@ bool ICQClient::processEvent(Event *e)
             if ((*it)->id() == emd->msg()->id()){
                 Message *msg = *it;
                 m_acceptMsg.erase(it);
-                decline(msg, emd->reason());
+                snacICBM()->decline(msg, emd->reason());
                 return msg;
             }
         }
@@ -2463,10 +2491,10 @@ bool ICQClient::processEvent(Event *e)
                     setAwayMessage(t->tmpl);
                 }else{
                     sendCapability(t->tmpl);
-                    sendICMB(1, 11);
-                    sendICMB(2,  3);
-                    sendICMB(4,  3);
-                    processSendQueue();
+                    m_snacICBM->sendICMB(1, 11);
+                    m_snacICBM->sendICMB(2,  3);
+                    m_snacICBM->sendICMB(4,  3);
+                    snacICBM()->processSendQueue();
                     fetchProfiles();
                 }
             }
@@ -2488,7 +2516,7 @@ bool ICQClient::processEvent(Event *e)
             }
         }else{
             ICQBuffer copy;
-            sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
+            snacICBM()->sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
                           ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, t->tmpl, 0, copy);
         }
         arRequests.erase(it);
@@ -2522,7 +2550,7 @@ bool ICQClient::processEvent(Event *e)
                     lr.invisible_id = (unsigned short)(data->ContactInvisibleId.toULong());
                     lr.ignore_id    = (unsigned short)(data->IgnoreId.toULong());
                     listRequests.push_back(lr);
-                    processSendQueue();
+                    snacICBM()->processSendQueue();
                 }
                 //m_snacBuddy->removeBuddy(contact);
                 break;
@@ -2584,7 +2612,7 @@ bool ICQClient::processEvent(Event *e)
                     lr.type   = LIST_GROUP_DELETED;
                     lr.icq_id = (unsigned short)(data->IcqID.toULong());
                     listRequests.push_back(lr);
-                    processSendQueue();
+                    snacICBM()->processSendQueue();
                 }
                 break;
             }
@@ -2596,68 +2624,7 @@ bool ICQClient::processEvent(Event *e)
     case eEventMessageCancel: {
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
-        list<Message*>::iterator it;
-        for (it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
-            if (*it == msg)
-                break;
-        if (it != m_processMsg.end())
-		{
-            m_processMsg.erase(it);
-            delete msg;
-            return true;
-        }
-        if (msg->type() == MessageSMS){
-            for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    if (it == smsQueue.begin()){
-                        (*it).text = QString::null;
-                    }else{
-                        smsQueue.erase(it);
-                    }
-                    return msg;
-                }
-            }
-        }else{
-            Contact *contact = getContacts()->contact(msg->contact());
-            if (contact){
-                ICQUserData *data;
-                ClientDataIterator it(contact->clientData, this);
-                while ((data = toICQUserData(++it)) != NULL){
-                    DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
-                    if (dc && dc->cancelMessage(msg))
-                        return msg;
-                }
-            }
-            if (m_send.msg == msg){
-                m_send.msg = NULL;
-                m_send.screen = QString::null;
-                m_sendTimer->stop();
-                processSendQueue();
-                return msg;
-            }
-            list<SendMsg>::iterator it;
-            for (it = sendFgQueue.begin(); it != sendFgQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    sendFgQueue.erase(it);
-                    delete msg;
-                    return msg;
-                }
-            }
-            for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    sendBgQueue.erase(it);
-                    delete msg;
-                    return msg;
-                }
-            }
-            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
-                if ((*it).msg == msg){
-                    replyQueue.erase(it);
-                    delete msg;
-                    return msg;
-                }
-            }
-        }
+		return snacICBM()->cancelMessage(msg);
         break;
     }
     case eEventCheckCommandState: {
@@ -2845,18 +2812,21 @@ bool ICQClient::processEvent(Event *e)
     }
 	case eEventInterfaceDown:
 	{
-		setState(Error, "Interface down");
-		setStatus(STATUS_OFFLINE, false);
-		m_connectionLost = true;
-		break;
-	}
-	case eEventInterfaceUp:
-	{
-		if(m_connectionLost)
+		if(getMediaSense())
 		{
-			setState(Connecting);
-			setStatus(STATUS_ONLINE, false);
-			m_connectionLost = false;
+			EventInterfaceDown* ev = static_cast<EventInterfaceDown*>(e);
+			if(socket() != NULL)
+			{
+				if(socket()->socket() != NULL)
+				{
+					if(ev->getFd() == socket()->socket()->getFd())
+					{
+						setState(Error, "Interface down");
+						setStatus(STATUS_OFFLINE, false);
+						m_connectionLost = true;
+					}
+				}
+			}
 		}
 		break;
 	}
@@ -2950,8 +2920,7 @@ bool ICQClient::send(Message *msg, void *_data)
         s.msg    = static_cast<SMSMessage*>(msg);
         s.text   = s.msg->getPlainText();
         s.flags  = SEND_1STPART;
-        smsQueue.push_back(s);
-        processSMSQueue();
+		snacICBM()->sendSMS(s);
         return true;
     case MessageAuthRequest:
         if (data && data->WaitAuth.toBool())
@@ -2971,7 +2940,7 @@ bool ICQClient::send(Message *msg, void *_data)
 			log(L_DEBUG, "send: MessageFile");
             if (!hasCap(data, CAP_AIM_SENDFILE))
 				return false;
-			sendThruServer(msg, data);
+			snacICBM()->sendThruServer(msg, data);
             return true;
         }
         return false;
@@ -2990,7 +2959,7 @@ bool ICQClient::send(Message *msg, void *_data)
         }
         if (!hasCap(data, CAP_TYPING) && !hasCap(data, CAP_AIM_BUDDYCON))
             return false;
-        sendMTN(screen(data), msg->type() == MessageTypingStart ? ICQ_MTN_START : ICQ_MTN_FINISH);
+        snacICBM()->sendMTN(screen(data), msg->type() == MessageTypingStart ? ICQ_MTN_START : ICQ_MTN_FINISH);
         delete msg;
         return true;
 #ifdef ENABLE_OPENSSL
@@ -3017,7 +2986,7 @@ bool ICQClient::send(Message *msg, void *_data)
     }
 #endif
     case MessageWarning:
-        return sendThruServer(msg, data);
+        return snacICBM()->sendThruServer(msg, data);
     case MessageContacts:
         if ((data == NULL) || ((data->Uin.toULong() == 0) && !hasCap(data, CAP_AIM_BUDDYLIST)))
             return false;
@@ -3049,7 +3018,7 @@ bool ICQClient::send(Message *msg, void *_data)
         if (dc)
             return dc->sendMessage(msg);
     }
-    return sendThruServer(msg, data);
+    return snacICBM()->sendThruServer(msg, data);
 }
 
 bool ICQClient::canSend(unsigned type, void *_data)
@@ -3212,6 +3181,7 @@ bool ICQClient::isSupportPlugins(ICQUserData *data)
 
 void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
+	log(L_DEBUG, "ICQClient::addPluginInfoRequest");
     Contact *contact;
     ICQUserData *data = findContact(uin, NULL, false, contact);
     if (data && !data->bNoDirect.toBool() &&
@@ -3269,19 +3239,7 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
             }
         }
     }
-    list<SendMsg>::iterator it;
-    for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
-        SendMsg &s = *it;
-        if ((s.screen.toULong() == uin) && (s.flags == plugin_index) && (s.msg == NULL))
-            break;
-    }
-    if (it != sendBgQueue.end())
-        return;
-    SendMsg s;
-    s.screen = QString::number(uin);
-    s.flags  = plugin_index;
-    sendBgQueue.push_back(s);
-    processSendQueue();
+    snacICBM()->pluginInfoRequest(uin, plugin_index);
 }
 
 void ICQClient::randomChatInfo(unsigned long uin)

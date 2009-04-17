@@ -2854,10 +2854,16 @@ void JabberClient::changePassword(const QString &password)
 {
     if (getState() != Connected)
         return;
+	QString id_name = data.owner.ID.str();
+	int pos = id_name.find('@');
+
+	if(pos != -1)
+		id_name = id_name.left(pos);
+
     ChangePasswordRequest *req = new ChangePasswordRequest(this, password);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:register");
-    req->text_tag("username", data.owner.ID.str());
+    req->text_tag("username", id_name);
     req->text_tag("password", password);
     m_requests.push_back(req);
     req->send();

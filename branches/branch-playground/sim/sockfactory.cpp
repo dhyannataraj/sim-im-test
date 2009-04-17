@@ -361,9 +361,6 @@ void SIMClientSocket::timerEvent(QTimerEvent* ev)
 
 void SIMClientSocket::checkInterface()
 {
-#ifdef WIN32
-	return;
-#endif
 #ifndef WIN32
 	int fd = sock->socket();
 	if(fd == -1)
@@ -384,16 +381,19 @@ void SIMClientSocket::checkInterface()
 	{
 		return;
 	}
+	bool iffound = false;
 	for(int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)
 	{
 		ifrp = ibuf + i;
 		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
+
 		if  (
 			strcmp(ifr.ifr_name, "lo") == 0 ||
 		    (htonl(((sockaddr_in*)&ifrp->ifr_addr)->sin_addr.s_addr) != sock->address().toIPv4Address())
-		    )
-			continue;
+			)	continue;
 
+		m_interface = ifr.ifr_name;
+		iffound = true;
 
 		hret = ioctl(fd, SIOCGIFFLAGS, &ifr);
 		if(hret != -1)
@@ -407,22 +407,31 @@ void SIMClientSocket::checkInterface()
 			if((state == 0) && (m_state))
 			{
 				m_state = false;
-				//log(L_DEBUG, "Carrier lost at: %s", ifr.ifr_name);
-				EventInterfaceDown e;
+				emit interfaceDown(fd);
+				EventInterfaceDown e(fd);
 				e.process();
 				return;
 			}
 			if((state != 0) && (!m_state))
 			{
 				m_state = true;
-				//log(L_DEBUG, "Carrier is up again at: %s", ifr.ifr_name);
-				EventInterfaceUp e;
+				emit interfaceUp(fd);
+				EventInterfaceUp e(fd);
 				e.process();
 				return;
 			}
 			return;
 		}
 	}
+	if(!iffound)
+	{
+		m_state = false;
+		emit interfaceDown(fd);
+		EventInterfaceDown e(fd);
+		e.process();
+	}
+#else
+	return;
 #endif
 }
 
@@ -486,6 +495,11 @@ void SIMClientSocket::slotError(int err)
 void SIMClientSocket::pause(unsigned t)
 {
     QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
+}
+
+int SIMClientSocket::getFd()
+{
+	return sock->socket();
 }
 
 SIMServerSocket::SIMServerSocket()

@@ -15,3 +15,8 @@ void SnacHandler::snac(const unsigned short subtype, bool bMsgID, bool bType)
 {
 	m_client->snac(m_snac, subtype, bMsgID, bType);
 }
+
+ICQClient* SnacHandler::client()
+{
+	return m_client;
+}

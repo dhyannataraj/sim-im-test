@@ -31,15 +31,15 @@
 
 using namespace SIM;
 
-const unsigned short ICQ_SNACxLOGIN_ERROR			= 0x0001;
+const unsigned short ICQ_SNACxLOGIN_ERROR				= 0x0001;
 const unsigned short ICQ_SNACxLOGIN_MD5xLOGIN			= 0x0002;
 const unsigned short ICQ_SNACxLOGIN_LOGINxREPLY			= 0x0003;
 const unsigned short ICQ_SNACxLOGIN_REGISTERxREQ		= 0x0004;
 const unsigned short ICQ_SNACxLOGIN_REGISTER			= 0x0005;
 const unsigned short ICQ_SNACxLOGIN_AUTHxREQUEST		= 0x0006;
-const unsigned short ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE		= 0x0007;
-const unsigned short ICQ_SNACxLOGIN_REGISTERxREQ_IMG		= 0x000c;
-const unsigned short ICQ_SNACxLOGIN_REGISTERxSEND_IMG		= 0x000d;
+const unsigned short ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE	= 0x0007;
+const unsigned short ICQ_SNACxLOGIN_REGISTERxREQ_IMG	= 0x000c;
+const unsigned short ICQ_SNACxLOGIN_REGISTERxSEND_IMG	= 0x000d;
 
 const unsigned ICQ_LOGIN_ERRxBAD_PASSWD1			= 0x0001;
 const unsigned ICQ_LOGIN_ERRxBAD_PASSWD2			= 0x0004;
@@ -115,7 +115,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
             md = QCryptographicHash::hash(md, QCryptographicHash::Md5);
-            socket()->writeBuffer().tlv(0x0025, md.data(), md.length());
+            socket()->writeBuffer().tlv(0x0025, md.data(), md.size());
 	        if (data.owner.Uin.toULong()){
                 socket()->writeBuffer().tlv(0x0003, "ICQBasic");  //ToDo: Should be updated anytime
                 socket()->writeBuffer().tlv(0x0016, 0x010A); // ID Number
@@ -189,6 +189,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
 
 void ICQClient::chn_login()
 {
+	m_connectionLost = false;
     if (m_cookie.size()){
         flap(ICQ_CHNxNEW);
         socket()->writeBuffer() << 0x00000001L;

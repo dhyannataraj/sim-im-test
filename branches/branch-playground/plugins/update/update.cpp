@@ -459,7 +459,8 @@ QString UpdatePlugin::getHeader(const QString &name, const QString &headers)
     }
     return QString::null;
 }
-
+/*
 #ifndef NO_MOC_INCLUDES
 #include "update.moc"
 #endif
+*/

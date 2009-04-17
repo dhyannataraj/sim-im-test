@@ -42,6 +42,12 @@ public:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
+	virtual int getFd();
+
+signals:
+	void interfaceDown(int sockfd); // Probably, sockfd is not needed
+	void interfaceUp(int sockfd);
+
 protected slots:
     void slotConnected();
     void slotConnectionClosed();
@@ -64,6 +70,7 @@ protected:
     Q3Socket *sock;
     QTimer  *timer;
     bool bInWrite;
+	QString m_interface;
 };
 
 class SIMServerSocket : public QObject, public ServerSocket

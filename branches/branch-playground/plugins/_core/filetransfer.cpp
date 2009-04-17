@@ -56,6 +56,7 @@ protected:
     void transfer(bool);
     void createFile(const QString &name, unsigned size, bool bCanResume);
     QString m_name;
+	QString m_fn;
     unsigned m_size;
     FileTransferDlg *m_dlg;
 };
@@ -89,12 +90,11 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
 
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
     int n = m_name.findRev('/');
-	QString fn("");
     if (n >= 0){
         QString path;
 		QString p(m_name.left(n));
-		fn = m_name.right(m_name.length()-n);
-		fn = fn.replace(QRegExp("/"), "");
+		m_fn = m_name.right(m_name.length()-n);
+		m_fn = m_fn.replace(QRegExp("/"), "");
 
         while (!p.isEmpty()){
             if (!path.isEmpty())
@@ -127,10 +127,10 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
 
 	QString shortName = m_name;
 	//m_name = ft->dir() + m_name; Quickfix, noragen
-	if (fn.isEmpty())
-		fn=m_name;
+	if (m_fn.isEmpty())
+		m_fn=m_name;
 
-	m_name = ft->dir() + fn; 
+	m_name = ft->dir() + m_fn; 
 
     if (ft->m_file)
         delete ft->m_file;
@@ -279,7 +279,6 @@ void FileTransferDlg::process()
         m_state = m_msg->m_transfer->state();
         m_file  = m_msg->m_transfer->file();
         QString status;
-        QString fn;
         switch (m_state){
         case FileTransfer::Listen:
             status = i18n("Listen");
@@ -291,19 +290,19 @@ void FileTransferDlg::process()
             status = i18n("Negotiation");
             break;
         case FileTransfer::Read:{
-                status = i18n("Receive file");
-                FileMessage::Iterator it(*m_msg);
-                const QString *n = it[m_file];
-                if (n)
-                    fn = *n;
+				m_fn = m_msg->getDescription();
+                //const QString *n = it[m_file];
+                //if (n)
+                //    m_fn = *n;
+				status = i18n(QString("Receiving file: %1").arg(m_fn));
                 break;
             }
         case FileTransfer::Write:
-            status = i18n("Send file");
-            fn = m_msg->m_transfer->filename();
+            m_fn = m_msg->m_transfer->filename();
+			status = i18n("Sending file: %1").arg(m_fn);
             break;
         case FileTransfer::Done:
-            status = i18n("Transfer done");
+            status = i18n(QString("Transfer done: %1").arg(m_fn));
             edtEstimated->setText("0:00:00");
             if (!m_dir.isEmpty())
                 btnGo->show();
@@ -315,9 +314,9 @@ void FileTransferDlg::process()
         default:
             break;
         }
-        if (!fn.isEmpty()){
+        if (!m_fn.isEmpty()){
             status += ' ';
-            status += QDir::convertSeparators(fn);
+            status += QDir::convertSeparators(m_fn);
             if (m_files > 1)
                 status += QString(" %1/%2")
                           .arg(m_file + 1)
@@ -464,10 +463,10 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
         speedText += i18n("Mb/s");
         break;
     case 1:
-        speedText += i18n("kb/s");
+        speedText += i18n("Kb/s");
         break;
     default:
-        speedText += i18n("b/s");
+        speedText += i18n("B/s");
     }
     if (edtSpeed->text() != speedText)
         edtSpeed->setText(speedText);

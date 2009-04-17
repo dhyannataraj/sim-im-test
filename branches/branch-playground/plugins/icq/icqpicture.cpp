@@ -20,6 +20,7 @@
 #include "editfile.h"
 #include "preview.h"
 #include "ballonmsg.h"
+#include "log.h"
 
 #include <qpushbutton.h>
 #include <qlabel.h>
@@ -83,12 +84,15 @@ void ICQPicture::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString pict = edtPict->text();
+	log(L_DEBUG, "Pict: %s", pict.utf8().data());
+	m_client->setPicture(pict);
+	m_client->data.owner.Picture.setStr(pict);
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     if (lblPict->pixmap() == NULL)
         pict = QString::null;
-    if (pict != m_client->getPicture()){
-        m_client->setPicture(pict);
+    if(pict != m_client->getPicture())
+	{
         data->PluginInfoTime.asULong() = time(NULL);
     }
 }

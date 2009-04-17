@@ -14,7 +14,7 @@ public:
 	SnacIcqService(ICQClient* client);
 	virtual ~SnacIcqService();
 
-	virtual bool process(unsigned short subtype, ICQBuffer* buf);
+	virtual bool process(unsigned short subtype, ICQBuffer* buf, unsigned short seq);
 	void requestRateInfo();
 
 	void addService(ServiceSocket* s);

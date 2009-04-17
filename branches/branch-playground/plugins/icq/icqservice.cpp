@@ -71,7 +71,7 @@ SnacIcqService::~SnacIcqService()
 {
 }
 
-bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
+bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned short seq)
 {
 	switch (subtype)
 	{
@@ -93,7 +93,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 		case ICQ_SNACxSRV_RESUME:
 			log(L_DEBUG, "Server resume");
 			m_client->m_bNoSend = false;
-			m_client->processSendQueue();
+			m_client->snacICBM()->processSendQueue();
 			break;
 		case ICQ_SNACxSRV_MIGRATE:
 			{
@@ -174,7 +174,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 					r.m_minLevel = alert_level;
 					r.m_curLevel = current_level;
 					r.m_lastSend = QDateTime::currentDateTime();
-					m_client->processSendQueue();
+					m_client->snacICBM()->processSendQueue();
 				}
 				break;
 			}
@@ -246,9 +246,13 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 				m_client->sendPacket(true);
 				m_client->listsRequest();
 				m_client->locationRequest();
+				log(L_DEBUG, "alpha");
 				m_client->buddyRequest();
-				m_client->icmbRequest();
+				log(L_DEBUG, "beta");
+				m_client->snacICBM()->rightsRequest();
+				log(L_DEBUG, "gamma");
 				m_client->bosRequest();
+				log(L_DEBUG, "delta");
 			}
 			break;
 		case ICQ_SNACxSRV_MOTD:

@@ -52,7 +52,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget
         }else{
             chkNew->setChecked(true);
         }
-        edtUin->setValidator(new QIntValidator(1000, 0x1FFFFFFF, edtUin));
+        edtUin->setValidator(new QIntValidator(1000, 0x7FFFFFFF, edtUin));  //FIXME: we will have to do something when UIN is grater than signed int
         connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     }else{
@@ -83,6 +83,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget
     connect(chkInvisible, SIGNAL(toggled(bool)), this, SLOT(invisibleToggled(bool)));
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
+	chkMediaSense->setChecked(client->getMediaSense());
     cmbAck->setCurrentItem(client->getAckMode());
 }
 
@@ -123,6 +124,7 @@ void ICQConfig::apply()
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setKeepAlive(chkKeepAlive->isChecked());
     m_client->setAckMode(cmbAck->currentItem());
+	m_client->setMediaSense(chkMediaSense->isChecked());
 }
 
 void ICQConfig::changed(const QString&)
