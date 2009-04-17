@@ -9,9 +9,11 @@
 class ICQBuffer;
 class ICQClientSocket;
 class DirectSocket;
+class TlvList;
+
 struct MessageId;
 struct ICQUserData;
-struct TlvList;
+
 
 struct MessageId
 {
@@ -52,7 +54,7 @@ public:
 	void sendICMB(unsigned short channel, unsigned long flags);
 	void sendThroughServer(const QString &screen, unsigned short channel, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck);
 	void sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs = NULL, unsigned short type = 1);
-	bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QCString &msg_str);
+	bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const Q3CString &msg_str);
 	void sendType1(const QString &text, bool bWide, ICQUserData *data);
 	void sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsigned plugin_index,
 			const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1 = 0,

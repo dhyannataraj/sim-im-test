@@ -582,7 +582,7 @@ public:
                                  const QString &city, const QString &nick, const QString &zip,
                                  const QString &state);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
+                          const Q3CString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
     void sendPacket(bool bSend);
     bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QString &str, SIM::Contact *contact, QString &result);
@@ -729,7 +729,7 @@ protected:
     bool isOwnData(const QString &screen);
     void packInfoList(const QString &str);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    QCString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+    Q3CString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);

@@ -166,7 +166,7 @@ void SnacIcqICBM::sendThroughServer(const QString &screen, unsigned short channe
     client()->sendPacket(true);
 }
 
-bool SnacIcqICBM::ackMessage(Message *msg, unsigned short ackFlags, const QCString &msg_str)
+bool SnacIcqICBM::ackMessage(Message *msg, unsigned short ackFlags, const Q3CString &msg_str)
 {
     switch (ackFlags){
     case ICQ_TCPxACK_OCCUPIED:
@@ -209,7 +209,7 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 	else
 	{
 		log(L_DEBUG, "%s", client()->getContact(data)->getEncoding().utf8().data());
-		QCString msg_text = getContacts()->fromUnicode(client()->getContact(data), text);
+		Q3CString msg_text = getContacts()->fromUnicode(client()->getContact(data), text);
 		EventSend e(m_send.msg, msg_text);
 		e.process();
 		msg_text = e.localeText();
@@ -663,7 +663,7 @@ void SnacIcqICBM::sendAutoReply(const QString &screen, MessageId id,
     if (!response.isEmpty()){
         Contact *contact = NULL;
         client()->findContact(screen, NULL, false, contact);
-        QCString r = getContacts()->fromUnicode(contact, response);
+        Q3CString r = getContacts()->fromUnicode(contact, response);
         unsigned short size = (unsigned short)(r.length() + 1);
         socket()->writeBuffer().pack(size);
         socket()->writeBuffer().pack(r.data(), size);
@@ -1224,7 +1224,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                 break;
             }
             if ((*it).msg){
-                QCString answer;
+                Q3CString answer;
                 socket()->readBuffer() >> answer;
                 if (ackMessage((*it).msg, ackFlags, answer)){
                     ackMessage(*it);
@@ -1264,7 +1264,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             }
 
             if (plugin_type == PLUGIN_AR){
-                QCString answer;
+                Q3CString answer;
                 *buf >> answer;
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
                 Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '300'
@@ -1411,7 +1411,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                         return true;
                     }
 					unsigned char type, flags; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '73'
-                    QCString msg_str;
+                    Q3CString msg_str;
                     msg >> type;
                     msg >> flags;
                     msg >> msg_str;
@@ -1670,7 +1670,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    QCString msg;
+    Q3CString msg;
     adv >> msg;
 
     switch (msgType){
@@ -2242,7 +2242,7 @@ bool SnacIcqICBM::processMsg()
                 return true;
             }
         }
-        QCString text;
+        Q3CString text;
 		log(L_DEBUG, "Alpha %x", m_send.flags);
         switch (m_send.flags & SEND_MASK){
         case SEND_RTF:
@@ -2366,7 +2366,7 @@ bool SnacIcqICBM::processMsg()
             }
             QString charset = bWide ? "unicode-2-0" : "us-ascii";
             tlvs += new Tlv(0x0D, charset.length(), charset.latin1());
-            QCString st;
+            Q3CString st;
             if (bWide){
                 for (i = 0; i < (int)(text.length()); i++){
                     unsigned short s = text[i].unicode();
