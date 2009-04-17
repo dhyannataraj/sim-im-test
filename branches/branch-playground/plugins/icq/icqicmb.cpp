@@ -716,7 +716,7 @@ void SnacIcqICBM::accept(Message *msg, ICQUserData *data)
         if (contact){
             ClientDataIterator it(contact->clientData, client());
             while ((data = (client()->toICQUserData(++it))) != NULL){
-                if (msg->client() && (client()->dataName(data) == msg->client()))
+				if (!msg->client().isEmpty() && (client()->dataName(data) == msg->client()))
                     break;
                 data = NULL;
             }
@@ -746,7 +746,7 @@ void SnacIcqICBM::accept(Message *msg, const QString &dir, OverwriteMode overwri
 {
     ICQUserData *data = NULL;
     bool bDelete = true;
-    if (msg->client()){
+	if (!msg->client().isEmpty()){
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact){
             ClientDataIterator it(contact->clientData, client());
@@ -813,7 +813,7 @@ void SnacIcqICBM::decline(Message *msg, const QString &reason)
         if (contact){
             ClientDataIterator it(contact->clientData, client());
             while ((data = (client()->toICQUserData(++it))) != NULL){
-                if (msg->client() && (client()->dataName(data) == msg->client()))
+				if (!msg->client().isEmpty() && (client()->dataName(data) == msg->client()))
                     break;
                 data = NULL;
             }
@@ -846,7 +846,7 @@ void SnacIcqICBM::decline(Message *msg, const QString &reason)
         }
         ICQUserData *data = NULL;
         Contact *contact = NULL;
-        if (msg->client()){
+		if (!msg->client().isEmpty()){
             contact = getContacts()->contact(msg->contact());
             if (contact){
                 ClientDataIterator it(contact->clientData, client());
@@ -1365,7 +1365,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
 								QString name = m_client->dataName(data);
 								for (list<Message*>::iterator it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
 									Message *msg = *it; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '413'
-									if (msg->client() && (name == msg->client())){
+									if (!msg->client().isEmpty() && (name == msg->client())){
 										MessageId msg_id;
 										switch (msg->type()){
 											case MessageICQFile:

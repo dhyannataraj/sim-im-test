@@ -764,7 +764,7 @@ void ICQClient::packet(unsigned long size)
 				}
 				// now just take a look at the type because 0x0001 == error
 				// in all foodgroups
-				if(type == 0x0001)
+				if (type == 0x0001)
 				{
 					unsigned short err_code;
 					socket()->readBuffer() >> err_code;
@@ -773,17 +773,8 @@ void ICQClient::packet(unsigned long size)
 					socket()->readBuffer().decReadPos(sizeof(unsigned short));
 				}
 				switch (food){
-					//case ICQ_SNACxFOOD_SERVICE:
-					//	snac_service(type, seq);
-					//	break;
 					case ICQ_SNACxFOOD_LOCATION:
 						snac_location(type, seq);
-						break;
-					//case ICQ_SNACxFOOD_BUDDY:
-					//	snac_buddy(type, seq);
-					//	break;
-					case ICQ_SNACxFOOD_MESSAGE:
-						snac_icmb(type, seq);
 						break;
 					case ICQ_SNACxFOOD_BOS:
 						snac_bos(type, seq);
