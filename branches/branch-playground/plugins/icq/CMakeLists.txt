@@ -40,7 +40,7 @@ SET(icq_SRCS
         warndlg.cpp
         workinfo.cpp
         xml.cpp
-		snac.cpp
+	snac.cpp
 )
 
 SET(icq_HDRS
@@ -56,8 +56,10 @@ SET(icq_HDRS
         icqclient.h
         icqconfig.h
         icqinfo.h
+        icqlocation.h
         icqmessage.h
-		icqdirect.h
+	icqdirect.h
+	icqicmb.h
         icqpicture.h
         icqsearch.h
         icqsecure.h
