@@ -46,6 +46,8 @@ SET(sim_LIB_SRCS
         qzip/qzip.cpp
         qzip/unzip.c
     )
+SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
+
 
 SET(sim_LIB_HDRS
         aboutdata.h

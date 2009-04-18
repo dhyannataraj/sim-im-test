@@ -1,6 +1,10 @@
+SET(XGETTEXT_OPTIONS -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale)
+
 MACRO(EXTRACT_MESSAGES src_file po_file)
     SET(PROJECT_NAME Sim-IM)  # Change this if you move this file to another project
-    
+
+    SET(fake_ui_cpp_root "${CMAKE_CURRENT_BINARY_DIR}/fake_ui_cpp")
+
     IF(IS_ABSOLUTE ${src_file})
        FILE(RELATIVE_PATH relative_name ${${PROJECT_NAME}_SOURCE_DIR} ${src_file})
     ELSE(IS_ABSOLUTE ${src_file})
@@ -33,3 +37,13 @@ MACRO(EXTRACT_MESSAGES src_file po_file)
         )
     ENDIF(ext STREQUAL .ui)
 ENDMACRO(EXTRACT_MESSAGES)
+
+MACRO(EMPTY_PO_FILE po_file)
+    # creating new po file with correct charset in it
+    # if this file is created automaticly charset will not be set
+    # and there would be a lot of warnings while adding new messages in it
+    ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo \"msgid \\\"\\\"\" > ${po_file}.po
+        COMMAND echo \"msgstr \\\"Content-Type: text/plain\; charset=UTF-8\\\"\" >> ${po_file}.po
+    )
+ENDMACRO(EMPTY_PO_FILE)

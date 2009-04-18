@@ -218,20 +218,17 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
 
     ADD_CUSTOM_TARGET(update-messages)
 
-    SET(XGETTEXT_OPTIONS -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale)
-
     SET(new_pot "${CMAKE_CURRENT_BINARY_DIR}/new_messages")
-    SET(fake_ui_cpp_root "${CMAKE_CURRENT_BINARY_DIR}/fake_ui_cpp")
+    EMPTY_PO_FILE(${new_pot})
 
-
-    # creating new po file with correct charset in it
-    # if this file is created automaticly charset will not be set
-    # and there would be a lot of warnings while adding new messages in it
     ADD_CUSTOM_COMMAND(TARGET update-messages
-        COMMAND echo \"msgid \\\"\\\"\" > ${new_pot}.po
-        COMMAND echo \"msgstr \\\"Content-Type: text/plain\; charset=UTF-8\\\"\" >> ${new_pot}.po
+        COMMAND echo Processing simlib
     )
-    FILE(RELATIVE_PATH plugins_dir_relative ${Sim-IM_SOURCE_DIR} ${Sim-IM_PLUGINS_SOURCE_DIR})
+    LIST(SORT sim_LIB_MESSAGE_SOURCES)
+    FOREACH(file ${sim_LIB_MESSAGE_SOURCES})
+        EXTRACT_MESSAGES("${Sim-IM_SOURCE_DIR}/sim/${file}" ${new_pot})
+    ENDFOREACH(file)
+
     LIST(SORT SIM_PLUGINS)
     FOREACH(plugin ${SIM_PLUGINS})
         ADD_CUSTOM_COMMAND(TARGET update-messages
@@ -239,7 +236,8 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
         )
         LIST(SORT ${plugin}_MESSAGE_SOURCES)
         FOREACH(file ${${plugin}_MESSAGE_SOURCES})
-            EXTRACT_MESSAGES("${plugins_dir_relative}/${plugin}/${file}" ${new_pot})
+            EXTRACT_MESSAGES("${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}" ${new_pot})
         ENDFOREACH(file)
     ENDFOREACH(plugin)
+
 ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )
