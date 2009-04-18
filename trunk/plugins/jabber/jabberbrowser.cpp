@@ -876,7 +876,7 @@ bool JabberBrowser::haveFeature(const char *feature)
 
 bool JabberBrowser::haveFeature(const char *feature, const QString &features)
 {
-    if (features == NULL)
+    if (features.isEmpty())
         return false;
     QString ff = features;
     while (!ff.isEmpty()){

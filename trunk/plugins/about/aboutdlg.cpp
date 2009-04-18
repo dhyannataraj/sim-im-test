@@ -96,10 +96,10 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     QFile f(SIM::app_file("COPYING"));
     if (f.open(IO_ReadOnly)){
         for (;;){
-            QString s;
-            if (f.readLine(s, 512) == -1)
+            QByteArray s(512, 0);
+            if (f.readLine(s.data(), 512) == -1)
                 break;
-            license += s;
+            license += s.data();
         }
     }
     txtLicence->setText(quote(license));

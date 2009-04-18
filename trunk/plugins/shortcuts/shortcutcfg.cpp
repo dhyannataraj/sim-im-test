@@ -82,7 +82,7 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
             const char *cfg_accel = m_plugin->getKey(s->id);
             if (cfg_accel)
                 key = QAccel::stringToKey(cfg_accel);
-            if ((key == 0) && s->accel)
+            if ((key == 0) && !s->accel.isEmpty())
                 key = QAccel::stringToKey(i18n(s->accel));
             if (key)
                 accel = QAccel::keyToString(key);

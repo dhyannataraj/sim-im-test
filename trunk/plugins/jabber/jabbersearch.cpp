@@ -190,7 +190,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             for (unsigned i = 0; i < data->nOptions.toULong(); i++){
                 QString label = get_str(data->OptionLabels, i);
                 QString val   = get_str(data->Options, i);
-                if (label && val){
+                if (!label.isEmpty() && !val.isEmpty()){
                     box->addItem(i18(label), val);
                     if (data->Value.str() == val)
                         cur = n;

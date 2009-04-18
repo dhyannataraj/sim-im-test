@@ -1349,7 +1349,7 @@ bool MSNClient::processEvent(Event *e)
     case eEventAddContact: {
         EventAddContact *ec = static_cast<EventAddContact*>(e);
         EventAddContact::AddContact *ac = ec->addContact();
-        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+        if (!ac->proto.isEmpty() && (protocol()->description()->text == ac->proto)){
             Contact *contact = NULL;
             findContact(ac->addr, ac->nick, contact);
             if (contact && (contact->getGroup() != ac->group)){
@@ -1769,7 +1769,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
     MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned cmp_status = data->Status.toULong();
     const CommandDef *def;
-    for (def = protocol()->statusList(); def->text; def++){
+    for (def = protocol()->statusList(); !def->text.isEmpty(); def++){
         if (def->id == cmp_status)
             break;
     }
@@ -2613,7 +2613,7 @@ void SBSocket::process(bool bTyping)
     message += "MIME-Version: 1.0\r\n";
     message += "Content-Type: text/plain; charset=UTF-8\r\n";
     message += "X-MMS_IM-Format: ";
-    if (msg->getFont()){
+    if (!msg->getFont().isEmpty()){
         QString font = msg->getFont();
         if (!font.isEmpty()){
             QString font_type;

@@ -65,7 +65,7 @@ void JIDSearch::showEvent(QShowEvent *e)
         connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));
         connect(this, SIGNAL(showResult(QWidget*)), topLevelWidget(), SLOT(showResult(QWidget*)));
         connect(this, SIGNAL(addResult(QWidget*)), topLevelWidget(), SLOT(addResult(QWidget*)));
-        if (m_adv->grpSearch->children()){
+        if (m_adv->grpSearch->children().count()>0){
             emit addResult(m_adv);
         }else{
             btnAdvanced->hide();

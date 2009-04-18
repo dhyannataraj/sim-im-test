@@ -1324,7 +1324,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
     }
 
     const CommandDef *def;
-    for (def = protocol()->statusList(); def->text; def++){
+    for (def = protocol()->statusList(); !def->text.isEmpty(); def++){
         if (def->id == cmp_status)
             break;
     }
@@ -1338,7 +1338,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
         }
         statusIcon = def->icon;
     }else{
-        if (statusIcon){
+        if (!statusIcon.isEmpty()){
             addIcon(icons, def->icon, statusIcon);
         }else{
             statusIcon = def->icon;

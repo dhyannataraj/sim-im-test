@@ -61,7 +61,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if ((def == NULL) || (cmd->icon == NULL) ||
+        if ((def == NULL) || (cmd->icon.isEmpty()) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY | MESSAGE_CHILD)))
             continue;
         if ((def->singular == NULL) || (def->plural == NULL) ||

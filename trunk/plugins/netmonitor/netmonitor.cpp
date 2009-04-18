@@ -62,7 +62,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 {
     load_data(monitorData, &data, config);
 
-    if (getLogPackets()){
+    if (!getLogPackets().isEmpty()){
         QString packets = getLogPackets();
         while (packets.length()){
             QString v = getToken(packets, ',');

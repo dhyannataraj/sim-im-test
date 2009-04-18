@@ -1041,7 +1041,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                         data->Screen.str() = s;
                     bool bChanged = false;
                     if (alias){
-                        if (*alias){
+                        if (!alias->isEmpty()){
                             bChanged = contact->setName(*alias);
                         }
                         data->Alias.str() = *alias;
@@ -1145,7 +1145,7 @@ void ICQClient::setOffline(ICQUserData *data)
     for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
         Message *msg = *it; //will sometimes not work, content: it is broken then:	0xcdcdcdcd, reason seems to be Filetransfer.. however..
 
-        if (msg->client() && (name == msg->client())){
+        if (!msg->client().isEmpty() && (name == msg->client())){
             EventMessageDeleted(msg).process();
             delete msg;
             m_acceptMsg.erase(it);
@@ -1236,7 +1236,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             }
         }
     }
-    if (dicon == NULL)
+    if (dicon.isEmpty())
         return;
     if (status == STATUS_OCCUPIED)
         status = STATUS_DND;
@@ -1384,7 +1384,7 @@ void ICQClient::setupContact(Contact *contact, void *_data)
         phones += ",Private Cellular,";
         phones += QString::number(CELLULAR);
     }
-    if (!data->PhoneBook.str()){
+    if (data->PhoneBook.str().isEmpty()){
         if (phones.length())
             phones += ';';
         phones += data->PhoneBook.str();
@@ -2827,7 +2827,7 @@ bool ICQClient::processEvent(Event *e)
             return false;
         ICQUserData *data = NULL;
         ClientDataIterator it(contact->clientData, this);
-        if (client){
+        if (!client.isEmpty()){
             while ((data = toICQUserData(++it)) != NULL){
                 if (dataName(data) == client)
                     break;
