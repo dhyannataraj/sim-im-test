@@ -9,9 +9,10 @@
 class ICQBuffer;
 class ICQClientSocket;
 class DirectSocket;
+class TlvList;
 struct MessageId;
 struct ICQUserData;
-struct TlvList;
+
 
 struct MessageId
 {
@@ -77,7 +78,7 @@ public:
 	void pluginInfoRequest(unsigned long, unsigned plugin_index);
 
 	QTimer* getSendTimer() { return m_sendTimer; }
-	
+
 public slots:
 	void processSendQueue();
 
