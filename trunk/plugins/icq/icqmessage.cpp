@@ -403,7 +403,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 #ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
         m->setServerDescr(fileName.c_str());
 #else
-        m->setServerDescr(fileName);
+        m->setServerDescr(fileName); //Crash here, accepting filetransfer from 0.9.4.3...???
 #endif
         m->setServerText(QCString(fileDescr.data()));
         m->setSize(fileSize);
