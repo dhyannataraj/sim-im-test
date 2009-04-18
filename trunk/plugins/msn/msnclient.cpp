@@ -688,7 +688,7 @@ void MSNClient::getLine(const QCString &line)
 		{
 			m_msg = new MSNServerMessage(this, size);
 			// only we post the message in log now.....
-			log(L_WARN, "Personal message: %s", m_msg);
+			//log(L_WARN, "Personal message: %s", m_msg);
         	//packet_ready();
 		}
         return;

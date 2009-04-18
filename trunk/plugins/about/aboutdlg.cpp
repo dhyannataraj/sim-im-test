@@ -96,7 +96,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     QFile f(SIM::app_file("COPYING"));
     if (f.open(IO_ReadOnly)){
         for (;;){
-            QByteArray s(512, 0);
+            QByteArray s(512);
             if (f.readLine(s.data(), 512) == -1)
                 break;
             license += s.data();
