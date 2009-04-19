@@ -508,7 +508,6 @@ void ServerSocketNotify::bind(const char *path)
 
 InterfaceChecker::InterfaceChecker(int polltime, bool raiseevents) : QObject(), m_pollTime(polltime), m_raiseEvents(raiseevents)
 {
-	log(L_DEBUG, "InterfaceChecker()");
 	m_timerID = startTimer(polltime);
 	m_testSocket = socket(PF_INET, SOCK_STREAM, 0);
 }

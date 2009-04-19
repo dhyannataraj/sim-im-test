@@ -1107,7 +1107,7 @@ void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocusRe
 }
 */
 
-void UserTabBar::setBold(unsigned id, bool bBold)
+void UserTabBar::setBold(unsigned id, bool bBold) //bBold unused
 {
     for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
 	{

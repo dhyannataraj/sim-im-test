@@ -168,7 +168,7 @@ void NetmonitorPlugin::finished()
 
 void NetmonitorPlugin::realFinished()
 {
-    delete monitor;
+    delete monitor; //Fixme: Crash
     monitor = NULL;
 }
 

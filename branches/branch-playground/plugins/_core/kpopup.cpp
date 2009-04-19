@@ -539,7 +539,7 @@ void KPopupMenu::itemHighlighted(int /* whichItem */)
     showCtxMenu(mapFromGlobal(QCursor::pos()));
 }
 
-void KPopupMenu::showCtxMenu(QPoint pos)
+void KPopupMenu::showCtxMenu(QPoint pos) //pos unused
 {
     QMenuItem* item = findItem(KPopupMenuPrivate::s_highlightedItem);
     if (item)

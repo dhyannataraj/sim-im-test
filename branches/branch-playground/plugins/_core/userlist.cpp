@@ -119,7 +119,7 @@ int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &tex
     return br.right() + 5;
 }
 
-void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg)
+void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg) //cg unused
 {
     if (x < width - 6)
 	{
@@ -1142,9 +1142,9 @@ bool UserList::isGroupSelected(unsigned id)
 #define CHECK_ON	QStyle::State_On
 #define CHECK_NOCHANGE	QStyle::State_NoChange
 
-int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg)
+int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg) //p unused, cg unused
 {
-    int state = bState ? CHECK_ON : CHECK_OFF;
+    int state = bState ? CHECK_ON : CHECK_OFF; //state unused
     int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QRect rc(x, (item->height() - h) / 2, w, h);

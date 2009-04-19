@@ -1488,6 +1488,17 @@ SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, con
 bool SetPasswordRequest::answer(ICQBuffer&, unsigned short)
 {
     m_client->setPassword(m_pwd);
+    log(L_DEBUG, "Password change success: %X");
+    EventError::ClientErrorData d;
+    d.client  = m_client;
+    d.code    = 0;
+    d.err_str = I18N_NOOP("Password successfuly changed");
+    d.args    = QString::null;
+    d.flags   = EventError::ClientErrorData::E_INFO;
+    d.options = NULL;
+    d.id      = CmdPasswordSuccess;
+    EventClientError e(d);
+    e.process();
     return true;
 }
 

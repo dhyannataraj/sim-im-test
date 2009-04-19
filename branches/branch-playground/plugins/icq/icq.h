@@ -34,8 +34,9 @@ const unsigned long CmdGroups			= IcqCmdBase + 2;
 const unsigned long CmdIcqSendMessage	= IcqCmdBase + 5;
 const unsigned long CmdShowWarning		= IcqCmdBase + 6;
 const unsigned long CmdPasswordFail		= IcqCmdBase + 7;
+const unsigned long CmdPasswordSuccess	= IcqCmdBase + 8;
 
-const unsigned long MenuSearchResult		= IcqCmdBase;
+const unsigned long MenuSearchResult	= IcqCmdBase;
 const unsigned long MenuIcqGroups		= IcqCmdBase + 2;
 
 class ICQProtocol : public SIM::Protocol
