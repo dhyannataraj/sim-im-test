@@ -655,7 +655,6 @@ protected:
     QByteArray  m_cookie;
     virtual void packet(unsigned long size);
     void snac_location(unsigned short, unsigned short);
-    void snac_icmb(unsigned short, unsigned short);
     void snac_bos(unsigned short, unsigned short);
     void snac_ping(unsigned short, unsigned short);
     void snac_lists(unsigned short, unsigned short);

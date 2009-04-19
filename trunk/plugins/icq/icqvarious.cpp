@@ -288,7 +288,8 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                         log(L_WARN, "Various event ID %04X not found (%X)", nId, nResult);
                         break;
                     }
-                    if (req->answer(msg, nSubtype)){
+                    if (req->answer(msg, nSubtype))
+					{
                         log(L_DEBUG, "removing server request %d (%p)", nId, this);
                         varRequests.remove(req);
                         delete req;
@@ -1486,6 +1487,17 @@ SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, con
 bool SetPasswordRequest::answer(ICQBuffer&, unsigned short)
 {
     m_client->setPassword(m_pwd);
+    log(L_DEBUG, "Password change success: %X");
+    EventError::ClientErrorData d;
+    d.client  = m_client;
+    d.code    = 0;
+    d.err_str = I18N_NOOP("Password successfuly changed");
+    d.args    = QString::null;
+    d.flags   = EventError::ClientErrorData::E_INFO;
+    d.options = NULL;
+    d.id      = CmdPasswordSuccess;
+    EventClientError e(d);
+    e.process();
     return true;
 }
 
