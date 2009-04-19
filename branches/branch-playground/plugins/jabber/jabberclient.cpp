@@ -2545,6 +2545,7 @@ public:
         }
         return false;
     }
+	JabberAuthMessage & operator=( const JabberAuthMessage & ) {}
 
 private:
     std::vector<JabberAuthMessage*> &tempMessages;

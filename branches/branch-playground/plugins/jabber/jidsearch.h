@@ -23,7 +23,7 @@
 //Added by qt3to4:
 #include <QShowEvent>
 
-class JabberUserData;
+struct JabberUserData;
 class JabberClient;
 class JIDAdvSearch;
 

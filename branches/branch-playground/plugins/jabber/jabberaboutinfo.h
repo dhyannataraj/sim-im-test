@@ -22,7 +22,7 @@
 #include "event.h"
 
 
-class JabberUserData;
+struct JabberUserData;
 class JabberClient;
 
 class JabberAboutInfo : public QWidget, public Ui::JabberAboutInfoBase, public SIM::EventReceiver
