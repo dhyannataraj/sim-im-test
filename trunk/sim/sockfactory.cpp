@@ -154,7 +154,7 @@ bool SIMResolver::isTimeout()
 	return bTimeout;
 }
 
-#ifndef WIN32
+
 
 StdResolver::StdResolver(QObject* parent, const QString& host) : QObject(parent), QThread(), m_done(false),
 	m_timeout(false), m_addr(0),
@@ -212,17 +212,17 @@ bool StdResolver::isTimeout()
 	return m_timeout;
 }
 
-#endif
+
 
 void SIMSockets::resolve(const QString &host)
 {
 	// Win32 uses old resolver, based on QDns (which is buggy in qt3)
 	// *nix use new resolver
-#ifdef WIN32
-    SIMResolver *resolver = new SIMResolver(this, host);
-#else
+//#ifdef WIN32
+//    SIMResolver *resolver = new SIMResolver(this, host);
+//#else
     StdResolver *resolver = new StdResolver(this, host);
-#endif
+//#endif
     resolvers.push_back(resolver);
 }
 

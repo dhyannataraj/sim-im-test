@@ -133,7 +133,7 @@ private:
 };
 
 // I'm not sure if this resolver will compile well in win32, hence this ifndef
-#ifndef WIN32
+
 
 class StdResolver : public QObject, public QThread, public IResolver
 {
@@ -160,7 +160,7 @@ private:
 	QTimer* m_timer;
 };
 
-#endif
+
 
 class SIMSockets : public SocketFactory
 {
