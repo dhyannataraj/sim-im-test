@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include "socket.h"
+#include <qthread.h>
 
 class QDns;
 class QTimer;
@@ -98,22 +99,68 @@ protected:
     unsigned short  m_nPort;
 };
 
-class SIMResolver : public QObject
+class IResolver
+{
+public:
+	virtual ~IResolver() {};
+	virtual unsigned long addr() = 0;
+	virtual QString host() const = 0;
+	virtual bool isDone() = 0;
+	virtual bool isTimeout() = 0;
+
+};
+
+class SIMResolver : public QObject, public IResolver
 {
     Q_OBJECT
 public:
     SIMResolver(QObject *parent, const QString &host);
-    ~SIMResolver();
+    virtual ~SIMResolver();
+    virtual unsigned long addr();
+    virtual QString host() const;
+	virtual bool isDone();
+	virtual bool isTimeout();
+
+protected slots:
+    void   resolveTimeout();
+    void   resolveReady();
+
+private:
     QTimer *timer;
     QDns   *dns;
     bool   bDone;
     bool   bTimeout;
-    unsigned long addr();
-    QString host() const;
-protected slots:
-    void   resolveTimeout();
-    void   resolveReady();
 };
+
+// I'm not sure if this resolver will compile well in win32, hence this ifndef
+#ifndef WIN32
+
+class StdResolver : public QObject, public QThread, public IResolver
+{
+	Q_OBJECT
+public:
+	StdResolver(QObject* parent, const QString& host);
+	virtual ~StdResolver();
+	virtual unsigned long addr();
+	virtual QString host() const;
+	virtual bool isDone();
+	virtual bool isTimeout();
+
+protected:
+	virtual void run();
+
+protected slots:
+	void timeout();
+
+private:
+    bool m_done;
+    bool m_timeout;
+	unsigned long m_addr;
+	QString m_host;
+	QTimer* m_timer;
+};
+
+#endif
 
 class SIMSockets : public SocketFactory
 {
@@ -131,7 +178,7 @@ public slots:
     void idle();
     void checkState();
 protected:
-    std::list<SIMResolver*> resolvers;
+    std::list<IResolver*> resolvers;
 
 };
 

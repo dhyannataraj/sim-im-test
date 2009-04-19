@@ -142,7 +142,6 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxSSBI_UPLOAD_ACK: {
-		log(L_DEBUG, "SSBI_UPLOAD_ACK");
         unsigned short unknown1, unknown2;
         char size;
         QByteArray ba(16);
@@ -155,7 +154,6 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
     }
     case ICQ_SNACxSSBI_REQ_AIM_ACK:
 		{
-			log(L_DEBUG, "SSBI_REQ_AIM_ACK");
             ICQUserData *data;
             Contact *contact;
             QString screen;
@@ -203,7 +201,6 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxSSBI_REQ_ICQ_ACK:
 		{
-			log(L_DEBUG, "SSBI_REQ_ICQ_ACK");
             ICQUserData *data;
             Contact *contact;
             QString screen;
@@ -285,7 +282,6 @@ void SSBISocket::process()
 
 void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 {
-	log(L_DEBUG, "SSBISocket::uploadBuddyIcon()");
     if(img.isNull()) {
         log(L_ERROR, "Uploaded Buddy icon is empty!");
         return;
