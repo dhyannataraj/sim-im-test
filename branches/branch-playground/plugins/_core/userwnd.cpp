@@ -58,10 +58,10 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
 	m_bResize = false;
 	m_bClosed = false;
 	m_bTyping = false;
-	//setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-	/*
+	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
 	m_hSplitter = new QSplitter(Qt::Horizontal, this);
-	*/
+
 	m_splitter = new QSplitter(Qt::Vertical, this);
 	m_list = NULL;
 	m_view = NULL;
@@ -78,10 +78,10 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
 	restoreToolbar(m_edit->m_bar, data.editBar);
 	m_edit->m_bar->show();
 	m_bBarChanged = false;
-	//m_hSplitter->addWidget(m_splitter);
+	m_hSplitter->addWidget(m_splitter);
 	m_splitter->addWidget(m_edit);
 
-	//connect(m_edit, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+	connect(m_edit, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
 	connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 	connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
 	modeChanged();
@@ -280,19 +280,25 @@ void UserWnd::showListView(bool bShow)
     if(bShow)
 	{
         if (m_list == NULL){
-			/*
+
             m_list = new UserList(m_hSplitter);
             m_hSplitter->setResizeMode(m_list, QSplitter::Stretch);
             connect(m_list, SIGNAL(selectChanged()), this, SLOT(selectChanged()));
-			*/
-            if(topLevelWidget()->inherits("Container"))
+
+            /*if(topLevelWidget()->inherits("Container"))
 			{
-                Container *c = static_cast<Container*>(topLevelWidget());
+                Container *c = dynamic_cast<Container*>(topLevelWidget());
                 list<UserWnd*> wnd = c->windows();
                 for (list<UserWnd*>::iterator it = wnd.begin(); it != wnd.end(); ++it)
                     m_list->selected.push_back((*it)->id());
-            }
-        }
+            }*/
+
+			QWidgetList list = QApplication::topLevelWidgets();
+			for (int i = 0; i < list.size(); ++i) 
+				 if (UserWnd *w = dynamic_cast<UserWnd *>(list.at(i)))
+					 m_list->selected.push_back(w->id());
+					 //return w;
+		}
         m_list->show();
         emit multiplyChanged();
         return;
