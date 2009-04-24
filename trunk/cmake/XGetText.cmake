@@ -39,14 +39,14 @@ MACRO(EXTRACT_MESSAGES src_file po_file)
         # parsing fake .cpp file from the ${fake_ui_cpp_root} in order to get the same path as 
         # path to the real .ui file
         ADD_CUSTOM_COMMAND(TARGET update-messages
-            COMMAND xgettext ${XGETTEXT_OPTIONS} -d${po_file} ${relative_name}
+            COMMAND ${XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -d${po_file} ${relative_name}
             WORKING_DIRECTORY ${fake_ui_cpp_root}
         )
     ELSEIF(ext STREQUAL .cpp)
         # just parse .cpp file
         ADD_CUSTOM_COMMAND(TARGET update-messages
             COMMAND echo  Extracting messages from CPP-file ${relative_name}
-            COMMAND xgettext ${XGETTEXT_OPTIONS} -d${po_file} ${relative_name}
+            COMMAND ${XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -d${po_file} ${relative_name}
             WORKING_DIRECTORY ${${PROJECT_NAME}_SOURCE_DIR}
         )
     ENDIF(ext STREQUAL .ui)

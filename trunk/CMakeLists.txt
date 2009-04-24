@@ -237,5 +237,26 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
             EXTRACT_MESSAGES("${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}" ${new_pot})
         ENDFOREACH(file)
     ENDFOREACH(plugin)
+    
+      ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo Updating .po files
+        COMMAND mv ${CMAKE_SOURCE_DIR}/po/sim.pot ${CMAKE_SOURCE_DIR}/po/sim.pot.backup
+        COMMAND mv ${new_pot}.po ${CMAKE_SOURCE_DIR}/po/sim.pot
+      )
+    
+    FILE(GLOB po_files ${CMAKE_SOURCE_DIR}/po/*.po)
+    FOREACH(po_file ${po_files})
+      ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND mv ${po_file} ${po_file}.backup
+      )
+    ENDFOREACH(po_file)
+    
+    FOREACH(po_file ${po_files})
+      GET_FILENAME_COMPONENT(po_name ${po_file} NAME)
+      ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo ${po_name}
+        COMMAND ${MSGMERGE_EXECUTABLE} ${po_file}.backup ${CMAKE_SOURCE_DIR}/po/sim.pot >${po_file}
+      )
+    ENDFOREACH(po_file)
 
 ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )
