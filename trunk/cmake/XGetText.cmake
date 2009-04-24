@@ -1,5 +1,19 @@
 SET(XGETTEXT_OPTIONS -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale)
 
+FIND_PROGRAM(XGETTEXT_EXECUTABLE xgettext)
+IF (XGETTEXT_EXECUTABLE)
+    MESSAGE(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
+ELSE()
+    MESSAGE(SATUS "Xgettext not found")
+ENDIF()
+
+FIND_PROGRAM(MSGMERGE_EXECUTABLE msgmerge)
+IF (MSGMERGE_EXECUTABLE)
+    MESSAGE(STATUS "Found msgmerge: ${MSGMERGE_EXECUTABLE}")
+ELSE()
+    MESSAGE(STATUS "msgmerge not found")
+ENDIF()
+
 MACRO(EXTRACT_MESSAGES src_file po_file)
     SET(PROJECT_NAME Sim-IM)  # Change this if you move this file to another project
 

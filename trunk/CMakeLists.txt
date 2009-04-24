@@ -2,21 +2,6 @@
 
 PROJECT(Sim-IM)
 
-
-
-
-
-FIND_PROGRAM(XGETTEXT_EXECUTABLE xgettext)
-IF (XGETTEXT_EXECUTABLE)
-    MESSAGE(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
-ELSE()
-    MESSAGE(FATAL_ERROR "Xgettext not found")
-ENDIF()
-
-
-
-
-
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.4)
 if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
@@ -49,7 +34,6 @@ INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
 INCLUDE(DistTarget)
 INCLUDE(CheckCXXCompilerFlag)
-INCLUDE(XGetText)
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 OPTION(ENABLE_TARGET_UPDATE_MESSAGES "Enables target that allows to extract i18n messages from the code, and update *.po files with them")
@@ -184,6 +168,20 @@ else(WIN32)
     SET(XDG_APPS_DIR   ${SHARE_INSTALL_PREFIX}/applications/kde)
     SET(SERVICES_INSTALL_DIR ${SHARE_INSTALL_PREFIX}/services)
 endif(WIN32)	
+
+IF(ENABLE_TARGET_UPDATE_MESSAGES)
+ MESSAGE(STATUS "Enabling target update-messages")
+  INCLUDE(XGetText)
+ 
+  IF(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
+    MESSAGE(STATUS "Target update-messages successfuly enabled")
+  ELSE(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
+    MESSAGE(STATUS "Can't enable target update-messages: one or more componets are missing")
+    SET(ENABLE_TARGET_UPDATE_MESSAGES OFF)
+  ENDIF(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
+  
+ENDIF(ENABLE_TARGET_UPDATE_MESSAGES)
+
 	
 # subdirectories
 ADD_SUBDIRECTORY(sim)
