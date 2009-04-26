@@ -123,51 +123,55 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                     unsigned id  = atol(getToken(line, ' ').c_str());
                     unsigned grp = atol(getToken(line, ' ').c_str());
                     string icon  = getToken(line, ' ');
-                    if (!line.empty()){
-                        if (hMain){
-                            if (grp != old_grp){
-                                old_grp = grp;
-                                if (bSubMenu){
-                                    char *res = NULL;
-                                    hSub = CreatePopupMenu();
-                                    char *grp = "Group";
-                                    char cmd[64];
-                                    sprintf(cmd, "GROUP %u", old_grp);
-                                    CComBSTR in(cmd);
-                                    CComBSTR out;
-                                    if (ProcessStr && ProcessStr(in, &out)){
-                                        size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
-                                        char *res = new char[size + 1];
-                                        size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), res, size, NULL, NULL);
-                                        res[size] = 0;
-                                        if (res[0] == '>')
-                                            grp = res + 1;
-                                    }
+					if (line.empty())
+						continue;
 
-									wchar_t *grpLPCWSTR      = (wchar_t *)malloc( sizeof( wchar_t ));
-									wcstombs( grp, grpLPCWSTR,  size + 1 );
-                                    AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grpLPCWSTR);
-                                    if (res)
-                                        delete[] res;
-                                }else{
-                                    AppendMenu(hSub, MF_SEPARATOR, 0, NULL);
-                                }
-                            }
-                        }else{
-                            hMain = CreatePopupMenu();
-                            hSub  = hMain;
-                        }
-                        ItemInfo info;
-                        info.text  = line.c_str();
-                        info.icon  = createIcon(icon.c_str());
-                        info.id	   = id;
-                        m_items.insert(ITEM_MAP::value_type(cmd_id, info));
+					if (hMain){
+						if (grp == old_grp)
+							continue;
 
-						const char* linestr = line.c_str();
+						old_grp = grp;
+						if (bSubMenu){
+							char *res = NULL;
+							hSub = CreatePopupMenu();
+							char *grp = "Group";
+							char cmd[64];
+							sprintf(cmd, "GROUP %u", old_grp);
+							CComBSTR in(cmd);
+							CComBSTR out;
+							if (ProcessStr && ProcessStr(in, &out)){
+								size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
+								char *res = new char[size + 1];
+								size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), res, size, NULL, NULL);
+								res[size] = 0;
+								if (res[0] != '>')
+									continue;
 
-                        AppendMenuA(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, linestr);
-                        cmd_id++;
-                    }
+								grp = res + 1;
+							}
+
+							wchar_t *grpLPCWSTR      = (wchar_t *)malloc( sizeof( wchar_t ));
+							wcstombs( grp, grpLPCWSTR,  size + 1 );
+							AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grpLPCWSTR);
+							if (res)
+								delete[] res;
+						}else{
+							AppendMenu(hSub, MF_SEPARATOR, 0, NULL);
+						}
+					}else{
+						hMain = CreatePopupMenu();
+						hSub  = hMain;
+					}
+					ItemInfo info;
+					info.text  = line.c_str();
+					info.icon  = createIcon(icon.c_str());
+					info.id	   = id;
+					m_items.insert(ITEM_MAP::value_type(cmd_id, info));
+
+					const char* linestr = line.c_str();
+
+					AppendMenuA(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, linestr);
+					cmd_id++;
                 }
             }
             delete[] res;
@@ -182,9 +186,9 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
 
 static char fromHex(char c)
 {
-    if ((c >= '0') && (c <= '9')) return (char)(c - '0');
-    if ((c >= 'A') && (c <= 'F')) return (char)(c + 10 - 'A');
-    if ((c >= 'a') && (c <= 'f')) return (char)(c + 10 - 'a');
+	if (c >= '0' && c <= '9') return (char)(c - '0');
+	if (c >= 'A' && c <= 'F') return (char)(c + 10 - 'A');
+	if (c >= 'a' && c <= 'f') return (char)(c + 10 - 'a');
     return (char)0;
 }
 
@@ -257,7 +261,7 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
                             TYMED_HGLOBAL
                           };
     HRESULT hr = lpData->GetData(&formatetc, &stgmedium);
-    if (SUCCEEDED(hr)){
+	if ((HRESULT)hr >= 0){
         char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
         DROPFILES *files = (DROPFILES*)drop_files;
         drop_files += files->pFiles;
