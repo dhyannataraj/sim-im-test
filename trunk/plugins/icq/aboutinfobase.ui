@@ -17,7 +17,7 @@
     </property>
     <property>
         <name>caption</name>
-        <string>Form4</string>
+        <string></string>
     </property>
     <vbox>
         <property>

@@ -18,7 +18,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle" >
-   <string>Form1</string>
+   <string></string>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
