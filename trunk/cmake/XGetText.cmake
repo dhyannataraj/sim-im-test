@@ -1,8 +1,8 @@
 SET(XGETTEXT_OPTIONS -j --foreign-user -C -ci18n -ki18n -ktr2i18n -kI18N_NOOP -kI18N_NOOP2 -kaliasLocale)
 
-FIND_PROGRAM(XGETTEXT_EXECUTABLE xgettext)
+FIND_PROGRAM(XGETTEXT_EXECUTABLE kde-xgettext)
 IF (XGETTEXT_EXECUTABLE)
-    MESSAGE(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
+    MESSAGE(STATUS "Found kde-xgettext: ${XGETTEXT_EXECUTABLE}")
 ELSE()
     MESSAGE(SATUS "Xgettext not found")
 ENDIF()
@@ -38,15 +38,17 @@ MACRO(EXTRACT_MESSAGES src_file po_file)
         )
         # parsing fake .cpp file from the ${fake_ui_cpp_root} in order to get the same path as 
         # path to the real .ui file
+        FILE(RELATIVE_PATH po_relative ${fake_ui_cpp_root} ${po_file}) # kde-xgettext do not accept full path to po-file
         ADD_CUSTOM_COMMAND(TARGET update-messages
-            COMMAND ${XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -d${po_file} ${relative_name}
+            COMMAND ${XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -d${po_relative} ${relative_name}
             WORKING_DIRECTORY ${fake_ui_cpp_root}
         )
     ELSEIF(ext STREQUAL .cpp)
         # just parse .cpp file
+        FILE(RELATIVE_PATH po_relative ${${PROJECT_NAME}_SOURCE_DIR} ${po_file}) # kde-xgettext do not accept full path to po-file
         ADD_CUSTOM_COMMAND(TARGET update-messages
             COMMAND echo  Extracting messages from CPP-file ${relative_name}
-            COMMAND ${XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -d${po_file} ${relative_name}
+            COMMAND ${XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -d${po_relative} ${relative_name}
             WORKING_DIRECTORY ${${PROJECT_NAME}_SOURCE_DIR}
         )
     ENDIF(ext STREQUAL .ui)
