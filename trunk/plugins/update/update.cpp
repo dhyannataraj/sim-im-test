@@ -418,15 +418,15 @@ bool UpdatePlugin::done(unsigned, Buffer&, const QString &headers)
         if (statusWidget == NULL)
             return false;
         m_url = h;
-        EventError::ClientErrorData d;
+        EventNotification::ClientNotificationData d;
         d.client  = NULL;
-        d.err_str = I18N_NOOP("New version SIM is released");
+        d.text	  = I18N_NOOP("New version SIM is released");
         d.code	  = 0;
         d.args    = QString::null;
-        d.flags	  = EventError::ClientErrorData::E_INFO;
+        d.flags   = EventNotification::ClientNotificationData::E_INFO;
         d.options = "Show details\x00Remind later\x00\x00";
         d.id	  = CmdGo;
-        EventShowError e(d);
+        EventShowNotification e(d);
         e.process();
     }
     setTime(time(NULL));
