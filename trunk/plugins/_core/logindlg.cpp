@@ -507,10 +507,10 @@ bool LoginDialog::processEvent(Event *e)
         }
         break;
     }
-    case eEventClientError:
+    case eEventClientNotification:
         if (m_bLogin){
-            EventClientError *ee = static_cast<EventClientError*>(e);
-            const EventError::ClientErrorData &d = ee->data();
+            EventClientNotification *ee = static_cast<EventClientNotification*>(e);
+            const EventNotification::ClientNotificationData &d = ee->data();
             if (m_client){
                 if (d.client != m_client)
                     return false;
@@ -523,8 +523,8 @@ bool LoginDialog::processEvent(Event *e)
             }
             stopLogin();
             QString msg;
-            if (!d.err_str.isEmpty()){
-                msg = i18n(d.err_str).arg(d.args);
+            if (!d.text.isEmpty()){
+                msg = i18n(d.text).arg(d.args);
             }else{
                 msg = i18n("Login failed");
             }

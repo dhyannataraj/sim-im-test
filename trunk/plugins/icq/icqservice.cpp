@@ -384,15 +384,15 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 				m_client->data.owner.WarningLevel.asULong() = level;
 				if (from.isEmpty())
 					from = i18n("anonymous");
-				EventError::ClientErrorData d;
+				EventNotification::ClientNotificationData d;
 				d.client  = m_client;
 				d.code    = 0;
-				d.err_str = I18N_NOOP("You've been warned by %1");
+				d.text = I18N_NOOP("You've been warned by %1");
 				d.args    = from;
-				d.flags   = EventError::ClientErrorData::E_INFO;
+				d.flags   = EventNotification::ClientNotificationData::E_INFO;
 				d.options = NULL;
 				d.id      = CmdShowWarning;
-				EventClientError e(d);
+				EventClientNotification e(d);
 				e.process();
 				break;
 			}

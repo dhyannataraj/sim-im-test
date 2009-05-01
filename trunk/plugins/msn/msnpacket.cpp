@@ -475,15 +475,15 @@ MSNServerMessage::~MSNServerMessage()
                 return;
             unsigned nUnread = (*it).second.toUInt();
             if (nUnread){
-                EventError::ClientErrorData data;
+                EventNotification::ClientNotificationData data;
                 data.client     = m_client;
-                data.err_str    = "%1";
+                data.text    = "%1";
                 data.options    = QString::null;
                 data.args       = i18n("You have %n unread message.", "You have %n unread messages.", nUnread);
                 data.code       = 0;
-                data.flags      = EventError::ClientErrorData::E_INFO;
+                data.flags      = EventNotification::ClientNotificationData::E_INFO;
                 data.id         = static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
-                EventShowError e(data);
+                EventShowNotification e(data);
                 e.process();
             }
         }
@@ -502,15 +502,15 @@ MSNServerMessage::~MSNServerMessage()
             QString msg = i18n("You have new mail");
             if (!from.isEmpty())
                 msg = i18n("%1 from %2") .arg(msg) .arg(from);
-            EventError::ClientErrorData data;
+            EventNotification::ClientNotificationData data;
             data.client     = m_client;
-            data.err_str    = "%1";
+            data.text    = "%1";
             data.options    = QString::null;
             data.args       = msg;
             data.code       = 0;
-            data.flags      = EventError::ClientErrorData::E_INFO;
+            data.flags      = EventNotification::ClientNotificationData::E_INFO;
             data.id         = static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNNewMail;
-            EventShowError e(data);
+            EventShowNotification e(data);
             e.process();
         }
     }

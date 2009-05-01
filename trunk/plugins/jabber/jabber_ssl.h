@@ -26,9 +26,12 @@
 class JabberSSL : public SIM::SSLClient
 {
 public:
-    JabberSSL(SIM::Socket*);
+    JabberSSL(SIM::Socket*, bool);
 protected:
     virtual bool initSSL();
+private:
+    bool m_forceSSL;
+
 };
 
 #endif

@@ -1278,13 +1278,13 @@ bool ProxyPlugin::processEvent(Event *e)
         }
         break;
     }
-    case eEventClientError: {
-        EventClientError *ee = static_cast<EventClientError*>(e);
-        const EventError::ClientErrorData &data = ee->data();
+    case eEventClientNotification: {
+        EventClientNotification *ee = static_cast<EventClientNotification*>(e);
+        const EventNotification::ClientNotificationData &data = ee->data();
         if (data.code == ProxyErr){
             QString msg;
-            if (!data.err_str.isEmpty())
-                msg = i18n(data.err_str).arg(data.args);
+            if (!data.text.isEmpty())
+                msg = i18n(data.text).arg(data.args);
             ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data.client), msg);
             raiseWindow(err);
             return true;

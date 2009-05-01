@@ -160,8 +160,8 @@ enum SIMEvent
     eEventMessageSend       = 0x110A,
     eEventSend              = 0x110B,
 
-    eEventClientError       = 0x1301,
-    eEventShowError         = 0x1302,
+    eEventClientNotification= 0x1301,
+    eEventShowNotification  = 0x1302,
 
     // for _core plugin
     eEventCreateMessageType	= 0x1401,
@@ -697,38 +697,39 @@ protected:
     TCPClient    *m_client;
 };
 
-class EXPORT EventError : public Event
+class EXPORT EventNotification : public Event
 {
 public:
-    struct ClientErrorData {
-        Client     *client;
-        QString     err_str;
-        const char *options;
-        QString     args;
-        unsigned    code;
-        enum { E_ERROR = 0x0001, E_INFO = 0x0002 } flags;
-        unsigned    id;
-    };
+	struct ClientNotificationData
+	{
+		Client     *client;
+		QString     text;
+		const char *options;
+		QString     args;
+		unsigned    code;
+		enum { E_ERROR = 0x0001, E_INFO = 0x0002 } flags;
+		unsigned    id;
+	};
 public:
-    EventError(SIMEvent ev, const ClientErrorData &data)
-        : Event(ev), m_data(data) {}
-    const ClientErrorData &data() const { return m_data; }
+	EventNotification(SIMEvent ev, const ClientNotificationData &data)
+		: Event(ev), m_data(data) {}
+	const ClientNotificationData &data() const { return m_data; }
 protected:
-    ClientErrorData m_data;
+	ClientNotificationData m_data;
 };
 
-class EXPORT EventClientError : public EventError
+class EXPORT EventClientNotification : public EventNotification
 {
 public:
-    EventClientError(const ClientErrorData &data)
-        : EventError(eEventClientError, data) {}
+    EventClientNotification(const ClientNotificationData &data)
+        : EventNotification(eEventClientNotification, data) {}
 };
 
-class EXPORT EventShowError : public EventError
+class EXPORT EventShowNotification : public EventNotification
 {
 public:
-    EventShowError(const ClientErrorData &data)
-        : EventError(eEventShowError, data) {}
+    EventShowNotification(const ClientNotificationData &data)
+        : EventNotification(eEventShowNotification, data) {}
 };
 
 class EXPORT EventToolbar : public Event

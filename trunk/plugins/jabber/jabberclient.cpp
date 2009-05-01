@@ -274,7 +274,8 @@ void JabberClient::connect_ready()
     }
 #ifdef ENABLE_OPENSSL
     m_bSSL = true;
-    SSLClient *ssl = new JabberSSL(socket()->socket());
+    // FIXME HACKHACKHACK!!!11 alarm
+    SSLClient *ssl = new JabberSSL(socket()->socket(), (bool)!qstrcmp(getServer(), "talk.google.com"));
     socket()->setSocket(ssl);
     if (!ssl->init()){
         socket()->error_state("SSL init error");
