@@ -394,7 +394,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 				d.text = I18N_NOOP("You've been warned by %1");
 				d.args    = from;
 				d.flags   = EventNotification::ClientNotificationData::E_INFO;
-				d.options = NULL;
+				d.options = QString::null;
 				d.id      = CmdShowWarning;
 				EventClientNotification e(d);
 				e.process();

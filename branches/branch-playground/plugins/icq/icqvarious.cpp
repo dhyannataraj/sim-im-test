@@ -1495,7 +1495,7 @@ bool SetPasswordRequest::answer(ICQBuffer&, unsigned short)
     d.text = I18N_NOOP("Password successfuly changed");
     d.args    = QString::null;
     d.flags   = EventNotification::ClientNotificationData::E_INFO;
-    d.options = NULL;
+	d.options = QString::null;
     d.id      = CmdPasswordSuccess;
     EventClientNotification e(d);
     e.process();
@@ -1511,7 +1511,7 @@ void SetPasswordRequest::fail(unsigned short error_code)
     d.text = I18N_NOOP("Change password fail");
     d.args    = QString::null;
     d.flags   = EventNotification::ClientNotificationData::E_ERROR;
-    d.options = NULL;
+	d.options = QString::null;
     d.id      = CmdPasswordFail;
     EventClientNotification e(d);
     e.process();

@@ -346,7 +346,7 @@ bool CommonStatus::processEvent(Event *e)
             item.text	= QString("<img src=\"icon:%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
                 .arg((data.flags & EventNotification::ClientNotificationData::E_INFO) ? "info" : "error")
                         .arg(title) + quoteString(item.text) + "</center>";
-            if (data.options){
+			if (!data.options.isEmpty()){
                 for (const char *p = data.options; *p; p += strlen(p) + 1)
                     item.buttons.append(i18n(p));
             }else{
