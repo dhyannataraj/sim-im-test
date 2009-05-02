@@ -704,7 +704,7 @@ public:
 	{
 		Client     *client;
 		QString     text;
-		const char *options;
+		QString		options;
 		QString     args;
 		unsigned    code;
 		enum { E_ERROR = 0x0001, E_INFO = 0x0002 } flags;
@@ -764,7 +764,7 @@ class EXPORT EventToolbarChanged : public Event
 public:
     EventToolbarChanged(CommandsDef *defs)
         : Event(eEventToolbarChanged), m_defs(defs) {}
-    
+
     CommandsDef *defs() const { return m_defs; }
 protected:
     CommandsDef *m_defs;
@@ -795,7 +795,7 @@ class EXPORT EventMenuShow : public Event
 public:
     EventMenuShow(CommandDef *def)
         : Event(eEventMenuShow), m_def(def) {}
-    
+
     CommandDef *def() const { return m_def; }
 protected:
     CommandDef *m_def;
@@ -806,7 +806,7 @@ class EXPORT EventMenuGet : public Event
 public:
     EventMenuGet(CommandDef *def)
         : Event(eEventMenuGet), m_def(def), m_menu(NULL) {}
-    
+
     CommandDef *def() const { return m_def; }
     // out
     void setMenu(QPopupMenu *m) { m_menu = m; }
@@ -821,7 +821,7 @@ class EXPORT EventMenuGetDef : public Event
 public:
     EventMenuGetDef(unsigned long id)
         : Event(eEventMenuGetDef), m_id(id), m_defs(NULL) {}
-    
+
     unsigned long id() const { return m_id; }
     // out
     void setCommandsDef(CommandsDef *defs) { m_defs = defs; }
@@ -836,7 +836,7 @@ class EventMenuProcess : public Event
 public:
     EventMenuProcess(unsigned long id, void *param, int key = 0)
         : Event(eEventMenuProcess), m_id(id), m_param(param), m_key(key), m_menu(NULL) {}
-    
+
     unsigned long id() const { return m_id; }
     void *param() const { return m_param; }
     int key() const { return m_key; }
@@ -861,7 +861,7 @@ public:
 public:
     EventAddWidget(QWidget *w, bool bDown, Place place)
         : Event(eEventAddWidget), m_widget(w), m_bDown(bDown), m_place(place) {}
-    
+
     QWidget *widget() const { return m_widget; }
     bool down() const { return m_bDown; }
     Place place() const { return m_place; }

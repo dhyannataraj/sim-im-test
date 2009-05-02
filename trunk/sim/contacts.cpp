@@ -1183,7 +1183,7 @@ void Client::setState(State state, const QString &text, unsigned code)
         d.code    = code;
         d.args    = QString::null;
         d.flags   = EventNotification::ClientNotificationData::E_ERROR;
-        d.options = NULL;
+		d.options = QString::null;
         d.id      = 0;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == this){
