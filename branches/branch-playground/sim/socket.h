@@ -291,7 +291,7 @@ public:
     void clear();
 protected:
     virtual bool initSSL() = 0;
-    bool initTLS1(bool bDH);
+    bool initTLS1(bool bDH, bool forceSSL = true);
     bool initBIO();
     Buffer wBuffer;
     virtual void connect_ready();

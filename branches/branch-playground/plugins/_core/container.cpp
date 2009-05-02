@@ -1094,18 +1094,19 @@ void UserTabBar::changeTab(unsigned id)
 	QTimer::singleShot(0, this, SLOT(slotRepaint()));
 }
 
-/*
-void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocusRect) const
+
+void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTabBar *t, bool bFocusRect) const
 {
-    UserTab *tab = static_cast<UserTab*>(t);
+    UserTab *tab = dynamic_cast<UserTab*>(t);
     if (tab->m_bBold){
         QFont f = font();
         f.setBold(true);
         p->setFont(f);
     }
-    QTabBar::paintLabel(p, rc, t, bFocusRect);
+	//QTabBar::paintLabel(p, rc, t, bFocusRect);
+	t->repaint(); //Fixme reimplement this instead.	
 }
-*/
+
 
 void UserTabBar::setBold(unsigned id, bool bBold) //bBold unused
 {

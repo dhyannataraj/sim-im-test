@@ -1191,13 +1191,13 @@ void Client::setState(State state, const QString &text, unsigned code)
     m_state = state;
     EventClientChanged(this).process();
     if (state == Error){
-        EventError::ClientErrorData d;
+        EventNotification::ClientNotificationData d;
         d.client  = this;
-        d.err_str = text;
+        d.text = text;
         d.code    = code;
         d.args    = QString::null;
-        d.flags   = EventError::ClientErrorData::E_ERROR;
-        d.options = NULL;
+        d.flags   = EventNotification::ClientNotificationData::E_ERROR;
+		d.options = QString::null;
         d.id      = 0;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == this){
@@ -1205,7 +1205,7 @@ void Client::setState(State state, const QString &text, unsigned code)
                 break;
             }
         }
-        EventClientError e(d);
+        EventClientNotification e(d);
         e.process();
     }
 }

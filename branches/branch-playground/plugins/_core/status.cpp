@@ -316,9 +316,9 @@ bool CommonStatus::processEvent(Event *e)
         checkInvisible();
         setBarStatus();
         break;
-    case eEventShowError:{
-            EventShowError *ee = static_cast<EventShowError*>(e);
-            const EventError::ClientErrorData &data = ee->data();
+    case eEventShowNotification:{
+            EventShowNotification *ee = static_cast<EventShowNotification*>(e);
+            const EventNotification::ClientNotificationData &data = ee->data();
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
                 if ((*it).id == data.id)
                     return true;
@@ -326,7 +326,7 @@ bool CommonStatus::processEvent(Event *e)
             BalloonItem item;
             item.id     = data.id;
             item.client = data.client;
-            item.text   = i18n(data.err_str);
+            item.text   = i18n(data.text);
             if (!data.args.isEmpty()){
                 if (item.text.find("%1") >= 0)
                     item.text = item.text.arg(data.args);
@@ -344,7 +344,7 @@ bool CommonStatus::processEvent(Event *e)
                 }
             }
             item.text	= QString("<img src=\"icon:%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
-                .arg((data.flags & EventError::ClientErrorData::E_INFO) ? "info" : "error")
+                .arg((data.flags & EventNotification::ClientNotificationData::E_INFO) ? "info" : "error")
                         .arg(title) + quoteString(item.text) + "</center>";
             if (data.options){
                 for (const char *p = data.options; *p; p += strlen(p) + 1)
@@ -357,17 +357,17 @@ bool CommonStatus::processEvent(Event *e)
                 showBalloon();
             break;
         }
-    case eEventClientError:{
-            EventClientError *ee = static_cast<EventClientError*>(e);
-            const EventError::ClientErrorData &data = ee->data();
+    case eEventClientNotification:{
+            EventClientNotification *ee = static_cast<EventClientNotification*>(e);
+            const EventNotification::ClientNotificationData &data = ee->data();
             if (data.code == AuthError){
                 QString msg;
-                if (!data.err_str.isEmpty())
-                    msg = i18n(data.err_str).arg(data.args);
+                if (!data.text.isEmpty())
+                    msg = i18n(data.text).arg(data.args);
                 LoginDialog *loginDlg = new LoginDialog(false, data.client, msg, NULL);
                 raiseWindow(loginDlg);
             }else{
-                EventShowError eShow(data);
+                EventShowNotification eShow(data);
                 eShow.process();
             }
             return true;

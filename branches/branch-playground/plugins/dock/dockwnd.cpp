@@ -917,11 +917,11 @@ bool DockWnd::processEvent(Event *e)
         quit();
         break;
 #ifdef WIN32
-    case eEventShowError:{
+    case eEventShowNotification:{
             if (!m_bBalloon)
                 return NULL;
-            EventShowError *ee = static_cast<EventShowError*>(e);
-            const EventError::ClientErrorData &data = ee->data();
+            EventShowNotification *ee = static_cast<EventShowNotification*>(e);
+            const EventNotification::ClientNotificationData &data = ee->data();
             if (data.id == 0)
                 return NULL;
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
@@ -933,8 +933,8 @@ bool DockWnd::processEvent(Event *e)
             BalloonItem item;
             item.id   = data.id;
             item.client = data.client;
-            item.flags  = (data.flags & EventError::ClientErrorData::E_INFO) ? NIIF_INFO : NIIF_ERROR;
-            item.text = i18n(data.err_str);
+            item.flags  = (data.flags & EventNotification::ClientNotificationData::E_INFO) ? NIIF_INFO : NIIF_ERROR;
+            item.text = i18n(data.text);
             if (item.text.find("%1") >= 0)
                 item.text = item.text.arg(arg);
             if (!m_queue.empty()){

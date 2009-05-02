@@ -23,14 +23,14 @@
 
 using namespace SIM;
 
-JabberSSL::JabberSSL(Socket *s)
-        : SSLClient(s)
+JabberSSL::JabberSSL(Socket *s, bool forceSSL)
+        : SSLClient(s), m_forceSSL(forceSSL)
 {
 }
 
 bool JabberSSL::initSSL()
 {
-    return initTLS1(false);
+    return initTLS1(false, m_forceSSL);
 }
 
 #endif

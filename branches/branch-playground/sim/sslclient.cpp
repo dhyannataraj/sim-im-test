@@ -412,10 +412,9 @@ static DH *get_dh512()
     return(dh);
 }
 
-bool SSLClient::initTLS1(bool bDH)
+bool SSLClient::initTLS1(bool bDH, bool forceSSL)
 {
-    //mpCTX = SSL_CTX_new(TLSv1_method());
-    mpCTX = SSL_CTX_new(SSLv23_client_method()); // FIXME This is a hotfix that should fix bug #12510 Might be this change should be reverted once...
+    mpCTX = SSL_CTX_new(forceSSL ? SSLv23_method() : TLSv1_method());
     if (mpCTX == NULL)
         return false;
     if (bDH){

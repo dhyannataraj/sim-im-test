@@ -252,11 +252,11 @@ bool NewProtocol::processEvent(Event *e)
                 return false;
             }
             break;
-        case eEventClientError: {
-            EventClientError *ee = static_cast<EventClientError*>(e);
-            const EventError::ClientErrorData &d = ee->data();
+        case eEventClientNotification: {
+            EventClientNotification *ee = static_cast<EventClientNotification*>(e);
+            const EventNotification::ClientNotificationData &d = ee->data();
             if (d.client == m_client){
-                m_connectWnd->setErr(i18n(d.err_str),
+                m_connectWnd->setErr(i18n(d.text),
                     (d.code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
                 m_bConnect = false;
                 m_client->setStatus(STATUS_OFFLINE, false);

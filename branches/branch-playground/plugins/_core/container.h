@@ -35,6 +35,7 @@
 #include <QEvent>
 #include <QMoveEvent>
 #include <QMouseEvent>
+#include <QTabBar>
 #include <list>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
@@ -111,7 +112,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
 	std::list<UserTab*> m_tabs;
-//    virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
+    virtual void paintLabel(QPainter *p, const QRect &rc, QTabBar *t, bool bFocus) const;
 };
 
 class Container : public QMainWindow, public SIM::EventReceiver
