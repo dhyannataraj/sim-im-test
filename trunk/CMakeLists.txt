@@ -182,7 +182,23 @@ IF(ENABLE_TARGET_UPDATE_MESSAGES)
   
 ENDIF(ENABLE_TARGET_UPDATE_MESSAGES)
 
-	
+IF(DEV_BUILD)
+  # Get revision number from SVN
+  FIND_PACKAGE(Subversion)
+  IF(Subversion_FOUND)
+    MESSAGE("-- Found Subversion ${Subversion_VERSION_SVN}")
+    Subversion_WC_INFO(${PROJECT_SOURCE_DIR} Sim-IM)
+    IF(DEFINED Sim-IM_WC_REVISION)
+      SET(CMAKE_KVIRC_BUILD_REVISION ${Sim-IM_WC_REVISION})
+      MESSAGE("-- Current revision is ${Sim-IM_WC_REVISION}")
+    ELSE()
+      MESSAGE("-- No Subversion working copy found")
+    ENDIF()
+  ELSE()
+    MESSAGE("Subversion not found. No revision number will be used")
+  ENDIF()
+ENDIF()
+
 # subdirectories
 ADD_SUBDIRECTORY(sim)
 SIM_INCLUDE_PLUGINS()

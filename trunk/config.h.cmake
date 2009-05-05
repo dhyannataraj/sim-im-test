@@ -1,6 +1,7 @@
 // version
 #define PACKAGE "sim"
 #define VERSION "0.9.5"
+#define REVISION_NUMBER "${Sim-IM_WC_REVISION}"
 #define PREFIX "${CMAKE_INSTALL_PREFIX}"
 #define PLUGIN_PATH "${SIM_PLUGIN_DIR}"
 

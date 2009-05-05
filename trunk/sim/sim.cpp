@@ -178,7 +178,7 @@ extern "C" {
 #endif
 
 #ifdef CVS_BUILD
-#define _VERSION	VERSION " SVN " __DATE__
+#define _VERSION	VERSION " SVN" REVISION_NUMBER " " __DATE__
 #else
 #define _VERSION	VERSION
 #endif
