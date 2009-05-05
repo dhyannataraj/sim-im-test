@@ -423,11 +423,20 @@ void SoundPlugin::processQueue()
 #endif
 }
 
+
+
 void SoundPlugin::run()
 {
 #ifdef USE_AUDIERE
+	if (!AudioDevicePtr()) 
+	{
+		log(L_ERROR, "There is no audiere library loaded - cannot play sound!");
+		return; // implicit Check, if audiere.dll is loaded
+	}
+
 	AudioDevicePtr device(OpenDevice());
-	if (!device) {
+	if (!device) 
+	{
 		log(L_WARN, "No Audio Device was found.");
 		return;
 	}
@@ -435,24 +444,28 @@ void SoundPlugin::run()
 		
 	OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
 	
-		if (!sndstream) {
+	if (!sndstream) {
 		log(L_WARN, "Audiostream could not be opened.");
-			return;
+		return;
 	}
-	else {
+	else 
+	{
 		sndstream->setVolume(1.0f);
 		sndstream->play();
 	}
-	while (sndstream->isPlaying()) {
+	while (sndstream->isPlaying()) 
+	{
 		sleepSecond();
 		bDone = false;
-		if (destruct) { //Plugin or SIM is shutting down, so lets fade out ;)
-			for (int i=1000; i>0; --i) { 
+		if (destruct) 
+		{ //Plugin or SIM is shutting down, so lets fade out ;)
+			for (int i=1000; i>0; --i) 
+			{ 
 				sndstream->setVolume(i*0.001f);
 				sleepTime(2);
 			}
-		bDone=true;
-		return;
+			bDone=true;
+			return;
 		}
 	}
 	bDone=true;
