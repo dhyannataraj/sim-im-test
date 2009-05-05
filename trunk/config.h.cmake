@@ -25,6 +25,7 @@
 #cmakedefine HAVE_MMAP 1
 #cmakedefine HAVE_MUNMAP 1
 #cmakedefine HAVE_UNAME 1
+#cmakedefine UNICODE 1//for win32-api's on christians advice ;)
 
 // check for structure member
 #cmakedefine HAVE_TM_GMTOFF 1
