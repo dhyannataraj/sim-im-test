@@ -1130,7 +1130,9 @@ Q3PopupMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
     cmd->flags		= COMMAND_NEW_POPUP;
     EventMenuGet e(cmd);
     e.process();
-    return e.menu();
+// Fixme!
+//  return e.menu();
+    return NULL;
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)

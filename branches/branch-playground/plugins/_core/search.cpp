@@ -594,7 +594,7 @@ void SearchDialog::searchClick()
         if (CorePlugin::m_plugin->getGroupMode()){
             EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
             eMenu.process();
-            Q3PopupMenu *popup = eMenu.menu();
+            QMenu *popup = eMenu.menu();
             if (popup)
                 popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
         }else{
@@ -744,7 +744,7 @@ void SearchDialog::addClick()
     if (CorePlugin::m_plugin->getGroupMode()){
         EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
         eMenu.process();
-        Q3PopupMenu *popup = eMenu.menu();
+        QMenu *popup = eMenu.menu();
         if (popup)
             popup->popup(CToolButton::popupPos(m_search->btnAdd, popup));
     }else{
@@ -781,7 +781,7 @@ void SearchDialog::optionsClick()
 {
     EventMenuProcess eMenu(MenuSearchOptions, NULL);
     eMenu.process();
-    Q3PopupMenu *popup = eMenu.menu();
+    QMenu *popup = eMenu.menu();
     if (popup)
         popup->popup(CToolButton::popupPos(m_search->btnOptions, popup));
 }

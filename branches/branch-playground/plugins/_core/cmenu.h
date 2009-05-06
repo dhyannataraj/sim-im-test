@@ -22,12 +22,8 @@
 
 #include <vector>
 
-#ifdef USE_KDE
-#include <kpopupmenu.h>
-#else
-#include "kpopup.h"
-#endif
 #include "event.h"
+#include <QMenu>
 
 struct CMD
 {
@@ -35,7 +31,7 @@ struct CMD
     unsigned	base_id;
 };
 
-class CMenu : public KPopupMenu
+class CMenu : public QMenu
 {
     Q_OBJECT
 public:
@@ -53,7 +49,7 @@ protected:
     void initMenu();
     std::vector<CMD> m_cmds;
     SIM::CommandsDef *m_def;
-    KPopupMenu	*m_wrk;
+    QMenu	*m_wrk;
     void *m_param;
     bool		m_bInit;
 };

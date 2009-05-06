@@ -194,7 +194,7 @@ void ListView::showPopup(Q3ListViewItem *item, QPoint p)
     }
     EventMenuProcess eMenu(id, param);
     eMenu.process();
-    Q3PopupMenu *menu = eMenu.menu();
+    QMenu *menu = eMenu.menu();
     if (menu){
         setCurrentItem(item);
         menu->popup(p);

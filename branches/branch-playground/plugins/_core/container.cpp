@@ -1158,7 +1158,7 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
 
         EventMenuProcess eMenu(MenuContact, (void*)tab->wnd()->id());
         eMenu.process();
-        Q3PopupMenu *menu = eMenu.menu();
+        QMenu *menu = eMenu.menu();
         if(menu)
             menu->popup(e->globalPos());
         return;

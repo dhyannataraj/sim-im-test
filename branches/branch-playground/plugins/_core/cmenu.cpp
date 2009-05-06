@@ -27,16 +27,17 @@
 //Added by qt3to4:
 #include <Q3PopupMenu>
 #include <QDesktopWidget>
+#include <QMenuItem>
 
 using namespace SIM;
 
 CMenu::CMenu(CommandsDef *def)
-        : KPopupMenu(NULL)
+        : QMenu(NULL)
 {
     m_def = def;
     m_param = NULL;
     m_bInit = false;
-    setCheckable(false);
+    setCheckable(true);
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
     connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
@@ -84,9 +85,9 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
 	{
 		QSize s = m_wrk->sizeHint();
 		QWidget *desktop = qApp->desktop();
-		int nHeight = (s.height() - margin() * 2) / m_wrk->count();
-		if (s.height() + nHeight * 2 + margin() * 2 >= desktop->height()){
-			KPopupMenu *more = new KPopupMenu(m_wrk);
+        int nHeight = (s.height() - 2 * 2) / m_wrk->count();
+        if (s.height() + nHeight * 2 + 2 * 2 >= desktop->height()){
+            QMenu *more = new QMenu(m_wrk);
 			m_wrk->insertItem(i18n("More..."), more);
 			m_wrk = more;
 			connect(m_wrk, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
@@ -122,17 +123,17 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
 	{
 		if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull())
 		{
-			m_wrk->insertTitle(icons.pixmap(QIcon::Automatic, QIcon::Normal), title);
+//			m_wrk->insertTitle(icons.pixmap(QIcon::Automatic, QIcon::Normal), title);
 		}
 		else
 		{
-			m_wrk->insertTitle(title);
+//			m_wrk->insertTitle(title);
 		}
 		bFirst = true;
 		bSeparator = false;
 		return;
 	}
-	Q3PopupMenu *popup = NULL;
+    QMenu *popup = NULL;
 	if (s->popup_id)
 	{
 		EventMenuProcess e(s->popup_id, s->param, 0);
@@ -196,7 +197,7 @@ void CMenu::clearMenu()
 QSize CMenu::sizeHint() const
 {
     ((CMenu*)this)->initMenu();
-    return KPopupMenu::sizeHint();
+    return QMenu::sizeHint();
 }
 
 void CMenu::initMenu()

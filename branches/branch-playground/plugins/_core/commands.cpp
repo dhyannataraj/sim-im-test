@@ -253,7 +253,7 @@ bool Commands::processEvent(Event *e)
 
 bool Commands::eventFilter(QObject *o, QEvent *e)
 {
-    if ((e->type() == QEvent::Show) && o->inherits("QPopupMenu")){
+    if ((e->type() == QEvent::Show) && o->inherits("QMenu")){
         if (!o->inherits("CMenu")){
             QObject *parent = o->parent();
             if (parent){

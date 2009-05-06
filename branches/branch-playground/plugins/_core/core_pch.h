@@ -74,7 +74,6 @@
 #include "historywnd.h"
 #include "interfacecfg.h"
 #include "ui_interfacecfgbase.h"
-#include "kpopup.h"
 #include "logindlg.h"
 #include "ui_logindlgbase.h"
 #include "maininfo.h"

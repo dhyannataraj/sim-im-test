@@ -286,9 +286,9 @@ void LineEdit::menuActivated(int id)
     }
 }
 
-Q3PopupMenu *LineEdit::createPopupMenu()
+QMenu *LineEdit::createPopupMenu()
 {
-    Q3PopupMenu *popup = new Q3PopupMenu(); //QLineEdit::createPopupMenu();
+    QMenu *popup = QLineEdit::createStandardContextMenu();
     connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
     if (helpList){
         popup->insertSeparator();

@@ -814,7 +814,7 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
             CommandDef *cmd = &(*it).second;
             EventMenuGet e(cmd);
             e.process();
-            Q3PopupMenu *popup = e.menu();
+            QMenu *popup = e.menu();
             if (popup){
                 popup->popup(me->globalPos());
                 return true;

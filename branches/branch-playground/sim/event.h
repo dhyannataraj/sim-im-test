@@ -814,11 +814,11 @@ public:
     
     CommandDef *def() const { return m_def; }
     // out
-    void setMenu(Q3PopupMenu *m) { m_menu = m; }
-    Q3PopupMenu *menu() const { return m_menu; }
+    void setMenu(QMenu *m) { m_menu = m; }
+    QMenu *menu() const { return m_menu; }
 protected:
     CommandDef *m_def;
-    Q3PopupMenu *m_menu;
+    QMenu *m_menu;
 };
 
 class EXPORT EventMenuGetDef : public Event
@@ -846,13 +846,13 @@ public:
     void *param() const { return m_param; }
     int key() const { return m_key; }
     // out
-    void setMenu(Q3PopupMenu *m) { m_menu = m; }
-    Q3PopupMenu *menu() const { return m_menu; }
+    void setMenu(QMenu *m) { m_menu = m; }
+    QMenu *menu() const { return m_menu; }
 protected:
     unsigned long m_id;
     void *m_param;
     int m_key;
-    Q3PopupMenu *m_menu;
+    QMenu *m_menu;
 };
 
 

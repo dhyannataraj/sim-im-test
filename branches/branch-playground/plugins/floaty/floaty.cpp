@@ -253,7 +253,7 @@ void FloatyPlugin::showPopup()
 {
     EventMenuProcess eMenu(MenuContact, (void*)popupId);
     eMenu.process();
-    Q3PopupMenu *popup = eMenu.menu();
+    QMenu *popup = eMenu.menu();
     if(popup)
         popup->popup(popupPos);
 }

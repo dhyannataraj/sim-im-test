@@ -220,7 +220,7 @@ void CToolButton::btnClicked()
     if (m_def.popup_id){
         EventMenuGet e(&m_def);
         e.process();
-        Q3PopupMenu *popup = e.menu();
+        QMenu *popup = e.menu();
         if (popup){
             QPoint pos = popupPos(popup);
             popup->popup(pos);

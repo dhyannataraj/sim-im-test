@@ -99,7 +99,9 @@ Q3PopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
     m_popupPos = pos;
     EventMenuGet e(cmd);
     e.process();
-    return e.menu();
+// Fixme!
+//  return e.menu();
+    return NULL;
 }
 
 Message *MsgTextEdit::createMessage(QMimeSource *src)

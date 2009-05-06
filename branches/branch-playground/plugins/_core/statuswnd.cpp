@@ -144,7 +144,7 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
 	{
 		EventMenuProcess eMenu(m_id, (void *)winId());
 		eMenu.process();
-		Q3PopupMenu *popup = eMenu.menu();
+        QMenu *popup = eMenu.menu();
 		if(popup)
 		{
 			QPoint pos = CToolButton::popupPos(this, popup);
@@ -174,7 +174,7 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
         cmd->id = MenuConnections;
         EventMenuGet e(cmd);
         e.process();
-        Q3PopupMenu *popup = e.menu();
+        QMenu *popup = e.menu();
         if (popup)
             popup->popup(me->globalPos());
     }
@@ -395,7 +395,7 @@ void StatusWnd::clicked()
     cmd->flags    = COMMAND_NEW_POPUP;
     EventMenuGet e(cmd);
     e.process();
-    Q3PopupMenu *popup = e.menu();
+    QMenu *popup = e.menu();
     if (popup){
         QPoint pos = CToolButton::popupPos(m_btn, popup);
         popup->popup(pos);
