@@ -3,6 +3,7 @@
 #define ICQLOCATION_H
 
 #include "snac.h"
+#include <QObject>
 
 class SnacIcqLocation : public QObject, public SnacHandler
 {

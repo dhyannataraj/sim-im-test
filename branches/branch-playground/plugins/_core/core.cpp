@@ -1287,7 +1287,7 @@ bool CorePlugin::processEvent(Event *e)
 					if (mdef->cmdReceived){
 						for (const CommandDef *c = mdef->cmdReceived; !c->text.isEmpty(); c++){
 							CommandDef cmd = *c;
-							if(cmd.icon.isNull()){
+                        	if(cmd.icon.isEmpty()){
 								cmd.icon   = "empty";
 								cmd.flags |= BTN_PICT;
 							}
@@ -1301,7 +1301,7 @@ bool CorePlugin::processEvent(Event *e)
 					if (mdef->cmdSent){
 						for (const CommandDef *c = mdef->cmdSent; !c->text.isEmpty(); c++){
 							CommandDef cmd = *c;
-							if(cmd.icon.isNull()){
+                        	if(cmd.icon.isEmpty()){
 								cmd.icon = "empty";
 								cmd.flags |= BTN_PICT;
 							}
@@ -2186,7 +2186,7 @@ bool CorePlugin::processEvent(Event *e)
 						MessageDef *mdef = (MessageDef*)(def->param);
 						cmds[n].icon = def->icon;
 						QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
-						if(msg.isNull()) 
+                    	if(msg.isEmpty()) 
 						{
 							log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %lu",
 									(const char *)def->text.local8Bit(), def->id);
@@ -2552,7 +2552,7 @@ bool CorePlugin::processEvent(Event *e)
 						return true;
 					}
 					if (m_cfg == NULL){
-						m_cfg = new ConfigureDialog;
+                    	m_cfg = new ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
 						if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
 							data.CfgGeometry[WIDTH].asLong()  = 500;
@@ -2629,7 +2629,7 @@ bool CorePlugin::processEvent(Event *e)
 						return false;
 					Client *client = getContacts()->getClient(n);
 					if (m_cfg == NULL){
-						m_cfg = new ConfigureDialog;
+                    	m_cfg = new ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
 					}
 					static_cast<ConfigureDialog*>(m_cfg)->raisePage(client);

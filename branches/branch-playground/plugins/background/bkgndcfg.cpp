@@ -54,16 +54,14 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
     edtPicture->setTitle(i18n("Select background picture"));
     QList<QByteArray> formats = QImageReader::supportedImageFormats();
     QString format;
-    QByteArray fmt;
-	for(QList<QByteArray>::iterator it = formats.begin(); it != formats.end(); ++it)
+    QString fmt;
+    foreach (fmt,formats)
 	{
-		fmt = *it;
-        if (format.length())
+        if(format.length()>0)
             format += " ";
-        QString f(fmt);
-        f = f.lower();
-        format += "*." + f;
-        if (f == "jpeg")
+        fmt = fmt.lower();
+        format += "*." + fmt;
+        if (fmt == "jpeg")
             format += " *.jpg";
     }
 #ifdef USE_KDE

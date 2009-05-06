@@ -1015,7 +1015,7 @@ void YahooClient::process_fileurl(const char *id, const char *msg, const char *u
 void YahooClient::disconnected()
 {
     m_values.clear();
-    m_session_id = 0; //QString::null;
+    m_session_id = QString();
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -1327,7 +1327,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
 	}
 
 	const CommandDef *def;
-	for (def = protocol()->statusList(); !(def->text.isNull()); def++)
+    for (def = protocol()->statusList(); !def->text.isEmpty(); def++)
 	{
 		if (def->id == cmp_status)
 			break;
@@ -1345,7 +1345,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
 	}
 	else
 	{
-		if(!statusIcon.isNull())
+        if (!statusIcon.isEmpty())
 		{
 			addIcon(icons, def->icon, statusIcon);
 		}

@@ -878,7 +878,7 @@ bool JabberBrowser::haveFeature(const char *feature)
 
 bool JabberBrowser::haveFeature(const char *feature, const QString &features)
 {
-    if (features.isNull())
+    if (features.isEmpty())
         return false;
     QString ff = features;
     while (!ff.isEmpty()){
@@ -995,6 +995,9 @@ void JabberBrowser::search()
 void JabberBrowser::textChanged(const QString&)
 {
 }
+
+void JabberWizard::layOutButtonRow(QHBoxLayout *layout){}
+void JabberWizard::layOutTitleRow(QHBoxLayout *layout, const QString &title){}
 
 #if 0
 

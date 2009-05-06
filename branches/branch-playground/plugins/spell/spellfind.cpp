@@ -42,8 +42,8 @@ SpellFind::SpellFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiv
     setCaption(caption());
     m_edit = edt;
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
-    //m_drives = *QDir::drives(); //portme
-    //m_drive  = m_drives.first(); //portme
+    m_drives = QDir::drives();
+    m_drive  = &m_drives.first();
     QTimer::singleShot(0, this, SLOT(next()));
 }
 

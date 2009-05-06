@@ -63,6 +63,8 @@ protected slots:
     void slotSelected(const QString&);
 protected:
     virtual bool processEvent(SIM::Event *e);
+    virtual void layOutButtonRow(QHBoxLayout *layout);
+    virtual void layOutTitleRow(QHBoxLayout *layout, const QString &title);
     QString m_type;
     QString m_id;
 };

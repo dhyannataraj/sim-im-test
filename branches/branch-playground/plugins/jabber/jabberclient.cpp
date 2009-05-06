@@ -324,7 +324,7 @@ bool JabberClient::processEvent(Event *e)
     case eEventAddContact: {
         EventAddContact *ec = static_cast<EventAddContact*>(e);
         EventAddContact::AddContact *ac = ec->addContact();
-        if(!ac->proto.isNull() && !strcmp(protocol()->description()->text, ac->proto)){
+        if (!ac->proto.isEmpty() && (protocol()->description()->text == ac->proto)){
             Contact *contact = NULL;
             QString resource;
             findContact(ac->addr, ac->nick, true, contact, resource);
@@ -1028,7 +1028,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
                 data->ID.str() = jid;
                 if (!resource.isEmpty())
                     data->Resource.str() = resource;
-                if (!name.isNull())
+                if (!name.isEmpty())
                     data->Name.str() = name;
                 info_request(data, false);
                 EventContact e(contact, EventContact::eChanged);
@@ -1244,7 +1244,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
     if (data->Status.toULong() > curStatus)
 	{
         curStatus = data->Status.toULong();
-        if(!statusIcon.isNull() && icons)
+        if(!statusIcon.isEmpty() && icons)
 		{
             QString iconSave = *icons;
             *icons = statusIcon;
@@ -1255,7 +1255,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
     }
 	else
 	{
-        if (!statusIcon.isNull())
+        if (!statusIcon.isEmpty())
 		{
             addIcon(icons, dicon, statusIcon);
         }
@@ -2607,7 +2607,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     msg->setContact(contact->id());
     msg->setClient(dataName(data));
     msg->setFlags(MESSAGE_RECEIVED);
-    if(!text.isNull())
+    if(!text.isEmpty())
         msg->setText(unquoteString(text));
     EventMessageReceived e(msg);
     e.process();

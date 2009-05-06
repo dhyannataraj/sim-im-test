@@ -25,16 +25,19 @@
 
 #include <time.h>
 #include <stdio.h>
+#ifdef WIN32
 #include <windows.h>
+#endif
 #include <qtimer.h>
 #include <qapplication.h>
 #include <QWidgetlist>
 #include <qregexp.h>
-#include <Q3Url>
+#include <QUrl>
 #include <qmessagebox.h>
 #include <qfile.h>
-#include <Q3Process>
+#include <QProcess>
 #include <qevent.h>
+#include <QFileInfo>
 
 using namespace SIM;
 
@@ -157,10 +160,10 @@ void UpdatePlugin::testForUpdate(){
                 versionurl += (char)c;
             }
         }*/
-		Q3Url um(QString("http://www.sim.gosign.de/updatemsg.php"));
+        QUrl um( "http://www.sim.gosign.de/updatemsg.php" );
 		httpmsg = new QHttp(this);
 		connect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
-		QBuffer *buffer_um = new QBuffer(bytes_um);
+		QBuffer *buffer_um = new QBuffer(&bytes_um);
 		buffer_um->open(IO_ReadWrite);
 		httpmsg->setHost(um.host());
 		Request_um=httpmsg->get(um.path(),buffer_um);
@@ -173,14 +176,14 @@ void UpdatePlugin::UpdateMsgDownloadFinished(int requestId, bool error){
 			  || msgret==QMessageBox::Ok
 			  || upToDate) return; //Don't show the dialog more than once SIM starts.
 	if (Request_um==requestId) {
-		QString updateMsg( QString( ( Q3CString ) *bytes_um ));
+		QString updateMsg(bytes_um);
 		this->m_updateMsg=updateMsg;
 		this->bupdateMsgMissing=false;
 		disconnect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
-		Q3Url u=Q3Url(versionurl);
+		QUrl u=QUrl(versionurl);
 		http = new QHttp(this);
 		connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
-		QBuffer *buffer = new QBuffer(bytes);
+		QBuffer *buffer = new QBuffer(&bytes);
 		buffer->open(IO_ReadWrite);
 		http->setHost(u.host());
 		Request=http->get(u.path(),buffer);
@@ -196,7 +199,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 
 	
     if (Request==requestId) {
-		QString remoteVersion(QString( ( Q3CString ) *bytes ));
+		QString remoteVersion(bytes);
 		QDate date=QDate::fromString(remoteVersion,Qt::LocalDate);
 		QString currentVersion = SIM::getAboutData()->version();
 		QString majorVersion = currentVersion.section(' ',0,2,QString::SectionDefault);
@@ -312,11 +315,9 @@ void UpdatePlugin::download_and_install(){
 void UpdatePlugin::installFile(){
 #ifdef WIN32
 	if (isInstalling) return;
-	
-	Q3Process *proc = new Q3Process( this );
-	proc->addArgument( ".\\setup.exe" );
 
-	if ( !proc->start() ) {
+    qint64 pid;
+	if ( !QProcess::startDetached("setup.exe", QStringList(), ".", &pid) ) {
 		 QMessageBox::critical( 0, i18n("Error launching the Update-Setup"),
 				i18n("Make sure the Sim-IM Dirctory\n") +
 				i18n("is writable and you have rights to install.\n"));
@@ -324,11 +325,6 @@ void UpdatePlugin::installFile(){
 		 disconnect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(fileRequestFinished(int, bool)));
 		 return;
 	}
-
-	HWND hWND=(HWND)proc->processIdentifier();
-
-	SetForegroundWindow(hWND);
-    SetFocus(hWND);
 
 	//Shutdown SIM here, because we are now ready to install:
 	isInstalling=true;
@@ -341,7 +337,7 @@ void UpdatePlugin::installFile(){
 
 void UpdatePlugin::downloadFile()
  {
-     Q3Url url(address);
+     QUrl url(address);
      QFileInfo fileInfo(url.path());
      QString fileName = fileInfo.fileName();
 

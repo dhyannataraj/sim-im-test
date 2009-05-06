@@ -15,7 +15,7 @@
     <property name="windowTitle" stdset="0" >
       <string>New connection</string>
     </property>
-    <widget class="QWidget" name="protocolPage" >
+    <widget class="QWizardPage" name="protocolPage" >
       <attribute name="title" >
         <string>Select protocol</string>
       </attribute>

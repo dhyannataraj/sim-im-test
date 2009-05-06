@@ -390,13 +390,12 @@ static QWidget *findWidget(const char *className)
 {
     QWidgetList list = QApplication::topLevelWidgets();
 	QWidget* w;
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    foreach (w,list)
 	{
-		w = *it;
 		if (w->inherits(className))
-			break;
+			return w;
 	}
-    return w;
+	return NULL;
 }
 
 struct ContactInfo
@@ -490,7 +489,10 @@ IconWidget::IconWidget(const QPixmap &p)
 
 HICON IconWidget::icon()
 {
-    return 0; //topData()->winIcon;
+	HWND hWnd = (HWND)effectiveWinId();
+	if(NULL == hWnd)
+		return NULL;
+    return (HICON)::SendMessage( hWnd, WM_GETICON, ICON_SMALL, 0 );
 }
 
 #endif
@@ -734,7 +736,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             unsigned status = STATUS_UNKNOWN;
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
-                for (const CommandDef *d = client->protocol()->statusList(); !d->text.isNull(); d++){
+                for (const CommandDef *d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (cmpStatus(d->text, args[0].latin1())){
                         status = d->id;
                         break;
@@ -764,7 +766,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Client *client = getContacts()->getClient(n);
             if (client->getCommonStatus()){
                 const CommandDef *d = NULL;
-                for (d = client->protocol()->statusList(); !d->text.isNull(); d++){
+                for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (d->id == core->getManualStatus())
                         break;
                 }

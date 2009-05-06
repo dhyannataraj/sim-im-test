@@ -191,6 +191,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
                 QWidget *main = static_cast<QWidget*>(o);
                 setShowMain(false);
                 main->hide();
+				e->ignore();
                 return true;
             }
             break;

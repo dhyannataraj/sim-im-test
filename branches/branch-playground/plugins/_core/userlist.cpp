@@ -22,7 +22,7 @@
 #include <qtimer.h>
 #include <qbitmap.h>
 #include <qstyle.h>
-//#include <qbutton.h>
+#include <QStyleOption.h>
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
@@ -123,9 +123,9 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
 {
     if (x < width - 6)
 	{
-        QRect rcSep(x, height()/2, width - 6 - x, 1);
-		p->drawLine(x, height() / 2, x + width - 6, height() / 2);
-        //listView()->style()->drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
+        QStyleOption option;
+        option.rect = QRect(x, height()/2, width - 6 - x, 1);
+        listView()->style()->drawPrimitive(QStyle::PE_Q3Separator, &option, p);
     }
 }
 
@@ -1000,7 +1000,7 @@ unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, QString 
     QString wrkIcons;
     QString statusIcon;
     unsigned long status = contact->contactInfo(style, statusIcon, &wrkIcons);
-    if (!statusIcon.isNull())
+    if (!statusIcon.isEmpty())
         icons = statusIcon;
     if (wrkIcons.length()){
         if (icons.length())
@@ -1144,12 +1144,13 @@ bool UserList::isGroupSelected(unsigned id)
 
 int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg) //p unused, cg unused
 {
-    int state = bState ? CHECK_ON : CHECK_OFF; //state unused
+    QStyleOptionButton opt;
+    opt.state = bState ? CHECK_ON : CHECK_OFF;
     int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QRect rc(x, (item->height() - h) / 2, w, h);
-	SIM::log(SIM::L_DEBUG, "UserList::drawIndicator() FIXMEEEE");
-    //style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, state);
+    opt.rect = rc;
+    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &opt, p);
     x += w + 2;
     return x;
 }

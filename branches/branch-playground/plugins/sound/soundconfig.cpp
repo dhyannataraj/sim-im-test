@@ -76,8 +76,6 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin) : QWidget(parent)
 
 SoundConfig::~SoundConfig()
 {
-    if (user_cfg)
-        delete user_cfg;
 }
 
 void SoundConfig::apply()

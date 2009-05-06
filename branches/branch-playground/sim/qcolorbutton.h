@@ -46,7 +46,7 @@ protected slots:
     void chooseColor();
 
 protected:
-    virtual void drawButtonLabel( QPainter *p );
+	virtual void paintEvent( QPaintEvent * event );
 
 private:
     QColor col;

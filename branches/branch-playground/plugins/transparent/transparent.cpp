@@ -364,7 +364,7 @@ bool TransparentPlugin::processEvent(Event *e)
             QPoint p = pv->pos;
             p = pv->win->mapToGlobal(p);
             p = pv->win->topLevelWidget()->mapFromGlobal(p);
-            pv->p->drawPixmap(0, 0, pict, p.x(), p.y());
+            pv->p->drawPixmap(p, pict);
             pv->isStatic = true;
         }
     }

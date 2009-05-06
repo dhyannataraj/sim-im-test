@@ -921,7 +921,7 @@ void DirectClient::processPacket()
             for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
                 QString name = m_client->dataName(m_data);
                 Message *msg = *it;
-                if ((msg->getFlags() & MESSAGE_DIRECT) && (!msg->client().isNull()) && (name == msg->client())){
+                if ((msg->getFlags() & MESSAGE_DIRECT) && (!msg->client().isEmpty()) && (name == msg->client())){
                     bool bFound = false;
                     switch (msg->type()){
                     case MessageICQFile:

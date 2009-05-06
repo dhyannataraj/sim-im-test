@@ -355,7 +355,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
             client = getContacts()->getClient(0);
         if(client)
 		{
-            for (def = client->protocol()->statusList(); !def->text.isNull(); def++){
+            for (def = client->protocol()->statusList(); !def->text.isEmpty(); def++){
                 if (def->id == sm->getStatus()){
                     icon = def->icon;
                     status = i18n(def->text);

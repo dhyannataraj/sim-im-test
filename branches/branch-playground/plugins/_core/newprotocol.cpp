@@ -272,9 +272,11 @@ bool NewProtocol::processEvent(Event *e)
     return false;
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "newprotocol.moc"
-#endif
-*/
+void NewProtocol::layOutButtonRow(QHBoxLayout *layout)
+{
+}
+
+void NewProtocol::layOutTitleRow(QHBoxLayout *layout, const QString &title)
+{
+}
 

@@ -20,7 +20,6 @@
 
 #include"qzip.h"
 
-#include<q3cstring.h>
 #include<qstringlist.h>
 #include<qfile.h>
 #pragma warning(disable:4131)

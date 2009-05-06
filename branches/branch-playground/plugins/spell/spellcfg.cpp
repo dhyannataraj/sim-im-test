@@ -28,6 +28,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QStyleOption>
 
 #include "editfile.h"
 #include "linklabel.h"
@@ -185,7 +186,8 @@ void SpellConfig::langClicked(Q3ListViewItem *item)
 
 void SpellConfig::setCheck(Q3ListViewItem *item)
 {
-    int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
+    QStyleOptionButton opt;
+    opt.state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
     int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
@@ -194,8 +196,8 @@ void SpellConfig::setCheck(Q3ListViewItem *item)
     pInd.setBrush(cg.background());
     QRect rc(0, 0, w, h);
     pInd.eraseRect(rc);
-	log(L_DEBUG, "SpellConfig::setCheck FIXME!!!");
-    //style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
+    opt.rect = rc;
+    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &opt, &pInd, this);
     pInd.end();
     item->setPixmap(COL_CHECK, pixInd);
 }

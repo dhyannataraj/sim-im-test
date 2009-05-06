@@ -899,40 +899,29 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
 
 // ______________________________________________________________________________________
 
-#ifdef WIN32
-#ifndef SM_CYSMCAPTION
-#define SM_CYSMCAPTION          51
-#endif
-#endif
-
 EXPORT void saveGeometry(QWidget *w, Geometry geo)
 {
     if (w == NULL)
         return;
-    QPoint pos = w->pos();
-    QSize size = w->size();
-    geo[LEFT].asLong()   = pos.x();
-    geo[TOP].asLong()    = pos.y();
-    geo[WIDTH].asLong()  = size.width();
-    geo[HEIGHT].asLong() = size.height();
-    // if window is not visible QT return geometry without frame sizes
-    // may work for X versions too
-    if(!w->isShown())
-	{
-        int th = w->style()->pixelMetric(QStyle::PM_TitleBarHeight, 0, w);
-        int fw = w->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, w);
-        geo[0].asLong() -= fw * 2; // + size of left frame border
-        geo[1].asLong() -= th + fw; // + size of title and border
-    }
+
+    int x = w->geometry().x();
+    int y = w->geometry().y();
+    int width = w->geometry().width();
+    int height = w->geometry().height();
+
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
-        int dc = GetSystemMetrics(SM_CYCAPTION);
         int dd = GetSystemMetrics(SM_CYDLGFRAME);
-        int ds = GetSystemMetrics(SM_CYSMCAPTION);
-		geo[1].asLong() += dc - ds;
-        geo[3].asLong() -= dd * 2;
+        height -= dd * 2;
+        y += dd;
     }
 #endif
+
+    geo[LEFT].asLong()   = x;
+    geo[TOP].asLong()    = y;
+    geo[WIDTH].asLong()  = width;
+    geo[HEIGHT].asLong() = height;
+
 #ifdef USE_KDE
 #if KDE_IS_VERSION(3,2,0)
     KWin::WindowInfo info = KWin::windowInfo(w->winId());
@@ -965,10 +954,26 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
         geo[LEFT].asLong() = rc.left();
     if (geo[TOP].toLong() < rc.top())
         geo[TOP].asLong() = rc.top();
-    if (bPos)
-        w->move(geo[LEFT].toLong(), geo[TOP].toLong());
-    if (bSize)
-        w->resize(geo[WIDTH].asLong(), geo[HEIGHT].asLong());
+
+    int x = geo[LEFT].toLong();
+    int y = geo[TOP].toLong();
+    int width = geo[WIDTH].asLong();
+    int height = geo[HEIGHT].asLong();
+
+    if (!bPos)
+    {
+        x = w->geometry().x();
+        y = w->geometry().y();
+    }
+
+    if (!bSize)
+    {
+        width = w->geometry().width();
+        height = w->geometry().height();
+    }
+
+    w->setGeometry(x,y,width,height);
+
 #ifdef USE_KDE
     if (geo[4].toLong() == -1){
         KWin::setOnAllDesktops(w->winId(), true);

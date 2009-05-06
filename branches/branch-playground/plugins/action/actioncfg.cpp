@@ -64,7 +64,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
     CommandsMapIterator it(m_plugin->core->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
-        if ((def == NULL) || (cmd->icon.isNull()) ||
+        if ((def == NULL) || (cmd->icon.isEmpty()) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY | MESSAGE_CHILD)))
             continue;
         if ((def->singular == NULL) || (def->plural == NULL) ||
@@ -102,8 +102,6 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
 
 ActionConfig::~ActionConfig()
 {
-    if (m_menu)
-        delete m_menu;
 }
 
 void ActionConfig::resizeEvent(QResizeEvent *e)

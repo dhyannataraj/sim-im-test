@@ -5,6 +5,7 @@
 #include <list>
 #include <qobject.h>
 #include "snac.h"
+#include "message.h"
 
 class ICQBuffer;
 class ICQClientSocket;

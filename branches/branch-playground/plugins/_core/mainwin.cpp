@@ -126,7 +126,7 @@ MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Wi
         geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
         geometry[TOP].asLong() = 5;
     }
-    //restoreGeometry(this, geometry, true, true);
+	::restoreGeometry(this, geometry, true, true);
 }
 
 MainWindow::~MainWindow()

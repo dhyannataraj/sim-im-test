@@ -94,8 +94,10 @@ ConfigItem::~ConfigItem()
 
 void ConfigItem::deleteWidget()
 {
-    delete m_widget;
-    m_widget = NULL;
+    if (m_widget){
+        delete m_widget;
+        m_widget = NULL;
+    }
 }
 
 void ConfigItem::init(unsigned id)
@@ -353,8 +355,7 @@ ConfigureDialog::~ConfigureDialog()
             eUnload.process();
         }
     }
-	// ????
-    //saveGeometry(this, CorePlugin::m_plugin->data.CfgGeometry);
+	::saveGeometry(this, CorePlugin::m_plugin->data.CfgGeometry);
 }
 
 static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
@@ -654,8 +655,9 @@ void ConfigureDialog::raisePhoneBook()
     if (w == NULL)
         return;
     QObjectList l = topLevelWidget()->queryList("QTabWidget");
-	QObjectList::iterator it = l.begin();
-    QTabWidget *tab = static_cast<QTabWidget*>(*it);
+	if(l.isEmpty())
+		return;
+    QTabWidget *tab = static_cast<QTabWidget*>(l.first());
     if(tab == NULL)
         return;
     tab->setCurrentPage(2);
@@ -694,3 +696,4 @@ Q3ListViewItem *ConfigureDialog::findItem(QWidget *w, Q3ListViewItem *parent)
     }
     return NULL;
 }
+

@@ -5,6 +5,9 @@
 #include <qobject.h>
 #include <qtimer.h>
 #include <qwaitcondition.h>
+#include "message.h"
+#include "socket.h"
+#include "icqclient.h"
 
 #define AOL_PROXY_HOST "ars.oscar.aol.com"
 #define AOL_PROXY_PORT 5190

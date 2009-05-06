@@ -20,6 +20,7 @@
 
 #include <vector>
 #include "contacts.h"
+#include <Q3Wizard>
 
 #include "ui_newprotocolbase.h"
 
@@ -44,6 +45,8 @@ protected slots:
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual void reject();
+    virtual void layOutButtonRow(QHBoxLayout *layout);
+    virtual void layOutTitleRow(QHBoxLayout *layout, const QString &title);
     std::vector<SIM::Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;
     QWidget *m_setup;

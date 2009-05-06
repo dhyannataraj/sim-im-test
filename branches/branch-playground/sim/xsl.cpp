@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 /* before xsl.h because auf STL - problem !! */
-#include <libxslt/xsltInternals.h>
+//#include <libxslt/xsltInternals.h>
 #include <libxslt/xslt.h>
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
@@ -24,7 +24,7 @@
 #include <qfile.h>
 #include <qregexp.h>
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 
 #include "log.h"
 #include "misc.h"
@@ -79,7 +79,7 @@ XSL::XSL(const QString &name)
     }
     QString xsl;
     if(bOK){
-        Q3TextStream ts(&f);
+        QTextStream ts(&f);
         xsl = ts.read();
     }
     d = new XSLPrivate(xsl);

@@ -53,14 +53,14 @@ ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client) : 
     }
 	else
 	{
-		QStringList l;
-		QList<QByteArray> fmts = QImageReader::supportedImageFormats();
-		for(QList<QByteArray>::iterator it = fmts.begin(); it != fmts.end(); ++it)
+		QString format = QString("*.jpg");
+		QList<QByteArray> formats = QImageReader::supportedImageFormats();
+		QByteArray f;
+		foreach( f, formats )
 		{
-			l.push_back(QString::fromAscii(*it));
+			f.lower();
+			format += " *." + f;
 		}
-
-        QString format = QString("*.jpg ") + QString("*." + l.join(" *.")).lower();
 #ifdef USE_KDE
         edtPict->setFilter(i18n("%1|Graphics").arg(format));
 #else

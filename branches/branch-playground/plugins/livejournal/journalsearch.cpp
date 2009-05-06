@@ -33,7 +33,7 @@ JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent) : QWidg
 
 void JournalSearch::showEvent(QShowEvent *e)
 {
-	this->showEvent(e);
+	showEvent(e);
     emit setAdd(true);
 }
 

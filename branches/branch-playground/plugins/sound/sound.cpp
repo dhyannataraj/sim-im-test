@@ -306,7 +306,7 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         return QString::null;
     if (sound.isEmpty()){
         def = core->messageTypes.find(type);
-        if ((def == NULL) || (def->icon.isNull()))
+        if ((def == NULL) || (def->icon.isEmpty()))
             return QString::null;
         MessageDef *mdef = (MessageDef*)(def->param);
         if (mdef->flags & MESSAGE_SYSTEM){
@@ -393,7 +393,7 @@ void SoundPlugin::processQueue()
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
     can take 5 seconds to return a value */
-    bool bSound = getPlayer().isNull() && QSound::available();
+    bool bSound = getPlayer().isEmpty() && QSound::available();
 #endif
 	if (bSound){
 		if (!QSound::available()){

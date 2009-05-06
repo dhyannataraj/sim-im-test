@@ -25,6 +25,7 @@
 #include <qfileinfo.h>
 //Added by qt3to4:
 #include <QResizeEvent>
+#include <QStyleOption>
 
 #include "editfile.h"
 #include "listview.h"
@@ -131,7 +132,8 @@ void LogConfig::addItem(const char *name, bool bChecked, unsigned level, unsigne
 
 void LogConfig::setCheck(Q3ListViewItem *item)
 {
-    int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
+    QStyleOptionButton opt;
+    opt.state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
 	int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
@@ -140,8 +142,8 @@ void LogConfig::setCheck(Q3ListViewItem *item)
     QRect rc(0, 0, w, h);
     pInd.setBrush(cg.background());
     pInd.eraseRect(rc);
-	log(L_DEBUG, "LogConfig::setCheck() FIXME!!!!");
-    //style()->drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
+    opt.rect = rc;
+    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &opt, &pInd, this );
     pInd.end();
     item->setPixmap(COL_CHECK, pixInd);
 }

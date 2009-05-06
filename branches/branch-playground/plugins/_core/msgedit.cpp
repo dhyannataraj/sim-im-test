@@ -1253,7 +1253,7 @@ bool MsgEdit::processEvent(Event *e)
             if (!err.isEmpty())
                 err = i18n(err);
             Contact *contact = getContacts()->contact(msg->contact());
-            if(!err.isNull())
+            if(!err.isEmpty())
 			{
                 stopSend();
                 Command cmd;

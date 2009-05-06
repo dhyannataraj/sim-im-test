@@ -102,26 +102,22 @@ SearchDialog::SearchDialog()
 
 SearchDialog::~SearchDialog()
 {
-    //saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+	::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
 {
     Q3MainWindow::resizeEvent(e);
     m_result->adjustColumn();
-	/*
     if (isVisible())
-        saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
-		*/
+		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
     Q3MainWindow::moveEvent(e);
-	/*
     if (isVisible())
-        saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
-		*/
+		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::closeEvent(QCloseEvent *e)
@@ -806,7 +802,7 @@ void SearchDialog::newSearch()
         QWidget *parent = static_cast<QWidget*>(obj)->parentWidget();
         if (obj->inherits("QLineEdit") && parent && !parent->inherits("QComboBox"))
             static_cast<QLineEdit*>(obj)->setText("");
-        if (obj->inherits("QComboBox") && parent && parent->inherits("QFrame"))
+        if (obj->inherits("QComboBox") && parent && parent->inherits("Q3Frame"))
             static_cast<QComboBox*>(obj)->setCurrentItem(0);
         ++it;
     }

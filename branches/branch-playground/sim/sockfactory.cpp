@@ -759,7 +759,7 @@ void IP::set(unsigned long ip, const QString &host)
 
 void IP::resolve()
 {
-    if(!m_host.isNull())
+    if(!m_host.isEmpty())
         return;
     if (pResolver == NULL)
         pResolver = new IPResolver;

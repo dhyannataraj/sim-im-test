@@ -47,7 +47,7 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "to
     CommandsList list(*m_def);
     CommandDef *s;
     while ((s = ++list) != NULL){
-        if (s->id && (s->text.isNull()))
+        if (s->id && (s->text.isEmpty()))
             continue;
         active.push_back(s->id);
     }
@@ -127,10 +127,10 @@ void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
     CommandsList list(*m_def, true);
     CommandDef *s;
     while ((s = ++list) != NULL){
-        if ((s->id == id) && !s->text.isNull()){
+        if ((s->id == id) && !s->text.isEmpty()){
             QString name = i18n(s->text);
             name = name.remove('&');
-            if (!s->icon.isNull()){
+            if (!s->icon.isEmpty()){
                 lst->insertItem(Pict(s->icon), name);
             }else{
                 lst->insertItem(name);

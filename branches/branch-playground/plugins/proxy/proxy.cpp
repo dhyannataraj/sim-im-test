@@ -1206,9 +1206,8 @@ static QObject *findObject(QObject *w, const char *className)
 {
     QObject *res = NULL;
     QObjectList l = w->queryList(className);
-	QObjectList::iterator it = l.begin();
-    if (it != l.end())
-        res = *it;
+    if (!l.isEmpty())
+        res = l.first();
     return res;
 }
 

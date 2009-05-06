@@ -739,7 +739,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
             s->flags |= COMMAND_GLOBAL_ACCEL;
         }
     }
-    if (!s->accel.isNull() && (s->flags & COMMAND_GLOBAL_ACCEL))
+    if (!s->accel.isEmpty() && (s->flags & COMMAND_GLOBAL_ACCEL))
 	{
         if (globalKeys == NULL)
             globalKeys = new list<GlobalKey*>;

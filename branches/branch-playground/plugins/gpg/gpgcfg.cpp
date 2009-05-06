@@ -77,11 +77,6 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin) : QWidget(parent)
 
 GpgCfg::~GpgCfg()
 {
-#ifdef WIN32
-    delete m_find;
-#endif
-// do not delete - it gets deleted when QTabWidget (=parent) goes away
-//    delete m_adv;
 }
 
 void GpgCfg::apply()

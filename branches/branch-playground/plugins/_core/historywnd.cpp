@@ -265,7 +265,7 @@ bool HistoryWindow::processEvent(Event *e)
         }
         if (cmd->id == CmdHistorySave){
             QString str = Q3FileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
-            if(!str.isNull() && !str.isEmpty()){
+            if(!str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){
                     QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 

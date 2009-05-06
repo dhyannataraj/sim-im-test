@@ -647,7 +647,12 @@ ColorLabel::ColorLabel(QWidget *parent, QColor c, int id, const QString &text)
 {
     m_id = id;
     setText(text);
-    setBackgroundColor(c);
+    QPalette palette;
+    palette.setColor(backgroundRole(), c);
+    setPalette(palette);
+    palette.setColor(QPalette::WindowText, !c.value());
+    setPalette(palette);
+    setAutoFillBackground(true);
     setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     setFrameShape(StyledPanel);
     setFrameShadow(Sunken);

@@ -62,7 +62,3 @@ void TransparentTop::backgroundUpdated( const QPixmap &pm )
     e.process();
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "transtop.moc"
-#endif
-

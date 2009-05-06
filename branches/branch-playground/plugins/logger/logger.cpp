@@ -231,7 +231,7 @@ bool LoggerPlugin::processEvent(Event *e)
                 OutputDebugStringA("\n");
             }
 #else
-            fprintf(stderr, "%s\n", s.toUtf8().data());
+            fprintf(stderr, "%s\n", s.local8Bit().data());
 #endif
         }
     }

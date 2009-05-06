@@ -496,7 +496,7 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
             bPager = true;
     }
     if (bCell){
-        if(!statusIcon.isNull())
+        if(!statusIcon.isEmpty())
 		{
             if(icons)
 			{
@@ -512,7 +512,7 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
     }
     if(bPager)
 	{
-        if(!statusIcon.isNull())
+        if(!statusIcon.isEmpty())
 		{
             if(icons)
 			{
@@ -527,16 +527,16 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
         }
     }
     if (status == STATUS_UNKNOWN){
-        if (statusIcon.isNull()){
+        if (statusIcon.isEmpty()){
             QString mails = getEMails();
             if (!mails.isEmpty())
                 statusIcon = "mail_generic";
         }
-        if (statusIcon.isNull())
+        if (statusIcon.isEmpty())
             statusIcon = "nonim";
         return STATUS_UNKNOWN;
     }
-    if (statusIcon.isNull())
+    if (statusIcon.isEmpty())
         statusIcon = "empty";
     return status;
 }
@@ -1920,7 +1920,7 @@ void *ContactList::getUserData(unsigned id)
 static QString stripPhone(const QString &phone)
 {
     QString res;
-    if (phone.isNull())
+    if (phone.isEmpty())
         return res;
     for (unsigned i = 0; i < phone.length(); i++){
         const QChar &c = phone[(int)i];

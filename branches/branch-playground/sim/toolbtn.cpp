@@ -186,12 +186,12 @@ void CToolButton::setTextLabel()
 void CToolButton::setState()
 {
     setTextLabel();
-    if(!m_def.icon_on.isNull())
+    if(!m_def.icon_on.isEmpty())
 	{
         setToggleButton(true);
         setOn((m_def.flags & COMMAND_CHECKED) != 0);
     }
-    if((!m_def.icon_on.isNull()) && strcmp(m_def.icon, m_def.icon_on))
+    if((!m_def.icon_on.isEmpty()) && (m_def.icon != m_def.icon_on))
 	{
         QIcon offIcon = Icon(m_def.icon);
         if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull()){

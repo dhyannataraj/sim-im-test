@@ -113,7 +113,7 @@ bool CommandsDefPrivate::processEvent(Event *e)
 			{
 				EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
 				CommandDef *def = ecc->cmd();
-				if(((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || !def->icon.isNull())){
+				if(((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || !def->icon.isEmpty())){
 					if (addCommand(def))
 						cfg.clear();
 				}

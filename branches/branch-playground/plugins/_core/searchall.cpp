@@ -67,18 +67,13 @@ void SearchAll::refresh()
 
 void SearchAll::search()
 {
-	log(L_DEBUG, "SearchAll::search() FIXME!!!!!111oneone");
-	/*
-    if(grpMail->isChecked() && !edtMail->text().isEmpty()){
-
+    if (grpMail->isChecked() && !edtMail->text().isEmpty()){
         if (!makeSearches())
             return;
         emit searchMail(edtMail->text());
     }
     if(grpName->isChecked() && makeSearches())
         emit searchName(edtFirst->text(), edtLast->text(), edtNick->text());
-		*/
-	
 }
 
 void SearchAll::searchStop()
