@@ -18,21 +18,18 @@
 #ifndef _MONITOR_H
 #define _MONITOR_H
 
-#include <q3mainwindow.h>
-#include <qmutex.h>
-//Added by qt3to4:
-#include <Q3PopupMenu>
-#include <QCloseEvent>
+#include <QMainWindow>
+#include <QMutex>
 
 #include "event.h"
 
-class TextShow;
-class Q3PopupMenu;
+class QMenu;
+class QTextEdit;
 class NetmonitorPlugin;
 
 const unsigned short L_PACKETS = 0x08;
 
-class MonitorWindow : public Q3MainWindow, public SIM::EventReceiver
+class MonitorWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -55,10 +52,10 @@ protected:
     void closeEvent(QCloseEvent*);
     bool bPause;
     bool bAutoscroll;
-    TextShow  *edit;
-    Q3PopupMenu *menuFile;
-    Q3PopupMenu *menuEdit;
-    Q3PopupMenu *menuLog;
+    QTextEdit  *edit;
+    QMenu *menuFile;
+    QMenu *menuEdit;
+    QMenu *menuLog;
     NetmonitorPlugin *m_plugin;
     QMutex m_mutex;
     QStringList m_logStrings;

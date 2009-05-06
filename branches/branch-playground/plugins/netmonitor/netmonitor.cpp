@@ -17,7 +17,6 @@
 
 #include <qtimer.h>
 #include <qwidget.h>
-//Added by qt3to4:
 #include <Q3CString>
 #include <Q3ValueList>
 
@@ -65,7 +64,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 {
     load_data(monitorData, &data, config);
 
-    if (!getLogPackets().isNull()){
+    if (!getLogPackets().isEmpty()){
         QString packets = getLogPackets();
         while (packets.length()){
             QString v = getToken(packets, ',');

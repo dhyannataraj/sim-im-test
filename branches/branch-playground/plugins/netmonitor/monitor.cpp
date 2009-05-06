@@ -18,25 +18,20 @@
 #include "simapi.h"
 
 #include <qmenubar.h>
-#include <q3popupmenu.h>
-#include <qfile.h>
-#include <qmessagebox.h>
-#include <qregexp.h>
-#include <qtimer.h>
-//Added by qt3to4:
-#include <Q3TextStream>
+#include <QMenu>
+#include <QFile>
+#include <QMessageBox>
+#include <QRegExp>
+#include <QTimer>
+#include <QTextStream>
 #include <QCloseEvent>
-#ifdef USE_KDE
-#include <kfiledialog.h>
-#define Q3FileDialog	KFileDialog
-#else
-#include <q3filedialog.h>
-#endif
+#include <Q3FileDialog>
+#include <QTextEdit>
+#include <QScrollBar>
 
 #include "icons.h"
 #include "log.h"
 #include "misc.h"
-#include "textshow.h"
 #include "unquot.h"
 
 #include "monitor.h"
@@ -58,7 +53,7 @@ const int mnuAutoscroll = 10;
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : Q3MainWindow(NULL, "monitor", Qt::WType_TopLevel)
+        : QMainWindow(NULL, "monitor", Qt::WType_TopLevel)
 {
     bPause = true;  // no debug output during creation
     m_plugin = plugin;
@@ -66,11 +61,11 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     setCaption(i18n("Network monitor"));
     setIcon(Pict("network"));
 
-    edit = new TextShow(this);
-    edit->setWordWrap(Q3TextEdit::NoWrap);
+    edit = new QTextEdit(this);
+    edit->setLineWrapMode(QTextEdit::NoWrap);
     setCentralWidget(edit);
     QMenuBar *menu = menuBar();
-    menuFile = new Q3PopupMenu(this);
+    menuFile = new QMenu(this);
     menuFile->setCheckable(true);
     connect(menuFile, SIGNAL(aboutToShow()), this, SLOT(adjustFile()));
     menuFile->insertItem(Pict("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
@@ -80,23 +75,24 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     menuFile->insertSeparator();
     menuFile->insertItem(Pict("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
     menu->insertItem(i18n("&File"), menuFile);
-    menuEdit = new Q3PopupMenu(this);
+    menuEdit = new QMenu(this);
     connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(adjustEdit()));
     menuEdit->insertItem(i18n("&Copy"), this, SLOT(copy()), 0, mnuCopy);
     menuEdit->insertItem(i18n("&Erase"), this, SLOT(erase()), 0, mnuErase);
     menu->insertItem(i18n("&Edit"), menuEdit);
-    menuLog = new Q3PopupMenu(this);
+    menuLog = new QMenu(this);
     menuLog->setCheckable(true);
     connect(menuLog, SIGNAL(aboutToShow()), this, SLOT(adjustLog()));
     connect(menuLog, SIGNAL(activated(int)), this, SLOT(toggleType(int)));
     menu->insertItem(i18n("&Log"), menuLog);
     bPause = false;
     bAutoscroll = true;
+    edit->append( "<pre>" );
 }
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
 {
-    Q3MainWindow::closeEvent(e);
+    QMainWindow::closeEvent(e);
     emit finished();
 }
 
@@ -109,7 +105,7 @@ void MonitorWindow::save()
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-    Q3TextStream ts(&f);
+    QTextStream ts(&f);
     QString t;
     if (edit->hasSelectedText()){
         t = unquoteText(edit->selectedText());
@@ -244,14 +240,13 @@ bool MonitorWindow::processEvent(Event *e)
 				break;
 			}
 		
-		QString logString = "<p><pre>";
+        QString logString;
 		if (font)
 			logString += QString("<font color=\"#%1\">") .arg(font);
 		QString s = EventLog::make_packet_string(*l);
 		logString += quoteString(s);
 		if (font)
 			logString += QString("</font>");
-		logString += "</pre></p>";
 		QMutexLocker lock(&m_mutex);
 		m_logStrings += logString;
 		QTimer::singleShot(10, this, SLOT(outputLog()));
@@ -272,7 +267,13 @@ void MonitorWindow::outputLog()
 
     m_logStrings.clear();
     if (bAutoscroll)
-        edit->scrollToBottom();
+    {
+        QScrollBar *sb = edit->verticalScrollBar();
+        if (NULL != sb)
+        {
+            sb->setValue(sb->maximum());
+        }
+    }
     setLogEnable(true);
 }
 
