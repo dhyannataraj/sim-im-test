@@ -149,7 +149,7 @@ void SearchDialog::setAddButton()
         icon = Icon("find");
         text = i18n("&Search");
     }
-    m_search->btnSearch->setText(text);
+    m_search->btnSearch->setText(text); //Fixme: btnSearch broken
     if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
         m_search->btnSearch->setIconSet(icon);
 }

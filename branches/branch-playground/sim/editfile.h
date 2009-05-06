@@ -24,13 +24,13 @@
 #include <qlineedit.h>
 #include <q3multilineedit.h>
 //Added by qt3to4:
-#include <Q3PopupMenu>
+#include <QMenu>
 #include <Q3HBoxLayout>
 
 class Q3HBoxLayout;
 class EditFile;
 class FilePreview;
-class Q3PopupMenu;
+class QMenu;
 
 typedef FilePreview *CreatePreview(QWidget *parent);
 
@@ -89,7 +89,7 @@ public:
 protected slots:
     void menuActivated(int);
 protected:
-    Q3PopupMenu *createPopupMenu();
+    QMenu *createPopupMenu();
 };
 
 class EXPORT MultiLineEdit : public Q3MultiLineEdit
