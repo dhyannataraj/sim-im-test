@@ -18,19 +18,14 @@
 #ifndef _DOCKWND_H
 #define _DOCKWND_H
 
-#include <qwidget.h>
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <QEvent>
-#include <QMouseEvent>
-#include <QPaintEvent>
+#include <QWidget>
+#include <QPixmap>
+#include <QSystemTrayIcon>
 
 #include "event.h"
 
 class WharfIcon;
 class DockPlugin;
-
-#ifdef WIN32
 
 struct BalloonItem
 {
@@ -41,8 +36,6 @@ struct BalloonItem
     SIM::Client	*client;
 };
 
-#endif
-
 class DockWnd : public QWidget, public SIM::EventReceiver
 {
     Q_OBJECT
@@ -51,12 +44,6 @@ public:
     ~DockWnd();
     void setIcon(const QString &icon);
     void setTip(const QString &text);
-#ifdef WIN32
-    void callProc(unsigned long);
-    void addIconToTaskbar();
-	HICON QPixmap2HIcon(const QPixmap pix);
-	HBITMAP QPixmapMask2HBitmap(const QPixmap pix);
-#endif
     void mouseEvent( QMouseEvent *e);
     virtual void mouseDoubleClickEvent( QMouseEvent *e);
 signals:
@@ -67,10 +54,8 @@ protected slots:
     void blink();
     void dbl_click();
     void showPopup();
+	void trayAction(QSystemTrayIcon::ActivationReason reason);
 protected:
-#ifdef WIN32
-    virtual bool winEvent(MSG * message, long * result);
-#endif
     virtual bool processEvent(SIM::Event *e);
     void  reset();
     bool  bNoToggle;
@@ -89,22 +74,13 @@ protected:
     void quit();
     bool bBlink;
     QTimer *blinkTimer;
-#ifndef WIN32
-    QPoint mousePos;
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    WharfIcon *wharfIcon;
-    bool x11Event(XEvent*);
-    bool inTray;
-    bool inNetTray;
-    bool bInit;
-    friend class WharfIcon;
-#endif
-#else
-    bool				m_bBalloon;
+
+    bool			m_bBalloon;
     std::list<BalloonItem>	m_queue;
-    bool				showBalloon();
-#endif
+    bool			showBalloon();
+
     DockPlugin *m_plugin;
+    QSystemTrayIcon m_TrayIcon;
 };
 
 #endif

@@ -41,7 +41,7 @@ struct DockPluginData
 };
 
 class DockWnd;
-class Q3PopupMenu;
+class QMenu;
 class CorePlugin;
 
 class DockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -66,7 +66,7 @@ protected:
 
     DockWnd *m_dock;
     QWidget* m_main;
-    Q3PopupMenu *m_popup;
+    QMenu *m_popup;
     CorePlugin *m_core;
     unsigned long DockMenu;
     unsigned long CmdTitle;
