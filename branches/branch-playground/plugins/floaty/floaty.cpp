@@ -88,9 +88,9 @@ FloatyPlugin::FloatyPlugin(unsigned base)
 FloatyPlugin::~FloatyPlugin()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-    for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget * w;
+    foreach(w,list)
 	{
-		QWidget* w = *it;
 		if (w->inherits("FloatyWnd"))
 			delete w;
 	}
@@ -104,9 +104,8 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
     QWidget *w;
     FloatyWnd *wnd = NULL;
     bool found = false;
-    for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    foreach(w,list)
 	{
-		w = *it;
 		if (w->inherits("FloatyWnd")){
 			wnd = static_cast<FloatyWnd*>(w);
 			if (wnd->id() == id) {
@@ -232,9 +231,9 @@ bool FloatyPlugin::processEvent(Event *e)
         }
     case eEventRepaintView:{
             QWidgetList list = QApplication::topLevelWidgets();
-			for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+            QWidget * w;
+            foreach(w,list)
 			{
-				QWidget * w = *it;
 				if (w->inherits("FloatyWnd")){
 					FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
 					wnd->init();
@@ -270,9 +269,9 @@ void FloatyPlugin::unreadBlink()
 {
 	m_bBlink = !m_bBlink;
 	QWidgetList list = QApplication::topLevelWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget * w;
+    foreach(w,list)
 	{
-		QWidget* w = *it;
 		if (w->inherits("FloatyWnd")){
 			FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
 			wnd->repaint();

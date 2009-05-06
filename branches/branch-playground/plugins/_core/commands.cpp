@@ -286,10 +286,10 @@ void Commands::popupActivated()
 void Commands::customize(CommandsDef *def)
 {
     QWidgetList list = QApplication::topLevelWidgets();
+    QWidget * w;
 	ToolBarSetup *wnd = NULL;
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    foreach (w,list)
 	{
-		QWidget * w = *it;
 		if(!w->inherits("ToolBarSetup"))
 			continue;
 		ToolBarSetup *swnd = static_cast<ToolBarSetup*>(w);

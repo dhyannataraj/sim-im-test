@@ -310,9 +310,9 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 	if (!mousePos.isNull()) {
 		
 		QWidgetList list = QApplication::topLevelWidgets();
-        for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+        QWidget * w;
+        foreach(w,list)
 		{
-			QWidget* w = *it;
 			if (w->inherits("FloatyWnd"))
 			{
 				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);

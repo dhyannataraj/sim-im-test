@@ -157,9 +157,9 @@ void SpellPlugin::activate()
 	m_bActive = true;
 	qApp->installEventFilter(this);
 	QWidgetList list = QApplication::allWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget * w;
+    foreach (w,list)
 	{
-		QWidget* w = *it;
 		if (w->inherits("TextEdit"))
 			new PSpellHighlighter(static_cast<TextEdit*>(w), this);
 	}

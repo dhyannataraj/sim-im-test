@@ -240,9 +240,9 @@ void OnTopPlugin::setState()
 #endif
     }
     QWidgetList list = QApplication::topLevelWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget *w;
+    foreach(w,list)
 	{
-		QWidget *w = *it;
 			if (w->inherits("Container")){
 #ifdef WIN32
 				HWND hState = HWND_NOTOPMOST;

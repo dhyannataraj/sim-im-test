@@ -139,9 +139,12 @@ TransparentPlugin::~TransparentPlugin()
 	//Handle Floatings
 
 	QWidgetList list = QApplication::topLevelWidgets();
-    for (int i = 0; i < list.size(); ++i) 
-         if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(list.at(i)))
-             SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+	QWidget * w;
+	foreach(w,list)
+	{
+		if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd*>(w))
+			SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+	}
 
 #else
     if (top)
@@ -180,12 +183,14 @@ void TransparentPlugin::tickMouse()
             bMouse = true;
     }
 		
-	//Handle Floatings//
-	QWidgetList list = QApplication::topLevelWidgets();
-    for (int i = 0; i < list.size(); ++i) 
-         if (FloatyWnd *w = dynamic_cast<FloatyWnd *>(list.at(i)))
-			 bMouse= w->frameGeometry().contains(p) ? true : false;
-	//Handle Floatings//
+    //Handle Floatings//
+    QWidgetList list = QApplication::topLevelWidgets();
+    QWidget * w;
+    foreach (w,list) {
+        if (FloatyWnd *w = dynamic_cast<FloatyWnd *>(w))
+            bMouse= w->frameGeometry().contains(p) ? true : false;
+    }
+    //Handle Floatings//
 
     if (bMouse != m_bHaveMouse){
         m_bHaveMouse = bMouse;
@@ -247,9 +252,10 @@ void TransparentPlugin::setState()
         m_bState  = !m_bActive;
 		
 		//Handle Floatings
-		QWidgetList list = QApplication::topLevelWidgets();
-		for (int i = 0; i < list.size(); ++i) {
-			if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(list.at(i))){
+		
+		QWidget * w;
+		foreach (w,list) {
+			if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(w)){
 				refwnd->installEventFilter(this);
 				if (getIfFloatings()) {
 					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -277,8 +283,9 @@ void TransparentPlugin::setState()
 
 		
 		//Handle Floatings
-		for (int i = 0; i < list.size(); ++i) {
-			if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(list.at(i))){
+		QWidget * w;
+		foreach (w,list) {
+			if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(w)){
 				refwnd->installEventFilter(this);
 				if (getIfFloatings()) {
 					SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -330,8 +337,9 @@ void TransparentPlugin::tick()
 	//Handle Floatings
 	
 	QWidgetList list = QApplication::topLevelWidgets();
-	for (int i = 0; i < list.size(); ++i) {
-		if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(list.at(i))){
+	QWidget * w;
+	foreach (w,list) {
+		if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(w)){
 			//w->installEventFilter(this);
 			//w->setMouseTracking(true);
 			refwnd->installEventFilter(this);

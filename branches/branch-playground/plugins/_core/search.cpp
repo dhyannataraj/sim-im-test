@@ -469,15 +469,12 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
     if (w == NULL)
         return true;
     QObjectList l = w->queryList();
-	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj = *it) != NULL){
+    foreach(obj,l){
         if (!obj->inherits("QWidget")){
-            ++it;
             continue;
         }
         if ((obj->parent() == NULL) || obj->parent()->inherits("QToolBar") || obj->parent()->inherits("QComboBox")){
-            ++it;
             continue;
         }
         if (obj->inherits("QLineEdit")){
@@ -504,7 +501,6 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
             if (cmb->isEnabled() && !cmb->currentText().isEmpty())
                 bEnable = true;
         }
-        ++it;
     }
     return true;
 }
@@ -512,16 +508,14 @@ bool SearchDialog::checkSearch(QWidget *w, bool &bEnable)
 void SearchDialog::detach(QWidget *w)
 {
     QObjectList l = w->queryList();
-	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj = *it) != NULL){
+    foreach(obj,l){
         if (obj->inherits("QLineEdit"))
             disconnect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QComboBox"))
             disconnect(obj, SIGNAL(activated(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QRadioButton"))
             disconnect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-        ++it;
     }
 }
 
@@ -530,16 +524,14 @@ void SearchDialog::attach(QWidget *w)
     if (w == NULL)
         return;
     QObjectList l = w->queryList();
-	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while ((obj = *it) != NULL){
+    foreach(obj,l){
         if (obj->inherits("QLineEdit"))
             connect(obj, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QComboBox"))
             connect(obj, SIGNAL(activated(const QString&)), this, SLOT(textChanged(const QString&)));
         if (obj->inherits("QRadioButton"))
             connect(obj, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-        ++it;
     }
 }
 
@@ -790,13 +782,11 @@ void SearchDialog::newSearch()
 {
     searchStop();
     QObjectList l = queryList();
-	QObjectList::iterator it = l.begin();
     QObject *obj;
-    while((obj = *it) != NULL)
+    foreach(obj,l)
 	{
         if (!obj->inherits("QWidget"))
 		{
-            ++it;
             continue;
         }
         QWidget *parent = static_cast<QWidget*>(obj)->parentWidget();
@@ -804,7 +794,6 @@ void SearchDialog::newSearch()
             static_cast<QLineEdit*>(obj)->setText("");
         if (obj->inherits("QComboBox") && parent && parent->inherits("Q3Frame"))
             static_cast<QComboBox*>(obj)->setCurrentItem(0);
-        ++it;
     }
     m_result->clear();
     for (int i = m_result->columns() - 1; i >= 0; i--)

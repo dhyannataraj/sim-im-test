@@ -353,9 +353,9 @@ bool JabberSearch::canSearch()
 
     QObjectList l = queryList("QLineEdit");
     QObject *obj;
-	for(QObjectList::iterator it = l.begin(); it != l.end(); ++it)
+
+    foreach(obj,l)
 	{
-		obj = *it;
 		QLineEdit *edit = static_cast<QLineEdit*>(obj);
 		if (edit->echoMode() == QLineEdit::Password){
 			if (edit->text().isEmpty()){
@@ -392,9 +392,8 @@ QString JabberSearch::condition(QWidget *w)
 
     QObjectList l = w->queryList("QLineEdit");
     QObject *obj;
-	for(QObjectList::iterator it = l.begin(); it != l.end(); ++it)
+    foreach(obj,l)
 	{
-		obj = *it;
         QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
@@ -406,9 +405,8 @@ QString JabberSearch::condition(QWidget *w)
     }
 
     l = w->queryList("QComboBox");
-	for(QObjectList::iterator it1 = l.begin(); it1 != l.end(); ++it1)
+    foreach(obj,l)
 	{
-		obj = *it1;
         CComboBox *box = static_cast<CComboBox*>(obj);
         if (box->currentText().isEmpty()){
             continue;
@@ -421,9 +419,8 @@ QString JabberSearch::condition(QWidget *w)
     }
 
     l = w->queryList("QCheckBox");
-	for(QObjectList::iterator it2 = l.begin(); it2 != l.end(); ++it2)
+    foreach(obj,l)
 	{
-		obj = *it2;
         QCheckBox *box = static_cast<QCheckBox*>(obj);
         if (!res.isEmpty())
             res += ';';
@@ -432,9 +429,8 @@ QString JabberSearch::condition(QWidget *w)
     }
 
     l = w->queryList("Q3MultiLineEdit");
-	for(QObjectList::iterator it3 = l.begin(); it3 != l.end(); ++it3)
+    foreach(obj,l)
 	{
-		obj = *it3;
         Q3MultiLineEdit *edit = static_cast<Q3MultiLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())

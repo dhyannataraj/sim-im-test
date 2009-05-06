@@ -186,9 +186,11 @@ bool StatusFrame::processEvent(Event *e)
     case eEventSocketActive:
 		{
 			QObjectList list = queryList("StatusLabel");
-			for (int i = 0; i < list.size(); ++i) 
-				if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i)))
+        	QObject *obj;
+        	foreach(obj,list) {
+            	if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
 					lbl->setPict();
+        	}
 			break;
 		}
     case eEventCheckCommandState:
@@ -199,18 +201,20 @@ bool StatusFrame::processEvent(Event *e)
 				unsigned n = 0;
 				{
 					QObjectList list = queryList("StatusLabel");
-					for (int i = 0; i < list.size(); ++i) 
-						if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i)))
+                	QObject *obj;
+                	foreach(obj,list) {
+                    	if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
 							if (lbl->x() + lbl->width() > width())
 								n++;
-
+                	}
 				}
 				CommandDef *cmds = new CommandDef[n + 1];
 				n = 0;
 				QObjectList list = queryList("StatusLabel");
-				for (int i = 0; i < list.size(); ++i)
+                QObject *obj;
+                foreach(obj,list)
 				{
-					if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i))) 
+                    if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
 					{
 						if (lbl->x() + lbl->width() > width())
 						{
@@ -257,10 +261,12 @@ bool StatusFrame::processEvent(Event *e)
         break;
     }
     case eEventIconChanged:{
-            QObjectList list = queryList("StatusLabel");
-			for (int i = 0; i < list.size(); ++i) 
-				if (StatusLabel *lbl = dynamic_cast<StatusLabel *>(list.at(i)))
-					lbl->setPict();
+            QObjectList l = queryList("StatusLabel");
+            QObject *obj;
+            foreach(obj,l) {
+                if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
+                    lbl->setPict();
+            }
             break;
         }
     default:
@@ -273,13 +279,9 @@ void StatusFrame::addClients()
 {
     list<StatusLabel*> lbls;
     QObjectList l = m_frame->queryList("StatusLabel");
-	QObjectList::iterator itObject = l.begin();
     QObject *obj;
-    while((obj = *itObject) != NULL)
+    foreach(obj,l)
 	{
-		if(itObject == l.end())
-			break;
-        ++itObject;
         lbls.push_back(static_cast<StatusLabel*>(obj));
     }
     for (list<StatusLabel*>::iterator it = lbls.begin(); it != lbls.end(); ++it)
@@ -298,10 +300,8 @@ void StatusFrame::addClients()
 StatusLabel *StatusFrame::findLabel(Client *client)
 {
     QObjectList l = m_frame->queryList("StatusLabel");
-	QObjectList::iterator itObject = l.begin();
     QObject *obj;
-    while ((obj = *itObject) != NULL){
-        ++itObject;
+    foreach(obj,l){
         if (static_cast<StatusLabel*>(obj)->m_client == client){
             return static_cast<StatusLabel*>(obj);
         }
@@ -338,13 +338,9 @@ void StatusFrame::adjustPos()
     repaint();
     m_frame->repaint();
     QObjectList l = m_frame->queryList("StatusLabel");
-	QObjectList::iterator itObject = l.begin();
     QObject *obj;
-    while ((obj = *itObject) != NULL)
+    foreach(obj,l)
 	{
-		if(itObject == l.end())
-			break;
-        ++itObject;
         static_cast<StatusLabel*>(obj)->repaint();
     }
 }

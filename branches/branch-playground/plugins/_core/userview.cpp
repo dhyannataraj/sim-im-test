@@ -488,19 +488,15 @@ bool UserView::processEvent(Event *e)
                     if (cmd->id == CmdClose){
                         UserWnd *wnd = NULL;
                         QWidgetList list = QApplication::topLevelWidgets();
-						QWidgetList::iterator it = list.begin();
                         QWidget * w;
-                        while ((w = *it) != NULL)
+                        foreach(w,list)
 						{
-							if(it == list.end())
-								break;
                             if (w->inherits("Container")){
                                 Container *c =  static_cast<Container*>(w);
                                 wnd = c->wnd((unsigned long)(cmd->param));
                                 if (wnd)
                                     break;
                             }
-                            ++it;
                         }
                         if (wnd){
                             delete wnd;
@@ -537,13 +533,10 @@ bool UserView::processEvent(Event *e)
                     Container *from = NULL;
                     Container *to = NULL;
                     QWidgetList list = QApplication::topLevelWidgets();
-					QWidgetList::iterator it = list.begin();
                     QWidget * w;
                     unsigned max_id = 0;
-                    while ((w = *it) != NULL)
+                    foreach(w,list)
 					{
-						if(it == list.end())
-							break;
                         if (w->inherits("Container")){
                             Container *c = static_cast<Container*>(w);
                             if (c->getId() == cmd->id)
@@ -555,7 +548,6 @@ bool UserView::processEvent(Event *e)
                                     max_id = c->getId();
                             }
                         }
-                        ++it;
                     }
                     if (from && to && (from == to))
                         return true;
@@ -699,18 +691,14 @@ bool UserView::processEvent(Event *e)
                 if (cmd->id == CmdClose){
                     UserWnd *wnd = NULL;
                     QWidgetList list = QApplication::topLevelWidgets();
-					QWidgetList::iterator it = list.begin();
                     QWidget * w;
-                    while ((w = *it) != NULL)
+                    foreach(w,list)
 					{
-						if(it == list.end())
-							break;
                         if (w->inherits("Container")){
                             wnd = static_cast<Container*>(w)->wnd((unsigned long)(cmd->param));
                             if (wnd)
                                 break;
                         }
-                        ++it;
                     }
                     if (wnd)
                         return true;

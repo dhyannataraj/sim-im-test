@@ -121,13 +121,13 @@ SMSPlugin::~SMSPlugin()
 void SMSPlugin::setPhoneCol()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-    for(QWidgetList::iterator it = list.begin(); it!= list.end(); ++it)
+    QWidget *w;
+    foreach(w,list)
 	{
-		QWidget* w = *it;
 		QObjectList l = w->queryList("MainInfo");
-		for(QObjectList::iterator itw = l.begin(); itw != l.end(); ++itw)
+        QObject * obj;
+        foreach(obj,l)
 		{
-			QObject* obj = *itw;
 			setPhoneCol(static_cast<MainInfo*>(obj));
 		}
 	}
@@ -136,13 +136,13 @@ void SMSPlugin::setPhoneCol()
 void SMSPlugin::removePhoneCol()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget *w;
+    foreach(w,list)
 	{
-		QWidget* w = *it;
 		QObjectList l = w->queryList("MainInfo");
-		for(QObjectList::iterator itw = l.begin(); itw != l.end(); ++itw)
+        QObject * obj;
+        foreach(obj,l)
 		{
-			QObject* obj = *itw;
 			removePhoneCol(static_cast<MainInfo*>(obj));
 		}
 	}

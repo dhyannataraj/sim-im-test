@@ -1530,12 +1530,12 @@ bool CorePlugin::processEvent(Event *e)
 				UserWnd		*userWnd	= NULL;
 				Container	*container	= NULL;
 				QWidgetList list = QApplication::topLevelWidgets();
+            	QWidget * w;
 				bool bNew = false;
 				log(L_DEBUG, "contactID: %d", contact->id());
-				for(QWidgetList::iterator itw = list.begin(); itw != list.end(); ++itw)
+            	foreach (w,list)
 				{
 					log(L_DEBUG, "w");
-					QWidget* w = *itw;
 					if (w->inherits("Container"))
 					{
 						log(L_DEBUG, "ContainerFound");
@@ -1570,9 +1570,9 @@ bool CorePlugin::processEvent(Event *e)
 					if(getContainerMode() == 3)
 					{
 						QWidgetList list = QApplication::topLevelWidgets();
-						for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+                   		QWidget * w;
+                    	foreach (w,list)
 						{
-							QWidget * w = *it;
 							if (w->inherits("Container")){
 								container =  static_cast<Container*>(w);
 								break;
@@ -1587,9 +1587,9 @@ bool CorePlugin::processEvent(Event *e)
 					{
 						unsigned id = contact->getGroup() + CONTAINER_GRP;
 						QWidgetList list = QApplication::topLevelWidgets();
-						for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+                    	QWidget * w;
+                    	foreach (w,list)
 						{
-							QWidget * w = *it;
 							if(w->inherits("Container"))
 							{
 								container =  static_cast<Container*>(w);
@@ -1608,9 +1608,9 @@ bool CorePlugin::processEvent(Event *e)
 					{
 						unsigned max_id = 0;
 						QWidgetList list = QApplication::topLevelWidgets();
-						for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+                    	QWidget * w;
+                    	foreach (w,list)
 						{
-							QWidget * w = *it;
 							if (w->inherits("Container"))
 							{
 								container =  static_cast<Container*>(w);
@@ -2010,17 +2010,16 @@ bool CorePlugin::processEvent(Event *e)
 					if (contact){
 						unsigned nContainers = 1;
 						QWidgetList list = QApplication::topLevelWidgets();
-						for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+                    	QWidget * w;
+						foreach(w,list)
 						{
-							QWidget* w = *it;
 							if (w->inherits("Container"))
 								nContainers++;
 						}
 						CommandDef *cmds = new CommandDef[nContainers + 1];
 						unsigned n = 0;
-						for(QWidgetList::iterator it1 = list.begin(); it1 != list.end(); ++it1)
+						foreach(w,list)
 						{
-							QWidget* w = *it1;
 							if (w->inherits("Container")){
 								Container *c = static_cast<Container*>(w);
 								cmds[n] = *cmd;
@@ -2518,9 +2517,9 @@ bool CorePlugin::processEvent(Event *e)
 					if (!getUseExtViewer()){
 						HistoryWindow *wnd = NULL;
 						QWidgetList list = QApplication::topLevelWidgets();
-						for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+                        QWidget * w;
+                        foreach(w,list)
 						{
-							QWidget* w = *it;
 							if(w->inherits("HistoryWindow"))
 							{
 								wnd =  static_cast<HistoryWindow*>(w);
@@ -2734,9 +2733,9 @@ bool CorePlugin::processEvent(Event *e)
 					Message *msg = (Message*)(cmd->param);
 					QWidgetList list = QApplication::topLevelWidgets();
 					DeclineDlg *dlg = NULL;
-					for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+                	QWidget *w;
+                	foreach(w,list)
 					{
-						QWidget *w = *it;
 						if(w->inherits("DeclineDlg"))
 						{
 							dlg = static_cast<DeclineDlg*>(w);
@@ -2887,7 +2886,6 @@ bool CorePlugin::processEvent(Event *e)
 void CorePlugin::showInfo(CommandDef *cmd)
 {
 	UserConfig *cfg = NULL;
-	QWidget *w;
 	Contact *contact = NULL;
 	Group   *group   = NULL;
 	unsigned long id = (unsigned long)(cmd->param);
@@ -2905,9 +2903,9 @@ void CorePlugin::showInfo(CommandDef *cmd)
 	if ((contact == NULL) && (group == NULL))
 		return;
 	QWidgetList list = QApplication::topLevelWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget *w;
+    foreach(w,list)
 	{
-		w = *it;
 		if (w->inherits("UserConfig"))
 		{
 			cfg = static_cast<UserConfig*>(w);
@@ -2955,13 +2953,9 @@ QWidget *CorePlugin::createConfigWindow(QWidget *parent)
 void CorePlugin::hideWindows()
 {
 	QWidgetList list = QApplication::topLevelWidgets();
-	QWidgetList::iterator it = list.begin();
 	QWidget * w;
-	while((w = *it) != NULL)
+    foreach(w,list)
 	{
-		if(it == list.end())
-			break;
-		++it;
 		w->hide();
 	}
 }
@@ -3192,10 +3186,10 @@ bool CorePlugin::init(bool bInit)
 void CorePlugin::destroy()
 {
 	QWidgetList l = QApplication::topLevelWidgets();
+    QWidget *w;
 	list<QWidget*> forRemove;
-	for(QWidgetList::iterator it = l.begin(); it != l.end(); ++it)
+    foreach(w,l)
 	{
-		QWidget *w = *it;
 		if (w->inherits("Container") ||
 				w->inherits("HistoryWindow") ||
 				w->inherits("UserConfig"))
@@ -3301,9 +3295,8 @@ Q3CString CorePlugin::getConfig()
 
 	QWidgetList list = QApplication::topLevelWidgets();
 	QWidget* w;
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    foreach(w,list)
 	{
-		w = *it;
 		if (w->inherits("Container"))
 		{
 			Container *c = static_cast<Container*>(w);

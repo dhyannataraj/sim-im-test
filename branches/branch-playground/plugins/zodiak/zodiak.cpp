@@ -76,13 +76,13 @@ ZodiakPlugin::ZodiakPlugin(unsigned base)
 {
 	qApp->installEventFilter(this);
 	QWidgetList list = QApplication::topLevelWidgets();
-	for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
+    QWidget *w;
+	foreach(w, list)
 	{
-		QWidget* w = *it;
 		QObjectList l = w->queryList("DatePicker");
-		for(QObjectList::iterator it1 = l.begin(); it1 != l.end(); ++it1)
+        QObject *obj;
+        foreach(obj,l)
 		{
-			QObject* obj = *it1;
 			createLabel(static_cast<DatePicker*>(obj));
 		}
 	}
