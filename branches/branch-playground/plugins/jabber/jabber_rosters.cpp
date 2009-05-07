@@ -1408,9 +1408,13 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
         for (int i = 0; i < attrs.count(); i++){
             *m_data += ' ';
             *m_data += attrs.qName(i);
-            *m_data += "=\'";
+            QChar ch('\'');
+            if(attrs.value(i).contains(QChar('\'')))
+                ch = QChar('"');
+            *m_data += "=";
+            *m_data += ch;
             *m_data += attrs.value(i);
-            *m_data += "\'";
+            *m_data += ch;
         }
         *m_data += '>';
         return;

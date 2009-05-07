@@ -187,8 +187,8 @@ void TransparentPlugin::tickMouse()
     QWidgetList list = QApplication::topLevelWidgets();
     QWidget * w;
     foreach (w,list) {
-        if (FloatyWnd *w = dynamic_cast<FloatyWnd *>(w))
-            bMouse= w->frameGeometry().contains(p) ? true : false;
+        if (FloatyWnd *flt = dynamic_cast<FloatyWnd *>(w))
+            bMouse= flt->frameGeometry().contains(p) ? true : false;
     }
     //Handle Floatings//
 

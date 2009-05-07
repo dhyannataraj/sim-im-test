@@ -155,7 +155,7 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
 
 StatusFrame::StatusFrame(QWidget *parent) : QFrame(parent), EventReceiver(LowPriority + 1)
 {
-	log(L_DEBUG, "StatusFrame::StatusFrame()");
+    log(L_DEBUG, "StatusFrame::StatusFrame()");
     setFrameStyle(NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     m_frame = new QFrame(this);
@@ -360,9 +360,10 @@ static const char * const arrow_h_xpm[] = {
 
 StatusWnd::StatusWnd() : QFrame(NULL)
 {
-	log(L_DEBUG, "StatusWnd::StatusWnd()");
+    log(L_DEBUG, "StatusWnd::StatusWnd()");
     setFrameStyle(NoFrame);
     m_lay = new QHBoxLayout(this);
+    m_lay->setMargin(0);
     m_frame = new StatusFrame(this);
     m_btn = new QToolButton(this);
     m_btn->setAutoRaise(true);

@@ -24,9 +24,9 @@
 #include <q3frame.h>
 #include <qfile.h>
 
-ConnectWnd::ConnectWnd(bool bStart) : QDialog(NULL)
+ConnectWnd::ConnectWnd(bool bStart) : QWizardPage(NULL)
 {
-	setupUi(this);
+    setupUi(this);
     using SIM::app_file;
     m_bStart = bStart;
     setConnecting(true);
@@ -35,7 +35,7 @@ ConnectWnd::ConnectWnd(bool bStart) : QDialog(NULL)
         movie.setFileName(app_file("pict/connect.mng"));
     if (!movie.isNull()){
         lblMovie->setMovie(&movie);
-		connect(this, SIGNAL(updated()), this, SLOT(updateMovie()));
+        connect(this, SIGNAL(updated()), this, SLOT(updateMovie()));
         movie.restart();
         updateMovie();
     }
@@ -52,12 +52,20 @@ void ConnectWnd::setConnecting(bool bState)
     lnkPass->hide();
     if (bState){
         lblConnect->show();
+        QMovie *pMovie = lblMovie->movie();
+        if(pMovie){
+            pMovie->start();
+        }
         lblMovie->show();
         lblComplete->hide();
         lblNext->hide();
         frmError->hide();
     }else{
         lblConnect->hide();
+        QMovie *pMovie = lblMovie->movie();
+        if(pMovie){
+            pMovie->stop();
+        }
         lblMovie->hide();
         lblComplete->show();
         if (m_bStart){

@@ -21,7 +21,7 @@
 #include <QDialog>
 #include "ui_connectwndbase.h"
 
-class ConnectWnd : public QDialog, public Ui::ConnectWndBase
+class ConnectWnd : public QWizardPage, public Ui::ConnectWndBase
 {
     Q_OBJECT
 public:

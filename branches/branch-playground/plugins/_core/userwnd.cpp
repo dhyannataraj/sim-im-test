@@ -32,6 +32,7 @@
 #include <Q3CString>
 #include <QCloseEvent>
 #include <Q3ValueList>
+#include <QApplication>
 
 using namespace std;
 using namespace SIM;

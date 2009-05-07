@@ -40,22 +40,31 @@ static bool cmp_protocol(Protocol *p1, Protocol *p2)
     return s1 < s2;
 }
 
-NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) : Q3Wizard(parent, "new_protocol")
-       // : NewProtocolBase(parent, "new_protocol", true)
+NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) : QWizard(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_setup  = NULL;
     m_client = NULL;
     m_last   = NULL;
-    m_connectWnd = NULL;
     m_bConnected = false;
     m_bConnect = false;
     m_bStart   = (parent == NULL);
-    SET_WNDPROC("protocol")
     setIcon(Pict("configure"));
     setButtonsPict(this);
     setCaption(caption());
-    helpButton()->hide();
+
+    m_setupPage = new QWizardPage( this );
+    m_setupLayout = new QHBoxLayout(m_setupPage);
+    addPage(m_setupPage);
+
+    m_connectWnd = new ConnectWnd(m_bStart);
+    addPage(m_connectWnd); //, i18n(protocol->description()->text));
+    if (m_bStart){
+        m_last = new QWizardPage(this);
+        addPage(m_last);//, i18n(protocol->description()->text));
+    }
+
+//    helpButton()->hide();
     for (unsigned long n = 0;; n++){
         EventGetPluginInfo e(n);
         e.process();
@@ -92,11 +101,12 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(default_protocol);
     protocolChanged(default_protocol);
-	if (bConnect){
-		showPage(m_connectWnd);
-		pageChanged(NULL);
-	}
-    connect(this, SIGNAL(selected(const QString&)), this, SLOT(pageChanged(const QString&)));	
+    if (bConnect){
+        next();
+//        showPage(m_connectWnd);
+//        pageChanged(NULL);
+    }
+    connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(pageChanged(int)));
 }
 
 NewProtocol::~NewProtocol()
@@ -134,18 +144,7 @@ NewProtocol::~NewProtocol()
 
 void NewProtocol::protocolChanged(int n)
 {
-    if (m_last){
-        removePage(m_last);
-        delete m_last;
-        m_last = NULL;
-    }
-    if (m_connectWnd){
-        removePage(m_connectWnd);
-        delete m_connectWnd;
-        m_connectWnd = NULL;
-    }
     if (m_setup){
-        removePage(m_setup);
         delete m_setup;
         m_setup = NULL;
     }
@@ -160,6 +159,8 @@ void NewProtocol::protocolChanged(int n)
     if (m_client == NULL)
         return;
     m_setup = m_client->setupWnd();
+    m_setup->setParent(m_setupPage);
+    m_setupLayout->addWidget(m_setup);
     if (m_setup == NULL){
         delete m_client;
         m_client = NULL;
@@ -167,14 +168,10 @@ void NewProtocol::protocolChanged(int n)
     }
     connect(m_setup, SIGNAL(okEnabled(bool)), this, SLOT(okEnabled(bool)));
     connect(this, SIGNAL(apply()), m_setup, SLOT(apply()));
-    addPage(m_setup, i18n(protocol->description()->text));
-    m_connectWnd = new ConnectWnd(m_bStart);
-    addPage(m_connectWnd, i18n(protocol->description()->text));
-    if (m_bStart){
-        m_last = new QWidget;
-        addPage(m_last, i18n(protocol->description()->text));
-    }
-    setNextEnabled(currentPage(), true);
+    m_setupPage->setTitle(i18n(protocol->description()->text));
+    m_connectWnd->setTitle(i18n(protocol->description()->text));
+    m_last->setTitle(i18n(protocol->description()->text));
+//    setNextEnabled(currentPage(), true);
     setIcon(Pict(protocol->description()->icon));
     EventRaiseWindow e(this);
     e.process();
@@ -182,10 +179,10 @@ void NewProtocol::protocolChanged(int n)
 
 void NewProtocol::okEnabled(bool bEnable)
 {
-    setNextEnabled(m_setup, bEnable);
+//    setNextEnabled(m_setup, bEnable);
 }
 
-void NewProtocol::pageChanged(const QString&)
+void NewProtocol::pageChanged(int id)
 {
     if (currentPage() == m_connectWnd){
         emit apply();
@@ -195,16 +192,16 @@ void NewProtocol::pageChanged(const QString&)
             status = STATUS_ONLINE;
         m_client->setStatus(status, false);
         m_connectWnd->setConnecting(true);
-        setBackEnabled(m_connectWnd, false);
-        setNextEnabled(currentPage(), false);
-        setFinishEnabled(m_connectWnd, false);
+//        setBackEnabled(m_connectWnd, false);
+//        setNextEnabled(currentPage(), false);
+//        setFinishEnabled(m_connectWnd, false);
     }
     if (m_last && (currentPage() == m_last)){
-        setFinishEnabled(m_connectWnd, false);
-        cancelButton()->show();
-        backButton()->show();
-        finishButton()->hide();
-        showPage(protocolPage);
+//        setFinishEnabled(m_connectWnd, false);
+//        cancelButton()->show();
+//        backButton()->show();
+//        finishButton()->hide();
+//        showPage(protocolPage);
         protocolChanged(0);
     }
 }
@@ -213,12 +210,12 @@ void NewProtocol::reject()
 {
     if (m_bConnect){
         m_client->setStatus(STATUS_OFFLINE, false);
-        setBackEnabled(m_connectWnd, true);
+//        setBackEnabled(m_connectWnd, true);
         m_bConnect = false;
         back();
         return;
     }
-    Q3Wizard::reject();
+    QWizard::reject();
 }
 
 void NewProtocol::loginComplete()
@@ -229,12 +226,12 @@ void NewProtocol::loginComplete()
     m_bConnected = true;
     m_client->setStatus(CorePlugin::m_plugin->getManualStatus(), true);
     m_connectWnd->setConnecting(false);
-    setNextEnabled(currentPage(), true);
-    setFinishEnabled(m_connectWnd, true);
+//    setNextEnabled(currentPage(), true);
+//    setFinishEnabled(m_connectWnd, true);
     getContacts()->addClient(m_client);
     m_client = NULL;
-    cancelButton()->hide();
-    backButton()->hide();
+//    cancelButton()->hide();
+//    backButton()->hide();
     EventSaveState e;
     e.process();
     accept();
@@ -260,8 +257,8 @@ bool NewProtocol::processEvent(Event *e)
                     (d.code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
                 m_bConnect = false;
                 m_client->setStatus(STATUS_OFFLINE, false);
-                setBackEnabled(m_connectWnd, true);
-                setFinishEnabled(m_connectWnd, false);
+//                setBackEnabled(m_connectWnd, true);
+//                setFinishEnabled(m_connectWnd, false);
                 return true;
             }
             break;
@@ -270,13 +267,5 @@ bool NewProtocol::processEvent(Event *e)
             break;
     }
     return false;
-}
-
-void NewProtocol::layOutButtonRow(QHBoxLayout *layout)
-{
-}
-
-void NewProtocol::layOutTitleRow(QHBoxLayout *layout, const QString &title)
-{
 }
 

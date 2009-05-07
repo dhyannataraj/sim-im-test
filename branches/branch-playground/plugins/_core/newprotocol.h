@@ -20,14 +20,17 @@
 
 #include <vector>
 #include "contacts.h"
-#include <Q3Wizard>
+#include <QWizard>
 
 #include "ui_newprotocolbase.h"
 
 class ConnectWnd;
 class CorePlugin;
 
-class NewProtocol : public Q3Wizard, public Ui::NewProtocolBase, public SIM::EventReceiver
+class NewProtocol
+    : public QWizard
+    , public Ui::NewProtocolBase
+    , public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -40,17 +43,17 @@ signals:
 protected slots:
     void protocolChanged(int);
     void okEnabled(bool);
-    void pageChanged(const QString&);
+    void pageChanged(int);
     void loginComplete();
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual void reject();
-    virtual void layOutButtonRow(QHBoxLayout *layout);
-    virtual void layOutTitleRow(QHBoxLayout *layout, const QString &title);
     std::vector<SIM::Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;
     QWidget *m_setup;
-    QWidget *m_last;
+    QWizardPage *m_setupPage;
+    QHBoxLayout *m_setupLayout;
+    QWizardPage *m_last;
     bool	m_bConnect;
     bool	m_bConnected;
     bool	m_bStart;
