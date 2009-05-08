@@ -191,14 +191,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simext", "plugins\remote\si
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simipc", "plugins\remote\simipc.vcproj", "{71763B16-D7D9-47EC-9273-40BEB546E27A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{C152FFE3-3C84-4957-BDCC-63334E6FFA9E} = {C152FFE3-3C84-4957-BDCC-63334E6FFA9E}
 		{F8F83E8F-435A-4717-8144-D37E1FA27DA6} = {F8F83E8F-435A-4717-8144-D37E1FA27DA6}
+		{C152FFE3-3C84-4957-BDCC-63334E6FFA9E} = {C152FFE3-3C84-4957-BDCC-63334E6FFA9E}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simremote", "plugins\remote\simremote.vcproj", "{F8F83E8F-435A-4717-8144-D37E1FA27DA6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C152FFE3-3C84-4957-BDCC-63334E6FFA9E} = {C152FFE3-3C84-4957-BDCC-63334E6FFA9E}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "styles", "plugins\styles\styles.vcproj", "{C78169EE-7720-4DA2-B62B-30BC73E91CE0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "metal", "plugins\styles\metal\metal.vcproj", "{B731028E-4BE4-46A3-BBAA-5F47D637829E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wood", "plugins\styles\wood\wood.vcproj", "{B5336A5B-C4AF-485A-9A31-BCB89A6EE613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -370,6 +376,18 @@ Global
 		{F8F83E8F-435A-4717-8144-D37E1FA27DA6}.Debug|Win32.Build.0 = Debug|Win32
 		{F8F83E8F-435A-4717-8144-D37E1FA27DA6}.Release|Win32.ActiveCfg = Release|Win32
 		{F8F83E8F-435A-4717-8144-D37E1FA27DA6}.Release|Win32.Build.0 = Release|Win32
+		{C78169EE-7720-4DA2-B62B-30BC73E91CE0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C78169EE-7720-4DA2-B62B-30BC73E91CE0}.Debug|Win32.Build.0 = Debug|Win32
+		{C78169EE-7720-4DA2-B62B-30BC73E91CE0}.Release|Win32.ActiveCfg = Release|Win32
+		{C78169EE-7720-4DA2-B62B-30BC73E91CE0}.Release|Win32.Build.0 = Release|Win32
+		{B731028E-4BE4-46A3-BBAA-5F47D637829E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B731028E-4BE4-46A3-BBAA-5F47D637829E}.Debug|Win32.Build.0 = Debug|Win32
+		{B731028E-4BE4-46A3-BBAA-5F47D637829E}.Release|Win32.ActiveCfg = Release|Win32
+		{B731028E-4BE4-46A3-BBAA-5F47D637829E}.Release|Win32.Build.0 = Release|Win32
+		{B5336A5B-C4AF-485A-9A31-BCB89A6EE613}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5336A5B-C4AF-485A-9A31-BCB89A6EE613}.Debug|Win32.Build.0 = Debug|Win32
+		{B5336A5B-C4AF-485A-9A31-BCB89A6EE613}.Release|Win32.ActiveCfg = Release|Win32
+		{B5336A5B-C4AF-485A-9A31-BCB89A6EE613}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

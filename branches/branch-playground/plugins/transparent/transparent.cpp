@@ -140,7 +140,7 @@ TransparentPlugin::~TransparentPlugin()
 
 	QWidgetList list = QApplication::topLevelWidgets();
 	QWidget * w;
-	foreach(w,list)
+	foreach(w,list) 
 	{
 		if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd*>(w))
 			SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
