@@ -37,7 +37,7 @@
 
 #ifdef WIN32
 #include <windows.h>
-#else
+#elseif !defined(Q_OS_MAC)
 #include <QX11Info>
 #ifdef USE_KDE
 #include <kglobalaccel.h>
@@ -268,7 +268,7 @@ GlobalKey::~GlobalKey()
         delete accel;
 }
 
-#else
+#elseif !defined(Q_OS_MAC)
 
 struct TransKey
 {

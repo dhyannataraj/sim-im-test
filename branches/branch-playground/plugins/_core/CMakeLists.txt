@@ -23,7 +23,6 @@ SET(_core_SRCS
         historycfg.cpp
         historywnd.cpp
         interfacecfg.cpp
-        kpopup.cpp
         logindlg.cpp
         maininfo.cpp
         mainwin.cpp
@@ -96,8 +95,7 @@ SET(_core_HDRS
         historycfg.h
         historywnd.h
         interfacecfg.h
-        kpopup.h
-        logindlg.h
+         logindlg.h
         maininfo.h
         mainwin.h
         manager.h
@@ -177,15 +175,15 @@ ELSE (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
     ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_SRCS)
 ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 
-#ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
-#ADD_JISP_ARCHIVE(additional additional.jisp _core_SRCS)
-#ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_SRCS)
-#ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_SRCS)
-#ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
-#ADD_JISP_ARCHIVE(qip-icons  qip-icons.jisp  _core_SRCS)
-#ADD_JISP_ARCHIVE(lovenmoney lovenmoney.jisp _core_SRCS)
-#ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
-#ADD_JISP_ARCHIVE(msn	    msn.jisp        _core_SRCS)
+ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
+ADD_JISP_ARCHIVE(additional additional.jisp _core_SRCS)
+ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_SRCS)
+ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_SRCS)
+ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
+ADD_JISP_ARCHIVE(qip-icons  qip-icons.jisp  _core_SRCS)
+ADD_JISP_ARCHIVE(lovenmoney lovenmoney.jisp _core_SRCS)
+ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
+ADD_JISP_ARCHIVE(msn	    msn.jisp        _core_SRCS)
 
 FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
 INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})

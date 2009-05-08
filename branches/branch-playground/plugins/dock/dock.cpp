@@ -352,9 +352,11 @@ void DockPlugin::doubleClicked()
 QWidget *DockPlugin::getMainWindow()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-    for (int i = 0; i < list.size(); ++i) 
-         if (MainWindow *w = dynamic_cast<MainWindow *>(list.at(i)))
-             return w;
+    QWidget *w;
+    foreach(w,list) {
+        if(w->inherits("MainWindow"))
+            return w;
+    }
     return NULL;
 }
 

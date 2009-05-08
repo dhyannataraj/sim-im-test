@@ -300,7 +300,7 @@ int main(int argc, char *argv[])
 #else
     SimApp app(_argc, _argv);
 #endif
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+#if !defined(QT_MACOSX_VERSION) && !defined(Q_OS_MAC) && !defined(__OS2__)
     old_errhandler = XSetErrorHandler(x_errhandler);
 #endif
 #else

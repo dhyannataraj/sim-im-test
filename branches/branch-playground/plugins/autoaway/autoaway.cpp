@@ -184,6 +184,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
 #ifdef WIN32
     (DWORD&)_GetLastInputInfo = (DWORD)QLibrary::resolve("user32.dll", "GetLastInputInfo");
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
+/* ToDo:
     CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
         InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
@@ -192,6 +193,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
             (*myInstallEventLoopIdleTimer)(GetMainEventLoop(), kEventDurationSecond, kEventDurationSecond, timerUPP, 0, &mTimerRef);
         }
     }
+*/
 #endif
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();

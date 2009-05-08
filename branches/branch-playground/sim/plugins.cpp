@@ -45,8 +45,8 @@
 #include <errno.h>
 
 #ifndef  LTDL_SHLIB_EXT
-# if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
-#  define  LTDL_SHLIB_EXT ".a"
+# if defined(Q_OS_MAC) /* MacOS needs .a */
+#  define  LTDL_SHLIB_EXT ".dylib"
 # else
 #  if defined(_WIN32) || defined(_WIN64)
 #   define  LTDL_SHLIB_EXT ".dll"

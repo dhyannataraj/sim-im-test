@@ -295,14 +295,19 @@ void WeatherPlugin::showBar()
     if (m_bar || getID().isEmpty())
         return;
  
-	QWidgetList list = QApplication::topLevelWidgets();
-	MainWindow *main=NULL;
-    for (int i = 0; i < list.size(); ++i) 
-         if (main = dynamic_cast<MainWindow *>(list.at(i)))
-			 break;
-             
-	if (main == NULL)
-		return;
+    QWidgetList list = QApplication::topLevelWidgets();
+    MainWindow *main=NULL;
+    QWidget *w;
+    foreach(w,list)
+    {
+        if (w->inherits("MainWindow"))
+        {
+            main = static_cast<MainWindow*>(w);
+        }
+    }
+
+    if (main == NULL)
+            return;
     
     EventToolbar e(BarWeather, main);
     e.process();

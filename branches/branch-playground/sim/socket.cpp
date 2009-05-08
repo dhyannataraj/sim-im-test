@@ -24,7 +24,9 @@
 #ifdef WIN32
 	#include <winsock.h>
 #else
+#ifndef Q_OS_MAC
 	#include <net/if.h>
+#endif
 	#include <sys/ioctl.h>
 	#include <sys/socket.h>
 	#include <sys/time.h>
@@ -534,7 +536,7 @@ void InterfaceChecker::timerEvent(QTimerEvent* ev)
 {
 	if(ev->timerId() != m_timerID)
 		return;
-#ifndef WIN32
+#if !defined(WIN32) && !defined(Q_OS_MAC)
 	if(m_testSocket == -1)
 	{
 		log(L_DEBUG, "testsocket == -1");
