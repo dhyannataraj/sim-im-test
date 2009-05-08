@@ -1688,7 +1688,7 @@ static char BACKUP_SUFFIX[] = "~";
 void ContactList::save()
 {
     QString cfgName = user_file(CONTACTS_CONF);
-    QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
+    QFile f(cfgName + QString(BACKUP_SUFFIX)); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;

@@ -170,7 +170,10 @@ void NewProtocol::protocolChanged(int n)
     connect(this, SIGNAL(apply()), m_setup, SLOT(apply()));
     m_setupPage->setTitle(i18n(protocol->description()->text));
     m_connectWnd->setTitle(i18n(protocol->description()->text));
+    if(m_last)
+    {
     m_last->setTitle(i18n(protocol->description()->text));
+    }
 //    setNextEnabled(currentPage(), true);
     setIcon(Pict(protocol->description()->icon));
     EventRaiseWindow e(this);
