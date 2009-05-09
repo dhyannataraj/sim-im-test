@@ -49,7 +49,7 @@ class EXPORT Icons : public QObject, public EventReceiver
     Q_OBJECT
 public:
     Icons();
-    ~Icons();
+    virtual ~Icons();
     PictDef *getPict(const QString &name);
     QString parseSmiles(const QString&);
     QStringList getSmile(const QString &ame);
@@ -58,6 +58,7 @@ public:
     static unsigned nSmile;
     IconSet *addIconSet(const QString &name, bool bDefault);
     void removeIconSet(IconSet*);
+	void setPixmap(const QString& name, const QPixmap& pict);
 protected slots:
     void iconChanged(int);
 protected:

@@ -405,7 +405,6 @@ bool UserView::processEvent(Event *e)
         break;
     case eEventContact:
 	 	{
-			log(L_DEBUG, "UserView::processEvents(eEventContact)");
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eOnline)
             break;
@@ -435,7 +434,6 @@ bool UserView::processEvent(Event *e)
     case eEventMessageDeleted:
     case eEventMessageRead:
 		{
-			log(L_DEBUG, "UserView::processEvents(eEventMessageRead)");
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         addContactForUpdate(msg->contact());
@@ -443,7 +441,6 @@ bool UserView::processEvent(Event *e)
     }
     case eEventCommandExec:
 		{
-			log(L_DEBUG, "UserView::processEvents(eEventCheckCommandExec)");
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
             CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuContact){
@@ -652,7 +649,6 @@ bool UserView::processEvent(Event *e)
             break;
         }
     case eEventCheckCommandState:{
-			log(L_DEBUG, "UserView::processEvents(eEventCheckCommandState)");
             EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
             CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuGroups){
@@ -1333,7 +1329,6 @@ void UserView::showTip()
         return;
 	}
     QString tip = contact->tipText();
-	log(L_DEBUG, "tiptext: %s", tip.toUtf8().data());
     if(m_tip)
 	{
         m_tip->setText(tip);

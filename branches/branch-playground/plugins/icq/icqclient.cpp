@@ -46,6 +46,7 @@
 #include "socket.h"
 #include "unquot.h"
 #include "log.h"
+#include "icons.h"
 
 #include "icq.h"
 #include "icqconfig.h"
@@ -1555,9 +1556,9 @@ QString ICQClient::contactTip(void *_data)
                 w = 60;
             }
         }
-        QString url="pict://icqavatar." + QString::number(data->Uin.toULong());
-        Q3MimeSourceFactory::defaultFactory()->setPixmap(url, pict);
-        res += "<br><img src=\"" + url + "\" width=\"";
+        QString url="icqavatar." + QString::number(data->Uin.toULong());
+		getIcons()->setPixmap(url, pict);
+        res += "<br><img src=\"pict://" + url + "\" width=\"";
         res += QString::number(w);
         res += "\" height=\"";
         res += QString::number(h);
