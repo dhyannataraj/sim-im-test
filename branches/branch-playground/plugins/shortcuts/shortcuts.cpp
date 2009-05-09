@@ -36,18 +36,20 @@
 #include <Q3CString>
 
 #ifdef WIN32
-#include <windows.h>
-#elseif !defined(Q_OS_MAC)
-#include <QX11Info>
-#ifdef USE_KDE
-#include <kglobalaccel.h>
+	#include <windows.h>
 #else
-#define XK_MISCELLANY 1
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/keysymdef.h>
-#endif
+	#if !defined(Q_OS_MAC)
+		#include <QX11Info>
+		#ifdef USE_KDE
+			#include <kglobalaccel.h>
+		#else
+			#define XK_MISCELLANY 1
+			#include <X11/X.h>
+			#include <X11/Xlib.h>
+			#include <X11/Xutil.h>
+			#include <X11/keysymdef.h>
+		#endif
+	#endif
 #endif
 
 using namespace std;
