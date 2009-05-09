@@ -176,7 +176,8 @@ OSDPlugin::OSDPlugin(unsigned base)
 
 OSDPlugin::~OSDPlugin()
 {
-    delete m_osd;
+    if(m_osd)
+        delete m_osd;
     osdPlugin = NULL;
     EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);

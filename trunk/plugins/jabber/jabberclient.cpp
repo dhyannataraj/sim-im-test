@@ -1039,7 +1039,7 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
     *s += icon;
 }
 
-const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool invisible)
+QString JabberClient::get_icon(JabberUserData *data, unsigned status, bool invisible)
 {
     const CommandDef *def = protocol()->statusList();
     for (; !def->text.isNull(); def++){
@@ -1048,7 +1048,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
     }
     if ((def == NULL) || (def->text.isNull()))
         return "Jabber_offline";
-    const char *dicon = def->icon;
+    QString dicon = def->icon;
     if (invisible)
         dicon = "Jabber_invisible";
     if (getProtocolIcons()){
@@ -1209,7 +1209,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
 void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
 {
     JabberUserData *data = toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    const char *dicon = get_icon(data, data->Status.toULong(), data->invisible.toBool());
+    QString dicon = get_icon(data, data->Status.toULong(), data->invisible.toBool());
     if (data->Status.toULong() > curStatus){
         curStatus = data->Status.toULong();
         if (!statusIcon.isEmpty() && icons){
@@ -1227,7 +1227,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
         }
     }
     for (unsigned i = 1; i <= data->nResources.toULong(); i++){
-        const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
+        QString dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
         addIcon(icons, dicon, statusIcon);
     }
     if (((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str()))
@@ -1736,8 +1736,8 @@ QString JabberClient::resources(void *_data)
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
             if (!resource.isEmpty())
                 resource += ';';
-            const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
-            resource += QString::number((unsigned long)dicon);
+            QString dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
+            resource += dicon;
             resource += ',';
             resource += quoteChars(get_str(data->Resources, i), ";");
         }
