@@ -98,10 +98,10 @@ public:
     ~CToolPictButton();
 protected:
     virtual void setState();
-    void paintEvent(QPaintEvent*);
-    QSizePolicy sizePolicy() const;
-    QSize minimumSizeHint() const;
-    QSize sizeHint() const;
+//    void paintEvent(QPaintEvent*);
+//    QSizePolicy sizePolicy() const;
+//    QSize minimumSizeHint() const;
+//    QSize sizeHint() const;
 };
 
 // A QComboBox -> type: BTN_COMBO or BTN_COMBO_CHECK

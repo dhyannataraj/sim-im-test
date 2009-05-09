@@ -402,7 +402,7 @@ void SIMClientSocket::slotConnected()
     if (notify) notify->connect_ready();
     getSocketFactory()->setActive(true);
 	m_state = true;
-#ifndef WIN32
+#if !defined(WIN32) && !defined(Q_OS_MAC)
 	m_carrierCheckTimer = startTimer(10000); // FIXME hardcoded
 #endif
 }
@@ -435,7 +435,7 @@ void SIMClientSocket::timerEvent(QTimerEvent* ev)
 
 void SIMClientSocket::checkInterface()
 {
-#ifndef WIN32
+#if !defined(WIN32) && !defined(Q_OS_MAC)
 	int fd = sock->socket();
 	if(fd == -1)
 	{
@@ -842,10 +842,4 @@ void IPResolver::start_resolve()
 }
 
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "sockfactory.moc"
-#endif
-*/
 

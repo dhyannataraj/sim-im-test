@@ -25,7 +25,7 @@
 #include <qicon.h>
 #include <qlayout.h>
 #include <qpainter.h>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <qstyle.h>
 #include <qtimer.h>
 #include <QToolBar>
@@ -187,21 +187,24 @@ void CToolButton::setState()
 {
     setTextLabel();
     if(!m_def.icon_on.isEmpty())
-	{
+    {
         setToggleButton(true);
         setOn((m_def.flags & COMMAND_CHECKED) != 0);
     }
     if((!m_def.icon_on.isEmpty()) && (m_def.icon != m_def.icon_on))
-	{
+    {
         QIcon offIcon = Icon(m_def.icon);
-        if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull()){
+        if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull())
+        {
             QIcon icons = offIcon;
             QPixmap off = Pict(m_def.icon_on);
             if (!off.isNull())
                 icons.setPixmap(off, QIcon::Small, QIcon::Normal, QIcon::On);
             setIconSet(icons);
         }
-    }else{
+    }
+    else
+    {
         QIcon icon = Icon(m_def.icon);
         if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
             setIconSet(icon);
@@ -336,13 +339,14 @@ void CToolButton::enableAccel(bool bState)
 CToolPictButton::CToolPictButton(CToolBar *parent, CommandDef *def)
         : CToolButton(parent, def)
 {
+    setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
     setState();
 }
 
 CToolPictButton::~CToolPictButton()
 {
 }
-
+/*
 QSizePolicy CToolPictButton::sizePolicy() const
 {
     QSizePolicy p = QToolButton::sizePolicy();
@@ -403,15 +407,15 @@ QSize CToolPictButton::sizeHint() const
 	}
 	return p;
 }
-
+*/
 void CToolPictButton::setState()
 {
-    setIconSet(QIcon());
+//    setIconSet(QIcon());
     setTextLabel();
-    CToolItem::setState();
+    CToolButton::setState();
     repaint();
 }
-
+/*
 void CToolPictButton::paintEvent(QPaintEvent*)
 {
 	QPixmap pict(width(), height());
@@ -492,7 +496,7 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 	p.drawPixmap(0, 0, pict);
 	p.end();
 }
-
+*/
 /*****************************
  *  CToolCombo               *
 ******************************/
@@ -843,7 +847,7 @@ void CToolBar::toolBarChanged()
 
 void CToolBar::showPopup(QPoint p)
 {
-    Q3PopupMenu *popup = new Q3PopupMenu(this);
+    QMenu *popup = new QMenu(this);
     popup->popup(p);
 }
 

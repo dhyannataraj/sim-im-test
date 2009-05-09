@@ -80,7 +80,7 @@ MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Wi
     status->installEventFilter(this);
     
     if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1))
-	{
+    {
         geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
         geometry[WIDTH].asLong()  = geometry[HEIGHT].toLong() / 3;
     }
@@ -114,7 +114,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             }
         }
         if(statusWidgets.size() == 0)
-		{
+        {
             statusBar()->hide();
             setGrip();
         }
@@ -139,8 +139,8 @@ bool MainWindow::processEvent(Event *e)
 				e.process();
 				m_bar = e.toolBar();
 				this->addToolBar(m_bar);
-				m_bar->setMaximumHeight(30);
-				m_bar->setMinimumHeight(30); // FIXME
+//				m_bar->setMaximumHeight(30);
+//				m_bar->setMinimumHeight(30); // FIXME
 				//restoreToolbar(m_bar, CorePlugin::m_plugin->data.toolBarState);
 				raiseWindow(this);
 				break;
