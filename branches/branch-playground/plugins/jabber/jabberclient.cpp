@@ -155,7 +155,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg) : TCPClient(pr
 	//log(L_DEBUG, "JID: %s", jid.toUtf8().data());
 
     //For old configs, where server part in own jid is missing
-    if (!jid.isEmpty() && jid.find('@')==-1)
+    if (!jid.isEmpty() && jid.indexOf('@')==-1)
 	{
         jid += '@';
         if (getUseVHost())
@@ -171,7 +171,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg) : TCPClient(pr
     if (data.owner.Resource.str().isEmpty())
 	{
         QString resource = PACKAGE;
-        data.owner.Resource.str() = resource.simplifyWhiteSpace();
+        data.owner.Resource.str() = resource.simplified();
     }
 
     QString listRequests = getListRequest();
@@ -210,7 +210,7 @@ bool JabberClient::compareData(void *d1, void *d2)
 {
     JabberUserData *data1 = toJabberUserData((SIM::clientData*)d1); // FIXME unsafe type conversion
     JabberUserData *data2 = toJabberUserData((SIM::clientData*)d2); // FIXME unsafe type conversion
-    return (data1->ID.str().lower() == data2->ID.str().lower());
+    return (data1->ID.str().toLower() == data2->ID.str().toLower());
 }
 
 void JabberClient::setID(const QString &id)
@@ -282,7 +282,7 @@ void JabberClient::connect_ready()
 #ifdef ENABLE_OPENSSL
     m_bSSL = true;
     // FIXME HACKHACKHACK!!!11 alarm
-    SSLClient *ssl = new JabberSSL(socket()->socket(), (bool)!qstrcmp(getServer(), "talk.google.com"));
+    SSLClient *ssl = new JabberSSL(socket()->socket(), (bool)!(getServer().compare("talk.google.com")));
     socket()->setSocket(ssl);
     if (!ssl->init()){
         socket()->error_state("SSL init error");
@@ -362,7 +362,7 @@ bool JabberClient::processEvent(Event *e)
         EventGoURL *u = static_cast<EventGoURL*>(e);
         QString url = u->url();
         QString proto;
-        int n = url.find(':');
+        int n = url.indexOf(':');
         if (n < 0)
             return false;
         proto = url.left(n);
@@ -684,7 +684,7 @@ void JabberClient::sendPacket()
 
 void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    QString element = el.lower();
+    QString element = el.toLower();
     const char *id = NULL;
     if (m_depth)
 	{
@@ -720,7 +720,7 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
                     }
 					else
 					{
-                        log(L_WARN, "Packet %s not found", id.latin1());
+                        log(L_WARN, "Packet %s not found", id.toLatin1().data());
                     }
                 }
             }
@@ -741,14 +741,14 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
             }
 			else if (element != "a")
 			{
-                log(L_DEBUG, "Bad tag %s", element.data());
+                log(L_DEBUG, "Bad tag %s", element.toLocal8Bit().data());
             }
         }
     }else{
         if (element == "stream:stream"){
             id = attrs.value("id");
         }
-        log(L_DEBUG, "Handshake %s (%s)", id, element.data());
+        log(L_DEBUG, "Handshake %s (%s)", id, element.toLocal8Bit().data());
         handshake(id);
     }
     m_depth++;
@@ -758,7 +758,7 @@ void JabberClient::element_end(const QString& el)
 {
     m_depth--;
     if (m_curRequest){
-        QString element = el.lower();
+        QString element = el.toLower();
         m_curRequest->element_end(element);
         if (m_depth == 1){
             delete m_curRequest;
@@ -990,7 +990,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
 {
     resource = QString::null;
     QString jid = _jid;
-    int n = jid.find('/');
+    int n = jid.indexOf('/');
     if (n >= 0){
         resource = jid.mid(n + 1);
         jid = jid.left(n);
@@ -1000,7 +1000,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
         JabberUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = toJabberUserData(++it)) != NULL){
-          if (jid.upper() != data->ID.str().upper())
+          if (jid.toUpper() != data->ID.str().toUpper())
                 continue;
             if (!resource.isEmpty())
                 data->Resource.str() = resource;
@@ -1017,13 +1017,13 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
         sname = name;
     }else{
         sname = jid;
-        int pos = sname.find('@');
+        int pos = sname.indexOf('@');
         if (pos > 0)
             sname = sname.left(pos);
     }
     if (bJoin){
         while ((contact = ++it) != NULL){
-            if (contact->getName().lower() == sname.lower()){
+            if (contact->getName().toLower() == sname.toLower()){
                 JabberUserData *data = toJabberUserData((SIM::clientData*) contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->ID.str() = jid;
                 if (!resource.isEmpty())
@@ -1070,7 +1070,7 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
     *s += icon;
 }
 
-const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool invisible)
+QString JabberClient::get_icon(JabberUserData *data, unsigned status, bool invisible)
 {
     const CommandDef *def = protocol()->statusList();
     for (; !def->text.isNull(); def++){
@@ -1079,12 +1079,12 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
     }
     if ((def == NULL) || (def->text.isNull()))
         return "Jabber_offline";
-    const char *dicon = def->icon;
+    QString dicon = def->icon;
     if (invisible)
         dicon = "Jabber_invisible";
     if (getProtocolIcons()){
         QString id = data->ID.str();
-        int host = id.find( '@' );
+        int host = id.indexOf( '@' );
 
         QString h;
         if (host != -1)
@@ -1092,7 +1092,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
         else
             h = id;
 
-            int p = h.find( '.' );
+            int p = h.indexOf( '.' );
             if (p)
                 h = h.left( p );
             if (h == "icq"){
@@ -1240,7 +1240,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
 void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
 {
     JabberUserData *data = toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    const char *dicon = get_icon(data, data->Status.toULong(), data->invisible.toBool());
+    QString dicon = get_icon(data, data->Status.toULong(), data->invisible.toBool());
     if (data->Status.toULong() > curStatus)
 	{
         curStatus = data->Status.toULong();
@@ -1265,7 +1265,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
         }
     }
     for (unsigned i = 1; i <= data->nResources.toULong(); i++){
-        const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
+        QString dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
         addIcon(icons, dicon, statusIcon);
     }
     if (((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str()))
@@ -1405,8 +1405,7 @@ QString JabberClient::contactTip(void *_data)
     if (data->LogoWidth.toLong() && data->LogoHeight.toLong()){
         QImage img(logoFile(data));
         if (!img.isNull()){
-            QPixmap pict;
-            pict.convertFromImage(img);
+            QPixmap pict = QPixmap::fromImage(img);
             int w = pict.width();
             int h = pict.height();
             if (h > w){
@@ -1432,8 +1431,7 @@ QString JabberClient::contactTip(void *_data)
     if (data->PhotoWidth.toLong() && data->PhotoHeight.toLong()){
         QImage img(photoFile(data));
         if (!img.isNull()){
-            QPixmap pict;
-            pict.convertFromImage(img);
+            QPixmap pict = QPixmap::fromImage(img);
             int w = pict.width();
             int h = pict.height();
             if (h > w){
@@ -1707,7 +1705,7 @@ CommandDef *JabberClient::infoWindows(Contact*, void *_data)
 CommandDef *JabberClient::configWindows()
 {
     QString title = name();
-    int n = title.find('.');
+    int n = title.indexOf('.');
     if (n > 0)
         title = title.left(n) + ' ' + title.mid(n + 1);
     cfgJabberWnd[0].text_wrk = title;
@@ -1774,8 +1772,8 @@ QString JabberClient::resources(void *_data)
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
             if (!resource.isEmpty())
                 resource += ';';
-            const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
-            resource += QString::number((unsigned long)dicon);
+            QString dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
+            resource += dicon; //QString::number(dicon);
             resource += ',';
             resource += quoteChars(get_str(data->Resources, i), ";");
         }
@@ -2146,7 +2144,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((contact == NULL) || (data == NULL))
                 return false;
             QString text = msg->getPlainText();
-            EventSend e(msg, text.utf8());
+            EventSend e(msg, text.toUtf8());
             e.process();
             text = QString::fromUtf8( e.localeText() );
             socket()->writeBuffer().packetStart();
@@ -2184,10 +2182,10 @@ bool JabberClient::send(Message *msg, void *_data)
 					<< "</x>\n";
             }
             if (text.startsWith("-----BEGIN PGP MESSAGE-----")){
-                text.truncate(text.find("\n-----END PGP MESSAGE-----"));
+                text.truncate(text.indexOf("\n-----END PGP MESSAGE-----"));
                 socket()->writeBuffer()
                 << "<x xmlns='jabber:x:encrypted'>"
-                << text.remove(0, text.find("\n\n") + 2)
+                << text.remove(0, text.indexOf("\n\n") + 2)
                 << "</x>\n";
             }
             socket()->writeBuffer()
@@ -2517,7 +2515,7 @@ JabberListRequest *JabberClient::findRequest(const QString &jid, bool bRemove)
 
 bool JabberClient::isAgent(const QString &jid)
 {
-    if (jid.find('@')==-1)
+    if (jid.indexOf('@')==-1)
         return true;
     return false;
 }
@@ -2766,7 +2764,7 @@ JabberUserData* JabberClient::toJabberUserData(SIM::clientData * data)
 
       log(L_ERROR,
         "ATTENTION!! Unsafly converting %s user data into JABBER_SIGN",
-         Sign.latin1());
+         Sign.toLatin1().data());
 //      abort();
    }
    return (JabberUserData*) data;

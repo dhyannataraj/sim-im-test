@@ -851,7 +851,7 @@ void OscarSocket::sendPacket(bool bSend)
         packet[3] = m_nFlapSequence;
         EventLog::log_packet(socket()->writeBuffer(), true, ICQPlugin::icq_plugin->OscarPacket);
         socket()->write();
-		++m_nFlapSequence;
+        ++m_nFlapSequence;
     }
 }
 

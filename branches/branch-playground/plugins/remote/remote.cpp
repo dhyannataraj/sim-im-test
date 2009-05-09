@@ -230,6 +230,9 @@ IPCLock::~IPCLock()
 
 #endif
 
+RemotePlugin::RemotePlugin() : Plugin(0)
+{
+}
 RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {

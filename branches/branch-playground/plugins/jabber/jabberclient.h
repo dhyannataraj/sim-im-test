@@ -457,7 +457,7 @@ protected:
     class JabberAuthMessage;
     std::vector<JabberAuthMessage*>	tempAuthMessages;
 
-    const char *get_icon(JabberUserData *data, unsigned status, bool invisible);
+    QString get_icon(JabberUserData *data, unsigned status, bool invisible);
 
     void		processList();
 

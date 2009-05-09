@@ -624,7 +624,7 @@ void InterfaceChecker::timerEvent(QTimerEvent* ev)
 		{
 			log(L_DEBUG, "%s: disappeared", it->first.c_str());
 			it->second.state = false;
-			emit interfaceDown(QString(it->first));
+			emit interfaceDown(QString(it->first.c_str()));
 			if(m_raiseEvents)
 			{
 				EventInterfaceDown e(-1);

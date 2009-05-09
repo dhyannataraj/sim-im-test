@@ -39,6 +39,7 @@
 
 using namespace SIM;
 
+/*
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal) : QDialog(parent, name, modal)
 {
 	setupUi(this);
@@ -151,6 +152,7 @@ QString KAboutApplication::quote(const QString &s)
     res.replace('\n', "<br>");
     return res;
 }
+*/
 
 #endif
 

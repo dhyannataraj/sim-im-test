@@ -19,7 +19,7 @@
 
 #include <qapplication.h>
 #include <qwidget.h>
-#include <QToolBar.h>
+#include <QToolBar>
 #include <q3mainwindow.h>
 #include <qtimer.h>
 #include <qfile.h>

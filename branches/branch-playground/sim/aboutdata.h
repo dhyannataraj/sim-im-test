@@ -55,22 +55,10 @@
 * @ref KAboutData class, but it can be used elsewhere as well.
 * Normally you should at least define the person's name.
 */
+/*
 class EXPORT KAboutPerson
 {
 public:
-    /**
-    * Convenience constructor
-    *
-    * @param name The name of the person.
-    *
-    * @param task The task of this person. This string should be
-    *              marked for translation, e.g.
-    *              I18N_NOOP("Task description....")
-    *
-    * @param emailAddress The email address of the person.
-    *
-    * @param webAddress Home page of the person.
-    */
     KAboutPerson( const char *name, const char *task,
                   const char *emailAddress, const char *webAddress )
     {
@@ -79,29 +67,14 @@ public:
         mEmailAddress = emailAddress;
         mWebAddress = webAddress;
     }
-    /**
-    * @internal - don't use. Required by QValueList
-    */
     KAboutPerson() {}
 
-    /**
-    * The person's name
-    */
     QString name() const;
 
-    /**
-    * The person's task
-    */
     QString task() const;
 
-    /**
-    * The person's email address
-    */
     QString emailAddress() const;
 
-    /**
-    * The home page or a relevant link
-    */
     QString webAddress() const;
 
 private:
@@ -110,6 +83,7 @@ private:
     const char *mEmailAddress;
     const char *mWebAddress;
 };
+*/
 
 /**
 * This structure is used to store information about a translator.
@@ -123,33 +97,22 @@ private:
 * translator information is generated dynamically from the translation
 * of a dummy string.
 */
+/*
 class EXPORT KAboutTranslator
 {
 public:
-    /**
-    * Convenience constructor
-    *
-    * @param name The name of the person.
-    *
-    * @param emailAddress The email address of the person.
-    */
     KAboutTranslator(const QString & name=QString::null,
                      const QString & emailAddress=QString::null);
 
-    /**
-    * The translator's name
-    */
     QString name() const;
 
-    /**
-    * The translator's email
-    */
     QString emailAddress() const;
 
 private:
     QString mName;
     QString mEmail;
 };
+*/
 
 
 /**
@@ -167,6 +130,7 @@ private:
 * @author Espen Sand (espen@kde.org), David Faure (faure@kde.org)
 * @version $Id: aboutdata.h,v 1.2 2004/06/26 08:16:59 shutoff Exp $
 */
+/*
 class EXPORT KAboutData
 {
 public:
@@ -186,40 +150,6 @@ public:
     };
 
 public:
-    /**
-    * Constructor.
-    *
-    * @param appName The program name used internally. Example: "kedit"
-    *
-    * @param programName A displayable program name string. This string
-    *        should be marked for translation. Example: I18N_NOOP("KEdit")
-    *
-    * @param version The program version string.
-    *
-    * @param shortDescription A short description of what the program does.
-    *        This string should be marked for translation.
-    *        Example: I18N_NOOP("A simple text editor.")
-    *
-    * @param licenseType The license identifier. Use @ref setLicenseText if
-    *        you use a license not predefined here.
-    *
-    * @param copyrightStatement A copyright statement, that can look like this:
-    *        "(c) 1999-2000, Name". The string specified here is not modified
-    *        in any manner. The author information from @ref addAuthor is not
-    *        used.
-    *
-    * @param text Some free form text, that can contain any kind of
-    *        information. The text can contain newlines. This string
-    *        should be marked for translation.
-    *
-    * @param homePageAddress The program homepage string.
-    *        Start the address with "http://". "http://some.domain" is
-    *        is correct, "some.domain" is not.
-    *
-    * @param bugsEmailAddress The bug report email address string.
-    *        This defaults to the kde.org bug system.
-    *
-    */
     KAboutData( const char *appName,
                 const char *programName,
                 const char *version,
@@ -233,163 +163,47 @@ public:
 
     ~KAboutData();
 
-    /**
-    * Defines an author. You can call this function as many times you
-    * need. Each entry is appended to a list. The person in the first entry
-    * is assumed to be the leader of the project.
-    *
-    * @param name The developer's name in UTF-8 encoding.
-    *
-    * @param task What the person is responsible for. This text can contain
-    *             newlines. It should be marked for translation like this:
-    *             I18N_NOOP("Task description...")
-    *
-    * @param emailAddress An Email address where the person can be reached.
-    *
-    * @param webAddress The person's homepage or a relevant link.
-    *        Start the address with "http://". "http://some.domain" is
-    *        is correct, "some.domain" is not.
-    *
-    */
     void addAuthor( const char *name,
                     const char *task=0,
                     const char *emailAddress=0,
                     const char *webAddress=0 );
 
-    /**
-    * Defines a person that deserves credit. You can call this function
-    * as many times you need. Each entry is appended to a list.
-    *
-    * @param name The person's name in UTF-8 encoding.
-    *
-    * @param task What the person has done to deserve the honor. The
-    *        text can contain newlines. It should be marked for
-    *        translation like this: I18N_NOOP("Task description...")
-    *
-    * @param emailAddress An Email address when the person can be reached.
-    *
-    * @param webAddress The person's homepage or a relevant link.
-    *        Start the address with "http://". "http://some.domain" is
-    *        is correct, "some.domain" is not.
-    *
-    */
     void addCredit( const char *name,
                     const char *task=0,
                     const char *emailAddress=0,
                     const char *webAddress=0 );
 
-    /**
-    * Sets the name of the translator of the gui. Since this depends
-    * on the language, just use a dummy text marked for translation.
-    *
-    * For example:
-    * setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names")
-    * ,I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
-    *
-    * The translator can then translate this dummy text with his name
-    * or with a list of names separated with ",".
-    * If there is no translation or the application is used with the
-    * default language, this function call is ignored.
-    *
-    * Note: If you are using the default KDE automake environment,
-    * there is no need to use this function, because the two
-    * default strings above are added to the applications po file
-    * automatically.
-    *
-    * @see KAboutTranslator
-    */
     void setTranslator(const char* name, const char* emailAddress);
 
-    /**
-    * Defines a license text.
-    *
-    * @param license The license text in utf8 encoding.
-    *
-    * The text will be translated if it got marked for
-    * translations with the I18N_NOOP() macro.
-    *
-    * Example:
-    * setLicenseText( I18N_NOOP("This is my license"));
-    *
-    * NOTE: No copy of the text is made.
-    */
     void setLicenseText( const char *license );
 
-    /**
-    * Defines a license text.
-    *
-    * @param file File containing the license text.
-    */
     void setLicenseTextFile( const QString &file );
 
-    /**
-    * @return the internal program name.
-    */
     const char *appName() const;
 
-    /**
-    * @return the program name (translated).
-    */
     QString programName() const;
 
-    /**
-    * @return the version string.
-    */
     QString version() const;
 
-    /**
-    * @return the short description (translated).
-    */
     QString shortDescription() const;
 
-    /**
-    * @return the application homepage URL.
-    */
     QString homepage() const;
 
-    /**
-    * @return the email address where to report bugs.
-    */
     QString bugAddress() const;
 
-    /**
-    * @return author information (list of persons).
-    */
     const Q3ValueList<KAboutPerson> authors() const;
 
-    /**
-    * @return credit information (list of persons).
-    */
     const Q3ValueList<KAboutPerson> credits() const;
 
-    /**
-    * @return translators information (list of persons)
-    */
     const Q3ValueList<KAboutTranslator> translators() const;
 
-    /**
-    * @return a message about the translation team
-    */
     static QString aboutTranslationTeam();
 
 
-    /**
-    * @return the free form text (translated).
-    */
     QString otherText() const;
 
-    /**
-    * Returns the license. If the licenseType argument of the constructor has been
-    * used, any text defined by @ref setLicenseText is ignored,
-    * and the standard text for the chosen license will be returned.
-    *
-    * @return The license text.
-    */
     QString license() const;
 
-    /**
-    * @return the copyright statement.
-    */
     QString copyrightStatement() const { return( QString::fromLatin1(mCopyrightStatement )); }
 
 
@@ -409,6 +223,7 @@ private:
 
     COPY_RESTRICTED(KAboutData)
 };
+*/
 
 #endif
 

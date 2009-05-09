@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include <qtimer.h>
-#include <QToolBar.h>
+#include <QToolBar>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qspinbox.h>

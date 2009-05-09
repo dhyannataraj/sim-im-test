@@ -2,7 +2,7 @@
 
 PROJECT(Sim-IM)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
 SET(CMAKE_COLOR_MAKEFILE ON)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked

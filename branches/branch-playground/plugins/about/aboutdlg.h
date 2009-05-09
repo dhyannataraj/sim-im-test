@@ -26,6 +26,7 @@
 
 #include "ui_aboutdlgbase.h"
 
+/*
 class KAboutData;
 class KAboutPerson;
 
@@ -42,6 +43,7 @@ protected:
     QString addPerson(const KAboutPerson*);
     QString quote(const QString &s);
 };
+*/
 
 
 #endif

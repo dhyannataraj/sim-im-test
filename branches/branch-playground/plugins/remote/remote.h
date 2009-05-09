@@ -50,6 +50,7 @@ class RemotePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
+	RemotePlugin();
     RemotePlugin(unsigned, Buffer*);
     ~RemotePlugin();
     PROP_STR(Path);

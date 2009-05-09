@@ -9,9 +9,15 @@
 #include "socket.h"
 #include "icqclient.h"
 
+#include "icqicmb.h"
+#include "socket.h"
+#include "message.h"
+
 #define AOL_PROXY_HOST "ars.oscar.aol.com"
 #define AOL_PROXY_PORT 5190
 
+struct ICQUserData;
+class ICQClient;
 struct OftData
 {
 	unsigned long magic;

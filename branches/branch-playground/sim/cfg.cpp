@@ -35,7 +35,7 @@
 #endif
 
 #include <qfile.h>
-#include <QToolBar.h>
+#include <QToolBar>
 #include <q3mainwindow.h>
 #include <qstringlist.h>
 #include <qapplication.h>

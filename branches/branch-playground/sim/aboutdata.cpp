@@ -18,6 +18,7 @@
 #include "aboutdata.h"
 #include "misc.h"
 
+/*
 #ifndef USE_KDE
 
 #include <qglobal.h>
@@ -121,7 +122,7 @@ KAboutData::KAboutData( const char *appName,
 
 KAboutData::~KAboutData()
 {
-    delete d;
+    //delete d;
 }
 
 void
@@ -299,6 +300,7 @@ KAboutData *SIM::getAboutData()
     return appAbout;
 }
 
+*/
 
 
 

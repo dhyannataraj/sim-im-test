@@ -35,11 +35,11 @@
 using namespace SIM;
 
 JabberInfo::JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *client) : QWidget(parent)
-        //: JabberInfoBase(parent)
 {
+	setupUi(this);
     m_client  = client;
     m_data    = data;
-    btnUrl->setPixmap(Pict("home"));
+    btnUrl->setIcon(Icon("home"));
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
@@ -51,7 +51,7 @@ JabberInfo::JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *clie
         disableWidget(edtDate);
         edtUrl->setReadOnly(true);
         edtAutoReply->setReadOnly(true);
-        tabWnd->removePage(password);
+        tabWnd->removeTab(tabWnd->indexOf(password));
     }else{
         connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
         connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
@@ -128,11 +128,11 @@ void JabberInfo::resourceActivated(int i)
             continue;
         if (status == cmd->id){
             current = cmbStatus->count();
-            text = cmd->text;
+            text = cmd->text.toLocal8Bit().data();
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->addItem(Icon(cmd->icon), i18n(cmd->text));
     }
-    cmbStatus->setCurrentItem(current);
+    cmbStatus->setCurrentIndex(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ':');
@@ -214,11 +214,11 @@ void JabberInfo::fill()
     cmbResource->clear();
     if (data->nResources.toULong()){
         for (unsigned i = 1; i <= data->nResources.toULong(); i++)
-            cmbResource->insertItem(get_str(data->Resources, i));
+            cmbResource->addItem(get_str(data->Resources, i));
         cmbResource->setEnabled(data->nResources.toULong() > 1);
     }else{
         if (!data->Resource.str().isEmpty())
-            cmbResource->insertItem(data->Resource.str());
+            cmbResource->addItem(data->Resource.str());
         cmbResource->setEnabled(false);
     }
     resourceActivated(0);

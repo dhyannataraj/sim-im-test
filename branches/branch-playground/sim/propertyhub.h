@@ -2,7 +2,7 @@
 #ifndef SIM_PROPERTYHUB_H
 #define SIM_PROPERTYHUB_H
 
-#include <map>
+#include <QMap>
 #include <QString>
 #include <QVariant>
 
@@ -13,7 +13,7 @@ namespace SIM
 	class EXPORT PropertyHub
 	{
 	public:
-		typedef std::map<QString, QVariant*> mapVariant;
+		typedef QMap<QString, QVariant*> mapVariant;
 
 		PropertyHub();
 		virtual ~PropertyHub();

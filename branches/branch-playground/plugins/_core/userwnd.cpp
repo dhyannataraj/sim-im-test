@@ -26,11 +26,11 @@
 #include "container.h"
 #include "history.h"
 
-#include <QToolBar.h>
-#include <qtimer.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QToolBar>
+#include <QApplication>
+#include <QTimer>
 #include <QCloseEvent>
+#include <Q3CString>
 #include <Q3ValueList>
 #include <QApplication>
 

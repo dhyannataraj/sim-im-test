@@ -425,8 +425,9 @@ void PluginManagerPrivate::load(pluginInfo &info)
     if (info.info == NULL){
         PluginInfo* (*getInfo)() = NULL;
         getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
-        if (getInfo == NULL){
-            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry\n", info.name.local8Bit().data());
+        if (getInfo == NULL)
+		{
+            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry (%s)\n", info.name.local8Bit().data(), info.module->errorString().toUtf8().data());
             release(info);
             return;
         }

@@ -27,7 +27,7 @@ QString PropertyHub::getString(const QString& key)
 		log(L_DEBUG, "PropertyHub: requested empty key: %s", key.toUtf8().data());
 		return QString::null;
 	}
-	return it->second->toString();
+	return it.value()->toString();
 }
 
 void PropertyHub::setInt(const QString& key, const int val)
@@ -44,7 +44,7 @@ int PropertyHub::getInt(const QString& key)
 		log(L_DEBUG, "PropertyHub: requested empty key: %s", key.toUtf8().data());
 		return 0;
 	}
-	return it->second->toInt();
+	return it.value()->toInt();
 }
 
 void PropertyHub::setBool(const QString& key, const bool val)
@@ -61,7 +61,7 @@ bool PropertyHub::getBool(const QString& key)
 		log(L_DEBUG, "PropertyHub: requested empty key: %s", key.toUtf8().data());
 		return false;
 	}
-	return it->second->toBool();
+	return it.value()->toBool();
 }
 
 }

@@ -21,7 +21,7 @@
 #include <algorithm>
 
 #include <qfontmetrics.h>
-#include <QToolBar.h>
+#include <QToolBar>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qtimer.h>
@@ -185,7 +185,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QMainWindow(parent, NULL, 
     m_edit = new MsgTextEdit(this, m_frame);
     setCentralWidget(m_frame);
     m_edit->setBackground(QColor(CorePlugin::m_plugin->getEditBackground() & 0xFFFFFF));
-    m_edit->setBackground(QColor(230, 230, 255));
+    m_edit->setBackground(QColor(255, 255, 255));
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::m_plugin->editFont);
     m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());

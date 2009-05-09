@@ -12,7 +12,6 @@ class ICQClientSocket;
 class DirectSocket;
 class TlvList;
 
-struct MessageId;
 struct ICQUserData;
 
 
@@ -24,6 +23,10 @@ struct MessageId
 };
 
 bool operator == (const MessageId &m1, const MessageId &m2);
+namespace SIM
+{
+	class Message;
+}
 
 struct SendMsg
 {
@@ -38,10 +41,6 @@ struct SendMsg
 };
 
 typedef unsigned char plugin[0x12];
-namespace SIM
-{
-	class Message;
-}
 
 class SnacIcqICBM : public QObject, public SnacHandler
 {

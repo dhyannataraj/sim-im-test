@@ -22,7 +22,7 @@
 #include <qtimer.h>
 #include <qbitmap.h>
 #include <qstyle.h>
-#include <QStyleOption.h>
+#include <QStyleOption>
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
