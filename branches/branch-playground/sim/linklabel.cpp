@@ -82,8 +82,8 @@ static char DIV[] = "<br>__________<br>";
 
 void TipLabel::show(const QRect &tipRect, bool _bState)
 {
-	/*
-	int prevH = 0;
+        remakeDoc();
+        int prevH = 0;
 	int x = 0;
 	int y = 0;
 	unsigned totalH = 0;
@@ -170,9 +170,6 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
 			}
 		}
 	}
-*/
-	remakeDoc();
-	int x = tipRect.left() + 4, y = tipRect.top() - 48;
 	move(x, y);
 	QLabel::show();
 }

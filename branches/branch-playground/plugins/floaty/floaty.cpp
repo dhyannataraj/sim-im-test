@@ -20,10 +20,11 @@
 
 #include "core.h"
 
-#include <q3popupmenu.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qtimer.h>
+#include <QMenu>
+#include <QApplication>
+#include <QWidget>
+#include <QTimer>
+#include <QDesktopWidget>
 
 using namespace SIM;
 
@@ -105,17 +106,17 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
     FloatyWnd *wnd = NULL;
     bool found = false;
     foreach(w,list)
-	{
-		if (w->inherits("FloatyWnd")){
-			wnd = static_cast<FloatyWnd*>(w);
-			if (wnd->id() == id) {
-				found = true;
-				break;
-			}
-		}
-	}
+    {
+        if (w->inherits("FloatyWnd")){
+            wnd = static_cast<FloatyWnd*>(w);
+            if (wnd->id() == id) {
+                found = true;
+                break;
+            }
+        }
+    }
     if(found)
-	{
+    {
         Q_ASSERT( wnd );
         return wnd;
     }
@@ -133,7 +134,7 @@ bool FloatyPlugin::processEvent(Event *e)
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
-                wnd->move(data->X.toLong(), data->Y.toLong());
+                ((QWidget*)wnd)->move(data->X.toLong(), data->Y.toLong());
                 wnd->show();
             }
             break;
@@ -171,10 +172,11 @@ bool FloatyPlugin::processEvent(Event *e)
                         contact->userData.freeUserData(user_data_id);
                     }else{
                         data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
-                        data->X.asLong() = 0;
-                        data->Y.asLong() = 0;
+                        QRect r = QApplication::desktop()->availableGeometry();
+                        data->X.asLong() = r.x();
+                        data->Y.asLong() = r.y();
                         FloatyWnd *wnd = new FloatyWnd(this, (unsigned long)(cmd->param));
-                        wnd->move(0, 0);
+                        ((QWidget*)wnd)->move(r.x(), r.y());
                         wnd->show();
                     }
                 }
@@ -233,13 +235,14 @@ bool FloatyPlugin::processEvent(Event *e)
             QWidgetList list = QApplication::topLevelWidgets();
             QWidget * w;
             foreach(w,list)
-			{
-				if (w->inherits("FloatyWnd")){
-					FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-					wnd->init();
-					wnd->repaint();
-				}
-			}
+            {
+                if (w->inherits("FloatyWnd"))
+                {
+                    FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
+                    wnd->init();
+                    wnd->repaint();
+                }
+            }
             break;
         }
     default:
@@ -267,16 +270,17 @@ void FloatyPlugin::startBlink()
 
 void FloatyPlugin::unreadBlink()
 {
-	m_bBlink = !m_bBlink;
-	QWidgetList list = QApplication::topLevelWidgets();
+    m_bBlink = !m_bBlink;
+    QWidgetList list = QApplication::topLevelWidgets();
     QWidget * w;
     foreach(w,list)
-	{
-		if (w->inherits("FloatyWnd")){
-			FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-			wnd->repaint();
-		}
-	}
+    {
+        if (w->inherits("FloatyWnd"))
+        {
+            FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
+            wnd->repaint();
+        }
+    }
 }
 
 void FloatyWnd::startBlink()

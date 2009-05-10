@@ -56,20 +56,22 @@ compose_floaty_name( unsigned long id )
 }}
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
-        : QWidget(NULL, aux::compose_floaty_name( id ).ascii(),
-                  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool |
-                  Qt::WStyle_StaysOnTop | Qt::WNoAutoErase
-                    | Qt::WPaintClever
-                    | Qt::WX11BypassWM
+        : QWidget(NULL, aux::compose_floaty_name( id ).toAscii(),
+                  Qt::Tool | Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint |
+                  Qt::FramelessWindowHint | Qt::WStyle_Tool |
+                  Qt::WNoAutoErase
+                  | Qt::WPaintClever
+                  | Qt::WX11BypassWM
                 )
 {
+    setAttribute(Qt::WA_MacAlwaysShowToolWindow);
     m_plugin = plugin;
     m_id = id;
     m_blink = 0;
-	b_ignoreMouseClickRelease=false;
+    b_ignoreMouseClickRelease=false;
     init();
     setAcceptDrops(true);
-    setBackgroundMode(Qt::NoBackground);
+//    setBackgroundMode(Qt::NoBackground);
 #ifdef USE_KDE
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
@@ -98,14 +100,11 @@ void FloatyWnd::init()
         return;
     m_text = contact->getName();
     m_status = contact->contactInfo(m_style, m_statusIcon, &m_icons);
-    QPainter p(this);
     unsigned blink = m_blink;
     m_blink = 1;
-    setFont(&p);
     m_blink = blink;
-    QRect br = qApp->desktop()->rect();
-    br = p.boundingRect(br, Qt::AlignLeft | Qt::AlignVCenter, m_text);
-    p.end();
+    QFontMetrics metr(font());
+    QRect br = metr.boundingRect(m_text);
     unsigned h = br.height();
     unsigned w = br.width() + 5;
     const QPixmap &pict = Pict(m_statusIcon);
@@ -307,9 +306,9 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
     if ((e->state() & Qt::LeftButton) && !initMousePos.isNull() &&
             (QPoint(e->pos() - initMousePos).manhattanLength() > QApplication::startDragDistance()))
         startMove();
-	if (!mousePos.isNull()) {
-		
-		QWidgetList list = QApplication::topLevelWidgets();
+    if (!mousePos.isNull())
+    {
+        QWidgetList list = QApplication::topLevelWidgets();
         QWidget * w;
         foreach(w,list)
 		{
@@ -317,13 +316,13 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 			{
 				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
 				int dist = 4;
-				move(e->globalPos() - mousePos);
+                                move(e->globalPos() - mousePos);
 				//Top left:
 				if (this->pos().x() + this->width()  - refwnd->pos().x() <= dist &&  //== x Top left
 						this->pos().x() + this->width()  - refwnd->pos().x() >= 0 &&
 						this->pos().y() + this->height() - refwnd->pos().y() <= dist &&
 						this->pos().y() + this->height() - refwnd->pos().y() >= 0) {
-					this->move(refwnd->pos().x()-this->width(),   //== x Top left
+                                        QWidget::move(refwnd->pos().x()-this->width(),   //== x Top left
 							refwnd->pos().y()-this->height());
 					b_ignoreMouseClickRelease=true;
 					cout << "TOP LEFT" << endl;
@@ -335,7 +334,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 						this->pos().x() + this->width()  - refwnd->pos().x() >=0 && //== x Top left
 						this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
 						this->pos().y() - refwnd->pos().y() - refwnd->height() >=0 ) {
-					this->move(refwnd->pos().x()-this->width(),   //== x Top left
+                                        QWidget::move(refwnd->pos().x()-this->width(),   //== x Top left
 							refwnd->pos().y()+refwnd->height());
 					b_ignoreMouseClickRelease=true;
 					cout << "BOTTOM LEFT" << endl;
@@ -345,7 +344,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				//Top right
 				if (this->pos().x() + refwnd->width() - this->pos().x() <= dist &&
 						this->pos().y() + this->height() - refwnd->pos().y() <= dist ) {//== y Top left
-					this->move(refwnd->pos().x()+refwnd->width(),
+                                        QWidget::move(refwnd->pos().x()+refwnd->width(),
 							refwnd->pos().y()-this->height());  //== y Top left
 					b_ignoreMouseClickRelease=true;
 					cout << "TOP RIGHT" << endl;
@@ -357,7 +356,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 						this->pos().x() + refwnd->width() - this->pos().x() >=0 && //== x Top right
 						this->pos().y() - refwnd->pos().y() - refwnd->height() <= dist &&
 						this->pos().y() - refwnd->pos().y() - refwnd->height() >=0  ) { //== y Bottom left
-					this->move(refwnd->pos().x()+refwnd->width(),	 //== x Top right
+                                        QWidget::move(refwnd->pos().x()+refwnd->width(),	 //== x Top right
 							refwnd->pos().y()-refwnd->height());  //== y Bottom left
 					b_ignoreMouseClickRelease=true;
 					cout << "BOTTOM LEFT" << endl;
@@ -366,7 +365,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				//Top
 				if (this->pos().y()+this->height()-refwnd->pos().y() <= dist ) {
 					if (this->pos().x() == refwnd->pos().x()) {//add distance
-						this->move(refwnd->pos().x(),	 //== x Top right
+                                                QWidget::move(refwnd->pos().x(),	 //== x Top right
 								refwnd->pos().y()-this->height());  //== y Top left
 						b_ignoreMouseClickRelease=true;
 						cout << "TOP dock left" << endl;
@@ -374,7 +373,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 					}
 
 					if (this->pos().x() + this->width() == refwnd->pos().x() + refwnd->width()) {//add distance
-						this->move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
+                                                QWidget::move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
 								refwnd->pos().y()-this->height());  //== y Top left
 						b_ignoreMouseClickRelease=true;
 						cout << "TOP dock right" << endl;
@@ -385,7 +384,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				//Bottom
 				if (refwnd->pos().y()+refwnd->height()-this->pos().y() <= dist ) {
 					if (this->pos().x() == refwnd->pos().x()) {  //add distance
-						this->move(refwnd->pos().x(),	 //== x Top right
+                                                QWidget::move(refwnd->pos().x(),	 //== x Top right
 								refwnd->pos().y()+refwnd->height());  //== y Bottem left
 						b_ignoreMouseClickRelease=true;
 						cout << "BOTTOM dock left" << endl;
@@ -393,7 +392,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 					}					
 
 					if (this->pos().x() + this->width() == refwnd->pos().x() + refwnd->width()) {//add distance
-						this->move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
+                                                QWidget::move(refwnd->pos().x() + refwnd->width() - this->width(),	 //== x Top right
 								refwnd->pos().y()+refwnd->height());  //== y Bottem left
 						b_ignoreMouseClickRelease=true;
 						cout << "BOTTOM dock right" << endl;
@@ -407,7 +406,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				   ) 
 					if (this->pos().y()   - refwnd->pos().y() < dist ||
 							refwnd->pos().y() - this->pos().y()   < dist ) {
-						this->move(refwnd->pos().x() - this->width(),	 
+                                                QWidget::move(refwnd->pos().x() - this->width(),
 								refwnd->pos().y());
 						b_ignoreMouseClickRelease=true;
 						cout << "LEFT" << endl;
@@ -422,7 +421,7 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				   ) 
 					if (this->pos().y()   - refwnd->pos().y() < dist ||
 							refwnd->pos().y() - this->pos().y()   < dist ) {
-						this->move(refwnd->pos().x() + refwnd->width(),	 
+                                                QWidget::move(refwnd->pos().x() + refwnd->width(),
 								refwnd->pos().y());	
 						b_ignoreMouseClickRelease=true;
 						cout << "RIGHT" << endl;
@@ -444,6 +443,21 @@ void FloatyWnd::startMove()
     mousePos = initMousePos;
     initMousePos = QPoint(0, 0);
     grabMouse();
+}
+
+void FloatyWnd::move(QPoint point)
+{
+    QRect r = QApplication::desktop()->availableGeometry();
+    QRect wr = frameGeometry();
+    if(point.x() < r.x())
+        point.setX(r.x());
+    if(point.y() < r.y())
+        point.setY(r.y());
+    if(point.x()+wr.width() > r.x()+r.width())
+        point.setX(r.x()+r.width()-wr.width());
+    if(point.y()+wr.height() > r.y()+r.height())
+        point.setY(r.y()+r.height()-wr.height());
+    QWidget::move(point);
 }
 
 void FloatyWnd::blink()

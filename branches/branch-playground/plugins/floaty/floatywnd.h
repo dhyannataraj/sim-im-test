@@ -59,6 +59,7 @@ private:
     void dropEvent(QDropEvent*);
     void dragEvent(QDropEvent *e, bool isDrop);
     void setFont(QPainter *p);
+    void move(QPoint point);
     QPoint	mousePos;
     QPoint	initMousePos;
     QString	m_text;
@@ -69,7 +70,7 @@ private:
     unsigned m_unread;
     unsigned m_blink;
     unsigned long m_status;
-	bool b_ignoreMouseClickRelease;
+    bool b_ignoreMouseClickRelease;
     TipLabel *m_tip;
     QTimer	 *blinkTimer;
     QTimer	 *tipTimer;
