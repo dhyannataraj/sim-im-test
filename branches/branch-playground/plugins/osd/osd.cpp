@@ -350,6 +350,7 @@ QRect OSDWidget::recalcGeometry() {
     }
 
     m_Rect = QRect(x,y,w,h);
+	return m_Rect;
 }
 
 QSize OSDWidget::sizeHint() const

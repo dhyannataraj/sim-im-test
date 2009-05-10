@@ -18,7 +18,7 @@
 #include "aboutdata.h"
 #include "misc.h"
 
-/*
+
 #ifndef USE_KDE
 
 #include <qglobal.h>
@@ -300,7 +300,7 @@ KAboutData *SIM::getAboutData()
     return appAbout;
 }
 
-*/
+
 
 
 

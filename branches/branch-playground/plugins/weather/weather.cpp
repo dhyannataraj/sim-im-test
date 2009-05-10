@@ -299,12 +299,8 @@ void WeatherPlugin::showBar()
     MainWindow *main=NULL;
     QWidget *w;
     foreach(w,list)
-    {
         if (w->inherits("MainWindow"))
-        {
             main = static_cast<MainWindow*>(w);
-        }
-    }
 
     if (main == NULL)
             return;

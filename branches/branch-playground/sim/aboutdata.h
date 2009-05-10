@@ -55,7 +55,7 @@
 * @ref KAboutData class, but it can be used elsewhere as well.
 * Normally you should at least define the person's name.
 */
-/*
+
 class EXPORT KAboutPerson
 {
 public:
@@ -83,7 +83,7 @@ private:
     const char *mEmailAddress;
     const char *mWebAddress;
 };
-*/
+
 
 /**
 * This structure is used to store information about a translator.
@@ -97,7 +97,7 @@ private:
 * translator information is generated dynamically from the translation
 * of a dummy string.
 */
-/*
+
 class EXPORT KAboutTranslator
 {
 public:
@@ -112,7 +112,7 @@ private:
     QString mName;
     QString mEmail;
 };
-*/
+
 
 
 /**
@@ -130,7 +130,7 @@ private:
 * @author Espen Sand (espen@kde.org), David Faure (faure@kde.org)
 * @version $Id: aboutdata.h,v 1.2 2004/06/26 08:16:59 shutoff Exp $
 */
-/*
+
 class EXPORT KAboutData
 {
 public:
@@ -223,7 +223,7 @@ private:
 
     COPY_RESTRICTED(KAboutData)
 };
-*/
+
 
 #endif
 

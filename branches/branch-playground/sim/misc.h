@@ -31,9 +31,9 @@ class QIcon;
 //class Data;
 
 #ifdef Q_OS_WIN
-# ifndef snprintf
-#  define snprintf _snprintf
-# endif
+	#ifndef snprintf
+		#define snprintf _snprintf
+	#endif
 #endif
 
 #ifndef HAVE_STRCASECMP
@@ -41,16 +41,16 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
 #ifdef USE_KDE
-# include <klocale.h>
+	#include <klocale.h>
 #else
-EXPORT QString i18n(const char *text);
-EXPORT QString i18n(const char *text, const char *comment);
-EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
-EXPORT void resetPlural();
-# ifndef I18N_NOOP
-#  define I18N_NOOP(A)  A
-# endif
+	EXPORT QString i18n(const char *text);
+	EXPORT QString i18n(const char *text, const char *comment);
+	EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
+	EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
+	EXPORT void resetPlural();
+	#ifndef I18N_NOOP
+		#define I18N_NOOP(A)  A
+	#endif
 #endif
 
 namespace SIM {
@@ -65,15 +65,15 @@ EXPORT QString formatAddr(const Data &addr, unsigned port);
 // User interface
 
 #ifdef WIN32
-EXPORT void setWndProc(QWidget*);
-#define SET_WNDPROC(A)  SIM::setWndProc(this);
+	EXPORT void setWndProc(QWidget*);
+	#define SET_WNDPROC(A)  SIM::setWndProc(this);
 #else
-#ifndef QT_MACOSX_VERSION
-EXPORT void setWndClass(QWidget*, const char*);
-#define SET_WNDPROC(A)  SIM::setWndClass(this, A);
-#else
-#define SET_WNDPROC(A)
-#endif
+	#ifndef QT_MACOSX_VERSION
+		EXPORT void setWndClass(QWidget*, const char*);
+		#define SET_WNDPROC(A)  SIM::setWndClass(this, A);
+	#else
+		#define SET_WNDPROC(A)
+	#endif
 #endif
 
 /* Raises widget w (on the KDE-Desktop desk) */
