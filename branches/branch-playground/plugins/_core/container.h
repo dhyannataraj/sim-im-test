@@ -72,28 +72,11 @@ protected:
     void resizeEvent(QResizeEvent*);
 };
 
-class UserWnd;
-class UserTab
-{
-public:
-    UserTab(UserWnd *wnd, bool bBold, int tabid);
-    UserWnd	*wnd() { return m_wnd; }
-    bool setBold(bool bState);
-    bool isBold() { return m_bBold; }
-	int getID() { return m_id;}
-protected:
-	int m_id;
-    UserWnd	*m_wnd;
-    bool	m_bBold;
-    friend class UserTabBar;
-};
-
 class UserTabBar : public QTabBar
 {
     Q_OBJECT
 public:
     UserTabBar(QWidget *parent);
-    virtual ~UserTabBar();
     void raiseTab(unsigned id);
     UserWnd *wnd(unsigned id);
     UserWnd *currentWnd();
@@ -102,7 +85,6 @@ public:
     void changeTab(unsigned id);
     void setBold(unsigned id, bool bState);
     void setCurrent(unsigned i);
-	int addTab(UserWnd* wnd, QString const& text);
     unsigned current();
     bool isBold(UserWnd *wnd);
 public slots:
@@ -111,8 +93,7 @@ protected:
     virtual void layoutTabs();
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
-	std::list<UserTab*> m_tabs;
-    virtual void paintLabel(QPainter *p, const QRect &rc, QTabBar *t, bool bFocus) const;
+    UserWnd* wndForTab(int tab);
 };
 
 class Container : public QMainWindow, public SIM::EventReceiver

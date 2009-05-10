@@ -67,6 +67,8 @@ MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Wi
     setIcon(Pict(m_icon));
     setTitle();
 
+    setIconSize(QSize(16,16));
+
     m_bar = NULL;
 
     main = new MainWindowWidget(this);

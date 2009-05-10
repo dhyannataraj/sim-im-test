@@ -26,23 +26,20 @@
 #include "buffer.h"
 #include "icons.h"
 
-#include <qsplitter.h>
-#include <qlayout.h>
-#include <qstatusbar.h>
-#include <q3progressbar.h>
+#include <QSplitter>
+#include <QLayout>
+#include <QStatusBar>
+#include <QProgressBar>
 #include <QStackedWidget>
-#include <qtimer.h>
+#include <QTimer>
 #include <QToolBar>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <q3accel.h>
-#include <qpainter.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <q3dockarea.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QPainter>
+#include <QApplication>
+#include <QWidget>
+#include <QPixmap>
+#include <QLabel>
 #include <Q3CString>
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -70,7 +67,7 @@ const unsigned ACCEL_MESSAGE = 0x1000;
 class Splitter : public QSplitter
 {
 public:
-	Splitter(QWidget *p) : QSplitter(Qt::Vertical, p) {}
+    Splitter(QWidget *p) : QSplitter(Qt::Vertical, p) {}
 protected:
     virtual QSizePolicy sizePolicy() const;
 };
@@ -86,7 +83,7 @@ ContainerStatus::ContainerStatus(QWidget *parent)
 {
     QSize s;
     {
-        Q3ProgressBar p(this);
+        QProgressBar p(this);
         addWidget(&p);
         s = minimumSizeHint();
     }
@@ -130,78 +127,79 @@ Container::Container(unsigned id, const char *cfg) : QMainWindow(), m_avatar_win
 
     m_avatar_window.setWidget(&m_avatar_label);
     //m_avatar_window.setOrientation(Qt::Vertical);
-	m_avatar_window.setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	addDockWidget(Qt::LeftDockWidgetArea, &m_avatar_window);
-    SET_WNDPROC("container")
+    m_avatar_window.setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    addDockWidget(Qt::LeftDockWidgetArea, &m_avatar_window);
     setWindowFlags(Qt::WDestructiveClose);
 
+    setIconSize(QSize(16,16));
+
     if(cfg && *cfg)
-	{
+    {
         Buffer config;
         config << "[Title]\n" << cfg;
         config.setWritePos(0);
         config.getSection();
         load_data(containerData, &data, &config);
     }
-	else
-	{
+    else
+    {
         load_data(containerData, &data, NULL);
     }
 
     bool bPos = true;
     if (cfg == NULL)
-	{
+    {
         setId(id);
         copyData(data.barState, CorePlugin::m_plugin->data.ContainerBar, 7);
         copyData(data.geometry, CorePlugin::m_plugin->data.ContainerGeometry, 5);
         if((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1))
-		{
+        {
             QWidget *desktop = QApplication::desktop();
             data.geometry[WIDTH].asLong() = desktop->width() / 3;
             data.geometry[HEIGHT].asLong() = desktop->height() / 3;
         }
         bPos = false;
         if((data.geometry[TOP].toLong() != -1) || (data.geometry[LEFT].toLong() != -1))
-		{
+        {
             bPos = true;
             QWidgetList list = QApplication::topLevelWidgets();
             for(int i = 0; i < 2; i++)
-			{
+            {
                 bool bOK = true;
-				for(QWidgetList::iterator it = list.begin(); it != list.end(); ++it)
-				{
-					QWidget * w = *it;
-					if(w == this)
-					{
-						continue;
-					}
-					if(w->inherits("Container"))
-					{
-						int dw = w->pos().x() - data.geometry[LEFT].toLong();
-						int dh = w->pos().y() - data.geometry[TOP].toLong();
-						if (dw < 0)
-							dw = -dw;
-						if (dh < 0)
-							dh = -dh;
-						if ((dw < 3) && (dh < 3))
-						{
-							long nl = data.geometry[LEFT].toLong();
-							long nt = data.geometry[TOP].toLong();
-							nl += 21;
-							nt += 20;
-							QWidget *desktop = QApplication::desktop();
-							if (nl + data.geometry[WIDTH].toLong() > desktop->width())
-								nl = 0;
-							if (nt + data.geometry[WIDTH].toLong() > desktop->width())
-								nt = 0;
-							if ((nl != data.geometry[LEFT].toLong()) && (nt != data.geometry[TOP].toLong())){
-								data.geometry[LEFT].asLong() = nl;
-								data.geometry[TOP].asLong()  = nt;
-								bOK = false;
-							}
-						}
-					}
-				}
+                QWidget *w;
+                foreach(w,list)
+                {
+                    if(w == this)
+                    {
+                            continue;
+                    }
+                    if(w->inherits("Container"))
+                    {
+                        int dw = w->pos().x() - data.geometry[LEFT].toLong();
+                        int dh = w->pos().y() - data.geometry[TOP].toLong();
+                        if (dw < 0)
+                                dw = -dw;
+                        if (dh < 0)
+                                dh = -dh;
+                        if ((dw < 3) && (dh < 3))
+                        {
+                            long nl = data.geometry[LEFT].toLong();
+                            long nt = data.geometry[TOP].toLong();
+                            nl += 21;
+                            nt += 20;
+                            QWidget *desktop = QApplication::desktop();
+                            if (nl + data.geometry[WIDTH].toLong() > desktop->width())
+                                    nl = 0;
+                            if (nt + data.geometry[WIDTH].toLong() > desktop->width())
+                                    nt = 0;
+                            if ((nl != data.geometry[LEFT].toLong()) && (nt != data.geometry[TOP].toLong())){
+                                    data.geometry[LEFT].asLong() = nl;
+                                    data.geometry[TOP].asLong()  = nt;
+                                    bOK = false;
+                            }
+                        }
+                    }
+                }
                 if (bOK)
                     break;
             }
@@ -209,7 +207,7 @@ Container::Container(unsigned id, const char *cfg) : QMainWindow(), m_avatar_win
         setStatusSize(CorePlugin::m_plugin->getContainerStatusSize());
     }
     m_bInSize = true;
-    //restoreGeometry(this, data.geometry, bPos, true);
+    ::restoreGeometry(this, data.geometry, bPos, true);
     m_bInSize = false;
 }
 
@@ -259,9 +257,9 @@ void Container::init()
 	setStatusBar(m_status);
 
     for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it)
-	{
+    {
         addUserWnd((*it), false);
-	}
+    }
     m_childs.clear();
 
     QString windows = getWindows();
@@ -274,7 +272,7 @@ void Container::init()
         Buffer config;
         QString cfg = getWndConfig(id);
         if (!cfg.isEmpty()){
-            config << "[Title]\n" << (const char*)cfg.local8Bit();
+            config << "[Title]\n" << (const char*)cfg.toLocal8Bit();
             config.setWritePos(0);
             config.getSection();
         }
@@ -347,7 +345,7 @@ Q3CString Container::getState()
     UserWnd *userWnd = m_tabBar->currentWnd();
     if(userWnd)
         setActiveWindow(userWnd->id());
-    //saveGeometry(this, data.geometry);
+    ::saveGeometry(this, data.geometry);
     saveToolbar(m_bar, data.barState);
     if(m_tabBar->isVisible())
         setStatusSize(m_status->width());
@@ -362,6 +360,8 @@ QString Container::name()
     return i18n("Container");
 }
 
+Q_DECLARE_METATYPE( UserWnd* )
+
 void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 {
     if(m_wnds == NULL)
@@ -370,14 +370,14 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
         if(m_childs.size() == 1)
 		{
             setIcon(Pict(wnd->getIcon()));
-            setCaption(wnd->getLongName());
+            setWindowTitle(wnd->getLongName());
         }
         return;
     }
     connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
     m_wnds->addWidget(wnd);
-	m_tabSplitter->addWidget(m_wnds);
+//    m_tabSplitter->addWidget(m_wnds);
     bool bBold = false;
     for(list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it)
 	{
@@ -387,15 +387,15 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
             break;
         }
     }
-    //UserTab *tab = new UserTab(wnd, bBold);
-    int id = m_tabBar->addTab(wnd, wnd->getName());
-    if(bRaise)
-	{
-        //m_tabBar->setCurrentTab(tab);
-        m_tabBar->setCurrentIndex(id);
+
+    int tab = m_tabBar->addTab(Pict(wnd->getIcon()),wnd->getName());
+    m_tabBar->setTabData(tab,QVariant::fromValue(wnd));
+    if (bRaise)
+    {
+        m_tabBar->setCurrentTab(tab);
     }
-	else
-	{
+    else
+    {
         m_tabBar->repaint();
     }
     contactSelected(0);
@@ -403,7 +403,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 	{
         m_tabBar->show();
         if (getStatusSize()){
-            Q3ValueList<int> s;
+            QList<int> s;
             s.append(1);
             s.append(getStatusSize());
             m_bStatusSize = true;
@@ -496,38 +496,38 @@ void Container::contactSelected(int)
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
     setIcon(Pict(cmd->icon));
-    setCaption(userWnd->getLongName());
+    setWindowTitle(userWnd->getLongName());
     m_bar->checkState();
     m_status->message(userWnd->status());
     if (isActiveWindow())
         userWnd->markAsRead();
 
     if(CorePlugin::m_plugin->getShowAvatarInContainer())
-	{
-		Client *client = NULL;
-		unsigned j=0;
-		QImage img;
-		while (j < getContacts()->nClients()){
-			client = getContacts()->getClient(j++);
-			img = client->userPicture(userWnd->id());
-			if (!img.isNull())
-				break;
-		}
+    {
+        Client *client = NULL;
+        unsigned j=0;
+        QImage img;
+        while (j < getContacts()->nClients()){
+            client = getContacts()->getClient(j++);
+            img = client->userPicture(userWnd->id());
+            if (!img.isNull())
+                    break;
+        }
 
-		if(!img.isNull())
-		{
-			m_avatar_label.setPixmap(QPixmap::fromImage(img));
-			if (!m_avatar_label.isVisible())
-				m_avatar_window.show();
-		}
-		else
-		{
-			m_avatar_label.clear();
-			m_avatar_window.hide();
-		}
-	}
-	else
-	{
+        if(!img.isNull())
+        {
+            m_avatar_label.setPixmap(QPixmap::fromImage(img));
+            if (!m_avatar_label.isVisible())
+                    m_avatar_window.show();
+        }
+        else
+        {
+            m_avatar_label.clear();
+            m_avatar_window.hide();
+        }
+    }
+    else
+    {
         m_avatar_label.clear();
         m_avatar_window.hide();
     }
@@ -559,7 +559,7 @@ void Container::resizeEvent(QResizeEvent *e)
     QMainWindow::resizeEvent(e);
     if (m_bInSize)
         return;
-    //saveGeometry(this, data.geometry);
+    ::saveGeometry(this, data.geometry);
     CorePlugin::m_plugin->data.ContainerGeometry[WIDTH]  = data.geometry[WIDTH];
     CorePlugin::m_plugin->data.ContainerGeometry[HEIGHT] = data.geometry[HEIGHT];
 }
@@ -569,7 +569,7 @@ void Container::moveEvent(QMoveEvent *e)
     QMainWindow::moveEvent(e);
     if (m_bInSize)
         return;
-    //saveGeometry(this, data.geometry);
+    ::saveGeometry(this, data.geometry);
     CorePlugin::m_plugin->data.ContainerGeometry[LEFT] = data.geometry[LEFT];
     CorePlugin::m_plugin->data.ContainerGeometry[TOP]  = data.geometry[TOP];
 }
@@ -981,36 +981,30 @@ UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
     setShape(QTabBar::TriangularBelow);
 }
 
-UserTabBar::~UserTabBar()
-{
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        delete *it;
-    }
-	m_tabs.clear();
-}
-
 UserWnd *UserTabBar::wnd(unsigned id)
 {
-    layoutTabs();
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        UserTab *tab = *it;
-        if (tab->wnd()->id() == id)
-            return tab->wnd();
+    UserWnd *res = NULL;
+    for (int t = 0; t < count(); t++)
+    {
+        UserWnd *wnd = wndForTab(t);
+        if (wnd && wnd->id() == id)
+        {
+            res = wnd;
+            break;
+        }
     }
-    return NULL;
+    return res;
 }
 
 void UserTabBar::raiseTab(unsigned id)
 {
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        UserTab *tab = *it;
-        if(tab->wnd()->id() == id)
-		{
-            setCurrentIndex(tab->getID());
-            return;
+    for (int t = 0; t < count(); t++)
+    {
+        UserWnd *wnd = wndForTab(t);
+        if (wnd && wnd->id() == id)
+        {
+            setCurrent(t);
+            break;
         }
     }
 }
@@ -1018,41 +1012,21 @@ void UserTabBar::raiseTab(unsigned id)
 list<UserWnd*> UserTabBar::windows()
 {
     list<UserWnd*> res;
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-		UserTab* t = *it;
-		if(t == NULL)
-			continue;
-		res.push_back(t->wnd());
-	}
+    for (int i = 0; i < count(); i++)
+    {
+        res.push_back(wndForTab(i));
+    }
     return res;
 }
 
 void UserTabBar::setCurrent(unsigned n)
 {
-    unsigned m = 0;
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-		if(m++ == n)
-		{
-            setCurrentIndex((*it)->getID());
-			return;
-		}
-	}
+    setCurrentIndex(n);
 }
 
 unsigned UserTabBar::current()
 {
-	/*
-    unsigned n = 0;
-    for (unsigned i = 0; i < (unsigned)currentTab(); i++){
-        if (tab(i) == NULL)
-            continue;
-        n++;
-    }
-    return n;
-	*/
-	return currentIndex();
+    return currentIndex();
 }
 
 void UserTabBar::slotRepaint()
@@ -1063,16 +1037,12 @@ void UserTabBar::slotRepaint()
 void UserTabBar::removeTab(unsigned id)
 {
     layoutTabs();
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        UserTab* tab = *it;
-        if (tab == NULL)
-            continue;
-        if (tab->wnd()->id() == id)
-		{
-            QTabBar::removeTab(tab->getID());
-			delete tab;
-			m_tabs.erase(it);
+    for (int t = 0; t < count(); t++)
+    {
+        UserWnd *wnd = wndForTab(t);
+        if (wnd && wnd->id() == id)
+        {
+            QTabBar::removeTab(t);
             QTimer::singleShot(0, this, SLOT(slotRepaint()));
             break;
         }
@@ -1082,53 +1052,39 @@ void UserTabBar::removeTab(unsigned id)
 void UserTabBar::changeTab(unsigned id)
 {
     layoutTabs();
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        UserTab* tab = *it;
-        if(tab->wnd()->id() == id)
-		{
-            setTabText(tab->getID(), tab->wnd()->getName());
+    for (int t = 0; t < count(); t++)
+    {
+        UserWnd *wnd = wndForTab(t);
+        if (wnd && wnd->id() == id)
+        {
+            QTabBar::removeTab(t);
+            QTimer::singleShot(0, this, SLOT(slotRepaint()));
             break;
         }
     }
-	QTimer::singleShot(0, this, SLOT(slotRepaint()));
 }
-
-
-void UserTabBar::paintLabel(QPainter *p, const QRect &rc, QTabBar *t, bool bFocusRect) const
-{
-    UserTab *tab = dynamic_cast<UserTab*>(t);
-    if (tab->m_bBold){
-        QFont f = font();
-        f.setBold(true);
-        p->setFont(f);
-    }
-	//QTabBar::paintLabel(p, rc, t, bFocusRect);
-	t->repaint(); //Fixme reimplement this instead.	
-}
-
 
 void UserTabBar::setBold(unsigned id, bool bBold) //bBold unused
 {
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        UserTab *tab = *it;
-        if (tab->wnd()->id() == id)
-		{
-			repaint();
-            break;
-        }
-    }
+//    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
+//	{
+//        UserTab *tab = *it;
+//        if (tab->wnd()->id() == id)
+//		{
+//			repaint();
+//            break;
+//        }
+//    }
 }
 
 bool UserTabBar::isBold(UserWnd *wnd)
 {
-    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-        UserTab* tab = *it;
-        if (tab->wnd() == wnd)
-            return tab->isBold();
-    }
+//    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
+//	{
+//        UserTab* tab = *it;
+//        if (tab->wnd() == wnd)
+//            return tab->isBold();
+//    }
     return false;
 }
 
@@ -1141,22 +1097,16 @@ void UserTabBar::resizeEvent(QResizeEvent *e)
 void UserTabBar::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
-	{
-		int id = tabAt(e->pos());
-		setCurrentIndex(id);
-		UserTab* tab = NULL;
-		for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-		{
-			if((*it)->getID() == id)
-			{
-				tab = *it;
-				break;
-			}
-		}
-		if(!tab)
-			return;
+    {
+        int id = tabAt(e->pos());
+        if(id == -1)
+            return;
+        setCurrentIndex(id);
+        UserWnd* wnd = wndForTab(id);
+        if(NULL == wnd)
+            return;
 
-        EventMenuProcess eMenu(MenuContact, (void*)tab->wnd()->id());
+        EventMenuProcess eMenu(MenuContact, (void*)wnd->id());
         eMenu.process();
         QMenu *menu = eMenu.menu();
         if(menu)
@@ -1168,14 +1118,7 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
 
 UserWnd *UserTabBar::currentWnd()
 {
-	for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
-	{
-		if((*it)->getID() == currentIndex())
-		{
-			return (*it)->wnd();
-		}
-	}
-	return NULL;
+    return wndForTab(currentIndex());
 }
 
 void UserTabBar::layoutTabs()
@@ -1183,26 +1126,12 @@ void UserTabBar::layoutTabs()
     //QTabBar::layoutTabs();
 }
 
-int UserTabBar::addTab(UserWnd* wnd, QString const& text)
-{
-	int id = QTabBar::addTab(text);
-	UserTab* ut = new UserTab(wnd, false, id);
-	m_tabs.push_back(ut);
-	return id;
-}
+UserWnd* UserTabBar::wndForTab(int tab) {
+  QVariant v = tabData(tab);
+  if(!v.isValid())
+    return NULL;
+  if(!v.canConvert<UserWnd*>())
+    return NULL;
 
-UserTab::UserTab(UserWnd *wnd, bool bBold, int tabid)
-{
-    m_wnd = wnd;
-    m_bBold = bBold;
-	m_id = tabid;
+  return v.value<UserWnd*>();
 }
-
-bool UserTab::setBold(bool bBold)
-{
-    if (m_bBold == bBold)
-        return false;
-    m_bBold = bBold;
-    return true;
-}
-

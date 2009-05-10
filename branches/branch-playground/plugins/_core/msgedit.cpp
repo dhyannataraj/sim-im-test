@@ -181,6 +181,9 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QMainWindow(parent, NULL, 
     m_frame = new QFrame(this, "msgedit");
     setCentralWidget(m_frame);
     m_layout = new QVBoxLayout(m_frame);
+    m_layout->setMargin(0);
+
+    setIconSize(QSize(16,16));
 
     m_edit = new MsgTextEdit(this, m_frame);
     setCentralWidget(m_frame);
@@ -201,14 +204,18 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QMainWindow(parent, NULL, 
 
     QFontMetrics fm(m_edit->font());
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
-    userWnd->addWidget(this);
-    userWnd->addWidget(m_edit);
 
     EventToolbar e(ToolBarMsgEdit, this);
     e.process();
     m_bar = e.toolBar();
     m_bar->setParam(this);
-	addToolBar(m_bar);
+//    addToolBar(m_bar);
+    m_layout->addWidget(m_bar);
+    m_bar->checkState();
+
+    m_layout->addWidget(m_edit);
+    userWnd->addWidget(this);
+//    userWnd->addWidget(m_edit);
 
     if (CorePlugin::m_plugin->getContainerMode() == 0)
         showCloseSend(false);

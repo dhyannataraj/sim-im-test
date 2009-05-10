@@ -23,9 +23,7 @@
 #include <qpixmap.h>
 #include <qwidget.h>
 #include <qthread.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPaintEvent>
+#include <QTimer>
 
 #include "cfg.h"
 #include "event.h"
@@ -51,7 +49,7 @@ struct OSDUserData
 {
     SIM::Data	EnableMessage;
     SIM::Data	EnableMessageShowContent;
-	SIM::Data	EnableCapsLockFlash;
+    SIM::Data	EnableCapsLockFlash;
     SIM::Data	ContentLines;
     SIM::Data	EnableAlert;
     SIM::Data	EnableAlertOnline;
@@ -68,7 +66,7 @@ struct OSDUserData
     SIM::Data	Font;
     SIM::Data	Timeout;
     SIM::Data	Shadow;
-	SIM::Data	Fading;
+    SIM::Data	Fading;
     SIM::Data	Background;
     SIM::Data	BgColor;
     SIM::Data	Screen;
@@ -105,26 +103,45 @@ class OSDWidget : public QWidget
 public:
     OSDWidget(OSDPlugin* plugin);
     void showOSD(const QString &text, OSDUserData *data);
+
+    virtual QSize sizeHint () const;
+
 signals:
     void dblClick();
     void closeClick();
 protected slots:
     void slotCloseClick();
-	void m_transTimerFadeInTimeout();
+    void m_transTimerFadeInTimeout();
+public slots:
+    void hide();
 
 protected:
     bool isScreenSaverActive();
-    void paintEvent(QPaintEvent*);
-    void mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void paintEvent(QPaintEvent*);
+    virtual void mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void mousePressEvent(QMouseEvent *event);
+    QRect recalcGeometry();
+    void draw(QPainter &p);
+
     QFont	baseFont;
     QPixmap bgPict;
-    QPushButton	*m_button;
     OSDPlugin	*m_plugin;
-	QTimer		*m_transTimer;
-	int transCounter;
+    QTimer      m_transTimer;
+    int transCounter;
+    int transCounterDelta;
+    bool m_bBackground;
+    bool m_bShadow;
+    int m_text_y;
+    QString m_sText;
+    bool m_bFading;
+    QRect m_Rect;
+    OSDUserData currentData;
+    QImage m_imageButton;
+    QImage *m_image;
+    QRect m_rectButton;
 };
 
-class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver//, public QThread
+class OSDPlugin : public QThread, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -134,26 +151,23 @@ public:
     unsigned long user_data_id;
 protected slots:
     void timeout();
-	void m_transTimerFadeOutTimeout();
     void dblClick();
     void closeClick();
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool processEvent(SIM::Event *e);
     virtual void run();
-	void processQueue();
-	void flashCapsLockLED(bool);
+    void processQueue();
+    void flashCapsLockLED(bool);
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;
     std::list<unsigned>		typing;
     CorePlugin	*core;
-    QWidget		*m_osd;
+    OSDWidget		*m_osd;
     QTimer		*m_timer;
-	bool bCapsState;
-	QTimer		*m_transTimer;
-	int transOutCounter;
-	bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size() 
-				  // see pacth #2304 for more info.
+    bool bCapsState;
+    bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size()
+                              // see pacth #2304 for more info.
 };
 
 #endif

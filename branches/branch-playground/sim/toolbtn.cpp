@@ -665,6 +665,7 @@ QSize CToolLabel::sizeHint() const
 CToolBar::CToolBar(CommandsDef *def, QMainWindow *parent) : QToolBar(parent), EventReceiver(LowPriority)
 { 
     m_def = def;
+    setIconSize(QSize(16,16));
 	//setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
     buttons = new ButtonsMap;
     bChanged = false;
@@ -839,7 +840,7 @@ void CToolBar::toolBarChanged()
 			continue;
 		btn->checkState();
 		buttons->add(s->id, btn);
-		addWidget(btn->widget());
+                addWidget(btn->widget());
 	}
 	bChanged = false;
 	QTimer::singleShot(0, this, SLOT(checkState()));

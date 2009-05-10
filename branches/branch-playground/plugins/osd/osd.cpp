@@ -34,12 +34,12 @@
 #include <qpushbutton.h>
 #include <qmessagebox.h>
 #include <QMouseEvent>
-#include <QPaintEvent>
 #include <QDesktopWidget>
 
 #include "fontedit.h"
 #include "log.h"
 #include "core.h"
+#include "icons.h"
 
 #include "osd.h"
 #include "osdconfig.h"
@@ -47,29 +47,7 @@
 
 
 
-#ifdef WIN32
-	#include <windows.h>
-	#include <qlibrary.h>
-	#ifndef CS_DROPSHADOW
-		#define CS_DROPSHADOW   0x00020000
-	#endif
-	#ifndef SPI_GETSCREENSAVERRUNNING
-		#define SPI_GETSCREENSAVERRUNNING 114
-	#endif
-
-	#define SHOW_TIMEOUT	300
-	#define HIDE_TIMEOUT	1000
-
-	typedef BOOL(WINAPI *slwa_ptr)(HWND, COLORREF, BYTE, DWORD);
-	static slwa_ptr slwa = NULL;
-
-	#if _WIN32_WINNT < 0x0500
-		#define WS_EX_LAYERED           0x00080000
-		#define LWA_COLORKEY            0x00000001
-		#define LWA_ALPHA               0x00000002
-	#endif
-
-#else
+#ifndef Q_WS_WIN
 	/*#include <stdio.h>
 	#include <fcntl.h>
 	#include <string.h>
@@ -191,27 +169,9 @@ QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 
 void OSDPlugin::timeout()
 {
-#ifdef WIN32
-	Contact *contact  = getContacts()->contact(m_request.contact);
-	if (!contact) return; //avoid crash
-	OSDUserData *data = (OSDUserData*)contact->getUserData(user_data_id);
-	if (data->Fading.toBool()){
-		transOutCounter=0;
-		m_transTimer = new QTimer(this);
-		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
-		SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-		m_transTimer->start(5);
-	}
-	else
-		m_osd->hide();
-	
+    m_osd->hide();
     m_timer->stop();
     processQueue();
-#else
-	m_osd->hide();	
-    m_timer->stop();
-    processQueue();
-#endif
 }
 
 QFont OSDPlugin::getBaseFont(QFont font)
@@ -231,41 +191,35 @@ QFont OSDPlugin::getBaseFont(QFont font)
     return baseFont;
 }
 
-static const char * const arrow_h_xpm[] = {
-            "9 7 3 1",
-            "	    c None",
-            ".	    c #000000",
-            "+	    c none",
-            "..++..+++",
-            "+..++..++",
-            "++..++..+",
-            "+++..++..",
-            "++..++..+",
-            "+..++..++",
-            "..++..+++"};
-
 OSDWidget::OSDWidget(OSDPlugin *plugin)
-        : QWidget(NULL, "osd", Qt::WType_TopLevel |
-                  Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
-                  Qt::WStyle_Tool |Qt::WNoAutoErase | Qt::WX11BypassWM)
+    : QWidget(NULL, "osd", Qt::WType_TopLevel |
+        Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
+        Qt::WStyle_Tool)
 {
     m_plugin = plugin;
+    m_image = NULL;
     baseFont = m_plugin->getBaseFont(font());
-    m_button = NULL;
     setFocusPolicy(Qt::NoFocus);
+//    setAttribute( Qt::WA_TranslucentBackground, true );
+    connect(&m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
+    QPalette pal(Qt::transparent);
+    pal.setColor(QPalette::Background,Qt::transparent);
+    setPalette(pal);
 }
 
 QPixmap& intensity(QPixmap &pict, float percent);
 
 bool OSDWidget::isScreenSaverActive()
 {
-#ifdef WIN32
+/*
+#ifdef Q_WS_WIN
     BOOL pvParam;
     if (SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &pvParam, 0)){
         if (pvParam)
             return true;
     }
 #endif
+*/
     return false;
 }
 
@@ -285,33 +239,68 @@ static const char * const close_h_xpm[] = {
 
 void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
+    currentData = *data;
+
+    m_sText = str;
     if (isScreenSaverActive()){
         hide();
         return;
     }
+    m_text_y = 0;
+    m_bBackground = data->Background.toBool();
+    m_bShadow = data->Shadow.toBool();
+
     setFont(FontEdit::str2font(data->Font.str(), baseFont));
-    QPainter p(this);
-    p.setFont(font());
-    unsigned nScreen = data->Screen.toULong();
+
+    int SHADOW_OFFS = SHADOW_DEF;
+
+    recalcGeometry();
+    resize(m_Rect.size());
+
+    if(m_image != NULL ){
+        delete m_image;
+        m_image = NULL;
+    }
+    m_image = new QImage(size(),QImage::Format_ARGB32);
+    m_image->fill(Qt::transparent);
+    {
+        QPainter p(m_image);
+        draw(p);
+    }
+    setMask(QPixmap(m_image->createAlphaMask()));
+
+    transCounter = 0;
+    transCounterDelta = 5;
+
+    QWidget::show();
+    raise();
+    m_bFading = data->Fading.toBool();
+    if (m_bFading){
+        m_transTimer.start(5);
+    }
+}
+
+QRect OSDWidget::recalcGeometry() {
+    int SHADOW_OFFS = SHADOW_DEF;
+    unsigned nScreen = currentData.Screen.toULong();
     unsigned nScreens = screens();
     if (nScreen >= nScreens)
         nScreen = 0;
-    int SHADOW_OFFS = SHADOW_DEF;
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
-                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
-    QRect rc = p.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
+                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - currentData.Offset.toULong(),
+                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - currentData.Offset.toULong());
+    QFontMetrics fm(font());
+    QRect rc = fm.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
     if (rc.height() >= rcScreen.height() / 2){
         rcScreen = QRect(0, 0,
-                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
-                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
-        rc = p.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
+                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - currentData.Offset.toULong(),
+                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - currentData.Offset.toULong());
+        rc = fm.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
     }
-    p.end();
-    if (data->EnableMessageShowContent.toBool() && data->ContentLines.toULong()){
+    if (currentData.EnableMessageShowContent.toBool() && currentData.ContentLines.toULong()){
         QFontMetrics fm(font());
-        int maxHeight = fm.height() * (data->ContentLines.toULong() + 1);
+        int maxHeight = fm.height() * (currentData.ContentLines.toULong() + 1);
         if (rc.height() > maxHeight)
             rc.setHeight(maxHeight);
     }
@@ -319,175 +308,119 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     int y = rcScreen.top();
     int w = rc.width() + 1;
     int h = rc.height() + 1;
-    int text_y = 0;
-    if (data->Background.toBool()){
+    m_text_y = 0;
+    if (m_bBackground){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
-        if (m_button == NULL){
-            m_button = new QPushButton("", this);
-            m_button->setPixmap(QPixmap((const char **)close_h_xpm));
-            connect(m_button, SIGNAL(clicked()), this, SLOT(slotCloseClick()));
+        if (m_imageButton.isNull()){
+            m_imageButton = Image("osd_close_button");
+            if( m_imageButton.isNull() ) {
+                m_imageButton = QPixmap((const char **)close_h_xpm);
+            }
         }
-        QSize s = m_button->sizeHint();
-        m_button->resize(s.height() - 4, s.height() - 4);
-        m_button->move(w - m_button->width() - 3, 2);
-        text_y = m_button->height() + 4;
-        h += text_y;
-        m_button->show();
-    }else{
-        if (m_button){
-            delete m_button;
-            m_button = NULL;
-        }
+        m_rectButton = QRect(QPoint(w - m_imageButton.width() - 3, 3),m_imageButton.size());
+        m_text_y = m_imageButton.height() + 4;
+        h += m_text_y;
     }
-    if (data->Shadow.toBool()){
+    if (m_bShadow){
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
     }
-    resize(QSize(w, h));
-    switch (data->Position.toULong()){
+    switch (currentData.Position.toULong()){
     case 1:
-        move(x + data->Offset.toULong(), y + data->Offset.toULong());
+        move(x + currentData.Offset.toULong(), y + currentData.Offset.toULong());
         break;
     case 2:
-        move(x + rcScreen.width() - data->Offset.toULong() - w, y + rcScreen.height() - data->Offset.toULong() - h);
+        move(x + rcScreen.width() - currentData.Offset.toULong() - w, y + rcScreen.height() - currentData.Offset.toULong() - h);
         break;
     case 3:
-        move(x + rcScreen.width() - data->Offset.toULong() - w, y + data->Offset.toULong());
+        move(x + rcScreen.width() - currentData.Offset.toULong() - w, y + currentData.Offset.toULong());
         break;
     case 4:
-        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset.toULong() - h);
+        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - currentData.Offset.toULong() - h);
         break;
     case 5:
-        move(x + (rcScreen.width() - w) / 2, y + data->Offset.toULong());
+        move(x + (rcScreen.width() - w) / 2, y + currentData.Offset.toULong());
         break;
     case 6:
         move(x + (rcScreen.width() - w) / 2, y + (rcScreen.height() - h) /2);
         break;
     default:
-        move(x + data->Offset.toULong(), y + rcScreen.height() - data->Offset.toULong() - h);
+        move(x + currentData.Offset.toULong(), y + rcScreen.height() - currentData.Offset.toULong() - h);
     }
-    if (!data->Background.toBool() || data->Shadow.toBool()){
-        QBitmap mask(w, h);
-        p.begin(&mask);
-#ifdef WIN32
-        QColor bg(255, 255, 255);
-        QColor fg(0, 0, 0);
-#else
-        QColor bg(0, 0, 0);
-        QColor fg(255, 255, 255);
-#endif
-        p.fillRect(0, 0, w, h, bg);
-        if (data->Background.toBool()){
-            p.fillRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
-            p.fillRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
-        }else{
-            p.setPen(fg);
-            p.setFont(font());
-            if (data->Shadow.toBool()){
-                rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
-                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
-                rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
-                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
-            }else{
-                rc = QRect(0, 0, w, h);
-                p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
-            }
-        }
-        p.end();
-        setMask(mask);
-    }
-    qApp->syncX();
-    QPixmap pict = QPixmap::grabWindow(QApplication::desktop()->winId(), this->x(), this->y(), width(), height());
-    intensity(pict, -0.50f);
-    p.begin(&pict);
-    rc = QRect(0, 0, w, h);
-    if (data->Background.toBool()){
-        if (data->Shadow.toBool()){
-            w -= SHADOW_OFFS;
-            h -= SHADOW_OFFS;
-            rc = QRect(0, 0, w, h);
-        }
-        QBrush bg(data->BgColor.toULong());
-        p.fillRect(rc, bg);
-        //style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
-        rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
-    }
-    p.setFont(font());
-    p.setPen(QColor(data->Color.toULong()));
-    rc.setTop(text_y);
-    p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, str);
-    p.end();
-    bgPict = pict;
-#ifdef WIN32
-	//SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
-	if (data->Fading.toBool()){
-		slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
-		if (slwa == NULL)
-			return;
-		transCounter=100;
-		SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-		BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
-		slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
-		RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
-		m_transTimer = new QTimer(this);
-	}
-	QWidget::show();
-    raise();
-	if (data->Fading.toBool()){
-		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
-		m_transTimer->start(5);
-	}
-#else
-	QWidget::show();
-    raise();
-#endif
+
+    m_Rect = QRect(x,y,w,h);
+}
+
+QSize OSDWidget::sizeHint() const
+{
+    return m_Rect.size();
 }
 
 void OSDWidget::m_transTimerFadeInTimeout(){
-#ifdef WIN32
-	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
-    if (slwa == NULL)
-        return;
-	BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
-	slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
-	RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
-	transCounter-=5;
-	if (transCounter==0) {
-		m_transTimer->stop();
-	    disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
-		SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
-	}
-#endif
+    transCounter += transCounterDelta;
+    setWindowOpacity(transCounter/100);
+    update();
+    if (transCounter>100) {
+        transCounter = 100;
+        m_transTimer.stop();
+    }
+    else if (transCounter<=0) {
+        transCounter = 0;
+        m_transTimer.stop();
+        QWidget::hide();
+    }
 }
 
-void OSDPlugin::m_transTimerFadeOutTimeout(){
-#ifdef WIN32
-	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
-    if (slwa == NULL)
-        return;
+void OSDWidget::draw(QPainter &p)
+{
+    QSize s = size();
+    int w = s.width();
+    int h = s.height();
+    QRect rc = QRect(0, 0, w, h);
 
-	//SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-	BYTE d = (BYTE) QMIN((100 - transOutCounter) * 256 / 100, 255);
-	slwa(m_osd->winId(), m_osd->colorGroup().background().rgb(), d, LWA_ALPHA);
-	RedrawWindow(m_osd->winId(), NULL, NULL, RDW_UPDATENOW);
-	transOutCounter+=5;
-	if (transOutCounter==100){
-		m_osd->hide();
-		m_transTimer->stop();
-		disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
-		SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
-	}
-#endif
+    if (m_bBackground){
+        if (m_bShadow){
+            w -= SHADOW_DEF;
+            h -= SHADOW_DEF;
+            rc = QRect(0, 0, w, h);
+        }
+        p.setPen(QPen(QColor(0x00,0x00,0x00)));
+        p.setBrush(QBrush(currentData.BgColor.toULong()));
+        p.drawRoundedRect(rc,7,7);
+        p.drawImage(m_rectButton,m_imageButton);
+        rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
+    }
+
+    rc.translate(0,m_text_y);
+    p.setFont(font());
+
+    if( m_bShadow ) {
+        p.setPen(QColor(0x80,0x80,0x80,0x80));
+        QRect src(rc);
+        src.translate(SHADOW_DEF,SHADOW_DEF);
+        p.drawText(src, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
+    }
+
+    p.setPen(currentData.Color.toULong());
+    p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
 }
-
-
 
 void OSDWidget::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    p.drawPixmap(0, 0, bgPict);
-    p.end();
+//    if(NULL != m_image)
+//    {
+//       QPixmap image(*m_image);
+//        unsigned char alpha = (unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
+//        QPixmap alphaChannel = image.alphaChannel();
+//        alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
+//        image.setAlphaChannel(alphaChannel);
+//        p.drawImage(QPoint(0,0),image);
+//    }
+//    else{
+        draw(p);
+//    }
 }
 
 void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
@@ -495,9 +428,27 @@ void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
     emit dblClick();
 }
 
+void OSDWidget::mousePressEvent(QMouseEvent *event) {
+    if(m_rectButton.contains(event->pos()))
+        emit closeClick();
+}
+
 void OSDWidget::slotCloseClick()
 {
     emit closeClick();
+}
+
+void OSDWidget::hide() {
+    if( m_bFading )
+    {
+        transCounter = 100;
+        transCounterDelta = -5;
+        m_transTimer.start(5);
+    }
+    else
+    {
+        QWidget::hide();
+    }
 }
 
 #if 0
@@ -637,7 +588,7 @@ void OSDPlugin::processQueue()
                         }else if (pos == 0){
                             msg = msg.mid(2);
                         }
-                        msg = msg.left(1).upper() + msg.mid(1);
+                        msg = msg.left(1).toUpper() + msg.mid(1);
                     }
                     if (!text.isEmpty())
                         text += ", ";
@@ -646,11 +597,11 @@ void OSDPlugin::processQueue()
 
 				
 				if ( core->getManualStatus()==STATUS_NA && 
-				     data->EnableCapsLockFlash.toBool() //&& 
-				     //! this->running() 
+				     data->EnableCapsLockFlash.toBool() && 
+				     ! this->running() 
 				   )
 				   
-					//this->start(); //Start flashing the CapsLock if enabled
+					this->start(); //Start flashing the CapsLock if enabled
 				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
                 if (msg_text.isEmpty())
                     break;
