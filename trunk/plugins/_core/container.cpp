@@ -1091,6 +1091,16 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
             menu->popup(e->globalPos());
         return;
     }
+    if (e->button() == MidButton){
+        //Close tab on middle button pressed
+        QTab *t = selectTab(e->pos());
+        if (t == NULL) return;
+        UserTab *tab = static_cast<UserTab*>(t);
+        Command cmd;
+        cmd->id = CmdClose;
+        cmd->param = (void*)tab->wnd()->id();
+        EventCommandExec(cmd).process();
+    }
     QTabBar::mousePressEvent(e);
 }
 
