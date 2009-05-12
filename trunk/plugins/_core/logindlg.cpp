@@ -344,6 +344,12 @@ void LoginDialog::fill()
             Client *client = clients[0];
             cmbProfile->insertItem(
                 Pict(client->protocol()->description()->icon),curProfile);
+        } else
+        {
+          // Still add brocken profiles to pulldown menu
+          // otherwise indexes of CorePlugin::m_plugin->m_profiles and cmbProfile items will
+          // be out of synch
+          cmbProfile->insertItem(Pict("error"),curProfile + ' ' + i18n("[Brocken]"));
         }
     }
     cmbProfile->insertItem(i18n("New profile"));
