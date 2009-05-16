@@ -2662,7 +2662,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -2672,7 +2672,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -2710,7 +2710,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -2720,7 +2720,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -3818,59 +3818,6 @@
 						Description="Uic&apos;ing $(InputName).ui ..."
 						CommandLine="%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)$(InputName).h&#x0D;&#x0A;%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Sounds"
-			Filter="wav"
-			>
-			<File
-				RelativePath="sounds\mailpager.wav"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sounds\web.wav"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
