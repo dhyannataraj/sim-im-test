@@ -83,9 +83,9 @@
 	#include <map>
 	#include <string>
 	#include <vector>
-	#ifndef __OS2__	
- 		#include <xutility>
-	#endif
+	//#ifndef __OS2__	
+ 		//#include <xutility>
+	//#endif
 #else
 	#include <memory>
 	#include <string.h>

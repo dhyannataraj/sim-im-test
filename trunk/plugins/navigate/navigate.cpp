@@ -22,7 +22,7 @@
 #include "core_consts.h"
 
 #ifdef USE_KDE
-#include <kapplication.h>
+	#include <kapplication.h>
 #endif
 
 #ifndef WIN32
@@ -55,7 +55,7 @@ DDEbase::DDEbase()
 {
     m_idDDE = 0;
     FARPROC lpDdeProc = MakeProcInstance((FARPROC) DDECallback, hInstance);
-    DdeInitialize((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
+    DdeInitializeW((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
     base = this;
 }
 
@@ -83,7 +83,7 @@ protected:
 
 DDEstring::DDEstring(const QString &name) : hSz(NULL)
 {
-    hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINUNICODE);
+    hSz = DdeCreateStringHandleW(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINUNICODE);
 }
 
 DDEstring::~DDEstring()
