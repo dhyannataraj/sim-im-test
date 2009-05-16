@@ -63,8 +63,6 @@ icq_la_SOURCES = \
  icqssbi.cpp \
  snac.cpp
 
-SUBDIRS = sounds
-
 INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 icq_la_METASOURCES = AUTO

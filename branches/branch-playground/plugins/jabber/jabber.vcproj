@@ -1685,35 +1685,6 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<Filter
-			Name="Sounds"
-			Filter="wav"
-			>
-			<File
-				RelativePath="sounds\error.wav"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

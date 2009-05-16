@@ -35,8 +35,6 @@ jabber_la_SOURCES = \
  jidadvsearchbase.ui \
  httppoll.cpp 
 
-SUBDIRS = sounds
-
 INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 jabber_la_METASOURCES = AUTO

@@ -101,7 +101,3 @@ SET(icq_UICS
 ADD_FLEX_FILES(icq_SRCS rtf.ll)
 
 SIM_ADD_PLUGIN(icq)
-
-# install some sounds
-INSTALL(FILES sounds/mailpager.wav DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/web.wav DESTINATION ${SIM_SOUND_DIR})

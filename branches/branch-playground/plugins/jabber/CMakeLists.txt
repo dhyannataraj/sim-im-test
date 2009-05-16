@@ -64,5 +64,3 @@ SET(jabber_UICS
 
 SIM_ADD_PLUGIN(jabber)
 
-# install some sounds
-INSTALL(FILES sounds/error.wav DESTINATION ${SIM_SOUND_DIR})

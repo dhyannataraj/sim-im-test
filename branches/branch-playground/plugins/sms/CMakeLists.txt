@@ -25,6 +25,3 @@ INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 SIM_ADD_PLUGIN(sms)
 
 ADD_DEPENDENCIES(sms _core)
-
-# install some sounds
-INSTALL(FILES sounds/phone.wav DESTINATION ${SIM_SOUND_DIR})
