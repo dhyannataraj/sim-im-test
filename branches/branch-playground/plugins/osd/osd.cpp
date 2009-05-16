@@ -200,7 +200,7 @@ OSDWidget::OSDWidget(OSDPlugin *plugin)
     m_image = NULL;
     baseFont = m_plugin->getBaseFont(font());
     setFocusPolicy(Qt::NoFocus);
-//    setAttribute( Qt::WA_TranslucentBackground, true );
+    setAttribute( Qt::WA_TranslucentBackground, true );
     connect(&m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
     QPalette pal(Qt::transparent);
     pal.setColor(QPalette::Background,Qt::transparent);
@@ -360,7 +360,6 @@ QSize OSDWidget::sizeHint() const
 
 void OSDWidget::m_transTimerFadeInTimeout(){
     transCounter += transCounterDelta;
-    setWindowOpacity(transCounter/100);
     update();
     if (transCounter>100) {
         transCounter = 100;
@@ -410,18 +409,18 @@ void OSDWidget::draw(QPainter &p)
 void OSDWidget::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-//    if(NULL != m_image)
-//    {
-//       QPixmap image(*m_image);
-//        unsigned char alpha = (unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
-//        QPixmap alphaChannel = image.alphaChannel();
-//        alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
-//        image.setAlphaChannel(alphaChannel);
-//        p.drawImage(QPoint(0,0),image);
-//    }
-//    else{
+    if(NULL != m_image)
+    {
+        QPixmap image(*m_image);
+        unsigned char alpha = (unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
+        QPixmap alphaChannel = image.alphaChannel();
+        alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
+        image.setAlphaChannel(alphaChannel);
+        p.drawImage(QPoint(0,0),image);
+    }
+    else{
         draw(p);
-//    }
+    }
 }
 
 void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
