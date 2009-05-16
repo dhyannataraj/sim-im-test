@@ -195,17 +195,19 @@ QFont OSDPlugin::getBaseFont(QFont font)
 }
 
 OSDWidget::OSDWidget(OSDPlugin *plugin)
-    : QWidget(NULL, "osd", Qt::WType_TopLevel |
-        Qt::WStyle_StaysOnTop |  Qt::WStyle_Customize | Qt::WStyle_NoBorder |
-        Qt::WStyle_Tool)
+    : QWidget(NULL, "osd", Qt::Tool |
+        Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint )
 {
     m_plugin = plugin;
     m_image = NULL;
     baseFont = m_plugin->getBaseFont(font());
     setFocusPolicy(Qt::NoFocus);
-    setAttribute( Qt::WA_TranslucentBackground, true );
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    setAttribute(Qt::WA_NoSystemBackground, true);
+    setAttribute(Qt::WA_OpaquePaintEvent, true);
+    setAutoFillBackground(false);
     connect(&m_transTimer, SIGNAL(timeout()), this, SLOT(slotTimerFadeInTimeout()));
-    QPalette pal(Qt::transparent);
+    QPalette pal = palette();
     pal.setColor(QPalette::Background,Qt::transparent);
     setPalette(pal);
 }
