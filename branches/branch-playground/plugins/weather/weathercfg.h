@@ -20,14 +20,14 @@
 
 #include "event.h"
 #include "fetch.h"
-#include "sax.h"
 
 #include "ui_weathercfgbase.h"
 
 class WeatherPlugin;
 class WIfaceCfg;
+class QXmlStreamAttributes;
 
-class WeatherCfg : public QWidget, public Ui::WeatherCfgBase, public SIM::EventReceiver, public FetchClient, public SAXParser
+class WeatherCfg : public QWidget, public Ui::WeatherCfgBase, public SIM::EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:
@@ -48,9 +48,10 @@ protected:
     QString			m_data;
     QStringList		m_ids;
     QStringList		m_names;
-    void		element_start(const QString& el, const QXmlAttributes& attrs);
-    void		element_end(const QString& el);
-    void		char_data(const QString& str);
+    bool parse(const QByteArray &data);
+    void element_start(const QStringRef& el, const QXmlStreamAttributes& attrs);
+    void element_end(const QStringRef& el);
+    void char_data(const QStringRef& str);
 };
 
 #endif

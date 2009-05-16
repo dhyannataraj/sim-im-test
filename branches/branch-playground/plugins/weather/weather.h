@@ -18,17 +18,16 @@
 #ifndef _WEATHER_H
 #define _WEATHER_H
 
-#include "sax.h"
 #include "cfg.h"
 #include "event.h"
 #include "fetch.h"
 #include "plugins.h"
 
 #include <qdatetime.h>
-//Added by qt3to4:
 #include <Q3CString>
 
 class QToolBar;
+class QXmlStreamAttributes;
 
 namespace SIM
 {
@@ -80,7 +79,7 @@ struct WeatherData
     SIM::Data	MoonPhase;
 };
 
-class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient, public SAXParser
+class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:
@@ -163,9 +162,11 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     WeatherData data;
     SIM::IconSet *m_icons;
-    void		element_start(const QString& el, const QXmlAttributes& attrs);
-    void		element_end(const QString& el);
-    void		char_data(const QString& str);
+
+    bool parse(const QByteArray &data);
+    void element_start(const QStringRef& el, const QXmlStreamAttributes& attrs);
+    void element_end(const QStringRef& el);
+    void char_data(const QStringRef& str);
 };
 
 #endif
