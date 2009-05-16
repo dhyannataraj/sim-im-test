@@ -23,7 +23,6 @@
 #include <qimage.h>
 #include <qstring.h>
 #include <qstringlist.h>
-//Added by qt3to4:
 #include <QPixmap>
 
 #include "simapi.h"
