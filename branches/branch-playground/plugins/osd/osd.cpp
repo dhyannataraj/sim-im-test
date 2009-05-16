@@ -180,10 +180,13 @@ QFont OSDPlugin::getBaseFont(QFont font)
 
     baseFont = font;
     int size = baseFont.pixelSize();
-    if (size <= 0){
+    if (size <= 0)
+    {
         size = baseFont.pointSize();
         baseFont.setPointSize(size * 2);
-    }else{
+    }
+    else
+    {
         baseFont.setPixelSize(size * 2);
     }
     baseFont.setBold(true);
@@ -201,7 +204,7 @@ OSDWidget::OSDWidget(OSDPlugin *plugin)
     baseFont = m_plugin->getBaseFont(font());
     setFocusPolicy(Qt::NoFocus);
     setAttribute( Qt::WA_TranslucentBackground, true );
-    connect(&m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
+    connect(&m_transTimer, SIGNAL(timeout()), this, SLOT(slotTimerFadeInTimeout()));
     QPalette pal(Qt::transparent);
     pal.setColor(QPalette::Background,Qt::transparent);
     setPalette(pal);
@@ -242,7 +245,8 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     currentData = *data;
 
     m_sText = str;
-    if (isScreenSaverActive()){
+    if (isScreenSaverActive())
+    {
         hide();
         return;
     }
@@ -257,7 +261,8 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     recalcGeometry();
     resize(m_Rect.size());
 
-    if(m_image != NULL ){
+    if(m_image != NULL )
+    {
         delete m_image;
         m_image = NULL;
     }
@@ -275,12 +280,14 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     QWidget::show();
     raise();
     m_bFading = data->Fading.toBool();
-    if (m_bFading){
+    if (m_bFading)
+    {
         m_transTimer.start(5);
     }
 }
 
-QRect OSDWidget::recalcGeometry() {
+QRect OSDWidget::recalcGeometry()
+{
     int SHADOW_OFFS = SHADOW_DEF;
     unsigned nScreen = currentData.Screen.toULong();
     unsigned nScreens = screens();
@@ -298,7 +305,8 @@ QRect OSDWidget::recalcGeometry() {
                          rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - currentData.Offset.toULong());
         rc = fm.boundingRect(rcScreen, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
     }
-    if (currentData.EnableMessageShowContent.toBool() && currentData.ContentLines.toULong()){
+    if (currentData.EnableMessageShowContent.toBool() && currentData.ContentLines.toULong())
+    {
         QFontMetrics fm(font());
         int maxHeight = fm.height() * (currentData.ContentLines.toULong() + 1);
         if (rc.height() > maxHeight)
@@ -309,12 +317,15 @@ QRect OSDWidget::recalcGeometry() {
     int w = rc.width() + 1;
     int h = rc.height() + 1;
     m_text_y = 0;
-    if (m_bBackground){
+    if (m_bBackground)
+    {
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
-        if (m_imageButton.isNull()){
-            m_imageButton = Image("osd_close_button");
-            if( m_imageButton.isNull() ) {
+        if (m_imageButton.isNull())
+        {
+            m_imageButton = Image("button_cancel");
+            if( m_imageButton.isNull() )
+            {
                 m_imageButton = QPixmap((const char **)close_h_xpm);
             }
         }
@@ -322,7 +333,8 @@ QRect OSDWidget::recalcGeometry() {
         m_text_y = m_imageButton.height() + 4;
         h += m_text_y;
     }
-    if (m_bShadow){
+    if (m_bShadow)
+    {
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
     }
@@ -358,14 +370,17 @@ QSize OSDWidget::sizeHint() const
     return m_Rect.size();
 }
 
-void OSDWidget::m_transTimerFadeInTimeout(){
+void OSDWidget::slotTimerFadeInTimeout()
+{
     transCounter += transCounterDelta;
     update();
-    if (transCounter>100) {
+    if (transCounter>100)
+    {
         transCounter = 100;
         m_transTimer.stop();
     }
-    else if (transCounter<=0) {
+    else if (transCounter<=0)
+    {
         transCounter = 0;
         m_transTimer.stop();
         QWidget::hide();
@@ -379,8 +394,10 @@ void OSDWidget::draw(QPainter &p)
     int h = s.height();
     QRect rc = QRect(0, 0, w, h);
 
-    if (m_bBackground){
-        if (m_bShadow){
+    if (m_bBackground)
+    {
+        if (m_bShadow)
+        {
             w -= SHADOW_DEF;
             h -= SHADOW_DEF;
             rc = QRect(0, 0, w, h);
@@ -395,7 +412,8 @@ void OSDWidget::draw(QPainter &p)
     rc.translate(0,m_text_y);
     p.setFont(font());
 
-    if( m_bShadow ) {
+    if( m_bShadow )
+    {
         p.setPen(QColor(0x80,0x80,0x80,0x80));
         QRect src(rc);
         src.translate(SHADOW_DEF,SHADOW_DEF);
@@ -416,9 +434,10 @@ void OSDWidget::paintEvent(QPaintEvent*)
         QPixmap alphaChannel = image.alphaChannel();
         alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
         image.setAlphaChannel(alphaChannel);
-        p.drawImage(QPoint(0,0),image);
+        p.drawPixmap(QPoint(0,0),image);
     }
-    else{
+    else
+    {
         draw(p);
     }
 }
@@ -426,9 +445,11 @@ void OSDWidget::paintEvent(QPaintEvent*)
 void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
 {
     emit dblClick();
+    close();
 }
 
-void OSDWidget::mousePressEvent(QMouseEvent *event) {
+void OSDWidget::mousePressEvent(QMouseEvent *event)
+{
     if(m_rectButton.contains(event->pos()))
         emit closeClick();
 }
@@ -438,7 +459,8 @@ void OSDWidget::slotCloseClick()
     emit closeClick();
 }
 
-void OSDWidget::hide() {
+void OSDWidget::hide()
+{
     if( m_bFading )
     {
         transCounter = 100;

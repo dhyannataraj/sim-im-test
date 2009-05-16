@@ -111,7 +111,7 @@ signals:
     void closeClick();
 protected slots:
     void slotCloseClick();
-    void m_transTimerFadeInTimeout();
+    void slotTimerFadeInTimeout();
 public slots:
     void hide();
 
