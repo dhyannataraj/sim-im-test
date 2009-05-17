@@ -172,7 +172,7 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
             l.append("Yahoo!_online");
             l.append(id);
             l.append(id);
-            l.append(i18n(gender));
+            l.append(i18n(gender.constData()));
             l.append(age);
             l.append(getContacts()->toUnicode(NULL, location));
             addItem(l, this);
