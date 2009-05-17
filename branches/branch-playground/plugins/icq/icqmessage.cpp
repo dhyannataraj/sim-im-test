@@ -188,11 +188,11 @@ static bool h2b(const char *&p, Q3CString &cap)
 
 static bool parseFE(Q3CString str, Q3ValueList<Q3CString> &l, unsigned n)
 {
-    int idx = str.find('\xFE');
+    int idx = str.indexOf('\xFE');
     while(idx != -1) {
         l += str.left(idx);
         str = str.mid(idx+1);
-        idx = str.find('\xFE');
+        idx = str.indexOf('\xFE');
     }
     l += str;
     for( unsigned i = l.count(); i < n; i++ )
@@ -1211,7 +1211,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                     f.close();
                     img.load(fName);
                 }else{
-                    log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                    log(L_ERROR, "Can't create %s", qPrintable(fName));
                 }
                 data->PictureWidth.asULong()  = img.width();
                 data->PictureHeight.asULong() = img.height();
@@ -1414,7 +1414,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer 
                     QString gateway;
                     if (type == PAGER){
                         phone = getToken(number, '@');
-                        int n = number.find('[');
+                        int n = number.indexOf('[');
                         if (n >= 0){
                             getToken(number, '[');
                             gateway = getToken(number, ']');
@@ -1422,7 +1422,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer 
                             gateway = number;
                         }
                     }else{
-                        int n = number.find('(');
+                        int n = number.indexOf('(');
                         if (n >= 0){
                             country = getToken(number, '(');
                             area    = getToken(number, ')');
@@ -1437,7 +1437,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer 
                                 }
                             }
                         }
-                        n = number.find(" - ");
+                        n = number.indexOf(" - ");
                         if (n >= 0){
                             ext = number.mid(n + 3);
                             number = number.left(n);
@@ -1492,7 +1492,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer 
                     QFileInfo fi(f);
                     pictFile = fi.fileName();
                     nEntries = pictFile.length();
-                    answer.pack(pictFile.local8Bit(), pictFile.length());
+                    answer.pack(pictFile.toLocal8Bit(), pictFile.length());
                     unsigned long size = f.size();
                     answer.pack(size);
                     while (size > 0){

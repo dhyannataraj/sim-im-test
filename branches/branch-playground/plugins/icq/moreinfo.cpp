@@ -34,7 +34,7 @@ MoreInfo::MoreInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClie
     m_data    = data;
     m_client  = client;
     m_contact = contact;
-    btnHomePage->setPixmap(Pict("home"));
+    btnHomePage->setIcon(Icon("home"));
     connect(btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
     spnAge->setSpecialValueText(" ");
     spnAge->setRange(0, 100);
@@ -217,18 +217,18 @@ void MoreInfo::goUrl()
 void MoreInfo::setLang(int)
 {
     unsigned l[3], sl[3];
-    l[0] = cmbLang1->currentItem();
-    l[1] = cmbLang2->currentItem();
-    l[2] = cmbLang3->currentItem();
+    l[0] = cmbLang1->currentIndex();
+    l[1] = cmbLang2->currentIndex();
+    l[2] = cmbLang3->currentIndex();
     unsigned j = 0;
     for (unsigned i = 0; i < 3; i++)
         if (l[i])
             sl[j++] = l[i];
     for (; j < 3; j++)
         sl[j] = 0;
-    cmbLang1->setCurrentItem(sl[0]);
-    cmbLang2->setCurrentItem(sl[1]);
-    cmbLang3->setCurrentItem(sl[2]);
+    cmbLang1->setCurrentIndex(sl[0]);
+    cmbLang2->setCurrentIndex(sl[1]);
+    cmbLang3->setCurrentIndex(sl[2]);
     cmbLang2->setEnabled(sl[0] != 0);
     cmbLang3->setEnabled(sl[1] != 0);
 }

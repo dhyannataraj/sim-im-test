@@ -61,7 +61,7 @@ ICQInfo::ICQInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient
         edtAutoReply->setReadOnly(true);
         lblRandom->hide();
         cmbRandom->hide();
-        tabWnd->removePage(password);
+        tabWnd->removeTab(tabWnd->indexOf(password));
     }else{
         edtAutoReply->hide();
         connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
@@ -96,7 +96,7 @@ void ICQInfo::apply()
             if (!errMsg.isEmpty()){
                 for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
                     if (p->inherits("QTabWidget")){
-                        static_cast<QTabWidget*>(p)->showPage(this);
+                        static_cast<QTabWidget*>(p)->setCurrentWidget(this);
                         break;
                     }
                 }
@@ -204,9 +204,9 @@ void ICQInfo::fill()
     }
 
     int current = 0;
-    const char *text = NULL;
+    QString text;
     if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.toBool()){
-        cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
+        cmbStatus->addItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
         for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){
             if (cmd->flags & COMMAND_CHECK_STATE)
@@ -215,10 +215,10 @@ void ICQInfo::fill()
                 current = cmbStatus->count();
                 text = cmd->text;
             }
-            cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+            cmbStatus->addItem(Pict(cmd->icon), i18n(cmd->text));
         }
     }
-    cmbStatus->setCurrentItem(current);
+    cmbStatus->setCurrentIndex(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ':');
@@ -232,7 +232,7 @@ void ICQInfo::fill()
             lblOnline->hide();
             edtOnline->hide();
         }
-        if ((status == STATUS_ONLINE) || (text == NULL)){
+        if ((status == STATUS_ONLINE) || text.isEmpty()){
             lblNA->hide();
             edtNA->hide();
         }else{

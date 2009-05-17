@@ -44,7 +44,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig) : QDialog
         lnkReg->setText(i18n("Register new ScreenName"));
         lnkReg->setUrl("http://my.screenname.aol.com/_cqr/login/login.psp?siteId=aimregistrationPROD&authLev=1&mcState=initialized&createSn=1&triedAimAuth=y");
     }else{
-        tabConfig->removePage(tabAIM);
+        tabConfig->removeTab(tabConfig->indexOf(tabAIM));
     }
     edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
@@ -68,7 +68,7 @@ void AIMConfig::apply(Client*, void*)
 void AIMConfig::apply()
 {
     if (m_bConfig){
-        m_client->setScreen(edtScreen->text().lower());
+        m_client->setScreen(edtScreen->text().toLower());
         m_client->setPassword(edtPasswd->text());
     }
     m_client->setServer(edtServer->text());

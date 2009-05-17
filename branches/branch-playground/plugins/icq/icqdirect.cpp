@@ -90,7 +90,7 @@ void ICQListener::bind_ready(unsigned short port)
 
 bool ICQListener::error(const QString &err)
 {
-    log(L_WARN, "ICQListener error: %s", err.local8Bit().data());
+    log(L_WARN, "ICQListener error: %s", qPrintable(err));
     m_client->m_listener = NULL;
     m_client->data.owner.Port.asULong() = 0;
     m_client = NULL;
@@ -192,7 +192,7 @@ bool DirectSocket::error_state(const QString &error, unsigned)
         return false;
     }
     if (!error.isEmpty())
-        log(L_WARN, "Direct socket error %s", error.local8Bit().data());
+        log(L_WARN, "Direct socket error %s", qPrintable(error));
     return true;
 }
 
@@ -1327,7 +1327,7 @@ void DirectClient::processMsgQueue()
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
                           ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
-                    message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
+                    message = ICQClient::addCRLF(sm.msg->getPlainText()).toUtf8();
                     sm.type = CAP_UTF;
                 }else{
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
@@ -2045,8 +2045,8 @@ AIMFileTransfer::~AIMFileTransfer()
 void AIMFileTransfer::requestFT()
 {
 	log(L_DEBUG, "AIMFileTransfer::requestFT m_stage = %d", m_stage);
-	log(L_DEBUG, "Description: %s", m_msg->getDescription().ascii());
-	log(L_DEBUG, "filename: %s", filename().ascii());
+        log(L_DEBUG, "Description: %s", qPrintable(m_msg->getDescription()));
+        log(L_DEBUG, "filename: %s", qPrintable(filename()));
 	ICQBuffer b;
 	bool bWide = false;
 	for(int i = 0; i < (int)(filename().length()); i++)
@@ -2102,12 +2102,12 @@ void AIMFileTransfer::requestFT()
 		{
 			if(bWide)
 			{
-				Q3CString decodedfname = filename().utf8();
+                                QByteArray decodedfname = filename().toUtf8();
 				buf.pack(decodedfname.data(), decodedfname.length() + 1);
 			}
 			else
 			{
-				buf.pack(filename(), filename().length() + 1);
+                                buf.pack(filename());
 			}
 		}
 		else
@@ -2118,7 +2118,7 @@ void AIMFileTransfer::requestFT()
 	b.tlv(0x2711, buf);
 	if(m_stage == 1)
 	{
-		b.tlv(0x2712, charset.ascii(), charset.length());
+                b.tlv(0x2712, charset.toAscii(), charset.length());
 	}
     m_client->snacICBM()->sendThroughServer(m_client->screen(m_data), 2, b, m_cookie, false, true);
 }
@@ -2282,7 +2282,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 
-	log(L_WARN, "Calculating checksum: %s (%08x)", m_file->name().utf8().data(), checksum);
+        log(L_WARN, "Calculating checksum: %s (%08x)", qPrintable(m_file->fileName()), checksum);
 	return checksum;
 }
 
@@ -2342,7 +2342,7 @@ void AIMFileTransfer::negotiateWithProxy()
 		m_socket->writeBuffer() << (unsigned short)0x0002 << (unsigned long) 0x00000000; // 0x0002 means FT request to send
 		// Then, UIN chunk goes. First byte is length.
 		m_socket->writeBuffer() << Chunk_uin << uin_length;
-		m_socket->writeBuffer().pack(m_client->getScreen().ascii(), uin_length);
+                m_socket->writeBuffer().pack(m_client->getScreen().toAscii(), uin_length);
 		// Next chunk is cookie chunk
 		m_socket->writeBuffer() << m_cookie.id_l << m_cookie.id_h;
 		// And the last one is magic caps chunk
@@ -2361,7 +2361,7 @@ void AIMFileTransfer::negotiateWithProxy()
 		m_socket->writeBuffer() << (unsigned short)0x0004 << (unsigned long) 0x00000000; // 0x0004 means FT request to receive
 		// Then, UIN chunk goes. First byte is length.
 		m_socket->writeBuffer() << Chunk_uin << uin_length;
-		m_socket->writeBuffer().pack(m_client->getScreen().ascii(), uin_length);
+                m_socket->writeBuffer().pack(m_client->getScreen().toAscii(), uin_length);
 		// Next chunk is cookie chunk
 		m_socket->writeBuffer() << (unsigned short)m_cookie2 << m_cookie.id_l << m_cookie.id_h;
 		// And the last one is magic caps chunk
@@ -2433,7 +2433,7 @@ AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 
 bool AIMIncomingFileTransfer::error_state(const QString &err, unsigned code)
 {
-	log(L_DEBUG, "AIMFileTransfer::error_state: %s, %d", err.utf8().data(), code);
+        log(L_DEBUG, "AIMFileTransfer::error_state: %s, %d", qPrintable(err), code);
 	if(m_stage == 1)
 	{
 		// Well, this is hack, but, i think, it is not so ugly as it seems :)
@@ -2458,7 +2458,7 @@ void AIMIncomingFileTransfer::accept()
 {
 	log(L_DEBUG, "AIMIncomingFileTransfer::accept");
     m_state = Connecting;
-	m_connectTimer.start(DIRECT_TIMEOUT * 1000, true);
+        m_connectTimer.start(DIRECT_TIMEOUT * 1000, true);
 	FileTransfer::m_state = FileTransfer::Connect;
 	if(m_notify)
 		m_notify->process();
@@ -2669,7 +2669,7 @@ void AIMIncomingFileTransfer::receiveNextBlock(long size)
 			log(L_DEBUG, "Write without file");
 			return;
 		}
-		long hret = m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
+                long hret = m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
 		if(hret != size)
 		{
 			log(L_DEBUG, "Error while writing to file: %d", hret);

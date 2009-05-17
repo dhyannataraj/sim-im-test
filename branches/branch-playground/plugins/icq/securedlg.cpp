@@ -34,7 +34,7 @@ SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data) : Q
     SET_WNDPROC("secure")
     setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(windowTitle());
     m_client  = client;
     m_contact = contact;
     m_data    = data;

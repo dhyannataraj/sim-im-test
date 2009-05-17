@@ -19,12 +19,11 @@
 #include "aiminfo.h"
 #include "icqclient.h"
 
-#include <qlineedit.h>
-#include <q3multilineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpixmap.h>
-#include <qlabel.h>
+#include <QLineEdit>
+#include <QStringList>
+#include <QComboBox>
+#include <QPixmap>
+#include <QLabel>
 
 using namespace SIM;
 
@@ -159,7 +158,7 @@ void AIMInfo::fill()
     }
 
     int current = 0;
-    const char *text = NULL;
+    QString text;
     for (const CommandDef *cmd = ICQPlugin::m_aim->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
             continue;
@@ -167,10 +166,10 @@ void AIMInfo::fill()
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->addItem(Pict(cmd->icon), i18n(cmd->text));
     }
 
-    cmbStatus->setCurrentItem(current);
+    cmbStatus->setCurrentIndex(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ':');
@@ -184,7 +183,7 @@ void AIMInfo::fill()
             lblOnline->hide();
             edtOnline->hide();
         }
-        if ((status == STATUS_ONLINE) || (text == NULL)){
+        if ((status == STATUS_ONLINE) || text.isEmpty()){
             lblNA->hide();
             edtNA->hide();
         }else{

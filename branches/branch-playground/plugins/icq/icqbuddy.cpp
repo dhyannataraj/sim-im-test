@@ -221,7 +221,7 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 							if (*m_client->capabilities[i] != '\x09')
 							{
 								log(L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(),
-										makeCapStr(shortcap, sizeof(shortcap)).latin1());
+                                                                                qPrintable(makeCapStr(shortcap, sizeof(shortcap))));
 								break;
 							}
 						}
@@ -249,7 +249,7 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 
 							if (*m_client->capabilities[i] == 0)
 							{
-								log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
+                                                                log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), qPrintable(makeCapStr( cap, size )) );
 								break;
 							}
 							if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))

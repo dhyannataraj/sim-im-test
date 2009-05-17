@@ -458,7 +458,7 @@ bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
     ICQUserData *data = toICQUserData(_data);
     if (m_bAIM){
         if (!data->Screen.str().isEmpty() && !this->data.owner.Screen.str().isEmpty() &&
-                (data->Screen.str().lower() == this->data.owner.Screen.str().lower()))
+                (data->Screen.str().toLower() == this->data.owner.Screen.str().toLower()))
             return false;
     }else{
         if (data->Uin.toULong() == this->data.owner.Uin.toULong())
@@ -966,14 +966,14 @@ unsigned long ICQClient::fullStatus(unsigned s)
 
 void ICQClient::interfaceDown(QString ifname)
 {
-	log(L_DEBUG, "icq: interface down: %s", ifname.utf8().data());
+        log(L_DEBUG, "icq: interface down: %s", qPrintable(ifname));
 }
 
 void ICQClient::interfaceUp(QString ifname)
 {
 	if(getMediaSense())
 	{
-		log(L_DEBUG, "icq: interface up: %s", ifname.utf8().data());
+                log(L_DEBUG, "icq: interface up: %s", qPrintable(ifname));
 		if(m_connectionLost)
 		{
 			// Try to connect
@@ -992,7 +992,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     if (screen.isEmpty())
         return NULL;
 
-    QString s = screen.lower();
+    QString s = screen.toLower();
 
     ContactList::ContactIterator it;
     ICQUserData *data;
@@ -1073,10 +1073,10 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
             }
         }
         if (alias && !alias->isEmpty()){
-            QString name = alias->lower();
+            QString name = alias->toLower();
             it.reset();
             while ((contact = ++it) != NULL){
-                if (contact->getName().lower() == name){
+                if (contact->getName().toLower() == name){
                     ICQUserData *data = toICQUserData((SIM::clientData*) contact->clientData.createData(this)); // FIXME unsafe type conversion
                     data->Uin.asULong() = uin;
                     if (uin == 0)
@@ -1441,7 +1441,7 @@ QString ICQClient::trimPhone(const QString &from)
     if (from.isEmpty())
         return res;
     res = from;
-    int idx = res.find("SMS");
+    int idx = res.indexOf("SMS");
     if(idx != -1)
         res = res.left(idx);
     return res.stripWhiteSpace();
@@ -1541,8 +1541,7 @@ QString ICQClient::contactTip(void *_data)
     }
     QImage img(pictureFile(data));
     if (!img.isNull()){
-        QPixmap pict;
-        pict.convertFromImage(img);
+        QPixmap pict(img);
         int w = pict.width();
         int h = pict.height();
         if (h > w){
@@ -2500,7 +2499,7 @@ bool ICQClient::processEvent(Event *e)
             if (dc){
                 Q3CString answer;
                 if (data->Version.toULong() >= 10){
-                    answer = t->tmpl.utf8();
+                    answer = t->tmpl.toUtf8();
                 }else{
                     answer = getContacts()->fromUnicode(contact, t->tmpl);
                 }
@@ -2779,7 +2778,7 @@ bool ICQClient::processEvent(Event *e)
         EventGoURL *u = static_cast<EventGoURL*>(e);
         QString url = u->url();
         QString proto;
-        int n = url.find(':');
+        int n = url.indexOf(':');
         if (n < 0)
             return false;
         proto = url.left(n);
@@ -3339,7 +3338,7 @@ bool ICQClient::isOwnData(const QString &screen)
         return false;
     if(data.owner.Uin.toULong())
         return (data.owner.Uin.toULong() == screen.toULong());
-    return (screen.lower() == data.owner.Screen.str().lower());
+    return (screen.toLower() == data.owner.Screen.str().toLower());
 }
 
 QString ICQClient::addCRLF(const QString &str)
@@ -3384,7 +3383,7 @@ ICQUserData* ICQClient::toICQUserData(SIM::clientData * data)
 
       log(L_ERROR,
         "ATTENTION!! Unsafly converting %s user data into ICQ_SIGN",
-         Sign.latin1());
+         qPrintable(Sign));
 //      abort();
    }
    return (ICQUserData*) data;

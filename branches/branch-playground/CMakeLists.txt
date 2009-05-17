@@ -12,6 +12,15 @@ if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
+IF( APPLE )
+    SET( PROGNAME Sim-IM )
+    SET( MACOSX_BUNDLE_ICON_FILE sim.icns )
+    SET( MACOSX_BUNDLE_SHORT_VERSION_STRING 0.9.6 )
+    SET( MACOSX_BUNDLE_VERSION 0.9.6 )
+    SET( MACOSX_BUNDLE_LONG_VERSION_STRING Version 0.9.6 )
+ELSE( APPLE )
+    SET( PROGNAME Sim-IM )
+ENDIF( APPLE )
 
 #INCLUDE(MacroEnsureOutOfSourceBuild)
 

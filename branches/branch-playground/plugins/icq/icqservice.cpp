@@ -326,7 +326,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 					screen = buf->unpackScreen();
 				}
 				if (screen.toULong() != m_client->data.owner.Uin.toULong()){
-					log(L_WARN, "Not my name info (%s)", screen.latin1());
+                                        log(L_WARN, "Not my name info (%s)", qPrintable(screen));
 					break;
 				}
 				buf->incReadPos(4);
@@ -468,7 +468,7 @@ void SnacIcqService::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned s
     }
     unsigned short port = m_client->getPort();
     Q3CString addr(tlv_addr->byteArray());
-    int idx = addr.find(':');
+    int idx = addr.indexOf(':');
     if(idx != -1) {
         port = addr.mid(idx + 1).toUShort();
         addr = addr.left(idx);

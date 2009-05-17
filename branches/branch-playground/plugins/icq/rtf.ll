@@ -292,7 +292,7 @@ void RTF2HTML::FlushOutTags()
                    break;
                FontDef &f = fonts[t.param-1];
                QString name = (!f.nonTaggedName.isEmpty()) ? f.nonTaggedName : f.taggedName;
-               PrintUnquoted("<span style=\"font-family:%s\">", name.latin1());
+               PrintUnquoted("<span style=\"font-family:%s\">", name.toLatin1());
             }
             break;
         case TAG_BG_COLOR:

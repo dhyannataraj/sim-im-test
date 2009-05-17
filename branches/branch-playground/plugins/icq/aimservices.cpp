@@ -20,8 +20,6 @@
 #include "icqclient.h"
 
 #include <map>
-//Added by qt3to4:
-#include <Q3CString>
 
 using namespace std;
 using namespace SIM;
@@ -62,7 +60,7 @@ void ServiceSocket::close()
 
 bool ServiceSocket::error_state(const QString &err, unsigned)
 {
-    log(L_DEBUG, "%s: Service error %s", serviceSocketName(), err.local8Bit().data());
+    log(L_DEBUG, "%s: Service error %s", serviceSocketName(), qPrintable(err));
     return true;
 }
 
@@ -168,11 +166,11 @@ static bool bLatin1(const QString &s)
 
 void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
-    Q3CString str;
+    QByteArray str;
     if (bLatin){
-        str = s.latin1();
+        str = s.toLatin1();
     }else{
-        str = s.utf8();
+        str = s.toUtf8();
     }
     m_socket->writeBuffer().tlv(n, str.data());
 }
@@ -344,8 +342,8 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                     tlv = tlvs(0x06);
                     if (tlv){
                         QString country_text;
-                        country_text.setLatin1(tlv->Data());
-                        country_text = country_text.lower();
+                        country_text.fromLatin1(tlv->Data());
+                        country_text = country_text.toLower();
                         for (const ext_info *info = getCountryCodes(); info->szName; ++info){
                             if (country_text == info->szName){
                                 res.data.Country.asULong() = info->nCode;

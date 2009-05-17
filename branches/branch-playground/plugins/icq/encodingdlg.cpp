@@ -33,21 +33,21 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client) : QDialog(parent, N
     SET_WNDPROC("encoding")
     setWindowIcon(Icon("encoding"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(windowTitle());
     m_client = client;
     connect(buttonOk, SIGNAL(clicked()), this, SLOT(apply()));
     connect(cmbEncoding, SIGNAL(activated(int)), this, SLOT(changed(int)));
-    cmbEncoding->insertItem(QString::null);
+    cmbEncoding->addItem(QString());
     const ENCODING *e = getContacts()->getEncodings();
     for (e++; e->language; e++){
         if (!e->bMain)
             continue;
-        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ')');
+        cmbEncoding->addItem(i18n(e->language) + " (" + e->codec + ')');
     }
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (e->bMain)
             continue;
-        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ')');
+        cmbEncoding->addItem(i18n(e->language) + " (" + e->codec + ')');
     }
     buttonOk->setEnabled(false);
 }
@@ -55,7 +55,7 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client) : QDialog(parent, N
 void EncodingDlg::apply()
 {
     // Subtract 1 to account for the first menu item which is empty
-    int n = cmbEncoding->currentItem();
+    int n = cmbEncoding->currentIndex();
 
     if (n == 0)
         return; // User selected the empty menu item

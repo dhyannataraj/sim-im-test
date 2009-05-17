@@ -993,7 +993,7 @@ static Q3ValueList<Tlv> makeICombo(unsigned id, const QString &str)
     int cur = 0;
     int idx = 0;
     do {
-        idx = cstr.find( ',', cur );
+        idx = cstr.indexOf( ',', cur );
         if( idx == -1 )
             break;
 
@@ -1003,7 +1003,7 @@ static Q3ValueList<Tlv> makeICombo(unsigned id, const QString &str)
         int start_pos = cur;
         // Now looking for ";" with even number of slashes before it
         do {
-            idx = cstr.find( ';', cur );
+            idx = cstr.indexOf( ';', cur );
             if ( idx == -1 ) {
                idx = cstr.length();  // If no ";' will use whole string
             }
@@ -1709,11 +1709,11 @@ unsigned ICQClient::processSMSQueue()
                 nmb += c;
         }
         XmlBranch xmltree("icq_sms_message");
-        xmltree.pushnode(new XmlLeaf("destination",(const char*)(nmb.utf8())));
-        xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
+        xmltree.pushnode(new XmlLeaf("destination",nmb.toUtf8().data()));
+        xmltree.pushnode(new XmlLeaf("text",part.toUtf8().data()));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));
-        xmltree.pushnode(new XmlLeaf("senders_UIN",QString::number(data.owner.Uin.toULong()).latin1()));
+        xmltree.pushnode(new XmlLeaf("senders_UIN",QString::number(data.owner.Uin.toULong()).toLatin1().data()));
         xmltree.pushnode(new XmlLeaf("senders_name",""));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 

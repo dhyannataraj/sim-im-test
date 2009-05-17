@@ -95,12 +95,12 @@ static void initTZCombo(QComboBox *cmb, char tz)
         unsigned nSel = 12;
         unsigned n = 0;
         for (char i = 24; i >= -24; i--, n++){
-            cmb->insertItem(formatTime(i));
+            cmb->addItem(formatTime(i));
             if (i == tz) nSel = n;
         }
-        cmb->setCurrentItem(nSel);
+        cmb->setCurrentIndex(nSel);
     }else{
-        cmb->insertItem(formatTime(tz));
+        cmb->addItem(formatTime(tz));
     }
 }
 

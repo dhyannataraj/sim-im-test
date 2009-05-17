@@ -221,7 +221,7 @@ void PastInfo::cmbBgChanged(int)
         return;
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
-    cmbs[n]->setCurrentItem(0);
+    cmbs[n]->setCurrentIndex(0);
     edts[n]->setText(QString::null);
     for (n++; n < 3; n++){
         disableWidget(cmbs[n]);
@@ -254,7 +254,7 @@ void PastInfo::cmbAfChanged(int)
         return;
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
-    cmbs[n]->setCurrentItem(0);
+    cmbs[n]->setCurrentIndex(0);
     edts[n]->setText(QString::null);
     for (n++; n < 3; n++){
         disableWidget(cmbs[n]);

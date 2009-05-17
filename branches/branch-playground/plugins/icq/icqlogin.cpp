@@ -163,7 +163,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         if (verdlg.exec() == QDialog::Accepted) // what to do if the user has cancelled the dialog?
         {
             QString verifyStr = verdlg.getVerifyString();
-            log(L_DEBUG, "User input: %s", verifyStr.latin1());
+            log(L_DEBUG, "User input: %s", qPrintable(verifyStr));
             snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
             ICQBuffer msg;
             msg
@@ -177,7 +177,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             msg.pack(pswd.data(), len);
             msg << 0x94680000L << 0x00000602L;
             socket()->writeBuffer().tlv(0x0001, msg);
-            socket()->writeBuffer().tlv(0x0009, verifyStr.latin1(), verifyStr.length());
+            socket()->writeBuffer().tlv(0x0009, verifyStr.toLatin1(), verifyStr.length());
             sendPacket(true);            
         }
         break;
@@ -343,7 +343,7 @@ void ICQClient::chn_close()
             errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, "%s", static_cast<const char *>(errString.local8Bit()));
+            log(L_ERROR, "%s", qPrintable(errString));
             socket()->error_state(errString, errorCode);
             flap(ICQ_CHNxCLOSE);
             sendPacket(true);
@@ -367,7 +367,7 @@ void ICQClient::chn_close()
             errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, "%s", static_cast<const char *>(errString.local8Bit()));
+            log(L_ERROR, "%s", qPrintable(errString));
             socket()->error_state(errString);
             return;
         }
@@ -382,7 +382,7 @@ void ICQClient::chn_close()
         return;
     }
     QString host = tlv_host->byteArray().data();
-    int idx = host.find(':');
+    int idx = host.indexOf(':');
     if (idx == -1){
         log(L_ERROR, "Bad host address %s", host.data());
         socket()->error_state(I18N_NOOP("Bad host address"));

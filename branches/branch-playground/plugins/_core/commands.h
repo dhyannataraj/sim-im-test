@@ -23,6 +23,8 @@
 
 #include "event.h"
 
+#include <map>
+
 class CorePlugin;
 class CMenu;
 

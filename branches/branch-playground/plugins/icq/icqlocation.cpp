@@ -79,10 +79,10 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
         tlvCharset = tlv;
     }
     if (tlvCharset){
-        int idx1 = charset.find('\"');
+        int idx1 = charset.indexOf('\"');
         if (idx1 != -1){
             idx1++;
-            int idx2 = charset.find('\"', idx1);
+            int idx2 = charset.indexOf('\"', idx1);
             if(idx2 != -1)
                 charset = charset.mid(idx1, idx2 - idx1);
             else
@@ -181,7 +181,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 const char *code = *tlvCountry;
                 for (const ext_info *c = getCountryCodes(); c->nCode; c++){
                     QString name(c->szName);
-                    if (name.upper() == code){
+                    if (name.toUpper() == code){
                         country = c->nCode;
                         break;
                     }
@@ -441,7 +441,7 @@ void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide
         socket()->writeBuffer().tlv(nTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
-        socket()->writeBuffer().tlv(nTlv, m.latin1());
+        socket()->writeBuffer().tlv(nTlv, m.toLatin1().data());
     }
 }
 
@@ -461,7 +461,7 @@ void ICQClient::encodeString(const QString &m, const QString &type, unsigned sho
     }else{
         content_type += "us-ascii\"";
         socket()->writeBuffer().tlv(charsetTlv, content_type.toUtf8().data());
-        socket()->writeBuffer().tlv(infoTlv, m.latin1());
+        socket()->writeBuffer().tlv(infoTlv, m.toLatin1().data());
     }
 }
 

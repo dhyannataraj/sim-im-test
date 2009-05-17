@@ -36,7 +36,7 @@ WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client) : QDialo
     SET_WNDPROC("warn")
     setWindowIcon(Icon("error"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(windowTitle());
     m_client  = client;
     m_data    = data;
     m_msg     = NULL;
@@ -85,7 +85,7 @@ bool WarnDlg::processEvent(Event *e)
             m_msg = false;
             QString err = msg->getError();
             if (!err.isEmpty()){
-                showError(err);
+                showError(qPrintable(err));
             }else{
                 QTimer::singleShot(0, this, SLOT(close()));
             }

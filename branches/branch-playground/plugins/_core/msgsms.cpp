@@ -66,7 +66,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
             QString phone = getToken(phoneItem, ',');
             getToken(phoneItem, ',');
             if (phoneItem.toUInt() == CELLULAR)
-                cmbPhone->insertItem(phone);
+                cmbPhone->addItem(phone);
         }
         t = static_cast<SMSMessage*>(msg)->getPhone();
         if (!t.isEmpty())
@@ -145,7 +145,7 @@ void MsgSMS::textChanged()
     EventCommandWidget eWidget1(cmd);
     eWidget1.process();
     CToolButton *btnTranslit = dynamic_cast<CToolButton*>(eWidget1.widget());
-    if (btnTranslit && btnTranslit->isOn())
+    if (btnTranslit && btnTranslit->isChecked())
         msgText = toTranslit(msgText);
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
@@ -297,9 +297,8 @@ bool MsgSMS::processEvent(Event *e)
 }
 
 SMSPanel::SMSPanel(QWidget *parent)
-        : Q3Frame(parent)
+        : QFrame(parent)
 {
-    setMargin(3);
     QHBoxLayout *lay = new QHBoxLayout(this);
     chkSave = new QCheckBox(i18n("Save phone in contact list"), this);
     lay->addSpacing(7);

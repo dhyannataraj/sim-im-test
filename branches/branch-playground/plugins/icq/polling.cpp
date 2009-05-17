@@ -113,7 +113,7 @@ void HttpRequest::send()
 bool HttpRequest::done(unsigned code, Buffer &data, const QString &)
 {
     if (code != 200){
-        log(L_DEBUG, "Res: %u %s", code, static_cast<const char *>(url().local8Bit()));
+        log(L_DEBUG, "Res: %u %s", code, qPrintable(url()));
         m_pool->error(ANSWER_ERROR);
         return false;
     }
@@ -353,7 +353,7 @@ void HttpPool::connect(const QString &host, unsigned short port)
     state = None;
     ICQBuffer b;
     unsigned short len = host.length();
-    b << len << host.local8Bit().data() << port;
+    b << len << host.toLocal8Bit().data() << port;
     nSock++;
     queue.push_back(new HttpPacket(b.data(0), (unsigned short)(b.size()), HTTP_PROXY_LOGIN, nSock));
     if (sid.length()){

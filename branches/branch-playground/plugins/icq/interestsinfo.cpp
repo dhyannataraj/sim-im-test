@@ -231,7 +231,7 @@ void InterestsInfo::cmbChanged(int)
         return;
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
-    cmbs[n]->setCurrentItem(0);
+    cmbs[n]->setCurrentIndex(0);
     edts[n]->setText(QString::null);
     for (n++; n < 4; n++){
         disableWidget(cmbs[n]);

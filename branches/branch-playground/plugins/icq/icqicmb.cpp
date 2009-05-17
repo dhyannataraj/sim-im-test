@@ -208,7 +208,7 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 	}
 	else
 	{
-		log(L_DEBUG, "%s", client()->getContact(data)->getEncoding().utf8().data());
+                log(L_DEBUG, "%s", qPrintable(client()->getContact(data)->getEncoding()));
 		Q3CString msg_text = getContacts()->fromUnicode(client()->getContact(data), text);
 		EventSend e(m_send.msg, msg_text);
 		e.process();
@@ -1136,7 +1136,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             default:
                 err_str = I18N_NOOP("Unknown error");
             }
-            log(L_DEBUG, "ICMB error %u (%s) - screen(%s)", error, err_str, screen.latin1());
+            log(L_DEBUG, "ICMB error %u (%s) - screen(%s)", error, err_str, qPrintable(screen));
             break;
         }
     case ICQ_SNACxMSG_BLAMExSRVxACK:
@@ -1158,11 +1158,11 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             QString screen = buf->unpackScreen();
             bool bAck = false;
             if (m_send.id == id){
-                if(screen.lower() == m_send.screen.lower())
+                if(screen.toLower() == m_send.screen.toLower())
                     bAck = true;
             }
             if (bAck){
-                log(L_DEBUG, "Ack: %lu %lu (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.latin1());
+                log(L_DEBUG, "Ack: %lu %lu (%s)", m_send.id.id_h, m_send.id.id_l, qPrintable(m_send.screen));
                 if (m_send.msg){
                     Contact *contact;
                     ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
@@ -1254,7 +1254,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                         sprintf(b, "%02X ", p[i]);
                         plugin_str += b;
                     }
-                    log(L_WARN, "Unknown plugin sign in reply %s", plugin_str.latin1());
+                    log(L_WARN, "Unknown plugin sign in reply %s", qPrintable(plugin_str));
                     break;
                 }
                 if ((data == NULL) && (plugin_index != PLUGIN_RANDOMxCHAT))
@@ -1266,7 +1266,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             if (plugin_type == PLUGIN_AR){
                 Q3CString answer;
                 *buf >> answer;
-                log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
+                log(L_DEBUG, "Autoreply from %s %s", qPrintable(screen), answer.data());
                 Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '300'
                 ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
                 if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, answer))){
@@ -1282,7 +1282,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             unsigned short mFormat;
             *buf >> mFormat;
             QString screen = buf->unpackScreen();
-            log(L_DEBUG, "Message from %s [%04X]", screen.latin1(), mFormat);
+            log(L_DEBUG, "Message from %s [%04X]", qPrintable(screen), mFormat);
             unsigned short level, nTLV;
             *buf >> level >> nTLV;
             TlvList tlvFixed(*buf, nTLV);
@@ -1325,7 +1325,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                             msg->setBackground(bgColor);
                             msg->setFlags(MESSAGE_RICHTEXT);
                         }
-                        log(L_DEBUG, "Message %s", (const char*)text.local8Bit().data());
+                        log(L_DEBUG, "Message %s", qPrintable(text));
                         m_client->messageReceived(msg, screen);
                         break;
                     }
@@ -1479,7 +1479,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
                 continue;
         }
         log(L_DEBUG, "Setup reverse connect to %s %s:%lu",
-            screen.local8Bit().data(), inet_ntoa(addr), localPort);
+            qPrintable(screen), inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, m_client);
         m_client->m_sockets.push_back(direct);
         direct->reverseConnect(localIP, localPort);
@@ -1580,7 +1580,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
             sprintf(b, "0x%02X ", cap[i] & 0xFF);
             s += b;
         }
-        log(L_DEBUG, "Unknown capability in advanced message\n%s", s.latin1());
+        log(L_DEBUG, "Unknown capability in advanced message\n%s", qPrintable(s));
         return;
     }
 
@@ -1628,7 +1628,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
                 sign += QString(temp);
             }
             if (sign.length())
-                log(L_WARN, "Unknown plugin sign %s",sign.ascii());
+                log(L_WARN, "Unknown plugin sign %s",qPrintable(sign));
             return;
         }
         switch (plugin_index){
@@ -1749,8 +1749,8 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
                 for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
                     SendMsg &s = *it;
                     log(L_DEBUG, "%lu %lu (%s) - %lu %lu (%s)",
-                        s.id.id_h, s.id.id_l, s.screen.latin1(),
-                        id.id_h, id.id_l, screen.latin1());
+                        s.id.id_h, s.id.id_l, qPrintable(s.screen),
+                        id.id_h, id.id_l, qPrintable(screen));
                     if ((s.id == id) && (s.screen == screen))
                         break;
                 }
@@ -2062,7 +2062,7 @@ void SnacIcqICBM::processSendQueue()
 
 static QString getUtf8Part(QString &str, unsigned size)
 {
-    if (str.utf8().length() < size){
+    if (str.toUtf8().length() < size){
         QString res = str;
         str = QString::null;
         return res;
@@ -2075,12 +2075,12 @@ static QString getUtf8Part(QString &str, unsigned size)
         QChar c = str[n];
         if (c.isSpace()){
             if (bWord){
-                unsigned word_size = str.mid(wordStart, n - wordStart).utf8().length();
+                unsigned word_size = str.mid(wordStart, n - wordStart).toUtf8().length();
                 if (s + word_size > 0){
                     if (wordStart == 0){
                         s = 0;
                         for (n = 0; (unsigned)n < str.length(); n++){
-                            unsigned char_size = str.mid(n, 1).utf8().length();
+                            unsigned char_size = str.mid(n, 1).toUtf8().length();
                             if (s + char_size > 0)
                                 break;
                         }
@@ -2090,7 +2090,7 @@ static QString getUtf8Part(QString &str, unsigned size)
                 s += word_size;
                 bWord = false;
             }
-            unsigned char_size = str.mid(n, 1).utf8().length();
+            unsigned char_size = str.mid(n, 1).toUtf8().length();
             if (s + char_size > 0)
                 break;
             s += char_size;
@@ -2124,7 +2124,7 @@ bool SnacIcqICBM::processMsg()
     if (m_send.msg)
 	{
         type = m_send.msg->type();
-        log(L_DEBUG, "Send: %s %u %X", m_send.screen.latin1(), type, m_send.flags);
+        log(L_DEBUG, "Send: %s %u %X", qPrintable(m_send.screen), type, m_send.flags);
     }
     if(m_send.msg && (m_send.socket == NULL))
 	{
@@ -2250,7 +2250,7 @@ bool SnacIcqICBM::processMsg()
             break;
         case SEND_UTF:
             m_send.part = getUtf8Part(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-            text = m_send.part.utf8();
+            text = m_send.part.toUtf8();
             break;
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
@@ -2282,7 +2282,7 @@ bool SnacIcqICBM::processMsg()
                     AIMParser p;
                     t += p.parse(m_send.part);
                 }else{
-                    EventSend e(m_send.msg, m_send.part.utf8());
+                    EventSend e(m_send.msg, m_send.part.toUtf8());
                     e.process();
                     m_send.part = QString::fromUtf8( e.localeText() );
                     t += quoteString(m_send.part);
@@ -2365,7 +2365,7 @@ bool SnacIcqICBM::processMsg()
                 }
             }
             QString charset = bWide ? "unicode-2-0" : "us-ascii";
-            tlvs += new Tlv(0x0D, charset.length(), charset.latin1());
+            tlvs += new Tlv(0x0D, charset.length(), charset.toLatin1());
             Q3CString st;
             if (bWide){
                 for (i = 0; i < (int)(text.length()); i++){
@@ -2374,7 +2374,7 @@ bool SnacIcqICBM::processMsg()
                     st += (char)(s & 0xFF);
                 }
             }else{
-                st = text.utf8();
+                st = text.toUtf8();
             }
             tlvs += new Tlv(0x0C, st.length(), st.data());
             FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
@@ -2402,8 +2402,8 @@ bool SnacIcqICBM::processMsg()
                 }
             }
             charset = bWide ? "utf8" : "us-ascii";
-            tlvs += new Tlv(0x2712, charset.length(), charset);
-            msgBuf << (const char*)(fname.utf8()) << (char)0;
+            tlvs += new Tlv(0x2712, charset.length(), charset.toUtf8());
+            msgBuf << (const char*)(fname.toUtf8()) << (char)0;
             sendType2(m_send.screen, msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
             return true;
         }
@@ -2422,7 +2422,7 @@ bool SnacIcqICBM::processMsg()
         return true;
     }
     if (m_send.flags == PLUGIN_AR){
-        log(L_DEBUG, "Request auto response %s", m_send.screen.latin1());
+        log(L_DEBUG, "Request auto response %s", qPrintable(m_send.screen));
 
         unsigned long status = data->Status.toULong();
         if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
@@ -2456,7 +2456,7 @@ bool SnacIcqICBM::processMsg()
         sendAdvMessage(m_send.screen, b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
     }else{
         unsigned plugin_index = m_send.flags;
-        log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.latin1(), plugin_index);
+        log(L_DEBUG, "Plugin info request %s (%u)", qPrintable(m_send.screen), plugin_index);
 
         ICQBuffer b;
         unsigned short type = 0; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1771'

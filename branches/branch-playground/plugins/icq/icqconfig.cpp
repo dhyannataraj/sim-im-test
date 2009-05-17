@@ -58,16 +58,16 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget
     }else{
         tabConfig->removePage(tabICQ);
     }
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     edtMinPort->setValue(m_client->getMinPort());
     edtMaxPort->setValue(m_client->getMaxPort());
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
-    cmbFormat->insertItem(i18n("RTF"));
-    cmbFormat->insertItem(i18n("UTF"));
-    cmbFormat->insertItem(i18n("Plain text"));
-    cmbFormat->setCurrentItem(client->getSendFormat());
+    cmbFormat->addItem(i18n("RTF"));
+    cmbFormat->addItem(i18n("UTF"));
+    cmbFormat->addItem(i18n("Plain text"));
+    cmbFormat->setCurrentIndex(client->getSendFormat());
     chkPlugins->setChecked(client->getDisablePlugins());
     chkUpdate->setChecked(client->getDisableAutoUpdate());
     chkAutoReply->setChecked(client->getDisableAutoReplyUpdate());
@@ -84,7 +84,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
 	chkMediaSense->setChecked(client->getMediaSense());
-    cmbAck->setCurrentItem(client->getAckMode());
+    cmbAck->setCurrentIndex(client->getAckMode());
 }
 
 void ICQConfig::autoToggled(bool bState)
@@ -113,7 +113,7 @@ void ICQConfig::apply()
     m_client->setPort(edtPort->text().toUShort());
     m_client->setMinPort(edtMinPort->text().toUShort());
     m_client->setMaxPort(edtMaxPort->text().toUShort());
-    m_client->setSendFormat(cmbFormat->currentItem());
+    m_client->setSendFormat(cmbFormat->currentIndex());
     m_client->setDisablePlugins(chkPlugins->isChecked());
     m_client->setDisableAutoUpdate(chkUpdate->isChecked());
     m_client->setDisableAutoReplyUpdate(chkAutoReply->isChecked());
@@ -123,8 +123,8 @@ void ICQConfig::apply()
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setKeepAlive(chkKeepAlive->isChecked());
-    m_client->setAckMode(cmbAck->currentItem());
-	m_client->setMediaSense(chkMediaSense->isChecked());
+    m_client->setAckMode(cmbAck->currentIndex());
+    m_client->setMediaSense(chkMediaSense->isChecked());
 }
 
 void ICQConfig::changed(const QString&)

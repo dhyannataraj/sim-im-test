@@ -18,8 +18,8 @@
 #ifndef _MSGSMS_H
 #define _MSGSMS_H
 
-#include <qcombobox.h>
-#include <q3frame.h>
+#include <QComboBox>
+#include <QFrame>
 
 #include "event.h"
 
@@ -27,7 +27,7 @@ class QToolButton;
 class QCheckBox;
 class MsgEdit;
 
-class SMSPanel : public Q3Frame
+class SMSPanel : public QFrame
 {
     Q_OBJECT
 public:
@@ -49,11 +49,11 @@ protected slots:
     void panelDestroyed();
 protected:
     virtual bool processEvent(SIM::Event*);
-    MsgEdit		*m_edit;
-    SMSPanel	*m_panel;
-    unsigned	m_id;
-    bool		m_bExpand;
-    bool		m_bCanSend;
+    MsgEdit     *m_edit;
+    SMSPanel    *m_panel;
+    unsigned    m_id;
+    bool        m_bExpand;
+    bool        m_bCanSend;
 };
 
 #endif

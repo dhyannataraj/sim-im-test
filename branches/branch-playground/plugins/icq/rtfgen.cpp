@@ -395,9 +395,9 @@ Q3CString RTFGenParser::parse(const QString &text)
         s += "{\\f";
         s += QString::number(n);
         QString face = (*it_face);
-        if (face.find("Times") >= 0){
+        if (face.indexOf("Times") >= 0){
             s += "\\froman";
-        }else if (face.find("Courier") >= 0){
+        }else if (face.indexOf("Courier") >= 0){
             s += "\\fmodern";
         }else{
             s += "\\fswiss";
@@ -407,10 +407,10 @@ Q3CString RTFGenParser::parse(const QString &text)
             s += QString::number(charset);
         }
         s += ' ';
-        int pos = face.find(QRegExp(" +["));
+        int pos = face.indexOf(QRegExp(" +["));
         if (pos > 0)
             face = face.left(pos);
-        s += face.latin1();
+        s += face.toLatin1();
         s += ";}";
     }
     s += "}\r\n";
@@ -427,7 +427,7 @@ Q3CString RTFGenParser::parse(const QString &text)
     }
     s += "}\r\n";
     s += "\\viewkind4\\pard";
-    s += style.getDiffRTF(CharStyle()).utf8();
+    s += style.getDiffRTF(CharStyle()).toUtf8();
     s += res;
     s += "\r\n}\r\n";
 
@@ -619,12 +619,12 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 		m_lastParagraphPos = res.length();
 		m_bSpace = true;
 		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-			QString name = (*it).lower();
+                        QString name = (*it).toLower();
 			++it;
 			QString value = (*it);
 			if (name == "dir")
 			{
-				QString dir = value.lower();
+                                QString dir = value.toLower();
 				if (dir == "ltr")
 				{
 					res += "\\ltrpar";
@@ -686,7 +686,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 	// Process attributes which all tags share.
 
 	for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-		QString name = (*it).lower();
+                QString name = (*it).toLower();
 		++it;
 		QString value = (*it);
 
@@ -708,7 +708,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				}
 				else if (cssPropName == "font-size")
 				{
-					cssPropValue = cssPropValue.lower();
+                                        cssPropValue = cssPropValue.toLower();
 					int length;
 					if(cssReNum.indexIn(cssPropValue) != -1)
 					{
@@ -747,7 +747,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				}
 				else if (cssPropName == "font-style")
 				{
-					style.italic = (cssPropValue.lower() == "italic");
+                                        style.italic = (cssPropValue.toLower() == "italic");
 				}
 				else if (cssPropName == "font-weight")
 				{
@@ -755,7 +755,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				}
 				else if (cssPropName == "text-decoration")
 				{
-					style.underline = (cssPropValue.lower() == "underline");
+                                        style.underline = (cssPropValue.toLower() == "underline");
 				}
 				else if (cssPropName == "color")
 				{
@@ -778,7 +778,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 		QString rtf = style.getDiffRTF(parentStyle);
 		if (!rtf.isEmpty())
 		{
-			res += rtf.utf8();
+                        res += rtf.toUtf8();
 			m_bSpace = true;
 		}
 		tag.setCharStyle(style);
@@ -829,7 +829,7 @@ void RTFGenParser::tag_end(const QString &tagName)
                     QString rtf = pParentStyle->getDiffRTF(style);
                     if (!rtf.isEmpty())
                     {
-                        res += rtf.utf8();
+                        res += rtf.toUtf8();
                         m_bSpace = true;
                     }
                 }
@@ -843,7 +843,7 @@ void RTFGenParser::tag_end(const QString &tagName)
 
         if (found)
         {
-            if (tagName.lower() == "p")
+            if (tagName.toLower() == "p")
             {
                 res += "\\par";
                 m_bSpace = true;
@@ -992,7 +992,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
         ++it;
         QString value = *it;
         res += ' ';
-        res += name.upper();
+        res += name.toUpper();
         if (!value.isEmpty()){
             res += "=\"";
             res += quoteString(value);
@@ -1065,7 +1065,7 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
             QString name = *it;
             ++it;
             QString value = *it;
-            if (name.lower() == "bgcolor"){
+            if (name.toLower() == "bgcolor"){
                 QColor c(value);
                 bgColor = c.rgb();
             }
