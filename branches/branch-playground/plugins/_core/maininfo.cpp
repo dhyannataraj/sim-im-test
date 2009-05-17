@@ -459,14 +459,14 @@ void MainInfo::fillPhoneItem(Q3ListViewItem *item, const QString &number, const 
     item->setText(PHONE_NUMBER, number);
     item->setText(PHONE_TYPE_ASIS, type);
     if (!type.isEmpty()){
-        Q3CString t = type.latin1();
+        const QByteArray t = type.toLatin1();
         const char **p;
         for	(p = phoneTypeNames; *p; p++){
-            if (!strcmp(*p, t))
+            if (!strcmp(*p, t.constData()))
                 break;
         }
         if (*p){
-            item->setText(PHONE_TYPE, i18n(t));
+            item->setText(PHONE_TYPE, i18n(type));
         }else{
             item->setText(PHONE_TYPE, type);
         }

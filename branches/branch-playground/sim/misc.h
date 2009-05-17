@@ -46,6 +46,7 @@ EXPORT int strcasecmp(const char *a, const char *b);
 	EXPORT QString i18n(const char *text);
 	EXPORT QString i18n(const char *text, const char *comment);
 	EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
+    inline QString i18n(const QString &text) { return i18n(text.toUtf8().constData()); }
 	EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
 	EXPORT void resetPlural();
 	#ifndef I18N_NOOP

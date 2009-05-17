@@ -340,9 +340,8 @@ QString JabberSearch::i18(const char *text)
         if (res[i].unicode() >= 0x80)
             return res;
     }
-    Q3CString str = res.latin1();
-    QString  tstr = i18n(str);
-    if (tstr == QString(str))
+    QString  tstr = i18n(res);
+    if (tstr == res)
         return res;
     return tstr;
 }

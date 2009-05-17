@@ -52,8 +52,7 @@
 #include <qregexp.h>
 
 #include <qdesktopwidget.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -86,7 +85,7 @@ QString i18n(const char *comment, const char *text)
         return QString::null;
     if (comment == NULL)
         return i18n(text);
-    Q3CString s;
+    QByteArray s;
     s = "_: ";
     s += comment;
     s += '\n';
