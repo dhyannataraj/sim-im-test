@@ -39,7 +39,7 @@ JabberInfo::JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *clie
 	setupUi(this);
     m_client  = client;
     m_data    = data;
-    btnUrl->setIcon(Icon("home"));
+    btnUrl->setWindowIcon(Icon("home"));
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);

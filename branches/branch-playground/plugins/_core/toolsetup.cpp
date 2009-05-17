@@ -35,7 +35,7 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "to
 {
 	setupUi(this);
     SET_WNDPROC("configure")
-    setIcon(Pict("configure"));
+    setWindowIcon(Icon("configure"));
     setCaption(def->isMenu() ?
                i18n("Customize menu") :
                i18n("Customize toolbar"));
@@ -52,7 +52,7 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "to
         active.push_back(s->id);
     }
 
-    setIcon(Pict("setup"));
+    setWindowIcon(Icon("setup"));
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
     connect(lstButtons, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(lstActive, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));

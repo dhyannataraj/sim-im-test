@@ -57,12 +57,12 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     if(m_client)
 	{
         setCaption(caption() + ' ' + client->name());
-        setIcon(Pict(m_client->protocol()->description()->icon));
+        setWindowIcon(Icon(m_client->protocol()->description()->icon));
     }
 	else
 	{
         setCaption(i18n("Select profile"));
-        setIcon(Pict("SIM"));
+        setWindowIcon(Icon("SIM"));
     }
     if (m_client)
 	{
@@ -359,8 +359,8 @@ void LoginDialog::fill()
         CorePlugin::m_plugin->loadClients(clients);
         if (clients.size()){
             Client *client = clients[0];
-            cmbProfile->insertItem(
-                Pict(client->protocol()->description()->icon),curProfile);
+            cmbProfile->addItem(
+                Icon(client->protocol()->description()->icon),curProfile);
         }
     }
     cmbProfile->insertItem(i18n("New profile"));

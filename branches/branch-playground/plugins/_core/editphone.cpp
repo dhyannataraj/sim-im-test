@@ -41,7 +41,7 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
 {
 	setupUi(this);
     SET_WNDPROC("editphone")
-    setIcon(Pict("phone"));
+    setWindowIcon(Icon("phone"));
     setButtonsPict(this);
     setCaption(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
     m_ok = false;

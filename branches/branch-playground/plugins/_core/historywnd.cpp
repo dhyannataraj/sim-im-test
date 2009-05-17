@@ -90,7 +90,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
 
     setWindowFlags(Qt::WDestructiveClose);
     m_id = id;
-    setWindowIcon(Pict("history"));
+    setWindowIcon(Icon("history"));
     setName();
     m_view = new MsgViewBase(this, NULL, id);
     setCentralWidget(m_view);

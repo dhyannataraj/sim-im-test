@@ -35,7 +35,7 @@ ConnectionSettings::ConnectionSettings(Client *client) : QDialog(NULL)
     m_client = client;
     Protocol *protocol = client->protocol();
     const CommandDef *cmd = protocol->description();
-    setIcon(Pict(cmd->icon));
+    setWindowIcon(Icon(cmd->icon));
     setCaption(i18n("Configure %1 client") .arg(i18n(cmd->text)));
     Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
     QWidget *setupWnd = client->setupWnd();

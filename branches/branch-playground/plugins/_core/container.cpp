@@ -369,7 +369,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
         m_childs.push_back(wnd);
         if(m_childs.size() == 1)
 		{
-            setIcon(Pict(wnd->getIcon()));
+            setWindowIcon(Icon(wnd->getIcon()));
             setWindowTitle(wnd->getLongName());
         }
         return;
@@ -388,7 +388,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
         }
     }
 
-    int tab = m_tabBar->addTab(Pict(wnd->getIcon()),wnd->getName());
+    int tab = m_tabBar->addTab(Icon(wnd->getIcon()),wnd->getName());
     m_tabBar->setTabData(tab,QVariant::fromValue(wnd));
     if (bRaise)
     {
@@ -495,7 +495,7 @@ void Container::contactSelected(int)
     e.setNoProcess();
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
-    setIcon(Pict(cmd->icon));
+    setWindowIcon(Icon(cmd->icon));
     setWindowTitle(userWnd->getLongName());
     m_bar->checkState();
     m_status->message(userWnd->status());
@@ -965,7 +965,7 @@ void Container::contactChanged(Contact *contact)
         EventCommandChange e(cmd);
         m_bar->processEvent(&e);
         e.setNoProcess();
-        setIcon(Pict(cmd->icon));
+        setWindowIcon(Icon(cmd->icon));
         setCaption(userWnd->getLongName());
     }
 }

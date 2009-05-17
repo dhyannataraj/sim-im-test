@@ -74,7 +74,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status) : QDialog(NULL)
     if (text.isEmpty())
         return;
     setCaption(i18n("Autoreply message") + ' ' + i18n(text));
-    setIcon(Pict(icon));
+    setWindowIcon(Icon(icon));
     m_time = 15;
     lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
     m_timer = new QTimer(this);

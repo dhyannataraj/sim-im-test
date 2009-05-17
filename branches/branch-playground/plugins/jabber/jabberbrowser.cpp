@@ -53,7 +53,7 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString 
     m_result->setText(i18n("Process"));
     helpButton()->hide();
     SET_WNDPROC("jbrowser")
-    setIcon(Pict(icon));
+    setWindowIcon(Icon(icon));
     setCaption(title);
     connect(this, SIGNAL(selected(const QString&)), this, SLOT(slotSelected(const QString&)));
 }
@@ -976,7 +976,7 @@ void JabberBrowser::setItemPict(Q3ListViewItem *item)
     }else if ((type == "rss") || (type == "weather")){
         name = "info";
     }
-    item->setPixmap(COL_NAME, Pict(name, item->listView()->colorGroup().base()));
+    item->setPixmap(COL_NAME, Pict(name));
 }
 
 void JabberBrowser::adjustColumn(Q3ListViewItem *item)

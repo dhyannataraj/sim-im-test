@@ -64,7 +64,7 @@ MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Wi
     m_bNoResize = false;
 
     m_icon = "SIM";
-    setIcon(Pict(m_icon));
+    setWindowIcon(Icon(m_icon));
     setTitle();
 
     setIconSize(QSize(16,16));
@@ -131,7 +131,7 @@ bool MainWindow::processEvent(Event *e)
 			{
 				EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
 				m_icon = smi->icon();
-				setIcon(Pict(m_icon));
+				setWindowIcon(Icon(m_icon));
 				break;
 			}
 		case eEventInit:
@@ -171,7 +171,7 @@ bool MainWindow::processEvent(Event *e)
 				return true;
 			}
 		case eEventIconChanged:
-			setIcon(Pict(m_icon));
+			setWindowIcon(Icon(m_icon));
 			break;
 		case eEventContact:
 			{

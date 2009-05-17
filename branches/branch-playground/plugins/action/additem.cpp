@@ -32,7 +32,7 @@ AddItem::AddItem(QWidget *parent) : QDialog(parent, NULL, true)
 {
 	setupUi(this);
     SET_WNDPROC("additem")
-    setIcon(Pict("run"));
+    setWindowIcon(Icon("run"));
     setButtonsPict(this);
     setCaption(caption());
     QTimer::singleShot(0, this, SLOT(changed()));

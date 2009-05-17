@@ -35,7 +35,7 @@ PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key) : QDialog(NU
 	setupUi(this);
     m_plugin = plugin;
     SET_WNDPROC("passphrase")
-    setIcon(Pict("encrypted"));
+    setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
     setCaption(caption());
     m_key = key;

@@ -11,6 +11,7 @@ class ICQBuffer;
 class ICQClientSocket;
 class DirectSocket;
 class TlvList;
+class QTimer;
 
 struct ICQUserData;
 

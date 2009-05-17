@@ -36,7 +36,7 @@ ConnectionManager::ConnectionManager(bool bModal) : QDialog(NULL, "manager")
 {
 	setupUi(this);
     SET_WNDPROC("manager")
-    setIcon(Pict("configure"));
+    setWindowIcon(Icon("configure"));
     setButtonsPict(this);
     setCaption(caption());
     lstConnection->setHScrollBarMode(Q3ScrollView::AlwaysOff);
@@ -63,7 +63,7 @@ void ConnectionManager::fill(Client *current)
         QString text = CorePlugin::m_plugin->clientName(client);
         Q3ListViewItem *item = new Q3ListViewItem(lstConnection, text);
         if (descr)
-            item->setPixmap(0, Pict(descr->icon, lstConnection->colorGroup().base()));
+            item->setPixmap(0, Pict(descr->icon));
         if (current == client)
             curItem = item;
         QString index = QString::number(i);

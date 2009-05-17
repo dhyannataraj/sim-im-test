@@ -32,7 +32,7 @@ SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data) : Q
 {
 	setupUi(this);
     SET_WNDPROC("secure")
-    setIcon(Pict("encrypted"));
+    setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
     setCaption(caption());
     m_client  = client;

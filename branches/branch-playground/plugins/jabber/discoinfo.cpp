@@ -44,7 +44,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
 	setupUi(this);
     m_browser = browser;
     SET_WNDPROC("jbrowser")
-    setIcon(Pict("Jabber_online"));
+    setWindowIcon(Icon("Jabber_online"));
     setTitle();
     setButtonsPict(this);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));

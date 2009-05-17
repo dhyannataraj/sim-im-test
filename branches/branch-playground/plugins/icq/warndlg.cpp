@@ -34,7 +34,7 @@ WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client) : QDialo
 {
 	setupUi(this);
     SET_WNDPROC("warn")
-    setIcon(Pict("error"));
+    setWindowIcon(Icon("error"));
     setButtonsPict(this);
     setCaption(caption());
     m_client  = client;

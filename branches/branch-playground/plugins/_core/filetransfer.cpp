@@ -218,7 +218,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL, Qt::WDestruct
 	setupUi(this);
     m_msg = msg;
     SET_WNDPROC("filetransfer")
-    setIcon(Pict("file"));
+    setWindowIcon(Icon("file"));
     setButtonsPict(this);
     QString name;
     Contact *contact = getContacts()->contact(m_msg->contact());

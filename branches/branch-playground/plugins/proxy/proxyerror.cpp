@@ -33,7 +33,7 @@ ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& ms
         //: ProxyErrorBase(NULL, NULL, false, Qt::WDestructiveClose)
 {
     setupUi(this);
-    setIcon(Pict("error"));
+    setWindowIcon(Icon("error"));
     setButtonsPict(this);
     setWindowTitle(caption());
     m_plugin = plugin;

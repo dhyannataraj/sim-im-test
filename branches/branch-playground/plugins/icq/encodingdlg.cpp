@@ -31,7 +31,7 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client) : QDialog(parent, N
 {
 	setupUi(this);
     SET_WNDPROC("encoding")
-    setIcon(Pict("encoding"));
+    setWindowIcon(Icon("encoding"));
     setButtonsPict(this);
     setCaption(caption());
     m_client = client;

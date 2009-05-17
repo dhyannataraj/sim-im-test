@@ -36,7 +36,7 @@ GpgFind::GpgFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiveClo
 {
 	setupUi(this);
     SET_WNDPROC("find")
-    setIcon(Pict("find"));
+    setWindowIcon(Icon("find"));
     setButtonsPict(this);
     setCaption(caption());
     m_edit = edt;

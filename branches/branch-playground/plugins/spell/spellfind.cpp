@@ -37,7 +37,7 @@ SpellFind::SpellFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiv
 {
 	setupUi(this);
     SET_WNDPROC("find")
-    setIcon(Pict("find"));
+    setWindowIcon(Icon("find"));
     setButtonsPict(this);
     setCaption(caption());
     m_edit = edt;

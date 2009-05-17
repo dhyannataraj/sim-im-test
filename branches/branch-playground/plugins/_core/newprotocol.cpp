@@ -49,7 +49,7 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
     m_bConnected = false;
     m_bConnect = false;
     m_bStart   = (parent == NULL);
-    setIcon(Pict("configure"));
+    setWindowIcon(Icon("configure"));
     setButtonsPict(this);
     setCaption(caption());
 
@@ -96,7 +96,7 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
     sort(m_protocols.begin(), m_protocols.end(), cmp_protocol);
     for (unsigned i = 0; i < m_protocols.size(); i++){
         const CommandDef *cmd = m_protocols[i]->description();
-        cmbProtocol->insertItem(Pict(cmd->icon, cmbProtocol->colorGroup().base()), i18n(cmd->text));
+        cmbProtocol->addItem(Icon(cmd->icon), i18n(cmd->text));
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
     cmbProtocol->setCurrentItem(default_protocol);
@@ -175,7 +175,7 @@ void NewProtocol::protocolChanged(int n)
     m_last->setTitle(i18n(protocol->description()->text));
     }
 //    setNextEnabled(currentPage(), true);
-    setIcon(Pict(protocol->description()->icon));
+    setWindowIcon(Icon(protocol->description()->icon));
     EventRaiseWindow e(this);
     e.process();
 }

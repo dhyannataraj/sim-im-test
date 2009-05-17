@@ -48,7 +48,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 	setCaption(caption());
 
 	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-	setIcon(SIM::Pict("SIM"));
+	setIcon(SIM::Icon("SIM"));
 	QIcon icon = SIM::Icon("SIM");
 	if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
 		lblIcon->setPixmap(icon.pixmap(QIcon::Large, QIcon::Normal));
