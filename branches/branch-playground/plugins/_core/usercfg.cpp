@@ -130,7 +130,7 @@ PrefItem::PrefItem(Q3ListViewItem *parent, CommandDef *cmd)
     QString title = i18n(cmd->text);
     title = title.remove('&');
     setText(0, title);
-    setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
+    setPixmap(0, Pict(cmd->icon));
 }
 
 QWidget *PrefItem::getWidget(UserConfig *dlg)
@@ -177,7 +177,7 @@ void ClientItem::init(CommandDef *cmd)
         setText(0, i18n(cmd->text));
     }
     if (!cmd->icon.isEmpty())
-        setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
+        setPixmap(0, Pict(cmd->icon));
 }
 
 QWidget *ClientItem::getWidget(UserConfig *dlg)
@@ -201,7 +201,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->colorGroup().base()));
+    setPixmap(0, Pict("info"));
 }
 
 QWidget *MainInfoItem::getWidget(UserConfig *dlg)
@@ -251,7 +251,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *def)
         icon=def->icon;
         break;
     }
-    setPixmap(0, Pict(icon, listView()->colorGroup().base()));
+    setPixmap(0, Pict(icon));
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
@@ -276,7 +276,7 @@ UserConfig::UserConfig(Contact *contact, Group *group) : QDialog(NULL, "userconf
     m_nUpdates = 0;
 
     SET_WNDPROC("configure")
-    setIcon(Pict(contact ? "info" : "configure"));
+    setWindowIcon(Icon(contact ? "info" : "configure"));
     setButtonsPict(this);
     setTitle();
     QIcon iconSet = Icon("webpress");
@@ -393,7 +393,7 @@ void UserConfig::fill()
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Settings"));
-    parentItem->setPixmap(0, Pict("configure", lstBox->colorGroup().base()));
+    parentItem->setPixmap(0, Pict("configure"));
     parentItem->setOpen(true);
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::m_plugin->preferences);

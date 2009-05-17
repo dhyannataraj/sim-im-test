@@ -18,7 +18,6 @@
 #ifndef _ICONS_H
 #define _ICONS_H
 
-#include <qcolor.h>
 #include <qicon.h>
 #include <qimage.h>
 #include <qstring.h>
@@ -46,8 +45,9 @@ struct PictDef
 class EXPORT Icons : public QObject, public EventReceiver
 {
     Q_OBJECT
-public:
     Icons();
+public:
+    static Icons *instance();
     virtual ~Icons();
     PictDef *getPict(const QString &name);
     QString parseSmiles(const QString&);
@@ -62,14 +62,13 @@ protected slots:
     void iconChanged(int);
 protected:
     virtual bool processEvent(Event *e);
-    class IconsPrivate *d;
+    class IconsPrivate * const d;
     COPY_RESTRICTED(Icons);
 };
+inline Icons *getIcons() { return Icons::instance(); }
 
-EXPORT Icons *getIcons();
-
-EXPORT QIcon Icon(const QString &name);
-EXPORT QPixmap Pict(const QString &name, const QColor &bgColor = QColor());
+EXPORT QIcon   Icon(const QString &name);
+EXPORT QPixmap Pict(const QString &name);
 EXPORT QImage  Image(const QString &name);
 
 };

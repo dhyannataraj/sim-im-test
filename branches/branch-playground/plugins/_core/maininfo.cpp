@@ -83,9 +83,9 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact) : QWidget(parent)
         lstMails->addColumn(i18n("Publish"));
         lstPhones->addColumn(i18n("Publish"));
         lblCurrent->setText(i18n("I'm currently available at:"));
-        cmbStatus->insertItem(i18n("Don't show"));
-        cmbStatus->insertItem(Pict("phone"), i18n("Available"));
-        cmbStatus->insertItem(Pict("nophone"), i18n("Busy"));
+        cmbStatus->addItem(i18n("Don't show"));
+        cmbStatus->addItem(Icon("phone"), i18n("Available"));
+        cmbStatus->addItem(Icon("nophone"), i18n("Busy"));
         cmbStatus->setCurrentItem(getContacts()->owner()->getPhoneStatus());
     }else{
         lblCurrent->setText(i18n("User is crrently available at:"));

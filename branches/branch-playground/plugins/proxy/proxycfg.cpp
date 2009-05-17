@@ -223,7 +223,7 @@ void ProxyConfig::fillClients()
         int pos = name.find(".");
         if (pos > 0)
             name = name.replace(pos, 1, " ");
-        cmbClient->insertItem(Pict(client->protocol()->description()->icon), name);
+        cmbClient->addItem(Icon(client->protocol()->description()->icon), name);
         ProxyData d;
         m_plugin->clientData(static_cast<TCPClient*>(client), d);
         m_data.push_back(d);

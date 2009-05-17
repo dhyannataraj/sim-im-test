@@ -230,7 +230,7 @@ void ClientItem::init()
         setText(0, i18n(m_cmd->text));
     }
     if (!m_cmd->icon.isEmpty())
-        setPixmap(0, Pict(m_cmd->icon, listView()->palette().color(QPalette::Base)));
+        setPixmap(0, Pict(m_cmd->icon));
 }
 
 QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
@@ -284,7 +284,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *d)
         icon=d->icon;
         break;
     }
-    setPixmap(0, Pict(icon, listView()->palette().color(QPalette::Base)));
+    setPixmap(0, Pict(icon));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -305,7 +305,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->palette().color(QPalette::Base)));
+    setPixmap(0, Pict("info"));
 }
 
 QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
@@ -321,7 +321,7 @@ ConfigureDialog::ConfigureDialog() : QDialog(NULL)
 {
     setupUi(this);
     m_nUpdates = 0;
-    setWindowIcon(Pict("configure"));
+    setWindowIcon(Icon("configure"));
     setButtonsPict(this);
     setTitle();
     lstBox->header()->hide();
@@ -417,7 +417,7 @@ void ConfigureDialog::fill(unsigned id)
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Plugins"));
-    parentItem->setPixmap(0, Pict("run", lstBox->palette().color(QPalette::Base)));
+    parentItem->setPixmap(0, Pict("run"));
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){

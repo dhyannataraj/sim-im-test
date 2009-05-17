@@ -19,18 +19,14 @@
 # include "config.h"
 #endif
 
+#include <QCoreApplication>
 #include <QIcon>
 #include <QImage>
-#include <QPainter>
-#include <QBitmap>
-#include <q3dragobject.h>
 #include <QFile>
-#include <QApplication>
 #include <QFileInfo>
 #include <QDir>
 #include <QMap>
 #include <QList>
-//Added by qt3to4:
 #include <QPixmap>
 #include <Q3MimeSourceFactory>
 #include <QImageReader>
@@ -128,25 +124,19 @@ public:
     QList<IconSet*>    defSets;
     QList<IconSet*>    customSets;
 	WrkIconSet* m_workset;
+
+    static Icons *instance;
+    static void cleanupIcons()
+    {
+        delete instance;
+        instance = 0;
+    }
 };
+Icons *IconsPrivate::instance = NULL;
 
 /*************************************
  * functions for easy external access
  *************************************/
-static Icons *icons = NULL;
-
-Icons *getIcons()
-{
-    if(!icons)
-        icons = new Icons;
-    return icons;
-}
-
-void deleteIcons()
-{
-    delete icons;
-}
-
 PictDef *getPict(const QString &name)
 {
     return getIcons()->getPict(name);
@@ -178,7 +168,7 @@ QImage Image(const QString &name)
     return p->image;
 }
 
-QPixmap Pict(const QString &name, const QColor&)
+QPixmap Pict(const QString &name)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
@@ -643,9 +633,18 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
 /*****************
  * Icons
  *****************/
-Icons::Icons()
+Icons *Icons::instance()
 {
-    d = new IconsPrivate();
+    if(!IconsPrivate::instance) {
+        IconsPrivate::instance = new Icons();
+        qAddPostRoutine(IconsPrivate::cleanupIcons);
+    }
+    return IconsPrivate::instance;
+}
+
+Icons::Icons()
+: d(new IconsPrivate())
+{
     /* This idea came from kapplication.cpp
        I had a similar idea with setting the old defaultFactory in
        the destructor but this won't work :(

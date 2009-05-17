@@ -862,7 +862,6 @@ PluginManager::PluginManager(int argc, char **argv)
 }
 
 void deleteResolver();
-void deleteIcons();
 
 PluginManager::~PluginManager()
 {
@@ -872,7 +871,6 @@ PluginManager::~PluginManager()
     delete FetchManager::manager;
     delete contacts;
     delete factory;
-    deleteIcons();
     EventReceiver::destroyList();
     deleteResolver();
 }

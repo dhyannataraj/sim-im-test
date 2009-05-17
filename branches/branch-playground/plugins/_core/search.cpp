@@ -55,7 +55,7 @@ SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent)
 SearchDialog::SearchDialog()
 {
     SET_WNDPROC("search")
-    setIcon(Pict("find"));
+    setWindowIcon(Icon("find"));
     setButtonsPict(this);
     setCaption(i18n("Search"));
     m_current = NULL;
@@ -178,8 +178,8 @@ void SearchDialog::fillClients()
         }
         if (n >= widgets.size())
             m_search->wndCondition->addWidget(search, ++m_id);
-        m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon, m_search->cmbClients->colorGroup().base()),
-                                         CorePlugin::m_plugin->clientName(client));
+        m_search->cmbClients->addItem(Icon(client->protocol()->description()->icon),
+                                      CorePlugin::m_plugin->clientName(client));
         ClientWidget cw;
         cw.client = client;
         cw.widget = search;
@@ -205,8 +205,7 @@ void SearchDialog::fillClients()
             search = new SearchAll(m_search->wndCondition);
             m_search->wndCondition->addWidget(new SearchAll(m_search->wndCondition), ++m_id);
         }
-        m_search->cmbClients->insertItem(Pict("find", m_search->cmbClients->colorGroup().base()),
-                                         i18n("All networks"));
+        m_search->cmbClients->addItem(Icon("find"), i18n("All networks"));
         ClientWidget cw;
         cw.client = (Client*)(-1);
         cw.widget = search;
@@ -227,8 +226,7 @@ void SearchDialog::fillClients()
         search = new NonIM(m_search->wndCondition);
         m_search->wndCondition->addWidget(search, ++m_id);
     }
-    m_search->cmbClients->insertItem(Pict("nonim", m_search->cmbClients->colorGroup().base()),
-                                     i18n("Non-IM contact"));
+    m_search->cmbClients->addItem(Icon("nonim"), i18n("Non-IM contact"));
     ClientWidget cw;
     cw.client = NULL;
     cw.widget = search;
@@ -250,8 +248,8 @@ void SearchDialog::fillClients()
                 break;
         if (i >= m_widgets.size())
             continue;
-        m_search->cmbClients->insertItem(Pict(widgets[n].client->protocol()->description()->icon,
-                                              m_search->cmbClients->colorGroup().base()), widgets[n].name);
+        m_search->cmbClients->addItem(Icon(widgets[n].client->protocol()->description()->icon),
+                                      widgets[n].name);
         m_widgets.push_back(widgets[n]);
         widgets[n].widget = NULL;
     }
@@ -305,10 +303,10 @@ void SearchDialog::setTitle()
     CorePlugin::m_plugin->setSearchClient(name);
     if (m_bAdd){
         setCaption(i18n("Add") + ": " + m_search->cmbClients->currentText());
-        setIcon(Pict("add"));
+        setWindowIcon(Icon("add"));
     }else{
         setCaption(i18n("Search") + ": " + m_search->cmbClients->currentText());
-        setIcon(Pict("find"));
+        setWindowIcon(Icon("find"));
     }
 }
 
@@ -700,7 +698,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
         m_result->viewport()->setUpdatesEnabled(false);
     }
     item = new SearchViewItem(m_result);
-    item->setPixmap(0, Pict(values[0], m_result->colorGroup().base()));
+    item->setPixmap(0, Pict(values[0]));
     item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);
@@ -819,7 +817,7 @@ void SearchDialog::addSearch(QWidget *w, Client *client, const QString &name)
     cw.client = client;
     cw.name   = name;
     m_widgets.push_back(cw);
-    m_search->cmbClients->insertItem(Pict(client->protocol()->description()->icon), name);
+    m_search->cmbClients->addItem(Icon(client->protocol()->description()->icon), name);
     m_search->cmbClients->setCurrentItem(m_widgets.size() - 1);
     clientActivated(m_widgets.size() - 1);
 }
