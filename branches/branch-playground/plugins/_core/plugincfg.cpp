@@ -18,14 +18,7 @@
 #include "misc.h"
 
 #include "plugincfg.h"
-#include "qchildwidget.h"
-
-#include <qlayout.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpainter.h>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 using namespace SIM;
 
@@ -37,7 +30,7 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
 	{
         QWidget *w = m_info->plugin->createConfigWindow(addWnd);
         if (w){
-            Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
+            QVBoxLayout *lay = new QVBoxLayout(addWnd);
             lay->addWidget(w);
             QObject::connect(parent->topLevelWidget(), SIGNAL(applyChanges()), w, SLOT(apply()));
             // adjust plugin widget
@@ -58,8 +51,8 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
         lblDescription->setText("");
     }
     // adjust tab
-    tabWnd->setCurrentPage(0);
-    tabWnd->changeTab(tabWnd->currentPage(), i18n(m_info->info->title));
+    tabWnd->setCurrentIndex(0);
+    tabWnd->setTabText(0, i18n(m_info->info->title));
     tabWnd->setMinimumSize(tabWnd->sizeHint());
     tabWnd->adjustSize();
     // adjust complete widget
