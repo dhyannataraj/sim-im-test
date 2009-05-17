@@ -1628,7 +1628,7 @@ void MsgEdit::setupMessages()
 {
     Command cmd;
 
-    cmd->id			= MessageGeneric;
+    cmd->id             = MessageGeneric;
     cmd->text		= I18N_NOOP("&Message");
     cmd->icon		= "message";
     cmd->menu_grp	= 0x3010;
@@ -1637,7 +1637,7 @@ void MsgEdit::setupMessages()
     cmd->param		= &defGeneric;
     EventCreateMessageType(cmd).process();
 
-    cmd->id			= MessageFile;
+    cmd->id             = MessageFile;
     cmd->text		= I18N_NOOP("&File");
     cmd->icon		= "file";
     cmd->accel		= "Ctrl+F";
@@ -1646,9 +1646,9 @@ void MsgEdit::setupMessages()
     cmd->param		= &defFile;
     EventCreateMessageType(cmd).process();
 
-    cmd->id			 = MessageUrl;
-    cmd->text		 = I18N_NOOP("&URL");
-    cmd->icon		 = "url";
+    cmd->id             = MessageUrl;
+    cmd->text           = I18N_NOOP("&URL");
+    cmd->icon           = "url";
     cmd->accel		 = "Ctrl+U";
     cmd->menu_grp	 = 0x3030;
     cmd->flags		 = COMMAND_DEFAULT;

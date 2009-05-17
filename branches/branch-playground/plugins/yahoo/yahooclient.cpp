@@ -262,7 +262,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             socket()->writeBuffer()
-            << QString::number((*it).first).latin1()
+            << QString::number((*it).first).toLatin1().data()
             << (unsigned short)0xC080
             << (*it).second.data()
             << (unsigned short)0xC080;
@@ -285,7 +285,7 @@ void YahooClient::addParam(unsigned key, const Q3CString &value)
 
 void YahooClient::addParam(unsigned key, const QString &value)
 {
-    m_values.push_back(PARAM(key, value.utf8()));
+    m_values.push_back(PARAM(key, value.toUtf8()));
 }
 
 void YahooClient::connect_ready()
@@ -1015,7 +1015,7 @@ void YahooClient::process_fileurl(const char *id, const char *msg, const char *u
 void YahooClient::disconnected()
 {
     m_values.clear();
-    m_session_id = QString();
+    m_session_id.clear();
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -1055,7 +1055,7 @@ bool YahooClient::isMyData(clientData *&_data, Contact*&contact)
     if (_data->Sign.toULong() != YAHOO_SIGN)
         return false;
     YahooUserData *data = toYahooUserData(_data);
-    YahooUserData *my_data = findContact(data->Login.str().utf8(), NULL, contact);
+    YahooUserData *my_data = findContact(data->Login.str().toUtf8(), NULL, contact);
     if (!my_data){
         contact = NULL;
     }
@@ -1144,7 +1144,7 @@ void YahooClient::loadList(const char *str)
     it.reset();
     for (list<ListRequest>::iterator itl = m_requests.begin(); itl != m_requests.end(); ++itl){
         if ((*itl).type == LR_CHANGE){
-            YahooUserData *data = findContact((*itl).name.utf8(), NULL, contact, false);
+            YahooUserData *data = findContact((*itl).name.toUtf8(), NULL, contact, false);
             if (data){
                 data->bChecked.asBool() = true;
                 QString grpName;
@@ -1154,7 +1154,7 @@ void YahooClient::loadList(const char *str)
                         grpName = grp->getName();
                 }
                 if (grpName != data->Group.str())
-                    moveBuddy(data, grpName.utf8());
+                    moveBuddy(data, grpName.toUtf8());
             }
         }
         if ((*itl).type == LR_DELETE){
@@ -1371,7 +1371,7 @@ QString YahooClient::contactTip(void *_data)
     res += "\">";
     QString statusText;
     for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
-        if (!strcmp(cmd->icon, statusIcon)){
+        if (cmd->icon == statusIcon){
             res += " ";
             statusText = i18n(cmd->text);
             res += statusText;
@@ -1617,7 +1617,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 break;
             }
         }
-        QStringList smiles = getIcons()->getSmile(src.latin1());
+        QStringList smiles = getIcons()->getSmile(src.toLatin1());
         if (smiles.empty()){
             text(alt);
             return;
@@ -1875,7 +1875,7 @@ bool YahooClient::processEvent(Event *e)
                 YahooUserData *data;
                 while ((data = toYahooUserData(++it)) != NULL){
                     if (getState() == Connected){
-                        moveBuddy(data, grpName.utf8());
+                        moveBuddy(data, grpName.toUtf8());
                     }else{
                         ListRequest *lr = findRequest(data->Login.str());
                         if (lr == NULL){
@@ -2028,7 +2028,7 @@ void YahooClient::sendStatus(unsigned long _status, const QString &msg)
 
 void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port)
 {
-    QString fn = file->name();
+    QString fn = file->fileName();
 #if defined( WIN32 ) || defined( __OS2__ )
     fn = fn.replace('\\', '/');
 #endif
@@ -2044,7 +2044,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     url += '/';
     QString nn;
     Contact *contact;
-    findContact(data->Login.str().utf8(), NULL, contact);
+    findContact(data->Login.str().toUtf8(), NULL, contact);
     Q3CString ff = getContacts()->fromUnicode(contact, fn);
     for (const char *p = ff; *p; p++){
         if (((*p >= 'a') && (*p <='z')) || ((*p >= 'A') && (*p < 'Z')) || ((*p >= '0') && (*p <= '9')) || (*p == '.')){
@@ -2103,7 +2103,7 @@ YahooUserData* YahooClient::toYahooUserData(SIM::clientData * data)
 
       log(L_ERROR,
         "ATTENTION!! Unsafly converting %s user data into YAHOO_SIGN",
-         Sign.latin1());
+         qPrintable(Sign));
 //      abort();
    }
    return (YahooUserData*) data;

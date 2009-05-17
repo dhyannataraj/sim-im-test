@@ -32,11 +32,10 @@ using namespace SIM;
 ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& msg) : QDialog(NULL, NULL, false, Qt::WDestructiveClose)
         //: ProxyErrorBase(NULL, NULL, false, Qt::WDestructiveClose)
 {
-	setupUi(this);
-    SET_WNDPROC("proxy")
+    setupUi(this);
     setIcon(Pict("error"));
     setButtonsPict(this);
-    setCaption(caption());
+    setWindowTitle(caption());
     m_plugin = plugin;
     m_client = client;
     lblMessage->setText(msg);

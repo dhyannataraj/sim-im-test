@@ -283,7 +283,7 @@ void RemotePlugin::bind()
         ServerSocketNotify::bind(port, port, NULL);
 #ifndef WIN32
     }else{
-        ServerSocketNotify::bind(path);
+        ServerSocketNotify::bind(path.toLatin1());
 #endif
     }
 }
@@ -302,7 +302,7 @@ void RemotePlugin::bind_ready(unsigned short)
 bool RemotePlugin::error(const QString &err)
 {
     if (!err.isEmpty())
-        log(L_DEBUG, "Remote: %s", err.local8Bit().data());
+        log(L_DEBUG, "Remote: %s", qPrintable(err));
     return true;
 }
 
@@ -386,7 +386,7 @@ static bool cmpStatus(const char *s1, const char *s2)
     QString ss2 = s2;
     ss1 = ss1.remove('&');
     ss2 = ss2.remove('&');
-    return ss1.lower() == ss2.lower();
+    return ss1.lower() == ss2.toLower();
 }
 
 static QWidget *findWidget(const char *className)
@@ -511,7 +511,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     for (; i < (int)(in.length()); i++){
         if (in[i] == ' ')
             break;
-        cmd += in[i].upper();
+        cmd += in[i].toUpper();
     }
     for (; i < (int)(in.length()); ){
         for (; i < (int)(in.length()); i++)
@@ -646,10 +646,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                             info.key += QString::number(9 - status);
                             break;
                         case SORT_ACTIVE:
-                            info.key += active.lower();
+                            info.key += active.toLower();
                             break;
                         case SORT_NAME:
-                            info.key += contact->getName().lower();
+                            info.key += contact->getName().toLower();
                             break;
                         }
                         mode = mode >> 8;
@@ -740,7 +740,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
                 for (const CommandDef *d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
-                    if (cmpStatus(d->text, args[0].latin1())){
+                    if (cmpStatus(d->text, args[0].toLatin1())){
                         status = d->id;
                         break;
                     }
@@ -802,7 +802,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_MAINWND:
         w = findWidget("MainWindow");
         if (args.size()){
-            if (args[0].lower() == "toggle"){
+            if (args[0].toLower() == "toggle"){
                 if (w){
                     if (w->isVisible()){
                         w->hide();
@@ -942,7 +942,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += "\r\n";       
             }
         }else{
-            args[0] = args[0].upper();
+            args[0] = args[0].toUpper();
             for (c = cmds; c->cmd; c++)
                 if (args[0] == c->cmd)
                     break;
@@ -998,7 +998,7 @@ void ControlSocket::write(const char *msg)
 bool ControlSocket::error_state(const QString &err, unsigned)
 {
     if (!err.isEmpty())
-        log(L_WARN, "ControlSocket error %s", err.local8Bit().data());
+        log(L_WARN, "ControlSocket error %s", qPrintable(err));
     return true;
 }
 
@@ -1016,7 +1016,7 @@ void ControlSocket::packet_ready()
 	QString strLine=QString(line.data()).stripWhiteSpace();
     /*if (line[(int)line.length() - 1] == '\r')
         line = line.left(line.size() - 1);*/
-    log(L_DEBUG, "Remote read: %s", strLine.latin1());
+    log(L_DEBUG, "Remote read: %s", qPrintable(strLine));
     QString out;
     bool bError = false;
 	bool bRes = m_plugin->command(strLine.latin1(), out, bError);

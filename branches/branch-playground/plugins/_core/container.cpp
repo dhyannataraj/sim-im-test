@@ -1057,7 +1057,7 @@ void UserTabBar::changeTab(unsigned id)
         UserWnd *wnd = wndForTab(t);
         if (wnd && wnd->id() == id)
         {
-            QTabBar::removeTab(t);
+            setTabText(t,wnd->getName());
             QTimer::singleShot(0, this, SLOT(slotRepaint()));
             break;
         }

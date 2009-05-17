@@ -218,8 +218,8 @@ PickerPopup::PickerPopup(DatePicker *picker)
     m_monthBox = new MonthSpinBox(this);
     hLay->addWidget(m_monthBox);
     m_yearBox = new QSpinBox(this);
-    m_yearBox->setMaxValue(d.year());
-    m_yearBox->setMinValue(d.year() - 200);
+    m_yearBox->setMaximum(d.year());
+    m_yearBox->setMinimum(d.year() - 200);
     m_monthBox->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     hLay->addWidget(m_yearBox);
     connect(m_monthBox, SIGNAL(valueChanged(int)), this, SLOT(monthChanged(int)));
@@ -312,14 +312,14 @@ void PickerPopup::yearChanged(int v)
 {
     QDate d = QDate::currentDate();
     if (v == d.year() - 200){
-        m_monthBox->setMinValue(0);
+        m_monthBox->setMinimum(0);
     }else{
-        m_monthBox->setMinValue(-1);
+        m_monthBox->setMinimum(-1);
     }
     if (v == d.year()){
-        m_monthBox->setMaxValue(11);
+        m_monthBox->setMaximum(11);
     }else{
-        m_monthBox->setMaxValue(12);
+        m_monthBox->setMaximum(12);
     }
     fill();
 }

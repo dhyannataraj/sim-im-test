@@ -191,7 +191,7 @@ void YahooSearch::createContact(unsigned tmpFlags, Contact *&contact)
 
 void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(id.utf8(), NULL, contact, false, false))
+    if (m_client->findContact(id.toUtf8(), NULL, contact, false, false))
         return;
     QString grpName;
     Group *grp = NULL;
@@ -202,7 +202,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
     }
     if (grp)
         grpName = grp->getName();
-    m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName), contact, false, false);
+    m_client->findContact(id.toUtf8(), getContacts()->fromUnicode(NULL, grpName), contact, false, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

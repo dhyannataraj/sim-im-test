@@ -116,9 +116,12 @@ void CToolItem::setShow(CommandDef *def)
 
 void CToolItem::setState()
 {
-    if (m_def.flags & BTN_HIDE){
+    if (m_def.flags & BTN_HIDE)
+    {
         widget()->hide();
-    }else if (!widget()->isVisible()){
+    }
+    else if (!widget()->isVisible())
+    {
         widget()->show();
         widget()->setEnabled((m_def.flags & COMMAND_DISABLED) == 0);
     }
@@ -127,7 +130,8 @@ void CToolItem::setState()
 
 void CToolItem::checkState()
 {
-    if (m_def.flags & COMMAND_CHECK_STATE){
+    if (m_def.flags & COMMAND_CHECK_STATE)
+    {
         m_def.param = static_cast<CToolBar*>(widget()->parent())->param();
         EventCheckCommandState(&m_def).process();
         m_def.flags |= COMMAND_CHECK_STATE;
@@ -146,7 +150,7 @@ CToolButton::CToolButton (CToolBar *parent, CommandDef *def)
     connect(this, SIGNAL(toggled(bool)), this, SLOT(btnToggled(bool)));
     accel = NULL;
     if(!def->accel.isEmpty())
-	{
+    {
         accel = new Q3Accel(this);
         accel->insertItem(Q3Accel::stringToKey(def->accel));
         connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
@@ -410,7 +414,6 @@ QSize CToolPictButton::sizeHint() const
 */
 void CToolPictButton::setState()
 {
-//    setIconSet(QIcon());
     setTextLabel();
     CToolButton::setState();
     repaint();
@@ -770,7 +773,10 @@ bool CToolBar::processEvent(Event *e)
 				if ((cmd->param == NULL) || (cmd->param == m_param)){
 					ButtonsMap::iterator it = buttons->find(cmd->id);
 					if (it != buttons->end())
-						(*it).second->setDisabled(cmd);
+                                        {
+                                            (*it).second->setDisabled(cmd);
+                                            (*it).second->checkState();
+                                        }
 				}
 				return false;
 			}
@@ -838,10 +844,10 @@ void CToolBar::toolBarChanged()
 		}
 		if (btn == NULL)
 			continue;
-		btn->checkState();
 		buttons->add(s->id, btn);
                 addWidget(btn->widget());
-	}
+                btn->checkState();
+        }
 	bChanged = false;
 	QTimer::singleShot(0, this, SLOT(checkState()));
 }

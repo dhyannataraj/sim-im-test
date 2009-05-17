@@ -43,11 +43,11 @@ namespace ConfigDlg
 using namespace std;
 using namespace SIM;
 
-const unsigned CONFIG_ITEM	= 1;
-const unsigned PLUGIN_ITEM	= 2;
+const unsigned CONFIG_ITEM  = 1;
+const unsigned PLUGIN_ITEM  = 2;
 const unsigned CLIENT_ITEM  = 3;
-const unsigned MAIN_ITEM	= 4;
-const unsigned AR_ITEM		= 5;
+const unsigned MAIN_ITEM    = 4;
+const unsigned AR_ITEM      = 5;
 
 class ConfigItem : public Q3ListViewItem
 {
@@ -230,7 +230,7 @@ void ClientItem::init()
         setText(0, i18n(m_cmd->text));
     }
     if (!m_cmd->icon.isEmpty())
-        setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()));
+        setPixmap(0, Pict(m_cmd->icon, listView()->palette().color(QPalette::Base)));
 }
 
 QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
@@ -284,7 +284,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *d)
         icon=d->icon;
         break;
     }
-    setPixmap(0, Pict(icon, listView()->colorGroup().base()));
+    setPixmap(0, Pict(icon, listView()->palette().color(QPalette::Base)));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -305,7 +305,7 @@ MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info", listView()->colorGroup().base()));
+    setPixmap(0, Pict("info", listView()->palette().color(QPalette::Base)));
 }
 
 QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
@@ -321,14 +321,13 @@ ConfigureDialog::ConfigureDialog() : QDialog(NULL)
 {
     setupUi(this);
     m_nUpdates = 0;
-    SET_WNDPROC("configure")
-    setIcon(Pict("configure"));
+    setWindowIcon(Pict("configure"));
     setButtonsPict(this);
     setTitle();
     lstBox->header()->hide();
     QIcon iconSet = Icon("webpress");
-    if (!iconSet.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnUpdate->setIconSet(iconSet);
+    if (!iconSet.pixmap(QSize(16,16), QIcon::Normal).isNull())
+        btnUpdate->setIcon(iconSet);
     btnUpdate->hide();
     lstBox->setHScrollBarMode(Q3ScrollView::AlwaysOff);
     fill(0);
@@ -418,7 +417,7 @@ void ConfigureDialog::fill(unsigned id)
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Plugins"));
-    parentItem->setPixmap(0, Pict("run", lstBox->colorGroup().base()));
+    parentItem->setPixmap(0, Pict("run", lstBox->palette().color(QPalette::Base)));
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){
@@ -538,7 +537,7 @@ void ConfigureDialog::apply()
         buttonApply->setText(i18n("&Apply"));
         buttonOk->setText(i18n("&OK"));
         buttonCancel->setText(i18n("&Cancel"));
-        setCaption(i18n("Setup"));
+        setWindowTitle(i18n("Setup"));
     }
     if (lstBox->currentItem())
         static_cast<ConfigItem*>(lstBox->currentItem())->show();
@@ -590,7 +589,7 @@ void ConfigureDialog::setTitle()
         title += i18n("Update info");
         title += ']';
     }
-    setCaption(title);
+    setWindowTitle(title);
 }
 
 void ConfigureDialog::accept()
@@ -654,13 +653,13 @@ void ConfigureDialog::raisePhoneBook()
     QWidget *w = static_cast<ConfigItem*>(lstBox->currentItem())->widget();
     if (w == NULL)
         return;
-    QObjectList l = topLevelWidget()->queryList("QTabWidget");
+    QList<QTabWidget*> l = topLevelWidget()->findChildren<QTabWidget*>();
 	if(l.isEmpty())
 		return;
-    QTabWidget *tab = static_cast<QTabWidget*>(l.first());
+    QTabWidget *tab = l.first();
     if(tab == NULL)
         return;
-    tab->setCurrentPage(2);
+    tab->setCurrentIndex(2);
 }
 
 void ConfigureDialog::repaintCurrent()
