@@ -58,7 +58,7 @@
 				PrecompiledHeaderThrough="msn_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4127"
+				DisableSpecificWarnings="4512"
 				ForcedIncludeFiles="msn_pch.h"
 			/>
 			<Tool
@@ -150,7 +150,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4127"
+				DisableSpecificWarnings="4512"
 				ForcedIncludeFiles="msn_pch.h"
 			/>
 			<Tool

@@ -60,7 +60,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4127"
+				DisableSpecificWarnings="4512"
 				ForcedIncludeFiles="jabber_pch.h"
 			/>
 			<Tool
@@ -152,7 +152,7 @@
 				PrecompiledHeaderThrough="jabber_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4127"
+				DisableSpecificWarnings="4512"
 				ForcedIncludeFiles="jabber_pch.h"
 			/>
 			<Tool

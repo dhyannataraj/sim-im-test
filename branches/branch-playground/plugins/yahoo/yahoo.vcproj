@@ -60,7 +60,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4127"
+				DisableSpecificWarnings="4512"
 				ForcedIncludeFiles="yahoo_pch.h"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 				PrecompiledHeaderThrough="yahoo_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4127"
+				DisableSpecificWarnings="4512"
 				ForcedIncludeFiles="yahoo_pch.h"
 			/>
 			<Tool
