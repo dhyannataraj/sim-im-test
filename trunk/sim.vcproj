@@ -48,7 +48,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
+				FavorSizeOrSpeed="1"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_NDEBUG;NDEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				StringPooling="true"
@@ -73,6 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/LTCG"
 				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libjpeg.lib sim\win32\libeay32MD.lib sim\win32\ssleay32MD.lib $(QTDIR)\lib\qtmain.lib Wininet.lib"
 				OutputFile=".\Release/sim.exe"
 				SubSystem="2"
@@ -137,7 +140,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="3"
+				InlineFunctionExpansion="0"
+				FavorSizeOrSpeed="1"
+				EnableFiberSafeOptimizations="true"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;DEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				MinimalRebuild="true"
