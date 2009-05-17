@@ -185,8 +185,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zodiak", "plugins\zodiak\zo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simctrl", "plugins\remote\simctrl.vcproj", "{5BED4897-E26B-4EB1-8CEB-B14EA623C8EA}"
 	ProjectSection(ProjectDependencies) = postProject
-		{44A722A5-7740-4D34-B2AE-47ACCDBDE1CF} = {44A722A5-7740-4D34-B2AE-47ACCDBDE1CF}
 		{C152FFE3-3C84-4957-BDCC-63334E6FFA9E} = {C152FFE3-3C84-4957-BDCC-63334E6FFA9E}
+		{44A722A5-7740-4D34-B2AE-47ACCDBDE1CF} = {44A722A5-7740-4D34-B2AE-47ACCDBDE1CF}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simext", "plugins\remote\simext.vcproj", "{44A722A5-7740-4D34-B2AE-47ACCDBDE1CF}"
@@ -206,6 +206,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simremote", "plugins\remote
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "styles", "plugins\styles\styles.vcproj", "{C78169EE-7720-4DA2-B62B-30BC73E91CE0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C152FFE3-3C84-4957-BDCC-63334E6FFA9E} = {C152FFE3-3C84-4957-BDCC-63334E6FFA9E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "metal", "plugins\styles\metal\metal.vcproj", "{B731028E-4BE4-46A3-BBAA-5F47D637829E}"
 EndProject
