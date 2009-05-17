@@ -21,23 +21,15 @@
 #include <algorithm>
 
 #include <qfontmetrics.h>
-#include <QToolBar>
-#include <qcombobox.h>
-#include <qlineedit.h>
 #include <qtimer.h>
-#include <qlayout.h>
 #include <qapplication.h>
-#include <qclipboard.h>
 #include <qregexp.h>
-#include <qtooltip.h>
-//Added by qt3to4:
+#include <QClipboard>
 #include <QResizeEvent>
 #include <QLabel>
 #include <QPixmap>
 #include <QMouseEvent>
-#include <Q3GridLayout>
 #include <QDragEnterEvent>
-#include <Q3VBoxLayout>
 #include <QFrame>
 #include <QDropEvent>
 #include <QDragMoveEvent>
@@ -1560,7 +1552,7 @@ SmileLabel::SmileLabel(const QString &_id, QWidget *parent)
         tip += ' ';
         tip += i18n(name);
     }
-    QToolTip::add(this, tip);
+    this->setToolTip(tip);
 }
 
 void SmileLabel::mouseReleaseEvent(QMouseEvent*)

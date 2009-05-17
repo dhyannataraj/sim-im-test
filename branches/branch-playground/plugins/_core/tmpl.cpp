@@ -31,8 +31,6 @@
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <q3process.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 
 #include "tmpl.h"
 #include "sockfactory.h"
@@ -67,7 +65,7 @@ bool Tmpl::processEvent(Event *e)
 
 void Tmpl::clear()
 {
-    for (Q3ValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
+    for (QList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
         if ((*it).bReady && (*it).process){
             delete (*it).process;
             (*it).process = NULL;
@@ -86,7 +84,7 @@ void Tmpl::clear()
 
 void Tmpl::ready()
 {
-    for (Q3ValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
+    for (QList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
         Q3Process *p = (*it).process;
         if (p && !p->isRunning()){
             if (p->normalExit() && p->exitStatus() == 0){

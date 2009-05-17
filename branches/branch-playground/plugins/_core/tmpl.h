@@ -18,9 +18,8 @@
 #ifndef _TMPL_H
 #define _TMPL_H
 
-#include <qobject.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QObject>
+#include <QList>
 
 #include "event.h"
 #include "misc.h"
@@ -49,7 +48,7 @@ protected:
     bool process(TmplExpand &t);
     QString process(TmplExpand &t, const QString &str);
     bool getTag(const QString &name, SIM::Data *data, const SIM::DataDef *def, QString &res);
-    Q3ValueList<TmplExpand> tmpls;
+    QList<TmplExpand> tmpls;
 };
 
 #endif

@@ -20,12 +20,7 @@
 #include "prefcfg.h"
 #include "qchildwidget.h"
 
-#include <qlayout.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 using namespace SIM;
 
@@ -53,7 +48,7 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
         w = ((getPreferencesWindow)(cmd->param))(addWnd, data);
     if(w)
 	{
-        Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
+        QVBoxLayout *lay = new QVBoxLayout(addWnd);
         lay->addWidget(w);
         connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
 		if(addWnd)

@@ -31,7 +31,7 @@
 #include <QTimer>
 #include <QCloseEvent>
 #include <Q3CString>
-#include <Q3ValueList>
+#include <QList>
 #include <QApplication>
 
 using namespace std;
@@ -201,7 +201,7 @@ void UserWnd::modeChanged()
         if (editHeight == 0)
             editHeight = CorePlugin::m_plugin->getEditHeight();
         if (editHeight){
-            Q3ValueList<int> s;
+            QList<int> s;
             s.append(1);
             s.append(editHeight);
             m_bResize = true;

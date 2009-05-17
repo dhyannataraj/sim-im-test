@@ -18,7 +18,6 @@
 #include "simapi.h"
 
 #include <qstringlist.h>
-#include <qregexp.h>
 #include <qtimer.h>
 #include <qdatetime.h>
 //Added by qt3to4:

@@ -19,10 +19,7 @@
 #include "misc.h"
 #include "connectionsettings.h"
 
-#include <qlayout.h>
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 using namespace SIM;
 
@@ -36,8 +33,8 @@ ConnectionSettings::ConnectionSettings(Client *client) : QDialog(NULL)
     Protocol *protocol = client->protocol();
     const CommandDef *cmd = protocol->description();
     setWindowIcon(Icon(cmd->icon));
-    setCaption(i18n("Configure %1 client") .arg(i18n(cmd->text)));
-    Q3VBoxLayout *lay = new Q3VBoxLayout(addWnd);
+    setWindowTitle(i18n("Configure %1 client") .arg(i18n(cmd->text)));
+    QVBoxLayout *lay = new QVBoxLayout(addWnd);
     QWidget *setupWnd = client->setupWnd();
     setupWnd->reparent(addWnd, QPoint());
     lay->addWidget(setupWnd);

@@ -22,13 +22,8 @@
 #include "textshow.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
-#include <Q3HBoxLayout>
+#include <QCheckBox>
+#include <QHBoxLayout>
 #include <Q3Frame>
 
 using namespace SIM;
@@ -305,7 +300,7 @@ SMSPanel::SMSPanel(QWidget *parent)
         : Q3Frame(parent)
 {
     setMargin(3);
-    Q3HBoxLayout *lay = new Q3HBoxLayout(this);
+    QHBoxLayout *lay = new QHBoxLayout(this);
     chkSave = new QCheckBox(i18n("Save phone in contact list"), this);
     lay->addSpacing(7);
     lay->addWidget(chkSave);
