@@ -16,9 +16,7 @@
  ***************************************************************************/
 
 // system includes
-#include <q3valuelist.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QMultiMap>
 #include <time.h>
 // own header
 #include "event.h"
@@ -30,25 +28,20 @@ namespace SIM
 {
 
 // this is all not thread-safe!
-static Q3ValueList<EventReceiver*> *receivers = NULL;
+static QMultiMap<unsigned, EventReceiver*> receivers;
 static bool g_bChanged = false;
 static int g_iLevel = 0;
 
 EventReceiver::EventReceiver(unsigned priority)
 {
     m_priority = priority;
-    Q3ValueList<EventReceiver*>::iterator it;
-    Q3ValueList<EventReceiver*>::iterator end = receivers->end();
-    for (it = receivers->begin(); it != end; ++it)
-        if ((*it)->priority() >= priority)
-            break;
-    receivers->insert(it, this);
+    receivers.insert(priority, this);
     g_bChanged = true;
 }
 
 EventReceiver::~EventReceiver()
 {
-    receivers->remove(this);
+    receivers.remove(m_priority, this);
     g_bChanged = true;
 }
 
@@ -65,17 +58,14 @@ bool Event::process(EventReceiver *from)
 {
     m_bProcessed = true;
 
-    if (receivers == NULL)
-        return false;
     g_iLevel++;
-    Q3ValueList<EventReceiver*>::ConstIterator it = receivers->begin();
-    Q3ValueList<EventReceiver*>::ConstIterator end = receivers->constEnd();
+    QMultiMap<unsigned, EventReceiver*>::ConstIterator it = receivers.begin();
+    QMultiMap<unsigned, EventReceiver*>::ConstIterator end = receivers.constEnd();
     if (from){
-        it = receivers->find(from);
-        if(it != end)
-            ++it;
-        else
+        it = receivers.find(from->priority(), from);
+        if(it == end)
             return false;
+        ++it;
     }
     for (; it != end; ++it){
         EventReceiver *receiver = *it;
@@ -89,8 +79,7 @@ bool Event::process(EventReceiver *from)
             }
             if(g_bChanged) {
                 // adjust
-                it = receivers->find(receiver);
-                if(it == end)
+                if(!receivers.contains(receiver->priority(), receiver))
                     return false;
             }
         }
@@ -103,12 +92,11 @@ bool Event::process(EventReceiver *from)
 
 void EventReceiver::initList()
 {
-    receivers = new Q3ValueList<EventReceiver*>;
 }
 
 void EventReceiver::destroyList()
 {
-    delete receivers;
+    receivers.clear();
 }
 
 // Some event functions
@@ -176,7 +164,7 @@ QString EventLog::make_packet_string(const EventLog &l)
     }
 	else
 	{
-        m = QString::fromAscii(l.logData());
+        m = l.logData();
     }
     return m;
 }
@@ -191,7 +179,7 @@ void EventLog::log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID,
 
 void EventLog::log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QString addInfo)
 {
-    EventLog e(packetBuf, bOut, packetID, addInfo.latin1());
+    EventLog e(packetBuf, bOut, packetID, addInfo);
     e.process();
 }
 

@@ -21,16 +21,14 @@
 #include <qpoint.h>
 #include <qsize.h>
 #include <qstringlist.h>
-//Added by qt3to4:
-#include <QTranslator>
 #include <Q3CString>
-#include <Q3PopupMenu>
 
 #include "buffer.h"
 
 class CToolBar;
+class QPainter;
 class QMainWindow;
-class Q3PopupMenu;
+class QMenu;
 class QTranslator;
 
 namespace SIM
