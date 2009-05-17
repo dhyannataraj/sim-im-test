@@ -60,7 +60,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4512"
+				DisableSpecificWarnings="4127,4251,4710,4512"
 				ForcedIncludeFiles="yahoo_pch.h"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 				PrecompiledHeaderThrough="yahoo_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4512"
+				DisableSpecificWarnings="4127,4251,4710,4512"
 				ForcedIncludeFiles="yahoo_pch.h"
 			/>
 			<Tool
@@ -170,6 +170,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
+				AdditionalOptions="/LTCG"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)\sim\win32\libeay32MD.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"

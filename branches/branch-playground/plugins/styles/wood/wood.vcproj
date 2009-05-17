@@ -56,7 +56,7 @@
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4512"
+				DisableSpecificWarnings="4127,4251,4710,4512"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -72,6 +72,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
+				AdditionalOptions="/LTCG"
 				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				TargetMachine="1"
@@ -145,7 +146,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4512"
+				DisableSpecificWarnings="4127,4251,4710,4512"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

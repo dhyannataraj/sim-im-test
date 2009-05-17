@@ -38,6 +38,8 @@
 	# pragma warning(disable: 4251)
 	// "function' : function not inlined" (W4)4786
 	# pragma warning(disable: 4710)
+	// "function' : assignment operator could not be generated" 
+	# pragma warning(disable: 4512) //Attention should perhaps not be pragma'ed
 #endif
 
 #ifdef HAVE_GCC_VISIBILITY

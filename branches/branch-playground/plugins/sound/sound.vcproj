@@ -62,7 +62,7 @@
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4512"
+				DisableSpecificWarnings="4127,4251,4710,4512"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -78,6 +78,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
+				AdditionalOptions="/LTCG"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib audiere.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
@@ -156,7 +157,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4512"
+				DisableSpecificWarnings="4127,4251,4710,4512"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
