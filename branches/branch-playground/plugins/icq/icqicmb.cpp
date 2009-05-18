@@ -208,7 +208,7 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 	}
 	else
 	{
-                log(L_DEBUG, "%s", qPrintable(client()->getContact(data)->getEncoding()));
+        log(L_DEBUG, "%s", qPrintable(client()->getContact(data)->getEncoding()));
 		Q3CString msg_text = getContacts()->fromUnicode(client()->getContact(data), text);
 		EventSend e(m_send.msg, msg_text);
 		e.process();

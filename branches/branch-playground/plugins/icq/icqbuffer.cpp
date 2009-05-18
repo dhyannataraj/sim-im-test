@@ -29,6 +29,8 @@
 #include "log.h"
 
 #include "icqbuffer.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 using namespace SIM;
 
@@ -48,7 +50,6 @@ Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
     memcpy(m_data.data(), data, m_nSize);
     m_data[(int)m_nSize] = 0;
 }
-
 Tlv::Tlv(unsigned short num, QByteArray& array) : m_nNum(num), m_nSize(array.size())
 {
 	m_data.duplicate(array);
@@ -83,16 +84,16 @@ TlvList::TlvList(ICQBuffer &b, unsigned nTlvs)
 
 TlvList::~TlvList()
 {
-    for(int i = 0; i < count(); i++)
-        delete at(i);
+    for(uint i = 0; i < count(); i++)
+        delete *at((int)i);
 }
 
 Tlv *TlvList::operator()(unsigned short num, int skip)
 {
     for(uint i = 0; i < count(); i++) {
-        if (at(i)->Num() == num) {
+        if ((*at(i))->Num() == num) {
             if(skip == 0)
-                return at(i);
+                return *at(i);
             --skip;
         }
     }
@@ -194,18 +195,28 @@ ICQBuffer &ICQBuffer::operator << (const TlvList &tlvList)
 
 ICQBuffer &ICQBuffer::operator << (const QString &s)
 {
-    QByteArray utf8 = s.toUtf8();
+    Q3CString utf8 = s.utf8();
 	unsigned short size = (unsigned short)(utf8.length() + 1);
     *this << (unsigned short)htons(size);
     pack(utf8, size);
     return *this;
 }
 
-ICQBuffer &ICQBuffer::operator << (const QByteArray &s)
+ICQBuffer &ICQBuffer::operator << (const Q3CString &s)
 {
     if(!s.length())
         return *this;
     unsigned short size = (unsigned short)(s.length() + 1);
+    *this << (unsigned short)htons(size);
+    pack(s, size);
+    return *this;
+}
+
+ICQBuffer &ICQBuffer::operator << (const QByteArray &s)
+{
+    if(!s.size())
+        return *this;
+    unsigned short size = (unsigned short)(s.size());
     *this << (unsigned short)htons(size);
     pack(s, size);
     return *this;
@@ -271,7 +282,7 @@ ICQBuffer &ICQBuffer::operator >> (string &s)
     return *this;
 }
 
-ICQBuffer &ICQBuffer::operator >> (QByteArray &str)
+ICQBuffer &ICQBuffer::operator >> (Q3CString &str)
 {
     unsigned short s;
     str = "";
@@ -321,9 +332,9 @@ ICQBuffer &ICQBuffer::operator >> (int &c)
 
 void ICQBuffer::packScreen(const QString &screen)
 {
-    char len = screen.toUtf8().length();
+    char len = screen.utf8().length();
     pack(&len, 1);
-    pack(screen.toUtf8(), len);
+    pack(screen.utf8(), len);
 }
 
 void ICQBuffer::packStr32(const char *s)
@@ -338,7 +349,7 @@ void ICQBuffer::packStr32(const char *s)
     }
 }
 
-void ICQBuffer::packStr32(const QByteArray &s)
+void ICQBuffer::packStr32(const Q3CString &s)
 {
     unsigned long size = s.length();
     pack(size);
@@ -354,7 +365,7 @@ void ICQBuffer::pack32(const Buffer &b)
     pack(b.data(b.readPos()), size);
 }
 
-void ICQBuffer::pack(const QByteArray &s)
+void ICQBuffer::pack(const Q3CString &s)
 {
     unsigned short size = (unsigned short)(s.size());
     *this << size;
@@ -363,7 +374,7 @@ void ICQBuffer::pack(const QByteArray &s)
 
 void ICQBuffer::pack(const QString &s)
 {
-    QByteArray cstr = s.toUtf8();
+    Q3CString cstr = s.utf8();
 	unsigned short size = (unsigned short)(s.length());
     *this << size;
     pack(cstr, size);
@@ -396,7 +407,7 @@ bool ICQBuffer::unpackStr(QString &str)
     return true;
 }
 
-bool ICQBuffer::unpackStr(QByteArray &str)
+bool ICQBuffer::unpackStr(Q3CString &str)
 {
     unsigned short s;
     str = "";
@@ -420,6 +431,20 @@ void ICQBuffer::unpackStr32(string &s)
         size = this->size() - m_posRead;
     s.append(size, '\x00');
     unpack((char*)s.c_str(), size);
+}
+
+bool ICQBuffer::unpackStr32(Q3CString &str)
+{
+    unsigned long s;
+    *this >> s;
+    s = ntohl(s);
+    str = "";
+    if (s == 0)
+        return false;
+    if (s > size() - m_posRead)
+        s = size() - m_posRead;
+    unpack(str, s);
+    return true;
 }
 
 bool ICQBuffer::unpackStr32(QByteArray &str)
@@ -467,6 +492,16 @@ unsigned ICQBuffer::unpack(QString &d, unsigned s)
     if (s < readn)
         readn = s;
     d = QString::fromUtf8(data() + m_posRead, readn);
+    m_posRead += readn;
+    return readn;
+}
+
+unsigned ICQBuffer::unpack(Q3CString &d, unsigned s)
+{
+    unsigned readn = size() - m_posRead;
+    if (s < readn)
+        readn = s;
+    d = Q3CString(data() + m_posRead, readn + 1);
     m_posRead += readn;
     return readn;
 }

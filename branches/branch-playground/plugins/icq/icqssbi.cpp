@@ -331,7 +331,7 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 
 void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash)
 {
-        log(L_DEBUG, "SSBISocket::requestBuddy: %s", qPrintable(screen));
+log(L_DEBUG, "SSBISocket::requestBuddy: %s", qPrintable(screen));
     if(!((buddyHash.size() == 0x05) || (buddyHash.size() == 0x10)))
 	{
         log(L_WARN, "Invalid buddyHash size (%d, id: %d) for %s", buddyHash.size(), buddyID, qPrintable(screen));

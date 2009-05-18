@@ -58,7 +58,7 @@ ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client) : 
 		QByteArray f;
 		foreach( f, formats )
 		{
-                        f.toLower();
+            f.toLower();
 			format += " *." + f;
 		}
 #ifdef USE_KDE
@@ -85,7 +85,7 @@ void ICQPicture::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     QString pict = edtPict->text();
-        log(L_DEBUG, "Pict: %s", qPrintable(pict));
+    log(L_DEBUG, "Pict: %s", qPrintable(pict));
 	m_client->setPicture(pict);
 	m_client->data.owner.Picture.setStr(pict);
     ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion

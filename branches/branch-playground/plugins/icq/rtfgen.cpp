@@ -619,12 +619,12 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 		m_lastParagraphPos = res.length();
 		m_bSpace = true;
 		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-                        QString name = (*it).toLower();
+            QString name = (*it).toLower();
 			++it;
 			QString value = (*it);
 			if (name == "dir")
 			{
-                                QString dir = value.toLower();
+                QString dir = value.toLower();
 				if (dir == "ltr")
 				{
 					res += "\\ltrpar";
@@ -686,7 +686,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 	// Process attributes which all tags share.
 
 	for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-                QString name = (*it).toLower();
+        QString name = (*it).toLower();
 		++it;
 		QString value = (*it);
 
@@ -708,7 +708,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				}
 				else if (cssPropName == "font-size")
 				{
-                                        cssPropValue = cssPropValue.toLower();
+                    cssPropValue = cssPropValue.toLower();
 					int length;
 					if(cssReNum.indexIn(cssPropValue) != -1)
 					{
@@ -747,7 +747,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				}
 				else if (cssPropName == "font-style")
 				{
-                                        style.italic = (cssPropValue.toLower() == "italic");
+                    style.italic = (cssPropValue.toLower() == "italic");
 				}
 				else if (cssPropName == "font-weight")
 				{
@@ -755,7 +755,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				}
 				else if (cssPropName == "text-decoration")
 				{
-                                        style.underline = (cssPropValue.toLower() == "underline");
+                    style.underline = (cssPropValue.toLower() == "underline");
 				}
 				else if (cssPropName == "color")
 				{
@@ -778,7 +778,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 		QString rtf = style.getDiffRTF(parentStyle);
 		if (!rtf.isEmpty())
 		{
-                        res += rtf.toUtf8();
+            res += rtf.toUtf8();
 			m_bSpace = true;
 		}
 		tag.setCharStyle(style);
