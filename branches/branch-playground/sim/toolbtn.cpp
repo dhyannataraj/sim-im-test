@@ -177,14 +177,14 @@ void CToolButton::setTextLabel()
     int key = Q3Accel::shortcutKey(text);
     setAccel(key);
     QString t = text;
-    int pos = t.find("<br>");
+    int pos = t.indexOf("<br>");
     if (pos >= 0) t = t.left(pos);
-    QToolButton::setTextLabel(t);
+    setText(t);
     t = text;
-    while ((pos = t.find('&')) >= 0){
+    while ((pos = t.indexOf('&')) >= 0){
         t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
     }
-    QToolTip::add(this, t);
+    setToolTip(t);
 }
 
 void CToolButton::setState()
@@ -192,8 +192,8 @@ void CToolButton::setState()
     setTextLabel();
     if(!m_def.icon_on.isEmpty())
     {
-        setToggleButton(true);
-        setOn((m_def.flags & COMMAND_CHECKED) != 0);
+        setCheckable(true);
+        QToolButton::setChecked((m_def.flags & COMMAND_CHECKED) != 0);
     }
     if((!m_def.icon_on.isEmpty()) && (m_def.icon != m_def.icon_on))
     {
@@ -204,14 +204,14 @@ void CToolButton::setState()
             QPixmap off = Pict(m_def.icon_on);
             if (!off.isNull())
                 icons.setPixmap(off, QIcon::Small, QIcon::Normal, QIcon::On);
-            setIconSet(icons);
+            setIcon(icons);
         }
     }
     else
     {
         QIcon icon = Icon(m_def.icon);
         if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-            setIconSet(icon);
+            setIcon(icon);
     }
     CToolItem::setState();
 }
@@ -234,7 +234,7 @@ void CToolButton::btnClicked()
         }
         return;
     }
-    if (isToggleButton())
+    if (isCheckable())
         return;
     EventCommandExec(&m_def).process();
 }
@@ -242,7 +242,7 @@ void CToolButton::btnClicked()
 void CToolButton::btnToggled(bool state)
 {
     m_def.param = static_cast<CToolBar*>(parent())->param();
-    if (!isToggleButton())
+    if (!isCheckable())
         return;
     if (state){
         m_def.flags |= COMMAND_CHECKED;
@@ -540,7 +540,7 @@ void CToolCombo::slotTextChanged(const QString &str)
     if (m_btn && m_bCheck){
         m_btn->setEnabled(!str.isEmpty());
         if (str.isEmpty())
-            m_btn->setOn(false);
+            m_btn->QToolButton::setChecked(false);
     }
 }
 
@@ -550,10 +550,9 @@ void CToolCombo::setState()
     if (!m_def.text.isEmpty()){
         QString t = i18n(m_def.text);
         int pos;
-        while ((pos = t.find('&')) >= 0)
+        while ((pos = t.indexOf('&')) >= 0)
             t = t.left(pos) + "<u>" + t.mid(pos+1, 1) + "</u>" + t.mid(pos+2);
-        QToolTip::remove(this);
-        QToolTip::add(this, t);
+        setToolTip(t);
     }
     if (m_btn){
         m_btn->setDef(m_def);
@@ -566,7 +565,7 @@ void CToolCombo::setState()
 QSizePolicy CToolCombo::sizePolicy() const
 {
     QSizePolicy p = QComboBox::sizePolicy();
-    p.setHorData(QSizePolicy::Expanding);
+    p.setHorizontalPolicy(QSizePolicy::Expanding);
     return p;
 }
 

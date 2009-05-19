@@ -23,20 +23,17 @@
 
 #include <QToolBar>
 #include <qtoolbutton.h>
-#include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
-//Added by qt3to4:
-#include <QShowEvent>
-#include <QHideEvent>
-#include <QMouseEvent>
-#include <QContextMenuEvent>
-#include <QPaintEvent>
 
-class QMainWindow;
-class Q3Accel;
 class ButtonsMap;
+class Q3Accel;
+class QContextMenuEvent;
+class QHideEvent;
+class QMainWindow;
+class QMouseEvent;
+class QShowEvent;
 
 // Base class for all Widgets in CToolBar
 class EXPORT CToolItem

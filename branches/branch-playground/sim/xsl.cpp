@@ -47,7 +47,8 @@ XSLPrivate::XSLPrivate(const QString &my_xsl)
     styleSheet = NULL;
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
-    doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
+    const QByteArray xslUtf8 = my_xsl.toUtf8();
+    doc = xmlParseMemory(xslUtf8.data(), xslUtf8.length());
     if (doc == NULL){
         xmlErrorPtr ptr = xmlGetLastError();
         log(L_ERROR, "Can't parse XSLT (%s)", ptr ? ptr->message : "");
@@ -71,16 +72,16 @@ XSL::XSL(const QString &name)
     QFile f(user_file(fname));
     bool bOK = true;
     if (f.size() == 0 || !f.open(QIODevice::ReadOnly)){
-        f.setName(app_file(fname));
+        f.setFileName(app_file(fname));
         if (f.size() == 0 || !f.open(QIODevice::ReadOnly)){
-            log(L_WARN, "Can't open / empty file %s", f.name().local8Bit().data());
+            log(L_WARN, "Can't open / empty file %s", qPrintable(f.fileName()));
             bOK = false;
         }
     }
     QString xsl;
     if(bOK){
         QTextStream ts(&f);
-        xsl = ts.read();
+        xsl = ts.readAll();
     }
     d = new XSLPrivate(xsl);
 }
@@ -104,10 +105,11 @@ QString XSL::process(const QString &my_xml)
        ... use Unicode numerical entity instead: &#160;*/
     my_xsl = quote_nbsp(my_xml);
 
-    xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
+    const QByteArray xslUtf8 = my_xsl.toUtf8();
+    xmlDocPtr doc = xmlParseMemory(xslUtf8.data(), xslUtf8.length());
     if (doc == NULL){
         xmlErrorPtr ptr = xmlGetLastError();
-        log(L_WARN, "Parse XML error (%s): %s", ptr ? ptr->message : "", my_xsl.local8Bit().data());
+        log(L_WARN, "Parse XML error (%s): %s", ptr ? ptr->message : "", qPrintable(my_xsl));
         return QString(ptr ? ptr->message : "Parse XML error!");
     }
     const char *params[1];

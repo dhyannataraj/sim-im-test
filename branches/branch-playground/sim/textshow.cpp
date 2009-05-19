@@ -22,17 +22,16 @@
 # include <kstdaccel.h>
 # include <kglobal.h>
 # include <kfiledialog.h>
-# define Q3FileDialog	KFileDialog
+# define QFileDialog	KFileDialog
 #else
-# include <q3filedialog.h>
-//Added by qt3to4:
-#include <QContextMenuEvent>
-#include <QKeyEvent>
-#include <QLabel>
-#include <Q3GridLayout>
-#include <Q3Frame>
-#include <QFocusEvent>
-#include <QMouseEvent>
+# include <QFileDialog>
+# include <QContextMenuEvent>
+# include <QKeyEvent>
+# include <QLabel>
+# include <QGridLayout>
+# include <QFrame>
+# include <QFocusEvent>
+# include <QMouseEvent>
 #endif
 
 #ifdef USE_KDE
@@ -597,7 +596,7 @@ ColorPopup::ColorPopup(QWidget *popup, QColor color)
     m_color = color;
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
-    Q3GridLayout *lay = new Q3GridLayout(this, 5, 4);
+    QGridLayout *lay = new QGridLayout(this);
     lay->setMargin(4);
     lay->setSpacing(2);
     for (unsigned i = 0; i < 4; i++){

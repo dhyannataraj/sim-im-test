@@ -18,10 +18,9 @@
 #ifndef _UNQUOT_H
 #define _UNQUOT_H
 
-#include <qstring.h>
-
 #include "simapi.h"
 
+class QString;
 namespace SIM {
 
 enum quoteMode

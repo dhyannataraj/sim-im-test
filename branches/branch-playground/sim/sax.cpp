@@ -92,7 +92,7 @@ bool SAXParserPrivate::characters(const QString &str)
     
 bool SAXParserPrivate::fatalError(const QXmlParseException & exception)
 {
-    SIM::log(SIM::L_DEBUG, "XML parse error: %s", exception.message().ascii());
+    SIM::log(SIM::L_DEBUG, "XML parse error: %s", qPrintable(exception.message()));
     return false;
 }
 

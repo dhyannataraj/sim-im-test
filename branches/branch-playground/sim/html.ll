@@ -131,9 +131,9 @@ HTMLParserPrivate::HTMLParserPrivate(HTMLParser *parser)
 
 void HTMLParserPrivate::init()
 {
-	text = "";
-	tag  = "";
-	value = "";
+	text.clear();
+	tag.clear();
+	value.clear();
 	attrs.clear();
 }
 
@@ -144,7 +144,7 @@ void HTMLParserPrivate::flushText()
 	if (text.isEmpty())
 		return;
 	p->text(text);
-	text = "";
+	text.clear();
 }
 
 HTMLParser::HTMLParser()
@@ -160,7 +160,7 @@ HTMLParser::~HTMLParser()
 void HTMLParser::parse(const QString &str)
 {
 	p->init();
-	Q3CString cstr = str.utf8();
+	QByteArray cstr = str.toUtf8();
     YY_BUFFER_STATE yy_current_buffer = yy_scan_string(cstr);
 	parse();
 	yy_delete_buffer(yy_current_buffer);
@@ -222,9 +222,9 @@ void HTMLParser::parse()
 			p->flushText();
 			p->text_pos = p->start_pos;
 			s = yytext + 1;
-			p->tag = s.lower();
+			p->tag = s.toLower();
 			p->value = "";
-			current_tag = p->tag.latin1();
+			current_tag = p->tag.toLatin1();
 			break;
 		case ATTR:
 			if (!p->attrs.empty())
@@ -250,7 +250,7 @@ void HTMLParser::parse()
 			start_pos = p->start_pos;
 			end_pos   = p->end_pos;
 			s = yytext + 2;
-			tag_end(s.left(s.length() - 1).lower());
+			tag_end(s.left(s.length() - 1).toLower());
 			break;
 		case SYMBOL:
 			if (p->text.isEmpty())
@@ -258,7 +258,7 @@ void HTMLParser::parse()
 			s = yytext + 1;
 			if (s[(int)(s.length() - 1)] == ';')
 				s = s.left(s.length() - 1);
-			s = s.lower();
+			s = s.toLower();
 			Symbol *ss;
 			for (ss = symbols; ss->name; ss++){
 				if (s == ss->name){
@@ -277,7 +277,7 @@ void HTMLParser::parse()
 					if (bOk)
 						p->text += QChar(code);
 				}else{
-					log(L_WARN, "HTML: Unknown symbol &%s;", s.latin1());
+					log(L_WARN, "HTML: Unknown symbol &%s;", qPrintable(s));
 				}
 			}
 			break;
@@ -355,7 +355,7 @@ list<QString> HTMLParser::parseStyle(const QString &str)
 			if (str[i] == ';')
 				break;
 		i++;
-		res.push_back(name.lower());
+		res.push_back(name.toLower());
 		res.push_back(value);
 	}
 	return res;

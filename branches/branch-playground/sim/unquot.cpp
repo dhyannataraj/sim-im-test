@@ -191,7 +191,7 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuote
         return str;
     QRegExp re("  +");
     int pos = 0;
-    while ((pos = re.search(str, pos)) != -1) {
+    while ((pos = re.indexIn(str, pos)) != -1) {
         int len = re.matchedLength();
         if (len == 1)
             continue;
