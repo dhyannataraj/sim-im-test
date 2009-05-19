@@ -28,7 +28,7 @@
 #include <QHttp>
 #include <QBuffer>
 #include <QDate>
-
+#include <QFile>
 
 struct UpdateData
 {
