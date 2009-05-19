@@ -111,11 +111,11 @@ void ListView::keyPressEvent(QKeyEvent *e)
 {
     if (e->key()){
         int key = e->key();
-        if (e->state() & Qt::ShiftButton)
+        if (e->modifiers() & Qt::ShiftModifier)
             key |= Qt::SHIFT;
-        if (e->state() & Qt::ControlButton)
+        if (e->modifiers() & Qt::ControlModifier)
             key |= Qt::CTRL;
-        if (e->state() & Qt::AltButton)
+        if (e->modifiers() & Qt::AltModifier)
             key |= Qt::ALT;
         Q3ListViewItem *item = currentItem();
         if (item){

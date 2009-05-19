@@ -449,7 +449,7 @@ QString FileMessage::getDescription()
             return NULL;
         QString shortName = *name;
         shortName = shortName.replace('\\', '/');
-        int n = shortName.findRev('/');
+        int n = shortName.lastIndexOf('/');
         if (n >= 0)
             shortName = shortName.mid(n + 1);
         return shortName;
@@ -587,7 +587,7 @@ bool FileTransfer::openFile()
         m_bDir     = true;
         fn = fn.left(fn.length() - 1);
         if (m_base.isEmpty() || (fn.left(m_base.length()) != m_base)){
-            int n = fn.findRev('/');
+            int n = fn.lastIndexOf('/');
             if (n >= 0)
                 m_base = fn.left(n + 1);
         }
@@ -595,7 +595,7 @@ bool FileTransfer::openFile()
         return true;
     }
     if (m_base.isEmpty()){
-        int n = fn.findRev('/');
+        int n = fn.lastIndexOf('/');
         if (n >= 0)
             m_base = fn.left(n + 1);
     }
