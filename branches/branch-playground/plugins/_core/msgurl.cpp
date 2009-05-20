@@ -54,16 +54,16 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
             url = e.url();
             if (!url.isEmpty()){
                 url = url.mid(1);
-                int n = url.find('\"');
+                int n = url.indexOf('\"');
                 if (n > 0){
                     QString u = url.left(n);
                     edtUrl->setText(u);
                     url = url.mid(n + 1);
-                    n = url.find('\"');
+                    n = url.indexOf('\"');
                     if (n > 0)
                         url = url.mid(n + 1);
                 }
-                n = url.find('\"');
+                n = url.indexOf('\"');
                 if (n > 0){
                     url = url.left(n);
                     m_edit->m_edit->setText(url);

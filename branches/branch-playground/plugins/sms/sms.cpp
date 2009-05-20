@@ -379,7 +379,7 @@ static CommandDef cfgSmsWnd[] =
 CommandDef *SMSClient::configWindows()
 {
     QString title = name();
-    int n = title.find('.');
+    int n = title.indexOf('.');
     if (n > 0)
         title = title.left(n) + ' ' + title.mid(n + 1);
     cfgSmsWnd[0].text_wrk = title;

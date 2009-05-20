@@ -158,7 +158,7 @@ void RostersRequest::element_end(const QString& el)
         return;
     }
     if (el == "item"){
-        if ( m_jid.find('/') >= 0 )
+        if ( m_jid.indexOf('/') >= 0 )
 	{
 	   // If roster contains two contacts
 	   // user@jabber.ru and user@jabber.ru/some_resource
@@ -328,7 +328,7 @@ InfoRequest::~InfoRequest()
                 data = &m_client->data.owner;
             }else{
                 QString jid = m_jid;
-                if (jid.find('@') == -1){
+                if (jid.indexOf('@') == -1){
                     jid += '@';
                     jid += m_host;
                 }
@@ -1039,14 +1039,14 @@ JabberClient::IqRequest::~IqRequest()
             return;
         }
         m_url = m_url.mid(7);
-        int n = m_url.find(':');
+        int n = m_url.indexOf(':');
         if (n < 0){
             log(L_WARN, "Port not found");
             return;
         }
         QString host = m_url.left(n);
         unsigned short port = (unsigned short)m_url.mid(n + 1).toLong();
-        n = m_url.find('/');
+        n = m_url.indexOf('/');
         if (n < 0){
             log(L_WARN, "File not found");
             return;
@@ -1466,7 +1466,7 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
             m_contacts += "jabber:";
             m_contacts += jid;
             if (name.isEmpty()){
-                int n = jid.find('@');
+                int n = jid.indexOf('@');
                 if (n >= 0){
                     name = jid.left(n);
                 }else{
@@ -1599,7 +1599,7 @@ AgentDiscoRequest::~AgentDiscoRequest()
 {
     if (data.Name.str().isEmpty()){
         QString jid = data.ID.str();
-        int n = jid.find('.');
+        int n = jid.indexOf('.');
         if (n > 0){
             jid = jid.left(n);
             data.Name.str() = jid;
@@ -2859,7 +2859,7 @@ void JabberClient::changePassword(const QString &password)
     if (getState() != Connected)
         return;
 	QString id_name = data.owner.ID.str();
-	int pos = id_name.find('@');
+	int pos = id_name.indexOf('@');
 
 	if(pos != -1)
 		id_name = id_name.left(pos);

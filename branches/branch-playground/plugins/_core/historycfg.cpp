@@ -98,7 +98,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
         QColor c;
         switch (state){
         case TEXT:
-            n = s.find('<', pos);
+            n = s.indexOf('<', pos);
             if (n == -1){
                 n = s.length();
             }else{
@@ -115,7 +115,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
             }
             break;
         case COMMENT:
-            n = s.find("-->", pos);
+            n = s.indexOf("-->", pos);
             if (n == -1){
                 n = s.length();
             }else{
@@ -136,8 +136,8 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
             default:
                 c = QColor(COLOR_TAG);
             }
-            n = s.find('>', pos);
-            n1 = s.find('\"', pos);
+            n = s.indexOf('>', pos);
+            n1 = s.indexOf('\"', pos);
             if ((n >= 0) && ((n < n1) || (n1 == -1))){
                 state = TEXT;
                 n++;
@@ -160,7 +160,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
         case STRING:
         case XML_STRING:
         case XSL_STRING:
-            n = s.find('\"', pos + 1);
+            n = s.indexOf('\"', pos + 1);
             if (n >= 0){
                 switch (state){
                 case XML_STRING:
@@ -204,7 +204,7 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     edit->setText(QString::number(CorePlugin::m_plugin->getHistoryPage()));
     QString str1 = i18n("Show %1 messages per page");
     QString str2;
-    int n = str1.find("%1");
+    int n = str1.indexOf("%1");
     if (n >= 0){
         str2 = str1.mid(n + 2);
         str1 = str1.left(n);
@@ -399,13 +399,13 @@ void HistoryConfig::copy()
     unsigned next = 0;
     for (vector<StyleDef>::iterator it = m_styles.begin(); it != m_styles.end(); ++it){
         QString nn = (*it).name;
-        int n = nn.find(re);
+        int n = nn.indexOf(re);
         if (n < 0)
             continue;
         nn = nn.mid(n + 1);
         next = QMAX(next, nn.toUInt());
     }
-    int nn = name.find(re);
+    int nn = name.indexOf(re);
     if (nn >= 0){
         newName = name.left(nn);
     }else{

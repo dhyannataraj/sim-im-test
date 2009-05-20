@@ -176,7 +176,7 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
             weight = QFont::Black;
             continue;
         }
-        int p = s.find(QRegExp(" pt.$"));
+        int p = s.indexOf(QRegExp(" pt.$"));
         if (p >= 0){
             s = s.left(p);
             int size = s.toInt();
@@ -184,7 +184,7 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
                 f.setPointSize(size);
             continue;
         }
-        p = s.find(QRegExp(" pix.$"));
+        p = s.indexOf(QRegExp(" pix.$"));
         if (p >= 0){
             s = s.left(p);
             int size = s.toInt();

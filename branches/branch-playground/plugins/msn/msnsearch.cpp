@@ -52,7 +52,7 @@ void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
     if (m_client->findContact(mail, contact))
         return;
     QString name = mail;
-    int n = name.find('@');
+    int n = name.indexOf('@');
     if (n > 0)
         name = name.left(n);
     m_client->findContact(mail, name, contact, false);

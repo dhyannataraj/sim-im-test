@@ -475,7 +475,7 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 	QString text = m_text;
 	if (text.isEmpty())
 		text = i18n(m_def.text);
-	if ((m_def.flags & BTN_DIV) && (text.find(" | ") >= 0)){
+	if ((m_def.flags & BTN_DIV) && (text.indexOf(" | ") >= 0)){
 		QStringList parts = QStringList::split(" | ", text);
 		unsigned n;
 		for (n = parts.count(); n > 0; n--)

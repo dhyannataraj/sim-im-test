@@ -606,7 +606,7 @@ void OSDPlugin::processQueue()
                     MessageDef *mdef = (MessageDef*)(def->param);
                     QString msg = i18n(mdef->singular, mdef->plural, (*itc).second);
                     if ((*itc).second == 1){
-                        int pos = msg.find("1 ");
+                        int pos = msg.indexOf("1 ");
                         if (pos > 0){
                             msg = msg.left(pos);
                         }else if (pos == 0){

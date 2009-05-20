@@ -24,13 +24,9 @@
 #include <qpushbutton.h>
 
 #include "qchildwidget.h"
-//Added by qt3to4:
-#include <Q3GridLayout>
 
 class JabberClient;
 struct JabberAgentInfo;
-
-class Q3GridLayout;
 
 class HelpButton : public QPushButton
 {

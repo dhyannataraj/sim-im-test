@@ -60,7 +60,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
                 (*def->singular == 0) || (*def->plural == 0))
             continue;
         QString type = i18n(def->singular, def->plural, 1);
-        int pos = type.find("1 ");
+        int pos = type.indexOf("1 ");
         if (pos == 0){
             type = type.mid(2);
         }else if (pos > 0){

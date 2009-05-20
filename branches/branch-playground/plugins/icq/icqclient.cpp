@@ -339,7 +339,7 @@ void ICQClient::contactsLoaded()
     /* outdated
     QTextCodec *codec = getContacts()->getCodec(NULL);
     QString cdc = codec->name();
-    if (codec && (cdc.lower().find("utf") >= 0)){
+    if (codec && (cdc.lower().indexOf("utf") >= 0)){
         QString _def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
         QString def_enc = i18n(_def_enc);
         if (def_enc == _def_enc){

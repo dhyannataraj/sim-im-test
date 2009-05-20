@@ -591,7 +591,7 @@ void FileIconSet::element_end(const QStringRef& el)
             p.file.clear();
             p.flags  = m_flags;
             p.system = m_system;
-            it = m_icons.find(big_name);
+            it = m_icons.indexOf(big_name);
             if (it == m_icons.end())
                 m_icons.insert(PIXMAP_MAP::value_type(big_name, p));
         }

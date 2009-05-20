@@ -144,7 +144,7 @@ void resetPlural()
 QString put_n_in(const QString &orig, unsigned long n)
 {
     QString ret = orig;
-    int index = ret.find("%n");
+    int index = ret.indexOf("%n");
     if (index == -1)
         return ret;
     ret.replace(index, 2, QString::number(n));

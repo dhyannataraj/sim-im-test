@@ -138,9 +138,9 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const QString &headers)
         return false;
     }
     QString cookie;
-    int idx = headers.find("Set-Cookie:");
+    int idx = headers.indexOf("Set-Cookie:");
     if(idx != -1) {
-        int end = headers.find("\n", idx);
+        int end = headers.indexOf("\n", idx);
         if(end == -1)
             m_cookie = headers.mid(idx);
         else

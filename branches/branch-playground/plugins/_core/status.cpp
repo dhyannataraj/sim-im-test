@@ -328,7 +328,7 @@ bool CommonStatus::processEvent(Event *e)
             item.client = data.client;
             item.text   = i18n(data.text);
             if (!data.args.isEmpty()){
-                if (item.text.find("%1") >= 0)
+                if (item.text.indexOf("%1") >= 0)
                     item.text = item.text.arg(data.args);
             }
             QString title = "SIM";
@@ -336,7 +336,7 @@ bool CommonStatus::processEvent(Event *e)
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i) == data.client){
                         title = data.client->name();
-                        int n = title.find(".");
+                        int n = title.indexOf(".");
                         if (n > 0)
                             title = title.left(n) + ' ' + title.mid(n + 1);
                         break;

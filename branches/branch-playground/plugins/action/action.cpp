@@ -144,18 +144,18 @@ bool ActionPlugin::processEvent(Event *e)
             for (unsigned i = 0; i < data->NMenu.toULong(); i++){
                 QString str = get_str(data->Menu, i + 1);
                 QString item = getToken(str, ';');
-                int pos = item.find("&IP;");
+                int pos = item.indexOf("&IP;");
                 if (pos >= 0){
                     EventGetContactIP e(contact);
                     if (!e.process())
                         continue;
                 }
-                pos = item.find("&Mail;");
+                pos = item.indexOf("&Mail;");
                 if (pos >= 0){
                     if (contact->getEMails().isEmpty())
                         continue;
                 }
-                pos = item.find("&Phone;");
+                pos = item.indexOf("&Phone;");
                 if (pos >= 0){
                     if (contact->getPhones().isEmpty())
                         continue;

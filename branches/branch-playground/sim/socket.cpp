@@ -572,7 +572,7 @@ void InterfaceChecker::timerEvent(QTimerEvent* ev)
 		if(strcmp(ifr.ifr_name, "lo") == 0 )
 			continue;
 
-		std::map<std::string, tIFState>::iterator it = m_states.find(ifr.ifr_name);
+		std::map<std::string, tIFState>::iterator it = m_states.indexOf(ifr.ifr_name);
 		if(it == m_states.end())
 		{
 			// New interface

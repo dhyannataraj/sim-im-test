@@ -220,7 +220,7 @@ void ProxyConfig::fillClients()
         if (client->protocol()->description()->flags & PROTOCOL_NOPROXY)
             continue;
         QString name = client->name();
-        int pos = name.find(".");
+        int pos = name.indexOf(".");
         if (pos > 0)
             name = name.replace(pos, 1, " ");
         cmbClient->addItem(Icon(client->protocol()->description()->icon), name);

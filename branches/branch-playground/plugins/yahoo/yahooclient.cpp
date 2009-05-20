@@ -598,7 +598,7 @@ QString TextParser::Tag::open_tag() const
 
 QString TextParser::Tag::close_tag() const
 {
-    int n = m_tag.find(' ');
+    int n = m_tag.indexOf(' ');
     QString res;
     res += "</";
     if (n >= 0){
@@ -790,8 +790,8 @@ void TextParser::addText(const char *str, unsigned s)
     }
     while (!text.isEmpty()){
         bool bFace = false;
-        int n1 = text.find("<font size=\"");
-        int n2 = text.find("<font face=\"");
+        int n1 = text.indexOf("<font size=\"");
+        int n2 = text.indexOf("<font face=\"");
         int n = -1;
         if (n1 >= 0)
             n = n1;
@@ -809,7 +809,7 @@ void TextParser::addText(const char *str, unsigned s)
             put_style();
         m_text += quoteString(text.left(n));
         text = text.mid(n);
-        n = text.find('>');
+        n = text.indexOf('>');
         if (n < 0)
             break;
         FaceSizeParser p(text.left(n + 1));

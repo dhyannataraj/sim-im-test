@@ -35,7 +35,7 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber) : QWidget(p)
     QString areaCode;
     QString extension;
     unsigned short countryCode = 0;
-    if (number.find('(') >= 0){
+    if (number.indexOf('(') >= 0){
         QString country = getToken(number, '(').stripWhiteSpace();
         int i = 0;
         while(!country[i].isNumber())
@@ -43,8 +43,8 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber) : QWidget(p)
         countryCode = country.mid(i).toUShort();
         areaCode = getToken(number, ')').stripWhiteSpace();
     }
-    if (number.find(" - ") >= 0){
-        int pos = number.find(" - ");
+    if (number.indexOf(" - ") >= 0){
+        int pos = number.indexOf(" - ");
         extension = number.mid(pos + 3).stripWhiteSpace();
         number = number.mid(0, pos);
     }

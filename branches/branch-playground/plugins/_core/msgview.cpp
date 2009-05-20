@@ -233,11 +233,11 @@ void MsgViewBase::update()
     unsigned i;
     for (i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_ANCHOR);
+        int n = s.indexOf(MSG_ANCHOR);
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find('\"');
+        n = s.indexOf('\"');
         if (n < 0)
             continue;
         QString client;
@@ -261,11 +261,11 @@ void MsgViewBase::update()
     list<Msg_Id> msgs;
     for (; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_ANCHOR);
+        int n = s.indexOf(MSG_ANCHOR);
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find('\"');
+        n = s.indexOf('\"');
         if (n < 0)
             continue;
         QString client;
@@ -465,7 +465,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
             if (cmd){
                 MessageDef *def = (MessageDef*)(cmd->param);
                 msgText = i18n(def->singular, def->plural, 1);
-                int n = msgText.find("1 ");
+                int n = msgText.indexOf("1 ");
                 if (n == 0){
                     msgText = msgText.mid(2);
                 }else if (n > 0){
@@ -525,7 +525,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 void MsgViewBase::setSource(const QString &url)
 {
     QString proto;
-    int n = url.find(':');
+    int n = url.indexOf(':');
     if (n >= 0)
         proto = url.left(n);
     if (proto != "msg"){
@@ -561,12 +561,12 @@ void MsgViewBase::setBackground(unsigned n)
     int i;
     for (i = n; i >= 0; i--){
         QString s = text(i);
-        if (s.find(sAnchor) >= 0)
+        if (s.indexOf(sAnchor) >= 0)
             break;
     }
     for (; i < paragraphs(); i++){
         QString s = text(i);
-        int anchorPos = s.find(sAnchor);
+        int anchorPos = s.indexOf(sAnchor);
         if (anchorPos >= 0)
         {
             bInMsg = false;
@@ -576,17 +576,17 @@ void MsgViewBase::setBackground(unsigned n)
             // However, I prefer to be correct HTML-parser-wise.
 
             int idStart = anchorPos + sAnchor.length();
-            int idEnd = s.find('\"', idStart);
+            int idEnd = s.indexOf('\"', idStart);
             if ((idStart >= 0) && (idEnd >= 0))
             {
                 QString id = s.mid(idStart, idEnd - idStart);
 
                 // Parse the message id (msgId,backgroundColor,...)
-                int bgcolorStart = id.find(',');
+                int bgcolorStart = id.indexOf(',');
                 if (bgcolorStart >= 0)
                 {
                     QString sBgcolor = id.mid(bgcolorStart + 1);
-                    int bgcolorEnd = sBgcolor.find(',');
+                    int bgcolorEnd = sBgcolor.indexOf(',');
                     if (bgcolorEnd > 0)
                         sBgcolor = sBgcolor.left(bgcolorEnd);
                     if (!sBgcolor.isEmpty())
@@ -594,7 +594,7 @@ void MsgViewBase::setBackground(unsigned n)
                 }
             }
         }
-        if (s.find(sBegin) >= 0)
+        if (s.indexOf(sBegin) >= 0)
             bInMsg = true;
 
         if (bInMsg && bSet){
@@ -627,7 +627,7 @@ void MsgViewBase::sync(unsigned n)
         bool bStart = false;
         for (; n < (unsigned)paragraphs(); n++){
             QString s = text(n);
-            if (s.find(MSG_ANCHOR) >= 0){
+            if (s.indexOf(MSG_ANCHOR) >= 0){
                 bStart = true;
                 continue;
             }
@@ -666,11 +666,11 @@ bool MsgViewBase::findMessage(Message *msg)
     bool bFound = false;
     for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_ANCHOR);
+        int n = s.indexOf(MSG_ANCHOR);
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find('\"');
+        n = s.indexOf('\"');
         if (n < 0)
             continue;
         if (bFound){
@@ -724,11 +724,11 @@ void MsgViewBase::reload()
     unsigned i;
     for (i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
-        int n = s.find(MSG_ANCHOR);
+        int n = s.indexOf(MSG_ANCHOR);
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find('\"');
+        n = s.indexOf('\"');
         if (n < 0)
             continue;
         Msg_Id id;
@@ -776,11 +776,11 @@ bool MsgViewBase::processEvent(Event *e)
         unsigned i;
         for (i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
-            int n = s.find(MSG_ANCHOR);
+            int n = s.indexOf(MSG_ANCHOR);
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find('\"');
+            n = s.indexOf('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -807,11 +807,11 @@ bool MsgViewBase::processEvent(Event *e)
         vector<unsigned> end_pos;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
-            int n = s.find(MSG_ANCHOR);
+            int n = s.indexOf(MSG_ANCHOR);
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find('\"');
+            n = s.indexOf('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -872,11 +872,11 @@ bool MsgViewBase::processEvent(Event *e)
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             unsigned j;
             QString s = text(i);
-            int n = s.find(MSG_ANCHOR);
+            int n = s.indexOf(MSG_ANCHOR);
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find('\"');
+            n = s.indexOf('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -885,11 +885,11 @@ bool MsgViewBase::processEvent(Event *e)
 
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
                 QString s = text(j);
-                int n = s.find(MSG_ANCHOR);
+                int n = s.indexOf(MSG_ANCHOR);
                 if (n < 0)
                     continue;
                 s = s.mid(n + strlen(MSG_ANCHOR));
-                n = s.find('\"');
+                n = s.indexOf('\"');
                 if (n < 0)
                     continue;
                 QString client;
@@ -1104,11 +1104,11 @@ Message *MsgViewBase::currentMessage()
         return NULL;
     for (; para >= 0; para--){
         QString s = text(para);
-        int n = s.find(MSG_ANCHOR);
+        int n = s.indexOf(MSG_ANCHOR);
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find('\"');
+        n = s.indexOf('\"');
         if (n < 0)
             continue;
         QString client;

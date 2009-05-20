@@ -190,7 +190,7 @@ bool DockWnd::processEvent(Event *e)
             item.client = data.client;
             item.flags  = (data.flags & EventNotification::ClientNotificationData::E_INFO) ? EventNotification::ClientNotificationData::E_INFO : EventNotification::ClientNotificationData::E_INFO;
             item.text = i18n(data.text);
-            if (item.text.find("%1") >= 0)
+            if (item.text.indexOf("%1") >= 0)
                 item.text = item.text.arg(arg);
             if (!m_queue.empty()){
                 m_queue.push_back(item);
@@ -201,7 +201,7 @@ bool DockWnd::processEvent(Event *e)
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i) == data.client){
                         item.title = getContacts()->getClient(i)->name();
-                        int n = item.title.find(".");
+                        int n = item.title.indexOf(".");
                         if (n > 0)
                             item.title = item.title.left(n) + " " + item.title.mid(n + 1);
                     }

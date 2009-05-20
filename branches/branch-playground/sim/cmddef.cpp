@@ -164,7 +164,7 @@ void CommandsDefPrivate::generateConfig()
         list<unsigned> processed;
         QString active = config;
         QString noactive;
-        int n = config.find('/');
+        int n = config.indexOf('/');
         if (n >= 0){
             active   = config.left(n);
             noactive = config.mid(n + 1);

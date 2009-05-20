@@ -141,7 +141,7 @@ void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
     if (m_client->findContact(edtJID->text(), QString::null, false, contact, resource))
         return;
     QString name = edtJID->text();
-    int n = name.find('@');
+    int n = name.indexOf('@');
     if (n > 0)
         name = name.left(n);
     m_client->findContact(edtJID->text(), name, true, contact, resource, false);

@@ -65,9 +65,9 @@ void MessageConfig::apply(void *_data)
     data->OpenOnOnline.asBool()    = chkOnline->isChecked();
     data->LogStatus.asBool()       = chkStatus->isChecked();
     data->OpenNewMessage.asULong() = NEW_MSG_NOOPEN;
-    if (btnMinimize->isOn())
+    if (btnMinimize->isCheckable())
         data->OpenNewMessage.asULong() = NEW_MSG_MINIMIZE;
-    if (btnRaise->isOn())
+    if (btnRaise->isCheckable())
         data->OpenNewMessage.asULong() = NEW_MSG_RAISE;
 }
 

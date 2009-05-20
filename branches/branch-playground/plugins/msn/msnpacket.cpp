@@ -446,7 +446,7 @@ MSNServerMessage::~MSNServerMessage()
     QString msg = QString::fromUtf8(m_msg);
     for (;!msg.isEmpty();){
         QString line;
-        int n = msg.find("\r\n");
+        int n = msg.indexOf("\r\n");
         if (n >= 0){
             line = msg.left(n);
             msg  = msg.mid(n + 2);
@@ -454,7 +454,7 @@ MSNServerMessage::~MSNServerMessage()
             line = msg;
             msg  = QString::null;
         }
-        n = line.find(':');
+        n = line.indexOf(':');
         if (n < 0)
             continue;
         values.insert(KEY_MAP::value_type(line.left(n), line.mid(n + 1).stripWhiteSpace()));

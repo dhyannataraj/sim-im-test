@@ -142,7 +142,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     chkSaveFont->setChecked(CorePlugin::m_plugin->getEditSaveFont());
     QString copy2;
     QString copy1 = i18n("Copy %1 messages from history");
-    int n = copy1.find("%1");
+    int n = copy1.indexOf("%1");
     if (n >= 0){
         copy2 = copy1.mid(n + 2);
         copy1 = copy1.left(n);
@@ -241,11 +241,11 @@ void InterfaceConfig::apply()
         }
     }
 #endif
-    if (grpMode->find(1)->isOn()){
+    if (grpMode->find(1)->isCheckable()){
         int mode = 0;
-        if (btnGroup->isOn())
+        if (btnGroup->isCheckable())
             mode = 1;
-        if (btnOne->isOn())
+        if (btnOne->isCheckable())
             mode = 2;
         CorePlugin::m_plugin->setContainerMode(mode + 1);
         CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());

@@ -907,13 +907,13 @@ void HTTPS_Proxy::read_ready()
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
-        int idx = s.find(' ');
+        int idx = s.indexOf(' ');
         if (idx == -1){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
         s = s.mid(idx + 1);
-        idx = s.find(' ');
+        idx = s.indexOf(' ');
         if (idx!=-1)
             s=s.left(idx+1);
         int code = s.toInt();
@@ -1013,7 +1013,7 @@ void HTTP_Proxy::read_ready()
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    int idx = m_head.find(' ');
+    int idx = m_head.indexOf(' ');
     if (idx == -1){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;

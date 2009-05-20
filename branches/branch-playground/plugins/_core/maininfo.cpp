@@ -522,9 +522,9 @@ void MainInfo::fillEncoding()
         contact = getContacts()->owner();
     for (it = main.begin(); it != main.end(); ++it, n_item++){
         QString str = *it;
-        int n = str.find('(');
+        int n = str.indexOf('(');
         str = str.mid(n + 1);
-        n = str.find(')');
+        n = str.indexOf(')');
         str = str.left(n);
         if (str == contact->getEncoding())
             current = n_item;
@@ -539,9 +539,9 @@ void MainInfo::fillEncoding()
     noMain.sort();
     for (it = noMain.begin(); it != noMain.end(); ++it, n_item++){
         QString str = *it;
-        int n = str.find('(');
+        int n = str.indexOf('(');
         str = str.mid(n + 1);
-        n = str.find(')');
+        n = str.indexOf(')');
         str = str.left(n);
         if (str == contact->getEncoding())
             current = n_item;
@@ -585,9 +585,9 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
         for (it = l.begin(); it != l.end(); ++it){
             if (n-- == 0){
                 QString str = *it;
-                int n = str.find('(');
+                int n = str.indexOf('(');
                 str = str.mid(n + 1);
-                n = str.find(')');
+                n = str.indexOf(')');
                 str = str.left(n);
                 encoding = str;
                 break;

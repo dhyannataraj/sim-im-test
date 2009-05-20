@@ -119,7 +119,7 @@ bool ForwardPlugin::processEvent(Event *e)
                 }
             }
             if (bMyPhone){
-                int n = text.find(": ");
+                int n = text.indexOf(": ");
                 if (n > 0){
                     QString name = text.left(n);
                     QString msg_text = text.mid(n + 2);

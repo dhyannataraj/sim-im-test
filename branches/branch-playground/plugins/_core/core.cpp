@@ -866,7 +866,7 @@ QString CorePlugin::poFile(const char *lang)
 #else
 	QString s = PREFIX "/share/locale/";
 	QString l = lang;
-	int idx = l.find('.');
+	int idx = l.indexOf('.');
 	if(idx != -1)
 		l = l.left(idx);
 	s += l;
@@ -874,7 +874,7 @@ QString CorePlugin::poFile(const char *lang)
 	QFile f(s);
 	if (!f.exists()){
 		QString l = lang;
-		int idx = l.find('_');
+		int idx = l.indexOf('_');
 		if(idx != -1)
 			l = l.left(idx);
 
@@ -1696,9 +1696,9 @@ bool CorePlugin::processEvent(Event *e)
 						main.sort();
 						for (it = main.begin(); it != main.end(); ++it){
 							QString str = *it;
-							int n = str.find('(');
+							int n = str.indexOf('(');
 							str = str.mid(n + 1);
-							n = str.find(')');
+							n = str.indexOf(')');
 							str = str.left(n);
 							if (str == codec->name())
 								cmds[nEncoding].flags = COMMAND_CHECKED;
@@ -1713,9 +1713,9 @@ bool CorePlugin::processEvent(Event *e)
 						nomain.sort();
 						for (it = nomain.begin(); it != nomain.end(); ++it){
 							QString str = *it;
-							int n = str.find('(');
+							int n = str.indexOf('(');
 							str = str.mid(n + 1);
-							n = str.find(')');
+							n = str.indexOf(')');
 							str = str.left(n);
 							if (str == codec->name())
 								cmds[nEncoding].flags = COMMAND_CHECKED;
@@ -2193,7 +2193,7 @@ bool CorePlugin::processEvent(Event *e)
 							msg = QString("%1").arg(cnt);
 						}
 						if ((*itc).second.count == 1){
-							int n = msg.find("1 ");
+							int n = msg.indexOf("1 ");
 							if (n == 0){
 								msg = msg.left(1).upper() + msg.mid(1);
 							}else{
@@ -2345,9 +2345,9 @@ bool CorePlugin::processEvent(Event *e)
 							}
 						}
 						if (!str.isEmpty()){
-							int n = str.find('(');
+							int n = str.indexOf('(');
 							str = str.mid(n + 1);
-							n = str.find(')');
+							n = str.indexOf(')');
 							codecStr = str.left(n).latin1();
 							codec = codecStr;
 						}
@@ -2846,7 +2846,7 @@ bool CorePlugin::processEvent(Event *e)
 				EventGoURL *u = static_cast<EventGoURL*>(e);
 				QString url = u->url();
 				QString proto;
-				int n = url.find(':');
+				int n = url.indexOf(':');
 				if (n < 0)
 					return false;
 				proto = url.left(n);
@@ -3023,7 +3023,7 @@ bool CorePlugin::init(bool bInit)
 	EventArg e2("-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"));
 	if (e2.process() && !e2.value().isEmpty())
 	{
-		int idx = e2.value().find(':');
+		int idx = e2.value().indexOf(':');
 		QString uin      = e2.value().left(idx);
 		QString passwd   = (idx != -1) ? e2.value().mid(idx + 1) : QString::null;
 		setICQUIN(uin);
@@ -3038,7 +3038,7 @@ bool CorePlugin::init(bool bInit)
 			QString clName, clID;
 			for (i = 0; i < clients.size(); i++){
 				QString clName=clients[i]->name();
-				clID=clName.right(clName.length()-clName.find('.')-1);
+				clID=clName.right(clName.length()-clName.indexOf('.')-1);
 				if (clID.compare(uin)==0)
 					bRegistered=true;
 			}

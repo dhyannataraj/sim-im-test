@@ -444,7 +444,7 @@ void TextShow::setSource(const QString &name)
 #endif
     QString source = name;
     QString mark;
-    int hash = name.find('#');
+    int hash = name.indexOf('#');
     if ( hash != -1) {
         source = name.left( hash );
         mark = name.mid( hash+1 );

@@ -180,7 +180,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *c
         if (m.getFlags() & MESSAGE_RICHTEXT)
             text = text.replace(QRegExp("<[^>]+>"), " ");
         text = text.replace(QRegExp("  +"), " ");
-        if (text.find(m_filter) < 0)
+        if (text.indexOf(m_filter) < 0)
             return;
     }
     Message *msg = ::createMessage(id, type, cfg);

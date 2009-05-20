@@ -108,7 +108,7 @@ void MsgFile::selectFile()
         return;
     QString s = edtName->text();
     QStringList lst = Q3FileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
-    if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
+    if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].indexOf(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             *it = '\"' + QDir::convertSeparators(*it) + '\"';
         }

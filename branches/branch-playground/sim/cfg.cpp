@@ -522,7 +522,7 @@ static Q3CString quoteInternal(const Q3CString &str)
 
 static bool unquoteInternal(Q3CString &val, Q3CString &str)
 {
-    int idx1 = val.find('\"');
+    int idx1 = val.indexOf('\"');
     if(idx1 == -1)
         return false;
     idx1++;
@@ -533,7 +533,7 @@ static bool unquoteInternal(Q3CString &val, Q3CString &str)
     val = val.mid(idx2 + 1);
     // now unquote
     idx1 = 0;
-    while((idx1 = str.find('\\', idx1)) != -1) {
+    while((idx1 = str.indexOf('\\', idx1)) != -1) {
         char c = str[idx1 + 1];
         switch(c) {
             case '\\':
@@ -570,7 +570,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         Q3CString line = cfg->getLine();
         if (line.isEmpty())
             break;
-        int idx = line.find('=');
+        int idx = line.indexOf('=');
         if(idx == -1)
             continue;
         Q3CString name = line.left( idx );
@@ -586,7 +586,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         ld->setType(def->type);
         switch (def->type){
         case DATA_IP: {
-            int idx = val.find(',');
+            int idx = val.indexOf(',');
             Q3CString ip, url;
             if(idx == -1) {
                 ip = val;
@@ -601,7 +601,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_STRLIST: {
             // <number>,"<text>"(u)
             Q3CString v;
-            int idx1 = val.find(',');
+            int idx1 = val.indexOf(',');
             if(idx1 == -1)
                 break;
             unsigned i = val.left(idx1).toUInt();
@@ -637,7 +637,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                         ld->str() = QString::fromLocal8Bit(v);
                 }
 
-                idx = val.find(',');
+                idx = val.indexOf(',');
                 if (idx == -1)
                     break;
                 val = val.mid(idx + 1);

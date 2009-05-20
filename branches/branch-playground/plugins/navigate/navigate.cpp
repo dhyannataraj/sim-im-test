@@ -401,7 +401,7 @@ bool NavigatePlugin::processEvent(Event *e)
         QString proto;
         if (url.length() == 0)
             return false;
-        int n = url.find(':');
+        int n = url.indexOf(':');
         if (n < 0)
             return false;
         proto = url.left(n);
@@ -422,13 +422,13 @@ bool NavigatePlugin::processEvent(Event *e)
             QString topic  = rp.value("ddeexec\\Topic");
             QString server = rp.value("ddeexec\\Application");
 
-			int pos = action.find("%l");
+			int pos = action.indexOf("%l");
 			if (!action.isEmpty() && pos >= 0)
                     action = action.left(pos) + url + action.mid(pos + 2);
 
 			//prg=prg.replace("\%l","\%1");
 			if (proto=="file") {
-				pos = prg.find("%l");
+				pos = prg.indexOf("%l");
 				if (pos >= 0)
 					prg = prg.left(pos) + url + prg.mid(pos + 2);
 			}

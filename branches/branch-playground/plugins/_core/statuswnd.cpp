@@ -91,7 +91,7 @@ void StatusLabel::setPict()
             Protocol *protocol = m_client->protocol();
             const CommandDef *cmd = protocol->description();
             icon = cmd->icon;
-            int n = icon.find('_');
+            int n = icon.indexOf('_');
             if (n > 0)
                 icon = icon.left(n);
             icon += "_inactive";

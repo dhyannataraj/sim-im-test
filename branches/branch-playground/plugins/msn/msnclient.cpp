@@ -1089,7 +1089,7 @@ void MSNClient::setupContact(Contact *contact, void *_data)
         QString name = data->ScreenName.str();
         if (name.isEmpty())
             name = data->EMail.str();
-        int n = name.find('@');
+        int n = name.indexOf('@');
         if (n > 0)
             name = name.left(n);
         bChanged |= contact->setName(name);
@@ -1208,7 +1208,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
                 return data;
             }
         }
-        int n = name_str.find('@');
+        int n = name_str.indexOf('@');
         if (n > 0){
             name_str = name_str.left(n);
             it.reset();
@@ -1577,9 +1577,9 @@ QString MSNClient::getValue(const QString &key, const QString &str)
 
 QString MSNClient::getHeader(const QString &name, const QString &headers)
 {
-    int idx = headers.find(name + ':');
+    int idx = headers.indexOf(name + ':');
     if(idx != -1) {
-        int end = headers.find('\n', idx);
+        int end = headers.indexOf('\n', idx);
         QString res;
         if(end == -1)
             res = headers.mid(idx);
@@ -1970,7 +1970,7 @@ void SBSocket::connect(const QString &addr, const QString &session, const QStrin
     m_session = session;
     QString ip = addr;
     unsigned short port = 0;
-    int n = ip.find(':');
+    int n = ip.indexOf(':');
     if (n > 0){
         port = ip.mid(n + 1).toUShort();
         ip = ip.left(n);
@@ -2191,7 +2191,7 @@ void SBSocket::messageReady()
     unsigned color = 0;
     bool bColor = false;
     while (!m_message.isEmpty()){
-        int n = m_message.find("\r\n");
+        int n = m_message.indexOf("\r\n");
         if (n < 0){
             log(L_DEBUG, "Error parse message");
             return;
@@ -2220,13 +2220,13 @@ void SBSocket::messageReady()
             it = v.find("EF");
             if (it != v.end()){
                 QString effects = (*it).second;
-                if (effects.find('B') != -1)
+                if (effects.indexOf('B') != -1)
                     font += ", bold";
-                if (effects.find('I') != -1)
+                if (effects.indexOf('I') != -1)
                     font += ", italic";
-                if (effects.find('S') != -1)
+                if (effects.indexOf('S') != -1)
                     font += ", strikeout";
-                if (effects.find('U') != -1)
+                if (effects.indexOf('U') != -1)
                     font += ", underline";
             }
             it = v.find("CO");
@@ -2286,7 +2286,7 @@ void SBSocket::messageReady()
         unsigned fileSize = 0;
         while (!m_message.isEmpty()){
             QString line;
-            int n = m_message.find("\r\n");
+            int n = m_message.indexOf("\r\n");
             if (n < 0){
                 line = m_message;
                 m_message = QString::null;
@@ -2620,7 +2620,7 @@ void SBSocket::process(bool bTyping)
         QString font = msg->getFont();
         if (!font.isEmpty()){
             QString font_type;
-            int n = font.find(", ");
+            int n = font.indexOf(", ");
             if (n > 0){
                 font_type = font.mid(n + 2);
                 font = font.left(n);
@@ -2630,7 +2630,7 @@ void SBSocket::process(bool bTyping)
             QString effect;
             while (!font_type.isEmpty()){
                 QString type = font_type;
-                int n = font_type.find(", ");
+                int n = font_type.indexOf(", ");
                 if (n > 0){
                     type = font_type.mid(n);
                     font_type = font_type.mid(n + 2);

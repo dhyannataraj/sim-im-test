@@ -257,7 +257,7 @@ void GpgPlugin::decryptReady()
                 while(!str.isEmpty()) {
                     key = getToken(str, '\n');
                     if (key.contains("BAD_PASSPHRASE")){
-                        int n = key.find("BAD_PASSPHRASE ");
+                        int n = key.indexOf("BAD_PASSPHRASE ");
                         if(n < 0)
                             break;
                         key = key.mid(n + strlen("BAD_PASSPHRASE "));
