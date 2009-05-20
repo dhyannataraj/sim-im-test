@@ -367,8 +367,8 @@ InfoRequest::~InfoRequest()
             QString fName = m_client->photoFile(data);
             QFile f(fName);
             if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                Q3CString cstr = m_photo.ascii();   // ok, base64 encoded
-                f.writeBlock(Buffer::fromBase64(cstr));
+                QByteArray cstr = m_photo.toAscii();   // ok, base64 encoded
+                f.write(QByteArray::fromBase64(cstr));
                 f.close();
                 photo.load(fName);
             }else{
@@ -395,8 +395,8 @@ InfoRequest::~InfoRequest()
             QString fName = m_client->logoFile(data);
             QFile f(fName);
             if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                Q3CString cstr = m_logo.ascii();   // ok, base64 encoded
-                f.writeBlock(Buffer::fromBase64(cstr));
+                QByteArray cstr = m_logo.ascii();   // ok, base64 encoded
+                f.write(QByteArray::fromBase64(cstr));
                 f.close();
                 logo.load(fName);
             }else{
@@ -667,7 +667,7 @@ void JabberClient::setClientInfo(void *_data)
         if (img.open(QIODevice::ReadOnly)){
             Buffer b;
             b.init(img.size());
-            img.readBlock(b.data(), b.size());
+            img.read(b.data(), b.size());
             Q3CString packed = Buffer::toBase64(b);
             req->start_element("PHOTO");
             req->text_tag("BINVAL", packed);
@@ -679,7 +679,7 @@ void JabberClient::setClientInfo(void *_data)
         if (img.open(QIODevice::ReadOnly)){
             Buffer b;
             b.init(img.size());
-            img.readBlock(b.data(), b.size());
+            img.read(b.data(), b.size());
             Q3CString packed = Buffer::toBase64(b);
             req->start_element("LOGO");
             req->text_tag("BINVAL", packed.data());

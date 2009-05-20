@@ -1610,7 +1610,7 @@ void ICQFileTransfer::processPacket()
                         return;
                     }
                 }
-                if (m_file && !m_file->at(pos)){
+                if (m_file && !m_file->seek(pos)){
                     m_socket->error_state("Can't set transfer position");
                     return;
                 }
@@ -1673,7 +1673,7 @@ void ICQFileTransfer::processPacket()
                         m_socket->error_state("Write without file");
                         return;
                     }
-                    if (m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size) != size){
+                    if (m_file->write(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size) != size){
                         m_socket->error_state("Error write file");
                         return;
                     }
@@ -1915,7 +1915,7 @@ void ICQFileTransfer::write_ready()
     if (tail > 2048) tail = 2048;
     startPacket(FT_DATA);
     char buf[2048];
-    int readn = m_file->readBlock(buf, tail);
+    int readn = m_file->read(buf, tail);
     if (readn <= 0){
         m_socket->error_state("Read file error");
         return;
@@ -2272,7 +2272,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	m_file->reset();
 	do
     {
-		bytesread = m_file->readBlock(chunk.data(), chunk.size());
+		bytesread = m_file->read(chunk.data(), chunk.size());
         checksum = checksumChunk(&chunk, (unsigned int)bytesread, checksum);
         streamposition += bytesread;
 
@@ -2669,7 +2669,7 @@ void AIMIncomingFileTransfer::receiveNextBlock(long size)
 			log(L_DEBUG, "Write without file");
 			return;
 		}
-                long hret = m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
+                long hret = m_file->write(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
 		if(hret != size)
 		{
 			log(L_DEBUG, "Error while writing to file: %d", hret);
@@ -2980,7 +2980,7 @@ bool AIMOutcomingFileTransfer::sendNextBlock()
 
 	char* buffer = new char[m_packetLength + 1]; // FIXME replace it with QByteArray
 
-	int bytes_read = m_file->readBlock(buffer, m_packetLength);
+	int bytes_read = m_file->read(buffer, m_packetLength);
 	if(bytes_read < 0)
 	{
 		log(L_DEBUG, "Error while reading file");

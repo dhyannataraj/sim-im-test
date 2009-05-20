@@ -1207,7 +1207,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                 QString fName = pictureFile(data);
                 QFile f(fName);
                 if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                    f.writeBlock(ba.data(), ba.size());
+                    f.write(ba.data());
                     f.close();
                     img.load(fName);
                 }else{
@@ -1500,7 +1500,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer 
                         unsigned tail = sizeof(buf);
                         if (tail > size)
                             tail = size;
-                        f.readBlock(buf, tail);
+                        f.read(buf, tail);
                         answer.pack(buf, tail);
                         size -= tail;
                     }

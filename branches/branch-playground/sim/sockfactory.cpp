@@ -324,7 +324,7 @@ int SIMClientSocket::read(char *buf, unsigned int size)
         size = available;
     if (size == 0)
         return size;
-    int res = sock->readBlock(buf, size);
+    int res = sock->read(buf, size);
     if (res < 0){
         log(L_DEBUG, "QClientSocket::read error %u", errno);
         if (notify)
@@ -337,7 +337,7 @@ int SIMClientSocket::read(char *buf, unsigned int size)
 void SIMClientSocket::write(const char *buf, unsigned int size)
 {
     bInWrite = true;
-    int res = sock->writeBlock(buf, size);
+    int res = sock->write(buf, size);
     bInWrite = false;
     if (res != (int)size){
         if (notify)

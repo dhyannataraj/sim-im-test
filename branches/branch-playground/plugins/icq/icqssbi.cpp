@@ -191,7 +191,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
                 if(f.open(IO_WriteOnly))
-                  f.writeBlock(icon);
+                  f.write(icon);
                 else
                   log(L_WARN, QString("Can't open %1").arg(filename));
                 f.close();
@@ -238,7 +238,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
                 if(f.open(IO_WriteOnly))
-                  f.writeBlock(icon);
+                  f.write(icon);
                 else
                   log(L_WARN, QString("Can't open %1").arg(filename));
                 f.close();

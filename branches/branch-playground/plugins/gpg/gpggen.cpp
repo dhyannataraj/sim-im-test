@@ -128,7 +128,7 @@ void GpgGen::accept()
     QString fname = user_file("keys/genkey.txt");
     QFile f(fname);
     f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    f.writeBlock(in.utf8(), in.utf8().length());
+    f.write(in);
     f.close();
 
     QStringList sl;

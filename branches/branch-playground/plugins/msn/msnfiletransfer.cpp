@@ -163,7 +163,7 @@ void MSNFileTransfer::packet_ready()
             if (size == 0)
                 return;
             log(L_DEBUG, "MSN FT data: %u", size);
-            m_file->writeBlock(m_socket->readBuffer().data(), size);
+            m_file->write(m_socket->readBuffer().data(), size);
             m_socket->readBuffer().incReadPos(size);
             m_bytes      += size;
             m_totalBytes += size;
@@ -379,7 +379,7 @@ void MSNFileTransfer::write_ready()
     buf[0] = 0;
     buf[1] = (char)(tail & 0xFF);
     buf[2] = (char)((tail >> 8) & 0xFF);
-    int readn = m_file->readBlock(&buf[3], tail);
+    int readn = m_file->read(&buf[3], tail);
     if (readn <= 0){
         m_socket->error_state("Read file error");
         return;

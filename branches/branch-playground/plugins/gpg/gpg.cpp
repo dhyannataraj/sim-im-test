@@ -504,7 +504,7 @@ bool GpgPlugin::processEvent(Event *e)
                             log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
                             return false;
                         }
-                        in.writeBlock(es->localeText());
+                        in.write(es->localeText());
                         in.close();
                         QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -572,8 +572,8 @@ bool GpgPlugin::processEvent(Event *e)
                         log(L_WARN, "Can't create %s", input.local8Bit().data());
                         return false;
                     }
-                    Q3CString cstr = text.utf8();
-                    in.writeBlock(cstr.data(), cstr.length());
+                    QByteArray cstr = text.toUtf8();
+                    in.write(cstr);
                     in.close();
                     QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -617,8 +617,8 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
         log(L_WARN, "Can't create %s", input.local8Bit().data());
         return false;
     }
-    Q3CString cstr = msg->getPlainText().utf8();
-    in.writeBlock(cstr.data(), cstr.length());
+    QByteArray cstr = msg->getPlainText().toUtf8();
+    in.write(cstr);
     in.close();
     QString home = GpgPlugin::plugin->getHomeDir();
 

@@ -280,16 +280,16 @@ void HistoryConfig::apply()
         if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             QString s;
             s = m_styles[i].text;
-            f.writeBlock(s.utf8(), s.utf8().length());
+            f.write(s.utf8());
 
-            const int status = f.status();
+            const QFile::FileError status = f.error();
             const QString errorMessage = f.errorString();
             f.close();
-            if (status != IO_Ok) {
-                log(L_ERROR, "IO error writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            if (status != QFile::NoError) {
+                log(L_ERROR, "IO error writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
             } else {
                 // rename to normal file
-                QFileInfo fileInfo(f.name());
+                QFileInfo fileInfo(f.fileName());
                 QString desiredFileName = fileInfo.fileName();
                 desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 #if defined( WIN32 ) || defined( __OS2__ )
@@ -441,16 +441,16 @@ void HistoryConfig::copy()
     ds2 << ds1;
     from.close();
 
-    const int status = to.status();
+    const QFile::FileError status = to.error();
     const QString errorMessage = to.errorString();
     to.close();
-    if (status != IO_Ok) {
-        log(L_ERROR, "IO error writing to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());
+    if (status != QFile::NoError) {
+        log(L_ERROR, "IO error writing to file %s : %s", qPrintable(to.fileName()), qPrintable(errorMessage));
         return;
     }
 
     // rename to normal file
-    QFileInfo fileInfo(to.name());
+    QFileInfo fileInfo(to.fileName());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 #if defined( WIN32 ) || defined( __OS2__ )

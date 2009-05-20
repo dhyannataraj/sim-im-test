@@ -1690,13 +1690,13 @@ void ContactList::save()
     QString cfgName = user_file(CONTACTS_CONF);
     QFile f(cfgName + QString(BACKUP_SUFFIX)); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
         return;
     }
     Q3CString line = p->userData.save();
     if (line.length()){
         line += '\n';
-        f.writeBlock(line, line.length());
+        f.write(line, line.length());
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
@@ -1704,8 +1704,8 @@ void ContactList::save()
         cfg += OWNER;
         cfg += "]\n";
         line += '\n';
-        f.writeBlock(cfg, cfg.length());
-        f.writeBlock(line, line.length());
+        f.write(cfg, cfg.length());
+        f.write(line, line.length());
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
@@ -1713,26 +1713,26 @@ void ContactList::save()
         line += GROUP;
         line += QString::number(grp->id());
         line += "]\n";
-        f.writeBlock(line, line.length());
+        f.write(line, line.length());
         line = save_data(groupData, &grp->data);
         if (line.length()){
             line += '\n';
-            f.writeBlock(line, line.length());
+            f.write(line, line.length());
         } else {
             /* Group has no name --> Not In List
                since the load_data seems to have problems with totally empty
                entries, this must be ...*/
-            f.writeBlock("Name=\"NIL\"\n", 11);
+            f.write("Name=\"NIL\"\n", 11);
         }
         line = grp->userData.save();
         if (line.length()){
             line += '\n';
-            f.writeBlock(line, line.length());
+            f.write(line, line.length());
         }
         line = grp->clientData.save();
         if (line.length()){
             line += '\n';
-            f.writeBlock(line, line.length());
+            f.write(line, line.length());
         }
     }
     for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
@@ -1743,34 +1743,34 @@ void ContactList::save()
         line += CONTACT;
         line += QString::number(contact->id());
         line += "]\n";
-        f.writeBlock(line, line.length());
+        f.write(line, line.length());
         line = save_data(contactData, &contact->data);
         if (line.length()){
             line += '\n';
-            f.writeBlock(line, line.length());
+            f.write(line, line.length());
         }
         line = contact->userData.save();
         if (line.length()){
             line += '\n';
-            f.writeBlock(line, line.length());
+            f.write(line, line.length());
         }
         line = contact->clientData.save();
         if (line.length()){
             line += '\n';
-            f.writeBlock(line, line.length());
+            f.write(line, line.length());
         }
     }
     f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
-    const int status = f.status();
+    QFile::FileError status = f.error();
     const QString errorMessage = f.errorString();
     f.close();
-    if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+    if (status != QFile::NoError) {
+        log(L_ERROR, "IO error during writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
         return;
     }
 
     // rename to normal file
-    QFileInfo fileInfo(f.name());
+    QFileInfo fileInfo(f.fileName());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 //#if defined( WIN32 ) || defined( __OS2__ )

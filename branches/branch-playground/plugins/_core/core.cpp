@@ -862,7 +862,7 @@ QString CorePlugin::poFile(const char *lang)
 	QString s = "po\\" + QString(lang).lower() + ".qm";
 	QFile f(app_file(s));
 	if (!f.exists())
-		return QString::null;
+		return QString();
 #else
 	QString s = PREFIX "/share/locale/";
 	QString l = lang;
@@ -883,10 +883,10 @@ QString CorePlugin::poFile(const char *lang)
 		s += "/LC_MESSAGES/sim.mo";
 		f.setName(s);
 		if (!f.exists())
-			return QString::null;
+			return QString();
 	}
 #endif
-	return f.name();
+	return f.fileName();
 }
 
 void CorePlugin::installTranslator()
@@ -3361,19 +3361,19 @@ Q3CString CorePlugin::getConfig()
 		write += QString::number(m_base);
 		write += '\n';
 		write += cfg;
-		fCFG.writeBlock(write, write.length());
+		fCFG.write(write, write.length());
 
 		fCFG.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on fCFG.close
-		const int status = fCFG.status();
+        const QFile::FileError status = fCFG.error();
 		const QString errorMessage = fCFG.errorString();
 		fCFG.close();
-		if (status != IO_Ok) {
-			log(L_ERROR, "IO error writing to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        if (status != QFile::NoError) {
+            log(L_ERROR, "IO error writing to file %s : %s", qPrintable(fCFG.fileName()), qPrintable(errorMessage));
 		}
 		else
 		{
 			// rename to normal file
-			QFileInfo fileInfo(fCFG.name());
+			QFileInfo fileInfo(fCFG.fileName());
 			QString desiredFileName = fileInfo.fileName();
 			desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 //#if defined( WIN32 ) || defined( __OS2__ )
@@ -3415,22 +3415,22 @@ Q3CString CorePlugin::getConfig()
 			line += '/';
 			line += protocol->description()->text;
 			line += "]\n";
-			f.writeBlock(line, line.length());
+			f.write(line, line.length());
 			line = client->getConfig();
 			if (line.length()){
 				line += '\n';
-				f.writeBlock(line, line.length());
+				f.write(line, line.length());
 			}
 		}
 		f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
-		const int status = f.status();
+        const QFile::FileError status = f.error();
 		const QString errorMessage = f.errorString();
 		f.close();
-		if (status != IO_Ok) {
-			log(L_ERROR, "IO error writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        if (status != QFile::NoError) {
+            log(L_ERROR, "IO error writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
 		} else {
 			// rename to normal file
-			QFileInfo fileInfo(f.name());
+			QFileInfo fileInfo(f.fileName());
 			QString desiredFileName = fileInfo.fileName();
 			desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 //#if defined( WIN32 ) || defined( __OS2__ )
@@ -3905,7 +3905,7 @@ void CorePlugin::loadMenu()
 	bool FileLock::lock(bool bSend)
 	{
 		QString event = "SIM.";
-		QString s = name();
+		QString s = fileName();
 		event += QString::number(adler32(s.latin1(), s.length()));
 		Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.latin1());
 		if (hEvent){

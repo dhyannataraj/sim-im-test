@@ -111,7 +111,7 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
     }
 
     f_name = user_file(f_name);
-    setName(f_name);
+    setFileName(f_name);
     QFileInfo fi(*this);
     if (!fi.exists()) {
         // make sure directory exists
@@ -122,10 +122,10 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
         log(L_ERROR, "%s is not a file!", fi.filePath().local8Bit().data());
     }
     if (!exists()){
-        QFile bak(QString(name()).append(REMOVED));
+        QFile bak(fileName().append(REMOVED));
         if (bak.exists()){
-            QFileInfo fInfo(name());
-            fInfo.dir().rename(bak.name(), name());
+            QFileInfo fInfo(fileName());
+            fInfo.dir().rename(bak.fileName(), fileName());
         }
     }
     open(QIODevice::ReadOnly);
@@ -133,7 +133,7 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
 
 Message *HistoryFile::load(unsigned id)
 {
-    if (!at(id))
+    if (!seek(id))
         return NULL;
     Buffer cfg;
     cfg = readAll();
@@ -253,7 +253,7 @@ Message *HistoryFileIterator::operator --()
 bool HistoryFileIterator::loadBlock(bool bUp)
 {
     unsigned blockEnd = m_block;
-    if (bUp && !file.at(m_block)){
+    if (bUp && !file.seek(m_block)){
         clear();
         return true;
     }
@@ -265,9 +265,9 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             blockEnd += BLOCK_SIZE;
             unsigned size = config.size();
             config.resize(BLOCK_SIZE);
-            int readn = file.readBlock((char*)config.data(size), BLOCK_SIZE);
+            int readn = file.read((char*)config.data(size), BLOCK_SIZE);
             if (readn < 0){
-                log(L_WARN, "Can't read %s", file.name().latin1());
+                log(L_WARN, "Can't read %s", qPrintable(file.fileName()));
                 clear();
                 return true;
             }
@@ -279,7 +279,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             block -= BLOCK_SIZE;
             if (block < 0)
                 block = 0;
-            if (!file.at(block)){
+            if (!file.seek(block)){
                 m_block = 0;
                 clear();
                 return true;
@@ -287,8 +287,8 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             unsigned size = m_block - block;
             m_block = block;
             config.resize(size);
-            if ((unsigned)file.readBlock(config.data(), size) != size){
-                log(L_WARN, "Can't read %s", file.name().latin1());
+            if ((unsigned)file.read(config.data(), size) != size){
+                log(L_WARN, "Can't read %s", qPrintable(file.fileName()));
                 clear();
                 return true;
             }
@@ -297,7 +297,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
         Q3CString type = config.getSection(!bUp && (m_block != 0));
         if (type.isEmpty())
             continue;
-        if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
+        if ((config.writePos() == config.size()) && ((unsigned)file.pos() < file.size()))
             continue;
         unsigned id = m_block;
         if (!bUp)
@@ -310,7 +310,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             type = config.getSection();
             if (type.isEmpty())
                 break;
-            if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
+            if ((config.writePos() == config.size()) && ((unsigned)file.pos() < file.size()))
                 break;
             createMessage(id + config.startSection(), type, &config);
             pos = config.writePos();
@@ -620,8 +620,8 @@ void History::add(Message *msg, const QString &type)
         log(L_ERROR, "Can't open %s", f_name.local8Bit().data());
         return;
     }
-    unsigned id = f.at();
-    f.writeBlock(line, line.length());
+    qint64 id = f.pos();
+    f.write(line, line.length());
 
     msg->setId(id);
 }
@@ -674,12 +674,12 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
 {
     QFile f(user_file(QString(HISTORY_PATH).append(name)));
     if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, "Can't open %s", qPrintable(f.fileName()));
         return;
     }
-    QFile t(f.name() + '~');
+    QFile t(f.fileName() + '~');
     if (!t.open(QIODevice::ReadWrite | QIODevice::Truncate)){
-        log(L_ERROR, "Can't open %s", (const char*)t.name().local8Bit());
+        log(L_ERROR, "Can't open %s", qPrintable(t.fileName()));
         return;
     }
     unsigned tail = id;
@@ -688,12 +688,12 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         int size = sizeof(b);
         if (tail < (unsigned)size)
             size = tail;
-        size = f.readBlock(b, size);
+        size = f.read(b, size);
         if (size == -1){
             log(L_ERROR, "Read history error");
             return;
         }
-        if (bCopy && (t.writeBlock(b, size) != size)){
+        if (bCopy && (t.write(b, size) != size)){
             log(L_ERROR, "Write history error");
             return;
         }
@@ -704,7 +704,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     for (;;){
         unsigned size = config.size();
         config.resize(LOAD_BLOCK_SIZE);
-        int readn = f.readBlock(config.data(size), LOAD_BLOCK_SIZE);
+        int readn = f.read(config.data(size), LOAD_BLOCK_SIZE);
         if (readn < 0){
             log(L_ERROR, "Read history error");
             return;
@@ -721,7 +721,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     }
     if (config.startSection()){
         skip_start += config.startSection();
-        if ((unsigned)t.writeBlock(config.data(), config.startSection()) != config.startSection()){
+        if ((unsigned)t.write(config.data(), config.startSection()) != config.startSection()){
             log(L_ERROR, "Write history error");
             return;
         }
@@ -734,7 +734,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         skip_start++;
     }
     int size = line.length();
-    int written = t.writeBlock(line, size);
+    int written = t.write(line, size);
     if (written != size){
         log(L_DEBUG, "Write history error");
         return;
@@ -742,21 +742,21 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     skip_size -= line.length();
     if (config.writePos() < config.size()){
         size = config.size() - config.writePos();
-        written = t.writeBlock(config.data(config.writePos()), size);
+        written = t.write(config.data(config.writePos()), size);
         if (written != size){
             log(L_DEBUG, "Write history error");
             return;
         }
     }
-    tail = f.size() - f.at();
+    tail = f.size() - f.pos();
     for (; tail > 0; ){
         char b[2048];
-        size = f.readBlock(b, sizeof(b));
+        size = f.read(b, sizeof(b));
         if (size == -1){
             log(L_ERROR, "Read history error");
             return;
         }
-        written = t.writeBlock(b, size);
+        written = t.write(b, size);
         if (written != size){
             log(L_DEBUG, "Write history error");
             return;
@@ -765,8 +765,8 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     }
     f.close();
     t.close();
-    QFileInfo fInfo(f.name());
-    QFileInfo tInfo(t.name());
+    QFileInfo fInfo(f.fileName());
+    QFileInfo tInfo(t.fileName());
 #if defined( WIN32 ) || defined( __OS2__ )
     fInfo.dir().remove(fInfo.fileName());
 #endif
@@ -820,7 +820,7 @@ void History::remove(Contact *contact)
         if (!f.exists())
             continue;
         if (bRename){
-            QFileInfo fInfo(f.name());
+            QFileInfo fInfo(f.fileName());
             fInfo.dir().rename(fInfo.fileName(), QString(fInfo.fileName()).append(REMOVED));
         }else{
             f.remove();
@@ -853,10 +853,10 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
                 << msg->getPlainText()
                 << "\n\n";
         }
-        const int status = f.status();
+        const QFile::FileError status = f.error();
         const QString errorMessage = f.errorString();
         f.close();
-        if (status != IO_Ok) {
+        if (status != QFile::NoError) {
             log(L_ERROR, "I/O error during write to file %s : %s", (const char*)file_name.local8Bit(), (const char*)errorMessage.local8Bit());
             return false;
         }

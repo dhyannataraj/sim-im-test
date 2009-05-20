@@ -246,7 +246,7 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
         //   in !m_bCtrlMode:   enter      --> sendMsg
         //                      ctrl+enter --> newLine
         // the (bool) is required due to the bitmap
-        if (m_bCtrlMode == (bool)(e->state() & Qt::ControlButton)){
+        if (m_bCtrlMode == (bool)(e->modifiers() & Qt::ControlModifier)){
             emit ctrlEnterPressed();
             return;
         }

@@ -152,9 +152,9 @@ void MigrateDialog::process()
         icqConf.close();
         clientsConf.close();
         contactsConf.close();
-        icqConf.setName(path + "icq.conf");
-        clientsConf.setName(path + "clients.conf");
-        contactsConf.setName(path + "contacts.conf");
+        icqConf.setFileName(path + "icq.conf");
+        clientsConf.setFileName(path + "clients.conf");
+        contactsConf.setFileName(path + "contacts.conf");
         lblStatus->setText(path + "icq.conf");
         if (!icqConf.open(QIODevice::ReadOnly)){
             error(i18n("Can't open %1") .arg(path + "icq.conf"));
@@ -175,7 +175,7 @@ void MigrateDialog::process()
         m_contactId = 0;
         Buffer cfg;
         cfg.init(icqConf.size());
-        icqConf.readBlock(cfg.data(), icqConf.size());
+        icqConf.read(cfg.data(), icqConf.size());
         for (;;){
             Q3CString section = cfg.getSection();
             if (section.isEmpty())
@@ -226,19 +226,19 @@ void MigrateDialog::process()
         for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
             hFrom.close();
             hTo.close();
-            hFrom.setName(h_path + (*it));
+            hFrom.setFileName(h_path + (*it));
             lblStatus->setText(h_path + (*it));
-            hTo.setName(h_path + QString(m_owner) + '.' + (*it).left((*it).indexOf('.')));
+            hTo.setFileName(h_path + QString(m_owner) + '.' + (*it).left((*it).indexOf('.')));
             if (!hFrom.open(QIODevice::ReadOnly)){
-                error(i18n("Can't open %1") .arg(hFrom.name()));
+                error(i18n("Can't open %1") .arg(hFrom.fileName()));
                 return;
             }
             if (!hTo.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                error(i18n("Can't open %1") .arg(hTo.name()));
+                error(i18n("Can't open %1") .arg(hTo.fileName()));
                 return;
             }
             cfg.init(hFrom.size());
-            hFrom.readBlock(cfg.data(), hFrom.size());
+            hFrom.read(cfg.data(), hFrom.size());
             for (;;){
                 Q3CString section = cfg.getSection();
                 if (section.isEmpty())
@@ -278,10 +278,10 @@ void MigrateDialog::process()
         }
         if (chkRemove->isChecked()){
             icqConf.remove();
-            icqConf.setName(path + "sim.conf");
+            icqConf.setFileName(path + "sim.conf");
             icqConf.remove();
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
-                hFrom.setName(h_path + (*it));
+                hFrom.setFileName(h_path + (*it));
                 hFrom.remove();
             }
         }
@@ -296,7 +296,7 @@ void MigrateDialog::flush()
     switch (m_state){
     case 0:
         output = "[icq/ICQ]\n";
-        clientsConf.writeBlock(output, output.length());
+        clientsConf.write(output, output.length());
         output = "Uin=";
 		output += QString::number(m_uin);
         output += "\n";
@@ -322,7 +322,7 @@ void MigrateDialog::flush()
             output += new_passwd;
             output += "\"\n";
         }
-        clientsConf.writeBlock(output, output.length());
+        clientsConf.write(output, output.length());
         m_owner = "ICQ.";
         m_owner += QString::number(m_uin);
         break;
@@ -334,7 +334,7 @@ void MigrateDialog::flush()
             output += "Name=\"";
             output += m_name;
             output += "\"\n";
-            contactsConf.writeBlock(output, output.length());
+            contactsConf.write(output, output.length());
         }
         break;
     case 2:
@@ -358,7 +358,7 @@ void MigrateDialog::flush()
             output += QString::number(m_uin);
             output += "\n";
         }
-        contactsConf.writeBlock(output, output.length());
+        contactsConf.write(output, output.length());
         break;
     case 4:
         if (!m_message.isEmpty()){
@@ -380,7 +380,7 @@ void MigrateDialog::flush()
             output += "Time=";
             output += m_time;
             output += "\n";
-            hTo.writeBlock(output, output.length());
+            hTo.write(output, output.length());
         }
         break;
     }

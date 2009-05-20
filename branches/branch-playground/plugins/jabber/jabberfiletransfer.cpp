@@ -96,7 +96,7 @@ void JabberFileTransfer::bind_ready(unsigned short port)
         if (m_notify)
             m_notify->process();
     }
-    QString fname = m_file->name();
+    QString fname = m_file->fileName();
     fname = fname.replace('\\', '/');
     int n = fname.findRev('/');
     if (n >= 0)
@@ -169,7 +169,7 @@ void JabberFileTransfer::packet_ready()
         if (size > m_endPos - m_startPos)
             size = m_endPos - m_startPos;
         if (size){
-            m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
+            m_file->write(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
             m_bytes += size;
             m_totalBytes += size;
             m_startPos += size;
@@ -264,7 +264,7 @@ void JabberFileTransfer::write_ready()
     unsigned tail = sizeof(buf);
     if (tail > m_endPos - m_startPos)
         tail = m_endPos - m_startPos;
-    int readn = m_file->readBlock(buf, tail);
+    int readn = m_file->read(buf, tail);
     if (readn <= 0){
         m_socket->error_state("Read file error");
         return;
@@ -290,7 +290,7 @@ bool JabberFileTransfer::get_line(const Q3CString &str)
             if (m_endPos < m_startPos)
                 m_endPos = m_startPos;
             if (m_file)
-                m_file->at(m_startPos);
+                m_file->seek(m_startPos);
             m_state = Receive;
             FileTransfer::m_state = FileTransfer::Read;
             m_bytes += m_startPos;
@@ -349,7 +349,7 @@ bool JabberFileTransfer::get_line(const Q3CString &str)
         }
         send_line("");
         if (m_answer < 300){
-            m_file->at(m_startPos);
+            m_file->seek(m_startPos);
             FileTransfer::m_state = FileTransfer::Write;
             m_state = Send;
             m_bytes = m_startPos;
