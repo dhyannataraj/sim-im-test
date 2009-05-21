@@ -203,7 +203,7 @@
          </property>
         </spacer>
        </item>
-       <item row="8" column="0" colspan="3">
+       <item row="10" column="0" colspan="3">
         <layout class="QHBoxLayout">
          <property name="spacing">
           <number>6</number>
