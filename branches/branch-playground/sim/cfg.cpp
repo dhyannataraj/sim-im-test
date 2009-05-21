@@ -428,7 +428,7 @@ void init_data(const DataDef *d, Data *data)
                 QStringList sl = QStringList::split(',',def->def_value);
                 Data::STRING_MAP sm;
                 for(unsigned i = 0; i < sl.count(); i++) {
-                    sm.insert(i, sm[(int)i]);
+                    sm.insert(i, sl[(int)i]);
                 }
                 data->strMap() = sm;
             }
