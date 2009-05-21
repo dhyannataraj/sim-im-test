@@ -44,7 +44,7 @@ MACRO(SIM_FIND_PLUGINS sim_plugin_dir)
                 SET(SIM_PLUGINS ${SIM_PLUGINS} ${plugin})
             ENDIF(${uc_plugin} MATCHES "^_.*$")
             
-
+        LIST(SORT SIM_PLUGINS)
         ENDIF(cmakefile)
     ENDFOREACH(_cur_dir)
 ENDMACRO(SIM_FIND_PLUGINS sim_plugin_dir)

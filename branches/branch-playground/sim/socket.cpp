@@ -17,8 +17,7 @@
 
 #include <qmutex.h>
 #include <qtimer.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QSet>
 #include <QTimerEvent>
 
 #ifdef WIN32
@@ -57,10 +56,10 @@ struct SocketFactoryPrivate
 {
     bool m_bActive;
 
-    Q3ValueList<ClientSocket*> errSockets;
-    Q3ValueList<ClientSocket*> errSocketsCopy;
-    Q3ValueList<Socket*> removedSockets;
-    Q3ValueList<ServerSocket*> removedServerSockets;
+    QSet<ClientSocket*> errSockets;
+    QSet<ClientSocket*> errSocketsCopy;
+    QSet<Socket*> removedSockets;
+    QSet<ServerSocket*> removedServerSockets;
 
     SocketFactoryPrivate() : m_bActive(true) {}
 };
@@ -262,7 +261,7 @@ void SocketFactory::remove(Socket *s)
     if(d->removedSockets.contains(s))
       return;
 
-    d->removedSockets.push_back(s);
+    d->removedSockets.insert(s);
 
     QTimer::singleShot(0, this, SLOT(idle()));
 }
@@ -275,7 +274,7 @@ void SocketFactory::remove(ServerSocket *s)
     if(d->removedServerSockets.contains(s))
       return;
 
-    d->removedServerSockets.push_back(s);
+    d->removedServerSockets.insert(s);
     QTimer::singleShot(0, this, SLOT(idle()));
 }
 
@@ -290,9 +289,6 @@ bool SocketFactory::add(ClientSocket *s)
 
 bool SocketFactory::erase(ClientSocket *s)
 {
-  Q3ValueList<ClientSocket*>::iterator it = d->errSocketsCopy.find(s);
-  if(it != d->errSocketsCopy.end())
-    *it = NULL;
   return(d->errSockets.remove(s) > 0);
 }
 
@@ -301,29 +297,25 @@ void SocketFactory::idle()
     d->errSocketsCopy = d->errSockets;  // important! error_state() modifes d->errSockets
     d->errSockets.clear();
 
-    Q3ValueList<ClientSocket*>::iterator it = d->errSocketsCopy.begin();
-    for ( ; it != d->errSocketsCopy.end(); ++it){
-        ClientSocket *s = *it;
+    QSetIterator<ClientSocket*> it(d->errSocketsCopy);
+    while ( it.hasNext() ){
+        ClientSocket *s = it.next();
         // can be removed in SocketFactory::erase();
         if(!s)
           continue;
         ClientSocketNotify *n = s->m_notify;
         if (n){
             QString errString = s->errorString();
-            s->errString = QString::null;
+            s->errString.clear();
             if (n->error_state(errString, s->errCode))
                 delete n;
         }
     }
 
-    Q3ValueList<Socket*>::iterator its = d->removedSockets.begin();
-    for ( ; its != d->removedSockets.end(); ++its)
-        delete *its;
+    qDeleteAll(d->removedSockets);
     d->removedSockets.clear();
 
-    Q3ValueList<ServerSocket*>::iterator itss = d->removedServerSockets.begin();
-    for ( ; itss != d->removedServerSockets.end(); ++itss)
-        delete *itss;
+    qDeleteAll(d->removedServerSockets);
     d->removedServerSockets.clear();
 }
 
@@ -357,7 +349,7 @@ void TCPClient::resolve_ready(unsigned long ip)
 
 bool TCPClient::error_state(const QString &err, unsigned code)
 {
-    log(L_DEBUG, "Socket error %s (%u)", err.local8Bit().data(), code);
+    log(L_DEBUG, "Socket error %s (%u)", qPrintable(err), code);
     m_loginTimer->stop();
     if (m_reconnect == NO_RECONNECT){
         m_timer->stop();
@@ -405,7 +397,8 @@ void TCPClient::connect_ready()
     m_timer->stop();
     m_bWaitReconnect = false;
     m_loginTimer->stop();
-    m_loginTimer->start(LOGIN_TIMEOUT * 1000, true);
+    m_loginTimer->setSingleShot(true);
+    m_loginTimer->start(LOGIN_TIMEOUT * 1000);
 }
 
 void TCPClient::loginTimeout()
@@ -426,7 +419,7 @@ void TCPClient::socketConnect()
         socket()->close();
     if (socket() == NULL)
         m_clientSocket = createClientSocket();
-    log(L_DEBUG, "Start connect %s:%u", static_cast<const char *>(getServer().local8Bit()), getPort());
+    log(L_DEBUG, "Start connect %s:%u", qPrintable(getServer()), getPort());
     socket()->connect(getServer(), getPort(), this);
 }
 
@@ -572,7 +565,7 @@ void InterfaceChecker::timerEvent(QTimerEvent* ev)
 		if(strcmp(ifr.ifr_name, "lo") == 0 )
 			continue;
 
-		std::map<std::string, tIFState>::iterator it = m_states.indexOf(ifr.ifr_name);
+		std::map<std::string, tIFState>::iterator it = m_states.find(ifr.ifr_name);
 		if(it == m_states.end())
 		{
 			// New interface

@@ -224,7 +224,7 @@ void HTMLParser::parse()
 			s = yytext + 1;
 			p->tag = s.toLower();
 			p->value = "";
-			current_tag = p->tag.toLatin1();
+			current_tag = p->tag.toStdString();
 			break;
 		case ATTR:
 			if (!p->attrs.empty())

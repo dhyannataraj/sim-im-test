@@ -247,7 +247,7 @@ LRESULT CALLBACK keysWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-#else
+#else  // WIN32
 #ifdef USE_KDE
 
 GlobalKey::GlobalKey(CommandDef *cmd)
@@ -270,7 +270,8 @@ GlobalKey::~GlobalKey()
         delete accel;
 }
 
-#elseif !defined(Q_OS_MAC)
+#else  // USE_KDE
+#if !defined(Q_OS_MAC)
 
 struct TransKey
 {
@@ -468,8 +469,9 @@ static int X11EventFilter(::XEvent *e)
     return false;
 }
 
-#endif
-#endif
+#endif  // !Q_OS_MAC
+#endif  // USE_KDE
+#endif  // WIN32
 
 ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
         : Plugin(base)
