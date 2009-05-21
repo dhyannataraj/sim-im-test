@@ -36,7 +36,7 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "to
 	setupUi(this);
     SET_WNDPROC("configure")
     setWindowIcon(Icon("configure"));
-    setCaption(def->isMenu() ?
+    setWindowTitle(def->isMenu() ?
                i18n("Customize menu") :
                i18n("Customize toolbar"));
 

@@ -51,7 +51,6 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
     m_bStart   = (parent == NULL);
     setWindowIcon(Icon("configure"));
     setButtonsPict(this);
-    setCaption(caption());
 
     m_setupPage = new QWizardPage( this );
     m_setupLayout = new QHBoxLayout(m_setupPage);

@@ -38,7 +38,6 @@ ConnectionManager::ConnectionManager(bool bModal) : QDialog(NULL, "manager")
     SET_WNDPROC("manager")
     setWindowIcon(Icon("configure"));
     setButtonsPict(this);
-    setCaption(caption());
     lstConnection->setHScrollBarMode(Q3ScrollView::AlwaysOff);
     lstConnection->header()->hide();
     lstConnection->setSorting(1);

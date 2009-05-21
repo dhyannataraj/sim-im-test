@@ -58,7 +58,7 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     bPause = true;  // no debug output during creation
     m_plugin = plugin;
     SET_WNDPROC("monitor")
-    setCaption(i18n("Network monitor"));
+    setWindowTitle(i18n("Network monitor"));
     setWindowIcon(Icon("network"));
 
     edit = new QTextEdit(this);

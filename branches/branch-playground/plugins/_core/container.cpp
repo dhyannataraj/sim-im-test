@@ -966,7 +966,7 @@ void Container::contactChanged(Contact *contact)
         m_bar->processEvent(&e);
         e.setNoProcess();
         setWindowIcon(Icon(cmd->icon));
-        setCaption(userWnd->getLongName());
+        setWindowTitle(userWnd->getLongName());
     }
 }
 

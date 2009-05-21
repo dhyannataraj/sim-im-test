@@ -123,7 +123,7 @@ FileDialog::FileDialog(const QString &dirName, const QString &filter, QWidget *p
         : Q3FileDialog(dirName, filter, parent, "filedialog", true)
 {
     SET_WNDPROC("filedialog");
-    setCaption(title);
+    setWindowTitle(title);
 }
 */
 

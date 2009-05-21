@@ -34,7 +34,6 @@ AddItem::AddItem(QWidget *parent) : QDialog(parent, NULL, true)
     SET_WNDPROC("additem")
     setWindowIcon(Icon("run"));
     setButtonsPict(this);
-    setCaption(caption());
     QTimer::singleShot(0, this, SLOT(changed()));
     connect(edtItem, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPrg, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));

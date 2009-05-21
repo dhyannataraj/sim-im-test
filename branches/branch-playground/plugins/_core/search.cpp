@@ -57,7 +57,7 @@ SearchDialog::SearchDialog()
     SET_WNDPROC("search")
     setWindowIcon(Icon("find"));
     setButtonsPict(this);
-    setCaption(i18n("Search"));
+    setWindowTitle(i18n("Search"));
     m_current = NULL;
     m_currentResult = NULL;
     m_bAdd = true;
@@ -302,10 +302,10 @@ void SearchDialog::setTitle()
         name = client->name();
     CorePlugin::m_plugin->setSearchClient(name);
     if (m_bAdd){
-        setCaption(i18n("Add") + ": " + m_search->cmbClients->currentText());
+        setWindowTitle(i18n("Add") + ": " + m_search->cmbClients->currentText());
         setWindowIcon(Icon("add"));
     }else{
-        setCaption(i18n("Search") + ": " + m_search->cmbClients->currentText());
+        setWindowTitle(i18n("Search") + ": " + m_search->cmbClients->currentText());
         setWindowIcon(Icon("find"));
     }
 }

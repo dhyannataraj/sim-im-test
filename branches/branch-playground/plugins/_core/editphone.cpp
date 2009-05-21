@@ -43,7 +43,7 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     SET_WNDPROC("editphone")
     setWindowIcon(Icon("phone"));
     setButtonsPict(this);
-    setCaption(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
+    setWindowTitle(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
     m_ok = false;
     m_phone = new PhoneDetails(wndDetails, (icon == PAGER) ? QString() : number);
     m_pager = new PagerDetails(wndDetails, (icon == PAGER) ? number : QString());

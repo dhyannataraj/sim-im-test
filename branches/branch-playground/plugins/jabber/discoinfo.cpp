@@ -84,7 +84,7 @@ DiscoInfo::~DiscoInfo()
 
 void DiscoInfo::setTitle()
 {
-    setCaption(m_url);
+    setWindowTitle(m_url);
 }
 
 void DiscoInfo::reset()

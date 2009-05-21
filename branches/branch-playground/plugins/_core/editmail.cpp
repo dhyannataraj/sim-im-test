@@ -33,7 +33,7 @@ EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bSh
     SET_WNDPROC("editmail")
     setWindowIcon(Icon("mail_generic"));
     setButtonsPict(this);
-    setCaption(mail.isEmpty() ? i18n("Add mail address") : i18n("Edit mail address"));
+    setWindowTitle(mail.isEmpty() ? i18n("Add mail address") : i18n("Edit mail address"));
     edtMail->setText(mail);
     connect(edtMail, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     textChanged(mail);

@@ -39,7 +39,6 @@ SpellFind::SpellFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiv
     SET_WNDPROC("find")
     setWindowIcon(Icon("find"));
     setButtonsPict(this);
-    setCaption(caption());
     m_edit = edt;
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     m_drives = QDir::drives();

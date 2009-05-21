@@ -329,7 +329,7 @@ void UserConfig::setTitle()
         title += ' ';
         title += i18n("[Update info]");
     }
-    setCaption(title);
+    setWindowTitle(title);
 }
 
 void UserConfig::fill()

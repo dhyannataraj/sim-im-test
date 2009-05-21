@@ -54,7 +54,7 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString 
     helpButton()->hide();
     SET_WNDPROC("jbrowser")
     setWindowIcon(Icon(icon));
-    setCaption(title);
+    setWindowTitle(title);
     connect(this, SIGNAL(selected(const QString&)), this, SLOT(slotSelected(const QString&)));
 }
 

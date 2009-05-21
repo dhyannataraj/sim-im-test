@@ -308,7 +308,7 @@ void MainWindow::setTitle()
         title = owner->getName();
     if (title.isEmpty())
         title = "SIM";
-    setCaption(title);
+    setWindowTitle(title);
 }
 
 void MainWindow::focusInEvent(QFocusEvent *e)

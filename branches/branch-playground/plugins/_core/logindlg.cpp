@@ -56,12 +56,12 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     lblMessage->setText(text);
     if(m_client)
 	{
-        setCaption(caption() + ' ' + client->name());
+        setWindowTitle(windowTitle() + ' ' + client->name());
         setWindowIcon(Icon(m_client->protocol()->description()->icon));
     }
 	else
 	{
-        setCaption(i18n("Select profile"));
+        setWindowTitle(i18n("Select profile"));
         setWindowIcon(Icon("SIM"));
     }
     if (m_client)

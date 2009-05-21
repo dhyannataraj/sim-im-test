@@ -37,7 +37,6 @@ PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key) : QDialog(NU
     SET_WNDPROC("passphrase")
     setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
-    setCaption(caption());
     m_key = key;
     lblTitle->setText(i18n("Input passphrase for key %1") .arg(key));
     connect(edtPass, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));

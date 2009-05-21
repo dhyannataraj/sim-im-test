@@ -39,7 +39,6 @@ GpgGen::GpgGen(GpgCfg *cfg) : QDialog(NULL, NULL, true)
     SET_WNDPROC("genkey")
     setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
-    setCaption(caption());
     cmbMail->setEditable(true);
     m_process = NULL;
     m_cfg  = cfg;

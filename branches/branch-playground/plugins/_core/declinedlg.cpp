@@ -32,7 +32,6 @@ DeclineDlg::DeclineDlg(Message *msg) : QDialog(NULL)
     SET_WNDPROC("decline")
     setWindowIcon(Icon("file"));
     setButtonsPict(this);
-    setCaption(caption());
 }
 
 DeclineDlg::~DeclineDlg()

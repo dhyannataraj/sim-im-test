@@ -45,7 +45,6 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 	setupUi(this);
 	SET_WNDPROC("about");
 	setButtonsPict(this);
-	setCaption(caption());
 
 	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
 	setIcon(SIM::Icon("SIM"));

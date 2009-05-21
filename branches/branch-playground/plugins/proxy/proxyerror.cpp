@@ -35,7 +35,6 @@ ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& ms
     setupUi(this);
     setWindowIcon(Icon("error"));
     setButtonsPict(this);
-    setWindowTitle(caption());
     m_plugin = plugin;
     m_client = client;
     lblMessage->setText(msg);

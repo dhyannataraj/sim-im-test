@@ -45,7 +45,6 @@ MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs) : Q
 {
 	setupUi(this);
     SET_WNDPROC("migrate")
-    setCaption(caption());
     m_dir      = dir;
     m_cnvDirs  = cnvDirs;
     m_bProcess = false;
