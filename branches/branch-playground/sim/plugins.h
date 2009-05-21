@@ -19,9 +19,11 @@
 #define _PLUGINS_H
 
 #include <qstring.h>
+//Added by qt3to4:
 #include <Q3CString>
 #include "simapi.h"
 
+class QFile;
 class QLibrary;
 class QWidget;
 class Buffer;

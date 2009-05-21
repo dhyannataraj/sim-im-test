@@ -15,20 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <vector>
+#include <algorithm>
+
 #include "plugins.h"
 
 #include <qapplication.h>
 #include <qdir.h>
-#include <qdiriterator.h>
 #include <qfile.h>
 #include <qlibrary.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
 #include <qstring.h>
 #include <qstringlist.h>
+#include <q3textstream.h>
 #include <q3process.h>
+//Added by qt3to4:
 #include <Q3CString>
-#include <QVector>
 
 #include "sockfactory.h"
 #include "fetch.h"
@@ -112,7 +115,7 @@ protected:
     void reloadState();
 
     pluginInfo *getInfo(const QString &name);
-    pluginInfo *getInfo(int n);
+    pluginInfo *getInfo(unsigned n);
     bool setInfo(const QString &name);
 
 #ifndef WIN32
@@ -121,7 +124,7 @@ protected:
 
     QString app_name;
     QStringList args;
-    QVector<pluginInfo> plugins;
+    vector<pluginInfo> plugins;
     QStringList cmds;
     QStringList descrs;
 
@@ -139,22 +142,29 @@ protected:
 
 static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
 {
-    return QString::compare(p1.name, p2.name, Qt::CaseInsensitive) < 0;
+    QString s1 = p1.name.lower();
+    QString s2 = p2.name.lower();
+
+    return (s1 < s2);
 }
 
-static bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
+bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
 {
-    QString pluginsDir(appDir.absoluteFilePath("plugins"));
-    log(L_DEBUG, "Searching for plugins in build directory '%s'...", qPrintable(pluginsDir));
+    QDir pluginsDir(appDir.absFilePath("plugins"));
+    log(L_DEBUG, "Searching for plugins in build directory '%s'...", static_cast<const char*>(pluginsDir.path()));
     int count = 0;
     // trunk/plugins/*
-    QDirIterator it(pluginsDir, QDir::Dirs|QDir::NoDotAndDotDot);
-    while (it.hasNext()) {
-        const QString dir = it.next();
-        // trunk/plugins/$plugin_name/$plugin_name.so
-        const QString pluginFilename = dir + '/' + subdir + '/' + it.fileName() + LTDL_SHLIB_EXT;
+    const QStringList pluginDirs = pluginsDir.entryList("*", QDir::Dirs);
+    for (QStringList::const_iterator it = pluginDirs.begin(); it != pluginDirs.end(); ++it) {
+        QString dir = *it;
+        if(dir == "." || dir == "..")
+            continue;
+        const QDir pluginDir( dir );
+        // trunk/plugins/$plugin_name/$subdir/$plugin_name.so
+        const QString pluginFilename = pluginsDir.filePath(QDir( pluginDir.filePath(subdir) ).
+                                                           filePath(pluginDir.dirName() + LTDL_SHLIB_EXT));
         if (QFile::exists(pluginFilename)) {
-            log(L_DEBUG, "Found '%s'...", qPrintable(pluginFilename));
+            log(L_DEBUG, "Found '%s'...", static_cast<const char*>(pluginFilename));
             pluginsList.append(pluginFilename);
             count++;
         }
@@ -199,33 +209,33 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     } else {
 
 #if defined( WIN32 ) || defined( __OS2__ )
-        QString pluginDir(app_file("plugins"));
+        QDir pluginDir(app_file("plugins"));
 #else
-        QString pluginDir(PLUGIN_PATH);
+        QDir pluginDir(PLUGIN_PATH);
 #endif
         /* do some test so we can blame when sim can't access / find
            the plugins */
-        QDirIterator it(pluginDir, QDir::Dirs|QDir::NoDotAndDotDot);
-        if (!it.hasNext()) {
+        pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
+        if (pluginsList.isEmpty()) {
             log(L_ERROR,
                 "Can't access %s or directory contains no plugins!",
-                qPrintable(pluginDir));
+                pluginDir.path().ascii());
             m_bAbort = true;
             return;
         }
         m_bAbort = false;
 
-        log(L_DEBUG,"Loading plugins from %s",qPrintable(pluginDir));
+        log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
     }
     for (QStringList::iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
         QString f = QFileInfo(*it).fileName();
-        int p = f.lastIndexOf('.');
+        int p = f.findRev('.');
         if (p > 0)
             f = f.left(p);
         pluginInfo info;
         info.plugin		 = NULL;
 #if defined( WIN32 ) || defined( __OS2__ )
-        info.name        = f.toLower();
+        info.name        = f.lower();
 #else
         info.name		 = f;
 #endif
@@ -238,7 +248,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info		 = NULL;
         info.base		 = 0;
         plugins.push_back(info);
-        log(L_DEBUG,"Found plugin %s", qPrintable(info.name));
+        log(L_DEBUG,"Found plugin %s",info.name.local8Bit().data());
     }
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -248,10 +258,9 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         m_bAbort = true;
         return;
     }
-    qSort(plugins.begin(), plugins.end(), cmp_plugin);
-    const int size = plugins.count();
-    for(int i = 0; i < size; ++i) {
-        create(plugins[i]);
+    sort(plugins.begin(), plugins.end(), cmp_plugin);
+    for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){
+        create((*itp));
         if (m_bAbort)
             return;
     }
@@ -354,7 +363,7 @@ pluginInfo *PluginManagerPrivate::getInfo(const QString &name)
 {
     if (name.isEmpty())
         return NULL;
-    for (int n = 0; n < plugins.size(); n++){
+    for (size_t n = 0; n < plugins.size(); n++){
         pluginInfo &info = plugins[n];
         if (info.name == name)
             return &info;
@@ -408,7 +417,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         QString fullName = app_file(pluginName);
         info.module = new QLibrary(fullName);
         if (info.module == NULL)
-            fprintf(stderr, "Can't load plugin %s\n", qPrintable(info.name));
+            fprintf(stderr, "Can't load plugin %s\n", info.name.local8Bit().data());
 
     }
     if (info.module == NULL)
@@ -418,7 +427,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
         if (getInfo == NULL)
 		{
-            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry (%s)\n", qPrintable(info.name), info.module->errorString().toUtf8().data());
+            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry (%s)\n", info.name.local8Bit().data(), info.module->errorString().toUtf8().data());
             release(info);
             return;
         }
@@ -475,7 +484,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         release(info);
         return false;
     }
-    log(L_DEBUG, "Load plugin %s", qPrintable(info.name));
+    log(L_DEBUG, "Load plugin %s", info.name.local8Bit().data());
     if (!m_bLoaded && !(info.info->flags & (PLUGIN_NO_CONFIG_PATH & ~PLUGIN_DEFAULT))){
         loadState();
         if (info.bDisabled || (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT)))){
@@ -515,7 +524,7 @@ void PluginManagerPrivate::load_all(EventPluginsLoad *p)
     }
     Plugin *from = p->plugin();
     reloadState();
-    int i;
+    unsigned i;
     for (i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
         if (info.plugin == from)
@@ -535,7 +544,7 @@ void PluginManagerPrivate::release(const QString &name)
 void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 {
     if (info.plugin){
-        log(L_DEBUG, "Unload plugin %s", qPrintable(info.name));
+        log(L_DEBUG, "Unload plugin %s", info.name.local8Bit().data());
         delete info.plugin;
         info.plugin = NULL;
         EventPluginChanged e(&info);
@@ -549,7 +558,7 @@ void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
     info.info = NULL;
 }
 
-pluginInfo *PluginManagerPrivate::getInfo(int n)
+pluginInfo *PluginManagerPrivate::getInfo(unsigned n)
 {
     if (n >= plugins.size())
         return NULL;
@@ -602,45 +611,45 @@ void PluginManagerPrivate::saveState()
     QString cfgName = user_file(PLUGINS_CONF);
     QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
+        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
-    for (int i = 0; i < plugins.size(); i++){
+    for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
-        QByteArray line = "[";
+        Q3CString line = "[";
         line += QFile::encodeName(info.name);
         line += "]\n";
         line += info.bDisabled ? DISABLE : ENABLE;
         line += ',';
         line += QString::number(info.base);
         line += '\n';
-        f.write(line);
+        f.writeBlock(line, line.length());
         if (info.plugin){
-            QByteArray cfg = info.plugin->getConfig();
+            Q3CString cfg = info.plugin->getConfig();
             if (cfg.length()){
                 cfg += '\n';
-                f.write(cfg);
+                f.writeBlock(cfg, cfg.length());
             }
         }
     }
     f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
-    QFile::FileError err = f.error();
+    const int status = f.status();
     const QString errorMessage = f.errorString();
     f.close();
-    if (err != QFile::NoError) {
-        log(L_ERROR, "I/O error during writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
+    if (status != IO_Ok) {
+        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
         return;
     }
 
     // rename to normal file
-    QFileInfo fileInfo(f.fileName());
+    QFileInfo fileInfo(f.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
 //#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
 //#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
+        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
         return;
     }
 }
@@ -650,7 +659,7 @@ const unsigned long NO_PLUGIN = (unsigned long)(-1);
 void PluginManagerPrivate::reloadState()
 {
     m_bLoaded = false;
-    for (int i = 0; i < plugins.size(); i++){
+    for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
         if (info.cfg){
             delete info.cfg;
@@ -671,22 +680,22 @@ void PluginManagerPrivate::loadState()
         /* Maybe first start ? */
         QDir dir(user_file(QString::null));
         if (!dir.exists()) {
-            log(L_WARN, "Creating directory %s",qPrintable(dir.absolutePath()));
-            if (!dir.mkdir(dir.absolutePath())) {
-                log(L_ERROR, "Can't create directory %s",qPrintable(dir.absolutePath()));
+            log(L_WARN, "Creating directory %s",dir.absPath().ascii());
+            if (!dir.mkdir(dir.absPath())) {
+                log(L_ERROR, "Can't create directory %s",dir.absPath().ascii());
                 return;
             }
         }
         if (f.open(QIODevice::WriteOnly))
             f.close();
         else {
-            log(L_ERROR, "Can't create %s",qPrintable(f.fileName()));
+            log(L_ERROR, "Can't create %s",f.name().ascii());
             return;
         }
     }
 
     if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "Can't open %s", qPrintable(f.fileName()));
+        log(L_ERROR, "Can't open %s", f.name().ascii());
         return;
     }
 
@@ -700,7 +709,7 @@ void PluginManagerPrivate::loadState()
         if (section.isEmpty())
             return;
         unsigned long i = NO_PLUGIN;
-        for (int n = 0; n < plugins.size(); n++)
+        for (unsigned n = 0; n < plugins.size(); n++)
             if (section == QFile::encodeName(plugins[n].name).data()){
                 i = n;
                 break;
@@ -774,10 +783,10 @@ bool PluginManagerPrivate::findParam(EventArg *a)
             break;
         }
     }else{
-        int idx = args.indexOf(a->arg());
-        if(idx >= 0) {
-            value = args[idx];
-            args[idx].clear();
+        QStringList::iterator it = args.find(a->arg());
+        if(it != args.end()) {
+            value = (*it);
+            *it = QString::null;
             bRet = true;
         }
     }
