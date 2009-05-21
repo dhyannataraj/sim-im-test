@@ -1690,7 +1690,7 @@ void UserView::search(Q3ListViewItem *item, list<Q3ListViewItem*> &items)
     //Search from the beginning of contact name
     //if (name.left(m_search.length()).upper() == m_search.upper())
     //Search for substring in contact name
-    if (name.contains(m_search,false)>0) {
+    if (name.contains(m_search,Qt::CaseInsensitive)>0) {
         //log(L_DEBUG, "Contact List search: Found name %s", (const char *)name.local8Bit());
         item->parent()->setOpen(true);
         items.push_back(item);
@@ -1704,7 +1704,7 @@ void UserView::search(Q3ListViewItem *item, list<Q3ListViewItem*> &items)
               continue;
           QString contactName = client->contactName(data);
           //log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
-          if (contactName.contains(m_search,false)>0) {
+          if (contactName.contains(m_search,Qt::CaseInsensitive)>0) {
               //log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
               item->parent()->setOpen(true);
               items.push_back(item);

@@ -335,7 +335,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         StatusMessage *sm = static_cast<StatusMessage*>(msg);
         Client *client = NULL;
         QString clientStr = msg->client();
-        int n = clientStr.findRev('.');
+        int n = clientStr.lastIndexOf('.');
         if (n >= 0){
             clientStr = clientStr.left(n);
         }else{
@@ -487,7 +487,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if (!CorePlugin::m_plugin->getOwnColors() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
-        s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
+        s += QString::number(msg->getForeground(), 16).rightJustified(6, '0');
         s += '\"';
     }
 
@@ -496,7 +496,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if ((msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " bgcolor=\"#";
-        s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
+        s += QString::number(msg->getBackground(), 16).rightJustified(6, '0');
         s += '\"';
     }
     s += '>';

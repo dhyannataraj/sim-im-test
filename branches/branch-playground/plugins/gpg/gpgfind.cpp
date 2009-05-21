@@ -59,7 +59,7 @@ void GpgFind::next()
             m_tree.pop();
             m_pos.pop();
             m_path = m_path.left(m_path.length() - 1);
-            m_path = m_path.left(m_path.findRev('\\') + 1);
+            m_path = m_path.left(m_path.lastIndexOf('\\') + 1);
             QTimer::singleShot(0, this, SLOT(next()));
             return;
         }
@@ -79,9 +79,9 @@ void GpgFind::next()
         close();
         return;
     }
-    m_path = m_drive->absFilePath();
+    m_path = m_drive->absoluteFilePath();
     m_path = m_path.replace('/', '\\');
-    if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
+    if ((GetDriveTypeW((LPCWSTR)m_path.utf16()) == DRIVE_FIXED) && checkPath())
         return;
     //m_drive = m_drives.next(); //portme
     QTimer::singleShot(0, this, SLOT(next()));
@@ -109,7 +109,7 @@ bool GpgFind::checkPath()
         m_tree.push(subDirs);
         m_pos.push(0);
     }else{
-        m_path = m_path.left(m_path.findRev('\\'));
+        m_path = m_path.left(m_path.lastIndexOf('\\'));
     }
     return false;
 }

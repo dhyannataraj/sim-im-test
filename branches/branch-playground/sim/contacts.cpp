@@ -1078,7 +1078,7 @@ Client::Client(Protocol *protocol, Buffer *cfg)
         do {
             QString sub_str = getToken(pswd, '$');
             temp ^= sub_str.toUShort(0,16);
-            new_pswd += tmp.setUnicodeCodes(&temp,1);
+            new_pswd += tmp.setUtf16(&temp,1);
             temp = sub_str.toUShort(0,16);
         } while (pswd.length());
         setPassword(new_pswd);

@@ -84,16 +84,15 @@ TlvList::TlvList(ICQBuffer &b, unsigned nTlvs)
 
 TlvList::~TlvList()
 {
-    for(uint i = 0; i < count(); i++)
-        delete *at((int)i);
+    qDeleteAll(*this);
 }
 
 Tlv *TlvList::operator()(unsigned short num, int skip)
 {
     for(uint i = 0; i < count(); i++) {
-        if ((*at(i))->Num() == num) {
+        if ((at(i))->Num() == num) {
             if(skip == 0)
-                return *at(i);
+                return at(i);
             --skip;
         }
     }
@@ -267,7 +266,7 @@ ICQBuffer &ICQBuffer::operator << (bool b)
     return *this;
 }
 
-ICQBuffer &ICQBuffer::operator >> (string &s)
+ICQBuffer &ICQBuffer::operator >> (std::string &s)
 {
     unsigned short size;
     *this >> size;
@@ -420,7 +419,7 @@ bool ICQBuffer::unpackStr(Q3CString &str)
     return true;
 }
 
-void ICQBuffer::unpackStr32(string &s)
+void ICQBuffer::unpackStr32(std::string &s)
 {
     unsigned long size;
     *this >> size;

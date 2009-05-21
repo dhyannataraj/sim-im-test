@@ -20,12 +20,9 @@
 #include "buffer.h"
 #include "socket.h"
 #include <string> //Fixme
-//Added by qt3to4:
-#include <Q3CString>
-#include <Q3ValueList>
+#include <QList>
 
-using namespace std;
-
+class Q3CString;
 class ICQBuffer;
 class Tlv
 {
@@ -46,7 +43,7 @@ protected:
     QByteArray m_data;
 };
 
-class TlvList : public Q3ValueList<Tlv*>
+class TlvList : public QList<Tlv*>
 {
 public:
     TlvList();
@@ -95,7 +92,7 @@ public:
     ICQBuffer &operator << (long c) { return operator << ((unsigned long)c); }
     ICQBuffer &operator << (const bool b);
 
-	ICQBuffer &operator >> (string &s);	//Ported from 0.9.4
+    ICQBuffer &operator >> (std::string &s);	//Ported from 0.9.4
     ICQBuffer &operator >> (Q3CString &s);  // size is 2 byte & little endian!
     ICQBuffer &operator >> (char &c);
     ICQBuffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
@@ -122,7 +119,7 @@ public:
     bool unpackStr(QString &s);     // utf8
     bool unpackStr(Q3CString &s);
     // 4 byte size  + string
-	void unpackStr32(string &s); // Ported from 0.9.4
+    void unpackStr32(std::string &s); // Ported from 0.9.4
     bool unpackStr32(Q3CString &s);
     bool unpackStr32(QByteArray &s);
     QString unpackScreen();

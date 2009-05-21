@@ -1943,7 +1943,7 @@ void ICQFileTransfer::sendFileInfo()
     m_socket->writeBuffer().pack((char)(isDirectory() ? 1 : 0));
     QString fn  = filename();
     QString dir;
-    int n = fn.findRev('/');
+    int n = fn.lastIndexOf('/');
     if (n >= 0){
         dir = fn.left(n);
         dir = dir.replace('/', '\\');

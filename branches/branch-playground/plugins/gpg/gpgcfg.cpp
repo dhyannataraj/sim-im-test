@@ -193,7 +193,7 @@ void GpgCfg::refresh()
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += QStringList::split(' ', GpgPlugin::plugin->getSecretList());
+    sl += GpgPlugin::plugin->getSecretList().split(' ');
 
     m_process = new Q3Process(sl, this);
 

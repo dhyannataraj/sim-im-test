@@ -2556,7 +2556,7 @@ void SBSocket::sendFile()
     QString name;
     unsigned size;
     if (m->m_transfer){
-        name = m->m_transfer->m_file->name();
+        name = m->m_transfer->m_file->fileName();
         size = m->m_transfer->fileSize();
     }else{
         FileMessage::Iterator it(*m);
@@ -2565,7 +2565,7 @@ void SBSocket::sendFile()
         size = it.size();
     }
     name = name.replace('\\', '/');
-    int n = name.findRev('/');
+    int n = name.lastIndexOf('/');
     if (n >= 0)
         name = name.mid(n + 1);
     message += m_client->quote(name);

@@ -138,7 +138,7 @@ QString FontEdit::font2str(const QFont &f, bool use_tr)
 QFont FontEdit::str2font(const QString &str, const QFont &def)
 {
     QFont f(def);
-    QStringList l = QStringList::split(QRegExp(" *, *"), str);
+    QStringList l = str.split(QRegExp(" *, *"));
     if (l.count() == 0)
         return f;
     int weight = QFont::Normal;

@@ -868,7 +868,7 @@ void FetchClientPrivate::packet_ready()
                     if (*p == '/'){
                         uri = p;
                     }else{
-                        int n = uri.findRev('/');
+                        int n = uri.lastIndexOf('/');
                         uri = uri.left(n + 1);
                         uri += p;
                     }

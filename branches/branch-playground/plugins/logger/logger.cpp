@@ -207,7 +207,7 @@ bool LoggerPlugin::processEvent(Event *e)
                 m_file->write(s.toLocal8Bit());
             }
 #ifdef Q_OS_WIN
-            QStringList slist = QStringList::split('\n',s);
+            QStringList slist = s.split('\n');
             for(unsigned i = 0 ; i < slist.count() ; i++)
 			{
                 QString out = slist[i];

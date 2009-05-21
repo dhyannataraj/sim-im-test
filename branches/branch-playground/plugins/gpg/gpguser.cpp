@@ -71,7 +71,7 @@ void GpgUser::refresh()
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += QStringList::split(' ', GpgPlugin::plugin->getPublicList());
+    sl += GpgPlugin::plugin->getPublicList().split(' ');
 
     m_process = new Q3Process(sl, this);
 

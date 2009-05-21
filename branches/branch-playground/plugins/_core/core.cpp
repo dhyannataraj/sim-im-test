@@ -2401,7 +2401,7 @@ bool CorePlugin::processEvent(Event *e)
 							if (p.isEmpty())
 								return false;
 							p = unquoteText(p);
-							QStringList l = QStringList::split("\n", p);
+							QStringList l = p.split('\n');
 							QStringList::Iterator it;
 							if (l.count() && l.last().isEmpty()){
 								it = l.end();

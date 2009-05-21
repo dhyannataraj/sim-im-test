@@ -2387,7 +2387,7 @@ bool SnacIcqICBM::processMsg()
             if (it.count() == 1){
                 fname = *(it[0]);
                 fname = fname.replace('\\', '/');
-                int n = fname.findRev('/');
+                int n = fname.lastIndexOf('/');
                 if (n >= 0)
                     fname = fname.mid(n + 1);
             }else{

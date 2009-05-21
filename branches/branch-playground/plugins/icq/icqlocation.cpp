@@ -132,9 +132,9 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             Tlv *tlvInfo = tlvs(0x02);
             if (tlvInfo){
                 QString info = convert(tlvInfo, tlvs, 0x01);
-                if (info.startsWith("<HTML>", false))
+                if (info.startsWith("<HTML>", Qt::CaseInsensitive))
                     info = info.mid(6);
-                if (info.endsWith("</HTML>", false))
+                if (info.endsWith("</HTML>", Qt::CaseInsensitive))
                     info = info.left(info.length() - 7);
                 if (data->About.setStr(info)){
                     data->ProfileFetch.asBool() = true;

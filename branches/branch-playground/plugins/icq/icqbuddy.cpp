@@ -294,8 +294,8 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 								{
 									char *p = (char*)cap;
 									p += 5;
-									QString str = QString::fromAscii(p, 10);
-									QStringList sl = QStringList::split('.', str);
+									const QString str = QString::fromAscii(p, 10);
+									const QStringList sl = str.split('.');
 									unsigned char maj = 0, min = 0;
 									unsigned short rev = 0;
 									if(sl.count() > 0)

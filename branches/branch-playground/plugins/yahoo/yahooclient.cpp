@@ -2032,7 +2032,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
 #if defined( WIN32 ) || defined( __OS2__ )
     fn = fn.replace('\\', '/');
 #endif
-    int n = fn.findRev('/');
+    int n = fn.lastIndexOf('/');
     if (n > 0)
         fn = fn.mid(n + 1);
     QString url = "http://";

@@ -348,7 +348,7 @@ void HistoryConfig::addStyles(const QString &dir, bool bCustom)
     QStringList files = d.entryList("*.xsl", QDir::Files, QDir::Name);
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
         QString name = *it;
-        int n = name.findRev('.');
+        int n = name.lastIndexOf('.');
         name = name.left(n);
         vector<StyleDef>::iterator its;
         for (its = m_styles.begin(); its != m_styles.end(); ++its){

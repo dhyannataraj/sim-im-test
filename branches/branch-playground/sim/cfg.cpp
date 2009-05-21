@@ -119,9 +119,9 @@ EXPORT bool makedir(const QString &p)
     struct stat st;
     if (stat(QFile::encodeName(r).data(), &st) != 0){
 #ifdef __OS2__    
-        int idx = r.findRev('\\');
+        int idx = r.lastIndexOf('\\');
 #else    
-        int idx = r.findRev('/');
+        int idx = r.lastIndexOf('/');
 #endif
         if(idx == -1)
             return false;
@@ -164,7 +164,7 @@ EXPORT QString app_file(const QString &f)
 #else    
     QString b = QString::fromUcs2((unsigned short*)buff);
 #endif    
-    int idx = b.findRev('\\');
+    int idx = b.lastIndexOf('\\');
     if(idx != -1)
         b = b.left(idx+1);
     app_file_name = b;
@@ -425,7 +425,7 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_STRLIST: {
                 // this breaks on non latin1 defaults!
-                QStringList sl = QStringList::split(',',def->def_value);
+                QStringList sl = QString(def->def_value).split(',');
                 Data::STRING_MAP sm;
                 for(unsigned i = 0; i < sl.count(); i++) {
                     sm.insert(i, sl[(int)i]);
@@ -526,7 +526,7 @@ static bool unquoteInternal(Q3CString &val, Q3CString &str)
     if(idx1 == -1)
         return false;
     idx1++;
-    int idx2 = val.findRev('\"');
+    int idx2 = val.lastIndexOf('\"');
     if(idx2 == -1)
         return false;
     str = val.mid(idx1, idx2 - idx1);
@@ -646,9 +646,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
 		case DATA_LONG:
         case DATA_ULONG: {
-            QStringList sl = QStringList::split(',',val,true);
+            QList<QByteArray> sl = val.split(',');
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
+                const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
                 if(def->type == DATA_LONG)
@@ -659,9 +659,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             break;
         }
         case DATA_BOOL: {
-            QStringList sl = QStringList::split(',',val,true);
+            QList<QByteArray> sl = val.split(',');
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
+                const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
                 ld->setBool(s.lower() != "false" && s != "0");
@@ -669,10 +669,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             break;
         }
         case DATA_BINARY: {
-            // ok here since they're only latin1 chars
-            QStringList sl = QStringList::split(',', val, true);
+            QList<QByteArray> sl = val.split(',');
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
+                const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
                 int size = s.length() / 2;

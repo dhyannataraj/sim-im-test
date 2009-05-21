@@ -29,7 +29,7 @@ SpellerBase::SpellerBase(const QString &path)
 {
     init();
     QString p = path;
-    int n = p.findRev('\\');
+    int n = p.lastIndexOf('\\');
     if (n >= 0)
         p = p.left(n);
     p += "\\aspell-15.dll";

@@ -349,7 +349,7 @@ void GpgPlugin::importReady()
                     sl += "--no-tty";
                     sl += "--homedir";
                     sl += home;
-                    sl += QStringList::split(' ', getPublicList());
+                    sl += getPublicList().split(' ');
 
                     Q3Process *proc = new Q3Process(sl, this);
 
@@ -513,10 +513,10 @@ bool GpgPlugin::processEvent(Event *e)
                         sl += "--no-tty";
                         sl += "--homedir";
                         sl += home;
-                        sl += QStringList::split(' ', getEncrypt());
-                        sl = sl.gres(QRegExp("\\%plainfile\\%"), input);
-                        sl = sl.gres(QRegExp("\\%cipherfile\\%"), output);
-                        sl = sl.gres(QRegExp("\\%userid\\%"), data->Key.str());
+                        sl += getEncrypt().split(' ');
+                        sl = sl.replaceInStrings(QRegExp("\\%plainfile\\%"), input);
+                        sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), output);
+                        sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), data->Key.str());
 
                         Q3Process proc(sl, this);
 
@@ -582,8 +582,8 @@ bool GpgPlugin::processEvent(Event *e)
                     sl += "--no-tty";
                     sl += "--homedir";
                     sl += home;
-                    sl += QStringList::split(' ', getImport());
-                    sl = sl.gres(QRegExp("\\%keyfile\\%"), input);
+                    sl += getImport().split(' ');
+                    sl = sl.replaceInStrings(QRegExp("\\%keyfile\\%"), input);
 
                     Q3Process *proc = new Q3Process(sl, this);
 
@@ -627,9 +627,9 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += QStringList::split(' ', getDecrypt());
-    sl = sl.gres(QRegExp("\\%plainfile\\%"), output);
-    sl = sl.gres(QRegExp("\\%cipherfile\\%"), input);
+    sl += getDecrypt().split(' ');
+    sl = sl.replaceInStrings(QRegExp("\\%plainfile\\%"), output);
+    sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), input);
 
     Q3Process *proc = new Q3Process(sl, this);
 
@@ -860,8 +860,8 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += QStringList::split(' ', GpgPlugin::plugin->getExport());
-    sl = sl.gres(QRegExp("\\%userid\\%"), m_key);
+    sl += GpgPlugin::plugin->getExport().split(' ');
+    sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), m_key);
 
     m_process = new Q3Process(sl, this);
 

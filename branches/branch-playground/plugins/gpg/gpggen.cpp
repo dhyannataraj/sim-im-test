@@ -135,7 +135,7 @@ void GpgGen::accept()
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += QStringList::split(' ', GpgPlugin::plugin->getGenKey());
+    sl += GpgPlugin::plugin->getGenKey().split(' ');
     sl += fname;
 
     delete m_process;	// to be sure...
