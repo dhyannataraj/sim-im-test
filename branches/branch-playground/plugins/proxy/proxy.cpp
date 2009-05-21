@@ -881,9 +881,9 @@ static char HTTP[] = "HTTP/";
 void HTTPS_Proxy::send_auth()
 {
     if (getAuth()){
-        Q3CString s = basic_auth(getUser(), getPassword());
+        QByteArray s = basic_auth(getUser(), getPassword());
         bOut << "Proxy-Authorization: Basic ";
-        bOut << s.data();
+        bOut << s.constData();
         bOut << "\r\n";
     }
 }
@@ -1113,7 +1113,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
                 break;
             Q3CString param = getToken(line, ':');
             if (param == "Content-Length"){
-                Q3CString p = line.stripWhiteSpace();
+                Q3CString p = line.trimmed();
                 m_size = p.toUInt();
             }
             bOut << param.data() << ":" << line.data() << "\r\n";

@@ -668,7 +668,7 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.read(b.data(), b.size());
-            Q3CString packed = Buffer::toBase64(b);
+            QByteArray packed = b.toBase64();
             req->start_element("PHOTO");
             req->text_tag("BINVAL", packed);
             req->end_element();
@@ -680,7 +680,7 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.read(b.data(), b.size());
-            Q3CString packed = Buffer::toBase64(b);
+            QByteArray packed = b.toBase64();
             req->start_element("LOGO");
             req->text_tag("BINVAL", packed.data());
             req->end_element();

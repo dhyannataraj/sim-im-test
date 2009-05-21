@@ -118,10 +118,10 @@ bool MSNHttpPool::done(unsigned code, Buffer &data, const QString &headers)
     for (const char *p = headers; *p; p += strlen(p) + 1){
         Q3CString h = p;
         if (getToken(h, ':') == "X-MSN-Messenger"){
-            Q3CString h = h.stripWhiteSpace ();
+            Q3CString h = h.trimmed ();
             while (!h.isEmpty()){
                 Q3CString part = getToken(h, ';');
-                Q3CString v = part.stripWhiteSpace ();
+                Q3CString v = part.trimmed ();
                 Q3CString k = getToken(v, '=');
                 if (k == "SessionID"){
                     m_session_id = QString::fromUtf8(v);

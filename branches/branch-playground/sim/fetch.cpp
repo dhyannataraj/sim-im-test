@@ -536,7 +536,7 @@ void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool b
         while (!head.isEmpty()){
             QString header = getToken(head, '\n');
             QString key = getToken(header, ':');
-            header = header.stripWhiteSpace();
+            header = header.trimmed();
             addHeader(key, header);
         }
     }
@@ -664,12 +664,10 @@ bool FetchClientPrivate::findHeader(const QString &key)
     return (it != m_hOut.end());
 }
 
-Q3CString basic_auth(const QString &user, const QString &pass)
+QByteArray basic_auth(const QString &user, const QString &pass)
 {
     QString auth = user + ':' + pass;
-    Buffer from(auth.local8Bit());
-    Q3CString cstr = Buffer::toBase64(from);
-    return cstr;
+    return auth.toLocal8Bit().toBase64();
 }
 
 bool FetchClientPrivate::error_state(const QString &err, unsigned)
@@ -743,7 +741,7 @@ void FetchClientPrivate::connect_ready()
     if (!findHeader("Authorization") && !user.isEmpty())
         m_socket->writeBuffer()
         << "Authorization: basic "
-        << basic_auth(user, pass).data()
+        << basic_auth(user, pass).constData()
         << "\r\n";
     if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))

@@ -1585,7 +1585,7 @@ QString MSNClient::getHeader(const QString &name, const QString &headers)
             res = headers.mid(idx);
         else
             res = headers.mid(idx, end - idx + 1);
-        return res.stripWhiteSpace();
+        return res.trimmed();
     }
     return QString::null;
 }
@@ -2164,9 +2164,9 @@ typedef map<QString, QString>   STR_VALUES;
 static STR_VALUES parseValues(const QString &str)
 {
     STR_VALUES res;
-    QString s = str.stripWhiteSpace();
+    QString s = str.trimmed();
     while (!s.isEmpty()){
-        QString p = getToken(s, ';', false).stripWhiteSpace();
+        QString p = getToken(s, ';', false).trimmed();
         QString key = getToken(p, '=', false);
         STR_VALUES::iterator it = res.find(key);
         if (it == res.end()){
@@ -2174,7 +2174,7 @@ static STR_VALUES parseValues(const QString &str)
         }else{
             (*it).second = p;
         }
-        s = s.stripWhiteSpace();
+        s = s.trimmed();
     }
     return res;
 }
@@ -2204,16 +2204,16 @@ void SBSocket::messageReady()
         m_message = m_message.mid(n + 2);
         QString key = getToken(line, ':', false);
         if (key == "Content-Type"){
-            line = line.stripWhiteSpace();
-            content_type = getToken(line, ';').stripWhiteSpace();
-            STR_VALUES v = parseValues(line.stripWhiteSpace());
+            line = line.trimmed();
+            content_type = getToken(line, ';').trimmed();
+            STR_VALUES v = parseValues(line.trimmed());
             STR_VALUES::iterator it = v.find("charset");
             if (it != v.end())
                 charset = (*it).second;
             continue;
         }
         if (key == "X-MMS-IM-Format"){
-            STR_VALUES v = parseValues(line.stripWhiteSpace());
+            STR_VALUES v = parseValues(line.trimmed());
             STR_VALUES::iterator it = v.find("FN");
             if (it != v.end())
                 font = m_client->unquote((*it).second);
@@ -2235,7 +2235,7 @@ void SBSocket::messageReady()
             continue;
         }
         if (key == "TypingUser"){
-            typing = line.stripWhiteSpace();
+            typing = line.trimmed();
             continue;
         }
     }
@@ -2295,7 +2295,7 @@ void SBSocket::messageReady()
                 m_message = m_message.mid(n + 2);
             }
             QString key = getToken(line, ':', false);
-            line = line.stripWhiteSpace();
+            line = line.trimmed();
             if (key == "Application-GUID"){
                 guid = line;
                 continue;

@@ -457,7 +457,7 @@ MSNServerMessage::~MSNServerMessage()
         n = line.indexOf(':');
         if (n < 0)
             continue;
-        values.insert(KEY_MAP::value_type(line.left(n), line.mid(n + 1).stripWhiteSpace()));
+        values.insert(KEY_MAP::value_type(line.left(n), line.mid(n + 1).trimmed()));
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())

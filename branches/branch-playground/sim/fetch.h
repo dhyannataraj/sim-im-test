@@ -70,7 +70,7 @@ protected slots:
     void timeout();
 };
 
-EXPORT Q3CString basic_auth(const QString &user, const QString &pass);
+EXPORT QByteArray basic_auth(const QString &user, const QString &pass);
 EXPORT bool get_connection_state(bool &state);
 EXPORT QString get_user_agent();
 

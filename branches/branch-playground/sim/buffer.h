@@ -88,9 +88,6 @@ public:
     unsigned	startSection() { return m_startSection; }
     Q3CString	getLine();
 
-    static Buffer fromBase64(Q3CString &from);
-    static Q3CString toBase64(Buffer &from);
-
     // still needed for msn until it has an ownbuffer too
     unsigned unpack(QString &d, unsigned size); // utf8
 protected:

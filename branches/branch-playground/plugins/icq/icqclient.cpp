@@ -1402,12 +1402,12 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     contact->setPhones(phones, name());
     QString mails;
     if (!data->EMail.str().isEmpty())
-        mails += data->EMail.str().stripWhiteSpace();
+        mails += data->EMail.str().trimmed();
     if (!data->EMail.str().isEmpty()) {
         QString emails = data->EMails.str();
         while (emails.length()){
             QString mailItem = getToken(emails, ';', false);
-            QString mail = getToken(mailItem, '/').stripWhiteSpace();
+            QString mail = getToken(mailItem, '/').trimmed();
             if (mail.length()){
                 if (mails.length())
                     mails += ';';
@@ -1444,7 +1444,7 @@ QString ICQClient::trimPhone(const QString &from)
     int idx = res.indexOf("SMS");
     if(idx != -1)
         res = res.left(idx);
-    return res.stripWhiteSpace();
+    return res.trimmed();
 }
 
 QString ICQClient::contactTip(void *_data)

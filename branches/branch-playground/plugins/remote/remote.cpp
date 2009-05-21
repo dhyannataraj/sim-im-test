@@ -1013,7 +1013,7 @@ void ControlSocket::packet_ready()
         return;
     if (line.isEmpty())
         return;
-	QString strLine=QString(line.data()).stripWhiteSpace();
+	QString strLine=QString(line.data()).trimmed();
     /*if (line[(int)line.length() - 1] == '\r')
         line = line.left(line.size() - 1);*/
     log(L_DEBUG, "Remote read: %s", qPrintable(strLine));
@@ -1030,11 +1030,11 @@ void ControlSocket::packet_ready()
     if (!out.isEmpty())
         s = out.local8Bit();
     Q3CString res;
-	strLine=QString(s).stripWhiteSpace();
+	strLine=QString(s).trimmed();
 	
 	//if (!strLine.contains('\n'))
 	strLine += "\r\n";
-	if (strLine.stripWhiteSpace().isEmpty()) return;
+	if (strLine.trimmed().isEmpty()) return;
 	res=strLine.local8Bit();
 	
     /*for (const char *p = s.data(); *p ; p++){

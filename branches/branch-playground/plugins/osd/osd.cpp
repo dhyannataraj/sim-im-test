@@ -590,7 +590,7 @@ void OSDPlugin::processQueue()
                     Message *msg = e.message();
                     if (msg == NULL)
                         continue;
-                    QString msgText = msg->getPlainText().stripWhiteSpace();
+                    QString msgText = msg->getPlainText().trimmed();
                     if (msgText.isEmpty())
                         continue;
                     if (!msg_text.isEmpty())

@@ -81,7 +81,7 @@ void SpellFind::next()
         close();
         return;
     }
-    m_path = m_drive->absFilePath();
+    m_path = m_drive->absoluteFilePath();
     m_path = m_path.replace('/', '\\');
     if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
         return;

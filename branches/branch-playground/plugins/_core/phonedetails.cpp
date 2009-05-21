@@ -36,19 +36,19 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber) : QWidget(p)
     QString extension;
     unsigned short countryCode = 0;
     if (number.indexOf('(') >= 0){
-        QString country = getToken(number, '(').stripWhiteSpace();
+        QString country = getToken(number, '(').trimmed();
         int i = 0;
         while(!country[i].isNumber())
             i++;
         countryCode = country.mid(i).toUShort();
-        areaCode = getToken(number, ')').stripWhiteSpace();
+        areaCode = getToken(number, ')').trimmed();
     }
     if (number.indexOf(" - ") >= 0){
         int pos = number.indexOf(" - ");
-        extension = number.mid(pos + 3).stripWhiteSpace();
+        extension = number.mid(pos + 3).trimmed();
         number = number.mid(0, pos);
     }
-    number = number.stripWhiteSpace();
+    number = number.trimmed();
     initCombo(cmbCountry, countryCode, getCountries());
 
     QFontMetrics fm(font());

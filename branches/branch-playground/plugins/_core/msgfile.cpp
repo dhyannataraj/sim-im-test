@@ -168,7 +168,7 @@ bool MsgFile::processEvent(Event *e)
                 QString f;
                 for (int i = 0; i < (int)file.length(); i++){
                     if (file[i] == '\"'){
-                        f = f.stripWhiteSpace();
+                        f = f.trimmed();
                         if (!f.isEmpty())
                             files.append(f);
                         f = QString::null;
@@ -177,7 +177,7 @@ bool MsgFile::processEvent(Event *e)
                                 break;
                             f += file[i];
                         }
-                        f = f.stripWhiteSpace();
+                        f = f.trimmed();
                         if (!f.isEmpty())
                             files.append(f);
                         f = QString::null;
@@ -185,7 +185,7 @@ bool MsgFile::processEvent(Event *e)
                     }
                     f += file[i];
                 }
-                f = f.stripWhiteSpace();
+                f = f.trimmed();
                 if (!f.isEmpty())
                     files.append(f);
                 file = QString::null;

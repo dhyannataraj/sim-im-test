@@ -115,7 +115,7 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
     QFileInfo fi(*this);
     if (!fi.exists()) {
         // make sure directory exists
-        makedir(fi.dirPath(true) + '/');
+        makedir(fi.absolutePath() + '/');
     } else
     if (!fi.isFile()) {
         // FIXME!

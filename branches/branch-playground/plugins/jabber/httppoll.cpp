@@ -62,7 +62,7 @@ JabberHttpPool::JabberHttpPool(const QString &url)
             char c = get_random() & 0xFF;
             k.pack(&c, 1);
         }
-        m_seed += Buffer::toBase64(k);
+        m_seed += k.toBase64();
 */
     m_seed = "foo";
 #endif
@@ -82,7 +82,7 @@ QString JabberHttpPool::getKey()
     QByteArray digest = QCryptographicHash::hash(m_key, QCryptographicHash::Sha1);
     Buffer b;
     b.pack(digest, digest.size());
-    m_key = Buffer::toBase64(b);
+    m_key = b.toBase64();
     return m_key;
 #else
     return QString::null;
