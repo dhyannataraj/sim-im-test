@@ -63,11 +63,11 @@ void FileConfig::apply(void *_data)
     data->IncomingPath.str() = def;
     edtPath->setText(user_file(data->IncomingPath.str()));
     data->AcceptMode.asULong() = 0;
-    if (btnAccept->isCheckable()){
+    if (btnAccept->isChecked()){
         data->AcceptMode.asULong() = 1;
         data->OverwriteFiles.asBool() = chkOverwrite->isChecked();
     }
-    if (btnDecline->isCheckable()){
+    if (btnDecline->isChecked()){
         data->AcceptMode.asULong() = 2;
         data->DeclineMessage.str() = edtDecline->text();
     }

@@ -241,11 +241,11 @@ void InterfaceConfig::apply()
         }
     }
 #endif
-    if (grpMode->find(1)->isCheckable()){
+    if (grpMode->find(1)->isChecked()){
         int mode = 0;
-        if (btnGroup->isCheckable())
+        if (btnGroup->isChecked())
             mode = 1;
-        if (btnOne->isCheckable())
+        if (btnOne->isChecked())
             mode = 2;
         CorePlugin::m_plugin->setContainerMode(mode + 1);
         CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());

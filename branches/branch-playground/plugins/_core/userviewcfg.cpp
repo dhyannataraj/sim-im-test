@@ -58,15 +58,15 @@ UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
     btnInvisible1->setPixmap(Pict("text_strike"));
     btnInvisible2->setPixmap(Pict("text_italic"));
     btnInvisible3->setPixmap(Pict("text_under"));
-    btnAuth1->setCheckable(true);
-    btnAuth2->setCheckable(true);
-    btnAuth3->setCheckable(true);
-    btnVisible1->setCheckable(true);
-    btnVisible2->setCheckable(true);
-    btnVisible3->setCheckable(true);
-    btnInvisible1->setCheckable(true);
-    btnInvisible2->setCheckable(true);
-    btnInvisible3->setCheckable(true);
+    btnAuth1->setChecked(true);
+    btnAuth2->setChecked(true);
+    btnAuth3->setChecked(true);
+    btnVisible1->setChecked(true);
+    btnVisible2->setChecked(true);
+    btnVisible3->setChecked(true);
+    btnInvisible1->setChecked(true);
+    btnInvisible2->setChecked(true);
+    btnInvisible3->setChecked(true);
     connect(btnAuth1, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
     connect(btnAuth2, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
     connect(btnAuth3, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
@@ -116,19 +116,19 @@ void UserViewConfig::apply()
         CorePlugin::m_plugin->setColorGroup(btnGroup->color().rgb());
     }
     unsigned style = 0;
-    if (btnAuth1->isCheckable()) style |= STYLE_STRIKE;
-    if (btnAuth2->isCheckable()) style |= STYLE_ITALIC;
-    if (btnAuth3->isCheckable()) style |= STYLE_UNDER;
+    if (btnAuth1->isChecked()) style |= STYLE_STRIKE;
+    if (btnAuth2->isChecked()) style |= STYLE_ITALIC;
+    if (btnAuth3->isChecked()) style |= STYLE_UNDER;
     CorePlugin::m_plugin->setAuthStyle(style);
     style = 0;
-    if (btnVisible1->isCheckable()) style |= STYLE_STRIKE;
-    if (btnVisible2->isCheckable()) style |= STYLE_ITALIC;
-    if (btnVisible3->isCheckable()) style |= STYLE_UNDER;
+    if (btnVisible1->isChecked()) style |= STYLE_STRIKE;
+    if (btnVisible2->isChecked()) style |= STYLE_ITALIC;
+    if (btnVisible3->isChecked()) style |= STYLE_UNDER;
     CorePlugin::m_plugin->setVisibleStyle(style);
     style = 0;
-    if (btnInvisible1->isCheckable()) style |= STYLE_STRIKE;
-    if (btnInvisible2->isCheckable()) style |= STYLE_ITALIC;
-    if (btnInvisible3->isCheckable()) style |= STYLE_UNDER;
+    if (btnInvisible1->isChecked()) style |= STYLE_STRIKE;
+    if (btnInvisible2->isChecked()) style |= STYLE_ITALIC;
+    if (btnInvisible3->isChecked()) style |= STYLE_UNDER;
     CorePlugin::m_plugin->setInvisibleStyle(style);
     EventRepaintView e;
     e.process();
@@ -197,19 +197,19 @@ void UserViewConfig::sortChanged(int)
 void UserViewConfig::setFonts(bool)
 {
     QFont fAuth(font());
-    fAuth.setStrikeOut(btnAuth1->isCheckable());
-    fAuth.setItalic(btnAuth2->isCheckable());
-    fAuth.setUnderline(btnAuth3->isCheckable());
+    fAuth.setStrikeOut(btnAuth1->isChecked());
+    fAuth.setItalic(btnAuth2->isChecked());
+    fAuth.setUnderline(btnAuth3->isChecked());
     lblAuth->setFont(fAuth);
     QFont fVisible(font());
-    fVisible.setStrikeOut(btnVisible1->isCheckable());
-    fVisible.setItalic(btnVisible2->isCheckable());
-    fVisible.setUnderline(btnVisible3->isCheckable());
+    fVisible.setStrikeOut(btnVisible1->isChecked());
+    fVisible.setItalic(btnVisible2->isChecked());
+    fVisible.setUnderline(btnVisible3->isChecked());
     lblVisible->setFont(fVisible);
     QFont fInvisible(font());
-    fInvisible.setStrikeOut(btnInvisible1->isCheckable());
-    fInvisible.setItalic(btnInvisible2->isCheckable());
-    fInvisible.setUnderline(btnInvisible3->isCheckable());
+    fInvisible.setStrikeOut(btnInvisible1->isChecked());
+    fInvisible.setItalic(btnInvisible2->isChecked());
+    fInvisible.setUnderline(btnInvisible3->isChecked());
     lblInvisible->setFont(fInvisible);
 }
 

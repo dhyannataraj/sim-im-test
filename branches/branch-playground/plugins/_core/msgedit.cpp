@@ -860,7 +860,7 @@ bool MsgEdit::sendMessage(Message *msg)
         // FIXME: use qobject_cast in Qt4
         QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
         if (btnClose)
-            bClose = btnClose->isCheckable();
+            bClose = btnClose->isChecked();
     }
     CorePlugin::m_plugin->setCloseSend(bClose);
 
@@ -1314,7 +1314,7 @@ bool MsgEdit::processEvent(Event *e)
                     eWidget.process();
                     QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
                     if (btnClose)
-                        bClose = btnClose->isCheckable();
+                        bClose = btnClose->isChecked();
                 }
                 CorePlugin::m_plugin->setCloseSend(bClose);
                 if (bClose){
