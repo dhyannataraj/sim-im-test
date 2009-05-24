@@ -441,15 +441,17 @@ void SoundPlugin::run()
 
 	OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
 
-		if (!sndstream) {
+	if (!sndstream) 
+	{
 		log(L_WARN, "Audiostream could not be opened.");
-			return;
+		return;
 	}
 	else
 	{
 		sndstream->setVolume(1.0f);
 		sndstream->play();
 	}
+
 	while (sndstream->isPlaying())
 	{
 		sleepSecond();
@@ -461,8 +463,8 @@ void SoundPlugin::run()
 				sndstream->setVolume(i*0.001f);
 				sleepTime(2);
 			}
-		bDone=true;
-		return;
+			bDone=true;
+			return;
 		}
 	}
 	bDone=true;
