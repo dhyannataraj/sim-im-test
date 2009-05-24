@@ -76,7 +76,7 @@ static DataDef soundData[] =
         { "FileDone",    DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
         {  NULL,         DATA_UNKNOWN,0, 0 }
-#else  
+#else
         { "StartUp",     DATA_STRING, 1, "startup.ogg" },
         { "FileDone",    DATA_STRING, 1, "filedone.ogg" },
         { "MessageSent", DATA_STRING, 1, "msgsent.ogg" },
@@ -160,13 +160,13 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 	// under investigation
 	this->destruct=false;
     bDone=true;
-#endif        
+#endif
 }
 
 SoundPlugin::~SoundPlugin()
 {
 #ifdef USE_AUDIERE
-	destruct=true;    
+	destruct=true;
 	while (!bDone) sleepTime(1000);
 #endif
 	delete m_sound;
@@ -337,9 +337,9 @@ QString SoundPlugin::fullName(const QString &name)
     }else{
 #if defined( WIN32 ) || defined( __OS2__ )
         sound = "sounds\\";
-#else        
+#else
         sound = "sounds/";
-#endif        
+#endif
         sound += name;
         sound = app_file(sound);
     }
@@ -383,7 +383,7 @@ void SoundPlugin::processQueue()
     }
 #ifdef USE_KDE
     if (getUseArts()){
-	this->run(); 
+	this->run();
         return; // arts
     }
     bool bSound = false;
@@ -393,7 +393,7 @@ void SoundPlugin::processQueue()
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
     can take 5 seconds to return a value */
-    bool bSound = getPlayer().isEmpty() && QSound::available();
+    bool bSound = !getPlayer().isEmpty() && QSound::available();
 #endif
 	if (bSound){
 		if (!QSound::available()){
@@ -411,7 +411,7 @@ void SoundPlugin::processQueue()
 		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
 #else
 	this->start();
-#endif	   
+#endif
 
        m_current = QString::null;
        return; // QSound
@@ -421,35 +421,43 @@ void SoundPlugin::processQueue()
 		m_current = QString::null;
 		return;
 	}
-	this->run();	
+	this->run();
 #endif
 }
 
 void SoundPlugin::run()
 {
 #ifdef USE_AUDIERE
+
+	//Fixme Handle whether dll is not present due to install errors ==> lead to crash
+
 	AudioDevicePtr device(OpenDevice());
-	if (!device) {
+	if (!device)
+	{
 		log(L_WARN, "No Audio Device was found.");
 		return;
 	}
 	QFileInfo audiereSound(m_snd);
-		
+
 	OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
-	
+
 		if (!sndstream) {
 		log(L_WARN, "Audiostream could not be opened.");
 			return;
 	}
-	else {
+	else
+	{
 		sndstream->setVolume(1.0f);
 		sndstream->play();
 	}
-	while (sndstream->isPlaying()) {
+	while (sndstream->isPlaying())
+	{
 		sleepSecond();
 		bDone = false;
-		if (destruct) { //Plugin or SIM is shutting down, so lets fade out ;)
-			for (int i=1000; i>0; --i) { 
+		if (destruct)
+		{ //Plugin or SIM is shutting down, so lets fade out ;)
+			for (int i=1000; i>0; --i)
+			{
 				sndstream->setVolume(i*0.001f);
 				sleepTime(2);
 			}

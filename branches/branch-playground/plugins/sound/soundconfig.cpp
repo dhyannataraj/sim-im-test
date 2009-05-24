@@ -97,9 +97,16 @@ void SoundConfig::apply()
         m_plugin->setPlayer("");
     else
         m_plugin->setPlayer(edtPlayer->text());
-    m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav"));
+#if defined(USE_AUDIERE) || (!defined(WIN32) && !defined(__OS2__))
+	m_plugin->setStartUp(sound(edtStartup->text(), "startup.ogg"));  //FIXMEEEEEEEEEE :( Please repair this crap sound( ..., ...) method and make it easier
+    m_plugin->setFileDone(sound(edtFileDone->text(), "startup.ogg"));
+    m_plugin->setMessageSent(sound(edtSent->text(), "startup.ogg"));
+#else
+	m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav"));
     m_plugin->setFileDone(sound(edtFileDone->text(), "startup.wav"));
     m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav"));
+#endif
+
 }
 
 QString SoundConfig::sound(const QString &text, const QString &def)
