@@ -269,9 +269,12 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 			data->Alias.str() = contact->getName();
 	}
 	m_connectionLost = false;
-	m_ifChecker = new SIM::InterfaceChecker();
-	connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
-	connect(m_ifChecker, SIGNAL(interfaceUp(QString)), this, SLOT(interfaceUp(QString)));
+	if (getMediaSense() )
+	{
+		m_ifChecker = new SIM::InterfaceChecker();
+		connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
+		connect(m_ifChecker, SIGNAL(interfaceUp(QString)), this, SLOT(interfaceUp(QString)));
+	}
 
 }
 

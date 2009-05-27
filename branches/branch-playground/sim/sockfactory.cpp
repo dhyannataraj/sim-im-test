@@ -163,14 +163,11 @@ StdResolver::StdResolver(QObject* parent, const QString& host) : QThread(parent)
 {
 	log(L_DEBUG, "StdResolver::StdResolver()");
 	this->start();
-	m_timer = new QTimer(this);
-	connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()),Qt::DirectConnection);
-	m_timer->start(2000);
 }
 
 StdResolver::~StdResolver()
 {
-	delete m_timer;
+
 }
 
 unsigned long StdResolver::addr()
@@ -189,8 +186,11 @@ void StdResolver::run()
 	if(server_entry == NULL)
 	{
 		log(L_WARN, "gethostbyname failed");
+		m_timeout = true;
+		m_done = true;
+    	QTimer::singleShot(0, parent(), SLOT(resultsReady()));
 		return;
-	} 
+	}
 	m_addr = inet_addr(inet_ntoa(*(struct in_addr*)server_entry->h_addr_list[0]));
 	m_done = true;
     QTimer::singleShot(0, parent(), SLOT(resultsReady()));

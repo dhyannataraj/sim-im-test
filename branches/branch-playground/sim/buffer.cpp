@@ -164,11 +164,11 @@ Buffer &Buffer::operator << (unsigned short c)
 
 Buffer &Buffer::operator << (long c)
 {
-    /* XXX:
-       FIXME WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
-    c = htonl(c);
-    pack((char*)&c, 4);
-    return *this;
+	/* XXX:
+	FIXME WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
+	long lCResult = htonl(c);
+	pack((char*)&lCResult, 4);
+	return *this;
 }
 
 Buffer &Buffer::operator >> (char &c)
