@@ -348,7 +348,7 @@ void LoginDialog::fill()
         {
           // Still add broken profiles to pulldown menu
           // otherwise indexes of CorePlugin::m_plugin->m_profiles and cmbProfile items will
-          // be out of synch
+          // be out of sync
           cmbProfile->insertItem(Pict("error"),curProfile + ' ' + i18n("[Broken]"));
         }
     }

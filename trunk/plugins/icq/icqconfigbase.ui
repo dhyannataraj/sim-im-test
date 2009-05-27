@@ -316,7 +316,7 @@
                             <string>Port range for direct connections:</string>
                         </property>
                     </widget>
-                    <widget row="8"  column="0"  rowspan="1"  colspan="3" >
+                    <widget row="9"  column="0"  rowspan="1"  colspan="3" >
                         <class>QLayoutWidget</class>
                         <property stdset="1">
                             <name>name</name>
@@ -431,7 +431,7 @@
                             <string>&amp;Keep-alive connection</string>
                         </property>
                     </widget>
-					<widget row="6"  column="0"  rowspan="1"  colspan="3" >
+		    <widget row="6"  column="0"  rowspan="1"  colspan="3" >
                         <class>QCheckBox</class>
                         <property stdset="1">
                             <name>name</name>

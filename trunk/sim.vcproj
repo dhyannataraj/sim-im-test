@@ -140,11 +140,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				InlineFunctionExpansion="0"
-				FavorSizeOrSpeed="1"
-				EnableFiberSafeOptimizations="true"
-				WholeProgramOptimization="true"
+				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;DEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				MinimalRebuild="true"

@@ -1,19 +1,19 @@
 /***************************************************************************
-                          icqclient.cpp  -  description
-                             -------------------
-    begin                : Sun Mar 17 2002
-    copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan@shutoff.ru
- ***************************************************************************/
+icqclient.cpp  -  description
+-------------------
+begin                : Sun Mar 17 2002
+copyright            : (C) 2002 by Vladimir Shutoff
+email                : vovan@shutoff.ru
+***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+***************************************************************************/
 
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
@@ -75,148 +75,148 @@ using namespace std;
 using namespace SIM;
 
 static DataDef _icqUserData[] =
-    {
-        { "", DATA_ULONG, 1, DATA(1) },		// Sign
-        { "LastSend", DATA_ULONG, 1, 0 },
-        { "Alias", DATA_UTF, 1, 0 },					// Alias
-        { "Cellular", DATA_UTF, 1, 0 },					// Cellular
-        { "", DATA_ULONG, 1, DATA(0xFFFF) },		// Status
-        { "", DATA_ULONG, 1, 0 },				// Class
-        { "StatusTime", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },				// OnlineTime
-        { "WarningLevel", DATA_ULONG, 1, 0 },
-        { "IP", DATA_IP, 1, 0 },
-        { "RealIP", DATA_IP, 1, 0 },
-        { "Port", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },				// DCcookie
-        { "Caps", DATA_ULONG, 1, 0 },
-        { "Caps2", DATA_ULONG, 1, 0 },
-        { "", DATA_STRING, 1, 0 },				// AutoReply
-        { "Uin", DATA_ULONG, 1, 0 },
-        { "Screen", DATA_STRING, 1, 0 },
-        { "ID", DATA_ULONG, 1, 0 },
-        { "", DATA_BOOL, 1, DATA(1) },				// bChecked
-        { "GroupID", DATA_ULONG, 1, 0 },
-        { "Ignore", DATA_ULONG, 1, 0 },
-        { "Visible", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },				// ContactVisibleId
-        { "Invsible", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },				// ContactInvisibleId
-        { "WaitAuth", DATA_BOOL, 1, 0 },        // Need auth from to add to our contact list
-        { "WantAuth", DATA_BOOL, 1, 0 },        // Want's auth from us
-        { "WebAware", DATA_BOOL, 1, DATA(1) },
-        { "InfoUpdateTime", DATA_ULONG, 1, 0 },
-        { "PluginInfoTime", DATA_ULONG, 1, 0 },
-        { "PluginStatusTime", DATA_ULONG, 1, 0 },
-        { "InfoFetchTime", DATA_ULONG, 1, 0 },
-        { "PluginInfoFetchTime", DATA_ULONG, 1, 0 },
-        { "PluginStatusFetchTime", DATA_ULONG, 1, 0 },
-        { "Mode", DATA_ULONG, 1, 0 },
-        { "Version", DATA_ULONG, 1, 0 },
-        { "Build", DATA_ULONG, 1, 0 },
-        { "Nick", DATA_STRING, 1, 0 },
-        { "FirstName", DATA_STRING, 1, 0 },
-        { "LastName", DATA_STRING, 1, 0 },
-        { "MiddleName", DATA_STRING, 1, 0 },
-        { "Maiden", DATA_STRING, 1, 0 },
-        { "EMail", DATA_STRING, 1, 0 },
-        { "HiddenEMail", DATA_BOOL, 1, 0 },
-        { "City", DATA_STRING, 1, 0 },
-        { "State", DATA_STRING, 1, 0 },
-        { "HomePhone", DATA_STRING, 1, 0 },
-        { "HomeFax", DATA_STRING, 1, 0 },
-        { "Address", DATA_UTF, 1, 0 },
-        { "PrivateCellular", DATA_STRING, 1, 0 },
-        { "Zip", DATA_STRING, 1, 0 },
-        { "Country", DATA_ULONG, 1, 0 },
-        { "TimeZone", DATA_ULONG, 1, 0 },
-        { "Age", DATA_ULONG, 1, 0 },
-        { "Gender", DATA_ULONG, 1, 0 },
-        { "Homepage", DATA_STRING, 1, 0 },
-        { "BirthYear", DATA_ULONG, 1, 0 },
-        { "BirthMonth", DATA_ULONG, 1, 0 },
-        { "BirthDay", DATA_ULONG, 1, 0 },
-        { "Language", DATA_ULONG, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
-        { "WorkCity", DATA_STRING, 1, 0 },
-        { "WorkState", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
-        { "WorkAddress", DATA_STRING, 1, 0 },
-        { "WorkZip", DATA_STRING, 1, 0 },
-        { "WorkCountry", DATA_ULONG, 1, 0 },
-        { "WorkName", DATA_STRING, 1, 0 },
-        { "WorkDepartment", DATA_STRING, 1, 0 },
-        { "WorkPosition", DATA_STRING, 1, 0 },
-        { "Occupation", DATA_ULONG, 1, 0 },
-        { "WorkHomepage", DATA_STRING, 1, 0 },
-        { "About", DATA_STRING, 1, 0 },
-        { "Interests", DATA_STRING, 1, 0 },
-        { "Backgrounds", DATA_STRING, 1, 0 },
-        { "Affilations", DATA_STRING, 1, 0 },
-        { "FollowMe", DATA_ULONG, 1, 0 },
-        { "SharedFiles", DATA_BOOL, 1, 0 },		// Shared files
-        { "ICQPhone", DATA_ULONG, 1, 0 },		// ICQPhone
-        { "Picture", DATA_UTF, 1, 0 },
-        { "PictureWidth", DATA_ULONG, 1, 0 },
-        { "PictureHeight", DATA_ULONG, 1, 0 },
-        { "PhoneBook", DATA_STRING, 1, 0 },
-        { "ProfileFetch", DATA_BOOL, 1, 0 },
-        { "", DATA_BOOL, 1, 0 },				// bTyping
-        { "", DATA_BOOL, 1, 0 },				// bBadClient
-        { "", DATA_OBJECT, 1, 0 },				// Direct
-        { "", DATA_OBJECT, 1, 0 },				// DirectPluginInfo
-        { "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
-        { "", DATA_BOOL, 1, 0 },				// bNoDirect
-        { "", DATA_BOOL, 1, 0 },				// bInviisble
-        { "", DATA_ULONG, 1, 0},                // buddyRosterID
-        { "buddyID", DATA_ULONG, 1, 0},
-        { "buddyHash", DATA_BINARY, 1, 0},
-		{ "unknown2", DATA_BINARY, 1, 0},
-		{ "unknown4", DATA_BINARY, 1, 0},
-		{ "unknown5", DATA_BINARY, 1, 0},
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
+{
+	{ "", DATA_ULONG, 1, DATA(1) },		// Sign
+	{ "LastSend", DATA_ULONG, 1, 0 },
+	{ "Alias", DATA_UTF, 1, 0 },					// Alias
+	{ "Cellular", DATA_UTF, 1, 0 },					// Cellular
+	{ "", DATA_ULONG, 1, DATA(0xFFFF) },		// Status
+	{ "", DATA_ULONG, 1, 0 },				// Class
+	{ "StatusTime", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },				// OnlineTime
+	{ "WarningLevel", DATA_ULONG, 1, 0 },
+	{ "IP", DATA_IP, 1, 0 },
+	{ "RealIP", DATA_IP, 1, 0 },
+	{ "Port", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },				// DCcookie
+	{ "Caps", DATA_ULONG, 1, 0 },
+	{ "Caps2", DATA_ULONG, 1, 0 },
+	{ "", DATA_STRING, 1, 0 },				// AutoReply
+	{ "Uin", DATA_ULONG, 1, 0 },
+	{ "Screen", DATA_STRING, 1, 0 },
+	{ "ID", DATA_ULONG, 1, 0 },
+	{ "", DATA_BOOL, 1, DATA(1) },				// bChecked
+	{ "GroupID", DATA_ULONG, 1, 0 },
+	{ "Ignore", DATA_ULONG, 1, 0 },
+	{ "Visible", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },				// ContactVisibleId
+	{ "Invsible", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },				// ContactInvisibleId
+	{ "WaitAuth", DATA_BOOL, 1, 0 },        // Need auth from to add to our contact list
+	{ "WantAuth", DATA_BOOL, 1, 0 },        // Want's auth from us
+	{ "WebAware", DATA_BOOL, 1, DATA(1) },
+	{ "InfoUpdateTime", DATA_ULONG, 1, 0 },
+	{ "PluginInfoTime", DATA_ULONG, 1, 0 },
+	{ "PluginStatusTime", DATA_ULONG, 1, 0 },
+	{ "InfoFetchTime", DATA_ULONG, 1, 0 },
+	{ "PluginInfoFetchTime", DATA_ULONG, 1, 0 },
+	{ "PluginStatusFetchTime", DATA_ULONG, 1, 0 },
+	{ "Mode", DATA_ULONG, 1, 0 },
+	{ "Version", DATA_ULONG, 1, 0 },
+	{ "Build", DATA_ULONG, 1, 0 },
+	{ "Nick", DATA_STRING, 1, 0 },
+	{ "FirstName", DATA_STRING, 1, 0 },
+	{ "LastName", DATA_STRING, 1, 0 },
+	{ "MiddleName", DATA_STRING, 1, 0 },
+	{ "Maiden", DATA_STRING, 1, 0 },
+	{ "EMail", DATA_STRING, 1, 0 },
+	{ "HiddenEMail", DATA_BOOL, 1, 0 },
+	{ "City", DATA_STRING, 1, 0 },
+	{ "State", DATA_STRING, 1, 0 },
+	{ "HomePhone", DATA_STRING, 1, 0 },
+	{ "HomeFax", DATA_STRING, 1, 0 },
+	{ "Address", DATA_UTF, 1, 0 },
+	{ "PrivateCellular", DATA_STRING, 1, 0 },
+	{ "Zip", DATA_STRING, 1, 0 },
+	{ "Country", DATA_ULONG, 1, 0 },
+	{ "TimeZone", DATA_ULONG, 1, 0 },
+	{ "Age", DATA_ULONG, 1, 0 },
+	{ "Gender", DATA_ULONG, 1, 0 },
+	{ "Homepage", DATA_STRING, 1, 0 },
+	{ "BirthYear", DATA_ULONG, 1, 0 },
+	{ "BirthMonth", DATA_ULONG, 1, 0 },
+	{ "BirthDay", DATA_ULONG, 1, 0 },
+	{ "Language", DATA_ULONG, 1, 0 },
+	{ "", DATA_STRING, 1, 0 },
+	{ "WorkCity", DATA_STRING, 1, 0 },
+	{ "WorkState", DATA_STRING, 1, 0 },
+	{ "", DATA_STRING, 1, 0 },
+	{ "", DATA_STRING, 1, 0 },
+	{ "WorkAddress", DATA_STRING, 1, 0 },
+	{ "WorkZip", DATA_STRING, 1, 0 },
+	{ "WorkCountry", DATA_ULONG, 1, 0 },
+	{ "WorkName", DATA_STRING, 1, 0 },
+	{ "WorkDepartment", DATA_STRING, 1, 0 },
+	{ "WorkPosition", DATA_STRING, 1, 0 },
+	{ "Occupation", DATA_ULONG, 1, 0 },
+	{ "WorkHomepage", DATA_STRING, 1, 0 },
+	{ "About", DATA_STRING, 1, 0 },
+	{ "Interests", DATA_STRING, 1, 0 },
+	{ "Backgrounds", DATA_STRING, 1, 0 },
+	{ "Affilations", DATA_STRING, 1, 0 },
+	{ "FollowMe", DATA_ULONG, 1, 0 },
+	{ "SharedFiles", DATA_BOOL, 1, 0 },		// Shared files
+	{ "ICQPhone", DATA_ULONG, 1, 0 },		// ICQPhone
+	{ "Picture", DATA_UTF, 1, 0 },
+	{ "PictureWidth", DATA_ULONG, 1, 0 },
+	{ "PictureHeight", DATA_ULONG, 1, 0 },
+	{ "PhoneBook", DATA_STRING, 1, 0 },
+	{ "ProfileFetch", DATA_BOOL, 1, 0 },
+	{ "", DATA_BOOL, 1, 0 },				// bTyping
+	{ "", DATA_BOOL, 1, 0 },				// bBadClient
+	{ "", DATA_OBJECT, 1, 0 },				// Direct
+	{ "", DATA_OBJECT, 1, 0 },				// DirectPluginInfo
+	{ "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
+	{ "", DATA_BOOL, 1, 0 },				// bNoDirect
+	{ "", DATA_BOOL, 1, 0 },				// bInviisble
+	{ "", DATA_ULONG, 1, 0},                // buddyRosterID
+	{ "buddyID", DATA_ULONG, 1, 0},
+	{ "buddyHash", DATA_BINARY, 1, 0},
+	{ "unknown2", DATA_BINARY, 1, 0},
+	{ "unknown4", DATA_BINARY, 1, 0},
+	{ "unknown5", DATA_BINARY, 1, 0},
+	{ NULL, DATA_UNKNOWN, 0, 0 }
+};
 
 const DataDef *ICQProtocol::icqUserData = _icqUserData;
 
 static DataDef icqClientData[] =
-    {
-        { "Server", DATA_STRING, 1, 0 },
-        { "ServerPort", DATA_ULONG, 1, DATA(5190) },
-        { "", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },
-        { "HideIP", DATA_BOOL, 1, 0 },
-        { "IgnoreAuth", DATA_BOOL, 1, 0 },
-        { "UseMD5", DATA_BOOL, 1, 0 },
-        { "DirectMode", DATA_ULONG, 1, 0 },
-        { "IdleTime", DATA_ULONG, 1, 0 },
-        { "ListRequests", DATA_STRING, 1, 0 },
-        { "Picture", DATA_UTF, 1, 0 },
-        { "RandomChatGroup", DATA_ULONG, 1, 0 },
-        { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
-        { "SendFormat", DATA_ULONG, 1, DATA(1) }, // use utf-8 whereever possible
-        { "DisablePlugins", DATA_BOOL, 1, 0 },
-        { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
-        { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
-        { "DisableTypingNotification", DATA_BOOL, 1, 0 },
-        { "AcceptInDND", DATA_BOOL, 1, DATA(1) },
-        { "AcceptInOccupied", DATA_BOOL, 1, DATA(1) },
-        { "MinPort", DATA_ULONG, 1, DATA(1024) },
-        { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
-        { "WarnAnonimously", DATA_BOOL, 1, 0 },
-        { "ACKMode", DATA_ULONG, 1, DATA(1) },
-        { "UseHTTP", DATA_BOOL, 1, DATA(0) },
-        { "AutoHTTP", DATA_BOOL, 1, DATA(0) },
-        { "KeepAlive", DATA_BOOL, 1, DATA(1) },
-        { "MediaSense", DATA_BOOL, 1, DATA(1) },
-        { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
+{
+	{ "Server", DATA_STRING, 1, 0 },
+	{ "ServerPort", DATA_ULONG, 1, DATA(5190) },
+	{ "", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },
+	{ "HideIP", DATA_BOOL, 1, 0 },
+	{ "IgnoreAuth", DATA_BOOL, 1, 0 },
+	{ "UseMD5", DATA_BOOL, 1, 0 },
+	{ "DirectMode", DATA_ULONG, 1, 0 },
+	{ "IdleTime", DATA_ULONG, 1, 0 },
+	{ "ListRequests", DATA_STRING, 1, 0 },
+	{ "Picture", DATA_UTF, 1, 0 },
+	{ "RandomChatGroup", DATA_ULONG, 1, 0 },
+	{ "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
+	{ "SendFormat", DATA_ULONG, 1, DATA(1) }, // use utf-8 whereever possible
+	{ "DisablePlugins", DATA_BOOL, 1, 0 },
+	{ "DisableAutoUpdate", DATA_BOOL, 1, 0 },
+	{ "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
+	{ "DisableTypingNotification", DATA_BOOL, 1, 0 },
+	{ "AcceptInDND", DATA_BOOL, 1, DATA(1) },
+	{ "AcceptInOccupied", DATA_BOOL, 1, DATA(1) },
+	{ "MinPort", DATA_ULONG, 1, DATA(1024) },
+	{ "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
+	{ "WarnAnonimously", DATA_BOOL, 1, 0 },
+	{ "ACKMode", DATA_ULONG, 1, DATA(1) },
+	{ "UseHTTP", DATA_BOOL, 1, DATA(0) },
+	{ "AutoHTTP", DATA_BOOL, 1, DATA(0) },
+	{ "KeepAlive", DATA_BOOL, 1, DATA(1) },
+	{ "MediaSense", DATA_BOOL, 1, DATA(1) },
+	{ "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
+	{ NULL, DATA_UNKNOWN, 0, 0 }
+};
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
-        : TCPClient(protocol, cfg, HighPriority - 1)
+: TCPClient(protocol, cfg, HighPriority - 1)
 {
 	m_bAIM = bAIM;
 
@@ -273,26 +273,26 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 
 ICQClient::~ICQClient()
 {
-    setStatus(STATUS_OFFLINE, false);
-    if (m_listener)
-        delete m_listener;
-    free_data(icqClientData, &data);
-    if (socket())
-        delete socket();
-    for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+	setStatus(STATUS_OFFLINE, false);
+	if (m_listener)
+		delete m_listener;
+	free_data(icqClientData, &data);
+	if (socket())
+		delete socket();
+	for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 	{
-        Message *msg = *it;
-        msg->setError(I18N_NOOP("Process message failed"));
- // FIXME: this does not work and could crash !!!!
- //       Event e(EventRealSendMessage, msg);
- //       e.process();
-        delete msg;
-    }
-    while (!m_sockets.empty())
-        delete m_sockets.front();
-    m_processMsg.clear();
+		Message *msg = *it;
+		msg->setError(I18N_NOOP("Process message failed"));
+		// FIXME: this does not work and could crash !!!!
+		//       Event e(EventRealSendMessage, msg);
+		//       e.process();
+		delete msg;
+	}
+	while (!m_sockets.empty())
+		delete m_sockets.front();
+	m_processMsg.clear();
 
-    freeData();
+	freeData();
 }
 
 bool ICQClient::addSnacHandler(SnacHandler* handler)
@@ -315,96 +315,96 @@ void ICQClient::clearSnacHandlers()
 
 void ICQClient::deleteFileMessage(MessageId const& cookie)
 {
-    for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+	for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 	{
 		if((*it)->baseType() == MessageFile)
 		{
-			AIMFileMessage* afm = static_cast<AIMFileMessage*>(*it);
+		AIMFileMessage* afm = static_cast<AIMFileMessage*>(*it);
 			if(afm)
 			if(afm->getID_L() == cookie.id_l && afm->getID_H() == cookie.id_h)
 			{
-				m_processMsg.erase(it);
-				return;
-			}
-		}
+		m_processMsg.erase(it);
+		return;
+	}
+}	
 	}
 }	
 
 void ICQClient::contactsLoaded()
 {
-    /* outdated
-    QTextCodec *codec = getContacts()->getCodec(NULL);
-    QString cdc = codec->name();
-    if (codec && (cdc.lower().find("utf") >= 0)){
-        QString _def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
-        QString def_enc = i18n(_def_enc);
-        if (def_enc == _def_enc){
-            EncodingDlg dlg(NULL, this);
-            dlg.exec();
-        }else{
-            getContacts()->owner()->setEncoding(def_enc);
-        }
-    }
-    */
+	/* outdated
+	QTextCodec *codec = getContacts()->getCodec(NULL);
+	QString cdc = codec->name();
+	if (codec && (cdc.lower().find("utf") >= 0)){
+	QString _def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
+	QString def_enc = i18n(_def_enc);
+	if (def_enc == _def_enc){
+	EncodingDlg dlg(NULL, this);
+	dlg.exec();
+	}else{
+	getContacts()->owner()->setEncoding(def_enc);
+	}
+	}
+	*/
 }
 
 const DataDef *ICQProtocol::userDataDef()
 {
-    return _icqUserData;
+	return _icqUserData;
 }
 
 const DataDef *AIMProtocol::userDataDef()
 {
-    return _icqUserData;
+	return _icqUserData;
 }
 
 bool ICQClient::compareData(void *d1, void *d2)
 {
-    ICQUserData *data1 = toICQUserData((SIM::clientData*) d1); // FIXME unsafe type conversion
-    ICQUserData *data2 = toICQUserData((SIM::clientData*) d2); // FIXME unsafe type conversion
-    if (data1->Uin.toULong())
-        return data1->Uin.toULong() == data2->Uin.toULong();
-    if (data2->Uin.toULong())
-        return false;
+	ICQUserData *data1 = toICQUserData((SIM::clientData*) d1); // FIXME unsafe type conversion
+	ICQUserData *data2 = toICQUserData((SIM::clientData*) d2); // FIXME unsafe type conversion
+	if (data1->Uin.toULong())
+		return data1->Uin.toULong() == data2->Uin.toULong();
+	if (data2->Uin.toULong())
+		return false;
     return (data1->Screen.str() == data2->Screen.str());
 }
 
 QCString ICQClient::getConfig()
 {
-    QString listRequest;
+	QString listRequest;
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
-        if (listRequest.length())
-            listRequest += ';';
-        listRequest += QString::number((*it).type);
-        listRequest += ',';
-        listRequest += (*it).screen;
-    }
-    setListRequests(listRequest);
-    QCString res = Client::getConfig();
-    if (res.length())
-        res += '\n';
-    return res += save_data(icqClientData, &data);
+		if (listRequest.length())
+			listRequest += ';';
+		listRequest += QString::number((*it).type);
+		listRequest += ',';
+		listRequest += (*it).screen;
+	}
+	setListRequests(listRequest);
+	QCString res = Client::getConfig();
+	if (res.length())
+		res += '\n';
+	return res += save_data(icqClientData, &data);
 }
 
 QString ICQClient::name()
 {
-    if (m_bAIM)
-        return "AIM." + data.owner.Screen.str();
-    return "ICQ." + QString::number(data.owner.Uin.toULong());
+	if (m_bAIM)
+		return "AIM." + data.owner.Screen.str();
+	return "ICQ." + QString::number(data.owner.Uin.toULong());
 }
 
 QString ICQClient::getScreen()
 {
-    if (m_bAIM)
-        return data.owner.Screen.str();
-    return QString::number(data.owner.Uin.toULong());
+	if (m_bAIM)
+		return data.owner.Screen.str();
+	return QString::number(data.owner.Uin.toULong());
 }
 
 QWidget	*ICQClient::setupWnd()
 {
-    if (m_bAIM)
-        return new AIMConfig(NULL, this, true);
-    return new ICQConfig(NULL, this, true);
+	if (m_bAIM)
+		return new AIMConfig(NULL, this, true);
+	return new ICQConfig(NULL, this, true);
 }
 
 static const char aim_server[] = "login.oscar.aol.com";
@@ -412,32 +412,32 @@ static const char icq_server[] = "login.icq.com";
 
 QString ICQClient::getServer() const
 {
-    if (!data.Server.str().isEmpty())
-        return data.Server.str();
-    return m_bAIM ? aim_server : icq_server;
+	if (!data.Server.str().isEmpty())
+		return data.Server.str();
+	return m_bAIM ? aim_server : icq_server;
 }
 
 void ICQClient::setServer(const QString &server)
 {
-    if (server == (m_bAIM ? aim_server : icq_server))
-        data.Server.str() = QString::null;
-    else
-        data.Server.str() = server;
+	if (server == (m_bAIM ? aim_server : icq_server))
+		data.Server.str() = QString::null;
+	else
+		data.Server.str() = server;
 }
 
 void ICQClient::setUin(unsigned long uin)
 {
-    data.owner.Uin.asULong() = uin;
+	data.owner.Uin.asULong() = uin;
 }
 
 void ICQClient::setScreen(const QString &screen)
 {
-    data.owner.Screen.str() = screen;
+	data.owner.Screen.str() = screen;
 }
 
 unsigned long ICQClient::getUin()
 {
-    return data.owner.Uin.toULong();
+	return data.owner.Uin.toULong();
 }
 
 void ICQClient::generateCookie(MessageId& id)
@@ -449,41 +449,41 @@ void ICQClient::generateCookie(MessageId& id)
 
 bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
 {
-    if (_data->Sign.toULong() != ICQ_SIGN)
-        return false;
-    ICQUserData *data = toICQUserData(_data);
+	if (_data->Sign.toULong() != ICQ_SIGN)
+		return false;
+	ICQUserData *data = toICQUserData(_data);
     if (m_bAIM){
         if (!data->Screen.str().isEmpty() && !this->data.owner.Screen.str().isEmpty() &&
                 (data->Screen.str().lower() == this->data.owner.Screen.str().lower()))
-            return false;
+			return false;
     }else{
         if (data->Uin.toULong() == this->data.owner.Uin.toULong())
             return false;
-    }
-    ICQUserData *my_data = findContact(screen(data), NULL, false, contact);
+	}
+	ICQUserData *my_data = findContact(screen(data), NULL, false, contact);
     if (my_data){
-        data = my_data;
+		data = my_data;
     }else{
-        contact = NULL;
+		contact = NULL;
     }
-    return true;
+	return true;
 }
 
 bool ICQClient::createData(clientData *&_data, Contact *contact)
 {
-    ICQUserData *data = toICQUserData(_data);
-    ICQUserData *new_data = toICQUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
-    new_data->Uin = data->Uin;
-    new_data->Screen.str() = data->Screen.str();
-    _data = (clientData*)new_data;
-    return true;
+	ICQUserData *data = toICQUserData(_data);
+	ICQUserData *new_data = toICQUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
+	new_data->Uin = data->Uin;
+	new_data->Screen.str() = data->Screen.str();
+	_data = (clientData*)new_data;
+	return true;
 }
 
 OscarSocket::OscarSocket()
 {
-    //m_nFlapSequence = (unsigned short)(rand() & 0x7FFF);
+	//m_nFlapSequence = (unsigned short)(rand() & 0x7FFF);
 	m_nFlapSequence = 8984;
-    m_nMsgSequence  = 0;
+	m_nMsgSequence  = 0;
 }
 
 OscarSocket::~OscarSocket()
@@ -492,23 +492,23 @@ OscarSocket::~OscarSocket()
 
 void OscarSocket::connect_ready()
 {
-    socket()->readBuffer().init(6);
-    socket()->readBuffer().packetStart();
-    m_bHeader = true;
+	socket()->readBuffer().init(6);
+	socket()->readBuffer().packetStart();
+	m_bHeader = true;
 }
 
 void ICQClient::connect_ready()
 {
 	log(L_DEBUG, "ICQClient::connect_ready()");
-    m_bFirstTry = false;
+	m_bFirstTry = false;
     if (m_listener == NULL){
-        m_listener = new ICQListener(this);
-        m_listener->bind(getMinPort(), getMaxPort(), NULL);
-    }
-    m_bNoSend	= false;
-    m_bReady	= true;
-    OscarSocket::connect_ready();
-    TCPClient::connect_ready();
+		m_listener = new ICQListener(this);
+		m_listener->bind(getMinPort(), getMaxPort(), NULL);
+	}
+	m_bNoSend	= false;
+	m_bReady	= true;
+	OscarSocket::connect_ready();
+	TCPClient::connect_ready();
 }
 
 void ICQClient::setNewLevel(RateInfo &r)
@@ -527,60 +527,60 @@ void ICQClient::setNewLevel(RateInfo &r)
 
 RateInfo *ICQClient::rateInfo(unsigned snac)
 {
-    RATE_MAP::iterator it = m_rate_grp.find(snac);
-    if (it == m_rate_grp.end())
-        return NULL;
-    return &m_rates[(*it).second];
+	RATE_MAP::iterator it = m_rate_grp.find(snac);
+	if (it == m_rate_grp.end())
+		return NULL;
+	return &m_rates[(*it).second];
 }
 
 unsigned ICQClient::delayTime(unsigned snac)
 {
-    RateInfo *r = rateInfo(snac);
-    if (r == NULL)
+	RateInfo *r = rateInfo(snac);
+	if (r == NULL)
 	{
-        return 0;
+		return 0;
 	}
-    return delayTime(*r);
+	return delayTime(*r);
 }
 
 unsigned ICQClient::delayTime(RateInfo &r)
 {
-    if (r.m_winSize == 0)
-        return 0;
-    int res = r.m_minLevel * r.m_winSize - r.m_curLevel * (r.m_winSize - 1);
-    if (res < 0)
-        return 0;
-    QDateTime now = QDateTime::currentDateTime();
-    unsigned delta = 0;
-    if (now.date() == r.m_lastSend.date())
-        delta = r.m_lastSend.time().msecsTo(now.time());
-    res -= delta;
-    return (res > 0) ? res : 0;
+	if (r.m_winSize == 0)
+		return 0;
+	int res = r.m_minLevel * r.m_winSize - r.m_curLevel * (r.m_winSize - 1);
+	if (res < 0)
+		return 0;
+	QDateTime now = QDateTime::currentDateTime();
+	unsigned delta = 0;
+	if (now.date() == r.m_lastSend.date())
+		delta = r.m_lastSend.time().msecsTo(now.time());
+	res -= delta;
+	return (res > 0) ? res : 0;
 }
 
 void ICQClient::setStatus(unsigned status, bool bCommon)
 {
     if (status != STATUS_OFFLINE){
         switch (status){
-        case STATUS_NA:
-        case STATUS_AWAY:
-            if (getIdleTime() == 0)
-                setIdleTime(time(NULL));
-            break;
-        default:
-            setIdleTime(0);
-        }
+		case STATUS_NA:
+		case STATUS_AWAY:
+			if (getIdleTime() == 0)
+				setIdleTime(time(NULL));
+			break;
+		default:
+			setIdleTime(0);
+	}
     }
-    TCPClient::setStatus(status, bCommon);
+	TCPClient::setStatus(status, bCommon);
 }
 
 void ICQClient::setStatus(unsigned status)
 {
     if (status == STATUS_OFFLINE){
-        flap(ICQ_CHNxCLOSE);
-        return;
-    }
-    if (m_bAIM){
+		flap(ICQ_CHNxCLOSE);
+		return;
+	}
+	if (m_bAIM){
         if (status == STATUS_ONLINE){
             if (m_status != STATUS_ONLINE){
                 m_status = STATUS_ONLINE;
@@ -588,152 +588,155 @@ void ICQClient::setStatus(unsigned status)
                 EventClientChanged(this).process();
             }
         }else{
-            m_status = STATUS_AWAY;
+			m_status = STATUS_AWAY;
 
-            ar_request req;
-            req.bDirect = true;
-            arRequests.push_back(req);
+			ar_request req;
+			req.bDirect = true;
+			arRequests.push_back(req);
 
-            ARRequest ar;
-            ar.contact  = NULL;
-            ar.param    = &arRequests.back();
-            ar.receiver = this;
-            ar.status   = status;
-            EventARRequest(&ar).process();
-            EventClientChanged(this).process();
-        }
-        return;
-    }
+			ARRequest ar;
+			ar.contact  = NULL;
+			ar.param    = &arRequests.back();
+			ar.receiver = this;
+			ar.status   = status;
+			EventARRequest(&ar).process();
+			EventClientChanged(this).process();
+		}
+				return;
+	}
     if (status != m_status){
-        m_status = status;
-        snacService()->sendStatus();
-        EventClientChanged(this).process();
-    }
+		m_status = status;
+
+	snacService()->sendStatus();
+	EventClientChanged(this).process();
+}
 }
 
 void ICQClient::setInvisible(bool bState)
 {
     if (bState != getInvisible()){
-        TCPClient::setInvisible(bState);
-        if (getState() == Connected)
-            snacService()->setInvisible();
-        EventClientChanged(this).process();
-    }
+		TCPClient::setInvisible(bState);
+
+	if (getState() == Connected)
+		snacService()->setInvisible();
+
+	EventClientChanged(this).process();
+}
 }
 
 void ICQClient::disconnected()
 {
-    m_rates.clear();
-    m_rate_grp.clear();
-    snacICBM()->getSendTimer()->stop();
-    m_processTimer->stop();
-    clearServerRequests();
-    clearListServerRequest();
-    clearSMSQueue();
-    snacICBM()->clearMsgQueue();
-    buddies.clear();
-    Contact *contact;
-    ContactList::ContactIterator it;
-    arRequests.clear();
+	m_rates.clear();
+	m_rate_grp.clear();
+	snacICBM()->getSendTimer()->stop();
+	m_processTimer->stop();
+	clearServerRequests();
+	clearListServerRequest();
+	clearSMSQueue();
+	snacICBM()->clearMsgQueue();
+	buddies.clear();
+	Contact *contact;
+	ContactList::ContactIterator it;
+	arRequests.clear();
     while ((contact = ++it) != NULL){
-        ICQUserData *data;
-        ClientDataIterator it(contact->clientData, this);
+		ICQUserData *data;
+		ClientDataIterator it(contact->clientData, this);
         while ((data = toICQUserData(++it)) != NULL){
             if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || data->bInvisible.toBool()){
-                setOffline(data);
-                StatusMessage *m = new StatusMessage();
-                m->setContact(contact->id());
-                m->setClient(dataName(data));
-                m->setStatus(STATUS_OFFLINE);
-                m->setFlags(MESSAGE_RECEIVED);
-                EventMessageReceived e(m);
-                if(!e.process())
-                    delete m;
-            }
-        }
+				setOffline(data);
+				StatusMessage *m = new StatusMessage();
+				m->setContact(contact->id());
+				m->setClient(dataName(data));
+				m->setStatus(STATUS_OFFLINE);
+				m->setFlags(MESSAGE_RECEIVED);
+				EventMessageReceived e(m);
+				if(!e.process())
+					delete m;
+			}
+	}
     }
-    for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm){
-        EventMessageDeleted(*itm).process();
-        delete *itm;
-    }
-    m_acceptMsg.clear();
-    m_bRosters = false;
-    m_nMsgSequence = 0;
-    m_bNoSend	= true;
-    m_bReady	= false;
-    m_cookie.resize(0);
-    m_advCounter = 0;
-    m_info_req.clear();
+	for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm){
+		EventMessageDeleted(*itm).process();
+		delete *itm;
+	}
+	m_acceptMsg.clear();
+	m_bRosters = false;
+	m_nMsgSequence = 0;
+	m_bNoSend	= true;
+	m_bReady	= false;
+	m_cookie.resize(0);
+	m_advCounter = 0;
+	m_info_req.clear();
 	if(m_snacService)
 		m_snacService->clearServices();
-    if (m_listener){
-        delete m_listener;
-        m_listener = NULL;
-    }
+	if (m_listener){
+		delete m_listener;
+		m_listener = NULL;
+	}
 }
 
 const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
-                                 I18N_NOOP("Invalid SNAC header"),
-                                 I18N_NOOP("Server rate limit exceeded"),
-                                 I18N_NOOP("Client rate limit exceeded"),
-                                 I18N_NOOP("Recipient is not logged in"),
-                                 I18N_NOOP("Requested service unavailable"),
-                                 I18N_NOOP("Requested service not defined"),
-                                 I18N_NOOP("We sent an obsolete SNAC"),
-                                 I18N_NOOP("Not supported by server"),
-                                 I18N_NOOP("Not supported by client"),
-                                 I18N_NOOP("Refused by client"),
-                                 I18N_NOOP("Reply too big"),
-                                 I18N_NOOP("Responses lost"),
-                                 I18N_NOOP("Request denied"),
-                                 I18N_NOOP("Incorrect SNAC format"),
-                                 I18N_NOOP("Insufficient rights"),
-                                 I18N_NOOP("Recipient blocked"),
-                                 I18N_NOOP("Sender too evil"),
-                                 I18N_NOOP("Receiver too evil"),
-                                 I18N_NOOP("User temporarily unavailable"),
-                                 I18N_NOOP("No match"),
-                                 I18N_NOOP("List overflow"),
-                                 I18N_NOOP("Request ambiguous"),
-                                 I18N_NOOP("Server queue full"),
-                                 I18N_NOOP("Not while on AOL")};
+I18N_NOOP("Invalid SNAC header"),
+I18N_NOOP("Server rate limit exceeded"),
+I18N_NOOP("Client rate limit exceeded"),
+I18N_NOOP("Recipient is not logged in"),
+I18N_NOOP("Requested service unavailable"),
+I18N_NOOP("Requested service not defined"),
+I18N_NOOP("We sent an obsolete SNAC"),
+I18N_NOOP("Not supported by server"),
+I18N_NOOP("Not supported by client"),
+I18N_NOOP("Refused by client"),
+I18N_NOOP("Reply too big"),
+I18N_NOOP("Responses lost"),
+I18N_NOOP("Request denied"),
+I18N_NOOP("Incorrect SNAC format"),
+I18N_NOOP("Insufficient rights"),
+I18N_NOOP("Recipient blocked"),
+I18N_NOOP("Sender too evil"),
+I18N_NOOP("Receiver too evil"),
+I18N_NOOP("User temporarily unavailable"),
+I18N_NOOP("No match"),
+I18N_NOOP("List overflow"),
+I18N_NOOP("Request ambiguous"),
+I18N_NOOP("Server queue full"),
+I18N_NOOP("Not while on AOL")};
 
 const char* ICQClient::error_message(unsigned short error)
 {
     if ((error < 1) || (error > 0x18)) {
-        error = 0;
+	error = 0;
     }
-    return icq_error_codes[error];
+	return icq_error_codes[error];
 }
 
 void OscarSocket::packet_ready()
 {
 	unsigned short l_size = 0;
-    if(m_bHeader)
+	if(m_bHeader)
 	{
-        char c;
-        socket()->readBuffer() >> c;
+		char c;
+		socket()->readBuffer() >> c;
         if (c != 0x2A){
-            log(L_ERROR, "Server send bad packet start code: %02X", c);
-            socket()->error_state(I18N_NOOP("Protocol error"));
-            return;
-        }
-        socket()->readBuffer() >> m_nChannel;
-        unsigned short sequence;
-        socket()->readBuffer() >> sequence >> l_size;
-        m_bHeader = false;
+			log(L_ERROR, "Server send bad packet start code: %02X", c);
+			socket()->error_state(I18N_NOOP("Protocol error"));
+			return;
+		}
+		socket()->readBuffer() >> m_nChannel;
+		unsigned short sequence;
+		socket()->readBuffer() >> sequence >> l_size;
+		m_bHeader = false;
         if (l_size){
-            socket()->readBuffer().add(l_size);
-            return;
-        }
+			socket()->readBuffer().add(l_size);
+		return;
+	}
     }
 	l_size = socket()->readBuffer().size() - socket()->readBuffer().readPos();
-    packet(l_size);
+	packet(l_size);
 }
 
 void ICQClient::packet_ready()
 {
-    OscarSocket::packet_ready();
+	OscarSocket::packet_ready();
 }
 
 void ICQClient::packet(unsigned long size)
@@ -749,62 +752,62 @@ void ICQClient::packet(unsigned long size)
 			break;
 		case ICQ_CHNxDATA:
 			{ 
-				unsigned short food, type;
-				unsigned short flags, seq, cmd;
-				socket()->readBuffer() >> food >> type >> flags >> cmd >> seq;
-				unsigned short unknown_length = 0;
+			unsigned short food, type;
+			unsigned short flags, seq, cmd;
+			socket()->readBuffer() >> food >> type >> flags >> cmd >> seq;
+			unsigned short unknown_length = 0;
 				if ((flags & 0x8000)) {	// some unknown data before real snac data
-					// just read the length and forget it ;-)
-					socket()->readBuffer() >> unknown_length;
-					socket()->readBuffer().incReadPos(unknown_length);
-				}
-				// now just take a look at the type because 0x0001 == error
-				// in all foodgroups
+				// just read the length and forget it ;-)
+				socket()->readBuffer() >> unknown_length;
+				socket()->readBuffer().incReadPos(unknown_length);
+			}
+			// now just take a look at the type because 0x0001 == error
+			// in all foodgroups
 				if (type == 0x0001) {
-					unsigned short err_code;
-					socket()->readBuffer() >> err_code;
-					log(L_DEBUG,"Error! foodgroup: %04X reason: %s",food,error_message(err_code));
-					// now decrease for icqicmb & icqvarious
-					socket()->readBuffer().decReadPos(sizeof(unsigned short));
-				}
+				unsigned short err_code;
+				socket()->readBuffer() >> err_code;
+				log(L_DEBUG,"Error! foodgroup: %04X reason: %s",food,error_message(err_code));
+				// now decrease for icqicmb & icqvarious
+				socket()->readBuffer().decReadPos(sizeof(unsigned short));
+			}
 				switch (food){
-					case ICQ_SNACxFOOD_LOCATION:
-						snac_location(type, seq);
-						break;
-					case ICQ_SNACxFOOD_BOS:
-						snac_bos(type, seq);
-						break;
-					case ICQ_SNACxFOOD_PING:
-						snac_ping(type, seq);
-						break;
-					case ICQ_SNACxFOOD_LISTS:
-						snac_lists(type, seq);
-						break;
-					case ICQ_SNACxFOOD_VARIOUS:
-						snac_various(type, seq);
-						break;
-					case ICQ_SNACxFOOD_LOGIN:
-						snac_login(type, seq);
-						break;
-					default:
-						{
-							mapSnacHandlers::iterator it = m_snacHandlers.find(food);
+				case ICQ_SNACxFOOD_LOCATION:
+					snac_location(type, seq);
+					break;
+				case ICQ_SNACxFOOD_BOS:
+					snac_bos(type, seq);
+					break;
+				case ICQ_SNACxFOOD_PING:
+					snac_ping(type, seq);
+					break;
+				case ICQ_SNACxFOOD_LISTS:
+					snac_lists(type, seq);
+					break;
+				case ICQ_SNACxFOOD_VARIOUS:
+					snac_various(type, seq);
+					break;
+				case ICQ_SNACxFOOD_LOGIN:
+					snac_login(type, seq);
+					break;
+				default:
+				{
+					mapSnacHandlers::iterator it = m_snacHandlers.find(food);
 							if(it == m_snacHandlers.end())
 							{
 								log(L_WARN, "Unknown foodgroup %04X", food);
 							}
 							else
-							{
-								ICQBuffer b;
-								b.resize(size - unknown_length);
-								b.setReadPos(0);
-								b.setWritePos(size - unknown_length);
-								socket()->readBuffer().unpack(b.data(), size - unknown_length);
-								it->second->process(type, &b, seq);
-							}
-						}
+					{
+						ICQBuffer b;
+						b.resize(size - unknown_length);
+						b.setReadPos(0);
+						b.setWritePos(size - unknown_length);
+						socket()->readBuffer().unpack(b.data(), size - unknown_length);
+						it->second->process(type, &b, seq);
+					}
 				}
-				break;
+			}
+			break;
 			}
 		default:
 			log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
@@ -859,9 +862,9 @@ void ICQClient::sendPacket(bool bSend)
         snac = (packet[6] << 24) + (packet[7] << 16) + (packet[8] << 8) + packet[9];
     unsigned delay = delayTime(snac);
     if (m_bNoSend){
-        bSend = false;
+		bSend = false;
     }else if (!bSend && (delay == 0)){
-        bSend = true;
+		bSend = true;
     }
     RateInfo *r = rateInfo(snac);
     if (r){
@@ -914,44 +917,44 @@ unsigned long ICQClient::fullStatus(unsigned s)
 {
     unsigned long status = 0;
     switch (s){
-    case STATUS_ONLINE:
-        status = ICQ_STATUS_ONLINE;
-        break;
-    case STATUS_AWAY:
-        status = ICQ_STATUS_AWAY;
-        break;
-    case STATUS_NA:
-        status = ICQ_STATUS_NA | ICQ_STATUS_AWAY;
-        break;
-    case STATUS_OCCUPIED:
-        status = ICQ_STATUS_OCCUPIED | ICQ_STATUS_AWAY;
-        break;
-    case STATUS_DND:
-        status = ICQ_STATUS_DND | ICQ_STATUS_OCCUPIED | ICQ_STATUS_AWAY;
-        break;
-    case STATUS_FFC:
-        status = ICQ_STATUS_FFC;
-        break;
+		case STATUS_ONLINE:
+			status = ICQ_STATUS_ONLINE;
+			break;
+		case STATUS_AWAY:
+			status = ICQ_STATUS_AWAY;
+			break;
+		case STATUS_NA:
+			status = ICQ_STATUS_NA | ICQ_STATUS_AWAY;
+			break;
+		case STATUS_OCCUPIED:
+			status = ICQ_STATUS_OCCUPIED | ICQ_STATUS_AWAY;
+			break;
+		case STATUS_DND:
+			status = ICQ_STATUS_DND | ICQ_STATUS_OCCUPIED | ICQ_STATUS_AWAY;
+			break;
+		case STATUS_FFC:
+			status = ICQ_STATUS_FFC;
+			break;
     }
     if (data.owner.WebAware.toBool())
         status |= ICQ_STATUS_FxWEBxPRESENCE;
     if (getHideIP()){
-        status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
+		status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
     }else{
         switch (getDirectMode()){
-        case 1:
-            status |= ICQ_STATUS_FxDIRECTxLISTED;
-            break;
-        case 2:
-            status |= ICQ_STATUS_FxDIRECTxAUTH;
-            break;
-        }
+			case 1:
+				status |= ICQ_STATUS_FxDIRECTxLISTED;
+				break;
+			case 2:
+				status |= ICQ_STATUS_FxDIRECTxAUTH;
+				break;
+		}
     }
     if (m_bBirthday)
         status |= ICQ_STATUS_FxBIRTHDAY;
     if (getInvisible()){
-        status |= ICQ_STATUS_FxPRIVATE | ICQ_STATUS_FxHIDExIP;
-        status &= ~(ICQ_STATUS_FxDIRECTxLISTED | ICQ_STATUS_FxDIRECTxAUTH);
+		status |= ICQ_STATUS_FxPRIVATE | ICQ_STATUS_FxHIDExIP;
+	status &= ~(ICQ_STATUS_FxDIRECTxLISTED | ICQ_STATUS_FxDIRECTxAUTH);
     }
     return status;
 }
@@ -965,12 +968,12 @@ void ICQClient::interfaceUp(QString ifname)
 {
 	if(getMediaSense())
 	{
-		log(L_DEBUG, "icq: interface up: %s", ifname.utf8().data());
-		if(m_connectionLost)
+	log(L_DEBUG, "icq: interface up: %s", ifname.utf8().data());
+	if(m_connectionLost)
 		{
-			// Try to connect
-			setStatus(STATUS_ONLINE, false);
-		}
+		// Try to connect
+		setStatus(STATUS_ONLINE, false);
+}
 	}
 }
 
@@ -1000,15 +1003,15 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
             bool bChanged = false;
             if (alias){
                 if (!alias->isEmpty()){
-                    bChanged = contact->setName(*alias);
+					bChanged = contact->setName(*alias);
                 }
                 data->Alias.str() = *alias;
             }
             if (grp){
                 if (contact->getGroup() != grp->id()){
-                    contact->setGroup(grp->id());
-                    bChanged = true;
-                }
+					contact->setGroup(grp->id());
+					bChanged = true;
+			}
             }
             if (bChanged){
                 EventContact e(contact, EventContact::eChanged);
@@ -1048,13 +1051,13 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     }
                     if (grp){
                         if (grp->id() != contact->getGroup()){
-                            contact->setGroup(grp->id());
-                            bChanged = true;
-                        }
+                        contact->setGroup(grp->id());
+                        bChanged = true;
+                    }
                     }
                     if (bChanged){
-                        EventContact e(contact, EventContact::eChanged);
-                        e.process();
+						EventContact e(contact, EventContact::eChanged);
+					e.process();
                         updateInfo(contact, data);
                     }
                     updateInfo(contact, data);
@@ -1063,22 +1066,22 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
             }
         }
         if (alias && !alias->isEmpty()){
-            QString name = alias->lower();
-            it.reset();
+			QString name = alias->lower();
+		it.reset();
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name){
-                    ICQUserData *data = toICQUserData((SIM::clientData*) contact->clientData.createData(this)); // FIXME unsafe type conversion
-                    data->Uin.asULong() = uin;
-                    if (uin == 0)
-                        data->Screen.str() = screen;
-                    data->Alias.str() = alias ? *alias : QString::null;
-                    EventContact e(contact, EventContact::eChanged);
-                    e.process();
-                    m_bJoin = true;
-                    updateInfo(contact, data);
-                    return data;
-                }
-            }
+			ICQUserData *data = toICQUserData((SIM::clientData*) contact->clientData.createData(this)); // FIXME unsafe type conversion
+			data->Uin.asULong() = uin;
+			if (uin == 0)
+				data->Screen.str() = screen;
+			data->Alias.str() = alias ? *alias : QString::null;
+			EventContact e(contact, EventContact::eChanged);
+			e.process();
+			m_bJoin = true;
+			updateInfo(contact, data);
+			return data;
+		}
+    }
         }
     }
     contact = getContacts()->contact(0, true);
@@ -1094,8 +1097,8 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     }else{
         name = screen;
     }
-    if(alias)
-        data->Alias.str() = *alias;
+	if (alias)
+		data->Alias.str() = *alias;
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
@@ -1181,7 +1184,7 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
         return;
     if (statusIcon == icon)
         return;
-    QString str = *s;
+	QString str = *s;
     while (!str.isEmpty()){
         QString item = getToken(str, ',');
         if (item == icon)
@@ -1198,43 +1201,43 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     unsigned status = STATUS_ONLINE;
     unsigned s = data->Status.toULong();
     if (s == ICQ_STATUS_OFFLINE){
-        status = STATUS_OFFLINE;
+		status = STATUS_OFFLINE;
     }else if (s & ICQ_STATUS_DND){
-        status = STATUS_DND;
+		status = STATUS_DND;
     }else if (s & ICQ_STATUS_OCCUPIED){
-        status = STATUS_OCCUPIED;
+		status = STATUS_OCCUPIED;
     }else if (s & ICQ_STATUS_NA){
-        status = STATUS_NA;
+		status = STATUS_NA;
     }else if (s & ICQ_STATUS_AWAY){
-        status = STATUS_AWAY;
+		status = STATUS_AWAY;
     }else if (s & ICQ_STATUS_FFC){
-        status = STATUS_FFC;
+		status = STATUS_FFC;
     }
     unsigned iconStatus = status;
     QString dicon;
     if (data->Uin.toULong()){
         if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
-            dicon = "ICQ_invisible";
+			dicon = "ICQ_invisible";
         }else{
-            const CommandDef *def = ICQProtocol::_statusList();
-            for (; !def->text.isEmpty(); def++){
+			const CommandDef *def = ICQProtocol::_statusList();
+			for (; !def->text.isEmpty(); def++){
                 if (def->id == iconStatus){
-                    dicon = def->icon;
-                    break;
-                }
-            }
+				dicon = def->icon;
+				break;
+			}
+		}
         }
     }else{
         if (status == STATUS_OFFLINE){
-            dicon = "AIM_offline";
+		dicon = "AIM_offline";
         }else{
-            status = STATUS_ONLINE;
-            dicon = "AIM_online";
+		status = STATUS_ONLINE;
+		dicon = "AIM_online";
             if (data->Class.toULong() & CLASS_AWAY){
-                status = STATUS_AWAY;
-                dicon = "AIM_away";
-            }
-        }
+			status = STATUS_AWAY;
+			dicon = "AIM_away";
+		}
+	}
     }
     if (dicon.isEmpty())
         return;
@@ -1253,9 +1256,9 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         statusIcon = dicon;
     }else{
         if (!statusIcon.isEmpty()){
-            addIcon(icons, dicon, statusIcon);
+		addIcon(icons, dicon, statusIcon);
         }else{
-            statusIcon = dicon;
+		statusIcon = dicon;
         }
     }
     if ((status == STATUS_OFFLINE) && data->bInvisible.toBool()){
@@ -1281,11 +1284,11 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             addIcon(icons, "nophone", statusIcon);
         if (status != STATUS_OFFLINE){
             if (data->SharedFiles.toBool())
-                addIcon(icons, "sharedfiles", statusIcon);
-            if (data->ICQPhone.toULong() == 1)
-                addIcon(icons, "icqphone", statusIcon);
-            if (data->ICQPhone.toULong() == 2)
-                addIcon(icons, "icqphonebusy", statusIcon);
+			addIcon(icons, "sharedfiles", statusIcon);
+		if (data->ICQPhone.toULong() == 1)
+			addIcon(icons, "icqphone", statusIcon);
+		if (data->ICQPhone.toULong() == 2)
+			addIcon(icons, "icqphonebusy", statusIcon);
         }
         if (data->bTyping.toBool())
             addIcon(icons, "typing", statusIcon);
@@ -1304,47 +1307,47 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
 void ICQClient::ping()
 {
     if (getState() == Connected){
-        bool bBirthday = false;
+	bool bBirthday = false;
         if (!m_bAIM){
-            int year  = data.owner.BirthYear.toULong();
-            int month = data.owner.BirthMonth.toULong();
-            int day   = data.owner.BirthDay.toULong();
+		int year  = data.owner.BirthYear.toULong();
+		int month = data.owner.BirthMonth.toULong();
+		int day   = data.owner.BirthDay.toULong();
             if (day && month && year){
-				QDate tNow = QDate::currentDate();
-				QDate tBirthday(tNow.year(), month, day);
-                // we send it two days before we've birthday
-				int diff = tNow.daysTo(tBirthday);
-				if(diff >= 0 && diff <=2)
-	                bBirthday = true;
+			QDate tNow = QDate::currentDate();
+			QDate tBirthday(tNow.year(), month, day);
+			// we send it two days before we've birthday
+			int diff = tNow.daysTo(tBirthday);
+			if(diff >= 0 && diff <=2)
+				bBirthday = true;
 				else {
-					tBirthday = tBirthday.addYears(1);
-					diff = tNow.daysTo(tBirthday);
-					if(diff >= 0 && diff <=2)
-						bBirthday = true;
-				}
-            }
-        }
+				tBirthday = tBirthday.addYears(1);
+				diff = tNow.daysTo(tBirthday);
+				if(diff >= 0 && diff <=2)
+					bBirthday = true;
+			}
+		}
+	}
         if (bBirthday != m_bBirthday){
-            m_bBirthday = bBirthday;
-            setStatus(m_status);
+		m_bBirthday = bBirthday;
+		setStatus(m_status);
         }else if (getKeepAlive() || m_bHTTP){
-            bool bSend = true;
+		bool bSend = true;
             for (unsigned i = 0; i < m_rates.size(); i++){
                 if (m_rates[i].delayed.size()){
-                    bSend = false;
-                    break;
-                }
+				bSend = false;
+				break;
+			}
             }
             if (bSend){
-                flap(ICQ_CHNxPING);
-                sendPacket(false);
-            }
-        }
-        snacICBM()->processSendQueue();
-        checkListRequest();
-        checkInfoRequest();
-        QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
-    }
+			flap(ICQ_CHNxPING);
+			sendPacket(false);
+		}
+	}
+	snacICBM()->processSendQueue();
+	checkListRequest();
+	checkInfoRequest();
+	QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
+}
 }
 
 void ICQClient::setupContact(Contact *contact, void *_data)
