@@ -135,7 +135,7 @@ unsigned long SIMResolver::addr()
     struct hostent * server_entry;
     if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
         log( L_WARN, "gethostbyname failed\n" );
-        return htonl(dns->addresses().first().ip4Addr());
+        return htonl(dns->addresses().first().toIPv4Address());
     }
     return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
 }
@@ -182,7 +182,7 @@ QString StdResolver::host() const
 
 void StdResolver::run()
 {
-	struct hostent* server_entry = gethostbyname(m_host.utf8().data());
+	struct hostent* server_entry = gethostbyname(m_host.toUtf8().constData());
 	if(server_entry == NULL)
 	{
 		log(L_WARN, "gethostbyname failed");
@@ -192,13 +192,6 @@ void StdResolver::run()
 		return;
 	}
 	m_addr = inet_addr(inet_ntoa(*(struct in_addr*)server_entry->h_addr_list[0]));
-	m_done = true;
-    QTimer::singleShot(0, parent(), SLOT(resultsReady()));
-}
-
-void StdResolver::timeout()
-{
-	m_timeout = true;
 	m_done = true;
     QTimer::singleShot(0, parent(), SLOT(resultsReady()));
 }
@@ -694,7 +687,7 @@ void SIMServerSocket::activated(int)
         if (notify){
             Q3Socket *s = new Q3Socket;
             s->setSocket(fd);
-            if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
+            if (notify->accept(new SIMClientSocket(s), htonl(s->address().toIPv4Address()))){
                 if (notify)
                     notify->m_listener = NULL;
                 getSocketFactory()->remove(this);
@@ -804,7 +797,7 @@ void IPResolver::resolve_ready()
         m_host = resolver->hostNames().first();
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
-    log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.local8Bit().data());
+    log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), qPrintable(m_host));
     delete resolver;
     resolver = NULL;
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
