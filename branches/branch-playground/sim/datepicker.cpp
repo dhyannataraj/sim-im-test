@@ -100,11 +100,10 @@ void DatePicker::setEnabled(bool state)
 
 void DatePicker::setText(const QString &s)
 {
-    if (QDate::fromString(s, Qt::ISODate).isValid()){
-        m_edit->setText(s);
-    } else {
-        m_edit->setText(QString::null);
-    }
+	if (QDate::fromString(s, Qt::ISODate).isValid())
+		m_edit->setText(s);
+	else 
+		m_edit->setText(QString::null);
 }
 
 QString DatePicker::text()
@@ -119,7 +118,8 @@ QDate DatePicker::getDate()
 
 void DatePicker::paintEvent(QPaintEvent *e)
 {
-    if (parentWidget() && parentWidget()->backgroundPixmap()){
+    if (parentWidget() && parentWidget()->backgroundPixmap())
+	{
         QPoint pos = mapToParent(QPoint(0, 0));
         QPainter p(this);
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->backgroundPixmap(), pos.x(), pos.y());
@@ -239,22 +239,22 @@ PickerPopup::PickerPopup(DatePicker *picker)
     lay->setMargin(6);
     lay->setSpacing(4);
     unsigned n = 0;
-    for (unsigned j = 0; j < 6; j++){
-        for (unsigned i = 0; i < 7; i++){
-            QLabel *l = new PickerLabel(lbl);
-            l->setFont(f);
-            l->setAlignment(Qt::AlignRight);
-            l->setText("99");
-            l->setMinimumSize(l->sizeHint());
-            l->setText(QString::number(n));
-            //l->setBackgroundMode(PaletteBase);
-            lay->addWidget(l, i, j + 1);
-            m_labels[n++] = l;
-            if (i >= 5)
-                l->setPalette(pal);
-            connect(l, SIGNAL(clicked(PickerLabel*)), this, SLOT(dayClick(PickerLabel*)));
-        }
-    }
+	for (unsigned j = 0; j < 6; j++)
+		for (unsigned i = 0; i < 7; i++)
+		{
+			QLabel *l = new PickerLabel(lbl);
+			l->setFont(f);
+			l->setAlignment(Qt::AlignRight);
+			l->setText("99");
+			l->setMinimumSize(l->sizeHint());
+			l->setText(QString::number(n));
+			//l->setBackgroundMode(PaletteBase);
+			lay->addWidget(l, i, j + 1);
+			m_labels[n++] = l;
+			if (i >= 5)
+				l->setPalette(pal);
+			connect(l, SIGNAL(clicked(PickerLabel*)), this, SLOT(dayClick(PickerLabel*)));
+		}
     for (unsigned i = 0; i < 7; i++){
         QLabel *l = new QLabel(lbl);
         l->setFont(f);
@@ -267,7 +267,8 @@ PickerPopup::PickerPopup(DatePicker *picker)
     int month = m_picker->getDate().month();
     int year = m_picker->getDate().year();
 
-    if ((month == 0) || (year == 0)){
+    if ((month == 0) || (year == 0))
+	{
         month = d.month();
         year  = d.year();
     }
@@ -295,12 +296,14 @@ void PickerPopup::dayClick(PickerLabel *lbl)
 
 void PickerPopup::monthChanged(int v)
 {
-    if (v < 0){
+    if (v < 0)
+	{
         v += 12;
         m_yearBox->setValue(m_yearBox->text().toULong() - 1);
         m_monthBox->setValue(v);
     }
-    if (v >= 12){
+    if (v >= 12)
+	{
         v -= 12;
         m_yearBox->setValue(m_yearBox->text().toULong() + 1);
         m_monthBox->setValue(v);
@@ -311,16 +314,14 @@ void PickerPopup::monthChanged(int v)
 void PickerPopup::yearChanged(int v)
 {
     QDate d = QDate::currentDate();
-    if (v == d.year() - 200){
-        m_monthBox->setMinimum(0);
-    }else{
-        m_monthBox->setMinimum(-1);
-    }
-    if (v == d.year()){
-        m_monthBox->setMaximum(11);
-    }else{
-        m_monthBox->setMaximum(12);
-    }
+	if (v == d.year() - 200)
+		m_monthBox->setMinimum(0);
+	else
+		m_monthBox->setMinimum(-1);
+	if (v == d.year())
+		m_monthBox->setMaximum(11);
+	else
+		m_monthBox->setMaximum(12);
     fill();
 }
 
