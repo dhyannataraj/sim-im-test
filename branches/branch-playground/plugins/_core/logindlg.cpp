@@ -367,7 +367,7 @@ void LoginDialog::fill()
 			// Still add broken profiles to pulldown menu
 			// otherwise indexes of CorePlugin::m_plugin->m_profiles and cmbProfile items will
 			// be out of sync
-			cmbProfile->insertItem(Icon("error"),curProfile + ' ' + i18n("[Broken]"));
+			cmbProfile->addItem(Icon(QString("error")),curProfile + ' ' + i18n("[Broken]"));
 		}
 	}
 	cmbProfile->insertItem(i18n("New profile"));
@@ -518,6 +518,7 @@ bool LoginDialog::processEvent(Event *e)
 	switch (e->type())
 	{
 	case eEventClientChanged: 
+	{
 		EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
 		if (m_bLogin && (m_client == NULL || ecc->client() == m_client)){
 			if (ecc->client()->getState() == Client::Connected)
@@ -527,6 +528,7 @@ bool LoginDialog::processEvent(Event *e)
 			}
 		}
 		break;
+	}
     case eEventClientNotification:
         if (m_bLogin)
 		{
