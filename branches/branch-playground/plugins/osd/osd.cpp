@@ -286,7 +286,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     raise();
     
     if (m_bFading)
-		m_transTimer.start(5);
+		m_transTimer.start(50);
 
 }
 
@@ -469,7 +469,7 @@ void OSDWidget::hide()
     {
         transCounter = 100;
         transCounterDelta = -5;
-        m_transTimer.start(5);
+        m_transTimer.start(50);
     }
     else
     {
