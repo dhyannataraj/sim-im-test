@@ -17,6 +17,8 @@ $Id$
 
 - Sound-plugin:
 	* no startup sound is played
+	
+- Config-Dialog steals access to other windows (f.e. InterfaceWindow, MainWindow...)
 
 
 
