@@ -1,5 +1,25 @@
 $Id$
 
+0.9.6 Todo:
+
+- GUI-Problems:
+	* Fix all toolbars:
+		- Interfacebar
+		- in Mainwindow
+			* Onlinebar (vertical drawing)
+			* weathertoolbar (is on top and transparent, anyhow, and crashing when move attempt)
+	* OSD is black in win32
+	* Buttons, no Text on it (soundplugin f.e.)
+	* Datepicker does not work and is not displayed right (popup) at QCursor::pos())
+	* Floatys are not as long as in 0.9.5
+	* dragging files on Kontakt in contact list is not possible to send them via filetransfer, but works with floatys
+
+- Sound-plugin:
+	* no startup sound is played
+
+
+
+
 TODO list for sim-im 1.0.0:
 
 1) fix all bugs ;-)
