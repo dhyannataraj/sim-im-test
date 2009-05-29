@@ -24,26 +24,31 @@
 #include "cfg.h"
 
 #include <QMainWindow>
-//Added by qt3to4:
-#include <QResizeEvent>
-#include <QFocusEvent>
-#include <QVBoxLayout>
-#include <QEvent>
-#include <QCloseEvent>
-#include <QHBoxLayout>
 
 class QToolBat;
 class CorePlugin;
+class QCloseEvent;
+class QEvent;
+class QFocusEvent;
+class QHBoxLayout;
+class QResizeEvent;
 class QSizeGrip;
+class QVBoxLayout;
 
-class MainWindow : public QMainWindow, public SIM::EventReceiver
+#ifdef MAKE__CORE_LIB
+# define _CORE_EXPORTS Q_DECL_EXPORT
+#else
+# define _CORE_EXPORTS Q_DECL_IMPORT
+#endif
+
+class _CORE_EXPORTS MainWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     MainWindow(SIM::Geometry&);
     ~MainWindow();
     bool m_bNoResize;
-	void closeEvent(QCloseEvent *e);
+    void closeEvent(QCloseEvent *e);
 protected slots:
     void setGrip();
 protected:
@@ -54,7 +59,7 @@ protected:
     QSizeGrip *m_grip;
     void focusInEvent(QFocusEvent*);
     virtual bool processEvent(SIM::Event*);
-	void setTitle();
+    void setTitle();
     void resizeEvent(QResizeEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void quit();
