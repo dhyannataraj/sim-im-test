@@ -242,7 +242,9 @@ static const char * const close_h_xpm[] = {
             "+.++++.+",
             ".++++++."};
 
-void OSDWidget::showOSD(const QString &str, OSDUserData *data)
+	static int const cFadeTime = 50;
+
+	void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
     currentData = *data;
 	m_bFading = data->Fading.toBool();
@@ -285,8 +287,8 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     QWidget::show();
     raise();
     
-    if (m_bFading)
-		m_transTimer.start(50);
+	if (m_bFading)
+		m_transTimer.start(cFadeTime);
 
 }
 
@@ -465,16 +467,16 @@ void OSDWidget::slotCloseClick()
 
 void OSDWidget::hide()
 {
-    if( m_bFading )
-    {
-        transCounter = 100;
-        transCounterDelta = -5;
-        m_transTimer.start(50);
-    }
-    else
-    {
-        QWidget::hide();
-    }
+	if( m_bFading )
+	{
+		transCounter = 100;
+		transCounterDelta = -5;
+		m_transTimer.start(cFadeTime);
+	}
+	else
+	{
+		QWidget::hide();
+	}
 }
 
 #if 0
