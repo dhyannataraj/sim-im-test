@@ -245,7 +245,7 @@ static const char * const close_h_xpm[] = {
 void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
     currentData = *data;
-
+	m_bFading = data->Fading.toBool();
     m_sText = str;
     if (isScreenSaverActive())
     {
@@ -258,7 +258,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 
     setFont(FontEdit::str2font(data->Font.str(), baseFont));
 
-    int SHADOW_OFFS = SHADOW_DEF;
+    //int SHADOW_OFFS = SHADOW_DEF;
 
     recalcGeometry();
     resize(m_Rect.size());
@@ -269,19 +269,22 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         m_image = NULL;
     }
     m_image = new QImage(size(),QImage::Format_ARGB32);
-    m_image->fill(Qt::transparent);
-    {
-        QPainter p(m_image);
-        draw(p);
-    }
-    setMask(QPixmap(m_image->createAlphaMask()));
+
+	if (m_bFading)
+		m_image->fill(Qt::transparent);
+
+    QPainter p(m_image);
+    draw(p);
+
+	if (m_bFading)
+		setMask(QPixmap(m_image->createAlphaMask()));
 
     transCounter = 0;
     transCounterDelta = 5;
 
     QWidget::show();
     raise();
-    m_bFading = data->Fading.toBool();
+    
     if (m_bFading)
     {
         m_transTimer.start(5);
@@ -432,7 +435,7 @@ void OSDWidget::paintEvent(QPaintEvent*)
     if(NULL != m_image)
     {
         QPixmap image(*m_image);
-        unsigned char alpha = (unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
+        unsigned char alpha = 200;//(unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
         QPixmap alphaChannel = image.alphaChannel();
         alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
         image.setAlphaChannel(alphaChannel);
