@@ -286,9 +286,8 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     raise();
     
     if (m_bFading)
-    {
-        m_transTimer.start(5);
-    }
+		m_transTimer.start(5);
+
 }
 
 QRect OSDWidget::recalcGeometry()
@@ -435,7 +434,7 @@ void OSDWidget::paintEvent(QPaintEvent*)
     if(NULL != m_image)
     {
         QPixmap image(*m_image);
-        unsigned char alpha = 200;//(unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
+        unsigned char alpha =(unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
         QPixmap alphaChannel = image.alphaChannel();
         alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
         image.setAlphaChannel(alphaChannel);
