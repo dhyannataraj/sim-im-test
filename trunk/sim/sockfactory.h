@@ -132,6 +132,9 @@ private:
     bool   bTimeout;
 };
 
+// I'm not sure if this resolver will compile well in win32, hence this ifndef
+
+
 class StdResolver : public QObject, public QThread, public IResolver
 {
 	Q_OBJECT
@@ -146,11 +149,15 @@ public:
 protected:
 	virtual void run();
 
+protected slots:
+	void timeout();
+
 private:
     bool m_done;
     bool m_timeout;
 	unsigned long m_addr;
 	QString m_host;
+	QTimer* m_timer;
 };
 
 
