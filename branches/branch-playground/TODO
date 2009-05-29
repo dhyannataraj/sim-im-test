@@ -13,6 +13,7 @@ $Id$
 	* Datepicker does not work and is not displayed right (popup) at QCursor::pos())
 	* Floatys are not as long as in 0.9.5
 	* dragging files on Kontakt in contact list is not possible to send them via filetransfer, but works with floatys
+	* sound-plugin event-tab: the path lines are not display right, also the play/browse buttons are shrinked ;)
 
 - Sound-plugin:
 	* no startup sound is played
