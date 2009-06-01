@@ -614,7 +614,7 @@ void Container::accelActivated(int id)
 		    m_tabBar->setCurrent(m_tabBar->current() - 1);
         break;
     case 12:
-		if (m_tabBar->current() == m_tabBar->count() - 1)
+		if (m_tabBar->current() == (unsigned)m_tabBar->count() - 1)
 			m_tabBar->setCurrent(0);
 		else 
 			m_tabBar->setCurrent(m_tabBar->current() + 1);

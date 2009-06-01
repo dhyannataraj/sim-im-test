@@ -132,17 +132,17 @@ void SearchAll::slotSetColumns(const QStringList &attrs, int, QWidget *w)
     WND_MAP::iterator it = m_searches.find(w);
     if (it == m_searches.end())
         return;
-    unsigned i;
-    for (i = 0; (unsigned)i < attrs.count() / 2; i++)
+    int i;
+    for (i = 0; i < attrs.count() / 2; i++)
         (*it).second.append(attrs[2 * i]);
     QStringList newAttrs;
-    for (i = 0; (unsigned)i < attrs.count() / 2; i++){
+    for (i = 0; i < attrs.count() / 2; i++){
         QString attr = attrs[i * 2];
-        unsigned n;
-        for (n = 0; (unsigned)n < m_attrs.count(); n++)
+        int n;
+        for (n = 0; n < m_attrs.count(); n++)
             if (m_attrs[n] == attr)
                 break;
-        if ((unsigned)n < m_attrs.count())
+        if (n < m_attrs.count())
             continue;
         m_attrs.append(attr);
         newAttrs.append(attr);
@@ -161,10 +161,10 @@ void SearchAll::slotAddItem(const QStringList &attrs, QWidget *w)
     QStringList la;
     la.append(attrs[0]);
     la.append(attrs[1]);
-    for (unsigned i = 0; i < m_attrs.count(); i++){
+    for (int i = 0; i < m_attrs.count(); i++){
         QString attr = m_attrs[i];
         QString v;
-        for (unsigned n = 0; n < (*it).second.count(); n++){
+        for (int n = 0; n < (*it).second.count(); n++){
             if ((*it).second[n] == attr){
                 v = attrs[n + 2];
                 break;

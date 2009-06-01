@@ -652,7 +652,7 @@ void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
             m_result->removeColumn(i);
         m_bColumns = true;
     }
-    for (i = 0; (unsigned)i < columns.count() / 2; i++)
+    for (i = 0; i < columns.count() / 2; i++)
         m_result->addColumn(columns[2 * i + 1]);
     m_result->setExpandingColumn(n);
     m_result->adjustColumn();
@@ -700,7 +700,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
     item = new SearchViewItem(m_result);
     item->setPixmap(0, Pict(values[0]));
     item->setText(COL_KEY, values[1]);
-    for (int i = 2; (unsigned)i < values.count(); i++)
+    for (int i = 2; i < values.count(); i++)
         item->setText(i - 2, values[i]);
     item->setText(COL_SEARCH_WND, QString::number((unsigned long)wnd));
     setStatus();

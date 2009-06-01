@@ -1250,7 +1250,7 @@ void ViewParser::text(const QString &text)
     if (m_bInParagraph && (m_paragraphDir == DirAuto))
     {
         /* text isn't (unicode)-NULL terminated so we can't check for c->isNull! */
-        for(unsigned int i = 0; ((i < text.length()) && (m_paragraphDir == DirAuto)); i++)
+        for(unsigned int i = 0; ((i < (unsigned)text.length()) && (m_paragraphDir == DirAuto)); i++)
         {
             const QChar c = text.unicode()[i];
             // Note: Qt expects ltr/rtl to be lower-case.

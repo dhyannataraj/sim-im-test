@@ -297,7 +297,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
         Q3CString type = config.getSection(!bUp && (m_block != 0));
         if (type.isEmpty())
             continue;
-        if ((config.writePos() == config.size()) && ((unsigned)file.pos() < file.size()))
+        if ((config.writePos() == (unsigned)config.size()) && (file.pos() < file.size()))
             continue;
         unsigned id = m_block;
         if (!bUp)
@@ -310,7 +310,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             type = config.getSection();
             if (type.isEmpty())
                 break;
-            if ((config.writePos() == config.size()) && ((unsigned)file.pos() < file.size()))
+            if ((config.writePos() == (unsigned)config.size()) && (file.pos() < file.size()))
                 break;
             createMessage(id + config.startSection(), type, &config);
             pos = config.writePos();
@@ -716,7 +716,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
                 return;
             continue;
         }
-        if ((config.writePos() != config.size()) || (readn == 0))
+        if ((config.writePos() != (unsigned)config.size()) || (readn == 0))
             break;
     }
     if (config.startSection()){
@@ -740,7 +740,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         return;
     }
     skip_size -= line.length();
-    if (config.writePos() < config.size()){
+    if (config.writePos() < (unsigned)config.size()){
         size = config.size() - config.writePos();
         written = t.write(config.data(config.writePos()), size);
         if (written != size){

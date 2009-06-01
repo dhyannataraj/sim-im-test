@@ -350,7 +350,7 @@ void LoginDialog::fill()
 	QString save_profile = CorePlugin::m_plugin->getProfile();
 	CorePlugin::m_plugin->m_profiles.clear();
 	CorePlugin::m_plugin->loadDir();
-	for (unsigned i = 0; i < CorePlugin::m_plugin->m_profiles.size(); i++){
+	for (unsigned i = 0; i < (unsigned)CorePlugin::m_plugin->m_profiles.size(); i++){
 		QString curProfile = CorePlugin::m_plugin->m_profiles[i];
 		if (curProfile == save_profile)
 			newCur = i;
