@@ -281,11 +281,13 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 ICQClient::~ICQClient()
 {
     setStatus(STATUS_OFFLINE, false);
-    if (m_listener)
-        delete m_listener;
+    delete m_listener;
+    delete m_snacService;
+    delete m_snacBuddy;
+    delete m_snacICBM;
+    delete m_ifChecker;
     free_data(icqClientData, &data);
-    if (socket())
-        delete socket();
+    delete socket();
     for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 	{
         Message *msg = *it;
