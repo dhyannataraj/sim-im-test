@@ -7,7 +7,7 @@
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="$(QTDIR)\include;$(SolutionDir)\sim;$(SolutionDir)\sim\win32;$(SolutionDir)\plugins\_core"
 		BufferSecurityCheck="true"
-		PreprocessorDefinitions="QT3_SUPPORT;QT3SUPPORT;NO_MOC_INCLUDES;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;QT_DLL;UNICODE;WIN32;QT_THREAD_SUPPORT;ENABLE_OPENSSL;USE_AUDIERE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CVS_BUILD=1;SIMTAG=\&quot;$(SIMTAG)\&quot;;VERSION=\&quot;0.9.6\&quot;;PACKAGE=\&quot;SIM\&quot;;LTDL_OBJDIR=\&quot;\&quot;;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;"
+		PreprocessorDefinitions="MAKE__CORE_LIB;QT3_SUPPORT;QT3SUPPORT;NO_MOC_INCLUDES;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;QT_DLL;UNICODE;WIN32;QT_THREAD_SUPPORT;ENABLE_OPENSSL;USE_AUDIERE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CVS_BUILD=1;SIMTAG=\&quot;$(SIMTAG)\&quot;;VERSION=\&quot;0.9.6\&quot;;PACKAGE=\&quot;SIM\&quot;;LTDL_OBJDIR=\&quot;\&quot;;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;"
 	/>
 	<Tool
 		Name="VCLinkerTool"
