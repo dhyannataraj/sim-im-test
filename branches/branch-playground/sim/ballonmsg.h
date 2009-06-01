@@ -18,14 +18,10 @@
 #ifndef _BALLONMSG_H
 #define _BALLONMSG_H
 
-#include <qstring.h>
-#include <qdialog.h>
-#include <qbitmap.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-#include <QMouseEvent>
-#include <QEvent>
+#include <QDialog>
+#include <QImage>
+#include <QPushButton>
+#include <QString>
 
 #include "simapi.h"
 
@@ -52,17 +48,14 @@ protected slots:
     void action(int);
 protected:
     bool eventFilter(QObject*, QEvent*);
-    void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
-    QString text;
-    QRect textRect;
-    QBitmap mask;
-    QWidget *m_parent;
+    void paintEvent(QPaintEvent*);
+    QPixmap m_backgroundPixmap;
+
     QCheckBox *m_check;
     bool m_bAutoHide;
     bool m_bYes;
     bool *m_bChecked;
-    unsigned m_width;
     void *m_param;
 };
 
