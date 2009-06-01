@@ -589,7 +589,7 @@ EXPORT bool isLatin(const QString &str)
 EXPORT QString getPart(QString &str, unsigned size)
 {
     QString res;
-    if (str.length() < size){
+    if ((unsigned)str.length() < size){
         res = str;
         str = QString::null;
         return res;

@@ -146,7 +146,7 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
     bool strikeout = false;
     bool underline = false;
     f.setFamily(l[0]);
-    for (unsigned i = 1; i < l.count(); i++){
+    for (unsigned i = 1; i < (unsigned)l.count(); i++){
         QString s = l[i];
         if (s == "italic"){
             italic = true;

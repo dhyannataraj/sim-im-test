@@ -134,7 +134,7 @@ QString EventLog::make_packet_string(const EventLog &l)
             char *p2 = line;
             unsigned n = 20;
             unsigned offs = 0;
-            for (unsigned i = start; i < b.size(); i++, n++){
+            for (unsigned i = start; i < (unsigned)b.size(); i++, n++){
                 char buf[32];
                 if (n == 16){
                     m += line;

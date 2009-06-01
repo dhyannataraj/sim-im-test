@@ -103,7 +103,7 @@ void Buffer::setWritePos(unsigned n)
 {
     m_posWrite = n;
     if (m_posRead > m_posWrite) m_posRead = m_posWrite;
-    if (m_posWrite > size())
+    if (m_posWrite > (unsigned)size())
         resize(m_posWrite);
 }
 
@@ -118,7 +118,7 @@ void Buffer::pack(const char *d, unsigned s)
 {
     if(s == 0)
         return;
-    if(m_posWrite+s > size())
+    if(m_posWrite+s > (unsigned)size())
         resize(m_posWrite+s);
     if(d)
 	{
@@ -277,10 +277,10 @@ Q3CString Buffer::getSection(bool bSkip)
     str = Q3CString( data() + start + 1, end - start );
 
     m_posRead = end + 1;
-    if ( m_posRead < size() )
+    if ( m_posRead < (unsigned)size() )
         if ( at(m_posRead) == '\n' )
             m_posRead++;
-    if ( m_posRead >= size() )
+    if ( m_posRead >= (unsigned)size() )
         m_posRead = size() - 1;
     m_posWrite = findStartSection( this, end );
     if( m_posWrite == ~0U )
@@ -299,7 +299,7 @@ Q3CString Buffer::getLine()
         end = size();
     Q3CString res = Q3CString(data() + start, end - start + 1);
     m_posRead = end + 1; 
-    if ( m_posRead < size() )
+    if ( m_posRead < (unsigned)size() )
         if ( at(m_posRead) == '\n' )
             m_posRead++;
 

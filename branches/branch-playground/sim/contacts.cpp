@@ -1922,7 +1922,7 @@ static QString stripPhone(const QString &phone)
     QString res;
     if (phone.isEmpty())
         return res;
-    for (unsigned i = 0; i < phone.length(); i++){
+    for (unsigned i = 0; i < (unsigned)phone.length(); i++){
         const QChar &c = phone[(int)i];
         if ((c < '0') || (c > '9'))
             continue;

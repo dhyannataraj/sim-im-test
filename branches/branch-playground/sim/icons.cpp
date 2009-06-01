@@ -187,7 +187,7 @@ void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, 
         int n = text.indexOf(pat);
         if (n < 0)
             continue;
-        if (((unsigned)n < start) || (((unsigned)n == start) && (pat.length() > size))){
+        if (((unsigned)n < start) || (((unsigned)n == start) && ((unsigned)pat.length() > size))){
             start = n;
             size  = pat.length();
             name  = (*it).name;

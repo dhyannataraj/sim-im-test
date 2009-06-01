@@ -427,7 +427,7 @@ void init_data(const DataDef *d, Data *data)
                 // this breaks on non latin1 defaults!
                 QStringList sl = QString(def->def_value).split(',');
                 Data::STRING_MAP sm;
-                for(unsigned i = 0; i < sl.count(); i++) {
+                for(unsigned i = 0; i < (unsigned)sl.count(); i++) {
                     sm.insert(i, sl[(int)i]);
                 }
                 data->strMap() = sm;
@@ -488,7 +488,7 @@ static Q3CString quoteInternal(const Q3CString &str)
 {
     Q3CString res("\"");
     if (!str.isEmpty()){
-        for (unsigned i = 0; i < str.length(); i++){
+        for (unsigned i = 0; i < (unsigned)str.length(); i++){
             unsigned char p = str[(int)i];
             switch (p){
             case '\\':
@@ -647,7 +647,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 		case DATA_LONG:
         case DATA_ULONG: {
             QList<QByteArray> sl = val.split(',');
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+            for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
                 const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
@@ -660,7 +660,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
         case DATA_BOOL: {
             QList<QByteArray> sl = val.split(',');
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+            for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
                 const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
@@ -670,7 +670,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
         case DATA_BINARY: {
             QList<QByteArray> sl = val.split(',');
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+            for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
                 const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
@@ -866,7 +866,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
             case DATA_BINARY: {
                 for (unsigned i = 0; i < def->n_values; i++) {
                     QByteArray &ba = ld->asBinary();
-                    for(unsigned i = 0; i < ba.size(); i++) {
+                    for(unsigned i = 0; i < (unsigned)ba.size(); i++) {
                         unsigned char c = ba.data()[i];
                         QString s;
                         s.sprintf("%02X", c);
