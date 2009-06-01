@@ -53,7 +53,7 @@ protected:
     virtual bool processEvent(SIM::Event*);
     void rebuildStatus();
     void checkInvisible();
-    bool m_bInit;
+    bool m_bInitialized;
     bool m_bBlink;
     bool m_bConnected;
     BalloonMsg		  *m_balloon;

@@ -270,21 +270,13 @@ QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
     QWidget* desktop = qApp->desktop();
     QSize s = p->sizeHint();
     s = p->sizeHint();
-    if(bar)
-	{
-        if(bar->orientation() == Qt::Vertical)
-		{
-            pos = QPoint(btn->width(), 0);
-        }
+	if(bar)
+		if(bar->orientation() == Qt::Vertical)
+			pos = QPoint(btn->width(), 0);
 		else
-		{
-            pos = QPoint(0, btn->height());
-        }
-    }
+			pos = QPoint(0, btn->height());
 	else
-	{
-        pos = QPoint(btn->width() - s.width(), btn->height());
-    }
+		pos = QPoint(btn->width() - s.width(), btn->height());
     pos = btn->mapToGlobal(pos);
     if (pos.x() + s.width() > desktop->width()){
         pos.setX(desktop->width() - s.width());
@@ -418,23 +410,17 @@ void CToolPictButton::setState()
     CToolButton::setState();
     repaint();
 }
-/*
+
 void CToolPictButton::paintEvent(QPaintEvent*)
 {
 	QPixmap pict(width(), height());
 	QPainter p(&pict);
 	QWidget *pw = static_cast<QWidget*>(parent());
 	if(pw)
-	{
 		if (pw->backgroundPixmap())
-		{
 			p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
-		}
 		else
-		{
 			p.fillRect(0, 0, width(), height(), colorGroup().button());
-		}
-	}
 	//QToolButton::render(&p);
 	int w = 4;
 	QRect rc(4, 4, width() - 4, height() - 4);
@@ -444,14 +430,17 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 		if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
 			const QPixmap &pict = icons.pixmap(QIcon::Small, isEnabled() ? QIcon::Active : QIcon::Disabled);
 			QToolBar *bar = static_cast<QToolBar*>(parent());
-			if (bar->orientation() == Qt::Vertical){
+			if (bar->orientation() == Qt::Vertical)
+			{
 				p.drawPixmap((width() - pict.width()) / 2, 4, pict);
 				QMatrix m;
 				m.rotate(90);
 				p.setWorldMatrix(m);
 				rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
 				w = pict.height() + 4;
-			}else{
+			}
+			else
+			{
 				p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
 				rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
 				w = pict.width() + 4;
@@ -461,14 +450,15 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 	else
 	{
 		QToolBar *bar = static_cast<QToolBar*>(parent());
-		if (bar->orientation() == Qt::Vertical){
+		if (bar->orientation() == Qt::Vertical)
+		{
 			QMatrix m;
 			m.rotate(90);
 			p.setWorldMatrix(m);
 			rc = QRect(4, -4, height() - 4, 4 - width());
-		}else{
-			rc = QRect(4, 4, width() - 4, height() - 4);
 		}
+		else
+			rc = QRect(4, 4, width() - 4, height() - 4);
 	}
 	const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
 	p.setPen(cg.text());
@@ -499,7 +489,7 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 	p.drawPixmap(0, 0, pict);
 	p.end();
 }
-*/
+
 /*****************************
  *  CToolCombo               *
 ******************************/

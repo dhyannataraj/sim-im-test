@@ -95,7 +95,7 @@ public:
     ~CToolPictButton();
 protected:
     virtual void setState();
-//    void paintEvent(QPaintEvent*);
+    void paintEvent(QPaintEvent*);
 //    QSizePolicy sizePolicy() const;
 //    QSize minimumSizeHint() const;
 //    QSize sizeHint() const;

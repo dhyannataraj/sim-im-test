@@ -2291,8 +2291,10 @@ bool CorePlugin::processEvent(Event *e)
 			{
 				EventCommandExec *ece = static_cast<EventCommandExec*>(e);
 				CommandDef *cmd = ece->cmd();
-				if (cmd->menu_id == MenuEncoding){
-					if (cmd->id == CmdAllEncodings){
+				if (cmd->menu_id == MenuEncoding)
+				{
+					if (cmd->id == CmdAllEncodings)
+					{
 						Command c;
 						c->id     = CmdChangeEncoding;
 						c->param  = cmd->param;
@@ -2310,9 +2312,12 @@ bool CorePlugin::processEvent(Event *e)
 						return false;
 					Q3CString codecStr;
 					const char *codec = NULL;
-					if (cmd->id == 1){
+					if (cmd->id == 1)
+					{
 						codec = "-";
-					}else{
+					}
+					else
+					{
 						QStringList main;
 						QStringList nomain;
 						QStringList::Iterator it;

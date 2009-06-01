@@ -330,10 +330,8 @@ QRect OSDWidget::recalcGeometry()
         if (m_imageButton.isNull())
         {
             m_imageButton = Image("button_cancel");
-            if( m_imageButton.isNull() )
-            {
-                m_imageButton = QPixmap((const char **)close_h_xpm);
-            }
+			if( m_imageButton.isNull() )
+				m_imageButton = QPixmap((const char **)close_h_xpm);
         }
         m_rectButton = QRect(QPoint(w - m_imageButton.width() - 3, 3),m_imageButton.size());
         m_text_y = m_imageButton.height() + 4;
