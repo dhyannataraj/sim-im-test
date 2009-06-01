@@ -285,7 +285,7 @@ ICQClient::~ICQClient()
     delete m_snacService;
     delete m_snacBuddy;
     delete m_snacICBM;
-	if (getMediaSense()) //nur wenn MediaSense aktiviert ist, gibts auch einen InterFaceChecker zu löschen ;)
+	if (getMediaSense()) //only if MediaSense is acivated, there are InterFaceChecker's to delete ;)
 		delete m_ifChecker;
     free_data(icqClientData, &data);
     delete socket();
