@@ -262,8 +262,8 @@ void MonitorWindow::outputLog()
 
     QMutexLocker lock(&m_mutex);
 
-    for(unsigned i = 0; i < m_logStrings.count(); i++)
-        edit->append(m_logStrings[(int)i]);
+    for(int i = 0; i < m_logStrings.count(); i++)
+        edit->append(m_logStrings[i]);
 
     m_logStrings.clear();
     if (bAutoscroll)

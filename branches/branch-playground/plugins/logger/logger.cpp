@@ -208,7 +208,7 @@ bool LoggerPlugin::processEvent(Event *e)
             }
 #ifdef Q_OS_WIN
             QStringList slist = s.split('\n');
-            for(unsigned i = 0 ; i < slist.count() ; i++)
+            for(int i = 0 ; i < slist.count() ; i++)
 			{
                 QString out = slist[i];
                 if (out.length() > 256){

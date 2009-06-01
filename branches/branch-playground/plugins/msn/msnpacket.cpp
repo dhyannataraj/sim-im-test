@@ -303,7 +303,7 @@ QryPacket::QryPacket(MSNClient *client, const QString &qry)
     QString md = qry;
     md += qry_add;
     QByteArray ba = QCryptographicHash::hash(md.toUtf8(), QCryptographicHash::Md5);
-    for (unsigned i = 0; i < ba.size(); i++)
+    for (int i = 0; i < ba.size(); i++)
 	{
         char b[3];
         sprintf(b, "%02x", ba[(int)i] & 0xFF);

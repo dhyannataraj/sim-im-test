@@ -1296,7 +1296,7 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
         addParam("user", client->data.owner.User.str());
     QByteArray pass = QCryptographicHash::hash(client->getPassword().toUtf8(), QCryptographicHash::Md5);
     QString hpass;
-    for (unsigned i = 0; i < pass.size(); i++){
+    for (int i = 0; i < pass.size(); i++){
       char b[5];
       sprintf(b, "%02x", pass[(int)i] & 0xFF);
       hpass += b;

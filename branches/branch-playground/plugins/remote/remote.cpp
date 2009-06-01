@@ -699,7 +699,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             unsigned uin = 0;
             Buffer sf;
             sf = f.readAll();
-            while (sf.readPos() < sf.size()){
+            while (sf.readPos() < (unsigned)sf.size()){
                 Q3CString line;
                 sf.scan("\n", line);
                 if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))

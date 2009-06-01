@@ -58,7 +58,7 @@ int YahooHttpPool::read(char *buf, unsigned size)
     if (size > tail) size = tail;
     if (size == 0) return 0;
     readData.unpack(buf, size);
-    if (readData.readPos() == readData.size())
+    if (readData.readPos() == (unsigned)readData.size())
         readData.init(0);
     return size;
 }
