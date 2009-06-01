@@ -55,7 +55,7 @@ void SpellFind::next()
 {
     if (!m_tree.empty()){
         QStringList &subDirs = m_tree.top();
-        unsigned pos = m_pos.top();
+        int pos = (int)m_pos.top();
         if (pos >= subDirs.count()){
             m_tree.pop();
             m_pos.pop();

@@ -2200,7 +2200,7 @@ bool AIMFileTransfer::readOFT(OftData* oft)
 
 	if(oft->nencode == 0x0200) // Hack
 	{
-		for(unsigned int i = 0; i < oft->name.size() ; i++)
+		for(unsigned int i = 0; i < (unsigned)oft->name.size() ; i++)
 		{
 			unsigned char tmp = oft->name.data()[i + 1];
 			oft->name.data()[i + 1] = oft->name.data()[i];
@@ -2245,7 +2245,7 @@ bool AIMFileTransfer::writeOFT(OftData* oft)
 	m_socket->writeBuffer().pack(oft->name.data(), oft->name.size() - 1);
 	if(oft->name.size() - 1 <= 0x40)
 	{
-		for(unsigned int i = 0; i < 0x40 - oft->name.size() + 1; i++)
+		for(unsigned int i = 0; i < 0x40 - (unsigned)oft->name.size() + 1; i++)
 		{
 			m_socket->writeBuffer().pack((unsigned char)0);
 		}
@@ -2265,7 +2265,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 		return 0;
 	}
 	unsigned long checksum = 0xFFFF;
-	bool high = true;
+	//bool high = true;
 	QByteArray chunk(1024);
 	Q_ULONG bytesread = 0;
 	long streamposition = 0;
@@ -2277,7 +2277,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
         streamposition += bytesread;
 
     }
-	while (bytesread == chunk.size());
+	while (bytesread == (unsigned)chunk.size());
 
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
@@ -2290,7 +2290,7 @@ unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int
 {
 	uint32_t checksum = start, prevchecksum;
 	bool high = false;
-	for (unsigned long i = 0; i < filechunk->size() && i < chunklength; i++)
+	for (unsigned long i = 0; i < (unsigned long)filechunk->size() && i < (unsigned long)chunklength; i++)
     {
 		prevchecksum = checksum;
 
@@ -2786,7 +2786,7 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	m_oft.lsizeoffset = 0x11;
 	memset(m_oft.dummy, 0, 69);
 	memset(m_oft.macfileinfo, 0, 16);
-	FileMessage* msg = static_cast<FileMessage*>(m_msg); //Fixme: msg is initialized, but not used.
+	//FileMessage* msg = static_cast<FileMessage*>(m_msg); //Fixme: msg is initialized, but not used.
 
 //	QString filename = filename();
 	bool bWide = false;

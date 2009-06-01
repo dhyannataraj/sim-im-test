@@ -56,8 +56,8 @@ using namespace SIM;
 
 void DockWnd::trayAction(QSystemTrayIcon::ActivationReason reason)
 {
-    unsigned id;
-    Client *client;
+    //unsigned id;
+    //Client *client;
     switch (reason){
     case QSystemTrayIcon::Context:
         QTimer::singleShot(0, this, SLOT(showPopup()));

@@ -903,7 +903,7 @@ void HTTPS_Proxy::read_ready()
         Q3CString s;
         if (!readLine(s))
             return;
-        if (s.length() < strlen(HTTP)){
+        if ((unsigned)s.length() < strlen(HTTP)){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
@@ -1009,7 +1009,7 @@ void HTTP_Proxy::read_ready()
         return;
     if (!readLine(m_head))
         return;
-    if (m_head.length() < strlen(HTTP)){
+    if ((unsigned)m_head.length() < strlen(HTTP)){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
@@ -1059,7 +1059,7 @@ int HTTP_Proxy::read(char *buf, unsigned int size)
         return HTTPS_Proxy::read(buf, size);
     if (m_head.isEmpty())
         return 0;
-    if (size > m_head.length())
+    if (size > (unsigned)m_head.length())
         size = m_head.length();
     memcpy(buf, m_head.data(), size);
     m_head = m_head.mid(size);

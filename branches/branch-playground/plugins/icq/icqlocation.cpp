@@ -70,7 +70,7 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
 {
     Q3CString charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
     Tlv *tlvCharset = NULL;
-    for (unsigned i = 0; i < tlvs.count(); i++){
+    for (int i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];
         if (tlv->Num() != n)
             continue;

@@ -55,7 +55,7 @@ void GpgFind::next()
     if (!m_tree.empty()){
         QStringList &subDirs = m_tree.top();
         unsigned pos = m_pos.top();
-        if (pos >= subDirs.count()){
+        if (pos >= (unsigned)subDirs.count()){
             m_tree.pop();
             m_pos.pop();
             m_path = m_path.left(m_path.length() - 1);

@@ -566,19 +566,19 @@ void GsmTA::getPhoneBook()
 
 void GsmTA::parseEntriesList(const Q3CString &str)
 {
-    for (unsigned i = 0; i < str.length(); i++){
-        char c = str[(int)i];
+    for (int i = 0; i < str.length(); i++){
+        char c = str[i];
         if ((c >= '0') && (c <= '9')){
             unsigned n = c - '0';
             unsigned n1 = 0;
-            for (i++; str[(int)i]; i++){
-                c = str[(int)i];
+            for (i++; str[i]; i++){
+                c = str[i];
                 if ((c < '0') || (c >= '9'))
                     break;
                 n = (n * 10) + (c - '0');
             }
-            if (str[(int)i] == '-'){
-                for (i++; str[(int)i]; i++){
+            if (str[i] == '-'){
+                for (i++; str[i]; i++){
                     c = *str;
                     if ((c < '0') || (c >= '9'))
                         break;

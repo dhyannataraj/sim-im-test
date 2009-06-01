@@ -102,9 +102,9 @@ void JabberClient::auth_digest()
     digest += getPassword();
     QByteArray md = QCryptographicHash::hash(digest.toUtf8(), QCryptographicHash::Sha1);
     digest = QString::null;
-    for (unsigned i = 0; i < md.size(); i++){
+    for (int i = 0; i < md.size(); i++){
         char b[3];
-        sprintf(b, "%02x", md[(int)i] & 0xFF);
+        sprintf(b, "%02x", md[i] & 0xFF);
         digest += b;
     }
     req->text_tag("digest", digest);

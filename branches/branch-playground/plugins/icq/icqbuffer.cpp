@@ -71,11 +71,11 @@ TlvList::TlvList()
 
 TlvList::TlvList(ICQBuffer &b, unsigned nTlvs)
 {
-    for(unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++)
+    for(unsigned n = 0; (b.readPos() < (unsigned)b.size()) && (n < nTlvs); n++)
 	{
         unsigned short num, size;
         b >> num >> size;
-        if (b.readPos() + size > b.size())
+        if (b.readPos() + size > (unsigned)b.size())
             break;
         append(new Tlv(num, size, b.data(b.readPos())));
         b.incReadPos(size);
@@ -89,7 +89,7 @@ TlvList::~TlvList()
 
 Tlv *TlvList::operator()(unsigned short num, int skip)
 {
-    for(uint i = 0; i < count(); i++) {
+    for(uint i = 0; i < (unsigned)count(); i++) {
         if ((at(i))->Num() == num) {
             if(skip == 0)
                 return at(i);
@@ -181,10 +181,10 @@ void ICQBuffer::tlvLE(unsigned short n, unsigned long c)
 ICQBuffer &ICQBuffer::operator << (const TlvList &tlvList)
 {
     unsigned size = 0;
-    for (uint i = 0; i < tlvList.count(); i++)
+    for (uint i = 0; i < (unsigned)tlvList.count(); i++)
         size += tlvList[(int)i]->Size() + 4;
     *this << (unsigned short)size;
-    for (uint i = 0; i < tlvList.count(); i++) {
+    for (uint i = 0; i < (unsigned)tlvList.count(); i++) {
         Tlv *tlv = tlvList[(int)i];
         *this << tlv->Num() << (int)tlv->Size();
         pack(*tlv, tlv->Size());

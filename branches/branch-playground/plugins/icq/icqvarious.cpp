@@ -1148,7 +1148,7 @@ bool ChangeInfoRequest::answer(ICQBuffer&, unsigned short)
     bool bFirstAffilation = true;
     bool bFirstInterest = true;
     bool bFirstBackground = true;
-    for( unsigned i = 0; i < m_clientInfoTLVs.count(); i++ ) {
+    for( int i = 0; i < m_clientInfoTLVs.count(); i++ ) {
         Tlv *tlv = &m_clientInfoTLVs[i];
         switch(tlv->Num()) {
             case TLV_FIRST_NAME:
@@ -1458,7 +1458,7 @@ void ICQClient::setClientInfo(void *_data)
     if (!clientInfoTLVs.isEmpty()) {
         serverRequest(ICQ_SRVxREQ_MORE);
         socket()->writeBuffer() << ICQ_SRVxWP_SET;
-        for( unsigned i =0; i < clientInfoTLVs.count(); i++ ) {
+        for( int i =0; i < clientInfoTLVs.count(); i++ ) {
             Tlv *tlv = &clientInfoTLVs[i];
             socket()->writeBuffer().tlvLE( tlv->Num(), *tlv, tlv->Size() );
         }

@@ -126,7 +126,7 @@ void WeatherCfg::fill()
 
 void WeatherCfg::activated(int n)
 {
-    if ((unsigned)n >= m_ids.size())
+    if (n >= m_ids.size())
         return;
     edtID->setText(m_ids[n]);
 }

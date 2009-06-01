@@ -158,9 +158,11 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             Contact *contact;
             QString screen;
             QByteArray hash(16), icon(1024);
-            uint16_t iconID, iconSize;
+            //uint16_t iconID, 
+			uint16_t iconSize;
 			uint8_t unknown_byte;
-            char iconFlags, hashSize;
+            //char iconFlags;
+			char hashSize;
 
             screen = socket()->readBuffer().unpackScreen();
             if(m_client->screen(&m_client->data.owner) == screen)
@@ -205,9 +207,12 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             Contact *contact;
             QString screen;
             QByteArray hash(16), icon(1024);
-            uint16_t iconID, iconSize;
+            //uint16_t iconID;
+			uint16_t iconSize;
 			uint8_t unknown_byte;
-            char iconFlags, hashSize, unknown1;
+            //char iconFlags;
+			char hashSize;
+			//char	unknown1;
 
             screen = socket()->readBuffer().unpackScreen();
             if(m_client->screen(&m_client->data.owner) == screen)
@@ -256,7 +261,7 @@ void SSBISocket::process()
 {
     if(!m_img.isNull())
 	{
-        unsigned short ref = m_refNumber; //ref unused
+        //unsigned short ref = m_refNumber; //ref unused
         QImage img = m_img;
         m_refNumber = 0;
         m_img = QImage();

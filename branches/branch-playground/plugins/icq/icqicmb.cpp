@@ -1539,7 +1539,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
         }
         ICQBuffer adv(*tlv(0x2711));
         QString contacts;
-        while (adv.readPos() < adv.size()){
+        while (adv.readPos() < (unsigned)adv.size()){
             QString grp;
             adv.unpackStr(grp);
             unsigned short nBuddies;
@@ -2062,7 +2062,7 @@ void SnacIcqICBM::processSendQueue()
 
 static QString getUtf8Part(QString &str, unsigned size)
 {
-    if (str.toUtf8().length() < size){
+    if ((unsigned) str.toUtf8().length() < size){
         QString res = str;
         str = QString::null;
         return res;
@@ -2071,15 +2071,20 @@ static QString getUtf8Part(QString &str, unsigned size)
     int n;
     int wordStart = 0;
     bool bWord = false;
-    for (n = 0; (unsigned)n < str.length(); n++){
+    for (n = 0; n < str.length(); n++)
+	{
         QChar c = str[n];
-        if (c.isSpace()){
-            if (bWord){
+        if (c.isSpace())
+		{
+            if (bWord)
+			{
                 unsigned word_size = str.mid(wordStart, n - wordStart).toUtf8().length();
                 if (s + word_size > 0){
-                    if (wordStart == 0){
+                    if (wordStart == 0)
+					{
                         s = 0;
-                        for (n = 0; (unsigned)n < str.length(); n++){
+                        for (n = 0; n < str.length(); n++)
+						{
                             unsigned char_size = str.mid(n, 1).toUtf8().length();
                             if (s + char_size > 0)
                                 break;
@@ -2094,7 +2099,9 @@ static QString getUtf8Part(QString &str, unsigned size)
             if (s + char_size > 0)
                 break;
             s += char_size;
-        }else if (!bWord){
+        }
+		else if (!bWord)
+		{
             wordStart = n;
             bWord = true;
         }
@@ -2225,7 +2232,7 @@ bool SnacIcqICBM::processMsg()
 				ft->listen();
 				QString filename = msg->getDescription();
 				ft->setStage(1);
-				unsigned long filesize = msg->getSize(); //Fixme: filesize is initialized, but not used.
+				//unsigned long filesize = msg->getSize(); //Fixme: filesize is initialized, but not used.
 				ft->requestFT();
 				return true;
 			}

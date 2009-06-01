@@ -206,7 +206,7 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 
 					ICQBuffer info(*tlvCapShort);
 
-					for (; info.readPos() < info.size(); )
+					for (; info.readPos() < (unsigned)info.size(); )
 					{
 						unsigned char shortcap[2];
 						info.unpack((char*)shortcap, sizeof(shortcap));
@@ -237,7 +237,7 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 						data->Caps2.asULong() = 0;
 					}
 					ICQBuffer info(*tlvCapability);
-					for(; info.readPos() < info.size(); )
+					for(; info.readPos() < (unsigned)info.size(); )
 					{
 						capability cap;
 						info.unpack((char*)cap, sizeof(capability));

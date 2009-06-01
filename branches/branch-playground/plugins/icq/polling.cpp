@@ -218,7 +218,7 @@ void MonitorRequest::data_ready(ICQBuffer *bIn)
 {
     m_pool->monitor = NULL;
     m_pool->readn = 0;
-    while (bIn->readPos() < bIn->size()){
+    while (bIn->readPos() < (unsigned)bIn->size()){
         unsigned short len, ver, type;
         (*bIn) >> len >> ver >> type;
         bIn->incReadPos(8);
@@ -332,7 +332,7 @@ int HttpPool::read(char *buf, unsigned size)
     if (size > tail) size = tail;
     if (size == 0) return 0;
     readData.unpack(buf, size);
-    if (readData.readPos() == readData.size())
+    if (readData.readPos() == (unsigned)readData.size())
         readData.init(0);
     return size;
 }

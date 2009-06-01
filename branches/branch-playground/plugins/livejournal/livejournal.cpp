@@ -1317,7 +1317,7 @@ void LiveJournalRequest::addParam(const QString &key, const QString &value)
     m_buffer->pack(key.utf8(), key.utf8().length());
     m_buffer->pack("=", 1);
     Q3CString cstr = value.utf8();
-    for (unsigned i = 0; i < cstr.length(); i++){
+    for (int i = 0; i < cstr.length(); i++){
         char c = cstr[(int)i];
         if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || ((c >= '0') && (c <= '9')) ||
                 (c == '.') || (c == '-') || (c == '/') || (c == '_')){

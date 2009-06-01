@@ -756,7 +756,7 @@ JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
 
 static unsigned get_number(QString &s, unsigned digits)
 {
-    if (s.length() < digits){
+    if ((unsigned)s.length() < digits){
         s = QString::null;
         return 0;
     }
