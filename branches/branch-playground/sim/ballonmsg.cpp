@@ -155,7 +155,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     }
     setButtonsPict(this);
     lay->addStretch();
-    int wndWidth = frm->minimumSizeHint().width();
+    //int wndWidth = frm->minimumSizeHint().width(); //unused
     int hButton  = frm->minimumSizeHint().height();
 
     int txtWidth = bwidth;

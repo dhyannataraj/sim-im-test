@@ -230,7 +230,7 @@ void CommonStatus::rebuildStatus()
 			else
 				(*it).second++;
         }
-		if (!(nInvisible == -1 & client->protocol()->description()->flags & PROTOCOL_INVISIBLE))
+		if (!(nInvisible == -1 && client->protocol()->description()->flags & PROTOCOL_INVISIBLE))
 			continue;
 
 		nInvisible = i;
@@ -466,7 +466,7 @@ bool CommonStatus::processEvent(Event *e)
                 for (unsigned i = 0; i < getContacts()->nClients(); i++)
 				{
                     Client *client = getContacts()->getClient(i);
-					if (!(client->getCommonStatus() & client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))
+					if (!(client->getCommonStatus() && client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))
 						continue;
 
 					bOfflineStatus = true;
