@@ -19,8 +19,6 @@
 #define _AUTOAWAY_H
 
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
