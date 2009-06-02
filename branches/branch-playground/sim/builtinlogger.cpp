@@ -21,7 +21,6 @@
 #include "builtinlogger.h"
 
 #include <iostream>
-#include <qapplication.h>
 
 namespace SIM {
 
@@ -47,19 +46,19 @@ bool BuiltinLogger::processEvent(Event *e)
 
     // filter by log level
     if (!(l->logLevel() & m_logLevel))
-        return 0;
+        return false;
 
     // filter out packets: there is LoggerPlugin for packets logging.
     if (l->packetID()) {
-        return 0;
+        return false;
     }
     cout << "SIM-IM: ";
     if (!l->logData().isEmpty())
-	{
-        cout << l->logData().toUtf8().data();
+    {
+        cout << qPrintable(l->logData());
     }
-	else
-	{
+    else
+    {
         cout << "Some log event of type " << level_name(l->logLevel()) << " occurred";
     }
     cout << endl;

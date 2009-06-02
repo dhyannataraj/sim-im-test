@@ -16,19 +16,14 @@
  ***************************************************************************/
 
 #include "log.h"
-//#include "buffer.h"
 #include "event.h"
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <time.h>
 #include <string>
 
-#include <QApplication>
+#include <QDateTime>
 #include <QString>
-#ifdef QT_DLL
-//Added by qt3to4:
-#endif
 
 namespace SIM
 {
@@ -72,13 +67,13 @@ void format(string &s, const char *fmt, ...)
     va_end(ap);
 }
 
-void log_string(unsigned short l, const char *s)
+static void log_string(unsigned short l, const QString &s)
 {
-    time_t now = time(NULL);
-    struct tm *tm = localtime(&now);
-    QString m = QString("%1/%2/%3 %4:%5:%6 [%7] ").arg(tm->tm_mday).arg(tm->tm_mon + 1)
-			.arg(tm->tm_year + 1900).arg(tm->tm_hour).arg(tm->tm_min).arg(tm->tm_sec).arg(level_name(l));
-	m += s;
+    const QDateTime dt = QDateTime::currentDateTime();
+    QString m = dt.toString(QLatin1String("dd/MM/yyyy hh:mm:ss ["));
+    m += level_name(l);
+    m += QLatin1String("] ");
+    m += s;
     EventLog e(l, m);
     e.process();
 }
@@ -89,13 +84,14 @@ void log(unsigned short l, const char *fmt, ...)
     va_start(ap, fmt);
     string m;
     vformat(m, fmt, ap);
-    log_string(l, m.c_str());
+    // or fromUtf8() ?
+    log_string(l, QString::fromLocal8Bit(m.c_str()));
     va_end(ap);
 }
 
 void log(unsigned short l, const QString &str)
 {
-    log_string(l, str.local8Bit().data());
+    log_string(l, str);
 }
 
 }
