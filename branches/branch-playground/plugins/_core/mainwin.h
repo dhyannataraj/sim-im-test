@@ -36,7 +36,7 @@ class QSizeGrip;
 class QVBoxLayout;
 
 // Lets do this later whole in one, because at the moment it only breaks linking of all other plugins...
-/*
+
 #ifdef MAKE__CORE_LIB
 # define _CORE_EXPORTS Q_DECL_EXPORT
 #else
@@ -44,8 +44,6 @@ class QVBoxLayout;
 #endif
 
 class _CORE_EXPORTS MainWindow : public QMainWindow, public SIM::EventReceiver
-*/
-class MainWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
