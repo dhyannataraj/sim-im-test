@@ -48,7 +48,8 @@
 
 using namespace SIM;
 
-EditFile::EditFile(QWidget *p, QString const& name) : QFrame(p)
+EditFile::EditFile(QWidget *p)
+  : QFrame(p)
 {
     bDirMode = false;
     bMultiplyMode = false;
@@ -61,7 +62,7 @@ EditFile::EditFile(QWidget *p, QString const& name) : QFrame(p)
     lay->addSpacing(3);
     QPushButton *btnOpen = new QPushButton(this);
     lay->addWidget(btnOpen);
-    btnOpen->setWindowIcon(Icon("fileopen"));
+    btnOpen->setIcon(Icon("fileopen"));
     connect(btnOpen, SIGNAL(clicked()), this, SLOT(showFiles()));
     connect(edtFile, SIGNAL(textChanged(const QString&)), this, SLOT(editTextChanged(const QString&)));
 }
@@ -90,7 +91,7 @@ void EditFile::setStartDir(const QString &d)
     startDir = d;
 }
 
-QString EditFile::text()
+QString EditFile::text() const
 {
     return edtFile->text();
 }
@@ -225,13 +226,13 @@ void EditFile::showFiles()
         edtFile->setText(QDir::convertSeparators(s));
 }
 
-EditSound::EditSound(QWidget *p, const char *name)
-        : EditFile(p, name)
+EditSound::EditSound(QWidget *p)
+        : EditFile(p)
 {
     QPushButton *btnPlay = new QPushButton(this);
     lay->addSpacing(3);
     lay->addWidget(btnPlay);
-    btnPlay->setWindowIcon(Icon("1rightarrow"));
+    btnPlay->setIcon(Icon("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
 #ifdef USE_KDE
     filter = i18n("*.wav *.mp3 *.flac *.ogg *.aiff|Sounds");
@@ -258,14 +259,15 @@ void EditSound::play()
 
 const int IdBase            = 0x1000;
 
-LineEdit::LineEdit(QWidget *parent, const char *name)
+LineEdit::LineEdit(QWidget *parent)
         : QLineEdit(parent)
 {
     helpList = NULL;
 }
 
-void LineEdit::menuActivated(int id)
+void LineEdit::menuTriggered(QAction*a)
 {
+    int id = a->data().toInt();
     if ((id < IdBase) || (helpList == NULL))
         return;
     id -= IdBase;
@@ -280,7 +282,7 @@ void LineEdit::menuActivated(int id)
 QMenu *LineEdit::createPopupMenu()
 {
     QMenu *popup = QLineEdit::createStandardContextMenu();
-    connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
+    connect(popup, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
     if (helpList){
         popup->addSeparator();
         int id = IdBase;
@@ -291,26 +293,29 @@ QMenu *LineEdit::createPopupMenu()
             text += " (";
             text += s;
             text += ')';
-            popup->insertItem(text, id++);
+            QAction *a = new QAction(text, popup);
+            a->setData(id++);
+            popup->addAction(a);
         }
     }
     return popup;
 }
 
-MultiLineEdit::MultiLineEdit(QWidget *parent, const char *name)
+MultiLineEdit::MultiLineEdit(QWidget *parent)
         : QTextEdit(parent)
 {
     helpList = NULL;
 }
 
-void MultiLineEdit::menuActivated(int id)
+void MultiLineEdit::menuTriggered(QAction *a)
 {
+    int id = a->data().toInt();
     if ((id < IdBase) || (helpList == NULL))
         return;
     id -= IdBase;
     for (const char **p = helpList; *p; p += 2, id--){
         if (id == 0){
-            insert(*p);
+            insertPlainText(*p);
             break;
         }
     }
@@ -319,7 +324,7 @@ void MultiLineEdit::menuActivated(int id)
 QMenu *MultiLineEdit::createPopupMenu()
 {
     QMenu *popup = QTextEdit::createStandardContextMenu();
-    connect(popup, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
+    connect(popup, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
     if (helpList){
         popup->addSeparator();
         int id = IdBase;
@@ -330,7 +335,9 @@ QMenu *MultiLineEdit::createPopupMenu()
             text += " (";
             text += s;
             text += ')';
-            popup->insertItem(text, id++);
+            QAction *a = new QAction(text, popup);
+            a->setData(id++);
+            popup->addAction(a);
         }
     }
     return popup;

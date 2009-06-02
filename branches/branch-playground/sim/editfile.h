@@ -20,14 +20,11 @@
 
 #include "simapi.h"
 
-#include <qframe.h>
-#include <qlineedit.h>
+#include <QFrame>
+#include <QLineEdit>
 #include <QTextEdit>
-//Added by qt3to4:
-#include <QHBoxLayout>
 
-class Q3HBoxLayout;
-class EditFile;
+class QHBoxLayout;
 class FilePreview;
 class QMenu;
 
@@ -37,10 +34,10 @@ class EXPORT EditFile : public QFrame
 {
     Q_OBJECT
 public:
-    EditFile(QWidget *p, QString const& name = QString::null);
+    EditFile(QWidget *p);
     ~EditFile();
     void setText(const QString&);
-    QString text();
+    QString text() const;
     void setFilter(const QString &filter);
     void setDirMode(bool bMode) { bDirMode = bMode; }
     void setStartDir(const QString &dir);
@@ -73,7 +70,7 @@ class EXPORT EditSound : public EditFile
 {
     Q_OBJECT
 public:
-    EditSound(QWidget *p, const char *name=NULL);
+    EditSound(QWidget *p);
     ~EditSound();
 protected slots:
     void play();
@@ -83,10 +80,10 @@ class EXPORT LineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    LineEdit(QWidget *parent, const char *name = NULL);
+    LineEdit(QWidget *parent);
     const char **helpList;
 protected slots:
-    void menuActivated(int);
+    void menuTriggered(QAction*);
 protected:
     QMenu *createPopupMenu();
 };
@@ -95,10 +92,10 @@ class EXPORT MultiLineEdit : public QTextEdit
 {
     Q_OBJECT
 public:
-    MultiLineEdit(QWidget *parent, const char *name = NULL);
+    MultiLineEdit(QWidget *parent);
     const char **helpList;
 protected slots:
-    void menuActivated(int);
+    void menuTriggered(QAction*);
 protected:
     QMenu *createPopupMenu();
 };
