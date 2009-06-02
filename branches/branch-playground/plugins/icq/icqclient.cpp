@@ -219,7 +219,8 @@ static DataDef icqClientData[] =
     };
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
-        : TCPClient(protocol, cfg, HighPriority - 1)
+        : TCPClient(protocol, cfg, HighPriority - 1),
+		 m_ifChecker(NULL)
 {
 	m_bAIM = bAIM;
 
@@ -285,8 +286,8 @@ ICQClient::~ICQClient()
     delete m_snacService;
     delete m_snacBuddy;
     delete m_snacICBM;
-	if (getMediaSense()) //only if MediaSense is activated, there are InterFaceChecker's to delete ;)
-		delete m_ifChecker;
+	//if (m_ifChecker) //only if MediaSense is activated, there are InterFaceChecker's to delete ;)
+	delete m_ifChecker;
     free_data(icqClientData, &data);
     delete socket();
     for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
