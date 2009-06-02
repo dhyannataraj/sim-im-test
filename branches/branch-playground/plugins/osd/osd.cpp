@@ -195,11 +195,10 @@ QFont OSDPlugin::getBaseFont(QFont font)
 }
 
 OSDWidget::OSDWidget(OSDPlugin *plugin)
-    : QWidget(NULL, "osd", Qt::Tool |
+    : QWidget(NULL, Qt::Tool |
         Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint )
 {
     m_plugin = plugin;
-    m_image = NULL;
     baseFont = m_plugin->getBaseFont(font());
     setFocusPolicy(Qt::NoFocus);
     setAttribute(Qt::WA_TranslucentBackground, true);
@@ -263,21 +262,16 @@ static const char * const close_h_xpm[] = {
     recalcGeometry();
     resize(m_Rect.size());
 
-    if(m_image != NULL )
-    {
-        delete m_image;
-        m_image = NULL;
-    }
-    m_image = new QImage(size(),QImage::Format_ARGB32);
+    m_image = QImage(size(),QImage::Format_ARGB32);
 
-	if (m_bFading)
-		m_image->fill(Qt::transparent);
+    if (m_bFading)
+        m_image.fill(Qt::transparent);
 
-    QPainter p(m_image);
+    QPainter p(&m_image);
     draw(p);
 
-	if (m_bFading)
-		setMask(QPixmap(m_image->createAlphaMask()));
+    if (m_bFading)
+        setMask(QPixmap::fromImage(m_image.createAlphaMask(), Qt::MonoOnly));
 
     transCounter = 0;
     transCounterDelta = 5;
@@ -285,8 +279,8 @@ static const char * const close_h_xpm[] = {
     QWidget::show();
     raise();
     
-	if (m_bFading)
-		m_transTimer.start(cFadeTime);
+    if (m_bFading)
+        m_transTimer.start(cFadeTime);
 
 }
 
@@ -328,8 +322,8 @@ QRect OSDWidget::recalcGeometry()
         if (m_imageButton.isNull())
         {
             m_imageButton = Image("button_cancel");
-			if( m_imageButton.isNull() )
-				m_imageButton = QPixmap((const char **)close_h_xpm);
+            if( m_imageButton.isNull() )
+              m_imageButton = QPixmap((const char **)close_h_xpm).toImage();
         }
         m_rectButton = QRect(QPoint(w - m_imageButton.width() - 3, 3),m_imageButton.size());
         m_text_y = m_imageButton.height() + 4;
@@ -429,14 +423,14 @@ void OSDWidget::draw(QPainter &p)
 void OSDWidget::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    if(NULL != m_image)
+    if(!m_image.isNull())
     {
-        QPixmap image(*m_image);
+        QPixmap image = QPixmap::fromImage(m_image);
         unsigned char alpha =(unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
         QPixmap alphaChannel = image.alphaChannel();
         alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
         image.setAlphaChannel(alphaChannel);
-        p.drawPixmap(QPoint(0,0),image);
+        p.drawPixmap(0,0,image);
     }
     else
     {
@@ -619,14 +613,13 @@ void OSDPlugin::processQueue()
                     text += msg;
                 }
 
-				
-				if ( core->getManualStatus()==STATUS_NA && 
-				     data->EnableCapsLockFlash.toBool() && 
-				     ! this->running() 
-				   )
-				   
-					this->start(); //Start flashing the CapsLock if enabled
-				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
+                
+                if ( core->getManualStatus()==STATUS_NA && 
+                      data->EnableCapsLockFlash.toBool() && 
+                      ! this->isRunning() 
+                    )
+                    this->start(); //Start flashing the CapsLock if enabled
+                text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
                 if (msg_text.isEmpty())
                     break;
                 text += ":\n";

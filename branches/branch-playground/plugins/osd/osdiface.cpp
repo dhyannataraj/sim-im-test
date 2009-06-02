@@ -31,26 +31,26 @@ using namespace SIM;
 
 OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
 #ifndef WIN32
-	chkFading->setChecked(false);
-	chkFading->hide();
+    chkFading->setChecked(false);
+    chkFading->hide();
 #endif
-    cmbPos->insertItem(i18n("Left-bottom"));
-    cmbPos->insertItem(i18n("Left-top"));
-    cmbPos->insertItem(i18n("Right-bottom"));
-    cmbPos->insertItem(i18n("Right-top"));
-    cmbPos->insertItem(i18n("Center-bottom"));
-    cmbPos->insertItem(i18n("Center-top"));
-    cmbPos->insertItem(i18n("Center"));
-    cmbPos->setCurrentItem(data->Position.toULong());
-    spnOffs->setMinValue(0);
-    spnOffs->setMaxValue(500);
+    cmbPos->addItem(i18n("Left-bottom"));
+    cmbPos->addItem(i18n("Left-top"));
+    cmbPos->addItem(i18n("Right-bottom"));
+    cmbPos->addItem(i18n("Right-top"));
+    cmbPos->addItem(i18n("Center-bottom"));
+    cmbPos->addItem(i18n("Center-top"));
+    cmbPos->addItem(i18n("Center"));
+    cmbPos->setCurrentIndex(data->Position.toULong());
+    spnOffs->setMinimum(0);
+    spnOffs->setMaximum(500);
     spnOffs->setValue(data->Offset.toULong());
-    spnTimeout->setMinValue(1);
-    spnTimeout->setMaxValue(60);
+    spnTimeout->setMinimum(1);
+    spnTimeout->setMaximum(60);
     spnTimeout->setValue(data->Timeout.toULong());
     btnColor->setColor(data->Color.toULong());
     if (data->Font.str().isEmpty()){
@@ -59,7 +59,7 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent
         edtFont->setFont(data->Font.str());
     }
     chkShadow->setChecked(data->Shadow.toBool());
-	chkFading->setChecked(data->Fading.toBool());
+    chkFading->setChecked(data->Fading.toBool());
     if (data->Background.toBool()){
         chkBackground->setChecked(true);
         btnBgColor->setColor(data->BgColor.toULong());
@@ -74,11 +74,11 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent
         cmbScreen->hide();
     }else{
         for (unsigned i = 0; i < nScreens; i++)
-            cmbScreen->insertItem(QString::number(i));
+            cmbScreen->addItem(QString::number(i));
         unsigned curScreen = data->Screen.toULong();
         if (curScreen >= nScreens)
             curScreen = 0;
-        cmbScreen->setCurrentItem(curScreen);
+        cmbScreen->setCurrentIndex(curScreen);
     }
 }
 
@@ -88,24 +88,24 @@ void OSDIface::bgToggled(bool bState)
         btnBgColor->setEnabled(true);
         return;
     }
-    btnBgColor->setColor(colorGroup().base());
+    btnBgColor->setColor(palette().color(QPalette::Base));
     btnBgColor->setEnabled(false);
 }
 
 void OSDIface::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
-    data->Position.asULong() = cmbPos->currentItem();
+    data->Position.asULong() = cmbPos->currentIndex();
     data->Offset.asULong()   = spnOffs->text().toULong();
     data->Timeout.asULong()  = spnTimeout->text().toULong();
     data->Color.asULong()    = btnColor->color().rgb();
     QString f = edtFont->getFont();
     QString base = FontEdit::font2str(m_plugin->getBaseFont(font()), false);
     if (f == base)
-        f = "";
+        f.clear();
     data->Font.str() = f;
     data->Shadow.asBool() = chkShadow->isChecked();
-	data->Fading.asBool() = chkFading->isChecked();
+    data->Fading.asBool() = chkFading->isChecked();
     data->Background.asBool() = chkBackground->isChecked();
     if (data->Background.toBool()){
         data->BgColor.asULong() = btnBgColor->color().rgb();
@@ -116,7 +116,7 @@ void OSDIface::apply(void *d)
     if (nScreens <= 1){
         data->Screen.asULong() = 0;
     }else{
-        data->Screen.asULong() = cmbScreen->currentItem();
+        data->Screen.asULong() = cmbScreen->currentIndex();
     }
 }
 

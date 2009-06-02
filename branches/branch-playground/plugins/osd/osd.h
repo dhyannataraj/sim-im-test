@@ -137,7 +137,7 @@ protected:
     QRect m_Rect;
     OSDUserData currentData;
     QImage m_imageButton;
-    QImage *m_image;
+    QImage m_image;
     QRect m_rectButton;
 };
 
