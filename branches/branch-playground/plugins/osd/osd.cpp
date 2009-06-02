@@ -212,8 +212,6 @@ OSDWidget::OSDWidget(OSDPlugin *plugin)
     setPalette(pal);
 }
 
-QPixmap& intensity(QPixmap &pict, float percent);
-
 bool OSDWidget::isScreenSaverActive()
 {
 /*

@@ -38,80 +38,13 @@
 #include "misc.h"
 #include "unquot.h"
 
-#ifdef WIN32
-# include <windows.h>
-# ifndef CS_DROPSHADOW
-#  define CS_DROPSHADOW   0x00020000
-# endif
-#endif
-
-#define BALLOON_R			10
-#define BALLOON_TAIL		20
-#define BALLOON_TAIL_WIDTH	12
-#define BALLOON_MARGIN		8
-#define BALLOON_SHADOW_DEF	2
+#define BALLOON_R               10
+#define BALLOON_TAIL            20
+#define BALLOON_TAIL_WIDTH      12
+#define BALLOON_MARGIN          8
+#define BALLOON_SHADOW_DEF      2
 
 using namespace SIM;
-
-SIM_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
-{
-    QImage image = pict.toImage();
-    int i, tmp, r, g, b;
-    int segColors = image.depth() > 8 ? 256 : image.numColors();
-    unsigned char *segTbl = new unsigned char[segColors];
-    int pixels = image.depth() > 8 ? image.width()*image.height() :
-                 image.numColors();
-    unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
-                         (unsigned int *)image.colorTable().data();
-
-    bool brighten = (percent >= 0);
-    if(percent < 0)
-        percent = -percent;
-
-    if(brighten){ // keep overflow check out of loops
-        for(i=0; i < segColors; ++i){
-            tmp = (int)(i*percent);
-            if(tmp > 255)
-                tmp = 255;
-            segTbl[i] = (unsigned char)tmp;
-        }
-    }
-    else{
-        for(i=0; i < segColors; ++i){
-            tmp = (int)(i*percent);
-            if(tmp < 0)
-                tmp = 0;
-            segTbl[i] = (unsigned char)tmp;
-        }
-    }
-
-    if(brighten){ // same here
-        for(i=0; i < pixels; ++i){
-            r = qRed(data[i]);
-            g = qGreen(data[i]);
-            b = qBlue(data[i]);
-            r = r + segTbl[r] > 255 ? 255 : r + segTbl[r];
-            g = g + segTbl[g] > 255 ? 255 : g + segTbl[g];
-            b = b + segTbl[b] > 255 ? 255 : b + segTbl[b];
-            data[i] = qRgb(r, g, b);
-        }
-    }
-    else{
-        for(i=0; i < pixels; ++i){
-            r = qRed(data[i]);
-            g = qGreen(data[i]);
-            b = qBlue(data[i]);
-            r = r - segTbl[r] < 0 ? 0 : r - segTbl[r];
-            g = g - segTbl[g] < 0 ? 0 : g - segTbl[g];
-            b = b - segTbl[b] < 0 ? 0 : b - segTbl[b];
-            data[i] = qRgb(r, g, b);
-        }
-    }
-    delete [] segTbl;
-
-    pict.fromImage(image);
-    return pict;
-}
 
 BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidget *parent, const QRect *rcParent,
                        bool bModal, bool bAutoHide, unsigned bwidth, const QString &box_msg, bool *bChecked)
