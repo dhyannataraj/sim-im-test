@@ -261,7 +261,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     }
 
     // center text
-    p.translate((pm.width() - s.width()) / 2, 0);
+    p.translate((pm.width() - s.width()) / 2, pos + BALLOON_R);
     doc.drawContents(&p);
     p.end();
 
