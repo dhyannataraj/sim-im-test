@@ -155,7 +155,6 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     }
     setButtonsPict(this);
     lay->addStretch();
-    //int wndWidth = frm->minimumSizeHint().width(); //unused
     int hButton  = frm->minimumSizeHint().height();
 
     int txtWidth = bwidth;
@@ -216,8 +215,10 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     pm.fill(Qt::transparent);
 
     QPainter p(&pm);
+    p.setRenderHints(QPainter::TextAntialiasing);
     // we need it more than one time
     const QBrush backBrush = palette().brush(QPalette::ToolTipBase);
+    p.setPen(palette().color(QPalette::ToolTipText));
     p.setBrush(backBrush);
 
     // the four corners
@@ -226,27 +227,36 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     p.drawEllipse(w - BALLOON_R * 2, pos + h - BALLOON_R * 2, BALLOON_R * 2, BALLOON_R * 2);
     p.drawEllipse(0, pos + h - BALLOON_R * 2, BALLOON_R * 2, BALLOON_R * 2);
 
-    // the inner rest
-    p.fillRect(0, pos + BALLOON_R, w, h - BALLOON_R * 2, backBrush);
-    p.fillRect(BALLOON_R, pos, w - BALLOON_R * 2, h, backBrush);
-
-    // ??
+    // tail
     QPolygon arr(3);
     arr.setPoint(0, tailX, bTailDown ? h - 1 : pos + 1);
     arr.setPoint(1, tailX + BALLOON_TAIL_WIDTH, bTailDown ? h - 1 : pos + 1);
     arr.setPoint(2, tailX - BALLOON_TAIL_WIDTH, bTailDown ? height() - BALLOON_SHADOW : 0);
     p.drawPolygon(arr);
 
-    // black lines around
+    // the inner rest (after tail!)
+    p.fillRect(0, pos + BALLOON_R, w, h - BALLOON_R * 2, backBrush);
+    p.fillRect(BALLOON_R, pos, w - BALLOON_R * 2, h, backBrush);
+
+    p.setPen(palette().color(QPalette::ToolTipText));
+    // black lines left and right
     p.drawLine(0, pos + BALLOON_R, 0, pos + h - BALLOON_R);
-    p.drawLine(w - 1, pos + BALLOON_R, w - 1, pos + h - BALLOON_R);
+    p.drawLine(w, pos + BALLOON_R, w, pos + h - BALLOON_R);
+
+    // black lines left and right
     if (bTailDown){
+        // upper line
         p.drawLine(BALLOON_R, 0, w - BALLOON_R, 0);
-        p.drawLine(BALLOON_R, h - 1, tailX, h - 1);
-        p.drawLine(tailX + BALLOON_TAIL_WIDTH, h - 1, w - BALLOON_R, h - 1);
+        // lower left
+        p.drawLine(BALLOON_R, h, tailX, h);
+        // lower right
+        p.drawLine(tailX + BALLOON_TAIL_WIDTH, h, w - BALLOON_R, h);
     }else{
-        p.drawLine(BALLOON_R, pos + h - 1, w - BALLOON_R, pos + h - 1);
+        // lower line
+        p.drawLine(BALLOON_R, pos + h, w - BALLOON_R, pos + h);
+        // upper left
         p.drawLine(BALLOON_R, pos, tailX, pos);
+        // upper right
         p.drawLine(tailX + BALLOON_TAIL_WIDTH, pos, w - BALLOON_R, pos);
     }
 
@@ -304,7 +314,6 @@ void BalloonMsg::mousePressEvent(QMouseEvent *e)
 {
     if (m_bAutoHide && rect().contains(e->pos())){
         const QRgb rgb = m_backgroundPixmap.toImage().pixel(e->pos());
-        m_backgroundPixmap.save("/tmp/test.png", "PNG");
         if (rgb & 0xFFFFFF)
             QTimer::singleShot(10, this, SLOT(close()));
     }
