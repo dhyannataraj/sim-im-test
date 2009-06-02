@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OSDIface</class>
- <widget class="QWidget" name="OSDIface">
+ <class>OSDIfaceBase</class>
+ <widget class="QWidget" name="OSDIfaceBase">
   <property name="geometry">
    <rect>
     <x>0</x>
