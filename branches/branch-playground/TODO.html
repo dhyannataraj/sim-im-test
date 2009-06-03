@@ -11,18 +11,22 @@ $Id$
 			* weathertoolbar (is on top and transparent, anyhow, and crashing when move attempt)
 	<s>* OSD is black in win32</s> <font>Fixed by Noragen</font>
 	<s>* OSD fading in win32</s> <font>Fixed by Noragen</font>
+	<s>* Search/Add-Dialog broken. Crashing on open</s> <font>Fixed by Christian</font>
 	* Setup: Buttons, no Text on it (soundplugin f.e.)
 	* Datepicker does not work and is not displayed right (popup) at QCursor::pos())
 	* Floatys are not as long as in 0.9.5
 	* dragging files on contakt in contactlist is not possible to send them via filetransfer, but works with floatys
 	* sound-plugin event-tab: the path lines are not display right, also the play/browse buttons are shrinked ;)
 	* Container/History: no context-menu on right click
-	* Search/Add-Dialog broken. Crashing on open
+	* Search/Add-Dialog:
+		- Labels for Textfields are missing.
+		- Functiontest has to be done.
 
 - Sound-plugin:
 	* no startup sound is played
 
-- Config-Dialog steals access to other windows (f.e. InterfaceWindow, MainWindow...)
+- Config/Setup-Window steals access to other windows (f.e. no possible acces to InterfaceWindow, MainWindow.. then.)
+- Filetransfer-Window steals access to other windows, too
 
 <a href="http://sim-im.org/wiki/Developing">Sim-IM Developer Area</a> on Sim-IM.org
 
