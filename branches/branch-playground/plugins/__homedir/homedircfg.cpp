@@ -24,14 +24,15 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 
-HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin) : QWidget(parent)
+HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
+  : QWidget(parent)
+  , m_plugin(plugin)
 {
-	setupUi(this);
-    m_plugin = plugin;
+    setupUi(this);
 #ifdef WIN32 // ER
     chkDefault->setChecked(plugin->m_bDefault);
 #endif    
-    //connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
+    connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
     edtPath->setText(QDir::convertSeparators(plugin->m_homeDir));
     edtPath->setDirMode(true);

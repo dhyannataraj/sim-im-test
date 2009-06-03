@@ -73,8 +73,8 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 #ifdef WIN32
 
-static char key_name[] = "/SIM";
-static char path_value[] = "Path";
+static const char key_name[] = "SIM";
+static const char path_value[] = "Path";
 
 #endif
 
@@ -83,9 +83,8 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 {
 #ifdef WIN32
     m_bSave    = true;
-	QSettings setting( path_value, QSettings::NativeFormat );
-    setting.setPath( key_name, "", QSettings::User );
-    m_homeDir = setting.readEntry( key_name, QString("%APPDATA%") );
+    QSettings setting( QSettings::NativeFormat, QSettings::UserScope, key_name );
+    m_homeDir = setting.value( path_value, QString("%APPDATA%") ).toString();
     m_bDefault = m_homeDir.isNull();
 #endif
     QString d;
@@ -162,7 +161,7 @@ QString HomeDirPlugin::defaultPath()
 	//(DWORD&)_SHGetKnownFolderPath	   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetKnownFolderPath"); //for Vista :-/
 
     if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
-        defPath = QString::fromUcs2((unsigned short*)szPath);
+        defPath = QString::fromUtf16((unsigned short*)szPath);
     }else if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QFile::decodeName(szPath);
 	}
@@ -208,20 +207,15 @@ QWidget *HomeDirPlugin::createConfigWindow(QWidget *parent)
 Q3CString HomeDirPlugin::getConfig()
 {
     if (!m_bSave)
-        return "";
-    QSettings setting( path_value, QSettings::NativeFormat );
-    setting.setPath( key_name, "", QSettings::User );
-
-    //m_homeDir = setting.readEntry( key_name, QString("%APPDATA%") );
-
-
+        return QByteArray();
+    QSettings setting( QSettings::NativeFormat, QSettings::UserScope, key_name );
 
     if (!m_bDefault){
-        setting.writeEntry( path_value, m_homeDir );
+        setting.setValue( path_value, m_homeDir );
     }else{
-        setting.removeEntry( path_value );
+        setting.remove( path_value );
     }
-    return "";
+    return QByteArray();
 }
 
 #endif
