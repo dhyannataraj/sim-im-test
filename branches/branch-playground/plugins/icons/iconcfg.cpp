@@ -18,13 +18,13 @@
 #include "simapi.h"
 
 #include <qpushbutton.h>
-#include <q3listbox.h>
+#include <qlistwidget.h>
 
 #ifdef USE_KDE
-#include <kfiledialog.h>
-#define Q3FileDialog	KFileDialog
+# include <kfiledialog.h>
+# define QFileDialog	KFileDialog
 #else
-#include <q3filedialog.h>
+# include <qfiledialog.h>
 #endif
 
 #include "icons.h"
@@ -33,61 +33,54 @@
 #include "iconcfg.h"
 #include "icon.h"
 
-IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin) : QWidget(parent)
+IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
+  : QWidget(parent)
+  , m_plugin(plugin)
 {
-	setupUi(this);
-    m_plugin = plugin;
+    setupUi(this);
     connect(btnUp, SIGNAL(clicked()), this, SLOT(up()));
     connect(btnDown, SIGNAL(clicked()), this, SLOT(down()));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
-    connect(lstIcon, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(lstIcon, SIGNAL(itemSelectionChanged()), this, SLOT(itemSelectionChanged()));
     if (m_plugin->getDefault()){
-		lstIcon->insertItem("icons/smiles.jisp");
+        lstIcon->addItem(QDir::toNativeSeparators("icons/smiles.jisp"));
 
     }else{
         for (unsigned i = 1; i <= m_plugin->getNIcons(); i++)
-            lstIcon->insertItem(m_plugin->getIcon(i));
+            lstIcon->addItem(m_plugin->getIcon(i));
     }
-    selectionChanged();
+    itemSelectionChanged();
 }
 
 void IconCfg::apply()
 {
     m_plugin->clearIcon();
     m_plugin->setDefault(false);
-    for (unsigned i = 0; i < lstIcon->count(); i++)
-        m_plugin->setIcon(i + 1, lstIcon->text(i));
+    for (int i = 0; i < lstIcon->count(); i++)
+        m_plugin->setIcon(i + 1, lstIcon->item(i)->text());
     m_plugin->setNIcons(lstIcon->count());
     m_plugin->setIcons(true);
 }
 
 void IconCfg::up()
 {
-    int n = lstIcon->currentItem();
+    int n = lstIcon->currentRow();
     if (n < 1)
         return;
-    QString t = lstIcon->text(n);
-    Q3ListBoxItem *i = lstIcon->item(n);
-    if (i == NULL)
-        return;
-    delete i;
-    lstIcon->insertItem(t, n - 1);
-    lstIcon->setCurrentItem(n - 1);
+    QListWidgetItem *item = lstIcon->takeItem(n);
+    lstIcon->insertItem(n - 1, item);
+    itemSelectionChanged();
 }
 
 void IconCfg::down()
 {
-    int n = lstIcon->currentItem();
-    if ((n < 0) || (n >= (int)(lstIcon->count() - 1)))
+    int n = lstIcon->currentRow();
+    if ((n < 0) || (n >= lstIcon->count() - 1))
         return;
-    QString t = lstIcon->text(n);
-    Q3ListBoxItem *i = lstIcon->item(n);
-    if (i == NULL)
-        return;
-    delete i;
-    lstIcon->insertItem(t, n + 1);
-    lstIcon->setCurrentItem(n + 1);
+    QListWidgetItem *item = lstIcon->takeItem(n);
+    lstIcon->insertItem(n + 1, item);
+    itemSelectionChanged();
 }
 
 void IconCfg::add()
@@ -97,23 +90,23 @@ void IconCfg::add()
 #else
     QString filter = i18n("Icon set(*.jisp)");
 #endif
-    QString jisp = Q3FileDialog::getOpenFileName(SIM::app_file("icons/"), filter, topLevelWidget(), i18n("Select icon set"));
-    if (!jisp.isEmpty())
-        lstIcon->insertItem(jisp);
+    QString jisp = QFileDialog::getOpenFileName(topLevelWidget(), i18n("Select icon set"), SIM::app_file("icons/"), filter);
+    if (!jisp.isEmpty()) {
+        int n = lstIcon->currentRow();
+        lstIcon->insertItem(n, QDir::toNativeSeparators(jisp));
+        itemSelectionChanged();
+    }
 }
 
 void IconCfg::remove()
 {
-    Q3ListBoxItem *i = lstIcon->item(lstIcon->currentItem());
-    if (i == NULL)
-        return;
-    delete i;
-    selectionChanged();
+    delete lstIcon->takeItem(lstIcon->currentRow());
+    itemSelectionChanged();
 }
 
-void IconCfg::selectionChanged()
+void IconCfg::itemSelectionChanged()
 {
-    int n = lstIcon->currentItem();
+    int n = lstIcon->currentRow();
     if (n < 0){
         btnUp->setEnabled(false);
         btnDown->setEnabled(false);
@@ -122,6 +115,6 @@ void IconCfg::selectionChanged()
     }
     btnRemove->setEnabled(true);
     btnUp->setEnabled(n > 0);
-    btnDown->setEnabled(n < (int)(lstIcon->count() - 1));
+    btnDown->setEnabled(n < lstIcon->count() - 1);
 }
 

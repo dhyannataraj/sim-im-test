@@ -34,7 +34,7 @@ public slots:
     void down();
     void add();
     void remove();
-    void selectionChanged();
+    void itemSelectionChanged();
 protected:
     IconsPlugin *m_plugin;
 };
