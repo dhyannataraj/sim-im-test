@@ -1561,6 +1561,27 @@ QString ICQClient::contactTip(void *_data)
         res += "<br><br>";
         res += quoteString(data->AutoReply.str());
     }
+	if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) 
+	{
+			QDate today=QDate::currentDate();
+			
+			if (today.day()==(int)data->BirthDay.toULong() && today.month()==(int)data->BirthMonth.toULong())
+			{
+				//addIcon(icons, "partytime", statusIcon);
+				res += "<br/><br/><b>has birthday <font color='red'>today</font>!</b><br/>";
+			}
+			else 
+			{
+				//addIcon(icons, "birthday", statusIcon);
+				int nextbirthdayyear=today.year();
+				if ((int)data->BirthMonth.toULong()==1 && (int)data->BirthDay.toULong()<2) //special case
+					nextbirthdayyear=today.year()+1;
+
+				QDate birthday(nextbirthdayyear,(int)data->BirthMonth.toULong(),(int)data->BirthDay.toULong());
+				int remainingdays=today.daysTo(birthday);
+				res += QString("<br/><br/><b>has birthday in <font color='red'>%1</font> days.</b><br/>").arg(QString::number(remainingdays));
+			}
+	}
     return res;
 }
 
