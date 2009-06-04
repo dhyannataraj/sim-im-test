@@ -15,7 +15,9 @@ IF(WIN32 OR ENABLE_KDE3)
 	SET(transparent_UICS
         	transparentcfgbase.ui
 	)
-
+	SET(transparent_LIBS
+		_core
+	)
 	IF(NOT WIN32)
 	    SET(transparent_SRCS ${transparent_SRCS}
         	transtop.cpp)
