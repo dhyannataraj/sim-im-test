@@ -1288,9 +1288,14 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
 		if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) {
 			QDate today=QDate::currentDate();
 			if (today.day()==(int)data->BirthDay.toULong() && today.month()==(int)data->BirthMonth.toULong())
+			{
 				addIcon(icons, "partytime", statusIcon);
-			else
+				
+			}
+			else 
+			{
 				addIcon(icons, "birthday", statusIcon);
+			}
 		}
 		if (data->FollowMe.toULong() == 1)
             addIcon(icons, "phone", statusIcon);
@@ -1495,7 +1500,7 @@ QString ICQClient::contactTip(void *_data)
             }
         }
     }
-    res += "<br>";
+    res += "<br/>";
     if (data->Uin.toULong()){
         res += "UIN: <b>";
         res += QString::number(data->Uin.toULong());
@@ -1506,7 +1511,7 @@ QString ICQClient::contactTip(void *_data)
         res += "</b>";
     }
     if (data->WarningLevel.toULong()){
-        res += "<br>";
+        res += "<br/>";
         res += i18n("Warning level");
         res += ": <b>";
         res += QString::number(warnLevel(data->WarningLevel.toULong()));
@@ -1514,36 +1519,36 @@ QString ICQClient::contactTip(void *_data)
     }
     if (data->Status.toULong() == ICQ_STATUS_OFFLINE){
         if (data->StatusTime.toULong()){
-            res += "<br><font size=-1>";
+            res += "<br/><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
             res += formatDateTime(data->StatusTime.toULong());
         }
     }else{
         if (data->OnlineTime.toULong()){
-            res += "<br><font size=-1>";
+            res += "<br/><font size=-1>";
             res += i18n("Online");
             res += ": </font>";
             res += formatDateTime(data->OnlineTime.toULong());
         }
         if (data->Status.toULong() & (ICQ_STATUS_AWAY | ICQ_STATUS_NA)){
-            res += "<br><font size=-1>";
+            res += "<br/><font size=-1>";
             res += statusText;
             res += ": </font>";
             res += formatDateTime(data->StatusTime.toULong());
         }
     }
     if (data->IP.ip()){
-        res += "<br>";
+        res += "<br/>";
         res += formatAddr(data->IP, data->Port.toULong());
     }
     if ((data->RealIP.ip()) && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        res += "<br>";
+        res += "<br/>";
         res += formatAddr(data->RealIP, data->Port.toULong());
     }
     QString client_name = clientName(data);
     if (client_name.length()){
-        res += "<br>";
+        res += "<br/>";
         res += quoteString(client_name);
     }
     QImage img(pictureFile(data));
@@ -1564,16 +1569,37 @@ QString ICQClient::contactTip(void *_data)
         }
         QString url="icqavatar." + QString::number(data->Uin.toULong());
 		getIcons()->setPixmap(url, pict);
-        res += "<br><img src=\"pict://" + url + "\" width=\"";
+        res += "<br/><img src=\"pict://" + url + "\" width=\"";
         res += QString::number(w);
         res += "\" height=\"";
         res += QString::number(h);
         res += "\">";
     }
     if (!data->AutoReply.str().isEmpty()){
-        res += "<br><br>";
+        res += "<br/><br/>";
         res += quoteString(data->AutoReply.str());
     }
+	if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) 
+	{
+			QDate today=QDate::currentDate();
+			
+			if (today.day()==(int)data->BirthDay.toULong() && today.month()==(int)data->BirthMonth.toULong())
+			{
+				//addIcon(icons, "partytime", statusIcon);
+				res += "<br/><br/><b>has birthday <font color='red'>today</font>!</b><br/>";
+			}
+			else 
+			{
+				//addIcon(icons, "birthday", statusIcon);
+				int nextbirthdayyear=today.year();
+				if ((int)data->BirthMonth.toULong()==1 && (int)data->BirthDay.toULong()<2) //special case
+					nextbirthdayyear=today.year()+1;
+
+				QDate birthday(nextbirthdayyear,(int)data->BirthMonth.toULong(),(int)data->BirthDay.toULong());
+				int remainingdays=today.daysTo(birthday);
+				res += QString("<br/><br/><b>has birthday in <font color='red'>%1</font> days.</b><br/>").arg(QString::number(remainingdays));
+			}
+	}
     return res;
 }
 
