@@ -796,6 +796,7 @@ protected:
 
 private:
 	SIM::InterfaceChecker* m_ifChecker;
+	bool m_bBirthdayInfoDisplayed;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket

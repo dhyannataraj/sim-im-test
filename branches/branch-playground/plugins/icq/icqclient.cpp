@@ -74,6 +74,7 @@
 
 #include "icqdirect.h"
 
+
 using namespace std;
 using namespace SIM;
 
@@ -220,7 +221,8 @@ static DataDef icqClientData[] =
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         : TCPClient(protocol, cfg, HighPriority - 1),
-		 m_ifChecker(NULL)
+		 m_ifChecker(NULL),
+		 m_bBirthdayInfoDisplayed(false)
 {
 	m_bAIM = bAIM;
 
@@ -1582,14 +1584,27 @@ QString ICQClient::contactTip(void *_data)
 	if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) 
 	{
 			QDate today=QDate::currentDate();
-			
 			if (today.day()==(int)data->BirthDay.toULong() && today.month()==(int)data->BirthMonth.toULong())
 			{
+				//Today is birthday!
 				//addIcon(icons, "partytime", statusIcon);
 				res += "<br/><br/><b>"+i18n("has birthday <font color='red'>today</font>!")+"</b><br/>";
+				if (!m_bBirthdayInfoDisplayed) 
+				{
+					int ret=QMessageBox::question(0, 
+								i18n("Birthday Notification"),
+								QString("%1 (%2 %3) %4\n\n%5").arg(data->Alias.str(), data->FirstName.str(), data->LastName.str(), i18n("has birthday today!"), i18n("Send GreetingCard?")),
+								QMessageBox::Yes | QMessageBox::No);
+					m_bBirthdayInfoDisplayed=true;
+					//Todo: navigate to birthday greetingcard-webpage ;)
+					EventGoURL e(QString("http://www.google.com/search?q=ecards"));
+					if (ret==QMessageBox::Yes) e.process();
+				}	
+
 			}
 			else 
 			{
+				//Birthday one or two more days.
 				//addIcon(icons, "birthday", statusIcon);
 				int nextbirthdayyear=today.year();
 				if ((int)data->BirthMonth.toULong()==1 && (int)data->BirthDay.toULong()<2) //special case
