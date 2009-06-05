@@ -49,6 +49,7 @@ class _CORE_EXPORTS MainWindow : public QMainWindow, public SIM::EventReceiver
 public:
     MainWindow(SIM::Geometry&);
     ~MainWindow();
+    static MainWindow *mainWindow();
     bool m_bNoResize;
     void closeEvent(QCloseEvent *e);
 protected slots:
@@ -70,6 +71,7 @@ protected:
     std::list<QWidget*> statusWidgets;
     QString	m_icon;
     friend class CorePlugin;
+    static MainWindow *s_mainWindow;
 #ifdef WIN32
     QPoint p;
     QSize s;

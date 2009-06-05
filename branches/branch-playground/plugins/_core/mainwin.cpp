@@ -29,12 +29,6 @@
 #include <qtimer.h>
 #include <qsizegrip.h>
 #include <qstatusbar.h>
-#include <QCloseEvent>
-#include <QResizeEvent>
-#include <QFocusEvent>
-#include <QChildEvent>
-#include <QMouseEvent>
-#include <QEvent>
 #include <QDesktopWidget>
 
 using namespace SIM;
@@ -57,8 +51,11 @@ void MainWindowWidget::childEvent(QChildEvent *e)
     QTimer::singleShot(0, parent(), SLOT(setGrip()));
 }
 
+MainWindow *MainWindow::s_mainWindow = NULL;
+
 MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Window), EventReceiver(LowestPriority)
 {
+    Q_ASSERT(s_mainWindow == NULL);
     m_grip	 = NULL;
     h_lay	 = NULL;
     m_bNoResize = false;
@@ -95,6 +92,12 @@ MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Wi
 
 MainWindow::~MainWindow()
 {
+    s_mainWindow = NULL;
+}
+
+MainWindow *MainWindow::mainWindow()
+{
+    return s_mainWindow;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
