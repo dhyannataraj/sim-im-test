@@ -775,7 +775,7 @@ protected:
 	SnacIcqService* m_snacService;
 	SnacIcqICBM* m_snacICBM;
 	mapSnacHandlers m_snacHandlers;
-	bool m_connectionLost;
+	bool m_bconnectionLost;
 
     friend class ListServerRequest;
     friend class FullInfoRequest;
