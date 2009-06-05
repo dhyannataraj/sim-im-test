@@ -21,30 +21,23 @@
 #include <qcheckbox.h>
 #include <qslider.h>
 
-TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin) : QWidget(parent)
+TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin)
+  : QWidget(parent)
+  , m_plugin(plugin)
 {
-	setupUi(this);
-    m_plugin = plugin;
+    setupUi(this);
     sldTransparency->setValue(m_plugin->getTransparency());
-#ifdef WIN32
     chkInactive->setChecked  (m_plugin->getIfInactive  ());
-	chkMainWindow->setChecked(m_plugin->getIfMainWindow());
-	chkFloatings->setChecked (m_plugin->getIfFloatings ());
-#else
-    chkInactive->hide();
-	chkMainWindow->hide();
-	chkFloatings->hide();
-#endif
+    chkMainWindow->setChecked(m_plugin->getIfMainWindow());
+    chkFloatings->setChecked (m_plugin->getIfFloatings ());
 }
 
 void TransparentCfg::apply()
 {
     m_plugin->setTransparency(sldTransparency->value());
-#ifdef WIN32
     m_plugin->setIfInactive  (chkInactive  ->isChecked());
-	m_plugin->setIfMainWindow(chkMainWindow->isChecked());
-	m_plugin->setIfFloatings (chkFloatings ->isChecked());
-#endif
+    m_plugin->setIfMainWindow(chkMainWindow->isChecked());
+    m_plugin->setIfFloatings (chkFloatings ->isChecked());
     m_plugin->setState();
 }
 

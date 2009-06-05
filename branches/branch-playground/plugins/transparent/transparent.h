@@ -18,7 +18,8 @@
 #ifndef _TRANSPARENT_H
 #define _TRANSPARENT_H
 
-#include <qobject.h>
+#include <QObject>
+#include <QTime>
 
 #include "cfg.h"
 #include "event.h"
@@ -27,16 +28,13 @@
 struct TransparentData
 {
     SIM::Data	Transparency;
-#ifdef WIN32
     SIM::Data	IfInactive;
-	SIM::Data	IfMainWindow;
-	SIM::Data	IfFloatings;
-#endif
+    SIM::Data	IfMainWindow;
+    SIM::Data	IfFloatings;
 };
 
 class QWidget;
 class QTimer;
-class TransparentTop;
 
 class TransparentPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
@@ -45,16 +43,13 @@ public:
     TransparentPlugin(unsigned, Buffer*);
     virtual ~TransparentPlugin();
     PROP_ULONG(Transparency);
-#ifdef WIN32
     PROP_BOOL(IfInactive);
-	PROP_BOOL(IfMainWindow);
-	PROP_BOOL(IfFloatings);
-#endif
+    PROP_BOOL(IfMainWindow);
+    PROP_BOOL(IfFloatings);
     void	setState();
-public slots:
+public Q_SLOTS:
     void tick();
     void tickMouse();
-    void topDestroyed();
 protected:
     virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
@@ -62,14 +57,11 @@ protected:
     QWidget *getMainWindow();
     bool    m_bState;
     virtual bool processEvent(SIM::Event *e);
-#ifdef WIN32
-    unsigned startTime;
+
+    QTime startTime;
     QTimer   *timer;
     bool	 m_bHaveMouse;
     bool	 m_bActive;
-#else
-    TransparentTop  *top;
-#endif
     TransparentData data;
 };
 

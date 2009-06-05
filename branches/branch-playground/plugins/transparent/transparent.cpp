@@ -16,10 +16,8 @@
  ***************************************************************************/
 
 #include <QApplication>
-#include <QWidgetlist>
-#include <qtimer.h>
-#include <qcursor.h>
-#include <qpainter.h>
+#include <QWidgetList>
+#include <QTimer>
 
 #include "log.h"
 #include "misc.h"
@@ -29,12 +27,6 @@
 #include "transparentcfg.h"
 #include "../floaty/floatywnd.h" //Handle Floatings
 
-#ifndef WIN32
-#include "transtop.h"
-#else
-// GetTickCount() - TODO: replace with QTime
-#include <windows.h>
-#endif
 #define SHOW_TIMEOUT	300
 #define HIDE_TIMEOUT	1000
 
@@ -72,46 +64,30 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef transparentData[] =
     {
         { "Transparency", DATA_ULONG, 1, DATA(60) },
-#ifdef WIN32
         { "IfInactive",   DATA_BOOL, 1, DATA(1) },
         { "IfMainWindow", DATA_BOOL, 1, DATA(1) },
         { "IfFloatings",  DATA_BOOL, 1, DATA(1) },
-#endif
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
         : Plugin(base)
-#ifndef WIN32
-        , EventReceiver(HighPriority)
-#endif
 {
     load_data(transparentData, &data, config);
     if (getTransparency() >100)
         setTransparency(100);
-#ifdef WIN32
+
     timer = NULL;
     m_bHaveMouse = false;
     m_bActive    = false;
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(tickMouse()));
     timer->start(1000);
-#else
-    top = NULL;
-#endif
     setState();
-}
-
-void TransparentPlugin::topDestroyed()
-{
-#ifndef WIN32
-    top = NULL;
-#endif
 }
 
 TransparentPlugin::~TransparentPlugin()
 {
-#ifdef WIN32
     delete timer;
 
     // reset opacity for all toplevel widgets
@@ -120,9 +96,6 @@ TransparentPlugin::~TransparentPlugin()
         w->setWindowOpacity(1.0);
     }
 
-#else
-    delete top;
-#endif
     free_data(transparentData, &data);
 }
 
@@ -133,13 +106,7 @@ Q3CString TransparentPlugin::getConfig()
 
 QWidget *TransparentPlugin::getMainWindow()
 {
-    QWidgetList list = QApplication::topLevelWidgets();
-    foreach(QWidget *w,list) {
-         QWidget *mw = qobject_cast<MainWindow*>(w);
-         if (mw)
-             return mw;
-    }
-    return NULL;
+    return MainWindow::mainWindow();
 }
 
 QWidget *TransparentPlugin::createConfigWindow(QWidget *parent)
@@ -149,7 +116,6 @@ QWidget *TransparentPlugin::createConfigWindow(QWidget *parent)
 
 void TransparentPlugin::tickMouse()
 {
-#ifdef WIN32
     QPoint p = QCursor::pos();
     bool bMouse = false;
     QWidget *main = getMainWindow();
@@ -157,12 +123,14 @@ void TransparentPlugin::tickMouse()
         if (main->frameGeometry().contains(p))
             bMouse = true;
     }
-		
+
     //Handle Floatings//
     QWidgetList list = QApplication::topLevelWidgets();
     foreach (QWidget *w,list) {
+        if (bMouse)
+            break;
         if (FloatyWnd *flt = dynamic_cast<FloatyWnd *>(w))
-            bMouse= flt->frameGeometry().contains(p) ? true : false;
+            bMouse = flt->frameGeometry().contains(p);
     }
     //Handle Floatings//
 
@@ -170,12 +138,10 @@ void TransparentPlugin::tickMouse()
         m_bHaveMouse = bMouse;
         setState();
     }
-#endif
 }
 
 bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
 {
-#ifdef WIN32
     if (getIfInactive()){
         switch (e->type()){
         case QEvent::WindowActivate:
@@ -197,7 +163,6 @@ bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
             break;
         }
     }
-#endif
     return QObject::eventFilter(o, e);
 }
 
@@ -208,12 +173,11 @@ void TransparentPlugin::setState()
         
     if (main == NULL)
         return;
-#ifdef WIN32
-    if (timer == NULL){
+    if (timer == NULL) {
         timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
         main->installEventFilter(this);
-	main->setMouseTracking(true);
+        main->setMouseTracking(true);
         m_bActive = main->isActiveWindow();
         m_bState  = !m_bActive;
     }
@@ -238,37 +202,29 @@ void TransparentPlugin::setState()
         return;
     }
     m_bState = bNewState;
-    startTime = GetTickCount();
+    startTime = QTime::currentTime();
     timer->start(10);
-#else
-    if (!top) {
-        top = new TransparentTop(main, getTransparency());
-        connect(top,SIGNAL(destroyed()),this,SLOT(topDestroyed()));
-    }
-    top->setTransparent(getTransparency());
-#endif
 }
 
 void TransparentPlugin::tick()
 {
-#ifdef WIN32
     QWidget *main = getMainWindow();
     if (main == NULL){
         timer->stop();
         return;
     }
     qreal timeout = m_bActive ? SHOW_TIMEOUT : HIDE_TIMEOUT;
-    qreal time = GetTickCount() - startTime;
-    if (time >= timeout){
-        time = timeout;
+    qreal difftime = startTime.msecsTo( QTime::currentTime() );
+    if (difftime >= timeout){
+        difftime = timeout;
         timer->stop();
     }
     if (m_bState)
-        time = timeout - time;
+        difftime = timeout - difftime;
 
     qreal transparency = (100 - getTransparency()) / 100.;
     qreal diff_to_opaque = 1. - transparency;
-    transparency = transparency + diff_to_opaque * (1 - time / timeout);
+    transparency = transparency + diff_to_opaque * (1 - difftime / timeout);
 
     //log(L_DEBUG, "transparency: %f, diff_to_opaque %f, time %d, timeout %d",
     //             transparency, diff_to_opaque, time, timeout);
@@ -289,39 +245,13 @@ void TransparentPlugin::tick()
         }
     }
     //Handle Floatings//
-	
-#endif
 }
 
 bool TransparentPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventInit) {
-#ifndef WIN32
-        top = NULL;
-#endif
         setState();
     }
-#ifndef WIN32
-    if (e->type() == eEventPaintView){
-        if (top == NULL)
-            return false;
-        EventPaintView *ev = static_cast<EventPaintView*>(e);
-        EventPaintView::PaintView *pv = ev->paintView();
-        QPixmap pict = top->background(pv->win->colorGroup().background());
-        if (!pict.isNull()){
-            QPoint p = pv->pos;
-            p = pv->win->mapToGlobal(p);
-            p = pv->win->topLevelWidget()->mapFromGlobal(p);
-            pv->p->drawPixmap(p, pict);
-            pv->isStatic = true;
-        }
-    }
-    if (e->type() == eEventRaiseWindow){
-        EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
-        if (w->widget() == getMainWindow())
-            setState();
-    }
-#endif
     return false;
 }
 
