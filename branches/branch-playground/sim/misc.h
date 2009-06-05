@@ -36,10 +36,6 @@ class QIcon;
 	#endif
 #endif
 
-#ifndef HAVE_STRCASECMP
-EXPORT int strcasecmp(const char *a, const char *b);
-#endif
-
 #ifdef USE_KDE
 	#include <klocale.h>
 #else

@@ -851,7 +851,7 @@ void YahooClient::notify(const char *id, const char *msg, const char *state)
     bool bState = false;
     if (state && atol(state))
         bState = true;
-    if (!strcasecmp(msg, "TYPING")){
+    if (!qstricmp(msg, "TYPING")){
         if (data->bTyping.toBool() != bState){
             data->bTyping.asBool() = bState;
             EventContact e(contact, EventContact::eStatus);;

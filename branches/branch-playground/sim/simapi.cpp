@@ -751,17 +751,3 @@ bool my_string::operator < (const my_string &a) const
 
 }
 
-#ifndef HAVE_STRCASECMP
-
-EXPORT int strcasecmp(const char *a, const char *b)
-{
-    for (; *a && *b; a++, b++){
-        if (tolower(*a) < tolower(*b)) return -1;
-        if (tolower(*a) > tolower(*b)) return 1;
-    }
-    if (*a) return 1;
-    if (*b) return -1;
-    return 0;
-}
-
-#endif

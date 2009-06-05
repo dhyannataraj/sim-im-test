@@ -333,13 +333,13 @@ Q3CString RTFGenParser::parse(const QString &text)
     m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
     for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
-        if (!strcasecmp(c->codec, m_codec->name())){
+        if (!qstricmp(c->codec, m_codec->name())){
             charset = c->rtf_code;
             break;
         }
     }
 #ifdef WIN32
-    if ((charset == 0) && !strcasecmp(m_codec->name(), "system")){
+    if ((charset == 0) && !qstricmp(m_codec->name(), "system")){
         char buff[256];
         int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, (char*)&buff, sizeof(buff));
         if (res){
