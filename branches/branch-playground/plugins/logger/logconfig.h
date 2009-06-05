@@ -21,8 +21,6 @@
 #include "event.h"
 
 #include "ui_logconfigbase.h"
-//Added by qt3to4:
-#include <QResizeEvent>
 
 class LoggerPlugin;
 class Q3ListViewItem;
@@ -34,13 +32,9 @@ public:
     LogConfig(QWidget *parent, LoggerPlugin *plugin);
 public slots:
     void apply();
-    void clickItem(Q3ListViewItem*);
 protected:
-    void resizeEvent(QResizeEvent *e);
     virtual bool processEvent(SIM::Event *e);
     void fill();
-    void addItem(const char *name, bool bChecked, unsigned level, unsigned packet);
-    void setCheck(Q3ListViewItem*);
     LoggerPlugin	*m_plugin;
 };
 

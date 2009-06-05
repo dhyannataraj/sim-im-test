@@ -18,9 +18,8 @@
 #ifndef _LOGGER_H
 #define _LOGGER_H
 
-#include <qobject.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QObject>
+#include <QSet>
 
 #include "cfg.h"
 #include "event.h"
@@ -52,7 +51,7 @@ public:
     void setLogType(unsigned id, bool bLog);
 protected:
 //    bool eventFilter(QObject *o, QEvent *e);
-    std::list<unsigned> m_packets;
+    QSet<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual Q3CString getConfig();
     virtual bool processEvent(SIM::Event *e);

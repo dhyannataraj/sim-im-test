@@ -73,16 +73,15 @@ static DataDef loggerData[] =
 
 LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
         : Plugin(base)
+        , m_file(NULL)
 {
-    m_file = NULL;
     load_data(loggerData, &data, add_info);
 
     EventArg e("-d:", I18N_NOOP("Set debug level"));
     if (e.process())
         setLogLevel(e.value().toULong());
-    QString packets = getLogPackets();
-    while (packets.length()){
-        QString v = getToken(packets, ',');
+    const QStringList packets = getLogPackets().split(',');
+    Q_FOREACH (const QString &v, packets) {
         setLogType(v.toULong(), true);
     }
     m_bFilter = false;
@@ -97,11 +96,12 @@ LoggerPlugin::~LoggerPlugin()
 
 Q3CString LoggerPlugin::getConfig()
 {
-    QString packets;
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    QByteArray packets;
+    QSetIterator<unsigned> setIt(m_packets);
+    while(setIt.hasNext()) {
         if (packets.length())
             packets += ',';
-        packets += QString::number(*it);
+        packets += QByteArray::number(setIt.next());
     }
     setLogPackets(packets);
     return save_data(loggerData, &data);
@@ -122,14 +122,12 @@ void LoggerPlugin::openFile()
         }
     }
 */
-    if (m_file){
-        delete m_file;
-        m_file = NULL;
-    }
+    delete m_file;
+    m_file = NULL;
     QString fname = getFile();
     if (fname.isEmpty())
         return;
-    // This si because sim crashes when a logfile is larger than 100MB ...
+    // This is because sim crashes when a logfile is larger than 100MB ...
     QFileInfo fileInfo(fname);
     if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
@@ -146,33 +144,21 @@ void LoggerPlugin::openFile()
     if (!m_file->open(QIODevice::Append | QIODevice::ReadWrite)){
         delete m_file;
         m_file = NULL;
-        log(L_WARN, "Can't open %s", (const char*)fname);
+        log(L_WARN, "Can't open %s", qPrintable(fname));
     }
 }
 
 bool LoggerPlugin::isLogType(unsigned id)
 {
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            return true;
-    }
-    return false;
+    return m_packets.contains(id);
 }
 
 void LoggerPlugin::setLogType(unsigned id, bool bLog)
 {
-    list<unsigned>::iterator it;
-    for (it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            break;
-    }
-    if (bLog){
-        if (it == m_packets.end())
-            m_packets.push_back(id);
-    }else{
-        if (it != m_packets.end())
-            m_packets.erase(it);
-    }
+    if(bLog)
+      m_packets.insert(id);
+    else
+      m_packets.remove(id);
 }
 /*
 bool LoggerPlugin::eventFilter(QObject *o, QEvent *e)
@@ -190,15 +176,14 @@ QWidget *LoggerPlugin::createConfigWindow(QWidget *parent)
 bool LoggerPlugin::processEvent(Event *e)
 {
     if(e->type() == eEventLog)
-	{
+    {
         EventLog *l = static_cast<EventLog*>(e);
         if (((l->packetID() == 0) && (l->logLevel() & getLogLevel())) ||
                 (l->packetID() && ((getLogLevel() & L_PACKETS) || isLogType(l->packetID()))))
-		{
+        {
             QString s;
             s = EventLog::make_packet_string(*l);
-            if (m_file)
-			{
+            if (m_file) {
 #if defined(Q_OS_WIN) || defined(__OS2__)
                 s += "\r\n";
 #else
@@ -207,40 +192,33 @@ bool LoggerPlugin::processEvent(Event *e)
                 m_file->write(s.toLocal8Bit());
             }
 #ifdef Q_OS_WIN
-            QStringList slist = s.split('\n');
+            const QStringList slist = s.split('\n');
             for(int i = 0 ; i < slist.count() ; i++)
-			{
+            {
                 QString out = slist[i];
                 if (out.length() > 256){
                     while (!out.isEmpty()){
                         QString l;
                         if (out.length() < 256){
                             l = out;
-                            out = QString::null;
+                            out.clear();
                         }else{
                             l = out.left(256);
                             out = out.mid(256);
                         }
-                        OutputDebugStringA(l.local8Bit().data());
+                        OutputDebugStringW((LPCWSTR)l.utf16());
                     }
                 }
-				else
-				{
-                    OutputDebugStringA(out.local8Bit().data());
+                else
+                {
+                    OutputDebugStringW((LPCWSTR)out.utf16());
                 }
-                OutputDebugStringA("\n");
+                OutputDebugStringW(L"\n");
             }
 #else
-            fprintf(stderr, "%s\n", s.local8Bit().data());
+            fprintf(stderr, "%s\n", qPrintable(s));
 #endif
         }
     }
     return false;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "logger.moc"
-#endif
-*/
-
