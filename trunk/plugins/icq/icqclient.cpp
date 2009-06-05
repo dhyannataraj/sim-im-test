@@ -216,25 +216,30 @@ static DataDef icqClientData[] =
 };
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
-: TCPClient(protocol, cfg, HighPriority - 1)
+: TCPClient(protocol, cfg, HighPriority - 1),
+			m_ifChecker		(NULL),
+			m_listener		(NULL),
+			m_listRequest	(NULL),
+			m_bVerifying	(false),
+			m_bReady		(false),
+			m_bRosters		(false),
+			m_bJoin			(false),
+			m_bFirstTry		(false),
+			m_connectionLost(false),
+			m_bBirthday		(false),
+			m_bNoSend		(true)
 {
 	m_bAIM = bAIM;
 
-	m_listener = NULL;
+	
 	load_data(icqClientData, &data, cfg);
 	if (data.owner.Uin.toULong() != 0)
 		m_bAIM = false;
 	if (!data.owner.Screen.str().isEmpty())
 		m_bAIM = true;
 
-	m_bVerifying = false;
-	m_bNoSend  = true;
-	m_bReady   = false;
-	m_bRosters = false;
-	m_bJoin    = false;
-	m_listRequest = NULL;
 	data.owner.DCcookie.asULong() = rand();
-	m_bBirthday = false;
+	
 	QString requests = getListRequests();
 	while (requests.length()){
 		QString req = getToken(requests, ';');
@@ -256,7 +261,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 	connect(m_processTimer, SIGNAL(timeout()), m_snacICBM, SLOT(processSendQueue()));
 
 	disconnected();
-	m_bFirstTry = false;
+	
 	ContactList::ContactIterator it;
 	Contact *contact;
 	while ((contact = ++it) != NULL){
@@ -265,10 +270,12 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 		while ((data = toICQUserData(++itd)) != NULL)
 			data->Alias.str() = contact->getName();
 	}
-	m_connectionLost = false;
-	m_ifChecker = new SIM::InterfaceChecker();
-	connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
-	connect(m_ifChecker, SIGNAL(interfaceUp(QString)), this, SLOT(interfaceUp(QString)));
+	if (getMediaSense()) 
+	{
+		m_ifChecker = new SIM::InterfaceChecker();
+		connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
+		connect(m_ifChecker, SIGNAL(interfaceUp(QString)), this, SLOT(interfaceUp(QString)));
+	}
 }
 
 ICQClient::~ICQClient()
