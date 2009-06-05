@@ -39,7 +39,7 @@ using namespace SIM;
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
         : QWidget(parent), m_iface(0)
 {
-	setupUi(this);
+    setupUi(this);
     m_plugin = plugin;
     lblLnk->setUrl("http://www.weather.com/?prod=xoap&par=1004517364");
     lblLnk->setText(QString("Weather data provided by weather.com") + QChar((unsigned short)174));

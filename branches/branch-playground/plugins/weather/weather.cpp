@@ -20,12 +20,10 @@
 #include <qapplication.h>
 #include <qwidget.h>
 #include <QToolBar>
-#include <q3mainwindow.h>
 #include <qtimer.h>
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtooltip.h>
-//Added by qt3to4:
 #include <Q3CString>
 #include <QXmlStreamReader>
 
@@ -48,8 +46,7 @@ const unsigned CHECK2_INTERVAL = 120 * 60;
 
 Plugin *createWeatherPlugin(unsigned base, bool bInit, Buffer *config)
 {
-    Plugin *plugin = new WeatherPlugin(base, bInit, config);
-    return plugin;
+    return new WeatherPlugin(base, bInit, config);
 }
 
 static PluginInfo info =
@@ -296,12 +293,7 @@ void WeatherPlugin::showBar()
         return;
  
     QWidgetList list = QApplication::topLevelWidgets();
-    MainWindow *main=NULL;
-    QWidget *w;
-    foreach(w,list)
-        if (w->inherits("MainWindow"))
-            main = static_cast<MainWindow*>(w);
-
+    MainWindow *main= MainWindow::mainWindow();
     if (main == NULL)
             return;
     

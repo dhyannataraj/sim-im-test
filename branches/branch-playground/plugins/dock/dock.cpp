@@ -34,8 +34,7 @@ using namespace SIM;
 
 Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
 {
-    Plugin *plugin = new DockPlugin(base, config);
-    return plugin;
+    return new DockPlugin(base, config);
 }
 
 static PluginInfo info =
@@ -351,13 +350,7 @@ void DockPlugin::doubleClicked()
 
 QWidget *DockPlugin::getMainWindow()
 {
-    QWidgetList list = QApplication::topLevelWidgets();
-    QWidget *w;
-    foreach(w,list) {
-        if(w->inherits("MainWindow"))
-            return w;
-    }
-    return NULL;
+    return MainWindow::mainWindow();
 }
 
 const unsigned ANIMATE_TIME = 200;

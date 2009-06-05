@@ -18,6 +18,10 @@ SET(weather_UICS
         wifacecfgbase.ui
 )
 
+SET(weather_LIBS
+        _core
+)
+
 ADD_JISP_ARCHIVE(jisp weather.jisp weather_SRCS)
 
 SIM_ADD_PLUGIN(weather)

@@ -17,4 +17,8 @@ SET(dock_UICS
         dockcfgbase.ui
 )
 
+SET(dock_LIBS
+        _core
+)
+
 SIM_ADD_PLUGIN(dock)

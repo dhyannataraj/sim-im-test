@@ -56,6 +56,7 @@ MainWindow *MainWindow::s_mainWindow = NULL;
 MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Window), EventReceiver(LowestPriority)
 {
     Q_ASSERT(s_mainWindow == NULL);
+    s_mainWindow = this;
     m_grip	 = NULL;
     h_lay	 = NULL;
     m_bNoResize = false;

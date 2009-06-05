@@ -15,4 +15,8 @@ SET(ontop_UICS
         ontopcfgbase.ui
 )
 
+SET(ontop_LIBS
+        _core
+)
+
 SIM_ADD_PLUGIN(ontop)

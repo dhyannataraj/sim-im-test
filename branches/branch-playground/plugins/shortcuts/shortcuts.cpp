@@ -57,8 +57,7 @@ using namespace SIM;
 
 Plugin *createShortcutsPlugin(unsigned base, bool, Buffer *config)
 {
-    Plugin *plugin = new ShortcutsPlugin(base, config);
-    return plugin;
+    return new ShortcutsPlugin(base, config);
 }
 
 static PluginInfo info =
@@ -830,10 +829,6 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
 
 QWidget *ShortcutsPlugin::getMainWindow()
 {
-    QWidgetList list = QApplication::topLevelWidgets();
-    for (int i = 0; i < list.size(); ++i) 
-         if (MainWindow *w = dynamic_cast<MainWindow *>(list.at(i)))
-             return w;
-    return NULL;
+    return MainWindow::mainWindow();
 }
 

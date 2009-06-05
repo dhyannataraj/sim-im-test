@@ -44,8 +44,7 @@ using namespace SIM;
 Plugin *createOnTopPlugin(unsigned base, bool, Buffer *config)
 {
 #if defined(WIN32) || defined(USE_KDE)
-    Plugin *plugin = new OnTopPlugin(base, config);
-    return plugin;
+    return new OnTopPlugin(base, config);
 #else
     return NULL;
 #endif
@@ -197,14 +196,7 @@ Q3CString OnTopPlugin::getConfig()
 
 QWidget *OnTopPlugin::getMainWindow()
 {
-    QWidgetList list = QApplication::topLevelWidgets();
-    QWidget *w;
-    foreach(w,list)
-    {
-        if(w->inherits("MainWindow"))
-            return w;
-    }
-    return NULL;
+    return MainWindow::mainWindow();
 }
 
 void OnTopPlugin::getState()
