@@ -98,6 +98,7 @@ SET(sim_LIB_HDRS
 # moc the sources
 #KDE3_AUTOMOC(${sim_LIB_HDRS})
 QT4_WRAP_CPP(MOC_SRCS ${sim_LIB_HDRS})
+SOURCE_GROUP(MOC-Files FILES ${MOC_SRCS})
 
 # don't forget flex
 ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
