@@ -18,8 +18,9 @@
 #ifndef _FLOATY_H
 #define _FLOATY_H
 
-#include <qobject.h>
-#include <qpoint.h>
+#include <QObject>
+#include <QPoint>
+#include <QHash>
 
 #include "cfg.h"
 #include "event.h"
@@ -50,13 +51,13 @@ protected slots:
     void showPopup();
     void unreadBlink();
 protected:
-    FloatyWnd *findFloaty(unsigned id);
     virtual bool processEvent(SIM::Event *e);
     unsigned long CmdFloaty;
     unsigned long user_data_id;
     QPoint	 popupPos;
     QTimer	 *unreadTimer;
     unsigned long popupId;
+    QHash<unsigned long, FloatyWnd*> m_floaties;
     friend class FloatyWnd;
 };
 

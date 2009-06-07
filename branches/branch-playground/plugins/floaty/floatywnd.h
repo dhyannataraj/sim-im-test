@@ -19,13 +19,7 @@
 #define _FLOATYWND_H
 
 
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-#include <QMouseEvent>
-#include <QEvent>
-#include <QDropEvent>
-#include <QDragEnterEvent>
+#include <QWidget>
 
 class FloatyPlugin;
 class QTimer;

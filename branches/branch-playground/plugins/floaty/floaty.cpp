@@ -88,39 +88,9 @@ FloatyPlugin::FloatyPlugin(unsigned base)
 
 FloatyPlugin::~FloatyPlugin()
 {
-    QWidgetList list = QApplication::topLevelWidgets();
-    QWidget * w;
-    foreach(w,list)
-	{
-		if (w->inherits("FloatyWnd"))
-			delete w;
-	}
+    qDeleteAll(m_floaties);
     EventCommandRemove(CmdFloaty).process();
     getContacts()->unregisterUserData(user_data_id);
-}
-
-FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
-{
-    QWidgetList list = QApplication::topLevelWidgets();
-    QWidget *w;
-    FloatyWnd *wnd = NULL;
-    bool found = false;
-    foreach(w,list)
-    {
-        if (w->inherits("FloatyWnd")){
-            wnd = static_cast<FloatyWnd*>(w);
-            if (wnd->id() == id) {
-                found = true;
-                break;
-            }
-        }
-    }
-    if(found)
-    {
-        Q_ASSERT( wnd );
-        return wnd;
-    }
-    return NULL;
 }
 
 bool FloatyPlugin::processEvent(Event *e)
@@ -134,6 +104,7 @@ bool FloatyPlugin::processEvent(Event *e)
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
+                m_floaties.insert(contact->id(), wnd);
                 ((QWidget*)wnd)->move(data->X.toLong(), data->Y.toLong());
                 wnd->show();
             }
@@ -166,9 +137,8 @@ bool FloatyPlugin::processEvent(Event *e)
                 if (contact){
                     FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data){
-                        FloatyWnd *wnd = findFloaty(contact->id());
-                        if (wnd)
-                            delete wnd;
+                        FloatyWnd *wnd = m_floaties.take(contact->id());
+                        delete wnd;
                         contact->userData.freeUserData(user_data_id);
                     }else{
                         data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
@@ -176,6 +146,7 @@ bool FloatyPlugin::processEvent(Event *e)
                         data->X.asLong() = r.x();
                         data->Y.asLong() = r.y();
                         FloatyWnd *wnd = new FloatyWnd(this, (unsigned long)(cmd->param));
+                        m_floaties.insert((unsigned long)(cmd->param), wnd);
                         ((QWidget*)wnd)->move(r.x(), r.y());
                         wnd->show();
                     }
@@ -189,7 +160,7 @@ bool FloatyPlugin::processEvent(Event *e)
     case eEventMessageReceived:{
             EventMessage *em = static_cast<EventMessage*>(e);
             Message *msg = em->msg();
-            FloatyWnd *wnd = findFloaty(msg->contact());
+            FloatyWnd *wnd = m_floaties[msg->contact()];
             if (wnd){
                 wnd->init();
                 wnd->repaint();
@@ -201,7 +172,7 @@ bool FloatyPlugin::processEvent(Event *e)
             Contact *contact = ecc->contact();
             if(!contact)
                 break;
-            FloatyWnd *wnd = findFloaty(contact->id());
+            FloatyWnd *wnd = m_floaties[contact->id()];
             if (wnd){
                 wnd->init();
                 wnd->repaint();
@@ -211,7 +182,7 @@ bool FloatyPlugin::processEvent(Event *e)
     case eEventContact: {
             EventContact *ec = static_cast<EventContact*>(e);
             Contact *contact = ec->contact();
-            FloatyWnd *wnd = findFloaty(contact->id());
+            FloatyWnd *wnd = m_floaties[contact->id()];
             if(!wnd)
                 break;
             switch(ec->action()) {
@@ -232,16 +203,12 @@ bool FloatyPlugin::processEvent(Event *e)
             break;
         }
     case eEventRepaintView:{
-            QWidgetList list = QApplication::topLevelWidgets();
-            QWidget * w;
-            foreach(w,list)
+            QHashIterator<unsigned long, FloatyWnd*> it(m_floaties);
+            while(it.hasNext())
             {
-                if (w->inherits("FloatyWnd"))
-                {
-                    FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-                    wnd->init();
-                    wnd->repaint();
-                }
+                FloatyWnd *wnd = it.next().value();
+                wnd->init();
+                wnd->repaint();
             }
             break;
         }
@@ -271,15 +238,11 @@ void FloatyPlugin::startBlink()
 void FloatyPlugin::unreadBlink()
 {
     m_bBlink = !m_bBlink;
-    QWidgetList list = QApplication::topLevelWidgets();
-    QWidget * w;
-    foreach(w,list)
+    QHashIterator<unsigned long, FloatyWnd*> it(m_floaties);
+    while(it.hasNext())
     {
-        if (w->inherits("FloatyWnd"))
-        {
-            FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
-            wnd->repaint();
-        }
+        FloatyWnd *wnd = it.next().value();
+        wnd->repaint();
     }
 }
 
@@ -289,4 +252,3 @@ void FloatyWnd::startBlink()
     blinkTimer->start(BLINK_TIMEOUT);
     repaint();
 }
-

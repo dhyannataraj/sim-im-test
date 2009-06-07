@@ -47,7 +47,7 @@ using namespace SIM;
 
 namespace { namespace aux {
 
-QString
+static QString
 compose_floaty_name( unsigned long id )
 {
     return QString( "floaty-%1" ).arg( id );
@@ -56,7 +56,7 @@ compose_floaty_name( unsigned long id )
 }}
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
-        : QWidget(NULL, aux::compose_floaty_name( id ).toAscii(),
+        : QWidget(NULL,
                   Qt::Tool | Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint |
                   Qt::FramelessWindowHint | Qt::WStyle_Tool |
                   Qt::WNoAutoErase
@@ -65,13 +65,13 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
                 )
 {
     setAttribute(Qt::WA_MacAlwaysShowToolWindow);
+    setObjectName(aux::compose_floaty_name( id ) );
     m_plugin = plugin;
     m_id = id;
     m_blink = 0;
     b_ignoreMouseClickRelease=false;
     init();
     setAcceptDrops(true);
-//    setBackgroundMode(Qt::NoBackground);
 #ifdef USE_KDE
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
@@ -93,7 +93,7 @@ FloatyWnd::~FloatyWnd()
 void FloatyWnd::init()
 {
     m_style = 0;
-    m_icons = QString::null;
+    m_icons.clear();
     m_unread = 0;
     Contact *contact = getContacts()->contact(m_id);
     if (contact == NULL)
@@ -105,18 +105,17 @@ void FloatyWnd::init()
     m_blink = blink;
     QFontMetrics metr(font());
     QRect br = metr.boundingRect(m_text);
-    unsigned h = br.height();
-    unsigned w = br.width() + 5;
+    int h = br.height();
+    int w = br.width() + 5;
     const QPixmap &pict = Pict(m_statusIcon);
     w += pict.width() + 2;
-    if ((unsigned)(pict.height()) > h)
+    if (pict.height() > h)
         h = pict.height();
-    QString icons = m_icons;
-    while (icons.length()){
-        QString icon = getToken(icons, ',');
+    const QStringList icons = m_icons.split(',');
+    Q_FOREACH(const QString &icon, icons) {
         const QPixmap &pict = Pict(icon);
         w += pict.width() + 2;
-        if ((unsigned)(pict.height()) > h)
+        if (pict.height() > h)
             h = pict.height();
     }
     w += 8;
@@ -138,7 +137,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
 
     QPixmap pict(w, h);
     QPainter p(&pict);
-    p.fillRect(QRect(0, 0, width(), height()), colorGroup().base());
+    p.fillRect(QRect(0, 0, width(), height()), palette().brush(QPalette::Base));
     EventPaintView::PaintView pv;
     pv.p        = &p;
     pv.pos      = QPoint(2, 2);
@@ -147,7 +146,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     pv.isStatic = false;
     pv.height   = h;
     if (m_plugin->core->getUseSysColors()){
-        p.setPen(colorGroup().text());
+        p.setPen(palette().color(QPalette::Text));
     }else{
         p.setPen(QColor(m_plugin->core->getColorOnline()));
     }
@@ -156,7 +155,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
 
     if (m_plugin->core->getUseSysColors()){
         if (m_status != STATUS_ONLINE)
-            p.setPen(palette().disabled().text());
+            p.setPen(palette().color(QPalette::Disabled, QPalette::Text));
     }else{
         switch (m_status){
         case STATUS_ONLINE:
@@ -193,11 +192,10 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }
     QRect br;
     setFont(&p);
-    p.drawText(x, 0, w, h, Qt::AlignLeft | Qt::AlignVCenter, m_text, -1, &br);
+    p.drawText(x, 0, w, h, Qt::AlignLeft | Qt::AlignVCenter, m_text, &br);
     x = br.right() + 5;
-    QString icons = m_icons;
-    while (icons.length()){
-        QString icon = getToken(icons, ',');
+    const QStringList icons = m_icons.split(',');
+    Q_FOREACH(const QString &icon, icons) {
         const QPixmap &pict = Pict(icon);
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
@@ -207,21 +205,20 @@ void FloatyWnd::paintEvent(QPaintEvent*)
 
     p.begin(this);
     p.drawPixmap(QPoint(2, 2), pict);
-    QColorGroup cg;
 
-    p.setPen(cg.dark());
+    p.setPen(palette().color(QPalette::Dark));
 	p.drawLine(1, 1, width() - 2, 1);
 	p.drawLine(width() - 2, 1, width() - 2, height() - 2);
 	p.drawLine(width() - 2, height() - 2, 1, height() - 2);
 	p.drawLine(1, height() - 2, 1, 1);
 
-    p.setPen(colorGroup().shadow());
+    p.setPen(palette().color(QPalette::Shadow));
 	p.drawLine(0, height() - 1, width() - 1, height() - 1);
 	p.drawLine(width() - 1, height() - 1, width() - 1, 1);
 	p.drawLine(width() - 3, 2, 2, 2);
 	p.drawLine(2, 2, 2, height() - 3);
 
-    p.setPen(colorGroup().light());
+    p.setPen(palette().color(QPalette::Light));
 	p.drawLine(2, height() - 3, width() - 3, height() - 3);
 	p.drawLine(width() - 3, height() - 3, width() - 3, 2);
 	p.drawLine(width() - 1, 0, 0, 0);
@@ -303,7 +300,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
 
 void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 {
-    if ((e->state() & Qt::LeftButton) && !initMousePos.isNull() &&
+    if ((e->buttons() & Qt::LeftButton) && !initMousePos.isNull() &&
             (QPoint(e->pos() - initMousePos).manhattanLength() > QApplication::startDragDistance()))
         startMove();
     if (!mousePos.isNull())
@@ -511,6 +508,7 @@ void FloatyWnd::showTip()
         m_tip = new TipLabel(text);
     }
     m_tip->show(QRect(pos().x(), pos().y(), width(), height()));
+    tipTimer->stop();
 }
 
 void FloatyWnd::dragEnterEvent(QDragEnterEvent *e)
