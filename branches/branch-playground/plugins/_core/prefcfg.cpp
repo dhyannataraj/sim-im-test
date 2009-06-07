@@ -18,27 +18,26 @@
 #include "misc.h"
 
 #include "prefcfg.h"
-#include "qchildwidget.h"
 
 #include <QVBoxLayout>
 
 using namespace SIM;
 
-PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group) : QWidget(parent)
+PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group)
+  : QWidget(parent)
+  , m_cmd(cmd)
+  , m_contact(contact)
+  , m_group(group)
 {
-	setupUi(this);
-    m_cmd = cmd;
-    m_contact = contact;
-    m_group = group;
+    setupUi(this);
     void *data = NULL;
     if (m_contact)
-	{
+    {
         data = m_contact->getUserData(m_cmd->id);
         if (m_contact->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
     }
-	else if (m_group)
-	{
+    else if (m_group) {
         data = m_group->getUserData(m_cmd->id);
         if (m_group->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
@@ -46,17 +45,16 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
     QWidget *w = NULL;
     if(data)
         w = ((getPreferencesWindow)(cmd->param))(addWnd, data);
-    if(w)
-	{
+    if(w) {
         QVBoxLayout *lay = new QVBoxLayout(addWnd);
         lay->addWidget(w);
         connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
-		if(addWnd)
-			addWnd->setMinimumSize(w->minimumSizeHint());
+        if(addWnd)
+            addWnd->setMinimumSize(w->minimumSizeHint());
         setMinimumSize(sizeHint());
     }
-    tabWnd->setCurrentPage(0);
-    tabWnd->changeTab(tabWnd->currentPage(), i18n(m_cmd->text));
+    tabWnd->setCurrentIndex(0);
+    tabWnd->setTabText(tabWnd->currentIndex(), i18n(m_cmd->text));
     tabWnd->adjustSize();
     connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(overrideToggled(bool)));
     overrideToggled(chkOverride->isChecked());
@@ -93,6 +91,6 @@ void PrefConfig::apply()
 
 void PrefConfig::overrideToggled(bool bState)
 {
-    addWnd->setEnabled(bState);
+    for(int i = 0; i < tabWnd->count(); ++i)
+        tabWnd->widget(i)->setEnabled(bState);
 }
-

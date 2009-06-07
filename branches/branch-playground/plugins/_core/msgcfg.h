@@ -20,7 +20,6 @@
 
 #include "ui_msgcfgbase.h"
 
-class QCheckBox;
 class FileConfig;
 
 class MessageConfig : public QWidget, public Ui::MessageConfigBase
@@ -32,7 +31,6 @@ public slots:
     void apply(void*);
 protected:
     FileConfig *m_file;
-    void setEnabled(bool);
 };
 
 #endif

@@ -21,34 +21,32 @@
 #include "core.h"
 
 #include <qcheckbox.h>
-#include <q3buttongroup.h>
-#include <q3multilineedit.h>
 #include <qradiobutton.h>
 
 using namespace SIM;
 
-FileConfig::FileConfig(QWidget *parent, void *_data) : QWidget(parent)
-        //: FileConfigBase(parent)
+FileConfig::FileConfig(QWidget *parent, void *_data)
+  : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
     edtPath->setText(user_file(data->IncomingPath.str()));
-    connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
     switch (data->AcceptMode.toULong()){
     case 0:
         btnDialog->setChecked(true);
         break;
     case 1:
         btnAccept->setChecked(true);
+        chkOverwrite->setEnabled(true);
         break;
     case 2:
         btnDecline->setChecked(true);
+        edtDecline->setEnabled(true);
         break;
     }
     chkOverwrite->setChecked(data->OverwriteFiles.toBool());
-    edtDecline->setText(data->DeclineMessage.str());
-    acceptClicked(data->AcceptMode.toULong());
+    edtDecline->setPlainText(data->DeclineMessage.str());
 }
 
 void FileConfig::apply(void *_data)
@@ -69,21 +67,6 @@ void FileConfig::apply(void *_data)
     }
     if (btnDecline->isChecked()){
         data->AcceptMode.asULong() = 2;
-        data->DeclineMessage.str() = edtDecline->text();
+        data->DeclineMessage.str() = edtDecline->toPlainText();
     }
 }
-
-void FileConfig::acceptClicked(int id)
-{
-    if (id > 2)
-        return;
-    chkOverwrite->setEnabled(id == 1);
-    edtDecline->setEnabled(id == 2);
-}
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "filecfg.moc"
-#endif
-*/
-

@@ -29,8 +29,6 @@ public:
     FileConfig(QWidget *parent, void *data);
 public slots:
     void apply(void*);
-protected slots:
-    void acceptClicked(int);
 };
 
 #endif

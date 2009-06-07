@@ -21,19 +21,18 @@
 #include "core.h"
 
 #include <qcheckbox.h>
-#include <q3buttongroup.h>
-#include <q3multilineedit.h>
 #include <qradiobutton.h>
 #include <qtabwidget.h>
 
-MessageConfig::MessageConfig(QWidget *parent, void *_data) : QWidget(parent)
+MessageConfig::MessageConfig(QWidget *parent, void *_data)
+  : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_file = NULL;
     for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
+        QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+        if(!tab)
             continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
         m_file = new FileConfig(tab, _data);
         tab->addTab(m_file, i18n("File"));
         tab->adjustSize();
@@ -70,17 +69,3 @@ void MessageConfig::apply(void *_data)
     if (btnRaise->isChecked())
         data->OpenNewMessage.asULong() = NEW_MSG_RAISE;
 }
-
-void MessageConfig::setEnabled(bool state)
-{
-    if (m_file)
-        m_file->setEnabled(state);
-    QWidget::setEnabled(state);
-}
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "msgcfg.moc"
-#endif
-*/
-
