@@ -160,7 +160,7 @@ bool FloatyPlugin::processEvent(Event *e)
     case eEventMessageReceived:{
             EventMessage *em = static_cast<EventMessage*>(e);
             Message *msg = em->msg();
-            FloatyWnd *wnd = m_floaties[msg->contact()];
+            FloatyWnd *wnd = m_floaties.value(msg->contact());
             if (wnd){
                 wnd->init();
                 wnd->repaint();
@@ -172,7 +172,7 @@ bool FloatyPlugin::processEvent(Event *e)
             Contact *contact = ecc->contact();
             if(!contact)
                 break;
-            FloatyWnd *wnd = m_floaties[contact->id()];
+            FloatyWnd *wnd = m_floaties.value(contact->id());
             if (wnd){
                 wnd->init();
                 wnd->repaint();
@@ -182,7 +182,7 @@ bool FloatyPlugin::processEvent(Event *e)
     case eEventContact: {
             EventContact *ec = static_cast<EventContact*>(e);
             Contact *contact = ec->contact();
-            FloatyWnd *wnd = m_floaties[contact->id()];
+            FloatyWnd *wnd = m_floaties.value(contact->id());
             if(!wnd)
                 break;
             switch(ec->action()) {

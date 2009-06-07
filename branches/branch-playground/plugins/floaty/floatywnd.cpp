@@ -88,6 +88,10 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
 
 FloatyWnd::~FloatyWnd()
 {
+    delete tipTimer;
+    delete moveTimer;
+    delete blinkTimer;
+    setToolTip(QString());
 }
 
 void FloatyWnd::init()
