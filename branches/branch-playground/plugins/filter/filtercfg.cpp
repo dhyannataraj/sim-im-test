@@ -26,20 +26,21 @@
 #include <qlabel.h>
 #include <q3multilineedit.h>
 
-FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain) : QWidget(parent)
+FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
+  : QWidget(parent)
+  , m_data(data)
+  , m_plugin(plugin)
+  , m_ignore(NULL)
 {
 	setupUi(this);
-	m_plugin = plugin;
-	m_data   = data;
-	m_ignore = NULL;
 	if(bMain)
 	{
 		chkFromList->setChecked(m_plugin->getFromList());
 		chkAuthFromList->setChecked(m_plugin->getAuthFromList());
 		for (QObject *p = parent; p != NULL; p = p->parent()){
-			if (!p->inherits("QTabWidget"))
+			QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+			if (!tab)
 				continue;
-			QTabWidget *tab = static_cast<QTabWidget*>(p);
 			m_ignore = new IgnoreList(tab);
 			tab->addTab(m_ignore, i18n("Ignore list"));
 			break;
@@ -51,7 +52,7 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
 		chkAuthFromList->hide();
 		lblFilter->hide();
 	}
-	edtFilter->setText(data->SpamList.str());
+        edtFilter->setPlainText(data->SpamList.str());
 }
 
 FilterConfig::~FilterConfig()
@@ -70,6 +71,6 @@ void FilterConfig::apply()
 void FilterConfig::apply(void *_data)
 {
     FilterUserData *data = (FilterUserData*)_data;
-    data->SpamList.str() = edtFilter->text();
+    data->SpamList.str() = edtFilter->toPlainText();
 }
 
