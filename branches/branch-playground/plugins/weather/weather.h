@@ -23,9 +23,8 @@
 #include "fetch.h"
 #include "plugins.h"
 
-#include <qdatetime.h>
-#include <Q3CString>
-
+class Q3CString;
+class QDateTime;
 class QToolBar;
 class QXmlStreamAttributes;
 

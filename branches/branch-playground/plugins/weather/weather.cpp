@@ -24,6 +24,7 @@
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtooltip.h>
+#include <QDateTime>
 #include <Q3CString>
 #include <QXmlStreamReader>
 
@@ -300,7 +301,8 @@ void WeatherPlugin::showBar()
     EventToolbar e(BarWeather, main);
     e.process();
     m_bar = e.toolBar();
-    restoreToolbar(m_bar, data.bar);
+    main->addToolBar(m_bar);
+    //restoreToolbar(m_bar, data.bar);
     connect(m_bar, SIGNAL(destroyed()), this, SLOT(barDestroyed()));
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
