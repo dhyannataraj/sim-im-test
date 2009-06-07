@@ -18,9 +18,8 @@
 #ifndef _NETMONITOR_H
 #define _NETMONITOR_H
 
-#include <qobject.h>
-#include <q3valuelist.h>
-#include <Q3CString>
+#include <QObject>
+#include <QSet>
 
 #include "cfg.h"
 #include "event.h"
@@ -56,7 +55,7 @@ protected:
     void showMonitor();
     void saveState();
     unsigned long CmdNetMonitor;
-    Q3ValueList<unsigned> m_packets;
+    QSet<unsigned> m_packets;
     NetMonitorData data;
     MonitorWindow *monitor;
 };

@@ -18,6 +18,7 @@
 #include "simapi.h"
 
 #include <qmenubar.h>
+#include <QAction>
 #include <QMenu>
 #include <QFile>
 #include <QMessageBox>
@@ -25,7 +26,7 @@
 #include <QTimer>
 #include <QTextStream>
 #include <QCloseEvent>
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include <QTextEdit>
 #include <QScrollBar>
 
@@ -39,52 +40,45 @@
 
 using namespace SIM;
 
-const int mnuSave = 1;
-const int mnuExit = 2;
-const int mnuCopy = 3;
-const int mnuErase = 4;
-const int mnuPackets = 5;
-const int mnuDebug = 6;
-const int mnuWarning = 7;
-const int mnuError = 8;
-const int mnuPause = 9;
-const int mnuAutoscroll = 10;
-
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : QMainWindow(NULL, "monitor", Qt::WType_TopLevel)
+        : QMainWindow(NULL, Qt::WType_TopLevel)
+        , m_plugin(plugin)
 {
     bPause = true;  // no debug output during creation
-    m_plugin = plugin;
     SET_WNDPROC("monitor")
     setWindowTitle(i18n("Network monitor"));
     setWindowIcon(Icon("network"));
 
     edit = new QTextEdit(this);
     edit->setLineWrapMode(QTextEdit::NoWrap);
+    edit->setReadOnly(true);
     setCentralWidget(edit);
     QMenuBar *menu = menuBar();
-    menuFile = new QMenu(this);
-    menuFile->setCheckable(true);
+
+    QMenu *menuFile = new QMenu(i18n("&File"), menu);
     connect(menuFile, SIGNAL(aboutToShow()), this, SLOT(adjustFile()));
-    menuFile->insertItem(Icon("filesave"), i18n("&Save"), this, SLOT(save()), 0, mnuSave);
-    menuFile->insertSeparator();
-    menuFile->insertItem(i18n("&Autoscroll"), this, SLOT(toggleAutoscroll()), 0, mnuAutoscroll);
-    menuFile->insertItem(i18n("&Pause"), this, SLOT(pause()), 0, mnuPause);
-    menuFile->insertSeparator();
-    menuFile->insertItem(Icon("exit"), i18n("E&xit"), this, SLOT(exit()), 0, mnuExit);
-    menu->insertItem(i18n("&File"), menuFile);
-    menuEdit = new QMenu(this);
+    m_saveAction = menuFile->addAction(Icon("filesave"), i18n("&Save"), this, SLOT(save()));
+    menuFile->addSeparator();
+    m_autoscrollAction = menuFile->addAction(i18n("&Autoscroll"), this, SLOT(toggleAutoscroll()));
+    m_autoscrollAction->setCheckable(true);
+    m_pauseAction = menuFile->addAction(i18n("&Pause"), this, SLOT(pause()));
+    menuFile->addSeparator();
+    menuFile->addAction(Icon("exit"), i18n("E&xit"), this, SLOT(exit()));
+    menu->addMenu(menuFile);
+
+    QMenu *menuEdit = new QMenu(i18n("&Edit"), menu);
     connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(adjustEdit()));
-    menuEdit->insertItem(i18n("&Copy"), this, SLOT(copy()), 0, mnuCopy);
-    menuEdit->insertItem(i18n("&Erase"), this, SLOT(erase()), 0, mnuErase);
-    menu->insertItem(i18n("&Edit"), menuEdit);
-    menuLog = new QMenu(this);
-    menuLog->setCheckable(true);
-    connect(menuLog, SIGNAL(aboutToShow()), this, SLOT(adjustLog()));
-    connect(menuLog, SIGNAL(activated(int)), this, SLOT(toggleType(int)));
-    menu->insertItem(i18n("&Log"), menuLog);
+    m_copyAction = menuEdit->addAction(i18n("&Copy"), this, SLOT(copy()));
+    m_eraseAction = menuEdit->addAction(i18n("&Erase"), this, SLOT(erase()));
+    menu->addMenu(menuEdit);
+
+    m_menuLog = new QMenu(i18n("&Log"), menu);
+    connect(m_menuLog, SIGNAL(aboutToShow()), this, SLOT(adjustLog()));
+    connect(m_menuLog, SIGNAL(triggered(QAction*)), this, SLOT(toggleType(QAction*)));
+    menu->addMenu(m_menuLog);
+
     bPause = false;
     bAutoscroll = true;
     edit->append( "<pre>" );
@@ -98,8 +92,9 @@ void MonitorWindow::closeEvent(QCloseEvent *e)
 
 void MonitorWindow::save()
 {
-    QString s = Q3FileDialog::getSaveFileName ("sim.log", QString::null, this);
-    if (s.isEmpty()) return;
+    QString s = QFileDialog::getSaveFileName (this, QString(), QString(), "sim.log");
+    if (s.isEmpty())
+        return;
     QFile f(s);
     if (!f.open(QIODevice::WriteOnly)){
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
@@ -126,9 +121,9 @@ void MonitorWindow::exit()
 
 void MonitorWindow::adjustFile()
 {
-    menuFile->setItemEnabled(mnuSave, !edit->hasSelectedText());
-    menuFile->changeItem(mnuPause, bPause ? i18n("&Resume") : i18n("&Pause"));
-    menuFile->setItemChecked(mnuAutoscroll, bAutoscroll);
+    m_saveAction->setEnabled(edit->hasSelectedText());
+    m_pauseAction->setText(bPause ? i18n("&Resume") : i18n("&Pause"));
+    m_autoscrollAction->setChecked(bAutoscroll);
 }
 
 void MonitorWindow::copy()
@@ -138,17 +133,18 @@ void MonitorWindow::copy()
 
 void MonitorWindow::erase()
 {
-    edit->setText("");
+    edit->clear();
 }
 
 void MonitorWindow::adjustEdit()
 {
-    menuEdit->setItemEnabled(mnuCopy, edit->hasSelectedText());
-    menuEdit->setItemEnabled(mnuErase, !edit->hasSelectedText());
+    m_copyAction->setEnabled(edit->hasSelectedText());
+    m_eraseAction->setEnabled(!edit->hasSelectedText());
 }
 
-void MonitorWindow::toggleType(int id)
+void MonitorWindow::toggleType(QAction *a)
 {
+    int id = a->data().toInt();
     switch (id){
     case L_DEBUG:
     case L_WARN:
@@ -187,17 +183,21 @@ static level_def levels[] =
 
 void MonitorWindow::adjustLog()
 {
-    menuLog->clear();
+    m_menuLog->clear();
     PacketType *packet;
     ContactList::PacketIterator it;
     while ((packet = ++it) != NULL){
-        menuLog->insertItem(i18n(packet->name()), packet->id());
-        menuLog->setItemChecked(packet->id(), m_plugin->isLogType(packet->id()));
+        QAction *a = m_menuLog->addAction(i18n(packet->name()));
+        a->setCheckable(true);
+        a->setChecked(m_plugin->isLogType(packet->id()));
+        a->setData(packet->id());
     }
-    menuLog->insertSeparator();
+    m_menuLog->addSeparator();
     for (const level_def *d = levels; d->name; d++){
-        menuLog->insertItem(i18n(d->name), d->level);
-        menuLog->setItemChecked(d->level, (m_plugin->getLogLevel() & d->level) != 0);
+        QAction *a = m_menuLog->addAction(i18n(d->name));
+        a->setCheckable(true);
+        a->setChecked((m_plugin->getLogLevel() & d->level) != 0);
+        a->setData(d->level);
     }
 }
 

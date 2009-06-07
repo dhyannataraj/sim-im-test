@@ -15,10 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
-#include <qwidget.h>
-#include <Q3CString>
-#include <Q3ValueList>
+#include <QTimer>
+#include <QWidget>
 
 #include "misc.h"
 #include "core_consts.h"
@@ -64,13 +62,9 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 {
     load_data(monitorData, &data, config);
 
-    if (!getLogPackets().isEmpty()){
-        QString packets = getLogPackets();
-        while (packets.length()){
-            QString v = getToken(packets, ',');
-            setLogType(v.toULong(), true);
-        }
-    }
+    const QStringList packets = getLogPackets().split(',');
+    Q_FOREACH( const QString &v, packets)
+        setLogType(v.toULong(), true);
 
     monitor = NULL;
     CmdNetMonitor = registerType();
@@ -104,11 +98,11 @@ Q3CString NetmonitorPlugin::getConfig()
     saveState();
     setShow(monitor != NULL);
     QString packets;
-    Q3ValueList<unsigned>::ConstIterator it;
-    for (it = m_packets.constBegin(); it != m_packets.constEnd(); ++it){
+    QSetIterator<unsigned> it(m_packets);
+    while (it.hasNext()) {
         if (packets.length())
             packets += ',';
-        packets += QString::number(*it);
+        packets += QString::number(it.next());
     }
     setLogPackets(packets);
     return save_data(monitorData, &data);
@@ -116,18 +110,15 @@ Q3CString NetmonitorPlugin::getConfig()
 
 bool NetmonitorPlugin::isLogType(unsigned id)
 {
-    return ( m_packets.find( id ) != m_packets.end() );
+    return ( m_packets.contains( id ) );
 }
 
 void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
 {
-    Q3ValueList<unsigned>::iterator it = m_packets.find(id);
     if (bLog){
-        if (it == m_packets.end())
-            m_packets.push_back(id);
+        m_packets.insert(id);
     }else{
-        if (it != m_packets.end())
-            m_packets.erase(it);
+        m_packets.remove(id);
     }
 }
 

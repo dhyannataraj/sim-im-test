@@ -23,6 +23,7 @@
 
 #include "event.h"
 
+class QAction;
 class QMenu;
 class QTextEdit;
 class NetmonitorPlugin;
@@ -42,7 +43,7 @@ protected slots:
     void copy();
     void erase();
     void pause();
-    void toggleType(int);
+    void toggleType(QAction*);
     void toggleAutoscroll();
     void adjustFile();
     void adjustEdit();
@@ -53,9 +54,12 @@ protected:
     bool bPause;
     bool bAutoscroll;
     QTextEdit  *edit;
-    QMenu *menuFile;
-    QMenu *menuEdit;
-    QMenu *menuLog;
+    QAction *m_saveAction;
+    QAction *m_autoscrollAction;
+    QAction *m_pauseAction;
+    QAction *m_copyAction;
+    QAction *m_eraseAction;
+    QMenu *m_menuLog;
     NetmonitorPlugin *m_plugin;
     QMutex m_mutex;
     QStringList m_logStrings;
