@@ -277,7 +277,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 		while ((data = toICQUserData(++itd)) != NULL)
 			data->Alias.str() = contact->getName();
 	}
-	if (getMediaSense() )
+	if ( getMediaSense() )
 	{
 		m_ifChecker = new SIM::InterfaceChecker();
 		connect(m_ifChecker, SIGNAL(interfaceDown(QString)), this, SLOT(interfaceDown(QString)));
@@ -293,8 +293,7 @@ ICQClient::~ICQClient()
     delete m_snacService;
     delete m_snacBuddy;
     delete m_snacICBM;
-	//if (m_ifChecker) //only if MediaSense is activated, there are InterFaceChecker's to delete ;)
-	delete m_ifChecker;
+	delete m_ifChecker; //independed if MediaSense is activated, it can be risk-less deleted, because it is initilized with NULL
     free_data(icqClientData, &data);
     delete socket();
     for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)

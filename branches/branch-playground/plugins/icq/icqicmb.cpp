@@ -1976,7 +1976,7 @@ void AIMParser::tag_end(const QString &tag)
 
 void SnacIcqICBM::processSendQueue()
 {
-    if (m_sendTimer->isActive())
+    if (m_sendTimer->isActive()) //Crash here on change Profile, m_sendTimer is 0
         return;
     m_client->m_processTimer->stop();
     if (m_client->m_bNoSend)
