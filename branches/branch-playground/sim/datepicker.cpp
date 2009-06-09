@@ -28,14 +28,13 @@
 #include <qspinbox.h>
 #include <qpainter.h>
 #include <qvalidator.h>
-//Added by qt3to4:
-#include <Q3HBoxLayout>
+#include <QHBoxLayout>
 #include <QPaintEvent>
-#include <Q3GridLayout>
-#include <Q3Frame>
+#include <QGridLayout>
+#include <QFrame>
 #include <QLabel>
 #include <QMouseEvent>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 class DateValidator : public QValidator
 {
@@ -70,18 +69,18 @@ DateEdit::DateEdit(QWidget *parent)
     setInputMask("0000-00-00;_");
 }
 
-DatePicker::DatePicker(QWidget *parent, const char *name)
-        : Q3Frame(parent, name)
+DatePicker::DatePicker(QWidget *parent)
+        : QFrame(parent)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
     setLineWidth(0);
-    Q3HBoxLayout *lay = new Q3HBoxLayout(this);
+    QHBoxLayout *lay = new QHBoxLayout(this);
     m_edit = new DateEdit(this);
     QFontMetrics fm(m_edit->font());
     m_edit->setFixedWidth(fm.width("0000-00-00") + 14);
     lay->addWidget(m_edit);
     m_button = new QPushButton(this);
-    m_button->setPixmap(SIM::Pict("more"));
+    m_button->setIcon(SIM::Icon("more"));
     lay->addWidget(m_button);
     lay->addStretch();
     connect(m_button, SIGNAL(clicked()), this, SLOT(showPopup()));
@@ -125,7 +124,7 @@ void DatePicker::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
-    Q3Frame::paintEvent(e);
+    QFrame::paintEvent(e);
 }
 
 void DatePicker::setDate(QDate date)
@@ -149,31 +148,31 @@ void DatePicker::showPopup()
     popup->show();
 }
 
-static char *month_name[] =
+static const char *month_name[] =
     {
-        (char*)I18N_NOOP("January"),
-        (char*)I18N_NOOP("February"),
-        (char*)I18N_NOOP("March"),
-        (char*)I18N_NOOP("April"),
-        (char*)I18N_NOOP("May"),
-        (char*)I18N_NOOP("June"),
-        (char*)I18N_NOOP("July"),
-        (char*)I18N_NOOP("August"),
-        (char*)I18N_NOOP("September"),
-        (char*)I18N_NOOP("October"),
-        (char*)I18N_NOOP("November"),
-        (char*)I18N_NOOP("December")
+        I18N_NOOP("January"),
+        I18N_NOOP("February"),
+        I18N_NOOP("March"),
+        I18N_NOOP("April"),
+        I18N_NOOP("May"),
+        I18N_NOOP("June"),
+        I18N_NOOP("July"),
+        I18N_NOOP("August"),
+        I18N_NOOP("September"),
+        I18N_NOOP("October"),
+        I18N_NOOP("November"),
+        I18N_NOOP("December")
     };
 
-static char *day_name[] =
+static const char *day_name[] =
     {
-        (char*)I18N_NOOP("Mon"),
-        (char*)I18N_NOOP("Tue"),
-        (char*)I18N_NOOP("Wed"),
-        (char*)I18N_NOOP("Thu"),
-        (char*)I18N_NOOP("Fri"),
-        (char*)I18N_NOOP("Sat"),
-        (char*)I18N_NOOP("Sun"),
+        I18N_NOOP("Mon"),
+        I18N_NOOP("Tue"),
+        I18N_NOOP("Wed"),
+        I18N_NOOP("Thu"),
+        I18N_NOOP("Fri"),
+        I18N_NOOP("Sat"),
+        I18N_NOOP("Sun"),
     };
 
 class MonthSpinBox : public QSpinBox
@@ -181,7 +180,7 @@ class MonthSpinBox : public QSpinBox
 public:
     MonthSpinBox(QWidget *p);
 protected:
-    QString mapValueToText(int v);
+    QString textFromValue(int v) const;
 };
 
 MonthSpinBox::MonthSpinBox(QWidget *p)
@@ -189,44 +188,47 @@ MonthSpinBox::MonthSpinBox(QWidget *p)
 {
 }
 
-QString MonthSpinBox::mapValueToText(int v)
+QString MonthSpinBox::textFromValue(int v) const
 {
-    if (v < 0)
+    while (v < 0)
         v += 12;
-    if (v >= 12)
+    while (v >= 12)
         v -= 12;
     return i18n(month_name[v]);
 }
 
 PickerPopup::PickerPopup(DatePicker *picker)
-        : Q3Frame(NULL, "calendar", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
+        : QFrame(picker, Qt::Popup)
+        , m_picker(picker)
 {
-    m_picker = picker;
+    setAttribute(Qt::WA_DeleteOnClose);
 
-    setFrameShape(PopupPanel);
-    setFrameShadow(Sunken);
+    setFrameShape(QFrame::NoFrame);
+    setFrameShadow(QFrame::Sunken);
     setLineWidth(1);
 
     QDate d = QDate::currentDate();
-    QLabel *lbl = new QLabel(this);
-    //lbl->setBackgroundMode(PaletteBase);
-    Q3VBoxLayout *l = new Q3VBoxLayout(this);
-    Q3HBoxLayout *hLay = new Q3HBoxLayout(l);
+    QVBoxLayout *vLay = new QVBoxLayout(this);
+    QHBoxLayout *hLay = new QHBoxLayout;
+    vLay->addLayout(hLay);
     hLay->setMargin(0);
     hLay->setSpacing(4);
 
     m_monthBox = new MonthSpinBox(this);
+    m_monthBox->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     hLay->addWidget(m_monthBox);
     m_yearBox = new QSpinBox(this);
     m_yearBox->setMaximum(d.year());
     m_yearBox->setMinimum(d.year() - 200);
-    m_monthBox->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+    m_yearBox->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
     hLay->addWidget(m_yearBox);
     connect(m_monthBox, SIGNAL(valueChanged(int)), this, SLOT(monthChanged(int)));
     connect(m_yearBox, SIGNAL(valueChanged(int)), this, SLOT(yearChanged(int)));
-    l->addWidget(lbl);
-    l->setMargin(6);
-    l->setSpacing(4);
+
+    QWidget *lbl = new QWidget(this);
+    vLay->addWidget(lbl);
+    vLay->setMargin(6);
+    vLay->setSpacing(4);
 
     QPalette pal(palette());
     pal.setColor(QColorGroup::Text, QColor(127, 0, 0));
@@ -234,10 +236,8 @@ PickerPopup::PickerPopup(DatePicker *picker)
     QFont f(font());
     f.setBold(true);
 
-    m_labels = new QLabel*[7 * 6];
-    Q3GridLayout *lay = new Q3GridLayout(lbl, 7, 7);
-    lay->setMargin(6);
-    lay->setSpacing(4);
+    QGridLayout *gLay = new QGridLayout;
+    lbl->setLayout(gLay);
     unsigned n = 0;
 	for (unsigned j = 0; j < 6; j++)
 		for (unsigned i = 0; i < 7; i++)
@@ -248,9 +248,8 @@ PickerPopup::PickerPopup(DatePicker *picker)
 			l->setText("99");
 			l->setMinimumSize(l->sizeHint());
 			l->setText(QString::number(n));
-			//l->setBackgroundMode(PaletteBase);
-			lay->addWidget(l, i, j + 1);
-			m_labels[n++] = l;
+			gLay->addWidget(l, i, j + 1);
+                        m_labels += l;
 			if (i >= 5)
 				l->setPalette(pal);
 			connect(l, SIGNAL(clicked(PickerLabel*)), this, SLOT(dayClick(PickerLabel*)));
@@ -259,8 +258,7 @@ PickerPopup::PickerPopup(DatePicker *picker)
         QLabel *l = new QLabel(lbl);
         l->setFont(f);
         l->setText(i18n(day_name[i]));
-        //l->setBackgroundMode(PaletteBase);
-        lay->addWidget(l, i, 0);
+        gLay->addWidget(l, i, 0);
         if (i >= 5)
             l->setPalette(pal);
     }
@@ -280,7 +278,7 @@ PickerPopup::PickerPopup(DatePicker *picker)
 
 PickerPopup::~PickerPopup()
 {
-    delete[] m_labels;
+    qDeleteAll(m_labels);
 }
 
 void PickerPopup::dayClick(PickerLabel *lbl)
@@ -337,11 +335,11 @@ void PickerPopup::fill()
     unsigned s = d.daysInMonth();
     unsigned i;
     for (i = 0; i < n; i++)
-        m_labels[i]->setText(QString::null);
+        m_labels[i]->setText(QString());
     for (i = 0; i < s; i++)
         m_labels[i + n]->setText(QString::number(i + 1));
     for (i = n + s; i < 42; i++)
-        m_labels[i]->setText(QString::null);
+        m_labels[i]->setText(QString());
 }
 
 PickerLabel::PickerLabel(QWidget *parent)
@@ -353,10 +351,3 @@ void PickerLabel::mouseReleaseEvent(QMouseEvent*)
 {
     emit clicked(this);
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "datepicker.moc"
-#endif
-*/
-

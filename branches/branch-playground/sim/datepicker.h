@@ -20,12 +20,10 @@
 
 #include "simapi.h"
 
-#include <q3frame.h>
-#include <qlabel.h>
-#include <qdatetime.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-#include <QMouseEvent>
+#include <QDate>
+#include <QFrame>
+#include <QLabel>
+#include <QList>
 
 class QLineEdit;
 class QPushButton;
@@ -33,11 +31,11 @@ class QSpinBox;
 
 class PickerLabel;
 
-class EXPORT DatePicker : public Q3Frame
+class EXPORT DatePicker : public QFrame
 {
     Q_OBJECT
 public:
-    DatePicker(QWidget *parent, const char *name = NULL);
+    DatePicker(QWidget *parent);
     ~DatePicker();
     void setDate(QDate);
     QDate getDate();
@@ -55,7 +53,7 @@ protected:
     QPushButton	*m_button;
 };
 
-class PickerPopup : public Q3Frame
+class PickerPopup : public QFrame
 {
     Q_OBJECT
 public:
@@ -69,7 +67,7 @@ protected:
     void fill();
     QSpinBox	*m_monthBox;
     QSpinBox	*m_yearBox;
-    QLabel		**m_labels;
+    QList<QLabel*> m_labels;
     DatePicker	*m_picker;
 };
 
