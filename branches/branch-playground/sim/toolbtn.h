@@ -27,13 +27,14 @@
 #include <qlineedit.h>
 #include <qlabel.h>
 
-class ButtonsMap;
 class Q3Accel;
 class QContextMenuEvent;
 class QHideEvent;
 class QMainWindow;
 class QMouseEvent;
 class QShowEvent;
+class CToolItem;
+typedef QHash<unsigned, CToolItem*> ButtonsMap;
 
 // Base class for all Widgets in CToolBar
 class EXPORT CToolItem
@@ -43,16 +44,19 @@ public:
     virtual ~CToolItem() {}
     virtual void setState();
     virtual QWidget *widget() = 0;
+    QAction *action() { return m_action; }
+    void setAction(QAction *a) { m_action = a; }
     void checkState();
     void setCommand(SIM::CommandDef *def);
     void setChecked(SIM::CommandDef *def);
     void setDisabled(SIM::CommandDef *def);
     void setShow(SIM::CommandDef *def);
     const SIM::CommandDef &def() const { return m_def; };
-    void setDef(SIM::CommandDef &def) { m_def = def; }
+    void setDef(const SIM::CommandDef &def) { m_def = def; }
 protected:
     SIM::CommandDef m_def;
     QString m_text;
+    QAction *m_action;
 };
 
 // A simple QToolButton -> type: BTN_DEFAULT
@@ -96,9 +100,8 @@ public:
 protected:
     virtual void setState();
     void paintEvent(QPaintEvent*);
-//    QSizePolicy sizePolicy() const;
-//    QSize minimumSizeHint() const;
-//    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
 };
 
 // A QComboBox -> type: BTN_COMBO or BTN_COMBO_CHECK
@@ -173,7 +176,7 @@ protected:
     void	contextMenuEvent(QContextMenuEvent *e);
     bool	bChanged;
     void	*m_param;
-    ButtonsMap *buttons;
+    ButtonsMap  buttons;
     virtual QSizePolicy sizePolicy() const;
 };
 
