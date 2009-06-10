@@ -233,7 +233,7 @@ QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
         quote_chars += '\\';
     }
     for (int i = 0; i < from.length (); i++) {
-        QChar c = from[i];
+        const QChar c = from[i];
         if (quote_chars.contains (c)) {
             res += '\\';
         }
@@ -427,10 +427,10 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_STRLIST: {
                 // this breaks on non latin1 defaults!
-                QStringList sl = QString(def->def_value).split(',');
+                const QStringList sl = QString(def->def_value).split(',');
                 Data::STRING_MAP sm;
-                for(unsigned i = 0; i < (unsigned)sl.count(); i++) {
-                    sm.insert(i, sl[(int)i]);
+                for(int i = 0; i < sl.count(); i++) {
+                    sm.insert(i, sl[i]);
                 }
                 data->strMap() = sm;
             }
@@ -648,8 +648,8 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
 		case DATA_LONG:
         case DATA_ULONG: {
-            QList<QByteArray> sl = val.split(',');
-            for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
+            const QList<QByteArray> sl = val.split(',');
+            for (int i = 0; i < (int)def->n_values && i < sl.count(); i++, ld++){
                 const QByteArray s = sl[i];
                 if(s.isEmpty())
                     continue;
@@ -662,7 +662,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
         case DATA_BOOL: {
             const QList<QByteArray> sl = val.split(',');
-            for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
+            for (int i = 0; i < (int)def->n_values && i < sl.count(); i++, ld++){
                 const QByteArray &s = sl[i];
                 if(s.isEmpty())
                     continue;
@@ -672,7 +672,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
         case DATA_BINARY: {
             const QList<QByteArray> sl = val.split(',');
-            for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
+            for (int i = 0; i < (int)def->n_values && i < sl.count(); i++, ld++){
                 const QByteArray &s = sl[i];
                 if(s.isEmpty())
                     continue;

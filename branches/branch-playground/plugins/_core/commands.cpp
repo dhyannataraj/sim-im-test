@@ -45,8 +45,7 @@ Commands::~Commands()
     MENU_MAP::iterator itm;
     for (itm = menus.begin(); itm != menus.end(); ++itm){
         MenuDef &def = (*itm).second;
-        if (def.menu)
-            delete def.menu;
+        delete def.menu;
         delete def.def;
     }
 }
@@ -82,8 +81,6 @@ void Commands::clear()
 
 CommandsDef *Commands::createMenu(unsigned id)
 {
-    if (id == MenuPhoneLocation)
-        id = MenuPhoneLocation;  // FIXME: if id==MenuPhoneLocation then id = MenuPhoneLocation, Does it make sense?
     MENU_MAP::iterator it = menus.find(id);
     if (it != menus.end())
         return (*it).second.def;

@@ -31,14 +31,15 @@
 
 using SIM::getContacts;
 
-OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent)
+OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
+  : QWidget(parent)
+  , m_plugin(plugin)
 {
-	setupUi(this);
-    m_plugin = plugin;
+    setupUi(this);
     OSDUserData *data = (OSDUserData*)d;
     chkMessage->setChecked(data->EnableMessage.toBool());
     chkMessageContent->setChecked(data->EnableMessageShowContent.toBool());
-	chkCapsLockFlash->setChecked(data->EnableCapsLockFlash.toBool());
+    chkCapsLockFlash->setChecked(data->EnableCapsLockFlash.toBool());
     chkStatus->setChecked(data->EnableAlert.toBool());
     chkStatusOnline->setChecked(data->EnableAlertOnline.toBool());
     chkStatusAway->setChecked(data->EnableAlertAway.toBool());
@@ -49,9 +50,9 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(pare
     chkStatusOffline->setChecked(data->EnableAlertOffline.toBool());
     chkTyping->setChecked(data->EnableTyping.toBool());
     for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
+        QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+        if (!tab)
             continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
         void *data = getContacts()->getUserData(plugin->user_data_id);
         m_iface = new OSDIface(tab, data, plugin);
         tab->addTab(m_iface, i18n("&Interface"));
@@ -76,7 +77,7 @@ void OSDConfig::apply(void *d)
     OSDUserData *data = (OSDUserData*)d;
     data->EnableMessage.asBool()			= chkMessage->isChecked();
     data->EnableMessageShowContent.asBool() = chkMessageContent->isChecked();
-	data->EnableCapsLockFlash.asBool()		= chkCapsLockFlash->isChecked();
+    data->EnableCapsLockFlash.asBool()		= chkCapsLockFlash->isChecked();
     data->EnableAlert.asBool()				= chkStatus->isChecked();
     data->EnableAlertOnline.asBool()		= chkStatusOnline->isChecked();
     data->EnableAlertAway.asBool()			= chkStatusAway->isChecked();
@@ -99,7 +100,7 @@ void OSDConfig::statusToggled(bool bState)
     chkStatusOccupied->setEnabled(bState);
     chkStatusFFC->setEnabled(bState);
     chkStatusOffline->setEnabled(bState);
-	chkCapsLockFlash->setEnabled(bState);
+    chkCapsLockFlash->setEnabled(bState);
 }
 
 void OSDConfig::showMessageToggled(bool bState)

@@ -32,7 +32,7 @@ WorkInfo::WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClie
     m_data    = data;
     m_client  = client;
     m_contact = contact;
-    btnSite->setPixmap(Pict("home"));
+    btnSite->setIcon(Icon("home"));
     connect(btnSite, SIGNAL(clicked()), this, SLOT(goUrl()));
     if (m_data){
         edtAddress->setReadOnly(true);

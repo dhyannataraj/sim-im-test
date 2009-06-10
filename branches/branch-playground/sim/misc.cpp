@@ -700,7 +700,7 @@ bool my_string::operator < (const my_string &a) const
 EXPORT QString get_os_version()
 {
     QString res;
-#ifdef WIN32
+#if defined(Q_OS_WIN32)
     res += "Windows ";
     OSVERSIONINFOA osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);

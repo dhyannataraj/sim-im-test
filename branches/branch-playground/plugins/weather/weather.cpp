@@ -293,7 +293,6 @@ void WeatherPlugin::showBar()
     if (m_bar || getID().isEmpty())
         return;
  
-    QWidgetList list = QApplication::topLevelWidgets();
     MainWindow *main= MainWindow::mainWindow();
     if (main == NULL)
             return;
@@ -302,7 +301,7 @@ void WeatherPlugin::showBar()
     e.process();
     m_bar = e.toolBar();
     main->addToolBar(Qt::BottomToolBarArea, m_bar);
-    //restoreToolbar(m_bar, data.bar);
+    restoreToolbar(m_bar, data.bar);
     connect(m_bar, SIGNAL(destroyed()), this, SLOT(barDestroyed()));
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
