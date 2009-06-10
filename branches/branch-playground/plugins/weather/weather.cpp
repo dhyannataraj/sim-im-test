@@ -301,7 +301,7 @@ void WeatherPlugin::showBar()
     EventToolbar e(BarWeather, main);
     e.process();
     m_bar = e.toolBar();
-    main->addToolBar(m_bar);
+    main->addToolBar(Qt::BottomToolBarArea, m_bar);
     //restoreToolbar(m_bar, data.bar);
     connect(m_bar, SIGNAL(destroyed()), this, SLOT(barDestroyed()));
     QTimer *timer = new QTimer(this);

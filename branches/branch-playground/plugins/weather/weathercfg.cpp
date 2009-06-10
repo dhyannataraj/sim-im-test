@@ -15,20 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
+#include <QTimer>
+#include <QTabWidget>
 #include <QToolBar>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qtabwidget.h>
 #include <QXmlStreamReader>
 
-#include "ballonmsg.h"
-#include "buffer.h"
-#include "editfile.h"
-#include "linklabel.h"
-#include "log.h"
-#include "misc.h"
+#include <ballonmsg.h>
+#include <log.h>
+#include <misc.h>
 
 #include "weather.h"
 #include "weathercfg.h"
@@ -46,12 +40,12 @@ WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
     connect(btnSearch, SIGNAL(clicked()), this, SLOT(search()));
     connect(cmbLocation->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(cmbLocation, SIGNAL(activated(int)), this, SLOT(activated(int)));
-    textChanged("");
+    textChanged(QString());
     fill();
     for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
+        QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+        if(!tab)
             continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
         m_iface = new WIfaceCfg(tab, plugin);
         tab->addTab(m_iface, i18n("Interface"));
         tab->adjustSize();
@@ -101,8 +95,8 @@ bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
         cmbLocation->lineEdit()->setText(oldText);
         BalloonMsg::message(i18n("Location %1 not found") .arg(oldText), btnSearch, false);
     }else{
-        cmbLocation->insertStringList(m_names);
-        cmbLocation->setCurrentItem(0);
+        cmbLocation->addItems(m_names);
+        cmbLocation->setCurrentIndex(0);
         activated(0);
     }
     textChanged(cmbLocation->lineEdit()->text());
@@ -119,7 +113,7 @@ bool WeatherCfg::processEvent(Event *e)
 void WeatherCfg::fill()
 {
     edtID->setText(m_plugin->getID());
-    cmbUnits->setCurrentItem(m_plugin->getUnits() ? 1 : 0);
+    cmbUnits->setCurrentIndex(m_plugin->getUnits() ? 1 : 0);
     cmbLocation->lineEdit()->setText(m_plugin->getLocation());
     edtDays->setValue(m_plugin->getForecast());
 }
@@ -133,12 +127,12 @@ void WeatherCfg::activated(int n)
 
 void WeatherCfg::apply()
 {
-    m_plugin->setUnits(cmbUnits->currentItem() != 0);
+    m_plugin->setUnits(cmbUnits->currentIndex() != 0);
     m_plugin->setForecast(edtDays->text().toULong());
     m_plugin->setID(edtID->text());
     m_plugin->setLocation(cmbLocation->lineEdit()->text());
     m_iface->apply();
-    if (*m_plugin->getID()){
+    if (!m_plugin->getID().isEmpty()){
         m_plugin->showBar();
         m_plugin->updateButton();
         if (m_plugin->m_bar)

@@ -89,8 +89,8 @@ WIfaceCfg::WIfaceCfg(QWidget *parent, WeatherPlugin *plugin)
     m_plugin = plugin;
     setButtonsPict(this);
     edtText->setText(unquoteText(m_plugin->getButtonText()));
-    edtTip->setText(m_plugin->getTipText());
-    edtForecastTip->setText(m_plugin->getForecastText());
+    edtTip->setPlainText(m_plugin->getTipText());
+    edtForecastTip->setPlainText(m_plugin->getForecastText());
     edtText->helpList = helpList;
     edtTip->helpList = helpList;
     edtForecastTip->helpList = helpForecastList;
@@ -106,11 +106,11 @@ void WIfaceCfg::apply()
     if (edtText->text() != unquoteText(m_plugin->getButtonText())){
         m_plugin->setText(edtText->text());
     }
-    if (edtTip->text() != m_plugin->getTipText()){
-        m_plugin->setTip(edtTip->text());
+    if (edtTip->toPlainText() != m_plugin->getTipText()){
+        m_plugin->setTip(edtTip->toPlainText());
     }
-    if (edtForecastTip->text() != m_plugin->getForecastText()){
-        m_plugin->setForecastTip(edtForecastTip->text());
+    if (edtForecastTip->toPlainText() != m_plugin->getForecastText()){
+        m_plugin->setForecastTip(edtForecastTip->toPlainText());
     }
 }
 
