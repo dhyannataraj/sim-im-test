@@ -289,11 +289,13 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 ICQClient::~ICQClient()
 {
     setStatus(STATUS_OFFLINE, false);
+    freeData(); // before deleting of other members!
+
     delete m_listener;
     delete m_snacService;
     delete m_snacBuddy;
     delete m_snacICBM;
-	delete m_ifChecker; //independed if MediaSense is activated, it can be risk-less deleted, because it is initilized with NULL
+    delete m_ifChecker; //independed if MediaSense is activated, it can be risk-less deleted, because it is initilized with NULL
     free_data(icqClientData, &data);
     delete socket();
     for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
@@ -308,8 +310,6 @@ ICQClient::~ICQClient()
     while (!m_sockets.empty())
         delete m_sockets.front();
     m_processMsg.clear();
-
-    freeData();
 }
 
 bool ICQClient::addSnacHandler(SnacHandler* handler)
