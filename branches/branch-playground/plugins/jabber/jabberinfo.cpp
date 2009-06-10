@@ -208,7 +208,7 @@ void JabberInfo::fill()
     edtID->setText(data->ID.str());
     edtFirstName->setText(data->FirstName.str());
     edtNick->setText(data->Nick.str());
-    edtDate->setText(data->Bday.str());
+    edtDate->setDate(QDate::fromString(data->Bday.str(), Qt::ISODate));
     edtUrl->setText(data->Url.str());
     urlChanged(edtUrl->text());
     cmbResource->clear();
@@ -233,7 +233,7 @@ void JabberInfo::apply(Client *client, void *_data)
     JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->FirstName.str() = edtFirstName->text();
     data->Nick.str()      = edtNick->text();
-    data->Bday.str()      = edtDate->text();
+    data->Bday.str()      = edtDate->getDate().toString(Qt::ISODate);
     data->Url.str()       = edtUrl->text();
 }
 
