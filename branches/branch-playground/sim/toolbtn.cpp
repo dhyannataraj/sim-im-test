@@ -416,7 +416,9 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 	}
 	p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix | Qt::SingleLine, text);
 	p.end();
-        static int i = 0;
+	p.begin(this);
+	p.drawPixmap(0, 0, pict);
+	p.end();
 }
 
 /*****************************
