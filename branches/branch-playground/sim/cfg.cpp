@@ -36,16 +36,15 @@
 
 #include <qfile.h>
 #include <QToolBar>
-#include <q3mainwindow.h>
+#include <qmainwindow.h>
 #include <qstringlist.h>
 #include <qapplication.h>
 #include <qdir.h>
 #include <qstyle.h>
 #ifdef _DEBUG
 # include <qmessagebox.h>
-//Added by qt3to4:
-#include <Q3CString>
 #endif
+#include <Q3CString>
 
 #ifdef USE_KDE
 #include <kglobal.h>
@@ -70,32 +69,33 @@ EXPORT void save_state()
 EXPORT bool makedir(const QString &p)
 {
     QDir path;
-    if(p.endsWith("/") || p.endsWith("\\")) {
+    // TODO: still needed?
+    if(p.endsWith('/') || p.endsWith('\\')) {
         QFileInfo fi(p + "dummy.txt");
-        path = fi.dir(true);
+        path = fi.absoluteDir();
     } else {
         QFileInfo fi(p);
-        path = fi.dir(true);
+        path = fi.absoluteDir();
     }
 
     if(path.exists())
         return true;
-    QString r = QDir::convertSeparators(path.absPath());
+    QString r = QDir::convertSeparators(path.absolutePath());
 
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
     ZeroMemory(&sa, sizeof(sa));
     sa.nLength = sizeof(sa);
     sa.lpSecurityDescriptor = NULL;
-    if(QApplication::winVersion()&QSysInfo::WV_NT_based){
+    if(QSysInfo::windowsVersion()&QSysInfo::WV_NT_based){
         InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
         SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
         sa.lpSecurityDescriptor = &sd;
     }
-    CreateDirectoryW((LPCWSTR)p.ucs2(), &sa);
-    DWORD dwAttr = GetFileAttributesW((LPCWSTR)p.ucs2());
+    CreateDirectoryW((LPCWSTR)p.utf16(), &sa);
+    DWORD dwAttr = GetFileAttributesW((LPCWSTR)p.utf16());
     if (dwAttr & FILE_ATTRIBUTE_READONLY)
-        SetFileAttributesW((LPCWSTR)p.ucs2(), dwAttr & ~FILE_ATTRIBUTE_READONLY);
+        SetFileAttributesW((LPCWSTR)p.utf16(), dwAttr & ~FILE_ATTRIBUTE_READONLY);
     return true;
 }
 
@@ -162,13 +162,13 @@ EXPORT QString app_file(const QString &f)
 #ifdef __OS2__
     QString b = buff;
 #else    
-    QString b = QString::fromUcs2((unsigned short*)buff);
+    QString b = QString::fromUtf16((unsigned short*)buff);
 #endif    
     int idx = b.lastIndexOf('\\');
     if(idx != -1)
         b = b.left(idx+1);
     app_file_name = b;
-    if (app_file_name.length() && (app_file_name.right(1) != "\\") && (app_file_name.right(1) != "/"))
+    if (!app_file_name.endsWith('\\') && !app_file_name.endsWith('/'))
         app_file_name += '\\';
 #else
     if (fname[0] == '/')
@@ -232,7 +232,7 @@ QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
     if (bQuoteSlash) {
         quote_chars += '\\';
     }
-    for (int i = 0; i < (int) (from.length ()); i++) {
+    for (int i = 0; i < from.length (); i++) {
         QChar c = from[i];
         if (quote_chars.contains (c)) {
             res += '\\';
@@ -251,8 +251,8 @@ QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
     if (bQuoteSlash) {
         quote_chars += '\\';
     }
-    for (int i = 0; i < (int) (from.length()); i++) {
-        if ( (from[i] == '\\') && (i+1 < (int) from.length()) ) {
+    for (int i = 0; i < from.length(); i++) {
+        if ( (from[i] == '\\') && (i+1 < from.length()) ) {
           if (quote_chars.contains (from[i+1])) {
                 i++; // If the char after the slash is part of quote_chars, then we will skip that slash
           } else
@@ -260,13 +260,15 @@ QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
             if (bQuoteSlash) {
                 // There should not be slashes with characters other than quote_chars after it, when bQuoteSlash is true
                 // So will warn about it
-              log(L_WARN,"Single slash found while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
+              log(L_WARN,"Single slash found while unquoting chars '%s' in string '%s'",
+                  qPrintable(chars), qPrintable(from));
             }
           }
         }
-        if ( bQuoteSlash && (from[i] == '\\') && (i+1 == (int) from.length()) ) {
-          // There should not be slashe at the end of the string if bQuoteSlash is true
-          log(L_WARN,"Single slash found at the end of string while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
+        if ( bQuoteSlash && (from[i] == '\\') && (i+1 == from.length()) ) {
+          // There should not be slashes at the end of the string if bQuoteSlash is true
+          log(L_WARN,"Single slash found at the end of string while unquoting chars '%s' in string '%s'",
+              qPrintable(chars), qPrintable(from));
         }
         res += from[i];
     }
@@ -276,22 +278,22 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
 {
     QString res;
     int i;
-    for (i = 0; i < (int)from.length(); i++){
+    for (i = 0; i < from.length(); i++){
         if (from[i] == c)
             break;
         if (from[i] == '\\'){
             i++;
-            if (i >= (int)from.length())
+            if (i >= from.length())
                 break;
             if (!bUnEscape)
                 res += '\\';
         }
         res += from[i];
     }
-    if (i < (int)from.length()){
+    if (i < from.length()){
         from = from.mid(i + 1);
     }else{
-        from = QString::null;
+        from.clear();
     }
     return res;
 }
@@ -300,22 +302,22 @@ EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEscape)
 {
     Q3CString res;
     int i;
-    for (i = 0; i < (int)from.length(); i++){
+    for (i = 0; i < from.length(); i++){
         if (from[i] == c)
             break;
         if (from[i] == '\\'){
             i++;
-            if (i >= (int)from.length())
+            if (i >= from.length())
                 break;
             if (!bUnEscape)
                 res += '\\';
         }
         res += from[i];
     }
-    if (i < (int)from.length()){
+    if (i < from.length()){
         from = from.mid(i + 1);
     }else{
-        from = Q3CString();
+        from.clear();
     }
     return res;
 }
@@ -365,15 +367,15 @@ EXPORT const QString get_str(const Data &d, unsigned index)
     const Data::STRING_MAP &sm = d.strMap();
     Data::STRING_MAP::const_iterator it = sm.find(index);
     if(it != sm.end())
-        return it.data();
-    return QString::null;
+        return it.value();
+    return QString();
 }
 
 EXPORT void set_str(Data *d, unsigned index, const QString &value)
 {
     Data::STRING_MAP &sm = d->strMap();
 
-    sm.replace(index, value);
+    sm.insert(index, value);
 }
 
 // _______________________________________________________________________________________
@@ -484,12 +486,12 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
     return NULL;
 }
 
-static Q3CString quoteInternal(const Q3CString &str)
+static QByteArray quoteInternal(const QByteArray &str)
 {
-    Q3CString res("\"");
+    QByteArray res("\"");
     if (!str.isEmpty()){
-        for (unsigned i = 0; i < (unsigned)str.length(); i++){
-            unsigned char p = str[(int)i];
+        for (int i = 0; i < str.length(); i++){
+            unsigned char p = str[i];
             switch (p){
             case '\\':
                 res += "\\\\";
@@ -659,23 +661,23 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             break;
         }
         case DATA_BOOL: {
-            QList<QByteArray> sl = val.split(',');
+            const QList<QByteArray> sl = val.split(',');
             for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
-                const QByteArray s = sl[i];
+                const QByteArray &s = sl[i];
                 if(s.isEmpty())
                     continue;
-                ld->setBool(s.lower() != "false" && s != "0");
+                ld->setBool(s.toLower() != "false" && s != "0");
             }
             break;
         }
         case DATA_BINARY: {
-            QList<QByteArray> sl = val.split(',');
+            const QList<QByteArray> sl = val.split(',');
             for (unsigned i = 0; i < def->n_values && i < (unsigned)sl.count(); i++, ld++){
-                const QByteArray s = sl[i];
+                const QByteArray &s = sl[i];
                 if(s.isEmpty())
                     continue;
                 int size = s.length() / 2;
-                QByteArray ba(size);
+                QByteArray ba(size, '\0');
                 for(int cnt = 0; cnt < size; cnt++) {
                     ba.data()[cnt] = (char)s.mid(cnt * 2, 2).toShort(NULL, 16);
                 }
@@ -730,7 +732,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                     const Data::STRING_MAP &p = ld->strMap();
                     if (p.count()){
                         for (Data::STRING_MAP::ConstIterator it = p.begin(); it != p.end(); ++it){
-                            if(it.data().isEmpty())
+                            if(it.value().isEmpty())
                                 continue;
                             if (res.length())
                                 res += '\n';
@@ -738,12 +740,12 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                             res += '=';
                             res += QString::number(it.key());
                             res += ',';
-                            QString s = it.data();
-                            Q3CString ls = s.local8Bit();
+                            QString s = it.value();
+                            QByteArray ls = s.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 res += quoteInternal(ls);
                             }else{
-                                res += quoteInternal(s.utf8());
+                                res += quoteInternal(s.toUtf8());
                                 res += 'u';
                             }
                         }
@@ -765,11 +767,11 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                             }
                         }
                         if (bSave){
-                            Q3CString ls = str.local8Bit();
+                            QByteArray ls = str.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == str){
                                 value += quoteInternal(ls);
                             }else{
-                                value += quoteInternal(str.utf8());
+                                value += quoteInternal(str.toUtf8());
                                 value += 'u';
                             }
                         }
@@ -789,11 +791,11 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                                 bSave = true;
                         }
                         if (bSave){
-                            Q3CString ls = str.local8Bit();
+                            QByteArray ls = str.toLocal8Bit();
                             if (QString::fromLocal8Bit(ls) == str){
                                 value += quoteInternal(ls);
                             }else{
-                                value += quoteInternal(str.utf8());
+                                value += quoteInternal(str.toUtf8());
                                 value += 'u';
                             }
                         }
@@ -870,7 +872,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                         unsigned char c = ba.data()[i];
                         QString s;
                         s.sprintf("%02X", c);
-                        value += s.latin1();    // ok here since they're only latin1 chars
+                        value += s.toLatin1();    // ok here since they're only latin1 chars
                     }
                     if(!bSave)
                         bSave = (ba.size() != 0);
@@ -987,48 +989,40 @@ const long SAVE_STATE = -1;
 
 EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
-	/*
     for(int i = 0; i < 7; i++)
         state[i].clear();
     if (bar == NULL)
         return;
-    Q3MainWindow *main = NULL;
+
+    QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
-        if (w->inherits("QMainWindow")){
-            main = static_cast<Q3MainWindow*>(w);
+        main = qobject_cast<QMainWindow*>(w);
+        if (main)
             break;
-        }
     }
     if (main == NULL)
         return;
-    //Q3MainWindow::ToolBarDock dock;
-	Qt::Dock dock;
-    int  index;
-    bool nl;
-    int  extraOffset;
-    main->getLocation(bar, dock, index, nl, extraOffset);
+    Qt::ToolBarArea dock = main->toolBarArea(bar);
     state[0].asLong() = SAVE_STATE;
     state[1].asLong() = (long)dock;
-    state[2].asLong() = index;
-    state[3].asLong() = nl ? 1 : 0;
-    state[4].asLong() = extraOffset;
-    if (dock == Qt::TornOff){
+    state[2].asLong() = 0;
+    state[3].asLong() = 0;
+    state[4].asLong() = 0;
+    if (dock == Qt::NoToolBarArea){
         QPoint pos = bar->geometry().topLeft();
         state[5].asLong() = pos.x();
         state[6].asLong() = pos.y();
     }
-	*/
 }
 
 EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
-	/*
     if (bar == NULL)
         return;
     if (state[0].asLong() != SAVE_STATE)
-	{
+    {
         if (state[1].asLong() == 0)
-			state[1].asLong() = (unsigned)(Qt::Top);
+        state[1].asLong() = (unsigned)(Qt::Top);
         state[2].asLong() = 0;
         state[3].asLong() = 0;
         state[4].asLong() = SAVE_STATE;
@@ -1037,20 +1031,17 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
     }
     QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget())
-	{
-        if (w->inherits("QMainWindow"))
-		{
-            main = static_cast<QMainWindow*>(w);
+    {
+        main = qobject_cast<QMainWindow*>(w);
+        if (main)
             break;
-        }
     }
     if (main == NULL)
         return;
-    Q3MainWindow::ToolBarDock dock = (Qt::ToolBarDock)state[1].asLong();
-    main->moveToolBar(bar, dock, state[2].asLong() != 0, state[3].asLong() != 0, state[4].asLong());
-    if (dock == Q3MainWindow::TornOff)
+    Qt::ToolBarArea dock = (Qt::ToolBarArea)state[1].asLong();
+    main->addToolBar(dock, bar);
+    if (dock == Qt::NoToolBarArea)
         bar->move(state[5].asLong(), state[6].asLong());
-		*/
 }
 
 // ----------------------------
@@ -1432,7 +1423,7 @@ bool Data::checkType(DataType type) const
         QString errString = QString("Using wrong data type %1 instead %2 for %3!")
                                .arg(dataType2Name(type))
                                .arg(dataType2Name(m_type))
-                               .arg(m_name.isEmpty() ? "??" : m_name);
+                               .arg(m_name.isEmpty() ? QLatin1String("??") : m_name);
         log(L_ERROR, errString);
 #ifdef _DEBUG
         QMessageBox::information(0, "Debug error", errString, QMessageBox::Ok);
