@@ -25,7 +25,7 @@
 #include <QLabel>
 #include <QList>
 
-class QLineEdit;
+class QDateEdit;
 class QPushButton;
 class QSpinBox;
 
@@ -37,10 +37,8 @@ class EXPORT DatePicker : public QFrame
 public:
     DatePicker(QWidget *parent);
     ~DatePicker();
-    void setDate(QDate);
-    QDate getDate();
-    void setText(const QString&);
-    QString text();
+    void setDate(const QDate&);
+    QDate getDate() const;
 signals:
     void changed();
 protected slots:
@@ -49,7 +47,7 @@ protected slots:
 protected:
     void setEnabled(bool);
     void paintEvent(QPaintEvent*);
-    QLineEdit	*m_edit;
+    QDateEdit	*m_edit;
     QPushButton	*m_button;
 };
 

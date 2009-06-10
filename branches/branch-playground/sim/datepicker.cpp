@@ -35,7 +35,7 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QVBoxLayout>
-
+#include <QDateEdit>
 class DateValidator : public QValidator
 {
 public:
@@ -56,28 +56,13 @@ QValidator::State DateValidator::validate(QString &str, int&) const
     return Invalid;
 }
 
-class DateEdit : public QLineEdit
-{
-public:
-    DateEdit(QWidget*);
-};
-
-DateEdit::DateEdit(QWidget *parent)
-        : QLineEdit(parent)
-{
-    setValidator(new DateValidator(this));
-    setInputMask("0000-00-00;_");
-}
-
 DatePicker::DatePicker(QWidget *parent)
         : QFrame(parent)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
     setLineWidth(0);
     QHBoxLayout *lay = new QHBoxLayout(this);
-    m_edit = new DateEdit(this);
-    QFontMetrics fm(m_edit->font());
-    m_edit->setFixedWidth(fm.width("0000-00-00") + 14);
+    m_edit = new QDateEdit(this);
     lay->addWidget(m_edit);
     m_button = new QPushButton(this);
     m_button->setIcon(SIM::Icon("more"));
@@ -97,22 +82,9 @@ void DatePicker::setEnabled(bool state)
     m_button->setEnabled(state);
 }
 
-void DatePicker::setText(const QString &s)
+QDate DatePicker::getDate() const
 {
-	if (QDate::fromString(s, Qt::ISODate).isValid())
-		m_edit->setText(s);
-	else 
-		m_edit->setText(QString::null);
-}
-
-QString DatePicker::text()
-{
-    return m_edit->text();
-}
-
-QDate DatePicker::getDate()
-{
-    return QDate::fromString(m_edit->text(), Qt::ISODate);
+    return m_edit->date();
 }
 
 void DatePicker::paintEvent(QPaintEvent *e)
@@ -127,9 +99,9 @@ void DatePicker::paintEvent(QPaintEvent *e)
     QFrame::paintEvent(e);
 }
 
-void DatePicker::setDate(QDate date)
+void DatePicker::setDate(const QDate &date)
 {
-    m_edit->setText(date.toString(Qt::ISODate));
+    m_edit->setDate(date);
     emit changed();
 }
 
@@ -203,8 +175,7 @@ PickerPopup::PickerPopup(DatePicker *picker)
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
-    setFrameShape(QFrame::NoFrame);
-    setFrameShadow(QFrame::Sunken);
+    setFrameShape(QFrame::StyledPanel);
     setLineWidth(1);
 
     QDate d = QDate::currentDate();
@@ -344,8 +315,7 @@ void PickerPopup::fill()
 
 PickerLabel::PickerLabel(QWidget *parent)
         : QLabel(parent)
-{
-}
+{}
 
 void PickerLabel::mouseReleaseEvent(QMouseEvent*)
 {
