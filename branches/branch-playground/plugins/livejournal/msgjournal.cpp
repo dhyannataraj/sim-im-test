@@ -33,7 +33,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
 {
     m_client = msg->client();
     m_edit  = parent;
-    m_wnd   = new MsgJournalWnd(m_edit->m_frame);
+    m_wnd   = new MsgJournalWnd(m_edit);
     connect(m_wnd, SIGNAL(finished()), this, SLOT(frameDestroyed()));
     m_edit->m_layout->insertWidget(0, m_wnd);
     m_wnd->show();

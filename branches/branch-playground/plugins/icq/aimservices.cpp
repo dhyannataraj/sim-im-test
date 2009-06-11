@@ -342,7 +342,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                     tlv = tlvs(0x06);
                     if (tlv){
                         QString country_text;
-                        country_text.fromLatin1(tlv->Data());
+                        country_text = QString::fromLatin1(tlv->Data());
                         country_text = country_text.toLower();
                         for (const ext_info *info = getCountryCodes(); info->szName; ++info){
                             if (country_text == info->szName){

@@ -75,7 +75,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     textChanged();
     SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::m_plugin->sms_data_id));
     if (contact->getFlags() & CONTACT_TEMP){
-        m_panel = new SMSPanel(m_edit->m_frame);
+        m_panel = new SMSPanel(m_edit);
         m_edit->m_layout->insertWidget(0, m_panel);
         connect(m_panel, SIGNAL(destroyed()), this, SLOT(panelDestroyed()));
         m_panel->show();

@@ -21,8 +21,7 @@
 #include "cfg.h"
 #include "message.h"
 
-#include <qsplitter.h>
-//Added by qt3to4:
+#include <QSplitter>
 #include <Q3CString>
 #include <QCloseEvent>
 
@@ -75,8 +74,7 @@ protected:
     void closeEvent(QCloseEvent*);
     MsgView		*m_view;
     MsgEdit		*m_edit;
-    QSplitter	*m_hSplitter;
-    QSplitter	*m_splitter;
+    QSplitter           *m_splitter;
     QString		m_status;
     bool		m_bResize;
     bool		m_bClosed;

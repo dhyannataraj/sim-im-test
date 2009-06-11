@@ -33,7 +33,7 @@ MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
 {
     m_client = msg->client();
     m_edit = parent;
-    m_list = new UserList(m_edit->m_frame);
+    m_list = new UserList(m_edit);
     m_edit->m_layout->addWidget(m_list);
     m_edit->m_edit->setTextFormat(Qt::PlainText);
     connect(m_list, SIGNAL(selectChanged()), this, SLOT(changed()));

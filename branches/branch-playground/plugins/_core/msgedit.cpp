@@ -155,7 +155,7 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     TextEdit::contentsDragMoveEvent(e);
 }
 
-MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QMainWindow(parent, NULL, 0)
+MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
 {
     m_userWnd	= userWnd;
     m_msg		= NULL;
@@ -170,15 +170,10 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QMainWindow(parent, NULL, 
 
     connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
-    m_frame = new QFrame(this, "msgedit");
-    setCentralWidget(m_frame);
-    m_layout = new QVBoxLayout(m_frame);
+    m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
 
-    setIconSize(QSize(16,16));
-
-    m_edit = new MsgTextEdit(this, m_frame);
-    setCentralWidget(m_frame);
+    m_edit = new MsgTextEdit(this, this);
     m_edit->setBackground(QColor(CorePlugin::m_plugin->getEditBackground() & 0xFFFFFF));
     m_edit->setBackground(QColor(255, 255, 255));
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
@@ -197,25 +192,16 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QMainWindow(parent, NULL, 
     QFontMetrics fm(m_edit->font());
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
 
-    EventToolbar e(ToolBarMsgEdit, this);
+    EventToolbar e(ToolBarMsgEdit, NULL);
     e.process();
     m_bar = e.toolBar();
     m_bar->setParam(this);
-//    addToolBar(m_bar);
-    m_layout->addWidget(m_bar);
-    m_bar->checkState();
 
+    m_layout->addWidget(m_bar);
     m_layout->addWidget(m_edit);
-    userWnd->addWidget(this);
-//    userWnd->addWidget(m_edit);
 
     if (CorePlugin::m_plugin->getContainerMode() == 0)
         showCloseSend(false);
-
-	/*
-	addDockWidget(Qt::LeftDockWidgetArea, new QDockWidget(this));
-	addDockWidget(Qt::RightDockWidgetArea, new QDockWidget(this));
-	*/
 }
 
 MsgEdit::~MsgEdit()
@@ -276,7 +262,7 @@ void MsgEdit::showCloseSend(bool bState)
 
 void MsgEdit::resizeEvent(QResizeEvent *e)
 {
-    QMainWindow::resizeEvent(e);
+    QFrame::resizeEvent(e);
     emit heightChanged(height());
 }
 

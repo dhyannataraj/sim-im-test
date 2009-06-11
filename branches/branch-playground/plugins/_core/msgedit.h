@@ -22,9 +22,7 @@
 #include "textshow.h"
 #include "event.h"
 
-#include <QMainWindow>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QLabel>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QResizeEvent>
@@ -37,7 +35,7 @@
 class CorePlugin;
 class UserWnd;
 class CToolBar;
-class Q3VBoxLayout;
+class QVBoxLayout;
 class QFrame;
 class TextEdit;
 
@@ -62,7 +60,7 @@ protected:
     MsgEdit *m_edit;
 };
 
-class MsgEdit : public QMainWindow, public SIM::EventReceiver
+class MsgEdit : public QFrame, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -73,7 +71,6 @@ public:
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
-    QFrame		*m_frame;
     bool		sendMessage(SIM::Message *msg);
     static void setupMessages();
     void		getWays(std::vector<ClientStatus> &cs, SIM::Contact *contact);
