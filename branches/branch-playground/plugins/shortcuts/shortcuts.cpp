@@ -468,7 +468,17 @@ static int X11EventFilter(::XEvent *e)
     return false;
 }
 
-#endif  // !Q_OS_MAC
+#else  // !Q_OS_MAC
+
+GlobalKey::GlobalKey(SIM::CommandDef *cmd)
+{
+}
+
+GlobalKey::~GlobalKey()
+{
+}
+
+#endif // !Q_OS_MAC
 #endif  // USE_KDE
 #endif  // WIN32
 

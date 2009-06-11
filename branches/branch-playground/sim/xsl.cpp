@@ -115,20 +115,20 @@ QString XSL::process(const QString &my_xml)
     const char *params[1];
     params[0] = NULL;
     xmlDocPtr res = xsltApplyStylesheet(d->styleSheet, doc, params);
+    xmlFreeDoc(doc);
     if (res == NULL){
         xmlErrorPtr ptr = xmlGetLastError();
         log(L_WARN, "Apply stylesheet error (%s)", ptr ? ptr->message : "");
-        xmlFreeDoc(doc);
         return QString(ptr ? ptr->message : "Apply stylesheet error!");
     }
-    xmlFreeDoc(doc);
 
     xmlOutputBufferPtr buf = xmlAllocOutputBuffer(NULL);
     xsltSaveResultTo(buf, res, d->styleSheet);
-    xmlFreeDoc(res);
+// Strange crash on MacOS X in libxsl !
+//    xmlFreeDoc(res);
 
     QString result = QString::fromUtf8((char*)(buf->buffer->content));
-    xmlOutputBufferClose(buf);;
+    xmlOutputBufferClose(buf);
 
     return result;
 }

@@ -186,6 +186,12 @@ ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
 ADD_JISP_ARCHIVE(msn	    msn.jisp        _core_SRCS)
 
 FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
+
+FOREACH(FILE ${_prebuilt})
+    GET_FILENAME_COMPONENT(FILENAME ${FILE} NAME)
+    CONFIGURE_FILE(${FILE} ${SIM_ICONS_DIR}/${NAME} COPYONLY)
+ENDFOREACH(FILE)
+			
 INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
 
 SIM_ADD_PLUGIN(_core)

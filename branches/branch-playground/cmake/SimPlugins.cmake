@@ -25,6 +25,10 @@ MACRO(SIM_ADD_PLUGIN _name)
     SET_TARGET_PROPERTIES(${_name} PROPERTIES DEFINE_SYMBOL MAKE_${_NAME}_LIB)
 
     INSTALL(TARGETS ${_name} LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+
+    IF(APPLE)                                                                                                                                                                                        
+	SET(LIBRARY_OUTPUT_PATH ${SIM_PLUGIN_DIR})                                                                                                                                                           
+    ENDIF(APPLE)                                                                                                                                                                                     
 ENDMACRO(SIM_ADD_PLUGIN)
 
 MACRO(SIM_FIND_PLUGINS sim_plugin_dir)

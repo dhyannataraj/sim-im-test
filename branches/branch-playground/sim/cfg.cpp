@@ -185,9 +185,15 @@ EXPORT QString app_file(const QString &f)
         }
     }
 #endif
-#ifndef __OS2__
+#if !defined( __OS2__ ) && !defined( Q_OS_MAC )
     app_file_name = PREFIX "/share/apps/sim/";
 #endif
+
+#ifdef Q_OS_MAC
+    app_file_name = QApplication::applicationDirPath();
+    app_file_name += "/../Resources/";
+#endif
+
 #endif
     app_file_name += f;
     return QDir::convertSeparators(app_file_name);
