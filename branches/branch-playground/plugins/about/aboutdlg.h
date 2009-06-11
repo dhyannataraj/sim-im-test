@@ -19,14 +19,13 @@
 #define _ABOUTDLG_H
 
 #include "simapi.h"
-//Added by qt3to4:
 #include <QCloseEvent>
+#include <QDialog>
 
 #ifndef USE_KDE
 
 #include "ui_aboutdlgbase.h"
 
-/*
 class KAboutData;
 class KAboutPerson;
 
@@ -43,8 +42,6 @@ protected:
     QString addPerson(const KAboutPerson*);
     QString quote(const QString &s);
 };
-*/
-
 
 #endif
 #endif

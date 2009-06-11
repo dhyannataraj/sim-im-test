@@ -19,14 +19,13 @@
 
 #ifndef USE_KDE
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qregexp.h>
-#include <qtabwidget.h>
-#include <qfile.h>
-#include <qlineedit.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QLabel>
+#include <QPushButton>
+#include <QRegExp>
+#include <QTabWidget>
+#include <QFile>
+#include <QLineEdit>
+#include <QList>
 #include <QCloseEvent>
 
 #include "aboutdata.h"
@@ -39,7 +38,6 @@
 
 using namespace SIM;
 
-/*
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal) : QDialog(parent, name, modal)
 {
 	setupUi(this);
@@ -47,15 +45,11 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 	setButtonsPict(this);
 
 	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-	setIcon(SIM::Icon("SIM"));
+    setWindowIcon(SIM::Icon("SIM"));
 	QIcon icon = SIM::Icon("SIM");
-	if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-		lblIcon->setPixmap(icon.pixmap(QIcon::Large, QIcon::Normal));
+    lblIcon->setPixmap(SIM::Pict("SIM"));
 	edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
 	edtVersion->setReadOnly(true);
-	QPalette p = palette();
-	p.setColor(QColorGroup::Base, colorGroup().background());
-	edtVersion->setPalette(p);
 	txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
 				"<a href=\"%3\">%4</a><br><br>" +
 				i18n("Bug report") + ": <a href=\"%5\">%6</a><br>" +
@@ -68,11 +62,10 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 			.arg(quote(aboutData->bugAddress()))
 			.arg(quote(aboutData->bugAddress())));
 	QString txt;
-	Q3ValueList<KAboutPerson>::ConstIterator it;
-	for (it = aboutData->authors().constBegin();
-			it != aboutData->authors().constEnd(); ++it)
+    KAboutPerson person;
+    foreach( person, aboutData->authors() )
 	{
-		txt += addPerson(&(*it));
+        txt += addPerson(&person);
 		txt += "<br>";
 	}
 	txtAuthors->setText(txt);
@@ -94,7 +87,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 	}
 	else
 	{
-		tabMain->removePage(tabTranslation);
+        tabMain->removeTab(tabMain->indexOf(tabTranslation));
 	}
 	QString license = aboutData->license();
 	license += "\n\n";
@@ -151,7 +144,6 @@ QString KAboutApplication::quote(const QString &s)
     res.replace('\n', "<br>");
     return res;
 }
-*/
 
 #endif
 

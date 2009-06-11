@@ -18,7 +18,7 @@
 #ifndef _ABOUT_H
 #define _ABOUT_H
 
-#include <qobject.h>
+#include <QObject>
 
 #include "event.h"
 #include "plugins.h"

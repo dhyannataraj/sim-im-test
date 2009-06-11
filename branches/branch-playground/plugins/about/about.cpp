@@ -107,7 +107,6 @@ bool AboutPlugin::processEvent(Event *e)
             EventGoURL eURL(s);
             eURL.process();
         }
-		/*
         if (cmd->id == CmdAbout){
             if (about == NULL)
             {
@@ -121,7 +120,6 @@ bool AboutPlugin::processEvent(Event *e)
             }
             raiseWindow(about);
         }
-		*/
 #ifdef USE_KDE
         if (cmd->id == CmdAboutKDE){
             if (about_kde == NULL)
