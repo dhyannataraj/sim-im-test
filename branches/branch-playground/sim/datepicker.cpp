@@ -20,47 +20,24 @@
 #include "misc.h"
 #include "toolbtn.h"
 
-#include <qdatetime.h>
-#include <qfontmetrics.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qspinbox.h>
-#include <qpainter.h>
-#include <qvalidator.h>
-#include <QHBoxLayout>
-#include <QPaintEvent>
-#include <QGridLayout>
-#include <QFrame>
-#include <QLabel>
-#include <QMouseEvent>
-#include <QVBoxLayout>
+#include <QCalendarWidget>
 #include <QDateEdit>
-class DateValidator : public QValidator
+#include <QDateTime>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+
+class PickerPopup : public QFrame
 {
 public:
-    DateValidator(QWidget *parent);
-    virtual State validate(QString &str, int &pos) const;
+    PickerPopup(DatePicker *parent);
+    ~PickerPopup();
 };
 
-DateValidator::DateValidator(QWidget *parent)
-        : QValidator(parent)
-{
-}
-
-QValidator::State DateValidator::validate(QString &str, int&) const
-{
-    if (QDate::fromString(str, Qt::ISODate).isValid())
-        return Acceptable;
-
-    return Invalid;
-}
-
 DatePicker::DatePicker(QWidget *parent)
-        : QFrame(parent)
+        : QWidget(parent)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
-    setLineWidth(0);
     QHBoxLayout *lay = new QHBoxLayout(this);
     m_edit = new QDateEdit(this);
     lay->addWidget(m_edit);
@@ -69,7 +46,6 @@ DatePicker::DatePicker(QWidget *parent)
     lay->addWidget(m_button);
     lay->addStretch();
     connect(m_button, SIGNAL(clicked()), this, SLOT(showPopup()));
-    connect(m_edit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 }
 
 DatePicker::~DatePicker()
@@ -87,237 +63,36 @@ QDate DatePicker::getDate() const
     return m_edit->date();
 }
 
-void DatePicker::paintEvent(QPaintEvent *e)
-{
-    if (parentWidget() && parentWidget()->backgroundPixmap())
-	{
-        QPoint pos = mapToParent(QPoint(0, 0));
-        QPainter p(this);
-        p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->backgroundPixmap(), pos.x(), pos.y());
-        return;
-    }
-    QFrame::paintEvent(e);
-}
-
 void DatePicker::setDate(const QDate &date)
 {
     m_edit->setDate(date);
     emit changed();
 }
 
-void DatePicker::textChanged(const QString&)
-{
-    emit changed();
-}
-
 void DatePicker::showPopup()
 {
     PickerPopup *popup = new PickerPopup(this);
-    QSize s = popup->minimumSizeHint();
-    popup->resize(s);
     QPoint p = CToolButton::popupPos(m_button, popup);
     popup->move(p);
     popup->show();
 }
 
-static const char *month_name[] =
-    {
-        I18N_NOOP("January"),
-        I18N_NOOP("February"),
-        I18N_NOOP("March"),
-        I18N_NOOP("April"),
-        I18N_NOOP("May"),
-        I18N_NOOP("June"),
-        I18N_NOOP("July"),
-        I18N_NOOP("August"),
-        I18N_NOOP("September"),
-        I18N_NOOP("October"),
-        I18N_NOOP("November"),
-        I18N_NOOP("December")
-    };
-
-static const char *day_name[] =
-    {
-        I18N_NOOP("Mon"),
-        I18N_NOOP("Tue"),
-        I18N_NOOP("Wed"),
-        I18N_NOOP("Thu"),
-        I18N_NOOP("Fri"),
-        I18N_NOOP("Sat"),
-        I18N_NOOP("Sun"),
-    };
-
-class MonthSpinBox : public QSpinBox
-{
-public:
-    MonthSpinBox(QWidget *p);
-protected:
-    QString textFromValue(int v) const;
-};
-
-MonthSpinBox::MonthSpinBox(QWidget *p)
-        : QSpinBox(p)
-{
-}
-
-QString MonthSpinBox::textFromValue(int v) const
-{
-    while (v < 0)
-        v += 12;
-    while (v >= 12)
-        v -= 12;
-    return i18n(month_name[v]);
-}
-
 PickerPopup::PickerPopup(DatePicker *picker)
         : QFrame(picker, Qt::Popup)
-        , m_picker(picker)
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
     setFrameShape(QFrame::StyledPanel);
+    setFrameShadow(QFrame::Sunken);
     setLineWidth(1);
 
-    QDate d = QDate::currentDate();
-    QVBoxLayout *vLay = new QVBoxLayout(this);
-    QHBoxLayout *hLay = new QHBoxLayout;
-    vLay->addLayout(hLay);
-    hLay->setMargin(0);
-    hLay->setSpacing(4);
+    QCalendarWidget *cw = new QCalendarWidget(this);
+    cw->setSelectedDate(picker->getDate());
+    connect(cw, SIGNAL(clicked(const QDate&)), picker, SLOT(setDate(const QDate&)));
 
-    m_monthBox = new MonthSpinBox(this);
-    m_monthBox->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    hLay->addWidget(m_monthBox);
-    m_yearBox = new QSpinBox(this);
-    m_yearBox->setMaximum(d.year());
-    m_yearBox->setMinimum(d.year() - 200);
-    m_yearBox->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
-    hLay->addWidget(m_yearBox);
-    connect(m_monthBox, SIGNAL(valueChanged(int)), this, SLOT(monthChanged(int)));
-    connect(m_yearBox, SIGNAL(valueChanged(int)), this, SLOT(yearChanged(int)));
-
-    QWidget *lbl = new QWidget(this);
-    vLay->addWidget(lbl);
-    vLay->setMargin(6);
-    vLay->setSpacing(4);
-
-    QPalette pal(palette());
-    pal.setColor(QColorGroup::Text, QColor(127, 0, 0));
-    pal.setColor(QColorGroup::Foreground, QColor(255, 0, 0));
-    QFont f(font());
-    f.setBold(true);
-
-    QGridLayout *gLay = new QGridLayout;
-    lbl->setLayout(gLay);
-    unsigned n = 0;
-	for (unsigned j = 0; j < 6; j++)
-		for (unsigned i = 0; i < 7; i++)
-		{
-			QLabel *l = new PickerLabel(lbl);
-			l->setFont(f);
-			l->setAlignment(Qt::AlignRight);
-			l->setText("99");
-			l->setMinimumSize(l->sizeHint());
-			l->setText(QString::number(n));
-			gLay->addWidget(l, i, j + 1);
-                        m_labels += l;
-			if (i >= 5)
-				l->setPalette(pal);
-			connect(l, SIGNAL(clicked(PickerLabel*)), this, SLOT(dayClick(PickerLabel*)));
-		}
-    for (unsigned i = 0; i < 7; i++){
-        QLabel *l = new QLabel(lbl);
-        l->setFont(f);
-        l->setText(i18n(day_name[i]));
-        gLay->addWidget(l, i, 0);
-        if (i >= 5)
-            l->setPalette(pal);
-    }
-    int month = m_picker->getDate().month();
-    int year = m_picker->getDate().year();
-
-    if ((month == 0) || (year == 0))
-	{
-        month = d.month();
-        year  = d.year();
-    }
-    m_monthBox->setValue(month - 1);
-    m_yearBox->setValue(year);
-    monthChanged(month - 1);
-    yearChanged(year);
+    QGridLayout *l = new QGridLayout(this);
+    l->addWidget(cw);
 }
 
 PickerPopup::~PickerPopup()
-{
-    qDeleteAll(m_labels);
-}
-
-void PickerPopup::dayClick(PickerLabel *lbl)
-{
-    unsigned year  = m_yearBox->text().toULong();
-    unsigned month = m_monthBox->value() + 1;
-    unsigned day   = lbl->text().toULong();
-    QDate date;
-    date.setYMD(year, month, day);
-    m_picker->setDate(date);
-    close();
-}
-
-void PickerPopup::monthChanged(int v)
-{
-    if (v < 0)
-	{
-        v += 12;
-        m_yearBox->setValue(m_yearBox->text().toULong() - 1);
-        m_monthBox->setValue(v);
-    }
-    if (v >= 12)
-	{
-        v -= 12;
-        m_yearBox->setValue(m_yearBox->text().toULong() + 1);
-        m_monthBox->setValue(v);
-    }
-    fill();
-}
-
-void PickerPopup::yearChanged(int v)
-{
-    QDate d = QDate::currentDate();
-	if (v == d.year() - 200)
-		m_monthBox->setMinimum(0);
-	else
-		m_monthBox->setMinimum(-1);
-	if (v == d.year())
-		m_monthBox->setMaximum(11);
-	else
-		m_monthBox->setMaximum(12);
-    fill();
-}
-
-void PickerPopup::fill()
-{
-    int month = m_monthBox->value() + 1;
-    if (month == 0)
-        month += 12;
-    if (month > 12)
-        month -= 12;
-    QDate d(m_yearBox->text().toULong(), month, 1);
-    unsigned n = d.dayOfWeek() - 1;
-    unsigned s = d.daysInMonth();
-    unsigned i;
-    for (i = 0; i < n; i++)
-        m_labels[i]->setText(QString());
-    for (i = 0; i < s; i++)
-        m_labels[i + n]->setText(QString::number(i + 1));
-    for (i = n + s; i < 42; i++)
-        m_labels[i]->setText(QString());
-}
-
-PickerLabel::PickerLabel(QWidget *parent)
-        : QLabel(parent)
 {}
-
-void PickerLabel::mouseReleaseEvent(QMouseEvent*)
-{
-    emit clicked(this);
-}

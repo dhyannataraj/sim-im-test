@@ -21,63 +21,29 @@
 #include "simapi.h"
 
 #include <QDate>
-#include <QFrame>
-#include <QLabel>
-#include <QList>
+#include <QWidget>
 
 class QDateEdit;
 class QPushButton;
-class QSpinBox;
 
-class PickerLabel;
-
-class EXPORT DatePicker : public QFrame
+class EXPORT DatePicker : public QWidget
 {
     Q_OBJECT
 public:
     DatePicker(QWidget *parent);
     ~DatePicker();
-    void setDate(const QDate&);
+
     QDate getDate() const;
-signals:
+public Q_SLOTS:
+    void setDate(const QDate&);
+Q_SIGNALS:
     void changed();
-protected slots:
+protected Q_SLOTS:
     void showPopup();
-    void textChanged(const QString&);
 protected:
     void setEnabled(bool);
-    void paintEvent(QPaintEvent*);
     QDateEdit	*m_edit;
     QPushButton	*m_button;
-};
-
-class PickerPopup : public QFrame
-{
-    Q_OBJECT
-public:
-    PickerPopup(DatePicker *parent);
-    ~PickerPopup();
-protected slots:
-    void monthChanged(int);
-    void yearChanged(int);
-    void dayClick(PickerLabel*);
-protected:
-    void fill();
-    QSpinBox	*m_monthBox;
-    QSpinBox	*m_yearBox;
-    QList<QLabel*> m_labels;
-    DatePicker	*m_picker;
-};
-
-class PickerLabel : public QLabel
-{
-    Q_OBJECT
-public:
-    PickerLabel(QWidget *parent);
-signals:
-    void clicked(PickerLabel*);
-protected:
-    void mouseReleaseEvent(QMouseEvent*);
 };
 
 #endif
