@@ -363,7 +363,7 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
     }
 #endif
     log(L_DEBUG, QString("Connect to %1:%2").arg(host).arg(port));
-    if (inet_addr(host) == INADDR_NONE){
+    if (inet_addr(host.toUtf8()) == INADDR_NONE){
         log(L_DEBUG, QString("Start resolve %1").arg(host));
         SIMSockets *s = static_cast<SIMSockets*>(getSocketFactory());
         QObject::connect(s, SIGNAL(resolveReady(unsigned long, const QString&)),
@@ -371,7 +371,7 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
         s->resolve(host);
         return;
     }
-    resolveReady(inet_addr(host), host);
+    resolveReady(inet_addr(host.toUtf8()), host);
 }
 
 void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
@@ -791,9 +791,9 @@ IPResolver::~IPResolver()
 static inline bool isPrivate(unsigned long ip)
 {
     ip = ntohl(ip);
-    if (ip >= iptoul(10,0,0,0) && ip <= iptoul(10,255,255,255) ||
-        ip >= iptoul(172,16,0,0) && ip <= iptoul(172,31,255,255) ||
-        ip >= iptoul(192,168,0,0) && ip <= iptoul(192,168,255,255))
+    if ((ip >= iptoul(10,0,0,0) && ip <= iptoul(10,255,255,255)) ||
+        (ip >= iptoul(172,16,0,0) && ip <= iptoul(172,31,255,255)) ||
+        (ip >= iptoul(192,168,0,0) && ip <= iptoul(192,168,255,255)))
         return true;
     return false;
 }

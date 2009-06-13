@@ -18,7 +18,10 @@
 #ifndef _SOCKET_H
 #define _SOCKET_H
 
-#include <qobject.h>
+#include <QObject>
+#include <list>
+#include <map>
+#include <string>
 #include "buffer.h"
 #include "contacts.h"
 #include "event.h"

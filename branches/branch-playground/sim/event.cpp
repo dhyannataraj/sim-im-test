@@ -17,6 +17,7 @@
 
 // system includes
 #include <QMultiMap>
+#include <stdio.h>
 #include <time.h>
 // own header
 #include "event.h"

@@ -19,6 +19,7 @@
 #include "html.h"
 #include "buffer.h"
 #include "log.h"
+#include <string>
 
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
@@ -224,7 +225,7 @@ void HTMLParser::parse()
 			s = yytext + 1;
 			p->tag = s.toLower();
 			p->value = "";
-			current_tag = p->tag.toStdString();
+			current_tag = p->tag.toUtf8().constData();
 			break;
 		case ATTR:
 			if (!p->attrs.empty())

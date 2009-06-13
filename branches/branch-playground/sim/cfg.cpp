@@ -15,10 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sockfactory.h"
-#include "socket.h"
-#include "log.h"
-#include "misc.h"   // sprintf
+#include "cfg.h"
 
 #include <stdio.h>
 #include <errno.h>
@@ -52,6 +49,11 @@
 #include <kwin.h>
 #include "kdeisversion.h"
 #endif
+
+#include "sockfactory.h"
+#include "socket.h"
+#include "log.h"
+#include "misc.h"
 
 namespace SIM
 {
@@ -528,7 +530,7 @@ static QByteArray quoteInternal(const QByteArray &str)
     return res;
 }
 
-static bool unquoteInternal(Q3CString &val, Q3CString &str)
+static bool unquoteInternal(QByteArray &val, Q3CString &str)
 {
     int idx1 = val.indexOf('\"');
     if(idx1 == -1)
@@ -575,14 +577,14 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         return;
     unsigned read_pos = cfg->readPos();
     for (;;){
-        Q3CString line = cfg->getLine();
+        const QByteArray line = cfg->getLine();
         if (line.isEmpty())
             break;
         int idx = line.indexOf('=');
         if(idx == -1)
             continue;
-        Q3CString name = line.left( idx );
-        Q3CString val  = line.mid( idx + 1 );
+        const QByteArray name = line.left( idx );
+        QByteArray val  = line.mid( idx + 1 );
         if(name.isEmpty() || val.isEmpty())
             continue;
 
@@ -727,7 +729,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                         QString host = p->host();
                         if (!host.isEmpty()){
                             value += ',';
-                            value += host;
+                            value += host.toUtf8();
                         }
                         bSave = true;
                     }
@@ -744,7 +746,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                                 res += '\n';
                             res += def->name;
                             res += '=';
-                            res += QString::number(it.key());
+                            res += QByteArray::number(it.key());
                             res += ',';
                             QString s = it.value();
                             QByteArray ls = s.toLocal8Bit();
@@ -851,7 +853,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                         if (p != (long)(def->def_value)){
                             QString s;
                             s.sprintf("%li", p);
-                            value += s;
+                            value += s.toUtf8();
                             bSave = true;
                         }
                     }
@@ -865,7 +867,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                         if (p != (unsigned long)(def->def_value)){
                             QString s;
                             s.sprintf("%lu", p);
-                            value += s;
+                            value += s.toUtf8();
                             bSave = true;
                         }
                     }

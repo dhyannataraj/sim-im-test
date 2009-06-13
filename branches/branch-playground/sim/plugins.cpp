@@ -615,7 +615,7 @@ void PluginManagerPrivate::saveState()
         line += "]\n";
         line += info.bDisabled ? DISABLE : ENABLE;
         line += ',';
-        line += QString::number(info.base);
+        line += QByteArray::number(info.base);
         line += '\n';
         f.write(line);
         if (info.plugin){

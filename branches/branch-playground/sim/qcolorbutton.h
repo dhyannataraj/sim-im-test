@@ -22,7 +22,7 @@
 
 #include "simapi.h"
 
-#ifndef USE_KDE
+#ifndef USE_KDE4
 #include <qpushbutton.h>
 
 class EXPORT QColorButton : public QPushButton
@@ -59,7 +59,7 @@ private:
 class EXPORT QColorButton : public KColorButton
 {
 public:
-    QColorButton(QWidget *parent, const char *name = NULL);
+    QColorButton(QWidget *parent);
 };
 
 #endif

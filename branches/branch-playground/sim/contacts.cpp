@@ -16,8 +16,9 @@ email                : vovan@shutoff.ru
 ***************************************************************************/
 
 #include <algorithm>
+#include <map>
+#include <list>
 #include <vector>
-#include <algorithm>
 
 #include <qfile.h>
 #include <qdir.h>
@@ -190,11 +191,11 @@ struct STR_ITEM
 typedef list<STR_ITEM> STR_LIST;
 
 /* adds a value / client pair to str_list, *avoids* doubled entries */
-static void add_str (STR_LIST & m, const QString & value, const char *client)
+static void add_str (STR_LIST & m, const QString & value, QString client)
 {
     STR_LIST::iterator it;
 
-    if (!client)
+    if (client.isEmpty())
         client = "-";
 
     /* check if value is already in str_list */
@@ -208,7 +209,7 @@ static void add_str (STR_LIST & m, const QString & value, const char *client)
         QStringList &proto = (*it).proto;
         QStringList::iterator itp;
         /* client == '-' --> ignore */
-        if (!proto.empty () && !strcmp (client, "-"))
+        if (!proto.empty () && client == QLatin1String("-"))
             return;
         /* search if  already in list */
         itp = proto.find(client);
@@ -1653,7 +1654,7 @@ Q3CString UserData::save()
                 if (res.length())
                     res += '\n';
                 res += '[';
-                res += (*it).name;
+                res += (*it).name.toUtf8();
                 res += "]\n";
                 res += cfg;
             }
@@ -1711,7 +1712,7 @@ void ContactList::save()
         Group *grp = *it_g;
         line = "[";
         line += GROUP;
-        line += QString::number(grp->id());
+        line += QByteArray::number((quint32)grp->id());
         line += "]\n";
         f.write(line, line.length());
         line = save_data(groupData, &grp->data);
@@ -1741,7 +1742,7 @@ void ContactList::save()
             continue;
         line = "[";
         line += CONTACT;
-        line += QString::number(contact->id());
+        line += QByteArray::number((quint32)contact->id());
         line += "]\n";
         f.write(line, line.length());
         line = save_data(contactData, &contact->data);
@@ -2058,15 +2059,14 @@ const ENCODING *ContactList::getEncodings()
     return encodings;
 }
 
-QTextCodec *ContactList::getCodecByName(const char *encoding)
+QTextCodec *ContactList::getCodecByName(const QString &encoding)
 {
-    QTextCodec *codec = NULL;
-    if (encoding && *encoding){
-        codec = QTextCodec::codecForName(encoding);
+    if (!encoding.isEmpty()){
+        QTextCodec *codec = QTextCodec::codecForName(encoding.toUtf8());
         if (codec)
             return codec;
     }
-    codec = QTextCodec::codecForLocale();
+    QTextCodec *codec = QTextCodec::codecForLocale();
     const ENCODING *e;
     const char *codecName = codec->name();
     for (e = encodings; e->language; e++){

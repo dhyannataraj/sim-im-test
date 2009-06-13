@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 #include "cmddef.h"
+
+#include <list>
+#include <map>
+
 #include "event.h"
 #include "log.h"
 #include "misc.h"

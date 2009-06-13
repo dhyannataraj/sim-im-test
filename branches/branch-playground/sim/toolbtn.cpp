@@ -355,7 +355,7 @@ void CToolPictButton::paintEvent(QPaintEvent*)
 	//QToolButton::render(&p);
 	int w = 4;
 	QRect rc(4, 4, width() - 4, height() - 4);
-	if(!m_def.icon.isNull() && strcmp(m_def.icon, "empty"))
+	if(!m_def.icon.isNull() && m_def.icon != QLatin1String("empty"))
 	{
 		QIcon icons = Icon(m_def.icon);
 		if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){

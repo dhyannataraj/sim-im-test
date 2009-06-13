@@ -19,10 +19,10 @@
 */
 
 #include "qcolorbutton.h"
-#ifdef USE_KDE
+#ifdef USE_KDE4
 
-QColorButton::QColorButton( QWidget *parent, const char *name)
-        : KColorButton(parent, name)
+QColorButton::QColorButton( QWidget *parent)
+        : KColorButton(parent)
 {
 }
 

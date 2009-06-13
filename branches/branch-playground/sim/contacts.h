@@ -416,7 +416,7 @@ public:
     QString toUnicode(Contact *contact, const Q3CString &str, int length=-1);
     Q3CString fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
-    QTextCodec *getCodecByName(const char *encoding);
+    QTextCodec *getCodecByName(const QString &encoding);
     static const ENCODING *getEncodings();
 protected:
     class ContactListPrivate *p;
