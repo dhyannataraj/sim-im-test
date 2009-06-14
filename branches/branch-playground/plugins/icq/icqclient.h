@@ -585,7 +585,7 @@ public:
                           const Q3CString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
     void sendPacket(bool bSend);
     bool messageReceived(SIM::Message*, const QString &screen);
-    static bool parseRTF(const QString &str, SIM::Contact *contact, QString &result);
+    static bool parseRTF(const QByteArray &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
     virtual QImage userPicture(unsigned id);
     QImage userPicture(ICQUserData *d);

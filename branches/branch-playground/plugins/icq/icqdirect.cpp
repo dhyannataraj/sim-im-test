@@ -2102,12 +2102,15 @@ void AIMFileTransfer::requestFT()
 		{
 			if(bWide)
 			{
-				Q3CString decodedfname = filename().utf8();
+				Q3CString decodedfname = filename().toUtf8();
 				buf.pack(decodedfname.data(), decodedfname.length() + 1);
 			}
 			else
 			{
-				buf.pack(filename(), filename().length() + 1);
+                                // FIXME: this does not compile and is wrong !
+                                //buf.pack(filename(), filename().length() + 1);
+                                // maybe this was meant?
+                                buf.pack((const char*)filename().utf16(), filename().length() * 2 + 2);
 			}
 		}
 		else

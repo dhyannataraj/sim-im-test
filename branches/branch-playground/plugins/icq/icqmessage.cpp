@@ -25,6 +25,7 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 #include <Q3CString>
+#include <memory>
 
 #include "toolbtn.h"
 #include "log.h"
@@ -143,7 +144,7 @@ QString ICQAuthMessage::getText() const
         return Message::getText();
     QString charset = getCharset();
     if (!charset.isEmpty()){
-        QTextCodec *codec = QTextCodec::codecForName(charset);
+        QTextCodec *codec = QTextCodec::codecForName(charset.toUtf8().constData());
         if (codec)
             return codec->toUnicode(serverText);
     }
@@ -1234,11 +1235,11 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                     b.unpackStr32(ext);
                     b.unpackStr32(country);
                     numbers.push_back(phone);
-                    Q3CString value;
+                    QByteArray value;
                     for (const ext_info *e = getCountries(); e->szName; e++){
                         if (country == e->szName){
                             value = "+";
-                            value += QString::number(e->nCode);
+                            value += QByteArray::number(e->nCode);
                             break;
                         }
                     }
@@ -1264,7 +1265,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                 }
                 for (i = 0; i < nEntries; i++){
                     unsigned long type;
-                    Q3CString phone = phonebook[i];
+                    QByteArray phone = phonebook[i];
                     Q3CString gateway;
                     b.incReadPos(4);
                     b.unpack(type);
@@ -1304,7 +1305,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                     phone += ',';
                     phone += phonedescr[i];
                     phone += ',';
-                    phone += QString::number(type);
+                    phone += QByteArray::number((quint32)type);
                     if (i == nActive)
                         phone += ",1";
                     if (!phones.isEmpty())

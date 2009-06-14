@@ -292,7 +292,7 @@ void RTF2HTML::FlushOutTags()
                    break;
                FontDef &f = fonts[t.param-1];
                QString name = (!f.nonTaggedName.isEmpty()) ? f.nonTaggedName : f.taggedName;
-               PrintUnquoted("<span style=\"font-family:%s\">", name.toLatin1());
+               PrintUnquoted("<span style=\"font-family:%s\">", qPrintable(name));
             }
             break;
         case TAG_BG_COLOR:
@@ -1027,15 +1027,15 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
     return s;
 }
 
-bool ICQClient::parseRTF(const QString &rtf, Contact *contact, QString &res)
+bool ICQClient::parseRTF(const QByteArray &rtf, Contact *contact, QString &res)
 {
 	const char _RTF[] = "{\\rtf";
 	// codec to use when no other information is in the rtf stream
 	QTextCodec *codec = getContacts()->getCodec(contact);
-	if (!qstrncmp(rtf.toUtf8().data(), _RTF, strlen(_RTF)))
+	if (!qstrncmp(rtf.data(), _RTF, strlen(_RTF)))
 	{
 		RTF2HTML p;
-		res = p.Parse(rtf.toUtf8().data(), codec->name().data());
+		res = p.Parse(rtf.data(), codec->name().data());
 		return true;
 	}
 	res = codec->toUnicode(rtf);

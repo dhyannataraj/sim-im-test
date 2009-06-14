@@ -382,18 +382,18 @@ Q3CString RTFGenParser::parse(const QString &text)
     m_bSpace = true;
     HTMLParser::parse(text);
 
-    Q3CString s;
+    QByteArray s;
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
-        s += QString::number(ansicpg);
+        s += QByteArray::number(ansicpg);
     }
     s += "\\deff0\r\n";
     s += "{\\fonttbl";
     unsigned n = 0;
     for (list<QString>::iterator it_face = m_fontFaces.begin(); it_face != m_fontFaces.end(); it_face++, n++){
         s += "{\\f";
-        s += QString::number(n);
+        s += QByteArray::number(n);
         QString face = (*it_face);
         if (face.indexOf("Times") >= 0){
             s += "\\froman";
@@ -404,7 +404,7 @@ Q3CString RTFGenParser::parse(const QString &text)
         }
         if (charset){
             s += "\\fcharset";
-            s += QString::number(charset);
+            s += QByteArray::number(charset);
         }
         s += ' ';
         int pos = face.indexOf(QRegExp(" +["));
@@ -418,11 +418,11 @@ Q3CString RTFGenParser::parse(const QString &text)
     for (list<QColor>::iterator it_colors = m_colors.begin(); it_colors != m_colors.end(); ++it_colors){
         QColor c = *it_colors;
         s += "\\red";
-        s += QString::number(c.red());
+        s += QByteArray::number(c.red());
         s += "\\green";
-        s += QString::number(c.green());
+        s += QByteArray::number(c.green());
         s += "\\blue";
-        s += QString::number(c.blue());
+        s += QByteArray::number(c.blue());
         s += ';';
     }
     s += "}\r\n";
@@ -510,7 +510,7 @@ void RTFGenParser::text(const QString &text)
             }
         }
         res += "\\u";
-        res += QString::number(s[0].unicode());
+        res += QByteArray::number(s[0].unicode());
         res += '?';
         m_bSpace = false;
     }
@@ -922,7 +922,7 @@ void ImageParser::text(const QString &text)
 {
     if (!m_bBody)
         return;
-    res += quoteString(text);
+    res += quoteString(text).toUtf8();
 }
 
 void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
@@ -986,16 +986,16 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
         return;
     }
     res += '<';
-    res += oTag;
+    res += oTag.toUtf8();
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
         res += ' ';
-        res += name.toUpper();
+        res += name.toUpper().toUtf8();
         if (!value.isEmpty()){
             res += "=\"";
-            res += quoteString(value);
+            res += quoteString(value).toUtf8();
             res += "\"";
         }
     }
@@ -1012,7 +1012,7 @@ void ImageParser::tag_end(const QString &tag)
         oTag = "span";
     }
     res += "</";
-    res += oTag;
+    res += oTag.toUtf8();
     res += '>';
 }
 
