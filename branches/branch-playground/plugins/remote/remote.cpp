@@ -380,13 +380,13 @@ static bool isOn(const QString &s)
     return (s == "1") || (s == "on") || (s == "ON");
 }
 
-static bool cmpStatus(const char *s1, const char *s2)
+static bool cmpStatus(const QString &s1, const QString &s2)
 {
     QString ss1 = s1;
     QString ss2 = s2;
     ss1 = ss1.remove('&');
     ss2 = ss2.remove('&');
-    return ss1.lower() == ss2.toLower();
+    return ss1.toLower() == ss2.toLower();
 }
 
 static QWidget *findWidget(const char *className)
@@ -740,7 +740,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
                 for (const CommandDef *d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
-                    if (cmpStatus(d->text, args[0].toLatin1())){
+                    if (cmpStatus(d->text, args[0])){
                         status = d->id;
                         break;
                     }
@@ -775,11 +775,9 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 }
                 if (d){
                     out = "STATUS ";
-                    for (const char *p = d->text; *p; p++){
-                        if (*p == '&')
-                            continue;
-                        out += *p;
-                    }
+                    QString tmp = d->text;
+                    tmp = tmp.remove('&');
+                    out += tmp;
                     break;
                 }
             }

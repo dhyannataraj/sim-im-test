@@ -20,6 +20,7 @@
 
 #include <q3cstring.h>
 #include <qobject.h>
+#include <string>
 #include <vector>
 #include "simapi.h"
 

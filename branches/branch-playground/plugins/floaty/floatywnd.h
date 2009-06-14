@@ -26,7 +26,13 @@ class QTimer;
 class TipLabel;
 class QPainter;
 
-class FloatyWnd : public QWidget
+#ifdef MAKE_FLOATY_LIB
+# define FLOATY_EXPORTS Q_DECL_EXPORT
+#else
+# define FLOATY_EXPORTS Q_DECL_IMPORT
+#endif
+
+class FLOATY_EXPORTS FloatyWnd : public QWidget
 {
     Q_OBJECT
 public:

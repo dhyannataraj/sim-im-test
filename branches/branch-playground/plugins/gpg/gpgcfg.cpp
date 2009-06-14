@@ -82,7 +82,7 @@ GpgCfg::~GpgCfg()
 void GpgCfg::apply()
 {
     QString key;
-    int nKey = cmbKey->currentItem();
+    int nKey = cmbKey->currentIndex();
     if (nKey && (nKey < cmbKey->count() - 1)){
         QString k = cmbKey->currentText();
         key = getToken(k, ' ');
@@ -138,14 +138,14 @@ void GpgCfg::fillSecret(const QByteArray &ba)
     int cur = 0;
     int n   = 1;
     cmbKey->clear();
-    cmbKey->insertItem(i18n("None"));
+    cmbKey->addItem(i18n("None"));
     if (!ba.isEmpty()){
-        Q3CString all(ba);
+        QByteArray all(ba);
         for (;;){
-            Q3CString line = getToken(all, '\n');
+            QByteArray line = getToken(all, '\n');
             if(line.isEmpty())
                 break;
-            Q3CString type = getToken(line, ':');
+            QByteArray type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
                 getToken(line, ':');
@@ -157,19 +157,18 @@ void GpgCfg::fillSecret(const QByteArray &ba)
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                Q3CString name = getToken(line, ':');
-                cmbKey->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
-                                   QString::fromLocal8Bit(name));
+                QString name = QString::fromLocal8Bit(getToken(line, ':'));
+                cmbKey->addItem(sign + QString(" - ") + name);
                 n++;
             }
         }
     }
-    cmbKey->insertItem(i18n("New"));
+    cmbKey->addItem(i18n("New"));
     if (m_bNew){
         cur = cmbKey->count() - 2;
         m_bNew = false;
     }
-    cmbKey->setCurrentItem(cur);
+    cmbKey->setCurrentIndex(cur);
 }
 
 void GpgCfg::refresh()

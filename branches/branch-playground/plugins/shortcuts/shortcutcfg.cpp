@@ -82,8 +82,8 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
             title = title.remove('&');
             QString accel;
             int key = 0;
-            const char *cfg_accel = m_plugin->getKey(s->id);
-            if (cfg_accel)
+            const QString cfg_accel = m_plugin->getKey(s->id);
+            if (!cfg_accel.isEmpty())
                 key = Q3Accel::stringToKey(cfg_accel);
             if ((key == 0) && !s->accel.isEmpty())
                 key = Q3Accel::stringToKey(i18n(s->accel));
@@ -91,8 +91,8 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
                 accel = Q3Accel::keyToString(key);
             QString global;
             bool bGlobal = m_plugin->getOldGlobal(s);
-            const char *cfg_global = m_plugin->getGlobal(s->id);
-            if (cfg_global && *cfg_global)
+            const QString cfg_global = m_plugin->getGlobal(s->id);
+            if (!cfg_global.isEmpty())
                 bGlobal = !bGlobal;
             if (bGlobal)
                 global = i18n("Global");
@@ -134,7 +134,7 @@ void ShortcutsConfig::saveMenu(unsigned long id)
             for (Q3ListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
                 if (item->text(3).toUInt() != s->id) continue;
                 int key = Q3Accel::stringToKey(item->text(1));
-                const char *cfg_key = m_plugin->getOldKey(s);
+                const QString cfg_key = m_plugin->getOldKey(s);
                 if (key == Q3Accel::stringToKey(cfg_key)){
                     m_plugin->setKey(s->id, QString::null);
                 }else{

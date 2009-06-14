@@ -438,7 +438,7 @@ void SOCKS4_Proxy::connect(const QString &host, unsigned short port)
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", getHost().local8Bit().data(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", qPrintable(getHost()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -458,9 +458,9 @@ void SOCKS4_Proxy::connect_ready()
         error_state(STATE_ERROR, 0);
         return;
     }
-    unsigned long addr = inet_addr(m_host);
+    unsigned long addr = inet_addr(qPrintable(m_host));
     if (addr == INADDR_NONE){
-        struct hostent *hp = gethostbyname(m_host);
+        struct hostent *hp = gethostbyname(qPrintable(m_host));
         if (hp) addr = *((unsigned long*)(hp->h_addr_list[0]));
     }
     if (notify)
@@ -490,7 +490,7 @@ void SOCKS4_Proxy::read_ready()
 SOCKS4_Listener::SOCKS4_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip)
         : Listener(plugin, data, notify, ip)
 {
-    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", getHost().local8Bit().data(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", qPrintable(getHost()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -607,7 +607,7 @@ void SOCKS5_Proxy::connect(const QString &host, unsigned short port)
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", getHost().local8Bit().data(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", qPrintable(getHost()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -636,14 +636,14 @@ void SOCKS5_Proxy::read_ready()
             return;
         }
         if (b2 == 0x02) {
-            const char *user = getUser();
-            const char *pswd = getPassword();
+            const QByteArray user = getUser().toUtf8();
+            const QByteArray pswd = getPassword().toUtf8();
             bOut
             << (char)0x01
-            << (char)strlen(user)
-            << user
-            << (char)strlen(pswd)
-            << pswd;
+            << (char)user.length()
+            << user.data()
+            << (char)pswd.length()
+            << pswd.data();
             m_state = WaitAuth;
             write();
             return;
@@ -688,7 +688,7 @@ void SOCKS5_Proxy::error_state(const QString &text, unsigned code)
 
 void SOCKS5_Proxy::send_connect()
 {
-    unsigned long addr = inet_addr(m_host);
+    unsigned long addr = inet_addr(qPrintable(m_host));
     bOut << (char)0x05
     << (char)0x01			/* CONNECT */
     << (char)0x00;			/* reserved */
@@ -698,7 +698,8 @@ void SOCKS5_Proxy::send_connect()
     }else{
         bOut << (char)0x03		/* address type -- host name */
         << (char)m_host.length();
-        bOut.pack(m_host.local8Bit().data(), m_host.length());
+        const QByteArray ba = m_host.toLocal8Bit();
+        bOut.pack(ba.data(), ba.length());
     }
     bOut << m_port;
     m_state = WaitConnect;
@@ -708,7 +709,7 @@ void SOCKS5_Proxy::send_connect()
 SOCKS5_Listener::SOCKS5_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip)
         : Listener(plugin, data, notify, ip)
 {
-    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", getHost().local8Bit().data(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", qPrintable(getHost()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -738,14 +739,14 @@ void SOCKS5_Listener::read_ready()
             return;
         }
         if (b2 == 0x02) {
-            const char *user = getUser();
-            const char *pswd = getPassword();
+            const QByteArray user = getUser().toUtf8();
+            const QByteArray pswd = getPassword().toUtf8();
             bOut
             << (char)0x01
-            << (char)strlen(user)
-            << user
-            << (char)strlen(pswd)
-            << pswd;
+            << (char)user.length()
+            << user.data()
+            << (char)pswd.length()
+            << pswd.data();
             m_state = WaitAuth;
             write();
             return;
@@ -849,7 +850,7 @@ void HTTPS_Proxy::connect(const QString &host, unsigned short port)
     m_port = port;
     if ((m_client != (TCPClient*)(-1)) && (m_client->protocol()->description()->flags & PROTOCOL_ANY_PORT))
         m_port = 443;
-    log(L_DEBUG, "Connect to proxy HTTPS %s:%u", getHost().local8Bit().data(), getPort());
+    log(L_DEBUG, "Connect to proxy HTTPS %s:%u", qPrintable(getHost()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -863,12 +864,12 @@ void HTTPS_Proxy::connect_ready()
     }
     bIn.packetStart();
     bOut << "CONNECT "
-    << (const char*)m_host.local8Bit().data()
+    << qPrintable(m_host)
     << ":"
-    << (const char*)QString::number(m_port).latin1()
+    << QByteArray::number(m_port).data()
     << " HTTP/1.0\r\n"
     << "User-Agent: "
-    << (const char*)get_user_agent().latin1()
+    << qPrintable(get_user_agent())
     << "\r\n";
     send_auth();
     bOut << "\r\n";
@@ -1096,9 +1097,9 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         bOut
         << getToken(line, ' ', false).data()
         << " http://"
-        << m_host.local8Bit().data();
+        << qPrintable(m_host);
         if (m_port != 80)
-            bOut << ":" << QString::number(m_port).latin1();
+            bOut << ":" << QByteArray::number(m_port).data();
         bOut << getToken(line, ' ', false).data();
         bOut << " HTTP/1.1\r\n";
         m_state = Headers;
@@ -1183,13 +1184,13 @@ QString ProxyPlugin::clientName(TCPClient *client)
 void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
 {
     for(unsigned i = 1;; i++)
-	{
-        const char *proxyCfg = getClients(i);
-        if ((proxyCfg == NULL) || (*proxyCfg == 0))
+    {
+        const QString proxyCfg = getClients(i);
+        if (proxyCfg.isEmpty())
             break;
-        ProxyData wdata(proxyCfg);
+        ProxyData wdata(qPrintable(proxyCfg));
         if (clientName(client) == wdata.Client.str())
-		{
+        {
             cdata = wdata;
             cdata.Default.asBool() = false;
             cdata.Client.str() = clientName(client);

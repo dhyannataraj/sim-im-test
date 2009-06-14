@@ -35,8 +35,8 @@ NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin) : QWidget(parent)
     lblBrowser->hide();
     lblMailer->hide();
 #else
-    edtBrowser->setText(QString::fromLocal8Bit(plugin->getBrowser()));
-    edtMailer->setText(QString::fromLocal8Bit(plugin->getMailer()));
+    edtBrowser->setText(plugin->getBrowser());
+    edtMailer->setText(plugin->getMailer());
     chkNew->hide();
 #endif
 #ifdef USE_KDE
@@ -52,8 +52,8 @@ void NavCfg::apply()
 #ifdef WIN32
     m_plugin->setNewWindow(chkNew->isChecked());
 #else
-    m_plugin->setBrowser(edtBrowser->text().local8Bit());
-    m_plugin->setMailer(edtMailer->text().local8Bit());
+    m_plugin->setBrowser(edtBrowser->text());
+    m_plugin->setMailer(edtMailer->text());
 #endif
 #ifdef USE_KDE
     m_plugin->setUseKDE(chkKDE->isChecked());
@@ -62,13 +62,13 @@ void NavCfg::apply()
 
 void NavCfg::useKDEtoggled(bool on)
 {
-	bool off = !on;
+    bool off = !on;
 #ifdef USE_KDE
     edtBrowser->setEnabled(off);
     edtMailer->setEnabled(off);
     lblBrowser->setEnabled(off);
     lblMailer->setEnabled(off);
 #endif
-	off=false;
+    off=false;
 }
 

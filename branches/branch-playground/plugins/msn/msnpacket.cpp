@@ -461,7 +461,7 @@ MSNServerMessage::~MSNServerMessage()
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())
-        set_ip(&m_client->data.owner.IP, inet_addr((*it).second));
+        set_ip(&m_client->data.owner.IP, inet_addr(qPrintable((*it).second)));
     it = values.find("Content-Type");
     if (it != values.end()){
         QString content_type = (*it).second;

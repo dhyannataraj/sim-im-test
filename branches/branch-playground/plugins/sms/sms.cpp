@@ -424,7 +424,7 @@ void SMSClient::setStatus(unsigned status)
     connect(m_ta, SIGNAL(charge(bool, unsigned)), this, SLOT(charge(bool, unsigned)));
     connect(m_ta, SIGNAL(quality(unsigned)), this, SLOT(quality(unsigned)));
     connect(m_ta, SIGNAL(phoneCall(const QString&)), this, SLOT(phoneCall(const QString&)));
-    if (!m_ta->open(getDevice(), getBaudRate(), getXonXoff())){
+    if (!m_ta->open(qPrintable(getDevice()), getBaudRate(), getXonXoff())){
         error_state("Can't open port", 0);
         return;
     }

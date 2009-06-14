@@ -32,7 +32,7 @@ using namespace SIM;
 
 MSNInfo::MSNInfo(QWidget *parent, MSNUserData *data, MSNClient *client) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_client  = client;
     m_data    = data;
     edtOnline->setReadOnly(true);
@@ -79,7 +79,7 @@ void MSNInfo::fill()
     edtEMail->setText(data->EMail.str());
     edtNick->setText(!data->ScreenName.str().isEmpty() ? data->ScreenName.str() : data->EMail.str());
     int current = 0;
-    const char *text = NULL;
+    QString text;
     unsigned status = m_data ? m_data->Status.toULong() : m_client->getStatus();
     for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
@@ -90,7 +90,7 @@ void MSNInfo::fill()
         }
         cmbStatus->addItem(Icon(cmd->icon), i18n(cmd->text));
     }
-    cmbStatus->setCurrentItem(current);
+    cmbStatus->setCurrentIndex(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
@@ -104,7 +104,7 @@ void MSNInfo::fill()
             lblOnline->hide();
             edtOnline->hide();
         }
-        if ((status == STATUS_ONLINE) || (text == NULL)){
+        if ((status == STATUS_ONLINE) || (text.isEmpty())){
             lblNA->hide();
             edtNA->hide();
         }else{

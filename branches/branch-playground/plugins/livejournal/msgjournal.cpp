@@ -52,8 +52,8 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
                 (m_client == it.client()->dataName(data))){
                 LiveJournalClient *client = static_cast<LiveJournalClient*>(it.client());
                 for (unsigned i = 1; i < client->getMoods(); i++){
-                    const char *mood = client->getMood(i);
-                    if ((mood == NULL) || (*mood == 0))
+                    const QString mood = client->getMood(i);
+                    if (mood.isEmpty())
                         continue;
                     QString s = mood;
                     QString ts = i18n(mood);

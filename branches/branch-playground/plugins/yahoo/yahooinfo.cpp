@@ -87,7 +87,7 @@ void YahooInfo::fill()
     edtFirst->setText(data->First.str());
     edtLast->setText(data->Last.str());
     int current = 0;
-    const char *text = NULL;
+    QString text;
     unsigned long status = STATUS_OFFLINE;
     if (m_data == NULL){
         if (m_client->getState() == Client::Connected){

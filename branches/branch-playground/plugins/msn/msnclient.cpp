@@ -309,10 +309,10 @@ statusText st[] =
         { 0, NULL }
     };
 
-static unsigned str2status(const char *str)
+static unsigned str2status(const QString &str)
 {
     for (const statusText *s = st; s->name; s++){
-        if (!strcmp(str, s->name))
+        if (str == s->name)
             return s->status;
     }
     return STATUS_OFFLINE;
@@ -1811,7 +1811,7 @@ QString MSNClient::contactTip(void *_data)
     res += "\">";
     QString statusText;
     for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
-        if (!strcmp(cmd->icon, statusIcon)){
+        if (cmd->icon == statusIcon){
             res += " ";
             statusText = i18n(cmd->text);
             res += statusText;
@@ -2375,8 +2375,8 @@ void SBSocket::messageReady()
                 }
             }
         }else if (command == "ACCEPT"){
-            unsigned ip      = inet_addr(ip_address);
-            unsigned real_ip = inet_addr(ip_address_internal);
+            unsigned ip      = inet_addr(qPrintable(ip_address));
+            unsigned real_ip = inet_addr(qPrintable(ip_address_internal));
             if (ip != INADDR_NONE)
                 set_ip(&m_data->IP, ip);
             if (real_ip != INADDR_NONE)

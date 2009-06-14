@@ -1154,7 +1154,7 @@ void YahooClient::loadList(const char *str)
                         grpName = grp->getName();
                 }
                 if (grpName != data->Group.str())
-                    moveBuddy(data, grpName.toUtf8());
+                    moveBuddy(data, grpName);
             }
         }
         if ((*itl).type == LR_DELETE){
@@ -1812,20 +1812,20 @@ void YahooClient::removeBuddy(YahooUserData *data)
     data->Group.clear();
 }
 
-void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
+void YahooClient::moveBuddy(YahooUserData *data, const QString &grp)
 {
     if (data->Group.str().isEmpty()){
-        if ((grp == NULL) || (*grp == 0))
+        if (grp.isEmpty())
             return;
-        data->Group.str() = QString::fromUtf8(grp);
+        data->Group.str() = grp;
         addBuddy(data);
         return;
     }
-    if ((grp == NULL) || (*grp == 0)){
+    if (grp.isEmpty()){
         removeBuddy(data);
         return;
     }
-    if (data->Group.str() == QString::fromUtf8(grp))
+    if (data->Group.str() == grp)
         return;
     addParam(1, getLogin());
     addParam(7, data->Login.str());
@@ -1835,7 +1835,7 @@ void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
     addParam(7, data->Login.str());
     addParam(65, data->Group.str());
     sendPacket(YAHOO_SERVICE_REMBUDDY);
-    data->Group.str() = QString::fromUtf8(grp);
+    data->Group.str() = grp;
 }
 
 bool YahooClient::processEvent(Event *e)
@@ -1875,7 +1875,7 @@ bool YahooClient::processEvent(Event *e)
                 YahooUserData *data;
                 while ((data = toYahooUserData(++it)) != NULL){
                     if (getState() == Connected){
-                        moveBuddy(data, grpName.toUtf8());
+                        moveBuddy(data, grpName);
                     }else{
                         ListRequest *lr = findRequest(data->Login.str());
                         if (lr == NULL){

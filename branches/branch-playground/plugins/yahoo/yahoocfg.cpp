@@ -37,7 +37,7 @@ YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig) : Q
     QTimer::singleShot(0, this, SLOT(changed()));
     edtLogin->setText(m_client->getLogin());
     edtPassword->setText(m_client->getPassword());
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     edtMinPort->setValue(m_client->getMinPort());
     edtMaxPort->setValue(m_client->getMaxPort());

@@ -227,7 +227,7 @@ protected:
     void sendTyping(YahooUserData*, bool);
     void addBuddy(YahooUserData*);
     void removeBuddy(YahooUserData*);
-    void moveBuddy(YahooUserData *data, const char *grp);
+    void moveBuddy(YahooUserData *data, const QString &grp);
     void sendStatus(unsigned long status, const QString &msg = QString::null);
     ListRequest *findRequest(const QString &login);
     std::list<PARAM>	   m_values;
@@ -237,7 +237,7 @@ protected:
     unsigned short m_data_size;
     unsigned short m_service;
     unsigned	   m_ft_id;
-    Q3CString       m_session_id;
+    QString        m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
     bool m_bFirstTry;

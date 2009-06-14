@@ -40,7 +40,7 @@ protected:
     EditSound		*m_edit;
     Q3ListViewItem	*m_editItem;
     void resizeEvent(QResizeEvent*);
-    QPixmap makePixmap(const char *source);
+    QPixmap makePixmap(const QString &source);
     SoundPlugin *m_plugin;
 };
 

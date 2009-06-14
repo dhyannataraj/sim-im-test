@@ -236,7 +236,7 @@ void TransparentPlugin::tick()
     //Handle Floatings
     QWidgetList list = QApplication::topLevelWidgets();
     foreach (QWidget *w,list) {
-        if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(w)){
+        if (FloatyWnd *refwnd = qobject_cast<FloatyWnd *>(w)){
             refwnd->installEventFilter(this);
             if (getIfFloatings()) 
                 refwnd->setWindowOpacity(transparency);

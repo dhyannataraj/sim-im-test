@@ -23,6 +23,9 @@
 #include <qsocketnotifier.h>
 //Added by qt3to4:
 #include <Q3CString>
+//#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+//#endif
 
 #include "buffer.h"
 #include "log.h"

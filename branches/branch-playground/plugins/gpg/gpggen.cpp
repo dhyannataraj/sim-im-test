@@ -33,9 +33,10 @@
 
 using namespace SIM;
 
-GpgGen::GpgGen(GpgCfg *cfg) : QDialog(NULL, NULL, true)
+GpgGen::GpgGen(GpgCfg *cfg) : QDialog()
 {
-	setupUi(this);
+    setupUi(this);
+    setModal(true);
     SET_WNDPROC("genkey")
     setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
@@ -64,7 +65,7 @@ GpgGen::GpgGen(GpgCfg *cfg) : QDialog(NULL, NULL, true)
         while (!mails.isEmpty()){
             QString item = getToken(mails, ';');
             QString mail = getToken(item, '/');
-            cmbMail->insertItem(mail);
+            cmbMail->addItem(mail);
         }
     }
 }
@@ -127,7 +128,7 @@ void GpgGen::accept()
     QString fname = user_file("keys/genkey.txt");
     QFile f(fname);
     f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    f.write(in);
+    f.write(in.toUtf8());
     f.close();
 
     QStringList sl;

@@ -66,7 +66,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         }else if (pos > 0){
             type = type.left(pos);
         }
-        type = type.left(1).upper() + type.mid(1);
+        type = type.left(1).toUpper() + type.mid(1);
         item = new Q3ListViewItem(lstSound, type,
                                  m_plugin->messageSound(cmd->id, user_data));
         item->setText(2, QString::number(cmd->id));
@@ -82,7 +82,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     connect(lstSound, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
 }
 
-QPixmap SoundUserConfig::makePixmap(const char *src)
+QPixmap SoundUserConfig::makePixmap(const QString &src)
 {
     const QPixmap &source = Pict(src);
     int w = source.width();

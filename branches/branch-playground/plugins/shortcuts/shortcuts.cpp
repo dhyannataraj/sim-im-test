@@ -600,7 +600,7 @@ bool ShortcutsPlugin::processEvent(Event *e)
     return false;
 }
 
-const char *ShortcutsPlugin::getOldKey(CommandDef *cmd)
+QString ShortcutsPlugin::getOldKey(CommandDef *cmd)
 {
     MAP_STR::iterator it = oldKeys.find(cmd->id);
     if (it != oldKeys.end())

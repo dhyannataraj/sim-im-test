@@ -36,7 +36,7 @@ struct ShortcutsData
     SIM::Data	Mouse;
 };
 
-typedef std::map<unsigned, const char*>	MAP_STR;
+typedef std::map<unsigned, QString>	MAP_STR;
 typedef std::map<unsigned, bool>		MAP_BOOL;
 typedef std::map<unsigned, SIM::CommandDef>	MAP_CMDS;
 
@@ -84,7 +84,7 @@ public:
     PROP_STRLIST(Mouse);
     void applyKeys();
     void releaseKeys();
-    const char *getOldKey(SIM::CommandDef *cmd);
+    QString getOldKey(SIM::CommandDef *cmd);
     bool getOldGlobal(SIM::CommandDef *cmd);
     static QWidget *getMainWindow();
     static unsigned stringToButton(const QString &cfg);
