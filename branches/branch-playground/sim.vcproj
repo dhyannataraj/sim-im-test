@@ -705,6 +705,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\profilemanager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sim\propertyhub.cpp"
 				>
 			</File>
@@ -999,18 +1003,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\sim\xevent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\xeventhandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\xeventhandlermanager.cpp"
-				>
-			</File>
-			<File
 				RelativePath="sim\xsl.cpp"
 				>
 				<FileConfiguration
@@ -1095,6 +1087,10 @@
 				</File>
 				<File
 					RelativePath=".\sim\moc_listview.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_propertyhub.cpp"
 					>
 				</File>
 				<File
@@ -1444,8 +1440,52 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sim\profilemanager.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Ein benutzerdefinierter Buildschritt wird ausgeführt."
+						CommandLine=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Ein benutzerdefinierter Buildschritt wird ausgeführt."
+						CommandLine=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\sim\propertyhub.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="sim\qchildwidget.h"
@@ -1557,6 +1597,10 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\sim\singleton.h"
+				>
 			</File>
 			<File
 				RelativePath="sim\socket.h"
