@@ -1140,7 +1140,7 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
     if ( (el == "query") && (m_query == "jabber:iq:version") ){
             if (m_type == "get" && m_client->getUseVersion()){
                 // send our version
-                JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from, m_id);
+                JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, m_from, m_id, NULL);
                 req->start_element("query");
                 req->add_attribute("xmlns", "jabber:iq:version");
                 req->text_tag("name", PACKAGE);
@@ -1514,13 +1514,14 @@ void JabberClient::MessageRequest::element_end(const QString& el)
         *m_data += el;
         *m_data += '>';
         return;
-    }
-    if ((el == "x"))
+    } else
+    if ((el == "x")) {
         if (m_bEnc){
             m_bEnc = false;
             *m_data += "\n-----END PGP MESSAGE-----\n";
         }else
             m_bRosters = false;
+    } else
     if (el == "url-data"){
         if (!m_target.isEmpty()){
             if (m_desc.isEmpty())
@@ -1857,7 +1858,7 @@ void AgentInfoRequest::element_end(const QString& el)
         data.Value.str() = m_data;
         data.ID.str() = m_jid;
         data.ReqID.str() = m_id;
-        data.Type.str() = QString::fromUtf8(el);
+        data.Type.str() = el;
         EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -1865,7 +1866,7 @@ void AgentInfoRequest::element_end(const QString& el)
         data.Value.str() = m_data;
         data.ID.str() = m_jid;
         data.ReqID.str() = m_id;
-        data.Type.str() = QString::fromUtf8(el);
+        data.Type.str() = el;
         EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
@@ -2237,7 +2238,7 @@ void JabberClient::sendFileAccept(FileMessage *msg, JabberUserData *data)
         jid += '/';
         jid += msg->getResource();
     }
-    ServerRequest req(this, ServerRequest::_RESULT, NULL, jid, m->getID());
+    ServerRequest req(this, ServerRequest::_RESULT, jid, m->getID(), NULL);
     req.start_element("si");
     req.add_attribute("xmlns", "http://jabber.org/protocol/si");
     req.start_element("feature");
@@ -2841,11 +2842,10 @@ protected:
     QString	m_password;
 };
 
-ChangePasswordRequest::ChangePasswordRequest(JabberClient *client, const char *password)
+ChangePasswordRequest::ChangePasswordRequest(JabberClient *client, const QString &password)
         : JabberClient::ServerRequest(client, _SET, NULL, NULL)
-{
-    m_password = password;
-}
+        , m_password(password)
+{}
 
 ChangePasswordRequest::~ChangePasswordRequest()
 {
