@@ -685,7 +685,7 @@ void JabberClient::sendPacket()
 void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     QString element = el.toLower();
-    const char *id = NULL;
+    QString id;
     if (m_depth)
 	{
         if (m_curRequest)
@@ -741,14 +741,14 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
             }
 			else if (element != "a")
 			{
-                log(L_DEBUG, "Bad tag %s", element.toLocal8Bit().data());
+                log(L_DEBUG, "Bad tag %s", qPrintable(element));
             }
         }
     }else{
         if (element == "stream:stream"){
             id = attrs.value("id");
         }
-        log(L_DEBUG, "Handshake %s (%s)", id, element.toLocal8Bit().data());
+        log(L_DEBUG, "Handshake %s (%s)", qPrintable(id), qPrintable(element));
         handshake(id);
     }
     m_depth++;
@@ -782,12 +782,12 @@ QString JabberClient::get_unique_id()
 }
 
 JabberClient::ServerRequest::ServerRequest(JabberClient *client, const char *type,
-        const QString &from, const QString &to, const char *id)
+        const QString &from, const QString &to, const QString &id)
 {
     m_client = client;
     if (type == NULL)
         return;
-    m_id = id ? QString::fromUtf8(id) : m_client->get_unique_id();
+    m_id = id.isEmpty() ? m_client->get_unique_id() : id;
 
     if (m_client->socket() == NULL)
         return;
@@ -929,9 +929,9 @@ void JabberClient::startHandshake()
     sendPacket();
 }
 
-void JabberClient::handshake(const char *id)
+void JabberClient::handshake(const QString &id)
 {
-    if (id == NULL){
+    if (id.isEmpty()){
         socket()->error_state("Bad session ID");
         return;
     }
@@ -2544,7 +2544,7 @@ public:
         }
         return false;
     }
-	JabberAuthMessage & operator=( const JabberAuthMessage & ) {}
+    JabberAuthMessage & operator=( const JabberAuthMessage & ) { return *this; }
 
 private:
     std::vector<JabberAuthMessage*> &tempMessages;

@@ -142,25 +142,28 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (!data->Value.str().isEmpty())
                 m_title = data->Value.str();
         }else if (data->Type.str() == "text-single"){
-            widget = new QLineEdit(this, data->Field.str());
+            widget = new QLineEdit(this);
+            widget->setObjectName(data->Field.str());
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
             if (!data->Value.str().isEmpty())
                 static_cast<QLineEdit*>(widget)->setText(data->Value.str());
         }else if (data->Type.str() == "text-private"){
-            widget = new QLineEdit(this, data->Field.str());
+            widget = new QLineEdit(this);
+            widget->setObjectName(data->Field.str());
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
             if (!data->Value.str().isEmpty())
                 static_cast<QLineEdit*>(widget)->setText(data->Value.str());
         }else if (data->Type.str() == "text-multi"){
-            widget = new Q3MultiLineEdit(this, data->Field.str());
+            widget = new Q3MultiLineEdit(this);
+            widget->setObjectName(data->Field.str());
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             if (!data->Value.str().isEmpty())
                 static_cast<Q3MultiLineEdit*>(widget)->setText(data->Value.str());
         }else if (data->Type.str() == "boolean" && !data->Label.str().isEmpty()){
-            widget = new QCheckBox(data->Label.str(), this, data->Field.str());
+            widget = new QCheckBox(data->Label.str(), this, qPrintable(data->Field.str()));
             if (!data->Value.str().isEmpty() && !data->Value.str().startsWith("0"))
                 static_cast<QCheckBox*>(widget)->setChecked(true);
             data->Label.clear();
@@ -189,7 +192,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 m_instruction += text;
             }
         }else if (data->Type.str() == "list-single"){
-            CComboBox *box = new CComboBox(this, data->Field.str());
+            CComboBox *box = new CComboBox(this, qPrintable(data->Field.str()));
             int cur = 0;
             int n = 0;
             for (unsigned i = 0; i < data->nOptions.toULong(); i++){
@@ -219,7 +222,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             static_cast<QCheckBox*>(widget)->setText(i18n("Online only"));
             bJoin = true;
         }else if (data->Type.str() == "sex"){
-            CComboBox *box = new CComboBox(this, data->Field.str());
+            CComboBox *box = new CComboBox(this, qPrintable(data->Field.str()));
             box->addItem(QString::null, "0");
             box->addItem(i18n("Male"), "1");
             box->addItem(i18n("Female"), "2");
@@ -240,7 +243,8 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 if (f->bRequired && m_bRegister)
                     data->bRequired.asBool() = true;
             }else if (!data->Label.str().isEmpty()){
-                widget = new QLineEdit(this, data->Field.str());
+                widget = new QLineEdit(this);
+                widget->setObjectName(data->Field.str());
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
                 if (!data->Value.str().isEmpty())
@@ -334,16 +338,19 @@ static const char *any_data[] =
 QString JabberSearch::i18(const char *text)
 {
     if ((text == NULL) || (*text == 0))
-        return QString::null;
-    QString res = QString::fromUtf8(text);
-    for (int i = 0; i < (int)res.length(); i++){
+        return QString();
+    return i18(QString::fromUtf8(text));
+}
+
+QString JabberSearch::i18(const QString &res)
+{
+    if (res.isEmpty())
+        return QString();
+    for (int i = 0; i < res.length(); i++){
         if (res[i].unicode() >= 0x80)
             return res;
     }
-    QString  tstr = i18n(res);
-    if (tstr == res)
-        return res;
-    return tstr;
+    return i18n(res);
 }
 
 bool JabberSearch::canSearch()

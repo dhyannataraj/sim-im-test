@@ -207,7 +207,7 @@ public:
     class ServerRequest
     {
     public:
-        ServerRequest(JabberClient *client, const char *type, const QString &from, const QString &to, const char *id=NULL);
+        ServerRequest(JabberClient *client, const char *type, const QString &from, const QString &to, const QString &id=QString());
         virtual ~ServerRequest();
         void	send();
         void	start_element(const QString &name);
@@ -432,7 +432,7 @@ protected:
     void sendPacket();
     void startHandshake();
     void connected();
-    void handshake(const char *id);
+    void handshake(const QString &id);
     void rosters_request();
     void setOffline(JabberUserData *data);
 

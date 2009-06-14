@@ -58,6 +58,7 @@ protected slots:
 protected:
     virtual void		createLayout();
     QString i18(const char *text);
+    QString i18(const QString &text);
 
     QString     m_name;
     QString     m_instruction;
