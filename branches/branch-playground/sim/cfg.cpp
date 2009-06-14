@@ -114,8 +114,8 @@ QStringList Config::allKeys()
 	QStringList l;
 	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
 	{
-		if(it.key().startsWith(m_group));
-		l.append(it.key().section('/', 1, 1));
+		if(it.key().startsWith(m_group))
+			l.append(it.key().section('/', 1, 1));
 	}
 	return l;
 }
