@@ -2,9 +2,8 @@
 #ifndef SIM_PROPERTYHUB_H
 #define SIM_PROPERTYHUB_H
 
-#include <QMap>
+#include <QObject>
 #include <QString>
-#include <QVariant>
 
 #include "simapi.h"
 

@@ -24,7 +24,7 @@ bool PropertyHub::save()
 	if(!profile)
 		return false;
 	profile->beginGroup(m_namespace);
-	foreach(QByteArray prop, props)
+	foreach(const QByteArray &prop, props)
 	{
 		//log(L_DEBUG, "Saving property: %s", prop.data());
 		profile->setValue(prop, this->property(prop));
@@ -41,10 +41,10 @@ bool PropertyHub::load()
 		return false;
 	profile->beginGroup(m_namespace);
 	QStringList keys = profile->allKeys();
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		//log(L_DEBUG, "Loading property: %s : %s", key.toUtf8().data(), profile->value(key).toString().toUtf8().data());
-		this->setProperty(key, profile->value(key));
+		this->setProperty(qPrintable(key), profile->value(key));
 	}
 	profile->endGroup();
 	return true;
