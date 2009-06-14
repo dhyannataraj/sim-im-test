@@ -5,6 +5,8 @@
 
 namespace SIM
 {
+        template <>
+        EXPORT ProfileManager* Singleton<ProfileManager>::m_instance = 0;
 	ProfileManager::ProfileManager(const QString& rootpath) : Singleton<ProfileManager>(),
 		m_rootPath(rootpath),
 		m_settings(NULL)

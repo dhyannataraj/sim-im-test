@@ -8,8 +8,9 @@ namespace SIM
 template <typename Type> class Singleton
 {
 	static Type* m_instance;
-	Singleton(const Singleton<Type>&) {};
-	Singleton<Type>& operator=(const Singleton<Type>& t) { return (Singleton<Type>&)t; };
+        // no need to implement them!
+	Singleton(const Singleton<Type>&);
+	Singleton<Type>& operator=(const Singleton<Type>& t);
 public:
 	Singleton()
 	{
@@ -22,11 +23,15 @@ public:
 	};
 	static Type* instance()
 	{
+                //fprintf(stderr, "instance: %p\n", instance);
 		assert(m_instance);
 		return m_instance;
 	}
 
 };
-template <typename Type> Type* Singleton<Type>::m_instance = 0;
+// this can not work. the compiler will generate a static variable
+// in every object file which includes this header which results in
+// one instance per plugin... see the fprintf() above
+//template <typename Type> Type* Singleton<Type>::m_instance = 0;
 }
 #endif
