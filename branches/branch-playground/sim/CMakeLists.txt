@@ -30,6 +30,7 @@ SET(sim_LIB_SRCS
 		misc.cpp
 		plugins.cpp
 		preview.cpp
+		profilemanager.cpp
 		propertyhub.cpp
 		qchildwidget.cpp
 		qcolorbutton.cpp
@@ -43,9 +44,6 @@ SET(sim_LIB_SRCS
 		translit.cpp
 		unquot.cpp
 		xsl.cpp
-		xevent.cpp
-		xeventhandler.cpp
-		xeventhandlermanager.cpp
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
@@ -74,12 +72,14 @@ SET(sim_LIB_HDRS
 		misc.h
 		plugins.h
 		preview.h
+		profilemanager.h
 		propertyhub.h
 		qchildwidget.h
 		qcolorbutton.h
 		qkeybutton.h
 		sax.h
 		simapi.h
+		singleton.h
 		socket.h
 		sockfactory.h
 		textshow.h
@@ -87,9 +87,6 @@ SET(sim_LIB_HDRS
 		translit.h
 		unquot.h
 		xsl.h
-		xevent.h
-		xeventhandler.h
-		xeventhandlermanager.h
 		qzip/ioapi.h
 		qzip/qzip.h
 		qzip/unzip.h

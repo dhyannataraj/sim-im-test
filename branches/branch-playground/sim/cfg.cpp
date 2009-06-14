@@ -31,15 +31,15 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qfile.h>
+#include <QFile>
 #include <QToolBar>
 #include <qmainwindow.h>
-#include <qstringlist.h>
-#include <qapplication.h>
-#include <qdir.h>
-#include <qstyle.h>
+#include <QStringList>
+#include <QApplication>
+#include <QDir>
+#include <QStyle>
 #ifdef _DEBUG
-# include <qmessagebox.h>
+# include <QMessageBox>
 #endif
 #include <Q3CString>
 
@@ -57,6 +57,92 @@
 
 namespace SIM
 {
+
+Config::Config(const QString& filename) : m_filename(filename),
+	m_changed(false)
+{
+}
+
+Config::~Config()
+{
+	if(m_changed)
+		save();
+}
+
+void Config::beginGroup(const QString& group)
+{
+	m_group = group;
+}
+
+void Config::endGroup()
+{
+	m_group = QString::null;
+}
+
+void Config::setValue(const QString& key, const QVariant& value)
+{
+	m_changed = true;
+	if(m_group.isNull())
+	{
+		m_data.insert(key, value);
+	}
+	else
+	{
+		if(key.contains('/'))
+			return;
+		m_data.insert(m_group + '/' + key, value);
+	}
+}
+
+QVariant Config::value(const QString& key)
+{
+	if(m_group.isNull())
+	{
+		return QVariant(m_data.value(key));
+	}
+	else
+	{
+		return QVariant(m_data.value(m_group + '/' + key));
+	}
+}
+
+QStringList Config::allKeys()
+{
+	if(m_group.isNull())
+		return m_data.keys();
+
+	QStringList l;
+	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
+	{
+		if(it.key().startsWith(m_group));
+		l.append(it.key().section('/', 1, 1));
+	}
+	return l;
+}
+
+void Config::save()
+{
+	QFile f(m_filename);
+	f.open(QIODevice::WriteOnly);
+	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
+	{
+		QString towrite = it.key() + '=' + it.value().toString() + "\n";
+		f.write(towrite.toUtf8());
+	}
+}
+
+void Config::load()
+{
+	QFile f(m_filename);
+	f.open(QIODevice::ReadOnly);
+	while(!f.atEnd())
+	{
+		QStringList entry = QString(f.readLine()).split('=');
+		if(entry.size() < 2)
+			continue;
+		setValue(entry[0], entry[1].trimmed());
+	}
+}
 
 EXPORT void save_state()
 {

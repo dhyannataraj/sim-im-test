@@ -65,8 +65,8 @@ UserView::UserView() : UserListBase(NULL)
 {
     m_bBlink = false;
     m_bUnreadBlink = false;
-    m_bShowOnline = CorePlugin::m_plugin->getShowOnLine();
-    m_bShowEmpty = CorePlugin::m_plugin->getShowEmptyGroup();
+    m_bShowOnline = CorePlugin::m_plugin->property("ShowOnLine").toBool();
+    m_bShowEmpty = CorePlugin::m_plugin->property("ShowEmptyGroup").toBool();
 
     setBackgroundMode(Qt::NoBackground);
     viewport()->setBackgroundMode(Qt::NoBackground);
@@ -567,7 +567,7 @@ bool UserView::processEvent(Event *e)
                 return true;
             }
             if (cmd->id == CmdOnline){
-                CorePlugin::m_plugin->setShowOnLine((cmd->flags & COMMAND_CHECKED) != 0);
+                CorePlugin::m_plugin->setProperty("ShowOnLine", ((cmd->flags & COMMAND_CHECKED) != 0));
                 m_bShowOnline = (cmd->flags & COMMAND_CHECKED);
                 if (cmd->menu_id){
                     CommandDef c = *cmd;
@@ -578,7 +578,7 @@ bool UserView::processEvent(Event *e)
                 fill();
             }
             if (cmd->id == CmdEmptyGroup){
-                CorePlugin::m_plugin->setShowEmptyGroup((cmd->flags & COMMAND_CHECKED) != 0);
+                CorePlugin::m_plugin->setProperty("ShowEmptyGroup", ((cmd->flags & COMMAND_CHECKED) != 0));
                 m_bShowEmpty = (cmd->flags & COMMAND_CHECKED);
                 fill();
             }
@@ -591,7 +591,7 @@ bool UserView::processEvent(Event *e)
             if (cmd->id == CmdGrpCreate){
                 if (CorePlugin::m_plugin->getGroupMode()){
                     /* Show empty groups because a new group is empty... */
-                    CorePlugin::m_plugin->setShowEmptyGroup(true);
+                    CorePlugin::m_plugin->setProperty("ShowEmptyGroup", true);
                     m_bShowEmpty = true;
                     fill();
                     Group *g = getContacts()->group(0, true);
@@ -656,12 +656,12 @@ bool UserView::processEvent(Event *e)
                 if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->getGroupMode() == 0)) ||
                         ((cmd->id == CmdGrpMode1) && (CorePlugin::m_plugin->getGroupMode() == 1)) ||
                         ((cmd->id == CmdGrpMode2) && (CorePlugin::m_plugin->getGroupMode() == 2)) ||
-                        ((cmd->id == CmdOnline) && CorePlugin::m_plugin->getShowOnLine()))
+                        ((cmd->id == CmdOnline) && CorePlugin::m_plugin->property("ShowOnLine").toBool()))
                     cmd->flags |= COMMAND_CHECKED;
                 if (cmd->id == CmdEmptyGroup){
                     if (CorePlugin::m_plugin->getGroupMode() == 0)
                         return false;
-                    if (CorePlugin::m_plugin->getShowEmptyGroup())
+                    if (CorePlugin::m_plugin->property("ShowEmptyGroup").toBool())
                         cmd->flags |= COMMAND_CHECKED;
                 }
                 return true;

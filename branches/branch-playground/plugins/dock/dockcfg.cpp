@@ -32,15 +32,15 @@ DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin) : QWidget(parent)
 {
     setupUi(this);
 	m_plugin = plugin;
-    chkAutoHide->setChecked(plugin->getAutoHide());
-    unsigned interval = plugin->getAutoHideInterval();
+    chkAutoHide->setChecked(plugin->property("AutoHide").toBool());
+    unsigned interval = plugin->property("AutoHideInterval").toUInt();
     spnAutoHide->setValue(interval);
     connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(autoHideToggled(bool)));
     connect(btnCustomize, SIGNAL(clicked()), this, SLOT(customize()));
-    autoHideToggled(plugin->getAutoHide());
+    autoHideToggled(plugin->property("AutoHide").toBool());
 #ifdef USE_KDE
     spn_desk->setMaxValue(KWin::numberOfDesktops());
-    spn_desk->setValue(m_plugin->getDesktop());
+    spn_desk->setValue(m_plugin->property("Desktop").toUInt());
 #else
     spn_desk->hide();
     TextLabel1_2->hide();
@@ -49,10 +49,10 @@ DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin) : QWidget(parent)
 
 void DockCfg::apply()
 {
-    m_plugin->setAutoHide(chkAutoHide->isChecked());
-    m_plugin->setAutoHideInterval(spnAutoHide->text().toULong());
+    m_plugin->setProperty("AutoHide", chkAutoHide->isChecked());
+    m_plugin->setProperty("AutoHideInterval", (uint)spnAutoHide->text().toULong());
 #ifdef USE_KDE
-    m_plugin->setDesktop(spn_desk->text().toULong());
+    m_plugin->setProperty("Desktop", spn_desk->text().toULong());
 #endif
 }
 

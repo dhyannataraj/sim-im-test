@@ -96,6 +96,7 @@ enum SIMEvent
     eEventPluginsUnload     = 0x0308,   // unload all plugins
     eEventSaveState         = 0x0309,   // plugins should save their config
     eEventClientsChanged    = 0x0311,   // a client was added/removed
+	eEventPluginLoadConfig  = 0x0312,
 
     eEventIconChanged       = 0x0401,   // icons changed
     eEventSetMainIcon       = 0x0402,   // set the main icon
@@ -457,6 +458,12 @@ class EXPORT EventClientsChanged : public Event
 {
 public:
     EventClientsChanged() : Event(eEventClientsChanged) {}
+};
+
+class EXPORT EventPluginLoadConfig : public Event
+{
+public:
+	EventPluginLoadConfig() : Event(eEventPluginLoadConfig) {}
 };
 
 class EXPORT EventIconChanged : public Event

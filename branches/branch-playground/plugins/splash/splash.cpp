@@ -24,7 +24,6 @@
 #include <QBitmap>
 #include <QDesktopWidget>
 
-#include "xevent.h"
 #include "aboutdata.h"
 #include "misc.h"
 #include "log.h"
@@ -54,7 +53,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-SplashPlugin::SplashPlugin(unsigned base, bool bStart) : Plugin(base), XEventHandler(100)
+SplashPlugin::SplashPlugin(unsigned base, bool bStart) : Plugin(base)
 {
 	splash = NULL;
 	m_bStart = bStart;
@@ -105,20 +104,5 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : Plugin(base), XEventHan
 SplashPlugin::~SplashPlugin()
 {
     delete splash;
-}
-
-XEventHandler::tFlowControl SplashPlugin::handle(SIM::XEvent* event)
-{
-	if(event->id() == eEventInit)
-	{
-		log(L_DEBUG, "eEventInit");
-		if (splash)
-		{
-			delete splash;
-			splash = NULL;
-		}
-		return XEventHandler::fcHandled;
-	}
-	return XEventHandler::fcContinue;
 }
 

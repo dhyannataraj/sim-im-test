@@ -31,6 +31,7 @@
 #include "event.h"
 #include "misc.h"
 #include "plugins.h"
+#include "propertyhub.h"
 #include "core_consts.h"
 
 typedef std::map<QString, unsigned> MAP_TYPES;
@@ -57,10 +58,6 @@ class ConnectionManager;
 
 struct CoreData
 {
-    SIM::Data	Profile;
-    SIM::Data	SavePasswd;
-    SIM::Data	NoShow;
-    SIM::Data	ShowPanel;
     SIM::Data	ManualStatus;
     SIM::Data	StatusTime;
     SIM::Data	Invisible;
@@ -68,7 +65,6 @@ struct CoreData
     SIM::Data	toolBarState[7];
     SIM::Data	Buttons;
     SIM::Data	Menues;
-    SIM::Data	ShowOnLine;
     SIM::Data	GroupMode;
     SIM::Data	UseDblClick;
     SIM::Data	UseSysColors;
@@ -116,7 +112,6 @@ struct CoreData
     SIM::Data	InvisibleStyle;
     SIM::Data	SmallGroupFont;
     SIM::Data	ShowAllEncodings;
-    SIM::Data	ShowEmptyGroup;
     SIM::Data	NoJoinAlert;
     SIM::Data	EnableSpell;
     SIM::Data	RemoveHistory;
@@ -251,23 +246,18 @@ protected:
     QString m_Viewer;
 };
 
-class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class CorePlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
-    PROP_STR(Profile)
-    PROP_BOOL(SavePasswd)
-    PROP_BOOL(NoShow)
-    PROP_BOOL(ShowPanel)
     void setManualStatus(unsigned long status);
     unsigned long getManualStatus() { return data.ManualStatus.toULong(); }
     PROP_ULONG(StatusTime)
     PROP_BOOL(Invisible)
     PROP_STRLIST(Buttons)
     PROP_STRLIST(Menues)
-    PROP_BOOL(ShowOnLine)
     PROP_ULONG(GroupMode)
     PROP_BOOL(UseDblClick)
     PROP_BOOL(UseSysColors)
@@ -311,7 +301,6 @@ public:
     PROP_ULONG(InvisibleStyle);
     PROP_BOOL(SmallGroupFont);
     PROP_BOOL(ShowAllEncodings);
-    PROP_BOOL(ShowEmptyGroup);
     PROP_BOOL(NoJoinAlert);
     PROP_BOOL(EnableSpell);
     PROP_BOOL(RemoveHistory);
@@ -368,13 +357,14 @@ protected:
     void destroy();
     void loadDir();
     void loadClients(ClientList&);
+    void loadClients(const QString& profilename, ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
     SIM::Client *loadClient(const QString &name, Buffer *cfg);
     bool adjustClientItem(unsigned id, SIM::CommandDef *cmd);
     void showPanel();
     void hideWindows();
-    void changeProfile();
+    void changeProfile(const QString& profilename);
     void installTranslator();
     void removeTranslator();
     void initData();

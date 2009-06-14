@@ -32,6 +32,7 @@ email                : vovan@shutoff.ru
 #include "log.h"
 #include "misc.h"
 #include "unquot.h"
+#include "profilemanager.h"
 
 #include "contacts.h"
 
@@ -1791,10 +1792,10 @@ void ContactList::clear()
 void ContactList::load()
 {
     clear();
-    QString cfgName = user_file(CONTACTS_CONF);
+    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf"; //user_file(CONTACTS_CONF);
     QFile f(cfgName);
     if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
+        log(L_ERROR, "[2]Can't open %s", cfgName.local8Bit().data());
         return;
     }
     Buffer cfg = f.readAll();

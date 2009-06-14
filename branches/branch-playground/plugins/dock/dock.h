@@ -27,6 +27,7 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 struct DockPluginData
 {
@@ -44,7 +45,7 @@ class DockWnd;
 class QMenu;
 class CorePlugin;
 
-class DockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class DockPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
@@ -76,14 +77,14 @@ protected:
     time_t m_inactiveTime;
     DockPluginData data;
 
-    PROP_BOOL(AutoHide);
-    PROP_ULONG(AutoHideInterval);
-    PROP_BOOL(ShowMain);
+//    PROP_BOOL(AutoHide);
+//    PROP_ULONG(AutoHideInterval);
+//    PROP_BOOL(ShowMain);
 #ifndef WIN32
-    PROP_ULONG(DockX);
-    PROP_ULONG(DockY);
+//    PROP_ULONG(DockX);
+//    PROP_ULONG(DockY);
 #endif
-    PROP_ULONG(Desktop);
+//    PROP_ULONG(Desktop);
 
     friend class DockCfg;
     friend class DockWnd;

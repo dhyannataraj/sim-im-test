@@ -37,6 +37,8 @@ public:
     ~LoginDialog();
     bool isChanged() { return m_bProfileChanged; }
     SIM::Client *client() { return m_client; }
+	QString profile() { return m_profile; }
+	bool isNewProfile() { return m_newProfile; }
 protected slots:
     void saveToggled(bool);
     void profileChanged(int);
@@ -52,6 +54,7 @@ protected:
     virtual void reject();
     QString m_profile;
     QString m_loginProfile;
+	bool m_newProfile;
     void clearInputs();
     void fill();
     void startLogin();

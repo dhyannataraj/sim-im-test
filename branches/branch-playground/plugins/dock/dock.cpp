@@ -81,9 +81,9 @@ static DataDef dockData[] =
     };
 
 DockPlugin::DockPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("dock")
 {
-    load_data(dockData, &data, config);
+//    load_data(dockData, &data, config);
     m_dock = NULL;
     m_inactiveTime = 0;
     m_popup = NULL;
@@ -154,10 +154,11 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
 
 DockPlugin::~DockPlugin()
 {
+    PropertyHub::save();
     EventCommandRemove(CmdToggle).process();
     EventMenu(DockMenu, EventMenu::eRemove).process();
     delete m_dock;
-    free_data(dockData, &data);
+//    free_data(dockData, &data);
 }
 
 void DockPlugin::init()
@@ -188,7 +189,8 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
         case QEvent::Close:
             if (!m_bQuit){
                 QWidget *main = static_cast<QWidget*>(o);
-                setShowMain(false);
+				setProperty("ShowMain", false);
+                //setShowMain(false);
                 main->hide();
 				e->ignore();
                 return true;
@@ -232,7 +234,7 @@ bool DockPlugin::processEvent(Event *e)
         if (w->widget() == getMainWindow()){
             if (m_dock == NULL)
                 init();
-            if (!getShowMain())
+            if (!property("ShowMain").toBool())
                 return (void*)1;
         }
         break;
@@ -274,12 +276,12 @@ bool DockPlugin::processEvent(Event *e)
             if(!main)
                 return false;
             if (isMainShow()){
-                setShowMain(false);
+				setProperty("ShowMain", false);
                 main->hide();
             }else{
                 m_inactiveTime = 0;
-                setShowMain(true);
-                raiseWindow(main,getDesktop());
+				setProperty("ShowMain", true);
+                raiseWindow(main, property("Desktop").toUInt());
             }
             return (void*)1;
         }
@@ -289,6 +291,11 @@ bool DockPlugin::processEvent(Event *e)
         }
         if (def->id == CmdQuit)
             m_bQuit = true;
+        break;
+    }
+    case eEventPluginLoadConfig:
+    {
+        PropertyHub::load();
         break;
     }
     default:
@@ -364,15 +371,15 @@ void DockPlugin::timer()
 {
     if (!isMainShow())  // already hidden
         return;
-    if (!getAutoHide() || (m_inactiveTime == 0))  // no autohide
+    if (!property("AutoHide").toBool() || (m_inactiveTime == 0))  // no autohide
         return;
     if (m_main != getMainWindow()) {
         m_main = getMainWindow();
         m_main->installEventFilter(this);
     }
-    if (time(NULL) > m_inactiveTime + (time_t)getAutoHideInterval()){
+    if (time(NULL) > m_inactiveTime + (time_t)property("AutoHideInterval").toUInt()){
         if (m_main){
-            setShowMain(false);
+			setProperty("ShowMain", false);
             m_main->hide();
         }
     }

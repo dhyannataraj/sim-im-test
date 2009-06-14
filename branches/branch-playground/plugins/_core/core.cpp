@@ -17,6 +17,7 @@ email                : vovan@shutoff.ru
 
 #include "simapi.h"
 
+
 #include <time.h>
 
 #ifdef WIN32
@@ -28,6 +29,7 @@ email                : vovan@shutoff.ru
 #include <sys/stat.h>
 #endif
 
+#include <QSettings>
 #include <QMainWindow>
 #include <qtimer.h>
 #include <qapplication.h>
@@ -82,6 +84,7 @@ email                : vovan@shutoff.ru
 #include "filetransfer.h"
 #include "declinedlg.h"
 #include "userhistorycfg.h"
+#include "profilemanager.h"
 
 using namespace std;
 using namespace SIM;
@@ -220,10 +223,7 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
 static DataDef coreData[] =
 {
-	{ "Profile", DATA_STRING, 1, 0 },
-	{ "SavePasswd", DATA_BOOL, 1, DATA(1) },
-	{ "NoShow", DATA_BOOL, 1, 0 },
-	{ "ShowPanel", DATA_BOOL, 1, DATA(1) },
+//	{ "ShowPanel", DATA_BOOL, 1, DATA(1) },
 	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
 	{ "", DATA_ULONG, 1, 0 },		// StatusTime
 	{ "Invisible", DATA_BOOL, 1, 0 },
@@ -231,7 +231,6 @@ static DataDef coreData[] =
 	{ "ToolBar", DATA_LONG, 7, 0 },
 	{ "Buttons", DATA_STRLIST, 1, 0 },
 	{ "Menues", DATA_STRLIST, 1, 0 },
-	{ "ShowOnLine", DATA_BOOL, 1, 0 },
 	{ "GroupMode", DATA_ULONG, 1, DATA(1) },
 	{ "UseDblClick", DATA_BOOL, 1, 0 },
 	{ "UseSysColors", DATA_BOOL, 1, DATA(1) },
@@ -287,7 +286,6 @@ static DataDef coreData[] =
 	{ "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
 	{ "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
 	{ "ShowAllEncodings", DATA_BOOL, 1, 0 },
-	{ "ShowEmptyGroup", DATA_BOOL, 1, DATA(1) },
 	{ "NoJoinAlert", DATA_BOOL, 1, 0 },
 	{ "EnableSpell", DATA_BOOL, 1, 0 },
 	{ "RemoveHistory", DATA_BOOL, 1, DATA(1) },
@@ -400,7 +398,7 @@ static autoReply autoReplies[] =
 	{ 0, NULL }
 };
 
-CorePlugin::CorePlugin(unsigned base, Buffer *config) : Plugin(base), EventReceiver(HighPriority)
+CorePlugin::CorePlugin(unsigned base, Buffer *config) : Plugin(base), EventReceiver(HighPriority), PropertyHub("_core")
 {
 	m_plugin = this;
 	historyXSL = NULL;
@@ -434,7 +432,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config) : Plugin(base), EventRecei
 	m_RegNew = false;
 	m_HistoryThread = NULL;
 
-	loadDir();
+	//loadDir();
 
 	m_tmpl	= new Tmpl(this);
 	m_cmds	= new Commands;
@@ -836,6 +834,7 @@ void CorePlugin::setAutoReplies()
 
 CorePlugin::~CorePlugin()
 {
+	PropertyHub::save();
 	destroy();
 	delete m_lock;
 	delete m_cmds;
@@ -1180,8 +1179,9 @@ bool CorePlugin::processEvent(Event *e)
 			{
 				EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
 				pluginInfo *info = p->info();
-				if (info->plugin == this){
-					QString profile = getProfile();
+				if (info->plugin == this)
+				{
+					QString profile = ProfileManager::instance()->currentProfileName();
 					free_data(coreData, &data);
 					load_data(coreData, &data, info->cfg);
 					setStatusTime(time(NULL));
@@ -1189,7 +1189,9 @@ bool CorePlugin::processEvent(Event *e)
 						delete info->cfg;
 						info->cfg = NULL;
 					}
-					setProfile(profile);
+					//setProfile(profile);
+					//QSettings settings;
+					//settings.setValue("Profile", profile);
 					removeTranslator();
 					installTranslator();
 					initData();
@@ -1217,7 +1219,7 @@ bool CorePlugin::processEvent(Event *e)
 				QString fname = homedir->homeDir();
 				QString profile;
 				if(QDir(fname).isRelative())
-					profile = getProfile();
+					profile = ProfileManager::instance()->currentProfileName();
 				if (profile.length())
 					profile += '/';
 				profile += fname;
@@ -1234,7 +1236,7 @@ bool CorePlugin::processEvent(Event *e)
 		case eEventGetProfile:
 			{
 				EventGetProfile *e_get_profile = static_cast<EventGetProfile*>(e);
-				e_get_profile->setProfileValue(getProfile());	
+				e_get_profile->setProfileValue(ProfileManager::instance()->currentProfileName());	
 				return true;    
 			}
 		case eEventAddPreferences:
@@ -2840,8 +2842,10 @@ bool CorePlugin::processEvent(Event *e)
 						}
 					}
 				}
-				if (cmd->id == CmdShowPanel){
-					setShowPanel((cmd->flags & COMMAND_CHECKED) != 0);
+				if (cmd->id == CmdShowPanel)
+				{
+					setProperty("ShowPanel", ((cmd->flags & COMMAND_CHECKED) != 0));
+					//setShowPanel((cmd->flags & COMMAND_CHECKED) != 0);
 					showPanel();
 				}
 			}
@@ -2965,9 +2969,10 @@ void CorePlugin::hideWindows()
 	}
 }
 
-void CorePlugin::changeProfile()
+void CorePlugin::changeProfile(const QString& profilename)
 {
-	QString saveProfile = getProfile();
+	log(L_DEBUG, "CorePlugin::changeProfile()");
+	//QString saveProfile = getProfile();
 	destroy();
 	getContacts()->clearClients();
 	EventPluginsUnload eUnload(this);
@@ -2986,7 +2991,8 @@ void CorePlugin::changeProfile()
 		delete info->cfg;
 		info->cfg = NULL;
 	}
-	setProfile(saveProfile);
+	//setProfile(saveProfile);
+	ProfileManager::instance()->selectProfile(profilename);
 	removeTranslator();
 	installTranslator();
 	initData();
@@ -3010,7 +3016,10 @@ bool CorePlugin::init(bool bInit)
 	bool bRes = true;
 	bool bNew = false;
 	bool bCmdLineProfile = false;
+	QSettings settings;
 
+	// FIXME:
+	/*
 	EventArg e1("-profile:", I18N_NOOP("Use specified profile"));
 	e1.process();
 	QString cmd_line_profile = e1.value();
@@ -3024,71 +3033,48 @@ bool CorePlugin::init(bool bInit)
 			setProfile(cmd_line_profile);
 		}
 	}
+	*/
 
-	EventArg e2("-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"));
-	if (e2.process() && !e2.value().isEmpty())
+	QStringList profiles = ProfileManager::instance()->enumProfiles();
+	QString profile;
+	bool newProfile = false;
+
+	if((!bInit ||
+			settings.value("Profile").toString().isEmpty() ||
+			!settings.value("NoShow", false).toBool() ||
+		!settings.value("SavePasswd", false).toBool()))
 	{
-		int idx = e2.value().indexOf(':');
-		QString uin      = e2.value().left(idx);
-		QString passwd   = (idx != -1) ? e2.value().mid(idx + 1) : QString::null;
-		setICQUIN(uin);
-		setICQPassword(passwd);
-
-		if(!bCmdLineProfile)
+		LoginDialog dlg(bInit, NULL, "", bInit ? "" : settings.value("Profile").toString());
+		if (dlg.exec() == 0)
 		{
-			bool bRegistered = false;
-			ClientList clients;
-			loadClients(clients);
-			unsigned i;
-			QString clName, clID;
-			for (i = 0; i < clients.size(); i++){
-				QString clName=clients[i]->name();
-				clID=clName.right(clName.length()-clName.indexOf('.')-1);
-				if (clID.compare(uin)==0)
-					bRegistered=true;
-			}
-			setRegNew(!bRegistered);
-		} else
-			setRegNew(true);
-	}
-	if((!bInit || getProfile().isEmpty() || !getNoShow() || !getSavePasswd()) &&
-			(cmd_line_profile.isEmpty() || (!cmd_line_profile.isEmpty() && !getSavePasswd())))
-	{
-		if (!bInit || m_profiles.size()){
-			if (bInit)
+			if (bInit || dlg.isChanged())
 			{
-				hideWindows();
+				EventPluginsLoad eAbort;
+				eAbort.process();
 			}
-			LoginDialog dlg(bInit, NULL, "", bInit ? "" : getProfile());
-			if (dlg.exec() == 0){
-				if (bInit || dlg.isChanged()){
-					EventPluginsLoad eAbort;
-					eAbort.process();
-				}
-				return false;
-			}
-			if (dlg.isChanged())
-				bRes = false;
-			bLoaded = true;
-		}
-	}else if (bInit && !getProfile().isEmpty() && !bCmdLineProfile){
-		if (!lockProfile(getProfile(), true)){
-			EventPluginsLoad eAbort;
-			eAbort.process();
 			return false;
 		}
+		newProfile = dlg.isNewProfile();
+		profile = dlg.profile();
+		if (dlg.isChanged())
+			bRes = false;
+		bLoaded = true;
 	}
-	if (getProfile().isEmpty() || bCmdLineProfile)
+	else if (bInit && !profile.isEmpty())
+	{
+		log(L_DEBUG, "profile = %s", profile.toUtf8().data());
+		ProfileManager::instance()->selectProfile(profile);
+	}
+	if(newProfile)
 	{
 		hideWindows();
 		getContacts()->clearClients();
 
 		QString name;
-		setProfile(QString::null);
-		QDir d(user_file(QString::null));
+		QDir d(ProfileManager::instance()->rootPath());
 		while(1)
 		{
-			if(!bCmdLineProfile)
+			//if(!bCmdLineProfile)
 			{
 				bool ok = false;
 				name = QInputDialog::getText(i18n("Create Profile"), i18n("Please enter a new name for the profile."), QLineEdit::Normal, name, &ok, NULL);
@@ -3099,28 +3085,30 @@ bool CorePlugin::init(bool bInit)
 					return false;
 				}
 			}
+			/*
 			else
 			{
 				name = QString(cmd_line_profile);
 			}
+			*/
 			if(d.exists(name)) {
 				QMessageBox::information(NULL, i18n("Create Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
 				continue;
 			}
-			else if(!d.mkdir(name))
+			else if(!ProfileManager::instance()->newProfile(name))
 			{
-				printf("name: %s, p: %s\n", name.toAscii().data(), d.path().toAscii().data());
-				QMessageBox::information(NULL, i18n("Create Profile"), i18n("Unable to create the profile.  Please do not use any special characters."), QMessageBox::Ok);
+				QMessageBox::information(NULL, i18n("Create Profile"), i18n("Error while creating a new profile"), QMessageBox::Ok);
 				continue;
 			}
 			break;
 		}
-		setProfile(name);
+		settings.setValue("Profile", name);
 
-		NewProtocol *pDlg=NULL;
-		if (bCmdLineProfile){
-			setSavePasswd(true);
-			setNoShow(true);
+		NewProtocol *pDlg = NULL;
+		if (bCmdLineProfile)
+		{
+			settings.setValue("SavePasswd", true);
+			settings.setValue("NoShow", true);
 			pDlg = new NewProtocol(NULL,1,getRegNew());
 		} else {
 			pDlg = new NewProtocol(NULL);
@@ -3139,7 +3127,12 @@ bool CorePlugin::init(bool bInit)
 		bRes = false;
 		bNew = true;
 	}
-	if (!bLoaded){
+	PropertyHub::load();
+	EventPluginLoadConfig eplc;
+	eplc.process();
+	// TODO emit event for other plugins to load their configs
+	if (!bLoaded)
+	{
 		ClientList clients;
 		loadClients(clients);
 		clients.addToContacts();
@@ -3237,9 +3230,9 @@ static char CLIENTS_CONF[] = "clients.conf";
 
 void CorePlugin::loadDir()
 {
-	QString saveProfile = getProfile();
-	setProfile(QString::null);
-	bool bOK = false;
+	//QString saveProfile = getProfile();
+	//setProfile(QString::null);
+	//bool bOK = false;
 	QString baseName = user_file(QString::null);
 	QDir dir(baseName);
 	dir.setFilter(QDir::Dirs);
@@ -3252,12 +3245,16 @@ void CorePlugin::loadDir()
 		QFile f(fname);
 		if (f.exists()){
 			m_profiles.append(entry);
+			/*
 			if (entry == saveProfile)
 				bOK = true;
+				*/
 		}
 	}
+	/*
 	if (bOK)
 		setProfile(saveProfile);
+		*/
 }
 
 static char BACKUP_SUFFIX[] = "~";
@@ -3334,22 +3331,20 @@ Q3CString CorePlugin::getConfig()
 	static DataDef generalCoreDataDef[] =
 	{
 		{ "Profile", DATA_STRING,  1, 0 },
-		{ "NoShow",  DATA_BOOL,    1, 0 },
 		{ NULL,      DATA_UNKNOWN, 0, 0 }
 	};
 	struct TGeneralCoreData
 	{
 		SIM::Data	Profile;
-		SIM::Data	NoShow;
 	} GeneralCoreData;
 
 
-	QString saveProfile = getProfile();
-	setProfile(QString::null);
+	QString saveProfile = ProfileManager::instance()->currentProfileName();
+	//setProfile(QString::null);
 
 	load_data(generalCoreDataDef, &GeneralCoreData, NULL);  // This will just init data
 	GeneralCoreData.Profile.str() = saveProfile;
-	GeneralCoreData.NoShow.asBool() = getNoShow();
+	//GeneralCoreData.NoShow.asBool() = getNoShow();
 
 	QString cfg = save_data(generalCoreDataDef, &GeneralCoreData);
 
@@ -3368,7 +3363,7 @@ Q3CString CorePlugin::getConfig()
 		write += cfg;
 		fCFG.write(write, write.length());
 
-		fCFG.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on fCFG.close
+		fCFG.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on fCFG.close
         const QFile::FileError status = fCFG.error();
 		const QString errorMessage = fCFG.errorString();
 		fCFG.close();
@@ -3392,7 +3387,7 @@ Q3CString CorePlugin::getConfig()
 	}
 
 	// Saving profile-dependent config:
-	setProfile(saveProfile);
+	//setProfile(saveProfile);
 	cfgName = user_file(CLIENTS_CONF);
 	QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
@@ -3508,12 +3503,12 @@ Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 	return new Message(MessageGeneric, cfg);
 }
 
-void CorePlugin::loadClients(ClientList &clients)
+void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 {
-	QString cfgName = user_file(CLIENTS_CONF);
+	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
 	QFile f(cfgName);
 	if (!f.open(QIODevice::ReadOnly)){
-		log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
+		log(L_ERROR, "[1]Can't open %s", cfgName.local8Bit().data());
 		return;
 	}
 	Buffer cfg = f.readAll();
@@ -3526,6 +3521,11 @@ void CorePlugin::loadClients(ClientList &clients)
 		if (client)
 			clients.push_back(client);
 	}
+}
+
+void CorePlugin::loadClients(ClientList &clients)
+{
+	loadClients(ProfileManager::instance()->currentProfileName(), clients);
 }
 
 Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
@@ -3706,7 +3706,7 @@ void CorePlugin::loadMenu()
 	{
 		if (m_main == NULL)
 			return;
-		bool bShow = getShowPanel();
+		bool bShow = property("ShowPanel").toBool();
 		if (bShow){
 			if (getContacts()->nClients() < 2)
 				bShow = false;

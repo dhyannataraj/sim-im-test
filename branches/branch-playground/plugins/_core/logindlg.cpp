@@ -21,7 +21,9 @@ email                : vovan@shutoff.ru
 #include "ballonmsg.h"
 #include "linklabel.h"
 #include "log.h"
+#include "profilemanager.h"
 
+#include <QSettings>
 #include <QPixmap>
 #include <qcheckbox.h>
 #include <qlineedit.h>
@@ -43,11 +45,13 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 {
 	setupUi(this);
 	//setAttribute(Qt::WA_DeleteOnClose, true);
+	QSettings settings;
 	m_bInit  = bInit;
 	m_bProfileChanged = false;
-	m_profile = CorePlugin::m_plugin->getProfile();
+	m_profile = settings.value("Profile").toString();
 	m_client = client;
 	m_bLogin = false;
+	m_newProfile = false;
 	m_loginProfile = loginProfile;
 	if(m_loginProfile.isEmpty())
 		btnDelete->hide();
@@ -70,10 +74,19 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 		setWindowTitle(i18n("Select profile"));
 		setWindowIcon(Icon("SIM"));
 	}
-	chkSave->setChecked(CorePlugin::m_plugin->getSavePasswd());
-	chkNoShow->setChecked(CorePlugin::m_plugin->getNoShow());
+	for(int i = 0; i < cmbProfile->count(); i++)
+	{
+		if(cmbProfile->itemText(i) == m_profile)
+		{
+			cmbProfile->setCurrentIndex(i);
+			break;
+		}
+	}
+	
+	chkSave->setChecked(settings.value("SavePasswd").toBool());
+	chkNoShow->setChecked(settings.value("NoShow").toBool());
 	connect(chkSave, SIGNAL(toggled(bool)), this, SLOT(saveToggled(bool)));
-	saveToggled(CorePlugin::m_plugin->getSavePasswd());
+	saveToggled(settings.value("SavePasswd").toBool());
 	fill();
 	connect(cmbProfile, SIGNAL(activated(int)), this, SLOT(profileChanged(int)));
 	connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
@@ -116,6 +129,7 @@ void LoginDialog::accept()
 		stopLogin();
 		return;
 	}
+	QSettings settings;
 	if (m_client)
 	{
 		startLogin();
@@ -133,32 +147,35 @@ void LoginDialog::accept()
 
 	getContacts()->clearClients();
 	int n = cmbProfile->currentItem();
-	if (n < 0 || n >= cmbProfile->count() - 1){
-		CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
-		CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
-		CorePlugin::m_plugin->setProfile(QString::null);
-		CorePlugin::m_plugin->changeProfile();
+	if(n == cmbProfile->count() - 1)
+	{
+		m_profile = QString::null;
+		m_newProfile = true;
+		QDialog::accept();
+		return;
+	}
+	if (n < 0) 
+	{
+		settings.setValue("SavePasswd", chkSave->isChecked());
+		settings.setValue("NoShow", chkNoShow->isChecked());
+		m_profile = QString::null;
+		CorePlugin::m_plugin->changeProfile(QString::null);
 		QDialog::accept();
 		return;
 	}
 
-	CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
-	if (m_profile != CorePlugin::m_plugin->getProfile()){
-		if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n]))
-		{
-			CorePlugin::m_plugin->setProfile(m_profile);
-			BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
-			return;
-		}
-		CorePlugin::m_plugin->changeProfile();
-		m_bProfileChanged = true;
-	}
+	m_profile = cmbProfile->currentText();
+	log(L_DEBUG, "Profile: %s", qPrintable(m_profile));
+	settings.setValue("Profile", m_profile);
+	settings.setValue("SavePasswd", chkSave->isChecked());
+	settings.setValue("NoShow", chkNoShow->isChecked());
 
-	CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
-	CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
+	// Probably, it shouldn't be here
+	ProfileManager::instance()->selectProfile(m_profile);
+	CorePlugin::m_plugin->changeProfile(m_profile);
 
 	ClientList clients;
-	CorePlugin::m_plugin->loadClients(clients);
+	CorePlugin::m_plugin->loadClients(m_profile, clients);
 	clients.addToContacts();
 	getContacts()->load();
 
@@ -241,10 +258,8 @@ void LoginDialog::profileChanged(int)
 	{
 		btnRename->show();
 		clearInputs();
-		QString save_profile = CorePlugin::m_plugin->getProfile(); // Let's remember current profile name
-		CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
 		ClientList clients;
-		CorePlugin::m_plugin->loadClients(clients);
+		CorePlugin::m_plugin->loadClients(cmbProfile->currentText(), clients);
 		unsigned nClients = 0;
 		unsigned i;
 		for (i = 0; i < clients.size(); i++)
@@ -263,10 +278,9 @@ void LoginDialog::profileChanged(int)
 		}
 		if (passwords.size())
 			passwords[0]->setFocus();
-		btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n]);
+		btnDelete->setEnabled(m_loginProfile == cmbProfile->currentText());
 		buttonOk->setEnabled(false);
 		pswdChanged("");
-		CorePlugin::m_plugin->setProfile(save_profile);   // We should not change Profile value in _core before "Ok" button
 		// is pressed otherwise sim will overwrite wrong config file on
 		// exit.
 	}
@@ -346,40 +360,24 @@ void LoginDialog::fill()
 		return;
 	}
 	cmbProfile->clear();
+	QSettings settings;
+	QString profile = settings.value("Profile").toString();
+
 	int newCur = -1;
-	QString save_profile = CorePlugin::m_plugin->getProfile();
-	CorePlugin::m_plugin->m_profiles.clear();
-	CorePlugin::m_plugin->loadDir();
-	for (unsigned i = 0; i < (unsigned)CorePlugin::m_plugin->m_profiles.size(); i++){
-		QString curProfile = CorePlugin::m_plugin->m_profiles[i];
-		if (curProfile == save_profile)
+	cmbProfile->addItems(ProfileManager::instance()->enumProfiles());
+	for(int i = 0; i < cmbProfile->count(); i++)
+	{
+		if(cmbProfile->itemText(i) == profile)
 			newCur = i;
-		CorePlugin::m_plugin->setProfile(curProfile);
-		ClientList clients;
-		CorePlugin::m_plugin->loadClients(clients);
-		if (clients.size())
-		{
-			Client *client = clients[0];
-			cmbProfile->addItem(Icon(client->protocol()->description()->icon),curProfile);
-		} 
-		else
-		{
-			// Still add broken profiles to pulldown menu
-			// otherwise indexes of CorePlugin::m_plugin->m_profiles and cmbProfile items will
-			// be out of sync
-			cmbProfile->addItem(Icon(QString("error")),curProfile + ' ' + i18n("[Broken]"));
-		}
 	}
 	cmbProfile->insertItem(i18n("New profile"));
 	if (newCur != - 1)
 	{
 		cmbProfile->setCurrentItem(newCur);
-		CorePlugin::m_plugin->setProfile(save_profile);
 	}
 	else
 	{
 		cmbProfile->setCurrentItem(cmbProfile->count() - 1);
-		CorePlugin::m_plugin->setProfile(QString::null);
 	}
 }
 
@@ -411,16 +409,13 @@ void LoginDialog::pswdChanged(const QString&)
 
 void LoginDialog::profileDelete()
 {
+	/*
 	int n = cmbProfile->currentItem();
 	if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
 		return;
-	QString curProfile = CorePlugin::m_plugin->m_profiles[n];
-	CorePlugin::m_plugin->setProfile(curProfile);
-	rmDir(user_file(""));
-	CorePlugin::m_plugin->setProfile(QString::null);
-	CorePlugin::m_plugin->changeProfile();
-	CorePlugin::m_plugin->m_profiles.clear();
-	CorePlugin::m_plugin->loadDir();
+		*/
+	QString curProfile = cmbProfile->currentText(); //CorePlugin::m_plugin->m_profiles[n];
+	ProfileManager::instance()->removeProfile(curProfile);
 	clearInputs();
 	btnDelete->setEnabled(false);
 	fill();
@@ -428,16 +423,10 @@ void LoginDialog::profileDelete()
 
 void LoginDialog::profileRename()
 {
-	if (cmbProfile->currentItem() < 0 || cmbProfile->currentItem() >= (int)CorePlugin::m_plugin->m_profiles.size())
-		return;
-
-	QString old_name = CorePlugin::m_plugin->m_profiles[cmbProfile->currentItem()];
-	QString current_profile = CorePlugin::m_plugin->getProfile();
+	QString old_name = cmbProfile->currentText();
 
 	QString name = old_name;
-	CorePlugin::m_plugin->setProfile(QString::null);
-	QString profileDir=user_file("");
-	QDir d(user_file(""));
+	QDir d(ProfileManager::instance()->rootPath());
 	while(1) {
 		bool ok = false;
 		name = QInputDialog::getText(i18n("Rename Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, this);
@@ -453,20 +442,8 @@ void LoginDialog::profileRename()
 		}
 		break;
 	}
+	ProfileManager::instance()->renameProfile(old_name, name);
 	fill();
-	for (int i=0; i<(cmbProfile->count()); i++){
-		if (cmbProfile->text(i) != name)
-			continue;
-
-		cmbProfile->setCurrentItem(i);
-		break;
-	}
-	if (current_profile == old_name)
-	{
-		CorePlugin::m_plugin->setProfile(name); // If current profile were renamed, should use new name as current profile
-		return;
-	}
-	CorePlugin::m_plugin->setProfile(current_profile); // Restore current profile value
 }
 
 void LoginDialog::startLogin()

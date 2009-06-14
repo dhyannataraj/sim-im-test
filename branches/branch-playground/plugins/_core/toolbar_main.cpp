@@ -43,7 +43,7 @@ void CorePlugin::createMainToolbar()
 	cmd->bar_grp     = 0x4000;
 	cmd->menu_id     = MenuMain;
 	cmd->menu_grp    = 0;
-	if (getShowOnLine()) cmd->flags |= COMMAND_CHECKED;
+	if (property("ShowOnLine").toBool()) cmd->flags |= COMMAND_CHECKED;
 	EventCommandCreate(cmd).process();
 
 	cmd->id          = CmdGroupToolbarButton;
@@ -349,7 +349,7 @@ bool CorePlugin::updateMainToolbar(unsigned long commandID)
     cmd->menu_id     = MenuGroups;
     cmd->menu_grp    = 0x8000;
     cmd->flags       = COMMAND_CHECK_STATE;
-    if (getShowOnLine()) cmd->flags |= COMMAND_CHECKED;
+    if (property("ShowOnLine").toBool()) cmd->flags |= COMMAND_CHECKED;
     EventCommandChange(cmd).process();
   }
   return bUpdateAll;

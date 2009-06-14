@@ -10,25 +10,17 @@
 
 namespace SIM
 {
-	class EXPORT PropertyHub
+	class EXPORT PropertyHub : virtual public QObject
 	{
+		Q_OBJECT
 	public:
-		typedef QMap<QString, QVariant*> mapVariant;
-
-		PropertyHub();
+		PropertyHub(const QString& ns);
 		virtual ~PropertyHub();
 
-		void setString(const QString& key, const QString& str);
-		QString getString(const QString& key);
-
-		void setInt(const QString& key, const int val);
-		int getInt(const QString& key);
-
-		void setBool(const QString& key, const bool val);
-		bool getBool(const QString& key);
-
-	protected:
-		mapVariant m_map;
+		bool save();
+		bool load();
+	private:
+		QString m_namespace;
 	};
 }
 

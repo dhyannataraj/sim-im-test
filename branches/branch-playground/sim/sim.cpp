@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+
 #include "simapi.h"
 #include "log.h"
 #include "misc.h"
-#include "xeventhandlermanager.h"
+#include "profilemanager.h"
+
+#include <QDir>
 
 #ifdef WIN32
 #include <windows.h>
@@ -39,6 +42,8 @@
 //#include <X11/X.h>
 #include <X11/Xlib.h>
 #endif
+
+#include <QSettings>
 
 using namespace SIM;
 
@@ -208,8 +213,10 @@ Debug d;
 
 int main(int argc, char *argv[])
 {
-	new XEventHandlerManager();
     int res = 1;
+	QCoreApplication::setOrganizationDomain("sim-im.org");
+	QCoreApplication::setApplicationName("Sim-IM");
+	new SIM::ProfileManager(QDir::homePath() + QDir::separator() + ".sim-qt4");
 #ifdef WIN32
     Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #elif defined(__OS2__)    

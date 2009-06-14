@@ -19,8 +19,9 @@
 #define _CFG_H
 
 #include <q3cstring.h>
-#include <qmap.h>
-#include <qstring.h>
+#include <QMap>
+#include <QString>
+#include <qvariant.h>
 
 #include "simapi.h"
 
@@ -32,6 +33,30 @@ class Buffer;
 class IP;
 
 namespace SIM {
+
+class Config
+{
+public:
+	Config(const QString& filename);
+	virtual ~Config();
+
+	void beginGroup(const QString& group);
+	void endGroup();
+
+	void setValue(const QString& key, const QVariant& value);
+	QVariant value(const QString& key);
+
+	QStringList allKeys();
+
+	void save();
+	void load();
+
+private:
+	QString m_group;
+	QVariantMap m_data;
+	QString m_filename;
+	bool m_changed;
+};
 
 enum DataType {
     DATA_UNKNOWN = 0,

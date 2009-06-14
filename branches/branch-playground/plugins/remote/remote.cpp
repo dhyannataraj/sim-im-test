@@ -621,7 +621,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     unsigned style = 0;
                     QString statusIcon;
                     unsigned status = contact->contactInfo(style, statusIcon);
-                    if ((status == STATUS_OFFLINE) && core->getShowOnLine())
+                    if ((status == STATUS_OFFLINE) && core->property("ShowOnLine").toBool())
                         continue;
                     unsigned mode = core->getSortMode();
                     ContactInfo info;

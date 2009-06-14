@@ -36,7 +36,7 @@
 #include "misc.h"
 #include "xsl.h"
 #include "builtinlogger.h"
-#include "xevent.h"
+#include "profilemanager.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -258,6 +258,8 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         if (m_bAbort)
             return;
     }
+	//log(L_DEBUG, "All plugins are loaded now, loading config");
+	//loadState();
     EventInit eStart;
     eStart.process();
     if(eStart.abortLoading())
@@ -266,16 +268,6 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         m_bAbort = true;
         return;
     }
-	XEvent startEvent(eEventInit);
-	startEvent.process();
-    if(startEvent.getBool("Abort"))
-	{
-        log(L_ERROR,"EventInit failed - aborting!");
-        m_bAbort = true;
-        return;
-    }
-	
-
     for (QStringList::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
         if ((*it_args).length()){
             usage(*it_args);
@@ -478,7 +470,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         release(info);
         return false;
     }
-    log(L_DEBUG, "Load plugin %s", qPrintable(info.name));
+    log(L_DEBUG, "[1]Load plugin %s", qPrintable(info.name));
     if (!m_bLoaded && !(info.info->flags & (PLUGIN_NO_CONFIG_PATH & ~PLUGIN_DEFAULT))){
         loadState();
         if (info.bDisabled || (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT)))){
@@ -584,7 +576,7 @@ bool PluginManagerPrivate::setInfo(const QString &name)
 static char PLUGINS_CONF[] = "plugins.conf";
 static char ENABLE[] = "enable";
 static char DISABLE[] = "disable";
-static char BACKUP_SUFFIX[] = "~";
+static char BACKUP_SUFFIX[] = ".temp";
 
 void PluginManagerPrivate::saveState()
 {
@@ -603,7 +595,9 @@ void PluginManagerPrivate::saveState()
         return;
     getContacts()->save();
     QString cfgName = user_file(PLUGINS_CONF);
-    QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
+	QString backupfile = cfgName.append(BACKUP_SUFFIX);
+    QFile f(backupfile); // use backup file for this ...
+	log(L_DEBUG, "Opening: %s", qPrintable(backupfile));
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
         log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
         return;
@@ -626,7 +620,7 @@ void PluginManagerPrivate::saveState()
             }
         }
     }
-    f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
+    f.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on f.close
     QFile::FileError err = f.error();
     const QString errorMessage = f.errorString();
     f.close();
@@ -639,11 +633,9 @@ void PluginManagerPrivate::saveState()
     QFileInfo fileInfo(f.fileName());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-//#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
-//#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
+        log(L_ERROR, "Can't rename file %s to %s (%s)", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName), fileInfo.dir().dirName().toUtf8().data());
         return;
     }
 }
@@ -664,11 +656,15 @@ void PluginManagerPrivate::reloadState()
 
 void PluginManagerPrivate::loadState()
 {
+	log(L_DEBUG, "PluginManagerPrivate::loadState(%s)", qPrintable(user_file(PLUGINS_CONF)));
     if (m_bLoaded)
 		return;
 
+	QString fname = ProfileManager::instance()->rootPath() + QDir::separator() + QString(PLUGINS_CONF);
+	if(ProfileManager::instance()->currentProfileName() != QString::null)
+		fname = ProfileManager::instance()->profilePath() + QDir::separator() + QString(PLUGINS_CONF);
     m_bLoaded = true;
-    QFile f(user_file(PLUGINS_CONF));
+    QFile f(fname);
 
     if (!f.exists()) {
         /* Maybe first start ? */
@@ -695,10 +691,12 @@ void PluginManagerPrivate::loadState()
 
     Buffer cfg = f.readAll();
 
+	log(L_DEBUG, "Filename: %s", qPrintable(f.fileName()));
     bool continuos=TRUE;
     while(continuos) {
 
         Q3CString section = cfg.getSection();
+		log(L_DEBUG, "Section: %s", section.data());
 
         if (section.isEmpty())
             return;
@@ -872,6 +870,7 @@ PluginManager::~PluginManager()
     delete factory;
     EventReceiver::destroyList();
     deleteResolver();
+	ProfileManager::instance()->sync();
 }
 
 bool PluginManager::isLoaded()
