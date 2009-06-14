@@ -48,38 +48,20 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-struct BackgroundData
-{
-    char			*Background;
-    unsigned long	Position;
-    unsigned long	Margin;
-} BackgroundData;
-*/
-static DataDef backgroundData[] =
-    {
-        { "Background", DATA_STRING, 1, 0 },
-        { "Position", DATA_ULONG, 1, 0 },
-        { "MarginContact", DATA_ULONG, 1, 0 },
-        { "MarginGroup", DATA_ULONG, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 BackgroundPlugin::BackgroundPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("background")
 {
-    load_data(backgroundData, &data, config);
     redraw();
 }
 
 BackgroundPlugin::~BackgroundPlugin()
 {
-    free_data(backgroundData, &data);
+	PropertyHub::save();
 }
 
 Q3CString BackgroundPlugin::getConfig()
 {
-    return save_data(backgroundData, &data);
+    return Q3CString();
 }
 
 QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
@@ -98,7 +80,7 @@ bool BackgroundPlugin::processEvent(Event *e)
             int x = pv->pos.x();
             int y = pv->pos.y();
             bool bTiled = false;
-            unsigned pos = getPosition();
+            unsigned pos = property("Position").toUInt();
             switch(pos){
             case ContactLeft:
                 h = pv->height;
@@ -132,8 +114,13 @@ bool BackgroundPlugin::processEvent(Event *e)
                 pv->isStatic = true;
             }
         }
-        pv->margin = pv->isGroup ? getMarginGroup() : getMarginContact();
+        pv->margin = pv->isGroup ? property("MarginGroup").toUInt() : property("MarginContact").toUInt();
     }
+	else if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+		redraw();
+	}
     return false;
 }
 
@@ -141,9 +128,9 @@ void BackgroundPlugin::redraw()
 {
     bgImage = QImage();
     bgScale = QPixmap();
-    if (getBackground().isEmpty())
+    if (property("Background").toString().isEmpty())
         return;
-    bgImage = QImage(getBackground());
+    bgImage = QImage(property("Background").toString());
     EventRepaintView e;
     e.process();
 }

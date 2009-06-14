@@ -175,7 +175,9 @@ void LoginDialog::accept()
 	CorePlugin::m_plugin->changeProfile(m_profile);
 
 	ClientList clients;
+	log(L_DEBUG, "Beta");
 	CorePlugin::m_plugin->loadClients(m_profile, clients);
+	log(L_DEBUG, "Gamma");
 	clients.addToContacts();
 	getContacts()->load();
 
@@ -259,7 +261,9 @@ void LoginDialog::profileChanged(int)
 		btnRename->show();
 		clearInputs();
 		ClientList clients;
+		log(L_DEBUG, "Delta");
 		CorePlugin::m_plugin->loadClients(cmbProfile->currentText(), clients);
+		log(L_DEBUG, "Epsilon");
 		unsigned nClients = 0;
 		unsigned i;
 		for (i = 0; i < clients.size(); i++)

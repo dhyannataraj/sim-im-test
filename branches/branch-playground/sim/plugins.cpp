@@ -656,7 +656,6 @@ void PluginManagerPrivate::reloadState()
 
 void PluginManagerPrivate::loadState()
 {
-	log(L_DEBUG, "PluginManagerPrivate::loadState(%s)", qPrintable(user_file(PLUGINS_CONF)));
     if (m_bLoaded)
 		return;
 
@@ -691,12 +690,10 @@ void PluginManagerPrivate::loadState()
 
     Buffer cfg = f.readAll();
 
-	log(L_DEBUG, "Filename: %s", qPrintable(f.fileName()));
     bool continuos=TRUE;
     while(continuos) {
 
         Q3CString section = cfg.getSection();
-		log(L_DEBUG, "Section: %s", section.data());
 
         if (section.isEmpty())
             return;

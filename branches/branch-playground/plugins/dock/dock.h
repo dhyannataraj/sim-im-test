@@ -29,18 +29,6 @@
 #include "plugins.h"
 #include "propertyhub.h"
 
-struct DockPluginData
-{
-    SIM::Data		AutoHide;
-    SIM::Data		AutoHideInterval;
-    SIM::Data		ShowMain;
-#ifndef WIN32 
-    SIM::Data		DockX;
-    SIM::Data		DockY;
-#endif
-    SIM::Data		Desktop;
-};
-
 class DockWnd;
 class QMenu;
 class CorePlugin;
@@ -75,17 +63,6 @@ protected:
     unsigned long CmdCustomize;
     bool m_bQuit;
     time_t m_inactiveTime;
-    DockPluginData data;
-
-//    PROP_BOOL(AutoHide);
-//    PROP_ULONG(AutoHideInterval);
-//    PROP_BOOL(ShowMain);
-#ifndef WIN32
-//    PROP_ULONG(DockX);
-//    PROP_ULONG(DockY);
-#endif
-//    PROP_ULONG(Desktop);
-
     friend class DockCfg;
     friend class DockWnd;
 };

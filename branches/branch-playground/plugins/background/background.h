@@ -26,14 +26,7 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
-
-struct BackgroundData
-{
-    SIM::Data	Background;
-    SIM::Data	Position;
-    SIM::Data	MarginContact;
-    SIM::Data	MarginGroup;
-};
+#include "propertyhub.h"
 
 const unsigned ContactLeft  = 0;
 const unsigned ContactScale = 1;
@@ -42,7 +35,7 @@ const unsigned WindowBottom = 3;
 const unsigned WindowCenter = 4;
 const unsigned WindowScale  = 5;
 
-class BackgroundPlugin : public SIM::Plugin, public SIM::EventReceiver
+class BackgroundPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     BackgroundPlugin(unsigned, Buffer *name);
@@ -51,11 +44,7 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     virtual Q3CString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    PROP_STR(Background);
-    PROP_ULONG(Position);
-    PROP_ULONG(MarginContact);
-    PROP_ULONG(MarginGroup);
-    BackgroundData data;
+	
     QImage	bgImage;
     QPixmap	bgScale;
     QPixmap &makeBackground(int w, int h);

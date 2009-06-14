@@ -56,34 +56,9 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct DockData
-{
-    bool			AutoHide;
-    unsigned		AutoHideInterval;
-    bool			ShowMain;
-#ifndef WIN32
-    unsigned		DockX;
-    unsigned		DockY;
-#endif
-} DockData;
-*/
-static DataDef dockData[] =
-    {
-        { "AutoHide", DATA_BOOL, 1, DATA(1) },
-        { "AutoHideInterval", DATA_ULONG, 1, DATA(60) },
-        { "ShowMain", DATA_BOOL, 1, DATA(1) },
-#ifndef WIN32
-        { "DockPos", DATA_ULONG, 2, 0 },
-#endif
-        { "Desktop", DATA_ULONG, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 DockPlugin::DockPlugin(unsigned base, Buffer *config)
         : Plugin(base), PropertyHub("dock")
 {
-//    load_data(dockData, &data, config);
     m_dock = NULL;
     m_inactiveTime = 0;
     m_popup = NULL;
@@ -158,7 +133,6 @@ DockPlugin::~DockPlugin()
     EventCommandRemove(CmdToggle).process();
     EventMenu(DockMenu, EventMenu::eRemove).process();
     delete m_dock;
-//    free_data(dockData, &data);
 }
 
 void DockPlugin::init()
@@ -306,7 +280,7 @@ bool DockPlugin::processEvent(Event *e)
 
 Q3CString DockPlugin::getConfig()
 {
-    return save_data(dockData, &data);
+    return Q3CString();
 }
 
 void DockPlugin::showPopup(QPoint p)

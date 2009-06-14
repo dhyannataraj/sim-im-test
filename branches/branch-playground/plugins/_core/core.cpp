@@ -1189,9 +1189,6 @@ bool CorePlugin::processEvent(Event *e)
 						delete info->cfg;
 						info->cfg = NULL;
 					}
-					//setProfile(profile);
-					//QSettings settings;
-					//settings.setValue("Profile", profile);
 					removeTranslator();
 					installTranslator();
 					initData();
@@ -3134,6 +3131,7 @@ bool CorePlugin::init(bool bInit)
 	if (!bLoaded)
 	{
 		ClientList clients;
+		log(L_DEBUG, "Alpha");
 		loadClients(clients);
 		clients.addToContacts();
 	}
@@ -3505,6 +3503,7 @@ Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 
 void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 {
+	log(L_DEBUG, "CorePlugin::loadClients(%s)", qPrintable(profilename));
 	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
 	QFile f(cfgName);
 	if (!f.open(QIODevice::ReadOnly)){
@@ -3525,6 +3524,7 @@ void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 
 void CorePlugin::loadClients(ClientList &clients)
 {
+	log(L_DEBUG, "CorePlugin::loadClients()");
 	loadClients(ProfileManager::instance()->currentProfileName(), clients);
 }
 

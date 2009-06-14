@@ -49,7 +49,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
-    edtPicture->setText(plugin->getBackground());
+    edtPicture->setText(plugin->property("Background").toString());
     edtPicture->setStartDir(SIM::app_file("pict/"));
     edtPicture->setTitle(i18n("Select background picture"));
     QList<QByteArray> formats = QImageReader::supportedImageFormats();
@@ -76,9 +76,9 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
     cmbPosition->insertItem(i18n("Window - left bottom"));
     cmbPosition->insertItem(i18n("Window - left center"));
     cmbPosition->insertItem(i18n("Window - scale"));
-    cmbPosition->setCurrentItem(plugin->getPosition());
-    spnContact->setValue(plugin->getMarginContact());
-    spnGroup->setValue(plugin->getMarginGroup());
+    cmbPosition->setCurrentItem(plugin->property("Position").toUInt());
+    spnContact->setValue(plugin->property("MarginContact").toUInt());
+    spnGroup->setValue(plugin->property("MarginGroup").toUInt());
     lblLink->setText(i18n("Get more skins"));
     lblLink->setUrl("http://addons.miranda-im.org/index.php?action=display&id=34");
 }
@@ -86,10 +86,10 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
 void BkgndCfg::apply()
 {
     if (cmbPosition->currentItem() >= 0)
-        m_plugin->setPosition(cmbPosition->currentItem());
-    m_plugin->setBackground(edtPicture->text());
-    m_plugin->setMarginContact(spnContact->text().toULong());
-    m_plugin->setMarginGroup(spnGroup->text().toULong());
+        m_plugin->setProperty("Position", cmbPosition->currentItem());
+    m_plugin->setProperty("Background", edtPicture->text());
+    m_plugin->setProperty("MarginContact", (uint)spnContact->text().toULong());
+    m_plugin->setProperty("MarginGroup", (uint)spnGroup->text().toULong());
     m_plugin->redraw();
 }
 
