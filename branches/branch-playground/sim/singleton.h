@@ -9,7 +9,7 @@ template <typename Type> class Singleton
 {
 	static Type* m_instance;
 	Singleton(const Singleton<Type>&) {};
-	Singleton<Type>& operator=(const Singleton<Type>&) {};
+	Singleton<Type>& operator=(const Singleton<Type>& t) { return (Singleton<Type>&)t; };
 public:
 	Singleton()
 	{

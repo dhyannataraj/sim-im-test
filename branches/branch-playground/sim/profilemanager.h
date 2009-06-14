@@ -9,7 +9,7 @@
 
 namespace SIM
 {
-	class ProfileManager : public Singleton<ProfileManager>
+	class EXPORT ProfileManager : public Singleton<ProfileManager>
 	{
 	public:
 		ProfileManager(const QString& rootpath);
