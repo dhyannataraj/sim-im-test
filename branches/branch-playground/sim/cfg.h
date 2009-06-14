@@ -233,6 +233,7 @@ EXPORT bool makedir(const QString &dir);
 EXPORT void save_state();
 
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
+EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEsacpe=true);
 EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash = true);

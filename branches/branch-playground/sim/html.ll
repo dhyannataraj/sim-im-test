@@ -19,7 +19,6 @@
 #include "html.h"
 #include "buffer.h"
 #include "log.h"
-#include <string>
 
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0
@@ -36,7 +35,7 @@
 #define SPACE		9
 #define COMMENT		10
 
-static std::string current_tag;
+static QString current_tag;
 
 %}
 
@@ -71,9 +70,9 @@ static std::string current_tag;
 <s_tag>[A-Za-z]+			{ BEGIN(s_attr); return ATTR; }
 <s_tag>.					{ return SKIP; }
 <s_attr>"="					{ BEGIN(s_value); return SKIP; }
-<s_attr>">"					{ if (current_tag.compare("script")==0){
+<s_attr>">"					{ if (current_tag == QLatin1String("script")){
 							    BEGIN(s_script);
-							  }else if (current_tag.compare("style")==0){
+							  }else if (current_tag == QLatin1String("style")){
 							    BEGIN(s_style);
 							  }else{
 								BEGIN(INITIAL); 
@@ -225,7 +224,7 @@ void HTMLParser::parse()
 			s = yytext + 1;
 			p->tag = s.toLower();
 			p->value = "";
-			current_tag = p->tag.toUtf8().constData();
+			current_tag = p->tag;
 			break;
 		case ATTR:
 			if (!p->attrs.empty())

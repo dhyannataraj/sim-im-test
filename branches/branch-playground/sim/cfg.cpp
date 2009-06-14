@@ -392,6 +392,30 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
     return res;
 }
 
+EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEscape)
+{
+    QByteArray res;
+    int i;
+    for (i = 0; i < from.length(); i++){
+        if (from[i] == c)
+            break;
+        if (from[i] == '\\'){
+            i++;
+            if (i >= from.length())
+                break;
+            if (!bUnEscape)
+                res += '\\';
+        }
+        res += from[i];
+    }
+    if (i < from.length()){
+        from = from.mid(i + 1);
+    }else{
+        from.clear();
+    }
+    return res;  
+}
+
 EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEscape)
 {
     Q3CString res;
