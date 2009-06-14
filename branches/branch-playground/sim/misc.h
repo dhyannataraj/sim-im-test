@@ -42,7 +42,10 @@ class QIcon;
 	EXPORT QString i18n(const char *text);
 	EXPORT QString i18n(const char *text, const char *comment);
 	EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-    inline QString i18n(const QString &text) { return i18n(text.toUtf8().constData()); }
+    inline QString i18n(const QString &text)
+    { return i18n(text.toUtf8().constData()); }
+    inline QString i18n(const QString &text, const QString &comment)
+    { return i18n(qPrintable(text), qPrintable(comment)); }
 	EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
 	EXPORT void resetPlural();
 	#ifndef I18N_NOOP
