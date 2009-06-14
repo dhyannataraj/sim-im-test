@@ -31,9 +31,10 @@
 using namespace std;
 using namespace SIM;
 
-ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL, "toolbar_setup")
+ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL)
 {
-	setupUi(this);
+    setupUi(this);
+    setObjectName("toolbar_setup");
     SET_WNDPROC("configure")
     setWindowIcon(Icon("configure"));
     setWindowTitle(def->isMenu() ?
@@ -85,12 +86,12 @@ void ToolBarSetup::okClick()
 void ToolBarSetup::applyClick()
 {
     if (bDirty){
-        QString config;
+        QByteArray config;
         vector<unsigned>::iterator it;
         for (it = active.begin(); it != active.end(); ++it){
             if (config.length())
                 config += ',';
-            config += QString::number(*it);
+            config += QByteArray::number(*it);
         }
         bool bFirst = true;
         CommandsList list(*m_def, true);
@@ -110,7 +111,7 @@ void ToolBarSetup::applyClick()
             }else{
                 config += ',';
             }
-            config += QString::number(id);
+            config += QByteArray::number(id);
         }
         m_def->setConfig(config);
         m_bars->set(m_def, config);
@@ -206,7 +207,7 @@ void ToolBarSetup::removeClick()
     if (i < 0) return;
     delete lstActive->item(i);
     vector<unsigned>::iterator it = active.begin();
-    for (; i > 0; i--, ++it);
+    for (; i > 0; i--, ++it) {};
     active.erase(it);
     setButtons();
     bDirty = true;

@@ -854,11 +854,11 @@ CorePlugin::~CorePlugin()
 	removeTranslator();
 }
 
-QString CorePlugin::poFile(const char *lang)
+QString CorePlugin::poFile(const QString &lang)
 {
 #if defined( WIN32 ) || defined( __OS2__ )
 	// lang is ascii, so this works fine
-	QString s = "po\\" + QString(lang).lower() + ".qm";
+	QString s = "po\\" + lang.toLower() + ".qm";
 	QFile f(app_file(s));
 	if (!f.exists())
 		return QString();
@@ -3162,7 +3162,7 @@ bool CorePlugin::init(bool bInit)
 	if (!bNew){
 		QString containers = getContainers();
 		while (!containers.isEmpty()){
-			Container *c = new Container(0, getContainer(getToken(containers, ',').toULong()));
+			Container *c = new Container(0, getContainer(getToken(containers, ',').toULong()).toUtf8().constData());
 			c->init();
 		}
 	}
@@ -3344,7 +3344,7 @@ Q3CString CorePlugin::getConfig()
 	GeneralCoreData.Profile.str() = saveProfile;
 	//GeneralCoreData.NoShow.asBool() = getNoShow();
 
-	QString cfg = save_data(generalCoreDataDef, &GeneralCoreData);
+	QByteArray cfg = save_data(generalCoreDataDef, &GeneralCoreData);
 
 	QString cfgName = user_file("plugins.conf");
 	QFile fCFG(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
@@ -3354,12 +3354,12 @@ Q3CString CorePlugin::getConfig()
 	}
 	else
 	{
-		Q3CString write = "[_core]\n";
+		QByteArray write = "[_core]\n";
 		write += "enable,";
-		write += QString::number(m_base);
+		write += QByteArray::number(m_base);
 		write += '\n';
 		write += cfg;
-		fCFG.write(write, write.length());
+		fCFG.write(write);
 
 		fCFG.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on fCFG.close
         const QFile::FileError status = fCFG.error();
@@ -3389,7 +3389,7 @@ Q3CString CorePlugin::getConfig()
 	cfgName = user_file(CLIENTS_CONF);
 	QFile f(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-		log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
+		log(L_ERROR, "Can't create %s", qPrintable(cfgName));
 	}else{
 		for (unsigned i = 0; i < getContacts()->nClients(); i++){
 			Client *client = getContacts()->getClient(i);
@@ -3408,16 +3408,16 @@ Q3CString CorePlugin::getConfig()
 			}
 			if (info == NULL)
 				continue;
-			Q3CString line = "[";
+			QByteArray line = "[";
 			line += QFile::encodeName(info->name).data();
 			line += '/';
-			line += protocol->description()->text;
+			line += protocol->description()->text.toUtf8();
 			line += "]\n";
-			f.write(line, line.length());
+			f.write(line);
 			line = client->getConfig();
 			if (line.length()){
 				line += '\n';
-				f.write(line, line.length());
+				f.write(line);
 			}
 		}
 		f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close

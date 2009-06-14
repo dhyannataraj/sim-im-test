@@ -77,7 +77,7 @@ void ConnectWnd::setConnecting(bool bState)
     }
 }
 
-void ConnectWnd::setErr(const QString &text, const char *url)
+void ConnectWnd::setErr(const QString &text, const QString &url)
 {
     lblConnect->hide();
     lblMovie->hide();
@@ -85,7 +85,7 @@ void ConnectWnd::setErr(const QString &text, const char *url)
     lblNext->hide();
     lblError->setText(text);
     frmError->show();
-    if (url && *url){
+    if (!url.isEmpty()){
         lnkPass->setUrl(url);
         lnkPass->setText(i18n("Forgot password?"));
         lnkPass->show();
@@ -93,10 +93,3 @@ void ConnectWnd::setErr(const QString &text, const char *url)
         lnkPass->hide();
     }
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "connectwnd.moc"
-#endif
-*/
-

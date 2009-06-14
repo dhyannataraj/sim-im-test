@@ -19,9 +19,7 @@
 #define _ACTIONCFG_H
 
 #include "ui_actioncfgbase.h"
-//Added by qt3to4:
 #include <QPixmap>
-#include <QResizeEvent>
 
 struct ActionUserData;
 class ActionPlugin;
@@ -46,7 +44,7 @@ protected:
     MenuConfig		*m_menu;
     void resizeEvent(QResizeEvent *e);
     void setEnabled (bool);
-    QPixmap makePixmap(const char *src);
+    QPixmap makePixmap(const QString &src);
     ActionUserData *m_data;
     ActionPlugin *m_plugin;
 };

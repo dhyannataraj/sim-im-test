@@ -68,8 +68,8 @@ CommonStatus::~CommonStatus()
 
 void CommonStatus::setBarStatus()
 {
-    const char *text = I18N_NOOP("Inactive");
-    const char *icon = "SIM_inactive";
+    QString text = I18N_NOOP("Inactive");
+    QString icon = "SIM_inactive";
 
     m_bConnected = false;
     bool bActive = getSocketFactory()->isActive();
@@ -350,9 +350,11 @@ bool CommonStatus::processEvent(Event *e)
                         .arg(title) + quoteString(item.text) + "</center>";
 			if (data.options.isEmpty())
 				item.buttons.append(i18n("OK"));
-			else
-				for (const char *p = data.options; *p; p += strlen(p) + 1)
-					item.buttons.append(i18n(p));
+			else {
+				QStringList sl = data.options.split(QLatin1Char('\0'));
+                                Q_FOREACH(const QString &s, sl)
+					item.buttons.append(i18n(s));
+                        }
             m_queue.push_back(item);
             if (m_balloon == NULL)
                 showBalloon();
@@ -474,7 +476,7 @@ bool CommonStatus::processEvent(Event *e)
                 }
 
 				if (bOfflineStatus || 
-					def->id != STATUS_ONLINE && def->id != STATUS_OFFLINE){
+					(def->id != STATUS_ONLINE && def->id != STATUS_OFFLINE)){
                     QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
                     if (noShow.isEmpty())
 					{

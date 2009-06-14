@@ -573,8 +573,8 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
 
 void History::add(Message *msg, const QString &type)
 {
-    Q3CString line = "[";
-    line += type;
+    QByteArray line = "[";
+    line += type.toUtf8();
     line += "]\n";
     line += msg->save();
     line += '\n';
@@ -621,7 +621,7 @@ void History::add(Message *msg, const QString &type)
         return;
     }
     qint64 id = f.pos();
-    f.write(line, line.length());
+    f.write(line);
 
     msg->setId(id);
 }

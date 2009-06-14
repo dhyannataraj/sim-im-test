@@ -256,7 +256,7 @@ bool NewProtocol::processEvent(Event *e)
             const EventNotification::ClientNotificationData &d = ee->data();
             if (d.client == m_client){
                 m_connectWnd->setErr(i18n(d.text),
-                    (d.code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
+                    (d.code == AuthError) ? m_client->protocol()->description()->accel : QString());
                 m_bConnect = false;
                 m_client->setStatus(STATUS_OFFLINE, false);
 //                setBackEnabled(m_connectWnd, true);

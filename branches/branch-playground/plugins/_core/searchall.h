@@ -22,8 +22,8 @@
 #include "simapi.h"
 #endif
 #include "ui_searchallbase.h"
-//Added by qt3to4:
-#include <QShowEvent>
+
+#include <map>
 
 typedef std::map<QWidget*, QStringList>	WND_MAP;
 

@@ -55,7 +55,7 @@ StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
 void StatusLabel::setPict()
 {
     QString icon;
-    const char *text;
+    QString text;
     if (m_client->getState() == Client::Connecting){
         if (getSocketFactory()->isActive()){
             if (m_timer == NULL){
@@ -98,10 +98,10 @@ void StatusLabel::setPict()
             text = I18N_NOOP("Inactive");
         }
     }
-	else
-	{
+    else
+    {
         if (m_timer)
-		{
+        {
             delete m_timer;
             m_timer = NULL;
         }
@@ -127,7 +127,7 @@ void StatusLabel::setPict()
     QString tip = CorePlugin::m_plugin->clientName(m_client);
     tip += '\n';
     tip += i18n(text);
-    QToolTip::add(this, tip);
+    setToolTip(tip);
     resize(p.width(), p.height());
     setFixedSize(p.width(), p.height());
 }

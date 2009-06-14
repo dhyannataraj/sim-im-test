@@ -27,7 +27,7 @@ class ConnectWnd : public QWizardPage, public Ui::ConnectWndBase
 public:
     ConnectWnd(bool bStart);
     void setConnecting(bool bState);
-    void setErr(const QString &text, const char *url);
+    void setErr(const QString &text, const QString &url);
 protected slots:
     void updateMovie();
 protected:

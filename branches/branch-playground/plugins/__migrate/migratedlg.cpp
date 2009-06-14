@@ -297,10 +297,10 @@ void MigrateDialog::flush()
         output = "[icq/ICQ]\n";
         clientsConf.write(output, output.length());
         output = "Uin=";
-		output += QString::number(m_uin);
+        output += QByteArray::number(m_uin);
         output += "\n";
         if (!m_passwd.isEmpty()){
-            m_passwd = unquoteString(m_passwd);
+            m_passwd = unquoteString(m_passwd).toUtf8();
             unsigned char xor_table[] =
                 {
                     0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
@@ -323,12 +323,12 @@ void MigrateDialog::flush()
         }
         clientsConf.write(output, output.length());
         m_owner = "ICQ.";
-        m_owner += QString::number(m_uin);
+        m_owner += QByteArray::number(m_uin);
         break;
     case 1:
         if (!m_name.isEmpty()){
             output = "[Group=";
-            output += QString::number(++m_grpId);
+            output += QByteArray::number(++m_grpId);
             output += "]\n";
             output += "Name=\"";
             output += m_name;
@@ -338,12 +338,12 @@ void MigrateDialog::flush()
         break;
     case 2:
         output = "[Contact=";
-        output += QString::number(++m_contactId);
+        output += QByteArray::number(++m_contactId);
         output += "]\n";
         if (m_uin >= 0x80000000)
             m_uin = 0;
         if (m_name.isEmpty())
-			m_name = QString::number(m_uin);
+            m_name = QByteArray::number(m_uin);
         if (!m_name.isEmpty()){
             output += "Name=\"";
             output += m_name;
@@ -354,7 +354,7 @@ void MigrateDialog::flush()
             output += m_owner;
             output += "]\n";
             output += "Uin=";
-            output += QString::number(m_uin);
+            output += QByteArray::number(m_uin);
             output += "\n";
         }
         contactsConf.write(output, output.length());

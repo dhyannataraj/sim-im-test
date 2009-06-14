@@ -22,9 +22,8 @@
 
 #include <qcheckbox.h>
 #include <qfile.h>
-//Added by qt3to4:
 #include <Q3CString>
-#include <QCloseEvent>
+#include <list>
 #include "simapi.h"
 
 class MigrateDialog : public Q3Wizard, public Ui::MigrateDialogBase
@@ -43,7 +42,7 @@ protected:
     void error(const QString&);
     void flush();
 
-    Q3CString	m_owner;
+    QByteArray	m_owner;
 
     unsigned m_uin;
     Q3CString	m_passwd;

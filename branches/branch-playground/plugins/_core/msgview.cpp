@@ -325,7 +325,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     QString info;
     QString status;
 
-    const char *icon = "message";
+    QString icon = "message";
     const CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
     if (def)
         icon = def->icon;
@@ -339,7 +339,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         if (n >= 0){
             clientStr = clientStr.left(n);
         }else{
-            clientStr = QString::null;
+            clientStr.clear();
         }
         if (!clientStr.isEmpty()){
             for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -352,8 +352,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         }
         if ((client == NULL) && getContacts()->nClients())
             client = getContacts()->getClient(0);
-        if(client)
-		{
+        if(client) {
             for (def = client->protocol()->statusList(); !def->text.isEmpty(); def++){
                 if (def->id == sm->getStatus()){
                     icon = def->icon;
