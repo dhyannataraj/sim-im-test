@@ -5,7 +5,7 @@
 
 namespace SIM
 {
-template <typename Type> class Singleton
+template <typename Type> class EXPORT Singleton
 {
 	static Type* m_instance;
         // no need to implement them!
