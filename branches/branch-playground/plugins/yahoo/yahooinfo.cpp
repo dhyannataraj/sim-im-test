@@ -130,7 +130,7 @@ void YahooInfo::fill()
             lblOnline->hide();
             edtOnline->hide();
         }
-        if ((status == STATUS_ONLINE) || (text == NULL)){
+        if ((status == STATUS_ONLINE) || (text.isEmpty())){
             lblNA->hide();
             edtNA->hide();
         }else{
