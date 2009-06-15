@@ -23,13 +23,11 @@ namespace SIM
 	{
 		QStringList profiles;
 		QDir dir(m_rootPath);
-		dir.setFilter(QDir::Dirs);
+		dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 		QStringList list = dir.entryList();
 		for(QStringList::iterator it = list.begin(); it != list.end(); ++it)
 		{
 			QString entry = *it;
-			if (entry[0] == '.')
-				continue;
 			QString fname = QString(m_rootPath).append("/").append(entry).append("/").append("clients.conf");
 			QString fname2 = QString(m_rootPath).append("/").append(entry).append("/").append("profile.conf");
 			QFile f(fname);
@@ -78,6 +76,8 @@ namespace SIM
 	bool ProfileManager::newProfile(const QString& name)
 	{
 		QDir d(m_rootPath);
+		if(!d.exists())
+			d.mkdir(m_rootPath);
 		if(!d.mkdir(name))
 			return false;
 		return true;
