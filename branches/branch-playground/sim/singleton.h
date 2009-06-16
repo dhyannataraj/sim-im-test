@@ -31,6 +31,8 @@ public:
 };
 // This should be here, otherwise compiler will complain about
 // unresolved externals
-template <typename Type> Type* Singleton<Type>::m_instance = 0;
+#ifndef WIN32
+	template <typename Type> Type* Singleton<Type>::m_instance = 0;
+#endif
 }
 #endif
