@@ -23,15 +23,14 @@ public:
 	};
 	static Type* instance()
 	{
-                //fprintf(stderr, "instance: %p\n", instance);
+        //fprintf(stderr, "instance: %p\n", m_instance);
 		assert(m_instance);
 		return m_instance;
 	}
 
 };
-// this can not work. the compiler will generate a static variable
-// in every object file which includes this header which results in
-// one instance per plugin... see the fprintf() above
-//template <typename Type> Type* Singleton<Type>::m_instance = 0;
+// This should be here, otherwise compiler will complain about
+// unresolved externals
+template <typename Type> Type* Singleton<Type>::m_instance = 0;
 }
 #endif

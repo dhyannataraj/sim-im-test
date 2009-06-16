@@ -23,9 +23,16 @@
 
 #include <QDir>
 
+#include <QLibrary>
+#include <QSettings>
+
 #ifdef WIN32
 #include <windows.h>
-#include <qlibrary.h>
+#include <shlobj.h>
+#else
+#include <sys/stat.h>
+#include <unistd.h>
+#include <pwd.h>
 #endif
 
 #ifdef USE_KDE
@@ -211,12 +218,94 @@ Debug d;
 #endif
 #endif
 
+QString getConfigRootPath()
+{
+    QString s;
+#ifndef WIN32
+    struct passwd *pwd = getpwuid(getuid());
+    if (pwd){
+        s = QFile::decodeName(pwd->pw_dir);
+    }else{
+        log(L_ERROR, "Can't get pwd");
+    }
+    if (!s.endsWith("/"))
+        s += '/';
+#ifdef USE_KDE
+    char *kdehome = getenv("KDEHOME");
+    if (kdehome){
+        s = kdehome;
+    }else{
+        s += ".kde/";
+    }
+    if (!s.endsWith("/"))
+        s += '/';
+    s += "share/apps/sim";
+#else
+    
+#ifdef __OS2__
+    char *os2home = getenv("HOME");
+    if (os2home) {
+        s = os2home;
+        s += "\\";
+    }
+    s += ".sim-qt4";
+    if ( access( s, F_OK ) != 0 ) {
+    	mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+    }
+#else
+    s += ".sim-qt4";
+#endif
+
+#endif
+#else
+    char szPath[1024];
+    szPath[0] = 0;
+    QString defPath;
+	
+	//Fixme:
+	//FOLDERID_RoamingAppData <<== this is used in Vista.. should be fixed
+	//otherwise the config is stored in "Downloads" per default :-/
+	//Windows 2008 Server tested, simply works...
+    
+	(DWORD&)_SHGetSpecialFolderPathW   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
+    (DWORD&)_SHGetSpecialFolderPathA   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
+
+    if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
+        defPath = QString::fromUtf16((unsigned short*)szPath);
+    }else if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
+        defPath = QFile::decodeName(szPath);
+	}
+
+	if (!defPath.isEmpty()){
+        if (!defPath.endsWith("\\"))
+            defPath += '\\';
+        defPath += "sim";
+        makedir(defPath + '\\');
+        QString lockTest = defPath + "\\.lock";
+        QFile f(lockTest);
+        if (!f.open(IO_ReadWrite | IO_Truncate))
+            defPath = "";
+        f.close();
+        QFile::remove(lockTest);
+    }
+    if (!defPath.isEmpty()){
+        s = defPath;
+    }else{
+        s = app_file("");
+    }
+#endif
+#ifdef HAVE_CHMOD
+    chmod(QFile::encodeName(s), 0700);
+#endif
+    return QDir::convertSeparators(s);
+}
+
 int main(int argc, char *argv[])
 {
     int res = 1;
 	QCoreApplication::setOrganizationDomain("sim-im.org");
 	QCoreApplication::setApplicationName("Sim-IM");
-	new SIM::ProfileManager(QDir::homePath() + QDir::separator() + ".sim-qt4");
+	new SIM::ProfileManager(getConfigRootPath());
 #ifdef WIN32
     Qt::HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #elif defined(__OS2__)    

@@ -3035,6 +3035,11 @@ bool CorePlugin::init(bool bInit)
 	QStringList profiles = ProfileManager::instance()->enumProfiles();
 	QString profile;
 	bool newProfile = false;
+	
+	if(settings.value("Profile").toString().isEmpty() && settings.value("NoShow", false).toBool())
+	{
+		settings.setValue("NoShow", false);
+	}
 
 	if((!bInit ||
 			settings.value("Profile").toString().isEmpty() ||
@@ -3057,10 +3062,16 @@ bool CorePlugin::init(bool bInit)
 			bRes = false;
 		bLoaded = true;
 	}
-	else if (bInit && !profile.isEmpty())
+	else if(bInit && !profile.isEmpty())
 	{
 		log(L_DEBUG, "profile = %s", profile.toUtf8().data());
 		ProfileManager::instance()->selectProfile(profile);
+	}
+	else if(settings.value("NoShow", false).toBool())
+	{
+		profile = settings.value("Profile").toString();
+		ProfileManager::instance()->selectProfile(profile);
+		bLoaded = true;
 	}
 	if(newProfile)
 	{
@@ -3127,11 +3138,9 @@ bool CorePlugin::init(bool bInit)
 	PropertyHub::load();
 	EventPluginLoadConfig eplc;
 	eplc.process();
-	// TODO emit event for other plugins to load their configs
 	if (!bLoaded)
 	{
 		ClientList clients;
-		log(L_DEBUG, "Alpha");
 		loadClients(clients);
 		clients.addToContacts();
 	}
