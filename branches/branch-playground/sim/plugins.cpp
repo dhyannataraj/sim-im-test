@@ -851,7 +851,6 @@ PluginManager::PluginManager(int argc, char **argv)
     EventReceiver::initList();
     factory = new SIMSockets(qApp);
     contacts = new ContactList;
-    FetchManager::manager = new FetchManager;
     p = new PluginManagerPrivate(argc, argv);
 }
 
@@ -862,7 +861,6 @@ PluginManager::~PluginManager()
     EventQuit().process();
     contacts->clearClients();
     delete p;
-    delete FetchManager::manager;
     delete contacts;
     delete factory;
     EventReceiver::destroyList();

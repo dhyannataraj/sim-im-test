@@ -18,22 +18,15 @@
 #ifndef _FETCH_H
 #define _FETCH_H
 
-#include <q3cstring.h>
-#include <qobject.h>
-#include <qstring.h>
+#include <QString>
 
 #include "simapi.h"     // COPY_RESTRICTED
-
-#ifdef WIN32
-    #define Q_EVENT_SIM_FETCH_DONE (QEvent::User+1)
-#endif
 
 class Buffer;
 
 const unsigned NO_POSTSIZE	= (unsigned)(-1);
 
 class FetchClientPrivate;
-class FetchManager;
 
 class EXPORT FetchClient
 {
@@ -44,30 +37,17 @@ public:
     virtual const char *read_data(char *buf, unsigned &size);
     virtual bool     write_data(const char *buf, unsigned size);
     virtual unsigned post_size();
-    virtual bool	 done(unsigned code, Buffer &data, const QString &headers) = 0;
+    virtual bool     done(unsigned code, Buffer &data, const QString &headers) = 0;
     bool	isDone();
-    void    stop();
+    void        stop();
     void	set_speed(unsigned speed);
     static bool	crackUrl(const QString &url, QString &proto, QString &host, unsigned short &port, QString &user, QString &pass, QString &uri, QString &extra);
+    void clearCookies();
 private:
     FetchClientPrivate *p;
     friend class FetchClientPrivate;
-    friend class FetchManager;
 
     COPY_RESTRICTED(FetchClient)
-};
-
-class EXPORT FetchManager : public QObject
-{
-    Q_OBJECT
-public:
-    FetchManager();
-    ~FetchManager();
-    static FetchManager *manager;
-    void done(FetchClient *client);
-    QString user_agent;
-protected slots:
-    void timeout();
 };
 
 EXPORT QByteArray basic_auth(const QString &user, const QString &pass);

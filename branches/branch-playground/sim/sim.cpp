@@ -216,11 +216,10 @@ public:
 Debug d;
 
 #endif
-#endif
-
 
 static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
 static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+#endif
 
 QString getConfigRootPath()
 {

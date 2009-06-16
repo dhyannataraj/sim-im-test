@@ -318,21 +318,24 @@ CToolPictButton::~CToolPictButton()
 
 QSize CToolPictButton::minimumSizeHint() const
 {
-    int wChar = QFontMetrics(font()).width('0');
-    QSize p = QToolButton:: minimumSizeHint();
-
+    QSize size = QToolButton::minimumSizeHint();
     QToolBar *bar = static_cast<QToolBar*>(parent());
-    if(bar->orientation() == Qt::Vertical) {
-        p.setHeight(p.height() + 2 * wChar + 16);
-    } else {
-        p.setWidth(p.width() + 2 * wChar + 16);
+    if(bar->orientation() == Qt::Vertical)
+    {
+        size.transpose();
     }
-    return p;
+    return size;
 }
 
 QSize CToolPictButton::sizeHint() const
 {
-    return CToolButton::sizeHint();
+    QSize size = QToolButton::sizeHint();
+    QToolBar *bar = static_cast<QToolBar*>(parent());
+    if(bar->orientation() == Qt::Vertical)
+    {
+        size.transpose();
+    }
+    return size;
 }
 
 void CToolPictButton::setState()
@@ -342,8 +345,15 @@ void CToolPictButton::setState()
     repaint();
 }
 
-void CToolPictButton::paintEvent(QPaintEvent*)
+void CToolPictButton::paintEvent(QPaintEvent*e)
 {
+    QToolBar *bar = static_cast<QToolBar*>(parent());
+    if(bar->orientation() != Qt::Vertical)
+    {
+        QToolButton::paintEvent( e );
+        return;
+    }
+
 	QPixmap pict(width(), height());
 	QPainter p(&pict);
 	QWidget *pw = static_cast<QWidget*>(parent());

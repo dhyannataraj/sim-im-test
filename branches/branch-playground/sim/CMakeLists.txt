@@ -90,6 +90,7 @@ SET(sim_LIB_HDRS
 		qzip/ioapi.h
 		qzip/qzip.h
 		qzip/unzip.h
+		fetchclientprivate.h
 	)
 
 # moc the sources
