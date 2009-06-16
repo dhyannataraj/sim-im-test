@@ -218,6 +218,10 @@ Debug d;
 #endif
 #endif
 
+
+static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+
 QString getConfigRootPath()
 {
     QString s;
@@ -327,8 +331,8 @@ int main(int argc, char *argv[])
                          0,
                          "http://sim-im.org/",
                          "https://mailman.dg.net.ua/listinfo/sim-im-main");
-    aboutData.addAuthor("Sim-IM Development Team",I18N_NOOP("Current development"),	"sim-im-main@lists.sim-im.org",						"http://sim-im.org/");
-    aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Author"),				"vovan@shutoff.ru");
+    aboutData.addAuthor("Sim-IM Development Team",I18N_NOOP("Current development"),	"sim-im-main@lists.sim-im.org",	"http://sim-im.org/");
+    aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Original Author"),		"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher"	 ,I18N_NOOP("Developer"),			"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
 
