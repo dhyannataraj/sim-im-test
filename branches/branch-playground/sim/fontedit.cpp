@@ -24,7 +24,7 @@
 #include <QHBoxLayout>
 #include <QFrame>
 
-#ifdef USE_KDE
+#ifdef USE_KDE4
 #include <kfontdialog.h>
 #else
 #include <qfontdialog.h>
@@ -71,7 +71,7 @@ QString FontEdit::getFont()
 
 void FontEdit::chooseFont()
 {
-#ifdef USE_KDE
+#ifdef USE_KDE4
     QFont _f = f;
     if (KFontDialog::getFont(_f, false, topLevelWidget()) == KFontDialog::Accepted)
         setWinFont(_f);

@@ -55,13 +55,7 @@ private:
 
 #else
 #include <kcolorbutton.h>
-
-class EXPORT QColorButton : public KColorButton
-{
-public:
-    QColorButton(QWidget *parent);
-};
-
+typedef KColorButton QColorButton;
 #endif
 
 #endif

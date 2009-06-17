@@ -19,14 +19,7 @@
 */
 
 #include "qcolorbutton.h"
-#ifdef USE_KDE4
-
-QColorButton::QColorButton( QWidget *parent)
-        : KColorButton(parent)
-{
-}
-
-#else
+#ifndef USE_KDE4
 
 #include <qpainter.h>
 #include <qdrawutil.h>

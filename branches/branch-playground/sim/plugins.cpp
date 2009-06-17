@@ -29,6 +29,7 @@
 #include <QProcess>
 #include <Q3CString>
 #include <QVector>
+#include <memory>
 
 #include "sockfactory.h"
 #include "fetch.h"
