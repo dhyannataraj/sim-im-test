@@ -28,9 +28,13 @@
 
 using namespace SIM;
 
-SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data) : QDialog(NULL, "securedlg", false, Qt::WDestructiveClose)
+SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data)
+  : QDialog(NULL)
 {
-	setupUi(this);
+    setupUi(this);
+    setObjectName("securedlg");
+    setModal(false);
+    setAttribute(Qt::WA_DeleteOnClose);
     SET_WNDPROC("secure")
     setWindowIcon(Icon("encrypted"));
     setButtonsPict(this);
@@ -103,4 +107,3 @@ void SecureDlg::error(const QString &err)
     lblError->setText(errText);
     btnCancel->setText(i18n("&Close"));
 }
-

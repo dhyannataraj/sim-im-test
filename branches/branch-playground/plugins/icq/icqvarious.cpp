@@ -28,9 +28,8 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qfile.h>
-//Added by qt3to4:
-#include <Q3ValueList>
-#include <Q3CString>
+#include <QList>
+#include <QByteArray>
 #include <memory>
 
 #include "log.h"
@@ -954,7 +953,7 @@ static Tlv makeSString(unsigned id, const QString &str)
 {
     Q3CString cstr = getContacts()->fromUnicode(NULL, str);
     unsigned len = cstr.length() + 1; // including '\0'
-    QByteArray ba( len + 2 );
+    QByteArray ba( len + 2, '\0' );
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
     memcpy( ba.data() + 2, cstr, len );
@@ -976,7 +975,7 @@ static Tlv makeECombo(unsigned id, const QString &str)
 {
     Q3CString cstr = getContacts()->fromUnicode(NULL, str);
     unsigned len = cstr.length() + 1; // including '\0'
-    QByteArray ba( len + 3 );
+    QByteArray ba( len + 3, '\0' );
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
     memcpy( ba.data() + 2, cstr, len  );
@@ -984,13 +983,13 @@ static Tlv makeECombo(unsigned id, const QString &str)
     return Tlv( id, ba.size(), ba.data() );
 }
 
-static Q3ValueList<Tlv> makeICombo(unsigned id, const QString &str)
+static QList<Tlv> makeICombo(unsigned id, const QString &str)
 {
-    Q3ValueList<Tlv> list;
+    QList<Tlv> list;
     if ( str.isEmpty() )
         return list;
 
-    Q3CString cstr = getContacts()->fromUnicode(NULL, str);
+    QByteArray cstr = getContacts()->fromUnicode(NULL, str);
     int cur = 0;
     int idx = 0;
     do {
@@ -1022,12 +1021,12 @@ static Q3ValueList<Tlv> makeICombo(unsigned id, const QString &str)
             }
         } while (idx == -1);
 
-        Q3CString data = cstr.mid( start_pos, idx - start_pos );
+        QByteArray data = cstr.mid( start_pos, idx - start_pos );
         cur = idx + 1;
 
         int len = data.length();
 
-        QByteArray ba( len + 4 );
+        QByteArray ba( len + 4, '\0' );
         ba[0] = (char)((cat     ) & 0xff);
         ba[1] = (char)((cat >> 8) & 0xff);
         ba[2] = (char)((len     ) & 0xff);
@@ -1035,7 +1034,7 @@ static Q3ValueList<Tlv> makeICombo(unsigned id, const QString &str)
         memcpy( ba.data() + 4, data.data(), len  );
 
         list.append( Tlv( id, ba.size(), ba.data() ) );
-    } while( idx != (int)cstr.length() );
+    } while( idx != cstr.length() );
     return list;
 }
 
@@ -1132,14 +1131,14 @@ static char getUInt8(const char *tlvData)
 class ChangeInfoRequest : public ServerRequest
 {
 public:
-    ChangeInfoRequest(ICQClient *client, unsigned short id, const Q3ValueList<Tlv> &clientInfoTLVs);
+    ChangeInfoRequest(ICQClient *client, unsigned short id, const QList<Tlv> &clientInfoTLVs);
 protected:
     bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
-    Q3ValueList<Tlv> m_clientInfoTLVs;
+    QList<Tlv> m_clientInfoTLVs;
 };
 
-ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const Q3ValueList<Tlv> &clientInfoTLVs)
+ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const QList<Tlv> &clientInfoTLVs)
         : ServerRequest(id), m_client(client), m_clientInfoTLVs(clientInfoTLVs)
 {
 }
@@ -1336,7 +1335,7 @@ void ICQClient::setClientInfo(void *_data)
         return;
     }
 
-    Q3ValueList<Tlv> clientInfoTLVs;
+    QList<Tlv> clientInfoTLVs;
 
     if (d->FirstName.str() != data.owner.FirstName.str())
         clientInfoTLVs.append(makeSString(TLV_FIRST_NAME, d->FirstName.str()));

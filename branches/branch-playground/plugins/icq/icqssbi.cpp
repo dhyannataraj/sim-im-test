@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <list>
-
 #include <qbuffer.h>
 #include <qimage.h>
 #include <qfile.h>
@@ -144,7 +142,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
     case ICQ_SNACxSSBI_UPLOAD_ACK: {
         unsigned short unknown1, unknown2;
         char size;
-        QByteArray ba(16);
+        QByteArray ba;
 
         socket()->readBuffer() >> unknown1 >> unknown2;
         socket()->readBuffer() >> size;
@@ -152,17 +150,16 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
         socket()->readBuffer().unpack(ba.data(), size);
         break;
     }
-    case ICQ_SNACxSSBI_REQ_AIM_ACK:
-		{
+    case ICQ_SNACxSSBI_REQ_AIM_ACK: {
             ICQUserData *data;
             Contact *contact;
             QString screen;
-            QByteArray hash(16), icon(1024);
+            QByteArray hash, icon;
             //uint16_t iconID, 
-			uint16_t iconSize;
-			uint8_t unknown_byte;
+            uint16_t iconSize;
+            uint8_t unknown_byte;
             //char iconFlags;
-			char hashSize;
+            char hashSize;
 
             screen = socket()->readBuffer().unpackScreen();
             if(m_client->screen(&m_client->data.owner) == screen)
@@ -170,25 +167,25 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             else 
                 data = m_client->findContact(screen, NULL, false, contact);
             if(data)
-			{
-				// 3 unknown bytes
+            {
+                // 3 unknown bytes
                 socket()->readBuffer() >> unknown_byte;
                 socket()->readBuffer() >> unknown_byte;
                 socket()->readBuffer() >> unknown_byte;
-				// then hash (should be 5 bytes)
+                // then hash (should be 5 bytes)
                 socket()->readBuffer() >> hashSize;
                 hash.resize(hashSize);
                 socket()->readBuffer().unpack(hash.data(), hashSize);
                 socket()->readBuffer() >> iconSize;
-				// then icon size and the icon itself
+                // then icon size and the icon itself
                 icon.resize(iconSize);
                 if(iconSize == 0)
-				{
-					log(L_DEBUG, "Empty icon");
+                {
+                    log(L_DEBUG, "Empty icon");
                     process();
                     break;
                 }
-				socket()->readBuffer().unpack(icon.data(), iconSize);
+                socket()->readBuffer().unpack(icon.data(), iconSize);
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
@@ -201,44 +198,42 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             //process();
             break;
         }
-    case ICQ_SNACxSSBI_REQ_ICQ_ACK:
-		{
+    case ICQ_SNACxSSBI_REQ_ICQ_ACK: {
             ICQUserData *data;
             Contact *contact;
             QString screen;
-            QByteArray hash(16), icon(1024);
+            QByteArray hash, icon;
             //uint16_t iconID;
-			uint16_t iconSize;
-			uint8_t unknown_byte;
+            uint16_t iconSize;
+            uint8_t unknown_byte;
             //char iconFlags;
-			char hashSize;
-			//char	unknown1;
+            char hashSize;
+            //char	unknown1;
 
             screen = socket()->readBuffer().unpackScreen();
             if(m_client->screen(&m_client->data.owner) == screen)
                 data = &m_client->data.owner;
             else 
                 data = m_client->findContact(screen, NULL, false, contact);
-            if(data)
-			{
-				// 3 unknown bytes
+            if(data) {
+                // 3 unknown bytes
                 socket()->readBuffer() >> unknown_byte;
                 socket()->readBuffer() >> unknown_byte;
                 socket()->readBuffer() >> unknown_byte;
-				// then hash (should be 5 bytes)
+                // then hash (should be 5 bytes)
                 socket()->readBuffer() >> hashSize;
                 hash.resize(hashSize);
                 socket()->readBuffer().unpack(hash.data(), hashSize);
                 socket()->readBuffer() >> iconSize;
-				// then icon size and the icon itself
+                // then icon size and the icon itself
                 icon.resize(iconSize);
                 if(iconSize == 0)
-				{
-					log(L_DEBUG, "Empty icon");
+                {
+                    log(L_DEBUG, "Empty icon");
                     process();
                     break;
                 }
-				socket()->readBuffer().unpack(icon.data(), iconSize);
+                socket()->readBuffer().unpack(icon.data(), iconSize);
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
@@ -259,16 +254,14 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
 void SSBISocket::process()
 {
-    if(!m_img.isNull())
-	{
+    if(!m_img.isNull()) {
         //unsigned short ref = m_refNumber; //ref unused
         QImage img = m_img;
         m_refNumber = 0;
         m_img = QImage();
         //uploadBuddyIcon(ref, img);
     }
-    while(m_buddyRequests.count())
-	{
+    while(m_buddyRequests.count()) {
         // implement me: we can also request more than one buddy at a time !
         ICQUserData *data;
         Contact *contact;
@@ -320,8 +313,7 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
     buf.close();
 
     len = ba.size();
-    if(ba.size() > 0xffff)
-	{
+    if(ba.size() > 0xffff) {
         log(L_ERROR, "Image is to big (max: %d bytes)", 0xffff);
         len = 0xffff;
     }
@@ -336,16 +328,14 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 
 void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash)
 {
-log(L_DEBUG, "SSBISocket::requestBuddy: %s", qPrintable(screen));
-    if(!((buddyHash.size() == 0x05) || (buddyHash.size() == 0x10)))
-	{
+    log(L_DEBUG, "SSBISocket::requestBuddy: %s", qPrintable(screen));
+    if(!((buddyHash.size() == 0x05) || (buddyHash.size() == 0x10))) {
         log(L_WARN, "Invalid buddyHash size (%d, id: %d) for %s", buddyHash.size(), buddyID, qPrintable(screen));
-		return;
+        return;
     }
     // buddyID == 1 -> jpeg
     // buddyID == 8 -> xml/swf
-    if(!connected())
-	{
+    if(!connected()) {
         // wait
         if(!m_buddyRequests.contains(screen))
             m_buddyRequests.append(screen);

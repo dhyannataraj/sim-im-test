@@ -27,9 +27,11 @@ using namespace SIM;
 
 class ICQClient;
 
-EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client) : QDialog(parent, NULL, true)
+EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
+    : QDialog(parent)
 {
-	setupUi(this);
+    setupUi(this);
+    setModal(true);
     SET_WNDPROC("encoding")
     setWindowIcon(Icon("encoding"));
     setButtonsPict(this);

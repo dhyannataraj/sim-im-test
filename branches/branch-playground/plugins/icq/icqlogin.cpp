@@ -384,7 +384,7 @@ void ICQClient::chn_close()
     QString host = tlv_host->byteArray().data();
     int idx = host.indexOf(':');
     if (idx == -1){
-        log(L_ERROR, "Bad host address %s", host.data());
+        log(L_ERROR, "Bad host address %s", qPrintable(host));
         socket()->error_state(I18N_NOOP("Bad host address"));
         return;
     }

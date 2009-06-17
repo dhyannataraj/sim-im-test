@@ -41,26 +41,25 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client) : QWidget(parent)
+ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client)
+    : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_data   = data;
     m_client = client;
     if (m_data)
-	{
+    {
         edtPict->hide();
         btnClear->hide();
-    }
-	else
-	{
-		QString format = QString("*.jpg");
-		QList<QByteArray> formats = QImageReader::supportedImageFormats();
-		QByteArray f;
-		foreach( f, formats )
-		{
+    } else {
+        QString format = QString("*.jpg");
+        QList<QByteArray> formats = QImageReader::supportedImageFormats();
+        QByteArray f;
+        foreach( f, formats )
+        {
             f.toLower();
-			format += " *." + f;
-		}
+            format += " *." + f;
+        }
 #ifdef USE_KDE
         edtPict->setFilter(i18n("%1|Graphics").arg(format));
 #else
@@ -86,13 +85,13 @@ void ICQPicture::apply(Client *client, void *_data)
         return;
     QString pict = edtPict->text();
     log(L_DEBUG, "Pict: %s", qPrintable(pict));
-	m_client->setPicture(pict);
-	m_client->data.owner.Picture.setStr(pict);
+    m_client->setPicture(pict);
+    m_client->data.owner.Picture.setStr(pict);
     ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     if (lblPict->pixmap() == NULL)
-        pict = QString::null;
+        pict.clear();
     if(pict != m_client->getPicture())
-	{
+    {
         data->PluginInfoTime.asULong() = time(NULL);
     }
 }
@@ -142,8 +141,7 @@ void ICQPicture::setPict(const QImage &img)
         lblPict->setText(i18n("Picture is not available"));
         return;
     }
-    QPixmap pict;
-    pict.convertFromImage(img);
+    QPixmap pict = QPixmap::fromImage(img);
     lblPict->setPixmap(pict);
     lblPict->setMinimumSize(pict.size());
 }

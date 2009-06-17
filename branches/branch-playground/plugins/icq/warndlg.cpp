@@ -30,9 +30,12 @@
 
 using namespace SIM;
 
-WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client) : QDialog(parent, NULL, false, Qt::WDestructiveClose)
+WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
+  : QDialog(parent)
 {
-	setupUi(this);
+    setupUi(this);
+    setModal(true);
+    setAttribute(Qt::WA_DeleteOnClose);
     SET_WNDPROC("warn")
     setWindowIcon(Icon("error"));
     setButtonsPict(this);
@@ -93,4 +96,3 @@ bool WarnDlg::processEvent(Event *e)
     }
     return false;
 }
-

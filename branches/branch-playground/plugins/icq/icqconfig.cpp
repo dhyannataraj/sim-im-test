@@ -30,9 +30,10 @@
 
 using namespace SIM;
 
-ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget(parent)
+ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
+    : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
     EventGetPluginInfo ePlugin("_core");
@@ -56,7 +57,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig) : QWidget
         connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     }else{
-        tabConfig->removePage(tabICQ);
+        tabConfig->removeTab(tabConfig->indexOf(tabICQ));
     }
     edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
