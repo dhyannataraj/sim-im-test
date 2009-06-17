@@ -202,7 +202,7 @@ void FileTransferDlgNotify::resume()
 {
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
     if (ft->m_file->size() < m_size){
-        ft->m_file->at(ft->m_file->size());
+        ft->m_file->seek(ft->m_file->size());
         ft->startReceive(ft->m_file->size());
         return;
     }
@@ -235,7 +235,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL, Qt::WDestruct
     disableWidget(edtEstimated);
     disableWidget(edtSpeed);
     btnGo->hide();
-    btnGo->setIconSet(Icon("file"));
+    btnGo->setIcon(Icon("file"));
     msg->m_transfer->setNotify(new FileTransferDlgNotify(this));
     sldSpeed->setValue(m_msg->m_transfer->speed());
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
@@ -535,10 +535,3 @@ void FileTransferDlg::goDir()
     EventGoURL e(path);
     e.process();
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "filetransfer.moc"
-#endif
-*/
-

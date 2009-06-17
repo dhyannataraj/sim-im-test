@@ -31,10 +31,11 @@
 
 using namespace SIM;
 
-ConnectionManager::ConnectionManager(bool bModal) : QDialog(NULL, "manager")
-        //: ConnectionManagerBase(NULL, "manager", bModal)
+ConnectionManager::ConnectionManager(bool bModal)
+  : QDialog(NULL)
 {
-	setupUi(this);
+    setupUi(this);
+    setObjectName("manager");
     SET_WNDPROC("manager")
     setWindowIcon(Icon("configure"));
     setButtonsPict(this);

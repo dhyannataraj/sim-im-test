@@ -268,9 +268,13 @@ static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
     return w;
 }
 
-UserConfig::UserConfig(Contact *contact, Group *group) : QDialog(NULL, "userconfig", false, Qt::WDestructiveClose)
+UserConfig::UserConfig(Contact *contact, Group *group)
+  : QDialog(NULL)
 {
-	setupUi(this);
+    setupUi(this);
+    setObjectName("userconfig");
+    setAttribute(Qt::WA_DeleteOnClose);
+    setModal(false);
     m_contact  = contact;
     m_group    = group;
     m_nUpdates = 0;
@@ -279,9 +283,7 @@ UserConfig::UserConfig(Contact *contact, Group *group) : QDialog(NULL, "userconf
     setWindowIcon(Icon(contact ? "info" : "configure"));
     setButtonsPict(this);
     setTitle();
-    QIcon iconSet = Icon("webpress");
-    if (!iconSet.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnUpdate->setIconSet(iconSet);
+    btnUpdate->setIcon(Icon("webpress"));
     btnUpdate->hide();
 
     lstBox->setHScrollBarMode(Q3ScrollView::AlwaysOff);
@@ -586,11 +588,3 @@ void UserConfig::resizeEvent(QResizeEvent *e)
         CorePlugin::m_plugin->data.CfgGeometry[HEIGHT].asLong() = height();
     }
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "usercfg.moc"
-#endif
-*/
-
-

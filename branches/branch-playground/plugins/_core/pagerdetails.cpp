@@ -26,14 +26,14 @@
 
 using namespace SIM;
 
-PagerDetails::PagerDetails(QWidget *p, const QString &oldNumber) : QWidget(p)
-        //: PagerDetailsBase(p)
+PagerDetails::PagerDetails(QWidget *p, const QString &oldNumber)
+    : QWidget(p)
 {
-	setupUi(this);
+    setupUi(this);
     cmbProvider->setEditable(true);
     for (const pager_provider *provider = getProviders(); *provider->szName; provider++)
-        cmbProvider->insertItem(provider->szName);
-    cmbProvider->lineEdit()->setText("");
+        cmbProvider->addItem(provider->szName);
+    cmbProvider->lineEdit()->clear();
     connect(cmbProvider, SIGNAL(textChanged(const QString&)), this, SLOT(providerChanged(const QString&)));
     connect(edtNumber, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtGateway, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
@@ -87,10 +87,3 @@ void PagerDetails::textChanged(const QString&)
 {
     getNumber();
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "pagerdetails.moc"
-#endif
-*/
-

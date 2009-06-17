@@ -30,7 +30,7 @@
 
 #include <qtimer.h>
 #include <qdatetime.h>
-#include <q3process.h>
+#include <qprocess.h>
 
 #include "tmpl.h"
 #include "sockfactory.h"
@@ -85,11 +85,12 @@ void Tmpl::clear()
 void Tmpl::ready()
 {
     for (QList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
-        Q3Process *p = (*it).process;
-        if (p && !p->isRunning()){
-            if (p->normalExit() && p->exitStatus() == 0){
+        QProcess *p = (*it).process;
+        if (p && p->state() == QProcess::NotRunning){
+            if (p->exitStatus() == QProcess::NormalExit){
                 (*it).bReady = true;
-                (*it).res += QString::fromLocal8Bit(p->readStdout());
+                p->setReadChannel(QProcess::StandardOutput);
+                (*it).res += QString::fromLocal8Bit(p->readAll());
                 QTimer::singleShot(0, this, SLOT(clear()));
                 return;
             }
@@ -110,9 +111,9 @@ bool Tmpl::process(TmplExpand &t)
     }
     QString prg = getToken(t.tmpl.tmpl, '`', false);
     prg = process(t, prg);
-    t.process = new Q3Process(prg, parent());
+    t.process = new QProcess(parent());
     connect(t.process, SIGNAL(processExited()), this, SLOT(ready()));
-    t.process->start();
+    t.process->start(prg);
     return false;
 }
 
@@ -127,7 +128,7 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
         QString tag = getToken(s, ';');
         if (tag.isEmpty()) {
             res += tag;
-            log(L_WARN, "Found '&' without ';' while parsing %s", str.local8Bit().data());
+            log(L_WARN, "Found '&' without ';' while parsing %s", qPrintable(str));
             continue;
         }
         Contact *contact;

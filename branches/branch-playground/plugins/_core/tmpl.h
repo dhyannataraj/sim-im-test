@@ -25,7 +25,7 @@
 #include "misc.h"
 #include "core_events.h"
 
-class Q3Process;
+class QProcess;
 
 class Tmpl : public QObject, public SIM::EventReceiver
 {
@@ -40,7 +40,7 @@ protected:
     struct TmplExpand
     {
         EventTemplate::TemplateExpand	tmpl;
-        Q3Process		*process;
+        QProcess		*process;
         bool			bReady;
         QString			res;
     };

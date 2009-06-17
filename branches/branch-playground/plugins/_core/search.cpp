@@ -150,8 +150,7 @@ void SearchDialog::setAddButton()
         text = i18n("&Search");
     }
     m_search->btnSearch->setText(text); //Fixme: btnSearch broken
-    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        m_search->btnSearch->setIcon(icon);
+    m_search->btnSearch->setIcon(icon);
 }
 
 void SearchDialog::fillClients()

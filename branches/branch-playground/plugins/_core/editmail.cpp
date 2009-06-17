@@ -26,10 +26,11 @@
 
 using namespace SIM;
 
-EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bShowPublish) : QDialog(parent, "editmail")
-        //: EditMailBase(parent, "editmail", true)
+EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bShowPublish)
+  : QDialog(parent)
 {
-	setupUi(this);
+    setupUi(this);
+    setObjectName("editmail");
     SET_WNDPROC("editmail")
     setWindowIcon(Icon("mail_generic"));
     setButtonsPict(this);
@@ -57,10 +58,3 @@ void EditMail::accept()
     publish = chkPublish->isChecked();
     QDialog::accept();
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "editmail.moc"
-#endif
-*/
-
