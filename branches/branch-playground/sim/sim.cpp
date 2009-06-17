@@ -32,7 +32,6 @@
 #else
 #include <sys/stat.h>
 #include <unistd.h>
-#include <pwd.h>
 #endif
 
 #ifdef USE_KDE
@@ -225,15 +224,7 @@ QString getConfigRootPath()
 {
     QString s;
 #ifndef WIN32
-    struct passwd *pwd = getpwuid(getuid());
-    if (pwd){
-        s = QFile::decodeName(pwd->pw_dir);
-    }else{
-        log(L_ERROR, "Can't get pwd");
-    }
-    if (!s.endsWith("/"))
-        s += '/';
-#ifdef USE_KDE
+# ifdef USE_KDE4
     char *kdehome = getenv("KDEHOME");
     if (kdehome){
         s = kdehome;
@@ -243,9 +234,7 @@ QString getConfigRootPath()
     if (!s.endsWith("/"))
         s += '/';
     s += "share/apps/sim";
-#else
-    
-#ifdef __OS2__
+# elif defined(__OS2__)
     char *os2home = getenv("HOME");
     if (os2home) {
         s = os2home;
@@ -253,13 +242,11 @@ QString getConfigRootPath()
     }
     s += ".sim-qt4";
     if ( access( s, F_OK ) != 0 ) {
-    	mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+        mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
     }
-#else
-    s += ".sim-qt4";
-#endif
-
-#endif
+# else
+    s = QDir::homePath() + "/.sim-qt4";
+# endif
 #else
     char szPath[1024];
     szPath[0] = 0;
@@ -297,6 +284,7 @@ QString getConfigRootPath()
         s = app_file("");
     }
 #endif
+    QDir().mkpath(s);
 #ifdef HAVE_CHMOD
     chmod(QFile::encodeName(s), 0700);
 #endif
