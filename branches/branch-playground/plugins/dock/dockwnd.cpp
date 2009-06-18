@@ -23,41 +23,15 @@
 #include "dock.h"
 #include "core.h"
 
-#include <stdio.h>
-#include <qpainter.h>
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qtooltip.h>
-#include <qtimer.h>
-#include <qapplication.h>
-#include <q3valuelist.h>
-#include <qregexp.h>
-#include <QPixmap>
+#include <QPainter>
+#include <QTimer>
+#include <QApplication>
 #include <QMouseEvent>
-#include <QEvent>
-#include <QPaintEvent>
 
-#ifdef USE_KDE
-#include <kwin.h>
-#include <kpopupmenu.h>
-#else
-#include <q3popupmenu.h>
-#include <qbitmap.h>
-#endif
-
-#if !defined(WIN32) && !defined(Q_WS_MAC)
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-#endif
-
-using namespace std;
 using namespace SIM;
 
 void DockWnd::trayAction(QSystemTrayIcon::ActivationReason reason)
 {
-    //unsigned id;
-    //Client *client;
     switch (reason){
     case QSystemTrayIcon::Context:
         QTimer::singleShot(0, this, SLOT(showPopup()));
@@ -72,26 +46,21 @@ void DockWnd::trayAction(QSystemTrayIcon::ActivationReason reason)
         else
             emit toggleWin();
         return;
-/*
-    case NIN_BALLOONHIDE:
-    case NIN_BALLOONTIMEOUT:
-    case NIN_BALLOONUSERCLICK:
-        if (m_queue.empty())
-            return;
-        id = m_queue.front().id;
-        client = m_queue.front().client;
-        m_queue.erase(m_queue.begin());
-        if (!m_queue.empty())
-            showBalloon();
-        if (param == NIN_BALLOONUSERCLICK){
-            Command cmd;
-            cmd->id    = id;
-            cmd->param = client;
-            EventCommandExec(cmd).process();
-        }
-        return;
-*/
     }
+}
+
+void DockWnd::messageClicked() {
+    if (m_queue.isEmpty())
+        return;
+    unsigned id = m_queue.front().id;
+    SIM::Client	*client = m_queue.front().client;
+    m_queue.erase(m_queue.begin());
+    if (!m_queue.empty())
+        showBalloon();
+    Command cmd;
+    cmd->id    = id;
+    cmd->param = client;
+    EventCommandExec(cmd).process();
 }
 
 void DockWnd::showPopup()
@@ -120,6 +89,11 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         &m_TrayIcon,
         SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
         SLOT(trayAction(QSystemTrayIcon::ActivationReason))
+    );
+    connect(
+        &m_TrayIcon,
+        SIGNAL(messageClicked()),
+        SLOT(messageClicked())
     );
     m_TrayIcon.show();
     setTip(text);
@@ -171,48 +145,46 @@ bool DockWnd::processEvent(Event *e)
     case eEventQuit:
         quit();
         break;
-#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
     case eEventShowNotification:{
-            if (!m_bBalloon)
-                return NULL;
-            EventShowNotification *ee = static_cast<EventShowNotification*>(e);
-            const EventNotification::ClientNotificationData &data = ee->data();
-            if (data.id == 0)
-                return NULL;
-            for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-                if ((*it).id == data.id)
-                    return (void*)1;
-            }
-            QString arg = data.args;
-
-            BalloonItem item;
-            item.id   = data.id;
-            item.client = data.client;
-            item.flags  = (data.flags & EventNotification::ClientNotificationData::E_INFO) ? EventNotification::ClientNotificationData::E_INFO : EventNotification::ClientNotificationData::E_INFO;
-            item.text = i18n(data.text);
-            if (item.text.indexOf("%1") >= 0)
-                item.text = item.text.arg(arg);
-            if (!m_queue.empty()){
-                m_queue.push_back(item);
+        if (!m_bBalloon)
+            return NULL;
+        EventShowNotification *ee = static_cast<EventShowNotification*>(e);
+        const EventNotification::ClientNotificationData &data = ee->data();
+        if (data.id == 0)
+            return NULL;
+        foreach(BalloonItem item, m_queue ) {
+            if (item.id == data.id)
                 return (void*)1;
-            }
-            item.title = "SIM";
-            if (getContacts()->nClients() > 1){
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i) == data.client){
-                        item.title = getContacts()->getClient(i)->name();
-                        int n = item.title.indexOf(".");
-                        if (n > 0)
-                            item.title = item.title.left(n) + " " + item.title.mid(n + 1);
-                    }
+        }
+        QString arg = data.args;
+
+        BalloonItem item;
+        item.id   = data.id;
+        item.client = data.client;
+        item.flags  = (data.flags & EventNotification::ClientNotificationData::E_INFO) ? EventNotification::ClientNotificationData::E_INFO : EventNotification::ClientNotificationData::E_INFO;
+        item.text = i18n(data.text);
+        if (item.text.indexOf("%1") >= 0)
+            item.text = item.text.arg(arg);
+        if (!m_queue.empty()){
+            m_queue.push_back(item);
+            return (void*)1;
+        }
+        item.title = "SIM";
+        if (getContacts()->nClients() > 1){
+            for (unsigned i = 0; i < getContacts()->nClients(); i++){
+                if (getContacts()->getClient(i) == data.client){
+                    item.title = getContacts()->getClient(i)->name();
+                    int n = item.title.indexOf(".");
+                    if (n > 0)
+                        item.title = item.title.left(n) + " " + item.title.mid(n + 1);
                 }
             }
-            m_queue.push_back(item);
-            if (showBalloon())
-                return true;
-            return false;
         }
-#endif
+        m_queue.push_back(item);
+        if (showBalloon())
+            return true;
+        return false;
+    }
     default:
         break;
     }
@@ -225,14 +197,14 @@ bool DockWnd::showBalloon()
         return false;
     BalloonItem &item = m_queue.front();
 
-	m_TrayIcon.showMessage(
-		item.title,
-		item.text,
-                item.flags & EventNotification::ClientNotificationData::E_INFO ? QSystemTrayIcon::Information : QSystemTrayIcon::Critical,
-		20000
-	);
+    m_TrayIcon.showMessage(
+        item.title,
+        item.text,
+        item.flags & EventNotification::ClientNotificationData::E_INFO ? QSystemTrayIcon::Information : QSystemTrayIcon::Critical,
+        20000
+    );
 
-	return true;
+    return true;
 }
 
 void DockWnd::paintEvent( QPaintEvent* )
@@ -247,7 +219,7 @@ void DockWnd::setIcon(const QString &icon)
         return;
     m_curIcon = icon;
     drawIcon = Pict(icon);
-    QWidget::setIcon(drawIcon);
+    QWidget::setWindowIcon(drawIcon);
     m_TrayIcon.setIcon(drawIcon);
 }
 
@@ -338,7 +310,7 @@ bool operator < (const msgIndex &a, const msgIndex &b)
     return a.type < b.type;
 }
 
-typedef map<msgIndex, unsigned> MAP_COUNT;
+typedef QMap<msgIndex, unsigned> MAP_COUNT;
 
 void DockWnd::reset()
 {
@@ -347,7 +319,7 @@ void DockWnd::reset()
     m_unreadText = QString::null;
     MAP_COUNT count;
     MAP_COUNT::iterator itc;
-    for (list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
+    for (std::list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
         if (m_unread.isEmpty()){
             CommandDef *def = m_plugin->m_core->messageTypes.find((*it).type);
             if (def)
@@ -358,38 +330,32 @@ void DockWnd::reset()
         m.type    = (*it).type;
         itc = count.find(m);
         if (itc == count.end()){
-            count.insert(MAP_COUNT::value_type(m, 1));
+            count.insert(m, 1);
         }else{
-            (*itc).second++;
+            itc.value()++;
         }
     }
     if (!count.empty()){
         for (itc = count.begin(); itc != count.end(); ++itc){
-            CommandDef *def = m_plugin->m_core->messageTypes.find((*itc).first.type);
+            CommandDef *def = m_plugin->m_core->messageTypes.find(itc.key().type);
             if (def == NULL)
                 continue;
             MessageDef *mdef = (MessageDef*)(def->param);
-            QString msg = i18n(mdef->singular, mdef->plural, (*itc).second);
+            QString msg = i18n(mdef->singular, mdef->plural, itc.value());
 
-            Contact *contact = getContacts()->contact((*itc).first.contact);
+            Contact *contact = getContacts()->contact(itc.key().contact);
             if (contact == NULL)
                 continue;
             msg = i18n("%1 from %2")
                   .arg(msg)
                   .arg(contact->getName());
-#ifdef WIN32
             if (m_unreadText.length() + 2 + msg.length() >= 64){
                 m_unreadText += "...";
                 break;
             }
-#endif
 
             if (!m_unreadText.isEmpty())
-#ifdef WIN32
-                m_unreadText += ", ";
-#else
                 m_unreadText += "\n";
-#endif
             m_unreadText += msg;
         }
     }

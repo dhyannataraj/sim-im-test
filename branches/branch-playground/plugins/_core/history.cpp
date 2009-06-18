@@ -119,7 +119,7 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
     } else
     if (!fi.isFile()) {
         // FIXME!
-        log(L_ERROR, "%s is not a file!", fi.filePath().local8Bit().data());
+        log(L_ERROR, "%s is not a file!", qPrintable(fi.filePath()));
     }
     if (!exists()){
         QFile bak(fileName().append(REMOVED));
@@ -176,7 +176,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *c
         }
         if (text.isEmpty())
             return;
-        text = text.lower();
+        text = text.toLower();
         if (m.getFlags() & MESSAGE_RICHTEXT)
             text = text.replace(QRegExp("<[^>]+>"), " ");
         text = text.replace(QRegExp("  +"), " ");
@@ -538,7 +538,7 @@ Message *HistoryIterator::operator --()
 
 void HistoryIterator::setFilter(const QString &filter)
 {
-    QString f = filter.lower();
+    QString f = filter.toLower();
     f = f.replace(QRegExp("  +"), " ");
     for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it)
         (*it)->m_filter = f;
@@ -617,7 +617,7 @@ void History::add(Message *msg, const QString &type)
 
     QFile f(f_name);
     if (!f.open(QIODevice::ReadWrite | QIODevice::Append)){
-        log(L_ERROR, "Can't open %s", f_name.local8Bit().data());
+        log(L_ERROR, "Can't open %s", qPrintable(f_name));
         return;
     }
     qint64 id = f.pos();
@@ -771,7 +771,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     fInfo.dir().remove(fInfo.fileName());
 #endif
     if (!tInfo.dir().rename(tInfo.fileName(), fInfo.fileName())) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fInfo.fileName().local8Bit(), (const char*)tInfo.fileName().local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fInfo.fileName()), qPrintable(tInfo.fileName()));
         return;
     }
     CutHistory ch;
@@ -857,13 +857,13 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
         const QString errorMessage = f.errorString();
         f.close();
         if (status != QFile::NoError) {
-            log(L_ERROR, "I/O error during write to file %s : %s", (const char*)file_name.local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "I/O error during write to file %s : %s", qPrintable(file_name), qPrintable(errorMessage));
             return false;
         }
         return true;
     }
 	//else deleted: unreachable Code
-    log(L_ERROR, "Can't open %s for writing", (const char*)file_name.local8Bit());
+    log(L_ERROR, "Can't open %s for writing", qPrintable(file_name));
     return false;
     
 }

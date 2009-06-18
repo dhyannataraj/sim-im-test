@@ -369,7 +369,7 @@ void MigrateDialog::flush()
             }
             output = "[Message]\n";
             output += "Text=\"";
-            output += quoteChars(msg, "\"", false).local8Bit();
+            output += quoteChars(msg, "\"", false).toLocal8Bit();
             output += "\"\n";
             if (m_direction.isEmpty()){
                 output += "Flags=2\n";

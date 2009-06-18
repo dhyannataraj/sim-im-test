@@ -41,20 +41,20 @@ void QColorButton::setColor( const QColor &c )
 {
     if ( col != c ) {
         col = c;
-        repaint( false );
+        update();
         emit changed( col );
     }
 }
 
 void QColorButton::paintEvent( QPaintEvent * event )
 {
-	QPainter painter( this );
+    QPainter painter( this );
     int x, y, w, h;
-	QStyleOptionButton opt;
-	opt.rect = event->rect();
-	style()->drawControl(QStyle::CE_PushButtonBevel, &opt, &painter, this);
+    QStyleOptionButton opt;
+    opt.rect = event->rect();
+    style()->drawControl(QStyle::CE_PushButtonBevel, &opt, &painter, this);
     QRect r = style()->subElementRect( QStyle::SE_PushButtonContents, &opt, this );
-    r.rect(&x, &y, &w, &h);
+    r.getRect(&x, &y, &w, &h);
 
     //int margin = style()->pixelMetric( QStyle::PM_ButtonMargin, &opt, this );
     //x += margin;
@@ -70,7 +70,7 @@ void QColorButton::paintEvent( QPaintEvent * event )
     QColor fillCol = isEnabled() ? col : backgroundColor();
     qDrawShadePanel( &painter, x, y, w, h, colorGroup(), true, 1, NULL);
     if ( fillCol.isValid() )
-      painter.fillRect( x+1, y+1, w-2, h-2, fillCol );
+        painter.fillRect( x+1, y+1, w-2, h-2, fillCol );
 
     //if ( hasFocus() ) {
     //  QRect focusRect = style()->subElementRect( QStyle::SE_PushButtonFocusRect, &opt, this );

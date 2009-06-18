@@ -59,7 +59,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
 	{
         if(format.length()>0)
             format += " ";
-        fmt = fmt.lower();
+        fmt = fmt.toLower();
         format += "*." + fmt;
         if (fmt == "jpeg")
             format += " *.jpg";

@@ -469,8 +469,7 @@ void MSNClient::getLine(const Q3CString &line)
 {
     QString l = QString::fromUtf8(line);
     l = l.remove('\r');
-    Q3CString ll = l.local8Bit();
-    log(L_DEBUG, "Get: %s", (const char*)ll);
+    log(L_DEBUG, "Get: %s", qPrintable(l));
     QString cmd = getToken(l, ' ');
 	log(L_DEBUG, QString("Command: %1").arg(cmd));
     if ((cmd == "715") || (cmd == "228"))
@@ -532,7 +531,7 @@ void MSNClient::getLine(const Q3CString &line)
             }else if (type == "MOB"){
                 data->Mobile.asBool() = ((info[0] == 'Y') != 0);
             }else{
-                log(L_DEBUG, "Unknown BPR type %s", type.latin1());
+                log(L_DEBUG, "Unknown BPR type %s", qPrintable(type));
             }
             if (bChanged){
                 setupContact(contact, data);
@@ -793,9 +792,9 @@ void MSNClient::getLine(const Q3CString &line)
 
 void MSNClient::sendLine(const QString &line, bool crlf)
 {
-    log(L_DEBUG, "Send: %s", line.local8Bit().data());
+    log(L_DEBUG, "Send: %s", qPrintable(line));
     socket()->writeBuffer().packetStart();
-    socket()->writeBuffer() << (const char*)line.utf8();
+    socket()->writeBuffer() << (const char*)line.toUtf8();
     if (crlf)
         socket()->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
@@ -1043,7 +1042,7 @@ bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
     if (_data->Sign.toULong() != MSN_SIGN)
         return false;
     MSNUserData *data = toMSNUserData(_data);
-    if (data->EMail.str().lower() == this->data.owner.EMail.str().lower())
+    if (data->EMail.str().toLower() == this->data.owner.EMail.str().toLower())
         return false;
     MSNUserData *my_data = findContact(data->EMail.str(), contact);
     if (my_data){
@@ -1197,7 +1196,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         }
         it.reset();
         while ((contact = ++it) != NULL){
-            if (contact->getName().lower() == name_str.lower()){
+            if (contact->getName().toLower() == name_str.toLower()){
                 data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
@@ -1213,7 +1212,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
             name_str = name_str.left(n);
             it.reset();
             while ((contact = ++it) != NULL){
-                if (contact->getName().lower() == name_str.lower()){
+                if (contact->getName().toLower() == name_str.toLower()){
                     data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                     data->EMail.str() = mail;
                     data->ScreenName.str() = name;
@@ -1889,7 +1888,7 @@ MSNUserData* MSNClient::toMSNUserData(SIM::clientData * data)
 
       log(L_ERROR,
         "ATTENTION!! Unsafly converting %s user data into MSN_SIGN",
-         Sign.latin1());
+         qPrintable(Sign));
 //      abort();
    }
    return (MSNUserData*) data;
@@ -2080,13 +2079,13 @@ void SBSocket::send(const QString &cmd, const QString &args)
 {
     m_socket->writeBuffer().packetStart();
     m_socket->writeBuffer()
-    << (const char*)cmd.utf8()
+    << (const char*)cmd.toUtf8()
     << " "
-    << (const char*)QString::number(++m_packet_id).utf8();
+    << (const char*)QString::number(++m_packet_id).toUtf8();
     if (!args.isEmpty()){
         m_socket->writeBuffer()
         << " "
-        << (const char*)args.utf8();
+        << (const char*)args.toUtf8();
     }
     m_socket->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
@@ -2183,7 +2182,7 @@ static char FT_GUID[] = "{5D3E02AB-6190-11d3-BBBB-00C04F795683}";
 
 void SBSocket::messageReady()
 {
-    log(L_DEBUG, "MSG: [%s]", m_message.local8Bit().data());
+    log(L_DEBUG, "MSG: [%s]", qPrintable(m_message));
     QString content_type;
     QString charset;
     QString font;
@@ -2263,7 +2262,7 @@ void SBSocket::messageReady()
         return;
     }
     if (content_type == "text/x-msmsgscontrol"){
-        if (typing.lower() == m_data->EMail.str().lower()){
+        if (typing.toLower() == m_data->EMail.str().toLower()){
             bool bEvent = (m_data->typing_time.toULong() == 0);
             m_data->typing_time.asULong() = time(NULL);
             if (bEvent){
@@ -2348,7 +2347,7 @@ void SBSocket::messageReady()
         }
         if (command == "INVITE"){
             if (guid != FT_GUID){
-                log(L_WARN, "Unknown GUID %s", guid.latin1());
+                log(L_WARN, "Unknown GUID %s", qPrintable(guid));
                 return;
             }
             if (file.isEmpty()){
@@ -2449,7 +2448,7 @@ void SBSocket::messageReady()
             if (it == m_acceptMsg.end())
                 log(L_WARN, "No message for cancel");
         }else{
-            log(L_WARN, "Unknown command %s", command.latin1());
+            log(L_WARN, "Unknown command %s", qPrintable(command));
             return;
         }
     }
@@ -2494,13 +2493,13 @@ void SBSocket::sendMessage(const QString &str, const char *type)
     m_socket->writeBuffer().packetStart();
     m_socket->writeBuffer()
     << "MSG "
-    << (const char*)QString::number(++m_packet_id).utf8()
+    << (const char*)QString::number(++m_packet_id).toUtf8()
     << " "
     << type
     << " "
-    << (const char*)QString::number(str.utf8().length()).utf8()
+    << (const char*)QString::number(str.toUtf8().length()).toUtf8()
     << "\r\n"
-    << (const char*)str.utf8();
+    << (const char*)str.toUtf8();
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
     EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
@@ -2583,7 +2582,7 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
-        EventSend e(msg, msg->getPlainText().utf8());
+        EventSend e(msg, msg->getPlainText().toUtf8());
         e.process();
         m_msgText = QString::fromUtf8( e.localeText() );
         if (msg->type() == MessageUrl){

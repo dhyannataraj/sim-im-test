@@ -54,7 +54,7 @@ void AuthRequest::element_end(const QString& el)
 void AuthRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     if (el == "iq"){
-        QString value = attrs.value("type").lower();
+        QString value = attrs.value("type").toLower();
         if (value == "result")
             m_bFail = false;
     }

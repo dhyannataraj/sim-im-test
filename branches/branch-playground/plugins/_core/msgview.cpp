@@ -122,7 +122,7 @@ void XslOutputParser::text(const QString& text)
 
 void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
-    QString ltag = tag.lower();
+    QString ltag = tag.toLower();
 
     if (ltag == "prepend")
     {
@@ -167,7 +167,7 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
 
 void XslOutputParser::tag_end(const QString &tag)
 {
-    QString ltag = tag.lower();
+    QString ltag = tag.toLower();
 
     if (ltag == "prepend")
     {
@@ -1325,7 +1325,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     if (tag == "img"){
         QString src;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it).lower();
+            QString name = (*it).toLower();
             ++it;
             QString value = *it;
             if (name == "src"){
@@ -1367,7 +1367,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
 
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-        QString name = (*it).lower();
+        QString name = (*it).toLower();
         ++it;
         QString value = *it;
 
@@ -1379,7 +1379,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             }
         }else if (tag == "p"){
             if (name == "dir"){
-                QString dir = value.lower();
+                QString dir = value.toLower();
                 if (dir == "ltr")
                     m_paragraphDir = DirLTR;
                 else if (dir == "rtl")

@@ -134,7 +134,7 @@ void RostersRequest::element_start(const QString& el, const QXmlAttributes& attr
         }else if (subscribe == "both"){
             m_subscribe = SUBSCRIBE_BOTH;
         }else{
-            log(L_WARN, "Unknown attr subscribe=%s", subscribe.latin1());
+            log(L_WARN, "Unknown attr subscribe=%s", qPrintable(subscribe));
         }
         return;
     }
@@ -168,7 +168,7 @@ void RostersRequest::element_end(const QString& el)
 	   // So the simplest way to fix this bus is to ignore roster records with explicit resource
 	   // This is a nasty hack, but I see no way to fix it without rewriting all jabber stuff :-(
 	   // N. Shaplov
-	   log(L_DEBUG,"Ignoring contact with explicit resource: %s",m_jid.ascii());    
+           log(L_DEBUG,"Ignoring contact with explicit resource: %s", qPrintable(m_jid));
 	   return;
 	}    
         bool bChanged = false;
@@ -372,7 +372,7 @@ InfoRequest::~InfoRequest()
                 f.close();
                 photo.load(fName);
             }else{
-                log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                log(L_ERROR, "Can't create %s", qPrintable(fName));
             }
         }
         if (photo.width() && photo.height()){
@@ -400,7 +400,7 @@ InfoRequest::~InfoRequest()
                 f.close();
                 logo.load(fName);
             }else{
-                log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
+                log(L_ERROR, "Can't create %s", qPrintable(fName));
             }
         }
         if (logo.width() && logo.height()){
@@ -833,10 +833,10 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 status = STATUS_ONLINE;
             }
         }else{
-            log(L_DEBUG, "Unsupported available status %s", m_show.latin1());
+            log(L_DEBUG, "Unsupported available status %s", qPrintable(m_show));
         }
     }else{
-        log(L_DEBUG, "Unsupported presence type %s", m_type.latin1());
+        log(L_DEBUG, "Unsupported presence type %s", qPrintable(m_type));
     }
     time_t time1 = time(NULL);
     time_t time2 = 0;
@@ -1117,7 +1117,7 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
                         subscribe = SUBSCRIBE_BOTH;
                     }else if (subscription == "remove"){
                     }else{
-                        log(L_DEBUG, "Unknown value subscription=%s", subscription.latin1());
+                        log(L_DEBUG, "Unknown value subscription=%s", qPrintable(subscription));
                     }
                     Contact *contact;
                     QString resource;
@@ -1240,7 +1240,7 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
             QString name = *it;
             ++it;
             QString value = *it;
-            if (name.lower() == "bgcolor"){
+            if (name.toLower() == "bgcolor"){
                 QColor c(value);
                 bgColor = c.rgb();
             }
@@ -2459,7 +2459,7 @@ BrowseRequest::~BrowseRequest()
         item.name       = m_name;
         item.type       = m_type;
         item.category   = m_category;
-        item.features   = m_features.utf8();
+        item.features   = m_features.toUtf8();
         EventDiscoItem(&item).process();
     }
     DiscoItem item;

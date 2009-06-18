@@ -71,7 +71,7 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent) : QWidget(parent)
     connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
     QIcon is = Icon("1rightarrow");
     if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnAdvanced->setIconSet(is);
+        btnAdvanced->setIcon(is);
 }
 
 ICQSearch::~ICQSearch()
@@ -120,7 +120,7 @@ void ICQSearch::setAdv(bool bAdv)
 	m_bAdv = bAdv;
 	QIcon is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
 	if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-		btnAdvanced->setIconSet(is);
+        btnAdvanced->setIcon(is);
 	if (m_bAdv)
 	{
 		if (m_client->m_bAIM)

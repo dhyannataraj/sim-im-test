@@ -737,7 +737,7 @@ LiveJournalUserData *LiveJournalClient::findContact(const QString &user, Contact
     if (bJoin){
         it.reset();
         while ((contact = ++it) != NULL){
-            if (contact->getName().lower() == user.lower())
+            if (contact->getName().toLower() == user.toLower())
                 break;;
         }
     }
@@ -1280,7 +1280,7 @@ LiveJournalUserData* LiveJournalClient::toLiveJournalUserData(SIM::clientData * 
 
       log(L_ERROR,
         "ATTENTION!! Unsafly converting %s user data into LIVEJOURNAL_SIGN",
-         Sign.latin1());
+         qPrintable(Sign));
 //      abort();
    }
    return (LiveJournalUserData*) data;
@@ -1314,9 +1314,9 @@ void LiveJournalRequest::addParam(const QString &key, const QString &value)
 {
     if (m_buffer->size())
         m_buffer->pack("&", 1);
-    m_buffer->pack(key.utf8(), key.utf8().length());
+    m_buffer->pack(key.toUtf8(), key.toUtf8().length());
     m_buffer->pack("=", 1);
-    Q3CString cstr = value.utf8();
+    Q3CString cstr = value.toUtf8();
     for (int i = 0; i < cstr.length(); i++){
         char c = cstr[(int)i];
         if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || ((c >= '0') && (c <= '9')) ||

@@ -280,7 +280,7 @@ void HistoryConfig::apply()
         if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
             QString s;
             s = m_styles[i].text;
-            f.write(s.utf8());
+            f.write(s.toUtf8());
 
             const QFile::FileError status = f.error();
             const QString errorMessage = f.errorString();
@@ -296,11 +296,11 @@ void HistoryConfig::apply()
                 fileInfo.dir().remove(desiredFileName);
 #endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                    log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                    log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
                 }
             }
         }else{
-            log(L_WARN, "Can't create %s", name.local8Bit().data());
+            log(L_WARN, "Can't create %s", qPrintable(name));
         }
     }
     int cur = cmbStyle->currentItem();
@@ -424,7 +424,7 @@ void HistoryConfig::copy()
     }
     QFile from(n);
     if (!from.open(QIODevice::ReadOnly)){
-        log(L_WARN, "Can't open %s", n.local8Bit().data());
+        log(L_WARN, "Can't open %s", qPrintable(n));
         return;
     }
     n = STYLES;
@@ -433,7 +433,7 @@ void HistoryConfig::copy()
     n = user_file(n);
     QFile to(QString(n).append(BACKUP_SUFFIX));
     if (!to.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_WARN, "Cam't create %s", n.local8Bit().data());
+        log(L_WARN, "Cam't create %s", qPrintable(n));
         return;
     }
     QDataStream ds1(&from);
@@ -457,7 +457,7 @@ void HistoryConfig::copy()
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
         return;
     }
 
@@ -616,7 +616,7 @@ void HistoryConfig::viewChanged(QWidget *w)
                 Q3TextStream ts(&f);
                 xsl = ts.read();
             }else{
-                log(L_WARN, "Can't open %s", name.local8Bit().data());
+                log(L_WARN, "Can't open %s", qPrintable(name));
             }
         }else{
             xsl = m_styles[cur].text;

@@ -72,10 +72,6 @@ protected:
     QString	m_icon;
     friend class CorePlugin;
     static MainWindow *s_mainWindow;
-#ifdef WIN32
-    QPoint p;
-    QSize s;
-#endif
 };
 
 #endif

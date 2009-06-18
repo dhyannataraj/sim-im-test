@@ -215,7 +215,7 @@ void GpgPlugin::decryptReady()
                     msg->setText(QString::fromUtf8(ba.data(), ba.size()));
                     msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                 }else{
-                    log(L_WARN, "Can't open output decrypt file %s", s.local8Bit().data());
+                    log(L_WARN, "Can't open output decrypt file %s", qPrintable(s));
                     res = -1;
                 }
                 if (!(*it).key.isEmpty()){
@@ -501,7 +501,7 @@ bool GpgPlugin::processEvent(Event *e)
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                            log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
+                            log(L_WARN, "Can't create %s", qPrintable(input));
                             return false;
                         }
                         in.write(es->localeText());
@@ -569,7 +569,7 @@ bool GpgPlugin::processEvent(Event *e)
                     input += ".in";
                     QFile in(input);
                     if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                        log(L_WARN, "Can't create %s", input.local8Bit().data());
+                        log(L_WARN, "Can't create %s", qPrintable(input));
                         return false;
                     }
                     QByteArray cstr = text.toUtf8();
@@ -614,7 +614,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     QString input = output + ".in";
     QFile in(input);
     if (!in.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_WARN, "Can't create %s", input.local8Bit().data());
+        log(L_WARN, "Can't create %s", qPrintable(input));
         return false;
     }
     QByteArray cstr = msg->getPlainText().toUtf8();

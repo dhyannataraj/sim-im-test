@@ -41,7 +41,7 @@ void CookieCash::ProcessHeaders( const QString& headers ) {
     while (!head.isEmpty()){
         QString header = getToken(head, '\n');
         QString key = getToken(header, ':');
-        header = header.stripWhiteSpace();
+        header = header.trimmed();
         if( key == "Set-Cookie" ) {
             CashCookie( header );
         }
@@ -57,16 +57,16 @@ void CookieCash::CashCookie( const QString& header ) {
     while (!head.isEmpty()){
         QString cookie = getToken(head, ';');
         QString name = getToken(cookie, '=');
-        name=name.stripWhiteSpace();
-        QString value = cookie.stripWhiteSpace();
+        name=name.trimmed();
+        QString value = cookie.trimmed();
         if( name == "domain" ) {
             domain=value;
         }
         else if( name == "expires" ) {
-            path=value;
+            expares=value;
         }
         else if( name == "path" ) {
-            expares=value;
+            path=value;
         }
         else {
             values[name]=value;
@@ -94,19 +94,10 @@ void CookieCash::CashCookie( const QString& header ) {
 QString CookieCash::GetCookie( QString domain ){
     QString cookie;
 
-    CCookieMap::iterator it;
-    for( it = mapCash.begin() ; it != mapCash.end() ; it++ ) {
-        if(0!=domain.contains(it.key())) {
-            QMap<QString,QString>::iterator mit;
-            bool bFirst = true;
-            for( mit = it.data().begin() ; mit != it.data().end() ; mit++ ) {
-                if( !bFirst ) {
-                    cookie += QString(";");
-                }
-                else{
-                    bFirst = false;
-                }
-                cookie += mit.key() + QString("=") + mit.data();
+    foreach( QString dom, mapCash.keys() ) {
+        if(0!=domain.contains(dom)) {
+            foreach( QString key, mapCash.value(dom).keys() ) {
+                cookie += key + QString("=") + mapCash.value(dom).value(key) + ";";
             }
         }
     }
@@ -233,8 +224,8 @@ void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffe
     while( !sHead.isEmpty() ) {
         QString val = getToken(sHead, '\n');
         QString key = getToken(val, ':');
-        val = val.stripWhiteSpace();
-        header.addValue( key, val.stripWhiteSpace() );
+        val = val.trimmed();
+        header.addValue( key, val.trimmed() );
     }
 
     if( NULL != postData ) {
@@ -308,15 +299,12 @@ const char *FetchClient::read_data(char *buf, unsigned &size){ return NULL; }
 bool     FetchClient::write_data(const char *buf, unsigned size){ return false; }
 
 void FetchClientPrivate::authenticationRequired ( const QString & hostname, quint16 port, QAuthenticator * authenticator ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::dataReadProgress ( int done, int total ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::dataSendProgress( int done, int total ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::done( bool error ) {
@@ -334,7 +322,7 @@ void FetchClientPrivate::done( bool error ) {
     m_code = m_Response.statusCode();
     if( m_bRedirect && ( 300 <= m_code ) && ( 307 >= m_code )) {
         QUrl urlLocation = m_Response.value( "Location" );
-        if( !urlLocation.hasHost() ) {
+        if( urlLocation.host().isEmpty() ) {
             urlLocation.setHost( m_uri.host() );
         }
         if( urlLocation.scheme().isEmpty() ) {
@@ -353,19 +341,15 @@ void FetchClientPrivate::done( bool error ) {
 }
 
 void FetchClientPrivate::proxyAuthenticationRequired( const QNetworkProxy & proxy, QAuthenticator * authenticator ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::readyRead( const QHttpResponseHeader &resp ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::requestFinished( int id, bool error ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::requestStarted( int id ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::responseHeaderReceived( const QHttpResponseHeader & resp ) {
@@ -373,10 +357,8 @@ void FetchClientPrivate::responseHeaderReceived( const QHttpResponseHeader & res
 }
 
 void FetchClientPrivate::sslErrors( const QList<QSslError> & errors ) {
-    int ggg = 0;
 }
 
 void FetchClientPrivate::stateChanged( int state ) {
-    int ggg = 0;
 }
 

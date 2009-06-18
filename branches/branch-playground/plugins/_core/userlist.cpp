@@ -265,7 +265,7 @@ QString ContactItem::key(int column, bool ascending ) const
             }
             if (n == 0)
                 break;
-            res += text(n).lower();
+            res += text(n).toLower();
             mode = mode >> 8;
         }
         return res;

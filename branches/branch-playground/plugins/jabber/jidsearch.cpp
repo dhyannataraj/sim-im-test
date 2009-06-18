@@ -44,8 +44,8 @@ JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
     QIcon is = Icon("1rightarrow");
     if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-        btnBrowser->setIconSet(is);
-        btnAdvanced->setIconSet(is);
+        btnBrowser->setIcon(is);
+        btnAdvanced->setIcon(is);
     }
     m_bInit = false;
     m_adv = new JIDAdvSearch(this);
@@ -92,13 +92,13 @@ void JIDSearch::advancedClicked()
         m_bAdv = false;
         QIcon is = Icon("1rightarrow");
         if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-            btnAdvanced->setIconSet(is);
+            btnAdvanced->setIcon(is);
         emit showResult(NULL);
     }else{
         m_bAdv = true;
         QIcon is = Icon("1leftarrow");
         if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-            btnAdvanced->setIconSet(is);
+            btnAdvanced->setIcon(is);
         emit showResult(m_adv);
     }
 }

@@ -194,7 +194,7 @@ ICQBuffer &ICQBuffer::operator << (const TlvList &tlvList)
 
 ICQBuffer &ICQBuffer::operator << (const QString &s)
 {
-    Q3CString utf8 = s.utf8();
+    Q3CString utf8 = s.toUtf8();
 	unsigned short size = (unsigned short)(utf8.length() + 1);
     *this << (unsigned short)htons(size);
     pack(utf8, size);
@@ -331,9 +331,9 @@ ICQBuffer &ICQBuffer::operator >> (int &c)
 
 void ICQBuffer::packScreen(const QString &screen)
 {
-    char len = screen.utf8().length();
+    char len = screen.toUtf8().length();
     pack(&len, 1);
-    pack(screen.utf8(), len);
+    pack(screen.toUtf8(), len);
 }
 
 void ICQBuffer::packStr32(const char *s)
@@ -373,7 +373,7 @@ void ICQBuffer::pack(const Q3CString &s)
 
 void ICQBuffer::pack(const QString &s)
 {
-    Q3CString cstr = s.utf8();
+    Q3CString cstr = s.toUtf8();
 	unsigned short size = (unsigned short)(s.length());
     *this << size;
     pack(cstr, size);

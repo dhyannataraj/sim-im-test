@@ -29,8 +29,8 @@ class DockPlugin;
 
 struct BalloonItem
 {
-    QString		text;
-    QString		title;
+    QString     text;
+    QString     title;
     unsigned	id;
     unsigned	flags;
     SIM::Client	*client;
@@ -54,7 +54,8 @@ protected slots:
     void blink();
     void dbl_click();
     void showPopup();
-	void trayAction(QSystemTrayIcon::ActivationReason reason);
+    void trayAction(QSystemTrayIcon::ActivationReason reason);
+    void messageClicked();
 protected:
     virtual bool processEvent(SIM::Event *e);
     void  reset();
@@ -75,9 +76,9 @@ protected:
     bool bBlink;
     QTimer *blinkTimer;
 
-    bool			m_bBalloon;
-    std::list<BalloonItem>	m_queue;
-    bool			showBalloon();
+    bool                m_bBalloon;
+    QList<BalloonItem>  m_queue;
+    bool                showBalloon();
 
     DockPlugin *m_plugin;
     QSystemTrayIcon m_TrayIcon;

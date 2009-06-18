@@ -1229,14 +1229,14 @@ public:
 class EventSend : public EventMessage
 {
 public:
-    EventSend(Message *msg, const Q3CString &localeText)
+    EventSend(Message *msg, const QByteArray &localeText)
         : EventMessage(eEventSend, msg), m_text(localeText) {}
 
     // in & out
-    const Q3CString &localeText() const { return m_text; }
-    void setLocaleText(const Q3CString &text) { m_text = text; }
+    const QByteArray &localeText() const { return m_text; }
+    void setLocaleText(const QByteArray &text) { m_text = text; }
 protected:
-    Q3CString m_text;
+    QByteArray m_text;
 };
 
 } // namespace SIM

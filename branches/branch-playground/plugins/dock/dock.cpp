@@ -39,13 +39,8 @@ Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
 
 static PluginInfo info =
     {
-#ifdef WIN32
         I18N_NOOP("System tray"),
         I18N_NOOP("Plugin provides dock main window in system tray"),
-#else
-        I18N_NOOP("Dock"),
-        I18N_NOOP("Plugin provides dock icon"),
-#endif
         VERSION,
         createDockPlugin,
         PLUGIN_DEFAULT

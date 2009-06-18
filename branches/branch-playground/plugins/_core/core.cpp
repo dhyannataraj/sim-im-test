@@ -880,7 +880,7 @@ QString CorePlugin::poFile(const QString &lang)
 		s  = PREFIX "/share/locale/";
 		s += l;
 		s += "/LC_MESSAGES/sim.mo";
-		f.setName(s);
+        f.setFileName(s);
 		if (!f.exists())
 			return QString();
 	}
@@ -2187,14 +2187,14 @@ bool CorePlugin::processEvent(Event *e)
                     	if(msg.isEmpty()) 
 						{
 							log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %lu",
-									(const char *)def->text.local8Bit(), def->id);
+                                    qPrintable(def->text), def->id);
 							int cnt = (*itc).second.count;
 							msg = QString("%1").arg(cnt);
 						}
 						if ((*itc).second.count == 1){
 							int n = msg.indexOf("1 ");
 							if (n == 0){
-								msg = msg.left(1).upper() + msg.mid(1);
+                                msg = msg.left(1).toUpper() + msg.mid(1);
 							}else{
 								msg = msg.left(n - 1);
 							}
@@ -3359,7 +3359,7 @@ Q3CString CorePlugin::getConfig()
 	QFile fCFG(QString(cfgName).append(BACKUP_SUFFIX)); // use backup file for this ...
 	if(!fCFG.open(QIODevice::WriteOnly | QIODevice::Truncate))
 	{
-		log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
+        log(L_ERROR, "Can't create %s", qPrintable(cfgName));
 	}
 	else
 	{
@@ -3516,7 +3516,7 @@ void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
 	QFile f(cfgName);
 	if (!f.open(QIODevice::ReadOnly)){
-		log(L_ERROR, "[1]Can't open %s", cfgName.local8Bit().data());
+        log(L_ERROR, "[1]Can't open %s", qPrintable(cfgName));
 		return;
 	}
 	Buffer cfg = f.readAll();
@@ -3549,7 +3549,7 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 	e.process();
 	pluginInfo *info = e.info();
 	if (info == NULL){
-		log(L_WARN, "Plugin %s not found", pluginName.local8Bit().data());
+        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
 		return NULL;
 	}
 	if (info->info == NULL){
@@ -3557,7 +3557,7 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 		e.process();
 	}
 	if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-		log(L_DEBUG, "Plugin %s is not a protocol plugin", pluginName.local8Bit().data());
+        log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
 		return NULL;
 	}
 	info->bDisabled = false;
@@ -3569,7 +3569,7 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 		if (protocol->description()->text == clientName)
 			return protocol->createClient(cfg);
 	}
-	log(L_DEBUG, "Protocol %s not found", clientName.latin1());
+    log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
 	return NULL;
 }
 
@@ -3911,7 +3911,7 @@ void CorePlugin::loadMenu()
 #else
 		close();
 		if (m_bLock)
-			QFile::remove(name());
+            QFile::remove(fileName());
 #endif
 	}
 
@@ -3937,7 +3937,7 @@ void CorePlugin::loadMenu()
 		bool FileLock::lock(bool)
 		{
 			if (!open(QIODevice::ReadWrite | QIODevice::Truncate)){
-				log(L_WARN, "Can't create %s", name().local8Bit().data());
+                log(L_WARN, "Can't create %s", qPrintable(fileName()));
 				return false;
 			}
 			struct flock fl;

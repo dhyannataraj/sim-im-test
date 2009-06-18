@@ -106,12 +106,12 @@ void JabberHttpPool::write(const char *buf, unsigned size)
     if (!isDone())
         return;
     Buffer *packet = new Buffer;
-    *packet << (const char*)m_cookie.local8Bit().data();
+    *packet << (const char*)m_cookie.toLocal8Bit().data();
 #ifdef ENABLE_OPENSSL
-    *packet << ";" << (const char*)getKey().local8Bit().data();
+    *packet << ";" << (const char*)getKey().toLocal8Bit().data();
 #endif
     *packet << ",";
-    log(L_DEBUG, "%s;%s,", m_cookie.latin1(), getKey().latin1());
+    log(L_DEBUG, "%s;%s,", qPrintable(m_cookie), qPrintable(getKey()));
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
     fetch(m_url, headers, packet);

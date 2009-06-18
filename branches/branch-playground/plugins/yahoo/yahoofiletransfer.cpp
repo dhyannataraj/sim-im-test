@@ -473,7 +473,7 @@ bool YahooFileTransfer::get_line(const Q3CString &_line)
 void YahooFileTransfer::send_line(const QString &line)
 {
     m_socket->writeBuffer().packetStart();
-    m_socket->writeBuffer() << (const char*)line.utf8();
+    m_socket->writeBuffer() << (const char*)line.toUtf8();
     m_socket->writeBuffer() << "\r\n";
     EventLog::log_packet(m_socket->writeBuffer(), true, YahooPlugin::YahooPacket);
     m_socket->write();

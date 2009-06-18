@@ -42,6 +42,7 @@
 # include <QMessageBox>
 #endif
 #include <Q3CString>
+#include <QDesktopWidget>
 
 #ifdef USE_KDE
 #include <kglobal.h>
@@ -222,7 +223,7 @@ EXPORT bool makedir(const QString &p)
         return false;
     }
     if ((st.st_mode & S_IFMT) != S_IFDIR){
-        log(L_ERROR, "%s no directory", p.local8Bit().data());
+        log(L_ERROR, "%s no directory", qPrintable(p));
         return false;
     }
     return true;
@@ -1060,7 +1061,9 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
 {
     if (w == NULL)
         return;
-    QRect rc = screenGeometry();
+    QRect rc = QApplication::desktop()->availableGeometry();
+    int dh = w->geometry().y() - w->y();
+    rc.setTop( rc.top() + dh );
     if (geo[WIDTH].toLong() > rc.width())
         geo[WIDTH].asLong() = rc.width();
     if (geo[HEIGHT].toLong() > rc.height())

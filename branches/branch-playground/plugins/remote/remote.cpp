@@ -1017,7 +1017,7 @@ void ControlSocket::packet_ready()
     log(L_DEBUG, "Remote read: %s", qPrintable(strLine));
     QString out;
     bool bError = false;
-	bool bRes = m_plugin->command(strLine.latin1(), out, bError);
+        bool bRes = m_plugin->command(strLine.toLatin1(), out, bError);
     if (bError){
         m_socket->error_state("");
         return;
@@ -1026,14 +1026,14 @@ void ControlSocket::packet_ready()
         write("? ");
     Q3CString s;
     if (!out.isEmpty())
-        s = out.local8Bit();
+        s = out.toLocal8Bit();
     Q3CString res;
 	strLine=QString(s).trimmed();
 	
 	//if (!strLine.contains('\n'))
 	strLine += "\r\n";
 	if (strLine.trimmed().isEmpty()) return;
-	res=strLine.local8Bit();
+        res=strLine.toLocal8Bit();
 	
     /*for (const char *p = s.data(); *p ; p++){
         if (*p == '\r')

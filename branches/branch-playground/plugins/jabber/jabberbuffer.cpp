@@ -34,7 +34,7 @@ JabberBuffer::~JabberBuffer()
 
 JabberBuffer &JabberBuffer::operator << (const QString &s)
 {
-    Q3CString utf8 = s.utf8();
+    QByteArray utf8 = s.toUtf8();
     Buffer::pack(utf8.data(), utf8.length());
     return *this;
 }

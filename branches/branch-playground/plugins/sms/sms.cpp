@@ -632,7 +632,7 @@ smsUserData* SMSClient::tosmsUserData(SIM::clientData * data)
 
       log(L_ERROR,
         "ATTENTION!! Unsafly converting %s user data into SMS_SIGN",
-         Sign.latin1());
+         qPrintable(Sign));
 //      abort();
    }
    return (smsUserData*) data;

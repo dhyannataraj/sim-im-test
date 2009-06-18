@@ -1360,7 +1360,7 @@ Q3CString ClientUserData::save()
             if (res.length())
                 res += '\n';
             res += '[';
-            res += d.client->name().utf8();
+            res += d.client->name().toUtf8();
             res += "]\n";
             res += cfg;
         }
@@ -1779,7 +1779,7 @@ void ContactList::save()
     fileInfo.dir().remove(desiredFileName);
 //#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
         return;
     }
 }
@@ -1795,7 +1795,7 @@ void ContactList::load()
     QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf"; //user_file(CONTACTS_CONF);
     QFile f(cfgName);
     if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "[2]Can't open %s", cfgName.local8Bit().data());
+        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
         return;
     }
     Buffer cfg = f.readAll();
@@ -1970,7 +1970,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
     ContactIterator it;
     if (_mail.isEmpty()){
         while ((c = ++it) != NULL){
-            if (c->getName().lower() == name.lower())
+            if (c->getName().toLower() == name.toLower())
                 return c;
         }
         c = contact(0, true);
@@ -1987,7 +1987,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
         while (mails.length()){
             QString mail = getToken(mails, ';', false);
             mail = getToken(mail, '/');
-            if (mail.lower() == _mail.lower())
+            if (mail.toLower() == _mail.toLower())
                 return c;
         }
     }

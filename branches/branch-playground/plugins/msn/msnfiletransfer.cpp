@@ -235,9 +235,9 @@ void MSNFileTransfer::startReceive(unsigned pos)
 
 void MSNFileTransfer::send(const QString &line)
 {
-    log(L_DEBUG, "Send: %s", line.local8Bit().data());
+    log(L_DEBUG, "Send: %s", qPrintable(line));
     m_socket->writeBuffer().packetStart();
-    m_socket->writeBuffer() << (const char*)line.utf8();
+    m_socket->writeBuffer() << (const char*)line.toUtf8();
     m_socket->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
     EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
@@ -248,7 +248,7 @@ bool MSNFileTransfer::getLine(const Q3CString &line)
 {
     QString l = QString::fromUtf8(line);
     l = l.remove('\r');
-    log(L_DEBUG, "Get: %s", (const char*)l.local8Bit().data());
+    log(L_DEBUG, "Get: %s", qPrintable(l));
 
     QString cmd = getToken(l, ' ');
     if ((cmd == "VER") && (l == "MSNFTP")){
@@ -266,7 +266,7 @@ bool MSNFileTransfer::getLine(const Q3CString &line)
     if (cmd == "USR"){
         QString mail = m_client->unquote(getToken(l, ' '));
         unsigned auth = l.toUInt();
-        if (mail.lower() != m_data->EMail.str().lower()){
+        if (mail.toLower() != m_data->EMail.str().toLower()){
             error_state("Bad address", 0);
             return false;
         }

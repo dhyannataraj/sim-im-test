@@ -7,23 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>461</width>
-    <height>347</height>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form1</string>
   </property>
   <layout class="QVBoxLayout">
-   <property name="spacing">
-    <number>6</number>
-   </property>
    <property name="margin">
     <number>11</number>
    </property>
    <item>
     <widget class="QTabWidget" name="tabConfig">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabICQ">
       <attribute name="title">
@@ -32,9 +29,6 @@
       <layout class="QGridLayout">
        <property name="margin">
         <number>11</number>
-       </property>
-       <property name="spacing">
-        <number>6</number>
        </property>
        <item row="2" column="0">
         <widget class="QLabel" name="TextLabel2">
@@ -104,9 +98,6 @@
       <layout class="QGridLayout">
        <property name="margin">
         <number>11</number>
-       </property>
-       <property name="spacing">
-        <number>6</number>
        </property>
        <item row="1" column="1">
         <widget class="QSpinBox" name="edtPort">
@@ -205,20 +196,16 @@
        </item>
        <item row="10" column="0" colspan="3">
         <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
          <item>
           <widget class="QLabel" name="TextLabel2_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
-            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Port range for direct connections:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>Port range for direct connections:</string>
            </property>
            <property name="wordWrap">
             <bool>false</bool>
@@ -306,9 +293,6 @@ p, li { white-space: pre-wrap; }
        <property name="margin">
         <number>11</number>
        </property>
-       <property name="spacing">
-        <number>6</number>
-       </property>
        <item row="4" column="0" colspan="2">
         <widget class="QCheckBox" name="chkInvisible">
          <property name="text">
@@ -338,12 +322,6 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="1" column="0" colspan="2">
         <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
          <item>
           <widget class="QLabel" name="TextLabel1_3">
            <property name="text">
@@ -451,12 +429,6 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="5" column="0" colspan="2">
         <layout class="QHBoxLayout">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
          <item>
           <widget class="QLabel" name="lblInvisible">
            <property name="text">

@@ -414,7 +414,7 @@ void setButtonsPict(QWidget *w)
 			icon = "help";
 		}
 		if (icon == NULL) continue;
-		btn->setIconSet(Icon(icon));
+                btn->setIcon(Icon(icon));
 	}
 }
 

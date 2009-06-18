@@ -58,7 +58,7 @@ JabberAdd::JabberAdd(JabberClient *client, QWidget *parent) : QWidget(parent)
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClick()));
     QIcon is = Icon("1rightarrow");
     if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnBrowser->setIconSet(is);
+        btnBrowser->setIcon(is);
 }
 
 JabberAdd::~JabberAdd()
@@ -112,7 +112,7 @@ void JabberAdd::setBrowser(bool bBrowser)
     emit showResult(m_bBrowser ? m_browser : NULL);
     QIcon is = Icon(m_bBrowser ? "1leftarrow" : "1rightarrow");
     if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnBrowser->setIconSet(is);
+        btnBrowser->setIcon(is);
     if (m_bBrowser){
         edtJID->setEnabled(false);
         edtMail->setEnabled(false);
