@@ -93,6 +93,8 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 	connect(btnRename, SIGNAL(clicked()), this, SLOT(profileRename()));
 	profileChanged(cmbProfile->currentItem());
 
+        cmbProfile->setFocus();
+
 	//CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->getProfile()); //This was a temporary testfix ;)
 	//init setProfile with QString::null is here a bad idea because f.e. on icq-disconnect or any bad login/password combination this dialog comes up,
 	//the profile-name is still the same, but get lost if empty initialized, and SIM saves all content, history, styles, pictures not in Profile but in GLOBAL Folder, this has to be prevented.
@@ -249,7 +251,7 @@ void LoginDialog::profileChanged(int)
 	buttonOk->setEnabled(true);
 	if (n >= (int)cmbProfile->count() - 1)
 	{
-		lblPasswd->hide();
+                groupBoxPasswords->hide();
 		clearInputs();
 		btnDelete->setEnabled(false);
 		btnRename->hide();
@@ -268,7 +270,7 @@ void LoginDialog::profileChanged(int)
 				continue;
 			nClients++;
 		}
-		lblPasswd->show();
+                groupBoxPasswords->show();
 
 		unsigned row = 2;
 		for (unsigned i = 0; i < clients.size(); i++){
@@ -319,35 +321,47 @@ static void rmDir(const QString &path)
 
 void LoginDialog::makeInputs(unsigned &row, Client *client)
 {
-	QLabel *pict = new QLabel(this);
-	pict->setPixmap(Pict(client->protocol()->description()->icon));
+        QLabel *pict = new QLabel(groupBoxPasswords);
+        pict->setPixmap(Pict(client->protocol()->description()->icon));
 	picts.push_back(pict);
-	layout()->addWidget(pict);
+        QVBoxLayout *layout1 = new QVBoxLayout(this);
+        verticalLayout->addLayout(layout1);
+        QHBoxLayout *layout2 = new QHBoxLayout(this);
+        layout1->addLayout(layout2);
+        layout2->addWidget(pict);
 	pict->show();
 
-	QLabel *txt = new QLabel(this);
+        QLabel *txt = new QLabel(groupBoxPasswords);
 	txt->setText(client->name());
-	txt->setAlignment(Qt::AlignRight);
-	QLineEdit *edt = new QLineEdit(this);
+        lblProfile->setAlignment(Qt::AlignLeft);
+        txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+        QLineEdit *edt = new QLineEdit(groupBoxPasswords);
 	edt->setText(client->getPassword());
 	edt->setEchoMode(QLineEdit::Password);
 	connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
 	passwords.push_back(edt);
 	texts.push_back(txt);
-	layout()->addWidget(txt);
-	layout()->addWidget(edt);
+        layout2->addWidget(txt);
+        layout1->addWidget(edt);
 	txt->show();
 	edt->show();
 	QString helpUrl = client->protocol()->description()->accel;
 	if (!helpUrl.isEmpty())
 	{
-		LinkLabel *lnkHelp = new LinkLabel(this);
-		layout()->addWidget(lnkHelp);
+                LinkLabel *lnkHelp = new LinkLabel(groupBoxPasswords);
+                layout1->addWidget(lnkHelp);
 		lnkHelp->setText(i18n("Forgot password?"));
 		lnkHelp->setUrl(i18n(helpUrl));
 		lnkHelp->show();
 		links.push_back(lnkHelp);
 	}
+
+        QFrame *line = new QFrame(groupBoxPasswords);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        layout1->addWidget(line);
+        lines.push_back(line);
+
 	row++;
 }
 
@@ -396,6 +410,9 @@ void LoginDialog::clearInputs()
 	for (i = 0; i < links.size(); i++)
 		delete links[i];
 	links.clear();
+        for (i = 0; i < lines.size(); i++)
+                delete lines[i];
+        lines.clear();
 }
 
 void LoginDialog::pswdChanged(const QString&)

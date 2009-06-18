@@ -21,7 +21,6 @@
 
 #include "event.h"
 #include "ui_logindlgbase.h"
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QLabel>
 
@@ -63,10 +62,11 @@ protected:
     bool m_bInit;
     bool m_bProfileChanged;
     void makeInputs(unsigned &row, SIM::Client *client);
-    std::vector<QLabel*>	picts;
-    std::vector<QLabel*>	texts;
-    std::vector<QLineEdit*>	passwords;
-    std::vector<LinkLabel*>	links;
+    QList<QLabel*>	picts;
+    QList<QLabel*>	texts;
+    QList<QLineEdit*>	passwords;
+    QList<LinkLabel*>	links;
+    QList<QFrame*>	lines;
     SIM::Client	   *m_client;
 };
 
