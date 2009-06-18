@@ -223,7 +223,6 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
 static DataDef coreData[] =
 {
-//	{ "ShowPanel", DATA_BOOL, 1, DATA(1) },
 	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
 	{ "", DATA_ULONG, 1, 0 },		// StatusTime
 	{ "Invisible", DATA_BOOL, 1, 0 },
@@ -3071,7 +3070,7 @@ bool CorePlugin::init(bool bInit)
 	{
 		profile = settings.value("Profile").toString();
 		ProfileManager::instance()->selectProfile(profile);
-		bLoaded = true;
+		//bLoaded = true;
 	}
 	if(newProfile)
 	{
@@ -3145,14 +3144,20 @@ bool CorePlugin::init(bool bInit)
 		clients.addToContacts();
 	}
 	if (!bNew)
+    {
 		getContacts()->load();
-	for (unsigned i = 0; i < getContacts()->nClients(); i++){
+    }
+	for (unsigned i = 0; i < getContacts()->nClients(); i++)
+    {
 		Client *client = getContacts()->getClient(i);
 		// "Emulate" contactsLoaded() when we're dealing with a new contact list
 		if (bNew)
 			client->contactsLoaded();
 		if (client->getCommonStatus())
+        {
 			client->setManualStatus(getManualStatus());
+        }
+        log(L_DEBUG, "%08x:%08x", client->getManualStatus(), client->getCommonStatus());
 		client->setStatus(client->getManualStatus(), client->getCommonStatus());
 	}
 	if (getRegNew()&&!bCmdLineProfile){

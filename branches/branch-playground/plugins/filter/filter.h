@@ -23,14 +23,9 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 class QWidget;
-
-struct FilterData
-{
-    SIM::Data	FromList;
-    SIM::Data	AuthFromList;
-};
 
 struct FilterUserData
 {
@@ -39,14 +34,12 @@ struct FilterUserData
 
 class QStringList;
 
-class FilterPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class FilterPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     FilterPlugin(unsigned, Buffer *cfg);
     virtual ~FilterPlugin();
-    PROP_BOOL(FromList);
-    PROP_BOOL(AuthFromList);
 protected slots:
     void addToIgnore(void*);
 protected:
@@ -59,7 +52,6 @@ protected:
     virtual Q3CString getConfig();
     bool checkSpam(const QString &text, const QString &filter);
     void getWords(const QString &text, QStringList &words, bool bPattern);
-    FilterData data;
 };
 
 #endif

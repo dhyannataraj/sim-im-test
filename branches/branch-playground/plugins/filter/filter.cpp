@@ -49,13 +49,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef filterData[] =
-    {
-        { "FromList", DATA_BOOL, 1, 0 },
-        { "AuthFromList", DATA_BOOL, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 static DataDef filterUserData[] =
     {
         { "SpamList", DATA_UTF, 1, 0 },
@@ -70,11 +63,11 @@ static QWidget *getFilterConfig(QWidget *parent, void *data)
 }
 
 FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
-        : Plugin(base), EventReceiver(HighPriority - 1)
+        : Plugin(base), EventReceiver(HighPriority - 1), PropertyHub("filter")
 {
     filterPlugin = this;
 
-    load_data(filterData, &data, cfg);
+    //load_data(filterData, &data, cfg);
     user_data_id = getContacts()->registerUserData(info.title, filterUserData);
 
     CmdIgnoreList	= registerType();
@@ -123,7 +116,7 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
 
 FilterPlugin::~FilterPlugin()
 {
-    free_data(filterData, &data);
+	PropertyHub::save();
 
     EventCommandRemove(CmdIgnoreList).process();
     EventRemovePreferences(user_data_id).process();
@@ -132,7 +125,7 @@ FilterPlugin::~FilterPlugin()
 
 Q3CString FilterPlugin::getConfig()
 {
-    return save_data(filterData, &data);
+    return Q3CString();
 }
 
 bool FilterPlugin::processEvent(Event *e)
@@ -152,6 +145,11 @@ bool FilterPlugin::processEvent(Event *e)
         }
         break;
     }
+    case eEventPluginLoadConfig:
+    {
+        PropertyHub::load();
+        break;
+    }
     case eEventMessageReceived: {
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
@@ -160,13 +158,12 @@ bool FilterPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
         // check if we accept only from users on the list
-        if (
-            ((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
-	    (
-	        (getFromList() && msg->type() != MessageAuthRequest && msg->type() != MessageAuthGranted && msg->type() != MessageAuthRefused)||
-		( getAuthFromList() && msg->type() <= MessageContacts)
-            )
-	) {
+        if (((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
+			((property("FromList").toBool() &&
+			  msg->type() != MessageAuthRequest &&
+			  msg->type() != MessageAuthGranted &&
+			  msg->type() != MessageAuthRefused) ||
+		(property("AuthFromList").toBool() && msg->type() <= MessageContacts))) {
             delete msg;
             delete contact;
             return msg;
