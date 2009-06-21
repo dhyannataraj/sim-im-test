@@ -230,15 +230,15 @@ EXPORT bool makedir(const QString &p)
     QDir path;
 	if(p.endsWith("/") || p.endsWith("\\")) {
         QFileInfo fi(p + "dummy.txt");
-        path = fi.dir(true);
+        path = fi.dir();
     } else {
         QFileInfo fi(p);
-        path = fi.dir(true);
+        path = fi.dir();
     }
 
     if(path.exists())
         return true;
-    QString r = QDir::convertSeparators(path.absPath());
+    QString r = QDir::convertSeparators(path.absolutePath());
 
     struct stat st;
     if (stat(QFile::encodeName(r).data(), &st) != 0){

@@ -396,12 +396,10 @@ bool raiseWindow(QWidget *w, unsigned)
 
 void setButtonsPict(QWidget *w)
 {
-    QObjectList l = w->queryList( "QPushButton" );
-	for(QObjectList::iterator it = l.begin(); it != l.end(); ++it)
-	{
-		QObject *obj = *it;
+    QList<QPushButton*> l = w->findChildren<QPushButton*>();
+    foreach( QPushButton *obj, l ) {
 		QPushButton *btn = static_cast<QPushButton*>(obj);
-		if (btn->pixmap()) continue;
+        if (!btn->icon().isNull()) continue;
 		const QString &text = btn->text();
 		const char *icon = NULL;
 		if ((text == i18n("&OK")) || (text == i18n("&Yes")) ||
@@ -471,7 +469,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
     if (cmb->isEnabled()){
         cmb->clear();
         if (bAddEmpty)
-            cmb->insertItem(QString::null);
+            cmb->insertItem(INT_MAX,QString());
         QStringList items;
         QString current;
         for (const ext_info *i = tbl; i->nCode; i++){
@@ -488,12 +486,12 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
                 current = i18n(i->szName);
         }
         items.sort();
-        cmb->insertStringList(items);
+        cmb->insertItems(INT_MAX,items);
         unsigned n = bAddEmpty ? 1 : 0;
         if (!current.isEmpty()){
             for (QStringList::Iterator it = items.begin(); it != items.end(); ++it, n++){
                 if ((*it) == current){
-                    cmb->setCurrentItem(n);
+                    cmb->setCurrentIndex(n);
                     break;
                 }
             }
@@ -501,7 +499,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
     }else{
         for (const ext_info *i = tbl; i->nCode; i++){
             if (i->nCode == code){
-                cmb->insertItem(i18n(i->szName));
+                cmb->insertItem(INT_MAX,i18n(i->szName));
                 return;
             }
         }
@@ -510,7 +508,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
 
 unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info *tbl1)
 {
-    int res = cmb->currentItem();
+    int res = cmb->currentIndex();
     if (res <= 0) return 0;
     QStringList items;
     const ext_info *i;

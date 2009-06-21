@@ -49,15 +49,15 @@ UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
     connect(cmbSort1, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort2, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort3, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
-    btnAuth1->setPixmap(Pict("text_strike"));
-    btnAuth2->setPixmap(Pict("text_italic"));
-    btnAuth3->setPixmap(Pict("text_under"));
-    btnVisible1->setPixmap(Pict("text_strike"));
-    btnVisible2->setPixmap(Pict("text_italic"));
-    btnVisible3->setPixmap(Pict("text_under"));
-    btnInvisible1->setPixmap(Pict("text_strike"));
-    btnInvisible2->setPixmap(Pict("text_italic"));
-    btnInvisible3->setPixmap(Pict("text_under"));
+    btnAuth1->setIcon(Icon("text_strike"));
+    btnAuth2->setIcon(Icon("text_italic"));
+    btnAuth3->setIcon(Icon("text_under"));
+    btnVisible1->setIcon(Icon("text_strike"));
+    btnVisible2->setIcon(Icon("text_italic"));
+    btnVisible3->setIcon(Icon("text_under"));
+    btnInvisible1->setIcon(Icon("text_strike"));
+    btnInvisible2->setIcon(Icon("text_italic"));
+    btnInvisible3->setIcon(Icon("text_under"));
     btnAuth1->setChecked(true);
     btnAuth2->setChecked(true);
     btnAuth3->setChecked(true);
@@ -163,10 +163,10 @@ void UserViewConfig::colorsToggled(bool state)
 
 void UserViewConfig::fillBox(QComboBox *cmb)
 {
-    cmb->insertItem(i18n("Status"));
-    cmb->insertItem(i18n("Last message time"));
-    cmb->insertItem(i18n("Contact name"));
-    cmb->insertItem("");
+    cmb->insertItem(INT_MAX,i18n("Status"));
+    cmb->insertItem(INT_MAX,i18n("Last message time"));
+    cmb->insertItem(INT_MAX,i18n("Contact name"));
+    cmb->insertItem(INT_MAX,"");
 }
 
 void UserViewConfig::setSortMode(unsigned mode)
@@ -178,13 +178,13 @@ void UserViewConfig::setSortMode(unsigned mode)
         unsigned m = mode & 0xFF;
         mode = mode >> 8;
         if (m == 0){
-            cmb[i++]->setCurrentItem(3);
+            cmb[i++]->setCurrentIndex(3);
             break;
         }
-        cmb[i]->setCurrentItem(m - 1);
+        cmb[i]->setCurrentIndex(m - 1);
     }
     for (;i < 3; i++){
-        cmb[i]->setCurrentItem(3);
+        cmb[i]->setCurrentIndex(3);
         cmb[i]->setEnabled(false);
     }
 }
@@ -215,13 +215,13 @@ void UserViewConfig::setFonts(bool)
 
 unsigned UserViewConfig::getSortMode()
 {
-    unsigned m1 = cmbSort1->currentItem() + 1;
+    unsigned m1 = cmbSort1->currentIndex() + 1;
     if (m1 > 3)
         m1 = 0;
-    unsigned m2 = cmbSort2->currentItem() + 1;
+    unsigned m2 = cmbSort2->currentIndex() + 1;
     if (m2 > 3)
         m2 = 0;
-    unsigned m3 = cmbSort3->currentItem() + 1;
+    unsigned m3 = cmbSort3->currentIndex() + 1;
     if (m3 > 3)
         m3 = 0;
     if (m1){

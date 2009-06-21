@@ -77,7 +77,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
         }else if (pos > 0){
             type = type.left(pos);
         }
-        type = type.left(1).upper() + type.mid(1);
+        type = type.left(1).toUpper() + type.mid(1);
         Q3ListViewItem *item = new Q3ListViewItem(lstEvent, type);
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));

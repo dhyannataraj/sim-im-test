@@ -76,7 +76,7 @@ void ARConfig::apply()
     if (m_contact){
         if (chkOverride->isChecked()){
             ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::m_plugin->ar_data_id, true));
-            set_str(&ar->AutoReply, m_status, edtAutoReply->text());
+            set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
         }else{
             ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::m_plugin->ar_data_id, false));
             if (ar)
@@ -84,7 +84,7 @@ void ARConfig::apply()
         }
     }else{
         ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
-        set_str(&ar->AutoReply, m_status, edtAutoReply->text());
+        set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
         CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
     }
 }

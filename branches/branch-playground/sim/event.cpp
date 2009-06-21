@@ -124,7 +124,7 @@ QString EventLog::make_packet_string(const EventLog &l)
         m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
                tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
                tm->tm_hour, tm->tm_min, tm->tm_sec,
-               name.latin1(),
+               name.toLatin1().data(),
                (l.logLevel() & L_PACKET_IN) ? "Read" : "Write",
                b.size() - start);
         if (type->isText()){

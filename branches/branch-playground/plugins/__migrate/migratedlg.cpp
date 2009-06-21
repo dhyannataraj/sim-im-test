@@ -122,7 +122,7 @@ void MigrateDialog::pageSelected(const QString&)
         QString history_path = path + "history";
         history_path += '/';
         QDir history(history_path);
-        QStringList l = history.entryList("*.history", QDir::Files);
+        QStringList l = history.entryList(QStringList("*.history"), QDir::Files);
         for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
             QFile hf(history_path + (*it));
             totalSize += hf.size();
@@ -221,7 +221,7 @@ void MigrateDialog::process()
         h_path += "history/";
 #endif
         QDir history(h_path);
-        QStringList l = history.entryList("*.history", QDir::Files);
+        QStringList l = history.entryList(QStringList("*.history"), QDir::Files);
         for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
             hFrom.close();
             hTo.close();

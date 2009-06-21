@@ -53,16 +53,16 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     connect(m_pager, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     edtDetails->setReadOnly(true);
     for (const ext_info *icons = phoneIcons; icons->szName; icons++){
-        cmbType->insertItem(Pict(icons->szName));
+        cmbType->insertItem(INT_MAX,Icon(icons->szName),QString());
     }
     for (const char **names = phoneTypeNames; *names; names++){
-        cmbName->insertItem(i18n(*names));
+        cmbName->insertItem(INT_MAX,i18n(*names));
     }
     cmbName->setEditable(true);
     cmbName->lineEdit()->setText(type);
     connect(cmbType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
     connect(cmbName, SIGNAL(textChanged(const QString&)), this, SLOT(nameChanged(const QString&)));
-    cmbType->setCurrentItem(icon);
+    cmbType->setCurrentIndex(icon);
     typeChanged(icon);
     publish = bPublish;
     if (bShowPublish){
@@ -74,7 +74,7 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
 
 void EditPhone::typeChanged(int)
 {
-    switch (cmbType->currentItem()){
+    switch (cmbType->currentIndex()){
     case 0:
         wndDetails->raiseWidget(m_phone);
         m_phone->setExtensionShow(true);
@@ -110,20 +110,20 @@ void EditPhone::nameChanged(const QString &name)
     switch (i){
     case 0:
     case 2:
-        cmbType->setCurrentItem(0);
+        cmbType->setCurrentIndex(0);
         typeChanged(0);
         break;
     case 1:
     case 3:
-        cmbType->setCurrentItem(1);
+        cmbType->setCurrentIndex(1);
         typeChanged(1);
         break;
     case 4:
-        cmbType->setCurrentItem(2);
+        cmbType->setCurrentIndex(2);
         typeChanged(2);
         break;
     case 5:
-        cmbType->setCurrentItem(3);
+        cmbType->setCurrentIndex(3);
         typeChanged(3);
         break;
     }
@@ -145,7 +145,7 @@ void EditPhone::accept()
             break;
         }
     }
-    icon = cmbType->currentItem();
+    icon = cmbType->currentIndex();
     publish = chkPublish->isChecked();
     QDialog::accept();
 }

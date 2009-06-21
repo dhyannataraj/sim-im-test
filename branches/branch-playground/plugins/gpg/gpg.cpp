@@ -664,12 +664,12 @@ void GpgPlugin::publicReady()
                         getToken(line, ':');
                         getToken(line, ':');
                         getToken(line, ':');
-                        Q3CString sign = getToken(line, ':');
+                        QString sign = getToken(line, ':');
                         QString name = (*it).outfile;
                         int pos = sign.length() - name.length();
                         if (pos < 0)
                             pos = 0;
-                        if (sign.mid(pos) == name.latin1()){
+                        if (sign.mid(pos) == name.toLatin1()){
                             Contact *contact = getContacts()->contact((*it).contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));

@@ -208,18 +208,17 @@ static void add_str (STR_LIST & m, const QString & value, QString client)
     /* already there */
     if (it != m.end ()) {
         QStringList &proto = (*it).proto;
-        QStringList::iterator itp;
         /* client == '-' --> ignore */
         if (!proto.empty () && client == QLatin1String("-"))
             return;
         /* search if  already in list */
-        itp = proto.find(client);
-        if(itp == proto.end())
+        int itp = proto.indexOf(client);
+        if(itp == -1)
             return;
         /* search if "-" somewhere in list --> delete it */
-        itp = proto.find("-");
-        if(itp != proto.end())
-            proto.erase (itp);
+        itp = proto.indexOf("-");
+        if(itp != -1)
+            proto.removeAt(itp);
         /* add new client */
         proto.push_back (client);
     }
@@ -1594,7 +1593,7 @@ UserData::~UserData()
             free_data((*it).def, *userDataIt);
             break;
         }
-        delete[] userDataIt.data();
+        delete[] userDataIt.value();
     }
     delete d;
 }
@@ -1636,7 +1635,7 @@ void UserData::freeUserData(unsigned id)
             free_data((*it).def, d->m_userData[id]);
             break;
         }
-        delete[] userDataIt.data();
+        delete[] userDataIt.value();
         d->m_userData.erase(userDataIt);
     }
 }
@@ -1650,7 +1649,7 @@ Q3CString UserData::save()
         for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
             if ((*it).id != userDataIt.key())
                 continue;
-            Q3CString cfg = save_data((*it).def, userDataIt.data());
+            Q3CString cfg = save_data((*it).def, userDataIt.value());
             if (cfg.length()){
                 if (res.length())
                     res += '\n';
@@ -2103,7 +2102,7 @@ QString ContactList::toUnicode(Contact *contact, const Q3CString &str, int lengt
     if (!str.isEmpty()){
         if (length < 0)
             length = str.length();
-        QString res = getCodec(contact)->toUnicode(str, length);
+        QString res = getCodec(contact)->toUnicode(str.data(), length);
         return res.remove('\r');
     }
     return QString::null;

@@ -138,7 +138,7 @@ void MsgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
     Message *msg = createMessage(e);
     if (msg){
         delete msg;
-        e->acceptAction();
+        e->accept();
         return;
     }
     TextEdit::contentsDragEnterEvent(e);
@@ -149,7 +149,7 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     Message *msg = createMessage(e);
     if (msg){
         delete msg;
-        e->acceptAction();
+        e->accept();
         return;
     }
     TextEdit::contentsDragMoveEvent(e);
@@ -1524,13 +1524,7 @@ void MsgEdit::editEnterPressed()
 SmileLabel::SmileLabel(const QString &_id, QWidget *parent)
         : QLabel(parent), id(_id)
 {
-    QIcon icon = Icon(_id);
-    QPixmap pict;
-    if (!icon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-	{
-		pict = icon.pixmap(QIcon::Large, QIcon::Normal);
-    }
-    setPixmap(pict);
+    setPixmap(Pict(_id));
     QStringList smiles = getIcons()->getSmile(_id);
     QString tip = smiles.front();
     QString name = getIcons()->getSmileName(_id);
@@ -1559,11 +1553,7 @@ SmilePopup::SmilePopup(QWidget *popup) : QFrame(popup, "smile", Qt::WType_Popup 
     QStringList::iterator it;
     for (it = smiles.begin(); it != smiles.end(); ++it)
 	{
-		QIcon is = Icon(*it);
-		if (is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-			continue;
-		QPixmap pict;
-		pict = is.pixmap(QIcon::Large, QIcon::Normal);
+        QPixmap pict = Pict(*it);
 		s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
 		nSmiles++;
 	}
@@ -1581,8 +1571,8 @@ SmilePopup::SmilePopup(QWidget *popup) : QFrame(popup, "smile", Qt::WType_Popup 
     unsigned i = 0;
     unsigned j = 0;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIcon is = Icon(*it);
-        if (is.pixmap(QIcon::Small, QIcon::Normal).isNull())
+        QPixmap is = Pict(*it);
+        if (is.isNull())
             continue;
         QWidget *w = new SmileLabel(*it, this);
         w->setMinimumSize(s);

@@ -31,12 +31,13 @@ ConnectWnd::ConnectWnd(bool bStart) : QWizardPage(NULL)
     m_bStart = bStart;
     setConnecting(true);
     QMovie movie(app_file("pict/connect.gif"));
-    if (movie.isNull())
+    if (!movie.isValid())
         movie.setFileName(app_file("pict/connect.mng"));
-    if (!movie.isNull()){
+    if (movie.isValid()){
         lblMovie->setMovie(&movie);
         connect(this, SIGNAL(updated()), this, SLOT(updateMovie()));
-        movie.restart();
+        movie.stop();
+        movie.start();
         updateMovie();
     }
     setConnecting(true);

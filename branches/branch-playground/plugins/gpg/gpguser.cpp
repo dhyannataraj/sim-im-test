@@ -47,7 +47,7 @@ void GpgUser::apply(void *_data)
 {
     GpgUserData *data = (GpgUserData*)_data;
     QString key;
-    int nKey = cmbPublic->currentItem();
+    int nKey = cmbPublic->currentIndex();
     if (nKey && (nKey < cmbPublic->count())){
         QString k = cmbPublic->currentText();
         key = getToken(k, ' ');
@@ -84,7 +84,7 @@ void GpgUser::publicReady()
     int cur = 0;
     int n   = 1;
     cmbPublic->clear();
-    cmbPublic->insertItem(i18n("None"));
+    cmbPublic->insertItem(INT_MAX,i18n("None"));
     if (m_process->normalExit() && m_process->exitStatus() == 0){
         Q3CString str(m_process->readStdout());
         for (;;){
@@ -105,13 +105,13 @@ void GpgUser::publicReady()
                 getToken(line, ':');
                 getToken(line, ':');
                 Q3CString name = getToken(line, ':');
-                cmbPublic->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
+                cmbPublic->insertItem(INT_MAX,QString::fromLocal8Bit(sign) + QString(" - ") +
                                       QString::fromLocal8Bit(name));
                 n++;
             }
         }
     }
-    cmbPublic->setCurrentItem(cur);
+    cmbPublic->setCurrentIndex(cur);
     delete m_process;
     m_process = 0;
 }

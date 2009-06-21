@@ -104,7 +104,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     }
 #ifndef USE_KDE
     QString cur = CorePlugin::m_plugin->getLang();
-    cmbLang->insertItem(i18n("System"));
+    cmbLang->insertItem(INT_MAX,i18n("System"));
     QStringList items = getLangItems();
     cmbLang->insertStringList(items);
     int nCurrent = 0;
@@ -125,7 +125,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
                 nCurrent = 0;
         }
     }
-    cmbLang->setCurrentItem(nCurrent);
+    cmbLang->setCurrentIndex(nCurrent);
 #else
     TextLabel1_2->hide();
     cmbLang->hide();
@@ -227,7 +227,7 @@ void InterfaceConfig::apply()
     sms_cfg->apply(data);
     CorePlugin::m_plugin->setEditSaveFont(chkSaveFont->isChecked());
 #ifndef USE_KDE
-    int res = cmbLang->currentItem();
+    int res = cmbLang->currentIndex();
     const char *lang = "";
     if (res > 0){
         QStringList items = getLangItems();

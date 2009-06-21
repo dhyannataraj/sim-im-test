@@ -142,10 +142,10 @@ QPixmap &BackgroundPlugin::makeBackground(int w, int h)
         return bgScale;
     if ((bgScale.width() != w) || (bgScale.height() != h)){
         if ((bgImage.width() == w) && (bgImage.height() == h)){
-            bgScale.convertFromImage(bgImage);
+            bgScale = QPixmap::fromImage(bgImage);
         }else{
-            QImage img = bgImage.smoothScale(w, h);
-            bgScale.convertFromImage(img);
+            QImage img = bgImage.scaled( w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+            bgScale = QPixmap::fromImage( img );
         }
     }
     return bgScale;

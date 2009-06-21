@@ -39,19 +39,19 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client) : QWidget(parent)
     unsigned n = 0;
     unsigned cur = 0;
     if (m_client->getState() == Client::Connected){
-        cmbPort->insertItem(m_client->getDevice());
+        cmbPort->insertItem(INT_MAX,m_client->getDevice());
         cur = 0;
         n++;
     }
     for (QStringList::Iterator it = res.begin(); it != res.end(); ++it, n++){
         if ((*it) == m_client->getDevice())
             cur = cmbPort->count();
-        cmbPort->insertItem(*it);
+        cmbPort->insertItem(INT_MAX,*it);
     }
-    cmbPort->setCurrentItem(cur);
+    cmbPort->setCurrentIndex(cur);
     for (unsigned i = 0; i < (unsigned)(cmbBaud->count()); i++){
         if (cmbBaud->text(i).toULong() == m_client->getBaudRate()){
-            cmbBaud->setCurrentItem(i);
+            cmbBaud->setCurrentIndex(i);
         }
     }
     chkXonXoff->setChecked(m_client->getXonXoff());

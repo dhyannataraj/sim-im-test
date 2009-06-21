@@ -2461,7 +2461,8 @@ void AIMIncomingFileTransfer::accept()
 {
 	log(L_DEBUG, "AIMIncomingFileTransfer::accept");
     m_state = Connecting;
-        m_connectTimer.start(DIRECT_TIMEOUT * 1000, true);
+    m_connectTimer.setSingleShot( true );
+    m_connectTimer.start( DIRECT_TIMEOUT * 1000 );
 	FileTransfer::m_state = FileTransfer::Connect;
 	if(m_notify)
 		m_notify->process();
@@ -2651,7 +2652,7 @@ void AIMIncomingFileTransfer::ackOFT()
 		m_notify->transfer(false);
 		if(m_oft.nencode == 0x0200) // this is ucs2
 		{
-			m_notify->createFile(QString::fromUcs2((unsigned short*)m_oft.name.data()), m_fileSize, true);
+            m_notify->createFile(QString::fromUtf16((unsigned short*)m_oft.name.data()), m_fileSize, true);
 		}
 		else
 		{

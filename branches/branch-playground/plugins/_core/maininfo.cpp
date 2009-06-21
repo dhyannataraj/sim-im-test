@@ -86,7 +86,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact) : QWidget(parent)
         cmbStatus->addItem(i18n("Don't show"));
         cmbStatus->addItem(Icon("phone"), i18n("Available"));
         cmbStatus->addItem(Icon("nophone"), i18n("Busy"));
-        cmbStatus->setCurrentItem(getContacts()->owner()->getPhoneStatus());
+        cmbStatus->setCurrentIndex(getContacts()->owner()->getPhoneStatus());
     }else{
         lblCurrent->setText(i18n("User is crrently available at:"));
         disableWidget(cmbCurrent);
@@ -104,7 +104,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact) : QWidget(parent)
     lstMails->setExpandingColumn(0);
     lstPhones->setExpandingColumn(PHONE_NUMBER);
     if (m_contact == NULL)
-        tabMain->removePage(tabNotes);
+        tabMain->removeTab(tabMain->indexOf(tabNotes));
     fill();
     connect(lstMails, SIGNAL(selectionChanged()), this, SLOT(mailSelectionChanged()));
     connect(lstPhones, SIGNAL(selectionChanged()), this, SLOT(phoneSelectionChanged()));
@@ -218,15 +218,15 @@ void MainInfo::fill()
     cmbDisplay->clear();
     QString name = contact->getName();
     if (name.length())
-        cmbDisplay->insertItem(name);
+        cmbDisplay->insertItem(INT_MAX,name);
     if (firstName.length() && lastName.length()){
-        cmbDisplay->insertItem(firstName + ' ' + lastName);
-        cmbDisplay->insertItem(lastName + ' ' + firstName);
+        cmbDisplay->insertItem(INT_MAX,firstName + ' ' + lastName);
+        cmbDisplay->insertItem(INT_MAX,lastName + ' ' + firstName);
     }
     if (firstName.length())
-        cmbDisplay->insertItem(firstName);
+        cmbDisplay->insertItem(INT_MAX,firstName);
     if (lastName.length())
-        cmbDisplay->insertItem(lastName);
+        cmbDisplay->insertItem(INT_MAX,lastName);
     cmbDisplay->lineEdit()->setText(contact->getName());
 
     edtNotes->setText(contact->getNotes());
@@ -247,7 +247,7 @@ void MainInfo::fill()
     lstPhones->clear();
     unsigned n = 1;
     cmbCurrent->clear();
-    cmbCurrent->insertItem("");
+    cmbCurrent->insertItem(INT_MAX,"");
     while (phones.length()){
         unsigned icon = 0;
         QString phone = getToken(phones, ';', false);
@@ -260,10 +260,10 @@ void MainInfo::fill()
             icon = getToken(phoneItem, ',').toULong();
         Q3ListViewItem *item = new Q3ListViewItem(lstPhones);
         fillPhoneItem(item, number, type, icon, proto);
-        cmbCurrent->insertItem(number);
+        cmbCurrent->insertItem(INT_MAX,number);
         if (!phoneItem.isEmpty()){
             item->setText(PHONE_ACTIVE, "1");
-            cmbCurrent->setCurrentItem(n);
+            cmbCurrent->setCurrentIndex(n);
         }
         n++;
     }
@@ -280,7 +280,7 @@ void MainInfo::apply()
     Contact *contact = m_contact;
     if (contact == NULL){
         contact = getContacts()->owner();
-        contact->setPhoneStatus(cmbStatus->currentItem());
+        contact->setPhoneStatus(cmbStatus->currentIndex());
     }
     contact->setNotes(edtNotes->text());
     Q3ListViewItem *item;
@@ -489,16 +489,16 @@ void MainInfo::fillCurrentCombo()
         return;
     QString current = cmbCurrent->currentText();
     cmbCurrent->clear();
-    cmbCurrent->insertItem("");
+    cmbCurrent->insertItem(INT_MAX,"");
     unsigned n = 1;
     unsigned cur = 0;
     for (Q3ListViewItem *item = lstPhones->firstChild(); item; item = item->nextSibling(), n++){
         QString phone = item->text(PHONE_NUMBER);
         if (phone == current)
             cur = n;
-        cmbCurrent->insertItem(phone);
+        cmbCurrent->insertItem(INT_MAX,phone);
     }
-    cmbCurrent->setCurrentItem(cur);
+    cmbCurrent->setCurrentIndex(cur);
 }
 
 void MainInfo::fillEncoding()
@@ -507,7 +507,7 @@ void MainInfo::fillEncoding()
     int current = 0;
     int n_item = 1;
     cmbEncoding->clear();
-    cmbEncoding->insertItem("Default");
+    cmbEncoding->insertItem(INT_MAX,"Default");
     const ENCODING *e;
     QStringList main;
     QStringList::Iterator it;
@@ -528,7 +528,7 @@ void MainInfo::fillEncoding()
         str = str.left(n);
         if (str == contact->getEncoding())
             current = n_item;
-        cmbEncoding->insertItem(*it);
+        cmbEncoding->insertItem(INT_MAX,*it);
     }
     QStringList noMain;
     for (e = getContacts()->getEncodings(); e->language; e++){
@@ -545,15 +545,15 @@ void MainInfo::fillEncoding()
         str = str.left(n);
         if (str == contact->getEncoding())
             current = n_item;
-        cmbEncoding->insertItem(*it);
+        cmbEncoding->insertItem(INT_MAX,*it);
     }
-    cmbEncoding->setCurrentItem(current);
+    cmbEncoding->setCurrentIndex(current);
 }
 
 void MainInfo::getEncoding(bool SendContactChangedEvent)
 {
     QString encoding;
-    int n = cmbEncoding->currentItem();
+    int n = cmbEncoding->currentIndex();
     Contact *contact = m_contact;
     if (contact == NULL)
         contact = getContacts()->owner();

@@ -395,7 +395,7 @@ InfoRequest::~InfoRequest()
             QString fName = m_client->logoFile(data);
             QFile f(fName);
             if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                QByteArray cstr = m_logo.ascii();   // ok, base64 encoded
+                QByteArray cstr = m_logo.toAscii();   // ok, base64 encoded
                 f.write(QByteArray::fromBase64(cstr));
                 f.close();
                 logo.load(fName);

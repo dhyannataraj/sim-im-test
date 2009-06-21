@@ -70,13 +70,13 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
     edtPicture->setFilter(i18n("Graphics(%1)") .arg(format));
     edtPicture->setFilePreview(createPreview);
 #endif
-    cmbPosition->insertItem(i18n("Contact - left"));
-    cmbPosition->insertItem(i18n("Contact - scale"));
-    cmbPosition->insertItem(i18n("Window - left top"));
-    cmbPosition->insertItem(i18n("Window - left bottom"));
-    cmbPosition->insertItem(i18n("Window - left center"));
-    cmbPosition->insertItem(i18n("Window - scale"));
-    cmbPosition->setCurrentItem(plugin->property("Position").toUInt());
+    cmbPosition->insertItem(INT_MAX,i18n("Contact - left"));
+    cmbPosition->insertItem(INT_MAX,i18n("Contact - scale"));
+    cmbPosition->insertItem(INT_MAX,i18n("Window - left top"));
+    cmbPosition->insertItem(INT_MAX,i18n("Window - left bottom"));
+    cmbPosition->insertItem(INT_MAX,i18n("Window - left center"));
+    cmbPosition->insertItem(INT_MAX,i18n("Window - scale"));
+    cmbPosition->setCurrentIndex(plugin->property("Position").toUInt());
     spnContact->setValue(plugin->property("MarginContact").toUInt());
     spnGroup->setValue(plugin->property("MarginGroup").toUInt());
     lblLink->setText(i18n("Get more skins"));
@@ -85,8 +85,8 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
 
 void BkgndCfg::apply()
 {
-    if (cmbPosition->currentItem() >= 0)
-        m_plugin->setProperty("Position", cmbPosition->currentItem());
+    if (cmbPosition->currentIndex() >= 0)
+        m_plugin->setProperty("Position", cmbPosition->currentIndex());
     m_plugin->setProperty("Background", edtPicture->text());
     m_plugin->setProperty("MarginContact", (uint)spnContact->text().toULong());
     m_plugin->setProperty("MarginGroup", (uint)spnGroup->text().toULong());

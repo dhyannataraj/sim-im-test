@@ -935,7 +935,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         socket()->error_state("Unknown auth method");
         return;
     }
-    Q3CString password = getPassword().ascii();
+    Q3CString password = getPassword().toAscii();
     const char *pass = password.data();
 
     unsigned char       result[16];

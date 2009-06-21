@@ -501,7 +501,8 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
         close();
         return false;
     }
-    d->m_timer->start(d->m_time, true);
+    d->m_timer->setSingleShot( true );
+    d->m_timer->start( d->m_time );
     return true;
 }
 
@@ -519,7 +520,8 @@ void SerialPort::readReady(int)
             emit error();
             return;
         }
-        d->m_readTimer->start(d->m_timeout, true);
+        d->m_readTimer->setSingleShot( true );
+        d->m_readTimer->start( d->m_timeout );
         d->m_buf.pack(&c, 1);
         if (c == '\n')
             emit read_ready();
@@ -542,14 +544,16 @@ void SerialPort::writeLine(const char *data, unsigned timeRead)
         return;
     }
     d->m_timeout = timeRead;
-    d->m_readTimer->start(d->m_timeout, true);
+    d->m_readTimer->setSingleShot( true );
+    d->m_readTimer->start( d->m_timeout );
 }
 
 void SerialPort::setTimeout(unsigned timeRead)
 {
     d->m_readTimer->stop();
     d->m_timeout = timeRead;
-    d->m_readTimer->start(d->m_timeout, true);
+    d->m_readTimer->setSingleShot( true );
+    d->m_readTimer->start( d->m_timeout );
 }
 
 Q3CString SerialPort::readLine()
@@ -617,7 +621,8 @@ void SerialPort::timeout()
         return;
     }
     d->m_state = Setup;
-    d->m_timer->start(d->m_time, true);
+    d->m_timer->setSingleShot( true );
+    d->m_timer->start( d->m_time );
 }
 
 bool SerialPort::event(QEvent *e)
@@ -629,7 +634,7 @@ QStringList SerialPort::devices()
 {
     QStringList res;
     QDir dev("/dev");
-    QStringList entries = dev.entryList("cuaa*", QDir::System);
+    QStringList entries = dev.entryList( QStringList( "cuaa*" ), QDir::System);
     for (QStringList::Iterator it = entries.begin(); it != entries.end(); ++it)
         res.append(*it);
     return res;

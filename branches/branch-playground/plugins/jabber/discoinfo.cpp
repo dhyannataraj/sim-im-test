@@ -71,7 +71,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     lstStat->addColumn(i18n("Units"));
     lstStat->addColumn(i18n("Value"));
     lstStat->setExpandingColumn(2);
-    btnUrl->setPixmap(Pict("home"));
+    btnUrl->setIcon(Icon("home"));
     connect(btnUrl, SIGNAL(clicked()), this, SLOT(goUrl()));
     connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
 }

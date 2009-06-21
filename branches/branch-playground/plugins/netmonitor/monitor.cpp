@@ -102,10 +102,10 @@ void MonitorWindow::save()
     }
     QTextStream ts(&f);
     QString t;
-    if (edit->hasSelectedText()){
-        t = unquoteText(edit->selectedText());
+    if (edit->textCursor().hasSelection()){
+        t = unquoteText(edit->textCursor().selectedText());
     }else{
-        t = unquoteText(edit->text());
+        t = unquoteText(edit->toPlainText());
     }
 #if defined(WIN32) || defined(__OS2__)
     t.replace('\n',"\r\n");
@@ -121,7 +121,7 @@ void MonitorWindow::exit()
 
 void MonitorWindow::adjustFile()
 {
-    m_saveAction->setEnabled(edit->hasSelectedText());
+    m_saveAction->setEnabled(edit->textCursor().hasSelection());
     m_pauseAction->setText(bPause ? i18n("&Resume") : i18n("&Pause"));
     m_autoscrollAction->setChecked(bAutoscroll);
 }
@@ -138,8 +138,8 @@ void MonitorWindow::erase()
 
 void MonitorWindow::adjustEdit()
 {
-    m_copyAction->setEnabled(edit->hasSelectedText());
-    m_eraseAction->setEnabled(!edit->hasSelectedText());
+    m_copyAction->setEnabled(edit->textCursor().hasSelection());
+    m_eraseAction->setEnabled(!edit->textCursor().hasSelection());
 }
 
 void MonitorWindow::toggleType(QAction *a)

@@ -1125,7 +1125,7 @@ QString MSNClient::quote(const QString &s)
         QChar c = s[i];
         if ((c == '%') || (c == ' ') || (c == '+')){
             char b[4];
-            sprintf(b, "%%%2X", c.latin1());
+            sprintf(b, "%%%2X", c.toLatin1());
             res += b;
         }else{
             res += c;

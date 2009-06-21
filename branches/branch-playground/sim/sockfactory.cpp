@@ -133,7 +133,7 @@ unsigned long SIMResolver::addr()
         return INADDR_NONE;
     // crissi
     struct hostent * server_entry;
-    if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) 
+    if ( ( server_entry = gethostbyname( dns->label().toAscii() ) ) == NULL )
 	{
         log( L_WARN, "gethostbyname failed\n" );
         return htonl(dns->addresses().first().toIPv4Address());

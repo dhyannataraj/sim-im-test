@@ -107,9 +107,9 @@ void YahooInfo::fill()
             current = cmbStatus->count();
             text = cmd->text;
         }
-        cmbStatus->insertItem(Pict(cmd->icon), i18n(cmd->text));
+        cmbStatus->insertItem(INT_MAX, Icon(cmd->icon), i18n(cmd->text));
     }
-    cmbStatus->setCurrentItem(current);
+    cmbStatus->setCurrentIndex(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         if (data->StatusTime.toULong()){

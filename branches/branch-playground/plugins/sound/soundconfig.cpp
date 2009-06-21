@@ -45,7 +45,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin) : QWidget(parent)
 #else
     chkArts->hide();
 #ifndef WIN32
-    bool bSound = QSound::available();
+    bool bSound = QSound::isAvailable();
 #endif
 #endif
 
@@ -91,7 +91,7 @@ void SoundConfig::apply()
     /* If there is an external player selected, don't use Qt
     Check first for edtPlayer->text().isEmpty() since QSound::available()
     can take 5 seconds to return a value */
-    bool bSound = edtPlayer->text().isEmpty() && QSound::available();
+    bool bSound = edtPlayer->text().isEmpty() && QSound::isAvailable();
 #endif
     if (bSound)
         m_plugin->setPlayer("");

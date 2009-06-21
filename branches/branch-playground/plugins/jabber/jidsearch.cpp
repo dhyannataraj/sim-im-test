@@ -91,14 +91,12 @@ void JIDSearch::advancedClicked()
     if (m_bAdv){
         m_bAdv = false;
         QIcon is = Icon("1rightarrow");
-        if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-            btnAdvanced->setIcon(is);
+        btnAdvanced->setIcon(is);
         emit showResult(NULL);
     }else{
         m_bAdv = true;
         QIcon is = Icon("1leftarrow");
-        if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-            btnAdvanced->setIcon(is);
+        btnAdvanced->setIcon(is);
         emit showResult(m_adv);
     }
 }

@@ -233,7 +233,7 @@ static int findStartSection(const Buffer *pBuf, unsigned start)
     for ( ; ; ) {
         if(idx >= (int)pBuf->size())
             return -1;
-        idx = pBuf->find( '[', idx);
+        idx = pBuf->indexOf( '[', idx);
         if(idx == -1)
             return -1;
         if( idx == 0 || pBuf->at( idx - 1 ) == '\n' )
@@ -249,7 +249,7 @@ static int findEndSection(const Buffer *pBuf, unsigned start)
 	for ( ; ; ) {
         if(idx >= (int)pBuf->size())
             return -1;
-        idx = pBuf->find( ']', idx);
+        idx = pBuf->indexOf( ']', idx);
         if(idx == -1)
             return -1;
         if( idx == (int)pBuf->size() - 1 || pBuf->at( idx + 1 ) == '\n' )
@@ -294,7 +294,7 @@ Q3CString Buffer::getLine()
     if (readPos() >= writePos())
         return "";
     unsigned start = m_posRead;
-    int end = find('\n', start);
+    int end = indexOf('\n', start);
     if(end == -1)
         end = size();
     Q3CString res = Q3CString(data() + start, end - start + 1);

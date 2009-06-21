@@ -127,7 +127,7 @@ void AutoReplyDialog::accept()
 {
     CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
     ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
-    set_str(&ar->AutoReply, m_status, edtAutoResponse->text());
+    set_str(&ar->AutoReply, m_status, edtAutoResponse->toPlainText());
 	QDialog::accept();
 }
 

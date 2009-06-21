@@ -458,7 +458,8 @@ Q3CString GsmTA::oper() const
 void GsmTA::processQueue()
 {
     if (m_queue.empty()){
-        m_timer->start(PING_TIMEOUT, true);
+        m_timer->setSingleShot( true );
+        m_timer->start( PING_TIMEOUT );
         return;
     }
     m_timer->stop();
@@ -486,7 +487,7 @@ void GsmTA::getNextEntry()
         m_state = PhoneBook3;
         QString cmd = "+CPBR=";
         cmd += QString::number(m_book->m_size);
-        at(cmd.latin1(), 20000);
+        at(cmd.toLatin1(), 20000);
         m_book->m_size++;
         return;
     }

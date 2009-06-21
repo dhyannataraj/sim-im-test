@@ -145,7 +145,7 @@ JabberBrowser::JabberBrowser()
     if (cmbUrl){
         QString h = JabberPlugin::plugin->getBrowserHistory();
         while (h.length())
-            cmbUrl->insertItem(getToken(h, ';'));
+            cmbUrl->insertItem(INT_MAX,getToken(h, ';'));
         cmbUrl->setText(QString::null);
     }
 
@@ -862,7 +862,7 @@ void JabberBrowser::addHistory(const QString &str)
             break;
         if (!res.isEmpty())
             res += ';';
-        cmbUrl->insertItem(*it);
+        cmbUrl->insertItem(INT_MAX,*it);
         res += quoteChars(*it, ";");
     }
     JabberPlugin::plugin->setBrowserHistory(res);

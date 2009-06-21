@@ -164,7 +164,7 @@ void JabberPicture::setPict(QImage &img)
     if ((w != img.width()) || (h != img.height()))
         img = img.smoothScale(w, h);
     QPixmap pict;
-    pict.convertFromImage(img);
+    pict = QPixmap::fromImage(img);
     lblPict->setPixmap(pict);
     lblPict->setMinimumSize(pict.size());
 }

@@ -262,15 +262,15 @@ static char BACKUP_SUFFIX[] = "~";
 void HistoryConfig::apply()
 {
     bool bChanged = false;
-    if (tabStyle->currentPage() == source){
-        int cur = cmbStyle->currentItem();
+    if (tabStyle->currentWidget() == source){
+        int cur = cmbStyle->currentIndex();
         if (m_bDirty && (cur >= 0))
             m_styles[cur].text = unquoteText(edtStyle->text());
     }
     for (unsigned i = 0; i < m_styles.size(); i++){
         if (m_styles[i].text.isEmpty() || !m_styles[i].bCustom)
             continue;
-        if ((int)i == cmbStyle->currentItem())
+        if ((int)i == cmbStyle->currentIndex())
             bChanged = true;
         QString name = STYLES;
         name += m_styles[i].name;
@@ -303,7 +303,7 @@ void HistoryConfig::apply()
             log(L_WARN, "Can't create %s", qPrintable(name));
         }
     }
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur >= 0) && m_styles.size() &&
             (m_styles[cur].bChanged ||
              (m_styles[cur].name != CorePlugin::m_plugin->getHistoryStyle()))){
@@ -329,7 +329,7 @@ void HistoryConfig::apply()
         bChanged = true;
         CorePlugin::m_plugin->setShowAvatarInHistory(chkAvatar->isChecked());
     }
-    CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
+    CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().toLocal8Bit());
     CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toULong());
     if (bChanged){
         EventHistoryConfig(0).process();
@@ -345,7 +345,7 @@ void HistoryConfig::apply()
 void HistoryConfig::addStyles(const QString &dir, bool bCustom)
 {
     QDir d(dir);
-    QStringList files = d.entryList("*.xsl", QDir::Files, QDir::Name);
+    QStringList files = d.entryList(QStringList("*.xsl"), QDir::Files, QDir::Name);
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
         QString name = *it;
         int n = name.lastIndexOf('.');
@@ -367,7 +367,7 @@ void HistoryConfig::addStyles(const QString &dir, bool bCustom)
 
 void HistoryConfig::toggled(bool)
 {
-    if (tabStyle->currentPage() == preview)
+    if (tabStyle->currentWidget() == preview)
         fillPreview();
 }
 
@@ -384,13 +384,13 @@ void HistoryConfig::styleSelected(int n)
     btnDelete->setEnabled(bCustom);
     edtStyle->setReadOnly(!bCustom);
     fillPreview();
-    if (tabStyle->currentPage() == source)
+    if (tabStyle->currentWidget() == source)
         viewChanged(source);
 }
 
 void HistoryConfig::copy()
 {
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (!m_styles.size()))
         return;
     QString name    = m_styles[cur].name;
@@ -475,17 +475,17 @@ void HistoryConfig::fillCombo(const QString &current)
     cmbStyle->clear();
     for (unsigned i = 0; i < m_styles.size(); i++){
         QString name = m_styles[i].name;
-        cmbStyle->insertItem(name);
+        cmbStyle->insertItem(INT_MAX,name);
         if (name == current)
             cur = i;
     }
-    cmbStyle->setCurrentItem(cur);
+    cmbStyle->setCurrentIndex(cur);
     styleSelected(cur);
 }
 
 void HistoryConfig::del()
 {
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (!m_styles.size()))
         return;
     if (!m_styles[cur].bCustom)
@@ -496,7 +496,7 @@ void HistoryConfig::del()
 
 void HistoryConfig::realDelete()
 {
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (!m_styles.size()))
         return;
     if (!m_styles[cur].bCustom)
@@ -518,7 +518,7 @@ void HistoryConfig::realDelete()
 
 void HistoryConfig::rename()
 {
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (!m_styles.size()))
         return;
     if (!m_styles[cur].bCustom)
@@ -594,7 +594,7 @@ bool HistoryConfig::eventFilter(QObject *o, QEvent *e)
 
 void HistoryConfig::viewChanged(QWidget *w)
 {
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (!m_styles.size()))
         return;
     if (w == preview){
@@ -634,7 +634,7 @@ void HistoryConfig::sync()
 void HistoryConfig::textChanged()
 {
     m_bDirty = true;
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (!m_styles.size()))
         return;
     m_styles[cur].bChanged = true;
@@ -643,7 +643,7 @@ void HistoryConfig::textChanged()
 void HistoryConfig::fillPreview()
 {
     m_bDirty = false;
-    int cur = cmbStyle->currentItem();
+    int cur = cmbStyle->currentIndex();
     if ((cur < 0) || (cur >= (int)m_styles.size()))
         return;
     XSL *xsl = new XSL(m_styles[cur].name);

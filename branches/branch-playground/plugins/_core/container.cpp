@@ -392,7 +392,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     m_tabBar->setTabData(tab,QVariant::fromValue(wnd));
     if (bRaise)
     {
-        m_tabBar->setCurrentTab(tab);
+        m_tabBar->setCurrentIndex(tab);
     }
     else
     {
@@ -498,7 +498,7 @@ void Container::contactSelected(int)
     setWindowIcon(Icon(cmd->icon));
     setWindowTitle(userWnd->getLongName());
     m_bar->checkState();
-    m_status->message(userWnd->status());
+    m_status->showMessage(userWnd->status());
     if (isActiveWindow())
         userWnd->markAsRead();
 
@@ -593,7 +593,7 @@ void Container::statusChanged(int width)
 void Container::statusChanged(UserWnd *wnd)
 {
     if (wnd == m_tabBar->currentWnd())
-        m_status->message(wnd->status());
+        m_status->showMessage(wnd->status());
 }
 
 void Container::accelActivated(int id)
@@ -811,7 +811,7 @@ bool Container::processEvent(Event *e)
 								}
 								userWnd = m_tabBar->currentWnd();
 								if (userWnd && (contact->id() == userWnd->id()))
-									m_status->message(userWnd->status());
+                                    m_status->showMessage(userWnd->status());
 							}
 						}
 					default:

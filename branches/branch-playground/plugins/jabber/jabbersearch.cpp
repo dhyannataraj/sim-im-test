@@ -17,23 +17,19 @@
 
 #include <vector>
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <q3multilineedit.h>
-#include <qcombobox.h>
-#include <qtimer.h>
-#include <qtabwidget.h>
-#include <q3widgetstack.h>
-#include <qobject.h>
-#include <qregexp.h>
-#include <qcheckbox.h>
-#include <q3groupbox.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <Q3GridLayout>
+#include <QLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QTextEdit>
+#include <QComboBox>
+#include <QTimer>
+#include <QTabWidget>
+#include <QObject>
+#include <QRegExp>
+#include <QCheckBox>
+#include <QGridLayout>
 #include <QPixmap>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 #include "ballonmsg.h"
 #include "icons.h"
@@ -66,12 +62,12 @@ CComboBox::CComboBox(QWidget *parent, const char *name)
 void CComboBox::addItem(const QString &label, const QString &value)
 {
     m_values.push_back(value);
-    insertItem(label);
+    insertItem(INT_MAX,label);
 }
 
 QString CComboBox::value()
 {
-    unsigned index = currentItem();
+    unsigned index = currentIndex();
     if (index >= m_values.size())
         return QString::null;
     return m_values[index];
@@ -157,11 +153,11 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (!data->Value.str().isEmpty())
                 static_cast<QLineEdit*>(widget)->setText(data->Value.str());
         }else if (data->Type.str() == "text-multi"){
-            widget = new Q3MultiLineEdit(this);
+            widget = new QTextEdit(this);
             widget->setObjectName(data->Field.str());
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             if (!data->Value.str().isEmpty())
-                static_cast<Q3MultiLineEdit*>(widget)->setText(data->Value.str());
+                static_cast<QTextEdit*>(widget)->setText(data->Value.str());
         }else if (data->Type.str() == "boolean" && !data->Label.str().isEmpty()){
             widget = new QCheckBox(data->Label.str(), this, qPrintable(data->Field.str()));
             if (!data->Value.str().isEmpty() && !data->Value.str().startsWith("0"))
@@ -206,7 +202,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     n++;
                 }
             }
-            box->setCurrentItem(cur);
+            box->setCurrentIndex(cur);
             widget = box;
         }else if (data->Type.str() == "key"){
             if (!data->Value.str().isEmpty())
@@ -357,12 +353,10 @@ bool JabberSearch::canSearch()
 {
     bool bRes = true;
 
-    QObjectList l = queryList("QLineEdit");
-    QObject *obj;
-
-    foreach(obj,l)
+    QList<QLineEdit*> l = findChildren<QLineEdit*>();
+    QLineEdit *edit;
+    foreach(edit,l)
 	{
-		QLineEdit *edit = static_cast<QLineEdit*>(obj);
 		if (edit->echoMode() == QLineEdit::Password){
 			if (edit->text().isEmpty()){
 				bRes = false;
@@ -396,54 +390,49 @@ QString JabberSearch::condition(QWidget *w)
     if (w == NULL)
         w = this;
 
-    QObjectList l = w->queryList("QLineEdit");
-    QObject *obj;
-    foreach(obj,l)
+    QList<QLineEdit*> list_edit = w->findChildren<QLineEdit*>();
+    foreach( QLineEdit *edit, list_edit )
 	{
-        QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
                 res += ';';
-            res += edit->name();
+            res += edit->objectName();
             res += '=';
             res += quoteChars(edit->text(), ";");
         }
     }
 
-    l = w->queryList("QComboBox");
-    foreach(obj,l)
-	{
-        CComboBox *box = static_cast<CComboBox*>(obj);
+    QList<QComboBox*> list_combo = w->findChildren<QComboBox*>();
+    foreach( QComboBox *box, list_combo )
+    {
         if (box->currentText().isEmpty()){
             continue;
         }
         if (!res.isEmpty())
             res += ';';
-        res += box->name();
+        res += box->objectName();
         res += '=';
-        res += quoteChars(box->value(), ";");
+        res += quoteChars(box->currentText(), ";");
     }
 
-    l = w->queryList("QCheckBox");
-    foreach(obj,l)
+    QList<QCheckBox*> list_check = w->findChildren<QCheckBox*>();
+    foreach( QCheckBox *check, list_check )
 	{
-        QCheckBox *box = static_cast<QCheckBox*>(obj);
         if (!res.isEmpty())
             res += ';';
-        res += box->name();
-        res += box->isChecked() ? "=1" : "=0";
+        res += check->objectName();
+        res += check->isChecked() ? "=1" : "=0";
     }
 
-    l = w->queryList("Q3MultiLineEdit");
-    foreach(obj,l)
+    QList<QTextEdit*> list_tedit = w->findChildren<QTextEdit*>();
+    foreach( QTextEdit *edit, list_tedit )
 	{
-        Q3MultiLineEdit *edit = static_cast<Q3MultiLineEdit*>(obj);
-        if (!edit->text().isEmpty()){
+        if (!edit->toPlainText().isEmpty()){
             if (!res.isEmpty())
                 res += ';';
-            res += edit->name();
+            res += edit->objectName();
             res += '=';
-            res += quoteChars(edit->text(), ";");
+            res += quoteChars(edit->toPlainText(), ";");
         }
     }
 
@@ -461,8 +450,8 @@ void JabberSearch::createLayout()
     unsigned start = 0;
     unsigned nCols = 0;
     unsigned nRows = 0;
-    Q3VBoxLayout *vlay = new Q3VBoxLayout(this);
-    Q3GridLayout *lay = new Q3GridLayout(vlay);
+    QVBoxLayout *vlay = new QVBoxLayout(this);
+    QGridLayout *lay = new QGridLayout(vlay);
     vlay->setMargin(11);
     lay->setSpacing(6);
     vlay->addStretch();
@@ -518,12 +507,12 @@ void JabberSearch::createLayout()
 HelpButton::HelpButton(const QString &help, QWidget *parent)
         : QPushButton(parent)
 {
-    const QPixmap p = Pict("help");
-    setPixmap(p);
+    QIcon p = Icon("help");
+    setIcon(p);
     m_help = help;
     connect(this, SIGNAL(clicked()), this, SLOT(click()));
-    setMinimumSize(p.width() + 2, p.height() + 2);
-    setMaximumSize(p.width() + 2, p.height() + 2);
+//    setMinimumSize(p.width() + 2, p.height() + 2);
+//    setMaximumSize(p.width() + 2, p.height() + 2);
 }
 
 void HelpButton::click()
@@ -561,13 +550,13 @@ const unsigned MAX_MAIN	= 6;
 void JIDJabberSearch::createLayout()
 {
     unsigned rowMain = 0;
-    Q3GridLayout *lay = new Q3GridLayout(this);
-    Q3GridLayout *alay = NULL;
+    QGridLayout *lay = new QGridLayout(this);
+    QGridLayout *alay = NULL;
     lay->setSpacing(6);
     unsigned nAdv = 0;
     unsigned nMain = 0;
     if (m_widgets.size() > MAX_MAIN){
-        alay = new Q3GridLayout(m_adv->grpSearch);
+        alay = new QGridLayout(m_adv->grpSearch);
         alay->setMargin(11);
         alay->setSpacing(6);
         for (unsigned i = 0; i < m_widgets.size(); i++){
@@ -577,7 +566,7 @@ void JIDJabberSearch::createLayout()
             }
             const char **p;
             for (p = names; *p; p++)
-                if (!strcmp(*p, m_widgets[i]->name()))
+                if ( m_widgets[i]->objectName() == *p )
                     break;
             if (*p == NULL){
                 nAdv++;
@@ -598,7 +587,7 @@ void JIDJabberSearch::createLayout()
             if (nMain < MAX_MAIN){
                 const char **p;
                 for (p = names; *p; p++)
-                    if (!strcmp(*p, m_widgets[i]->name()))
+                    if ( m_widgets[i]->objectName() == *p )
                         break;
                 if (*p){
                     nMain++;

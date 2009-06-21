@@ -42,7 +42,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
     m_oldID = m->id();
     m_time  = m->getTime();
     m_wnd->edtSubj->setText(m->getSubject());
-    m_wnd->cmbSecurity->setCurrentItem(m->getPrivate());
+    m_wnd->cmbSecurity->setCurrentIndex(m->getPrivate());
     Contact *contact = getContacts()->contact(msg->contact());
     if (contact){
         clientData *data;
@@ -62,15 +62,15 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
                         s += ts;
                         s += ")";
                     }
-                    m_wnd->cmbMood->insertItem(s);
+                    m_wnd->cmbMood->insertItem(INT_MAX,s);
                 }
-                m_wnd->cmbMood->setCurrentItem(static_cast<JournalMessage*>(msg)->getMood());
+                m_wnd->cmbMood->setCurrentIndex(static_cast<JournalMessage*>(msg)->getMood());
                 m_wnd->cmbMood->setMinimumSize(m_wnd->cmbMood->sizeHint());
                 break;
             }
         }
     }
-    m_wnd->cmbComment->setCurrentItem(m->getComments());
+    m_wnd->cmbComment->setCurrentIndex(m->getComments());
     m_edit->m_edit->setTextFormat(Qt::RichText);
     QString text = msg->getRichText();
     if (!text.isEmpty()){
@@ -183,9 +183,9 @@ void MsgJournal::send(const QString& msgText)
     msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);
     msg->setFont(LiveJournalPlugin::core->getEditFont());
     msg->setSubject(m_wnd->edtSubj->text());
-    msg->setPrivate(m_wnd->cmbSecurity->currentItem());
-    msg->setMood(m_wnd->cmbMood->currentItem());
-    msg->setComments(m_wnd->cmbComment->currentItem());
+    msg->setPrivate(m_wnd->cmbSecurity->currentIndex());
+    msg->setMood(m_wnd->cmbMood->currentIndex());
+    msg->setComments(m_wnd->cmbComment->currentIndex());
 
     EventRealSendMessage(msg, m_edit).process();
 }

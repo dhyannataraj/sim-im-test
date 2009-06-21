@@ -1039,8 +1039,10 @@ bool LiveJournalClient::processEvent(Event *e)
         }
         url += '/';
         EventGoURL(url).process();
-        if (getState() == Connected)
-            m_timer->start(getInterval() * 60 * 1000, true);
+        if (getState() == Connected) {
+            m_timer->setSingleShot(true);
+            m_timer->start(getInterval() * 60 * 1000);
+        }
         return true;
     }
     if (e->type() == eEventCommandExec){
@@ -1211,7 +1213,8 @@ CheckFriendsRequest::~CheckFriendsRequest()
         return;
     }
     if (m_bOK){
-        m_client->m_timer->start(m_interval, true);
+        m_client->m_timer->setSingleShot( true );
+        m_client->m_timer->start( m_interval );
         return;
     }
     m_client->error_state(m_err, 0);

@@ -393,10 +393,10 @@ void SoundPlugin::processQueue()
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
     can take 5 seconds to return a value */
-    bool bSound = !getPlayer().isEmpty() && QSound::available();
+    bool bSound = !getPlayer().isEmpty() && QSound::isAvailable();
 #endif
 	if (bSound){
-		if (!QSound::available()){
+        if (!QSound::isAvailable()){
 			m_queue.clear();
 			m_current = QString::null;
 			return;

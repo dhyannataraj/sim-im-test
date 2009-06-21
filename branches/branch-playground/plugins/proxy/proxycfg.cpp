@@ -44,10 +44,10 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, 
     m_plugin = plugin;
     m_client = client;
     m_current = (unsigned)(-1);
-    cmbType->insertItem(i18n("None"));
-    cmbType->insertItem("SOCKS4");
-    cmbType->insertItem("SOCKS5");
-    cmbType->insertItem("HTTP/HTTPS");
+    cmbType->insertItem(INT_MAX,i18n("None"));
+    cmbType->insertItem(INT_MAX,"SOCKS4");
+    cmbType->insertItem(INT_MAX,"SOCKS5");
+    cmbType->insertItem(INT_MAX,"HTTP/HTTPS");
     if (tab){
         tab->addTab(this, i18n("&Proxy"));
         for (QWidget *p = this; p; p = p->parentWidget()){
@@ -194,7 +194,7 @@ void ProxyConfig::clientChanged(int)
             d.Default.asBool() = (d == m_data[0]);
         }
     }
-    m_current = cmbClient->currentItem();
+    m_current = cmbClient->currentIndex();
     if (m_current < m_data.size())
         fill(&m_data[m_current]);
 }
@@ -211,7 +211,7 @@ void ProxyConfig::fillClients()
     m_current = (unsigned)(-1);
     m_data.clear();
     cmbClient->clear();
-    cmbClient->insertItem(i18n("Default"));
+    cmbClient->insertItem(INT_MAX,i18n("Default"));
     ProxyData d(m_plugin->data);
     d.Clients.clear();
     m_data.push_back(d);
@@ -230,7 +230,7 @@ void ProxyConfig::fillClients()
     }
     bool bState;
     if (!get_connection_state(bState)){
-        cmbClient->insertItem(i18n("HTTP requests"));;
+        cmbClient->insertItem(INT_MAX,i18n("HTTP requests"));;
         ProxyData d;
         m_plugin->clientData((TCPClient*)(-1), d);
         m_data.push_back(d);
@@ -240,7 +240,7 @@ void ProxyConfig::fillClients()
 
 void ProxyConfig::fill(ProxyData *data)
 {
-    cmbType->setCurrentItem(data->Type.toULong());
+    cmbType->setCurrentIndex(data->Type.toULong());
     edtHost->setText(data->Host.str());
     edtPort->setValue(data->Port.toULong());
     chkAuth->setChecked(data->Auth.toBool());
@@ -252,7 +252,7 @@ void ProxyConfig::fill(ProxyData *data)
 
 void ProxyConfig::get(ProxyData *data)
 {
-    data->Type.asULong() = cmbType->currentItem();
+    data->Type.asULong() = cmbType->currentIndex();
     data->Host.str()     = edtHost->text();
     data->Port.asULong() = edtPort->text().toULong();
     data->Auth.asBool()  = chkAuth->isChecked();

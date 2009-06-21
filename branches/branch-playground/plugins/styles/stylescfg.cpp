@@ -56,7 +56,7 @@ StylesConfig::~StylesConfig()
 void StylesConfig::apply()
 {
     font_cfg->apply();
-    if (m_plugin->setStyle(lstStyle->currentText().latin1()))
+    if (m_plugin->setStyle(lstStyle->currentText().toLatin1()))
         m_plugin->setStyles();
 }
 

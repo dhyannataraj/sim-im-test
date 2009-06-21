@@ -40,7 +40,7 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
         QString number = getToken(item, ',');
         getToken(item, ',');
         if (item.toULong() == CELLULAR)
-            cmbPhone->insertItem(number);
+            cmbPhone->insertItem(INT_MAX,number);
     }
     cmbPhone->lineEdit()->setText(data->Phone.str());
 }

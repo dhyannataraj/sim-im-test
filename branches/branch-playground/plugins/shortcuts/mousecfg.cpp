@@ -44,13 +44,13 @@ MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin) : QWidget(par
     loadMenu(MenuGroup);
     loadMenu(MenuContact);
     adjustColumns();
-    cmbButton->insertItem("");
-    cmbButton->insertItem(i18n("Left click"));
-    cmbButton->insertItem(i18n("Right click"));
-    cmbButton->insertItem(i18n("Middle click"));
-    cmbButton->insertItem(i18n("Left dblclick"));
-    cmbButton->insertItem(i18n("Right dblclick"));
-    cmbButton->insertItem(i18n("Middle dblclick"));
+    cmbButton->insertItem(INT_MAX,"");
+    cmbButton->insertItem(INT_MAX,i18n("Left click"));
+    cmbButton->insertItem(INT_MAX,i18n("Right click"));
+    cmbButton->insertItem(INT_MAX,i18n("Middle click"));
+    cmbButton->insertItem(INT_MAX,i18n("Left dblclick"));
+    cmbButton->insertItem(INT_MAX,i18n("Right dblclick"));
+    cmbButton->insertItem(INT_MAX,i18n("Middle dblclick"));
     selectionChanged();
     connect(lstCmd, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(cmbButton, SIGNAL(activated(int)), this, SLOT(buttonChanged(int)));
@@ -66,7 +66,7 @@ MouseConfig::~MouseConfig()
 void MouseConfig::apply()
 {
     for (Q3ListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling()){
-        m_plugin->setMouse(item->text(2).toUInt(), item->text(1).latin1());
+        m_plugin->setMouse(item->text(2).toUInt(), item->text(1).toLatin1());
     }
 }
 
@@ -118,24 +118,24 @@ void MouseConfig::selectionChanged()
     Q3ListViewItem *item = lstCmd->currentItem();
     if (item == NULL){
         lblCmd->setText("");
-        cmbButton->setCurrentItem(0);
+        cmbButton->setCurrentIndex(0);
         cmbButton->setEnabled(false);
         return;
     }
     lblCmd->setText(item->text(0));
-    int n = ShortcutsPlugin::stringToButton(item->text(1).latin1());
+    int n = ShortcutsPlugin::stringToButton(item->text(1).toLatin1());
     if (n == 0)
         chkAlt->setChecked((n & Qt::AltButton) != 0);
     chkCtrl->setChecked((n & Qt::ControlButton) != 0);
     chkShift->setChecked((n & Qt::ShiftButton) != 0);
     cmbButton->setEnabled(true);
-    cmbButton->setCurrentItem(n);
+    cmbButton->setCurrentIndex(n);
     buttonChanged(0);
 }
 
 void MouseConfig::buttonChanged(int)
 {
-    if (cmbButton->currentItem()){
+    if (cmbButton->currentIndex()){
         chkAlt->setEnabled(true);
         chkCtrl->setEnabled(true);
         chkShift->setEnabled(true);
@@ -153,7 +153,7 @@ void MouseConfig::buttonChanged(int)
 void MouseConfig::changed(bool)
 {
     QString res;
-    int n = cmbButton->currentItem();
+    int n = cmbButton->currentIndex();
     if (n){
         if (chkAlt->isChecked())
             n |= Qt::AltButton;

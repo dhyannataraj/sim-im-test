@@ -367,7 +367,8 @@ StatusWnd::StatusWnd() : QFrame(NULL)
     m_frame = new StatusFrame(this);
     m_btn = new QToolButton(this);
     m_btn->setAutoRaise(true);
-    m_btn->setPixmap( QPixmap((const char **)arrow_h_xpm));
+    QIcon icon( QPixmap((const char **)arrow_h_xpm) );
+    m_btn->setIcon( icon );
     m_btn->setMinimumSize(QSize(10, 10));
     m_lay->addWidget(m_frame);
     m_lay->addWidget(m_btn);

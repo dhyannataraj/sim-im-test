@@ -103,17 +103,16 @@ void PictPreview::showPreview(const QString &file)
         if (img.width() > label->width()){
             int h = img.height() * label->width() / img.width();
             if (h <= label->height()){
-                img = img.smoothScale(label->width(), h);
+                img = img.scaled( label->width(), h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
                 bOk = true;
             }
         }
         if (!bOk){
             int w = img.width() * label->height() / img.height();
-            img = img.smoothScale(w, label->height());
+            img = img.scaled( w, label->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
         }
     }
-    QPixmap pict;
-    pict.convertFromImage(img);
+    QPixmap pict = QPixmap::fromImage( img );
     label->setPixmap(pict);
 }
 

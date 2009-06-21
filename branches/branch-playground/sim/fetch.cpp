@@ -80,11 +80,11 @@ void CookieCash::CashCookie( const QString& header ) {
         else {
             QMap<QString,QString>::iterator mit;
             for( mit = values.begin() ; mit != values.end() ; mit++ ) {
-                if(mit.data()=="deleted"){
-                    it.data().remove(mit.key());
+                if(mit.value()=="deleted"){
+                    it.value().remove(mit.key());
                 }
                 else{
-                    it.data()[mit.key()]=mit.data();
+                    it.value()[mit.key()]=mit.value();
                 }
             }
         }
@@ -330,7 +330,7 @@ void FetchClientPrivate::done( bool error ) {
         }
         Buffer buf = m_postData;
         m_state = Redirect;
-        fetch(urlLocation,QString(),&buf,true);
+        fetch(urlLocation.toString(),QString(),&buf,true);
         return;
     }
     if( NULL != m_client ) {

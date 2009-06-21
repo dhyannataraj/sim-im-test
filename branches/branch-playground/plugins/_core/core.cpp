@@ -2351,7 +2351,7 @@ bool CorePlugin::processEvent(Event *e)
 							int n = str.indexOf('(');
 							str = str.mid(n + 1);
 							n = str.indexOf(')');
-							codecStr = str.left(n).latin1();
+                            codecStr = str.left(n).toLatin1();
 							codec = codecStr;
 						}
 					}
