@@ -6,37 +6,33 @@ $Id$
 
 
 - Config:
-	- On startup all seems initialized by 0.9.6, the 0.9.5-config gets broken due to this initialization
+	<s>- On startup all seems initialized by 0.9.6, the 0.9.5-config gets broken due to this initialization</s> <font>Fixed by Denis</font>
 
 - GUI-Problems:
 	* Fix all toolbars:
 		- Some Buttons don't have Highlight-Effect anymore
 		- Interfacetoolbar
 			- some Buttons are broken on the left (color button)
-			- some controls should be hidden as in 0.9.5 in toolbar, visible only the needed ones. (Restoration of the Toolbar/Container behavior)
+			- some controls should be hidden in toolbar as in 0.9.5, show only the needed ones. (Restoration of the Toolbar/Container behavior)
 		- in Mainwindow
 			* Onlinebar
 				- Position Saving
-				<s>- vertical Online Statustext drawing</s> <font>Fixed by Yury</font>
 				- vertical expanding of StatusButton where Statustext is displayed
 				- vertical OnlineToolbar: Width is much to big. Seems to the width from StatusButton.
+				<s>- vertical Online Statustext drawing</s> <font>Fixed by Yury</font>
 			* weathertoolbar
 				- Position Saving
-				<s>- is on top (should be displayed at bottom)</s> <font>Fixed by Christian</font>
 				- Icons are not shown in Tooltip
 				- Message is not displayed
 				- Fetch Icons from Server, due to ©-Issues, remove static Icon-Files (note: backport to trunk)
+				<s>- is on top (should be displayed at bottom)</s> <font>Fixed by Christian</font>
 				<s>- transparent</s> <font>Fixed by Christian</font>
 				<s>- crashing when move attempt</s> <font>Fixed by Christian</font>
 		- HistoryToolbar:
 			- Searchbutton not displayed/messed up
 			- horizontal expanding of the controls does not work.
 
-	<s>* OSD is black in win32</s> <font>Fixed by Noragen</font>
-	<s>* OSD fading in win32</s> <font>Fixed by Noragen</font>
-	<s>* Search/Add-Dialog broken. Crashing on open</s> <font>Fixed by Christian</font>
 	* Setup: Buttons, no Text on it (soundplugin f.e.)
-	<s>* Datepicker does not work and is not displayed right (popup) at QCursor::pos())</s> <font>Fixed by Christian</font>
 	* Floatys are not as long as in 0.9.5
 	* dragging files on contakt in contactlist is not possible to send them via filetransfer, but works with floatys
 	* sound-plugin event-tab: the path lines are not display right, also the play/browse buttons are shrinked ;)
@@ -45,6 +41,10 @@ $Id$
 		- Labels for Textfields are missing.
 		- Functiontest has to be done.
 	* Online-Tooltips of contact list are hanging sometimes, they don't disappear
+	<s>* OSD is black in win32</s> <font>Fixed by Noragen</font>
+	<s>* OSD fading in win32</s> <font>Fixed by Noragen</font>
+	<s>* Search/Add-Dialog broken. Crashing on open</s> <font>Fixed by Christian</font>
+	<s>* Datepicker does not work and is not displayed right (popup) at QCursor::pos())</s> <font>Fixed by Christian</font>
 
 - Sound-plugin:
 	* no startup sound is played
