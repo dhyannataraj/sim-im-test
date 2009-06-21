@@ -19,7 +19,7 @@
 #define _ICQSEARCH_H
 
 #include "ui_icqsearchbase.h"
-#include <q3valuelist.h>
+#include <QList>
 #include <QShowEvent>
 #include "event.h"
 
@@ -67,7 +67,7 @@ protected:
     void icq_search();
     void addColumns();
     void add(const QString &screen, unsigned tmpFlags, SIM::Contact *&contact);
-    Q3ValueList<unsigned>    m_uins;
+    QList<unsigned>     m_uins;
     ICQClient			*m_client;
     QWidget				*m_adv;
     bool				m_bAdv;

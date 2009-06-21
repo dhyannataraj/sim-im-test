@@ -20,7 +20,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QWidget" native="1" name="grpUin" >
+    <widget class="RadioGroup" native="1" name="grpUin" >
      <property name="title" stdset="0" >
       <string>&amp;UIN</string>
      </property>
@@ -38,7 +38,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="grpScreen" >
+    <widget class="RadioGroup" native="1" name="grpScreen" >
      <property name="title" stdset="0" >
       <string>&amp;Screenname</string>
      </property>
@@ -56,7 +56,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="grpMail" >
+    <widget class="RadioGroup" native="1" name="grpMail" >
      <property name="title" stdset="0" >
       <string>&amp;E-Mail</string>
      </property>
@@ -74,7 +74,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="grpName" >
+    <widget class="RadioGroup" native="1" name="grpName" >
      <property name="title" stdset="0" >
       <string>&amp;Name</string>
      </property>
@@ -131,7 +131,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="grpAOL" >
+    <widget class="RadioGroup" native="1" name="grpAOL" >
      <property name="title" stdset="0" >
       <string>AOL s&amp;creenname</string>
      </property>
@@ -149,7 +149,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="grpAOL_UIN" >
+    <widget class="RadioGroup" native="1" name="grpAOL_UIN" >
      <property name="title" stdset="0" >
       <string>ICQ &amp;UIN</string>
      </property>
@@ -191,6 +191,12 @@
    </item>
   </layout>
  </widget>
+<customwidgets>
+    <customwidget>
+        <class>RadioGroup</class>
+        <header location="local">intedit.h</header>
+    </customwidget>
+</customwidgets>
  <tabstops>
   <tabstop>edtUIN</tabstop>
   <tabstop>edtScreen</tabstop>

@@ -88,19 +88,15 @@ void ICQSearch::advDestroyed()
 void ICQSearch::showEvent(QShowEvent *e)
 {
     QWidget::showEvent(e);
-	log(L_DEBUG, "ICQSearch::showEvent FIXME!!!");
-	/*
     emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
     if (m_adv && m_bAdv)
         emit showResult(m_adv);
-		*/
 }
 
 void ICQSearch::radioToggled(bool)
 {
     setAdv(false);
-	log(L_DEBUG, "ICQSearch::radioToggled FIXME!!!");
-    //emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
+    emit setAdd(grpAOL->isChecked() || grpScreen->isChecked());
 }
 
 void ICQSearch::advClick()
@@ -145,30 +141,25 @@ void ICQSearch::setAdv(bool bAdv)
 	}
 	else
 	{
-		log(L_DEBUG, "ICQSearch::setAdv FIXME!!!");
-		/*
 		if (m_client->m_bAIM)
 		{
-			grpScreen->slotToggled();
-			grpAOL_UIN->slotToggled();
+            grpScreen->setChecked( true );
+            grpAOL_UIN->setChecked( true );
 		}
 		else
 		{
-			grpUin->slotToggled();
-			grpAOL->slotToggled();
-			grpName->slotToggled();
+            grpUin->setChecked( false );
+            grpAOL->setChecked( false );
+            grpName->setChecked( false );
 		}
-		grpMail->slotToggled();
+        grpMail->setChecked( false );
 		radioToggled(false);
-		*/
 	}
 	emit showResult(m_bAdv ? m_adv : NULL);
 }
 
 void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 {
-	log(L_DEBUG, "ICQSearch::createContact FIXME!!!");
-	/*
     if (m_client->m_bAIM){
 
         if (grpScreen->isChecked() && !edtScreen->text().isEmpty())
@@ -185,7 +176,6 @@ void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
             add(edtAOL->text(), tmpFlags, contact);
 
     }
-	*/
 }
 
 void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
@@ -299,8 +289,6 @@ void ICQSearch::search()
                        adv->edtZip->text(),
                        adv->edtState->text());
     }
-	log(L_DEBUG, "ICQSearch::search FIXME!!!");
-	/*
 	else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty())
 	{
         m_type = UIN;
@@ -327,7 +315,6 @@ void ICQSearch::search()
         m_id_aim = m_client->aimInfoSearch(edtFirst->text(), edtLast->text(), QString::null, QString::null,
                                            QString::null, QString::null, QString::null, edtNick->text(), QString::null, QString::null);
     }
-		*/
     if ((m_id_icq == 0) && (m_id_aim == 0))
         return;
     addColumns();

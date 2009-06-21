@@ -20,12 +20,9 @@
 
 #include "simapi.h"
 
-#include <qlineedit.h>
-#include <q3groupbox.h>
-#include <qvalidator.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QMoveEvent>
+#include <QLineEdit>
+#include <QGroupBox>
+#include <QValidator>
 #include <QKeyEvent>
 
 class EXPORT IntLineEdit : public QLineEdit
@@ -52,27 +49,18 @@ public:
     PhoneValidator(QWidget *parent);
 };
 
-class QRadioButton;
-
-class EXPORT RadioGroup : public Q3GroupBox
+class EXPORT RadioGroup : public QGroupBox
 {
     Q_OBJECT
 public:
-    RadioGroup(QWidget *parent, const char *name);
-    ~RadioGroup();
-    bool isChecked();
-    virtual void setTitle(const QString &);
-    void show();
-    void hide();
-public slots:
-    void slotToggled();
-    void slotToggled(bool);
-    void radioDestroyed();
+    RadioGroup(QWidget *parent);
+    virtual ~RadioGroup();
 protected:
-    bool m_bInit;
-    QRadioButton	*m_button;
-    void moveEvent(QMoveEvent*);
-    void mousePressEvent(QMouseEvent*);
+    void setLock( bool bLock ) { m_bLock = bLock; }
+    bool m_bLock;
+
+protected slots:
+    void slotToggled( bool checked );
 };
 
 #endif
