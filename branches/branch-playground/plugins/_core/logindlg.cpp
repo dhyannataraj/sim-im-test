@@ -57,7 +57,10 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 		btnDelete->hide();
 	SET_WNDPROC("login")
 		setButtonsPict(this);
-	lblMessage->setText(text);
+    lblMessage->setText(text);
+    if( text.isEmpty() ) {
+        lblMessage->hide();
+    }
 	if (m_client)
 	{
 		setWindowTitle(windowTitle() + ' ' + client->name());
@@ -91,9 +94,13 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 	connect(cmbProfile, SIGNAL(activated(int)), this, SLOT(profileChanged(int)));
 	connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
 	connect(btnRename, SIGNAL(clicked()), this, SLOT(profileRename()));
-	profileChanged(cmbProfile->currentItem());
+    profileChanged(cmbProfile->currentIndex());
 
-        cmbProfile->setFocus();
+    labelNew->hide();
+    lineEditNew->hide();
+    connect(lineEditNew,SIGNAL(textChanged(const QString&)),SLOT(newNameChanged(const QString&)));
+
+    cmbProfile->setFocus();
 
 	//CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->getProfile()); //This was a temporary testfix ;)
 	//init setProfile with QString::null is here a bad idea because f.e. on icq-disconnect or any bad login/password combination this dialog comes up,
@@ -148,11 +155,16 @@ void LoginDialog::accept()
 	}
 
 	getContacts()->clearClients();
-	int n = cmbProfile->currentItem();
+    int n = cmbProfile->currentIndex();
 	if(n == cmbProfile->count() - 1)
 	{
 		m_profile = QString::null;
 		m_newProfile = true;
+        m_newProfileName = lineEditNew->text();
+        if(!ProfileManager::instance()->newProfile(m_newProfileName)) {
+            QMessageBox::information(NULL, i18n("Create Profile"), i18n("Error while creating a new profile"), QMessageBox::Ok);
+            return;
+        }
 		QDialog::accept();
 		return;
 	}
@@ -240,7 +252,7 @@ void LoginDialog::profileChanged(int)
 {
 	if (m_client)
 		return;
-	int n = cmbProfile->currentItem();
+    int n = cmbProfile->currentIndex();
 	if (n < 0){
 		clearInputs();
 		buttonOk->setEnabled(false);
@@ -251,15 +263,20 @@ void LoginDialog::profileChanged(int)
 	buttonOk->setEnabled(true);
 	if (n >= (int)cmbProfile->count() - 1)
 	{
-                groupBoxPasswords->hide();
-		clearInputs();
+        groupBoxPasswords->hide();
+        labelNew->show();
+        lineEditNew->show();
+        newNameChanged( lineEditNew->text() );
+        clearInputs();
 		btnDelete->setEnabled(false);
 		btnRename->hide();
-	}
+    }
 	else
 	{
 		btnRename->show();
-		clearInputs();
+        labelNew->hide();
+        lineEditNew->hide();
+        clearInputs();
 		ClientList clients;
 		CorePlugin::m_plugin->loadClients(cmbProfile->currentText(), clients);
 		unsigned nClients = 0;
@@ -270,7 +287,7 @@ void LoginDialog::profileChanged(int)
 				continue;
 			nClients++;
 		}
-                groupBoxPasswords->show();
+        groupBoxPasswords->show();
 
 		unsigned row = 2;
 		for (unsigned i = 0; i < clients.size(); i++){
@@ -278,8 +295,6 @@ void LoginDialog::profileChanged(int)
 				continue;
 			makeInputs(row, clients[i]);
 		}
-		if (passwords.size())
-			passwords[0]->setFocus();
 		btnDelete->setEnabled(m_loginProfile == cmbProfile->currentText());
 		buttonOk->setEnabled(false);
 		pswdChanged("");
@@ -321,46 +336,46 @@ static void rmDir(const QString &path)
 
 void LoginDialog::makeInputs(unsigned &row, Client *client)
 {
-        QLabel *pict = new QLabel(groupBoxPasswords);
-        pict->setPixmap(Pict(client->protocol()->description()->icon));
-	picts.push_back(pict);
-        QVBoxLayout *layout1 = new QVBoxLayout(this);
-        verticalLayout->addLayout(layout1);
-        QHBoxLayout *layout2 = new QHBoxLayout(this);
-        layout1->addLayout(layout2);
-        layout2->addWidget(pict);
+    QLabel *pict = new QLabel(groupBoxPasswords);
+    pict->setPixmap(Pict(client->protocol()->description()->icon));
+    picts.push_back(pict);
+    QVBoxLayout *layout1 = new QVBoxLayout(this);
+    verticalLayout->addLayout(layout1);
+    QHBoxLayout *layout2 = new QHBoxLayout(this);
+    layout1->addLayout(layout2);
+    layout2->addWidget(pict);
 	pict->show();
 
-        QLabel *txt = new QLabel(groupBoxPasswords);
+    QLabel *txt = new QLabel(groupBoxPasswords);
 	txt->setText(client->name());
-        lblProfile->setAlignment(Qt::AlignLeft);
-        txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
-        QLineEdit *edt = new QLineEdit(groupBoxPasswords);
+    lblProfile->setAlignment(Qt::AlignLeft);
+    txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+    QLineEdit *edt = new QLineEdit(groupBoxPasswords);
 	edt->setText(client->getPassword());
 	edt->setEchoMode(QLineEdit::Password);
 	connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
 	passwords.push_back(edt);
 	texts.push_back(txt);
-        layout2->addWidget(txt);
-        layout1->addWidget(edt);
+    layout2->addWidget(txt);
+    layout1->addWidget(edt);
 	txt->show();
 	edt->show();
 	QString helpUrl = client->protocol()->description()->accel;
 	if (!helpUrl.isEmpty())
 	{
-                LinkLabel *lnkHelp = new LinkLabel(groupBoxPasswords);
-                layout1->addWidget(lnkHelp);
+        LinkLabel *lnkHelp = new LinkLabel(groupBoxPasswords);
+        layout1->addWidget(lnkHelp);
 		lnkHelp->setText(i18n("Forgot password?"));
 		lnkHelp->setUrl(i18n(helpUrl));
 		lnkHelp->show();
 		links.push_back(lnkHelp);
 	}
 
-        QFrame *line = new QFrame(groupBoxPasswords);
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
-        layout1->addWidget(line);
-        lines.push_back(line);
+    QFrame *line = new QFrame(groupBoxPasswords);
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    layout1->addWidget(line);
+    lines.push_back(line);
 
 	row++;
 }
@@ -384,14 +399,14 @@ void LoginDialog::fill()
 		if(cmbProfile->itemText(i) == profile)
 			newCur = i;
 	}
-	cmbProfile->insertItem(i18n("New profile"));
+    cmbProfile->insertItem(INT_MAX,i18n("New profile"));
 	if (newCur != - 1)
 	{
-		cmbProfile->setCurrentItem(newCur);
+        cmbProfile->setCurrentIndex(newCur);
 	}
 	else
 	{
-		cmbProfile->setCurrentItem(cmbProfile->count() - 1);
+        cmbProfile->setCurrentIndex(cmbProfile->count() - 1);
 	}
 }
 
@@ -446,14 +461,15 @@ void LoginDialog::profileRename()
 	QDir d(ProfileManager::instance()->rootPath());
 	while(1) {
 		bool ok = false;
-		name = QInputDialog::getText(i18n("Rename Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, this);
+        name = QInputDialog::getText(this,i18n("Rename Profile"), i18n("Please enter a new name for the profile."),
+                                     QLineEdit::Normal, name, &ok);
 		if(!ok)
 			return;
 		if(d.exists(name)) {
 			QMessageBox::information(this, i18n("Rename Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
 			continue;
 		}
-		else if(!d.rename(CorePlugin::m_plugin->m_profiles[cmbProfile->currentItem()], name)) {
+        else if(!d.rename(CorePlugin::m_plugin->m_profiles[cmbProfile->currentIndex()], name)) {
 			QMessageBox::information(this, i18n("Rename Profile"), i18n("Unable to rename the profile.  Please do not use any special characters."), QMessageBox::Ok);
 			continue;
 		}
@@ -558,3 +574,12 @@ bool LoginDialog::processEvent(Event *e)
     return false;
 }
 
+void LoginDialog::newNameChanged( const QString &text ) {
+    if( text.isEmpty() ) {
+        buttonOk->setEnabled( false );
+        return;
+    }
+
+    QDir d(ProfileManager::instance()->rootPath());
+    buttonOk->setEnabled( !d.exists( text ) );
+}

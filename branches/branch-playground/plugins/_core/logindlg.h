@@ -38,6 +38,7 @@ public:
     SIM::Client *client() { return m_client; }
 	QString profile() { return m_profile; }
 	bool isNewProfile() { return m_newProfile; }
+    QString newProfileName() { return m_newProfileName; }
 protected slots:
     void saveToggled(bool);
     void profileChanged(int);
@@ -46,6 +47,7 @@ protected slots:
     void profileRename();
     void loginComplete();
     void adjust();
+    void newNameChanged( const QString &text );
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent *e);
@@ -68,6 +70,7 @@ protected:
     QList<LinkLabel*>	links;
     QList<QFrame*>	lines;
     SIM::Client	   *m_client;
+    QString m_newProfileName;
 };
 
 #endif

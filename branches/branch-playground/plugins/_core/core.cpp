@@ -3040,6 +3040,8 @@ bool CorePlugin::init(bool bInit)
 		settings.setValue("NoShow", false);
 	}
 
+    QString sNewProfileName;
+
 	if((!bInit ||
 			settings.value("Profile").toString().isEmpty() ||
 			!settings.value("NoShow", false).toBool() ||
@@ -3056,6 +3058,7 @@ bool CorePlugin::init(bool bInit)
 			return false;
 		}
 		newProfile = dlg.isNewProfile();
+        sNewProfileName = dlg.newProfileName();
 		profile = dlg.profile();
 		if (dlg.isChanged())
 			bRes = false;
@@ -3078,39 +3081,8 @@ bool CorePlugin::init(bool bInit)
 		hideWindows();
 		getContacts()->clearClients();
 
-		QString name;
 		QDir d(ProfileManager::instance()->rootPath());
-		while(1)
-		{
-			//if(!bCmdLineProfile)
-			{
-				bool ok = false;
-				name = QInputDialog::getText(i18n("Create Profile"), i18n("Please enter a new name for the profile."), QLineEdit::Normal, name, &ok, NULL);
-				if(!ok)
-				{
-					EventPluginsLoad eAbort;
-					eAbort.process();
-					return false;
-				}
-			}
-			/*
-			else
-			{
-				name = QString(cmd_line_profile);
-			}
-			*/
-			if(d.exists(name)) {
-				QMessageBox::information(NULL, i18n("Create Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
-				continue;
-			}
-			else if(!ProfileManager::instance()->newProfile(name))
-			{
-				QMessageBox::information(NULL, i18n("Create Profile"), i18n("Error while creating a new profile"), QMessageBox::Ok);
-				continue;
-			}
-			break;
-		}
-		settings.setValue("Profile", name);
+        settings.setValue("Profile", sNewProfileName);
 
 		NewProtocol *pDlg = NULL;
 		if (bCmdLineProfile)
@@ -3123,8 +3095,8 @@ bool CorePlugin::init(bool bInit)
 		}
 		if (!pDlg->exec() && !pDlg->connected()){
 			delete(pDlg);
-			if (d.exists(name))
-				d.rmdir(name);
+            if (d.exists(sNewProfileName))
+                d.rmdir(sNewProfileName);
 			EventPluginsLoad eAbort;
 			eAbort.process();
 			return false;
