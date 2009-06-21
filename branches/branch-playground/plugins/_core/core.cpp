@@ -3070,6 +3070,7 @@ bool CorePlugin::init(bool bInit)
 	{
 		profile = settings.value("Profile").toString();
 		ProfileManager::instance()->selectProfile(profile);
+        changeProfile(profile);
 		//bLoaded = true;
 	}
 	if(newProfile)

@@ -53,7 +53,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-SplashPlugin::SplashPlugin(unsigned base, bool bStart) : Plugin(base)
+SplashPlugin::SplashPlugin(unsigned base, bool bStart) : QObject(NULL), Plugin(base)
 {
 	splash = NULL;
 	m_bStart = bStart;
@@ -97,6 +97,7 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : Plugin(base)
 			if (!mask.isNull())
 				splash->setMask(mask);
 			splash->show();
+            startTimer(5000);
 		}
 	}
 }
@@ -104,5 +105,10 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : Plugin(base)
 SplashPlugin::~SplashPlugin()
 {
     delete splash;
+}
+
+void SplashPlugin::timerEvent(QTimerEvent* e)
+{
+    splash->hide();
 }
 

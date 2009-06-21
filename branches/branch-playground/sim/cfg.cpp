@@ -145,6 +145,34 @@ void Config::load()
 	}
 }
 
+void Config::mergeOldConfig(const QString& filename)
+{
+    QFile f(filename);
+    f.open(QIODevice::ReadOnly);
+    log(L_DEBUG, "Merging old config: %s", qPrintable(filename));
+    QString config = QString(f.readAll());
+    QRegExp re("\\[([^\\]]+)\\]\n([^\\[]+)");
+    int pos = 0;
+    while((pos = re.indexIn(config, pos)) != -1)
+    {
+        pos += re.matchedLength();
+        QString ns = re.cap(1);
+        QStringList lines = re.cap(2).split('\n');
+        for(QStringList::iterator it = lines.begin(); it != lines.end(); ++it)
+        {
+            QStringList line = (*it).split('=');
+            if(line.size() != 2)
+                continue;
+
+            // Merge if only there's no setting in a new config:
+            if(!value(ns + '/' + line[0]).isValid())
+            {
+                setValue(ns + '/' + line[0], line[1]);
+            }
+        }
+    }
+}
+
 EXPORT void save_state()
 {
     EventSaveState e;

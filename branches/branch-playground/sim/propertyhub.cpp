@@ -18,7 +18,7 @@ PropertyHub::~PropertyHub()
 
 bool PropertyHub::save()
 {
-	log(L_DEBUG, "PropertyHub::save()");
+	//log(L_DEBUG, "PropertyHub::save()");
 	QList<QByteArray> props = this->dynamicPropertyNames();
 	Config* profile = ProfileManager::instance()->currentProfile();
 	if(!profile)
@@ -35,7 +35,7 @@ bool PropertyHub::save()
 
 bool PropertyHub::load()
 {
-	log(L_DEBUG, "PropertyHub::load()");
+	//log(L_DEBUG, "PropertyHub::load()");
 	Config* profile = ProfileManager::instance()->currentProfile();
 	if(!profile)
 		return false;
@@ -49,5 +49,19 @@ bool PropertyHub::load()
 	profile->endGroup();
 	return true;
 }
+
+void PropertyHub::parseSection(const QString& string)
+{
+    // Probably, we should remove '\r' from the string first
+    QStringList lines = string.split('\n');
+    for(QStringList::iterator it = lines.begin(); it != lines.end(); ++it)
+    {
+        QStringList line = (*it).split('=');
+        if(line.size() != 2)
+            continue;
+        this->setProperty(qPrintable(line[0].trimmed()), line[1]);
+    }
+}
+
 
 }

@@ -46,9 +46,11 @@ namespace SIM
 		// TODO check for existance and lock
 		m_currentProfile = name;
 		QString profile_conf = m_rootPath + QDir::separator() + m_currentProfile + QDir::separator() + "profile.conf";
+		QString old_config = m_rootPath + QDir::separator() + m_currentProfile + QDir::separator() + "plugins.conf";
 		log(L_DEBUG, "Selecting profile:  %s", profile_conf.toUtf8().data());
 		m_settings = new Config(profile_conf);
 		m_settings->load();
+            m_settings->mergeOldConfig(old_config);
 
 		return true;
 	}

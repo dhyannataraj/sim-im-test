@@ -18,20 +18,24 @@
 #ifndef _SPLASH_H
 #define _SPLASH_H
 
+#include <QTimerEvent>
+
 #include "event.h"
 #include "plugins.h"
 
 class QWidget;
 
-class SplashPlugin : public SIM::Plugin
+class SplashPlugin : public QObject, public SIM::Plugin
 {
 public:
     SplashPlugin(unsigned base, bool bStart);
     virtual ~SplashPlugin();
 
 protected:
+    void timerEvent(QTimerEvent* e);
     QWidget *splash;
     bool m_bStart;
+
 };
 
 #endif

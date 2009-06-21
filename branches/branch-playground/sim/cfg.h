@@ -51,6 +51,7 @@ public:
 	void save();
 	void load();
 
+    void mergeOldConfig(const QString& filename);
 private:
 	QString m_group;
 	QVariantMap m_data;

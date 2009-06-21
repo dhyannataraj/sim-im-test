@@ -18,6 +18,8 @@ namespace SIM
 
 		bool save();
 		bool load();
+        // This is to parse old
+        void parseSection(const QString& string);
 	private:
 		QString m_namespace;
 	};

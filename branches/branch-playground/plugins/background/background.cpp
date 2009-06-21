@@ -25,6 +25,7 @@
 
 #include "background.h"
 #include "bkgndcfg.h"
+#include "log.h"
 
 using namespace SIM;
 
