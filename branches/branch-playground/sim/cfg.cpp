@@ -167,7 +167,14 @@ void Config::mergeOldConfig(const QString& filename)
             // Merge if only there's no setting in a new config:
             if(!value(ns + '/' + line[0]).isValid())
             {
-                setValue(ns + '/' + line[0], line[1]);
+                if(line[1].startsWith('"') && line[1].endsWith('"'))
+                {
+                    setValue(ns + '/' + line[0], line[1].mid(1, line[1].length() - 2));
+                }
+                else
+                {
+                    setValue(ns + '/' + line[0], line[1]);
+                }
             }
         }
     }
