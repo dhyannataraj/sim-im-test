@@ -20,13 +20,13 @@
 
 #include "ui_migratedlgbase.h"
 
-#include <qcheckbox.h>
-#include <qfile.h>
+#include <QCheckBox>
+#include <QFile>
 #include <Q3CString>
 #include <list>
 #include "simapi.h"
 
-class MigrateDialog : public Q3Wizard, public Ui::MigrateDialogBase
+class MigrateDialog : public QWizard, public Ui::MigrateDialogBase
 {
     Q_OBJECT
 public:
