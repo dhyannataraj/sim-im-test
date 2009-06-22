@@ -17,6 +17,7 @@ CHECK_INCLUDE_FILES(string.h        HAVE_STRING_H)                      # _core/
 CHECK_INCLUDE_FILES(sys/stat.h      HAVE_SYS_STAT_H)                    # gpg/gpg.cpp
 CHECK_INCLUDE_FILES(sys/types.h     HAVE_SYS_TYPES_H)                   # simapi.h
 CHECK_INCLUDE_FILES(unistd.h        HAVE_UNISTD_H)                      # simapi.h
+CHECK_INCLUDE_FILES(xutility        HAVE_XUTILITY)                      # simapi.h
 
 # Symbols
 CHECK_SYMBOL_EXISTS(strcasecmp  "strings.h"         HAVE_STRCASECMP)    # simapi.h, various

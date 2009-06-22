@@ -85,7 +85,7 @@
 	#include <map>
 	#include <string>
 	#include <vector>
-	#ifndef __OS2__	
+	#ifdef HAVE_XUTILITY
  		#include <xutility>
 	#endif
 #else
