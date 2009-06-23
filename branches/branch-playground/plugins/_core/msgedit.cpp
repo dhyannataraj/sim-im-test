@@ -20,10 +20,10 @@
 
 #include <algorithm>
 
-#include <qfontmetrics.h>
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qregexp.h>
+#include <QFontMetrics>
+#include <QTimer>
+#include <QApplication>
+#include <QRegExp>
 #include <QClipboard>
 #include <QResizeEvent>
 #include <QLabel>
@@ -1540,10 +1540,15 @@ void SmileLabel::mouseReleaseEvent(QMouseEvent*)
     emit clicked(id);
 }
 
-SmilePopup::SmilePopup(QWidget *popup) : QFrame(popup, "smile", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
+SmilePopup::SmilePopup(QWidget *popup)
+    : QFrame(popup, Qt::Popup)
 {
-    setFrameShape(PopupPanel);
-    setFrameShadow(Sunken);
+    setAttribute(Qt::WA_DeleteOnClose);
+
+    setFrameShape(QFrame::StyledPanel);
+    setFrameShadow(QFrame::Sunken);
+    setLineWidth(1);
+
     QSize s;
     QStringList smiles;
     getIcons()->getSmiles(smiles);
@@ -1691,10 +1696,4 @@ void MsgEdit::setupMessages()
     cmd->param		= &defStatus;
     EventCreateMessageType(cmd).process();
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "msgedit.moc"
-#endif
-*/
 

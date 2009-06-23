@@ -29,7 +29,7 @@
 #include <QFrame>
 #include <QMouseEvent>
 #include <Q3PopupMenu>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 #include <QDragEnterEvent>
 
 class CorePlugin;
