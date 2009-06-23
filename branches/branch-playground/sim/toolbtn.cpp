@@ -323,7 +323,9 @@ QSize CToolPictButton::minimumSizeHint() const
     QToolBar *bar = static_cast<QToolBar*>(parent());
     if(bar->orientation() == Qt::Vertical)
     {
-        size.transpose();
+		// minimumSizeHint seem to call sizeHint, and it already transposes size,
+		// so we don't have to transpose it here
+        //size.transpose();
     }
     return size;
 }

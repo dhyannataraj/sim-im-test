@@ -453,7 +453,6 @@ UserWnd *Container::wnd()
 	{
         if (m_childs.empty())
 		{
-			log(L_DEBUG, "Omega condition");
             return NULL;
 		}
         return m_childs.front();
@@ -472,7 +471,6 @@ void Container::showBar()
 	addToolBar(m_bar);
     m_bBarChanged = false;
     contactSelected(0);
-
     //m_avatar_window.area()->moveDockWindow(&m_avatar_window, 0);
 }
 
