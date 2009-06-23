@@ -309,6 +309,7 @@ CToolPictButton::CToolPictButton(CToolBar *parent, CommandDef *def)
         : CToolButton(parent, def)
 {
     setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+	this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setState();
 }
 

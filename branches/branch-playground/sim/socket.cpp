@@ -280,11 +280,12 @@ void SocketFactory::remove(ServerSocket *s)
 
 bool SocketFactory::add(ClientSocket *s)
 {
-  if(!d->errSockets.contains(s)) {
-    d->errSockets += s;
-    return true;
-  }
-  return false;
+	if(!d->errSockets.contains(s)) 
+	{
+		d->errSockets += s;
+		return true;
+	}
+	return false;
 }
 
 bool SocketFactory::erase(ClientSocket *s)
@@ -319,14 +320,17 @@ void SocketFactory::idle()
     d->removedServerSockets.clear();
 }
 
-TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority) : Client(protocol, cfg), EventReceiver(priority)
+TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority) : 
+	Client(protocol, cfg), 
+	EventReceiver(priority),
+	m_clientSocket(NULL),
+	m_ip(0),
+	m_bWaitReconnect(false)
 {
-    m_clientSocket = NULL;
-    m_ip     = 0;
     m_timer  = new QTimer(this);
     m_loginTimer = new QTimer(this);
     m_reconnect = RECONNECT_TIME;
-    m_bWaitReconnect = false;
+   
     connect(m_timer, SIGNAL(timeout()), this, SLOT(reconnect()));
     connect(m_loginTimer, SIGNAL(timeout()), this, SLOT(loginTimeout()));
 }
