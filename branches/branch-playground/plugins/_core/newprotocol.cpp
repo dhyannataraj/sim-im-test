@@ -98,7 +98,7 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
         cmbProtocol->addItem(Icon(cmd->icon), i18n(cmd->text));
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
-    cmbProtocol->setCurrentItem(default_protocol);
+    cmbProtocol->setCurrentIndex(default_protocol);
     protocolChanged(default_protocol);
     if (bConnect){
         next();

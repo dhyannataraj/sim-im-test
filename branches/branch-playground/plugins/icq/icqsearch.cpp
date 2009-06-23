@@ -70,8 +70,7 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent) : QWidget(parent)
     connect(grpMail, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
     connect(btnAdvanced, SIGNAL(clicked()),	this, SLOT(advClick()));
     QIcon is = Icon("1rightarrow");
-    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnAdvanced->setIcon(is);
+    btnAdvanced->setIcon(is);
 }
 
 ICQSearch::~ICQSearch()
@@ -115,8 +114,7 @@ void ICQSearch::setAdv(bool bAdv)
 		return;
 	m_bAdv = bAdv;
 	QIcon is = Icon(m_bAdv ? "1leftarrow" : "1rightarrow");
-	if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        btnAdvanced->setIcon(is);
+    btnAdvanced->setIcon(is);
 	if (m_bAdv)
 	{
 		if (m_client->m_bAIM)
@@ -412,7 +410,7 @@ bool ICQSearch::processEvent(Event *e)
             default:
                 icon += "inactive";
             }
-            if (m_uins.findIndex (res->data.Uin.toULong()) != -1)
+            if (m_uins.indexOf (res->data.Uin.toULong()) != -1)
                 return false;
             m_bAdd = true;
             m_uins.push_back(res->data.Uin.toULong());

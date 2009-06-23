@@ -526,7 +526,7 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info
         items.append(i18n(i->szName));
     }
     items.sort();
-    if (cmb->text(0).isEmpty()) res--;
+    if (cmb->itemText(0).isEmpty()) res--;
     QString current = items[res];
     for (i = tbl; i->nCode; i++)
         if (i18n(i->szName) == current) return i->nCode;

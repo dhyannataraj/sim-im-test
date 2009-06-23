@@ -18,8 +18,8 @@
 #ifndef _MSGAUTH_H
 #define _MSGAUTH_H
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 
 #include "event.h"
 

@@ -22,8 +22,8 @@
 #include "userwnd.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
+#include <QTimer>
+#include <QToolButton>
 
 using namespace SIM;
 

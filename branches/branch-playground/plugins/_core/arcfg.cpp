@@ -32,7 +32,7 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     m_status  = status;
     m_contact = contact;
     setButtonsPict(this);
-    tabAR->changeTab(tab, name);
+    tabAR->setTabText(tabAR->indexOf(tab), name);
     ARUserData *ar;
     QString text;
     QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(m_status);

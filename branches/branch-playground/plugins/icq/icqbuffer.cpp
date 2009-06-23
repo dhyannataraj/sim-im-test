@@ -52,7 +52,7 @@ Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
 }
 Tlv::Tlv(unsigned short num, QByteArray& array) : m_nNum(num), m_nSize(array.size())
 {
-	m_data.duplicate(array);
+    m_data = array;
 }
 
 Tlv::operator uint16_t () const
@@ -510,7 +510,7 @@ unsigned ICQBuffer::unpack(QByteArray &d, unsigned s)
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QByteArray::duplicate(data() + m_posRead, readn);
+    d = QByteArray( data() + m_posRead, readn );
     unsigned size = d.size();
     d.resize(size + 1);
     d.data()[size] = '\0';

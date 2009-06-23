@@ -2817,7 +2817,7 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	{
 		m_oft.nencode = 0x0;
 		m_oft.nlanguage = 0;
-		m_oft.name.duplicate(filename().toUtf8().data(), filename().length() + 1);
+        m_oft.name = QByteArray( filename().toUtf8().data(), filename().length() + 1 );
 	}
 	writeOFT(&m_oft);
 	//EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket); //commented out due to problems with netmon while transfer

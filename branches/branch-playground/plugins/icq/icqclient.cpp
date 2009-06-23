@@ -920,8 +920,7 @@ QByteArray ICQClient::cryptPassword()
         buf[j] = c;
         len++;
     }
-    QByteArray res;
-    res.duplicate(buf,len);
+    QByteArray res( buf,len );
     return res;
 }
 unsigned long ICQClient::getFullStatus()

@@ -21,18 +21,17 @@
 #include "event.h"
 #include "plugins.h"
 
-#include <q3frame.h>
-//Added by qt3to4:
+#include <QFrame>
 #include <QPaintEvent>
 #include <QEvent>
-#include <Q3ValueList>
+#include <QList>
 #include <QLabel>
 
 class DatePicker;
 class QLabel;
 class QPushButton;
 
-class ZodiakWnd : public Q3Frame
+class ZodiakWnd : public QFrame
 {
     Q_OBJECT
 public:
@@ -62,7 +61,7 @@ public:
     ZodiakPlugin(unsigned);
     virtual ~ZodiakPlugin();
 protected:
-    Q3ValueList<Picker>	m_pickers;
+    QList<Picker>	m_pickers;
     bool eventFilter(QObject*, QEvent*);
     void createLabel(DatePicker *picker);
     virtual bool processEvent(SIM::Event *e);

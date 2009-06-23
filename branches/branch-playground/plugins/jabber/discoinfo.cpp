@@ -90,7 +90,7 @@ void DiscoInfo::setTitle()
 void DiscoInfo::reset()
 {
     if (m_about){
-        tabInfo->removePage(m_about);
+        tabInfo->removeTab(tabInfo->indexOf(m_about));
         delete m_about;
         m_about = NULL;
     }
@@ -132,9 +132,9 @@ void DiscoInfo::reset()
         m_bTime = bTime;
         m_bLast = bLast;
         if (m_bTime || m_bLast){
-            tabInfo->insertTab(tabTime, i18n("&Time"), pos++);
+            tabInfo->insertTab(pos++, tabTime, i18n("&Time"));
         }else{
-            tabInfo->removePage(tabTime);
+            tabInfo->removeTab(tabInfo->indexOf(tabTime));
         }
     }else if (m_bTime || m_bLast){
         pos++;
@@ -157,9 +157,9 @@ void DiscoInfo::reset()
     if (bStat != m_bStat){
         m_bStat = bStat;
         if (m_bStat){
-            tabInfo->insertTab(tabStat, i18n("&Stat"), pos++);
+            tabInfo->insertTab(pos++, tabStat, i18n("&Stat"));
         }else{
-            tabInfo->removePage(tabStat);
+            tabInfo->removeTab(tabInfo->indexOf(tabStat));
         }
     }else if (m_bStat){
         pos++;
@@ -168,9 +168,9 @@ void DiscoInfo::reset()
     if (bVCard != m_bVCard){
         m_bVCard = bVCard;
         if (m_bVCard || m_bVCard){
-            tabInfo->insertTab(tabVCard, i18n("&Info"), pos++);
+            tabInfo->insertTab(pos++, tabVCard, i18n("&Info"));
         }else{
-            tabInfo->removePage(tabVCard);
+            tabInfo->removeTab(tabInfo->indexOf(tabVCard));
         }
     }else if (m_bVCard){
         pos++;
@@ -183,7 +183,7 @@ void DiscoInfo::reset()
     edtPhone->setText(QString::null);
     if (bVCard){
         m_about = new JabberAboutInfo(tabInfo, &m_data, m_browser->m_client);
-        tabInfo->insertTab(m_about, i18n("About info"), pos++);
+        tabInfo->insertTab(pos++, m_about, i18n("About info"));
         m_browser->m_client->info_request(&m_data, true);
     }
 }

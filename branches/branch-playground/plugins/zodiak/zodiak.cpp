@@ -15,17 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qapplication.h>
-#include <qlayout.h>
-#include <q3frame.h>
-#include <qwidget.h>
-#include <qobject.h>
-#include <qpushbutton.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <Q3BoxLayout>
+#include <QApplication>
+#include <QLayout>
+#include <QFrame>
+#include <QWidget>
+#include <QObject>
+#include <QPushButton>
+#include <QPainter>
+#include <QBoxLayout>
 #include <QPaintEvent>
-#include <Q3GridLayout>
+#include <QGridLayout>
 #include <QChildEvent>
 #include <QPixmap>
 #include <QLabel>
@@ -79,11 +78,10 @@ ZodiakPlugin::ZodiakPlugin(unsigned base)
     QWidget *w;
 	foreach(w, list)
 	{
-		QObjectList l = w->queryList("DatePicker");
-        QObject *obj;
-        foreach(obj,l)
+        QList<DatePicker*> l = w->findChildren<DatePicker*>();
+        foreach( DatePicker *obj, l )
 		{
-			createLabel(static_cast<DatePicker*>(obj));
+            createLabel(obj);
 		}
 	}
 }
@@ -102,7 +100,7 @@ void ZodiakPlugin::createLabel(DatePicker *picker)
     p.label  = new ZodiakWnd(picker);
     m_pickers.append(p);
     if (p.picker->layout())
-        static_cast<Q3BoxLayout*>(p.picker->layout())->addWidget(p.label);
+        static_cast<QBoxLayout*>(p.picker->layout())->addWidget(p.label);
     p.label->show();
 }
 
@@ -119,7 +117,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
-            Q3ValueListIterator<Picker> it;
+            QList<Picker>::iterator it;
             for (it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker)
                     break;
@@ -132,7 +130,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
-            for (Q3ValueListIterator<Picker> it = m_pickers.begin(); it != m_pickers.end(); ++it){
+            for (QList<Picker>::iterator it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker){
                     m_pickers.remove(it);
                     break;
@@ -144,11 +142,11 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 }
 
 ZodiakWnd::ZodiakWnd(DatePicker *parent)
-        : Q3Frame(parent)
+        : QFrame(parent)
 {
     m_picker = parent;
     setLineWidth(0);
-    Q3GridLayout *lay = new Q3GridLayout(this, 2, 2);
+    QGridLayout *lay = new QGridLayout(this, 2, 2);
     lay->setSpacing(2);
     lay->setMargin(4);
     m_picture = new QLabel(this);
@@ -179,7 +177,7 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
-    Q3Frame::paintEvent(e);
+    QFrame::paintEvent(e);
 }
 
 static const char *signes[] =

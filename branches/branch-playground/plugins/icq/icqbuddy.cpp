@@ -599,8 +599,8 @@ void SnacIcqBuddy::addBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, m_client);
     while ((data = m_client->toICQUserData(++it_data)) != NULL){
-        QStringList::iterator it = m_client->buddies.find(m_client->screen(data));
-        if (it != m_client->buddies.end())
+        int it = m_client->buddies.indexOf(m_client->screen(data));
+        if (it != -1)
             continue;
         if ((data->IgnoreId.toULong() == 0)  && (data->WaitAuth.toBool() || (data->GrpId.toULong() == 0))){
             m_client->snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
@@ -620,8 +620,8 @@ void SnacIcqBuddy::removeBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, m_client);
     while ((data = m_client->toICQUserData(++it_data)) != NULL){
-        QStringList::iterator it = m_client->buddies.find(m_client->screen(data));
-        if (it == m_client->buddies.end())
+        int it = m_client->buddies.indexOf(m_client->screen(data));
+        if (it == -1)
             continue;
         if(data->WantAuth.toBool())
 		{
@@ -632,7 +632,7 @@ void SnacIcqBuddy::removeBuddy(Contact *contact)
         m_client->snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
         m_client->socket()->writeBuffer().packScreen(m_client->screen(data));
         m_client->sendPacket(true);
-        m_client->buddies.erase(it);
+        m_client->buddies.removeAt(it);
     }
 }
 

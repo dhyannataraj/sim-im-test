@@ -90,11 +90,11 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
 {
     if (!m_bGrab) return;
     QStringList btns;
-    unsigned state = e->state();
-    unsigned key_state = 0;
+    Qt::KeyboardModifiers state = e->modifiers();
+    Qt::KeyboardModifiers key_state = 0;
     QString keyName;
     QString name;
-    SIM::log(SIM::L_DEBUG, "-> %X %X", e->key(), e->state());
+    SIM::log(SIM::L_DEBUG, "-> %X %X", e->key(), (unsigned)e->modifiers());
     switch (e->key()){
     case Qt::Key_Shift:
         key_state = Qt::ShiftModifier;

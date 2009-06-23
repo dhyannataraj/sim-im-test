@@ -70,8 +70,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 	}
 	txtAuthors->setText(txt);
 	txt = QString::null;
-	Q3ValueList<KAboutTranslator> translators = aboutData->translators();
-	Q3ValueList<KAboutTranslator>::ConstIterator itt;
+    QList<KAboutTranslator> translators = aboutData->translators();
+    QList<KAboutTranslator>::iterator itt;
 	if (!translators.isEmpty())
 	{
 		for (itt = translators.begin(); itt != translators.end(); ++itt)

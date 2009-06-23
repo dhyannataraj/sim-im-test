@@ -37,7 +37,6 @@ CMenu::CMenu(CommandsDef *def)
     m_def = def;
     m_param = NULL;
     m_bInit = false;
-    setCheckable(true);
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
     connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(activated(int)), this, SLOT(menuActivated(int)));
@@ -81,11 +80,11 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
 	}
 	if(s->flags & BTN_HIDE)
 		return;
-	if (m_wrk->count())
+    if (m_wrk->actions().count())
 	{
 		QSize s = m_wrk->sizeHint();
 		QWidget *desktop = qApp->desktop();
-        int nHeight = (s.height() - 2 * 2) / m_wrk->count();
+        int nHeight = (s.height() - 2 * 2) / m_wrk->actions().count();
         if (s.height() + nHeight * 2 + 2 * 2 >= desktop->height()){
             QMenu *more = new QMenu(m_wrk);
 			m_wrk->insertItem(i18n("More..."), more);

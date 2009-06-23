@@ -203,19 +203,19 @@ KAboutData::bugAddress() const
     return QString::fromLatin1(mBugEmailAddress);
 }
 
-const Q3ValueList<KAboutPerson>
+const QList<KAboutPerson>
 KAboutData::authors() const
 {
     return d->mAuthorList;
 }
 
-const Q3ValueList<KAboutPerson>
+const QList<KAboutPerson>
 KAboutData::credits() const
 {
     return d->mCreditList;
 }
 
-const Q3ValueList<KAboutTranslator>
+const QList<KAboutTranslator>
 KAboutData::translators() const
 {
     Q3ValueList<KAboutTranslator> personList;

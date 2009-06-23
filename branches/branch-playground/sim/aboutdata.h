@@ -191,11 +191,11 @@ public:
 
     QString bugAddress() const;
 
-    const Q3ValueList<KAboutPerson> authors() const;
+    const QList<KAboutPerson> authors() const;
 
-    const Q3ValueList<KAboutPerson> credits() const;
+    const QList<KAboutPerson> credits() const;
 
-    const Q3ValueList<KAboutTranslator> translators() const;
+    const QList<KAboutTranslator> translators() const;
 
     static QString aboutTranslationTeam();
 

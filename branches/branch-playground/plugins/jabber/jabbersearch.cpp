@@ -174,7 +174,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     m_label += text;
                 }else{
                     QLabel *label = new QLabel(text, this);
-                    label->setAlignment(Qt::WordBreak);
+                    label->setAlignment(Qt::TextWordWrap);
                     widget = label;
                     bJoin = true;
                 }
@@ -461,7 +461,7 @@ void JabberSearch::createLayout()
         start = 0;
         if (!m_label.isEmpty()){
             QLabel *label = new QLabel(m_label, this);
-            label->setAlignment(Qt::WordBreak);
+            label->setAlignment(Qt::TextWordWrap);
             lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
             m_label = QString::null;
             start = 1;
