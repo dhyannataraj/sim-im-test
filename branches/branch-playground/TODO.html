@@ -11,10 +11,13 @@ $Id$
 - GUI-Problems:
 	* Fix all toolbars:
 		- Some Buttons don't have Highlight-Effect anymore
-		- Interfacetoolbar
-			- Midle:
+		- Interfacetoolbars:
+			- Middle-toolbar:
 				- some Buttons are broken on the left (color button)
 				- some controls should be hidden in toolbar as in 0.9.5, show only the needed ones. (Restoration of the Toolbar/Container behavior)
+				- Smilie-Window
+					- is not hiding clicking in container
+					- is opened multiple times if multiple times is clicked on the smilie button
 			- Menu:
 				- on the left is a second "Ignore"-Button without functionality, which should be removed.
 		- in Mainwindow
@@ -54,7 +57,13 @@ $Id$
 
 - Config/Setup-Window steals access to other windows (f.e. no possible acces to InterfaceWindow, MainWindow.. then.)
 - Filetransfer-Window steals access to other windows, too
-- Search: broken
+
+- Search:
+	- after Clicking around: UIN-Field is not longer enabled, when clicking on UIN-Checkbox
+	<s>- Search ICQ:</s> <font>Partly Fixed by Yury</font>
+	* Search Jabber:
+		- Labels are broken
+
 - Translation: broken
 - Test and fix "Change Profile" for working stable and secure
 
