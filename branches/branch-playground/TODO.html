@@ -12,13 +12,16 @@ $Id$
 	* Fix all toolbars:
 		- Some Buttons don't have Highlight-Effect anymore
 		- Interfacetoolbar
-			- some Buttons are broken on the left (color button)
-			- some controls should be hidden in toolbar as in 0.9.5, show only the needed ones. (Restoration of the Toolbar/Container behavior)
+			- Midle:
+				- some Buttons are broken on the left (color button)
+				- some controls should be hidden in toolbar as in 0.9.5, show only the needed ones. (Restoration of the Toolbar/Container behavior)
+			- Menu:
+				- on the left is a second "Ignore"-Button without functionality, which should be removed.
 		- in Mainwindow
 			* Onlinebar
 				- Position Saving
-				- vertical expanding of StatusButton where Statustext is displayed
 				- vertical OnlineToolbar: Width is much to big. Seems to the width from StatusButton.
+				<s>- vertical expanding of StatusButton where Statustext is displayed</s> <font>Fixed by Noragen</font>
 				<s>- vertical Online Statustext drawing</s> <font>Fixed by Yury</font>
 			* weathertoolbar
 				- Position Saving
@@ -53,6 +56,13 @@ $Id$
 - Filetransfer-Window steals access to other windows, too
 - Search: broken
 - Translation: broken
+- Test and fix "Change Profile" for working stable and secure
+
+- ConfigStorage:
+	- Some Settings are saved in Registry in Win32 (QSettings?), this is a bad idea, if Sim-IM should be run on Computers with restricted access to registry f.e. it can't be written.
+	  using %appdata%\sim for global .conf is better.
+
+
 
 <a href="http://sim-im.org/wiki/Developing">Sim-IM Developer Area</a> on Sim-IM.org
 <hr/>
