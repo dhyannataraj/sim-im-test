@@ -34,6 +34,8 @@
 #include <sys/utsname.h>
 #endif
 
+#include <limits.h>
+
 #include <time.h>
 
 #include <stdio.h>
