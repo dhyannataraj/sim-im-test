@@ -72,6 +72,31 @@
 	- Some Settings are saved in Registry in Win32 (QSettings?), this is a bad idea, if Sim-IM should be run on Computers with restricted access to registry f.e. it can't be written.
 	  using %appdata%\sim for global .conf is better.
 
+SIGNAL/SLOT - Problems:
+
+	SIM-IM: 01/07/2009 00:31:26 [DBG] QT: Object::connect: No such signal QHttp::authenticationRequired(QString&,quint16,QAuthenticator*) in branch-playground\sim\fetch.cpp:188
+	SIM-IM: 01/07/2009 00:31:26 [DBG] QT: Object::connect: No such signal QHttp::sslErrors(const QList<QSslError>&) in branch-playground\sim\fetch.cpp:197
+
+	Click on contact:
+		SIM-IM: 01/07/2009 00:41:23 [DBG] QT: Object::connect: No such signal MsgEdit::toolBarPositionChanged(QToolBar*) in branch-playground\plugins\_core\userwnd.cpp:81
+
+
+ProtocolErrors:
+	On Startup:
+		SIM-IM: 01/07/2009 00:39:23 [DBG] Error! foodgroup: 0003 reason: Incorrect SNACformat
+		SIM-IM: 01/07/2009 00:39:23 [WRN] Unknown buddy foodgroup type 0001
+		SIM-IM: 01/07/2009 00:39:23 [WRN] Unknown buddy foodgroup type 000A
+		SIM-IM: 01/07/2009 00:39:26 [DBG] Error! foodgroup: 0002 reason: Recipient is not logged in
+		SIM-IM: 01/07/2009 00:39:26 [DBG] Error! foodgroup: 0002 reason: Requested service unavailable
+
+		SIM-IM: 01/07/2009 00:40:17 [DBG] Msg size=0 type=26
+		SIM-IM: 01/07/2009 00:40:17 [DBG] Parse message [type=26]
+		SIM-IM: 01/07/2009 00:40:17 [DBG] Extended message Away Status Message [0100] 18
+
+		SIM-IM: 01/07/2009 00:40:17 [WRN] Unknown extended message type Away Status Message
+
+
+
 
 
 <a href="http://sim-im.org/wiki/Developing">Sim-IM Developer Area</a> on Sim-IM.org
