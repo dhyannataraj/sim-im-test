@@ -13,7 +13,7 @@ SimFileEngine::~SimFileEngine() {
 }
 
 SimFileEngine::Iterator *SimFileEngine::beginEntryList( QDir::Filters filters, const QStringList & filterNames ) {
-    int ggg = 0;
+    return NULL;
 }
 
 bool SimFileEngine::caseSensitive() const {
@@ -26,19 +26,19 @@ bool SimFileEngine::close() {
 }
 
 bool SimFileEngine::copy( const QString & newName ) {
-    int ggg = 0;
+    return false;
 }
 
 QStringList SimFileEngine::entryList( QDir::Filters filters, const QStringList & filterNames ) const {
-    int ggg = 0;
+    return QStrinList();
 }
 
 bool SimFileEngine::extension( Extension extension, const ExtensionOption * option /* = 0 */, ExtensionReturn * output /* = 0 */ ) {
-    int ggg = 0;
+    return false;
 }
 
 SimFileEngine::FileFlags SimFileEngine::fileFlags( FileFlags type /* = FileInfoAll */ ) const {
-    int ggg = 0;
+    return 0;
 }
 
 QString SimFileEngine::fileName( FileName file ) const {
@@ -58,7 +58,7 @@ int SimFileEngine::handle() const {
 }
 
 bool SimFileEngine::isRelativePath() const {
-    int ggg = 0;
+    return false;
 }
 
 bool SimFileEngine::isSequential() const {
@@ -66,7 +66,7 @@ bool SimFileEngine::isSequential() const {
 }
 
 bool SimFileEngine::link( const QString & newName ) {
-    int ggg = 0;
+    return false;
 }
 
 bool SimFileEngine::mkdir( const QString & dirName, bool createParentDirectories ) const {
@@ -91,22 +91,20 @@ bool SimFileEngine::open( QIODevice::OpenMode mode ) {
         m_buffer.close();
         return m_buffer.open( mode );
     }
-    else
-        return false;
 
-    return m_buffer.open( mode );
+    return false;
 }
 
 QString SimFileEngine::owner( FileOwner owner ) const {
-    int ggg = 0;
+    return QString();
 }
 
 uint SimFileEngine::ownerId( FileOwner owner ) const {
-    int ggg = 0;
+    return 0;
 }
 
 qint64 SimFileEngine::pos() const {
-    int ggg = 0;
+    return 0; // ToDo: realize
 }
 
 qint64 SimFileEngine::read( char * data, qint64 maxlen ) {
@@ -114,7 +112,7 @@ qint64 SimFileEngine::read( char * data, qint64 maxlen ) {
 }
 
 qint64 SimFileEngine::readLine( char * data, qint64 maxlen ) {
-    int ggg = 0;
+    return 0; // ToDo: realize
 }
 
 bool SimFileEngine::remove() {
@@ -122,7 +120,7 @@ bool SimFileEngine::remove() {
 }
 
 bool SimFileEngine::rename( const QString & newName ) {
-    int ggg = 0;
+    return false;
 }
 
 bool SimFileEngine::rmdir( const QString & dirName, bool recurseParentDirectories ) const {
@@ -134,11 +132,10 @@ bool SimFileEngine::seek( qint64 offset ) {
 }
 
 void SimFileEngine::setFileName( const QString &file ) {
-    int ggg = 0;
 }
 
 bool SimFileEngine::setPermissions( uint perms ) {
-    int ggg = 0;
+    return false;
 }
 
 bool SimFileEngine::setSize( qint64 size ) {
