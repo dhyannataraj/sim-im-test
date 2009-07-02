@@ -30,7 +30,7 @@ bool SimFileEngine::copy( const QString & newName ) {
 }
 
 QStringList SimFileEngine::entryList( QDir::Filters filters, const QStringList & filterNames ) const {
-    return QStrinList();
+    return QStringList();
 }
 
 bool SimFileEngine::extension( Extension extension, const ExtensionOption * option /* = 0 */, ExtensionReturn * output /* = 0 */ ) {
