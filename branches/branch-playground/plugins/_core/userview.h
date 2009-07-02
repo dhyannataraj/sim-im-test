@@ -31,7 +31,6 @@
 class CorePlugin;
 class IntLineEdit;
 class QTimer;
-class TipLabel;
 
 struct BlinkCount
 {
@@ -60,29 +59,24 @@ public slots:
     void deleteContact(void*);
     void joinContacts(void*);
     void cancelJoinContacts(void*);
-    void showTip();
-    void hideTip();
-    void tipDestroyed();
-    void searchTipDestroyed();
     void blink();
     void unreadBlink();
     void doDrop();
     void doClick();
     void dragScroll();
 protected:
-    virtual void fill();
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
     virtual bool getMenu(Q3ListViewItem *item, unsigned long &id, void* &param);
     virtual bool processEvent(SIM::Event*);
+    virtual bool event( QEvent *event );
     void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
     void setGroupMode(unsigned mode, bool bFirst=false);
     void keyPressEvent(QKeyEvent *e);
     void contentsMousePressEvent(QMouseEvent *e);
     void contentsMouseReleaseEvent(QMouseEvent *e);
-    void contentsMouseMoveEvent(QMouseEvent *e);
     void contentsMouseDoubleClickEvent(QMouseEvent *e);
     void contentsDragEnterEvent(QDragEnterEvent *e);
     void contentsDragMoveEvent(QDragMoveEvent *e);
@@ -94,7 +88,6 @@ protected:
     void search(std::list<Q3ListViewItem*> &items);
     void search(Q3ListViewItem*, std::list<Q3ListViewItem*> &items);
     void stopSearch();
-    void showTip(Q3ListViewItem*);
     Q3DragObject *dragObject();
     virtual void deleteItem(Q3ListViewItem *item);
     std::list<BlinkCount> blinks;
@@ -102,10 +95,7 @@ protected:
     unsigned long m_dropContactId;
     Q3ListViewItem *m_dropItem;
     Q3ListViewItem *m_current;
-    TipLabel *m_tip;
-    TipLabel *m_searchTip;
     bool	 m_bBlink;
-    QTimer   *tipTimer;
     QTimer	 *blinkTimer;
     QTimer	 *unreadTimer;
     QString	 m_search;

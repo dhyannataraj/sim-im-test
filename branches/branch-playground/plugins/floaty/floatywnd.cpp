@@ -32,6 +32,7 @@
 #include <QEvent>
 #include <QPaintEvent>
 #include <QDesktopWidget>
+#include <QToolTip>
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -76,9 +77,6 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
     KWin::setState(winId(), NET::SkipTaskbar | NET::SkipPager);
     KWin::setOnAllDesktops(winId(), true);
 #endif
-    m_tip = NULL;
-    tipTimer = new QTimer(this);
-    connect(tipTimer, SIGNAL(timeout()), this, SLOT(showTip()));
     moveTimer = new QTimer(this);
     connect(moveTimer, SIGNAL(timeout()), this, SLOT(startMove()));
     blinkTimer = new QTimer(this);
@@ -88,10 +86,8 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
 
 FloatyWnd::~FloatyWnd()
 {
-    delete tipTimer;
     delete moveTimer;
     delete blinkTimer;
-    setToolTip(QString());
 }
 
 void FloatyWnd::init()
@@ -476,45 +472,6 @@ void FloatyWnd::mouseDoubleClickEvent(QMouseEvent *)
     EventDefaultAction(m_id).process();
 }
 
-void FloatyWnd::enterEvent(QEvent *e)
-{
-    QWidget::enterEvent(e);
-    tipTimer->start(1000);
-}
-
-void FloatyWnd::leaveEvent(QEvent *e)
-{
-    hideTip();
-    QWidget::leaveEvent(e);
-}
-
-void FloatyWnd::hideTip()
-{
-    tipTimer->stop();
-    if (m_tip)
-        m_tip->hide();
-}
-
-void FloatyWnd::tipDestroyed()
-{
-    m_tip = NULL;
-}
-
-void FloatyWnd::showTip()
-{
-    Contact *contact = getContacts()->contact(m_id);
-    if (contact == NULL)
-        return;
-    QString text = contact->tipText();
-    if (m_tip){
-        m_tip->setText(text);
-    }else{
-        m_tip = new TipLabel(text);
-    }
-    m_tip->show(QRect(pos().x(), pos().y(), width(), height()));
-    tipTimer->stop();
-}
-
 void FloatyWnd::dragEnterEvent(QDragEnterEvent *e)
 {
     dragEvent(e, false);
@@ -570,3 +527,24 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
     }
 }
 
+bool FloatyWnd::event( QEvent *event ) {
+    if( QEvent::ToolTip == event->type() ) {
+        do {
+            QHelpEvent *e = dynamic_cast<QHelpEvent*>( event );
+
+            Contact *contact = getContacts()->contact(m_id);
+            if (contact == NULL)
+                break;
+
+            QString tip = contact->tipText();
+            QRect tipRect(pos().x(), pos().y(), width(), height());
+            QToolTip::showText( mapToGlobal( e->pos() ), tip, this, tipRect );
+
+            return true;
+        } while( false );
+
+        QToolTip::hideText();
+    }
+
+    QWidget::event( event );
+}

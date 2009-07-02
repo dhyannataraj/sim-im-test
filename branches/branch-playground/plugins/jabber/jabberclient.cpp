@@ -1319,7 +1319,7 @@ QString JabberClient::contactTip(void *_data)
     JabberUserData *data = toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString res;
     if (data->nResources.toULong() == 0){
-        res = "<img src=\"icon:";
+        res = "<img src=\"sim:icons/";
         res += get_icon(data, STATUS_OFFLINE, data->invisible.toBool());
         res += "\">";
         res += i18n("Offline");
@@ -1346,7 +1346,7 @@ QString JabberClient::contactTip(void *_data)
     }else{
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
             unsigned status = get_str(data->ResourceStatus, i).toUInt();
-            res += "<img src=\"icon:";
+            res += "<img src=\"sim:icons/";
             res += get_icon(data, status, false);
             res += "\">";
             QString statusText;
@@ -1403,7 +1403,8 @@ QString JabberClient::contactTip(void *_data)
     }
 
     if (data->LogoWidth.toLong() && data->LogoHeight.toLong()){
-        QImage img(logoFile(data));
+        QString logoFileName = logoFile(data);
+        QImage img(logoFileName);
         if (!img.isNull()){
             QPixmap pict = QPixmap::fromImage(img);
             int w = pict.width();
@@ -1419,9 +1420,7 @@ QString JabberClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QString url="jabber.logo."+data->ID.str();
-			getIcons()->setPixmap(url, pict);
-            res += "<br/><img src=\"pict://" + url + "\" width=\"";
+            res += "<br/><img src=\"" + logoFileName + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
             res += QString::number(h);
@@ -1429,7 +1428,8 @@ QString JabberClient::contactTip(void *_data)
         }
     }
     if (data->PhotoWidth.toLong() && data->PhotoHeight.toLong()){
-        QImage img(photoFile(data));
+       QString photoFileName = photoFile(data);
+       QImage img(photoFileName);
         if (!img.isNull()){
             QPixmap pict = QPixmap::fromImage(img);
             int w = pict.width();
@@ -1445,9 +1445,7 @@ QString JabberClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QString url="jabber.photo."+data->ID.str();
-			getIcons()->setPixmap(url, pict);
-            res += "<br/><img src=\"pict://" + url + "\" width=\"";
+            res += "<br/><img src=\"" + photoFileName + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
             res += QString::number(h);

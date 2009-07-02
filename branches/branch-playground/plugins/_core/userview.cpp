@@ -46,6 +46,7 @@
 #include <Q3Frame>
 #include <QDropEvent>
 #include <QDragMoveEvent>
+#include <QToolTip>
 
 using namespace std;
 using namespace SIM;
@@ -72,8 +73,6 @@ UserView::UserView() : UserListBase(NULL)
     viewport()->setBackgroundMode(Qt::NoBackground);
 
     mTipItem = NULL;
-    m_tip = NULL;
-    m_searchTip = NULL;
     m_current = NULL;
 
     setTreeStepSize(0);
@@ -81,8 +80,6 @@ UserView::UserView() : UserListBase(NULL)
     setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
     setHScrollBarMode(Q3ScrollView::AlwaysOff);
 
-    tipTimer = new QTimer(this);
-    connect(tipTimer, SIGNAL(timeout()), this, SLOT(showTip()));
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
     unreadTimer = new QTimer(this);
@@ -122,14 +119,12 @@ UserView::UserView() : UserListBase(NULL)
     connect(edtContact, SIGNAL(escape()), this, SLOT(editEscape()));
     connect(edtContact, SIGNAL(returnPressed()), this, SLOT(editContactEnter()));
     connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
+
+    setShowToolTips( false );
 }
 
 UserView::~UserView()
 {
-    if (m_tip)
-        delete m_tip;
-    if (m_searchTip)
-        delete m_searchTip;
 }
 
 void UserView::paintEmptyArea(QPainter *p, const QRect &r)
@@ -340,7 +335,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         QString text = item->text(CONTACT_TEXT);
         int pos=0;
         if (!m_search.isEmpty()){
-            pos=text.upper().indexOf(m_search.upper());
+            pos=text.toUpper().indexOf(m_search.toUpper());
             //Search from the beginning of contact name
             /*if (text.left(m_search.length()).upper() == m_search.upper())
                 highlight = text.left(m_search.length());*/
@@ -938,23 +933,14 @@ bool UserView::eventFilter(QObject *obj, QEvent *e)
     bool res = ListView::eventFilter(obj, e);
     if (obj->inherits("QMainWindow"))
 	{
-        if (e->type() == QEvent::Hide)
-		{
-            hideTip();
-		}
         if (e->type() == QEvent::Show)
             QTimer::singleShot(0, this, SLOT(repaintView()));
     }
-    if ((obj == viewport()) && (e->type() == QEvent::Leave) && (m_tip) && (!m_tip->isVisible()))
-	{
-        hideTip();
-	}
     return res;
 }
 
 void UserView::contentsMousePressEvent(QMouseEvent *e)
 {
-    hideTip();
     stopSearch();
     UserListBase::contentsMousePressEvent(e);
 }
@@ -963,13 +949,6 @@ void UserView::focusOutEvent(QFocusEvent *e)
 {
     stopSearch();
     UserListBase::focusOutEvent(e);
-}
-
-void UserView::contentsMouseMoveEvent(QMouseEvent *e)
-{
-    Q3ListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
-    showTip(list_item);
-    ListView::contentsMouseMoveEvent(e);
 }
 
 void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
@@ -1159,26 +1138,14 @@ void UserView::keyPressEvent(QKeyEvent *e)
     setCurrentItem(m_searchItem);
     if (m_searchItem){
         ensureItemVisible(m_searchItem);
-        showTip(m_searchItem);
     }
     if (m_search.isEmpty() || (m_searchItem == NULL)){
-        if (m_searchTip)
-            m_searchTip->hide();
-        if (bTip)
-		{
-            hideTip();
-		}
+        QToolTip::hideText();
     }else{
         QString tip = i18n("Search: %1") .arg(m_search);
-        if (m_searchTip){
-            m_searchTip->setText(tip);
-        }else{
-            m_searchTip = new TipLabel( tip);
-            connect(m_searchTip, SIGNAL(finished()), this, SLOT(searchTipDestroyed()));
-        }
         QRect tipRect = itemRect(m_searchItem);
         QPoint p = viewport()->mapToGlobal(tipRect.topLeft());
-        m_searchTip->show(QRect(p.x(), p.y(), tipRect.width(), tipRect.height()), true);
+        QToolTip::showText( mapToGlobal( tipRect.topLeft() ), tip, this, tipRect );
     }
 }
 
@@ -1186,10 +1153,6 @@ void UserView::stopSearch()
 {
     if (m_search.isEmpty())
         return;
-    if (m_searchItem == mTipItem)
-	{
-        hideTip();
-	}
     list<Q3ListViewItem*> old_items;
     search(old_items);
     m_search = QString::null;
@@ -1197,8 +1160,7 @@ void UserView::stopSearch()
     list<Q3ListViewItem*>::iterator it_old;
     for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
         (*it_old)->repaint();
-    if (m_searchTip)
-        m_searchTip->hide();
+    QToolTip::hideText();
 }
 
 bool UserView::getMenu(Q3ListViewItem *list_item, unsigned long &id, void* &param)
@@ -1261,86 +1223,6 @@ unsigned UserView::getUnread(unsigned contact_id)
         }
     }
     return 0;
-}
-
-void UserView::fill()
-{
-    hideTip();
-    UserListBase::fill();
-}
-
-void UserView::tipDestroyed()
-{
-    m_tip = NULL;
-}
-
-void UserView::searchTipDestroyed()
-{
-    m_searchTip = NULL;
-}
-
-void UserView::showTip(Q3ListViewItem *list_item)
-{
-    if (list_item != mTipItem)
-	{
-        hideTip();
-        mTipItem = NULL;
-        if (list_item)
-		{
-            UserViewItemBase *base_item = dynamic_cast<UserViewItemBase*>(list_item);
-            if (!base_item)
-				log(L_DEBUG, "UserView::showTip() with wrong param");
-			else
-			{
-				if (base_item->type() == USR_ITEM)
-				{
-					mTipItem = list_item;
-					tipTimer->start(1000, true);
-				}
-			}
-        }
-    }
-}
-
-void UserView::hideTip()
-{
-    tipTimer->stop();
-    mTipItem = NULL;
-    if (m_tip)
-        m_tip->hide();
-}
-
-void UserView::showTip()
-{
-    ContactItem *item = NULL;
-    if(mTipItem)
-	{
-        UserViewItemBase *base_item = static_cast<UserViewItemBase*>(mTipItem);
-        if (base_item->type() == USR_ITEM)
-            item = static_cast<ContactItem*>(mTipItem);
-    }
-    if (item == NULL)
-	{
-        return;
-	}
-    Contact *contact = getContacts()->contact(item->id());
-    if (contact == NULL)
-	{
-        return;
-	}
-    QString tip = contact->tipText();
-    if(m_tip)
-	{
-        m_tip->setText(tip);
-    }
-	else
-	{
-        m_tip = new TipLabel(tip);
-        connect(m_tip, SIGNAL(finished()), this, SLOT(tipDestroyed()));
-	}
-    QRect tipRect = itemRect(mTipItem);
-    QPoint p = viewport()->mapToGlobal(tipRect.topLeft());
-    m_tip->show(QRect(p.x(), p.y(), tipRect.width(), tipRect.height()));
 }
 
 static void resetUnread(Q3ListViewItem *item, list<Q3ListViewItem*> &grp)
@@ -1437,8 +1319,6 @@ void UserView::deleteItem(Q3ListViewItem *item)
 {
     if (item == NULL)
         return;
-    if (item == mTipItem)
-        hideTip();
     if (item == m_pressedItem)
         m_pressedItem = NULL;
     if (item == m_searchItem)
@@ -1736,3 +1616,36 @@ void UserView::dragScroll() //rewrite!?
         ensureItemVisible(item);
 }
 
+bool UserView::event( QEvent *event ) {
+    if( QEvent::ToolTip == event->type() ) {
+        do {
+            QHelpEvent *e = dynamic_cast<QHelpEvent*>( event );
+            QPoint pos = e->pos();
+            Q3ListViewItem *list_item = itemAt ( pos );
+            if( NULL == list_item )
+                break;
+
+            UserViewItemBase *base_item = dynamic_cast<UserViewItemBase*>(list_item);
+            if( NULL == base_item )
+                break;
+
+            if( base_item->type() != USR_ITEM )
+                break;
+
+            ContactItem *item = static_cast<ContactItem*>(list_item);
+            Contact *contact = getContacts()->contact(item->id());
+            if( NULL == contact )
+                break;
+
+            QString tip = contact->tipText();
+            QRect tipRect = itemRect(mTipItem);
+            QToolTip::showText( mapToGlobal( e->pos() ), tip, this, tipRect );
+
+            return true;
+        } while( false );
+
+        QToolTip::hideText();
+    }
+
+    UserListBase::event( event );
+}

@@ -47,6 +47,7 @@ SET(sim_LIB_SRCS
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
+		simfs.cpp
 	)
 SET(sim_LIB_HDRS
 	    aboutdata.h
@@ -91,6 +92,7 @@ SET(sim_LIB_HDRS
 		qzip/qzip.h
 		qzip/unzip.h
 		fetchclientprivate.h
+		simfs.h
 	)
 
 # moc the sources

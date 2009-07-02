@@ -425,7 +425,7 @@ QString Contact::tipText()
             break;
         }
         if (icon.length()){
-            tip += "<img src=\"icon:";
+            tip += "<img src=\"sim:icons/";
             tip += icon;
             tip += "\">";
         }

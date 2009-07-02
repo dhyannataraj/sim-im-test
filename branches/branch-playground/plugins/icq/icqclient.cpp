@@ -1474,10 +1474,10 @@ QString ICQClient::contactTip(void *_data)
     QString statusIcon;
     contactInfo(data, status, style, statusIcon);
     if (status == STATUS_INVISIBLE){
-        res += "<img src=\"icon:ICQ_invisible\">";
+        res += "<img src=\"sim:icons/ICQ_invisible\">";
         res += i18n("Possibly invisible");
     }else{
-        res += "<img src=\"icon:";
+        res += "<img src=\"sim:icons/";
         res += statusIcon;
         res += "\">";
         if (statusIcon == "ICQ_invisible"){
@@ -1556,7 +1556,8 @@ QString ICQClient::contactTip(void *_data)
         res += "<br/>";
         res += quoteString(client_name);
     }
-    QImage img(pictureFile(data));
+    QString pictureFileName = pictureFile(data);
+    QImage img(pictureFileName);
     if (!img.isNull()){
         QPixmap pict(img);
         int w = pict.width();
@@ -1572,9 +1573,7 @@ QString ICQClient::contactTip(void *_data)
                 w = 60;
             }
         }
-        QString url="icqavatar." + QString::number(data->Uin.toULong());
-		getIcons()->setPixmap(url, pict);
-        res += "<br/><img src=\"pict://" + url + "\" width=\"";
+        res += "<br/><img src=\"" + pictureFileName + "\" width=\"";
         res += QString::number(w);
         res += "\" height=\"";
         res += QString::number(h);

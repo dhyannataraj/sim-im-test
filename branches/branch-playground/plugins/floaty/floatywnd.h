@@ -23,7 +23,6 @@
 
 class FloatyPlugin;
 class QTimer;
-class TipLabel;
 class QPainter;
 
 #ifdef MAKE_FLOATY_LIB
@@ -42,9 +41,6 @@ public:
     void init();
     void startBlink();
 private slots:
-    void showTip();
-    void hideTip();
-    void tipDestroyed();
     void startMove();
     void blink();
 private:
@@ -53,13 +49,12 @@ private:
     void mouseReleaseEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     void mouseDoubleClickEvent(QMouseEvent*);
-    void enterEvent(QEvent*);
-    void leaveEvent(QEvent*);
     void dragEnterEvent(QDragEnterEvent*);
     void dropEvent(QDropEvent*);
     void dragEvent(QDropEvent *e, bool isDrop);
     void setFont(QPainter *p);
     void move(QPoint point);
+    virtual bool event( QEvent *event );
     QPoint	mousePos;
     QPoint	initMousePos;
     QString	m_text;
@@ -71,9 +66,7 @@ private:
     unsigned m_blink;
     unsigned long m_status;
     bool b_ignoreMouseClickRelease;
-    TipLabel *m_tip;
     QTimer	 *blinkTimer;
-    QTimer	 *tipTimer;
     QTimer	 *moveTimer;
     FloatyPlugin *m_plugin;
 };

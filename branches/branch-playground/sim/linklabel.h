@@ -35,22 +35,5 @@ protected:
     QString m_url;
 };
 
-class EXPORT TipLabel : public QLabel
-{
-    Q_OBJECT
-public:
-    TipLabel(const QString &text);
-    ~TipLabel();
-    void setText(const QString &text);
-    void show(const QRect &tipRect, bool bState = false);
-	void remakeDoc();
-signals:
-    void finished();
-protected:
-	QTextDocument m_doc;
-    virtual void paintEvent(QPaintEvent*);
-    QString m_text;
-};
-
 #endif
 

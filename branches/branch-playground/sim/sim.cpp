@@ -20,6 +20,7 @@
 #include "log.h"
 #include "misc.h"
 #include "profilemanager.h"
+#include "simfs.h"
 
 #include <QDir>
 
@@ -293,6 +294,8 @@ QString getConfigRootPath()
 
 int main(int argc, char *argv[])
 {
+    SimFileEngineHandler simfs;
+
     int res = 1;
 	QCoreApplication::setOrganizationDomain("sim-im.org");
 	QCoreApplication::setApplicationName("Sim-IM");

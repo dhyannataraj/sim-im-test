@@ -1366,7 +1366,7 @@ QString YahooClient::contactTip(void *_data)
     QString statusIcon;
     contactInfo(data, status, style, statusIcon);
     QString res;
-    res += "<img src=\"icon:";
+    res += "<img src=\"sim:icons/";
     res += statusIcon;
     res += "\">";
     QString statusText;
