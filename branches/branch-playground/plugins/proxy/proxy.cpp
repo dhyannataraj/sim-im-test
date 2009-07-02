@@ -1203,15 +1203,6 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
     cdata.Clients.clear();
 }
 
-static QObject *findObject(QObject *w, const char *className)
-{
-    QObject *res = NULL;
-    QObjectList l = w->queryList(className);
-    if (!l.isEmpty())
-        res = l.first();
-    return res;
-}
-
 bool ProxyPlugin::processEvent(Event *e)
 {
     switch (e->type()) {
@@ -1272,10 +1263,10 @@ bool ProxyPlugin::processEvent(Event *e)
         NewProtocol *p = static_cast<NewProtocol*>(w);
         if (p->m_client->protocol()->description()->flags & PROTOCOL_NOPROXY)
             return false;
-        ProxyConfig *cfg = static_cast<ProxyConfig*>(findObject(w, "ProxyConfig"));
+        ProxyConfig *cfg = w->findChild<ProxyConfig*>();
         if (cfg)
             return false;
-        QTabWidget *tab  = static_cast<QTabWidget*>(findObject(w, "QTabWidget"));
+        QTabWidget *tab  = w->findChild<QTabWidget*>();
         if (tab){
             cfg = new ProxyConfig(tab, this, tab, p->m_client);
             QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), cfg, SLOT(apply()));

@@ -22,8 +22,6 @@
 #include "ui_proxycfgbase.h"
 
 #include <vector>
-//Added by qt3to4:
-#include <QPaintEvent>
 
 class ProxyPlugin;
 class QTabWidget;
@@ -40,7 +38,6 @@ protected slots:
     void typeChanged(int type);
     void authToggled(bool auth);
 protected:
-    void paintEvent(QPaintEvent*);
     virtual bool processEvent(SIM::Event *e);
     void fillClients();
     void fill(ProxyData*);

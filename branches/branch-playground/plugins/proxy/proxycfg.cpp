@@ -23,8 +23,6 @@
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qtabwidget.h>
-//Added by qt3to4:
-#include <QPaintEvent>
 #include <QPixmap>
 
 #include "icons.h"
@@ -37,17 +35,17 @@
 
 using namespace SIM;
 
-ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client) : QWidget(parent)
-        //: ProxyConfigBase(parent)
+ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
+  : QWidget(parent)
+  , m_client(client)
+  , m_plugin(plugin)
+  , m_current(~0U)
 {
-	setupUi(this);
-    m_plugin = plugin;
-    m_client = client;
-    m_current = (unsigned)(-1);
-    cmbType->insertItem(INT_MAX,i18n("None"));
-    cmbType->insertItem(INT_MAX,"SOCKS4");
-    cmbType->insertItem(INT_MAX,"SOCKS5");
-    cmbType->insertItem(INT_MAX,"HTTP/HTTPS");
+    setupUi(this);
+    cmbType->addItem(i18n("None"));
+    cmbType->addItem("SOCKS4");
+    cmbType->addItem("SOCKS5");
+    cmbType->addItem("HTTP/HTTPS");
     if (tab){
         tab->addTab(this, i18n("&Proxy"));
         for (QWidget *p = this; p; p = p->parentWidget()){
@@ -157,22 +155,6 @@ void ProxyConfig::authToggled(bool bState)
     lblPswd->setEnabled(bState);
 }
 
-void ProxyConfig::paintEvent(QPaintEvent*)
-{
-    for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-        const QPixmap *bg = p->backgroundPixmap();
-        if (bg){
-            QPoint pos = mapToGlobal(QPoint(0, 0));
-            pos = p->mapFromGlobal(pos);
-            QPainter pp(this);
-            pp.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
-            return;
-        }
-    }
-    QPainter pp(this);
-    pp.eraseRect(0, 0, width(), height());
-}
-
 void ProxyConfig::clientChanged(int)
 {
     if (m_current < m_data.size()){
@@ -261,10 +243,3 @@ void ProxyConfig::get(ProxyData *data)
     data->NoShow.asBool()= chkNoShow->isChecked();
     data->bInit = true;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "proxycfg.moc"
-#endif
-*/
-
