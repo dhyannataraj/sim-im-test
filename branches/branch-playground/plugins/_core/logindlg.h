@@ -21,8 +21,6 @@
 
 #include "event.h"
 #include "ui_logindlgbase.h"
-#include <QCloseEvent>
-#include <QLabel>
 
 class QLabel;
 class QLineEdit;

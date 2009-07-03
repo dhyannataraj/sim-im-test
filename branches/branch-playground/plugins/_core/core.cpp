@@ -2409,10 +2409,10 @@ bool CorePlugin::processEvent(Event *e)
 							if (l.count() && l.last().isEmpty()){
 								it = l.end();
 								--it;
-								l.remove(it);
+                                                                l.removeLast();
 							}
 							for (it = l.begin(); it != l.end(); ++it)
-								(*it) = QString(">") + (*it);
+								(*it) = QLatin1String(">") + (*it);
 							p = l.join("\n");
 							Message *m = new Message(MessageGeneric);
 							m->setContact(msg->contact());
@@ -3047,7 +3047,7 @@ bool CorePlugin::init(bool bInit)
 			!settings.value("NoShow", false).toBool() ||
 		!settings.value("SavePasswd", false).toBool()))
 	{
-		LoginDialog dlg(bInit, NULL, "", bInit ? "" : settings.value("Profile").toString());
+		LoginDialog dlg(bInit, NULL, "", bInit ? QString() : settings.value("Profile").toString());
 		if (dlg.exec() == 0)
 		{
 			if (bInit || dlg.isChanged())
@@ -3897,16 +3897,16 @@ void CorePlugin::loadMenu()
 	bool FileLock::lock(bool bSend)
 	{
 		QString event = "SIM.";
-		QString s = fileName();
-		event += QString::number(adler32(s.latin1(), s.length()));
-		Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.latin1());
+                const QByteArray s = fileName().toLocal8Bit();
+		event += QString::number(adler32(s.data(), s.length()));
+		Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.toLatin1());
 		if (hEvent){
 			if (bSend)
 				SetEvent(hEvent);
 			CloseHandle(hEvent);
 			return false;
 		}
-		hEvent = CreateEventA(NULL, false, false, event.latin1());
+		hEvent = CreateEventA(NULL, false, false, event.toLatin1());
 		if (hEvent == NULL)
 			return false;
 		m_thread = new LockThread(hEvent);

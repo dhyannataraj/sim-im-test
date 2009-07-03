@@ -41,9 +41,12 @@ email                : vovan@shutoff.ru
 
 using namespace SIM;
 
-LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const QString &loginProfile) : QDialog(NULL, "logindlg", client ? false : true)
+LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const QString &loginProfile)
+  : QDialog(NULL)
 {
 	setupUi(this);
+	setObjectName("logindlg");
+        setModal(client ? false : true);
 	//setAttribute(Qt::WA_DeleteOnClose, true);
 	QSettings settings;
 	m_bInit  = bInit;
@@ -195,7 +198,7 @@ void LoginDialog::accept()
 
 	m_bLogin = false;
 	unsigned j = 0;
-	for (unsigned i = 0; i < passwords.size(); i++)
+	for (int i = 0; i < passwords.size(); i++)
 	{
 		Client *client = NULL;
 		while (j < getContacts()->nClients())
@@ -222,7 +225,7 @@ void LoginDialog::accept()
 	if(m_bLogin)
 	{
 		startLogin();
-		for (unsigned i = 0; i < passwords.size(); i++)
+		for (int i = 0; i < passwords.size(); i++)
 		{
 			Client *client = getContacts()->getClient(i);
 			unsigned status = client->getStatus();
@@ -348,7 +351,6 @@ void LoginDialog::makeInputs(unsigned &row, Client *client)
 
     QLabel *txt = new QLabel(groupBoxPasswords);
     txt->setText(client->name());
-    lblProfile->setAlignment(Qt::AlignLeft);
     txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
     QLineEdit *edt = new QLineEdit(groupBoxPasswords);
 	edt->setText(client->getPassword());
@@ -412,27 +414,21 @@ void LoginDialog::fill()
 
 void LoginDialog::clearInputs()
 {
-	unsigned i;
-	for (i = 0; i < picts.size(); i++)
-		delete picts[i];
+	qDeleteAll(picts);
 	picts.clear();
-	for (i = 0; i < texts.size(); i++)
-		delete texts[i];
+	qDeleteAll(texts);
 	texts.clear();
-	for (i = 0; i < passwords.size(); i++)
-		delete passwords[i];
+	qDeleteAll(passwords);
 	passwords.clear();
-	for (i = 0; i < links.size(); i++)
-		delete links[i];
+	qDeleteAll(links);
 	links.clear();
-        for (i = 0; i < lines.size(); i++)
-                delete lines[i];
+	qDeleteAll(lines);
         lines.clear();
 }
 
 void LoginDialog::pswdChanged(const QString&)
 {
-	unsigned i;
+	int i;
 	for (i = 0; i < passwords.size(); i++)
 		if (passwords[i]->text().isEmpty())
 			break;
@@ -488,7 +484,7 @@ void LoginDialog::startLogin()
 	btnRename->setEnabled(false);
 	chkNoShow->setEnabled(false);
 	chkSave->setEnabled(false);
-	for (unsigned i = 0; i < passwords.size(); i++)
+	for (int i = 0; i < passwords.size(); i++)
 		passwords[i]->setEnabled(false);
 }
 
@@ -501,7 +497,7 @@ void LoginDialog::stopLogin()
 	btnRename->setEnabled(true);
 	chkSave->setEnabled(true);
 	saveToggled(chkSave->isChecked());
-	for (unsigned i = 0; i < passwords.size(); i++)
+	for (int i = 0; i < passwords.size(); i++)
 		passwords[i]->setEnabled(true);
 }
 
@@ -512,7 +508,7 @@ void LoginDialog::loginComplete()
 	if (m_client)
 		m_client->setStatus(m_client->getManualStatus(), m_client->getCommonStatus());
 	else
-		for (unsigned i = 0; i < passwords.size(); i++)
+		for (int i = 0; i < passwords.size(); i++)
 		{
 			Client *client = getContacts()->getClient(i);
 			client->setStatus(client->getManualStatus(), client->getCommonStatus());
@@ -546,7 +542,7 @@ bool LoginDialog::processEvent(Event *e)
             const EventNotification::ClientNotificationData &client_notification_data = ee->data();
 			if (!m_client)
 			{
-				for (unsigned i = 0; i < passwords.size(); i++){
+				for (int i = 0; i < passwords.size(); i++){
 					Client *client = getContacts()->getClient(i);
 					if (client->getState() != Client::Error)
 						return true;

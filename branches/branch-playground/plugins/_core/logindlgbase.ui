@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>230</height>
+    <width>468</width>
+    <height>237</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,7 @@
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="_3">
-   <property name="margin">
-    <number>11</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="lblMessage">
      <property name="font">
@@ -40,27 +37,27 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="_4">
      <item>
       <widget class="QLabel" name="lblProfile">
        <property name="text">
         <string>Profile:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QComboBox" name="cmbProfile">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
        </property>
       </widget>
      </item>
@@ -81,7 +78,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="_6">
      <item>
       <widget class="QLabel" name="labelNew">
        <property name="text">
@@ -97,7 +94,7 @@
    <item>
     <widget class="QGroupBox" name="groupBoxPasswords">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -127,9 +124,22 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout">
+    <spacer name="spacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>12</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="_3">
      <item>
-      <spacer name="Horizontal Spacing2">
+      <spacer name="spacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -176,6 +186,11 @@
   <tabstop>chkNoShow</tabstop>
   <tabstop>buttonOk</tabstop>
   <tabstop>buttonCancel</tabstop>
+  <tabstop>cmbProfile</tabstop>
+  <tabstop>btnRename</tabstop>
+  <tabstop>btnDelete</tabstop>
+  <tabstop>lineEditNew</tabstop>
+  <tabstop>chkSave</tabstop>
  </tabstops>
  <resources/>
  <connections>
