@@ -115,37 +115,6 @@ IF(CMAKE_COMPILER_IS_GNUCXX AND SIM_ENABLE_FPIE)
     ENDIF(HAVE_FPIE_SUPPORT)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX AND SIM_ENABLE_FPIE)
 
-OPTION(USE_GCC_VISIBILITY "Enable GCC 4.1 visibility support" FALSE)
-
-# from svn://anonsvn.kde.org/home/kde/trunk/KDE/kdelibs/cmake/modules/FindKDE4Internal.cmake@606547
-if (CMAKE_COMPILER_IS_GNUCXX AND USE_GCC_VISIBILITY)
-   # visibility support
-   check_cxx_compiler_flag(-fvisibility=hidden __KDE_HAVE_GCC_VISIBILITY)
-
-   # get the gcc version
-   exec_program(${CMAKE_C_COMPILER} ARGS --version OUTPUT_VARIABLE _gcc_version_info)
-
-   string (REGEX MATCH " [34]\\.[0-9]\\.[0-9]" _gcc_version "${_gcc_version_info}")
-   # gcc on mac just reports: "gcc (GCC) 3.3 20030304 ..." without the patch level, handle this here:
-   if (NOT _gcc_version)
-      string (REGEX REPLACE ".*\\(GCC\\).* ([34]\\.[0-9]) .*" "\\1.0" _gcc_version "${_gcc_version_info}")
-   endif (NOT _gcc_version)
-
-   macro_ensure_version("4.1.0" "${_gcc_version}" GCC_IS_NEWER_THAN_4_1)
-
-   if (GCC_IS_NEWER_THAN_4_1)
-      exec_program(${CMAKE_C_COMPILER} ARGS -v OUTPUT_VARIABLE _gcc_alloc_info)
-      string(REGEX MATCH "(--enable-libstdcxx-allocator=mt)" _GCC_COMPILED_WITH_BAD_ALLOCATOR "${_gcc_alloc_info}")
-   else (GCC_IS_NEWER_THAN_4_1)
-      set(_GCC_COMPILED_WITH_BAD_ALLOCATOR FALSE)
-   endif (GCC_IS_NEWER_THAN_4_1)
-
-   if (__KDE_HAVE_GCC_VISIBILITY AND GCC_IS_NEWER_THAN_4_1 AND NOT _GCC_COMPILED_WITH_BAD_ALLOCATOR)
-      set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -DHAVE_GCC_VISIBILITY")
-   endif (__KDE_HAVE_GCC_VISIBILITY AND GCC_IS_NEWER_THAN_4_1 AND NOT _GCC_COMPILED_WITH_BAD_ALLOCATOR)
-
-endif (CMAKE_COMPILER_IS_GNUCXX AND USE_GCC_VISIBILITY)
-
 SET(SIM_FLAVOUR "" CACHE STRING "Additional suffix for plugin dir and executable file")
 if(WIN32)
     SET(LIBDIR         .)

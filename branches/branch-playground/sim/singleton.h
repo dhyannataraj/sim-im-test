@@ -31,7 +31,7 @@ public:
 };
 // This should be here, otherwise compiler will complain about
 // unresolved externals
-#ifndef WIN32
+#if !defined(WIN32) && !defined(QT_VISIBILITY_AVAILABLE)
 	template <typename Type> Type* Singleton<Type>::m_instance = 0;
 #endif
 }

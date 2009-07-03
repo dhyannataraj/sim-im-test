@@ -5,7 +5,7 @@
 
 namespace SIM
 {
-#ifdef WIN32 
+#if defined(WIN32) || defined(QT_VISIBILITY_AVAILABLE)
    template <> EXPORT ProfileManager* Singleton<ProfileManager>::m_instance = 0;
 #endif
 	ProfileManager::ProfileManager(const QString& rootpath) : Singleton<ProfileManager>(),
