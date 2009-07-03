@@ -47,7 +47,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
 	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     setWindowIcon(SIM::Icon("SIM"));
 	QIcon icon = SIM::Icon("SIM");
-    lblIcon->setPixmap(SIM::Pict("SIM"));
+        lblIcon->setIcon(SIM::Pict("SIM"));
 	edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
 	edtVersion->setReadOnly(true);
 	txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +

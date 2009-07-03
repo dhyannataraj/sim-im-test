@@ -108,21 +108,13 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     QStringList items = getLangItems();
     cmbLang->insertStringList(items);
     int nCurrent = 0;
-    if(!cur.isEmpty())
-	{
+    if(!cur.isEmpty()) {
         const language *l;
         for (l = langs; l->code; l++)
             if (cur == l->code)
                 break;
         if (l->code){
-            QString name = i18n(l->name);
-            nCurrent = 1;
-            QStringList::Iterator it;
-            for (it = items.begin(); it != items.end(); ++it, nCurrent++)
-                if ((*it) == name)
-                    break;
-            if (it == items.end())
-                nCurrent = 0;
+            nCurrent = cmbLang->findText(i18n(l->name));
         }
     }
     cmbLang->setCurrentIndex(nCurrent);
@@ -269,7 +261,7 @@ void InterfaceConfig::apply()
                       KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         if (chkStart->isChecked()){
             QString path = app_file("sim.exe");
-            DWORD res = RegSetValueExW(subKey, value_name, 0, REG_SZ, (BYTE*)path.ucs2(), (path.length() + 1) * 2);
+            DWORD res = RegSetValueExW(subKey, value_name, 0, REG_SZ, (BYTE*)path.utf16(), (path.length() + 1) * 2);
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{
@@ -281,10 +273,3 @@ void InterfaceConfig::apply()
     RegCloseKey(subKey);
 #endif
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "interfacecfg.moc"
-#endif
-*/
-

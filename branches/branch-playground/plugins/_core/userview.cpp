@@ -1647,5 +1647,5 @@ bool UserView::event( QEvent *event ) {
         QToolTip::hideText();
     }
 
-    UserListBase::event( event );
+    return UserListBase::event( event );
 }

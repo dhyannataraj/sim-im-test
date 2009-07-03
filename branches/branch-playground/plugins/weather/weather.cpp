@@ -349,7 +349,7 @@ void WeatherPlugin::updateButton()
     cmdw->param	= m_bar;
     EventCommandWidget eWidget(cmdw);
     eWidget.process();
-    CToolButton *btn = dynamic_cast<CToolButton*>(eWidget.widget());
+    CToolButton *btn = qobject_cast<CToolButton*>(eWidget.widget());
     if (btn == NULL)
         return;
     btn->setTextLabel(text);

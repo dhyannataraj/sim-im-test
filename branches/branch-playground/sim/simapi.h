@@ -13,10 +13,6 @@
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
 #endif
-// FIXME: remove me!
-#include <list>
-#include <map>
-#include <vector>
 
 // for Q_CC_foo - macros
 #include <qglobal.h>

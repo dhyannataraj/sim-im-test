@@ -546,5 +546,5 @@ bool FloatyWnd::event( QEvent *event ) {
         QToolTip::hideText();
     }
 
-    QWidget::event( event );
+    return QWidget::event( event );
 }
