@@ -51,7 +51,7 @@ protected:
     QByteArray m_data;
 };
 
-class SimFileEngineHandler
+class EXPORT SimFileEngineHandler
     : public QAbstractFileEngineHandler
 {
 public:
