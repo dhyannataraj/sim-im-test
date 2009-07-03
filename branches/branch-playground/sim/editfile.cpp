@@ -56,10 +56,13 @@ EditFile::EditFile(QWidget *p)
     bCreate = false;
     bShowHidden = false;
     createPreview = NULL;
-    lay = new QHBoxLayout(this);
+    lay = new QHBoxLayout;
+    setLayout(lay);
     edtFile = new QLineEdit(this);
     lay->addWidget(edtFile);
     lay->addSpacing(3);
+    lay->setMargin(0);
+    lay->setSizeConstraint(QLayout::SetMinAndMaxSize);
     QPushButton *btnOpen = new QPushButton(this);
     lay->addWidget(btnOpen);
     btnOpen->setIcon(Icon("fileopen"));
@@ -230,7 +233,6 @@ EditSound::EditSound(QWidget *p)
         : EditFile(p)
 {
     QPushButton *btnPlay = new QPushButton(this);
-    lay->addSpacing(3);
     lay->addWidget(btnPlay);
     btnPlay->setIcon(Icon("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
