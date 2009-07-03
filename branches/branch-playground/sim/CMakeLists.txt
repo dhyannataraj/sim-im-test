@@ -36,6 +36,7 @@ SET(sim_LIB_SRCS
 		qcolorbutton.cpp
 		qkeybutton.cpp
 		sax.cpp
+		simfs.cpp
 		socket.cpp
 		sockfactory.cpp
 		sslclient.cpp
@@ -80,6 +81,7 @@ SET(sim_LIB_HDRS
 		qkeybutton.h
 		sax.h
 		simapi.h
+		simfs.h
 		singleton.h
 		socket.h
 		sockfactory.h

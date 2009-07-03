@@ -4,8 +4,9 @@
 #include <QAbstractFileEngine>
 #include <QAbstractFileEngineHandler>
 #include <QBuffer>
+#include "simapi.h"
 
-class SimFileEngine
+class EXPORT SimFileEngine
     : public QAbstractFileEngine
 {
 public:
