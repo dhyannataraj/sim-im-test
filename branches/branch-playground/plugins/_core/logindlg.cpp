@@ -339,15 +339,15 @@ void LoginDialog::makeInputs(unsigned &row, Client *client)
     QLabel *pict = new QLabel(groupBoxPasswords);
     pict->setPixmap(Pict(client->protocol()->description()->icon));
     picts.push_back(pict);
-    QVBoxLayout *layout1 = new QVBoxLayout(this);
+    QVBoxLayout *layout1 = new QVBoxLayout;
     verticalLayout->addLayout(layout1);
-    QHBoxLayout *layout2 = new QHBoxLayout(this);
+    QHBoxLayout *layout2 = new QHBoxLayout;
     layout1->addLayout(layout2);
     layout2->addWidget(pict);
-	pict->show();
+    pict->show();
 
     QLabel *txt = new QLabel(groupBoxPasswords);
-	txt->setText(client->name());
+    txt->setText(client->name());
     lblProfile->setAlignment(Qt::AlignLeft);
     txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
     QLineEdit *edt = new QLineEdit(groupBoxPasswords);
