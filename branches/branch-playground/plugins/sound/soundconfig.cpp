@@ -32,12 +32,12 @@
 
 using SIM::getContacts;
 
-SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin) : QWidget(parent)
-        //: SoundConfigBase(parent)
+SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
+  : QWidget(parent)
+  , m_plugin(plugin)
+  , user_cfg(NULL)
 {
-	setupUi(this);
-    m_plugin = plugin;
-    user_cfg = NULL;
+    setupUi(this);
 #ifdef USE_KDE
     bool bSound = false;
     connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
@@ -63,9 +63,9 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin) : QWidget(parent)
     edtSent->setText(plugin->fullName(plugin->getMessageSent()));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
+        QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+        if (!tab)
             continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
         void *data = getContacts()->getUserData(plugin->user_data_id);
         user_cfg = new SoundUserConfig(tab, data, plugin);
         tab->addTab(user_cfg, i18n("Events"));

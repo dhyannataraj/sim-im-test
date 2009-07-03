@@ -21,7 +21,6 @@
 #include <qfile.h>
 #include <qsound.h>
 #include <qtimer.h>
-//Added by qt3to4:
 #include <Q3CString>
 
 #ifdef USE_KDE
@@ -120,7 +119,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->id       = user_data_id;
     cmd->text	  = I18N_NOOP("&Sound");
     cmd->icon	  = "sound";
-    cmd->icon_on  = QString::null;
+    cmd->icon_on  = QString();
     cmd->param	  = (void*)getSoundSetup;
     EventAddPreferences(cmd).process();
 
@@ -135,8 +134,8 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->flags	  = COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
 
-    cmd->icon	  = QString::null;
-    cmd->icon_on  = QString::null;
+    cmd->icon	  = QString();
+    cmd->icon_on  = QString();
     cmd->bar_id   = 0;
     cmd->menu_id  = MenuMain;
     cmd->flags	  = COMMAND_CHECK_STATE;
@@ -147,7 +146,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 
-	m_process = NULL;
+    m_process = NULL;
     m_sound	 = NULL;
 #if !defined( WIN32 ) && !defined( __OS2__ )
     m_player = 0;
@@ -303,11 +302,11 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
     if (data)
         sound = get_str(data->Receive, type);
     if (sound == "(nosound)")
-        return QString::null;
+        return QString();
     if (sound.isEmpty()){
         def = core->messageTypes.find(type);
         if ((def == NULL) || (def->icon.isEmpty()))
-            return QString::null;
+            return QString();
         MessageDef *mdef = (MessageDef*)(def->param);
         if (mdef->flags & MESSAGE_SYSTEM){
             sound = "system";
@@ -328,22 +327,13 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
 
 QString SoundPlugin::fullName(const QString &name)
 {
-    QString sound;
-    if (name.isEmpty() || name == "(nosound)")
-        return QString::null;
+    if (name.isEmpty() || name == QLatin1String("(nosound)"))
+        return QString();
     QDir d(name);
-    if(!d.isRelative()) {
-        sound = name;
-    }else{
-#if defined( WIN32 ) || defined( __OS2__ )
-        sound = "sounds\\";
-#else
-        sound = "sounds/";
-#endif
-        sound += name;
-        sound = app_file(sound);
-    }
-    return sound;
+    if(!d.isRelative())
+        return name;
+    const QString sound = QLatin1String("sounds") + QDir::separator() + name;
+    return app_file(sound);
 }
 
 void SoundPlugin::playSound(const QString &s)
@@ -378,7 +368,7 @@ void SoundPlugin::processQueue()
     // check whether file is available
     m_snd = sound;
     if (!QFile::exists(sound)) {
-        m_current = QString::null;
+        m_current.clear();
         return;
     }
 #ifdef USE_KDE
@@ -398,11 +388,10 @@ void SoundPlugin::processQueue()
 	if (bSound){
         if (!QSound::isAvailable()){
 			m_queue.clear();
-			m_current = QString::null;
+			m_current.clear();
 			return;
 		}
-		if (m_sound)
-			delete m_sound;
+		delete m_sound;
 		m_sound   = NULL;
 #ifndef USE_AUDIERE
 		m_sound = new QSound(sound);
@@ -413,12 +402,12 @@ void SoundPlugin::processQueue()
 	this->start();
 #endif
 
-       m_current = QString::null;
-       return; // QSound
+        m_current.clear();
+        return; // QSound
     }
 #if !defined( WIN32 ) && !defined( __OS2__ )
 	if (getPlayer().isEmpty()) {
-		m_current = QString::null;
+		m_current.clear();
 		return;
 	}
 	this->run();
@@ -482,7 +471,7 @@ void SoundPlugin::run()
 		system(execme.data());
 		//e.process();
 		qDebug("\nThreaded mit getPlayer() danach");
-		m_current = QString::null;
+		m_current.clear();
 		bDone=true;
 		return;
 	}
@@ -504,7 +493,7 @@ void SoundPlugin::run()
 		KAudioPlayer::play(m_snd);
 		qDebug("\nThreaded mit USE_KDE danach");
 		m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-		m_current = QString::null;
+		m_current.clear();
 		bDone=true;
 		return;
 	}
@@ -515,7 +504,7 @@ void SoundPlugin::processExited()
 {
 	delete m_process;
 	m_process = NULL;
-	m_current = QString::null;
+	m_current.clear();
 	processQueue();
 }
 
@@ -533,8 +522,8 @@ void SoundPlugin::checkSound()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-	m_snd	  = QString::null;
-        m_current = QString::null;
+	m_snd.clear();
+        m_current.clear();
         processQueue();
     }
 }
@@ -551,7 +540,7 @@ void SoundPlugin::childExited(int pid, int)
 {
     if (pid == m_player){
         m_player = 0;
-        m_current = QString::null;
+        m_current.clear();
         processQueue();
     }
 }

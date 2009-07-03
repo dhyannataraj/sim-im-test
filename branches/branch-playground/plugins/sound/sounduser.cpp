@@ -26,28 +26,36 @@
 #include <qfile.h>
 #include <qlabel.h>
 #include <qpainter.h>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 
 using namespace SIM;
 
 unsigned ONLINE_ALERT = 0x10000;
 
-SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin) : QWidget(parent)
-        //: SoundUserConfigBase(parent)
+SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)
+  : QWidget(parent)
+  , m_plugin(plugin)
 {
-	setupUi(this);
-    m_plugin = plugin;
-    lstSound->addColumn(i18n("Sound"));
-    lstSound->addColumn(i18n("File"));
-    lstSound->setExpandingColumn(1);
+    setupUi(this);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    Q3ListViewItem *item = new Q3ListViewItem(lstSound, i18n("Online alert"),
-                                            plugin->fullName(user_data->Alert.str()));
-    item->setText(2, QString::number(ONLINE_ALERT));
-    item->setPixmap(0, makePixmap("SIM"));
+    QTableWidgetItem *item;
+    EditSound *es;
+
+    int row = 0;
+    lstSound->setRowCount(row + 1);
+
+    item = new QTableWidgetItem(Icon("SIM"), i18n("Online alert"));
+    item->setData(Qt::UserRole, ONLINE_ALERT);
+    item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    lstSound->setItem(row, 0, item);
+
+    es = new EditSound(lstSound);
+    es->setText(plugin->fullName(user_data->Alert.str()));
+    lstSound->setCellWidget(row, 1, es);
 
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
@@ -67,41 +75,34 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
             type = type.left(pos);
         }
         type = type.left(1).toUpper() + type.mid(1);
-        item = new Q3ListViewItem(lstSound, type,
-                                 m_plugin->messageSound(cmd->id, user_data));
-        item->setText(2, QString::number(cmd->id));
-        item->setPixmap(0, makePixmap(cmd->icon));
+
+        row++;
+        lstSound->setRowCount(row + 1);
+
+        item = new QTableWidgetItem(Icon(cmd->icon), type);
+        item->setData(Qt::UserRole, QVariant((quint64)cmd->id));
+        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+        lstSound->setItem(row, 0, item);
+
+        es = new EditSound(lstSound);
+        es->setText(m_plugin->messageSound(cmd->id, user_data));
+        lstSound->setCellWidget(row, 1, es);
     }
-    lstSound->adjustColumn();
     chkActive->setChecked(user_data->NoSoundIfActive.toBool());
     chkDisable->setChecked(user_data->Disable.toBool());
     connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     toggled(user_data->Disable.toBool());
-    m_edit = NULL;
-    m_editItem = NULL;
-    connect(lstSound, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
-}
-
-QPixmap SoundUserConfig::makePixmap(const QString &src)
-{
-    const QPixmap &source = Pict(src);
-    int w = source.width();
-    int h = QMAX(source.height(), 22);
-    QPixmap pict(w, h);
-    QPainter p(&pict);
-    p.eraseRect(0, 0, w, h);
-    p.drawPixmap(0, (h - source.height()) / 2, source);
-    p.end();
-    return pict;
+    lstSound->resizeRowsToContents();
+    lstSound->resizeColumnsToContents();
 }
 
 void SoundUserConfig::apply(void *data)
 {
-    selectionChanged(NULL);
     SoundUserData *user_data = (SoundUserData*)data;
-    for (Q3ListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
-        unsigned id = item->text(2).toUInt();
-        QString text = item->text(1);
+    for (int row = 0; row < lstSound->rowCount(); ++row) {
+        QTableWidgetItem *item = lstSound->item(row, 0);
+        quint64 id = item->data(Qt::UserRole).toULongLong();
+        QString text = static_cast<EditSound*>(lstSound->cellWidget(row, 1))->text();
         if (text.isEmpty())
             text = "(nosound)";
         if (id == ONLINE_ALERT){
@@ -119,31 +120,11 @@ void SoundUserConfig::apply(void *data)
 void SoundUserConfig::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
-    lstSound->adjustColumn();
+    lstSound->resizeRowsToContents();
+    lstSound->resizeColumnsToContents();
 }
 
 void SoundUserConfig::toggled(bool bState)
 {
     lstSound->setEnabled(!bState);
 }
-
-void SoundUserConfig::selectionChanged(Q3ListViewItem *item)
-{
-    if (m_editItem){
-        m_editItem->setText(1, m_edit->text());
-        delete m_edit;
-        m_editItem = NULL;
-        m_edit     = NULL;
-    }
-    if (item == NULL)
-        return;
-    m_editItem = item;
-    m_edit = new EditSound(lstSound->viewport());
-    QRect rc = lstSound->itemRect(m_editItem);
-    rc.setLeft(rc.left() + lstSound->columnWidth(0) + 2);
-    m_edit->setGeometry(rc);
-    m_edit->setText(m_editItem->text(1));
-    m_edit->show();
-    m_edit->setFocus();
-}
-
