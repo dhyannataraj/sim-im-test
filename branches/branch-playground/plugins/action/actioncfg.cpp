@@ -27,38 +27,55 @@
 #include <qtabwidget.h>
 #include <qpainter.h>
 #include <qpushbutton.h>
-//Added by qt3to4:
-#include <QResizeEvent>
-#include <QPixmap>
+#include <QItemDelegate>
 
 using namespace SIM;
 
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
-ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin) : QWidget(parent)
+static void addRow(QTableWidget *lstEvent, int row, const QIcon &icon, const QString &text,
+                   unsigned int id, const QString &program)
 {
-	setupUi(this);
-    m_data   = data;
-    m_plugin = plugin;
-    m_menu   = NULL;
-    setButtonsPict(this);
+    QTableWidgetItem *item;
+    lstEvent->setRowCount(row+1);
 
-    lstEvent->addColumn(i18n("Event"));
-    lstEvent->addColumn(i18n("Program"));
-    lstEvent->setExpandingColumn(1);
+    item = new QTableWidgetItem(icon, text);
+    item->setData(Qt::UserRole, id);
+    item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    lstEvent->setItem(row, 0, item);
+
+#if 0
+    LineEdit *edit = new LineEdit(lstEvent);
+    EventTmplHelpList e;
+    e.process();
+    // TODO: this does work because helpList is a static const char ...
+    edit->helpList = e.helpList();
+    edit->setText(program);
+    lstEvent->setCellWidget(row, 1, edit);
+#else
+    item = new QTableWidgetItem(program);
+    item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsEditable);
+    lstEvent->setItem(row, 1, item);
+#endif
+}
+
+ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin)
+  : QWidget(parent)
+  , m_menu(NULL)
+  , m_data(data)
+  , m_plugin(plugin)
+{
+    setupUi(this);
+    setButtonsPict(this);
 
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 
-    Q3ListViewItem *item = new Q3ListViewItem(lstEvent, i18n("Contact online"));
-    item->setText(2, QString::number(CONTACT_ONLINE));
-    item->setPixmap(0, makePixmap("SIM"));
-    item->setText(1, data->OnLine.str());
+    int row = 0;
+    addRow(lstEvent, row, Icon("SIM"), i18n("Contact online"), CONTACT_ONLINE, data->OnLine.str());
 
-    item = new Q3ListViewItem(lstEvent, i18n("Status changed"));
-    item->setText(2, QString::number(CONTACT_STATUS));
-    item->setPixmap(0, makePixmap("SIM"));
-    item->setText(1, data->Status.str());
+    row++;
+    addRow(lstEvent, row, Icon("SIM"), i18n("Status changed"), CONTACT_STATUS, data->Status.str());
 
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
@@ -78,72 +95,30 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
             type = type.left(pos);
         }
         type = type.left(1).toUpper() + type.mid(1);
-        Q3ListViewItem *item = new Q3ListViewItem(lstEvent, type);
-        item->setText(2, QString::number(cmd->id));
-        item->setPixmap(0, makePixmap(cmd->icon));
-        item->setText(1, get_str(data->Message, cmd->id));
+
+        row++;
+        addRow(lstEvent, row, Icon(cmd->icon), type, cmd->id, get_str(data->Message, cmd->id));
     }
-    m_edit = NULL;
-    m_editItem = NULL;
-    connect(lstEvent, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
+    EventTmplHelpList e;
+    e.process();
+    LineEditDelegate *dg = new LineEditDelegate(1, lstEvent);
+    dg->setHelpList(e.helpList());
+    lstEvent->setItemDelegate(dg);
+    lstEvent->resizeColumnToContents(0);
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
+        QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+        if (!tab)
             continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
         m_menu = new MenuConfig(tab, data);
         tab->addTab(m_menu, i18n("Menu"));
         tab->adjustSize();
         break;
     }
-    lstEvent->adjustColumn();
-    setMinimumSize(sizeHint());
 }
 
 ActionConfig::~ActionConfig()
 {
-}
-
-void ActionConfig::resizeEvent(QResizeEvent *e)
-{
-    QWidget::resizeEvent(e);
-    lstEvent->adjustColumn();
-}
-
-QPixmap ActionConfig::makePixmap(const QString &src)
-{
-    const QPixmap &source = Pict(src);
-    int w = source.width();
-    int h = QMAX(source.height(), 22);
-    QPixmap pict(w, h);
-    QPainter p(&pict);
-    p.eraseRect(0, 0, w, h);
-    p.drawPixmap(0, (h - source.height()) / 2, source);
-    p.end();
-    return pict;
-}
-
-void ActionConfig::selectionChanged(Q3ListViewItem *item)
-{
-    if (m_editItem){
-        m_editItem->setText(1, m_edit->text());
-        delete m_edit;
-        m_editItem = NULL;
-        m_edit     = NULL;
-    }
-    if (item == NULL)
-        return;
-    m_editItem = item;
-    m_edit = new LineEdit(lstEvent->viewport());
-    EventTmplHelpList e;
-    e.process();
-    m_edit->helpList = e.helpList();
-    QRect rc = lstEvent->itemRect(m_editItem);
-    rc.setLeft(rc.left() + lstEvent->columnWidth(0) + 2);
-    m_edit->setGeometry(rc);
-    m_edit->setText(m_editItem->text(1));
-    m_edit->show();
-    m_edit->setFocus();
 }
 
 void ActionConfig::apply()
@@ -157,9 +132,10 @@ void ActionConfig::apply(void *_data)
     ActionUserData *data = (ActionUserData*)_data;
     if (m_menu)
         m_menu->apply(data);
-    for (Q3ListViewItem *item = lstEvent->firstChild(); item; item = item->nextSibling()){
-        unsigned id = item->text(2).toUInt();
-        QString text = item->text(1);
+    for (int row = 0; row < lstEvent->rowCount(); ++row){
+        unsigned id = lstEvent->item(row, 0)->data(Qt::UserRole).toUInt();
+        const QString text = lstEvent->item(row, 1)->data(Qt::EditRole).toString();
+
         if (id == CONTACT_ONLINE){
             data->OnLine.str() = text;
         }else if (id == CONTACT_STATUS){

@@ -23,84 +23,83 @@
 #include "action.h"
 #include "additem.h"
 
-#include <qpushbutton.h>
-//Added by qt3to4:
-#include <QResizeEvent>
+#include <QListWidgetItem>
 
 using namespace SIM;
 
-MenuConfig::MenuConfig(QWidget *parent, ActionUserData *data) : QWidget(parent)
+MenuConfig::MenuConfig(QWidget *parent, ActionUserData *data)
+  : QWidget(parent)
+  , m_data(data)
 {
-	setupUi(this);
-    m_data   = data;
+    setupUi(this);
 
-    lstMenu->addColumn(i18n("Item"));
-    lstMenu->addColumn(i18n("Program"));
-    lstMenu->setExpandingColumn(1);
-    lstMenu->adjustColumn();
-    connect(lstMenu, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(selectionChanged(Q3ListViewItem*)));
+    connect(lstMenu, SIGNAL(itemSelectionChanged()), this, SLOT(itemSelectionChanged()));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(edit()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
-    for (unsigned i = 0; i < m_data->NMenu.toULong(); i++){
-        QString str = get_str(data->Menu, i + 1);
-        QString item = getToken(str, ';');
-        new Q3ListViewItem(lstMenu, item, str);
+
+    for (unsigned row = 0; row < m_data->NMenu.toULong(); row++){
+        lstMenu->setRowCount(row+1);
+
+        const QStringList sl = get_str(data->Menu, row + 1).split(';');
+        if(sl.count() != 2)
+            continue;
+
+        QTableWidgetItem *item = new QTableWidgetItem(sl[0]);
+        lstMenu->setItem(row, 0, item);
+
+        item = new QTableWidgetItem(sl[1]);
+        lstMenu->setItem(row, 1, item);
     }
-    selectionChanged(NULL);
+    itemSelectionChanged();
 }
 
 MenuConfig::~MenuConfig()
 {
 }
 
-void MenuConfig::resizeEvent(QResizeEvent *e)
+void MenuConfig::itemSelectionChanged()
 {
-    QWidget::resizeEvent(e);
-    lstMenu->adjustColumn();
-}
-
-void MenuConfig::selectionChanged(Q3ListViewItem*)
-{
-    if (lstMenu->currentItem()){
-        btnEdit->setEnabled(true);
-        btnRemove->setEnabled(true);
-    }else{
-        btnEdit->setEnabled(false);
-        btnRemove->setEnabled(false);
-    }
+    const bool rowSelected = (lstMenu->selectedItems().count() == 2);
+    btnEdit->setEnabled(rowSelected);
+    btnRemove->setEnabled(rowSelected);
 }
 
 void MenuConfig::add()
 {
     AddItem add(topLevelWidget());
     if (add.exec()){
-        new Q3ListViewItem(lstMenu, add.edtItem->text(), add.edtPrg->text());
-        lstMenu->adjustColumn();
+        const int row = lstMenu->rowCount();
+        lstMenu->setRowCount(row+1);
+
+        QTableWidgetItem *item = new QTableWidgetItem(add.edtItem->text());
+        lstMenu->setItem(row, 0, item);
+
+        item = new QTableWidgetItem(add.edtPrg->text());
+        lstMenu->setItem(row, 1, item);
+
+        lstMenu->resizeColumnToContents(0);
     }
 }
 
 void MenuConfig::edit()
 {
-    Q3ListViewItem *item = lstMenu->currentItem();
-    if (item == NULL)
+    const int row = lstMenu->currentRow();
+    if (row < 0)
         return;
     AddItem add(topLevelWidget());
-    add.edtItem->setText(item->text(0));
-    add.edtPrg->setText(item->text(1));
+    add.edtItem->setText(lstMenu->item(row, 0)->text());
+    add.edtPrg->setText(lstMenu->item(row, 1)->text());
     if (add.exec()){
-        item->setText(0, add.edtItem->text());
-        item->setText(1, add.edtPrg->text());
-        lstMenu->adjustColumn();
+        lstMenu->item(row, 0)->setText(add.edtItem->text());
+        lstMenu->item(row, 1)->setText(add.edtPrg->text());
+        lstMenu->resizeColumnToContents(0);
     }
 }
 
 void MenuConfig::remove()
 {
-    Q3ListViewItem *item = lstMenu->currentItem();
-    if (item == NULL)
-        return;
-    delete item;
+    lstMenu->removeRow(lstMenu->currentRow());
 }
 
 void MenuConfig::apply(void *_data)
@@ -108,8 +107,9 @@ void MenuConfig::apply(void *_data)
     ActionUserData *data = (ActionUserData*)_data;
     data->Menu.clear();
     data->NMenu.asULong() = 0;
-    for (Q3ListViewItem *item = lstMenu->firstChild(); item; item = item->nextSibling()){
-        set_str(&data->Menu, ++data->NMenu.asULong(), (item->text(0) + ";" + item->text(1)));
+    for (int row = 0; row < lstMenu->rowCount(); ++row){
+        QString s = lstMenu->item(row, 0)->text() + ";" + lstMenu->item(row, 1)->text();
+        set_str(&data->Menu, ++data->NMenu.asULong(), s);
     }
 }
 

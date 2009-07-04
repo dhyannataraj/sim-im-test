@@ -28,10 +28,11 @@
 
 using namespace SIM;
 
-AddItem::AddItem(QWidget *parent) : QDialog(parent, NULL, true)
+AddItem::AddItem(QWidget *parent)
+  : QDialog(parent)
 {
-	setupUi(this);
-    SET_WNDPROC("additem")
+    setupUi(this);
+    setModal(true);
     setWindowIcon(Icon("run"));
     setButtonsPict(this);
     QTimer::singleShot(0, this, SLOT(changed()));
@@ -40,7 +41,7 @@ AddItem::AddItem(QWidget *parent) : QDialog(parent, NULL, true)
     connect(buttonHelp, SIGNAL(clicked()), this, SLOT(help()));
     EventTmplHelpList e;
     e.process();
-    edtPrg->helpList = e.helpList();
+    edtPrg->setHelpList(e.helpList());
 }
 
 void AddItem::changed()
@@ -60,4 +61,3 @@ void AddItem::help()
     e.process();
     BalloonMsg::message(e.help(), buttonHelp, false, 400);
 }
-
