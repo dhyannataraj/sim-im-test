@@ -281,7 +281,7 @@ void LineEdit::menuTriggered(QAction*a)
     }
 }
 
-QMenu *LineEdit::createPopupMenu()
+void LineEdit::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu *popup = QLineEdit::createStandardContextMenu();
     connect(popup, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
@@ -300,7 +300,8 @@ QMenu *LineEdit::createPopupMenu()
             popup->addAction(a);
         }
     }
-    return popup;
+    popup->exec(e->globalPos());
+    delete popup;
 }
 
 MultiLineEdit::MultiLineEdit(QWidget *parent)
@@ -323,7 +324,7 @@ void MultiLineEdit::menuTriggered(QAction *a)
     }
 }
 
-QMenu *MultiLineEdit::createPopupMenu()
+void MultiLineEdit::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu *popup = QTextEdit::createStandardContextMenu();
     connect(popup, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
@@ -342,6 +343,7 @@ QMenu *MultiLineEdit::createPopupMenu()
             popup->addAction(a);
         }
     }
-    return popup;
+    popup->exec(e->globalPos());
+    delete popup;
 }
 

@@ -85,7 +85,7 @@ public:
 protected slots:
     void menuTriggered(QAction*);
 protected:
-    QMenu *createPopupMenu();
+    void contextMenuEvent(QContextMenuEvent *e);
 };
 
 class EXPORT MultiLineEdit : public QTextEdit
@@ -97,7 +97,7 @@ public:
 protected slots:
     void menuTriggered(QAction*);
 protected:
-    QMenu *createPopupMenu();
+    void contextMenuEvent(QContextMenuEvent *e);
 };
 
 #endif
