@@ -661,7 +661,7 @@ void PluginManagerPrivate::loadState()
 		return;
 
 	QString fname = ProfileManager::instance()->rootPath() + QDir::separator() + QString(PLUGINS_CONF);
-	if(ProfileManager::instance()->currentProfileName() != QString::null)
+	if(!ProfileManager::instance()->currentProfileName().isEmpty())
 		fname = ProfileManager::instance()->profilePath() + QDir::separator() + QString(PLUGINS_CONF);
     m_bLoaded = true;
     QFile f(fname);
@@ -694,7 +694,7 @@ void PluginManagerPrivate::loadState()
     bool continuos=TRUE;
     while(continuos) {
 
-        Q3CString section = cfg.getSection();
+        QByteArray section = cfg.getSection();
 
         if (section.isEmpty())
             return;
@@ -709,11 +709,11 @@ void PluginManagerPrivate::loadState()
             continue;
 
         pluginInfo &info = plugins[i];
-        Q3CString line = cfg.getLine();
+        QByteArray line = cfg.getLine();
 
         if (line.isEmpty())
             continue;
-        Q3CString token = getToken(line, ',');
+        QByteArray token = getToken(line, ',');
         if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;

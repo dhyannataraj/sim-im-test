@@ -44,7 +44,7 @@ using namespace SIM;
 
 // Buffer
 Buffer::Buffer(unsigned size)
-        : QByteArray(size)
+        : QByteArray(size, '\0')
 {
     init(size);
 }
@@ -274,7 +274,7 @@ QByteArray Buffer::getSection(bool bSkip)
         return str;
     m_startSection = m_posRead = start;
 
-    str = QByteArray( data() + start + 1, end - start );
+    str = QByteArray( data() + start + 1, end - start - 1 );
 
     m_posRead = end + 1;
     if ( m_posRead < (unsigned)size() )
@@ -297,7 +297,7 @@ QByteArray Buffer::getLine()
     int end = indexOf('\n', start);
     if(end == -1)
         end = size();
-    QByteArray res = QByteArray(data() + start, end - start + 1);
+    QByteArray res = QByteArray(data() + start, end - start);
     m_posRead = end + 1; 
     if ( m_posRead < (unsigned)size() )
         if ( at(m_posRead) == '\n' )
