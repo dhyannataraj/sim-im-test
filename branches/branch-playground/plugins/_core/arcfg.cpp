@@ -67,7 +67,7 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     edtAutoReply->setText(text);
     EventTmplHelpList e;
     e.process();
-    edtAutoReply->helpList = e.helpList();
+    edtAutoReply->setHelpList(e.helpList());
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 

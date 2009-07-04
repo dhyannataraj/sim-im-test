@@ -259,44 +259,56 @@ void EditSound::play()
     e.process();
 }
 
-const int IdBase            = 0x1000;
 
+static QHash<QString, QByteArray> createHelpList(const char **helpList)
+{
+  QHash<QString, QByteArray> ret;
+  for (const char **p = helpList; *p;) {
+      const QString s = QString::fromUtf8(*p++);
+      const QByteArray b = QByteArray(*p++);
+      ret.insert(s, b);
+  }
+  return ret;
+}
+
+/*
+ * LineEdit
+ */
 LineEdit::LineEdit(QWidget *parent)
         : QLineEdit(parent)
+{}
+
+void LineEdit::setHelpList(const QHash<QString, QByteArray> &helpList)
 {
-    helpList = NULL;
+    m_helpList = helpList;
+}
+
+void LineEdit::setHelpList(const char **helpList)
+{
+  setHelpList(createHelpList(helpList));
 }
 
 void LineEdit::menuTriggered(QAction*a)
 {
-    int id = a->data().toInt();
-    if ((id < IdBase) || (helpList == NULL))
-        return;
-    id -= IdBase;
-    for (const char **p = helpList; *p; p += 2, id--){
-        if (id == 0){
-            insert(*p);
-            break;
-        }
-    }
+    insert(a->data().toString());
 }
 
 void LineEdit::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu *popup = QLineEdit::createStandardContextMenu();
     connect(popup, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
-    if (helpList){
+    if (m_helpList.count()){
         popup->addSeparator();
-        int id = IdBase;
-        for (const char **p = helpList; *p;){
-            QString s = *p++;
-            s = s.replace('&', "&&");
-            QString text = unquoteText(i18n(*p++));
-            text += " (";
-            text += s;
-            text += ')';
+        QHashIterator<QString, QByteArray> it(m_helpList);
+        while(it.hasNext()) {
+            it.next();
+            QString s = it.key();
+            s.replace('&', "&&");
+            QString text = unquoteText(i18n(it.value().constData()));
+            text += " (" + s + ")";
+
             QAction *a = new QAction(text, popup);
-            a->setData(id++);
+            a->setData(it.key());
             popup->addAction(a);
         }
     }
@@ -304,46 +316,108 @@ void LineEdit::contextMenuEvent(QContextMenuEvent *e)
     delete popup;
 }
 
-MultiLineEdit::MultiLineEdit(QWidget *parent)
-        : QTextEdit(parent)
+/*
+ * LineEditDelegate
+ */
+LineEditDelegate::LineEditDelegate(int column, QObject *parent)
+  : QItemDelegate(parent)
+  , m_column(column)
+{}
+
+void LineEditDelegate::setHelpList(const QHash<QString, QByteArray> &helpList)
 {
-    helpList = NULL;
+    m_helpList = helpList;
 }
 
-void MultiLineEdit::menuTriggered(QAction *a)
+void LineEditDelegate::setHelpList(const char **helpList)
 {
-    int id = a->data().toInt();
-    if ((id < IdBase) || (helpList == NULL))
+    setHelpList(createHelpList(helpList));
+}
+
+QWidget *LineEditDelegate::createEditor(QWidget *parent,
+                                        const QStyleOptionViewItem &option,
+                                        const QModelIndex &index) const
+{
+    if(index.column() != m_column)
+        return QItemDelegate::createEditor(parent, option, index);
+
+    LineEdit *le = new LineEdit(parent);
+    le->setText(index.model()->data(index, Qt::EditRole).toString());
+    le->setHelpList(m_helpList);
+    return le;
+}
+
+void LineEditDelegate::setEditorData(QWidget *editor,
+                                     const QModelIndex &index) const
+{
+    if(index.column() != m_column) {
+        QItemDelegate::setEditorData(editor, index);
         return;
-    id -= IdBase;
-    for (const char **p = helpList; *p; p += 2, id--){
-        if (id == 0){
-            insertPlainText(*p);
-            break;
-        }
     }
+    LineEdit *le = static_cast<LineEdit*>(editor);
+    le->setText(index.model()->data(index, Qt::EditRole).toString());
+}
+
+void LineEditDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                    const QModelIndex &index) const
+{
+    if(index.column() != m_column) {
+        QItemDelegate::setModelData(editor, model, index);
+        return;
+    }
+    LineEdit *le = static_cast<LineEdit*>(editor);
+    model->setData(index, le->text(), Qt::EditRole);
+}
+
+void LineEditDelegate::updateEditorGeometry(QWidget *editor,
+                                            const QStyleOptionViewItem &option,
+                                            const QModelIndex &/* index */) const
+{
+  editor->setGeometry(option.rect);
+}
+
+/*
+ * MultiLineEdit
+ */
+MultiLineEdit::MultiLineEdit(QWidget *parent)
+        : QTextEdit(parent)
+{}
+
+void MultiLineEdit::setHelpList(const QHash<QString, QByteArray> &helpList)
+{
+    m_helpList = helpList;
+}
+
+void MultiLineEdit::setHelpList(const char **helpList)
+{
+  setHelpList(createHelpList(helpList));
+}
+
+void MultiLineEdit::menuTriggered(QAction*a)
+{
+    insertPlainText(a->data().toString());
 }
 
 void MultiLineEdit::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu *popup = QTextEdit::createStandardContextMenu();
     connect(popup, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
-    if (helpList){
+    if (m_helpList.count()){
         popup->addSeparator();
-        int id = IdBase;
-        for (const char **p = helpList; *p;){
-            QString s = *p++;
+        QHashIterator<QString, QByteArray> it(m_helpList);
+        while(it.hasNext()) {
+            it.next();
+            QString s = it.key();
             s = s.replace('&', "&&");
-            QString text = unquoteText(i18n(*p++));
-            text += " (";
-            text += s;
-            text += ')';
+
+            QString text = unquoteText(i18n(it.value().constData()));
+            text += " (" + s + ")";
+
             QAction *a = new QAction(text, popup);
-            a->setData(id++);
+            a->setData(it.key());
             popup->addAction(a);
         }
     }
     popup->exec(e->globalPos());
     delete popup;
 }
-

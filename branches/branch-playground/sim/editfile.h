@@ -23,6 +23,7 @@
 #include <QFrame>
 #include <QLineEdit>
 #include <QTextEdit>
+#include <QItemDelegate>
 
 class QHBoxLayout;
 class FilePreview;
@@ -80,12 +81,37 @@ class EXPORT LineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    LineEdit(QWidget *parent);
-    const char **helpList;
-protected slots:
+    LineEdit(QWidget *parent = 0);
+    void setHelpList(const QHash<QString, QByteArray> &helpList);
+    void setHelpList(const char **helpList);
+
+protected Q_SLOTS:
     void menuTriggered(QAction*);
 protected:
     void contextMenuEvent(QContextMenuEvent *e);
+    QHash<QString, QByteArray> m_helpList;
+};
+
+class EXPORT LineEditDelegate : public QItemDelegate
+{
+    Q_OBJECT
+public:
+    LineEditDelegate(int column, QObject *parent = 0);
+    void setHelpList(const QHash<QString, QByteArray> &helpList);
+    void setHelpList(const char **helpList);
+
+    // QItemDelegate overrides
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                      const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const;
+protected:
+    int m_column;
+    QHash<QString, QByteArray> m_helpList;
 };
 
 class EXPORT MultiLineEdit : public QTextEdit
@@ -93,11 +119,14 @@ class EXPORT MultiLineEdit : public QTextEdit
     Q_OBJECT
 public:
     MultiLineEdit(QWidget *parent);
-    const char **helpList;
-protected slots:
+    void setHelpList(const QHash<QString, QByteArray> &helpList);
+    void setHelpList(const char **helpList);
+
+protected Q_SLOTS:
     void menuTriggered(QAction*);
 protected:
     void contextMenuEvent(QContextMenuEvent *e);
+    QHash<QString, QByteArray> m_helpList;
 };
 
 #endif

@@ -91,9 +91,9 @@ WIfaceCfg::WIfaceCfg(QWidget *parent, WeatherPlugin *plugin)
     edtText->setText(unquoteText(m_plugin->getButtonText()));
     edtTip->setPlainText(m_plugin->getTipText());
     edtForecastTip->setPlainText(m_plugin->getForecastText());
-    edtText->helpList = helpList;
-    edtTip->helpList = helpList;
-    edtForecastTip->helpList = helpForecastList;
+    edtText->setHelpList(helpList);
+    edtTip->setHelpList(helpList);
+    edtForecastTip->setHelpList(helpForecastList);
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 

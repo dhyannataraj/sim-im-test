@@ -88,7 +88,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status) : QDialog(NULL)
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
     EventTmplHelpList e;
     e.process();
-    edtAutoResponse->helpList = e.helpList();
+    edtAutoResponse->setHelpList(e.helpList());
 }
 
 AutoReplyDialog::~AutoReplyDialog()
