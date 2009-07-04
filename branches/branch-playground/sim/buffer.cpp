@@ -258,9 +258,9 @@ static int findEndSection(const Buffer *pBuf, unsigned start)
     }
 }
 
-Q3CString Buffer::getSection(bool bSkip)
+QByteArray Buffer::getSection(bool bSkip)
 {
-    Q3CString str;
+    QByteArray str;
     unsigned start = m_posRead;
     unsigned end = m_posRead;
 
@@ -274,7 +274,7 @@ Q3CString Buffer::getSection(bool bSkip)
         return str;
     m_startSection = m_posRead = start;
 
-    str = Q3CString( data() + start + 1, end - start );
+    str = QByteArray( data() + start + 1, end - start );
 
     m_posRead = end + 1;
     if ( m_posRead < (unsigned)size() )
@@ -289,15 +289,15 @@ Q3CString Buffer::getSection(bool bSkip)
     return str;
 }
 
-Q3CString Buffer::getLine()
+QByteArray Buffer::getLine()
 {
     if (readPos() >= writePos())
-        return "";
+        return QByteArray();
     unsigned start = m_posRead;
     int end = indexOf('\n', start);
     if(end == -1)
         end = size();
-    Q3CString res = Q3CString(data() + start, end - start + 1);
+    QByteArray res = QByteArray(data() + start, end - start + 1);
     m_posRead = end + 1; 
     if ( m_posRead < (unsigned)size() )
         if ( at(m_posRead) == '\n' )

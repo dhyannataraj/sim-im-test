@@ -84,9 +84,9 @@ public:
 
     void init(unsigned size);
 
-    Q3CString	getSection(bool bSkip=false);
+    QByteArray	getSection(bool bSkip=false);
     unsigned	startSection() { return m_startSection; }
-    Q3CString	getLine();
+    QByteArray	getLine();
 
     // still needed for msn until it has an ownbuffer too
     unsigned unpack(QString &d, unsigned size); // utf8

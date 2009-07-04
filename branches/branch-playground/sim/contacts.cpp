@@ -51,7 +51,7 @@ public:
     void clear(bool bClearAll);
     unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const Q3CString &section, Buffer *cfg);
+    void flush(Contact *c, Group *g, const QByteArray &section, Buffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -1694,19 +1694,19 @@ void ContactList::save()
         log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
         return;
     }
-    Q3CString line = p->userData.save();
+    QByteArray line = p->userData.save();
     if (line.length()){
         line += '\n';
-        f.write(line, line.length());
+        f.write(line);
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
-        Q3CString cfg  = "[";
+        QByteArray cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
         line += '\n';
-        f.write(cfg, cfg.length());
-        f.write(line, line.length());
+        f.write(cfg);
+        f.write(line);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
@@ -1714,26 +1714,26 @@ void ContactList::save()
         line += GROUP;
         line += QByteArray::number((quint32)grp->id());
         line += "]\n";
-        f.write(line, line.length());
+        f.write(line);
         line = save_data(groupData, &grp->data);
         if (line.length()){
             line += '\n';
-            f.write(line, line.length());
+            f.write(line);
         } else {
             /* Group has no name --> Not In List
                since the load_data seems to have problems with totally empty
                entries, this must be ...*/
-            f.write("Name=\"NIL\"\n", 11);
+            f.write("Name=\"NIL\"\n");
         }
         line = grp->userData.save();
         if (line.length()){
             line += '\n';
-            f.write(line, line.length());
+            f.write(line);
         }
         line = grp->clientData.save();
         if (line.length()){
             line += '\n';
-            f.write(line, line.length());
+            f.write(line);
         }
     }
     for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
@@ -1744,21 +1744,21 @@ void ContactList::save()
         line += CONTACT;
         line += QByteArray::number((quint32)contact->id());
         line += "]\n";
-        f.write(line, line.length());
+        f.write(line);
         line = save_data(contactData, &contact->data);
         if (line.length()){
             line += '\n';
-            f.write(line, line.length());
+            f.write(line);
         }
         line = contact->userData.save();
         if (line.length()){
             line += '\n';
-            f.write(line, line.length());
+            f.write(line);
         }
         line = contact->clientData.save();
         if (line.length()){
             line += '\n';
-            f.write(line, line.length());
+            f.write(line);
         }
     }
     f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
@@ -1802,29 +1802,28 @@ void ContactList::load()
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
-        Q3CString s = cfg.getSection();
-		QString section = s;	// is ascii - ok here
+        QByteArray section = cfg.getSection();
         if (section.isEmpty())
             break;
         if (section == OWNER){
             p->flush(c, g);
             c = owner();
             g = NULL;
-            s = "";
+            section.clear();
         }else if (section.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
             unsigned long id = section.mid(strlen(GROUP)).toLong();
             g = group(id, id != 0);
-            s = "";
+            section.clear();
         }else if (section.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
             unsigned long id = section.mid(strlen(CONTACT)).toLong();
             c = contact(id, true);
-            s = "";
+            section.clear();
         }
-        p->flush(c, g, s, &cfg);
+        p->flush(c, g, section, &cfg);
     }
     p->flush(c, g);
     // Notify the clients about the newly loaded contact list
@@ -1845,12 +1844,10 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const Q3CString &_section, Buffer *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const QByteArray &section, Buffer *cfg)
 {
     if (cfg == NULL)
         return;
-    // section name is ascii every time
-    QString section(_section);
     if (section.isEmpty()){
         if (c){
             free_data(contactData, &c->data);
@@ -2097,21 +2094,19 @@ QTextCodec *ContactList::getCodec(Contact *contact)
     return getCodecByName(owner()->getEncoding());
 }
 
-QString ContactList::toUnicode(Contact *contact, const Q3CString &str, int length)
+QString ContactList::toUnicode(Contact *contact, const QByteArray &str, int length)
 {
     if (!str.isEmpty()){
-        if (length < 0)
-            length = str.length();
-        QString res = getCodec(contact)->toUnicode(str.data(), length);
+        QString res = getCodec(contact)->toUnicode(str);
         return res.remove('\r');
     }
-    return QString::null;
+    return QString();
 }
 
-Q3CString ContactList::fromUnicode(Contact *contact, const QString &str)
+QByteArray ContactList::fromUnicode(Contact *contact, const QString &str)
 {
     if (str.isEmpty())
-        return "";
+        return QByteArray();
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
     return getCodec(contact)->fromUnicode(s);

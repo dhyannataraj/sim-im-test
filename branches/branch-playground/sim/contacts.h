@@ -23,8 +23,6 @@
 #include "message.h"
 
 #include <qimage.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 namespace SIM {
 
@@ -413,8 +411,8 @@ public:
     Contact *contactByPhone(const QString &phone);
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const QString &p1, const QString &p2);
-    QString toUnicode(Contact *contact, const Q3CString &str, int length=-1);
-    Q3CString fromUnicode(Contact *contact, const QString &str);
+    QString toUnicode(Contact *contact, const QByteArray &str, int length=-1);
+    QByteArray fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
     QTextCodec *getCodecByName(const QString &encoding);
     static const ENCODING *getEncodings();
