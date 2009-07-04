@@ -6,6 +6,8 @@
 
 - Config:
 	<s>- On startup all seems initialized by 0.9.6, the 0.9.5-config gets broken due to this initialization</s> <font>Fixed by Denis</font>
+	- Some Settings are saved in Registry in Win32 (QSettings?), this is a bad idea, if Sim-IM should be run on Computers with restricted access to registry f.e. it can't be written.
+	  using %appdata%\sim for global .conf is better.
 
 - GUI-Problems:
 	* Fix all toolbars:
@@ -69,9 +71,10 @@
 - Translation: broken
 - Test and fix "Change Profile" for working stable and secure
 
-- ConfigStorage:
-	- Some Settings are saved in Registry in Win32 (QSettings?), this is a bad idea, if Sim-IM should be run on Computers with restricted access to registry f.e. it can't be written.
-	  using %appdata%\sim for global .conf is better.
+- Tooltips:
+	- don't work on Floatys
+	- are not shown, if mainwindow has no focus. should be shown.
+
 
 - SIGNAL/SLOT - Problems:
 
