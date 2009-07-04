@@ -728,7 +728,7 @@ protected:
     bool isOwnData(const QString &screen);
     void packInfoList(const QString &str);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    Q3CString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+    QByteArray createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);

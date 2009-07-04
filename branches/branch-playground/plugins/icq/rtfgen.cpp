@@ -26,8 +26,6 @@
 
 #include <qtextcodec.h>
 #include <qregexp.h>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include "html.h"
 #include "icons.h"
@@ -225,7 +223,7 @@ class RTFGenParser : public HTMLParser
 {
 public:
     RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
-    Q3CString parse(const QString &text);
+    QByteArray parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
@@ -238,7 +236,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
-    Q3CString res;
+    QByteArray res;
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
@@ -326,9 +324,9 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
     return m_fontFaces.size() - 1;
 }
 
-Q3CString RTFGenParser::parse(const QString &text)
+QByteArray RTFGenParser::parse(const QString &text)
 {
-    res = 0;//QString::null;
+    res.clear();
     m_res_size = 0;
     m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
@@ -500,7 +498,7 @@ void RTFGenParser::text(const QString &text)
         QString s;
         s += c;
         if (m_codec){
-            Q3CString plain = m_codec->fromUnicode(s);
+            QByteArray plain = m_codec->fromUnicode(s);
             if ((plain.length() == 1) && (m_codec->toUnicode(plain) == s)){
                 char b[5];
                 snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
@@ -852,13 +850,13 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-Q3CString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
+QByteArray ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
-    Q3CString res = p.parse(text);
+    QByteArray res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
-        text = QString::null;
+        text.clear();
         return res;
     }
     QString endTags;
@@ -887,7 +885,7 @@ protected:
     virtual void tag_end(const QString &tag);
     void startBody();
     void endBody();
-    Q3CString res;
+    QByteArray res;
     bool	 m_bBody;
     bool	 m_bIcq;
 };

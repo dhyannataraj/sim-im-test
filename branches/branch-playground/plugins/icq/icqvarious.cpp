@@ -769,11 +769,10 @@ unsigned short ICQClient::findByMail(const QString &_mail)
 {
     if (getState() != Connected)
         return (unsigned short)~0U;
-    Q3CString mail = getContacts()->fromUnicode(NULL, _mail);
+    const QByteArray mail = getContacts()->fromUnicode(NULL, _mail);
 
     serverRequest(ICQ_SRVxREQ_MORE);
-    socket()->writeBuffer()
-    << ICQ_SRVxREQ_WP_MAIL;
+    socket()->writeBuffer() << ICQ_SRVxREQ_WP_MAIL;
     socket()->writeBuffer().tlvLE(TLV_EMAIL, mail.data());
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
@@ -796,7 +795,7 @@ void ICQClient::packTlv(unsigned short tlv, const QString &_data)
 {
     if(_data.isEmpty())
         return;
-    Q3CString data = getContacts()->fromUnicode(NULL, _data);
+    const QByteArray data = getContacts()->fromUnicode(NULL, _data);
     socket()->writeBuffer().tlvLE(tlv, data.data());
 }
 
@@ -1088,7 +1087,7 @@ static QString getECombo(const char *tlvData)
     unsigned len;
     const unsigned char *data = (const unsigned char*)tlvData;
     len = data[0] | ( data[1] << 8 );
-    QString ret = getContacts()->toUnicode(NULL, Q3CString( &tlvData[2], len));
+    QString ret = getContacts()->toUnicode(NULL, QByteArray::fromRawData( &tlvData[2], len));
     return ret;
 }
 

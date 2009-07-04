@@ -328,7 +328,7 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 					unsigned short iconID;
 					unsigned char iconFlags, hashSize;
 					ICQBuffer info(*tlvBuddy);
-					QByteArray hash(16);
+					QByteArray hash;
 					QString fname = m_client->pictureFile(data);
 					QFileInfo fi(fname);
 

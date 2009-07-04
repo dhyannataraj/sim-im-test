@@ -2269,7 +2269,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	}
 	unsigned long checksum = 0xFFFF;
 	//bool high = true;
-	QByteArray chunk(1024);
+	QByteArray chunk(1024, '\0');
 	Q_ULONG bytesread = 0;
 	long streamposition = 0;
 	m_file->reset();

@@ -27,8 +27,6 @@
 #include <qbuffer.h>
 #include <qimage.h>
 #include <QCryptographicHash>
-//Added by qt3to4:
-#include <Q3CString>
 
 #include "log.h"
 
@@ -262,7 +260,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 			break;
 		case ICQ_SNACxSRV_EXT_STATUS:
 			{
-				QByteArray shash(16);
+				QByteArray shash;
 				unsigned short nType;
 				char flags, size;
 
@@ -467,7 +465,7 @@ void SnacIcqService::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned s
         return;
     }
     unsigned short port = m_client->getPort();
-    Q3CString addr(tlv_addr->byteArray());
+    QByteArray addr(tlv_addr->byteArray());
     int idx = addr.indexOf(':');
     if(idx != -1) {
         port = addr.mid(idx + 1).toUShort();

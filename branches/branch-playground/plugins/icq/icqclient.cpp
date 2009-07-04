@@ -1559,9 +1559,8 @@ QString ICQClient::contactTip(void *_data)
     QString pictureFileName = pictureFile(data);
     QImage img(pictureFileName);
     if (!img.isNull()){
-        QPixmap pict(img);
-        int w = pict.width();
-        int h = pict.height();
+        int w = img.width();
+        int h = img.height();
         if (h > w){
             if (h > 60){
                 w = w * 60 / h;

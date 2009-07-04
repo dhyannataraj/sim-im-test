@@ -194,7 +194,7 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 	ICQBuffer msgBuf;
 	if (bWide)
 	{
-		QByteArray ba(text.length() * 2);
+		QByteArray ba(text.length() * 2, '\0');
 		for(int i = 0; i < (int)text.length(); i++)
 		{
 			unsigned short c = text[i].unicode();
