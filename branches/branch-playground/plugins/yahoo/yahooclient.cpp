@@ -253,7 +253,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             size += 4;
             size += (*it).second.length();
-            size += QString::number((*it).first).length();
+            size += QByteArray::number((*it).first).length();
         }
     }
     socket()->writeBuffer().packetStart();
@@ -262,9 +262,9 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             socket()->writeBuffer()
-            << QString::number((*it).first).toLatin1().data()
+            << QByteArray::number((*it).first).constData()
             << (unsigned short)0xC080
-            << (*it).second.data()
+            << (*it).second.constData()
             << (unsigned short)0xC080;
         }
     }
@@ -275,10 +275,10 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
 
 void YahooClient::addParam(unsigned key, const char *value)
 {
-    m_values.push_back(PARAM(key, Q3CString(value)));
+    m_values.push_back(PARAM(key, QByteArray(value)));
 }
 
-void YahooClient::addParam(unsigned key, const Q3CString &value)
+void YahooClient::addParam(unsigned key, const QByteArray &value)
 {
     m_values.push_back(PARAM(key, value));
 }

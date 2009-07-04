@@ -134,7 +134,7 @@ struct YahooClientData
     YahooUserData	owner;
 };
 
-typedef std::pair<unsigned, Q3CString> PARAM;
+typedef std::pair<unsigned, QByteArray> PARAM;
 
 class Params : public std::list<PARAM>
 {
@@ -210,7 +210,7 @@ protected:
     void process_auth_0x0b(const char *seed, const char *sn);
     void sendPacket(unsigned short service, unsigned long status=YAHOO_STATUS_AVAILABLE);
     void addParam(unsigned key, const char *value);
-    void addParam(unsigned key, const Q3CString &value);
+    void addParam(unsigned key, const QByteArray &value);
     void addParam(unsigned key, const QString &value);
     void loadList(const char *data);
     void contact_added(const char *id, const char *message);
