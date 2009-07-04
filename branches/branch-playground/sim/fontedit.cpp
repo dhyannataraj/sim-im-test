@@ -40,6 +40,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : Q3Frame(parent, name)
     lblFont->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     lay->addWidget(lblFont);
     lay->addSpacing(2);
+    lay->setMargin(0);
     QPushButton *btnFont = new QPushButton(this);
     btnFont->setIcon(SIM::Icon("text"));
     lay->addWidget(btnFont);

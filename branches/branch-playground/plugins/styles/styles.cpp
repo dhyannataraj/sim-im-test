@@ -71,8 +71,8 @@ StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
     load_data(stylesData, &data, config);
     setFonts();
     if (getSystemColors()){
-        setBtnColor(m_savePalette->active().color(QColorGroup::Button).rgb() & 0xFFFFFF);
-        setBgColor(m_savePalette->active().color(QColorGroup::Background).rgb() & 0xFFFFFF);
+        setBtnColor(m_savePalette->color(QPalette::Active, QColorGroup::Button).rgb() & 0xFFFFFF);
+        setBgColor(m_savePalette->color(QPalette::Active, QColorGroup::Background).rgb() & 0xFFFFFF);
     }else{
         setColors();
     }
@@ -104,14 +104,14 @@ void StylesPlugin::setFonts()
 {
     if (getSystemFonts()){
         if (m_saveBaseFont)
-            QApplication::setFont(*m_saveBaseFont, true);
+            QApplication::setFont(*m_saveBaseFont);
         if (m_saveMenuFont)
-            QApplication::setFont(*m_saveMenuFont, true, "Q3PopupMenu");
+            QApplication::setFont(*m_saveMenuFont, "Q3PopupMenu");
     }else{
         setupDefaultFonts();
         QMenu m;
-        QApplication::setFont(FontEdit::str2font(getBaseFont(), *m_saveBaseFont), true);
-        QApplication::setFont(FontEdit::str2font(getMenuFont(), *m_saveMenuFont), true, "Q3PopupMenu");
+        QApplication::setFont(FontEdit::str2font(getBaseFont(), *m_saveBaseFont));
+        QApplication::setFont(FontEdit::str2font(getMenuFont(), *m_saveMenuFont), "Q3PopupMenu");
     }
 }
 
@@ -128,9 +128,9 @@ void StylesPlugin::setupDefaultFonts()
 void StylesPlugin::setColors()
 {
     if (getSystemColors()){
-        QApplication::setPalette(*m_savePalette, true);
+        QApplication::setPalette(*m_savePalette);
     }else{
-        QApplication::setPalette(QPalette(QColor(getBtnColor()), QColor(getBgColor())), true);
+        QApplication::setPalette(QPalette(QColor(getBtnColor()), QColor(getBgColor())));
     }
 }
 

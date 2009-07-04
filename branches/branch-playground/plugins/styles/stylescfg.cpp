@@ -30,22 +30,23 @@
 
 StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         : QWidget(parent)
+        , m_plugin(plugin)
 {
     setupUi(this);
-    m_plugin = plugin;
     for (QObject *p = parent; p != NULL; p = p->parent()){
-        if (!p->inherits("QTabWidget"))
+        QTabWidget *tab = qobject_cast<QTabWidget*>(p);
+        if (!tab)
             continue;
-        QTabWidget *tab = static_cast<QTabWidget*>(p);
         font_cfg = new FontConfig(tab, m_plugin);
         tab->addTab(font_cfg, i18n("Fonts and colors"));
         break;
     }
-    lstStyle->insertStringList(QStyleFactory::keys());
+    lstStyle->addItems(QStyleFactory::keys());
     if (!m_plugin->getStyle().isEmpty()){
-        Q3ListBoxItem *item = lstStyle->findItem(m_plugin->getStyle());
-        if (item)
-            lstStyle->setCurrentItem(item);
+        QList<QListWidgetItem *> items;
+        items = lstStyle->findItems(m_plugin->getStyle(), Qt::MatchExactly);
+        if (items.count())
+            lstStyle->setCurrentItem(items[0]);
     }
 }
 
@@ -56,7 +57,8 @@ StylesConfig::~StylesConfig()
 void StylesConfig::apply()
 {
     font_cfg->apply();
-    if (m_plugin->setStyle(lstStyle->currentText().toLatin1()))
+    QListWidgetItem *item = lstStyle->currentItem();
+    if (item && m_plugin->setStyle(item->text()))
         m_plugin->setStyles();
 }
 
