@@ -77,6 +77,25 @@ protected slots:
     void play();
 };
 
+class EXPORT EditSoundDelegate : public QItemDelegate
+{
+    Q_OBJECT
+public:
+    EditSoundDelegate(int column, QObject *parent = 0);
+
+    // QItemDelegate overrides
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                      const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const;
+protected:
+    int m_column;
+};
+
 class EXPORT LineEdit : public QLineEdit
 {
     Q_OBJECT

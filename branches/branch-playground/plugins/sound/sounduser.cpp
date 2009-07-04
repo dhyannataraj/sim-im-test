@@ -35,6 +35,22 @@ using namespace SIM;
 
 unsigned ONLINE_ALERT = 0x10000;
 
+static void addRow(QTableWidget *lstSound, int row, const QIcon &icon, const QString &text,
+                   quint64 id, const QString &sound)
+{
+    QTableWidgetItem *item;
+    lstSound->setRowCount(row+1);
+
+    item = new QTableWidgetItem(icon, text);
+    item->setData(Qt::UserRole, id);
+    item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    lstSound->setItem(row, 0, item);
+
+    item = new QTableWidgetItem(sound);
+    item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsEditable);
+    lstSound->setItem(row, 1, item);
+}
+
 SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)
   : QWidget(parent)
   , m_plugin(plugin)
@@ -42,20 +58,9 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     setupUi(this);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    QTableWidgetItem *item;
-    EditSound *es;
 
     int row = 0;
-    lstSound->setRowCount(row + 1);
-
-    item = new QTableWidgetItem(Icon("SIM"), i18n("Online alert"));
-    item->setData(Qt::UserRole, ONLINE_ALERT);
-    item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-    lstSound->setItem(row, 0, item);
-
-    es = new EditSound(lstSound);
-    es->setText(plugin->fullName(user_data->Alert.str()));
-    lstSound->setCellWidget(row, 1, es);
+    addRow(lstSound, row, Icon("SIM"), i18n("Online alert"), ONLINE_ALERT, user_data->Alert.str());
 
     CommandDef *cmd;
     CommandsMapIterator it(m_plugin->core->messageTypes);
@@ -77,32 +82,23 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         type = type.left(1).toUpper() + type.mid(1);
 
         row++;
-        lstSound->setRowCount(row + 1);
-
-        item = new QTableWidgetItem(Icon(cmd->icon), type);
-        item->setData(Qt::UserRole, QVariant((quint64)cmd->id));
-        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        lstSound->setItem(row, 0, item);
-
-        es = new EditSound(lstSound);
-        es->setText(m_plugin->messageSound(cmd->id, user_data));
-        lstSound->setCellWidget(row, 1, es);
+        addRow(lstSound, row, Icon(cmd->icon), type, cmd->id, m_plugin->messageSound(cmd->id, user_data));
     }
     chkActive->setChecked(user_data->NoSoundIfActive.toBool());
     chkDisable->setChecked(user_data->Disable.toBool());
     connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     toggled(user_data->Disable.toBool());
-    lstSound->resizeRowsToContents();
     lstSound->resizeColumnsToContents();
+    lstSound->setItemDelegate(new EditSoundDelegate(1, lstSound));
+    lstSound->sortByColumn(0, Qt::Ascending);
 }
 
 void SoundUserConfig::apply(void *data)
 {
     SoundUserData *user_data = (SoundUserData*)data;
     for (int row = 0; row < lstSound->rowCount(); ++row) {
-        QTableWidgetItem *item = lstSound->item(row, 0);
-        quint64 id = item->data(Qt::UserRole).toULongLong();
-        QString text = static_cast<EditSound*>(lstSound->cellWidget(row, 1))->text();
+        quint64 id = lstSound->item(row, 0)->data(Qt::UserRole).toULongLong();
+        QString text = lstSound->item(row, 1)->data(Qt::EditRole).toString();
         if (text.isEmpty())
             text = "(nosound)";
         if (id == ONLINE_ALERT){

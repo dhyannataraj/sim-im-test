@@ -45,19 +45,9 @@ static void addRow(QTableWidget *lstEvent, int row, const QIcon &icon, const QSt
     item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
     lstEvent->setItem(row, 0, item);
 
-#if 0
-    LineEdit *edit = new LineEdit(lstEvent);
-    EventTmplHelpList e;
-    e.process();
-    // TODO: this does work because helpList is a static const char ...
-    edit->helpList = e.helpList();
-    edit->setText(program);
-    lstEvent->setCellWidget(row, 1, edit);
-#else
     item = new QTableWidgetItem(program);
     item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsEditable);
     lstEvent->setItem(row, 1, item);
-#endif
 }
 
 ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin)
@@ -105,6 +95,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
     dg->setHelpList(e.helpList());
     lstEvent->setItemDelegate(dg);
     lstEvent->resizeColumnToContents(0);
+    lstEvent->sortByColumn(0, Qt::Ascending);
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         QTabWidget *tab = qobject_cast<QTabWidget*>(p);

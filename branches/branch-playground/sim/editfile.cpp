@@ -259,6 +259,54 @@ void EditSound::play()
     e.process();
 }
 
+/*
+ * EditSoundDelegate
+ */
+EditSoundDelegate::EditSoundDelegate(int column, QObject *parent)
+  : QItemDelegate(parent)
+  , m_column(column)
+{}
+
+QWidget *EditSoundDelegate::createEditor(QWidget *parent,
+                                         const QStyleOptionViewItem &option,
+                                         const QModelIndex &index) const
+{
+    if(index.column() != m_column)
+        return QItemDelegate::createEditor(parent, option, index);
+
+    EditSound *es = new EditSound(parent);
+    es->setText(index.model()->data(index, Qt::EditRole).toString());
+    return es;
+}
+
+void EditSoundDelegate::setEditorData(QWidget *editor,
+                                      const QModelIndex &index) const
+{
+    if(index.column() != m_column) {
+        QItemDelegate::setEditorData(editor, index);
+        return;
+    }
+    EditSound *es = static_cast<EditSound*>(editor);
+    es->setText(index.model()->data(index, Qt::EditRole).toString());
+}
+
+void EditSoundDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                     const QModelIndex &index) const
+{
+    if(index.column() != m_column) {
+        QItemDelegate::setModelData(editor, model, index);
+        return;
+    }
+    EditSound *es = static_cast<EditSound*>(editor);
+    model->setData(index, es->text(), Qt::EditRole);
+}
+
+void EditSoundDelegate::updateEditorGeometry(QWidget *editor,
+                                             const QStyleOptionViewItem &option,
+                                             const QModelIndex &/* index */) const
+{
+  editor->setGeometry(option.rect);
+}
 
 static QHash<QString, QByteArray> createHelpList(const char **helpList)
 {
