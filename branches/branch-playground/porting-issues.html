@@ -1,116 +1,14 @@
-<html><head></head><body><pre><b><style type="text/css"> s{color:green;} font{color:red} </style>
+<html><head></head><body><pre>
 
-0.9.6 Todo:
-
-
-
-- Config:
-	<s>- On startup all seems initialized by 0.9.6, the 0.9.5-config gets broken due to this initialization</s> <font>Fixed by Denis</font>
-	- Some Settings are saved in Registry in Win32 (QSettings?), this is a bad idea, if Sim-IM should be run on Computers with restricted access to registry f.e. it can't be written.
-	  using %appdata%\sim for global .conf is better.
-
-- GUI-Problems:
-	* Fix all toolbars:
-		- CToolButtons don't have Highlight-Effect anymore
-			* popup in at QCursor::pos() does not work
-		- Interfacetoolbars:
-			- Middle-toolbar:
-				- some Buttons are broken on the left (color button)
-				- some controls should be hidden in toolbar as in 0.9.5, show only the needed ones. (Restoration of the Toolbar/Container behavior)
-				- shrinked toolbar (small container width): the ">>" is shown, but has no function on the right of the toolbar
-				<s>- Smilie-Window</s> <font>Fixed by Yury</font>
-					<s>- is not hiding clicking in container</s> <font>Fixed by Yury</font>
-					<s>- is opened multiple times if multiple times is clicked on the smilie button</s> <font>Fixed by Yury</font>
-			- Menu:
-				- on the left is a second "Ignore"-Button without functionality, which should be removed.
-		- in Mainwindow
-			* Onlinebar
-				- Position Saving
-				<s>- vertical OnlineToolbar: Width is much to big. Seems to the width from StatusButton.</s> <font>Fixed by Denis</font>
-				<s>- vertical expanding of StatusButton where Statustext is displayed</s> <font>Fixed by Noragen</font>
-				<s>- vertical Online Statustext drawing</s> <font>Fixed by Yury</font>
-			* weathertoolbar
-				- Icons are not shown in Tooltip
-				- Message is not displayed
-				- Fetch Icons from Server, due to ©-Issues, remove static Icon-Files (note: backport to trunk)
-				<s>- is on top (should be displayed at bottom)</s> <font>Fixed by Christian</font>
-				<s>- transparent</s> <font>Fixed by Christian</font>
-				<s>- crashing when move attempt</s> <font>Fixed by Christian</font>
-				<s>- Position Saving</s> <font>Fixed by Christian(I suppose)</font>
-		- HistoryToolbar:
-			- Searchbutton not displayed/messed up
-			- horizontal expanding of the controls does not work.
-			- History direction cannot be reverted with click on the corresponding arrow-Button
-
-	* Setup: Buttons, no Text on it (soundplugin f.e.)
-	* Floatys are not as long as in 0.9.5
-	* dragging files on contakt in contactlist is not possible to send them via filetransfer, but works with floatys
-	* sound-plugin event-tab: the path lines are not display right, also the play/browse buttons are shrinked ;)
-	* Container/History: no context-menu on right click
-	* Search/Add-Dialog:
-		- Labels for Textfields are missing.
-		- Functiontest has to be done.
-	* Online-Tooltips of contact list are hanging sometimes, they don't disappear
-	<s>* OSD is black in win32</s> <font>Fixed by Noragen</font>
-	<s>* OSD fading in win32</s> <font>Fixed by Noragen</font>
-	<s>* Search/Add-Dialog broken. Crashing on open</s> <font>Fixed by Christian</font>
-	<s>* Datepicker does not work and is not displayed right (popup) at QCursor::pos())</s> <font>Fixed by Christian</font>
-
-- Sound-plugin:
-	* no startup sound is played
-
-- Config/Setup-Window steals access to other windows (f.e. no possible acces to InterfaceWindow, MainWindow.. then.)
-- Filetransfer-Window steals access to other windows, too
-
-- Search:
-	- after Clicking around: UIN-Field is not longer enabled, when clicking on UIN-Checkbox
-	<s>- Search ICQ:</s> <font>Partly Fixed by Yury</font>
-	* Search Jabber:
-		- Labels are broken
-
-- Translation: broken
-- Test and fix "Change Profile" for working stable and secure
-
-- Tooltips:
-	- don't work on Floatys
-	- are not shown, if mainwindow has no focus. should be shown.
-
-
-- SIGNAL/SLOT - Problems:
-
-	<s>- SIM-IM: 01/07/2009 00:31:26 [DBG] QT: Object::connect: No such signal QHttp::authenticationRequired(QString&,quint16,QAuthenticator*) in branch-playground\sim\fetch.cpp:188</s> <font>Occurs if Qt is compiled without -openssl, thx Christian.</font>
-	<s>- SIM-IM: 01/07/2009 00:31:26 [DBG] QT: Object::connect: No such signal QHttp::sslErrors(const QList<QSslError>&) in branch-playground\sim\fetch.cpp:197</s> <font>Occurs if Qt is compiled without -openssl, thx Christian.</font>
-
-	-Click on contact:
-		- SIM-IM: 01/07/2009 00:41:23 [DBG] QT: Object::connect: No such signal MsgEdit::toolBarPositionChanged(QToolBar*) in branch-playground\plugins\_core\userwnd.cpp:81
-
-
-- ProtocolErrors:
-	- On Startup:
-		SIM-IM: 01/07/2009 00:39:23 [DBG] Error! foodgroup: 0003 reason: Incorrect SNACformat
-		SIM-IM: 01/07/2009 00:39:23 [WRN] Unknown buddy foodgroup type 0001
-		SIM-IM: 01/07/2009 00:39:23 [WRN] Unknown buddy foodgroup type 000A
-
-		SIM-IM: 01/07/2009 00:39:26 [DBG] Error! foodgroup: 0002 reason: Recipient is not logged in
-		SIM-IM: 01/07/2009 00:39:26 [DBG] Error! foodgroup: 0002 reason: Requested service unavailable
-
-		SIM-IM: 01/07/2009 00:40:17 [DBG] Msg size=0 type=26
-		SIM-IM: 01/07/2009 00:40:17 [DBG] Parse message [type=26]
-		SIM-IM: 01/07/2009 00:40:17 [DBG] Extended message Away Status Message [0100] 18
-
-		SIM-IM: 01/07/2009 00:40:17 [WRN] Unknown extended message type Away Status Message
-
-
-
-
-
-<a href="http://sim-im.org/wiki/Developing">Sim-IM Developer Area</a> on Sim-IM.org
+<a href="http://sim-im.org/wiki/Porting_issues"><h1>Porting issues</h1></a>
 <hr/>
+<a href="http://sim-im.org/wiki/Developing">Sim-IM Developer Area> on Sim-IM.org</a>
+
 
 TODO list for sim-im 1.0.0:
 
 1) fix all bugs ;-)
 2) implement nice things
 3) make all a little bit nicer
-
-</b></pre></body></html>
+</pre>
+</body></html>
