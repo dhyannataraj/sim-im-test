@@ -50,7 +50,7 @@ protected slots:
 protected:
     unsigned CmdGo;
     bool done(unsigned code, Buffer &data, const QString &headers);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual bool processEvent(SIM::Event *e);
     QString getHeader(const QString &name, const QString &headers);
 	bool isUpdateNeeded(QString&, QString&);

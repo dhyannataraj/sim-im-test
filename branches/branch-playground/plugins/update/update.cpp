@@ -105,7 +105,7 @@ UpdatePlugin::~UpdatePlugin()
     free_data(updateData, &data);
 }
 
-Q3CString UpdatePlugin::getConfig()
+QByteArray UpdatePlugin::getConfig()
 {
     return save_data(updateData, &data);
 }
