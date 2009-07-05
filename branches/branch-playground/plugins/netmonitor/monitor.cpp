@@ -43,7 +43,7 @@ using namespace SIM;
 MonitorWindow *monitor = NULL;
 
 MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
-        : QMainWindow(NULL, Qt::WType_TopLevel)
+        : QMainWindow(NULL, Qt::Window)
         , m_plugin(plugin)
 {
     bPause = true;  // no debug output during creation

@@ -18,7 +18,6 @@
 #include "editfile.h"
 #include "misc.h"
 
-#include "listview.h"
 #include "menucfg.h"
 #include "action.h"
 #include "additem.h"

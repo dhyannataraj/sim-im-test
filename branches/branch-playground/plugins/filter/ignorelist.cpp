@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "icons.h"
-#include "listview.h"
 #include "log.h"
 #include "misc.h"
 

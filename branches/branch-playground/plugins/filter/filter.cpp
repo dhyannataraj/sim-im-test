@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <qregexp.h>
-#include <Q3CString>
 
 #include "ballonmsg.h"
 #include "unquot.h"

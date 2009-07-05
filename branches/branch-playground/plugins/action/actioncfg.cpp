@@ -18,7 +18,6 @@
 #include "icons.h"
 #include "actioncfg.h"
 #include "menucfg.h"
-#include "listview.h"
 #include "action.h"
 #include "core.h"
 #include "ballonmsg.h"
@@ -95,7 +94,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
     dg->setHelpList(e.helpList());
     lstEvent->setItemDelegate(dg);
     lstEvent->resizeColumnToContents(0);
-    lstEvent->sortByColumn(0, Qt::Ascending);
+    lstEvent->sortByColumn(0, Qt::AscendingOrder);
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         QTabWidget *tab = qobject_cast<QTabWidget*>(p);

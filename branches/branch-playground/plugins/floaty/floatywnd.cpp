@@ -58,11 +58,12 @@ compose_floaty_name( unsigned long id )
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
         : QWidget(NULL,
-                  Qt::Tool | Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint |
-                  Qt::FramelessWindowHint | Qt::WStyle_Tool |
-                  Qt::WNoAutoErase
-                  | Qt::WPaintClever
-                  | Qt::WX11BypassWM
+                  Qt::Tool
+                  | Qt::WindowStaysOnTopHint
+                  | Qt::CustomizeWindowHint
+                  | Qt::FramelessWindowHint
+                  | Qt::Tool
+                  | Qt::X11BypassWindowManagerHint
                 )
 {
     setAttribute(Qt::WA_MacAlwaysShowToolWindow);
