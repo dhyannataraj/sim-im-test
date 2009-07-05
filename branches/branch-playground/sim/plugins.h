@@ -19,7 +19,7 @@
 #define _PLUGINS_H
 
 #include <qstring.h>
-#include <Q3CString>
+#include <QWidget>
 #include "simapi.h"
 
 class QLibrary;
@@ -56,7 +56,7 @@ class EXPORT Plugin
 public:
     Plugin(unsigned base);
     virtual ~Plugin() {}
-    virtual QWidget *createConfigWindow(QWidget /* *parent */ ) { return NULL; }
+    virtual QWidget *createConfigWindow(QWidget* /* *parent */ ) { return NULL; }
     virtual QByteArray getConfig() { return QByteArray(); }
     unsigned registerType();
     void boundTypes();
