@@ -53,7 +53,7 @@ protected:
 //    bool eventFilter(QObject *o, QEvent *e);
     QSet<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual bool processEvent(SIM::Event *e);
     void openFile();
     QFile *m_file;

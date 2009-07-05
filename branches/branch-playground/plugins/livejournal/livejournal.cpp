@@ -381,10 +381,10 @@ LiveJournalClient::~LiveJournalClient()
     free_data(liveJournalClientData, &data);
 }
 
-Q3CString LiveJournalClient::getConfig()
+QByteArray LiveJournalClient::getConfig()
 {
-    Q3CString cfg = TCPClient::getConfig();
-    Q3CString my_cfg = save_data(liveJournalClientData, &data);
+    QByteArray cfg = TCPClient::getConfig();
+    QByteArray my_cfg = save_data(liveJournalClientData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";

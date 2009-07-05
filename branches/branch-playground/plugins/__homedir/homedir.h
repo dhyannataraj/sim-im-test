@@ -31,7 +31,7 @@ protected:
     QString buildFileName(const QString &name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     friend class HomeDirConfig;
 
     bool m_bDefault;

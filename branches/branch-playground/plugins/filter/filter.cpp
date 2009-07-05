@@ -123,9 +123,9 @@ FilterPlugin::~FilterPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-Q3CString FilterPlugin::getConfig()
+QByteArray FilterPlugin::getConfig()
 {
-    return Q3CString();
+    return QByteArray();
 }
 
 bool FilterPlugin::processEvent(Event *e)

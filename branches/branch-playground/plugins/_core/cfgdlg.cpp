@@ -508,7 +508,7 @@ void ConfigureDialog::apply()
         for (const DataDef *d = def; d->name; ++d)
             size += d->n_values;
         Data *data = new Data[size];
-        Q3CString cfg = client->getConfig();
+        QByteArray cfg = client->getConfig();
         if (cfg.isEmpty()){
             load_data(def, data, NULL);
         }else{

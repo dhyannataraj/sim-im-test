@@ -47,7 +47,7 @@ protected slots:
 protected:
     virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual bool eventFilter(QObject*, QEvent*);
     QWidget *getMainWindow();
     bool isMainShow();

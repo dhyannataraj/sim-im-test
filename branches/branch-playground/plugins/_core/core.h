@@ -350,7 +350,7 @@ protected slots:
     void showMain();
 protected:
     virtual bool processEvent(SIM::Event*);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void showInfo(SIM::CommandDef *cmd);
     bool init(bool bFirst);

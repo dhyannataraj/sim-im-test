@@ -591,7 +591,7 @@ bool NavigatePlugin::processEvent(Event *e)
     return false;
 }
 
-Q3CString NavigatePlugin::getConfig()
+QByteArray NavigatePlugin::getConfig()
 {
     return save_data(navigateData, &data);
 }

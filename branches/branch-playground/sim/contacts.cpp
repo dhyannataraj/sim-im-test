@@ -1152,7 +1152,7 @@ void Client::freeData()
     free_data(_clientData, &data);
 }
 
-Q3CString Client::getConfig()
+QByteArray Client::getConfig()
 {
     QString real_pswd = getPassword();
     QString pswd = getPassword();
@@ -1173,7 +1173,7 @@ Q3CString Client::getConfig()
         setPassword(prev);
     if (!getSavePassword())
         setPassword(NULL);
-    Q3CString res = save_data(_clientData, &data);
+    QByteArray res = save_data(_clientData, &data);
     setPassword(real_pswd);
     return res;
 }
@@ -1680,11 +1680,11 @@ void ContactList::addClient(Client *client)
     e.process();
 }
 
-static char CONTACTS_CONF[] = "contacts.conf";
-static char CONTACT[] = "Contact=";
-static char GROUP[] = "Group=";
-static char OWNER[] = "Owner";
-static char BACKUP_SUFFIX[] = "~";
+static const char CONTACTS_CONF[] = "contacts.conf";
+static const char CONTACT[] = "Contact=";
+static const char GROUP[] = "Group=";
+static const char OWNER[] = "Owner";
+static const char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
 {
@@ -1813,13 +1813,13 @@ void ContactList::load()
         }else if (section.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
-            unsigned long id = section.mid(strlen(GROUP)).toLong();
+            unsigned long id = section.mid(strlen(GROUP)).toULong();
             g = group(id, id != 0);
             section.clear();
         }else if (section.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
-            unsigned long id = section.mid(strlen(CONTACT)).toLong();
+            unsigned long id = section.mid(strlen(CONTACT)).toULong();
             c = contact(id, true);
             section.clear();
         }

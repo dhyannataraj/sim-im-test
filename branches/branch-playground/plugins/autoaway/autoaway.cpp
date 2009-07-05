@@ -243,7 +243,7 @@ AutoAwayPlugin::~AutoAwayPlugin()
 	free_data(autoAwayData, &data);
 }
 
-Q3CString AutoAwayPlugin::getConfig()
+QByteArray AutoAwayPlugin::getConfig()
 {
     return save_data(autoAwayData, &data);
 }

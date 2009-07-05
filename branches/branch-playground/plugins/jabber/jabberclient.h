@@ -320,7 +320,7 @@ public:
     virtual QString name();
     virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual QImage userPicture(unsigned id);
     QImage userPicture(JabberUserData *d);
 

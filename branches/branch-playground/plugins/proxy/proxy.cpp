@@ -1292,7 +1292,7 @@ bool ProxyPlugin::processEvent(Event *e)
     return false;
 }
 
-Q3CString ProxyPlugin::getConfig()
+QByteArray ProxyPlugin::getConfig()
 {
     return save_data(_proxyData, &data);
 }

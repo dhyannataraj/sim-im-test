@@ -170,7 +170,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_STR(ListRequests);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     QString getLogin();
     void setLogin(const QString&);
     QString name();

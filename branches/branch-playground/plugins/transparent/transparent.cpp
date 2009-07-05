@@ -99,7 +99,7 @@ TransparentPlugin::~TransparentPlugin()
     free_data(transparentData, &data);
 }
 
-Q3CString TransparentPlugin::getConfig()
+QByteArray TransparentPlugin::getConfig()
 {
     return save_data(transparentData, &data);
 }

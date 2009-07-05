@@ -134,7 +134,7 @@ QWidget	*MSNClient::setupWnd()
     return new MSNConfig(NULL, this, false);
 }
 
-Q3CString MSNClient::getConfig()
+QByteArray MSNClient::getConfig()
 {
     QString listRequests;
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
@@ -143,7 +143,7 @@ Q3CString MSNClient::getConfig()
         listRequests += QString::number((*it).Type) + "," + it->Name;
     }
     setListRequests(listRequests);
-    Q3CString res = Client::getConfig();
+    QByteArray res = Client::getConfig();
     if (res.length())
         res += "\n";
     res += save_data(msnClientData, &data);

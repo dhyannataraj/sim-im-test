@@ -145,9 +145,9 @@ YahooClient::~YahooClient()
     free_data(yahooClientData, &data);
 }
 
-Q3CString YahooClient::getConfig()
+QByteArray YahooClient::getConfig()
 {
-    Q3CString res = TCPClient::getConfig();
+    QByteArray res = TCPClient::getConfig();
     if (res.length())
         res += "\n";
     QString requests;

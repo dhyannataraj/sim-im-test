@@ -107,7 +107,7 @@ protected:
     virtual unsigned short  getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual QString name();
     virtual QString dataName(void*);
     virtual bool	isMyData(SIM::clientData*&, SIM::Contact*&);

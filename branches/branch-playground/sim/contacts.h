@@ -262,7 +262,7 @@ public:
     Protocol *protocol() const { return m_protocol; }
     virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;

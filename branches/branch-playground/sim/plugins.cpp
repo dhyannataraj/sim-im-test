@@ -55,16 +55,13 @@
 # endif
 #endif
 
-using namespace std;
-
 namespace SIM
 {
 
 Plugin::Plugin(unsigned base)
-{
-    m_base = base;
-    m_current = base;
-}
+: m_base(base)
+, m_current(base)
+{}
 
 unsigned Plugin::registerType()
 {
@@ -74,16 +71,6 @@ unsigned Plugin::registerType()
 void Plugin::boundTypes()
 {
     m_current = (m_current | 0x3F) + 1;
-}
-
-QWidget *Plugin::createConfigWindow(QWidget*)
-{
-    return NULL;
-}
-
-Q3CString Plugin::getConfig()
-{
-    return "";
 }
 
 class PluginManagerPrivate : public EventReceiver
@@ -133,7 +120,7 @@ protected:
     bool m_bPluginsInBuildDir;  // plugins in build dir -> full path in pluginInfo.filePath
 
     ExecManager	 *m_exec;
-    auto_ptr<BuiltinLogger> builtinLogger;
+    std::auto_ptr<BuiltinLogger> builtinLogger;
 
     friend class PluginManager;
 };

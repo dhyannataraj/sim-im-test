@@ -279,10 +279,10 @@ SMSClient::~SMSClient()
     free_data(smsClientData, &data);
 }
 
-Q3CString SMSClient::getConfig()
+QByteArray SMSClient::getConfig()
 {
-    Q3CString cfg = TCPClient::getConfig();
-    Q3CString my_cfg = save_data(smsClientData, &data);
+    QByteArray cfg = TCPClient::getConfig();
+    QByteArray my_cfg = save_data(smsClientData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";

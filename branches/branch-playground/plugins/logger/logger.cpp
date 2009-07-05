@@ -94,7 +94,7 @@ LoggerPlugin::~LoggerPlugin()
     free_data(loggerData, &data);
 }
 
-Q3CString LoggerPlugin::getConfig()
+QByteArray LoggerPlugin::getConfig()
 {
     QByteArray packets;
     QSetIterator<unsigned> setIt(m_packets);

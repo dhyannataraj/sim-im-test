@@ -69,7 +69,7 @@ protected:
     virtual bool error(const QString &err);
 
     virtual bool processEvent(SIM::Event *e);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32
     IPC		*ipc;

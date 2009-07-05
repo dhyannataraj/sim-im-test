@@ -73,7 +73,7 @@ protected:
 #if defined(USE_KDE) || defined(WIN32)
     virtual QWidget *createConfigWindow(QWidget *parent);
 #endif
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     void getState();
     void setState();
     QWidget *getMainWindow();

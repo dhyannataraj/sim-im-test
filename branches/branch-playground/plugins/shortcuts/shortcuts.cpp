@@ -517,7 +517,7 @@ ShortcutsPlugin::~ShortcutsPlugin()
     free_data(shortcutsData, &data);
 }
 
-Q3CString ShortcutsPlugin::getConfig()
+QByteArray ShortcutsPlugin::getConfig()
 {
     return save_data(shortcutsData, &data);
 }

@@ -188,7 +188,7 @@ bool OnTopPlugin::processEvent(Event *e)
     return false;
 }
 
-Q3CString OnTopPlugin::getConfig()
+QByteArray OnTopPlugin::getConfig()
 {
     getState();
     return save_data(onTopData, &data);

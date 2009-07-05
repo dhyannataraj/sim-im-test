@@ -146,7 +146,7 @@ WeatherPlugin::~WeatherPlugin()
     getIcons()->removeIconSet(m_icons);
 }
 
-Q3CString WeatherPlugin::getConfig()
+QByteArray WeatherPlugin::getConfig()
 {
     if (m_bar)
         saveToolbar(m_bar, data.bar);

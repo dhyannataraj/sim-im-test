@@ -258,7 +258,7 @@ RemotePlugin::~RemotePlugin()
     free_data(remoteData, &data);
 }
 
-Q3CString RemotePlugin::getConfig()
+QByteArray RemotePlugin::getConfig()
 {
     return save_data(remoteData, &data);
 }

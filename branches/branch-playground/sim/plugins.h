@@ -56,8 +56,8 @@ class EXPORT Plugin
 public:
     Plugin(unsigned base);
     virtual ~Plugin() {}
-    virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual Q3CString getConfig();
+    virtual QWidget *createConfigWindow(QWidget *parent) { return NULL; }
+    virtual QByteArray getConfig() { return QByteArray(); }
     unsigned registerType();
     void boundTypes();
 protected:

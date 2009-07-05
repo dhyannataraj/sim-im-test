@@ -60,9 +60,9 @@ BackgroundPlugin::~BackgroundPlugin()
 	PropertyHub::save();
 }
 
-Q3CString BackgroundPlugin::getConfig()
+QByteArray BackgroundPlugin::getConfig()
 {
-    return Q3CString();
+    return QByteArray();
 }
 
 QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)

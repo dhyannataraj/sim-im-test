@@ -176,7 +176,7 @@ SoundPlugin::~SoundPlugin()
 	getContacts()->unregisterUserData(user_data_id);
 }
 
-Q3CString SoundPlugin::getConfig()
+QByteArray SoundPlugin::getConfig()
 {
     return save_data(soundData, &data);
 }

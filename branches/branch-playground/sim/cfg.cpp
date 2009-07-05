@@ -849,15 +849,15 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     cfg->setReadPos(read_pos);
 }
 
-EXPORT Q3CString save_data(const DataDef *def, void *_data)
+EXPORT QByteArray save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
-    Q3CString res;
+    QByteArray res;
     for (; def->name; def++){
-        Q3CString value;
+        QByteArray value;
         bool bSave = false;
         if (def->type == DATA_STRUCT){
-            Q3CString s = save_data((DataDef*)(def->def_value), data);
+            QByteArray s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
                     res += '\n';
@@ -958,7 +958,7 @@ EXPORT Q3CString save_data(const DataDef *def, void *_data)
                 }
             case DATA_CSTRING:{
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
-                        Q3CString &str = ld->cstr();
+                        const QByteArray str = ld->cstr();
                         if (value.length())
                             value += ',';
                         if (def->def_value){

@@ -3243,7 +3243,7 @@ void CorePlugin::loadDir()
 }
 
 static char BACKUP_SUFFIX[] = "~";
-Q3CString CorePlugin::getConfig()
+QByteArray CorePlugin::getConfig()
 {
 	QString unread_str;
 	for(list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread)

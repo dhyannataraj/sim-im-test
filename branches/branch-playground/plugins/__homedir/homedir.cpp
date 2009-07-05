@@ -204,7 +204,7 @@ QWidget *HomeDirPlugin::createConfigWindow(QWidget *parent)
 	return new HomeDirConfig(parent, this);
 }
 
-Q3CString HomeDirPlugin::getConfig()
+QByteArray HomeDirPlugin::getConfig()
 {
     if (!m_bSave)
         return QByteArray();

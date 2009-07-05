@@ -92,7 +92,7 @@ public:
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual bool processEvent(SIM::Event *e);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void applyKeys(unsigned long);
     void applyKey(SIM::CommandDef*);

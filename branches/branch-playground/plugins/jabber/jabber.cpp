@@ -371,7 +371,7 @@ JabberPlugin::~JabberPlugin()
     free_data(jabberData, &data);
 }
 
-Q3CString JabberPlugin::getConfig()
+QByteArray JabberPlugin::getConfig()
 {
     return save_data(jabberData, &data);
 }

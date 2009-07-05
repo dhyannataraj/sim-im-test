@@ -152,7 +152,7 @@ protected:
     char   m_bDayPart;
     bool   m_bDayForecastIsValid;
     unsigned m_day;
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     bool isDay();
     bool parseTime(const QString &str, int &h, int &m);
     bool parseDateTime(const QString &str, QDateTime &dt);

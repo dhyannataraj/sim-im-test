@@ -171,7 +171,7 @@ public:
     ~MSNClient();
     virtual QString     name();
     virtual QWidget    *setupWnd();
-    virtual Q3CString    getConfig();
+    virtual QByteArray  getConfig();
     PROP_STR(Server);
     PROP_USHORT(Port);
     PROP_ULONG(ListVer);

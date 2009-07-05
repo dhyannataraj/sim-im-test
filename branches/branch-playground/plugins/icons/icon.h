@@ -39,7 +39,7 @@ public:
     void setIcons(bool bForce);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     IconsData data;
 };
 

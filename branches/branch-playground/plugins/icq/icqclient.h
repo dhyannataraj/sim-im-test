@@ -510,7 +510,7 @@ public:
     virtual QString getScreen();
     virtual QString     dataName(void*);
     virtual QWidget    *setupWnd();
-    virtual Q3CString    getConfig();
+    virtual QByteArray  getConfig();
     virtual void contactsLoaded();
     void setUin(unsigned long);
     void setScreen(const QString &);

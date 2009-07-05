@@ -51,7 +51,7 @@ protected slots:
     void realFinished();
 protected:
     virtual bool processEvent(SIM::Event *e);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     void showMonitor();
     void saveState();
     unsigned long CmdNetMonitor;

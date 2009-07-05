@@ -273,9 +273,9 @@ bool DockPlugin::processEvent(Event *e)
     return false;
 }
 
-Q3CString DockPlugin::getConfig()
+QByteArray DockPlugin::getConfig()
 {
-    return Q3CString();
+    return QByteArray();
 }
 
 void DockPlugin::showPopup(QPoint p)

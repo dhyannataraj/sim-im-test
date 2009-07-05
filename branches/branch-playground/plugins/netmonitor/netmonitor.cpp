@@ -93,7 +93,7 @@ NetmonitorPlugin::~NetmonitorPlugin()
     free_data(monitorData, &data);
 }
 
-Q3CString NetmonitorPlugin::getConfig()
+QByteArray NetmonitorPlugin::getConfig()
 {
     saveState();
     setShow(monitor != NULL);

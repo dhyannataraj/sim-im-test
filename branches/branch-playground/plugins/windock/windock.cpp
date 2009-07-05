@@ -489,7 +489,7 @@ bool WinDockPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-Q3CString WinDockPlugin::getConfig()
+QByteArray WinDockPlugin::getConfig()
 {
     return save_data(winDockData, &data);
 }

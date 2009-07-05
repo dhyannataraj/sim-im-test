@@ -107,7 +107,7 @@ UserWnd::~UserWnd()
     }
 }
 
-Q3CString UserWnd::getConfig()
+QByteArray UserWnd::getConfig()
 {
     return save_data(userWndData, &data);
 }

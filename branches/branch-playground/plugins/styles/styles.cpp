@@ -90,7 +90,7 @@ StylesPlugin::~StylesPlugin()
         delete m_savePalette;
 }
 
-Q3CString StylesPlugin::getConfig()
+QByteArray StylesPlugin::getConfig()
 {
     return save_data(stylesData, &data);
 }

@@ -176,7 +176,7 @@ void SpellPlugin::deactivate()
     m_edits.clear();
 }
 
-Q3CString SpellPlugin::getConfig()
+QByteArray SpellPlugin::getConfig()
 {
     return save_data(spellData, &data);
 }

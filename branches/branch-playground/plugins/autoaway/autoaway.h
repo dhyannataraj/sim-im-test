@@ -57,7 +57,7 @@ protected slots:
     void timeout();
 protected:
     virtual bool processEvent(SIM::Event*);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     unsigned getIdleTime();
     bool bAway;

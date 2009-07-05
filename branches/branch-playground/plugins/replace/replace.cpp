@@ -70,7 +70,7 @@ ReplacePlugin::~ReplacePlugin()
     free_data(replaceData, &data);
 }
 
-Q3CString ReplacePlugin::getConfig()
+QByteArray ReplacePlugin::getConfig()
 {
     return save_data(replaceData, &data);
 }

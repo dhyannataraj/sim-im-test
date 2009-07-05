@@ -54,7 +54,7 @@ protected slots:
 protected:
     virtual bool processEvent(SIM::Event *e);
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual Q3CString getConfig();
+    virtual QByteArray getConfig();
     QWidget *getMainWindow();
     unsigned CmdAutoHide;
     bool m_bInit;

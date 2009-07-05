@@ -386,7 +386,7 @@ bool ICQClient::compareData(void *d1, void *d2)
     return (data1->Screen.str() == data2->Screen.str());
 }
 
-Q3CString ICQClient::getConfig()
+QByteArray ICQClient::getConfig()
 {
     QString listRequest;
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
@@ -397,7 +397,7 @@ Q3CString ICQClient::getConfig()
         listRequest += (*it).screen;
     }
     setListRequests(listRequest);
-    Q3CString res = Client::getConfig();
+    QByteArray res = Client::getConfig();
     if (res.length())
         res += '\n';
     return res += save_data(icqClientData, &data);

@@ -80,7 +80,7 @@ void IconsPlugin::setIcons(bool bForce)
     EventIconChanged().process();
 }
 
-Q3CString IconsPlugin::getConfig()
+QByteArray IconsPlugin::getConfig()
 {
     return save_data(iconsData, &data);
 }
