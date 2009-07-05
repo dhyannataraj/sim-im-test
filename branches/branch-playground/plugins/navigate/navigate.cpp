@@ -14,7 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <Q3MemArray>
+#include <QVarLengthArray>
+#include <QDebug>
 
 #include "navigate.h"
 #include "navcfg.h"
@@ -86,7 +87,7 @@ protected:
 
 DDEstring::DDEstring(const QString &name) : hSz(NULL)
 {
-    hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINUNICODE);
+    hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.utf16(), CP_WINUNICODE);
 }
 
 DDEstring::~DDEstring()
@@ -193,7 +194,7 @@ QString getCurrentUrl()
 
 RegEntry::RegEntry(HKEY hRootKey, const QString &path)
 {
-    if (RegOpenKey(hRootKey, (LPCWSTR)path.ucs2(), &hKey) != ERROR_SUCCESS)
+    if (RegOpenKey(hRootKey, (LPCWSTR)path.utf16(), &hKey) != ERROR_SUCCESS)
         hKey = NULL;
 }
 
@@ -208,13 +209,12 @@ QString RegEntry::value(const QString &key)
     if (hKey == NULL)
 		return QString::null;
     long size = 0;
-    if (RegQueryValue(hKey, (LPCWSTR)key.ucs2(), NULL, &size) != ERROR_SUCCESS)
+    if (RegQueryValue(hKey, (LPCWSTR)key.utf16(), NULL, &size) != ERROR_SUCCESS)
         return QString::null;
-    Q3MemArray<unsigned short> ba(size + 1);
-	ba.fill(0);
-    if (RegQueryValue(hKey, (LPCWSTR)key.ucs2(), (LPWSTR)ba.data(), &size) != ERROR_SUCCESS)
-		return QString::null;
-	return QString::fromUcs2(ba.data());
+    QVarLengthArray<ushort, 1024> ba(size + 1);
+    if (RegQueryValue(hKey, (LPCWSTR)key.utf16(), (LPWSTR)ba.data(), &size) != ERROR_SUCCESS)
+        return QString();
+    return QString::fromUtf16(ba.constData());
 }
 
 #endif
@@ -441,7 +441,7 @@ bool NavigatePlugin::processEvent(Event *e)
                 ZeroMemory(&si, sizeof(si));
                 si.cb = sizeof(si);
                 ZeroMemory(&pi, sizeof(pi));
-                if (CreateProcess(NULL, (LPWSTR)prg.ucs2(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
+                if (CreateProcess(NULL, (LPWSTR)prg.utf16(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
                     WaitForInputIdle(pi.hProcess, INFINITE);
                     CloseHandle(pi.hProcess);
                     CloseHandle(pi.hThread);
@@ -464,8 +464,10 @@ bool NavigatePlugin::processEvent(Event *e)
 			//path.replace("%20", " ");
 			openPathInExplorer.addArgument("explorer");
 			openPathInExplorer.addArgument(path);
-			if (openPathInExplorer.start()) qDebug(i18n("Explorer started for Path"));
-			else qDebug(i18n("ERR: Explorer started for Path FAILED!"));	
+			if (openPathInExplorer.start())
+                            qDebug() << i18n("Explorer started for Path");
+			else
+                            qDebug() << i18n("ERR: Explorer started for Path FAILED!");	
         }
 #else
 #ifdef USE_KDE

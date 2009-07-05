@@ -18,6 +18,9 @@ SET(sound_UICS
         sounduserbase.ui
 )
 
+REMOVE_DEFINITIONS(-DQT3_SUPPORT)
+REMOVE_DEFINITIONS(-DQT_3SUPPORT_LIB)
+REMOVE_DEFINITIONS(-DQT3_SUPPORT_WARNINGS)
 SIM_ADD_PLUGIN(sound)
 
 # install new sounds with known licence

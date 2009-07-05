@@ -180,15 +180,15 @@ QString HomeDirPlugin::defaultPath()
         makedir(defPath + '\\');
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
-        if (!f.open(IO_ReadWrite | IO_Truncate))
-            defPath = "";
+        if (!f.open(QIODevice::ReadWrite|QIODevice::Truncate))
+            defPath.clear();
         f.close();
         QFile::remove(lockTest);
     }
     if (!defPath.isEmpty()){
         s = defPath;
     }else{
-        s = app_file("");
+        s = app_file(QString());
     }
 #endif
 #ifdef HAVE_CHMOD

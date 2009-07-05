@@ -19,13 +19,8 @@
 #define _SOUNDUSER_H
 
 #include "ui_sounduserbase.h"
-//Added by qt3to4:
-#include <QPixmap>
-#include <QResizeEvent>
 
 class SoundPlugin;
-class EditSound;
-class Q3ListViewItem;
 
 class SoundUserConfig : public QWidget, public Ui::SoundUserConfigBase
 {

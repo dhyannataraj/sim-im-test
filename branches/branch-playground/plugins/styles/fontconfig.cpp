@@ -18,11 +18,11 @@
 #include "fontconfig.h"
 #include "fontedit.h"
 #include "styles.h"
+#include <qcolorbutton.h>
 
 #include <qcheckbox.h>
 #include <qapplication.h>
-#include <q3popupmenu.h>
-#include <qcolorbutton.h>
+#include <qmenu.h>
 
 FontConfig::FontConfig(QWidget *parent, StylesPlugin *plugin)
         : QWidget(parent)

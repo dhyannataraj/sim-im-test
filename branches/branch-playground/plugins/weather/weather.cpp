@@ -76,7 +76,7 @@ static DataDef weatherData[] =
         { "Tip", DATA_UTF, 1, 0 },
         { "ForecastTip", DATA_UTF, 1, 0 },
         { "Units", DATA_BOOL, 1, 0 },
-        { "Bar", DATA_LONG, 7, DATA(Qt::DockBottom) },
+        { "Bar", DATA_LONG, 7, DATA(Qt::BottomToolBarArea) },
         { "Updated", DATA_STRING, 1, 0 },
         { "Temperature", DATA_LONG, 1, 0 },
         { "FeelsLike", DATA_LONG, 1, 0 },

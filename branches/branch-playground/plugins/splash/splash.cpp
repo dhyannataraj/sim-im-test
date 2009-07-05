@@ -80,7 +80,8 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : QObject(NULL), Plugin(b
 			y -= 2;
 			p.setPen(QColor(0xFF, 0xFF, 0xE0));
 			p.drawText(x, y, text);
-			splash = new QWidget(NULL, "splash", Qt::SplashScreen);
+			splash = new QWidget(NULL, Qt::SplashScreen);
+                        splash->setObjectName("splash");
 
 			QDesktopWidget *desktop =  qApp->desktop();  //QApplication::desktop();
 			int desk_width = desktop->geometry().width();
@@ -89,7 +90,9 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : QObject(NULL), Plugin(b
 				splash->move((desktop->width()/2 - pict.width()) / 2, (desktop->height() - pict.height()) / 2);
 			else //normal screen 
 				splash->move((desktop->width() - pict.width()) / 2, (desktop->height() - pict.height()) / 2);
-			splash->setBackgroundPixmap(pict);
+                        QPalette palette = splash->palette();
+                        palette.setBrush(splash->backgroundRole(), QBrush(pict));
+                        splash->setPalette(palette);
 			splash->resize(pict.width(), pict.height());
 			splash->repaint();
 			const QBitmap mask = pict.mask();

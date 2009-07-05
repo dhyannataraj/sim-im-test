@@ -18,7 +18,6 @@
 #include "icons.h"
 #include "sounduser.h"
 #include "sound.h"
-#include "listview.h"
 #include "editfile.h"
 #include "core.h"
 
@@ -90,7 +89,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     toggled(user_data->Disable.toBool());
     lstSound->resizeColumnsToContents();
     lstSound->setItemDelegate(new EditSoundDelegate(1, lstSound));
-    lstSound->sortByColumn(0, Qt::Ascending);
+    lstSound->sortByColumn(0, Qt::AscendingOrder);
 }
 
 void SoundUserConfig::apply(void *data)
