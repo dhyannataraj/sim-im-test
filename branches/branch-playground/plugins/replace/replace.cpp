@@ -22,10 +22,6 @@
 #include "misc.h"
 
 #include <qapplication.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <QEvent>
-#include <QKeyEvent>
 
 using namespace std;
 using namespace SIM;

@@ -196,7 +196,7 @@ Buffer &Buffer::operator >> (long &c)
     return *this;
 }
 
-bool Buffer::scan(const char *substr, Q3CString &res)
+bool Buffer::scan(const char *substr, QByteArray &res)
 {
     char c = *substr;
     for (unsigned pos = readPos(); pos < writePos(); pos++){
@@ -210,10 +210,11 @@ bool Buffer::scan(const char *substr, Q3CString &res)
                 break;
         }
         if (*sp == 0){
-            res = "";
+            Q3CString resCStr = "";
             if (pos - readPos()){
-                unpack(res, pos - readPos());
+                unpack(resCStr, pos - readPos());
             }
+            res = resCStr;
             incReadPos(pos + strlen(substr) - readPos());
             return true;
         }

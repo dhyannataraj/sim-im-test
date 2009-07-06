@@ -19,7 +19,6 @@
 #define _ABOUTDLG_H
 
 #include "simapi.h"
-#include <QCloseEvent>
 #include <QDialog>
 
 #ifndef USE_KDE

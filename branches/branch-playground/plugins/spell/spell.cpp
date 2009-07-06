@@ -193,7 +193,7 @@ bool SpellPlugin::processEvent(SIM::Event*)
 
 bool SpellPlugin::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::ChildInserted){
+    if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
         if (ce->child()->inherits("MsgTextEdit")){
             TextEdit *edit = static_cast<TextEdit*>(ce->child());
@@ -215,7 +215,7 @@ void SpellPlugin::textEditFinished(TextEdit *edit)
 void SpellPlugin::check(const QString &word)
 {
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        if ((*it)->check(word.utf8()) == 1)
+        if ((*it)->check(word.toUtf8()) == 1)
             return;
     }
     emit misspelling(word);
@@ -224,7 +224,7 @@ void SpellPlugin::check(const QString &word)
 void SpellPlugin::add(const QString &word)
 {
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        if ((*it)->add(word.utf8()))
+        if ((*it)->add(word.toUtf8()))
             return;
     }
 }
@@ -257,7 +257,7 @@ QStringList SpellPlugin::suggestions(const QString &word)
 {
     QStringList res;
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        QStringList wl = (*it)->suggestions(word.utf8());
+        QStringList wl = (*it)->suggestions(word.toUtf8());
         for (QStringList::Iterator it = wl.begin(); it != wl.end(); ++it){
             QString wrd = (*it);
             QStringList::Iterator itr;

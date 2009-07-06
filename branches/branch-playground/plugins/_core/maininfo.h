@@ -22,7 +22,14 @@
 
 class Q3ListViewItem;
 
-class MainInfo : public QWidget, public Ui::MainInfoBase, public SIM::EventReceiver
+// Lets do this later whole in one, because at the moment it only breaks linking of all other plugins...
+#ifdef MAKE__CORE_LIB
+# define _CORE_EXPORTS Q_DECL_EXPORT
+#else
+# define _CORE_EXPORTS Q_DECL_IMPORT
+#endif
+
+class _CORE_EXPORTS MainInfo : public QWidget, public Ui::MainInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

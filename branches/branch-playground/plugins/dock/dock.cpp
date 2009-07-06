@@ -23,11 +23,8 @@
 
 #include <qapplication.h>
 #include <qwidget.h>
-#include <q3popupmenu.h>
 #include <qtimer.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <QEvent>
+#include <qmenu.h>
 #include <time.h>
 
 using namespace SIM;

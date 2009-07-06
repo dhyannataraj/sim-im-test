@@ -19,10 +19,6 @@
 #define _DOCK_H
 
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3PopupMenu>
-#include <QEvent>
-#include <Q3CString>
 
 #include "cfg.h"
 #include "event.h"
@@ -33,7 +29,7 @@ class DockWnd;
 class QMenu;
 class CorePlugin;
 
-class DockPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class DockPlugin : public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

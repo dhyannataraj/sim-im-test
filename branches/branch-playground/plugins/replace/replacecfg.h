@@ -19,14 +19,9 @@
 #define _REPLACECFG_H
 
 #include "ui_replacecfgbase.h"
-//Added by qt3to4:
-#include <QResizeEvent>
-#include <Q3Frame>
-#include <QEvent>
 
 class ReplacePlugin;
 class IntLineEdit;
-class Q3Frame;
 class Q3ListViewItem;
 
 class ReplaceCfg : public QWidget, public Ui::ReplaceCfgBase

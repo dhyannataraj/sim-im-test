@@ -40,7 +40,7 @@ protected:
     std::stack<QStringList>	m_tree;
     std::stack<unsigned>	m_pos;
     QFileInfoList		 m_drives;
-    QFileInfo			 *m_drive;
+    QFileInfo			 m_drive;
     EditFile			 *m_edit;
 };
 

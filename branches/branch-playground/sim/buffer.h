@@ -80,7 +80,7 @@ public:
     Buffer &operator >> (long &c);
     Buffer &operator >> (unsigned long &c) { return operator >> ((long&)c); }
 
-    bool scan(const char *substr, Q3CString &res);
+    bool scan(const char *substr, QByteArray &res);
 
     void init(unsigned size);
 

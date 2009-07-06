@@ -222,7 +222,8 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
         log(L_WARN, "Clear DTR error");
         return false;
     }
-    d->m_timer->start(d->m_time, true);
+    d->m_timer->setSingleShot(true);
+    d->m_timer->start(d->m_time);
     return true;
 }
 
@@ -284,7 +285,8 @@ void SerialPort::timeout()
         return;
     }
     d->m_state = Setup;
-    d->m_timer->start(d->m_time, true);
+    d->m_timer->setSingleShot(true);
+    d->m_timer->start(d->m_time);
 }
 
 void SerialPort::writeLine(const char *data, unsigned read_time)
@@ -323,9 +325,9 @@ void SerialPort::setTimeout(unsigned read_time)
     SetEvent(d->hEvent);
 }
 
-Q3CString SerialPort::readLine()
+QByteArray SerialPort::readLine()
 {
-    Q3CString res;
+    QByteArray res;
     if (d->hPort == INVALID_HANDLE_VALUE)
         return res;
     if (d->m_buff.scan("\n", res)){
@@ -388,7 +390,7 @@ QStringList SerialPort::devices()
     for (unsigned i = 1; i <= 8; i++){
         QString port = "COM" + QString::number(i);
         QString fullPort = "\\\\.\\" + port;
-        Qt::HANDLE hPort = CreateFile((LPCWSTR)fullPort.ucs2(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
+        Qt::HANDLE hPort = CreateFile((LPCWSTR)fullPort.utf16(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
         if (hPort == INVALID_HANDLE_VALUE)
             continue;
         res.append(port);
@@ -556,9 +558,9 @@ void SerialPort::setTimeout(unsigned timeRead)
     d->m_readTimer->start( d->m_timeout );
 }
 
-Q3CString SerialPort::readLine()
+QByteArray SerialPort::readLine()
 {
-    Q3CString res;
+    QByteArray res;
     if (d->fd == -1)
         return res;
     if (d->m_buf.scan("\n", res)){

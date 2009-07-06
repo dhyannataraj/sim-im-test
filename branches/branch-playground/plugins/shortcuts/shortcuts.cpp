@@ -213,7 +213,7 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     QWidget *main = ShortcutsPlugin::getMainWindow();
     if (key && main){
         QString atom = "sim_" + QString::number(cmd->id);
-        m_key = GlobalAddAtom((LPCWSTR)atom.ucs2());
+        m_key = GlobalAddAtom((LPCWSTR)atom.utf16());
         RegisterHotKey(main->winId(), m_key, mod, key);
     }
 }
@@ -672,27 +672,25 @@ static const char *states[] =
 
 unsigned ShortcutsPlugin::stringToButton(const QString &cfg)
 {
-    unsigned res = 0;
-    QString config = cfg;
-    for (; config.length(); ){
-        QString t = getToken(config, '+');
-        if (t == "Alt"){
-            res |= Qt::AltButton;
+    Qt::KeyboardModifiers res = Qt::NoModifier;
+    QStringList config = cfg.split('+');
+    Q_FOREACH(const QString &t, config) {
+        if (t == QLatin1String("Alt")){
+            res |= Qt::AltModifier;
             continue;
         }
-        if (t == "Ctrl"){
-            res |= Qt::ControlButton;
+        if (t == QLatin1String("Ctrl")){
+            res |= Qt::ControlModifier;
             continue;
         }
-        if (t == "Shift"){
-            res |= Qt::ShiftButton;
+        if (t == QLatin1String("Shift")){
+            res |= Qt::ShiftModifier;
             continue;
         }
         unsigned i = 1;
-        for (const char **p = states; *p; p++, i++)
-		{
+        for (const char **p = states; *p; p++, i++) {
             if (t == *p){
-                res |= i;
+                res |= (Qt::KeyboardModifier)i;
                 return res;
             }
         }
@@ -821,7 +819,7 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
         }
     }
     if (me){
-        button |= me->state() & (Qt::AltModifier | Qt::ControlModifier | Qt::ShiftModifier);
+        button |= me->modifiers();
         MAP_CMDS::iterator it = mouseCmds.find(button);
         if (it != mouseCmds.end()){
             CommandDef *cmd = &(*it).second;

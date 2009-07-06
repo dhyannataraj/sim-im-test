@@ -18,10 +18,7 @@
 #ifndef _SERIAL_H
 #define _SERIAL_H
 
-#include <q3cstring.h>
 #include <qobject.h>
-//Added by qt3to4:
-#include <QEvent>
 
 class SerialPortPrivate;
 class QEvent;
@@ -37,7 +34,7 @@ public:
     static QStringList devices();
     void writeLine(const char *data, unsigned timeRead);
     void setTimeout(unsigned timeRead);
-    Q3CString readLine();
+    QByteArray readLine();
 signals:
     void write_ready();
     void read_ready();

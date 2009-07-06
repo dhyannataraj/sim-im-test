@@ -188,12 +188,11 @@ void SpellConfig::setCheck(Q3ListViewItem *item)
 {
     QStyleOptionButton opt;
     opt.state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
-    QColorGroup cg = palette().active();
     int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);
-    pInd.setBrush(cg.background());
+    pInd.setBrush(palette().brush(QPalette::Active, QPalette::Background));
     QRect rc(0, 0, w, h);
     pInd.eraseRect(rc);
     opt.rect = rc;

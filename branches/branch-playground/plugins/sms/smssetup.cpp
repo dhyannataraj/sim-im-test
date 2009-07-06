@@ -50,7 +50,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client) : QWidget(parent)
     }
     cmbPort->setCurrentIndex(cur);
     for (unsigned i = 0; i < (unsigned)(cmbBaud->count()); i++){
-        if (cmbBaud->text(i).toULong() == m_client->getBaudRate()){
+        if (cmbBaud->itemText(i).toULong() == m_client->getBaudRate()){
             cmbBaud->setCurrentIndex(i);
         }
     }
@@ -67,7 +67,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client) : QWidget(parent)
         edtModel->setText(client->model());
         edtOper->setText(client->oper());
     }else{
-        tabSMS->removePage(tabPhone);
+        tabSMS->removeTab(tabSMS->indexOf(tabPhone));
     }
     QTimer::singleShot(0, this, SLOT(init()));
 }

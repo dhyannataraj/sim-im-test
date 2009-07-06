@@ -71,14 +71,17 @@ void DockWnd::showPopup()
 }
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
-        : QWidget(NULL, "dock",  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_StaysOnTop),
-        EventReceiver(LowPriority)
+  : QWidget(NULL, Qt::Window
+                  | Qt::FramelessWindowHint
+                  | Qt::WindowStaysOnTopHint)
+  , EventReceiver(LowPriority)
+  , m_plugin(plugin)
+  , m_state(icon)
 {
-    m_plugin = plugin;
+    setObjectName("dock");
     setMouseTracking(true);
     bNoToggle = false;
     bBlink = false;
-    m_state = icon;
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 

@@ -33,16 +33,19 @@
 using namespace std;
 using namespace SIM;
 
-SpellFind::SpellFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiveClose)
+SpellFind::SpellFind(EditFile *edt)
+  : QDialog(NULL)
+  , m_edit(edt)
 {
-	setupUi(this);
+    setupUi(this);
+    setModal(false);
+    setAttribute(Qt::WA_DeleteOnClose);
     SET_WNDPROC("find")
     setWindowIcon(Icon("find"));
     setButtonsPict(this);
-    m_edit = edt;
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     m_drives = QDir::drives();
-    m_drive  = &m_drives.first();
+    m_drive  = m_drives.first();
     QTimer::singleShot(0, this, SLOT(next()));
 }
 
@@ -76,15 +79,16 @@ void SpellFind::next()
         QTimer::singleShot(0, this, SLOT(next()));
         return;
     }
-    if (m_drive == NULL){
+    m_path = m_drive.absoluteFilePath();
+    m_path = m_path.replace('/', '\\');
+    if ((GetDriveTypeW((LPCWSTR)m_path.utf16()) == DRIVE_FIXED) && checkPath())
+        return;
+    m_drives.removeFirst();
+    if(m_drives.count() == 0) {
         close();
         return;
     }
-    m_path = m_drive->absoluteFilePath();
-    m_path = m_path.replace('/', '\\');
-    if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
-        return;
-    //m_drive = m_drives.next(); // portme
+    m_drive = m_drives.first();
     QTimer::singleShot(0, this, SLOT(next()));
 }
 

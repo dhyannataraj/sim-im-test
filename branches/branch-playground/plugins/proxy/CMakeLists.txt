@@ -20,9 +20,11 @@ SET(proxy_UICS
         proxyerrorbase.ui
 )
 
+SET(proxy_LIBS
+        _core
+)
+
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
 SIM_ADD_PLUGIN(proxy)
-
-ADD_DEPENDENCIES(proxy _core)

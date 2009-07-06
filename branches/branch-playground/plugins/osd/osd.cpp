@@ -426,7 +426,7 @@ void OSDWidget::paintEvent(QPaintEvent*)
     if(!m_image.isNull())
     {
         QPixmap image = QPixmap::fromImage(m_image);
-        unsigned char alpha =(unsigned char) QMIN((int)(transCounter * 256 / 100), 255);
+        unsigned char alpha =(unsigned char) qMin((int)(transCounter * 256 / 100), 255);
         QPixmap alphaChannel = image.alphaChannel();
         alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
         image.setAlphaChannel(alphaChannel);

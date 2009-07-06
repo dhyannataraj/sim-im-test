@@ -20,9 +20,6 @@
 
 #include "socket.h"
 #include "log.h"
-//Added by qt3to4:
-#include <Q3CString>
-#include <QEvent>
 
 class SMSProtocol;
 class GsmTA;
@@ -90,8 +87,8 @@ public:
     PROP_ULONG(Charge);
     PROP_BOOL(Charging);
     PROP_ULONG(Quality);
-    Q3CString model() const;
-    Q3CString oper() const;
+    QByteArray model() const;
+    QByteArray oper() const;
     smsUserData* tosmsUserData(SIM::clientData * data);
 protected slots:
     void error();

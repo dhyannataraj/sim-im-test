@@ -119,7 +119,7 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
                 key = (*it);
                 ++it;
                 val = (*it);
-                if ((key == "color") && (val.lower() == "#ff0101")){
+                if ((key == "color") && (val.toLower() == QLatin1String("#ff0101"))){
                     m_bError = true;
                     break;
                 }
@@ -144,17 +144,14 @@ void SpellHighlighter::flush()
 {
     if (m_curWord.isEmpty())
         return;
-    Q3CString ss;
-    if (!m_curWord.isEmpty())
-        ss = m_curWord.local8Bit();
-    SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", ss.data(), m_index, m_curStart, m_pos);
+    SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", qPrintable(m_curWord), m_index, m_curStart, m_pos);
 
     if ((m_index >= m_curStart) && (m_index <= m_pos)){
         if (m_bCheck){
             m_word       = m_curWord;
             m_bInError   = m_bError;
             m_start_word = m_curStart;
-            m_curWord    = QString::null;
+            m_curWord.clear();
             return;
         }
         if (m_bError){
@@ -166,17 +163,17 @@ void SpellHighlighter::flush()
                     setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
             }
         }
-        m_curWord = QString::null;
+        m_curWord.clear();
         return;
     }
     if (m_bCheck){
-        m_curWord = QString::null;
+        m_curWord.clear();
         return;
     }
     if (m_bDisable){
         if (m_bError)
             setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
-        m_curWord = QString::null;
+        m_curWord.clear();
         return;
     }
     MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
@@ -192,7 +189,7 @@ void SpellHighlighter::flush()
         if (m_plugin->m_ignore.find(SIM::my_string(m_curWord)) == m_plugin->m_ignore.end())
             emit check(m_curWord);
     }
-    m_curWord = QString::null;
+    m_curWord.clear();
 }
 
 void SpellHighlighter::slotMisspelling(const QString &word)

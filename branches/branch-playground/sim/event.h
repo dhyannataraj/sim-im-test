@@ -21,7 +21,6 @@
 #include <qpoint.h>
 #include <qsize.h>
 #include <qstringlist.h>
-#include <Q3CString>
 
 #include "buffer.h"
 

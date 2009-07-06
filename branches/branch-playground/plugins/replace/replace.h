@@ -19,9 +19,6 @@
 #define _REPLACE_H
 
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <QEvent>
 
 #include "cfg.h"
 #include "plugins.h"

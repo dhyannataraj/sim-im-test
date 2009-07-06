@@ -38,16 +38,19 @@
 
 using namespace SIM;
 
-KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal) : QDialog(parent, name, modal)
+KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
+  : QDialog(parent)
 {
 	setupUi(this);
 	SET_WNDPROC("about");
 	setButtonsPict(this);
+        setObjectName(name);
+        setModal(modal);
 
 	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
     setWindowIcon(SIM::Icon("SIM"));
 	QIcon icon = SIM::Icon("SIM");
-        lblIcon->setIcon(SIM::Pict("SIM"));
+        lblIcon->setPixmap(SIM::Pict("SIM"));
 	edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
 	edtVersion->setReadOnly(true);
 	txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +

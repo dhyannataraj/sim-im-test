@@ -32,9 +32,6 @@
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <Q3Frame>
-#include <QKeyEvent>
-#include <Q3PopupMenu>
-#include <QFocusEvent>
 #ifdef USE_KDE
 #include <ktextedit.h>
 #define Q3TextEdit KTextEdit
@@ -42,6 +39,7 @@
 
 class CToolBar;
 class Q3TextDrag;
+class Q3PopupMenu;
 
 const unsigned TextCmdBase	= 0x00030000;
 const unsigned CmdBgColor	= TextCmdBase;

@@ -22,7 +22,6 @@
 
 #include <qobject.h>
 #include <qstring.h>
-#include <Q3CString>
 #include <QEvent>
 
 #include "cfg.h"

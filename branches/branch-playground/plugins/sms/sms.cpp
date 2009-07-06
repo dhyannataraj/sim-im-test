@@ -21,16 +21,11 @@
 #include "gsm_ta.h"
 #include "core.h"
 #include "maininfo.h"
-#include "listview.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qwidget.h>
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <QChildEvent>
-#include <QEvent>
 
 using namespace SIM;
 
@@ -121,31 +116,23 @@ SMSPlugin::~SMSPlugin()
 void SMSPlugin::setPhoneCol()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-    QWidget *w;
-    foreach(w,list)
-	{
-		QObjectList l = w->queryList("MainInfo");
-        QObject * obj;
-        foreach(obj,l)
-		{
-			setPhoneCol(static_cast<MainInfo*>(obj));
-		}
-	}
+    Q_FOREACH(QWidget *w, list) {
+        QList<MainInfo*> l = qFindChildren<MainInfo *>(w);
+        Q_FOREACH(MainInfo *obj,l) {
+            setPhoneCol(obj);
+        }
+    }
 }
 
 void SMSPlugin::removePhoneCol()
 {
     QWidgetList list = QApplication::topLevelWidgets();
-    QWidget *w;
-    foreach(w,list)
-	{
-		QObjectList l = w->queryList("MainInfo");
-        QObject * obj;
-        foreach(obj,l)
-		{
-			removePhoneCol(static_cast<MainInfo*>(obj));
-		}
-	}
+    Q_FOREACH(QWidget *w, list) {
+        QList<MainInfo*> l = qFindChildren<MainInfo *>(w);
+        Q_FOREACH(MainInfo *obj,l) {
+            removePhoneCol(obj);
+        }
+    }
 }
 
 void SMSPlugin::setPhoneCol(MainInfo *w)
@@ -160,7 +147,7 @@ void SMSPlugin::removePhoneCol(MainInfo *w)
 
 bool SMSPlugin::eventFilter(QObject *obj, QEvent *e)
 {
-    if (e->type() == QEvent::ChildInserted){
+    if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
         if (ce->child()->inherits("MainInfo"))
             setPhoneCol(static_cast<MainInfo*>(ce->child()));
@@ -291,18 +278,18 @@ QByteArray SMSClient::getConfig()
     return cfg;
 }
 
-Q3CString SMSClient::model() const
+QByteArray SMSClient::model() const
 {
     if (getState() == Connected)
         return m_ta->model();
-    return "";
+    return QByteArray();
 }
 
-Q3CString SMSClient::oper() const
+QByteArray SMSClient::oper() const
 {
     if (getState() == Connected)
         return m_ta->oper();
-    return "";
+    return QByteArray();
 }
 
 QString SMSClient::name()
@@ -320,7 +307,7 @@ QString SMSClient::name()
 
 QString SMSClient::dataName(void*)
 {
-    return "";
+    return QString();
 }
 
 bool SMSClient::isMyData(clientData*&, Contact*&)
