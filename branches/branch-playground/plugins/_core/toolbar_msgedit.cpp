@@ -93,7 +93,7 @@ void CorePlugin::createMsgEditToolbar()
   cmd->icon_on = QString::null;
   cmd->bar_id  = ToolBarMsgEdit;
   cmd->bar_grp = 0x1010;
-  cmd->flags   = BTN_EDIT | COMMAND_CHECK_STATE;
+  cmd->flags   = COMMAND_CHECK_STATE;
   EventCommandCreate(cmd).process();
 
   cmd->id      = CmdPhoneNumber;
