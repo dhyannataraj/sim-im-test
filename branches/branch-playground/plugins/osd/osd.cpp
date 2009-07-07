@@ -44,7 +44,11 @@
 #include "osd.h"
 #include "osdconfig.h"
 
-
+#ifdef WIN32
+	#include <windows.h>
+#else  // assume POSIX
+	#include <unistd.h>
+#endif
 
 
 #ifndef Q_WS_WIN
@@ -145,7 +149,7 @@ OSDPlugin::OSDPlugin(unsigned base) : Plugin(base)
     m_osd   = NULL;
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
-	bCapsState = false;
+    bCapsState = false;
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -195,7 +199,7 @@ QFont OSDPlugin::getBaseFont(QFont font)
 }
 
 OSDWidget::OSDWidget(OSDPlugin *plugin)
-    : QWidget(NULL, Qt::Tool |
+    : QLabel(NULL, Qt::Tool |
         Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint )
 {
     m_plugin = plugin;
@@ -213,7 +217,6 @@ OSDWidget::OSDWidget(OSDPlugin *plugin)
 
 bool OSDWidget::isScreenSaverActive()
 {
-/*
 #ifdef Q_WS_WIN
     BOOL pvParam;
     if (SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &pvParam, 0)){
@@ -221,7 +224,6 @@ bool OSDWidget::isScreenSaverActive()
             return true;
     }
 #endif
-*/
     return false;
 }
 
@@ -241,10 +243,10 @@ static const char * const close_h_xpm[] = {
 
 	static int const cFadeTime = 50;
 
-	void OSDWidget::showOSD(const QString &str, OSDUserData *data)
+void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
     currentData = *data;
-	m_bFading = data->Fading.toBool();
+    m_bFading = data->Fading.toBool();
     m_sText = str;
     if (isScreenSaverActive())
     {
@@ -262,21 +264,22 @@ static const char * const close_h_xpm[] = {
     recalcGeometry();
     resize(m_Rect.size());
 
-    m_image = QImage(size(),QImage::Format_ARGB32);
+    QImage image(size(),QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
 
-    if (m_bFading)
-        m_image.fill(Qt::transparent);
-
-    QPainter p(&m_image);
+    QPainter p(&image);
+    p.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing|QPainter::Antialiasing);
     draw(p);
-
+    p.end();
+    setPixmap(QPixmap::fromImage(image));
     if (m_bFading)
-        setMask(QPixmap::fromImage(m_image.createAlphaMask(), Qt::MonoOnly));
+        setMask(QPixmap::fromImage(image.createAlphaMask(), Qt::MonoOnly));
 
     transCounter = 0;
     transCounterDelta = 5;
+    setWindowOpacity(transCounter/100.);
 
-    QWidget::show();
+    QLabel::show();
     raise();
     
     if (m_bFading)
@@ -369,7 +372,6 @@ QSize OSDWidget::sizeHint() const
 void OSDWidget::slotTimerFadeInTimeout()
 {
     transCounter += transCounterDelta;
-    update();
     if (transCounter>100)
     {
         transCounter = 100;
@@ -379,8 +381,10 @@ void OSDWidget::slotTimerFadeInTimeout()
     {
         transCounter = 0;
         m_transTimer.stop();
-        QWidget::hide();
+        QLabel::hide();
     }
+    setWindowOpacity(transCounter/100.);
+    update();
 }
 
 void OSDWidget::draw(QPainter &p)
@@ -388,7 +392,7 @@ void OSDWidget::draw(QPainter &p)
     QSize s = size();
     int w = s.width();
     int h = s.height();
-    QRect rc = QRect(0, 0, w, h);
+    QRect rc(0, 0, w, h);
 
     if (m_bBackground)
     {
@@ -410,7 +414,7 @@ void OSDWidget::draw(QPainter &p)
 
     if( m_bShadow )
     {
-        p.setPen(QColor(0x80,0x80,0x80,0x80));
+        p.setPen(Qt::darkGray);
         QRect src(rc);
         src.translate(SHADOW_DEF,SHADOW_DEF);
         p.drawText(src, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
@@ -418,24 +422,6 @@ void OSDWidget::draw(QPainter &p)
 
     p.setPen(currentData.Color.toULong());
     p.drawText(rc, Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, m_sText);
-}
-
-void OSDWidget::paintEvent(QPaintEvent*)
-{
-    QPainter p(this);
-    if(!m_image.isNull())
-    {
-        QPixmap image = QPixmap::fromImage(m_image);
-        unsigned char alpha =(unsigned char) qMin((int)(transCounter * 256 / 100), 255);
-        QPixmap alphaChannel = image.alphaChannel();
-        alphaChannel.fill(QColor(alpha,alpha,alpha,alpha));
-        image.setAlphaChannel(alphaChannel);
-        p.drawPixmap(0,0,image);
-    }
-    else
-    {
-        draw(p);
-    }
 }
 
 void OSDWidget::mouseDoubleClickEvent(QMouseEvent*)
@@ -457,16 +443,13 @@ void OSDWidget::slotCloseClick()
 
 void OSDWidget::hide()
 {
-	if( m_bFading )
-	{
-		transCounter = 100;
-		transCounterDelta = -5;
-		m_transTimer.start(cFadeTime);
-	}
-	else
-	{
-		QWidget::hide();
-	}
+    if( m_bFading ) {
+        transCounter = 100;
+        transCounterDelta = -5;
+        m_transTimer.start(cFadeTime);
+    } else {
+        QLabel::hide();
+    }
 }
 
 #if 0
@@ -494,9 +477,8 @@ void OSDPlugin::processQueue()
 {
     if (m_timer->isActive())
         return;
-    while (queue.size()){
-        m_request = queue.front();
-        queue.erase(queue.begin());
+    while (m_queue.size()){
+        m_request = m_queue.takeFirst();
         Contact *contact = getContacts()->contact(m_request.contact);
         if ((contact == NULL) || contact->getIgnore()){
             continue;
@@ -563,7 +545,7 @@ void OSDPlugin::processQueue()
             break;
         case OSD_MESSAGE:
            if (data->EnableMessage.toBool() && core){
-				list<msg_id>::iterator it;
+                list<msg_id>::iterator it;
                 TYPE_MAP types;
                 TYPE_MAP::iterator itc;
                 QString msg_text;
@@ -650,9 +632,11 @@ void OSDPlugin::run(){
 		flashCapsLockLED(!bCapsState);
 
 #ifdef WIN32
-		sleepTime(200);
+                // milliseconds
+		Sleep(200);
 #else
-		sleepTime(1);
+                // microseconds
+		usleep(200*1000);
 #endif
 	}
 	if (bCapsState) flashCapsLockLED(!bCapsState); //switch LED off
@@ -733,7 +717,7 @@ bool OSDPlugin::processEvent(Event *e)
         case EventContact::eOnline: {
             osd.contact = contact->id();
             osd.type    = OSD_ALERTONLINE;
-            queue.push_back(osd);
+            m_queue.push_back(osd);
             processQueue();
             break;
         }
@@ -752,24 +736,15 @@ bool OSDPlugin::processEvent(Event *e)
                     }
                 }
                 if (bTyping){
-                    list<unsigned>::iterator it;
-                    for (it = typing.begin(); it != typing.end(); ++it)
-                        if ((*it) == contact->id())
-                            break;
-                    if (it == typing.end()){
-                        typing.push_back(contact->id());
+                    if (!m_typing.contains(contact->id())) {
+                        m_typing += contact->id();
                         osd.contact = contact->id();
                         osd.type    = OSD_TYPING;
-                        queue.push_back(osd);
+                        m_queue.push_back(osd);
                         processQueue();
                     }
                 }else{
-                    list<unsigned>::iterator it;
-                    for (it = typing.begin(); it != typing.end(); ++it)
-                        if ((*it) == contact->id())
-                            break;
-                    if (it != typing.end())
-                        typing.erase(it);
+                    m_typing.remove(contact->id());
                     if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
                         m_timer->stop();
                         m_timer->start(100);
@@ -824,16 +799,16 @@ bool OSDPlugin::processEvent(Event *e)
                 osd.type = OSD_NONE;
                 return false;
             }
-            queue.push_back(osd);
+            m_queue.push_back(osd);
             processQueue();
         }else{
             osd.type    = OSD_MESSAGE;
             if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
-                queue.push_front(osd);
+                m_queue.push_front(osd);
                 m_timer->stop();
                 m_timer->start(100);
             }else{
-                queue.push_back(osd);
+                m_queue.push_back(osd);
                 processQueue();
             }
         }
@@ -881,16 +856,16 @@ bool OSDPlugin::processEvent(Event *e)
                 osd.type = OSD_NONE;
                 return false;
             }
-            queue.push_back(osd);
+            m_queue.push_back(osd);
             processQueue();
         }else{
             osd.type    = OSD_MESSAGE;
             if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
-                queue.push_front(osd);
+                m_queue.push_front(osd);
                 m_timer->stop();
                 m_timer->start(100);
             }else{
-                queue.push_back(osd);
+                m_queue.push_back(osd);
                 processQueue();
             }
         }

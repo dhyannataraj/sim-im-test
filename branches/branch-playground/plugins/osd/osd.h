@@ -18,32 +18,18 @@
 #ifndef _OSD_H
 #define _OSD_H
 
-#include <simapi.h>
-#include <qfont.h>
-#include <qpixmap.h>
-#include <qwidget.h>
-#include <qthread.h>
+#include <QFont>
+#include <QLabel>
+#include <QList>
+#include <QThread>
 #include <QTimer>
+#include <QPixmap>
+#include <QSet>
 
-#include "cfg.h"
-#include "event.h"
-#include "plugins.h"
-
-#ifdef WIN32
-	#include <windows.h>
-#else  // assume POSIX
-	#include <unistd.h>
-#endif
-
-inline void sleepTime(int i) {
-#ifdef WIN32
-  Sleep(i);
-#else
-  sleep(i);
-#endif
-}
-
-class QPushButton;
+#include <simapi.h>
+#include <cfg.h>
+#include <event.h>
+#include <plugins.h>
 
 struct OSDUserData
 {
@@ -92,12 +78,10 @@ struct OSDRequest
     OSDType		type;
 };
 
-class QTimer;
-class QPushButton;
 class CorePlugin;
 class OSDPlugin;
 
-class OSDWidget : public QWidget
+class OSDWidget : public QLabel
 {
     Q_OBJECT
 public:
@@ -117,7 +101,6 @@ public slots:
 
 protected:
     bool isScreenSaverActive();
-    virtual void paintEvent(QPaintEvent*);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void mousePressEvent(QMouseEvent *event);
     QRect recalcGeometry();
@@ -137,7 +120,6 @@ protected:
     QRect m_Rect;
     OSDUserData currentData;
     QImage m_imageButton;
-    QImage m_image;
     QRect m_rectButton;
 };
 
@@ -160,14 +142,14 @@ protected:
     void processQueue();
     void flashCapsLockLED(bool);
     OSDRequest			m_request;
-    std::list<OSDRequest>	queue;
-    std::list<unsigned>		typing;
+    QList<OSDRequest> m_queue;
+    QSet<unsigned>    m_typing;
     CorePlugin	*core;
     OSDWidget		*m_osd;
     QTimer		*m_timer;
     bool bCapsState;
     bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size()
-                              // see pacth #2304 for more info.
+                              // see patch #2304 for more info.
 };
 
 #endif
