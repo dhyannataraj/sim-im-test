@@ -529,17 +529,10 @@ void OSDPlugin::processQueue()
         case OSD_TYPING:
             if (data->EnableTyping.toBool()){
                 unsigned style = 0;
-                QString wrkIcons;
+                QSet<QString> wrkIcons;
                 QString statusIcon;
                 contact->contactInfo(style, statusIcon, &wrkIcons);
-                bool bTyping = false;
-                while (!wrkIcons.isEmpty()){
-                    if (getToken(wrkIcons, ',') == "typing"){
-                        bTyping = true;
-                        break;
-                    }
-                }
-                if (bTyping)
+                if (wrkIcons.contains("typing"))
                     text = g_i18n("%1 is typing", contact) .arg(contact->getName());
             }
             break;
@@ -725,17 +718,10 @@ bool OSDPlugin::processEvent(Event *e)
             OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
             if (data){
                 unsigned style = 0;
-                QString wrkIcons;
+                QSet<QString> wrkIcons;
                 QString statusIcon;
                 contact->contactInfo(style, statusIcon, &wrkIcons);
-                bool bTyping = false;
-                while (!wrkIcons.isEmpty()){
-                    if (getToken(wrkIcons, ',') == "typing"){
-                        bTyping = true;
-                        break;
-                    }
-                }
-                if (bTyping){
+                if (wrkIcons.contains("typing")){
                     if (!m_typing.contains(contact->id())) {
                         m_typing += contact->id();
                         osd.contact = contact->id();

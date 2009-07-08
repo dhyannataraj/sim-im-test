@@ -1282,24 +1282,14 @@ void YahooClient::messageReceived(Message *msg, const char *id)
     }
 }
 
-static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
+static void addIcon(QSet<QString> *s, const QString &icon, const QString &statusIcon)
 {
-    if (s == NULL)
+    if (!s || statusIcon == icon)
         return;
-    if (statusIcon == icon)
-        return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
-    if (!s->isEmpty())
-        *s += ',';
-    *s += icon;
+    s->insert(icon);
 }
 
-void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QString &statusIcon, QString *icons)
+void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QString &statusIcon, QSet<QString> *icons)
 {
 	YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
 	unsigned cmp_status = STATUS_OFFLINE;
@@ -1336,10 +1326,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
 	{
 		status = cmp_status;
 		if (!statusIcon.isEmpty() && icons){
-			QString iconSave = *icons;
-			*icons = statusIcon;
-			if (iconSave.length())
-				addIcon(icons, iconSave, statusIcon);
+			icons->insert(statusIcon);
 		}
 		statusIcon = def->icon;
 	}

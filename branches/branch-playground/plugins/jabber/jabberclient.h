@@ -419,7 +419,7 @@ protected:
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
     virtual bool compareData(void*, void*);
     virtual bool canSend(unsigned, void*);
-    virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons = NULL);
+    virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
     virtual QString resources(void *data);
     virtual QString contactTip(void *data);
     virtual QWidget *searchWindow(QWidget *parent);

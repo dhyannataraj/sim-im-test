@@ -118,7 +118,7 @@ protected:
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget	*setupWnd();
     virtual QWidget *searchWindow(QWidget*);
-    virtual void contactInfo(void *,unsigned long &,unsigned int &,QString &,QString *) {}
+    virtual void contactInfo(void *,unsigned long &,unsigned int &,QString &,QSet<QString> *) {}
     QString			m_callNumber;
     QTimer			*m_callTimer;
     SIM::Message	*m_call;

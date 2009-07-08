@@ -23,6 +23,8 @@
 #include "message.h"
 
 #include <qimage.h>
+#include <QString>
+#include <QSet>
 
 namespace SIM {
 
@@ -155,7 +157,7 @@ public:
     bool setLastName(const QString &name, const QString &client);
     bool setEMails(const QString &mails, const QString &client);
     bool setPhones(const QString &phones, const QString &client);
-    unsigned long contactInfo(unsigned &style, QString &statusIcon, QString *icons = NULL);
+    unsigned long contactInfo(unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
     QString tipText();
     ContactData data;
     const DataDef *dataDef();
@@ -266,7 +268,7 @@ public:
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
-    virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL) = 0;
+    virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL) = 0;
     virtual QImage userPicture(unsigned) {return QImage();};
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;

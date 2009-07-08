@@ -451,12 +451,12 @@ static bool cmp_sd(sortClientData p1, sortClientData p2)
     return p1.nClient < p2.nClient;
 }
 
-unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString *icons)
+unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QSet<QString> *icons)
 {
     style = 0;
-    statusIcon = QString::null;
+    statusIcon.clear();
     if (icons)
-        *icons = QString::null;
+        icons->clear();
     unsigned long status = STATUS_UNKNOWN;
     void *data;
     ClientDataIterator it(clientData, NULL);
@@ -497,33 +497,20 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
             bPager = true;
     }
     if (bCell){
-        if(!statusIcon.isEmpty())
-		{
-            if(icons)
-			{
-                if (icons->length())
-                    *icons += ',';
-                icons->append("cell");
+        if(!statusIcon.isEmpty()){
+            if(icons){
+                icons->insert("cell");
             }
-        }
-		else
-		{
+        }else{
             statusIcon = "cell";
         }
     }
-    if(bPager)
-	{
-        if(!statusIcon.isEmpty())
-		{
-            if(icons)
-			{
-                if(icons->length())
-                    *icons += ',';
-                *icons += "pager";
+    if(bPager){
+        if(!statusIcon.isEmpty()){
+            if(icons){
+                icons->insert("pager");
             }
-        }
-		else
-		{
+        }else{
             statusIcon = "pager";
         }
     }

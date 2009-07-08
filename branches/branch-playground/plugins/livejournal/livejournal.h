@@ -181,7 +181,7 @@ protected:
     virtual void disconnected();
     virtual void packet_ready();
     virtual bool processEvent(SIM::Event *e);
-    virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons);
+    virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, QString &statusIcon, QSet<QString> *icons);
     QWidget *searchWindow(QWidget *parent);
     SIM::CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);

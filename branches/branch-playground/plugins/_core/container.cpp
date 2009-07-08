@@ -789,16 +789,10 @@ bool Container::processEvent(Event *e)
 					case EventContact::eStatus:
 						{
 							unsigned style = 0;
-							QString wrkIcons;
+							QSet<QString> wrkIcons;
 							QString statusIcon;
 							contact->contactInfo(style, statusIcon, &wrkIcons);
-							bool bTyping = false;
-							while (!wrkIcons.isEmpty()){
-								if (getToken(wrkIcons, ',') == "typing"){
-									bTyping = true;
-									break;
-								}
-							}
+							bool bTyping = wrkIcons.contains("typing");
 							if (userWnd->m_bTyping != bTyping)
 							{
 								userWnd->m_bTyping = bTyping;

@@ -112,8 +112,7 @@ void FloatyWnd::init()
     w += pict.width() + 2;
     if (pict.height() > h)
         h = pict.height();
-    const QStringList icons = m_icons.split(',');
-    Q_FOREACH(const QString &icon, icons) {
+    Q_FOREACH(const QString &icon, m_icons) {
         const QPixmap &pict = Pict(icon);
         w += pict.width() + 2;
         if (pict.height() > h)
@@ -195,8 +194,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     setFont(&p);
     p.drawText(x, 0, w, h, Qt::AlignLeft | Qt::AlignVCenter, m_text, &br);
     x = br.right() + 5;
-    const QStringList icons = m_icons.split(',');
-    Q_FOREACH(const QString &icon, icons) {
+    Q_FOREACH(const QString &icon, m_icons) {
         const QPixmap &pict = Pict(icon);
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);

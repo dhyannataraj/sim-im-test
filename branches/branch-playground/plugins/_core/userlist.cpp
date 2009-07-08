@@ -997,16 +997,13 @@ ContactItem *UserListBase::findContactItem(unsigned id, Q3ListViewItem *p)
 unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, QString &icons)
 {
     style = 0;
-    QString wrkIcons;
+    QSet<QString> wrkIcons;
     QString statusIcon;
     unsigned long status = contact->contactInfo(style, statusIcon, &wrkIcons);
     if (!statusIcon.isEmpty())
         icons = statusIcon;
-    if (wrkIcons.length()){
-        if (icons.length())
-            icons += ',';
-        icons += wrkIcons;
-    }
+    QStringList sl = wrkIcons.toList();
+    icons += QLatin1Char(',') + sl.join(",");
     return status;
 }
 

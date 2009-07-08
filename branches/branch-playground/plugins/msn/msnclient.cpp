@@ -1749,24 +1749,14 @@ bool MSNClient::compareData(void *d1, void *d2)
     return (toMSNUserData((SIM::clientData*)d1)->EMail.str() == (toMSNUserData((SIM::clientData*)d2)->EMail.str())); // FIXME unsafe type conversion
 }
 
-static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
+static void addIcon(QSet<QString> *s, const QString &icon, const QString &statusIcon)
 {
-    if (s == NULL)
+    if (!s || statusIcon == icon)
         return;
-    if (statusIcon == icon)
-        return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
-    if (!s->isEmpty())
-        *s += ',';
-    *s += icon;
+    s->insert(icon);
 }
 
-void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons)
+void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QString &statusIcon, QSet<QString> *icons)
 {
     MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned cmp_status = data->Status.toULong();
@@ -1780,10 +1770,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
     if (data->Status.toULong() > curStatus){
         curStatus = data->Status.toULong();
         if (!statusIcon.isEmpty() && icons){
-            QString iconSave = *icons;
-            *icons = statusIcon;
-            if (iconSave.length())
-                addIcon(icons, iconSave, statusIcon);
+            icons->insert(statusIcon);
         }
         statusIcon = def->icon;
     }else{

@@ -639,7 +639,7 @@ protected:
     virtual void disconnected();
     virtual bool processEvent(SIM::Event *e);
     virtual bool compareData(void*, void*);
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
+    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
     virtual bool send(SIM::Message*, void*);
     virtual bool canSend(unsigned type, void*);
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);

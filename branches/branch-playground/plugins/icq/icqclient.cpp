@@ -1197,24 +1197,14 @@ void ICQClient::setOffline(ICQUserData *data)
     data->AutoReply.str() = QString::null;
 }
 
-static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
+static void addIcon(QSet<QString> *s, const QString &icon, const QString &statusIcon)
 {
-    if (s == NULL)
+    if (!s || statusIcon == icon)
         return;
-    if (statusIcon == icon)
-        return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
-    if (!s->isEmpty())
-        *s += ',';
-    *s += icon;
+    s->insert(icon);
 }
 
-void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
+void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QSet<QString> *icons)
 {
     ICQUserData *data = toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned status = STATUS_ONLINE;
@@ -1267,10 +1257,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     if (status > curStatus){
         curStatus = status;
         if (!statusIcon.isEmpty() && icons){
-            QString iconSave = *icons;
-            *icons = statusIcon;
-            if (iconSave.length())
-                addIcon(icons, iconSave, statusIcon);
+            icons->insert(statusIcon);
         }
         statusIcon = dicon;
     }else{

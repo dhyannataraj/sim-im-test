@@ -1052,22 +1052,11 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
     return data;
 }
 
-static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
+static void addIcon(QSet<QString> *s, const QString &icon, const QString &statusIcon)
 {
-    if (s == NULL)
+    if (!s || statusIcon == icon)
         return;
-    if (statusIcon == icon)
-        return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
-
-    if (!s->isEmpty())
-        *s += ',';
-    *s += icon;
+    s->insert(icon);
 }
 
 QString JabberClient::get_icon(JabberUserData *data, unsigned status, bool invisible)
@@ -1237,7 +1226,7 @@ QString JabberClient::get_icon(JabberUserData *data, unsigned status, bool invis
     return dicon;
 }
 
-void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
+void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QSet<QString> *icons)
 {
     JabberUserData *data = toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString dicon = get_icon(data, data->Status.toULong(), data->invisible.toBool());
@@ -1245,11 +1234,8 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
 	{
         curStatus = data->Status.toULong();
         if(!statusIcon.isEmpty() && icons)
-		{
-            QString iconSave = *icons;
-            *icons = statusIcon;
-            if (iconSave.length())
-                addIcon(icons, iconSave, statusIcon);
+        {
+            icons->insert(statusIcon);
         }
         statusIcon = dicon;
     }
