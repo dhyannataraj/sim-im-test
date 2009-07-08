@@ -29,16 +29,13 @@
 #include <qlabel.h>
 
 #include <q3textedit.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <Q3Frame>
+#include <QFrame>
 #ifdef USE_KDE
 #include <ktextedit.h>
 #define Q3TextEdit KTextEdit
 #endif
 
 class CToolBar;
-class Q3TextDrag;
 class Q3PopupMenu;
 
 const unsigned TextCmdBase	= 0x00030000;
@@ -115,30 +112,27 @@ protected:
     bool m_bInClick;
 };
 
-class QToolBar;
-
 class EXPORT ColorLabel : public QLabel
 {
     Q_OBJECT
 public:
-    ColorLabel(QWidget *parent, QColor c, int id, const QString&);
-signals:
+    ColorLabel(QWidget *parent, const QColor &c, int id, const QString&);
+Q_SIGNALS:
     void selected(int);
 protected:
     void mouseReleaseEvent(QMouseEvent*);
-    QSize sizeHint() const;
     QSize minimumSizeHint() const;
     unsigned m_id;
 };
 
-class EXPORT ColorPopup : public Q3Frame
+class EXPORT ColorPopup : public QFrame
 {
     Q_OBJECT
 public:
-    ColorPopup(QWidget *parent, QColor c);
-signals:
+    ColorPopup(QWidget *parent, const QColor &c);
+Q_SIGNALS:
     void colorChanged(QColor color);
-protected slots:
+protected Q_SLOTS:
     void colorSelected(int);
 protected:
     QColor m_color;

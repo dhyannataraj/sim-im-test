@@ -49,14 +49,11 @@
 #include <qpainter.h>
 #include <qregexp.h>
 #include <qobject.h>
-#include <q3valuelist.h>
 #include <qtimer.h>
 #include <qstringlist.h>
 #include <qtextcodec.h>
 #include <QToolBar>
 #include <qlineedit.h>
-#include <q3accel.h>
-#include <q3dragobject.h>
 #include <qtoolbutton.h>
 #include <qstatusbar.h>
 #include <qtooltip.h>
@@ -568,7 +565,7 @@ void RichTextEdit::showBar()
     m_edit->setParam(this);
 }
 
-static unsigned colors[16] =
+static const unsigned colors[16] =
     {
         0x000000,
         0xFF0000,
@@ -588,14 +585,16 @@ static unsigned colors[16] =
         0x808080
     };
 
-const int CUSTOM_COLOR	= 100;
+static const int CUSTOM_COLOR	= 100;
 
-ColorPopup::ColorPopup(QWidget *popup, QColor color)
-        : Q3Frame(popup, "colors", Qt::WType_Popup | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WDestructiveClose)
+ColorPopup::ColorPopup(QWidget *popup, const QColor &color)
+        : QFrame(popup, Qt::Popup)
+        , m_color(color)
 {
-    m_color = color;
+    setAttribute(Qt::WA_DeleteOnClose);
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
+
     QGridLayout *lay = new QGridLayout(this);
     lay->setMargin(4);
     lay->setSpacing(2);
@@ -608,7 +607,7 @@ ColorPopup::ColorPopup(QWidget *popup, QColor color)
         }
     }
     QWidget *w = new ColorLabel(this, color, CUSTOM_COLOR, i18n("Custom"));
-    lay->addMultiCellWidget(w, 5, 5, 0, 3);
+    lay->addWidget(w, 5, 0, 1, 4);
     connect(w, SIGNAL(selected(int)), this, SLOT(colorSelected(int)));
     resize(minimumSizeHint());
 }
@@ -633,24 +632,24 @@ void ColorPopup::colorSelected(int id)
             return;
         }
 #endif
-        emit colorChanged(c);
-        close();
+        Q_EMIT colorChanged(c);
     }else{
-        emit colorChanged(QColor(colors[id]));
-        close();
+        Q_EMIT colorChanged(QColor(colors[id]));
     }
+    close();
 }
 
-ColorLabel::ColorLabel(QWidget *parent, QColor c, int id, const QString &text)
+ColorLabel::ColorLabel(QWidget *parent, const QColor &c, int id, const QString &text)
         : QLabel(parent)
+        , m_id(id)
 {
-    m_id = id;
     setText(text);
+
     QPalette palette;
     palette.setColor(backgroundRole(), c);
-    setPalette(palette);
     palette.setColor(QPalette::WindowText, !c.value());
     setPalette(palette);
+
     setAutoFillBackground(true);
     setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     setFrameShape(StyledPanel);
@@ -660,15 +659,7 @@ ColorLabel::ColorLabel(QWidget *parent, QColor c, int id, const QString &text)
 
 void ColorLabel::mouseReleaseEvent(QMouseEvent*)
 {
-    emit selected(m_id);
-}
-
-QSize ColorLabel::sizeHint() const
-{
-    QSize s = QLabel::sizeHint();
-    if (s.width() < s.height())
-        s.setWidth(s.height());
-    return s;
+    Q_EMIT selected(m_id);
 }
 
 QSize ColorLabel::minimumSizeHint() const
@@ -678,10 +669,4 @@ QSize ColorLabel::minimumSizeHint() const
         s.setWidth(s.height());
     return s;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "textshow.moc"
-#endif
-*/
 
