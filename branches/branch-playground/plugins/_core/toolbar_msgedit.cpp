@@ -93,7 +93,7 @@ void CorePlugin::createMsgEditToolbar()
   cmd->icon_on = QString::null;
   cmd->bar_id  = ToolBarMsgEdit;
   cmd->bar_grp = 0x1010;
-  cmd->flags   = COMMAND_CHECK_STATE;
+  cmd->flags   = BTN_EDIT | COMMAND_CHECK_STATE;  //this is not layouted correctly in this toolbar, it is a combined control consists in Button and TextEdit, if button is removed, sendFile is broken at all 
   EventCommandCreate(cmd).process();
 
   cmd->id      = CmdPhoneNumber;
