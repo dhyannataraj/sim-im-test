@@ -221,19 +221,18 @@ static DataDef icqClientData[] =
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 : TCPClient(protocol, cfg, HighPriority - 1),
-m_ifChecker				(NULL),
-m_listener				(NULL),
-m_listRequest			(NULL),
-m_bBirthdayInfoDisplayed(false),
-m_bVerifying			(false),
-m_bReady				(false),
-m_bRosters				(false),
-m_bJoin					(false),
-m_bBirthday				(false),
-m_bconnectionLost		(false),
-m_bFirstTry				(false),
-m_bNoSend				(true)
-
+        m_ifChecker				(NULL),
+        m_listener				(NULL),
+        m_listRequest			(NULL),
+        m_bBirthdayInfoDisplayed(false),
+        m_bVerifying			(false),
+        m_bReady				(false),
+        m_bRosters				(false),
+        m_bJoin					(false),
+        m_bBirthday				(false),
+        m_bconnectionLost		(false),
+        m_bFirstTry				(false),
+        m_bNoSend				(true)
 {
     m_bAIM = bAIM;
 
@@ -243,7 +242,6 @@ m_bNoSend				(true)
         m_bAIM = false;
     if (!data.owner.Screen.str().isEmpty())
         m_bAIM = true;
-
 
     data.owner.DCcookie.asULong() = rand();
 
@@ -319,10 +317,8 @@ bool ICQClient::addSnacHandler(SnacHandler* handler)
 	if(!handler)
 		return false;
 	mapSnacHandlers::iterator it = m_snacHandlers.find(handler->getType());
-	if(it != m_snacHandlers.end())
-	{
-		delete it->second;
-	}
+    if(it != m_snacHandlers.end())
+        delete it->second;
 	m_snacHandlers[handler->getType()] = handler;
 	return true;
 }
@@ -339,12 +335,11 @@ void ICQClient::deleteFileMessage(MessageId const& cookie)
 		if((*it)->baseType() == MessageFile)
 		{
 			AIMFileMessage* afm = static_cast<AIMFileMessage*>(*it);
-			if(afm)
-			if(afm->getID_L() == cookie.id_l && afm->getID_H() == cookie.id_h)
-			{
-				m_processMsg.erase(it);
-				return;
-			}
+            if (afm && afm->getID_L() == cookie.id_l && afm->getID_H() == cookie.id_h)
+            {
+                m_processMsg.erase(it);
+                return;
+            }
 		}
 	}
 }	
