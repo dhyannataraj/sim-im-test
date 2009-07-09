@@ -457,7 +457,7 @@ class OscarSocket
 {
 public:
     OscarSocket();
-    virtual ~OscarSocket();
+    virtual ~OscarSocket(){};
 
     void snac(unsigned short food, unsigned short type, bool msgId=false, bool bType=true);
     void sendPacket(bool bSend = true);
