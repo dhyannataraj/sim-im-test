@@ -18,7 +18,7 @@
 #include <qlabel.h>
 #include <qcombobox.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 #include <QShowEvent>
 
 #include "country.h"
@@ -89,7 +89,7 @@ void YahooSearch::search(const QString &text, int type)
 {
     QString url;
     url = "http://members.yahoo.com/interests?.oc=m&.kw=";
-    Q3CString kw = getContacts()->fromUnicode(NULL, text);
+    QByteArray kw = getContacts()->fromUnicode(NULL, text);
     for (const char *p = kw; *p; p++){
         if ((*p <= ' ') || (*p == '&') || (*p == '=')){
             char b[5];
@@ -146,7 +146,7 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
         l.append("location");
         l.append(i18n("Location"));
         emit setColumns(l, 0, this);
-        Q3CString data;
+        QByteArray data;
         b.scan("\x04", data);
         b.scan("\x04", data);
         b.scan("\x04", data);
@@ -157,10 +157,10 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
             b.scan("\x04", data);
             if (data.length() < 2)
                 break;
-            Q3CString id;
+            QByteArray id;
             id = data.mid(2);
             b.scan("\x04", data);
-            Q3CString gender, age, location;
+            QByteArray gender, age, location;
             b.scan("\x04", gender);
             b.scan("\x04", age);
             b.scan("\x04", location);

@@ -22,7 +22,7 @@
 #include <qtextcodec.h>
 #include <q3textstream.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include <time.h>
 
@@ -137,7 +137,7 @@ Message *HistoryFile::load(unsigned id)
         return NULL;
     Buffer cfg;
     cfg = readAll();
-    Q3CString type = cfg.getSection();
+    QByteArray type = cfg.getSection();
     Message *msg = CorePlugin::m_plugin->createMessage(type, &cfg);
     if (msg == NULL)
         return NULL;
@@ -167,7 +167,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *c
         Message m(MessageGeneric, cfg);
         QString text = m.data.Text.str();
         if (text.isEmpty()){
-            Q3CString serverText = m.getServerText();
+            QByteArray serverText = m.getServerText();
             if (serverText.isEmpty())
                 return;
             if (m_codec == NULL)
@@ -294,7 +294,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             }
             config.setWritePos(0);
         }
-        Q3CString type = config.getSection(!bUp && (m_block != 0));
+        QByteArray type = config.getSection(!bUp && (m_block != 0));
         if (type.isEmpty())
             continue;
         if ((config.writePos() == (unsigned)config.size()) && (file.pos() < file.size()))
@@ -556,7 +556,7 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
         Buffer config;
         config = ms.msg;
         config.setWritePos(0);
-        Q3CString type = config.getSection();
+        QByteArray type = config.getSection();
         Message *msg = createMessage(id, type, &config);
         if (msg){
             msg->setClient(ms.client);
@@ -710,7 +710,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
             return;
         }
         config.resize(size + readn);
-        Q3CString section = config.getSection();
+        QByteArray section = config.getSection();
         if (section.isEmpty()){
             if (readn == 0)
                 return;
@@ -727,7 +727,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         }
     }
     unsigned skip_size = config.writePos() - config.startSection();
-    Q3CString line = "\n";
+    QByteArray line = "\n";
     if (msg){
         line += msg->save();
         line += '\n';

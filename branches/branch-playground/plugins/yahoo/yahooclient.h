@@ -21,7 +21,7 @@
 #include "socket.h"
 #include "fetch.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef __OS2__
 #define PARAM YAHOOPARAM
@@ -257,7 +257,7 @@ public:
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);
-    virtual	Q3CString save();
+    virtual	QByteArray save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     YahooFileData data;
@@ -295,7 +295,7 @@ protected:
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const QString &err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const Q3CString &str);
+    bool get_line(const QByteArray &str);
     void send_line(const QString &str);
     unsigned m_startPos;
     unsigned m_endPos;

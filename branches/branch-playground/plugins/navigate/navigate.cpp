@@ -30,7 +30,7 @@
 #ifndef WIN32
 	#include <q3url.h>
 	//Added by qt3to4:
-	#include <Q3CString>
+	#include <QByteArray>
 #endif
 
 using namespace std;

@@ -27,7 +27,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <QProcess>
-#include <Q3CString>
+#include <QByteArray>
 #include <QVector>
 #include <memory>
 

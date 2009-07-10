@@ -24,7 +24,7 @@
 #include <qregexp.h>
 //Added by qt3to4:
 #include <QList>
-#include <Q3CString>
+#include <QByteArray>
 #include <memory>
 
 #include "toolbtn.h"
@@ -90,10 +90,10 @@ QString ICQFileMessage::getDescription()
     return serverText;
 }
 
-Q3CString ICQFileMessage::save()
+QByteArray ICQFileMessage::save()
 {
-    Q3CString s = FileMessage::save();
-    Q3CString s1 = save_data(icqFileMessageData, &data);
+    QByteArray s = FileMessage::save();
+    QByteArray s1 = save_data(icqFileMessageData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -113,7 +113,7 @@ IcqContactsMessage::~IcqContactsMessage()
 
 QString IcqContactsMessage::getContacts() const
 {
-    Q3CString serverText = getServerText();
+    QByteArray serverText = getServerText();
     if (serverText.isEmpty())
         return ContactsMessage::getContacts();
     return serverText;  // this is wrong ... but I'm currently unsure what'ssaved in there
@@ -139,7 +139,7 @@ ICQAuthMessage::~ICQAuthMessage()
 
 QString ICQAuthMessage::getText() const
 {
-    Q3CString serverText = getServerText();
+    QByteArray serverText = getServerText();
     if (serverText.isEmpty())
         return Message::getText();
     QString charset = getCharset();
@@ -151,10 +151,10 @@ QString ICQAuthMessage::getText() const
     return Message::getText();
 }
 
-Q3CString ICQAuthMessage::save()
+QByteArray ICQAuthMessage::save()
 {
-    Q3CString s = Message::save();
-    Q3CString s1 = save_data(icqAuthMessageData, &data);
+    QByteArray s = Message::save();
+    QByteArray s1 = save_data(icqAuthMessageData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -177,7 +177,7 @@ static bool h2b(const char *&p, char &r)
     return false;
 }
 
-static bool h2b(const char *&p, Q3CString &cap)
+static bool h2b(const char *&p, QByteArray &cap)
 {
     char r1, r2;
     if (h2b(p, r1) && h2b(p, r2)){
@@ -187,7 +187,7 @@ static bool h2b(const char *&p, Q3CString &cap)
     return false;
 }
 
-static bool parseFE(Q3CString str, QList<Q3CString> &l, unsigned n)
+static bool parseFE(QByteArray str, QList<QByteArray> &l, unsigned n)
 {
     int idx = str.indexOf('\xFE');
     while(idx != -1) {
@@ -197,17 +197,17 @@ static bool parseFE(Q3CString str, QList<Q3CString> &l, unsigned n)
     }
     l += str;
     for( unsigned i = l.count(); i < n; i++ )
-        l += Q3CString();
+        l += QByteArray();
     return true;
 }
 
-static Message *parseTextMessage(const Q3CString &str, const Q3CString &_pp, Contact *contact)
+static Message *parseTextMessage(const QByteArray &str, const QByteArray &_pp, Contact *contact)
 {
     if (str.isEmpty())
         return NULL;
     log(L_DEBUG, "Text message: %s %s", str.data(), _pp.data());
     if (_pp.length() == 38){
-        Q3CString cap;
+        QByteArray cap;
         const char *pp = _pp.data();
         if ((*(pp++) == '{') &&
                 h2b(pp, cap) && h2b(pp, cap) && h2b(pp, cap) && h2b(pp, cap) &&
@@ -243,9 +243,9 @@ static Message *parseTextMessage(const Q3CString &str, const Q3CString &_pp, Con
     return m;
 }
 
-static Message *parseURLMessage(const Q3CString &str)
+static Message *parseURLMessage(const QByteArray &str)
 {
-    QList<Q3CString> l;
+    QList<QByteArray> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error URL message");
         return NULL;
@@ -257,9 +257,9 @@ static Message *parseURLMessage(const Q3CString &str)
 }
 
 //ToDo: Send Contacts does not work
-static Message *parseContactMessage(const Q3CString &str)
+static Message *parseContactMessage(const QByteArray &str)
 {
-    QList<Q3CString> l;
+    QList<QByteArray> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
@@ -269,15 +269,15 @@ static Message *parseContactMessage(const Q3CString &str)
         log(L_WARN, "No contacts found");
         return NULL;
     }
-    QList<Q3CString> c;
+    QList<QByteArray> c;
     if (!parseFE(l[1], c, nContacts*2+1)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
     }
-    Q3CString serverText;
+    QByteArray serverText;
     for (unsigned i = 0; i < nContacts; i++){
-        Q3CString screen = c[i*2];
-        Q3CString alias  = c[i*2+1];
+        QByteArray screen = c[i*2];
+        QByteArray alias  = c[i*2+1];
         if (!serverText.isEmpty())
             serverText += ';';
         if (screen.toULong()){
@@ -317,9 +317,9 @@ static Message *parseContactMessage(const Q3CString &str)
     return m;
 }
 
-static Message *parseAuthRequest(const Q3CString &str)
+static Message *parseAuthRequest(const QByteArray &str)
 {
-    QList<Q3CString> l;
+    QList<QByteArray> l;
     if (!parseFE(str, l, 6)){
         log(L_WARN, "Parse error auth request message");
         return NULL;
@@ -352,28 +352,28 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 
     int n = msgType.find("URL");
     if (n >= 0){
-        Q3CString info;
+        QByteArray info;
         b.unpackStr32(info);
         return parseURLMessage(info);
     }
     if (msgType == "Request For Contacts"){
-        Q3CString info;
+        QByteArray info;
         b.unpackStr32(info);
         ICQAuthMessage *m = new ICQAuthMessage(MessageContactRequest, MessageContactRequest);
 		m->setServerText(info);
         return m;
     }
     if (msgType == "Contacts"){
-        Q3CString p;
+        QByteArray p;
         b.unpackStr32(p);
         return parseContactMessage(p);
     }
     if (msgType == "Message"){
-        Q3CString p;
+        QByteArray p;
         b.unpackStr32(p);
         unsigned long forecolor, backcolor;
         b >> forecolor >> backcolor;
-        Q3CString cap_str;
+        QByteArray cap_str;
         b.unpackStr32(cap_str);
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -409,7 +409,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 //#else
 //        m->setServerDescr(fileName);
 //#endif
-        m->setServerText(Q3CString(fileDescr.data()));
+        m->setServerText(QByteArray(fileDescr.data()));
         m->setSize(fileSize);
         m->setPort(port);
         m->setFlags(MESSAGE_TEMP);
@@ -468,16 +468,16 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const Q3CString &p, ICQBuffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QByteArray &p, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
-        QList<Q3CString> l;
+        QList<QByteArray> l;
         if (!parseFE(p, l, 6)){
             log(L_WARN, "Parse error web panel message");
             return NULL;
         }
         char SENDER_IP[] = "Sender IP:";
-        Q3CString head = l[5].left(strlen(SENDER_IP));
+        QByteArray head = l[5].left(strlen(SENDER_IP));
         Message *msg = new Message((head == SENDER_IP) ? MessageWebPanel : MessageEmailPager);
         QString name = getContacts()->toUnicode(NULL, l[0]);
         QString mail = getContacts()->toUnicode(NULL, l[3]);
@@ -496,7 +496,7 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, con
     case ICQ_MSGxMSG:{
             unsigned long forecolor, backcolor;
             packet >> forecolor >> backcolor;
-            Q3CString cap_str;
+            QByteArray cap_str;
             packet.unpackStr32(cap_str);
             Contact *contact;
             ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -539,7 +539,7 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, con
             m->setServerText(p);
             unsigned short port;
             unsigned long  fileSize;
-            Q3CString fileName;
+            QByteArray fileName;
             packet >> port;
             packet.incReadPos(2);
             packet >> fileName;
@@ -682,9 +682,9 @@ WarningMessage::WarningMessage(Buffer *cfg)
     load_data(warningMessageData, &data, cfg);
 }
 
-Q3CString WarningMessage::save()
+QByteArray WarningMessage::save()
 {
-    Q3CString res = AuthMessage::save();
+    QByteArray res = AuthMessage::save();
     if (!res.isEmpty())
         res += '\n';
     return res + save_data(warningMessageData, &data);
@@ -1084,9 +1084,9 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
     unsigned short type;
     b >> type;
     b.incReadPos(bDirect ? 1 : 4);
-    QList<Q3CString> phonebook;
-    QList<Q3CString> numbers;
-    QList<Q3CString> phonedescr;
+    QList<QByteArray> phonebook;
+    QList<QByteArray> numbers;
+    QList<QByteArray> phonedescr;
     Contact *contact = NULL;
     unsigned long state, time, size, nEntries;
     unsigned i;
@@ -1104,7 +1104,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                 data->PluginStatusTime.toULong(), size, nEntries, plugin_type);
         switch (plugin_type){
         case PLUGIN_RANDOMxCHAT:{
-                Q3CString name, topic, homepage;
+                QByteArray name, topic, homepage;
 
                 b.incReadPos(-12);
                 b.unpackStr(name);
@@ -1153,7 +1153,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                 plugin p;
                 b.unpack((char*)p, sizeof(p));
                 b.incReadPos(4);
-                Q3CString name, descr;
+                QByteArray name, descr;
                 b.unpackStr32(name);
                 b.unpackStr32(descr);
                 b.incReadPos(4);
@@ -1200,7 +1200,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
         case PLUGIN_PICTURE:
             if (data){
                 b.incReadPos(-4);
-                Q3CString pict;
+                QByteArray pict;
                 QByteArray ba;
                 b.unpackStr32(pict);
                 b.unpackStr32(ba);
@@ -1227,7 +1227,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                     break;
                 }
                 for (i = 0; i < nEntries; i++){
-                    Q3CString descr, area, phone, ext, country;
+                    QByteArray descr, area, phone, ext, country;
                     unsigned long active;
                     b.unpackStr32(descr);
                     b.unpackStr32(area);
@@ -1266,7 +1266,7 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
                 for (i = 0; i < nEntries; i++){
                     unsigned long type;
                     QByteArray phone = phonebook[i];
-                    Q3CString gateway;
+                    QByteArray gateway;
                     b.incReadPos(4);
                     b.unpack(type);
                     b.unpackStr32(gateway);

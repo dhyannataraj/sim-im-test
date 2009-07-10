@@ -23,7 +23,7 @@
 #include "fetch.h"
 #include "plugins.h"
 
-class Q3CString;
+class QByteArray;
 class QDateTime;
 class QToolBar;
 class QXmlStreamAttributes;

@@ -29,7 +29,7 @@
 #include <qtimer.h>
 #include <QCryptographicHash>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "log.h"
 #include "misc.h"
@@ -527,7 +527,7 @@ bool MSNServerMessage::packet()
     if (size > m_size)
         size = m_size;
     if (size > 0){
-        m_msg += Q3CString(b.data(b.readPos()), size);
+        m_msg += QByteArray(b.data(b.readPos()), size);
         b.incReadPos(size);
         m_size -= size;
     }

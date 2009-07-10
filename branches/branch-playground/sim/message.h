@@ -20,7 +20,7 @@
 
 #include <qstring.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "simapi.h"
 #include "event.h"
@@ -90,7 +90,7 @@ public:
     void setId(unsigned id) { m_id = id; }
     unsigned contact() const { return m_contact; }
     void setContact(unsigned contact) { m_contact = contact; }
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual unsigned baseType() { return m_type; }
     QString getPlainText();
     QString getRichText();
@@ -129,7 +129,7 @@ public:
     ~SMSMessage();
     PROP_UTF8(Phone);
     PROP_UTF8(Network);
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
 protected:
     MessageSMSData data;
@@ -229,7 +229,7 @@ public:
     PROP_UTF8(File);
     unsigned getSize();
     void     setSize(unsigned);
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
     virtual QString getDescription();
     bool    setDescription(const QString&);
@@ -277,7 +277,7 @@ class EXPORT UrlMessage : public Message
 public:
     UrlMessage(unsigned type=MessageUrl, Buffer *cfg=NULL);
     ~UrlMessage();
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
     VPROP_UTF8(Url)
 protected:
@@ -294,7 +294,7 @@ class EXPORT ContactsMessage : public Message
 public:
     ContactsMessage(unsigned type=MessageContacts, Buffer *cfg=NULL);
     ~ContactsMessage();
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
     VPROP_UTF8(Contacts);
 protected:
@@ -311,7 +311,7 @@ class EXPORT StatusMessage : public Message
 public:
     StatusMessage(Buffer *cfg=NULL);
     PROP_ULONG(Status);
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
 protected:
     MessageStatusData data;

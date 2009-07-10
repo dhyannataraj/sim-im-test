@@ -33,7 +33,7 @@
 #include <qtimer.h>
 #include <q3process.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 using namespace SIM;
 

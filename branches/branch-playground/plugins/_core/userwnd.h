@@ -22,7 +22,7 @@
 #include "message.h"
 
 #include <QSplitter>
-#include <Q3CString>
+#include <QByteArray>
 #include <QCloseEvent>
 
 class MsgEdit;

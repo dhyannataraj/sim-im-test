@@ -50,7 +50,7 @@
 
 #include <ctype.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 extern "C"
 {
@@ -935,7 +935,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         socket()->error_state("Unknown auth method");
         return;
     }
-    Q3CString password = getPassword().toAscii();
+    QByteArray password = getPassword().toAscii();
     const char *pass = password.data();
 
     unsigned char       result[16];

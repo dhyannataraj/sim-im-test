@@ -20,7 +20,7 @@
 
 #include <qtextcodec.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 #ifdef Q_OS_WIN32
 # include <winsock.h>
 #else
@@ -68,7 +68,7 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    Q3CString charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
+    QByteArray charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
     Tlv *tlvCharset = NULL;
     for (int i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];

@@ -33,7 +33,7 @@
 #include <QFrame>
 #include <QDropEvent>
 #include <QDragMoveEvent>
-#include <Q3CString>
+#include <QByteArray>
 #include <Q3PopupMenu>
 
 #include "simapi.h"
@@ -1273,7 +1273,7 @@ bool MsgEdit::processEvent(Event *e)
                     CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
-                        Q3CString cfg = m_msg->save();
+                        QByteArray cfg = m_msg->save();
                         Buffer config;
                         config = "[Title]\n" + cfg;
                         config.setWritePos(0);

@@ -32,7 +32,7 @@
 #include <qregexp.h>
 #include <qfile.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "log.h"
 #include "core.h"
@@ -280,7 +280,7 @@ void MSNClient::packet_ready()
         m_msg = NULL;
     }
     for (;;){
-        Q3CString s;
+        QByteArray s;
         if (!socket()->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
@@ -465,7 +465,7 @@ void MSNClient::checkEndSync()
     connected();
 }
 
-void MSNClient::getLine(const Q3CString &line)
+void MSNClient::getLine(const QByteArray &line)
 {
     QString l = QString::fromUtf8(line);
     l = l.remove('\r');
@@ -2031,7 +2031,7 @@ void SBSocket::packet_ready()
     for (;;){
         if (m_messageSize && !getMessage())
             break;
-        Q3CString s;
+        QByteArray s;
         if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
@@ -2080,7 +2080,7 @@ void SBSocket::send(const QString &cmd, const QString &args)
     m_socket->write();
 }
 
-void SBSocket::getLine(const Q3CString &_line)
+void SBSocket::getLine(const QByteArray &_line)
 {
     QString line = QString::fromUtf8(_line);
     QString cmd = getToken(line, ' ');

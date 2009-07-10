@@ -25,7 +25,7 @@
 #include <qobject.h>
 //Added by qt3to4:
 #include <QEvent>
-#include <Q3CString>
+#include <QByteArray>
 
 #include "cfg.h"
 #include "event.h"

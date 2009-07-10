@@ -32,7 +32,7 @@
 #include <qimage.h>
 #include <qfile.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "html.h"
 #include "log.h"

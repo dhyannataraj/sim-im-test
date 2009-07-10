@@ -40,7 +40,7 @@
 #include <QWidget>
 #include <QPixmap>
 #include <QLabel>
-#include <Q3CString>
+#include <QByteArray>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QEvent>
@@ -327,7 +327,7 @@ list<UserWnd*> Container::windows()
     return m_tabBar->windows();
 }
 
-Q3CString Container::getState()
+QByteArray Container::getState()
 {
     clearWndConfig();
     QString windows;

@@ -21,7 +21,7 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef Q_OS_WIN
 # include <windows.h>

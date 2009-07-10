@@ -25,7 +25,7 @@ email                : vovan@shutoff.ru
 #include <qtextcodec.h>
 #include <qregexp.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "buffer.h"
 #include "event.h"
@@ -1334,14 +1334,14 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     return client;
 }
 
-Q3CString ClientUserData::save()
+QByteArray ClientUserData::save()
 {
-    Q3CString res;
+    QByteArray res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
         if (d.client->protocol()->description()->flags & PROTOCOL_TEMP_DATA)
             continue;
-        Q3CString cfg = save_data(d.client->protocol()->userDataDef(), d.data);
+        QByteArray cfg = save_data(d.client->protocol()->userDataDef(), d.data);
         if (cfg.length()){
             if (res.length())
                 res += '\n';
@@ -1627,16 +1627,16 @@ void UserData::freeUserData(unsigned id)
     }
 }
 
-Q3CString UserData::save()
+QByteArray UserData::save()
 {
-    Q3CString res;
+    QByteArray res;
     UserDataMap::Iterator userDataIt;
     for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
         list<UserDataDef> &d = getContacts()->p->userDataDef;
         for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
             if ((*it).id != userDataIt.key())
                 continue;
-            Q3CString cfg = save_data((*it).def, userDataIt.value());
+            QByteArray cfg = save_data((*it).def, userDataIt.value());
             if (cfg.length()){
                 if (res.length())
                     res += '\n';

@@ -27,7 +27,7 @@
 #include <qregexp.h>
 #include <QCryptographicHash>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 #include <stdio.h>
 
 #include "fetch.h"
@@ -87,10 +87,10 @@ JournalMessage::~JournalMessage()
     free_data(journalMessageData, &data);
 }
 
-Q3CString JournalMessage::save()
+QByteArray JournalMessage::save()
 {
-    Q3CString cfg = Message::save();
-    Q3CString my_cfg = save_data(journalMessageData, &data);
+    QByteArray cfg = Message::save();
+    QByteArray my_cfg = save_data(journalMessageData, &data);
     if (!my_cfg.isEmpty()){
         if (!cfg.isEmpty())
             cfg += "\n";
@@ -1306,7 +1306,7 @@ void LiveJournalRequest::addParam(const QString &key, const QString &value)
         m_buffer->pack("&", 1);
     m_buffer->pack(key.toUtf8(), key.toUtf8().length());
     m_buffer->pack("=", 1);
-    Q3CString cstr = value.toUtf8();
+    QByteArray cstr = value.toUtf8();
     for (int i = 0; i < cstr.length(); i++){
         char c = cstr[(int)i];
         if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || ((c >= '0') && (c <= '9')) ||
@@ -1323,8 +1323,8 @@ void LiveJournalRequest::addParam(const QString &key, const QString &value)
 void LiveJournalRequest::result(Buffer *b)
 {
     for (;;){
-        Q3CString key;
-        Q3CString value;
+        QByteArray key;
+        QByteArray value;
         if (!getLine(b, key) || !getLine(b, value))
             break;
         log(L_DEBUG, "Result: %s=%s", key.data(), value.data());
@@ -1332,7 +1332,7 @@ void LiveJournalRequest::result(Buffer *b)
     }
 }
 
-bool LiveJournalRequest::getLine(Buffer *b, Q3CString &line)
+bool LiveJournalRequest::getLine(Buffer *b, QByteArray &line)
 {
     if (b == NULL)
         return false;

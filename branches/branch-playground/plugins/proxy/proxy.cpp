@@ -18,7 +18,7 @@
 #include <qtabwidget.h>
 #include <qobject.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef WIN32
 #include <winsock.h>
@@ -831,7 +831,7 @@ protected:
         WaitEmpty
     };
     State m_state;
-    bool readLine(Q3CString &s);
+    bool readLine(QByteArray &s);
 };
 
 HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
@@ -901,7 +901,7 @@ void HTTPS_Proxy::error_state(const QString &text, unsigned code)
 void HTTPS_Proxy::read_ready()
 {
     if (m_state == WaitConnect){
-        Q3CString s;
+        QByteArray s;
         if (!readLine(s))
             return;
         if ((unsigned)s.length() < strlen(HTTP)){
@@ -930,7 +930,7 @@ void HTTPS_Proxy::read_ready()
     }
     if (m_state == WaitEmpty){
         for (;;){
-            Q3CString s;
+            QByteArray s;
             if (!readLine(s))
                 return;
             if (s.length() == 0)
@@ -940,7 +940,7 @@ void HTTPS_Proxy::read_ready()
     }
 }
 
-bool HTTPS_Proxy::readLine(Q3CString &s)
+bool HTTPS_Proxy::readLine(QByteArray &s)
 {
     for (;;){
         char c;
@@ -989,7 +989,7 @@ protected:
     Buffer		m_out;
     bool		m_bHTTP;
     unsigned	m_size;
-    Q3CString	m_head;
+    QByteArray	m_head;
 };
 
 HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
@@ -1019,7 +1019,7 @@ void HTTP_Proxy::read_ready()
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    Q3CString str = m_head.mid(idx + 1);
+    QByteArray str = m_head.mid(idx + 1);
     int code = str.toInt();
     if (code == 407){
         error_state(AUTH_ERROR, m_plugin->ProxyErr);
@@ -1090,7 +1090,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         return;
     }
     m_out.pack(buf, size);
-    Q3CString line;
+    QByteArray line;
     if (m_state == WaitHeader){
         if (!m_out.scan("\r\n", line))
             return;
@@ -1112,9 +1112,9 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
             }
             if (line.isEmpty())
                 break;
-            Q3CString param = getToken(line, ':');
+            QByteArray param = getToken(line, ':');
             if (param == "Content-Length"){
-                Q3CString p = line.trimmed();
+                QByteArray p = line.trimmed();
                 m_size = p.toUInt();
             }
             bOut << param.data() << ":" << line.data() << "\r\n";

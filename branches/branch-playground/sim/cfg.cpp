@@ -41,7 +41,7 @@
 #ifdef _DEBUG
 # include <QMessageBox>
 #endif
-#include <Q3CString>
+#include <QByteArray>
 #include <QDesktopWidget>
 
 #ifdef USE_KDE
@@ -452,9 +452,9 @@ EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEscape)
     return res;  
 }
 
-EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEscape)
+/*EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEscape)
 {
-    Q3CString res;
+    QByteArray res;
     int i;
     for (i = 0; i < from.length(); i++){
         if (from[i] == c)
@@ -474,7 +474,7 @@ EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEscape)
         from.clear();
     }
     return res;
-}
+}*/
 
 // _______________________________________________________________________________________
 
@@ -577,7 +577,7 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_CSTRING:
                 // when all our sources are utf-8, use QString::fromUtf8() here!
-                data->cstr() = def->def_value ? Q3CString(def->def_value) : "";
+                data->cstr() = def->def_value ? QByteArray(def->def_value) : "";
                 break;
             case DATA_STRLIST: {
                 // this breaks on non latin1 defaults!
@@ -676,7 +676,7 @@ static QByteArray quoteInternal(const QByteArray &str)
     return res;
 }
 
-static bool unquoteInternal(QByteArray &val, Q3CString &str)
+static bool unquoteInternal(QByteArray &val, QByteArray &str)
 {
     int idx1 = val.indexOf('\"');
     if(idx1 == -1)
@@ -743,7 +743,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         switch (def->type){
         case DATA_IP: {
             int idx = val.indexOf(',');
-            Q3CString ip, url;
+            QByteArray ip, url;
             if(idx == -1) {
                 ip = val;
             } else {
@@ -756,7 +756,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_UTFLIST:
         case DATA_STRLIST: {
             // <number>,"<text>"(u)
-            Q3CString v;
+            QByteArray v;
             int idx1 = val.indexOf(',');
             if(idx1 == -1)
                 break;
@@ -780,7 +780,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_CSTRING: {
             // "<text>"(u),"<text>"(u),"<text>"(u),"<text>"(u),...
             for (unsigned i = 0; i < def->n_values; ld++, i++){
-                Q3CString v;
+                QByteArray v;
                 if(!unquoteInternal(val, v))
                     break;
 
@@ -1212,7 +1212,7 @@ public:
     QObject             *m_dataAsObject;
     IP                  *m_dataAsIP;
     QByteArray          *m_dataAsBinary;
-    Q3CString            *m_dataAsQCString;
+    QByteArray            *m_dataAsQCString;
     DataPrivate() : m_dataAsValue(0), m_dataAsBool(false), m_dataAsQString(NULL),
                     m_dataAsQStringMap(NULL), m_dataAsObject(NULL), m_dataAsIP(NULL),
                     m_dataAsBinary(NULL), m_dataAsQCString(NULL) {}
@@ -1222,7 +1222,7 @@ public:
     static QString myStaticDummyQString;
     static Data::STRING_MAP myStaticDummyQStringMap;
     static QByteArray myStaticDummyQByteArray;
-    static Q3CString myStaticDummyQCString;
+    static QByteArray myStaticDummyQCString;
 };
 
 unsigned long DataPrivate::myStaticDummyULong = ~0U;
@@ -1230,7 +1230,7 @@ bool DataPrivate::myStaticDummyBool = false;
 QString DataPrivate::myStaticDummyQString = QString("Wrong datatype!");
 Data::STRING_MAP DataPrivate::myStaticDummyQStringMap = Data::STRING_MAP();
 QByteArray DataPrivate::myStaticDummyQByteArray = QByteArray();
-Q3CString DataPrivate::myStaticDummyQCString = Q3CString("Wrong datatype!");
+QByteArray DataPrivate::myStaticDummyQCString = QByteArray("Wrong datatype!");
 
 Data::Data()
  : m_type(DATA_UNKNOWN), m_name("unknown"), data(NULL)
@@ -1506,32 +1506,32 @@ bool Data::setIP(const IP *d)
     return true;
 }
 
-const Q3CString &Data::cstr() const
+const QByteArray &Data::cstr() const
 {
     if(!checkType(DATA_CSTRING))
         return DataPrivate::myStaticDummyQCString;
     if(!data->m_dataAsQCString)
-        data->m_dataAsQCString = new Q3CString();
+        data->m_dataAsQCString = new QByteArray();
     return *data->m_dataAsQCString;
 }
 
-Q3CString &Data::cstr()
+QByteArray &Data::cstr()
 {
     if(!checkType(DATA_CSTRING))
         return DataPrivate::myStaticDummyQCString;
     if(!data->m_dataAsQCString)
-        data->m_dataAsQCString = new Q3CString();
+        data->m_dataAsQCString = new QByteArray();
     return *data->m_dataAsQCString;
 }
 
-bool Data::setCStr(const Q3CString &s)
+bool Data::setCStr(const QByteArray &s)
 {
     if(!checkType(DATA_CSTRING))
         return false;
     if(data->m_dataAsQCString && s == *data->m_dataAsQCString)
         return false;
     if(!data->m_dataAsQCString)
-        data->m_dataAsQCString = new Q3CString(s);
+        data->m_dataAsQCString = new QByteArray(s);
     else
         *data->m_dataAsQCString = s;
     return true;

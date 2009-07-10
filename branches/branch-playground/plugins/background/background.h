@@ -21,7 +21,7 @@
 #include <qimage.h>
 #include <qpixmap.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "cfg.h"
 #include "event.h"

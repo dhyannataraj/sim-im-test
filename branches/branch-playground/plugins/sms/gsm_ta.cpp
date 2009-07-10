@@ -20,7 +20,7 @@
 
 #include <qtimer.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 #include <ctype.h>
 
 #include "log.h"
@@ -75,7 +75,7 @@ void GsmTA::write_ready()
 
 void GsmTA::read_ready()
 {
-    Q3CString line = m_port->readLine();
+    QByteArray line = m_port->readLine();
     if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))
         line = line.left(line.length() - 1);
     if (!line.isEmpty()){
@@ -297,9 +297,9 @@ void GsmTA::port_error()
     emit error();
 }
 
-void GsmTA::at(const Q3CString &str, unsigned timeout)
+void GsmTA::at(const QByteArray &str, unsigned timeout)
 {
-    Q3CString cmd = "AT";
+    QByteArray cmd = "AT";
     cmd += str;
     m_cmd = cmd;
     Buffer b(cmd);
@@ -310,7 +310,7 @@ void GsmTA::at(const Q3CString &str, unsigned timeout)
     m_port->writeLine(cmd.data(), timeout);
 }
 
-bool GsmTA::isOK(const Q3CString &answer)
+bool GsmTA::isOK(const QByteArray &answer)
 {
     if (isIncoming(answer))
         return false;
@@ -321,9 +321,9 @@ bool GsmTA::isOK(const Q3CString &answer)
     return false;
 }
 
-Q3CString GsmTA::normalize(const Q3CString &ans)
+QByteArray GsmTA::normalize(const QByteArray &ans)
 {
-    Q3CString answer = ans;
+    QByteArray answer = ans;
     size_t start = 0, end = answer.length();
     bool changed = true;
     while (start < end && changed){
@@ -340,11 +340,11 @@ Q3CString GsmTA::normalize(const Q3CString &ans)
     return answer;
 }
 
-bool GsmTA::isError(const Q3CString &ans)
+bool GsmTA::isError(const QByteArray &ans)
 {
     if (isIncoming(ans))
         return false;
-    Q3CString answer = normalize(ans);
+    QByteArray answer = normalize(ans);
     if (answer.isEmpty())
         return false;
     if (matchResponse(answer, "+CME ERROR:") ||
@@ -356,11 +356,11 @@ bool GsmTA::isError(const Q3CString &ans)
     return false;
 }
 
-bool GsmTA::isChatOK(const Q3CString &ans, const char *response,  bool bIgnoreErrors, bool bAcceptEmptyResponse)
+bool GsmTA::isChatOK(const QByteArray &ans, const char *response,  bool bIgnoreErrors, bool bAcceptEmptyResponse)
 {
     if (isIncoming(ans))
         return false;
-    Q3CString answer = normalize(ans);
+    QByteArray answer = normalize(ans);
     if (answer.isEmpty() || (answer == m_cmd))
         return false;
     if (matchResponse(answer, "+CME ERROR:") ||
@@ -387,11 +387,11 @@ bool GsmTA::isChatOK(const Q3CString &ans, const char *response,  bool bIgnoreEr
     return false;
 }
 
-bool GsmTA::isChatResponse(const Q3CString &ans, const char *response, bool bIgnoreErrors)
+bool GsmTA::isChatResponse(const QByteArray &ans, const char *response, bool bIgnoreErrors)
 {
     if (isIncoming(ans))
         return false;
-    Q3CString answer = normalize(ans);
+    QByteArray answer = normalize(ans);
     if (answer.isEmpty() || (answer == m_cmd))
         return false;
     if (matchResponse(answer, "+CME ERROR:") ||
@@ -413,9 +413,9 @@ bool GsmTA::isChatResponse(const Q3CString &ans, const char *response, bool bIgn
     return false;
 }
 
-bool GsmTA::isIncoming(const Q3CString &ans)
+bool GsmTA::isIncoming(const QByteArray &ans)
 {
-    Q3CString answer = normalize(ans);
+    QByteArray answer = normalize(ans);
     if (matchResponse(answer, "+CLIP:")){
         QString number = getToken(answer, ',');
         if (!number.isEmpty() && (number[0] == '\"')){
@@ -430,7 +430,7 @@ bool GsmTA::isIncoming(const Q3CString &ans)
     return false;
 }
 
-bool GsmTA::matchResponse(Q3CString &answer, const char *responseToMatch)
+bool GsmTA::matchResponse(QByteArray &answer, const char *responseToMatch)
 {
     if (answer.left(strlen(responseToMatch)) == responseToMatch){
         answer = normalize(answer.data() + strlen(responseToMatch));
@@ -439,9 +439,9 @@ bool GsmTA::matchResponse(Q3CString &answer, const char *responseToMatch)
     return false;
 }
 
-Q3CString GsmTA::model() const
+QByteArray GsmTA::model() const
 {
-    Q3CString res = m_manufacturer;
+    QByteArray res = m_manufacturer;
     if (!m_model.isEmpty()){
         if (!res.isEmpty())
             res += " ";
@@ -450,7 +450,7 @@ Q3CString GsmTA::model() const
     return res;
 }
 
-Q3CString GsmTA::oper() const
+QByteArray GsmTA::oper() const
 {
     return m_operator;
 }
@@ -503,14 +503,14 @@ void GsmTA::getNextEntry()
     processQueue();
 }
 
-void GsmTA::parseEntry(const Q3CString &answ)
+void GsmTA::parseEntry(const QByteArray &answ)
 {
-    Q3CString answer = normalize(answ);
+    QByteArray answer = normalize(answ);
     unsigned index = getToken(answer, ',').toUInt();
     answer = normalize(answer);
     if (answer.isEmpty())
         return;
-    Q3CString phone;
+    QByteArray phone;
     if (answer[0] == '\"'){
         getToken(answer, '\"');
         phone = getToken(answer, '\"');
@@ -523,7 +523,7 @@ void GsmTA::parseEntry(const Q3CString &answ)
     answer = normalize(answer);
     getToken(answer, ',');
     answer = normalize(answer);
-    Q3CString name;
+    QByteArray name;
     if (answer[0] == '\"'){
         getToken(answer, '\"');
         name = getToken(answer, '\"');
@@ -565,7 +565,7 @@ void GsmTA::getPhoneBook()
     at("+CPBS=SM");
 }
 
-void GsmTA::parseEntriesList(const Q3CString &str)
+void GsmTA::parseEntriesList(const QByteArray &str)
 {
     for (int i = 0; i < str.length(); i++){
         char c = str[i];
@@ -652,9 +652,9 @@ GsmLatin1::GsmLatin1()
 
 static GsmLatin1 gsmTable;
 
-Q3CString GsmTA::gsmToLatin1(const Q3CString &str)
+QByteArray GsmTA::gsmToLatin1(const QByteArray &str)
 {
-    Q3CString res;
+    QByteArray res;
     for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
         if (*p >= 0x80)
             continue;
@@ -666,9 +666,9 @@ Q3CString GsmTA::gsmToLatin1(const Q3CString &str)
     return res;
 }
 
-Q3CString GsmTA::latin1ToGsm(const Q3CString &str)
+QByteArray GsmTA::latin1ToGsm(const QByteArray &str)
 {
-    Q3CString res;
+    QByteArray res;
     for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
         unsigned char c = gsmTable.latin1ToGsmTable[*p];
         if (c == GSM_NOP)

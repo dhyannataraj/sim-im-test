@@ -29,7 +29,7 @@
 #include "event.h"
 #include "log.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 using namespace std;
 using namespace SIM;
@@ -56,13 +56,13 @@ Buffer::Buffer(const QByteArray &ba)
     m_posWrite = ba.size();
 }
 
-Buffer::Buffer(const Q3CString &cstr)
+/*Buffer::Buffer(const QByteArray &cstr)
     : QByteArray(cstr.copy())
 {
     uint len = cstr.length();
     init(len);
     m_posWrite = len;
-}
+}*/
 
 Buffer::~Buffer()
 {
@@ -210,7 +210,7 @@ bool Buffer::scan(const char *substr, QByteArray &res)
                 break;
         }
         if (*sp == 0){
-            Q3CString resCStr = "";
+            QByteArray resCStr = "";
             if (pos - readPos()){
                 unpack(resCStr, pos - readPos());
             }
@@ -308,12 +308,12 @@ QByteArray Buffer::getLine()
 }
 
 // for Buffer::scan()
-unsigned Buffer::unpack(Q3CString &d, unsigned s)
+unsigned Buffer::unpack(QByteArray &d, unsigned s)
 {
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = Q3CString(data() + m_posRead, readn + 1);
+    d = QByteArray(data() + m_posRead, readn + 1);
     m_posRead += readn;
     return readn;
 }

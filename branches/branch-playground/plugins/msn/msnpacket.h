@@ -20,7 +20,7 @@
 
 #include "msnclient.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 class MSNPacket
 {
@@ -155,7 +155,7 @@ public:
     ~MSNServerMessage();
     bool packet();
 protected:
-    Q3CString    m_msg;
+    QByteArray    m_msg;
     MSNClient  *m_client;
     unsigned    m_size;
 };

@@ -18,7 +18,7 @@
 #ifndef _CFG_H
 #define _CFG_H
 
-#include <q3cstring.h>
+#include <QByteArray>
 #include <QMap>
 #include <QString>
 #include <qvariant.h>
@@ -139,9 +139,9 @@ public:
     QByteArray &asBinary();
     bool setBinary(const QByteArray &d);
     // QString
-    const Q3CString &cstr() const;
-    Q3CString &cstr();
-    bool setCStr(const Q3CString &s);
+    const QByteArray &cstr() const;
+    QByteArray &cstr();
+    bool setCStr(const QByteArray &s);
 
 protected:
     bool checkType(DataType type) const;
@@ -205,8 +205,8 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const QString &host=QString::n
     virtual void set##A(bool r) { data.A.setBool(r); }
 
 #define PROP_CSTR(A) \
-    Q3CString get##A() const { return data.A.cstr(); } \
-    bool set##A(const Q3CString &r) { return data.A.setCStr( r ); }
+    QByteArray get##A() const { return data.A.cstr(); } \
+    bool set##A(const QByteArray &r) { return data.A.setCStr( r ); }
 
 const int LEFT      = 0;
 const int TOP       = 1;
@@ -235,7 +235,7 @@ EXPORT void save_state();
 
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEsacpe=true);
-EXPORT Q3CString getToken(Q3CString &from, char c, bool bUnEsacpe=true);
+//EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash = true);
 

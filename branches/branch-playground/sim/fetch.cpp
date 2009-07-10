@@ -21,7 +21,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QCustomEvent>
-#include <Q3CString>
+#include <QByteArray>
 #include <QEvent>
 #include <QApplication>
 #include <QUrl>

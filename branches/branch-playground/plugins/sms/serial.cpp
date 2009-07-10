@@ -22,7 +22,7 @@
 #include <qdir.h>
 #include <qsocketnotifier.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 //#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 //#endif
@@ -83,7 +83,7 @@ public:
     SerialPort	*m_port;
     int			m_baudrate;
     bool		m_bXonXoff;
-    Q3CString	m_line;
+    QByteArray	m_line;
     PortState	m_state;
     Buffer		m_buff;
     int			m_time;
@@ -207,7 +207,7 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     d->m_time	  = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    Q3CString port; // = "\\\\.\\";
+    QByteArray port; // = "\\\\.\\";
     port += device;
     port += ":";
     d->hPort = CreateFileA(port.data(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
@@ -475,7 +475,7 @@ SerialPort::~SerialPort()
 bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
     close();
-    Q3CString fname = "/dev/";
+    QByteArray fname = "/dev/";
     fname += device;
     d->m_time = DTRtime;
     d->m_baudrate = baudrate;

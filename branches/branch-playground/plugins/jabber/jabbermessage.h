@@ -21,7 +21,7 @@
 #include "cfg.h"
 #include "message.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 const unsigned long MessageJabber		= 0x201;
 const unsigned long MessageJabberOnline	= 0x202;
@@ -39,7 +39,7 @@ public:
     JabberMessage(Buffer *cfg = NULL);
     ~JabberMessage();
     PROP_UTF8(Subject);
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
     virtual unsigned baseType() { return SIM::MessageGeneric; }
 protected:
@@ -59,7 +59,7 @@ public:
     ~JabberMessageError();
     PROP_UTF8(Error);
     PROP_ULONG(Code);
-    virtual Q3CString save();
+    virtual QByteArray save();
     virtual QString presentation();
 protected:
     JabberMessageErrorData	data;

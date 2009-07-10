@@ -36,7 +36,7 @@
 #include <qapplication.h> //for Linux: qApp->processEvents();
 //Added by qt3to4:
 #include <QList>
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -540,7 +540,7 @@ bool GpgPlugin::processEvent(Event *e)
                             es->msg()->setError(I18N_NOOP("Encrypt failed"));
                             return true;
                         }
-                        es->setLocaleText(Q3CString(out.readAll()));
+                        es->setLocaleText(QByteArray(out.readAll()));
                         out.close();
                         QFile::remove(output);
                         return false;
@@ -653,13 +653,13 @@ void GpgPlugin::publicReady()
         Q3Process *p = (*it).process;
         if (p && !p->isRunning()){
             if (p->normalExit() && p->exitStatus() == 0){
-                Q3CString str(p->readStdout());
+                QByteArray str(p->readStdout());
                 for (;;){
-                    Q3CString line;
+                    QByteArray line;
                     line = getToken(str, '\n');
                     if(line.isEmpty())
                         break;
-                    Q3CString type = getToken(line, ':');
+                    QByteArray type = getToken(line, ':');
                     if (type == "pub"){
                         getToken(line, ':');
                         getToken(line, ':');

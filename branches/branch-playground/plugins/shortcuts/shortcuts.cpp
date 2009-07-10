@@ -33,7 +33,7 @@
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QEvent>
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef WIN32
 	#include <windows.h>

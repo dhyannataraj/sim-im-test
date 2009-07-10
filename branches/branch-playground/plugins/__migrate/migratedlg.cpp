@@ -25,7 +25,7 @@
 #include <QLabel>
 #include <QApplication>
 #include <QTextCodec>
-#include <Q3CString>
+#include <QByteArray>
 #include <QCloseEvent>
 #include <QVBoxLayout>
 
@@ -174,7 +174,7 @@ void MigrateDialog::process()
         cfg.init(icqConf.size());
         icqConf.read(cfg.data(), icqConf.size());
         for (;;){
-            Q3CString section = cfg.getSection();
+            QByteArray section = cfg.getSection();
             if (section.isEmpty())
                 break;
             m_state = 3;
@@ -185,11 +185,11 @@ void MigrateDialog::process()
             if (!m_bProcess)
                 return;
             for (;;){
-                Q3CString l = cfg.getLine();
+                QByteArray l = cfg.getLine();
                 if (l.isEmpty())
                     break;
-                Q3CString line = l;
-                Q3CString name = getToken(line, '=');
+                QByteArray line = l;
+                QByteArray name = getToken(line, '=');
                 if (name == "UIN")
                     m_uin = line.toUInt();
                 if (name == "EncryptPassword")
@@ -237,7 +237,7 @@ void MigrateDialog::process()
             cfg.init(hFrom.size());
             hFrom.read(cfg.data(), hFrom.size());
             for (;;){
-                Q3CString section = cfg.getSection();
+                QByteArray section = cfg.getSection();
                 if (section.isEmpty())
                     break;
                 m_state = 3;
@@ -246,11 +246,11 @@ void MigrateDialog::process()
                 if (!m_bProcess)
                     return;
                 for (;;){
-                    Q3CString l = cfg.getLine();
+                    QByteArray l = cfg.getLine();
                     if (l.isEmpty())
                         break;
-                    Q3CString line = l;
-                    Q3CString name = getToken(line, '=');
+                    QByteArray line = l;
+                    QByteArray name = getToken(line, '=');
                     if (name == "Message")
                         m_message = line;
                     if (name == "Time")
@@ -289,7 +289,7 @@ void MigrateDialog::process()
 
 void MigrateDialog::flush()
 {
-    Q3CString output;
+    QByteArray output;
     switch (m_state){
     case 0:
         output = "[icq/ICQ]\n";
@@ -306,7 +306,7 @@ void MigrateDialog::flush()
                 };
             for (int i = 0; i < (int)m_passwd.length(); i++)
                 m_passwd[i] = (char)(m_passwd[i] ^ xor_table[i]);
-            Q3CString new_passwd;
+            QByteArray new_passwd;
             unsigned short temp = 0x4345;
             for (int i = 0; i < (int)m_passwd.length(); i++) {
                 temp ^= m_passwd[i];

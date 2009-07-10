@@ -22,7 +22,7 @@
 #include "socket.h"
 #include "fetch.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 const unsigned long JournalCmdBase			= 0x00070000;
 const unsigned long MessageJournal			= JournalCmdBase;
@@ -60,7 +60,7 @@ class JournalMessage : public SIM::Message
 public:
     JournalMessage(Buffer *cfg = NULL);
     ~JournalMessage();
-    virtual Q3CString save();
+    virtual QByteArray save();
     PROP_UTF8(Subject);
     PROP_ULONG(Private);
     PROP_ULONG(Time);
@@ -128,7 +128,7 @@ public:
 protected:
     LiveJournalClient *m_client;
     Buffer *m_buffer;
-    bool getLine(Buffer *b, Q3CString &line);
+    bool getLine(Buffer *b, QByteArray &line);
     friend class LiveJournalClient;
 };
 

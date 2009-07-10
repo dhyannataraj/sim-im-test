@@ -18,7 +18,7 @@
 #ifndef _BUFFER_H
 #define _BUFFER_H
 
-#include <q3cstring.h>
+#include <QByteArray>
 #include <q3ptrlist.h>
 #include <qstring.h>
 
@@ -40,7 +40,7 @@ class EXPORT Buffer : public QByteArray
 public:
     Buffer(unsigned size=0);
     Buffer(const QByteArray &ba);
-    Buffer(const Q3CString &cstr);
+    //Buffer(const QByteArray &cstr);
     virtual ~Buffer();
 
     bool add(uint size);
@@ -91,7 +91,7 @@ public:
     // still needed for msn until it has an ownbuffer too
     unsigned unpack(QString &d, unsigned size); // utf8
 protected:
-    unsigned unpack(Q3CString &d, unsigned size);
+    unsigned unpack(QByteArray &d, unsigned size);
 
     unsigned m_packetStartPos;
     unsigned m_posRead;

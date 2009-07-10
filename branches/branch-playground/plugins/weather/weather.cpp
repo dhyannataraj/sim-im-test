@@ -25,7 +25,7 @@
 #include <qregexp.h>
 #include <qtooltip.h>
 #include <QDateTime>
-#include <Q3CString>
+#include <QByteArray>
 #include <QXmlStreamReader>
 
 #include "buffer.h"

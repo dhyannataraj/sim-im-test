@@ -28,7 +28,7 @@
 #include <qthread.h>
 #include <qwidget.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "icons.h"
 #include "log.h"
@@ -700,7 +700,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Buffer sf;
             sf = f.readAll();
             while (sf.readPos() < (unsigned)sf.size()){
-                Q3CString line;
+                QByteArray line;
                 sf.scan("\n", line);
                 if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))
                     line = line.left(line.length() - 1);
@@ -1006,7 +1006,7 @@ void ControlSocket::connect_ready()
 
 void ControlSocket::packet_ready()
 {
-    Q3CString line;
+    QByteArray line;
     if (!m_socket->readBuffer().scan("\n", line))
         return;
     if (line.isEmpty())
@@ -1024,10 +1024,10 @@ void ControlSocket::packet_ready()
     }
     if (!bRes)
         write("? ");
-    Q3CString s;
+    QByteArray s;
     if (!out.isEmpty())
         s = out.toLocal8Bit();
-    Q3CString res;
+    QByteArray res;
 	strLine=QString(s).trimmed();
 	
 	//if (!strLine.contains('\n'))

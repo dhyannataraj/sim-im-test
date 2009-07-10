@@ -21,7 +21,7 @@
 #include <qapplication.h>
 #include <qwidget.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 #include <QEvent>
 
 #ifdef WIN32

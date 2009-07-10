@@ -22,7 +22,7 @@
 #include <list>
 #include <qstring.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "message.h"
 
@@ -36,7 +36,7 @@ using namespace std;
 
 struct msg_save
 {
-    Q3CString	msg;
+    QByteArray	msg;
     QString     client;
     unsigned    contact;
 };

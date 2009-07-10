@@ -55,7 +55,7 @@
 #include <qregexp.h>
 #include <qfile.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "html.h"
 #include "icons.h"
@@ -320,8 +320,8 @@ void YahooClient::scan_packet()
     int param7_cnt = 0;
 
     for (;;){
-        Q3CString key;
-        Q3CString value;
+        QByteArray key;
+        QByteArray value;
         if (!(socket()->readBuffer().scan("\xC0\x80", key) &&
                 socket()->readBuffer().scan("\xC0\x80", value)))
             break;
@@ -637,7 +637,7 @@ QString TextParser::parse(const char *msg)
     Buffer b;
     b.pack(msg, strlen(msg));
     for (;;){
-        Q3CString part;
+        QByteArray part;
         if (!b.scan("\x1B\x5B", part))
             break;
         addText(part, part.length());
@@ -1114,16 +1114,16 @@ void YahooClient::loadList(const char *str)
         }
     }
     if (str){
-        Q3CString s = str;
+        QByteArray s = str;
         while (!s.isEmpty()){
-            Q3CString line = getToken(s, '\n');
-            Q3CString grp = getToken(line, ':');
+            QByteArray line = getToken(s, '\n');
+            QByteArray grp = getToken(line, ':');
             if (line.isEmpty()){
                 line = grp;
                 grp = "";
             }
             while (!line.isEmpty()){
-                Q3CString id = getToken(line, ',');
+                QByteArray id = getToken(line, ',');
                 ListRequest *lr = findRequest(QString::fromUtf8(id));
                 if (lr)
                     continue;
@@ -2032,7 +2032,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     QString nn;
     Contact *contact;
     findContact(data->Login.str().toUtf8(), NULL, contact);
-    Q3CString ff = getContacts()->fromUnicode(contact, fn);
+    QByteArray ff = getContacts()->fromUnicode(contact, fn);
     for (const char *p = ff; *p; p++){
         if (((*p >= 'a') && (*p <='z')) || ((*p >= 'A') && (*p < 'Z')) || ((*p >= '0') && (*p <= '9')) || (*p == '.')){
             nn += *p;
@@ -2131,7 +2131,7 @@ YahooFileMessage::~YahooFileMessage()
     free_data(yahoMessageFile, &data);
 }
 
-Q3CString YahooFileMessage::save()
+QByteArray YahooFileMessage::save()
 {
     return save_data(yahoMessageFile, &data);
 }

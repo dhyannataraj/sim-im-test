@@ -25,7 +25,7 @@
 #include <qfont.h>
 #include <qobject.h>
 #include <qthread.h>
-#include <q3cstring.h>
+#include <QByteArray>
 //Added by qt3to4:
 #include <QTranslator>
 

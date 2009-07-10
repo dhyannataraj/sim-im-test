@@ -31,7 +31,7 @@
 //Added by qt3to4:
 #include <QResizeEvent>
 #include <QStackedWidget>
-#include <Q3CString>
+#include <QByteArray>
 #include <QEvent>
 #include <QMoveEvent>
 #include <QMouseEvent>
@@ -108,7 +108,7 @@ public:
     UserWnd *wnd(unsigned id);
     UserWnd *wnd();
     std::list<UserWnd*> windows();
-    Q3CString getState();
+    QByteArray getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
     void setNoSwitch(bool bState);

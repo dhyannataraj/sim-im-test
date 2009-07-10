@@ -25,7 +25,7 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "message.h"
 #include "misc.h"
@@ -95,13 +95,13 @@ void Message::setClient(const QString &client)
     m_client = client;
 }
 
-Q3CString Message::save()
+QByteArray Message::save()
 {
     if (getTime() == 0)
         setTime(time(NULL));
     unsigned saveFlags = getFlags();
     setFlags(getFlags() & MESSAGE_SAVEMASK);
-    Q3CString res = save_data(messageData, &data);
+    QByteArray res = save_data(messageData, &data);
     setFlags(saveFlags);
     return res;
 }
@@ -138,10 +138,10 @@ SMSMessage::~SMSMessage()
     free_data(messageSMSData, &data);
 }
 
-Q3CString SMSMessage::save()
+QByteArray SMSMessage::save()
 {
-    Q3CString s = Message::save();
-    Q3CString s1 = save_data(messageSMSData, &data);
+    QByteArray s = Message::save();
+    QByteArray s1 = save_data(messageSMSData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -181,10 +181,10 @@ UrlMessage::~UrlMessage()
     free_data(messageUrlData, &data);
 }
 
-Q3CString UrlMessage::save()
+QByteArray UrlMessage::save()
 {
-    Q3CString s = Message::save();
-    Q3CString s1 = save_data(messageUrlData, &data);
+    QByteArray s = Message::save();
+    QByteArray s1 = save_data(messageUrlData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -223,10 +223,10 @@ ContactsMessage::~ContactsMessage()
     free_data(messageContactsData, &data);
 }
 
-Q3CString ContactsMessage::save()
+QByteArray ContactsMessage::save()
 {
-    Q3CString s = Message::save();
-    Q3CString s1 = save_data(messageContactsData, &data);
+    QByteArray s = Message::save();
+    QByteArray s1 = save_data(messageContactsData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -489,10 +489,10 @@ bool FileMessage::setDescription(const QString &str)
     return data.Description.setStr(str);
 }
 
-Q3CString FileMessage::save()
+QByteArray FileMessage::save()
 {
-    Q3CString s = Message::save();
-    Q3CString s1 = save_data(messageFileData, &data);
+    QByteArray s = Message::save();
+    QByteArray s1 = save_data(messageFileData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';
@@ -648,10 +648,10 @@ StatusMessage::StatusMessage(Buffer *cfg)
     load_data(messageStatusData, &data, cfg);
 }
 
-Q3CString StatusMessage::save()
+QByteArray StatusMessage::save()
 {
-    Q3CString s = Message::save();
-    Q3CString s1 = save_data(messageStatusData, &data);
+    QByteArray s = Message::save();
+    QByteArray s1 = save_data(messageStatusData, &data);
     if (!s1.isEmpty()){
         if (!s.isEmpty())
             s += '\n';

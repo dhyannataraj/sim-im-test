@@ -23,7 +23,7 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
-#include <Q3CString>
+#include <QByteArray>
 
 using namespace std;
 

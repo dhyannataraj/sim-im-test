@@ -22,7 +22,7 @@
 
 #include <QCheckBox>
 #include <QFile>
-#include <Q3CString>
+#include <QByteArray>
 #include <list>
 #include "simapi.h"
 
@@ -45,13 +45,13 @@ protected:
     QByteArray	m_owner;
 
     unsigned m_uin;
-    Q3CString	m_passwd;
-    Q3CString	m_name;
+    QByteArray	m_passwd;
+    QByteArray	m_name;
     int			m_state;
-    Q3CString	m_message;
-    Q3CString	m_time;
-    Q3CString	m_direction;
-    Q3CString	m_charset;
+    QByteArray	m_message;
+    QByteArray	m_time;
+    QByteArray	m_direction;
+    QByteArray	m_charset;
 
     unsigned m_grpId;
     unsigned m_contactId;

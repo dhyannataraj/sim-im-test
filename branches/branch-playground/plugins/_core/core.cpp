@@ -44,7 +44,7 @@ email                : vovan@shutoff.ru
 #include <qmessagebox.h>
 //Added by qt3to4:
 #include <QTranslator>
-#include <Q3CString>
+#include <QByteArray>
 
 // simlib
 #include "ballonmsg.h"
@@ -164,7 +164,7 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
    const char* message) const;
    void load ( const QString & filename);
    protected:
-   Q3CString fName;
+   QByteArray fName;
    loaded_l10nfile domain;
    };
 
@@ -2308,7 +2308,7 @@ bool CorePlugin::processEvent(Event *e)
 					Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
 					if (contact == NULL)
 						return false;
-					Q3CString codecStr;
+					QByteArray codecStr;
 					const char *codec = NULL;
 					if (cmd->id == 1)
 					{
@@ -3432,7 +3432,7 @@ QByteArray CorePlugin::getConfig()
 	QString dir = user_file("");
 	chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
-	Q3CString res = save_data(coreData, &data);
+	QByteArray res = save_data(coreData, &data);
 	setEditBackground(editBgColor);
 	setEditForeground(editFgColor);
 	return res;
@@ -3499,7 +3499,7 @@ void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 	}
 	Buffer cfg = f.readAll();
 	for (;;){
-		Q3CString section = cfg.getSection();
+		QByteArray section = cfg.getSection();
 		if (section.isEmpty())
 			break;
 		QString s = section;	// ?

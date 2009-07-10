@@ -30,7 +30,7 @@
 #include <QApplication>
 #include <QTimer>
 #include <QCloseEvent>
-#include <Q3CString>
+#include <QByteArray>
 #include <QList>
 #include <QApplication>
 

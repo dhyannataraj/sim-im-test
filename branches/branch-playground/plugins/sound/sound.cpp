@@ -21,7 +21,7 @@
 #include <qfile.h>
 #include <qsound.h>
 #include <qtimer.h>
-#include <Q3CString>
+#include <QByteArray>
 
 #ifdef USE_KDE
 	#include <kaudioplayer.h>

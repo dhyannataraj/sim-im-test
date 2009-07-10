@@ -41,7 +41,7 @@
 #include <qregexp.h>
 //Added by qt3to4:
 #include <QList>
-#include <Q3CString>
+#include <QByteArray>
 
 #include "log.h"
 
@@ -669,7 +669,7 @@ void DirectClient::processPacket()
     m_socket->readBuffer().unpack(type);
     m_socket->readBuffer().unpack(ackFlags);
     m_socket->readBuffer().unpack(msgFlags);
-    Q3CString msg_str;
+    QByteArray msg_str;
     m_socket->readBuffer() >> msg_str;
     Message *m;
     switch (command){
@@ -1145,7 +1145,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         return;
     }
 
-    Q3CString message;
+    QByteArray message;
     if (msg)
         message = msg;
 
@@ -1266,7 +1266,7 @@ void DirectClient::acceptMessage(Message *msg)
 
 void DirectClient::declineMessage(Message *msg, const QString &reason)
 {
-    Q3CString r;
+    QByteArray r;
     r = getContacts()->fromUnicode(m_client->getContact(m_data), reason);
     unsigned short seq = 0;
     switch (msg->type()){
@@ -1304,7 +1304,7 @@ void DirectClient::processMsgQueue()
             continue;
         }
         if (sm.msg){
-            Q3CString message;
+            QByteArray message;
             ICQBuffer &mb = m_socket->writeBuffer();
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (sm.msg->getFlags() & MESSAGE_URGENT)
@@ -1425,7 +1425,7 @@ bool DirectClient::cancelMessage(Message *msg)
                 mb.pack((unsigned short)(*it).icq_type);
                 mb.pack((unsigned short)0);
                 mb.pack((unsigned short)0);
-                Q3CString message;
+                QByteArray message;
                 mb << message;
                 sendPacket();
             }
@@ -1577,7 +1577,7 @@ void ICQFileTransfer::processPacket()
     m_socket->readBuffer() >> cmd;
     if (cmd != FT_DATA){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        EventLog::log_packet(m_socket->readBuffer(), false, plugin->ICQDirectPacket, Q3CString("File transfer"));
+        EventLog::log_packet(m_socket->readBuffer(), false, plugin->ICQDirectPacket, QByteArray("File transfer"));
     }
     if (cmd == FT_SPEED){
         char speed;
@@ -1711,13 +1711,13 @@ void ICQFileTransfer::initReceive(char cmd)
     string stdStrFileName;
     char isDir;
     m_socket->readBuffer() >> isDir >> stdStrFileName;
-	Q3CString qcfilename(stdStrFileName.c_str());
+	QByteArray qcfilename(stdStrFileName.c_str());
 	QString fName = getContacts()->toUnicode(m_client->getContact(m_data), qcfilename);
 
 	string stdStrDir;
     unsigned long n;
     m_socket->readBuffer() >> stdStrDir;
-	Q3CString dir(stdStrDir.c_str());
+	QByteArray dir(stdStrDir.c_str());
     m_socket->readBuffer().unpack(n);
     if (m_notify)
         m_notify->transfer(false);
@@ -1949,8 +1949,8 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace('/', '\\');
         fn  = fn.mid(n);
     }
-	Q3CString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
-    Q3CString s2="";
+	QByteArray s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
+    QByteArray s2="";
     if (!dir.isEmpty())
         s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
 	string ssc1 = s1.data();
@@ -2102,7 +2102,7 @@ void AIMFileTransfer::requestFT()
 		{
 			if(bWide)
 			{
-				Q3CString decodedfname = filename().toUtf8();
+				QByteArray decodedfname = filename().toUtf8();
 				buf.pack(decodedfname.data(), decodedfname.length() + 1);
 			}
 			else

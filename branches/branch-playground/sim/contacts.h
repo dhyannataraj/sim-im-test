@@ -33,7 +33,7 @@ class EXPORT UserData
 public:
     UserData();
     ~UserData();
-    Q3CString save();
+    QByteArray save();
     void load(unsigned long id, const DataDef *def, Buffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
@@ -57,7 +57,7 @@ class EXPORT ClientUserData
 public:
     ClientUserData();
     ~ClientUserData();
-    Q3CString save();
+    QByteArray save();
     void load(Client *client, Buffer *cfg);
     void *getData(Client *client);
     bool have(void*);

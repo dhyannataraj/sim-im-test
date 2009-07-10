@@ -20,7 +20,7 @@
 #include <QApplication>
 #include <QCryptographicHash>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "log.h"
 #include "buffer.h"
@@ -99,7 +99,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
         log(L_DEBUG, "Sending MD5 key");
         if (!data.owner.Screen.str().isEmpty() || data.owner.Uin.toULong()){
-            Q3CString md5_key;
+            QByteArray md5_key;
             socket()->readBuffer().unpackStr(md5_key);
             snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             if (data.owner.Uin.toULong()){
@@ -171,7 +171,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            Q3CString pswd = getContacts()->fromUnicode(NULL, getPassword());
+            QByteArray pswd = getContacts()->fromUnicode(NULL, getPassword());
             unsigned short len = (unsigned short)(pswd.length() + 1);
             msg.pack(len);
             msg.pack(pswd.data(), len);
@@ -259,7 +259,7 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    Q3CString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QByteArray pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
     msg.pack(pswd.data(), len);

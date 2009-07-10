@@ -31,7 +31,7 @@
 #include <qtimer.h>
 #include <qregexp.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "simapi.h"
 
@@ -190,7 +190,7 @@ void MSNFileTransfer::packet_ready()
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
     EventLog::log_packet(m_socket->readBuffer(), false, plugin->MSNPacket);
     for (;;){
-        Q3CString s;
+        QByteArray s;
         if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         if (getLine(s))
@@ -244,7 +244,7 @@ void MSNFileTransfer::send(const QString &line)
     m_socket->write();
 }
 
-bool MSNFileTransfer::getLine(const Q3CString &line)
+bool MSNFileTransfer::getLine(const QByteArray &line)
 {
     QString l = QString::fromUtf8(line);
     l = l.remove('\r');

@@ -22,7 +22,7 @@
 #include <string> //Fixme
 #include <QList>
 
-class Q3CString;
+class QByteArray;
 class ICQBuffer;
 class Tlv
 {
@@ -80,8 +80,8 @@ public:
 
     ICQBuffer &operator << (const TlvList&);
     ICQBuffer &operator << (const QString &s);     // utf8
-    ICQBuffer &operator << (const Q3CString &s);
     ICQBuffer &operator << (const QByteArray &s);
+    //ICQBuffer &operator << (const QByteArray &s);
     ICQBuffer &operator << (const Buffer &b);
     ICQBuffer &operator << (char c);
     ICQBuffer &operator << (unsigned char c) { return operator << ((char)c); }
@@ -93,7 +93,7 @@ public:
     ICQBuffer &operator << (const bool b);
 
     ICQBuffer &operator >> (std::string &s);	//Ported from 0.9.4
-    ICQBuffer &operator >> (Q3CString &s);  // size is 2 byte & little endian!
+    ICQBuffer &operator >> (QByteArray &s);  // size is 2 byte & little endian!
     ICQBuffer &operator >> (char &c);
     ICQBuffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
     ICQBuffer &operator >> (unsigned short &c);
@@ -101,7 +101,7 @@ public:
     ICQBuffer &operator >> (int &c);
 
     void pack(const QString &s);
-    void pack(const Q3CString &s);
+    void pack(const QByteArray &s);
     void pack(const char *d, unsigned size) { Buffer::pack(d, size); }
     void pack(const unsigned char *d, unsigned size) { Buffer::pack((const char*)d, size); }
     void pack(char c)          { *this << c; }
@@ -112,24 +112,24 @@ public:
 
     void packScreen(const QString &);
 	void packStr32(const char *s);
-    void packStr32(const Q3CString &);
+    void packStr32(const QByteArray &);
     void pack32(const Buffer &b);
 
     // 2 byte size + string
     bool unpackStr(QString &s);     // utf8
-    bool unpackStr(Q3CString &s);
+    bool unpackStr(QByteArray &s);
     // 4 byte size  + string
     void unpackStr32(std::string &s); // Ported from 0.9.4
-    bool unpackStr32(Q3CString &s);
     bool unpackStr32(QByteArray &s);
+    //bool unpackStr32(QByteArray &s);
     QString unpackScreen();
 
     void unpack(char &c)          { *this >> c; }
     void unpack(unsigned char &c) { *this >> c; }
     unsigned unpack(char *d, unsigned size);
     unsigned unpack(QString &d, unsigned size); // utf8
-    unsigned unpack(Q3CString &d, unsigned size);
     unsigned unpack(QByteArray &d, unsigned size);
+    //unsigned unpack(QByteArray &d, unsigned size);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
 };

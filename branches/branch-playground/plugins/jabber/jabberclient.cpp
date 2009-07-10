@@ -33,7 +33,7 @@
 #include <qapplication.h>
 #include <qwidget.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "html.h"
 #include "icons.h"

@@ -24,7 +24,7 @@
 #include <qdatetime.h>
 //Added by qt3to4:
 #include <QList>
-#include <Q3CString>
+#include <QByteArray>
 
 #include "misc.h"
 #include "snac.h"
@@ -582,7 +582,7 @@ public:
                                  const QString &city, const QString &nick, const QString &zip,
                                  const QString &state);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          const Q3CString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
+                          const QByteArray &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
     void sendPacket(bool bSend);
     bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QByteArray &str, SIM::Contact *contact, QString &result);

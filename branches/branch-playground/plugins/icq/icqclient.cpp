@@ -40,7 +40,7 @@
 #include <qdir.h>
 #include <qmessagebox.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "buffer.h"
 #include "socket.h"
@@ -895,7 +895,7 @@ QByteArray ICQClient::cryptPassword()
             0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
-    Q3CString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QByteArray pswd = getContacts()->fromUnicode(NULL, getPassword());
     char buf[8];
     int len=0;
     for (int j = 0; j < 8; j++)
@@ -2593,7 +2593,7 @@ bool ICQClient::processEvent(Event *e)
             ICQUserData *data = findContact(ar.screen, NULL, false, contact);
             DirectClient *dc = dynamic_cast<DirectClient*>(data ? data->Direct.object() : 0);
             if (dc){
-                Q3CString answer;
+                QByteArray answer;
                 if (data->Version.toULong() >= 10){
                     answer = t->tmpl.toUtf8();
                 }else{

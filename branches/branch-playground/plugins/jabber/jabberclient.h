@@ -21,7 +21,7 @@
 #include <vector>
 #include <q3valuestack.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 #include "simapi.h"
 #include "sax.h"
@@ -509,9 +509,9 @@ protected:
     virtual void    bind_ready(unsigned short port);
     virtual bool    error(const QString &err);
     virtual bool    accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const Q3CString &str);
+    bool get_line(const QByteArray &str);
     void send_line(const QString &str);
-    void send_line(const Q3CString &str);
+    void send_line(const QByteArray &str);
     void send_line(const char *str);
     unsigned m_startPos;
     unsigned m_endPos;

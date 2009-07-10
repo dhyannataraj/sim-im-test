@@ -24,7 +24,7 @@
 #include <qpushbutton.h>
 #include <qcombobox.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 using namespace SIM;
 
@@ -86,25 +86,25 @@ void GpgUser::publicReady()
     cmbPublic->clear();
     cmbPublic->insertItem(INT_MAX,i18n("None"));
     if (m_process->normalExit() && m_process->exitStatus() == 0){
-        Q3CString str(m_process->readStdout());
+        QByteArray str(m_process->readStdout());
         for (;;){
-            Q3CString line;
+            QByteArray line;
             line = getToken(str, '\n');
             if(line.isEmpty())
                     break;
-            Q3CString type = getToken(line, ':');
+            QByteArray type = getToken(line, ':');
             if (type == "pub"){
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                Q3CString sign = getToken(line, ':');
+                QByteArray sign = getToken(line, ':');
                 if (QString::fromLocal8Bit(sign) == m_key)
                     cur = n;
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                Q3CString name = getToken(line, ':');
+                QByteArray name = getToken(line, ':');
                 cmbPublic->insertItem(INT_MAX,QString::fromLocal8Bit(sign) + QString(" - ") +
                                       QString::fromLocal8Bit(name));
                 n++;
