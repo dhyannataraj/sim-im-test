@@ -20,7 +20,7 @@
 
 #include <qobject.h>
 #include <qstring.h>
-#include <q3valuelist.h>
+#include <QList>
 //Added by qt3to4:
 #include <Q3CString>
 
@@ -97,7 +97,7 @@ public:
     QString GPG();
     void reset();
     static GpgPlugin *plugin;
-    Q3ValueList<KeyMsg>	 m_sendKeys;
+    QList<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
     QString getHomeDir();
 protected slots:
@@ -116,10 +116,10 @@ protected:
     void askPassphrase();
     bool decode(SIM::Message *msg, const QString &pass, const QString &key);
     bool m_bMessage;
-    Q3ValueList<DecryptMsg> m_decrypt;
-    Q3ValueList<DecryptMsg> m_import;
-    Q3ValueList<DecryptMsg> m_public;
-    Q3ValueList<DecryptMsg> m_wait;
+    QList<DecryptMsg> m_decrypt;
+    QList<DecryptMsg> m_import;
+    QList<DecryptMsg> m_public;
+    QList<DecryptMsg> m_wait;
     class PassphraseDlg     *m_passphraseDlg;
     GpgData data;
 };

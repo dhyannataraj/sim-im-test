@@ -23,7 +23,7 @@
 #include <qimage.h>
 #include <qregexp.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 #include <memory>
 
@@ -187,7 +187,7 @@ static bool h2b(const char *&p, Q3CString &cap)
     return false;
 }
 
-static bool parseFE(Q3CString str, Q3ValueList<Q3CString> &l, unsigned n)
+static bool parseFE(Q3CString str, QList<Q3CString> &l, unsigned n)
 {
     int idx = str.indexOf('\xFE');
     while(idx != -1) {
@@ -245,7 +245,7 @@ static Message *parseTextMessage(const Q3CString &str, const Q3CString &_pp, Con
 
 static Message *parseURLMessage(const Q3CString &str)
 {
-    Q3ValueList<Q3CString> l;
+    QList<Q3CString> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error URL message");
         return NULL;
@@ -259,7 +259,7 @@ static Message *parseURLMessage(const Q3CString &str)
 //ToDo: Send Contacts does not work
 static Message *parseContactMessage(const Q3CString &str)
 {
-    Q3ValueList<Q3CString> l;
+    QList<Q3CString> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
@@ -269,7 +269,7 @@ static Message *parseContactMessage(const Q3CString &str)
         log(L_WARN, "No contacts found");
         return NULL;
     }
-    Q3ValueList<Q3CString> c;
+    QList<Q3CString> c;
     if (!parseFE(l[1], c, nContacts*2+1)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
@@ -319,7 +319,7 @@ static Message *parseContactMessage(const Q3CString &str)
 
 static Message *parseAuthRequest(const Q3CString &str)
 {
-    Q3ValueList<Q3CString> l;
+    QList<Q3CString> l;
     if (!parseFE(str, l, 6)){
         log(L_WARN, "Parse error auth request message");
         return NULL;
@@ -471,7 +471,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const Q3CString &p, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
-        Q3ValueList<Q3CString> l;
+        QList<Q3CString> l;
         if (!parseFE(p, l, 6)){
             log(L_WARN, "Parse error web panel message");
             return NULL;
@@ -1084,9 +1084,9 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
     unsigned short type;
     b >> type;
     b.incReadPos(bDirect ? 1 : 4);
-    Q3ValueList<Q3CString> phonebook;
-    Q3ValueList<Q3CString> numbers;
-    Q3ValueList<Q3CString> phonedescr;
+    QList<Q3CString> phonebook;
+    QList<Q3CString> numbers;
+    QList<Q3CString> phonedescr;
     Contact *contact = NULL;
     unsigned long state, time, size, nEntries;
     unsigned i;

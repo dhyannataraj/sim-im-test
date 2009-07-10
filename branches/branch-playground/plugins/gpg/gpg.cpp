@@ -35,7 +35,7 @@
 #include <q3process.h>
 #include <qapplication.h> //for Linux: qApp->processEvents();
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 
 #ifdef HAVE_SYS_STAT_H
@@ -135,7 +135,7 @@ GpgPlugin::~GpgPlugin()
     delete m_passphraseDlg;
     unregisterMessage();
     free_data(gpgData, &data);
-    Q3ValueList<DecryptMsg>::ConstIterator it;
+    QList<DecryptMsg>::ConstIterator it;
     for (it = m_decrypt.constBegin(); it != m_decrypt.constEnd(); ++it){
         delete (*it).msg;
         delete (*it).process;
@@ -162,7 +162,7 @@ QString GpgPlugin::GPG()
 
 void GpgPlugin::clear()
 {
-    Q3ValueList<DecryptMsg>::iterator it;
+    QList<DecryptMsg>::iterator it;
     for (it = m_decrypt.begin(); it != m_decrypt.end();){
         if ((*it).msg){
             ++it;
@@ -201,7 +201,7 @@ void GpgPlugin::clear()
 void GpgPlugin::decryptReady()
 {
     int res = 0;
-    for (Q3ValueList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
+    for (QList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
         Q3Process *p = (*it).process;
         if (p && !p->isRunning() && (*it).msg){
             Message *msg = (*it).msg;
@@ -230,7 +230,7 @@ void GpgPlugin::decryptReady()
                     }
                     setPassphrases(i, (*it).passphrase);
                     for (;;){
-                        Q3ValueList<DecryptMsg>::iterator itw;
+                        QList<DecryptMsg>::iterator itw;
                         bool bDecode = false;
                         for (itw = m_wait.begin(); itw != m_wait.end(); ++itw){
                             if ((*itw).key == (*it).key){
@@ -313,7 +313,7 @@ void GpgPlugin::decryptReady()
 
 void GpgPlugin::importReady()
 {
-    for (Q3ValueList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
+    for (QList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
         Q3Process *p = (*it).process;
         if (p && !p->isRunning()){
             Message *msg = new Message(MessageGPGKey);
@@ -454,7 +454,7 @@ bool GpgPlugin::processEvent(Event *e)
     case eEventMessageSent:{
             EventMessage *em = static_cast<EventMessage*>(e);
             Message *msg = em->msg();
-            for (Q3ValueList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
+            for (QList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
                 if ((*it).msg == msg){
                     if (msg->getError().isEmpty()){
                         Message m(MessageGPGKey);
@@ -649,7 +649,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
 
 void GpgPlugin::publicReady()
 {
-    for (Q3ValueList<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
+    for (QList<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
         Q3Process *p = (*it).process;
         if (p && !p->isRunning()){
             if (p->normalExit() && p->exitStatus() == 0){
@@ -688,7 +688,7 @@ void GpgPlugin::publicReady()
 
 void GpgPlugin::passphraseApply(const QString &passphrase)
 {
-    for (Q3ValueList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end(); ++it){
+    for (QList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end(); ++it){
         if ((*it).key == m_passphraseDlg->m_key){
             Message *msg = (*it).msg;
             m_wait.erase(it);
@@ -819,7 +819,7 @@ void GpgPlugin::askPassphrase()
 void GpgPlugin::passphraseFinished()
 {
     if (m_passphraseDlg){
-        for (Q3ValueList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end();){
+        for (QList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end();){
             if ((*it).key != m_passphraseDlg->m_key){
                 ++it;
                 continue;

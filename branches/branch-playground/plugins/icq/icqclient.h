@@ -23,7 +23,7 @@
 
 #include <qdatetime.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 
 #include "misc.h"
@@ -916,7 +916,7 @@ protected:
     void sendPacket();
     void processMsgQueue();
     bool copyQueue(DirectClient *to);
-    Q3ValueList<SendDirectMsg> m_queue;
+    QList<SendDirectMsg> m_queue;
     QString name();
     QString m_name;
 #ifdef ENABLE_OPENSSL

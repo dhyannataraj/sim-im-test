@@ -45,7 +45,7 @@
 
 #include "simapi.h"
 
-#include <q3valuelist.h>
+#include <QList>
 #include <qstring.h>
 
 /**

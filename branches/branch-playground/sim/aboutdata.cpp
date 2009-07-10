@@ -26,7 +26,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 QString
 KAboutPerson::name() const
@@ -83,8 +83,8 @@ public:
     {};
     const char *translatorName;
     const char *translatorEmail;
-    Q3ValueList<KAboutPerson> mAuthorList;
-    Q3ValueList<KAboutPerson> mCreditList;
+    QList<KAboutPerson> mAuthorList;
+    QList<KAboutPerson> mCreditList;
 };
 
 
@@ -218,7 +218,7 @@ KAboutData::credits() const
 const QList<KAboutTranslator>
 KAboutData::translators() const
 {
-    Q3ValueList<KAboutTranslator> personList;
+    QList<KAboutTranslator> personList;
 
     if(d->translatorName == 0)
         return personList;

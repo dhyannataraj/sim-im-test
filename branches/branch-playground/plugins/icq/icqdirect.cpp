@@ -40,7 +40,7 @@
 #include <qtimer.h>
 #include <qregexp.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 
 #include "log.h"
@@ -805,7 +805,7 @@ void DirectClient::processPacket()
 	case TCP_ACK: {
         log(L_DEBUG, "Ack %X %X", ackFlags, msgFlags);
         bool itDeleted = false;
-        Q3ValueList<SendDirectMsg>::iterator it;
+        QList<SendDirectMsg>::iterator it;
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
@@ -965,7 +965,7 @@ void DirectClient::connect_ready()
         return;
     }
     if (m_state == SSLconnect){
-        for (Q3ValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        for (QList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
             SendDirectMsg &sm = *it;
             if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
                 continue;
@@ -983,7 +983,7 @@ void DirectClient::connect_ready()
         return;
     }
     if (m_state == SSLconnect){
-        for (Q3ValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        for (QList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
             SendDirectMsg &sm = *it;
             if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
                 continue;
@@ -1060,7 +1060,7 @@ bool DirectClient::error_state(const QString &_err, unsigned code)
     }
     if (err.isEmpty())
         err = I18N_NOOP("Send message fail");
-    for (Q3ValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+    for (QList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         SendDirectMsg &sm = *it;
         if (sm.msg){
             if (!m_client->snacICBM()->sendThruServer(sm.msg, m_data)){
@@ -1297,7 +1297,7 @@ void DirectClient::processMsgQueue()
 {
     if (m_state != Logged)
         return;
-    for (Q3ValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end();){
+    for (QList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end();){
         SendDirectMsg &sm = *it;
         if (sm.seq){
             ++it;
@@ -1417,7 +1417,7 @@ void DirectClient::processMsgQueue()
 
 bool DirectClient::cancelMessage(Message *msg)
 {
-    for (Q3ValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+    for (QList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         if ((*it).msg == msg){
             if ((*it).seq){
                 ICQBuffer &mb = m_socket->writeBuffer();
@@ -1438,7 +1438,7 @@ bool DirectClient::cancelMessage(Message *msg)
 
 void DirectClient::addPluginInfoRequest(unsigned plugin_index)
 {
-    Q3ValueList<SendDirectMsg>::ConstIterator it;
+    QList<SendDirectMsg>::ConstIterator it;
     for (it = m_queue.constBegin(); it != m_queue.constEnd(); ++it){
         const SendDirectMsg &sm = *it;
         if (sm.msg)
