@@ -19,6 +19,7 @@
 #define _MSGVIEW_H
 
 #include <vector>
+#include <list>
 
 #include "textshow.h"
 //Added by qt3to4:
@@ -26,6 +27,8 @@
 
 class CorePlugin;
 class XSL;
+
+using namespace std;
 
 struct CutHistory
 {
@@ -70,8 +73,8 @@ protected:
     QString		m_selectStr;
     unsigned	m_nSelection;
     XSL			*xsl;
-    std::vector<CutHistory>	m_cut;
-    std::list<Msg_Id>		m_updated;
+    vector<CutHistory>	m_cut;
+    list<Msg_Id>		m_updated;
 };
 
 class MsgView : public MsgViewBase

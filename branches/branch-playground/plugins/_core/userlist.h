@@ -18,9 +18,12 @@
 #ifndef _USERLIST_H
 #define _USERLIST_H
 
+#include <list>
 #include "listview.h"
 //Added by qt3to4:
 #include <QMouseEvent>
+
+using namespace std;
 
 class UserListBase;
 class QTimer;

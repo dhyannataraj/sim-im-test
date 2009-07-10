@@ -18,6 +18,7 @@
 #ifndef _JABBERCLIENT_H
 #define _JABBERCLIENT_H
 
+#include <vector>
 #include <q3valuestack.h>
 //Added by qt3to4:
 #include <Q3CString>
@@ -27,6 +28,8 @@
 #include "socket.h"
 
 #include "jabberbuffer.h"
+
+using namespace std;
 
 class JabberProtocol;
 class JabberClient;
@@ -288,8 +291,8 @@ public:
         QString m_target;
         QString m_desc;
 		QString m_enc;
-        std::vector<QString> m_targets;
-        std::vector<QString> m_descs;
+        vector<QString> m_targets;
+        vector<QString> m_descs;
 
         bool   m_bBody;
         bool   m_bRosters;
@@ -376,12 +379,12 @@ public:
     void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const QString &url, unsigned size);
     void	sendFileAccept(SIM::FileMessage *msg, JabberUserData *data);
 
-    std::list<SIM::Message*> m_ackMsg;
-    std::list<SIM::Message*> m_waitMsg;
+    list<SIM::Message*> m_ackMsg;
+    list<SIM::Message*> m_waitMsg;
 
     QString photoFile(JabberUserData*);
     QString logoFile(JabberUserData*);
-    std::list<ServerRequest*>	m_requests;
+    list<ServerRequest*>	m_requests;
 
     QString discoItems(const QString &jid, const QString &node);
     QString discoInfo(const QString &jid, const QString &node);
@@ -451,11 +454,11 @@ protected:
     void element_end(const QString& el);
     void char_data(const QString& str);
 
-    std::list<JabberListRequest>	m_listRequests;
+    list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
 
     class JabberAuthMessage;
-    std::vector<JabberAuthMessage*>	tempAuthMessages;
+    vector<JabberAuthMessage*>	tempAuthMessages;
 
     QString get_icon(JabberUserData *data, unsigned status, bool invisible);
 

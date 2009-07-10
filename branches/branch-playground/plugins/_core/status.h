@@ -18,11 +18,15 @@
 #ifndef _STATUS_H
 #define _STATUS_H
 
+#include <list>
+
 #include <qobject.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
 #include "event.h"
+
+using namespace std;
 
 class QTimer;
 class CorePlugin;
@@ -57,7 +61,7 @@ protected:
     bool m_bBlink;
     bool m_bConnected;
     BalloonMsg		  *m_balloon;
-    std::list<BalloonItem> m_queue;
+    list<BalloonItem> m_queue;
 };
 
 #endif

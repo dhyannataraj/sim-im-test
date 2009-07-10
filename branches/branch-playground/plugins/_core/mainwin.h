@@ -18,12 +18,15 @@
 #ifndef _MAINWIN_H
 #define _MAINWIN_H
 
+#include <list>
 #include "simapi.h"
 #include "event.h"
 
 #include "cfg.h"
 
 #include <QMainWindow>
+
+using namespace std;
 
 class QToolBat;
 class CorePlugin;
@@ -68,7 +71,7 @@ protected:
     void quit();
     void addWidget(QWidget*, bool bDown);
     void addStatus(QWidget *w, bool);
-    std::list<QWidget*> statusWidgets;
+    list<QWidget*> statusWidgets;
     QString	m_icon;
     friend class CorePlugin;
     static MainWindow *s_mainWindow;

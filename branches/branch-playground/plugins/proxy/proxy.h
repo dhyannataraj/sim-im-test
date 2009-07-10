@@ -18,10 +18,14 @@
 #ifndef _PROXY_H
 #define _PROXY_H
 
+#include <list>
+
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 #include <Q3CString>
+
+using namespace std;
 
 const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;
@@ -67,7 +71,7 @@ public:
     PROP_STR(User);
     PROP_STR(Password);
     unsigned ProxyPacket;
-    std::list<Proxy*>	proxies;
+    list<Proxy*>	proxies;
     ProxyData data;
     void clientData(SIM::TCPClient*, ProxyData &data);
     static const SIM::DataDef *proxyData;

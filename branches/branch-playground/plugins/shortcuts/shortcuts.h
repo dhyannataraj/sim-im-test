@@ -18,6 +18,7 @@
 #ifndef _SHORTCUTS_H
 #define _SHORTCUTS_H
 
+#include <map>
 #include "simapi.h"
 
 #include <qobject.h>
@@ -28,6 +29,8 @@
 #include "event.h"
 #include "plugins.h"
 
+using namespace std;
+
 struct ShortcutsData
 {
     SIM::Data	Key;
@@ -35,9 +38,9 @@ struct ShortcutsData
     SIM::Data	Mouse;
 };
 
-typedef std::map<unsigned, QString>	MAP_STR;
-typedef std::map<unsigned, bool>		MAP_BOOL;
-typedef std::map<unsigned, SIM::CommandDef>	MAP_CMDS;
+typedef map<unsigned, QString>	MAP_STR;
+typedef map<unsigned, bool>		MAP_BOOL;
+typedef map<unsigned, SIM::CommandDef>	MAP_CMDS;
 
 class KGlobalAccel;
 

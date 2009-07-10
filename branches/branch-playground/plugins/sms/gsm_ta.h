@@ -21,8 +21,11 @@
 #include <q3cstring.h>
 #include <qobject.h>
 #include <string>
+#include <list>
 #include <vector>
 #include "simapi.h"
+
+using namespace std;
 
 class SerialPort;
 class QTimer;
@@ -30,7 +33,7 @@ class QTimer;
 struct OpInfo
 {
     unsigned	oper;
-    std::string	param;
+    string	param;
 };
 
 class Phonebook
@@ -41,7 +44,7 @@ public:
     unsigned m_used;
     unsigned m_numberSize;
     unsigned m_nameSize;
-    std::vector<bool> m_entries;
+    vector<bool> m_entries;
 };
 
 class GsmTA : public QObject
@@ -121,7 +124,7 @@ protected:
     Q3CString		m_operator;
     Q3CString		m_response;
     Q3CString		m_charset;
-    std::list<OpInfo>m_queue;
+    list<OpInfo>m_queue;
     Phonebook		m_books[2];
     Phonebook          *m_book;
     bool                m_bPing;

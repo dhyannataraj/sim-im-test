@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <map>
+#include <list>
 
 #include <qtimer.h>
 #include <qapplication.h>

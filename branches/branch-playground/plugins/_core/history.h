@@ -19,6 +19,7 @@
 #define _HISTORY_H
 
 #include <map>
+#include <list>
 #include <qstring.h>
 //Added by qt3to4:
 #include <Q3CString>
@@ -31,6 +32,8 @@ class QFile;
 class HistoryFile;
 class HistoryFileIterator;
 
+using namespace std;
+
 struct msg_save
 {
     Q3CString	msg;
@@ -38,7 +41,7 @@ struct msg_save
     unsigned    contact;
 };
 
-typedef std::map<unsigned, msg_save>	MAP_MSG;
+typedef map<unsigned, msg_save>	MAP_MSG;
 
 class History
 {
@@ -58,7 +61,7 @@ protected:
     static unsigned	s_tempId;
     static MAP_MSG	*s_tempMsg;
     unsigned m_contact;
-    std::list<HistoryFile*> files;
+    list<HistoryFile*> files;
     friend class HistoryIterator;
 };
 
@@ -80,7 +83,7 @@ protected:
     unsigned m_temp_id;
     History m_history;
     HistoryFileIterator *m_it;
-    std::list<HistoryFileIterator*> iters;
+    list<HistoryFileIterator*> iters;
 };
 
 #endif

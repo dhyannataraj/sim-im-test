@@ -19,6 +19,8 @@
 #define _CORE_H
 
 #include <vector>
+#include <map>
+#include <list>
 
 #include <qfont.h>
 #include <qobject.h>
@@ -34,7 +36,9 @@
 #include "propertyhub.h"
 #include "core_consts.h"
 
-typedef std::map<QString, unsigned> MAP_TYPES;
+using namespace std;
+
+typedef map<QString, unsigned> MAP_TYPES;
 
 struct msg_id
 {
@@ -182,7 +186,7 @@ struct HistoryUserData
     SIM::Data	Days;
 };
 
-class ClientList : public std::vector<SIM::Client*>
+class ClientList : public vector<SIM::Client*>
 {
 public:
     ClientList();
@@ -326,7 +330,7 @@ public:
     SIM::CommandsMap	messageTypes;
     MAP_TYPES	types;
 
-    std::list<msg_id>	unread;
+    list<msg_id>	unread;
 
     QFont editFont;
     static CorePlugin	*m_plugin;
@@ -370,7 +374,7 @@ protected:
     void initData();
     void loadUnread();
     void clearUnread(unsigned contact_id);
-    void getWays(std::vector<clientContact> &ways, SIM::Contact *contact);
+    void getWays(vector<clientContact> &ways, SIM::Contact *contact);
     QString typeName(const QString &name);
     void setAutoReplies();
     bool lockProfile(const QString &profile, bool bSend = false);
