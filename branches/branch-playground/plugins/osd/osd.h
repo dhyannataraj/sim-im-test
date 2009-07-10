@@ -150,6 +150,7 @@ protected:
     bool bCapsState;
     bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size()
                               // see patch #2304 for more info.
+    bool bTimerActive;
 };
 
 #endif

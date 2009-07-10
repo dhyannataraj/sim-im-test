@@ -73,8 +73,12 @@
 using namespace std;
 using namespace SIM;
 
-const unsigned SHADOW_DEF	= 2;
+const unsigned SHADOW_DEF	= 1;
 const unsigned XOSD_MARGIN	= 5;
+static const int cTCD       = 1;
+static const int cFadeTime = 10;
+
+
 
 Plugin *createOSDPlugin(unsigned base, bool, Buffer*)
 {
@@ -131,7 +135,13 @@ static QWidget *getOSDSetup(QWidget *parent, void *data)
     return new OSDConfig(parent, data, osdPlugin);
 }
 
-OSDPlugin::OSDPlugin(unsigned base) : Plugin(base)
+OSDPlugin::OSDPlugin(unsigned base) 
+    : 
+    Plugin(base),
+    bTimerActive(false),
+    bCapsState(false),
+    bHaveUnreadMessages(false),
+    m_osd(NULL)
 {
     osdPlugin    = this;
 
@@ -145,17 +155,16 @@ OSDPlugin::OSDPlugin(unsigned base) : Plugin(base)
 
     m_request.contact = 0;
     m_request.type    = OSD_NONE;
-
-    m_osd   = NULL;
+    
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
-    bCapsState = false;
+   
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
     const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
-    bHaveUnreadMessages=false;
+    
 }
 
 OSDPlugin::~OSDPlugin()
@@ -174,7 +183,7 @@ QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 void OSDPlugin::timeout()
 {
     m_osd->hide();
-    m_timer->stop();
+    m_timer->stop(); bTimerActive=false; //Due to a fucking bug in QTimer::isActive()
     processQueue();
 }
 
@@ -241,8 +250,6 @@ static const char * const close_h_xpm[] = {
             "+.++++.+",
             ".++++++."};
 
-	static int const cFadeTime = 50;
-
 void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 {
     currentData = *data;
@@ -276,7 +283,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         setMask(QPixmap::fromImage(image.createAlphaMask(), Qt::MonoOnly));
 
     transCounter = 0;
-    transCounterDelta = 5;
+    transCounterDelta = cTCD;
     setWindowOpacity(transCounter/100.);
 
     QLabel::show();
@@ -443,13 +450,14 @@ void OSDWidget::slotCloseClick()
 
 void OSDWidget::hide()
 {
-    if( m_bFading ) {
+    if( m_bFading ) 
+    {
         transCounter = 100;
-        transCounterDelta = -5;
+        transCounterDelta = -cTCD;
         m_transTimer.start(cFadeTime);
-    } else {
+    } 
+    else
         QLabel::hide();
-    }
 }
 
 #if 0
@@ -475,14 +483,13 @@ typedef map<unsigned, unsigned> TYPE_MAP;
 
 void OSDPlugin::processQueue()
 {
-    if (m_timer->isActive())
+    if (bTimerActive /*m_timer->isActive()*/) //Due to a fucking bug in QTimer::isActive()
         return;
     while (m_queue.size()){
         m_request = m_queue.takeFirst();
         Contact *contact = getContacts()->contact(m_request.contact);
-        if ((contact == NULL) || contact->getIgnore()){
+        if ((contact == NULL) || contact->getIgnore())
             continue;
-        }
         QString text;
         OSDUserData *data = NULL;
         data = (OSDUserData*)contact->getUserData(user_data_id);
@@ -611,11 +618,11 @@ void OSDPlugin::processQueue()
                 connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
-            m_timer->start(data->Timeout.toULong() * 1000);
+            m_timer->start(data->Timeout.toULong() * 1000); bTimerActive=true; //Due to a fucking bug in QTimer::isActive()
             return;
         }
     }
-    m_timer->stop();
+    m_timer->stop(); bTimerActive=false; //Due to a fucking bug in QTimer::isActive()
     m_request.contact = 0;
     m_request.type = OSD_NONE;
 }
@@ -693,8 +700,8 @@ void OSDPlugin::closeClick()
 void OSDPlugin::dblClick()
 {
     EventDefaultAction(m_request.contact).process();
-    m_timer->stop();
-    m_timer->start(100);
+    m_timer->stop(); bTimerActive=false;
+    m_timer->start(100); bTimerActive=true;
 }
 
 bool OSDPlugin::processEvent(Event *e)
@@ -732,8 +739,8 @@ bool OSDPlugin::processEvent(Event *e)
                 }else{
                     m_typing.remove(contact->id());
                     if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
-                        m_timer->stop();
-                        m_timer->start(100);
+                        m_timer->stop(); bTimerActive=false;
+                        m_timer->start(100); bTimerActive=true;
                     }
                 }
             }
@@ -791,8 +798,8 @@ bool OSDPlugin::processEvent(Event *e)
             osd.type    = OSD_MESSAGE;
             if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
                 m_queue.push_front(osd);
-                m_timer->stop();
-                m_timer->start(100);
+                m_timer->stop();    bTimerActive=false;
+                m_timer->start(100);bTimerActive=true; 
             }else{
                 m_queue.push_back(osd);
                 processQueue();
@@ -848,8 +855,8 @@ bool OSDPlugin::processEvent(Event *e)
             osd.type    = OSD_MESSAGE;
             if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
                 m_queue.push_front(osd);
-                m_timer->stop();
-                m_timer->start(100);
+                m_timer->stop();    bTimerActive=false;
+                m_timer->start(100);bTimerActive=true;
             }else{
                 m_queue.push_back(osd);
                 processQueue();
