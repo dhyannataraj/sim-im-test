@@ -18,7 +18,7 @@
 #ifndef _SPLASH_H
 #define _SPLASH_H
 
-#include <QTimerEvent>
+#include <QTimer>
 
 #include "event.h"
 #include "plugins.h"
@@ -32,9 +32,12 @@ public:
     virtual ~SplashPlugin();
 
 protected:
-    void timerEvent(QTimerEvent* e);
+    
     QWidget *splash;
     bool m_bStart;
+    QTimer		*m_timer;
+protected slots:
+    void timeout();
 
 };
 

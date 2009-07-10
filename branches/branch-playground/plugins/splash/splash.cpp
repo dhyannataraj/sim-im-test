@@ -81,7 +81,7 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : QObject(NULL), Plugin(b
 			p.setPen(QColor(0xFF, 0xFF, 0xE0));
 			p.drawText(x, y, text);
 			splash = new QWidget(NULL, Qt::SplashScreen);
-                        splash->setObjectName("splash");
+            splash->setObjectName("splash");
 
 			QDesktopWidget *desktop =  qApp->desktop();  //QApplication::desktop();
 			int desk_width = desktop->geometry().width();
@@ -100,17 +100,19 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart) : QObject(NULL), Plugin(b
 			if (!mask.isNull())
 				splash->setMask(mask);
 			splash->show();
-            startTimer(5000);
+            m_timer = new QTimer(this);
+            connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+            m_timer->start(5000);
 		}
 	}
 }
 
-SplashPlugin::~SplashPlugin()
+SplashPlugin::~SplashPlugin() 
 {
     delete splash;
 }
 
-void SplashPlugin::timerEvent(QTimerEvent* e)
+void SplashPlugin::timeout() //Anywhere is definitly a bug. Splash is going to be unloaded and not fulltime displayed...
 {
     splash->hide();
 }
