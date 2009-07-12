@@ -30,9 +30,9 @@
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define Q3FileDialog	KFileDialog
+#define QFileDialog	KFileDialog
 #else
-#include <q3filedialog.h>
+#include <qfiledialog.h>
 #endif
 
 using namespace SIM;
@@ -57,7 +57,7 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
     cmd->param	= parent;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
+    CToolEdit *edtName = qobject_cast<CToolEdit*>(eWidget.widget());
     if (edtName){
         connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         edtName->setText(static_cast<FileMessage*>(msg)->getFile());
@@ -74,7 +74,7 @@ void MsgFile::init()
     cmd->param	= m_edit;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
+    CToolEdit *edtName = qobject_cast<CToolEdit*>(eWidget.widget());
     if (edtName){
         if (edtName->text().isEmpty()){
             selectFile();
@@ -103,11 +103,11 @@ void MsgFile::selectFile()
     cmd->param	= m_edit;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
+    CToolEdit *edtName = qobject_cast<CToolEdit*>(eWidget.widget());
     if (edtName == NULL)
         return;
     QString s = edtName->text();
-    QStringList lst = Q3FileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
+    QStringList lst = QFileDialog::getOpenFileNames(m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].indexOf(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             *it = '\"' + QDir::convertSeparators(*it) + '\"';
@@ -159,7 +159,7 @@ bool MsgFile::processEvent(Event *e)
                 cmd->param	= m_edit;
                 EventCommandWidget eWidget(cmd);
                 eWidget.process();
-                CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
+                CToolEdit *edtName = qobject_cast<CToolEdit*>(eWidget.widget());
                 if (edtName == NULL)
                     return false;
                 QString msgText = m_edit->m_edit->text();
@@ -212,10 +212,3 @@ bool MsgFile::processEvent(Event *e)
     }
     return false;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "msgfile.moc"
-#endif
-*/
-

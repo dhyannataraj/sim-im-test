@@ -2298,8 +2298,7 @@ bool CorePlugin::processEvent(Event *e)
 						c->param  = cmd->param;
 						EventCommandWidget eWidget(cmd);
 						eWidget.process();
-						// FIXME: use qobject_cast in Qt4
-						QToolButton *btn = dynamic_cast<QToolButton*>(eWidget.widget());
+						QToolButton *btn = qobject_cast<QToolButton*>(eWidget.widget());
 						if (btn)
 							QTimer::singleShot(0, btn, SLOT(animateClick()));
 						setShowAllEncodings(!getShowAllEncodings());

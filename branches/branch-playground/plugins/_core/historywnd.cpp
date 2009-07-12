@@ -113,16 +113,13 @@ HistoryWindow::HistoryWindow(unsigned long id)
     cmdHistory->param	= (void*)m_id;
     EventCommandWidget eHistoryWidget(cmdHistory);
     eHistoryWidget.process();
-    // FIXME: use qobject_cast in Qt4
-    CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eHistoryWidget.widget());
+
+    CToolCombo *cmbFind = qobject_cast<CToolCombo*>(eHistoryWidget.widget());
     if(cmbFind)
     {
-        QString history = CorePlugin::m_plugin->getHistorySearch();
-        while(history.length())
-        {
-            cmbFind->addItem(getToken(history, ';'));
-        }
-        cmbFind->setText(QString::null);
+        const QStringList history = CorePlugin::m_plugin->getHistorySearch().split(';');
+        cmbFind->addItems(history);
+        cmbFind->setText(QString());
     }
     m_it = NULL;
     m_bDirection = CorePlugin::m_plugin->getHistoryDirection();
@@ -169,7 +166,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
             cmdw->id	= CmdHistoryAvatar;
             EventCommandWidget eWidget(cmdw);
             eWidget.process();
-            CToolLabel *lblAvatar = dynamic_cast<CToolLabel*>(eWidget.widget());
+            CToolLabel *lblAvatar = qobject_cast<CToolLabel*>(eWidget.widget());
 
             if(lblAvatar)
             {
@@ -304,7 +301,7 @@ bool HistoryWindow::processEvent(Event *e)
         }
         if (cmd->id == CmdHistoryFind)
         {
-            m_filter = "";
+            m_filter.clear();
             if (cmd->flags & COMMAND_CHECKED)
             {
                 Command cmd;
@@ -312,8 +309,7 @@ bool HistoryWindow::processEvent(Event *e)
                 cmd->param	= (void*)m_id;
                 EventCommandWidget eWidget(cmd);
                 eWidget.process();
-                // FIXME: use qobject_cast in Qt4
-                CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eWidget.widget());
+                CToolCombo *cmbFind = qobject_cast<CToolCombo*>(eWidget.widget());
                 if (cmbFind){
                     QString text = cmbFind->lineEdit()->text();
                     if (!text.isEmpty()){

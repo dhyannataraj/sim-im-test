@@ -843,8 +843,7 @@ bool MsgEdit::sendMessage(Message *msg)
         cmd->param	= this;
         EventCommandWidget eWidget(cmd);
         eWidget.process();
-        // FIXME: use qobject_cast in Qt4
-        QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
+        QToolButton *btnClose = qobject_cast<QToolButton*>(eWidget.widget());
         if (btnClose)
             bClose = btnClose->isChecked();
     }
@@ -1166,7 +1165,7 @@ bool MsgEdit::processEvent(Event *e)
         if ((cmd->id == CmdSmile) && (cmd->param == this)){
             EventCommandWidget eWidget(cmd);
             eWidget.process();
-            QToolButton *btnSmile = dynamic_cast<QToolButton*>(eWidget.widget());
+            QToolButton *btnSmile = qobject_cast<QToolButton*>(eWidget.widget());
             if (btnSmile){
                 SmilePopup *popup = new SmilePopup(this);
                 QSize s = popup->minimumSizeHint();
@@ -1298,7 +1297,7 @@ bool MsgEdit::processEvent(Event *e)
                     cmd->param	= this;
                     EventCommandWidget eWidget(cmd);
                     eWidget.process();
-                    QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
+                    QToolButton *btnClose = qobject_cast<QToolButton*>(eWidget.widget());
                     if (btnClose)
                         bClose = btnClose->isChecked();
                 }
@@ -1481,7 +1480,7 @@ void MsgEdit::setupNext()
     cmd->param = this;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolButton *btnNext = dynamic_cast<CToolButton*>(eWidget.widget());
+    CToolButton *btnNext = qobject_cast<CToolButton*>(eWidget.widget());
     if (btnNext == NULL)
         return;
 

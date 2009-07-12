@@ -92,7 +92,7 @@ void ConfigItem::init(unsigned id)
 
 void ConfigItem::show()
 {
-    UserConfig *dlg = dynamic_cast<UserConfig*>(listView()->topLevelWidget());
+    UserConfig *dlg = qobject_cast<UserConfig*>(listView()->topLevelWidget());
 	if(!dlg)
 		return;
 	log(L_DEBUG, "ConfigItem::show()");

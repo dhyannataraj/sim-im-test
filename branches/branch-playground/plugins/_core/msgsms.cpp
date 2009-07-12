@@ -51,7 +51,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     cmd->param = m_edit;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
+    CToolCombo *cmbPhone = qobject_cast<CToolCombo*>(eWidget.widget());
     if (cmbPhone)
         connect(cmbPhone->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(m_edit->m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
@@ -122,7 +122,7 @@ void MsgSMS::init()
     cmd->param = m_edit;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
+    CToolCombo *cmbPhone = qobject_cast<CToolCombo*>(eWidget.widget());
     if (cmbPhone && cmbPhone->lineEdit()->text().isEmpty()){
         cmbPhone->setFocus();
         return;
@@ -144,14 +144,14 @@ void MsgSMS::textChanged()
     cmd->param = m_edit;
     EventCommandWidget eWidget1(cmd);
     eWidget1.process();
-    CToolButton *btnTranslit = dynamic_cast<CToolButton*>(eWidget1.widget());
+    CToolButton *btnTranslit = qobject_cast<CToolButton*>(eWidget1.widget());
     if (btnTranslit && btnTranslit->isChecked())
         msgText = toTranslit(msgText);
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
     EventCommandWidget eWidget2(cmd);
     eWidget2.process();
-    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget2.widget());
+    CToolCombo *cmbPhone = qobject_cast<CToolCombo*>(eWidget2.widget());
     if (cmbPhone)
         phone = cmbPhone->lineEdit()->text();
     bool bCanSend = !phone.isEmpty() || !msgText.isEmpty();
@@ -235,7 +235,7 @@ bool MsgSMS::processEvent(Event *e)
             c->param = m_edit;
             EventCommandWidget eWidget(c);
             eWidget.process();
-            CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
+            CToolCombo *cmbPhone = qobject_cast<CToolCombo*>(eWidget.widget());
             if (cmbPhone)
                 phone = cmbPhone->lineEdit()->text();
 
@@ -307,10 +307,3 @@ SMSPanel::SMSPanel(QWidget *parent)
 
 SMSPanel::~SMSPanel()
 {}
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "msgsms.moc"
-#endif
-*/
-

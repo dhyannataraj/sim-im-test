@@ -43,7 +43,7 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
     cmd->param = m_edit;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolEdit *edtUrl = dynamic_cast<CToolEdit*>(eWidget.widget());
+    CToolEdit *edtUrl = qobject_cast<CToolEdit*>(eWidget.widget());
     if (edtUrl){
         connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
         edtUrl->setText(static_cast<UrlMessage*>(msg)->getUrl());
@@ -83,7 +83,7 @@ void MsgUrl::init()
     cmd->param = m_edit;
     EventCommandWidget eWidget(cmd);
     eWidget.process();
-    CToolEdit *edtUrl = dynamic_cast<CToolEdit*>(eWidget.widget());
+    CToolEdit *edtUrl = qobject_cast<CToolEdit*>(eWidget.widget());
     if (edtUrl && edtUrl->text().isEmpty()){
         edtUrl->setFocus();
         return;
@@ -140,7 +140,7 @@ bool MsgUrl::processEvent(Event *e)
             cmd->param = m_edit;
             EventCommandWidget eWidget(cmd);
             eWidget.process();
-            CToolEdit *edtUrl = dynamic_cast<CToolEdit*>(eWidget.widget());
+            CToolEdit *edtUrl = qobject_cast<CToolEdit*>(eWidget.widget());
             if (edtUrl)
                 urlText = edtUrl->text();
             if (!urlText.isEmpty()){
@@ -156,10 +156,3 @@ bool MsgUrl::processEvent(Event *e)
     }
     return false;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "msgurl.moc"
-#endif
-*/
-

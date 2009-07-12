@@ -284,7 +284,7 @@ void UserWnd::showListView(bool bShow)
 
             if(topLevelWidget()->inherits("Container"))
             {
-                Container *c = dynamic_cast<Container*>(topLevelWidget());
+                Container *c = qobject_cast<Container*>(topLevelWidget());
                 list<UserWnd*> wnd = c->windows();
                 for (list<UserWnd*>::iterator it = wnd.begin(); it != wnd.end(); ++it)
                     m_list->selected.push_back((*it)->id());

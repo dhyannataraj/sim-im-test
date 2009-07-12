@@ -352,23 +352,23 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         x += 2;
         if (!highlight.isEmpty()){
             QPen oldPen = p->pen();
-            QColor oldBg = p->backgroundColor();
+            QColor oldBg = p->background().color();
             p->setBackgroundMode(Qt::OpaqueMode);
             if (item == m_searchItem){
                 if ((item == currentItem()) && CorePlugin::m_plugin->getUseDblClick()){
-                    p->setBackgroundColor(cg.highlightedText());
+                    p->setBackground(cg.highlightedText());
                     p->setPen(cg.highlight());
                 }else{
-                    p->setBackgroundColor(cg.highlight());
+                    p->setBackground(cg.highlight());
                     p->setPen(cg.highlightedText());
                 }
             }else{
-                p->setBackgroundColor(oldPen.color());
+                p->setBackground(oldPen.color());
                 p->setPen(oldBg);
             }
             item->drawText(p, save_x, width, highlight);
             p->setPen(oldPen);
-            p->setBackgroundColor(oldBg);
+            p->setBackground(oldBg);
             p->setBackgroundMode(Qt::TransparentMode);
         }
         unsigned xIcon = width;

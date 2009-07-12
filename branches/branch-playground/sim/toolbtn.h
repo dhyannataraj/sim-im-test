@@ -146,6 +146,7 @@ protected:
 // A simple QLabel -> type: BTN_LABEL
 class EXPORT CToolLabel : public QLabel, public CToolItem
 {
+    Q_OBJECT
 public:
     CToolLabel(CToolBar *parent, SIM::CommandDef *def);
     ~CToolLabel();
