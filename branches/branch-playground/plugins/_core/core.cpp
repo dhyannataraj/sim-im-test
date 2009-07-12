@@ -397,15 +397,18 @@ static autoReply autoReplies[] =
 	{ 0, NULL }
 };
 
-CorePlugin::CorePlugin(unsigned base, Buffer *config) : Plugin(base), EventReceiver(HighPriority), PropertyHub("_core")
+CorePlugin::CorePlugin(unsigned base, Buffer *config)
+  : PropertyHub("_core")
+  , Plugin(base)
+  , EventReceiver(HighPriority)
+  , historyXSL(NULL)
+  , m_bIgnoreEvents(false)
+  , m_alert(NULL)
 {
-	m_plugin = this;
-	historyXSL = NULL;
-	m_bIgnoreEvents = false;
-	m_alert = NULL;
+        m_plugin = this;
 
-	load_data(coreData, &data, config);
-	setStatusTime(time(NULL));
+        load_data(coreData, &data, config);
+        setStatusTime(time(NULL));
 
 	user_data_id	 = getContacts()->registerUserData("core", coreUserData);
 	sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
@@ -1530,7 +1533,7 @@ bool CorePlugin::processEvent(Event *e)
 				QWidgetList list = QApplication::topLevelWidgets();
             	QWidget * w;
 				bool bNew = false;
-				log(L_DEBUG, "contactID: %d", contact->id());
+				log(L_DEBUG, "contactID: %ld", contact->id());
             	foreach (w,list)
 				{
 					log(L_DEBUG, "w");
