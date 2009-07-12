@@ -50,26 +50,25 @@
 #include <qdatetime.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <q3multilineedit.h>
+#include <q3multilineedit.h>                                      
 #include <qregexp.h>
 
 #include <qdesktopwidget.h>
 #include <QByteArray>
 
-#ifdef USE_KDE
-#include <kwin.h>
+#ifdef USE_KDE4
 #include <kglobal.h>
-#include "kdeisversion.h"
+#include <kwindowinfo.h>
+#include <kwindowsystem.h>
 #endif
 
 #if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
-//#include <X11/X.h>
-//#include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <QX11Info>
 #endif
 
 
-#ifndef USE_KDE
+#ifndef USE_KDE4
 
 QString i18n(const char *text)
 {
@@ -317,7 +316,7 @@ void setWndProc(QWidget *w)
 
 void setWndClass(QWidget *w, const char *name)
 {
-    Display *dsp = w->x11Display();
+    Display *dsp = QX11Info::display();
     WId win = w->winId();
 
     XClassHint classhint;
@@ -347,32 +346,24 @@ void setWndClass(QWidget*, const char*)
 #endif
 #endif
 
-#ifdef USE_KDE
 bool raiseWindow(QWidget *w, unsigned desk)
-#else
-bool raiseWindow(QWidget *w, unsigned)
-#endif
 {
+    Q_UNUSED(desk)
+
     EventRaiseWindow e(w);
     if (e.process())
         return false;
-#ifdef USE_KDE
+#ifdef USE_KDE4
     /* info.currentDesktop is 0 when iconified :(
     also onAllDesktops is 0 when Objekt isn't
     shown already */
-#if KDE_IS_VERSION(3,2,0)
-    KWin::WindowInfo info = KWin::windowInfo(w->winId());
+    KWindowInfo info = KWindowSystem::windowInfo(w->winId(),
+                         NET::WMDesktop|NET::CurrentDesktop);
     if ((!info.onAllDesktops()) || (desk == 0)) {
-        if (desk == 0) desk = KWin::currentDesktop();
-        KWin::setOnDesktop(w->winId(), desk);
+        if (desk == 0)
+            desk = KWindowSystem::currentDesktop();
+        KWindowSystem::setOnDesktop(w->winId(), desk);
     }
-#else
-    KWin::Info info = KWin::info(w->winId());
-    if ((!info.onAllDesktops) || (desk == 0)) {
-        if (desk == 0) desk = KWin::currentDesktop();
-        KWin::setOnDesktop(w->winId(), desk);
-    }
-#endif
 #endif
 #ifdef WIN32
     DWORD dwProcID = GetWindowThreadProcessId(GetForegroundWindow(),NULL);
@@ -424,7 +415,7 @@ EXPORT QString formatDateTime(unsigned long t)
         return QString::null;
     QDateTime time;
     time.setTime_t(t);
-#ifdef USE_KDE
+#ifdef USE_KDE4
     return KGlobal::locale()->formatDateTime(time);
 #else
     return time.toString();
@@ -437,7 +428,7 @@ EXPORT QString formatDate(unsigned long t)
         return QString::null;
     QDateTime time;
     time.setTime_t(t);
-#ifdef USE_KDE
+#ifdef USE_KDE4
     return KGlobal::locale()->formatDate(time.date());
 #else
     return time.date().toString();
@@ -540,7 +531,7 @@ EXPORT void disableWidget(QWidget *w)
     w->setPalette(pal);
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);
-    }else if (w->inherits("QMulitLineEdit")){
+    }else if (w->inherits("Q3MulitLineEdit")){
         static_cast<Q3MultiLineEdit*>(w)->setReadOnly(true);
     }else{
         w->setEnabled(false);
