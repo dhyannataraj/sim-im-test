@@ -1070,7 +1070,7 @@ static QString getSString(const char *tlvData)
     unsigned len;
     const unsigned char *data = (const unsigned char*)tlvData;
     len = data[0] | ( data[1] << 8 );
-    QString ret = getContacts()->toUnicode(NULL, &tlvData[2], len);
+    QString ret = getContacts()->toUnicode(NULL, QByteArray::fromRawData(&tlvData[2], len));
     return ret;
 }
 

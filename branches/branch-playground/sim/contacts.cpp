@@ -2051,7 +2051,7 @@ QTextCodec *ContactList::getCodec(Contact *contact)
     return getCodecByName(owner()->getEncoding());
 }
 
-QString ContactList::toUnicode(Contact *contact, const QByteArray &str, int length)
+QString ContactList::toUnicode(Contact *contact, const QByteArray &str)
 {
     if (!str.isEmpty()){
         QString res = getCodec(contact)->toUnicode(str);
