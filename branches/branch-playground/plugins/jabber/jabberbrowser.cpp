@@ -834,18 +834,8 @@ const unsigned MAX_HISTORY = 10;
 
 void JabberBrowser::addHistory(const QString &str)
 {
-    QStringList l;
-    QString h = JabberPlugin::plugin->getBrowserHistory();
-    while (h.length()){
-        l.append(getToken(h, ';'));
-    }
-    QStringList::Iterator it;
-    for (it = l.begin(); it != l.end(); ++it){
-        if (*it == str){
-            l.remove(it);
-            break;
-        }
-    }
+    QStringList l = JabberPlugin::plugin->getBrowserHistory().split(';');
+    l.removeAll(str);
     l.prepend(str);
     QString res;
     Command cmd;
@@ -857,13 +847,13 @@ void JabberBrowser::addHistory(const QString &str)
     if (cmbUrl)
         cmbUrl->clear();
     unsigned i = 0;
-    for (it = l.begin(); it != l.end(); ++it){
+    Q_FOREACH(const QString &str, l) {
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
             res += ';';
-        cmbUrl->insertItem(INT_MAX,*it);
-        res += quoteChars(*it, ";");
+        cmbUrl->addItem(str);
+        res += quoteChars(str, ";");
     }
     JabberPlugin::plugin->setBrowserHistory(res);
 }

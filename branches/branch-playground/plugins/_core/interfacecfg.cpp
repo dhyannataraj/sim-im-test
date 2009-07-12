@@ -105,8 +105,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
 #ifndef USE_KDE
     QString cur = CorePlugin::m_plugin->getLang();
     cmbLang->insertItem(INT_MAX,i18n("System"));
-    QStringList items = getLangItems();
-    cmbLang->insertStringList(items);
+    cmbLang->addItems(getLangItems());
     int nCurrent = 0;
     if(!cur.isEmpty()) {
         const language *l;

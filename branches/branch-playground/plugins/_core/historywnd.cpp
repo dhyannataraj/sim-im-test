@@ -449,31 +449,19 @@ const unsigned MAX_HISTORY = 10;
 
 void HistoryWindow::addHistory(const QString &str)
 {
-    QStringList l;
-    QString h = CorePlugin::m_plugin->getHistorySearch();
-    while (h.length())
-    {
-        l.append(getToken(h, ';'));
-    }
-    QStringList::Iterator it;
-    for (it = l.begin(); it != l.end(); ++it)
-    {
-        if (*it == str)
-        {
-            l.remove(it);
-            break;
-        }
-    }
+    QStringList l = CorePlugin::m_plugin->getHistorySearch().split(';');
+    l.removeAll(str);
     l.prepend(str);
+
     QString res;
     unsigned i = 0;
-    for (it = l.begin(); it != l.end(); ++it)
+    Q_FOREACH(const QString &str, l)
     {
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
             res += ';';
-        res += quoteChars(*it, ";");
+        res += quoteChars(str, ";");
     }
     CorePlugin::m_plugin->setHistorySearch(res);
 }

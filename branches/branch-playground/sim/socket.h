@@ -19,7 +19,6 @@
 #define _SOCKET_H
 
 #include <QObject>
-#include <list>
 #include <map>
 #include <string>
 #include "buffer.h"

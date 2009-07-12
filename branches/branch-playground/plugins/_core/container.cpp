@@ -227,10 +227,10 @@ void Container::init()
     if (m_bInit)
         return;
 
-    QFrame *frm = new QFrame(this, "container");
+    QFrame *frm = new QFrame(this);
     setCentralWidget(frm);
 
-	QObject::connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    QObject::connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
     QVBoxLayout *lay = new QVBoxLayout(frm);
     m_wnds = new QStackedWidget(frm);

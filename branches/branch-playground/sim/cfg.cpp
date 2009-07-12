@@ -849,9 +849,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     cfg->setReadPos(read_pos);
 }
 
-EXPORT QByteArray save_data(const DataDef *def, void *_data)
+EXPORT QByteArray save_data(const DataDef *def, const void *_data)
 {
-    Data *data = (Data*)_data;
+    const Data *data = (const Data*)_data;
     QByteArray res;
     for (; def->name; def++){
         QByteArray value;
@@ -864,10 +864,10 @@ EXPORT QByteArray save_data(const DataDef *def, void *_data)
                 res += s;
             }
         }else  if (*def->name){
-            Data *ld = data;
+            const Data *ld = data;
             switch (def->type){
             case DATA_IP:{
-                    IP *p = ld->ip();
+                    const IP *p = ld->ip();
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
@@ -908,7 +908,7 @@ EXPORT QByteArray save_data(const DataDef *def, void *_data)
                 }
             case DATA_STRING:{
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
-                        QString &str = ld->str();
+                        const QString &str = ld->str();
                         if (value.length())
                             value += ',';
                         if (def->def_value){
@@ -934,7 +934,7 @@ EXPORT QByteArray save_data(const DataDef *def, void *_data)
                 }
             case DATA_UTF:{
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
-                        QString &str = ld->str();
+                        const QString &str = ld->str();
                         if (value.length())
                             value += ',';
                         if (def->def_value){
@@ -1021,7 +1021,7 @@ EXPORT QByteArray save_data(const DataDef *def, void *_data)
                 }
             case DATA_BINARY: {
                 for (unsigned i = 0; i < def->n_values; i++) {
-                    QByteArray &ba = ld->asBinary();
+                    const QByteArray &ba = ld->toBinary();
                     for(unsigned i = 0; i < (unsigned)ba.size(); i++) {
                         unsigned char c = ba.data()[i];
                         QString s;
