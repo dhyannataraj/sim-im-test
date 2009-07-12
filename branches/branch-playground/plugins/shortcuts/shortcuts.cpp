@@ -188,7 +188,7 @@ static vkCode vkCodes[] =
         { 0,			(Qt::Key)0 }
     };
 
-static void getKey(const char *key_str, int &mod, int &key)
+static void getKey(const QString &key_str, int &mod, int &key)
 {
     mod = 0;
     key = 0;

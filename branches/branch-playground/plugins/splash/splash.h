@@ -27,6 +27,7 @@ class QWidget;
 
 class SplashPlugin : public QObject, public SIM::Plugin
 {
+    Q_OBJECT
 public:
     SplashPlugin(unsigned base, bool bStart);
     virtual ~SplashPlugin();

@@ -31,11 +31,9 @@ class EXPORT QColorButton : public QPushButton
     Q_PROPERTY( QColor color READ color WRITE setColor )
 
 public:
-    QColorButton( QWidget *parent, const char *name = 0L );
-    QColorButton( const QColor &c, QWidget *parent, const char *name = 0L );
+    QColorButton( QWidget *parent );
     virtual ~QColorButton() {}
-    QColor color() const
-        {	return col; }
+    QColor color() const { return col; }
     void setColor( const QColor &c );
     QSize sizeHint() const;
 
@@ -46,7 +44,7 @@ protected slots:
     void chooseColor();
 
 protected:
-	virtual void paintEvent( QPaintEvent * event );
+    virtual void paintEvent( QPaintEvent * event );
 
 private:
     QColor col;

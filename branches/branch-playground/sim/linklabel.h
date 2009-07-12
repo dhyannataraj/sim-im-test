@@ -20,15 +20,14 @@
 
 #include "simapi.h"
 
-#include <qlabel.h>
-#include <QMouseEvent>
-#include <QTextDocument>
+#include <QtGui/QLabel>
+#include <QtCore/QUrl>
 
 class EXPORT LinkLabel : public QLabel
 {
     Q_OBJECT
 public:
-    LinkLabel(QWidget *parent = NULL, const char *name = NULL);
+    LinkLabel(QWidget *parent = NULL);
     void setUrl(const QString &url);
 protected:
     virtual void mouseReleaseEvent(QMouseEvent * e);

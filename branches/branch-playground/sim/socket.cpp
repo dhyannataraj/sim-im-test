@@ -290,7 +290,7 @@ bool SocketFactory::add(ClientSocket *s)
 
 bool SocketFactory::erase(ClientSocket *s)
 {
-  return(d->errSockets.remove(s) > 0);
+  return(d->errSockets.remove(s));
 }
 
 void SocketFactory::idle()

@@ -91,14 +91,14 @@ bool ReplaceCfg::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::KeyPress){
         QKeyEvent *ke = (QKeyEvent*)e;
         if ((ke->key() == Qt::Key_Right) && (m_col == 0)){
-            if (!m_edit->hasMarkedText() && (m_edit->cursorPosition() == (int)m_edit->text().length())){
+            if (!m_edit->hasSelectedText() && (m_edit->cursorPosition() == m_edit->text().length())){
                 m_col = 1;
                 setEdit();
                 return true;
             }
         }
         if ((ke->key() == Qt::Key_Left) && (m_col == 1)){
-            if (!m_edit->hasMarkedText() && (m_edit->cursorPosition() == 0)){
+            if (!m_edit->hasSelectedText() && (m_edit->cursorPosition() == 0)){
                 m_col = 0;
                 setEdit();
                 return true;

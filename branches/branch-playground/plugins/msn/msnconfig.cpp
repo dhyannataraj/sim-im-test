@@ -35,7 +35,7 @@ MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig) : QWidget
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig)
-        tabCfg->removePage(tabMsn);
+        tabCfg->removeTab(tabCfg->indexOf(tabMsn));
     QTimer::singleShot(0, this, SLOT(changed()));
     edtLogin->setText(m_client->getLogin());
     edtPassword->setText(m_client->getPassword());

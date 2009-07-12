@@ -17,26 +17,13 @@
 
 #include "linklabel.h"
 #include "event.h"
-#include "misc.h"
-#include "icons.h"
-#include "log.h"
 
-#include <qcursor.h>
-#include <q3valuevector.h>
-#include <q3stylesheet.h>
-#include <qtooltip.h>
-#include <qpainter.h>
-#include <q3simplerichtext.h>
-#include <QUrl>
 #include <QMouseEvent>
-#include <QLabel>
-#include <Q3Frame>
-#include <Q3MimeSourceFactory>
-#include <QApplication>
 
 using namespace SIM;
 
-LinkLabel::LinkLabel(QWidget *parent, const char *name) : QLabel(parent, name)
+LinkLabel::LinkLabel(QWidget *parent)
+  : QLabel(parent)
 {
     setCursor(QCursor(Qt::PointingHandCursor));
     QFont f = font();

@@ -22,7 +22,6 @@
 #ifndef USE_KDE4
 
 #include <qpainter.h>
-#include <qdrawutil.h>
 #include <qapplication.h>
 #include <qstyle.h>
 #include <qcolordialog.h>
@@ -31,8 +30,8 @@
 #include <QStyleOptionButton>
 #include <QPaintEvent>
 
-QColorButton::QColorButton( QWidget *parent, const char *name )
-        : QPushButton( parent, name )
+QColorButton::QColorButton( QWidget *parent )
+        : QPushButton( parent )
 {
     connect (this, SIGNAL(clicked()), this, SLOT(chooseColor()));
 }
@@ -67,8 +66,8 @@ void QColorButton::paintEvent( QPaintEvent * event )
     //  y += style()->pixelMetric( QStyle::PM_ButtonShiftVertical, &opt, this );
     //}
 
-    QColor fillCol = isEnabled() ? col : backgroundColor();
-    qDrawShadePanel( &painter, x, y, w, h, colorGroup(), true, 1, NULL);
+    const QColor fillCol = isEnabled() ? col : palette().background().color();
+    qDrawShadePanel( &painter, x, y, w, h, palette(), true, 1, NULL);
     if ( fillCol.isValid() )
         painter.fillRect( x+1, y+1, w-2, h-2, fillCol );
 
@@ -80,7 +79,7 @@ void QColorButton::paintEvent( QPaintEvent * event )
 
 QSize QColorButton::sizeHint() const
 {
-	QStyleOptionButton opt;
+    QStyleOptionButton opt;
     return style()->sizeFromContents(QStyle::CT_PushButton, &opt, QSize(40, 15), this).
         expandedTo(QApplication::globalStrut());
 }
