@@ -24,7 +24,6 @@ email                : vovan@shutoff.ru
 #include <qdir.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
-//Added by qt3to4:
 #include <QByteArray>
 
 #include "buffer.h"
@@ -54,7 +53,7 @@ public:
     void flush(Contact *c, Group *g, const QByteArray &section, Buffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
-    list<UserDataDef> userDataDef;
+    map<unsigned long, UserDataDef> userDataDef;
     Contact			*owner;
     map<unsigned long, Contact*>  contacts;
     vector<Group*>  groups;
@@ -103,8 +102,8 @@ static DataDef contactData[] =
     };
 
 Contact::Contact(unsigned long id, Buffer *cfg)
+: m_id(id)
 {
-    m_id = id;
     load_data(contactData, &data, cfg);
 }
 
@@ -115,13 +114,7 @@ Contact::~Contact()
         e.process();
     }
     free_data(contactData, &data);
-    map<unsigned long, Contact*> &contacts = getContacts()->p->contacts;
-    for (map<unsigned long, Contact*>::iterator it = contacts.begin(); it != contacts.end(); ++it){
-        if (it->second == this){
-            contacts.erase(it);
-            break;
-        }
-    }
+    getContacts()->p->contacts.erase(m_id);
 }
 
 const DataDef *Contact::dataDef()
@@ -147,11 +140,11 @@ void Contact::setup()
     QString str = getFirstName();
     getToken(str, '/');
     if (str != "-")
-        setFirstName(QString::null);
+        setFirstName(QString());
     str = getLastName();
     getToken(str, '/');
     if(!str.contains('-'))
-        setLastName(QString::null);
+        setLastName(QString());
     QString res;
     str = getEMails();
     while (!str.isEmpty()){
@@ -658,15 +651,15 @@ void ContactListPrivate::clear(bool bClearAll)
 unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef *def)
 {
     unsigned id = 0x1000;   // must be unique...
-    for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (id <= (*it).id)
-            id = (*it).id + 1;
+    for (map<unsigned long, UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
+        if (id <= it->first)
+            id = it->first + 1;
     }
     UserDataDef d;
     d.id = id;
     d.name = name;
     d.def = def;
-    userDataDef.push_back(d);
+    userDataDef.insert(std::pair<unsigned long, UserDataDef>(id, d));
     return id;
 }
 
@@ -678,12 +671,7 @@ void ContactListPrivate::unregisterUserData(unsigned id)
     for (vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end(); ++it_g)
         (*it_g)->userData.freeUserData(id);
     userData.freeUserData(id);
-    for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (id != (*it).id)
-            continue;
-        userDataDef.erase(it);
-        break;
-    }
+    userDataDef.erase(id);
 }
 
 ContactList::ContactList()
@@ -1524,18 +1512,18 @@ void ClientUserData::sort()
 
 // _____________________________________________________________________________________
 
-class UserDataIteratorPrivate : public list<UserDataDef>::iterator
+class UserDataIteratorPrivate : public map<unsigned long, UserDataDef>::iterator
 {
 public:
-UserDataIteratorPrivate(const list<UserDataDef>::iterator &it) :
-    list<UserDataDef>::iterator(it) {}
+UserDataIteratorPrivate(const map<unsigned long, UserDataDef>::iterator &it) :
+    map<unsigned long, UserDataDef>::iterator(it) {}
 };
 
 UserDataDef *ContactList::UserDataIterator::operator++()
 {
     if ((*p) == getContacts()->p->userDataDef.end())
         return NULL;
-    UserDataDef *res = &(**p);
+    UserDataDef *res = &(*p)->second;
     ++(*p);
     return res;
 }
@@ -1569,13 +1557,9 @@ UserData::~UserData()
 {
     UserDataMap::Iterator userDataIt;
     for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
-        list<UserDataDef> &dataDef = getContacts()->p->userDataDef;
-        for (list<UserDataDef>::iterator it = dataDef.begin(); it != dataDef.end(); ++it){
-            if ((*it).id != userDataIt.key())
-                continue;
-            free_data((*it).def, *userDataIt);
-            break;
-        }
+        map<unsigned long, UserDataDef>::iterator it = getContacts()->p->userDataDef.find(userDataIt.key());
+        if (it != getContacts()->p->userDataDef.end())
+            free_data(it->second.def, *userDataIt);
         delete[] userDataIt.value();
     }
     delete d;
@@ -1589,21 +1573,17 @@ void *UserData::getUserData(unsigned id, bool bCreate)
     if (!bCreate)
         return NULL;
 
-    list<UserDataDef> &dataDef = getContacts()->p->userDataDef;
-    list<UserDataDef>::iterator it;
-    for (it= dataDef.begin(); it != dataDef.end(); ++it)
-        if ((*it).id == id)
-            break;
-    if (it == dataDef.end())
+    map<unsigned long, UserDataDef>::iterator it = getContacts()->p->userDataDef.find(id);
+    if (it == getContacts()->p->userDataDef.end())
         return NULL;
 
     size_t size = 0;
-    for (const DataDef *def = (*it).def; def->name; ++def)
+    for (const DataDef *def = it->second.def; def->name; ++def)
         size += def->n_values;
 
     Data* data = new Data[size];
     d->m_userData.insert(id, data);
-    load_data((*it).def, data, NULL);
+    load_data(it->second.def, data, NULL);
     return data;
 }
 
@@ -1611,13 +1591,9 @@ void UserData::freeUserData(unsigned id)
 {
     UserDataMap::Iterator userDataIt = d->m_userData.find(id);
     if (userDataIt != d->m_userData.end()) {
-        list<UserDataDef> &dataDef = getContacts()->p->userDataDef;
-        for (list<UserDataDef>::iterator it = dataDef.begin(); it != dataDef.end(); ++it){
-            if ((*it).id != id)
-                continue;
-            free_data((*it).def, d->m_userData[id]);
-            break;
-        }
+        map<unsigned long, UserDataDef>::iterator it = getContacts()->p->userDataDef.find(id);
+        if (it != getContacts()->p->userDataDef.end())
+            free_data(it->second.def, d->m_userData[id]);
         delete[] userDataIt.value();
         d->m_userData.erase(userDataIt);
     }
@@ -1628,16 +1604,14 @@ QByteArray UserData::save() const
     QByteArray res;
     UserDataMap::Iterator userDataIt;
     for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
-        list<UserDataDef> &d = getContacts()->p->userDataDef;
-        for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
-            if ((*it).id != userDataIt.key())
-                continue;
-            QByteArray cfg = save_data((*it).def, userDataIt.value());
+        map<unsigned long, UserDataDef>::iterator it = getContacts()->p->userDataDef.find(userDataIt.key());
+        if (it != getContacts()->p->userDataDef.end()){
+            QByteArray cfg = save_data(it->second.def, userDataIt.value());
             if (cfg.length()){
                 if (res.length())
                     res += '\n';
                 res += '[';
-                res += (*it).name.toUtf8();
+                res += it->second.name.toUtf8();
                 res += "]\n";
                 res += cfg;
             }
@@ -1844,16 +1818,16 @@ void ContactListPrivate::flush(Contact *c, Group *g, const QByteArray &section, 
         }
         return;
     }
-    list<UserDataDef>::iterator it;
+    map<unsigned long, UserDataDef>::iterator it;
     for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (section != (*it).name)
+        if (section != it->second.name)
             continue;
         UserData *data = &userData;
         if (c)
             data = &c->userData;
         if (g)
             data = &g->userData;
-        data->load((*it).id, (*it).def, cfg);
+        data->load(it->second.id, it->second.def, cfg);
         return;
     }
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -1903,8 +1877,8 @@ static QString stripPhone(const QString &phone)
     QString res;
     if (phone.isEmpty())
         return res;
-    for (unsigned i = 0; i < (unsigned)phone.length(); i++){
-        const QChar &c = phone[(int)i];
+    for (int i = 0; i < phone.length(); i++){
+        const QChar &c = phone[i];
         if ((c < '0') || (c > '9'))
             continue;
         res += c;
