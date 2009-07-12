@@ -22,8 +22,7 @@
 
 #include <qobject.h>
 #include <qthread.h>
-#include <q3process.h>
-//Added by qt3to4:
+#include <QProcess>
 #include <QByteArray>
 
 #include "cfg.h"
@@ -107,11 +106,11 @@ public:
     PROP_STR(MessageSent);
     unsigned long CmdSoundDisable;
     SIM::SIMEvent EventSoundChanged;
-protected slots:
+protected Q_SLOTS:
     void checkSound();
     void childExited(int, int);
-	void processExited();
-	
+    void processFinished();
+
 protected:
     unsigned long user_data_id;
     virtual bool processEvent(SIM::Event *e);
@@ -126,8 +125,8 @@ protected:
     QStringList     m_queue;
     QSound         *m_sound;
     QTimer         *m_checkTimer;
-	QString		    m_snd;
-	Q3Process* m_process;
+    QString         m_snd;
+    QProcess       *m_process;
 
 #if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;

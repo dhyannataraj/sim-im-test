@@ -478,11 +478,9 @@ void SoundPlugin::run()
 	*/
 	if((!m_process) && (!getPlayer().isEmpty()) && (!m_snd.isEmpty()))
 	{
-		m_process = new Q3Process(this);
-		m_process->addArgument(getPlayer());
-		m_process->addArgument(m_snd);
-		m_process->start();
-		connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
+		m_process = new QProcess(this);
+		m_process->start(getPlayer(), QStringList(m_snd));
+		connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished()));
 		return;
 	}
 #endif
@@ -500,7 +498,7 @@ void SoundPlugin::run()
 #endif
 }
 
-void SoundPlugin::processExited()
+void SoundPlugin::processFinished()
 {
 	delete m_process;
 	m_process = NULL;
