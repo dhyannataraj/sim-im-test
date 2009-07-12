@@ -33,7 +33,7 @@ class EXPORT UserData
 public:
     UserData();
     ~UserData();
-    QByteArray save();
+    QByteArray save() const;
     void load(unsigned long id, const DataDef *def, Buffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
@@ -57,7 +57,7 @@ class EXPORT ClientUserData
 public:
     ClientUserData();
     ~ClientUserData();
-    QByteArray save();
+    QByteArray save() const;
     void load(Client *client, Buffer *cfg);
     void *getData(Client *client);
     bool have(void*);
@@ -137,7 +137,7 @@ class EXPORT Contact
 public:
     Contact(unsigned long id = 0, Buffer *cfg = NULL);
     virtual ~Contact();
-    unsigned long id() { return m_id; }
+    unsigned long id() const { return m_id; }
     PROP_ULONG(Group)
     PROP_UTF8(Name)
     PROP_BOOL(Ignore)

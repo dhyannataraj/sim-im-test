@@ -56,7 +56,7 @@ public:
     UserData userData;
     list<UserDataDef> userDataDef;
     Contact			*owner;
-    list<Contact*>  contacts;
+    map<unsigned long, Contact*>  contacts;
     vector<Group*>  groups;
     vector<Client*> clients;
     list<Protocol*> protocols;
@@ -115,9 +115,9 @@ Contact::~Contact()
         e.process();
     }
     free_data(contactData, &data);
-    list<Contact*> &contacts = getContacts()->p->contacts;
-    for (list<Contact*>::iterator it = contacts.begin(); it != contacts.end(); ++it){
-        if ((*it) == this){
+    map<unsigned long, Contact*> &contacts = getContacts()->p->contacts;
+    for (map<unsigned long, Contact*>::iterator it = contacts.begin(); it != contacts.end(); ++it){
+        if (it->second == this){
             contacts.erase(it);
             break;
         }
@@ -640,11 +640,9 @@ ContactListPrivate::~ContactListPrivate()
 void ContactListPrivate::clear(bool bClearAll)
 {
     bNoRemove = true;
-    for (list<Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end();){
-        Contact *contact = *it_c;
-        delete contact;
-        it_c = contacts.begin();
-    }
+    while (contacts.size() != 0)
+        delete contacts.begin()->second;
+
     for (vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end();){
         Group *group = *it_g;
         if (!bClearAll && (group->id() == 0)){
@@ -674,8 +672,8 @@ unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef
 
 void ContactListPrivate::unregisterUserData(unsigned id)
 {
-    for (list<Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end(); ++it_c){
-        (*it_c)->userData.freeUserData(id);
+    for (map<unsigned long, Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end(); ++it_c){
+        it_c->second->userData.freeUserData(id);
     }
     for (vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end(); ++it_g)
         (*it_g)->userData.freeUserData(id);
@@ -715,22 +713,20 @@ Contact *ContactList::owner()
 
 Contact *ContactList::contact(unsigned long id, bool isNew)
 {
-    list<Contact*>::iterator it;
-    for (it = p->contacts.begin(); it != p->contacts.end(); ++it){
-        if ((*it)->id() == id)
-            return (*it);
-    }
+    map<unsigned long, Contact*>::iterator it = p->contacts.find(id);
+    if (it != p->contacts.end())
+        return it->second;
     if (!isNew)
         return NULL;
     if (id == 0){
         id = 1;
         for (it = p->contacts.begin(); it != p->contacts.end(); ++it){
-            if (id <= (*it)->id())
-                id = (*it)->id() + 1;
+            if (id <= it->second->id())
+                id = it->second->id() + 1;
         }
     }
     Contact *res = new Contact(id);
-    p->contacts.push_back(res);
+    p->contacts.insert(std::pair<unsigned long, Contact*>(id, res));
     EventContact e(res, EventContact::eCreated);
     e.process();
     return res;
@@ -741,13 +737,13 @@ void ContactList::addContact(Contact *contact)
     if (contact->id())
         return;
     unsigned long id = 1;
-    list<Contact*>::iterator it;
+    map<unsigned long, Contact*>::iterator it;
     for (it = p->contacts.begin(); it != p->contacts.end(); ++it){
-        if (id <= (*it)->id())
-            id = (*it)->id() + 1;
+        if (id <= it->second->id())
+            id = it->second->id() + 1;
     }
     contact->m_id = id;
-    p->contacts.push_back(contact);
+    p->contacts.insert(std::pair<unsigned long, Contact*>(id, contact));
     EventContact e(contact, EventContact::eCreated);
     e.process();
 }
@@ -862,7 +858,7 @@ class ContactIteratorPrivate
 public:
     ContactIteratorPrivate();
     Contact *operator++();
-    list<Contact*>::iterator it;
+    map<unsigned long, Contact*>::iterator it;
 };
 
 ContactIteratorPrivate::ContactIteratorPrivate()
@@ -873,7 +869,7 @@ ContactIteratorPrivate::ContactIteratorPrivate()
 Contact *ContactIteratorPrivate::operator++()
 {
     if (it != getContacts()->p->contacts.end()){
-        Contact *res = (*it);
+        Contact *res = it->second;
         ++it;
         return res;
     }
@@ -1334,7 +1330,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     return client;
 }
 
-QByteArray ClientUserData::save()
+QByteArray ClientUserData::save() const
 {
     QByteArray res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
@@ -1627,7 +1623,7 @@ void UserData::freeUserData(unsigned id)
     }
 }
 
-QByteArray UserData::save()
+QByteArray UserData::save() const
 {
     QByteArray res;
     UserDataMap::Iterator userDataIt;
@@ -1723,8 +1719,8 @@ void ContactList::save()
             f.write(line);
         }
     }
-    for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
-        Contact *contact = *it_c;
+    for (map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
+        const Contact *contact = it_c->second;
         if (contact->getFlags() & CONTACT_TEMPORARY)
             continue;
         line = "[";
