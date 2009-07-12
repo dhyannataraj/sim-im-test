@@ -713,7 +713,7 @@ QString ShortcutsPlugin::buttonToString(unsigned n)
         return QString::null;
     n--;
     const char **p;
-    for (p = states; *p && n; p++, n--);
+    for (p = states; *p && n; p++, n--) {}
     if (*p == NULL)
         return QString::null;
     res += *p;

@@ -59,8 +59,8 @@ namespace SIM
 {
 
 Plugin::Plugin(unsigned base)
-: m_base(base)
-, m_current(base)
+: m_current(base)
+, m_base(base)
 {}
 
 unsigned Plugin::registerType()

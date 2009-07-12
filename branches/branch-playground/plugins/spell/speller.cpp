@@ -175,7 +175,7 @@ int SpellerConfig::setKey(const char *key, const QString &val)
 {
     if (cfg == NULL)
         return -1;
-    return aspell_config_replace(cfg, key, val.utf8());
+    return aspell_config_replace(cfg, key, val.toUtf8());
 }
 
 Speller::Speller(SpellerConfig *cfg)

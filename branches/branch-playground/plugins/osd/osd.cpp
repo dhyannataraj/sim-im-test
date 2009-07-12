@@ -136,12 +136,11 @@ static QWidget *getOSDSetup(QWidget *parent, void *data)
 }
 
 OSDPlugin::OSDPlugin(unsigned base) 
-    : 
-    Plugin(base),
-    bTimerActive(false),
-    bCapsState(false),
-    bHaveUnreadMessages(false),
-    m_osd(NULL)
+  : Plugin(base)
+  , m_osd(NULL)
+  , bCapsState(false)
+  , bHaveUnreadMessages(false)
+  , bTimerActive(false)
 {
     osdPlugin    = this;
 

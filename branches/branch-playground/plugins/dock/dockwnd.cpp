@@ -75,8 +75,8 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
                   | Qt::FramelessWindowHint
                   | Qt::WindowStaysOnTopHint)
   , EventReceiver(LowPriority)
-  , m_plugin(plugin)
   , m_state(icon)
+  , m_plugin(plugin)
 {
     setObjectName("dock");
     setMouseTracking(true);

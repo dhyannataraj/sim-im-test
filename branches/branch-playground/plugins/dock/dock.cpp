@@ -49,12 +49,12 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 DockPlugin::DockPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("dock")
+  : PropertyHub("dock")
+  , Plugin(base)
+  , m_dock(NULL)
+  , m_popup(NULL)
+  , m_inactiveTime(0)
 {
-    m_dock = NULL;
-    m_inactiveTime = 0;
-    m_popup = NULL;
-
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
     const pluginInfo *info = ePlugin.info();
