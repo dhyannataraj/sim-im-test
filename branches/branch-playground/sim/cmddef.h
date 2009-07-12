@@ -18,9 +18,9 @@
 #ifndef _CMDDEF_H
 #define _CMDDEF_H
 
-#include <qstring.h>
-
 #include "simapi.h"
+
+class QString;
 
 namespace SIM {
 

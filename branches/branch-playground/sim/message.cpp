@@ -22,10 +22,7 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
-#include <qstringlist.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <QByteArray>
+#include <qdiriterator.h>
 
 #include "message.h"
 #include "misc.h"
@@ -302,16 +299,10 @@ void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
         add(fn + '/', 0);
         m_dirs++;
     }
-    QDir d(str);
-    QStringList l = d.entryList();
-    for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
-        QString f = *it;
-        if ((f == ".") || (f == ".."))
-            continue;
-        QString p = fn;
-        p += '/';
-        p += f;
-        add_file(p, false);
+    QDirIterator d(str, QDir::NoDotAndDotDot);
+    while (d.hasNext()) {
+        d.next();
+        add_file(d.filePath(), false);
     }
 }
 
@@ -455,7 +446,7 @@ QString FileMessage::getDescription()
         return shortName;
     }
 
-	QString res=i18n("Files:")+"<br>";
+    QString res=i18n("Files:")+"<br>";
     const QString *name = ++it; 
     while (name != NULL)
     {
@@ -551,8 +542,7 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_sendSize   = 0;
     m_transfer   = 0;
     if (msg){
-        if (msg->m_transfer)
-            delete msg->m_transfer;
+        delete msg->m_transfer;
         msg->m_transfer = this;
     }
 }
@@ -562,16 +552,13 @@ FileTransfer::~FileTransfer()
     setNotify(NULL);
     if (m_msg)
         m_msg->m_transfer = NULL;
-    if (m_file)
-        delete m_file;
+    delete m_file;
 }
 
 bool FileTransfer::openFile()
 {
-    if (m_file){
-        delete m_file;
-        m_file = NULL;
-    }
+    delete m_file;
+    m_file = NULL;
     m_bDir = false;
     if (++m_nFile >= m_nFiles){
         m_state = Done;
@@ -581,7 +568,7 @@ bool FileTransfer::openFile()
     }
     FileMessage::Iterator it(*m_msg);
     QString fn = *it[m_nFile];
-    if (fn.isEmpty() || (fn[(int)(fn.length() - 1)] == '/')){
+    if (fn.isEmpty() || fn.endsWith('/')){
         m_bytes    = 0;
         m_fileSize = 0;
         m_bDir     = true;
@@ -626,14 +613,13 @@ void FileTransfer::setSpeed(unsigned speed)
 
 void FileTransfer::setNotify(FileTransferNotify *notify)
 {
-    if (m_notify)
-        delete m_notify;
+    delete m_notify;
     m_notify = notify;
 }
 
 QString AuthMessage::presentation()
 {
-    return QString::null;
+    return QString();
 }
 
 static DataDef messageStatusData[] =
@@ -662,7 +648,7 @@ QByteArray StatusMessage::save()
 
 QString StatusMessage::presentation()
 {
-    return QString::null;
+    return QString();
 }
 
 }

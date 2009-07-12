@@ -21,9 +21,7 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <qfile.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QFile>
 #include <QTextStream>
 
 #include "log.h"

@@ -19,12 +19,11 @@
 #define _BALLONMSG_H
 
 #include <QDialog>
-#include <QImage>
 #include <QPushButton>
-#include <QString>
 
 #include "simapi.h"
 
+class QString;
 class QStringList;
 class QCheckBox;
 

@@ -18,9 +18,8 @@
 #ifndef _MESSAGE_H
 #define _MESSAGE_H
 
-#include <qstring.h>
-//Added by qt3to4:
-#include <QByteArray>
+#include <QtCore/QString>
+#include <QtCore/QByteArray>
 
 #include "simapi.h"
 #include "event.h"

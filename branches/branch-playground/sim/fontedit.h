@@ -19,18 +19,16 @@
 #define _FONTEDIT_H
 
 #include "simapi.h"
-#include <q3frame.h>
-#include <qfont.h>
-//Added by qt3to4:
-#include <QLabel>
+#include <QtGui/QFrame>
+#include <QtGui/QFont>
 
 class QLabel;
 
-class EXPORT FontEdit : public Q3Frame
+class EXPORT FontEdit : public QFrame
 {
     Q_OBJECT
 public:
-    FontEdit(QWidget *parent, const char *name=NULL);
+    FontEdit(QWidget *parent);
     QString getFont();
     void setFont(const QString&);
     void setWinFont(const QFont&);

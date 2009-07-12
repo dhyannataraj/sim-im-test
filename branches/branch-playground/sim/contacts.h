@@ -22,7 +22,7 @@
 #include "plugins.h"
 #include "message.h"
 
-#include <qimage.h>
+#include <QImage>
 #include <QString>
 #include <QSet>
 

@@ -17,7 +17,6 @@
 
 #include "fontedit.h"
 
-#include <qlayout.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qregexp.h>
@@ -33,7 +32,8 @@
 #include "icons.h"
 #include "misc.h"
 
-FontEdit::FontEdit(QWidget *parent, const char *name) : Q3Frame(parent, name)
+FontEdit::FontEdit(QWidget *parent)
+  : QFrame(parent)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);
     lblFont = new QLabel("...", this);
@@ -146,7 +146,7 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
     bool strikeout = false;
     bool underline = false;
     f.setFamily(l[0]);
-    for (unsigned i = 1; i < (unsigned)l.count(); i++){
+    for (int i = 1; i < l.count(); i++){
         QString s = l[i];
         if (s == "italic"){
             italic = true;
@@ -199,9 +199,3 @@ QFont FontEdit::str2font(const QString &str, const QFont &def)
     f.setWeight(weight);
     return f;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "fontedit.moc"
-#endif
-*/
