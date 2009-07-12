@@ -183,73 +183,53 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
 bool StatusFrame::processEvent(Event *e)
 {
     switch (e->type()){
-    case eEventSocketActive:
-		{
-			QObjectList list = queryList("StatusLabel");
-        	QObject *obj;
-        	foreach(obj,list) {
-            	if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
-					lbl->setPict();
-        	}
-			break;
-		}
-    case eEventCheckCommandState:
-		{
-			EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
-			CommandDef *cmd = ecs->cmd();
-			if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
-				unsigned n = 0;
-				{
-					QObjectList list = queryList("StatusLabel");
-                	QObject *obj;
-                	foreach(obj,list) {
-                    	if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
-							if (lbl->x() + lbl->width() > width())
-								n++;
-                	}
-				}
-				CommandDef *cmds = new CommandDef[n + 1];
-				n = 0;
-				QObjectList list = queryList("StatusLabel");
-                QObject *obj;
-                foreach(obj,list)
-				{
-                    if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
-					{
-						if (lbl->x() + lbl->width() > width())
-						{
-							cmds[n].id = 1;
-							cmds[n].text = "_";
-							cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
-							cmds[n].popup_id = lbl->m_id;
-							if (lbl->m_client->getState() == Client::Error)
-							{
-								cmds[n].icon = "error";
-							}
-							else
-							{
-								Protocol *protocol = lbl->m_client->protocol();
-								const CommandDef *cmd = protocol->description();
-								cmds[n].icon = cmd->icon;
-								for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++)
-								{
-									if (cmd->id == lbl->m_client->getStatus())
-									{
-										cmds[n].icon = cmd->icon;
-										break;
-									}
-								}
-							}
-							n++;
-						}
-					}
-				}
-				cmd->param = cmds;
-				cmd->flags |= COMMAND_RECURSIVE;
-				return true;
-			}
-			break;
-		}
+    case eEventSocketActive: {
+        const QList<StatusLabel*> list = findChildren<StatusLabel*>();
+        Q_FOREACH(StatusLabel *lbl, list) {
+            lbl->setPict();
+        }
+        break;
+    }
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+        CommandDef *cmd = ecs->cmd();
+        if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
+            unsigned n = 0;
+            const QList<StatusLabel*> list = findChildren<StatusLabel*>();
+            Q_FOREACH(StatusLabel *lbl, list) {
+                if (lbl->x() + lbl->width() > width())
+                    n++;
+            }
+            CommandDef *cmds = new CommandDef[n + 1];
+            n = 0;
+            Q_FOREACH(StatusLabel *lbl, list) {
+                if (lbl->x() + lbl->width() > width()) {
+                    cmds[n].id = 1;
+                    cmds[n].text = "_";
+                    cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
+                    cmds[n].popup_id = lbl->m_id;
+                    if (lbl->m_client->getState() == Client::Error) {
+                        cmds[n].icon = "error";
+                    } else {
+                        Protocol *protocol = lbl->m_client->protocol();
+                        const CommandDef *cmd = protocol->description();
+                        cmds[n].icon = cmd->icon;
+                        for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++) {
+                            if (cmd->id == lbl->m_client->getStatus()) {
+                                cmds[n].icon = cmd->icon;
+                                break;
+                            }
+                        }
+                    }
+                    n++;
+                }
+            }
+            cmd->param = cmds;
+            cmd->flags |= COMMAND_RECURSIVE;
+            return true;
+        }
+        break;
+    }
     case eEventClientsChanged:
         addClients();
         break;
@@ -261,14 +241,12 @@ bool StatusFrame::processEvent(Event *e)
         break;
     }
     case eEventIconChanged:{
-            QObjectList l = queryList("StatusLabel");
-            QObject *obj;
-            foreach(obj,l) {
-                if (StatusLabel *lbl = dynamic_cast<StatusLabel*>(obj))
-                    lbl->setPict();
-            }
-            break;
+        const QList<StatusLabel*> list = findChildren<StatusLabel*>();
+        Q_FOREACH(StatusLabel *lbl, list) {
+            lbl->setPict();
         }
+        break;
+    }
     default:
         break;
     }
@@ -277,17 +255,11 @@ bool StatusFrame::processEvent(Event *e)
 
 void StatusFrame::addClients()
 {
-    list<StatusLabel*> lbls;
-    QObjectList l = m_frame->queryList("StatusLabel");
-    QObject *obj;
-    foreach(obj,l)
-	{
-        lbls.push_back(static_cast<StatusLabel*>(obj));
+    const QList<StatusLabel*> list = findChildren<StatusLabel*>();
+    Q_FOREACH(StatusLabel *lbl, list) {
+        delete lbl;
     }
-    for (list<StatusLabel*>::iterator it = lbls.begin(); it != lbls.end(); ++it)
-        delete *it;
-    for (unsigned i = 0; i < getContacts()->nClients(); i++)
-	{
+    for (unsigned i = 0; i < getContacts()->nClients(); i++) {
         Client *client = getContacts()->getClient(i);
         QWidget *w = new StatusLabel(m_frame, client, CmdClient + i);
         m_lay->addWidget(w);
@@ -299,12 +271,10 @@ void StatusFrame::addClients()
 
 StatusLabel *StatusFrame::findLabel(Client *client)
 {
-    QObjectList l = m_frame->queryList("StatusLabel");
-    QObject *obj;
-    foreach(obj,l){
-        if (static_cast<StatusLabel*>(obj)->m_client == client){
-            return static_cast<StatusLabel*>(obj);
-        }
+    const QList<StatusLabel*> list = findChildren<StatusLabel*>();
+    Q_FOREACH(StatusLabel *lbl, list) {
+        if (lbl->m_client == client)
+            return lbl;
     }
     return NULL;
 }
@@ -337,11 +307,9 @@ void StatusFrame::adjustPos()
     emit showButton(width() < s.width());
     repaint();
     m_frame->repaint();
-    QObjectList l = m_frame->queryList("StatusLabel");
-    QObject *obj;
-    foreach(obj,l)
-	{
-        static_cast<StatusLabel*>(obj)->repaint();
+    const QList<StatusLabel*> list = findChildren<StatusLabel*>();
+    Q_FOREACH(StatusLabel *lbl, list) {
+	lbl->repaint();
     }
 }
 
