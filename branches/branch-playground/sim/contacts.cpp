@@ -1615,7 +1615,6 @@ QByteArray UserData::save() const
                 res += "]\n";
                 res += cfg;
             }
-            break;
         }
     }
     return res;
