@@ -305,7 +305,7 @@ void AutoAwayPlugin::timeout()
     }
     if (core->getManualStatus() == newStatus)
         return;
-    core->data.StatusTime.asULong() = time(NULL);
+    core->setProperty("StatusTime", (unsigned int)time(NULL)); //data.StatusTime.asULong() = time(NULL);
     core->data.ManualStatus.asULong() = newStatus;
     setRealManualStatus(oldStatus);
     EventClientStatus().process();
@@ -366,9 +366,11 @@ unsigned AutoAwayPlugin::getIdleTime()
     static XScreenSaverInfo *mit_info = NULL;
     if (mit_info == NULL) {
         int event_base, error_base;
+		/*
         if(XScreenSaverQueryExtension(QX11Info::display(), &event_base, &error_base)) {
             mit_info = XScreenSaverAllocInfo ();
         }
+		*/
     }
     if (mit_info == NULL){
         log(L_WARN, "No XScreenSaver extension found on current XServer, disabling auto-away.");

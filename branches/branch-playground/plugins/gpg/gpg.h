@@ -18,8 +18,8 @@
 #ifndef _GPG_H
 #define _GPG_H
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 #include <QList>
 //Added by qt3to4:
 #include <QByteArray>
@@ -27,27 +27,10 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 const unsigned long MessageGPGKey       = 0x5000;
 const unsigned long MessageGPGUse       = 0x5001;
-
-struct GpgData
-{
-    SIM::Data   GPG;
-    SIM::Data   Home;
-    SIM::Data   GenKey;
-    SIM::Data   PublicList;
-    SIM::Data   SecretList;
-    SIM::Data   Import;
-    SIM::Data   Export;
-    SIM::Data   Encrypt;
-    SIM::Data   Decrypt;
-    SIM::Data   Key;
-    SIM::Data   Passphrases;
-    SIM::Data   Keys;
-    SIM::Data   nPassphrases;
-    SIM::Data   SavePassphrase;
-};
 
 struct GpgUserData
 {
@@ -74,26 +57,13 @@ struct KeyMsg
     SIM::Message   *msg;
 };
 
-class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class GpgPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
     GpgPlugin(unsigned, Buffer*);
     virtual ~GpgPlugin();
-    PROP_STR(GPG);
-    PROP_STR(Home);
-    PROP_STR(GenKey);
-    PROP_STR(PublicList);
-    PROP_STR(SecretList);
-    PROP_STR(Import);
-    PROP_STR(Export);
-    PROP_STR(Encrypt);
-    PROP_STR(Decrypt);
-    PROP_STR(Key);
-    PROP_UTFLIST(Passphrases);
-    PROP_STRLIST(Keys);
-    PROP_ULONG(nPassphrases);
-    PROP_BOOL(SavePassphrase);
+
     QString GPG();
     void reset();
     static GpgPlugin *plugin;
@@ -121,7 +91,6 @@ protected:
     QList<DecryptMsg> m_public;
     QList<DecryptMsg> m_wait;
     class PassphraseDlg     *m_passphraseDlg;
-    GpgData data;
 };
 
 class MsgEdit;

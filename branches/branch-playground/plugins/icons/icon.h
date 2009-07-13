@@ -20,27 +20,19 @@
 
 #include "cfg.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
-struct IconsData
-{
-    SIM::Data	Icon;
-    SIM::Data	NIcons;
-    SIM::Data	Default;
-};
 
-class IconsPlugin : public SIM::Plugin
+class IconsPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     IconsPlugin(unsigned, Buffer*);
     virtual ~IconsPlugin();
-    PROP_STRLIST(Icon);
-    PROP_ULONG(NIcons);
-    PROP_BOOL(Default);
     void setIcons(bool bForce);
 protected:
+    bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual QByteArray getConfig();
-    IconsData data;
 };
 
 #endif

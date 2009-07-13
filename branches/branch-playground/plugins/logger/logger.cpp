@@ -63,24 +63,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef loggerData[] =
-    {
-        { "LogLevel", DATA_ULONG, 1, DATA(3) },
-        { "LogPackets", DATA_STRING, 1, 0 },
-        { "File", DATA_STRING, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
-        : Plugin(base)
-        , m_file(NULL)
+        : Plugin(base),
+        PropertyHub("logger"),
+        m_file(NULL)
 {
-    load_data(loggerData, &data, add_info);
 
     EventArg e("-d:", I18N_NOOP("Set debug level"));
     if (e.process())
-        setLogLevel(e.value().toULong());
-    const QStringList packets = getLogPackets().split(',');
+        setProperty("LogLevel", e.value().toUInt());
+    const QStringList packets = property("LogPackets").toString().split(',');
     Q_FOREACH (const QString &v, packets) {
         setLogType(v.toULong(), true);
     }
@@ -91,11 +83,12 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
 LoggerPlugin::~LoggerPlugin()
 {
     delete m_file;
-    free_data(loggerData, &data);
+    PropertyHub::save();
 }
 
 QByteArray LoggerPlugin::getConfig()
 {
+    /*
     QByteArray packets;
     QSetIterator<unsigned> setIt(m_packets);
     while(setIt.hasNext()) {
@@ -103,8 +96,9 @@ QByteArray LoggerPlugin::getConfig()
             packets += ',';
         packets += QByteArray::number(setIt.next());
     }
-    setLogPackets(packets);
-    return save_data(loggerData, &data);
+    setProperty("LogPackets", packets);
+    */
+    return QByteArray();
 }
 
 void LoggerPlugin::openFile()
@@ -124,7 +118,7 @@ void LoggerPlugin::openFile()
 */
     delete m_file;
     m_file = NULL;
-    QString fname = getFile();
+    QString fname = property("File").toString();
     if (fname.isEmpty())
         return;
     // This is because sim crashes when a logfile is larger than 100MB ...
@@ -178,8 +172,8 @@ bool LoggerPlugin::processEvent(Event *e)
     if(e->type() == eEventLog)
     {
         EventLog *l = static_cast<EventLog*>(e);
-        if (((l->packetID() == 0) && (l->logLevel() & getLogLevel())) ||
-                (l->packetID() && ((getLogLevel() & L_PACKETS) || isLogType(l->packetID()))))
+        if (((l->packetID() == 0) && (l->logLevel() & property("LogLevel").toUInt())) ||
+                (l->packetID() && ((property("LogLevel").toUInt() & L_PACKETS) || isLogType(l->packetID()))))
         {
             QString s;
             s = EventLog::make_packet_string(*l);
@@ -219,6 +213,10 @@ bool LoggerPlugin::processEvent(Event *e)
             fprintf(stderr, "%s\n", qPrintable(s));
 #endif
         }
+    }
+    else if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHub::load();
     }
     return false;
 }

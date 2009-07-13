@@ -200,7 +200,7 @@ protected:
 
 const unsigned NO_RECONNECT = (unsigned)(-1);
 
-class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotify, public EventReceiver
+class EXPORT TCPClient : virtual public QObject, public Client, public ClientSocketNotify, public EventReceiver
 {
     Q_OBJECT
 public:

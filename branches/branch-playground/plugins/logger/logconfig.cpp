@@ -47,7 +47,7 @@ LogConfig::LogConfig(QWidget *parent, LoggerPlugin *plugin)
 {
     setupUi(this);
 
-    edtFile->setText(m_plugin->getFile());
+    edtFile->setText(m_plugin->property("File").toString());
     edtFile->setCreate(true);
     fill();
 }
@@ -64,7 +64,7 @@ void LogConfig::apply()
       } else {
           file.close();
       }
-      m_plugin->setFile(edtFile->text());
+      m_plugin->setProperty("File", edtFile->text());
     }
 
     /* check selected protocols */
@@ -83,7 +83,7 @@ void LogConfig::apply()
                 m_plugin->setLogType(packet, false);
         }
     }
-    m_plugin->setLogLevel(log_level);
+    m_plugin->setProperty("LogLevel", log_level);
     m_plugin->openFile();
 }
 
@@ -100,10 +100,10 @@ void LogConfig::fill()
 {
     lstLevel->clear();
 
-    lstLevel->addItem(createItem(i18n("Error"),   (m_plugin->getLogLevel() & L_ERROR  ) != 0, L_ERROR));
-    lstLevel->addItem(createItem(i18n("Warning"), (m_plugin->getLogLevel() & L_WARN   ) != 0, L_WARN));
-    lstLevel->addItem(createItem(i18n("Debug"),   (m_plugin->getLogLevel() & L_DEBUG  ) != 0, L_DEBUG));
-    lstLevel->addItem(createItem(i18n("Packets"), (m_plugin->getLogLevel() & L_PACKETS) != 0, L_PACKETS));
+    lstLevel->addItem(createItem(i18n("Error"),   (m_plugin->property("LogLevel").toUInt() & L_ERROR  ) != 0, L_ERROR));
+    lstLevel->addItem(createItem(i18n("Warning"), (m_plugin->property("LogLevel").toUInt() & L_WARN   ) != 0, L_WARN));
+    lstLevel->addItem(createItem(i18n("Debug"),   (m_plugin->property("LogLevel").toUInt() & L_DEBUG  ) != 0, L_DEBUG));
+    lstLevel->addItem(createItem(i18n("Packets"), (m_plugin->property("LogLevel").toUInt() & L_PACKETS) != 0, L_PACKETS));
     //lstLevel->addItem(createItem(i18n("Events"),  (m_plugin->getLogLevel() & L_EVENTS ) != 0, L_EVENTS);
 
     PacketType *type;

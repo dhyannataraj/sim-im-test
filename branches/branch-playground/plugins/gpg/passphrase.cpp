@@ -41,7 +41,7 @@ PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key) : QDialog(NU
     lblTitle->setText(i18n("Input passphrase for key %1") .arg(key));
     connect(edtPass, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     btnOk->setEnabled(false);
-    chkSave->setChecked(m_plugin->getSavePassphrase());
+    chkSave->setChecked(m_plugin->property("SavePassphrase").toBool());
 }
 
 PassphraseDlg::~PassphraseDlg()
@@ -51,7 +51,7 @@ PassphraseDlg::~PassphraseDlg()
 
 void PassphraseDlg::accept()
 {
-    m_plugin->setSavePassphrase(chkSave->isChecked());
+    m_plugin->setProperty("SavePassphrase", chkSave->isChecked());
     emit apply(edtPass->text());
 }
 

@@ -224,7 +224,7 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 static DataDef coreData[] =
 {
 	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
-	{ "", DATA_ULONG, 1, 0 },		// StatusTime
+//	{ "", DATA_ULONG, 1, 0 },		// StatusTime
 	{ "Invisible", DATA_BOOL, 1, 0 },
 	{ "Geometry", DATA_LONG, 5, DATA(-1) },
 	{ "ToolBar", DATA_LONG, 7, 0 },
@@ -407,8 +407,8 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 {
         m_plugin = this;
 
-        load_data(coreData, &data, config);
-        setStatusTime(time(NULL));
+	load_data(coreData, &data, config);
+	setProperty("StatusTime", (unsigned int)time(NULL));
 
 	user_data_id	 = getContacts()->registerUserData("core", coreUserData);
 	sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
@@ -1186,7 +1186,7 @@ bool CorePlugin::processEvent(Event *e)
 					QString profile = ProfileManager::instance()->currentProfileName();
 					free_data(coreData, &data);
 					load_data(coreData, &data, info->cfg);
-					setStatusTime(time(NULL));
+					setProperty("StatusTime", (unsigned int)time(NULL));
 					if (info->cfg){
 						delete info->cfg;
 						info->cfg = NULL;
@@ -2984,7 +2984,7 @@ void CorePlugin::changeProfile(const QString& profilename)
 	pluginInfo *info = eInfo.info();
 	free_data(coreData, &data);
 	load_data(coreData, &data, info->cfg);
-	setStatusTime(time(NULL));
+	setProperty("StatusTime", (unsigned int)time(NULL));
 	if (info->cfg){
 		delete info->cfg;
 		info->cfg = NULL;
@@ -3110,6 +3110,8 @@ bool CorePlugin::init(bool bInit)
 		bNew = true;
 	}
 	PropertyHub::load();
+	if(!property("ShowPanel").isValid())
+		setProperty("ShowPanel", true); // Show status panel by default
 	EventPluginLoadConfig eplc;
 	eplc.process();
 	if (!bLoaded)
@@ -3132,7 +3134,6 @@ bool CorePlugin::init(bool bInit)
         {
 			client->setManualStatus(getManualStatus());
         }
-        log(L_DEBUG, "%08x:%08x", client->getManualStatus(), client->getCommonStatus());
 		client->setStatus(client->getManualStatus(), client->getCommonStatus());
 	}
 	if (getRegNew()&&!bCmdLineProfile){
@@ -3771,7 +3772,7 @@ void CorePlugin::loadMenu()
 	{
 		if (status == getManualStatus())
 			return;
-		setStatusTime(time(NULL));
+		setProperty("StatusTime", (unsigned int)time(NULL));
 		data.ManualStatus.asULong() = status;
 	}
 

@@ -48,6 +48,7 @@
 #include <openssl/sha.h>
 #include <openssl/md5.h>
 
+#include <cstdio>
 #include <ctype.h>
 //Added by qt3to4:
 #include <QByteArray>

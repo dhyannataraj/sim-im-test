@@ -317,33 +317,10 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef navigateData[] =
-    {
-#ifdef WIN32
-        { "NewWindow", DATA_BOOL, 1, DATA(1) },
-#else
-#ifdef USE_KDE
-        { "Browser", DATA_STRING, 1, "konqueror" },
-        { "Mailer", DATA_STRING, 1, "kmail" },
-        { "UseKDE", DATA_BOOL, 1, DATA(1) },
-#else
-#ifdef __OS2__
-        { "Browser", DATA_STRING, 1, detectBrowser() },
-        { "Mailer", DATA_STRING, 1, detectBrowser() },
-#else
-        { "Browser", DATA_STRING, 1, "netscape" },
-        { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
-#endif
-#endif
-#endif
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 
 NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("navigate")
 {
-    load_data(navigateData, &data, config);
     CmdMail = registerType();
     CmdMailList = registerType();
     MenuMail = registerType();
@@ -380,10 +357,10 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
 
 NavigatePlugin::~NavigatePlugin()
 {
+	PropertyHub::save();
     EventCommandRemove(CmdMail).process();
     EventMenu(MenuMail, EventMenu::eRemove).process();
 
-    free_data(navigateData, &data);
 }
 
 bool NavigatePlugin::processEvent(Event *e)
@@ -414,7 +391,7 @@ bool NavigatePlugin::processEvent(Event *e)
             return false;
 #ifdef WIN32
         bool bExec = false;
-        if (getNewWindow()){
+        if (property("NewWindow").toBool()){
             QString key_name = proto + "\\Shell\\Open";
             RegEntry rp(HKEY_CLASSES_ROOT, key_name);
             QString prg    = rp.value("command");
@@ -481,14 +458,14 @@ bool NavigatePlugin::processEvent(Event *e)
         }
 #endif // USE_KDE
 #ifdef __OS2__
-		startBrowser( (proto == "mailto") ? getMailer() : getBrowser(), url );
+		startBrowser( (proto == "mailto") ? property("Mailer") : property("Browser").toString(), url );
 #else
         QString param;
         if (proto == "mailto"){
-            param = getMailer();
+            param = property("Mailer").toString();
             url = url.mid(proto.length() + 1);
         }else{
-            param = getBrowser();
+            param = property("Browser").toString();
 			Q3Url qurl(url);
 			QString encodedUrl = qurl.toString(true, false);
 			url = encodedUrl;
@@ -590,12 +567,17 @@ bool NavigatePlugin::processEvent(Event *e)
             return true;
         }
     }
+	if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+		// TODO defaults
+	}
     return false;
 }
 
 QByteArray NavigatePlugin::getConfig()
 {
-    return save_data(navigateData, &data);
+    return QByteArray();
 }
 
 QWidget *NavigatePlugin::createConfigWindow(QWidget *parent)

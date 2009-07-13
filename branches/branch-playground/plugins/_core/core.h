@@ -63,7 +63,7 @@ class ConnectionManager;
 struct CoreData
 {
     SIM::Data	ManualStatus;
-    SIM::Data	StatusTime;
+//    SIM::Data	StatusTime;
     SIM::Data	Invisible;
     SIM::Data	geometry[5];
     SIM::Data	toolBarState[7];
@@ -258,7 +258,7 @@ public:
     virtual ~CorePlugin();
     void setManualStatus(unsigned long status);
     unsigned long getManualStatus() { return data.ManualStatus.toULong(); }
-    PROP_ULONG(StatusTime)
+//    PROP_ULONG(StatusTime)
     PROP_BOOL(Invisible)
     PROP_STRLIST(Buttons)
     PROP_STRLIST(Menues)

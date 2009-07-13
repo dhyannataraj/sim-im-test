@@ -127,7 +127,15 @@ void Config::save()
 	f.open(QIODevice::WriteOnly);
 	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
 	{
-		QString towrite = it.key() + '=' + it.value().toString() + "\n";
+        QString towrite;
+        if(it.value().toStringList().size() > 1)
+        {
+            towrite = it.key() + "=QStringList:" + it.value().toStringList().join(",") + '\n';
+        }
+        else
+        {
+            towrite = it.key() + '=' + it.value().toString() + '\n';
+        }
 		f.write(towrite.toUtf8());
 	}
 }
@@ -141,7 +149,15 @@ void Config::load()
 		QStringList entry = QString(f.readLine()).split('=');
 		if(entry.size() < 2)
 			continue;
-		setValue(entry[0], entry[1].trimmed());
+        QString val = entry[1].trimmed();
+        if(val.startsWith("QStringList:"))
+        {
+            setValue(entry[0], val.mid(QString("QStringList:").length()).split(','));
+        }
+        else
+        {
+            setValue(entry[0], val);
+        }
 	}
 }
 

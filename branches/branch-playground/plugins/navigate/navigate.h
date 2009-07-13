@@ -23,23 +23,11 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
-//Added by qt3to4:
+#include "propertyhub.h"
 #include <QByteArray>
 
-struct NavigateData
-{
-#ifdef WIN32
-    SIM::Data NewWindow;
-#else
-    SIM::Data Browser;
-    SIM::Data Mailer;
-#endif
-#ifdef USE_KDE
-    SIM::Data UseKDE;
-#endif
-};
 
-class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
+class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     NavigatePlugin(unsigned, Buffer *name);
@@ -51,18 +39,8 @@ protected:
     unsigned long CmdMailList;
     unsigned long CmdCopyLocation;
     unsigned long MenuMail;
-#ifdef WIN32
-    PROP_BOOL(NewWindow);
-#else
-    PROP_STR(Browser);
-    PROP_STR(Mailer);
-#endif
-#ifdef USE_KDE
-    PROP_BOOL(UseKDE);
-#endif
     virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    NavigateData data;
     friend class NavCfg;
 };
 

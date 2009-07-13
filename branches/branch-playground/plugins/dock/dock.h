@@ -29,7 +29,7 @@ class DockWnd;
 class QMenu;
 class CorePlugin;
 
-class DockPlugin : public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class DockPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:

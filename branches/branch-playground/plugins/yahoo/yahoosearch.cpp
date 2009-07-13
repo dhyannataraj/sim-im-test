@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
-#include <qcombobox.h>
+#include <QLabel>
+#include <QComboBox>
+#include <cstdio>
 //Added by qt3to4:
 #include <QByteArray>
 #include <QShowEvent>

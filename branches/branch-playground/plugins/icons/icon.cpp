@@ -17,6 +17,7 @@
 
 #include "icons.h"
 #include "misc.h"
+#include "log.h"
 
 #include "icon.h"
 #include "iconcfg.h"
@@ -46,45 +47,51 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef iconsData[] =
-    {
-        { "Icons", DATA_STRLIST, 1, 0 },
-        { "NIcons", DATA_ULONG, 1, 0 },
-        { "Default", DATA_BOOL, 1, DATA(1) },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 IconsPlugin::IconsPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), EventReceiver(HighestPriority - 0x100), PropertyHub("icons")
 {
-    load_data(iconsData, &data, config);
     setIcons(false);
 }
 
 IconsPlugin::~IconsPlugin()
 {
-    free_data(iconsData, &data);
+    PropertyHub::save();
 }
 
 void IconsPlugin::setIcons(bool bForce)
 {
-    if (!bForce && getDefault())
+    if (!bForce && property("Default").toBool())
         return;
     getIcons()->removeIconSet(NULL);
-    if (getDefault()){
+    if (property("Default").toBool()){
         getIcons()->addIconSet("icons/smile.jisp", false);
     }else{
-        for (unsigned i = 1; i <= getNIcons(); i++)
-            getIcons()->addIconSet(getIcon(i), false);
+        for (unsigned i = 0; i < property("NIcons").toUInt(); i++)
+		{
+            getIcons()->addIconSet(property("Icons").toStringList()[i], true);
+		}
     }
     EventIconChanged().process();
 }
 
 QByteArray IconsPlugin::getConfig()
 {
-    return save_data(iconsData, &data);
+    return QByteArray();
 }
 
+bool IconsPlugin::processEvent(Event *e)
+{
+    switch (e->type())
+    {
+        case eEventPluginLoadConfig:
+        {
+            PropertyHub::load();
+			setIcons(false);
+            break;
+        }
+    }
+    return false;
+}
 QWidget *IconsPlugin::createConfigWindow(QWidget *parent)
 {
     return new IconCfg(parent, this);

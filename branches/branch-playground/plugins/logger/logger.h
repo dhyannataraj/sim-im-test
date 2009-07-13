@@ -24,29 +24,20 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 class QFile;
 const unsigned short L_PACKETS = 0x08;
 // const unsigned short L_EVENTS  = 0x10;
 
-struct LoggerData
-{
-    SIM::Data LogLevel;
-    SIM::Data LogPackets;
-    SIM::Data File;
-};
-
 class QFile;
 
-class LoggerPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class LoggerPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     LoggerPlugin(unsigned, Buffer*);
     virtual ~LoggerPlugin();
-    PROP_ULONG(LogLevel);
-    PROP_STR(LogPackets);
-    PROP_STR(File);
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
 protected:
@@ -57,7 +48,6 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     void openFile();
     QFile *m_file;
-    LoggerData data;
     bool m_bFilter;
     friend class LogConfig;
 };
