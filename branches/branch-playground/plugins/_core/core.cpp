@@ -398,14 +398,30 @@ static autoReply autoReplies[] =
 };
 
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
-  : PropertyHub("_core")
-  , Plugin(base)
-  , EventReceiver(HighPriority)
-  , historyXSL(NULL)
-  , m_bIgnoreEvents(false)
-  , m_alert(NULL)
+  : PropertyHub     ("_core")
+  , Plugin          (base)
+  , EventReceiver   (HighPriority)
+  , historyXSL      (NULL)
+  , m_alert         (NULL)
+  , m_translator    (NULL)
+  ,	m_statusWnd     (NULL)
+  ,	m_status	    (NULL)
+  ,	m_main		    (NULL)
+  , m_cfg		    (NULL)
+  , m_search	    (NULL)
+  , m_view		    (NULL)
+  , m_manager	    (NULL)
+  , m_focus		    (NULL)
+  , m_lock		    (NULL)
+  , m_nClients	    (NULL)
+  , m_nClientsMenu  (NULL)
+  , m_nResourceMenu (NULL)
+  , m_HistoryThread (NULL)
+  , m_bInit		    (false)
+  , m_RegNew        (false)
+  , m_bIgnoreEvents (false)
 {
-        m_plugin = this;
+   m_plugin = this;
 
 	load_data(coreData, &data, config);
 	setProperty("StatusTime", (unsigned int)time(NULL));
@@ -417,22 +433,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	translit_data_id = getContacts()->registerUserData("translit", translitUserData);
 	history_data_id  = getContacts()->registerUserData("history", historyUserData);
 
-	m_translator = NULL;
-	m_statusWnd  = NULL;
-	m_status	 = NULL;
-	m_main		 = NULL;
-	m_cfg		 = NULL;
-	m_search	 = NULL;
-	m_view		 = NULL;
-	m_manager	 = NULL;
-	m_focus		 = NULL;
-	m_lock		 = NULL;
-	m_bInit		 = false;
-	m_nClients	 = 0;
-	m_nClientsMenu  = 0;
-	m_nResourceMenu = 0;
-	m_RegNew = false;
-	m_HistoryThread = NULL;
 
 	//loadDir();
 
@@ -813,7 +813,7 @@ void CorePlugin::initData()
 	delete historyXSL;
 
 	historyXSL = new XSL(getHistoryStyle());
-	if ((getEditBackground() == 0) && (getEditForeground() == 0))
+    if (getEditBackground() == 0 && getEditForeground() == 0)
 	{
 		QPalette pal = QApplication::palette();
 		QColorGroup cg = pal.normal();
@@ -827,10 +827,13 @@ void CorePlugin::initData()
 void CorePlugin::setAutoReplies()
 {
 	ARUserData *data = (ARUserData*)getContacts()->getUserData(ar_data_id);
-	for (autoReply *a = autoReplies; a->text; a++){
+	for (autoReply *a = autoReplies; a->text; a++)
+    {
 		const QString &t = get_str(data->AutoReply, a->status);
-		if (t.isEmpty())
-			set_str(&data->AutoReply, a->status, i18n(a->text));
+        if (!t.isEmpty())
+            continue;
+
+        set_str(&data->AutoReply, a->status, i18n(a->text));
 	}
 }
 
@@ -905,17 +908,19 @@ void CorePlugin::installTranslator()
 			lang += (char)tolower(buff[1]);
 		}
 #else
-#ifdef USE_KDE
-		return;
-#else
-		char *p = getenv("LANG");
-		if (p){
-			for (; *p; p++){
-				if (*p == '.') break;
-				lang += *p;
-			}
-		}
-#endif
+    #ifdef USE_KDE
+		    return;
+    #else
+		    char *p = getenv("LANG");
+		    if (p)
+            {
+			    for (; *p; p++)
+                {
+				    if (*p == '.') break;
+				    lang += *p;
+			    }
+		    }
+    #endif
 #endif
 	}
 	QString po = poFile(lang);
@@ -3130,10 +3135,8 @@ bool CorePlugin::init(bool bInit)
 		// "Emulate" contactsLoaded() when we're dealing with a new contact list
 		if (bNew)
 			client->contactsLoaded();
-		if (client->getCommonStatus())
-        {
-			client->setManualStatus(getManualStatus());
-        }
+        if (client->getCommonStatus())
+            client->setManualStatus(getManualStatus());
 		client->setStatus(client->getManualStatus(), client->getCommonStatus());
 	}
 	if (getRegNew()&&!bCmdLineProfile){
@@ -3149,9 +3152,11 @@ bool CorePlugin::init(bool bInit)
 	m_main = new MainWindow(data.geometry);
 	m_view = new UserView;
 
-	if (!bNew){
+	if (!bNew)
+    {
 		QString containers = getContainers();
-		while (!containers.isEmpty()){
+		while (!containers.isEmpty())
+        {
 			Container *c = new Container(0, getContainer(getToken(containers, ',').toULong()).toUtf8().constData());
 			c->init();
 		}
@@ -3161,7 +3166,8 @@ bool CorePlugin::init(bool bInit)
 
 	m_bInit = true;
 	loadMenu();
-	if (!bRes){
+	if (!bRes)
+    {
 		EventSaveState eSave;
 		eSave.process();
 		return true;
@@ -3184,31 +3190,38 @@ void CorePlugin::destroy()
 	for(list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
 		delete *itr;
 
-	if (m_statusWnd){
+	if (m_statusWnd)
+    {
 		delete m_statusWnd;
 		m_statusWnd = NULL;
 	}
-	if (m_view){
+	if (m_view)
+    {
 		delete m_view;
 		m_view = NULL;
 	}
-	if (m_cfg){
+	if (m_cfg)
+    {
 		delete m_cfg;
 		m_cfg = NULL;
 	}
-	if (m_main){
+	if (m_main)
+    {
 		delete m_main;
 		m_main = NULL;
 	}
-	if (m_view){
+	if (m_view)
+    {
 		delete m_view;
 		m_view = NULL;
 	}
-	if (m_search){
+	if (m_search)
+    {
 		delete m_search;
 		m_search = NULL;
 	}
-	if (m_manager){
+	if (m_manager)
+{
 		delete m_manager;
 		m_manager = NULL;
 	}
@@ -3225,7 +3238,8 @@ void CorePlugin::loadDir()
 	QDir dir(baseName);
 	dir.setFilter(QDir::Dirs);
 	QStringList list = dir.entryList();
-	for (QStringList::Iterator it = list.begin(); it != list.end(); ++it){
+	for (QStringList::Iterator it = list.begin(); it != list.end(); ++it)
+    {
 		QString entry = *it;
 		if (entry[0] == '.')
 			continue;
@@ -3290,10 +3304,8 @@ QByteArray CorePlugin::getConfig()
 		if (w->inherits("Container"))
 		{
 			Container *c = static_cast<Container*>(w);
-			if (c->isReceived())
-			{
-				continue;
-			}
+            if (c->isReceived())
+                continue;
 			if (!containers.isEmpty())
 				containers += ',';
 			containers += QString::number(c->getId());
@@ -3464,8 +3476,10 @@ void CorePlugin::loadUnread()
 
 void CorePlugin::clearUnread(unsigned contact_id)
 {
-	for (list<msg_id>::iterator it = unread.begin(); it != unread.end();){
-		if ((*it).contact != contact_id){
+	for (list<msg_id>::iterator it = unread.begin(); it != unread.end();)
+    {
+		if (it->contact != contact_id)
+        {
 			++it;
 			continue;
 		}
@@ -3477,17 +3491,20 @@ void CorePlugin::clearUnread(unsigned contact_id)
 Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 {
 	MAP_TYPES::iterator itt = types.find(type);
-	if (itt != types.end()){
-		CommandDef *def = messageTypes.find((*itt).second);
-		if (def){
-			MessageDef *mdef = (MessageDef*)(def->param);
-			if (mdef->create){
-				Message *msg = (mdef->create)(cfg);
-				if (msg)
-					return msg;
-			}
-		}
-	}
+    if (itt == types.end())
+        return new Message(MessageGeneric, cfg);
+
+    CommandDef *def = messageTypes.find(itt->second);
+    if (!def)
+        return new Message(MessageGeneric, cfg);
+
+    MessageDef *mdef = (MessageDef*)(def->param);
+    if (!mdef->create)
+        return new Message(MessageGeneric, cfg);
+
+    Message *msg = (mdef->create)(cfg);
+    if (msg)
+        return msg;
 	return new Message(MessageGeneric, cfg);
 }
 
@@ -3496,12 +3513,14 @@ void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 	log(L_DEBUG, "CorePlugin::loadClients(%s)", qPrintable(profilename));
 	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
 	QFile f(cfgName);
-	if (!f.open(QIODevice::ReadOnly)){
+	if (!f.open(QIODevice::ReadOnly))
+    {
         log(L_ERROR, "[1]Can't open %s", qPrintable(cfgName));
 		return;
 	}
 	Buffer cfg = f.readAll();
-	for (;;){
+	for (;;)
+    {
 		QByteArray section = cfg.getSection();
 		if (section.isEmpty())
 			break;
@@ -3524,20 +3543,23 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 		return NULL;
 	QString clientName = name;
 	QString pluginName = getToken(clientName, '/');
-	if ((pluginName.isEmpty()) || (clientName.length() == 0))
+    if (pluginName.isEmpty() || clientName.length() == 0)
 		return NULL;
 	EventGetPluginInfo e(pluginName);
 	e.process();
 	pluginInfo *info = e.info();
-	if (info == NULL){
+	if (info == NULL)
+    {
         log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
 		return NULL;
 	}
-	if (info->info == NULL){
+	if (info->info == NULL)
+    {
 		EventLoadPlugin e(pluginName);
 		e.process();
 	}
-	if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
+	if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
+    {
         log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
 		return NULL;
 	}
@@ -3546,10 +3568,9 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 	eApply.process();
 	Protocol *protocol;
 	ContactList::ProtocolIterator it;
-	while ((protocol = ++it) != NULL){
-		if (protocol->description()->text == clientName)
-			return protocol->createClient(cfg);
-	}
+    while ((protocol = ++it) != NULL)
+        if (protocol->description()->text == clientName)
+            return protocol->createClient(cfg);
     log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
 	return NULL;
 }
