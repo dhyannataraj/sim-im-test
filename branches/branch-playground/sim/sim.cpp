@@ -245,6 +245,8 @@ QString getConfigRootPath()
     if ( access( s, F_OK ) != 0 ) {
         mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
     }
+# elif defined( Q_OS_MAC )
+    s = QDir::homePath() + "/Library/Sim-IM";
 # else
     s = QDir::homePath() + "/.sim-qt4";
 # endif

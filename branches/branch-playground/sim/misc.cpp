@@ -62,7 +62,7 @@
 #include <kwindowsystem.h>
 #endif
 
-#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+#if !defined(WIN32) && !defined(Q_OS_MAC) && !defined(__OS2__)
 #include <X11/Xutil.h>
 #include <QX11Info>
 #endif

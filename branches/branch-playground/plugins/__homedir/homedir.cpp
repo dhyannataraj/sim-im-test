@@ -129,7 +129,7 @@ QString HomeDirPlugin::defaultPath()
     if (!s.endsWith("/"))
         s += '/';
     s += "share/apps/sim";
-#else
+#else // USE_KDE
     
 #ifdef __OS2__
     char *os2home = getenv("HOME");
@@ -141,11 +141,17 @@ QString HomeDirPlugin::defaultPath()
     if ( access( s, F_OK ) != 0 ) {
     	mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
     }
-#else
-    s += ".sim-qt4";
-#endif
+#else // __OS2__
 
-#endif
+#ifdef Q_OS_MAC
+    s += "Library/Sim-IM";
+#else // Q_OS_MAC
+    s += ".sim-qt4";
+#endif // Q_OS_MAC
+
+#endif // __OS2__
+
+#endif // USE_KDE
 #else
     char szPath[1024];
     szPath[0] = 0;
