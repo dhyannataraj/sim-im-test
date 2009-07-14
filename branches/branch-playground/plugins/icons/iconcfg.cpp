@@ -48,7 +48,12 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 
     }else{
         for (unsigned i = 0; i < m_plugin->property("NIcons").toUInt(); i++)
-            lstIcon->addItem(m_plugin->property("Icons").toStringList()[i]);
+        {
+            QStringList l = property("Icons").toStringList();
+            if(i >= l.size())
+                break;
+            lstIcon->addItem(l[i]);
+        }
     }
     itemSelectionChanged();
 }
