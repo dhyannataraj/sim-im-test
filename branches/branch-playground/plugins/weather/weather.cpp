@@ -17,16 +17,15 @@
 
 #include <time.h>
 
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QApplication>
+#include <QWidget>
 #include <QToolBar>
-#include <qtimer.h>
-#include <qfile.h>
-#include <qregexp.h>
-#include <qtooltip.h>
+#include <QTimer>
+#include <QFile>
+#include <QRegExp>
+#include <QToolTip>
 #include <QDateTime>
 #include <QByteArray>
-#include <QXmlStreamReader>
 
 #include "buffer.h"
 #include "socket.h"
@@ -165,9 +164,7 @@ void WeatherPlugin::timeout()
         m_bForecast = true;
     QString url = "http://xoap.weather.com/weather/local/";
     url += getID();
-    //url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
-	//url += "?unit="; //Quickfix Noragen
-	url += "?cc=*&par=1004517364&key=a29796f587f206b2&unit=";
+    url += "?cc=*&link=xoap&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
     url += getUnits() ? "s" : "m";
     if (m_bForecast && getForecast()){
         url += "&dayf=";
@@ -206,8 +203,15 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
     m_bUv	= false;
     m_bCC	= false;
     m_bMoon	= false;
-    if (!parse(data)){
-        log(L_WARN, "XML parse error");
+    QDomDocument document;
+    QString errorMsg;
+    int errorLine;
+    int errorColumn;
+    if (!document.setContent(data,false,&errorMsg,&errorLine,&errorColumn)){
+        log(L_WARN, "Weather XML parse error '" + errorMsg + "' at line: " + QString::number(errorLine) + ", column:" + QString::number(errorColumn) + ")");
+        return false;
+    }
+    if( !parse( document ) ) {
         return false;
     }
     time_t now = time(NULL);
@@ -352,7 +356,7 @@ void WeatherPlugin::updateButton()
     CToolButton *btn = qobject_cast<CToolButton*>(eWidget.widget());
     if (btn == NULL)
         return;
-    btn->setTextLabel(text);
+    btn->setText(text);
     btn->repaint();
     btn->setToolTip(tip);
 }
@@ -574,7 +578,7 @@ QString WeatherPlugin::getTipText()
     if (str.isEmpty())
         str =	"%l<br><br>\n"
 		"<b>"+i18n("weather","Current Weather")+":</b><br>\n"
-		"<img src=\"icon:weather%i\"> %c<br>\n"+
+        "<img src=\"sim:icons/weather%i\"> %c<br>\n"+
 		i18n("weather","Temperature")+": <b>%t</b> ("+i18n("weather","feels like")+": <b>%f</b>)<br>\n"+
 		i18n("weather","Humidity")+": <b>%h</b><br>\n"+
 		i18n("weather","Chance of Precipitation")+": <b>%pp%</b><br>\n"+
@@ -586,7 +590,7 @@ QString WeatherPlugin::getTipText()
 		i18n("weather","Sunset")+": %s<br>\n"+
 		i18n("weather","UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)")+"<br>\n"
 		"<b>"+i18n("weather","Moonphase")+": </b>%mp<br>\n"
-		"<img src=\"icon:moon%mi\"><br>\n"
+        "<img src=\"sim:icons/moon%mi\"><br>\n"
 		"<br>\n"+
 		i18n("weather","Updated")+": %u<br>\n";
     return str;
@@ -637,46 +641,103 @@ static const char *tags[] =
         NULL,
     };
 
-bool WeatherPlugin::parse(const QByteArray &data)
-{
-    QXmlStreamReader xml(data);
-    while (!xml.atEnd()) {
-        QXmlStreamReader::TokenType tt = xml.readNext();
-        if (tt == QXmlStreamReader::StartElement)
-            element_start(xml.name(), xml.attributes());
-        else
-        if (tt == QXmlStreamReader::Characters)
-            char_data(xml.text());
-        else
-        if (tt == QXmlStreamReader::EndElement)
-            element_end(xml.name());
-    }
-    return (xml.error() == QXmlStreamReader::NoError);
+QString GetSubElementText(
+    QDomElement element,
+    QString sSubElement,
+    QString sDefault = QString()
+) {
+    QString sResult = sDefault;
+
+    do {
+        if( element.isNull() )
+            break;
+
+        QDomNodeList list = element.elementsByTagName(sSubElement);
+        if( list.count() <= 0 )
+            break;
+
+        QDomNode::NodeType t = list.item(0).nodeType();
+        QDomElement subElement = list.item(0).toElement();
+        sResult = subElement.firstChild().toCharacterData().data();
+    } while( false );
+
+    return sResult;
 }
 
+bool WeatherPlugin::parse(QDomDocument document)
+{
+    QDomElement weatherElement = document.documentElement();
+
+// Parsing head element
+    QDomElement headElement = weatherElement.elementsByTagName("head").item(0).toElement();
+    setUT( GetSubElementText( headElement, "ut", "### Failed ###" ) );
+    QString sUp = GetSubElementText( headElement, "up", "### Failed ###" );
+    if( sUp == "in" ) {
+        setUP("inHg");
+    }
+    else {
+        setUP(sUp);
+    }
+    setUS( GetSubElementText( headElement, "us", "### Failed ###" ) );
+    setUD( GetSubElementText( headElement, "ud", "### Failed ###" ) );
+
+// Parsing loc element
+    QDomElement locElement = weatherElement.elementsByTagName("loc").item(0).toElement();
+    setLocation( GetSubElementText( locElement, "dnam", "### Failed ###" ) );
+    setSun_raise( GetSubElementText( locElement, "sunr", "### Failed ###" ) );
+    setSun_set( GetSubElementText( locElement, "suns", "### Failed ###" ) );
+
+// Parsing cc element
+    QDomElement ccElement = weatherElement.elementsByTagName("cc").item(0).toElement();
+    setObst( GetSubElementText( ccElement, "obst", "### Failed ###" ) );
+    setUpdated( GetSubElementText( ccElement, "lsup", "### Failed ###" ) );
+    setTemperature( GetSubElementText( ccElement, "tmp", "-10000" ).toLong() );
+    setFeelsLike( GetSubElementText( ccElement, "flik", "-10000" ).toLong() );
+    setVisibility( GetSubElementText( ccElement, "vis", "### Failed ###" ) );
+    setDewPoint( GetSubElementText( ccElement, "dewp", "-10000" ).toLong() );
+    setHumidity( GetSubElementText( ccElement, "hmid", "-10000" ).toLong() );
+    setConditions( GetSubElementText( ccElement, "t", "### Failed ###" ) );
+    setIcon( GetSubElementText( ccElement, "icon", "0" ).toLong() );
+    // Parsing cc/moon element
+    {
+        QDomElement subElement = ccElement.elementsByTagName("moon").item(0).toElement();
+        setMoonPhase( GetSubElementText( subElement, "t", "### Failed ###" ) );
+        setMoonIcon( GetSubElementText( subElement, "icon", "0" ).toLong() );
+    }
+    // Parsing cc/bar element
+    {
+        QDomElement subElement = ccElement.elementsByTagName("bar").item(0).toElement();
+        float v = GetSubElementText( subElement, "r", "-10000" ).toFloat();
+        if ( QString(getUP()) == "mb" ){
+            v=v * 75 / 100;
+            setPressure(v);
+            setUP("mmHg");
+        } else{
+            setPressure(v);
+        }
+        setPressureD( GetSubElementText( subElement, "d", "### Failed ###" ) );
+    }
+    // Parsing cc/wind element
+    {
+        QDomElement subElement = ccElement.elementsByTagName("wind").item(0).toElement();
+        setWind( GetSubElementText( subElement, "t", "### Failed ###" ) );
+        setWindGust( GetSubElementText( subElement, "gust", "-10000" ).toLong() );
+        setWind_speed( GetSubElementText( subElement, "s", "-10000" ).toLong() );
+        // wind/d dropped for now !
+    }
+    // Parsing cc/uv element
+    {
+        QDomElement subElement = ccElement.elementsByTagName("uv").item(0).toElement();
+        setUV_Description( GetSubElementText( subElement, "t", "### Failed ###" ) );
+        setUV_Intensity( GetSubElementText( subElement, "i", "-10000" ).toLong() );
+    }
+
+    return true;
+}
+/*
 void WeatherPlugin::element_start(const QStringRef& el, const QXmlStreamAttributes& attrs)
 {
     m_bData = false;
-    if (el == "cc"){
-        m_bCC = true;
-        return;
-    }
-    if (el == "bar"){
-        m_bBar = true;
-        return;
-    }
-    if (el == "wind"){
-        m_bWind = true;
-        return;
-    }
-    if (el == "uv") {
-        m_bUv = true;
-        return;
-    }
-    if (el == "moon") {
-        m_bMoon = true;
-        return;
-    }
     if (el == "day"){
         m_bDayForecastIsValid = true; // Initial value
         m_day = attrs.value("d").toString().toLong();
@@ -695,13 +756,6 @@ void WeatherPlugin::element_start(const QStringRef& el, const QXmlStreamAttribut
         if (value == "n") m_bDayPart = 'n';
         return;
     }
-    for (const char **p = tags; *p; p++){
-        if (*p == el){
-            m_bData = true;
-            m_data.clear();
-            return;
-        }
-    }
 }
 
 void WeatherPlugin::element_end(const QStringRef& el)
@@ -711,63 +765,12 @@ void WeatherPlugin::element_end(const QStringRef& el)
             m_day--;
         return;
     }
-    if (el == "dnam"){
-        setLocation(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "obst"){
-        setObst(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "lsup"){
-        setUpdated(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "sunr" && m_day == 0){
-        setSun_raise(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "suns" && m_day == 0){
-        setSun_set(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "vis" && m_bCC){
-        setVisibility(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "tmp" && m_bCC){
-        setTemperature(m_data.toLong());
-        m_data.clear();
-        return;
-    }
-    if (el == "flik" && m_bCC){
-        setFeelsLike(m_data.toLong());
-        m_data.clear();
-        return;
-    }
-    if (el == "dewp" && m_bCC){
-        setDewPoint(m_data.toLong());
-        m_data.clear();
-        return;
-    }
     if (el == "ppcp" && (m_day == 1) ) {
         if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
     	    setPrecipitation(m_data.toLong());
             m_data.clear();
     	    return;
 	}
-    }
-    if (el == "hmid" && m_bCC){
-        setHumidity(m_data.toLong());
-        m_data.clear();
-        return;
-    }
     if (el == "low" && m_day){
         if (m_data == "N/A")
             m_data.clear();
@@ -784,115 +787,20 @@ void WeatherPlugin::element_end(const QStringRef& el)
     }
     if (el == "t"){
         if (!m_bBar && !m_bWind && !m_bUv && !m_bMoon){
-            if (m_bCC){
-                setConditions(m_data);
-            }else{
+            if (!m_bCC)
                 setDayConditions(m_day, m_data);
 		if ((m_data == "N/A") && (m_bDayPart == 'd')) 
 		    m_bDayForecastIsValid = false;
             }
         }
-        if (m_bWind && m_bCC)
-            setWind(m_data);
-        if (m_bUv && m_bCC)
-            setUV_Description(m_data);
-        if (m_bMoon && m_bCC)
-            setMoonPhase(m_data);
 
-        m_data.clear();
-        return;
-    }
-    if (el == "i") {
-        if (m_bUv && m_bCC)
-            setUV_Intensity(m_data.toLong());
         m_data.clear();
         return;
     }
     if (el == "icon"){
-        if (m_bMoon && m_bCC) {
-            setMoonIcon(m_data.toLong());
-        } else if (m_bCC){
-            setIcon(m_data.toULong());
-        }else{
-            setDayIcon(m_day, m_data);
-        }
+        setDayIcon(m_day, m_data);
         m_data.clear();
-        return;
-    }
-    if (el == "ut"){
-        setUT(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "up"){
-        if (m_data == "in"){
-	    setUP("inHg");
-	} else {
-	    setUP(m_data);
-	}
-        m_data.clear();
-        return;
-    }
-    if (el == "us"){
-        setUS(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "ud"){
-        setUD(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "gust" && m_bCC){
-        setWindGust(m_data.toLong());
-        m_data.clear();
-        return;
-    }
-    if (el == "bar"){
-        m_bBar = false;
-        return;
-    }
-    if (el == "cc"){
-        m_bCC = false;
-        return;
-    }
-    if (el == "r" && m_bBar && m_bCC){
-        unsigned long v = (unsigned long)m_data.toFloat();
-	if ( QString(getUP()) == "mb" ){
-	    v=v * 75 / 100;
-	    setPressure(v);
-	    setUP("mmHg");
-	} else{
-	    setPressure(v);
-	}
-        return;
-    }
-    if (el == "d" && m_bBar && m_bCC){
-        setPressureD(m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "wind"){
-        m_bWind = false;
-        return;
-    }
-    if (el == "s" && m_bWind && m_bCC){
-        setWind_speed(m_data.toLong());
-        return;
-    }
-    if (el == "uv"){
-        m_bUv = false;
-        return;
-    }
-    if (el == "moon"){
-        m_bMoon = false;
         return;
     }
 }
-
-void WeatherPlugin::char_data(const QStringRef& str)
-{
-    if (m_bData)
-        m_data += str.toString();
-}
-
+*/

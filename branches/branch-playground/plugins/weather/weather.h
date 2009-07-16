@@ -23,6 +23,8 @@
 #include "fetch.h"
 #include "plugins.h"
 
+#include <QDomDocument>
+
 class QByteArray;
 class QDateTime;
 class QToolBar;
@@ -162,10 +164,7 @@ protected:
     WeatherData data;
     SIM::IconSet *m_icons;
 
-    bool parse(const QByteArray &data);
-    void element_start(const QStringRef& el, const QXmlStreamAttributes& attrs);
-    void element_end(const QStringRef& el);
-    void char_data(const QStringRef& str);
+    bool parse(QDomDocument document);
 };
 
 #endif
