@@ -328,13 +328,12 @@ void WeatherPlugin::updateButton()
     EventCommandChange(cmd).process();
 
     QString text = unquoteText(getButtonText());
-    QString tip  = getTipText();
-    QString ftip = i18n("<br><b>Forecast for</b><br>\n");
-	ftip +=getForecastText();
+    QString tip  = "<h1>%l</h1>\n<table><tr><td>" + getTipText() + "</td>";
+    QString ftip = getForecastText();
     text = replace(text);
     tip  = replace(tip);
     if (getForecast())
-        tip = QString("<table><tr><td>") + tip + "</td><td>";
+        tip = tip + "<td><h2>" + i18n("weather","Forecast") + ":</h2><table><tr><td>";
     unsigned n = (getForecast() + 1) / 2;
     if (n < 3)
         n = getForecast();
@@ -346,8 +345,9 @@ void WeatherPlugin::updateButton()
         }
     }
     if (getForecast())
-        tip += "</td></tr></table>";
-    tip += "<br>\n"+i18n("weather", "Weather data provided by weather.com&reg;");
+        tip += "</td></tr></table></td>";
+    tip += "</tr></table><br>\n";
+    tip += "<i><h3>"+i18n("weather", "Weather data provided by weather.com&reg;") + "</h3></i>";
     Command cmdw;
     cmdw->id	= CmdWeather;
     cmdw->param	= m_bar;
@@ -576,9 +576,9 @@ QString WeatherPlugin::getTipText()
 {
     QString str = getTip();
     if (str.isEmpty())
-        str =	"%l<br><br>\n"
-		"<b>"+i18n("weather","Current Weather")+":</b><br>\n"
-        "<img src=\"sim:icons/weather%i\"> %c<br>\n"+
+        str =
+        "<h2>"+i18n("weather","Current Weather")+":</h2>\n"
+        "<br><img src=\"sim:icons/weather%i\"><br>%c<br>\n"+
 		i18n("weather","Temperature")+": <b>%t</b> ("+i18n("weather","feels like")+": <b>%f</b>)<br>\n"+
 		i18n("weather","Humidity")+": <b>%h</b><br>\n"+
 		i18n("weather","Chance of Precipitation")+": <b>%pp%</b><br>\n"+
@@ -600,8 +600,8 @@ QString WeatherPlugin::getForecastText()
 {
     QString str = getForecastTip();
     if (str.isEmpty())
-        str = i18n("<nobr><b>%d %w</b></nobr><br>\n"
-                   "<img src=\"icon:weather%n\"><br>%c<br>\n"
+        str = i18n("<nobr><h3>%d %w</h3></nobr><br>\n"
+                   "<img src=\"sim:icons/weather%n\"><br>%c<br>\n"
                    "Temperature: <b>%t</b><br>\n");
 
     return str;
@@ -611,35 +611,6 @@ QWidget *WeatherPlugin::createConfigWindow(QWidget *parent)
 {
     return new WeatherCfg(parent, this);
 }
-
-static const char *tags[] =
-    {
-        "obst",
-        "lsup",
-        "sunr",
-        "suns",
-        "tmp",
-        "flik",
-        "ppcp",
-        "hmid",
-        "t",
-        "icon",
-        "r",
-        "s",
-        "d",
-        "ut",
-        "i",
-        "us",
-        "up",
-        "ud",
-        "gust",
-        "vis",
-        "dewp",
-        "hi",
-        "low",
-		"dnam",
-        NULL,
-    };
 
 QString GetSubElementText(
     QDomElement element,
@@ -732,75 +703,36 @@ bool WeatherPlugin::parse(QDomDocument document)
         setUV_Intensity( GetSubElementText( subElement, "i", "-10000" ).toLong() );
     }
 
+// Parsing dayf element
+    QDomElement dayfElement = weatherElement.elementsByTagName("dayf").item(0).toElement();
+    QDomNodeList list = dayfElement.elementsByTagName("day");
+    for( int iDay = 0 ; iDay < list.count() ; iDay++ ) {
+        QDomElement dayElement = list.item(iDay).toElement();
+//        dayElement.attribute("d").toLong();
+        setDay( iDay, dayElement.attribute("dt") );
+        setWDay( iDay, dayElement.attribute("t") );
+        setMinT( iDay, GetSubElementText( dayElement, "low", "### Failed ###" ) );
+        setMaxT( iDay, GetSubElementText( dayElement, "hi", "### Failed ###" ) );
+        QDomNodeList listParts = dayElement.elementsByTagName("part");
+        for( int iPart = 0 ; iPart < listParts.count() ; iPart++ ) {
+            QDomElement partElement = listParts.item(iPart).toElement();
+            if( partElement.attribute("p") == "d" ) {
+                setDayConditions( iDay, GetSubElementText( partElement, "t", "### Failed ###" ) );
+                setDayIcon( iDay, GetSubElementText( partElement, "icon", "na" ) );
+            }
+        }
+    }
+
     return true;
 }
 /*
-void WeatherPlugin::element_start(const QStringRef& el, const QXmlStreamAttributes& attrs)
-{
-    m_bData = false;
-    if (el == "day"){
-        m_bDayForecastIsValid = true; // Initial value
-        m_day = attrs.value("d").toString().toLong();
-        const QString day = attrs.value("dt").toString();
-        const QString wday = attrs.value("t").toString();
-        if (m_day > getForecast())
-            m_day = 0;
-        m_day++;
-        setDay(m_day, day);
-        setWDay(m_day, wday);
-        return;
-    }
-    if (el == "part"){
-        const QString value = attrs.value("p").toString();
-        if (value == "d") m_bDayPart = 'd';
-        if (value == "n") m_bDayPart = 'n';
-        return;
-    }
-}
-
 void WeatherPlugin::element_end(const QStringRef& el)
 {
-    if (el == "day"){
-        if (getMinT(m_day).isEmpty() || getMaxT(m_day).isEmpty())
-            m_day--;
-        return;
-    }
     if (el == "ppcp" && (m_day == 1) ) {
         if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
     	    setPrecipitation(m_data.toLong());
             m_data.clear();
     	    return;
 	}
-    if (el == "low" && m_day){
-        if (m_data == "N/A")
-            m_data.clear();
-        setMinT(m_day, m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "hi" && m_day){
-        if (m_data == "N/A")
-            m_data = "-255";
-        setMaxT(m_day, m_data);
-        m_data.clear();
-        return;
-    }
-    if (el == "t"){
-        if (!m_bBar && !m_bWind && !m_bUv && !m_bMoon){
-            if (!m_bCC)
-                setDayConditions(m_day, m_data);
-		if ((m_data == "N/A") && (m_bDayPart == 'd')) 
-		    m_bDayForecastIsValid = false;
-            }
-        }
-
-        m_data.clear();
-        return;
-    }
-    if (el == "icon"){
-        setDayIcon(m_day, m_data);
-        m_data.clear();
-        return;
-    }
 }
 */
