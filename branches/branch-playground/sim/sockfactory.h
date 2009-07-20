@@ -21,6 +21,7 @@
 #include "simapi.h"
 #include "socket.h"
 #include <qthread.h>
+#include <list>
 
 class Q3Dns;
 class QTimer;
