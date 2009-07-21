@@ -16,14 +16,16 @@ MACRO(SIM_ADD_PLUGIN _name)
         SET(${_name}_FLAG_COMMON 1) # Always incliude common srcs
         IF(WIN32)
             SET (${_name}_FLAG_WIN32 1)
+        ELSE(WIN32)
+            SET (${_name}_FLAG_NON_WIN32 1)
         ENDIF(WIN32)
 
         FOREACH(_platform ${${_name}_PLATFORMS})            # WIN32 UNIX NONWIN32 etc
             FOREACH(_src_type SRCS HDRS UICS LIBS)
                 IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
-                    SET(_${_src_type} ${_${_src_type}} ${${_name}_${_src_type}_${_platform}})
+                    LIST(APPEND _${_src_type} ${${_name}_${_src_type}_${_platform}})
                 ENDIF(${_name}_FLAG_${_platform})
-                SET(_${_src_type}_ALL ${_${_src_type}_ALL} ${${_name}_${_src_type}_${_platform}})
+                LIST(APPEND _${_src_type}_ALL ${${_name}_${_src_type}_${_platform}})
             ENDFOREACH(_src_type)
         ENDFOREACH(_platform)
         SET(${_name}_MESSAGE_SOURCES ${_UICS_ALL} ${_SRCS_ALL} PARENT_SCOPE)

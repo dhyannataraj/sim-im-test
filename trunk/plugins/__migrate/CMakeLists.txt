@@ -1,20 +1,18 @@
 #####################
 # __migrate library #
 #####################
-SET(__migrate_SRCS
-        migrate.cpp
-        migratedlg.cpp
+
+
+SET(__migrate_PLATFORMS COMMON)
+
+SET(__migrate_SRCS_COMMON migrate.cpp
+                          migratedlg.cpp
 )
 
-SET(__migrate_HDRS
-        migrate.h
-        migratedlg.h
+SET(__migrate_HDRS_COMMON migrate.h
+                          migratedlg.h
 )
 
-SET(__migrate_UICS
-        migratedlgbase.ui
-)
-
-SET(__migrate_MESSAGE_SOURCES ${__migrate_SRCS} ${__migrate_UICS}  PARENT_SCOPE)
+SET(__migrate_UICS_COMMON migratedlgbase.ui)
 
 SIM_ADD_PLUGIN(__migrate)
