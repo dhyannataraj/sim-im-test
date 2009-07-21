@@ -1,12 +1,56 @@
 # Searching and enabling plugins
 MACRO(SIM_ADD_PLUGIN _name)
     PROJECT(${_name})
-    
-    SET(_srcs ${${_name}_SRCS})
-    SET(_hdrs ${${_name}_HDRS})
-    SET(_uics ${${_name}_UICS})
-    SET(_libs ${${_name}_LIBS})
 
+    ##################################################
+    IF(${_name}_PLATFORMS)
+        SET(_SRCS "")
+        SET(_HDRS "")
+        SET(_UICS "")
+        SET(_LIBS "")
+        SET(_SRCS_ALL "")
+        SET(_HDRS_ALL "")
+        SET(_UICS_ALL "")
+        SET(_LIBS_ALL "")
+    
+        SET(${_name}_FLAG_COMMON 1) # Always incliude common srcs
+        IF(WIN32)
+            SET (${_name}_FLAG_WIN32 1)
+        ENDIF(WIN32)
+
+        FOREACH(_platform ${${_name}_PLATFORMS})            # WIN32 UNIX NONWIN32 etc
+            FOREACH(_src_type SRCS HDRS UICS LIBS)
+                IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
+                    SET(_${_src_type} ${_${_src_type}} ${${_name}_${_src_type}_${_platform}})
+                ENDIF(${_name}_FLAG_${_platform})
+                SET(_${_src_type}_ALL ${_${_src_type}_ALL} ${${_name}_${_src_type}_${_platform}})
+            ENDFOREACH(_src_type)
+        ENDFOREACH(_platform)
+        SET(${_name}_MESSAGE_SOURCES ${_UICS_ALL} ${_SRCS_ALL} PARENT_SCOPE)
+        
+
+        SET(_srcs ${_SRCS})
+        SET(_hdrs ${_HDRS})
+        SET(_uics ${_UICS})
+        SET(_libs ${_LIBS})
+        MESSAGE(" srcs: ${_srcs}")
+        MESSAGE(" hdrs: ${_hdrs}")
+        MESSAGE(" uics: ${_uics}")
+        
+        MESSAGE("==============================")
+
+        MESSAGE(" SRCS_ALL: ${_SRCS_ALL}")
+        MESSAGE(" HDRS_ALL: ${_HDRS_ALL}")
+        MESSAGE(" UICS_ALL: ${_UICS_ALL}")
+        MESSAGE("==============================")
+
+    ##################################################
+    ELSE()
+        SET(_srcs ${${_name}_SRCS})
+        SET(_hdrs ${${_name}_HDRS})
+        SET(_uics ${${_name}_UICS})
+        SET(_libs ${${_name}_LIBS})
+    ENDIF()
     KDE3_AUTOMOC(${_srcs})
     
     QT3_ADD_UI_FILES(_srcs ${_uics})
