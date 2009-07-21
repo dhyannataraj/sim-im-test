@@ -1,27 +1,21 @@
 ##################
 # action library #
 ##################
-SET(action_SRCS
-        action.cpp
-        actioncfg.cpp
-        additem.cpp
-        menucfg.cpp
-)
 
-SET(action_HDRS
-        action.h
-        actioncfg.h
-        additem.h
-        menucfg.h
-)
+SET(action_PLATFORMS COMMON)
 
-SET(action_UICS
-        actioncfgbase.ui
-        additembase.ui
-        menucfgbase.ui
-)
+SET(action_SRCS_COMMON action.cpp
+                       actioncfg.cpp
+                       additem.cpp
+                       menucfg.cpp)
 
-SET(action_MESSAGE_SOURCES ${action_SRCS} ${action_UICS}  PARENT_SCOPE)
+SET(action_HDRS_COMMON action.h
+                       actioncfg.h
+                       additem.h
+                       menucfg.h)
 
+SET(action_UICS_COMMON actioncfgbase.ui
+                       additembase.ui
+                       menucfgbase.ui)
 
 SIM_ADD_PLUGIN(action)
