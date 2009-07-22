@@ -75,7 +75,7 @@ using namespace SIM;
 
 const unsigned SHADOW_DEF	= 1;
 const unsigned XOSD_MARGIN	= 5;
-static const int cTCD       = 1;
+static const int cTCD       = 5;
 static const int cFadeTime = 10;
 
 
