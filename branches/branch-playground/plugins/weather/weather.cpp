@@ -627,7 +627,7 @@ QString GetSubElementText(
         if( list.count() <= 0 )
             break;
 
-        QDomNode::NodeType t = list.item(0).nodeType();
+        //QDomNode::NodeType t = list.item(0).nodeType(); //unused
         QDomElement subElement = list.item(0).toElement();
         sResult = subElement.firstChild().toCharacterData().data();
     } while( false );
