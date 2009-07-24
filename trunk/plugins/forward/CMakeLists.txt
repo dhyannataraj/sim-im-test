@@ -1,20 +1,15 @@
 ###################
 # forward library #
 ###################
-SET(forward_SRCS
-        forward.cpp
-        forwardcfg.cpp
-)
 
-SET(forward_HDRS
-        forward.h
-        forwardcfg.h
-)
+SET(forward_PLATFORMS COMMON)
 
-SET(forward_UICS
-        forwardcfgbase.ui
-)
+SET(forward_SRCS_COMMON forward.cpp
+                        forwardcfg.cpp)
 
-SET(forward_MESSAGE_SOURCES  ${forward_SRCS}  ${forward_UICS}  PARENT_SCOPE)
+SET(forward_HDRS_COMMON forward.h
+                        forwardcfg.h)
+
+SET(forward_UICS_COMMON forwardcfgbase.ui)
 
 SIM_ADD_PLUGIN(forward)

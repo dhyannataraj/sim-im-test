@@ -22,9 +22,11 @@ MACRO(SIM_ADD_PLUGIN _name)
 
         FOREACH(_platform ${${_name}_PLATFORMS})            # WIN32 UNIX NONWIN32 etc
             FOREACH(_src_type SRCS HDRS UICS LIBS)
-                IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
-                    LIST(APPEND _${_src_type} ${${_name}_${_src_type}_${_platform}})
-                ENDIF(${_name}_FLAG_${_platform})
+                IF(NOT ${_name}_PLUGIN_FORBIDDEN)
+                    IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
+                        LIST(APPEND _${_src_type} ${${_name}_${_src_type}_${_platform}})
+                    ENDIF(${_name}_FLAG_${_platform})
+                ENDIF(NOT ${_name}_PLUGIN_FORBIDDEN)
                 LIST(APPEND _${_src_type}_ALL ${${_name}_${_src_type}_${_platform}})
             ENDFOREACH(_src_type)
         ENDFOREACH(_platform)
@@ -53,19 +55,22 @@ MACRO(SIM_ADD_PLUGIN _name)
         SET(_uics ${${_name}_UICS})
         SET(_libs ${${_name}_LIBS})
     ENDIF()
-    KDE3_AUTOMOC(${_srcs})
     
-    QT3_ADD_UI_FILES(_srcs ${_uics})
+    IF(NOT ${_name}_PLUGIN_FORBIDDEN)
+        KDE3_AUTOMOC(${_srcs})
+    
+        QT3_ADD_UI_FILES(_srcs ${_uics})
 
-    ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs})
+        ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs})
 
-    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+        INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-    TARGET_LINK_LIBRARIES(${_name} simlib ${_libs})
+        TARGET_LINK_LIBRARIES(${_name} simlib ${_libs})
 
-    SET_TARGET_PROPERTIES(${_name} PROPERTIES PREFIX "")
+        SET_TARGET_PROPERTIES(${_name} PROPERTIES PREFIX "")
 
-    INSTALL(TARGETS ${_name} LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+        INSTALL(TARGETS ${_name} LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+    ENDIF(NOT ${_name}_PLUGIN_FORBIDDEN)
 ENDMACRO(SIM_ADD_PLUGIN)
 
 MACRO(SIM_FIND_PLUGINS sim_plugin_dir)
