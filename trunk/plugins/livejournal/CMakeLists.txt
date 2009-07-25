@@ -1,26 +1,21 @@
 #######################
 # livejournal library #
 #######################
-SET(livejournal_SRCS
-        journalsearch.cpp
-        livejournal.cpp
-        livejournalcfg.cpp
-        msgjournal.cpp
-)
+SET(livejournal_PLATFORMS COMMON)
 
-SET(livejournal_HDRS
-        journalsearch.h
-        livejournal.h
-        livejournalcfg.h
-        msgjournal.h
-)
 
-SET(livejournal_UICS
-        journalsearchbase.ui
-        livejournalcfgbase.ui
-        msgjournalbase.ui
-)
+SET(livejournal_SRCS_COMMON journalsearch.cpp
+                            livejournal.cpp
+                            livejournalcfg.cpp
+                            msgjournal.cpp)
 
-SET(livejournal_MESSAGE_SOURCES  ${livejournal_SRCS}  ${livejournal_UICS}  PARENT_SCOPE)
+SET(livejournal_HDRS_COMMON journalsearch.h
+                            livejournal.h
+                            livejournalcfg.h
+                            msgjournal.h)
+
+SET(livejournal_UICS_COMMON journalsearchbase.ui
+                            livejournalcfgbase.ui
+                            msgjournalbase.ui)
 
 SIM_ADD_PLUGIN(livejournal)

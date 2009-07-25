@@ -1,18 +1,12 @@
 ######################
 # netmonitor library #
 ######################
-PROJECT(netmonitor)
+SET(netmonitor_PLATFORMS COMMON)
 
-SET(netmonitor_SRCS
-        monitor.cpp
-        netmonitor.cpp
-)
+SET(netmonitor_SRCS_COMMON monitor.cpp
+                           netmonitor.cpp)
 
-SET(netmonitor_HDRS
-        monitor.h
-        netmonitor.h
-)
-
-SET(netmonitor_MESSAGE_SOURCES  ${netmonitor_SRCS} PARENT_SCOPE)
+SET(netmonitor_HDRS_COMMON monitor.h
+                           netmonitor.h)
 
 SIM_ADD_PLUGIN(netmonitor)

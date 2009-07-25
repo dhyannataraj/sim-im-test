@@ -1,23 +1,17 @@
 ####################
 # navigate library #
 ####################
-SET(navigate_SRCS
-        navcfg.cpp
-        navigate.cpp
-)
+SET(navigate_PLATFORMS COMMON)
 
-SET(navigate_HDRS
-        navcfg.h
-        navigate.h
-)
 
-SET(navigate_UICS
-        navcfgbase.ui
-)
+SET(navigate_SRCS_COMMON navcfg.cpp
+                         navigate.cpp)
 
-SET(navigate_MESSAGE_SOURCES  ${navigate_SRCS}  ${navigate_UICS}  PARENT_SCOPE)
+SET(navigate_HDRS_COMMON navcfg.h
+                         navigate.h)
 
-ADD_FLEX_FILES(navigate_SRCS parseurl.ll)
+SET(navigate_UICS_COMMON navcfgbase.ui)
 
+SET(navigate_FLEX_COMMON parseurl.ll)
 
 SIM_ADD_PLUGIN(navigate)

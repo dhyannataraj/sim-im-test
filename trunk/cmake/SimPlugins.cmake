@@ -21,10 +21,15 @@ MACRO(SIM_ADD_PLUGIN _name)
         ENDIF(WIN32)
 
         FOREACH(_platform ${${_name}_PLATFORMS})            # WIN32 UNIX NONWIN32 etc
-            FOREACH(_src_type SRCS HDRS UICS LIBS)
+            FOREACH(_src_type SRCS HDRS UICS LIBS FLEX)
                 IF(NOT ${_name}_PLUGIN_FORBIDDEN)
                     IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
                         LIST(APPEND _${_src_type} ${${_name}_${_src_type}_${_platform}})
+                        IF(_src_type STREQUAL FLEX)
+                            FOREACH(_flex_file ${${_name}_${_src_type}_${_platform}})
+                                ADD_FLEX_FILES(_SRCS ${_flex_file})
+                            ENDFOREACH(_flex_file)
+                        ENDIF(_src_type STREQUAL FLEX)
                     ENDIF(${_name}_FLAG_${_platform})
                 ENDIF(NOT ${_name}_PLUGIN_FORBIDDEN)
                 LIST(APPEND _${_src_type}_ALL ${${_name}_${_src_type}_${_platform}})

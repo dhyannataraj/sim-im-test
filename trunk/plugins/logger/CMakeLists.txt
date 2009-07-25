@@ -1,19 +1,14 @@
 ##################
 # logger library #
 ##################
-SET(logger_SRCS
-        logconfig.cpp
-        logger.cpp
-)
+SET(logger_PLATFORMS COMMON)
 
-SET(logger_HDRS
-        logconfig.h
-        logger.h
-)
+SET(logger_SRCS_COMMON logconfig.cpp
+                       logger.cpp)
 
-SET(logger_UICS
-        logconfigbase.ui
-)
-SET(logger_MESSAGE_SOURCES  ${logger_SRCS}  ${logger_UICS}  PARENT_SCOPE)
+SET(logger_HDRS_COMMON logconfig.h
+                       logger.h)
+
+SET(logger_UICS_COMMON logconfigbase.ui)
 
 SIM_ADD_PLUGIN(logger)
