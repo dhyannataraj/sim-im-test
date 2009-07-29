@@ -79,6 +79,7 @@ public:
     UserTabBar(QWidget *parent);
     void raiseTab(unsigned id);
     UserWnd *wnd(unsigned id);
+    int tab(unsigned contactid);
     UserWnd *currentWnd();
     std::list<UserWnd*> windows();
     void removeTab(unsigned id);

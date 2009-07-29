@@ -986,6 +986,21 @@ UserWnd *UserTabBar::wnd(unsigned id)
     return res;
 }
 
+int UserTabBar::tab(unsigned contactid)
+{
+    UserWnd *res = NULL;
+    for (int t = 0; t < count(); t++)
+    {
+        UserWnd *wnd = wndForTab(t);
+        if (wnd && wnd->id() == contactid)
+        {
+            res = wnd;
+            return t;
+        }
+    }
+    return -1;
+}
+
 void UserTabBar::raiseTab(unsigned id)
 {
     for (int t = 0; t < count(); t++)
@@ -1056,7 +1071,9 @@ void UserTabBar::changeTab(unsigned id)
 
 void UserTabBar::setHighlighted(unsigned contactid, bool bHighlight) //bHighlight
 {
-    UserWnd* userWnd = wnd(contactid);
+    int index = tab(contactid);
+    if (index == -1) return; //corresponding contact not found
+    
     QColor c;
     if (bHighlight)
         c = QColor ( 255, 0, 0 ); //red
