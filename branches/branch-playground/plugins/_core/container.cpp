@@ -48,6 +48,7 @@
 #include <QDesktopWidget>
 #include <QMoveEvent>
 #include <QVariant>
+#include <QColor>
 
 #ifdef WIN32
 #include <windows.h>
@@ -103,27 +104,31 @@ QSizePolicy Splitter::sizePolicy() const
 
 static DataDef containerData[] =
     {
-        { "Id", DATA_ULONG, 1, 0 },
-        { "Windows", DATA_STRING, 1, 0 },
-        { "ActiveWindow", DATA_ULONG, 1, 0 },
-        { "Geometry", DATA_LONG, 5, 0 },
-        { "BarState", DATA_LONG, 7, 0 },
-        { "StatusSize", DATA_ULONG, 1, 0 },
-        { "WndConfig", DATA_STRLIST, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
+        { "Id"          , DATA_ULONG,   1, 0 },
+        { "Windows"     , DATA_STRING,  1, 0 },
+        { "ActiveWindow", DATA_ULONG,   1, 0 },
+        { "Geometry"    , DATA_LONG,    5, 0 },
+        { "BarState"    , DATA_LONG,    7, 0 },
+        { "StatusSize"  , DATA_ULONG,   1, 0 },
+        { "WndConfig"   , DATA_STRLIST, 1, 0 },
+        { NULL          , DATA_UNKNOWN, 0, 0 }
     };
 
-Container::Container(unsigned id, const char *cfg) : QMainWindow(), m_avatar_window(this), m_avatar_label(&m_avatar_window)
+Container::Container(unsigned id, const char *cfg) 
+    : QMainWindow()
+    , m_avatar_window(this)
+    , m_avatar_label(&m_avatar_window)
+    , m_bInit       (false)
+    , m_bInSize     (false)
+    , m_bStatusSize (false)
+    , m_bBarChanged (false)
+    , m_bReceived   (false)
+    , m_bNoSwitch   (false)
+    , m_bNoRead     (false)
+    , m_wnds		(NULL)
+    , m_tabBar      (NULL)
 {
-    m_bInit   = false;
-    m_bInSize = false;
-    m_bStatusSize = false;
-    m_bBarChanged = false;
-    m_bReceived = false;
-    m_bNoSwitch = false;
-    m_bNoRead   = false;
-    m_wnds		= NULL;
-    m_tabBar	= NULL;
+    
 
     m_avatar_window.setWidget(&m_avatar_label);
     //m_avatar_window.setOrientation(Qt::Vertical);
@@ -142,9 +147,8 @@ Container::Container(unsigned id, const char *cfg) : QMainWindow(), m_avatar_win
         load_data(containerData, &data, &config);
     }
     else
-    {
         load_data(containerData, &data, NULL);
-    }
+
 
     bool bPos = true;
     if (cfg == NULL)
@@ -257,9 +261,8 @@ void Container::init()
 	setStatusBar(m_status);
 
     for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it)
-    {
         addUserWnd((*it), false);
-    }
+
     m_childs.clear();
 
     QString windows = getWindows();
@@ -378,12 +381,12 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
     m_wnds->addWidget(wnd);
 //    m_tabSplitter->addWidget(m_wnds);
-    bool bBold = false;
+    bool bHighlight = false;
     for(list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it)
 	{
         if((*it).contact == wnd->id())
 		{
-            bBold = true;
+            bHighlight = true;
             break;
         }
     }
@@ -391,13 +394,9 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     int tab = m_tabBar->addTab(Icon(wnd->getIcon()),wnd->getName());
     m_tabBar->setTabData(tab,QVariant::fromValue(wnd));
     if (bRaise)
-    {
         m_tabBar->setCurrentIndex(tab);
-    }
     else
-    {
         m_tabBar->repaint();
-    }
     contactSelected(0);
     if ((m_tabBar->count() > 1) && !m_tabBar->isVisible())
 	{
@@ -414,11 +413,11 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     }
 }
 
-void Container::raiseUserWnd(UserWnd *wnd)
+void Container::raiseUserWnd(int id/*UserWnd *wnd*/)
 {
-    if (m_tabBar == NULL)
-        return;
-    m_tabBar->raiseTab(wnd->id());
+    //if (m_tabBar == NULL)
+    //    return;
+    m_tabBar->raiseTab(id);
     contactSelected(0);
 }
 
@@ -452,9 +451,7 @@ UserWnd *Container::wnd()
     if(m_tabBar == NULL)
 	{
         if (m_childs.empty())
-		{
             return NULL;
-		}
         return m_childs.front();
     }
     return m_tabBar->currentWnd();
@@ -505,18 +502,19 @@ void Container::contactSelected(int)
         Client *client = NULL;
         unsigned j=0;
         QImage img;
-        while (j < getContacts()->nClients()){
+        while (j < getContacts()->nClients())
+        {
             client = getContacts()->getClient(j++);
             img = client->userPicture(userWnd->id());
             if (!img.isNull())
-                    break;
+                break;
         }
 
         if(!img.isNull())
         {
             m_avatar_label.setPixmap(QPixmap::fromImage(img));
             if (!m_avatar_label.isVisible())
-                    m_avatar_window.show();
+                m_avatar_window.show();
         }
         else
         {
@@ -739,14 +737,14 @@ bool Container::processEvent(Event *e)
 				Message *msg = em->msg();
 				UserWnd *userWnd = wnd(msg->contact());
 				if (userWnd){
-					bool bBold = false;
+					bool bHighlight = false;
 					for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
 						if ((*it).contact != msg->contact())
 							continue;
-						bBold = true;
+						bHighlight = true;
 						break;
 					}
-					m_tabBar->setBold(msg->contact(), bBold);
+					m_tabBar->setHighlighted(msg->contact(), bHighlight);
 				}
 				break;
 			}
@@ -915,22 +913,22 @@ bool Container::event(QEvent *e)
             (((e->type() == QEvent::ShowNormal) ||
               (e->type() == QEvent::ShowMaximized)) && isActiveWindow())*/){
         UserWnd *userWnd = m_tabBar->currentWnd();
-        if (m_bNoRead){
+        if (m_bNoRead)
             m_bNoRead = false;
-        }
-        if (userWnd){
+        if (userWnd)
             userWnd->markAsRead();
-        }
-        if (m_bNoSwitch){
+
+        if (m_bNoSwitch)
             m_bNoSwitch = false;
-        }else{
-            if ((userWnd == NULL) || !m_tabBar->isBold(userWnd)){
-                list<UserWnd*> wnds = m_tabBar->windows();
-                for (list<UserWnd*>::iterator it = wnds.begin(); it != wnds.end(); ++it){
-                    if (m_tabBar->isBold(*it)){
-                        raiseUserWnd(*it);
-                        break;
-                    }
+        else if ((userWnd == NULL) || !m_tabBar->isHighlighted(m_tabBar->current()))
+        {
+            list<UserWnd*> wnds = m_tabBar->windows();
+            for (int i=0; i<m_tabBar->count();++i) //list<UserWnd*>::iterator it = wnds.begin(); it != wnds.end(); ++it){
+            {                
+                if (m_tabBar->isHighlighted(i))
+                {
+                    raiseUserWnd(i);
+                    break;
                 }
             }
         }
@@ -1056,8 +1054,17 @@ void UserTabBar::changeTab(unsigned id)
     }
 }
 
-void UserTabBar::setBold(unsigned id, bool bBold) //bBold unused
+void UserTabBar::setHighlighted(unsigned contactid, bool bHighlight) //bHighlight
 {
+    UserWnd* userWnd = wnd(contactid);
+    QColor c;
+    if (bHighlight)
+        c = QColor ( 255, 0, 0 ); //red
+    else
+        c = QColor (   0, 0, 0 ); //black
+
+    this->setTabTextColor(index,c);
+        
 //    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
 //	{
 //        UserTab *tab = *it;
@@ -1069,15 +1076,15 @@ void UserTabBar::setBold(unsigned id, bool bBold) //bBold unused
 //    }
 }
 
-bool UserTabBar::isBold(UserWnd *wnd)
+bool UserTabBar::isHighlighted(int id /*UserWnd *wnd*/)
 {
 //    for(std::list<UserTab*>::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
 //	{
 //        UserTab* tab = *it;
 //        if (tab->wnd() == wnd)
-//            return tab->isBold();
+//            return tab->isHighlighted();
 //    }
-    return false;
+    return this->tabTextColor(id)==QColor(255,0,0) ? true : false;
 }
 
 void UserTabBar::resizeEvent(QResizeEvent *e)

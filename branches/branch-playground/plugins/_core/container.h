@@ -83,10 +83,10 @@ public:
     std::list<UserWnd*> windows();
     void removeTab(unsigned id);
     void changeTab(unsigned id);
-    void setBold(unsigned id, bool bState);
+    void setHighlighted(unsigned id, bool bState);
     void setCurrent(unsigned i);
     unsigned current();
-    bool isBold(UserWnd *wnd);
+    bool isHighlighted(int  /*UserWnd *wnd*/);
 public slots:
     void slotRepaint();
 protected:
@@ -124,7 +124,7 @@ public:
 public slots:
     void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);
-    void raiseUserWnd(UserWnd*);
+    void raiseUserWnd(int /*UserWnd**/);
     void contactSelected(int);
     void toolbarChanged(QToolBar*);
     void statusChanged(int);

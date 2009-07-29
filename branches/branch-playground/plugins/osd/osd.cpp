@@ -121,7 +121,7 @@ static DataDef osdUserData[] =
         { "Font"                    , DATA_STRING, 1, 0             },
         { "Timeout"                 , DATA_ULONG,  1, DATA(7)       },
         { "Shadow"                  , DATA_BOOL,   1, DATA(1)       },
-		{ "Fading"                  , DATA_BOOL,   1, DATA(1)       },
+        { "Fading"                  , DATA_BOOL,   1, DATA(1)       },
         { "Background"              , DATA_BOOL,   1, 0             },
         { "BgColor"                 , DATA_ULONG,  1, 0             },
         { "Screen"                  , DATA_ULONG,  1, 0             },

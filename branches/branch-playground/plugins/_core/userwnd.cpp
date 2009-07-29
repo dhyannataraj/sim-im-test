@@ -317,8 +317,10 @@ void UserWnd::markAsRead()
 {
     if (m_view == NULL)
         return;
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ){
-        if ((*it).contact != m_id){
+    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); )
+    {
+        if ((*it).contact != m_id) 
+        {
             ++it;
             continue;
         }

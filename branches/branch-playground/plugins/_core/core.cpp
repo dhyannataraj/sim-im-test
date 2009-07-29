@@ -1637,7 +1637,7 @@ bool CorePlugin::processEvent(Event *e)
 				else
 				{
 					if ((msg->getFlags() & MESSAGE_NORAISE) == 0)
-						container->raiseUserWnd(userWnd);
+                        container->raiseUserWnd(userWnd->id());
 				}
 				container->setNoSwitch(true);
 				userWnd->setMessage(msg);
