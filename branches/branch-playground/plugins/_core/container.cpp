@@ -415,8 +415,8 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 
 void Container::raiseUserWnd(int id/*UserWnd *wnd*/)
 {
-    //if (m_tabBar == NULL)
-    //    return;
+    if (m_tabBar == NULL)
+        return;
     m_tabBar->raiseTab(id);
     contactSelected(0);
 }
@@ -1101,7 +1101,7 @@ bool UserTabBar::isHighlighted(int id /*UserWnd *wnd*/)
 //        if (tab->wnd() == wnd)
 //            return tab->isHighlighted();
 //    }
-    return this->tabTextColor(id)==QColor(255,0,0) ? true : false;
+    return this->tabTextColor(id)==QColor(255,0,0);
 }
 
 void UserTabBar::resizeEvent(QResizeEvent *e)
