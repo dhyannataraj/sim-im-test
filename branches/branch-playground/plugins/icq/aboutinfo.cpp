@@ -75,8 +75,8 @@ void AboutInfo::fill()
 	{
         edtAbout->setTextFormat(Qt::RichText);
         edtAbout->setText(data->About.str());
-        if (m_data == NULL)
-            edtAbout->showBar();
+        //if (m_data == NULL)
+            //edtAbout->showBar();
     }
 }
 
