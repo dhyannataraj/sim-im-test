@@ -4,14 +4,12 @@ MACRO(SIM_ADD_PLUGIN _name)
 
     ##################################################
     IF(${_name}_PLATFORMS)
-        SET(_SRCS "")
-        SET(_HDRS "")
-        SET(_UICS "")
-        SET(_LIBS "")
-        SET(_SRCS_ALL "")
-        SET(_HDRS_ALL "")
-        SET(_UICS_ALL "")
-        SET(_LIBS_ALL "")
+        SET(_src_types SRCS HDRS UICS LIBS FLEX MEDIA)
+
+        FOREACH(_src_type ${_src_types})
+            SET(_${_src_type} "")
+            SET(_${_src_type}_ALL "")
+        ENDFOREACH(_src_type)
     
         SET(${_name}_FLAG_COMMON 1) # Always incliude common srcs
         IF(WIN32)
@@ -21,7 +19,7 @@ MACRO(SIM_ADD_PLUGIN _name)
         ENDIF(WIN32)
 
         FOREACH(_platform ${${_name}_PLATFORMS})            # WIN32 UNIX NONWIN32 etc
-            FOREACH(_src_type SRCS HDRS UICS LIBS FLEX)
+            FOREACH(_src_type ${_src_types})
                 IF(NOT ${_name}_PLUGIN_FORBIDDEN)
                     IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
                         LIST(APPEND _${_src_type} ${${_name}_${_src_type}_${_platform}})
@@ -66,7 +64,7 @@ MACRO(SIM_ADD_PLUGIN _name)
     
         QT3_ADD_UI_FILES(_srcs ${_uics})
 
-        ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs})
+        ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs} ${_MEDIA})
 
         INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 

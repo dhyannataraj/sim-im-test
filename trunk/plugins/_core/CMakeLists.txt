@@ -155,15 +155,15 @@ SET(_core_UICS_COMMON arcfgbase.ui
                       userviewcfgbase.ui )
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
+ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_MEDIA_COMMON)
 
 IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
     message( "Using non-GPL icons" )
-    ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
+    ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_MEDIA_COMMON)
 ELSE (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
     message( "Using GPL icons" )
     # substitute with gpl icons
-    ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_SRCS)
+    ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_MEDIA_COMMON)
 ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 
 #ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)

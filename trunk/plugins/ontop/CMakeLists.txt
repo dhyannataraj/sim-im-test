@@ -1,17 +1,16 @@
 #################
 # ontop library #
 #################
-SET(ontop_SRCS
-        ontop.cpp
-        ontopcfg.cpp
-)
 
-SET(ontop_HDRS
-        ontop.h
-        ontopcfg.h
-)
+SET(ontop_PLATFORMS COMMON)
 
-SET(ontop_UICS
+SET(ontop_SRCS_COMMON ontop.cpp
+                      ontopcfg.cpp)
+
+SET(ontop_HDRS_COMMON ontop.h
+                      ontopcfg.h)
+
+SET(ontop_UICS_COMMON
         ontopcfgbase.ui
 )
 

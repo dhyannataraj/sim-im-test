@@ -38,7 +38,7 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
             -j -q -9 ${_out} -@ < ${_out}.files
             DEPENDS ${_in}
         )
-        SET(${_sources} ${${_sources}} ${_out})
+        LIST(APPEND ${_sources} ${_out})
 
         INSTALL(FILES ${_out} DESTINATION  ${SIM_ICONS_DIR})
     ENDIF(EXISTS ${_in_dir}/icondef.xml)
