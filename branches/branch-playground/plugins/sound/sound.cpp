@@ -69,16 +69,16 @@ static DataDef soundData[] =
 #ifdef USE_KDE
         { "UseArts",     DATA_BOOL,   1, DATA(1) },
 #endif
-        { "Player",      DATA_STRING, 1, "play" },
+//        { "Player",      DATA_STRING, 1, "play" },
 #if !defined(USE_AUDIERE) && (defined(WIN32) || defined(__OS2__))
-        { "StartUp",     DATA_STRING, 1, "startup.wav" },
-        { "FileDone",    DATA_STRING, 1, "filedone.wav" },
-        { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
+//        { "StartUp",     DATA_STRING, 1, "startup.wav" },
+//        { "FileDone",    DATA_STRING, 1, "filedone.wav" },
+//        { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
         {  NULL,         DATA_UNKNOWN,0, 0 }
 #else
-        { "StartUp",     DATA_STRING, 1, "startup.ogg" },
-        { "FileDone",    DATA_STRING, 1, "filedone.ogg" },
-        { "MessageSent", DATA_STRING, 1, "msgsent.ogg" },
+//        { "StartUp",     DATA_STRING, 1, "startup.ogg" },
+//        { "FileDone",    DATA_STRING, 1, "filedone.ogg" },
+//        { "MessageSent", DATA_STRING, 1, "msgsent.ogg" },
         {  NULL,         DATA_UNKNOWN,0, 0 }
 #endif
     };
@@ -104,9 +104,8 @@ static QWidget *getSoundSetup(QWidget *parent, void *data)
 }
 
 SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("sound")
 {
-    load_data(soundData, &data, config);
     soundPlugin = this;
     user_data_id = getContacts()->registerUserData(info.title, soundUserData);
 
@@ -164,6 +163,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 
 SoundPlugin::~SoundPlugin()
 {
+	PropertyHub::save();
 #ifdef USE_AUDIERE
 	destruct=true;
 	while (!bDone) sleepTime(1000);
@@ -172,13 +172,12 @@ SoundPlugin::~SoundPlugin()
 	soundPlugin = NULL;
 	EventCommandRemove(CmdSoundDisable).process();
 	EventRemovePreferences(user_data_id).process();
-	free_data(soundData, &data);
 	getContacts()->unregisterUserData(user_data_id);
 }
 
 QByteArray SoundPlugin::getConfig()
 {
-    return save_data(soundData, &data);
+    return QByteArray();
 }
 
 QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
@@ -202,7 +201,7 @@ bool SoundPlugin::processEvent(SIM::Event *e)
     switch (e->type()) {
 	case eEventLoginStart:
 	{
-		playSound(getStartUp());
+		playSound(property("StartUp").toString());
 		break;
 	}
 	case eEventCheckCommandState: {
@@ -248,11 +247,11 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             return false;
         QString sound;
         if (msg->type() == MessageFile){
-            sound = getFileDone();
+            sound = property("FileDone").toString();
         }else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
                 return false;
-            sound = getMessageSent();
+            sound = property("MessageSent").toString();
         }
         if (!sound.isEmpty()){
             EventPlaySound(sound).process();
@@ -289,6 +288,16 @@ bool SoundPlugin::processEvent(SIM::Event *e)
         playSound(s->sound());
         return true;
     }
+	case eEventPluginLoadConfig:
+	{
+		PropertyHub::load();
+		if(!property("StartUp").isValid())
+			setProperty("StartUp", "startup.wav");
+		if(!property("FileDone").isValid())
+			setProperty("FileDone", "filedone.wav");
+		if(!property("MessageSent").isValid())
+			setProperty("MessageSent", "msgsent.wav");
+	}
     default:
         break;
     }
@@ -372,7 +381,7 @@ void SoundPlugin::processQueue()
         return;
     }
 #ifdef USE_KDE
-    if (getUseArts()){
+    if (property("UseArts").toBool()){
 	this->run();
         return; // arts
     }
@@ -383,7 +392,7 @@ void SoundPlugin::processQueue()
     /* If there is an external player selected, don't use Qt
     Check first for getPlayer() since QSound::available()
     can take 5 seconds to return a value */
-    bool bSound = !getPlayer().isEmpty() && QSound::isAvailable();
+    bool bSound = !property("Player").toString().isEmpty() && QSound::isAvailable();
 #endif
 	if (bSound){
         if (!QSound::isAvailable()){
@@ -406,7 +415,7 @@ void SoundPlugin::processQueue()
         return; // QSound
     }
 #if !defined( WIN32 ) && !defined( __OS2__ )
-	if (getPlayer().isEmpty()) {
+	if (property("Player").toString().isEmpty()) {
 		m_current.clear();
 		return;
 	}
@@ -476,10 +485,10 @@ void SoundPlugin::run()
 		return;
 	}
 	*/
-	if((!m_process) && (!getPlayer().isEmpty()) && (!m_snd.isEmpty()))
+	if((!m_process) && (!property("Player").toString().isEmpty()) && (!m_snd.isEmpty()))
 	{
 		m_process = new QProcess(this);
-		m_process->start(getPlayer(), QStringList(m_snd));
+		m_process->start(property("Player").toString(), QStringList(m_snd));
 		connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished()));
 		return;
 	}

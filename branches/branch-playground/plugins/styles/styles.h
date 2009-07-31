@@ -20,36 +20,18 @@
 
 #include "cfg.h"
 #include "plugins.h"
+#include "propertyhub.h"
+#include "event.h"
 
 class QFont;
 class QStyle;
 class QPalette;
 
-struct StylesData
-{
-    SIM::Data	Style;
-    SIM::Data	SystemFonts;
-    SIM::Data	BaseFont;
-    SIM::Data	MenuFont;
-    SIM::Data	MessageFont;
-    SIM::Data	SystemColors;
-    SIM::Data	BtnColor;
-    SIM::Data	BgColor;
-};
-
-class StylesPlugin : public SIM::Plugin
+class StylesPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     StylesPlugin(unsigned, Buffer*);
     ~StylesPlugin();
-    PROP_STR(Style);
-    PROP_BOOL(SystemFonts);
-    PROP_STR(BaseFont);
-    PROP_STR(MenuFont);
-    PROP_STR(MessageFont);
-    PROP_BOOL(SystemColors);
-    PROP_ULONG(BtnColor);
-    PROP_ULONG(BgColor);
     virtual QByteArray getConfig();
     QWidget *createConfigWindow(QWidget *parent);
     void setFonts();
@@ -57,11 +39,12 @@ public:
     void setColors();
     void setStyles();
 protected:
+    virtual bool processEvent(SIM::Event *e);
+
     QFont		*m_saveBaseFont;
     QFont		*m_saveMenuFont;
     QPalette	*m_savePalette;
     QStyle		*m_saveStyle;
-    StylesData	data;
     friend class FontConfig;
 };
 

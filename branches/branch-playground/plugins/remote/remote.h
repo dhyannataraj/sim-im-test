@@ -19,16 +19,8 @@
 #define _REMOTE_H
 
 #include "socket.h"
-//Added by qt3to4:
+#include "propertyhub.h"
 #include <QByteArray>
-
-struct RemoteData
-{
-    SIM::Data	Path;
-#ifdef WIN32
-    SIM::Data	EnableMenu;
-#endif
-};
 
 class ControlSocket;
 class CorePlugin;
@@ -46,17 +38,13 @@ const unsigned SLOT_OUT		= 2;
 
 #endif
 
-class RemotePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
+class RemotePlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
 	RemotePlugin();
     RemotePlugin(unsigned, Buffer*);
     ~RemotePlugin();
-    PROP_STR(Path);
-#ifdef WIN32
-    PROP_BOOL(EnableMenu);
-#endif
     void bind();
     std::list<ControlSocket*> m_sockets;
     CorePlugin	*core;
@@ -74,7 +62,7 @@ protected:
 #ifdef WIN32
     IPC		*ipc;
 #endif
-    RemoteData data;
+//    RemoteData data;
 };
 
 class ControlSocket : public SIM::ClientSocketNotify

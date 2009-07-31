@@ -28,14 +28,15 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 using namespace std;
 
 struct ShortcutsData
 {
-    SIM::Data	Key;
-    SIM::Data	Global;
-    SIM::Data	Mouse;
+//    SIM::Data	Key;
+//    SIM::Data	Global;
+//    SIM::Data	Mouse;
 };
 
 typedef map<unsigned, QString>	MAP_STR;
@@ -75,15 +76,15 @@ protected:
 #endif
 };
 
-class ShortcutsPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class ShortcutsPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     ShortcutsPlugin(unsigned, Buffer*);
     virtual ~ShortcutsPlugin();
-    PROP_STRLIST(Key);
-    PROP_STRLIST(Global);
-    PROP_STRLIST(Mouse);
+//    PROP_STRLIST(Key);
+//    PROP_STRLIST(Global);
+//    PROP_STRLIST(Mouse);
     void applyKeys();
     void releaseKeys();
     QString getOldKey(SIM::CommandDef *cmd);

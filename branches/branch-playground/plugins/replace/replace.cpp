@@ -46,29 +46,21 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef replaceData[] =
-    {
-        { "Keys", DATA_ULONG, 1, 0 },
-        { "Key", DATA_UTFLIST, 1, 0 },
-        { "Value", DATA_UTFLIST, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
 
 ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("replace"), EventReceiver()
 {
-    load_data(replaceData, &data, cfg);
     qApp->installEventFilter(this);
 }
 
 ReplacePlugin::~ReplacePlugin()
 {
-    free_data(replaceData, &data);
+	PropertyHub::save();
 }
 
 QByteArray ReplacePlugin::getConfig()
 {
-    return save_data(replaceData, &data);
+    return QByteArray();
 }
 
 QWidget *ReplacePlugin::createConfigWindow(QWidget *parent)
@@ -122,8 +114,8 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
                 edit->getCursorPosition(&parag, &index);
                 _UnquoteParser p(edit->text(parag));
                 QString text = p.m_text.left(index);
-                for (unsigned i = 1; i <= getKeys(); i++){
-                    QString key = getKey(i);
+                for (unsigned i = 1; i <= property("Keys").toUInt(); i++){
+                    QString key = property("Key").toStringList().value(i);
                     if (key.length() > text.length())
                         continue;
                     if (key != text.mid(text.length() - key.length()))
@@ -131,12 +123,20 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
                     if ((key.length() < text.length()) && !text[(int)(text.length() - key.length() - 1)].isSpace())
                         continue;
                     edit->setSelection(parag, index - key.length(), parag, index, 0);
-                    edit->insert(getValue(i), false, false);
+                    edit->insert(property("Value").toStringList().value(i), false, false);
                     break;
                 }
             }
         }
     }
     return QObject::eventFilter(o, e);
+}
+
+bool ReplacePlugin::processEvent(SIM::Event *e)
+{
+	if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+	}
 }
 

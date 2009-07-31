@@ -79,19 +79,9 @@ EXPORT_PROC SIM::PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static SIM::DataDef spellData[] =
-    {
-#ifdef WIN32
-        { "Path", SIM::DATA_STRING, 1, 0 },
-#endif
-        { "Lang", SIM::DATA_STRING, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("spell")
 {
-    SIM::load_data(spellData, &data, config);
     m_bActive = false;
     m_base = NULL;
     CmdSpell = registerType();
@@ -109,12 +99,12 @@ SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
 
 SpellPlugin::~SpellPlugin()
 {
+	PropertyHub::save();
     EventCommandRemove(CmdSpell).process();
     deactivate();
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it)
         delete (*it);
     delete m_base;
-    free_data(spellData, &data);
 }
 
 void SpellPlugin::reset()
@@ -125,12 +115,12 @@ void SpellPlugin::reset()
     if (m_base)
         delete m_base;
 #ifdef WIN32
-    m_base = new SpellerBase(getPath());
+    m_base = new SpellerBase(propery("Path").toString());
 #else
     m_base = new SpellerBase(QString());
 #endif
     SpellerConfig cfg(*m_base);
-    QString ll = getLang();
+    QString ll = property("Lang").toString();
     while (!ll.isEmpty()){
         QString l = SIM::getToken(ll, ';');
         cfg.setKey("lang", l);
@@ -178,7 +168,7 @@ void SpellPlugin::deactivate()
 
 QByteArray SpellPlugin::getConfig()
 {
-    return save_data(spellData, &data);
+    return QByteArray();
 }
 
 QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
@@ -186,8 +176,12 @@ QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
     return new SpellConfig(parent, this);
 }
 
-bool SpellPlugin::processEvent(SIM::Event*)
+bool SpellPlugin::processEvent(SIM::Event* e)
 {
+	if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+	}
     return false;
 }
 

@@ -483,9 +483,8 @@ GlobalKey::~GlobalKey()
 #endif  // WIN32
 
 ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("shortcuts")
 {
-    load_data(shortcutsData, &data, config);
 #ifdef WIN32
     m_bInit = false;
     init();
@@ -499,6 +498,7 @@ ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
 
 ShortcutsPlugin::~ShortcutsPlugin()
 {
+	PropertyHub::save();
 #ifdef WIN32
     QWidget *main = getMainWindow();
     if (main && oldProc){
@@ -514,12 +514,11 @@ ShortcutsPlugin::~ShortcutsPlugin()
 #endif
 #endif
     releaseKeys();
-    free_data(shortcutsData, &data);
 }
 
 QByteArray ShortcutsPlugin::getConfig()
 {
-    return save_data(shortcutsData, &data);
+    return QByteArray();
 }
 
 QWidget *ShortcutsPlugin::createConfigWindow(QWidget *parent)
@@ -597,6 +596,10 @@ bool ShortcutsPlugin::processEvent(Event *e)
         if (mouseCmds.size() == 0)
             qApp->removeEventFilter(this);
     }
+	if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+	}
     return false;
 }
 
@@ -723,7 +726,7 @@ QString ShortcutsPlugin::buttonToString(unsigned n)
 void ShortcutsPlugin::applyKey(CommandDef *s)
 {
     if (s->popup_id){
-        QString cfg = getMouse(s->id);
+        QString cfg = property("Mouse").toMap().value(QString::number(s->id)).toString();
         if (!cfg.isEmpty()){
             unsigned btn = stringToButton(cfg);
             if (mouseCmds.size() == 0)
@@ -732,7 +735,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
         }
         return;
     }
-    QString cfg = getKey(s->id);
+	QString cfg = property("Key").toMap().value(QString::number(s->id)).toString();
     if (!cfg.isEmpty()){
         oldKeys.insert(MAP_STR::value_type(s->id, s->accel));
         if (cfg != "-"){
@@ -741,7 +744,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
             s->accel = QString::null;
         }
     }
-    cfg = getGlobal(s->id);
+	cfg = property("Global").toMap().value(QString::number(s->id)).toString();
     if (!cfg.isEmpty()){
         oldGlobals.insert(MAP_BOOL::value_type(s->id, (s->flags & COMMAND_GLOBAL_ACCEL) != 0));
         if (cfg.startsWith("-")){

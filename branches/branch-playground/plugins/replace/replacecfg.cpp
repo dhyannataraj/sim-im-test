@@ -38,9 +38,9 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin) : QWidget(parent)
     lstKeys->addColumn(i18n("You send"));
     lstKeys->setExpandingColumn(1);
     lstKeys->setSorting(2);
-    for (unsigned i = 1; i <= m_plugin->getKeys(); i++){
-        QString key = m_plugin->getKey(i);
-        QString value = m_plugin->getValue(i);
+    for (unsigned i = 1; i <= m_plugin->property("Keys").toUInt(); i++){
+        QString key = m_plugin->property("Key").toStringList().value(i);
+        QString value = m_plugin->property("Value").toStringList().value(i);
         if (key.isEmpty())
             continue;
         new Q3ListViewItem(lstKeys, key, value, QString::number(m_count++));
@@ -70,14 +70,18 @@ void ReplaceCfg::apply()
     if (m_editItem)
         m_editItem->setText(m_editCol, m_edit->text());
     unsigned n = 0;
+	QStringList keys;
+	QStringList values;
     for (Q3ListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
         if (item->text(0).isEmpty())
             continue;
         n++;
-        m_plugin->setKey(n, item->text(0));
-        m_plugin->setValue(n, item->text(1));
+		keys.append(item->text(0));
+		values.append(item->text(1));
     }
-    m_plugin->setKeys(n);
+	m_plugin->setProperty("Key", keys);
+	m_plugin->setProperty("Value", values);
+    m_plugin->setProperty("Keys", n);
 }
 
 void ReplaceCfg::resizeEvent(QResizeEvent *e)

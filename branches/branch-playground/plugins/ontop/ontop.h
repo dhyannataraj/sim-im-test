@@ -30,6 +30,7 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 class EventInTaskManager : public SIM::Event
 {
@@ -56,12 +57,12 @@ protected:
 
 struct OnTopData
 {
-    SIM::Data	OnTop;
-    SIM::Data	InTask;
-    SIM::Data	ContainerOnTop;
+//    SIM::Data	OnTop;
+//    SIM::Data	InTask;
+//    SIM::Data	ContainerOnTop;
 };
 
-class OnTopPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class OnTopPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
@@ -78,10 +79,10 @@ protected:
     void setState();
     QWidget *getMainWindow();
     unsigned CmdOnTop;
-    PROP_BOOL(OnTop);
-    PROP_BOOL(InTask);
-    PROP_BOOL(ContainerOnTop);
-    OnTopData data;
+//    PROP_BOOL(OnTop);
+//    PROP_BOOL(InTask);
+//    PROP_BOOL(ContainerOnTop);
+//    OnTopData data;
 #ifdef WIN32
     HWND m_state;
 #endif

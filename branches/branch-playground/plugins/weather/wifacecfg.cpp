@@ -104,13 +104,13 @@ WIfaceCfg::~WIfaceCfg()
 void WIfaceCfg::apply()
 {
     if (edtText->text() != unquoteText(m_plugin->getButtonText())){
-        m_plugin->setText(edtText->text());
+        m_plugin->setProperty("Text", edtText->text());
     }
     if (edtTip->toPlainText() != m_plugin->getTipText()){
-        m_plugin->setTip(edtTip->toPlainText());
+        m_plugin->setProperty("Tip", edtTip->toPlainText());
     }
     if (edtForecastTip->toPlainText() != m_plugin->getForecastText()){
-        m_plugin->setForecastTip(edtForecastTip->toPlainText());
+        m_plugin->setProperty("ForecastTip", edtForecastTip->toPlainText());
     }
 }
 

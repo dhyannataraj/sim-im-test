@@ -41,7 +41,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 #ifdef USE_KDE
     bool bSound = false;
     connect(chkArts, SIGNAL(toggled(bool)), this, SLOT(artsToggled(bool)));
-    chkArts->setChecked(plugin->getUseArts());
+    chkArts->setChecked(plugin->property("UseArts").toBool());
 #else
     chkArts->hide();
 #ifndef WIN32
@@ -56,11 +56,11 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     if (bSound){
         lblPlayer->setText(i18n("Qt provides sound output so you just need to set a player if you don't like Qt's sound."));
     }
-    edtPlayer->setText(plugin->getPlayer());
+    edtPlayer->setText(plugin->property("Player").toString());
 #endif
-    edtStartup->setText(plugin->fullName(plugin->getStartUp()));
-    edtFileDone->setText(plugin->fullName(plugin->getFileDone()));
-    edtSent->setText(plugin->fullName(plugin->getMessageSent()));
+    edtStartup->setText(plugin->fullName(plugin->property("StartUp").toString()));
+    edtFileDone->setText(plugin->fullName(plugin->property("FileDone").toString()));
+    edtSent->setText(plugin->fullName(plugin->property("MessageSent").toString()));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         QTabWidget *tab = qobject_cast<QTabWidget*>(p);
@@ -85,7 +85,7 @@ void SoundConfig::apply()
         user_cfg->apply(data);
     }
 #ifdef USE_KDE
-    m_plugin->setUseArts(chkArts->isChecked());
+    m_plugin->setProperty("UseArts", chkArts->isChecked());
     bool bSound = false;
 #else
     /* If there is an external player selected, don't use Qt
@@ -94,17 +94,17 @@ void SoundConfig::apply()
     bool bSound = edtPlayer->text().isEmpty() && QSound::isAvailable();
 #endif
     if (bSound)
-        m_plugin->setPlayer("");
+        m_plugin->setProperty("Player", "");
     else
-        m_plugin->setPlayer(edtPlayer->text());
+        m_plugin->setProperty("Player", edtPlayer->text());
 #if defined(USE_AUDIERE) || (!defined(WIN32) && !defined(__OS2__))
-	m_plugin->setStartUp(sound(edtStartup->text(), "startup.ogg"));  //FIXMEEEEEEEEEE :( Please repair this crap sound( ..., ...) method and make it easier
-    m_plugin->setFileDone(sound(edtFileDone->text(), "startup.ogg"));
-    m_plugin->setMessageSent(sound(edtSent->text(), "startup.ogg"));
+	m_plugin->setProperty("StartUp", sound(edtStartup->text(), "startup.ogg"));  //FIXMEEEEEEEEEE :( Please repair this crap sound( ..., ...) method and make it easier
+    m_plugin->setProperty("FileDone", sound(edtFileDone->text(), "startup.ogg"));
+    m_plugin->setProperty("MessageSent", sound(edtSent->text(), "startup.ogg"));
 #else
-	m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav"));
-    m_plugin->setFileDone(sound(edtFileDone->text(), "startup.wav"));
-    m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav"));
+	m_plugin->setProperty("StartUp", sound(edtStartup->text(), "startup.wav"));
+    m_plugin->setProperty("FileDone", sound(edtFileDone->text(), "startup.wav"));
+    m_plugin->setProperty("MessageSent", sound(edtSent->text(), "startup.wav"));
 #endif
 
 }

@@ -22,28 +22,20 @@
 
 #include "cfg.h"
 #include "plugins.h"
+#include "propertyhub.h"
+#include "event.h"
 
-struct ReplaceData
-{
-    SIM::Data	Keys;
-    SIM::Data	Key;
-    SIM::Data	Value;
-};
-
-class ReplacePlugin : public QObject, public SIM::Plugin
+class ReplacePlugin : virtual public QObject, public SIM::Plugin, public SIM::PropertyHub, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     ReplacePlugin(unsigned, Buffer *cfg);
     virtual ~ReplacePlugin();
-    PROP_ULONG(Keys)
-    PROP_UTFLIST(Key)
-    PROP_UTFLIST(Value)
 protected:
+	virtual bool processEvent(SIM::Event *e);
     virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     bool eventFilter(QObject *o, QEvent *e);
-    ReplaceData data;
 };
 
 #endif

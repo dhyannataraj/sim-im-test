@@ -24,28 +24,17 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
-
-struct TransparentData
-{
-    SIM::Data	Transparency;
-    SIM::Data	IfInactive;
-    SIM::Data	IfMainWindow;
-    SIM::Data	IfFloatings;
-};
+#include "propertyhub.h"
 
 class QWidget;
 class QTimer;
 
-class TransparentPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class TransparentPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     TransparentPlugin(unsigned, Buffer*);
     virtual ~TransparentPlugin();
-    PROP_ULONG(Transparency);
-    PROP_BOOL(IfInactive);
-    PROP_BOOL(IfMainWindow);
-    PROP_BOOL(IfFloatings);
     void	setState();
 public Q_SLOTS:
     void tick();
@@ -62,7 +51,6 @@ protected:
     QTimer   *timer;
     bool	 m_bHaveMouse;
     bool	 m_bActive;
-    TransparentData data;
 };
 
 #endif

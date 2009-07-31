@@ -31,19 +31,19 @@ FontConfig::FontConfig(QWidget *parent, StylesPlugin *plugin)
     m_plugin = plugin;
     connect(chkSystem, SIGNAL(toggled(bool)), this, SLOT(systemToggled(bool)));
     connect(chkColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));
-    chkSystem->setChecked(m_plugin->getSystemFonts());
+    chkSystem->setChecked(m_plugin->property("SystemFonts").toBool());
     systemToggled(chkSystem->isChecked());
     if (!chkSystem->isChecked()){
         QMenu m;
         QFont base = QApplication::font();
         QFont menu = QApplication::font(&m);
-        base = FontEdit::str2font(m_plugin->getBaseFont(), base);
-        menu = FontEdit::str2font(m_plugin->getMenuFont(), menu);
+        base = FontEdit::str2font(m_plugin->property("BaseFont").toString(), base);
+        menu = FontEdit::str2font(m_plugin->property("MenuFont").toString(), menu);
         edtFont->setFont(FontEdit::font2str(base, true));
         edtMenu->setFont(FontEdit::font2str(menu, true));
     }
 
-    chkColors->setChecked(m_plugin->getSystemColors());
+    chkColors->setChecked(m_plugin->property("SystemColors").toBool());
     colorsToggled(chkColors->isChecked());
 }
 
@@ -56,33 +56,33 @@ void FontConfig::apply()
     QString base;
     QString menu;
     if (chkSystem->isChecked()){
-        m_plugin->setSystemFonts(true);
+        m_plugin->setProperty("SystemFonts", true);
     }else{
-        m_plugin->setSystemFonts(false);
+        m_plugin->setProperty("SystemFonts", false);
         base = edtFont->getFont();
         menu = edtMenu->getFont();
     }
-    m_plugin->setBaseFont(base);
-    m_plugin->setMenuFont(menu);
+    m_plugin->setProperty("BaseFont", base);
+    m_plugin->setProperty("MenuFont", menu);
     m_plugin->setFonts();
 
     bool bChanged = false;
     if (chkColors->isChecked()){
-        if (!m_plugin->getSystemColors()){
-            m_plugin->setSystemColors(true);
+        if (!m_plugin->property("SystemColors").toBool()){
+            m_plugin->setProperty("SystemColors", true);
             bChanged = true;
         }
     }else{
-        if (m_plugin->getSystemColors()){
+        if (m_plugin->property("SystemColors").toBool()){
             bChanged = true;
         }else{
-            bChanged = ((btnBtnColor->color().rgb() & 0xFFFFFF) != m_plugin->getBtnColor()) ||
-                       ((btnBgColor->color().rgb() & 0xFFFFFF) != m_plugin->getBgColor());
+            bChanged = ((btnBtnColor->color().rgb() & 0xFFFFFF) != m_plugin->property("BtnColor").toUInt()) ||
+                       ((btnBgColor->color().rgb() & 0xFFFFFF) != m_plugin->property("BgColor").toUInt());
         }
-        m_plugin->setSystemColors(false);
+        m_plugin->setProperty("SystemColors", false);
         if (bChanged){
-            m_plugin->setBtnColor(btnBtnColor->color().rgb() & 0xFFFFFF);
-            m_plugin->setBgColor(btnBgColor->color().rgb() & 0xFFFFFF);
+            m_plugin->setProperty("BtnColor", btnBtnColor->color().rgb() & 0xFFFFFF);
+            m_plugin->setProperty("BgColor", btnBgColor->color().rgb() & 0xFFFFFF);
         }
     }
     if (bChanged)
@@ -105,8 +105,8 @@ void FontConfig::colorsToggled(bool bState)
     btnBtnColor->setEnabled(!bState);
     btnBgColor->setEnabled(!bState);
     if (!bState){
-        btnBtnColor->setColor(QColor(m_plugin->getBtnColor() & 0xFFFFFF));
-        btnBgColor->setColor(QColor(m_plugin->getBgColor() & 0xFFFFFF));
+        btnBtnColor->setColor(QColor(m_plugin->property("BtnColor").toUInt() & 0xFFFFFF));
+        btnBgColor->setColor(QColor(m_plugin->property("BgColor").toUInt() & 0xFFFFFF));
     }
 }
 

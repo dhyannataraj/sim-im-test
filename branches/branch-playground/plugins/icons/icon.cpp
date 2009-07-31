@@ -66,9 +66,9 @@ void IconsPlugin::setIcons(bool bForce)
     if (property("Default").toBool()){
         getIcons()->addIconSet("icons/smile.jisp", false);
     }else{
+		QStringList l = property("Icons").toStringList();
         for (unsigned i = 0; i < property("NIcons").toUInt(); i++)
 		{
-			QStringList l = property("Icons").toStringList();
 			if(i >= l.size())
 				break;
             getIcons()->addIconSet(l[i], true);

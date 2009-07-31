@@ -112,10 +112,10 @@ bool WeatherCfg::processEvent(Event *e)
 
 void WeatherCfg::fill()
 {
-    edtID->setText(m_plugin->getID());
-    cmbUnits->setCurrentIndex(m_plugin->getUnits() ? 1 : 0);
-    cmbLocation->lineEdit()->setText(m_plugin->getLocation());
-    edtDays->setValue(m_plugin->getForecast());
+    edtID->setText(m_plugin->property("ID").toString());
+    cmbUnits->setCurrentIndex(m_plugin->property("Units").toBool() ? 1 : 0);
+    cmbLocation->lineEdit()->setText(m_plugin->property("Location").toString());
+    edtDays->setValue(m_plugin->property("Forecast").toUInt());
 }
 
 void WeatherCfg::activated(int n)
@@ -127,18 +127,18 @@ void WeatherCfg::activated(int n)
 
 void WeatherCfg::apply()
 {
-    m_plugin->setUnits(cmbUnits->currentIndex() != 0);
-    m_plugin->setForecast(edtDays->text().toULong());
-    m_plugin->setID(edtID->text());
-    m_plugin->setLocation(cmbLocation->lineEdit()->text());
+    m_plugin->setProperty("Units", cmbUnits->currentIndex() != 0);
+    m_plugin->setProperty("Forecast", (unsigned int)edtDays->text().toULong());
+    m_plugin->setProperty("ID", edtID->text());
+    m_plugin->setProperty("Location", cmbLocation->lineEdit()->text());
     m_iface->apply();
-    if (!m_plugin->getID().isEmpty()){
+    if (!m_plugin->property("ID").toString().isEmpty()){
         m_plugin->showBar();
         m_plugin->updateButton();
         if (m_plugin->m_bar)
             m_plugin->m_bar->show();
-        m_plugin->setTime(0);
-        m_plugin->setForecastTime(0);
+        m_plugin->setProperty("Time", 0);
+        m_plugin->setProperty("ForecastTime", 0);
         QTimer::singleShot(0, m_plugin, SLOT(timeout()));
     }else{
         m_plugin->hideBar();

@@ -20,14 +20,15 @@
 
 #include "simapi.h"
 
-#include <qobject.h>
-#include <qthread.h>
+#include <QObject>
+#include <QThread>
 #include <QProcess>
 #include <QByteArray>
 
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 //#define USE_AUDIERE
 
@@ -60,16 +61,6 @@ inline void sleepTime(int i) {
   sleep(i);
 #endif
 }
-struct SoundData
-{
-#ifdef USE_KDE
-    SIM::Data	UseArts;
-#endif
-    SIM::Data	Player;
-    SIM::Data	StartUp;
-    SIM::Data	FileDone;
-    SIM::Data	MessageSent;
-};
 
 struct SoundUserData
 {
@@ -87,9 +78,9 @@ class SoundPlugin
 #ifdef WIN32
     : public QThread,
 #else
-    : public QObject,
+    : virtual public QObject,
 #endif
-      public SIM::Plugin, public SIM::EventReceiver
+      public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 
 {
     Q_OBJECT
@@ -100,10 +91,6 @@ public:
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
 #endif
-    PROP_STR(Player);
-    PROP_STR(StartUp);
-    PROP_STR(FileDone);
-    PROP_STR(MessageSent);
     unsigned long CmdSoundDisable;
     SIM::SIMEvent EventSoundChanged;
 protected Q_SLOTS:
@@ -131,7 +118,6 @@ protected:
 #if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;
 #endif
-    SoundData	data;
     CorePlugin	*core;
     bool	    m_bChanged;
     bool bDone;

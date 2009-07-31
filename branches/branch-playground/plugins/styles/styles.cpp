@@ -49,30 +49,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef stylesData[] =
-    {
-        { "Style", DATA_STRING, 1, 0 },
-        { "SystemFonts", DATA_BOOL, 1, DATA(1) },
-        { "BaseFont", DATA_STRING, 1, 0 },
-        { "MenuFont", DATA_STRING, 1, 0 },
-        { "MessageFont", DATA_STRING, 1, 0 },
-        { "SystemColors", DATA_BOOL, 1, DATA(1) },
-        { "BtnColor", DATA_ULONG, 1, 0 },
-        { "BgColor", DATA_ULONG, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("styles")
 {
     m_saveBaseFont = NULL;
     m_saveMenuFont = NULL;
     m_savePalette = new QPalette(QApplication::palette());
-    load_data(stylesData, &data, config);
     setFonts();
-    if (getSystemColors()){
-        setBtnColor(m_savePalette->color(QPalette::Active, QPalette::Button).rgb() & 0xFFFFFF);
-        setBgColor(m_savePalette->color(QPalette::Active, QPalette::Background).rgb() & 0xFFFFFF);
+    if (property("SystemColors").toBool()){
+        setProperty("BtnColor", m_savePalette->color(QPalette::Active, QPalette::Button).rgb() & 0xFFFFFF);
+        setProperty("BgColor", m_savePalette->color(QPalette::Active, QPalette::Background).rgb() & 0xFFFFFF);
     }else{
         setColors();
     }
@@ -81,7 +67,7 @@ StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
 
 StylesPlugin::~StylesPlugin()
 {
-    free_data(stylesData, &data);
+	PropertyHub::save();
     if (m_saveBaseFont)
         delete m_saveBaseFont;
     if (m_saveMenuFont)
@@ -92,7 +78,7 @@ StylesPlugin::~StylesPlugin()
 
 QByteArray StylesPlugin::getConfig()
 {
-    return save_data(stylesData, &data);
+    return QByteArray();
 }
 
 QWidget *StylesPlugin::createConfigWindow(QWidget *parent)
@@ -102,15 +88,15 @@ QWidget *StylesPlugin::createConfigWindow(QWidget *parent)
 
 void StylesPlugin::setFonts()
 {
-    if (getSystemFonts()){
+    if (property("SystemFonts").toBool()){
         if (m_saveBaseFont)
             QApplication::setFont(*m_saveBaseFont);
         if (m_saveMenuFont)
             QApplication::setFont(*m_saveMenuFont, "Q3PopupMenu");
     }else{
         setupDefaultFonts();
-        QApplication::setFont(FontEdit::str2font(getBaseFont(), *m_saveBaseFont));
-        QApplication::setFont(FontEdit::str2font(getMenuFont(), *m_saveMenuFont), "Q3PopupMenu");
+        QApplication::setFont(FontEdit::str2font(property("BaseFont").toString(), *m_saveBaseFont));
+        QApplication::setFont(FontEdit::str2font(property("MenuFont").toString(), *m_saveMenuFont), "Q3PopupMenu");
     }
 }
 
@@ -126,21 +112,29 @@ void StylesPlugin::setupDefaultFonts()
 
 void StylesPlugin::setColors()
 {
-    if (getSystemColors()){
+    if (property("SystemColors").toBool()){
         QApplication::setPalette(*m_savePalette);
     }else{
-        QApplication::setPalette(QPalette(QColor(getBtnColor()), QColor(getBgColor())));
+        QApplication::setPalette(QPalette(QColor(property("BtnColor").toUInt()), QColor(property("BgColor").toUInt())));
     }
 }
 
 void StylesPlugin::setStyles()
 {
-    QStyle *style = QStyleFactory::create(getStyle());
+    QStyle *style = QStyleFactory::create(property("Style").toString());
     if (style){
         QApplication::setStyle(style);
-        if (!getSystemColors())
+        if (!property("SystemColors").toBool())
             setColors();
     }else{
-        setStyle(QString::null);
+        setProperty("Style", QString());
     }
+}
+
+bool StylesPlugin::processEvent(SIM::Event *e)
+{
+	if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+	}
 }

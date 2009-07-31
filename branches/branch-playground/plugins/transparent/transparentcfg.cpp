@@ -26,18 +26,18 @@ TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin)
   , m_plugin(plugin)
 {
     setupUi(this);
-    sldTransparency->setValue(m_plugin->getTransparency());
-    chkInactive->setChecked  (m_plugin->getIfInactive  ());
-    chkMainWindow->setChecked(m_plugin->getIfMainWindow());
-    chkFloatings->setChecked (m_plugin->getIfFloatings ());
+    sldTransparency->setValue(m_plugin->property("Transparency").toUInt());
+    chkInactive->setChecked(m_plugin->property("IfInactive").toBool());
+    chkMainWindow->setChecked(m_plugin->property("IfMainWindow").toBool());
+    chkFloatings->setChecked (m_plugin->property("IfFloatings").toBool());
 }
 
 void TransparentCfg::apply()
 {
-    m_plugin->setTransparency(sldTransparency->value());
-    m_plugin->setIfInactive  (chkInactive  ->isChecked());
-    m_plugin->setIfMainWindow(chkMainWindow->isChecked());
-    m_plugin->setIfFloatings (chkFloatings ->isChecked());
+    m_plugin->setProperty("Transparency", sldTransparency->value());
+    m_plugin->setProperty("IfInactive", chkInactive->isChecked());
+    m_plugin->setProperty("IfMainWindow", chkMainWindow->isChecked());
+    m_plugin->setProperty("IfFloatings", chkFloatings->isChecked());
     m_plugin->setState();
 }
 

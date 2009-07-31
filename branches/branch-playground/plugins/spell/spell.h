@@ -28,16 +28,9 @@
 #include "event.h"
 #include "misc.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 using std::list;
-
-struct SpellData
-{
-#ifdef WIN32
-    SIM::Data	Path;
-#endif
-    SIM::Data	Lang;
-};
 
 class TextEdit;
 class Q3SyntaxHighlighter;
@@ -48,16 +41,12 @@ class Speller;
 typedef std::map<TextEdit*, Q3SyntaxHighlighter*>	MAP_EDITS;
 typedef std::map<SIM::my_string, bool> MAP_BOOL;
 
-class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class SpellPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     SpellPlugin(unsigned, Buffer*);
     ~SpellPlugin();
-#ifdef WIN32
-    PROP_STR(Path);
-#endif
-    PROP_STR(Lang);
     MAP_EDITS m_edits;
     void reset();
     unsigned CmdSpell;
@@ -80,7 +69,6 @@ protected:
     bool			m_bActive;
     SpellerBase		*m_base;
     list<Speller*>	m_spellers;
-    SpellData data;
 };
 
 #endif

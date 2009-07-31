@@ -63,10 +63,10 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef remoteData[] =
     {
 #ifdef WIN32
-        { "Path", DATA_STRING, 1, "auto:" },
-        { "EnableMenu", DATA_BOOL, 1, DATA(1) },
+//        { "Path", DATA_STRING, 1, "auto:" },
+//        { "EnableMenu", DATA_BOOL, 1, DATA(1) },
 #else
-        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
+//        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
@@ -230,13 +230,12 @@ IPCLock::~IPCLock()
 
 #endif
 
-RemotePlugin::RemotePlugin() : Plugin(0)
+RemotePlugin::RemotePlugin() : Plugin(0), PropertyHub("remote")
 {
 }
 RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("remote")
 {
-    load_data(remoteData, &data, config);
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
     const pluginInfo *info = ePlugin.info();
@@ -250,17 +249,17 @@ RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
 
 RemotePlugin::~RemotePlugin()
 {
+	PropertyHub::save();
 #ifdef WIN32
     delete ipc;
 #endif
     while (!m_sockets.empty())
         delete m_sockets.front();
-    free_data(remoteData, &data);
 }
 
 QByteArray RemotePlugin::getConfig()
 {
-    return save_data(remoteData, &data);
+    return QByteArray();
 }
 
 QWidget *RemotePlugin::createConfigWindow(QWidget *parent)
@@ -268,8 +267,12 @@ QWidget *RemotePlugin::createConfigWindow(QWidget *parent)
     return new RemoteConfig(parent, this);
 }
 
-bool RemotePlugin::processEvent(Event*)
+bool RemotePlugin::processEvent(Event* e)
 {
+	if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+	}
     return false;
 }
 
@@ -277,7 +280,7 @@ static char TCP[] = "tcp:";
 
 void RemotePlugin::bind()
 {
-    QString path = getPath();
+    QString path = property("Path").toString();
     if (path.startsWith(TCP)){
         unsigned short port = path.mid(strlen(TCP)).toUShort();
         ServerSocketNotify::bind(port, port, NULL);
@@ -598,7 +601,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
         }
     case CMD_CONTACTS:{
 #ifdef WIN32
-            if (getEnableMenu()){
+            if (property("EnableMenu").toBool()){
 #endif
                 unsigned type = 0;
                 if (args.size())

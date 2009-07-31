@@ -61,21 +61,11 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef transparentData[] =
-    {
-        { "Transparency", DATA_ULONG, 1, DATA(60) },
-        { "IfInactive",   DATA_BOOL, 1, DATA(1) },
-        { "IfMainWindow", DATA_BOOL, 1, DATA(1) },
-        { "IfFloatings",  DATA_BOOL, 1, DATA(1) },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("transparent")
 {
-    load_data(transparentData, &data, config);
-    if (getTransparency() >100)
-        setTransparency(100);
+    if (property("Transparency").toUInt() >100)
+        setProperty("Transparency", 100);
 
     timer = NULL;
     m_bHaveMouse = false;
@@ -88,6 +78,7 @@ TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
 
 TransparentPlugin::~TransparentPlugin()
 {
+	PropertyHub::save();
     delete timer;
 
     // reset opacity for all toplevel widgets
@@ -95,13 +86,11 @@ TransparentPlugin::~TransparentPlugin()
     foreach(QWidget *w,list) {
         w->setWindowOpacity(1.0);
     }
-
-    free_data(transparentData, &data);
 }
 
 QByteArray TransparentPlugin::getConfig()
 {
-    return save_data(transparentData, &data);
+    return QByteArray();
 }
 
 QWidget *TransparentPlugin::getMainWindow()
@@ -142,7 +131,7 @@ void TransparentPlugin::tickMouse()
 
 bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
 {
-    if (getIfInactive()){
+    if (property("IfInactive").toBool()){
         switch (e->type()){
         case QEvent::WindowActivate:
             m_bActive = true;
@@ -183,8 +172,8 @@ void TransparentPlugin::setState()
     }
     bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
-        qreal transparency = (100 - getTransparency()) / 100.;
-        if(getIfMainWindow())
+        qreal transparency = (100 - property("Transparency").toUInt()) / 100.;
+        if(property("IfMainWindow").toBool())
             main->setWindowOpacity(transparency);
         else
             main->setWindowOpacity(1.0);
@@ -193,7 +182,7 @@ void TransparentPlugin::setState()
         foreach (QWidget *w,list) {
             if (FloatyWnd *refwnd = dynamic_cast<FloatyWnd *>(w)){
                 refwnd->installEventFilter(this);
-                if (getIfFloatings())
+                if (property("IfFloatings").toBool())
                     refwnd->setWindowOpacity(transparency);
                 else
                     refwnd->setWindowOpacity(1.0);
@@ -222,13 +211,13 @@ void TransparentPlugin::tick()
     if (m_bState)
         difftime = timeout - difftime;
 
-    qreal transparency = (100 - getTransparency()) / 100.;
+    qreal transparency = (100 - property("Transparency").toUInt()) / 100.;
     qreal diff_to_opaque = 1. - transparency;
     transparency = transparency + diff_to_opaque * (1 - difftime / timeout);
 
     //log(L_DEBUG, "transparency: %f, diff_to_opaque %f, time %d, timeout %d",
     //             transparency, diff_to_opaque, time, timeout);
-    if (getIfMainWindow())
+    if (property("IfMainWindow").toBool())
         main->setWindowOpacity(transparency);
     else
         main->setWindowOpacity(1.0);
@@ -238,7 +227,7 @@ void TransparentPlugin::tick()
     foreach (QWidget *w,list) {
         if (FloatyWnd *refwnd = qobject_cast<FloatyWnd *>(w)){
             refwnd->installEventFilter(this);
-            if (getIfFloatings()) 
+            if (property("IfFloatings").toBool()) 
                 refwnd->setWindowOpacity(transparency);
             else
                 refwnd->setWindowOpacity(1.0);
@@ -252,6 +241,10 @@ bool TransparentPlugin::processEvent(Event *e)
     if (e->type() == eEventInit) {
         setState();
     }
+	else if(e->type() == eEventPluginLoadConfig)
+	{
+		PropertyHub::load();
+	}
     return false;
 }
 

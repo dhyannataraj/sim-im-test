@@ -50,7 +50,7 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
 	setupUi(this);
     m_plugin = plugin;
 #ifdef WIN32
-    edtPath->setText(m_plugin->getPath());
+    edtPath->setText(m_plugin->property("Path").toString());
     edtPath->setFilter(i18n("ASpell(aspell.exe)"));
     lnkAspell->setUrl("http://aspell.net/win32/");
     lnkAspell->setText(i18n("Download ASpell"));
@@ -80,7 +80,7 @@ SpellConfig::~SpellConfig()
 void SpellConfig::apply()
 {
 #ifdef WIN32
-    m_plugin->setPath(edtPath->text());
+    m_plugin->setProperty("Path", edtPath->text());
 #endif
     QString lang;
     for (Q3ListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
@@ -90,7 +90,7 @@ void SpellConfig::apply()
             lang += ';';
         lang += item->text(COL_NAME);
     }
-    m_plugin->setLang(lang);
+    m_plugin->setProperty("Lang", lang);
     m_plugin->reset();
 }
 
@@ -135,7 +135,7 @@ void SpellConfig::textChanged(const QString&)
         while (!langs.isEmpty()){
             QString l = SIM::getToken(langs, ';');
             bool bCheck = false;
-            QString ll = m_plugin->getLang();
+            QString ll = m_plugin->property("Lang").toString();
             while (!ll.isEmpty()){
                 QString lc = SIM::getToken(ll, ';');
                 if (l == lc){

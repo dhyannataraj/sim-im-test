@@ -24,26 +24,27 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 struct NetMonitorData
 {
-    SIM::Data	LogLevel;
-    SIM::Data	LogPackets;
-    SIM::Data	geometry[5];
-    SIM::Data	Show;
+//    SIM::Data	LogLevel;
+//    SIM::Data	LogPackets;
+//    SIM::Data	geometry[5];
+//    SIM::Data	Show;
 };
 
 class MonitorWindow;
 
-class NetmonitorPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class NetmonitorPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     NetmonitorPlugin(unsigned, Buffer *name);
     virtual ~NetmonitorPlugin();
-    PROP_ULONG(LogLevel);
-    PROP_STR(LogPackets);
-    PROP_BOOL(Show);
+//    PROP_ULONG(LogLevel);
+//    PROP_STR(LogPackets);
+//    PROP_BOOL(Show);
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
 protected slots:
@@ -56,7 +57,6 @@ protected:
     void saveState();
     unsigned long CmdNetMonitor;
     QSet<unsigned> m_packets;
-    NetMonitorData data;
     MonitorWindow *monitor;
 };
 

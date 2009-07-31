@@ -22,9 +22,9 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
-//Added by qt3to4:
 #include <QResizeEvent>
 
+#include "log.h"
 #include "cmddef.h"
 #include "misc.h"
 #include "core_consts.h"
@@ -35,7 +35,6 @@
 using namespace SIM;
 
 MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin) : QWidget(parent)
-        //: MouseConfigBase(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
@@ -65,9 +64,12 @@ MouseConfig::~MouseConfig()
 
 void MouseConfig::apply()
 {
-    for (Q3ListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling()){
-        m_plugin->setMouse(item->text(2).toUInt(), item->text(1).toLatin1());
+	QMap<QString, QVariant> map;
+    for (Q3ListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling())
+	{
+		map.insert(item->text(2), item->text(1).toLatin1());
     }
+	m_plugin->setProperty("Mouse", map);
 }
 
 void MouseConfig::resizeEvent(QResizeEvent *e)
@@ -108,7 +110,7 @@ void MouseConfig::loadMenu(unsigned long id)
             if (item)
                 continue;
             title = title.remove('&');
-            new Q3ListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
+            new Q3ListViewItem(lstCmd, title, m_plugin->property("Mouse").toMap().value(QString::number(s->id)).toString(), QString::number(s->id), QString::number(s->popup_id));
         }
     }
 }

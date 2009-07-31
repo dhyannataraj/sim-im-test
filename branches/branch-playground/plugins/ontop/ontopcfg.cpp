@@ -18,21 +18,20 @@
 #include "ontopcfg.h"
 #include "ontop.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 
 OnTopCfg::OnTopCfg(QWidget *parent, OnTopPlugin *plugin) : QWidget(parent)
-        //: OnTopCfgBase(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
-    chkInTask->setChecked(m_plugin->getInTask());
-    chkContainer->setChecked(m_plugin->getContainerOnTop());
+    chkInTask->setChecked(m_plugin->property("InTask").toBool());
+    chkContainer->setChecked(m_plugin->property("ContainerOnTop").toBool());
 }
 
 void OnTopCfg::apply()
 {
-    m_plugin->setInTask(chkInTask->isChecked());
-    m_plugin->setContainerOnTop(chkContainer->isChecked());
+    m_plugin->setProperty("InTask", chkInTask->isChecked());
+    m_plugin->setProperty("ContainerOnTop", chkContainer->isChecked());
     m_plugin->setState();
 }
 

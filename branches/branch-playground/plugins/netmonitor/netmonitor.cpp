@@ -1,9 +1,9 @@
 /***************************************************************************
-                          netmonitor.cpp  -  description
-                             -------------------
-    begin                : Sun Mar 17 2002
-    copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan@shutoff.ru
+  netmonitor.cpp  -  description
+  -------------------
+begin                : Sun Mar 17 2002
+copyright            : (C) 2002 by Vladimir Shutoff
+email                : vovan@shutoff.ru
  ***************************************************************************/
 
 /***************************************************************************
@@ -34,14 +34,14 @@ Plugin *createNetmonitorPlugin(unsigned base, bool, Buffer *config)
 }
 
 static PluginInfo info =
-    {
-        I18N_NOOP("Network monitor"),
-        I18N_NOOP("Plugin provides monitoring of net and messages\n"
-                  "For show monitor on start run sim -m"),
-        VERSION,
-        createNetmonitorPlugin,
-        PLUGIN_DEFAULT
-    };
+{
+    I18N_NOOP("Network monitor"),
+    I18N_NOOP("Plugin provides monitoring of net and messages\n"
+            "For show monitor on start run sim -m"),
+    VERSION,
+    createNetmonitorPlugin,
+    PLUGIN_DEFAULT
+};
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
 {
@@ -49,20 +49,19 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 static DataDef monitorData[] =
-    {
-        { "LogLevel", DATA_ULONG, 1, DATA(7) },
-        { "LogPackets", DATA_STRING, 1, 0 },
-        { "Geometry", DATA_LONG, 5, DATA(-1) },
-        { "Show", DATA_BOOL, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
-NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
 {
-    load_data(monitorData, &data, config);
+    //        { "LogLevel", DATA_ULONG, 1, DATA(7) },
+    //        { "LogPackets", DATA_STRING, 1, 0 },
+//    { "Geometry", DATA_LONG, 5, DATA(-1) },
+//    { "Show", DATA_BOOL, 1, 0 },
+    { NULL, DATA_UNKNOWN, 0, 0 }
+};
 
-    const QStringList packets = getLogPackets().split(',');
+    NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
+: Plugin(base), PropertyHub("netmonitor")
+{
+
+    const QStringList packets = property("LogPackets").toString().split(',');
     Q_FOREACH( const QString &v, packets)
         setLogType(v.toULong(), true);
 
@@ -80,23 +79,14 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     EventArg e("-m", I18N_NOOP("Show network monitor"));
-    if (e.process() || getShow())
+    if (e.process() || property("Show").toBool())
         showMonitor();
 }
 
 NetmonitorPlugin::~NetmonitorPlugin()
 {
-    EventCommandRemove(CmdNetMonitor).process();
-
-    delete monitor;
-
-    free_data(monitorData, &data);
-}
-
-QByteArray NetmonitorPlugin::getConfig()
-{
     saveState();
-    setShow(monitor != NULL);
+    setProperty("Show", monitor != NULL);
     QString packets;
     QSetIterator<unsigned> it(m_packets);
     while (it.hasNext()) {
@@ -104,8 +94,17 @@ QByteArray NetmonitorPlugin::getConfig()
             packets += ',';
         packets += QString::number(it.next());
     }
-    setLogPackets(packets);
-    return save_data(monitorData, &data);
+    setProperty("LogPackets", packets);
+    PropertyHub::save();
+    EventCommandRemove(CmdNetMonitor).process();
+
+    delete monitor;
+
+}
+
+QByteArray NetmonitorPlugin::getConfig()
+{
+    return QByteArray();
 }
 
 bool NetmonitorPlugin::isLogType(unsigned id)
@@ -129,9 +128,9 @@ void NetmonitorPlugin::showMonitor()
     if (monitor == NULL)
     {
         monitor = new MonitorWindow(this);
-        bool bPos = (data.geometry[LEFT].toLong() != NO_DATA) && (data.geometry[TOP].toLong() != NO_DATA);
-        bool bSize = (data.geometry[WIDTH].toLong() != NO_DATA) && (data.geometry[HEIGHT].toLong() != NO_DATA);
-        restoreGeometry(monitor, data.geometry, bPos, bSize);
+        //bool bPos = (data.geometry[LEFT].toLong() != NO_DATA) && (data.geometry[TOP].toLong() != NO_DATA);
+        //bool bSize = (data.geometry[WIDTH].toLong() != NO_DATA) && (data.geometry[HEIGHT].toLong() != NO_DATA);
+        //restoreGeometry(monitor, data.geometry, bPos, bSize);
         connect(monitor, SIGNAL(finished()), this, SLOT(finished()));
     }
     raiseWindow(monitor);
@@ -146,6 +145,10 @@ bool NetmonitorPlugin::processEvent(Event *e)
             showMonitor();
             return true;
         }
+    }
+    else if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHub::load();
     }
     return false;
 }
@@ -166,6 +169,6 @@ void NetmonitorPlugin::saveState()
 {
     if (monitor == NULL)
         return;
-    saveGeometry(monitor, data.geometry);
+    //saveGeometry(monitor, data.geometry);
 }
 

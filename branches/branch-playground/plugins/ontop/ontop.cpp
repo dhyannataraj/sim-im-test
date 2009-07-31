@@ -66,16 +66,15 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 static DataDef onTopData[] =
     {
-        { "OnTop", DATA_BOOL, 1, DATA(1) },
-        { "InTask", DATA_BOOL, 1, 0 },
-        { "ContainerOnTop", DATA_BOOL, 1, 0 },
+//        { "OnTop", DATA_BOOL, 1, DATA(1) },
+//        { "InTask", DATA_BOOL, 1, 0 },
+//        { "ContainerOnTop", DATA_BOOL, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("ontop")
 {
-    load_data(onTopData, &data, config);
 
     CmdOnTop = registerType();
 
@@ -100,23 +99,30 @@ OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
 
 OnTopPlugin::~OnTopPlugin()
 {
+    PropertyHub::save();
     EventCommandRemove(CmdOnTop).process();
 
-    setOnTop(false);
+    setProperty("OnTop", false);
     setState();
-    free_data(onTopData, &data);
 }
 
 bool OnTopPlugin::processEvent(Event *e)
 {
+    // FIXME what a mess...
     if (e->type() == eEventInit)
         setState();
+    else if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHub::load();
+        if(!property("OnTop").isValid())
+            setProperty("OnTop", true);
+    }
     else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdOnTop){
-            setOnTop(!getOnTop());
+            setProperty("OnTop", !property("OnTop").toBool());
             setState();
             return true;
         }
@@ -127,7 +133,7 @@ bool OnTopPlugin::processEvent(Event *e)
         if (cmd->id == CmdOnTop){
             getState();
             cmd->flags &= ~COMMAND_CHECKED;
-            if (getOnTop())
+            if (property("OnTop").toBool())
                 cmd->flags |= COMMAND_CHECKED;
             return true;
         }
@@ -191,7 +197,7 @@ bool OnTopPlugin::processEvent(Event *e)
 QByteArray OnTopPlugin::getConfig()
 {
     getState();
-    return save_data(onTopData, &data);
+    return QByteArray();
 }
 
 QWidget *OnTopPlugin::getMainWindow()
