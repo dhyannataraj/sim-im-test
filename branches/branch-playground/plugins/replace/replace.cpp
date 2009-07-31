@@ -138,5 +138,6 @@ bool ReplacePlugin::processEvent(SIM::Event *e)
 	{
 		PropertyHub::load();
 	}
+    return false;
 }
 

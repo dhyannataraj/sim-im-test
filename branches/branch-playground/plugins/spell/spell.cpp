@@ -115,7 +115,7 @@ void SpellPlugin::reset()
     if (m_base)
         delete m_base;
 #ifdef WIN32
-    m_base = new SpellerBase(propery("Path").toString());
+    m_base = new SpellerBase(property("Path").toString());
 #else
     m_base = new SpellerBase(QString());
 #endif

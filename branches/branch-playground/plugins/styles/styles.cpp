@@ -137,4 +137,5 @@ bool StylesPlugin::processEvent(SIM::Event *e)
 	{
 		PropertyHub::load();
 	}
+    return false;
 }

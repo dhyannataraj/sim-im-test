@@ -145,11 +145,12 @@ bool OnTopPlugin::processEvent(Event *e)
         if (main == NULL)
             return NULL;
         HWND hState = HWND_NOTOPMOST;
-        if (getOnTop())
+        if (property("OnTop").toBool())
             hState = HWND_TOPMOST;
         if (eot->showOnTop())
             hState = HWND_BOTTOM;
-        if (m_state != hState){
+        if (m_state != hState)
+        {
             SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
             m_state = hState;
         }
@@ -160,7 +161,7 @@ bool OnTopPlugin::processEvent(Event *e)
         if (main == NULL)
             return NULL;
         if (IsWindowUnicode(main->winId())){
-            if (eitm->showInTaskmanager() && getInTask()){
+            if (eitm->showInTaskmanager() && property("InTask").toBool()){
                 SetWindowLongW(main->winId(), GWL_EXSTYLE,
                                (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
             }else{
@@ -175,7 +176,7 @@ bool OnTopPlugin::processEvent(Event *e)
                 }
             }
         }else{
-            if (eitm->showInTaskmanager() && getInTask()){
+            if (eitm->showInTaskmanager() && property("InTask").toBool()){
                 SetWindowLongA(main->winId(), GWL_EXSTYLE,
                                (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
             }else{
@@ -224,7 +225,7 @@ void OnTopPlugin::setState()
     if (main){
 #ifdef WIN32
         EventOnTop(false).process();
-        EventInTaskManager(getInTask()).process();
+        EventInTaskManager(property("InTask").toBool()).process();
 #else
 #ifdef USE_KDE
         if (getOnTop()){
@@ -247,7 +248,7 @@ void OnTopPlugin::setState()
 			if (w->inherits("Container")){
 #ifdef WIN32
 				HWND hState = HWND_NOTOPMOST;
-				if (getContainerOnTop()) hState = HWND_TOPMOST;
+				if (property("ContainerOnTop").toBool()) hState = HWND_TOPMOST;
 				SetWindowPos(w->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
 #ifdef USE_KDE
@@ -276,19 +277,19 @@ bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
 {
 #ifdef WIN32
     if ((e->type() == QEvent::WindowActivate) &&
-            (getOnTop() || getContainerOnTop()) &&
+            (property("OnTop").toBool() || property("ContainerOnTop").toBool() ) &&
             o->inherits("QDialog")){
         QWidget *w = static_cast<QWidget*>(o);
         SetWindowPos(w->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
     if ((e->type() == QEvent::WindowDeactivate) &&
-            (getOnTop() || getContainerOnTop()) &&
+            (property("OnTop").toBool() || property("ContainerOnTop").toBool()) &&
             o->inherits("QDialog")){
         QWidget *w = static_cast<QWidget*>(o);
         SetWindowPos(w->winId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
     if ((e->type() == QEvent::Show) &&
-            getContainerOnTop() &&
+            property("ContainerOnTop").toBool() &&
             o->inherits("Container")){
         QWidget *w = static_cast<QWidget*>(o);
         SetWindowPos(w->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -296,19 +297,19 @@ bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
 #endif
 #ifdef USE_KDE
     if ((e->type() == QEvent::WindowActivate) &&
-            (getOnTop() || getContainerOnTop()) &&
+            (property("OnTop").toBool() || property("ContainerOnTop").toBool()) &&
             o->inherits("QDialog")){
         QWidget *w = static_cast<QWidget*>(o);
         KWin::setState(w->winId(), NET::StaysOnTop);
     }
     if ((e->type() == QEvent::WindowDeactivate) &&
-            (getOnTop() || getContainerOnTop()) &&
+            (property("OnTop").toBool() || property("ContainerOnTop").toBool()) &&
             o->inherits("QDialog")){
         QWidget *w = static_cast<QWidget*>(o);
         KWin::clearState(w->winId(), NET::StaysOnTop);
     }
     if ((e->type() == QEvent::Show) &&
-            getContainerOnTop() &&
+            property("ContainerOnTop").toBool() &&
             o->inherits("Container")){
         QWidget *w = static_cast<QWidget*>(o);
         KWin::setState(w->winId(), NET::StaysOnTop);

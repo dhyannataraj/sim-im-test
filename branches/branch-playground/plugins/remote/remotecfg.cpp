@@ -61,7 +61,7 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin) : QWidget(pare
     connect(grpRemote, SIGNAL(clicked(int)), this, SLOT(selected(int)));
 #endif
 #ifdef WIN32
-    chkIE->setChecked(m_plugin->property("EnableMenu"));
+    chkIE->setChecked(m_plugin->property("EnableMenu").toBool());
 #else
     chkIE->hide();
 #endif

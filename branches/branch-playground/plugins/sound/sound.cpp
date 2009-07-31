@@ -151,8 +151,8 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     m_player = 0;
 	connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
 #endif
-    m_checkTimer = new QTimer(this);
-	QObject::connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
+    m_checkTimer = new QTimer();
+    QObject::connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
 #ifndef __OS2__
 	// Under OS/2, playing startup sound leads SIM to crash on next sounds
 	// under investigation
@@ -201,7 +201,7 @@ bool SoundPlugin::processEvent(SIM::Event *e)
     switch (e->type()) {
 	case eEventLoginStart:
 	{
-		playSound(property("StartUp").toString());
+        playSound(QObject::property("StartUp").toString());
 		break;
 	}
 	case eEventCheckCommandState: {
@@ -247,11 +247,11 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             return false;
         QString sound;
         if (msg->type() == MessageFile){
-            sound = property("FileDone").toString();
+            sound = QObject::property("FileDone").toString();
         }else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
                 return false;
-            sound = property("MessageSent").toString();
+            sound = QObject::property("MessageSent").toString();
         }
         if (!sound.isEmpty()){
             EventPlaySound(sound).process();
@@ -291,12 +291,12 @@ bool SoundPlugin::processEvent(SIM::Event *e)
 	case eEventPluginLoadConfig:
 	{
 		PropertyHub::load();
-		if(!property("StartUp").isValid())
-			setProperty("StartUp", "startup.wav");
-		if(!property("FileDone").isValid())
-			setProperty("FileDone", "filedone.wav");
-		if(!property("MessageSent").isValid())
-			setProperty("MessageSent", "msgsent.wav");
+		if(!QObject::property("StartUp").isValid())
+			QObject::setProperty("StartUp", "startup.wav");
+		if(!QObject::property("FileDone").isValid())
+			QObject::setProperty("FileDone", "filedone.wav");
+		if(!QObject::property("MessageSent").isValid())
+			QObject::setProperty("MessageSent", "msgsent.wav");
 	}
     default:
         break;
