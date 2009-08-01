@@ -146,11 +146,11 @@ HistoryWindow::HistoryWindow(unsigned long id)
             m_avatar_bar = e.toolBar();
             m_avatar_bar->setOrientation(Qt::Vertical);
             addToolBar(m_avatar_bar);
-			/*
-            m_avatar_bar->setHorizontalStretchable(false);
-            m_avatar_bar->setVerticalStretchable(false);
-			*/
-            //restoreToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
+
+            //m_avatar_bar->setHorizontalStretchable(false);
+            //m_avatar_bar->setVerticalStretchable(false);
+            m_avatar_bar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            restoreToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
 
             Command cmd;
             cmd->id = CmdHistoryAvatar;

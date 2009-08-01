@@ -149,11 +149,12 @@ Message *HistoryFile::load(unsigned id)
 
 HistoryFileIterator::HistoryFileIterator(HistoryFile &f, unsigned contact)
         : file(f)
+        , m_block(NULL)
+        , m_codec(NULL)
+        , m_msg(NULL)
+        , m_contact(contact)
 {
-    m_block = 0;
-    m_codec = NULL;
-    m_msg   = NULL;
-    m_contact = contact;
+    
 }
 
 HistoryFileIterator::~HistoryFileIterator()
