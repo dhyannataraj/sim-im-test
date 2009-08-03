@@ -15,24 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-#include <time.h>
-
-#include <algorithm>
-
-#include <qtimer.h>
-#include <qregexp.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QRegExp>
+#include <QFile>
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "log.h"
 #include "core.h"
@@ -2361,8 +2348,8 @@ void SBSocket::messageReady()
                 }
             }
         }else if (command == "ACCEPT"){
-            unsigned ip      = inet_addr(qPrintable(ip_address));
-            unsigned real_ip = inet_addr(qPrintable(ip_address_internal));
+            unsigned ip      = QHostAddress(ip_address).toIPv4Address();
+            unsigned real_ip = QHostAddress(ip_address_internal).toIPv4Address();
             if (ip != INADDR_NONE)
                 set_ip(&m_data->IP, ip);
             if (real_ip != INADDR_NONE)
@@ -2653,13 +2640,10 @@ void SBSocket::acceptMessage(unsigned short port, unsigned cookie, unsigned auth
     message += "MIME-Version: 1.0\r\n"
                "Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
                "IP-Address: ";
-    struct in_addr addr;
-    addr.s_addr = get_ip(m_client->data.owner.IP);
-    message += inet_ntoa(addr);
+    message += QHostAddress(get_ip(m_client->data.owner.IP)).toString();
     message += "\r\n"
                "IP-Address-Internal: ";
-    addr.s_addr = m_client->socket()->localHost();
-    message += inet_ntoa(addr);
+    message += QHostAddress(m_client->socket()->localHost()).toString();
     message += "\r\n"
                "Port: ";
     message += QString::number(port);

@@ -34,8 +34,8 @@
 #include <qtimer.h>
 #include <qimage.h>
 #include <qregexp.h>
-//Added by qt3to4:
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "contacts.h"
 #include "html.h"
@@ -599,8 +599,6 @@ void SnacIcqICBM::sendFile(TlvList& tlv, unsigned long primary_ip, unsigned long
 					if(primary_ip)
 						set_ip(&data->RealIP, primary_ip);
 					AIMFileTransfer *ft = (*it); //Fixme:Local declaration of 'ft' hides declaration from line: 857
-					struct in_addr in;
-					in.s_addr = primary_ip;
 
 					ft->setProxyActive(false);
 					unsigned short cookie2 = 0;
@@ -609,7 +607,7 @@ void SnacIcqICBM::sendFile(TlvList& tlv, unsigned long primary_ip, unsigned long
 						cookie2 = *tlv(5);
 					};
 					if(primary_ip)
-						ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, cookie2);
+                        ft->connectThroughProxy(QHostAddress(primary_ip).toString(), AOL_PROXY_PORT, cookie2);
 					else
 					{
 						ft->setProxyActive(true);
@@ -1483,8 +1481,6 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
         }
         if (get_ip(data->RealIP) == 0)
             set_ip(&data->RealIP, localIP);
-        in_addr addr;
-        addr.s_addr = localIP;
         for (list<Message*>::iterator it = m_client->m_processMsg.begin(); it != m_client->m_processMsg.end(); ++it){
             if ((*it)->type() != MessageICQFile)
                 continue;
@@ -1493,7 +1489,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
                 continue;
         }
         log(L_DEBUG, "Setup reverse connect to %s %s:%lu",
-            qPrintable(screen), inet_ntoa(addr), localPort);
+            qPrintable(screen), qPrintable(QHostAddress(localIP).toString()), localPort);
         DirectClient *direct = new DirectClient(data, m_client);
         m_client->m_sockets.push_back(direct);
         direct->reverseConnect(localIP, localPort);

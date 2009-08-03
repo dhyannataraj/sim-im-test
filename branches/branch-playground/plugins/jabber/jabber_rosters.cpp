@@ -19,19 +19,8 @@
 
 #include <time.h>
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-
-#include <qimage.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QImage>
+#include <QFile>
 #include <QByteArray>
 
 #include "html.h"

@@ -15,31 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
-#else
-#include <time.h>
-#endif
-
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <netinet/in.h>
-#include <ctype.h>
-#endif
-
-#include <qtimer.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qmessagebox.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QTextCodec>
+#include <QRegExp>
+#include <QImage>
+#include <QPixmap>
+#include <QApplication>
+#include <QWidget>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QMessageBox>
 #include <QByteArray>
 
 #include "buffer.h"

@@ -15,21 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-
 #include <stdio.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <QCryptographicHash>
-//Added by qt3to4:
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "log.h"
 #include "misc.h"
@@ -461,7 +451,7 @@ MSNServerMessage::~MSNServerMessage()
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())
-        set_ip(&m_client->data.owner.IP, inet_addr(qPrintable((*it).second)));
+        set_ip(&m_client->data.owner.IP, QHostAddress(qPrintable((*it).second)).toIPv4Address());
     it = values.find("Content-Type");
     if (it != values.end()){
         QString content_type = (*it).second;

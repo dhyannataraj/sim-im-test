@@ -17,21 +17,11 @@
 
 #include <time.h>
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-
-#include <qfile.h>
-#include <qtimer.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QTimer>
+#include <QRegExp>
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "simapi.h"
 
@@ -94,27 +84,21 @@ void MSNFileTransfer::connect()
     if ((m_state == None) || (m_state == Wait)){
         m_state = ConnectIP1;
         if (ip1 && port1){
-            struct in_addr addr;
-            addr.s_addr = ip1;
-            m_socket->connect(inet_ntoa(addr), port1, NULL);
+            m_socket->connect(QHostAddress(ip1).toString(), port1, NULL);
             return;
         }
     }
     if (m_state == ConnectIP1){
         m_state = ConnectIP2;
         if (ip2 && port2){
-            struct in_addr addr;
-            addr.s_addr = ip2;
-            m_socket->connect(inet_ntoa(addr), port2, NULL);
+            m_socket->connect(QHostAddress(ip2).toString(), port2, NULL);
             return;
         }
     }
     if (m_state == ConnectIP2){
         m_state = ConnectIP3;
         if (ip2 && port1){
-            struct in_addr addr;
-            addr.s_addr = ip2;
-            m_socket->connect(inet_ntoa(addr), port1, NULL);
+            m_socket->connect(QHostAddress(ip2).toString(), port1, NULL);
             return;
         }
     }
@@ -394,9 +378,7 @@ void MSNFileTransfer::write_ready()
 
 bool MSNFileTransfer::accept(Socket *s, unsigned long ip)
 {
-    struct in_addr addr;
-    addr.s_addr = ip;
-    log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
+    log(L_DEBUG, "Accept direct connection %s", qPrintable(QHostAddress(ip).toString()));
     m_socket->setSocket(s);
     m_socket->readBuffer().init(0);
     m_socket->readBuffer().packetStart();

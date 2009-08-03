@@ -36,26 +36,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-
 #include <time.h>
 
 #include <stack>
 
-#include <qtimer.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QTextCodec>
+#include <QRegExp>
+#include <QFile>
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "html.h"
 #include "icons.h"
@@ -2023,9 +2013,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     if (n > 0)
         fn = fn.mid(n + 1);
     QString url = "http://";
-    struct in_addr addr;
-    addr.s_addr = socket()->localHost();
-    url += inet_ntoa(addr);
+    url += QHostAddress(socket()->localHost()).toString();
     url += ":";
     url += QString::number(port);
     url += '/';

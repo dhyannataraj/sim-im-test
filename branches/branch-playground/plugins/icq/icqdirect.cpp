@@ -42,6 +42,7 @@
 //Added by qt3to4:
 #include <QList>
 #include <QByteArray>
+#include <QHostAddress>
 
 #include "log.h"
 
@@ -76,9 +77,7 @@ ICQListener::~ICQListener()
 
 bool ICQListener::accept(Socket *s, unsigned long ip)
 {
-    struct in_addr addr;
-    addr.s_addr = ip;
-    log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
+    log(L_DEBUG, "Accept direct connection %s", qPrintable(QHostAddress(ip).toString()));
     m_client->m_sockets.push_back(new DirectClient(s, m_client, ip));
     return false;
 }
@@ -214,9 +213,7 @@ void DirectSocket::connect()
         if (get_ip(m_data->IP) != get_ip(m_client->data.owner.IP))
             ip = 0;
         if (ip){
-            struct in_addr addr;
-            addr.s_addr = ip;
-            m_socket->connect(inet_ntoa(addr), m_port, NULL);
+            m_socket->connect(QHostAddress(ip).toString(), m_port, NULL);
             return;
         }
     }
@@ -226,9 +223,7 @@ void DirectSocket::connect()
         if ((ip == get_ip(m_client->data.owner.IP)) && (ip == get_ip(m_data->RealIP)))
             ip = 0;
         if (ip){
-            struct in_addr addr;
-            addr.s_addr = ip;
-            m_socket->connect(inet_ntoa(addr), m_port, m_client);
+            m_socket->connect(QHostAddress(ip).toString(), m_port, m_client);
             return;
         }
     }
@@ -244,9 +239,7 @@ void DirectSocket::reverseConnect(unsigned long ip, unsigned short port)
     }
     m_bIncoming = true;
     m_state = ReverseConnect;
-    struct in_addr addr;
-    addr.s_addr = ip;
-    m_socket->connect(inet_ntoa(addr), port, NULL);
+    m_socket->connect(QHostAddress(ip).toString(), port, NULL);
 }
 
 void DirectSocket::acceptReverse(Socket *s)
