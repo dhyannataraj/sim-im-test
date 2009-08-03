@@ -1011,17 +1011,17 @@ const unsigned COMMAND_GLOBAL_ACCEL = 0x0020;
 const unsigned COMMAND_RECURSIVE    = 0x0040;
 const unsigned COMMAND_NEW_POPUP    = 0x0080;
 
-const unsigned BTN_TYPE             = 0xF000;
-const unsigned BTN_DEFAULT          = 0x0000;
-const unsigned BTN_PICT             = 0x1000;
-const unsigned BTN_COMBO            = 0x2000;
-const unsigned BTN_COMBO_CHECK      = 0x3000;
-const unsigned BTN_EDIT             = 0x4000;
-const unsigned BTN_LABEL            = 0x5000;
+const unsigned BTN_TYPE             = 0xF000; //identifies one this block-constants, the following ones are a subtypes of this general identifier. these const's are handled in toolbtn.cpp
+const unsigned BTN_DEFAULT          = 0x0000; //constructs a new CToolButton
+const unsigned BTN_PICT             = 0x1000; //constructs a new CToolPictButton
+const unsigned BTN_COMBO            = 0x2000; //constructs a new CToolCombo without a checkstate button
+const unsigned BTN_COMBO_CHECK      = 0x3000; //constructs a new CToolCombo consists in a combo box, associated with a corresponding checkstate-button (This is f.e. a combined control)
+const unsigned BTN_EDIT             = 0x4000; //constructs a new CToolEdit 
+const unsigned BTN_LABEL            = 0x5000; //constructs a new CToolLabel
 
-const unsigned BTN_HIDE             = 0x10000;
-const unsigned BTN_NO_BUTTON        = 0x20000;
-const unsigned BTN_DIV              = 0x40000;
+const unsigned BTN_HIDE             = 0x10000; //handled in CMenu::processItem for hiding a button
+const unsigned BTN_NO_BUTTON        = 0x20000; //handled in CToolCombo::CToolCombo and CToolEdit::CToolEdit
+const unsigned BTN_DIV              = 0x40000; //handled in CToolPictButton::paintEvent
 
 class EXPORT EventCommand : public Event
 {

@@ -287,8 +287,8 @@ ICQClient::~ICQClient()
     for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 	{
         Message *msg = *it;
-        msg->setError(I18N_NOOP("Process message failed"));
- // FIXME: this does not work and could crash !!!!
+        msg->setError(I18N_NOOP("Process message failed")); //crashed on shutdown
+ // FIXME: this does not work and could crash!!!!
  //       Event e(EventRealSendMessage, msg);
  //       e.process();
         delete msg;
