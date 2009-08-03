@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QByteArray>
+#include <QDateTime>
 
 #include "buffer.h"
 #include "socket.h"
@@ -561,7 +562,7 @@ void ICQClient::setStatus(unsigned status, bool bCommon)
         if (status != STATUS_NA && status != STATUS_AWAY)
             setIdleTime(0);
         else if (getIdleTime() == 0)
-            setIdleTime(time(NULL));
+            setIdleTime(QDateTime::currentDateTime().toTime_t());
     }
     TCPClient::setStatus(status, bCommon);
 }
@@ -1167,7 +1168,7 @@ void ICQClient::setOffline(ICQUserData *data)
     data->bTyping.asBool()    = false;
     data->bBadClient.asBool() = false;
     data->bInvisible.asBool() = false;
-    data->StatusTime.asULong()= time(NULL);
+    data->StatusTime.asULong()= QDateTime::currentDateTime().toTime_t();
     data->AutoReply.str() = QString::null;
 }
 
@@ -2633,10 +2634,11 @@ bool ICQClient::processEvent(Event *e)
             if (!m_bAIM)
                 m_snacBuddy->addBuddy(contact);
             if (contact == getContacts()->owner()){
-                time_t now = time(NULL);
+                //time_t now = time(NULL);
+                QDateTime now = QDateTime::currentDateTime();
                 if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
                     data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
-                    data.owner.PluginInfoTime.asULong() = now;
+                    data.owner.PluginInfoTime.asULong() = now.toTime_t();
                     snacService()->sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                 }
                 /*
@@ -2648,7 +2650,7 @@ bool ICQClient::processEvent(Event *e)
                 */
                 if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
                     data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
-                    data.owner.PluginStatusTime.asULong() = now;
+                    data.owner.PluginStatusTime.asULong() = now.toTime_t();
                     snacService()->sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());
                 }
                 return false;
