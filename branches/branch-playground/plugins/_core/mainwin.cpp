@@ -33,31 +33,14 @@
 
 using namespace SIM;
 
-class MainWindowWidget : public QWidget
-{
-public:
-    MainWindowWidget(QWidget *parent);
-protected:
-    virtual void childEvent(QChildEvent *e);
-};
-
-MainWindowWidget::MainWindowWidget(QWidget *p) : QWidget(p)
-{
-}
-
-void MainWindowWidget::childEvent(QChildEvent *e)
-{
-    QWidget::childEvent(e);
-    QTimer::singleShot(0, parent(), SLOT(setGrip()));
-}
-
 MainWindow *MainWindow::s_mainWindow = NULL;
 
-MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Window), EventReceiver(LowestPriority)
+MainWindow::MainWindow(Geometry &geometry)
+    : QMainWindow(NULL, "mainwnd", Qt::Window)
+    , EventReceiver(LowestPriority)
 {
     Q_ASSERT(s_mainWindow == NULL);
     s_mainWindow = this;
-    m_grip	 = NULL;
     h_lay	 = NULL;
     m_bNoResize = false;
 
@@ -69,7 +52,7 @@ MainWindow::MainWindow(Geometry &geometry) : QMainWindow(NULL, "mainwnd", Qt::Wi
 
     m_bar = NULL;
 
-    main = new MainWindowWidget(this);
+    main = new QWidget(this);
     setCentralWidget(main);
 
     lay = new QVBoxLayout(main);
@@ -122,7 +105,6 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         if(statusWidgets.size() == 0)
         {
             statusBar()->hide();
-            setGrip();
         }
     }
     return QMainWindow::eventFilter(o, e);
@@ -222,86 +204,8 @@ void MainWindow::addStatus(QWidget *w, bool)
     statusWidgets.push_back(w);
     status->addWidget(w, true);
     w->show();
+    status->setSizeGripEnabled(true);
     status->show();
-    setGrip();
-}
-
-void MainWindow::setGrip()
-{
-    QLayoutIterator it = lay->iterator();
-    QLayoutItem *lastItem = NULL;
-    for (;;){
-        QLayoutItem *item = it.current();
-        if (item == NULL)
-            break;
-        lastItem = item;
-        if (++it == NULL)
-            break;
-    }
-    if (lastItem == NULL)
-        return;
-    if (lastItem->layout() && (lastItem->layout() == h_lay)){
-        QLayoutIterator it = h_lay->iterator();
-        for (;;){
-            QLayoutItem *item = it.current();
-            if (item == NULL)
-                break;
-            QWidget *w = item->widget();
-            if (w && (w != m_grip))
-                return;
-            if (++it == NULL)
-                break;
-        }
-    }
-    QWidget *oldWidget = NULL;
-    QWidget *w = lastItem->widget();
-    if (m_grip){
-        delete m_grip;
-        m_grip = NULL;
-    }
-    if (h_lay){
-        QLayoutIterator it = h_lay->iterator();
-        for (;;){
-            QLayoutItem *item = it.current();
-            if (item == NULL)
-                break;
-            oldWidget = item->widget();
-            if (oldWidget)
-                break;
-            if (++it == NULL)
-                break;
-        }
-        delete h_lay;
-        h_lay = NULL;
-        it = lay->iterator();
-        for (;;){
-            QLayoutItem *item = it.current();
-            if (item == NULL)
-                break;
-            lastItem = item;
-            if (++it == NULL)
-                break;
-        }
-        if (lastItem)
-            w = lastItem->widget();
-    }
-    if (oldWidget && w){
-        int index = lay->findWidget(w);
-        lay->insertWidget(index - 1, oldWidget);
-    }
-    if (w && (w->sizePolicy().verData() == QSizePolicy::Fixed) && !statusBar()->isVisible())
-	{
-        w->reparent(this, QPoint());
-        w->reparent(main, QPoint());
-        h_lay = new QHBoxLayout(lay);
-        h_lay->addWidget(w);
-        h_lay->addSpacing(2);
-        m_grip = new QSizeGrip(main);
-        m_grip->setFixedSize(m_grip->sizeHint());
-        h_lay->addWidget(m_grip, 0, Qt::AlignBottom);
-        w->show();
-        m_grip->show();
-    }
 }
 
 void MainWindow::setTitle()

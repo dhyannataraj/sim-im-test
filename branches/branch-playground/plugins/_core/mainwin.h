@@ -55,14 +55,11 @@ public:
     static MainWindow *mainWindow();
     bool m_bNoResize;
     void closeEvent(QCloseEvent *e);
-protected slots:
-    void setGrip();
 protected:
     QWidget *main;
     CToolBar *m_bar;
     QVBoxLayout *lay;
     QHBoxLayout *h_lay;
-    QSizeGrip *m_grip;
     void focusInEvent(QFocusEvent*);
     virtual bool processEvent(SIM::Event*);
     void setTitle();

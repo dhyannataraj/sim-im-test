@@ -84,8 +84,10 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     m_bar = NULL;
     if (!bInit){
         showBar();
-        if (m_bar)
+        if (m_bar) {
+            m_bar->setIconSize( QSize( 30, 30 ) );
             m_bar->show();
+        }
     }
 }
 
@@ -151,13 +153,6 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
 {
     if (code != 200)
         return false;
-    m_data.clear();
-    m_day   = 0;
-    m_bBar  = false;
-    m_bWind = false;
-    m_bUv	= false;
-    m_bCC	= false;
-    m_bMoon	= false;
     QDomDocument document;
     QString errorMsg;
     int errorLine;
@@ -264,7 +259,7 @@ void WeatherPlugin::showBar()
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     QTimer::singleShot(0, this, SLOT(timeout()));
-    timer->start(120000);
+    timer->start( min( CHECK1_INTERVAL, CHECK2_INTERVAL ) * 1000 );
     updateButton();
 }
 
@@ -282,7 +277,7 @@ void WeatherPlugin::updateButton()
     EventCommandChange(cmd).process();
 
     QString text = unquoteText(getButtonText());
-    QString tip  = "<h1>%l</h1>\n<table><tr><td>" + getTipText() + "</td>";
+    QString tip  = "<center><h1>%l</h1></center>\n<table><tr><td>" + getTipText() + "</td>";
     QString ftip = getForecastText();
     text = replace(text);
     tip  = replace(tip);
@@ -291,8 +286,8 @@ void WeatherPlugin::updateButton()
     unsigned n = (property("Forecast").toUInt() + 1) / 2;
     if (n < 3)
         n = property("Forecast").toUInt();
-    for (m_day = 1; m_day <= property("Forecast").toUInt(); m_day++){
-        tip += forecastReplace(ftip);
+    for (int iDay = 1; iDay <= property("Forecast").toUInt(); iDay++){
+        tip += forecastReplace(ftip,iDay);
         if (--n == 0){
             tip += "</td><td>";
             n = (property("Forecast").toUInt() + 1) / 2;
@@ -488,32 +483,32 @@ QString WeatherPlugin::replace(const QString &text)
     return res;
 }
 
-QString WeatherPlugin::forecastReplace(const QString &text)
+QString WeatherPlugin::forecastReplace(const QString &text, int iDay)
 {
-    if (property("Day").toMap().value(QString::number(m_day)).toString().isEmpty())
+    if (property("Day").toMap().value(QString::number(iDay)).toString().isEmpty())
         return QString();
     QString res = text;
     QString temp;
-    int minT = property("MinT").toMap().value(QString::number(m_day)).toInt();
-    int maxT = property("MaxT").toMap().value(QString::number(m_day)).toInt();
+    int minT = property("MinT").toMap().value(QString::number(iDay)).toInt();
+    int maxT = property("MaxT").toMap().value(QString::number(iDay)).toInt();
     temp += QString::number(minT);
     temp += QChar((unsigned short)176);
     temp += property("UT").toString();
-    if ((property("MaxT").toMap().value(QString::number(m_day)).toString() != QLatin1String("N/A")) && (maxT != -255)) {
+    if ((property("MaxT").toMap().value(QString::number(iDay)).toString() != QLatin1String("N/A")) && (maxT != -255)) {
         temp += '/';
         temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += property("UT").toString();
     }
-    QString dd = property("Day").toMap().value(QString::number(m_day)).toString();
+    QString dd = property("Day").toMap().value(QString::number(iDay)).toString();
     QString mon = getToken(dd, ' ');
     QString day = dd;
     day += ". ";
     day += i18n(mon);
-    res = res.replace(QRegExp("\\%n"), property("DayIcon").toMap().value(QString::number(m_day)).toString());
+    res = res.replace(QRegExp("\\%n"), property("DayIcon").toMap().value(QString::number(iDay)).toString());
     res = res.replace(QRegExp("\\%t"), temp);
-    res = res.replace(QRegExp("\\%c"), i18n_conditions(property("DayConditions").toMap().value(QString::number(m_day)).toString()));
-    res = res.replace(QRegExp("\\%w"), i18n(property("WDay").toMap().value(QString::number(m_day)).toString()));
+    res = res.replace(QRegExp("\\%c"), i18n_conditions(property("DayConditions").toMap().value(QString::number(iDay)).toString()));
+    res = res.replace(QRegExp("\\%w"), i18n(property("WDay").toMap().value(QString::number(iDay)).toString()));
     res = res.replace(QRegExp("\\%d"), day);
     return res;
 }
@@ -526,13 +521,17 @@ QString WeatherPlugin::getButtonText()
     return str;
 }
 
+#define WIATHER_ICON_SIZE (93)
+
 QString WeatherPlugin::getTipText()
 {
     QString str = property("Tip").toString();
     if (str.isEmpty())
         str =
-        "<h2>"+i18n("weather","Current Weather")+":</h2>\n"
-        "<br><img src=\"sim:icons/weather%i\"><br>%c<br>\n"+
+        "<h2>"+i18n("weather","Current Weather")+":</h2><p>\n"
+        "<img height=\"" + QString::number( WIATHER_ICON_SIZE ) +
+            "\" width=\"" + QString::number( WIATHER_ICON_SIZE ) + "\" " +
+            "src=\"sim:icons/weather%i\"></p><br>%c<br>\n"+
 		i18n("weather","Temperature")+": <b>%t</b> ("+i18n("weather","feels like")+": <b>%f</b>)<br>\n"+
 		i18n("weather","Humidity")+": <b>%h</b><br>\n"+
 		i18n("weather","Chance of Precipitation")+": <b>%pp%</b><br>\n"+
@@ -555,7 +554,9 @@ QString WeatherPlugin::getForecastText()
     QString str = property("ForecastTip").toString();
     if (str.isEmpty())
         str = i18n("<nobr><h3>%d %w</h3></nobr><br>\n"
-                   "<img src=\"sim:icons/weather%n\"><br>%c<br>\n"
+                   "<img height=\"" + QString::number( (int)(WIATHER_ICON_SIZE / 2) ) + "\" "
+                        "width=\"" + QString::number( (int)(WIATHER_ICON_SIZE / 2) ) + "\" "
+                        "src=\"sim:icons/weather%n\"><br>%c<br>\n"
                    "Temperature: <b>%t</b><br>\n");
 
     return str;
@@ -566,10 +567,10 @@ QWidget *WeatherPlugin::createConfigWindow(QWidget *parent)
     return new WeatherCfg(parent, this);
 }
 
-QString GetSubElementText(
+QString WeatherPlugin::GetSubElementText(
     QDomElement element,
     QString sSubElement,
-    QString sDefault = QString()
+    QString sDefault /*= QString()*/
 ) {
     QString sResult = sDefault;
 

@@ -55,20 +55,10 @@ protected slots:
     void barDestroyed();
 protected:
     QString replace(const QString&);
-    QString forecastReplace(const QString&);
+    QString forecastReplace(const QString&, int iDay);
     unsigned long BarWeather;
     unsigned long CmdWeather;
-    QString m_data;
-    bool   m_bData;
-    bool   m_bBar;
-    bool   m_bWind;
-    bool   m_bUv;
-    bool   m_bMoon;
-    bool   m_bForecast;
-    bool   m_bCC;
-    char   m_bDayPart;
-    bool   m_bDayForecastIsValid;
-    unsigned m_day;
+    char   m_bForecast;
     virtual QByteArray getConfig();
     bool isDay();
     bool parseTime(const QString &str, int &h, int &m);
@@ -79,6 +69,11 @@ protected:
     SIM::IconSet *m_icons;
 
     bool parse(QDomDocument document);
+    QString GetSubElementText(
+        QDomElement element,
+        QString sSubElement,
+        QString sDefault = QString()
+    );
 };
 
 #endif
