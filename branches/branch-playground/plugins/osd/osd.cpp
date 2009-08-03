@@ -63,7 +63,7 @@
 	#include "utils.h"
 	#define KD "/dev/console"	*/
 
-	#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+    #if !defined(Q_OS_MAC) && !defined(__OS2__)
 		#include <X11/Xlib.h>
 		#include <X11/Xutil.h>
 		#include <X11/Xatom.h>

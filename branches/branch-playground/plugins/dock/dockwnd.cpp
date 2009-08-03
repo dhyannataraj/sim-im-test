@@ -34,17 +34,21 @@ void DockWnd::trayAction(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason){
     case QSystemTrayIcon::Context:
-        QTimer::singleShot(0, this, SLOT(showPopup()));
+        showPopup();
         return;
     case QSystemTrayIcon::DoubleClick:
         bNoToggle = true;
         QTimer::singleShot(0, this, SLOT(dbl_click()));
         return;
     case QSystemTrayIcon::Trigger:
+#ifdef Q_OS_MAC
+        showPopup();
+#else
         if (bNoToggle)
             bNoToggle = false;
         else
             emit toggleWin();
+#endif
         return;
     }
 }
@@ -65,9 +69,8 @@ void DockWnd::messageClicked() {
 
 void DockWnd::showPopup()
 {
-    if (qApp->activeWindow() == NULL)
-        setFocus();
-    emit showPopup(QCursor::pos());
+    m_menu = m_plugin->createMenu();
+    m_TrayIcon.setContextMenu( m_menu );
 }
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)

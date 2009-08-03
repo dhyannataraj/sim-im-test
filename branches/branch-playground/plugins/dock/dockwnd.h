@@ -21,6 +21,7 @@
 #include <QWidget>
 #include <QPixmap>
 #include <QSystemTrayIcon>
+#include <QMenu>
 
 #include "event.h"
 
@@ -82,6 +83,7 @@ protected:
 
     DockPlugin *m_plugin;
     QSystemTrayIcon m_TrayIcon;
+    QMenu *m_menu;
 };
 
 #endif

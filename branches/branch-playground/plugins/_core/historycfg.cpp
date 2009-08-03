@@ -292,9 +292,7 @@ void HistoryConfig::apply()
                 QFileInfo fileInfo(f.fileName());
                 QString desiredFileName = fileInfo.fileName();
                 desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#if defined( WIN32 ) || defined( __OS2__ )
                 fileInfo.dir().remove(desiredFileName);
-#endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
                     log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
                 }
@@ -453,9 +451,7 @@ void HistoryConfig::copy()
     QFileInfo fileInfo(to.fileName());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
-#endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
         log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
         return;

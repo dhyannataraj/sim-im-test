@@ -768,9 +768,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     t.close();
     QFileInfo fInfo(f.fileName());
     QFileInfo tInfo(t.fileName());
-#if defined( WIN32 ) || defined( __OS2__ )
     fInfo.dir().remove(fInfo.fileName());
-#endif
     if (!tInfo.dir().rename(tInfo.fileName(), fInfo.fileName())) {
         log(L_ERROR, "Can't rename file %s to %s", qPrintable(fInfo.fileName()), qPrintable(tInfo.fileName()));
         return;

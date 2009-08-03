@@ -70,7 +70,7 @@ EXPORT QString formatAddr(const Data &addr, unsigned port);
 	EXPORT void setWndProc(QWidget*);
 	#define SET_WNDPROC(A)  SIM::setWndProc(this);
 #else
-	#ifndef QT_MACOSX_VERSION
+    #ifndef Q_OS_MAC
 		EXPORT void setWndClass(QWidget*, const char*);
 		#define SET_WNDPROC(A)  SIM::setWndClass(this, A);
 	#else

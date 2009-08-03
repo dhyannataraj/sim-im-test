@@ -485,7 +485,7 @@ void ICQClient::sendCapability(const QString &away_msg)
 #ifdef WIN32
     os_ver = 0x80;
 #else
-#ifdef QT_MACOSX_VERSION
+#ifdef Q_OS_MAC
     os_ver = 0x40;
 #else
     os_ver = 0;

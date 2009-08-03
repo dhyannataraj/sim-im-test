@@ -45,7 +45,7 @@
 #endif
 #include <QApplication>
 
-#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+#if !defined(WIN32) && !defined(Q_OS_MAC) && !defined(__OS2__)
 //#include <X11/X.h>
 #include <X11/Xlib.h>
 #endif
@@ -178,7 +178,7 @@ static const char *qt_args[] =
         NULL
     };
 
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+#if !defined(Q_OS_MAC) && !defined(__OS2__)
 extern "C" {
     static int (*old_errhandler)(Display*, XErrorEvent*) = NULL;
     static int x_errhandler( Display *dpy, XErrorEvent *err )
@@ -393,7 +393,7 @@ int main(int argc, char *argv[])
 #else
     SimApp app(_argc, _argv);
 #endif
-#if !defined(QT_MACOSX_VERSION) && !defined(Q_OS_MAC) && !defined(__OS2__)
+#if !defined(Q_OS_MAC) && !defined(__OS2__)
     old_errhandler = XSetErrorHandler(x_errhandler);
 #endif
 #else

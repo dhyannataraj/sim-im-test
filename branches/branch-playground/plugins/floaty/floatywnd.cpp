@@ -67,6 +67,7 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
                 )
 {
     setAttribute(Qt::WA_MacAlwaysShowToolWindow);
+    setAttribute(Qt::WA_AlwaysShowToolTips);
     setObjectName(aux::compose_floaty_name( id ) );
     m_plugin = plugin;
     m_id = id;

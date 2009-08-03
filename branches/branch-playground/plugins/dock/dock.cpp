@@ -275,15 +275,20 @@ QByteArray DockPlugin::getConfig()
     return QByteArray();
 }
 
-void DockPlugin::showPopup(QPoint p)
+QMenu *DockPlugin::createMenu()
 {
-    if (m_popup)
-        return;
     Command cmd;
     cmd->popup_id = DockMenu;
     EventMenuGet e(cmd);
     e.process();
-    m_popup = e.menu();
+    return e.menu();
+}
+
+void DockPlugin::showPopup(QPoint p)
+{
+    if (m_popup)
+        return;
+    m_popup = createMenu();
     if (m_popup){
         m_popup->installEventFilter(this);
         m_popup->popup(p);
@@ -325,8 +330,6 @@ QWidget *DockPlugin::getMainWindow()
 {
     return MainWindow::mainWindow();
 }
-
-const unsigned ANIMATE_TIME = 200;
 
 QWidget *DockPlugin::createConfigWindow(QWidget *parent)
 {

@@ -956,7 +956,7 @@ void LiveJournalClient::setStatus(unsigned status)
 #ifdef WIN32
     version = "Win32";
 #else
-#ifdef QT_MACOSX_VERSION
+#ifdef Q_OS_MAC
     version = "MacOS";
 #else
     version = "Qt";

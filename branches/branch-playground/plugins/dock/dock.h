@@ -29,12 +29,15 @@ class DockWnd;
 class QMenu;
 class CorePlugin;
 
-class DockPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class DockPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     DockPlugin(unsigned, Buffer*);
     virtual ~DockPlugin();
+
+    QMenu *createMenu();
+
 protected slots:
     void showPopup(QPoint);
     void toggleWin();

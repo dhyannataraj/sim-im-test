@@ -312,7 +312,7 @@ void setWndProc(QWidget *w)
 }
 
 #else
-#if !defined(QT_MACOSX_VERSION) && !defined(Q_OS_MAC) && !defined(__OS2__)
+#if !defined(Q_OS_MAC) && !defined(__OS2__)
 
 void setWndClass(QWidget *w, const char *name)
 {
