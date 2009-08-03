@@ -91,12 +91,15 @@ static DataDef msnClientData[] =
     };
 
 MSNClient::MSNClient(Protocol *protocol, Buffer *cfg)
-        : TCPClient(protocol, cfg)
+    : TCPClient   (protocol, cfg)
+    , m_packetId  (1)
+    , m_msg       (NULL)
+    , m_bJoin     (false)
+    , m_bFirstTry (false)
 {
-    load_data(msnClientData, &data, cfg);
-    m_packetId  = 1;
-    m_msg       = NULL;
-    m_bFirst    = (cfg == NULL);
+    load_data(msnClientData, &data, cfg);  
+    
+    m_bFirst  = (cfg == NULL);
     QString s = getListRequests();
     while (!s.isEmpty()){
         QString item = getToken(s, ';');
@@ -105,8 +108,7 @@ MSNClient::MSNClient(Protocol *protocol, Buffer *cfg)
         lr.Name = item;
     }
     setListRequests(QString::null);
-    m_bJoin = false;
-    m_bFirstTry = false;
+
 }
 
 MSNClient::~MSNClient()
