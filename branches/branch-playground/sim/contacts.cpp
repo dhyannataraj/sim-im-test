@@ -35,6 +35,10 @@ email                : vovan@shutoff.ru
 
 #include "contacts.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 namespace SIM
 {
 
@@ -2037,6 +2041,69 @@ QTextCodec *ContactList::getCodecByName(const QString &encoding)
     if (codec == NULL)
         codec= QTextCodec::codecForLocale();
     return codec;
+}
+
+QTextCodec *ContactList::getCodecByCodePage(const int iCP) {
+    const ENCODING *e;
+    for (e = encodings; e->language; e++){
+        if ( iCP == e->cp_code )
+            return ContactList::getCodecByName(e->codec);
+    }
+
+    return NULL;
+}
+
+const ENCODING *ContactList::getEncoding(Contact *contact){
+    if( NULL == contact )
+        return NULL;
+
+    QString sEncoding = contact->getEncoding();
+    if( sEncoding.isEmpty() )
+        sEncoding = owner()->getEncoding();
+
+    const ENCODING *e = NULL;
+
+    if( sEncoding.isEmpty() ) {
+        QTextCodec *codec = QTextCodec::codecForLocale();
+        int mib = codec->mibEnum();
+        if( mib != 0 ) {
+            for (e = encodings; e->language; e++){
+                if ( mib == e->mib )
+                    break;
+            }
+        }
+        else {
+#ifdef WIN32
+            int iSize = ::GetLocaleInfoA( LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, NULL, 0 );
+            char *sTemp = new char[iSize];
+            ::GetLocaleInfoA( LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, sTemp, iSize );
+            QString sAnsiCP = QString::fromLatin1( sTemp );
+            int iCP = sAnsiCP.toUInt();
+            for (e = encodings; e->language; e++){
+                if ( iCP == e->cp_code )
+                    break;
+            }
+#endif
+        }
+    }
+    else {
+        for (e = encodings; e->language; e++){
+            if ( sEncoding == e->codec )
+                break;
+        }
+        if (e->language && !e->bMain){
+            for (e++; e->language; e++){
+                if (e->bMain){
+                    break;
+                }
+            }
+        }
+
+        if( e->language == NULL )
+            e = NULL;
+    }
+
+    return e;
 }
 
 QTextCodec *ContactList::getCodec(Contact *contact)
