@@ -22,6 +22,10 @@
 #include <QHostAddress>
 #include <QDateTime>
 
+#ifdef WIN32
+    #include <algorithm>
+#endif
+
 #include "log.h"
 #include "core.h"
 #include "core_events.h"
