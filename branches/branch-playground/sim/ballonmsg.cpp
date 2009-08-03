@@ -111,8 +111,8 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     if (s.width() < sMin.width())
         s.setWidth(sMin.width());
     int BALLOON_SHADOW = BALLOON_SHADOW_DEF;
-    resize(s.width() + BALLOON_R * 2 + BALLOON_SHADOW,
-           s.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);
+    resize((int)s.width() + BALLOON_R * 2 + BALLOON_SHADOW,
+           (int)s.height() + BALLOON_R * 2 + BALLOON_TAIL + BALLOON_SHADOW + hButton + BALLOON_MARGIN);
     int w = width() - BALLOON_SHADOW;
     int tailX = w / 2;
     int posX = rc.left() + rc.width() / 2 + BALLOON_TAIL_WIDTH - tailX;
@@ -140,7 +140,7 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
     int h = height() - BALLOON_SHADOW - BALLOON_TAIL;
     if (!bTailDown)
         pos += BALLOON_TAIL;
-    frm->resize(s.width(), hButton);
+    frm->resize((int)s.width(), hButton);
     frm->move(BALLOON_R, pos + h - BALLOON_R - hButton);
 
     QPixmap pm(width(), height());

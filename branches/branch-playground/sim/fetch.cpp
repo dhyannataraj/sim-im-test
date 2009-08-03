@@ -185,7 +185,7 @@ void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffe
         return;
 
     m_pHttp = new QHttp(m_uri.host());
-    connect( m_pHttp, SIGNAL(authenticationRequired(QString&,quint16,QAuthenticator*)),SLOT(authenticationRequired(QString&,quint16,QAuthenticator*)));
+//    connect( m_pHttp, SIGNAL(authenticationRequired(QString&,quint16,QAuthenticator*)),SLOT(authenticationRequired(QString&,quint16,QAuthenticator*)));
     connect( m_pHttp, SIGNAL(dataReadProgress(int,int)),SLOT(dataReadProgress(int,int)));
     connect( m_pHttp, SIGNAL(dataSendProgress(int,int)),SLOT(dataSendProgress(int,int)));
     connect( m_pHttp, SIGNAL(done(bool)),SLOT(done(bool)));

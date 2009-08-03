@@ -18,10 +18,7 @@
 #ifndef _JABBERSEARCH_H
 #define _JABBERSEARCH_H
 
-#include <list>
-#include <vector>
-
-#include <qpushbutton.h>
+#include <QPushButton>
 
 #include "qchildwidget.h"
 
@@ -69,10 +66,10 @@ protected:
     bool        m_bXData;
     bool        m_bFirst;
     bool        m_bRegister;
-    std::list<QWidget*>		m_required;
-    std::vector<QWidget*>	m_widgets;
-    std::vector<QWidget*>	m_labels;
-    std::vector<QWidget*>	m_descs;
+    QList<QWidget*> m_required;
+    QList<QWidget*>	m_widgets;
+    QList<QWidget*>	m_labels;
+    QList<QWidget*>	m_descs;
 };
 
 class JIDAdvSearch;

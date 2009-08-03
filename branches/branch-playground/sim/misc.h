@@ -48,7 +48,7 @@ class QIcon;
     { return i18n(text, qPrintable(comment)); }
     inline QString i18n(const QString &text, const QString &comment)
     { return i18n(qPrintable(text), qPrintable(comment)); }
-	EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
+    inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
 	EXPORT void resetPlural();
 	#ifndef I18N_NOOP
 		#define I18N_NOOP(A)  A

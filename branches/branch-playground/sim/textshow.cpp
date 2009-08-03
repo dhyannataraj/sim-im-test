@@ -508,8 +508,9 @@ void BgColorParser::tag_end(const QString&)
 }
 
 RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
-        : QMainWindow(parent, name, 0)
+        : QMainWindow(parent)
 {
+    setObjectName(name);
     m_edit = new TextEdit(this);
     m_bar  = NULL;
     setCentralWidget(m_edit);

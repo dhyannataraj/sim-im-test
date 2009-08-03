@@ -120,18 +120,18 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
     if (!data->Type.str().isEmpty()){
         if (data->Type.str() == "x"){
             m_bXData = true;
-            vector<QWidget*>::iterator it;
-            for (it = m_widgets.begin(); it != m_widgets.end(); ++it)
-                if (*it)
-                    delete (*it);
+            QWidget *w;
+            foreach(w,m_widgets){
+                if(w) delete(w);
+            }
             m_widgets.clear();
-            for (it = m_labels.begin(); it != m_labels.end(); ++it)
-                if (*it)
-                    delete (*it);
+            foreach(w,m_labels){
+                if(w) delete(w);
+            }
             m_labels.clear();
-            for (it = m_descs.begin(); it != m_descs.end(); ++it)
-                if (*it)
-                    delete (*it);
+            foreach(w,m_descs){
+                if(w) delete(w);
+            }
             m_descs.clear();
             m_instruction = QString::null;
         }else if (data->Type.str() == "title"){
@@ -174,7 +174,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     m_label += text;
                 }else{
                     QLabel *label = new QLabel(text, this);
-                    label->setAlignment(Qt::TextWordWrap);
+                    label->setWordWrap(true);
                     widget = label;
                     bJoin = true;
                 }
@@ -358,21 +358,15 @@ bool JabberSearch::canSearch()
     foreach(edit,l)
 	{
 		if (edit->echoMode() == QLineEdit::Password){
-			if (edit->text().isEmpty()){
-				bRes = false;
-				break;
-			}
+            if (edit->text().isEmpty())
+                return false;
 			continue;
 		}
 		if (edit->text().isEmpty()){
-			list<QWidget*>::iterator itw;
-			for (itw = m_required.begin(); itw != m_required.end(); ++itw){
-				if (*itw == edit)
-					break;
-			}
-			if (itw != m_required.end()){
-				bRes = false;
-				break;
+            foreach(QWidget *w, m_required){;
+                if (w == (QWidget*)edit){
+                    return false;
+                }
 			}
 		}
 		if (!edit->text().isEmpty())
@@ -461,7 +455,7 @@ void JabberSearch::createLayout()
         start = 0;
         if (!m_label.isEmpty()){
             QLabel *label = new QLabel(m_label, this);
-            label->setAlignment(Qt::TextWordWrap);
+            label->setWordWrap(true);
             lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
             m_label = QString::null;
             start = 1;
@@ -498,7 +492,7 @@ void JabberSearch::createLayout()
     }
     if (!m_instruction.isEmpty()){
         QLabel *label = new QLabel(m_instruction, this);
-        label->setAlignment(Qt::WordBreak);
+        label->setWordWrap(true);
         lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 3 - 1);
         m_instruction = QString::null;
     }
@@ -618,11 +612,15 @@ void JIDJabberSearch::createLayout()
                 row  = 0;
                 col += 3;
             }
-            m_widgets[i]->reparent(m_adv->grpSearch, QPoint(0, 0));
-            if (m_descs[i])
-                m_descs[i]->reparent(m_adv->grpSearch, QPoint(0, 0));
+            m_widgets[i]->setParent(m_adv->grpSearch);
+            m_widgets[i]->move(QPoint(0, 0));
+            if (m_descs[i]){
+                m_descs[i]->setParent(m_adv->grpSearch);
+                m_descs[i]->move(QPoint(0, 0));
+            }
             if (m_labels[i]){
-                m_labels[i]->reparent(m_adv->grpSearch, QPoint(0, 0));
+                m_labels[i]->setParent(m_adv->grpSearch);
+                m_labels[i]->move(QPoint(0, 0));
                 static_cast<QLabel*>(m_labels[i])->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
                 alay->addWidget(m_labels[i], row, col);
                 if (m_descs[i]){
