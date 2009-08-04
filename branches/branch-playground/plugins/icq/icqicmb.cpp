@@ -193,27 +193,19 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 {
     ICQBuffer msgBuf;
     const ENCODING *encoding = getContacts()->getEncoding(client()->getContact(data));
-    int iLang = 0;
+    unsigned short usLang = 0;
     if( ( NULL == encoding ) || !strcmp( encoding->codec, "UTF-8" ) ) {
         bWide = true;
     }
     else {
-        iLang = encoding->cp_code;
+        usLang = encoding->cp_code;
     }
 
     if (bWide)
     {
-        QByteArray ba(text.length() * 2, '\0');
-        for(int i = 0; i < (int)text.length(); i++)
-        {
-            unsigned short c = text[i].unicode();
-            char c1 = (char)((c >> 8) & 0xFF);
-            char c2 = (char)(c & 0xFF);
-            ba[i * 2 + 0] = c1;
-            ba[i * 2 + 1] = c2;
-        }
-        msgBuf << 0x00020000L;
-        msgBuf.pack(ba.data(), ba.size());
+        msgBuf << (unsigned short)0x0002L;
+        msgBuf << (unsigned short)0x0000L;
+        msgBuf.pack((char*)text.utf16(), text.length() * 2);
     }
     else
     {
@@ -222,7 +214,8 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
         EventSend e(m_send.msg, msg_text);
         e.process();
         msg_text = e.localeText();
-        msgBuf << iLang;
+        msgBuf << (unsigned short)0x0000L;
+        msgBuf << (unsigned short)usLang;
         msgBuf << msg_text.data();
     }
     ICQBuffer b;
