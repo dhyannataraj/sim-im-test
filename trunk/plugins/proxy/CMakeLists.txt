@@ -3,27 +3,21 @@
 #################
 PROJECT(proxy)
 
-SET(proxy_SRCS
-        proxy.cpp
-        proxycfg.cpp
-        proxyerror.cpp
-)
+SET(proxy_PLATFORMS COMMON)
 
-SET(proxy_HDRS
-        proxy.h
-        proxycfg.h
-        proxyerror.h
-)
+SET(proxy_SRCS_COMMON proxy.cpp
+                      proxycfg.cpp
+                      proxyerror.cpp)
 
-SET(proxy_UICS
-        proxycfgbase.ui
-        proxyerrorbase.ui
-)
+SET(proxy_HDRS_COMMON proxy.h
+                      proxycfg.h
+                      proxyerror.h)
+
+SET(proxy_UICS_COMMON proxycfgbase.ui
+                      proxyerrorbase.ui)
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
-
-SET(proxy_MESSAGE_SOURCES  ${proxy_SRCS}  ${proxy_UICS}  PARENT_SCOPE)
 
 SIM_ADD_PLUGIN(proxy)
 

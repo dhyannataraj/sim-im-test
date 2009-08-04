@@ -1,23 +1,18 @@
 ###############
 # osd library #
 ###############
-SET(osd_SRCS
-        osd.cpp
-        osdconfig.cpp
-        osdiface.cpp
-)
 
-SET(osd_HDRS
-        osd.h
-        osdconfig.h
-        osdiface.h
-)
+SET(osd_PLATFORMS COMMON)
 
-SET(osd_UICS
-        osdconfigbase.ui
-        osdifacebase.ui
-)
+SET(osd_SRCS_COMMON osd.cpp
+                    osdconfig.cpp
+                    osdiface.cpp)
 
-SET(osd_MESSAGE_SOURCES  ${osd_SRCS}  ${osd_UICS}  PARENT_SCOPE)
+SET(osd_HDRS_COMMON osd.h
+                    osdconfig.h
+                    osdiface.h)
+
+SET(osd_UICS_COMMON osdconfigbase.ui
+                    osdifacebase.ui)
 
 SIM_ADD_PLUGIN(osd)

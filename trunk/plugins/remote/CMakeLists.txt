@@ -1,40 +1,21 @@
-##################
-# remote library #
-##################
-PROJECT(remote)
+#################
+# remote plugin #
+#################
 
-SET(remote_LIB_SRCS
-        remote.cpp
-        remotecfg.cpp
-)
+SET(remote_PLATFORMS COMMON)
 
-SET(remote_UI_FILES
-        remotecfgbase.ui
-)
+SET(remote_SRCS_COMMON remote.cpp
+                       remotecfg.cpp)
 
-SET(remote_MESSAGE_SOURCES  ${remote_LIB_SRCS}  ${remote_UI_FILES}  PARENT_SCOPE)
+SET(remote_UICS_COMMON remotecfgbase.ui)
 
-# moc, if needed
-KDE3_AUTOMOC(${remote_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(remote_LIB_SRCS ${remote_UI_FILES})
-
-ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(remote simlib)
-
-SET_TARGET_PROPERTIES(remote PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS remote LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(remote)
 
 #########################
 # next target - simctrl #
 #########################
+
+PROJECT(remote_ctrl)
 
 ADD_EXECUTABLE(simctrl simctrl.cpp)
 IF(SIM_ENABLE_FPIE)
