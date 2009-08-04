@@ -1320,24 +1320,25 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                         case 0 : { // ASCII
                             QTextCodec *pCodec = ContactList::getCodecByCodePage(codepage);
                             if( NULL != pCodec ) {
-                                text = pCodec->toUnicode( m_data, m_tlv->Size() - 5 );
+                                text = pCodec->toUnicode( m_data, m_tlv->Size() - 4 );
                             }
                             else {
-                                text = QString::fromAscii( m_data, m_tlv->Size() - 5 );
+                                text = QString::fromAscii( m_data, m_tlv->Size() - 4 );
                             }
                             break;
                         }
                         case 2 : { // Unicode
-                            for (int i = 0; i < m_tlv->Size() - 5; i += 2){
-                                unsigned char r1 = *(m_data++);
-                                unsigned char r2 = *(m_data++);
-                                unsigned short c = (unsigned short)((r1 << 8) + r2);
-                                text += QChar(c);
-                            }
+                            text = QString::fromUtf16( (unsigned short*)m_data, m_tlv->Size() - 4 );
+//                            for (int i = 0; i < m_tlv->Size() - 4; i += 2){
+//                                unsigned char r1 = *(m_data++);
+//                                unsigned char r2 = *(m_data++);
+//                                unsigned short c = (unsigned short)((r1 << 8) + r2);
+//                                text += QChar(c);
+//                            }
                             break;
                         }
                         case 3 : { // Latin_1
-                            text = QString::fromLatin1( m_data, m_tlv->Size() - 5 );
+                            text = QString::fromLatin1( m_data, m_tlv->Size() - 4 );
                             break;
                         }
                     }
