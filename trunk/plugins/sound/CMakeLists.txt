@@ -1,24 +1,19 @@
 #################
 # sound library #
 #################
-SET(sound_SRCS
-        sound.cpp
-        soundconfig.cpp
-        sounduser.cpp
-)
 
-SET(sound_HDRS
-        sound.h
-        soundconfig.h
-        sounduser.h
-)
+SET(sound_PLATFORMS COMMON)
 
-SET(sound_UICS
-        soundconfigbase.ui
-        sounduserbase.ui
-)
+SET(sound_SRCS_COMMON sound.cpp
+                      soundconfig.cpp
+                      sounduser.cpp)
 
-SET(sound_MESSAGE_SOURCES  ${sound_SRCS}  ${sound_UICS}  PARENT_SCOPE)
+SET(sound_HDRS_COMMON sound.h
+                      soundconfig.h
+                      sounduser.h)
+
+SET(sound_UICS_COMMON soundconfigbase.ui
+                      sounduserbase.ui)
 
 SIM_ADD_PLUGIN(sound)
 

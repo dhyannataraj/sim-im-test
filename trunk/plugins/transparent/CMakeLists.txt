@@ -1,35 +1,24 @@
 #######################
 # transparent library #
 #######################
-SET(transparent_SRCS
-    transparent.cpp
-    transparentcfg.cpp
-)
 
-SET(transparent_HDRS
-    transparent.h
-    transparentcfg.h
-)
+SET(transparent_PLATFORMS COMMON NON_WIN32)
 
-SET(transparent_UICS
-    transparentcfgbase.ui
-)
+SET(transparent_SRCS_COMMON    transparent.cpp
+                               transparentcfg.cpp)
+SET(transparent_SRCS_NON_WIN32 transtop.cpp)
 
-IF(NOT WIN32)
-    SET(transparent_SRCS
-        ${transparent_SRCS}
-        transtop.cpp
-    )
-ENDIF(NOT WIN32)
+SET(transparent_HDRS_COMMON transparent.h
+                            transparentcfg.h)
 
-SET(transparent_MESSAGE_SOURCES  ${transparent_SRCS}  ${transparent_UICS} )
-IF(WIN32)
-    SET( transparent_MESSAGE_SOURCES  ${transparent_MESSAGE_SOURCES}  transtop.cpp )
-ENDIF(WIN32)
-SET( transparent_MESSAGE_SOURCES  ${transparent_MESSAGE_SOURCES} PARENT_SCOPE )
+SET(transparent_UICS_COMMON transparentcfgbase.ui)
 
 IF(WIN32 OR ENABLE_KDE3)
     SIM_ADD_PLUGIN(transparent)
 ELSE(WIN32 OR ENABLE_KDE3)
     MESSAGE(STATUS "This plugin can only be used on windows or KDE")
+
+    #Adding plugin for update-messages and make dist purposes olny
+    SET(transparent__PLUGIN_FORBIDDEN 1)
+    SIM_ADD_PLUGIN(transparent)
 ENDIF(WIN32 OR ENABLE_KDE3)

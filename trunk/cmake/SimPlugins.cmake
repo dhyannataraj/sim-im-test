@@ -53,6 +53,7 @@ MACRO(SIM_ADD_PLUGIN _name)
 
     ##################################################
     ELSE()
+        MESSAGE(FATAL_ERROR "I've forgot something!")
         SET(_srcs ${${_name}_SRCS})
         SET(_hdrs ${${_name}_HDRS})
         SET(_uics ${${_name}_UICS})

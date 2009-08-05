@@ -1,26 +1,20 @@
 ##################
 # styles library #
 ##################
-ADD_SUBDIRECTORY(metal)
-ADD_SUBDIRECTORY(wood)
+SET(styles_PLATFORMS COMMON)
 
-SET(styles_SRCS
-        fontconfig.cpp
-        styles.cpp
-        stylescfg.cpp
-)
+SET(styles_SRCS_COMMON fontconfig.cpp
+                       styles.cpp
+                       stylescfg.cpp)
 
-SET(styles_HDRS
-        fontconfig.h
-        styles.h
-        stylescfg.h
-)
+SET(styles_HDRS_COMMON fontconfig.h
+                       styles.h
+                       stylescfg.h)
 
-SET(styles_UICS
-        fontconfigbase.ui
-        stylescfgbase.ui
-)
+SET(styles_UICS_COMMON fontconfigbase.ui
+                       stylescfgbase.ui)
 
-SET(styles_MESSAGE_SOURCES  ${styles_SRCS}  ${styles_UICS}  PARENT_SCOPE)
+ADD_SUBDIRECTORY(metal) #FIXME these files should be also added to make dist!!!
+ADD_SUBDIRECTORY(wood)  #FIXME these files should be also added to make dist!!!
 
 SIM_ADD_PLUGIN(styles)

@@ -1,16 +1,15 @@
-SET(update_SRCS
-        update.cpp
-)
+SET(update_PLATFORMS COMMON)
 
-SET(update_HDRS
-        update.h
-)
+SET(update_SRCS_COMMON update.cpp)
 
-SET(update_MESSAGE_SOURCES  ${update_SRCS}  PARENT_SCOPE)
+SET(update_HDRS_COMMON update.h)
 
 ##################
 # update library #
 ##################
-IF(FALSE)  # Update plugin is disabled in cmake builds because it really works only in noragen's MSVC builds
-  SIM_ADD_PLUGIN(update)
-ENDIF(FALSE)
+
+# Update plugin is disabled in cmake builds because it really works only in noragen's MSVC builds
+# Adding it only for make dist and update-messages purposes
+SET(update_PLUGIN_FORBIDDEN 1)
+SIM_ADD_PLUGIN(update)
+

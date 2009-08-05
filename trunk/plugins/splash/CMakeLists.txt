@@ -1,14 +1,12 @@
 ##################
 # splash library #
 ##################
-SET(splash_SRCS
-        splash.cpp
-)
 
-SET(splash_HDRS
-        splash.h
-)
-SET(splash_MESSAGE_SOURCES  ${splash_SRCS}  PARENT_SCOPE)
+SET(splash_PLATFORMS COMMON)
+
+SET(splash_SRCS_COMMON splash.cpp)
+
+SET(splash_HDRS_COMMON splash.h)
 
 SIM_ADD_PLUGIN(splash)
 
