@@ -76,6 +76,7 @@ void IconCfg::up()
         return;
     QListWidgetItem *item = lstIcon->takeItem(n);
     lstIcon->insertItem(n - 1, item);
+    lstIcon->setCurrentRow(lstIcon->currentRow()-1);
     itemSelectionChanged();
 }
 
@@ -86,6 +87,7 @@ void IconCfg::down()
         return;
     QListWidgetItem *item = lstIcon->takeItem(n);
     lstIcon->insertItem(n + 1, item);
+    lstIcon->setCurrentRow(lstIcon->currentRow()+1);
     itemSelectionChanged();
 }
 

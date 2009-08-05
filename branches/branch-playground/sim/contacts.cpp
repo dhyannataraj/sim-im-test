@@ -2043,7 +2043,8 @@ QTextCodec *ContactList::getCodecByName(const QString &encoding)
     return codec;
 }
 
-QTextCodec *ContactList::getCodecByCodePage(const int iCP) {
+QTextCodec *ContactList::getCodecByCodePage(const int iCP) 
+{
     const ENCODING *e;
     for (e = encodings; e->language; e++){
         if ( iCP == e->cp_code )
@@ -2053,7 +2054,8 @@ QTextCodec *ContactList::getCodecByCodePage(const int iCP) {
     return NULL;
 }
 
-const ENCODING *ContactList::getEncoding(Contact *contact){
+const ENCODING *ContactList::getEncoding(Contact *contact)
+{
     if( NULL == contact )
         return NULL;
 
