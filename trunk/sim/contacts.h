@@ -414,8 +414,10 @@ public:
     QString toUnicode(Contact *contact, const QCString &str, int length=-1);
     QCString fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
-    QTextCodec *getCodecByName(const char *encoding);
+    static QTextCodec *getCodecByName(const QString &encoding);
+    static QTextCodec *getCodecByCodePage(const int iCP);
     static const ENCODING *getEncodings();
+    const ENCODING *getEncoding(Contact *contact);
 protected:
     class ContactListPrivate *p;
     friend class Contact;
