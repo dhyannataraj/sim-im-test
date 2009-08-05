@@ -71,7 +71,7 @@ void IconsPlugin::setIcons(bool bForce)
 		{
 			if(i >= l.size())
 				break;
-            getIcons()->addIconSet(l[i], true);
+            getIcons()->addIconSet(l[i], false);
 		}
     }
     EventIconChanged().process();

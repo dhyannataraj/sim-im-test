@@ -47,9 +47,9 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
         lstIcon->addItem(QDir::toNativeSeparators("icons/smiles.jisp"));
 
     }else{
+        QStringList l = m_plugin->property("Icons").toStringList();
         for (unsigned i = 0; i < m_plugin->property("NIcons").toUInt(); i++)
         {
-            QStringList l = property("Icons").toStringList();
             if(i >= l.size())
                 break;
             lstIcon->addItem(l[i]);
