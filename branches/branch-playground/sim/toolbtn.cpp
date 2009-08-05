@@ -91,10 +91,8 @@ void CToolItem::setShow(CommandDef *def)
 
 void CToolItem::setState()
 {
-    bool bVisible = ((m_def.flags & BTN_HIDE) == BTN_HIDE);
+    bool bVisible = ((m_def.flags & BTN_HIDE) != BTN_HIDE);
     bool bEnabled = ((m_def.flags & COMMAND_DISABLED) == 0);
-    bVisible = true;
-    bEnabled = true;
     widget()->setVisible(bVisible);
     widget()->setEnabled(bEnabled);
     if (m_action) {
