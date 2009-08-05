@@ -134,7 +134,7 @@ QByteArray MSNClient::getConfig()
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
         if (!listRequests.isEmpty())
             listRequests += ";";
-        listRequests += QString::number((*it).Type) + "," + it->Name;
+        listRequests += QString::number(it->Type) + "," + it->Name;
     }
     setListRequests(listRequests);
     QByteArray res = Client::getConfig();
@@ -174,8 +174,10 @@ void MSNClient::setStatus(unsigned status)
     m_status = status;
     data.owner.Status.asULong() = m_status;
     EventClientChanged(this).process();
-    if (status == STATUS_OFFLINE){
-        if (m_status != STATUS_OFFLINE){
+    if (status == STATUS_OFFLINE)
+    {
+        if (m_status != STATUS_OFFLINE)
+        {
             m_status = status;
             data.owner.Status.asULong() = status;
             data.owner.StatusTime.asULong() = now.toTime_t();
@@ -184,7 +186,8 @@ void MSNClient::setStatus(unsigned status)
         }
         return;
     }
-    if (Client::m_state != Connected){
+    if (Client::m_state != Connected)
+    {
         m_logonStatus = status;
         return;
     }
@@ -216,7 +219,8 @@ void MSNClient::disconnected()
     stop();
     Contact *contact;
     ContactList::ContactIterator it;
-    while ((contact = ++it) != NULL){
+    while ((contact = ++it) != NULL)
+    {
         bool bChanged = false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
@@ -226,13 +230,15 @@ void MSNClient::disconnected()
                 QDateTime now(QDateTime::currentDateTime());
                 data->StatusTime.asULong() = now.toTime_t();
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
-                if (sock){
+                if (sock)
+                {
                     delete sock;
                     data->sb.clear();
                 }
                 bChanged = true;
             }
-            if (bChanged){
+            if (bChanged)
+            {
                 StatusMessage *m = new StatusMessage();
                 m->setContact(contact->id());
                 m->setClient(dataName(data));
@@ -253,11 +259,13 @@ void MSNClient::disconnected()
 
 void MSNClient::clearPackets()
 {
-    if (m_msg){
+    if (m_msg)
+    {
         delete m_msg;
         m_msg = NULL;
     }
-    for (list<MSNPacket*>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    for (list<MSNPacket*>::iterator it = m_packets.begin(); it != m_packets.end(); ++it)
+    {
         delete *it;
     }
     m_packets.clear();
@@ -269,13 +277,15 @@ void MSNClient::packet_ready()
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
     EventLog::log_packet(socket()->readBuffer(), false, plugin->MSNPacket);
-    if (m_msg){
+    if (m_msg)
+    {
         if (!m_msg->packet())
             return;
         delete m_msg;
         m_msg = NULL;
     }
-    for (;;){
+    for (;;)
+    {
         QByteArray s;
         if (!socket()->readBuffer().scan("\r\n", s))
             break;
