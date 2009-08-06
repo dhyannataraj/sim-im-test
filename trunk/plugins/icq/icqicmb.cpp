@@ -189,39 +189,37 @@ bool SnacIcqICBM::ackMessage(Message *msg, unsigned short ackFlags, const QCStri
 
 void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 {
-    ICQBuffer msgBuf;
-    const ENCODING *encoding = getContacts()->getEncoding(client()->getContact(data));
-    unsigned short usLang = 0;
-    if( ( NULL == encoding ) || !strcmp( encoding->codec, "UTF-8" ) ) {
-        bWide = true;
-    }
-    else {
-        usLang = encoding->cp_code;
-    }
-
-    if (bWide)
-    {
-        msgBuf << (unsigned short)0x0002L;
-        msgBuf << (unsigned short)0x0000L;
-        msgBuf.pack((char*)text.ucs2(), text.length() * 2);
-    }
-    else
-    {
-        log(L_DEBUG, "%s", client()->getContact(data)->getEncoding());
-        QByteArray msg_text = getContacts()->fromUnicode(client()->getContact(data), text);
-        EventSend e(m_send.msg, QCString(QString(msg_text).ascii()));
-        e.process();
-        msg_text = e.localeText();
-        msgBuf << (unsigned short)0x0000L;
-        msgBuf << (unsigned short)usLang;
-        msgBuf << msg_text.data();
-    }
-    ICQBuffer b;
-    b.tlv(0x0501, "\x01", 1);
-    b.tlv(0x0101, msgBuf);
-    sendThroughServer(m_send.screen, 1, b, m_send.id, true, true);
-    if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || (client()->getAckMode() == 0))
-        ackMessage(m_send);
+	ICQBuffer msgBuf;
+	if (bWide)
+	{
+		QByteArray ba(text.length() * 2);
+		for(int i = 0; i < (int)text.length(); i++)
+		{
+			unsigned short c = text[i].unicode();
+			char c1 = (char)((c >> 8) & 0xFF);
+			char c2 = (char)(c & 0xFF);
+			ba[i * 2 + 0] = c1;
+			ba[i * 2 + 1] = c2;
+		}
+		msgBuf << 0x00020000L;
+		msgBuf.pack(ba.data(), ba.size());
+	}
+	else
+	{
+		log(L_DEBUG, "%s", client()->getContact(data)->getEncoding().utf8().data());
+		QCString msg_text = getContacts()->fromUnicode(client()->getContact(data), text);
+		EventSend e(m_send.msg, msg_text);
+		e.process();
+		msg_text = e.localeText();
+		msgBuf << 0x0000FFFFL;
+		msgBuf << msg_text.data();
+	}
+	ICQBuffer b;
+	b.tlv(0x0501, "\x01", 1);
+	b.tlv(0x0101, msgBuf);
+	sendThroughServer(m_send.screen, 1, b, m_send.id, true, true);
+	if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || (client()->getAckMode() == 0))
+		ackMessage(m_send);
 }
 
 void SnacIcqICBM::sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
@@ -1289,7 +1287,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             TlvList tlvChannel(*buf);
             switch (mFormat){
             case 0x0001:{
-                   if (!tlvChannel(2)){
+                    if (!tlvChannel(2)){
                         log(L_WARN, "TLV 0x0002 not found");
                         break;
                     }
@@ -1306,47 +1304,40 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                     }
                     char *m_data = (*m_tlv);
                     unsigned short encoding = (unsigned short)((m_data[0] << 8) + m_data[1]);
-                    unsigned short codepage = (unsigned short)((m_data[2] << 8) + m_data[3]);
                     m_data += 4;
-                    QString text;
-                    switch( encoding ) {
-                        case 0 : { // ASCII
-                            QTextCodec *pCodec = ContactList::getCodecByCodePage(codepage);
-                            if( NULL != pCodec ) {
-                                text = pCodec->toUnicode( m_data, m_tlv->Size() - 4 );
-                            }
-                            else {
-                                text = QString::fromAscii( m_data, m_tlv->Size() - 4 );
-                            }
-                            break;
+                    if(encoding == 2)
+					{
+                        QString text;
+                        for (int i = 0; i < m_tlv->Size() - 5; i += 2){
+                            unsigned char r1 = *(m_data++);
+                            unsigned char r2 = *(m_data++);
+                            unsigned short c = (unsigned short)((r1 << 8) + r2);
+                            text += QChar(c);
                         }
-                        case 2 : { // Unicode
-                            QString text;
-                            for (int i = 0; i < m_tlv->Size() - 4; i += 2)
-                            {
-                                unsigned char r1 = *(m_data++);
-                                unsigned char r2 = *(m_data++);
-                                unsigned short c = (unsigned short)((r1 << 8) + r2);
-                                text += QChar(c);
-                            }
-                            break;
+                        Message *msg = new Message(MessageGeneric);
+                        if (screen.toULong()){
+                            msg->setText(text);
+                        }else{
+                            unsigned bgColor = m_client->clearTags(text);
+                            msg->setText(text);
+                            msg->setBackground(bgColor);
+                            msg->setFlags(MESSAGE_RICHTEXT);
                         }
-                        case 3 : { // Latin_1
-                            text = QString::fromLatin1( m_data, m_tlv->Size() - 4 );
-                            break;
-                        }
+                        log(L_DEBUG, "Message %s", (const char*)text.local8Bit().data());
+                        m_client->messageReceived(msg, screen);
+                        break;
                     }
-
-                    Message *msg = new Message(MessageGeneric);
-                    if (screen.toULong()){
-                        msg->setText(text);
+                    log(L_DEBUG, "ServerText: %s", m_data);
+                    Message *msg = new Message;
+                    if (!m_client->m_bAIM && screen.toULong()){
+                        msg->setServerText(m_data);
                     }else{
+                        QString text = m_data;
                         unsigned bgColor = m_client->clearTags(text);
-                        msg->setText(text);
+                        msg->setServerText(m_data);
                         msg->setBackground(bgColor);
                         msg->setFlags(MESSAGE_RICHTEXT);
                     }
-                    log(L_DEBUG, "Message %s", text);
                     m_client->messageReceived(msg, screen);
                     break;
                 }
