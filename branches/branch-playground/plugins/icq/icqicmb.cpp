@@ -203,9 +203,18 @@ void SnacIcqICBM::sendType1(const QString &text, bool bWide, ICQUserData *data)
 
     if (bWide)
     {
+		QByteArray ba(text.length() * 2, '\0');
+		for(int i = 0; i < (int)text.length(); i++)
+		{
+			unsigned short c = text[i].unicode();
+			char c1 = (char)((c >> 8) & 0xFF);
+			char c2 = (char)(c & 0xFF);
+			ba[i * 2 + 0] = c1;
+			ba[i * 2 + 1] = c2;
+		}
         msgBuf << (unsigned short)0x0002L;
         msgBuf << (unsigned short)0x0000L;
-        msgBuf.pack((char*)text.utf16(), text.length() * 2);
+		msgBuf.pack(ba.data(), ba.size());
     }
     else
     {
@@ -1321,13 +1330,12 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                             break;
                         }
                         case 2 : { // Unicode
-                            text = QString::fromUtf16( (unsigned short*)m_data, m_tlv->Size() - 4 );
-//                            for (int i = 0; i < m_tlv->Size() - 4; i += 2){
-//                                unsigned char r1 = *(m_data++);
-//                                unsigned char r2 = *(m_data++);
-//                                unsigned short c = (unsigned short)((r1 << 8) + r2);
-//                                text += QChar(c);
-//                            }
+	                        for (int i = 0; i < m_tlv->Size() - 4; i += 2){
+	                            unsigned char r1 = *(m_data++);
+	                            unsigned char r2 = *(m_data++);
+	                            unsigned short c = (unsigned short)((r1 << 8) + r2);
+	                            text += QChar(c);
+	                        }
                             break;
                         }
                         case 3 : { // Latin_1
