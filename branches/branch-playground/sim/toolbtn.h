@@ -44,6 +44,7 @@ public:
     virtual ~CToolItem() {}
     virtual void setState();
     virtual QWidget *widget() = 0;
+    virtual CToolItem *subItem() = 0;
     QAction *action() { return m_action; }
     void setAction(QAction *a) { m_action = a; }
     void checkState();
@@ -68,6 +69,7 @@ public:
     ~CToolButton();
     virtual void setState();
     virtual QWidget *widget() { return this; }
+    virtual CToolItem *subItem() { return NULL; }
     static QPoint popupPos(QWidget*, QWidget*);
     void setTextLabel(const QString &text);
 signals:
@@ -112,6 +114,7 @@ public:
     CToolCombo(CToolBar *parent, SIM::CommandDef *def, bool bCheck);
     ~CToolCombo();
     virtual QWidget *widget() { return this; }
+    virtual CToolItem *subItem() { return m_btn; }
     void setText(const QString&);
 protected slots:
     void slotTextChanged(const QString &str);
@@ -133,6 +136,7 @@ public:
     CToolEdit(CToolBar *parent, SIM::CommandDef *def);
     ~CToolEdit();
     virtual QWidget *widget() { return this; }
+    virtual CToolItem *subItem() { return m_btn; }
 protected slots:
     void btnDestroyed();
     virtual QSizePolicy sizePolicy() const;
@@ -151,6 +155,7 @@ public:
     CToolLabel(CToolBar *parent, SIM::CommandDef *def);
     ~CToolLabel();
     virtual QWidget *widget() { return this; }
+    virtual CToolItem *subItem() { return NULL; }
 protected:
     virtual QSizePolicy sizePolicy() const;
     virtual QSize minimumSizeHint() const;

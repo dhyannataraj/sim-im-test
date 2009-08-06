@@ -777,10 +777,14 @@ void CToolBar::toolBarChanged()
 		}
 		if (btn == NULL)
 			continue;
-		buttons.insert(s->id, btn);
-                btn->setAction(addWidget(btn->widget()));
-                btn->checkState();
+        buttons.insert(s->id, btn);
+        btn->setAction(addWidget(btn->widget()));
+        CToolItem *pSubItem = btn->subItem();
+        if(pSubItem) {
+            pSubItem->setAction(addWidget(pSubItem->widget()));
         }
+        btn->checkState();
+    }
 	bChanged = false;
 	QTimer::singleShot(0, this, SLOT(checkState()));
 }
