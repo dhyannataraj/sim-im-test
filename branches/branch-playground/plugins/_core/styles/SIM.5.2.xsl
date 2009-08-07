@@ -34,28 +34,28 @@
 <!-- message link & message icon :: BEGIN -->
 <a>
 <xsl:attribute name="href">msg://<xsl:value-of select="id"/></xsl:attribute>
-<img><xsl:attribute name="src">icon:<xsl:value-of select="icon"/></xsl:attribute></img>
+<img><xsl:attribute name="src">sim:icons/<xsl:value-of select="icon"/></xsl:attribute></img>
 </a>
 <xsl:text>&#xA0;</xsl:text>
 <!-- message link & message icon :: END 
 _____________________________________________________________________________-->
 <!-- encrypting icon :: BEGIN -->
 <xsl:if test="@encrypted='1'">
-<img src="icon:encrypted"/>
+<img src="sim:icons/encrypted"/>
 <xsl:text>&#xA0;</xsl:text>
 </xsl:if>
 <!-- encrypting icon :: END
 _____________________________________________________________________________-->
 <!--urgent message icon (DND etc) :: BEGIN -->
 <xsl:if test="@urgent='1'">
-<img src="icon:urgentmsg"/>
+<img src="sim:icons/urgentmsg"/>
 <xsl:text>&#xA0;</xsl:text>
 </xsl:if>
 <!--urgent message icon (DND etc) :: END 
 _____________________________________________________________________________-->
 <!--listmessage (???) icon :: BEGIN -->
 <xsl:if test="@list='1'">
-<img src="icon:listmsg"/>
+<img src="sim:icons/listmsg"/>
 <xsl:text>&#xA0;</xsl:text>
 </xsl:if>
 <!--listmessage (???) icon :: END -->
@@ -120,7 +120,7 @@ _____________________________________________________________________________-->
 <xsl:when test="@direction='2'">
 <p>
 <!-- message link & message icon :: BEGIN -->
-<img><xsl:attribute name="src">icon:<xsl:value-of select="icon"/></xsl:attribute></img>
+<img><xsl:attribute name="src">sim:icons/<xsl:value-of select="icon"/></xsl:attribute></img>
 <xsl:text>&#xA0;</xsl:text>
 <!-- message link & message icon :: END
 _____________________________________________________________________________-->

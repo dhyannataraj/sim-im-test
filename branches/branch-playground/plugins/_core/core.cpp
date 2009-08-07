@@ -17,9 +17,6 @@ email                : vovan@shutoff.ru
 
 #include "simapi.h"
 
-
-#include <time.h>
-
 #ifdef WIN32
 #include <windows.h>
 #include <io.h>
@@ -42,9 +39,9 @@ email                : vovan@shutoff.ru
 #include <q3process.h>
 #include <qinputdialog.h>
 #include <qmessagebox.h>
-//Added by qt3to4:
 #include <QTranslator>
 #include <QByteArray>
+#include <QDateTime>
 
 // simlib
 #include "ballonmsg.h"
@@ -3782,9 +3779,9 @@ void CorePlugin::loadMenu()
 			HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
 			if ((data == NULL) || !data->CutDays.toBool())
 				continue;
-			time_t now = time(NULL);
-			now -= data->Days.toULong() * 24 * 60 * 60;
-			History::cut(NULL, contact->id(), now);
+            QDateTime now(QDateTime::currentDateTime());
+            now = now.addSecs(-data->Days.toULong() * 24 * 60 * 60);
+            History::cut(NULL, contact->id(), now.toTime_t());
 		}
 		QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
 	}

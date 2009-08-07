@@ -56,11 +56,10 @@ public:
     static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
     unsigned	m_id;
     SIM::Message *currentMessage();
-    void		sync(unsigned);
 protected slots:
     void		update();
 protected:
-    virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
+    virtual		QMenu *createPopupMenu( const QPoint& pos );
     virtual bool processEvent(SIM::Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);

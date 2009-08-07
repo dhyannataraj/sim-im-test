@@ -15,20 +15,20 @@
 <a>
 <xsl:attribute name="href">msg://<xsl:value-of select="id"/></xsl:attribute>
 <img>
-<xsl:attribute name="src">icon:<xsl:value-of select="icon"/></xsl:attribute>
+<xsl:attribute name="src">sim:icons/<xsl:value-of select="icon"/></xsl:attribute>
 </img>
 </a>
 <xsl:if test="@encrypted='1'">
 <xsl:text>&#xA0;</xsl:text>
-<img src="icon:encrypted"/>
+<img src="sim:icons/encrypted"/>
 </xsl:if>
 <xsl:if test="@urgent='1'">
 <xsl:text>&#xA0;</xsl:text>
-<img src="icon:urgentmsg"/>
+<img src="sim:icons/urgentmsg"/>
 </xsl:if>
 <xsl:if test="@list='1'">
 <xsl:text>&#xA0;</xsl:text>
-<img src="icon:listmsg"/>
+<img src="sim:icons/listmsg"/>
 </xsl:if>
 </td>
 <td nowrap="yes">

@@ -230,6 +230,7 @@ void MsgViewBase::update()
 {
     if (m_updated.empty())
         return;
+/*
     unsigned i;
     for (i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
@@ -316,6 +317,7 @@ void MsgViewBase::update()
     TextShow::sync();
     setContentsPos(x, y);
     viewport()->repaint();
+*/
 }
 
 //ToDo: Rewrite this ugly slow Function which is slowing down the History loading. 
@@ -550,6 +552,7 @@ void MsgViewBase::setSource(const QString &url)
 // from within HTML. See matching hack in MsgViewBase::messageText.
 void MsgViewBase::setBackground(unsigned n)
 {
+/*
     QColor bgcolor;
     bool bInMsg = false;
     bool bSet   = false;
@@ -602,66 +605,25 @@ void MsgViewBase::setBackground(unsigned n)
             clearParagraphBackground(i);
         }
     }
-
+*/
 }
 // </hack>
 
 void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
 {
-    unsigned n = paragraphs();
-    if (n > 0)
-        n--;
+//    unsigned n = paragraphs();
+//    if (n > 0)
+//        n--;
     append(messageText(msg, bUnread));
-    if (!CorePlugin::m_plugin->getOwnColors())
-        setBackground(n);
-    if (bSync)
-        sync(n);
+//    if (!CorePlugin::m_plugin->getOwnColors())
+//        setBackground(n);
+//    if (bSync)
+//        sync(n);
 }
-
-#ifdef WIN32
-
-void MsgViewBase::sync(unsigned n)
-{
-    if (!m_selectStr.isEmpty()){
-        bool bStart = false;
-        for (; n < (unsigned)paragraphs(); n++){
-            QString s = text(n);
-            if (s.indexOf(MSG_ANCHOR) >= 0){
-                bStart = true;
-                continue;
-            }
-            if (bStart)
-                break;
-        }
-        if (n < (unsigned)paragraphs()){
-            int savePara;
-            int saveIndex;
-            getCursorPosition(&savePara, &saveIndex);
-            int para = n;
-            int index = 0;
-            while (find(m_selectStr, false, false, true, &para, &index)){
-                setSelection(para, index, para, index + m_selectStr.length(), ++m_nSelection);
-                setSelectionAttributes(m_nSelection, colorGroup().highlight(), true);
-                index += m_selectStr.length();
-            }
-            setCursorPosition(savePara, saveIndex);
-            repaintChanged();
-        }
-    }
-    TextShow::sync();
-}
-
-#else
-
-void MsgViewBase::sync(unsigned)
-{
-    TextShow::sync();
-}
-
-#endif
 
 bool MsgViewBase::findMessage(Message *msg)
 {
+/*
     bool bFound = false;
     for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
         QString s = text(i);
@@ -689,6 +651,7 @@ bool MsgViewBase::findMessage(Message *msg)
         return false;
     moveCursor(MoveEnd, false);
     ensureCursorVisible();
+*/
     return true;
 }
 
@@ -718,6 +681,7 @@ unsigned MsgViewBase::messageId(const QString &_s, QString &client)
 
 void MsgViewBase::reload()
 {
+/*
     QString t;
     vector<Msg_Id> msgs;
     unsigned i;
@@ -763,11 +727,13 @@ void MsgViewBase::reload()
         setCursorPosition(para, pos);
         ensureCursorVisible();
     }
+*/
 }
 
 bool MsgViewBase::processEvent(Event *e)
 {
     if ((e->type() == eEventRewriteMessage) || (e->type() == eEventMessageRead)){
+        /*
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)
@@ -793,9 +759,11 @@ bool MsgViewBase::processEvent(Event *e)
         id.client = msg->client();
         m_updated.push_back(id);
         QTimer::singleShot(0, this, SLOT(update()));
+        */
         return false;
     }
     if (e->type() == eEventCutHistory){
+        /*
         EventCutHistory *ech = static_cast<EventCutHistory*>(e);
         CutHistory *ch = ech->cut();
         if (ch->contact != m_id)
@@ -861,9 +829,11 @@ bool MsgViewBase::processEvent(Event *e)
             repaint();
         }
         m_cut.push_back(*ch);
+        */
         return false;
     }
     if (e->type() == eEventMessageDeleted){
+        /*
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)
@@ -914,6 +884,7 @@ bool MsgViewBase::processEvent(Event *e)
             }
             break;
         }
+        */
         return false;
     }
     if (e->type() == eEventHistoryConfig){
@@ -1098,6 +1069,7 @@ bool MsgViewBase::processEvent(Event *e)
 
 Message *MsgViewBase::currentMessage()
 {
+/*
     int para = paragraphAt(m_popupPos);
     if (para < 0)
         return NULL;
@@ -1116,6 +1088,7 @@ Message *MsgViewBase::currentMessage()
         if (msg)
             return msg;
     }
+*/
     return NULL;
 }
 
@@ -1128,9 +1101,7 @@ QMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
     cmd->flags		= COMMAND_NEW_POPUP;
     EventMenuGet e(cmd);
     e.process();
-// Fixme!
-//  return e.menu();
-    return NULL;
+    return e.menu();
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)
@@ -1169,7 +1140,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
         if (!CorePlugin::m_plugin->getOwnColors())
             setBackground(0);
     }
-    scrollToBottom();
+//    scrollToBottom();
     QTimer::singleShot(0, this, SLOT(init()));
 }
 
@@ -1179,8 +1150,7 @@ MsgView::~MsgView()
 
 void MsgView::init()
 {
-    TextShow::sync();
-    scrollToBottom();
+//    scrollToBottom();
 }
 
 bool MsgView::processEvent(Event *e)
@@ -1212,8 +1182,8 @@ bool MsgView::processEvent(Event *e)
         }
         if (bAdd){
             addMessage(msg);
-            if (!hasSelectedText())
-                scrollToBottom();
+//            if (!hasSelectedText())
+//                scrollToBottom();
         }
     }
     return MsgViewBase::processEvent(e);

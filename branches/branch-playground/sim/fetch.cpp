@@ -17,22 +17,10 @@
 
 #include "simapi.h"
 
-#include <time.h>
-#include <QThread>
-#include <QTimer>
-#include <QCustomEvent>
-#include <QByteArray>
-#include <QEvent>
-#include <QApplication>
-#include <QUrl>
-#include <QHttp>
-
 #include "fetch.h"
 #include "fetchclientprivate.h"
-#include "buffer.h"
-#include "log.h"
-#include "misc.h"
 #include "socket.h"
+#include "misc.h"
 
 using namespace SIM;
 

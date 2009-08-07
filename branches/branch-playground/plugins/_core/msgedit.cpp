@@ -1168,8 +1168,6 @@ bool MsgEdit::processEvent(Event *e)
             QToolButton *btnSmile = qobject_cast<QToolButton*>(eWidget.widget());
             if (btnSmile){
                 SmilePopup *popup = new SmilePopup(this);
-                QSize s = popup->minimumSizeHint();
-                popup->resize(s);
                 connect(popup, SIGNAL(insert(const QString &)), this, SLOT(insertSmile(const QString &)));
                 QPoint p = CToolButton::popupPos(btnSmile, popup);
                 popup->move(p);

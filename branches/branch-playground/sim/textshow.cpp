@@ -85,7 +85,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
-    setWordWrapMode(QTextOption::WrapMode::WordWrap); //setWordWrap(WidgetWidth);
+    setWordWrapMode(QTextOption::WordWrap); //setWordWrap(WidgetWidth);
     setAutoFormatting(0);
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));

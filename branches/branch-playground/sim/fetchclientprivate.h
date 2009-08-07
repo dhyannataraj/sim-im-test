@@ -13,11 +13,6 @@
 #include <QHttp>
 
 #include "fetch.h"
-#include "buffer.h"
-#include "log.h"
-#include "misc.h"
-
-using namespace SIM;
 
 class CookieCash {
   typedef QMap< QString,QMap< QString,QString > > CCookieMap;

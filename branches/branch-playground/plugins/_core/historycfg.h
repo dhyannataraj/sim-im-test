@@ -54,7 +54,6 @@ public slots:
     void cancelRename();
     void viewChanged(QWidget*);
     void textChanged();
-    void sync();
     void toggled(bool);
     void toggledDays(bool);
     void toggledSize(bool);

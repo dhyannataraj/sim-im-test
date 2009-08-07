@@ -227,7 +227,7 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     lblPage1->setText(str1);
     lblPage2->setText(str2);
     //edtStyle->setWordWrap(QTextEdit::NoWrap);
-    edtStyle->setWordWrapMode(QTextOption::WrapMode::NoWrap);
+    edtStyle->setWordWrapMode(QTextOption::NoWrap);
     edtStyle->setTextFormat(Qt::RichText);
     highlighter = new XmlHighlighter(edtStyle);
     addStyles(user_file(STYLES), true);
@@ -636,11 +636,6 @@ void HistoryConfig::viewChanged(QWidget *w)
         edtStyle->setText(quoteString(xsl));
         QTimer::singleShot(0, this, SLOT(sync()));
     }
-}
-
-void HistoryConfig::sync()
-{
-    edtStyle->sync();
 }
 
 void HistoryConfig::textChanged()

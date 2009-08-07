@@ -734,9 +734,9 @@ QString Icons::getSmileName(const QString &name)
 void Icons::getSmiles(QStringList &smiles)
 {
     QStringList used;
-    QList<IconSet*>::iterator it;
-    for (it = d->customSets.begin(); it != d->customSets.end(); ++it)
-        (*it)->getSmiles(smiles, used);
+    foreach( IconSet* iconSet, d->customSets ) {
+        iconSet->getSmiles(smiles, used);
+    }
 }
 
 QString Icons::parseSmiles(const QString &str)
@@ -767,7 +767,7 @@ QString Icons::parseSmiles(const QString &str)
 			break;
 		}
 		res += s.left(start);
-		res += "<img src=\"icon:";
+        res += "<img src=\"sim:icons/";
 		res += smile;
 		res += "\" alt=\"";
 		res += quoteString(s.mid(start, size));
