@@ -58,7 +58,9 @@ void StylesConfig::apply()
 {
     font_cfg->apply();
     QListWidgetItem *item = lstStyle->currentItem();
-    if (item && m_plugin->setProperty("Style", item->text()))
+    if (item) {
+        m_plugin->setProperty("Style", item->text());
         m_plugin->setStyles();
+    }
 }
 

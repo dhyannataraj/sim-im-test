@@ -82,18 +82,11 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     EventCommandCreate(cmd).process();
 
     m_bar = NULL;
-    if (!bInit){
-        showBar();
-        if (m_bar) {
-            m_bar->setIconSize( QSize( 30, 30 ) );
-            m_bar->show();
-        }
-    }
 }
 
 WeatherPlugin::~WeatherPlugin()
 {
-	PropertyHub::save();
+    PropertyHub::save();
     delete m_bar;
     EventCommandRemove(CmdWeather).process();
     EventToolbar(BarWeather, EventToolbar::eRemove).process();
@@ -102,7 +95,7 @@ WeatherPlugin::~WeatherPlugin()
 
 QByteArray WeatherPlugin::getConfig()
 {
-	return QByteArray();
+    return QByteArray();
 }
 
 void WeatherPlugin::timeout()
@@ -142,10 +135,14 @@ bool WeatherPlugin::processEvent(Event *e)
             return true;
         }
     }
-	if(e->type() == eEventPluginLoadConfig)
-	{
-		PropertyHub::load();
-	}
+    if(e->type() == eEventPluginLoadConfig){
+        PropertyHub::load();
+        showBar();
+        if (m_bar) {
+            m_bar->setIconSize( QSize( 30, 30 ) );
+            m_bar->show();
+        }
+    }
     return false;
 }
 
@@ -485,30 +482,31 @@ QString WeatherPlugin::replace(const QString &text)
 
 QString WeatherPlugin::forecastReplace(const QString &text, int iDay)
 {
-    if (property("Day").toMap().value(QString::number(iDay)).toString().isEmpty())
+    QString sDay = QString::number(iDay);
+    if (property("Day").toMap().value(sDay).toString().isEmpty())
         return QString();
     QString res = text;
     QString temp;
-    int minT = property("MinT").toMap().value(QString::number(iDay)).toInt();
-    int maxT = property("MaxT").toMap().value(QString::number(iDay)).toInt();
+    int minT = property("MinT").toMap().value(sDay).toInt();
+    int maxT = property("MaxT").toMap().value(sDay).toInt();
     temp += QString::number(minT);
     temp += QChar((unsigned short)176);
     temp += property("UT").toString();
-    if ((property("MaxT").toMap().value(QString::number(iDay)).toString() != QLatin1String("N/A")) && (maxT != -255)) {
+    if ((property("MaxT").toMap().value(sDay).toString() != QLatin1String("N/A")) && (maxT != -255)) {
         temp += '/';
         temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += property("UT").toString();
     }
-    QString dd = property("Day").toMap().value(QString::number(iDay)).toString();
+    QString dd = property("Day").toMap().value(sDay).toString();
     QString mon = getToken(dd, ' ');
     QString day = dd;
     day += ". ";
     day += i18n(mon);
-    res = res.replace(QRegExp("\\%n"), property("DayIcon").toMap().value(QString::number(iDay)).toString());
+    res = res.replace(QRegExp("\\%n"), property("DayIcon").toMap().value(sDay).toString());
     res = res.replace(QRegExp("\\%t"), temp);
-    res = res.replace(QRegExp("\\%c"), i18n_conditions(property("DayConditions").toMap().value(QString::number(iDay)).toString()));
-    res = res.replace(QRegExp("\\%w"), i18n(property("WDay").toMap().value(QString::number(iDay)).toString()));
+    res = res.replace(QRegExp("\\%c"), i18n_conditions(property("DayConditions").toMap().value(sDay).toString()));
+    res = res.replace(QRegExp("\\%w"), i18n(property("WDay").toMap().value(sDay).toString()));
     res = res.replace(QRegExp("\\%d"), day);
     return res;
 }
@@ -664,48 +662,36 @@ bool WeatherPlugin::parse(QDomDocument document)
     for( int iDay = 0 ; iDay < list.count() ; iDay++ ) {
         QDomElement dayElement = list.item(iDay).toElement();
 //        dayElement.attribute("d").toLong();
-		QVariantMap day = property("Day").toMap();
-		day.insert(QString::number(iDay), dayElement.attribute("dt"));
-		setProperty("Day", day);
+        QVariantMap day = property("Day").toMap();
+        day.insert(QString::number(iDay), dayElement.attribute("dt"));
+        setProperty("Day", day);
 
-		QVariantMap wday = property("WDay").toMap();
-		wday.insert(QString::number(iDay), dayElement.attribute("t"));
-		setProperty("WDay", wday);
+        QVariantMap wday = property("WDay").toMap();
+        wday.insert(QString::number(iDay), dayElement.attribute("t"));
+        setProperty("WDay", wday);
 
-		QVariantMap mint = property("MinT").toMap();
-		mint.insert(QString::number(iDay), GetSubElementText(dayElement, "low", "### Failed ###"));
-		setProperty("MinT", mint);
+        QVariantMap mint = property("MinT").toMap();
+        mint.insert(QString::number(iDay), GetSubElementText(dayElement, "low", "### Failed ###"));
+        setProperty("MinT", mint);
 
-		QVariantMap maxt = property("MaxT").toMap();
-		maxt.insert(QString::number(iDay), GetSubElementText(dayElement, "hi", "### Failed ###"));
-		setProperty("MaxT", maxt);
+        QVariantMap maxt = property("MaxT").toMap();
+        maxt.insert(QString::number(iDay), GetSubElementText(dayElement, "hi", "### Failed ###"));
+        setProperty("MaxT", maxt);
 
         QDomNodeList listParts = dayElement.elementsByTagName("part");
         for( int iPart = 0 ; iPart < listParts.count() ; iPart++ ) {
             QDomElement partElement = listParts.item(iPart).toElement();
             if( partElement.attribute("p") == "d" ) {
+                QVariantMap dayc = property("DayConditions").toMap();
+                dayc.insert(QString::number(iDay), GetSubElementText( partElement, "t", "### Failed ###" ));
+                setProperty("DayConditions", dayc);
 
-				QVariantMap dayc = property("DayConditions").toMap();
-				dayc.insert(QString::number(iDay), GetSubElementText( partElement, "t", "### Failed ###" ));
-				setProperty("DayConditions", dayc);
-
-				QVariantMap dayi = property("DayIcon").toMap();
-				dayi.insert(QString::number(iDay), GetSubElementText(partElement, "icon", "na"));
-				setProperty("DayConditions", dayi);
+                QVariantMap dayi = property("DayIcon").toMap();
+                dayi.insert(QString::number(iDay), GetSubElementText(partElement, "icon", "na"));
+                setProperty("DayIcon", dayi);
             }
         }
     }
 
     return true;
 }
-/*
-void WeatherPlugin::element_end(const QStringRef& el)
-{
-    if (el == "ppcp" && (m_day == 1) ) {
-        if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
-    	    setPrecipitation(m_data.toLong());
-            m_data.clear();
-    	    return;
-	}
-}
-*/

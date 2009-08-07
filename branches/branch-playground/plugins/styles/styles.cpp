@@ -50,24 +50,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("styles")
+    : Plugin(base), PropertyHub("styles")
 {
     m_saveBaseFont = NULL;
     m_saveMenuFont = NULL;
     m_savePalette = new QPalette(QApplication::palette());
-    setFonts();
-    if (property("SystemColors").toBool()){
-        setProperty("BtnColor", m_savePalette->color(QPalette::Active, QPalette::Button).rgb() & 0xFFFFFF);
-        setProperty("BgColor", m_savePalette->color(QPalette::Active, QPalette::Background).rgb() & 0xFFFFFF);
-    }else{
-        setColors();
-    }
-    setStyles();
 }
 
 StylesPlugin::~StylesPlugin()
 {
-	PropertyHub::save();
+    PropertyHub::save();
     if (m_saveBaseFont)
         delete m_saveBaseFont;
     if (m_saveMenuFont)
@@ -121,7 +113,8 @@ void StylesPlugin::setColors()
 
 void StylesPlugin::setStyles()
 {
-    QStyle *style = QStyleFactory::create(property("Style").toString());
+    QString sStyle = property("Style").toString();
+    QStyle *style = QStyleFactory::create(sStyle);
     if (style){
         QApplication::setStyle(style);
         if (!property("SystemColors").toBool())
@@ -133,9 +126,16 @@ void StylesPlugin::setStyles()
 
 bool StylesPlugin::processEvent(SIM::Event *e)
 {
-	if(e->type() == eEventPluginLoadConfig)
-	{
-		PropertyHub::load();
-	}
+    if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHub::load();
+        setFonts();
+        if (property("SystemColors").toBool()){
+            setProperty("BtnColor", m_savePalette->color(QPalette::Active, QPalette::Button).rgb());
+            setProperty("BgColor", m_savePalette->color(QPalette::Active, QPalette::Background).rgb());
+        }
+        setColors();
+        setStyles();
+    }
     return false;
 }

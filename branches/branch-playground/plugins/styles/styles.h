@@ -41,10 +41,10 @@ public:
 protected:
     virtual bool processEvent(SIM::Event *e);
 
-    QFont		*m_saveBaseFont;
-    QFont		*m_saveMenuFont;
+    QFont       *m_saveBaseFont;
+    QFont       *m_saveMenuFont;
     QPalette	*m_savePalette;
-    QStyle		*m_saveStyle;
+    QStyle      *m_saveStyle;
     friend class FontConfig;
 };
 

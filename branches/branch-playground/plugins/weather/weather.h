@@ -34,9 +34,9 @@ class QXmlStreamAttributes;
 namespace SIM
 {
 class IconSet;
-};
+}
 
-class WeatherPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient, public SIM::PropertyHub
+class WeatherPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:
