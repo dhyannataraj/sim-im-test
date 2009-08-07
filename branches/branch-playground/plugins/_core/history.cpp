@@ -20,8 +20,7 @@
 #include <qdir.h>
 #include <qregexp.h>
 #include <qtextcodec.h>
-#include <q3textstream.h>
-//Added by qt3to4:
+#include <QTextStream>
 #include <QByteArray>
 
 #include <time.h>
@@ -148,11 +147,11 @@ Message *HistoryFile::load(unsigned id)
 }
 
 HistoryFileIterator::HistoryFileIterator(HistoryFile &f, unsigned contact)
-        : file(f)
-        , m_block(NULL)
-        , m_codec(NULL)
-        , m_msg(NULL)
-        , m_contact(contact)
+    : file(f)
+    , m_block(0)
+    , m_codec(NULL)
+    , m_msg(NULL)
+    , m_contact(contact)
 {
     
 }
@@ -835,7 +834,7 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
         mode |= QIODevice::Append;
     if(f.open(mode))
 	{
-        Q3TextStream stream(&f);
+        QTextStream stream(&f);
         HistoryIterator it(id);
         it.begin();
         const QString owner = getContacts()->owner()->getName(),

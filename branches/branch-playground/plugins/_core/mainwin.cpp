@@ -36,9 +36,11 @@ using namespace SIM;
 MainWindow *MainWindow::s_mainWindow = NULL;
 
 MainWindow::MainWindow(Geometry &geometry)
-    : QMainWindow(NULL, "mainwnd", Qt::Window)
+    : QMainWindow(NULL, Qt::Window)
     , EventReceiver(LowestPriority)
 {
+    setObjectName("mainwnd");
+    setAttribute(Qt::WA_AlwaysShowToolTips);
     Q_ASSERT(s_mainWindow == NULL);
     s_mainWindow = this;
     h_lay	 = NULL;
@@ -187,7 +189,8 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::addWidget(QWidget *w, bool bDown)
 {
-    w->reparent(main, QPoint());
+    w->setParent(main);
+    w->move(QPoint());
     if (bDown){
         lay->addWidget(w);
     }else{
@@ -200,7 +203,8 @@ void MainWindow::addWidget(QWidget *w, bool bDown)
 void MainWindow::addStatus(QWidget *w, bool)
 {
     QStatusBar *status = statusBar();
-    w->reparent(status, QPoint());
+    w->setParent(status);
+    w->move(QPoint());
     statusWidgets.push_back(w);
     status->addWidget(w, true);
     w->show();

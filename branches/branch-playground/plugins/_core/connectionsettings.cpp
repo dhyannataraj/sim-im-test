@@ -36,7 +36,8 @@ ConnectionSettings::ConnectionSettings(Client *client) : QDialog(NULL)
     setWindowTitle(i18n("Configure %1 client") .arg(i18n(cmd->text)));
     QVBoxLayout *lay = new QVBoxLayout(addWnd);
     QWidget *setupWnd = client->setupWnd();
-    setupWnd->reparent(addWnd, QPoint());
+    setupWnd->setParent(addWnd);
+    setupWnd->move(QPoint());
     lay->addWidget(setupWnd);
     setupWnd->show();
 }

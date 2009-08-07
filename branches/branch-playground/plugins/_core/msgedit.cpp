@@ -1569,7 +1569,7 @@ SmilePopup::SmilePopup(QWidget *popup)
         rows = (nSmiles + 7) / cols;
     }
 
-    QGridLayout *lay = new QGridLayout(this, rows, cols);
+    QGridLayout *lay = new QGridLayout(this);
     lay->setMargin(4);
     lay->setSpacing(2);
     unsigned i = 0;

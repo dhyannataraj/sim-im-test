@@ -27,8 +27,9 @@
 #include <qstringlist.h>
 
 QKeyButton::QKeyButton(QWidget *parent, const char *name)
-        :	QPushButton( parent, name )
+        :	QPushButton( parent )
 {
+    setObjectName( name );
     m_bGrab = false;
     connect(this, SIGNAL(clicked()), this, SLOT(click()));
 }

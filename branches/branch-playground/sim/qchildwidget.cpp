@@ -25,8 +25,9 @@
 #include <QEvent>
 
 QChildWidget::QChildWidget(QWidget *parent, const char *name)
-        : QWidget(parent, name, Qt::WNoAutoErase)
+        : QWidget(parent)
 {
+    setObjectName(name);
     m_bInit = false;
 }
 

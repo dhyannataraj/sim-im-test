@@ -70,8 +70,9 @@ using namespace SIM;
 using namespace std;
 
 TextEdit::TextEdit(QWidget *p, const char *name)
-        : TextShow(p, name)
+        : TextShow(p)
 {
+    setObjectName(name);
     m_param = NULL;
     m_bEmpty = true;
     m_bBold  = false;
@@ -129,7 +130,7 @@ void TextEdit::slotClicked(int,int)
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
         return;
     m_bInClick = true;
-    QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0), 0);
+    QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0));
     contentsContextMenuEvent(&e);
     m_bInClick = false;
 }

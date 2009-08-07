@@ -225,7 +225,7 @@ OSDWidget::OSDWidget(OSDPlugin *plugin)
 
 bool OSDWidget::isScreenSaverActive()
 {
-#ifdef Q_WS_WIN
+#if defined( Q_WS_WIN ) && defined( SPI_GETSCREENSAVERRUNNING )
     BOOL pvParam;
     if (SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &pvParam, 0)){
         if (pvParam)

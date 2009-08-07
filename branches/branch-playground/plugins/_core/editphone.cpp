@@ -36,10 +36,11 @@ extern ext_info phoneIcons[];
 extern const char *phoneTypeNames[];
 
 EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type, unsigned icon, bool bPublish, bool bShowPublish)
-		:QDialog(parent, "editphone")
+                :QDialog(parent)
         //: EditPhoneBase(parent, "editphone", true)
 {
-	setupUi(this);
+    setObjectName("editphone");
+    setupUi(this);
     SET_WNDPROC("editphone")
     setWindowIcon(Icon("phone"));
     setButtonsPict(this);

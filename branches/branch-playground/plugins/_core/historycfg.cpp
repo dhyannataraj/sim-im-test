@@ -35,7 +35,7 @@
 #include <qspinbox.h>
 #include <q3syntaxhighlighter.h>
 
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QKeyEvent>
 #include <QEvent>
 #ifdef USE_KDE
@@ -556,8 +556,8 @@ void HistoryConfig::realRename()
         if (m_styles[m_edit].text.isEmpty()){
             QFile f(nn);
             if (f.open(QIODevice::ReadOnly)){
-                Q3TextStream ts(&f);
-                m_styles[m_edit].text = ts.read();
+                QTextStream ts(&f);
+                m_styles[m_edit].text = ts.readAll();
             }
         }
         QFile::remove(nn);
@@ -609,8 +609,8 @@ void HistoryConfig::viewChanged(QWidget *w)
             name = m_styles[cur].bCustom ? user_file(name) : app_file(name);
             QFile f(name);
             if (f.open(QIODevice::ReadOnly)){
-                Q3TextStream ts(&f);
-                xsl = ts.read();
+                QTextStream ts(&f);
+                xsl = ts.readAll();
             }else{
                 log(L_WARN, "Can't open %s", qPrintable(name));
             }
