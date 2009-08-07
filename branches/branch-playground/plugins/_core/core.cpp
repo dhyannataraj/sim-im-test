@@ -421,7 +421,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
    m_plugin = this;
 
 	load_data(coreData, &data, config);
-	setProperty("StatusTime", (unsigned int)time(NULL));
+    setProperty("StatusTime", QDateTime::currentDateTime().toTime_t());
 
 	user_data_id	 = getContacts()->registerUserData("core", coreUserData);
 	sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
@@ -1188,7 +1188,7 @@ bool CorePlugin::processEvent(Event *e)
 					QString profile = ProfileManager::instance()->currentProfileName();
 					free_data(coreData, &data);
 					load_data(coreData, &data, info->cfg);
-					setProperty("StatusTime", (unsigned int)time(NULL));
+					setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 					if (info->cfg){
 						delete info->cfg;
 						info->cfg = NULL;
@@ -1416,7 +1416,7 @@ bool CorePlugin::processEvent(Event *e)
 				Contact *contact = getContacts()->contact(msg->contact());
 				if (contact){
 					if (msg->getTime() == 0){
-						msg->setTime(time(NULL));
+						msg->setTime(QDateTime::currentDateTime().toTime_t());
 					}
 					unsigned type = msg->baseType();
 					if (type == MessageStatus){
@@ -1442,7 +1442,7 @@ bool CorePlugin::processEvent(Event *e)
 							}
 						}
 					}else{
-						contact->setLastActive(time(NULL));
+						contact->setLastActive(QDateTime::currentDateTime().toTime_t());
 						EventContact(contact, EventContact::eStatus).process();
 					}
 				}
@@ -2986,7 +2986,7 @@ void CorePlugin::changeProfile(const QString& profilename)
 	pluginInfo *info = eInfo.info();
 	free_data(coreData, &data);
 	load_data(coreData, &data, info->cfg);
-	setProperty("StatusTime", (unsigned int)time(NULL));
+	setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 	if (info->cfg){
 		delete info->cfg;
 		info->cfg = NULL;
@@ -3790,7 +3790,7 @@ void CorePlugin::loadMenu()
 	{
 		if (status == getManualStatus())
 			return;
-		setProperty("StatusTime", (unsigned int)time(NULL));
+		setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 		data.ManualStatus.asULong() = status;
 	}
 
