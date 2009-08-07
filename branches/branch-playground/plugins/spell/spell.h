@@ -33,12 +33,12 @@
 using std::list;
 
 class TextEdit;
-class Q3SyntaxHighlighter;
+class QSyntaxHighlighter;
 class KDictSpellingHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef std::map<TextEdit*, Q3SyntaxHighlighter*>	MAP_EDITS;
+typedef std::map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
 typedef std::map<SIM::my_string, bool> MAP_BOOL;
 
 class SpellPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub

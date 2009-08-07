@@ -25,18 +25,18 @@
 
 #include <qglobal.h>
 #include <QMainWindow>
-#include <qtoolbutton.h>
-#include <qlabel.h>
+#include <QToolbutton>
+#include <QLabel>
 
-#include <q3textedit.h>
+#include <QTextedit>
 #include <QFrame>
 #ifdef USE_KDE
 #include <ktextedit.h>
-#define Q3TextEdit KTextEdit
+    #define QTextEdit KTextEdit
 #endif
 
 class CToolBar;
-class Q3PopupMenu;
+class QPopupMenu;
 
 const unsigned TextCmdBase	= 0x00030000;
 const unsigned CmdBgColor	= TextCmdBase;
@@ -46,7 +46,7 @@ const unsigned CmdItalic	= TextCmdBase + 3;
 const unsigned CmdUnderline	= TextCmdBase + 4;
 const unsigned CmdFont		= TextCmdBase + 5;
 
-class EXPORT TextShow : public Q3TextEdit
+class EXPORT TextShow : public QTextEdit
 {
     Q_OBJECT
 public:
@@ -97,7 +97,7 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     virtual void focusOutEvent(QFocusEvent *e);
     void keyPressEvent(QKeyEvent *e);
-    Q3PopupMenu *createPopupMenu(const QPoint& pos);
+    QMenu *createPopupMenu(const QPoint& pos);
     void *m_param;
     bool m_bBold;
     bool m_bItalic;

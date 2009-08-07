@@ -32,7 +32,7 @@ using namespace SIM;
 const unsigned ErrorColor = 0xFF0101;
 
 SpellHighlighter::SpellHighlighter(Q3TextEdit *edit, SpellPlugin *plugin)
-        : Q3SyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
+        : QSyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
 {
     m_paragraph = -1;
     m_bDirty = false;

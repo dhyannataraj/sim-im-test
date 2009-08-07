@@ -22,8 +22,7 @@
 #include <list>
 
 #include "textshow.h"
-//Added by qt3to4:
-#include <Q3PopupMenu>
+#include <QMenu>
 
 class CorePlugin;
 class XSL;
@@ -61,7 +60,7 @@ public:
 protected slots:
     void		update();
 protected:
-    virtual		Q3PopupMenu *createPopupMenu( const QPoint& pos );
+    virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
     virtual bool processEvent(SIM::Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);

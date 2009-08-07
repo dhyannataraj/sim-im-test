@@ -130,7 +130,7 @@ void MsgTextEdit::contentsDropEvent(QDropEvent *e)
         delete msg;
         return;
     }
-    TextEdit::contentsDropEvent(e);
+    //TextEdit::contentsDropEvent(e); //FIXME
 }
 
 void MsgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
@@ -141,7 +141,7 @@ void MsgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
         e->accept();
         return;
     }
-    TextEdit::contentsDragEnterEvent(e);
+    //TextEdit::contentsDragEnterEvent(e);  //FIXME
 }
 
 void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
@@ -152,7 +152,7 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
         e->accept();
         return;
     }
-    TextEdit::contentsDragMoveEvent(e);
+    //TextEdit::contentsDragMoveEvent(e); //FIXME
 }
 
 MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
@@ -1434,7 +1434,8 @@ void MsgEdit::insertSmile(const QString &id)
     if (m_edit->textFormat() == Qt::PlainText){
         QStringList smiles = getIcons()->getSmile(id);
         if (!smiles.empty())
-            m_edit->insert(smiles.front(), false, true, true);
+            //m_edit->insert(smiles.front(), false, true, true);  //FIXME
+            m_edit->insert(smiles.front());
         return;
     }
     QString img_src = QString("<img src=icon:%1>").arg(id);
@@ -1443,13 +1444,14 @@ void MsgEdit::insertSmile(const QString &id)
     QFont saveFont = m_edit->font();
     QColor saveColor = m_edit->color();
     // determine the current position of the cursor
-    m_edit->insert("\255", false, true, true);
-    m_edit->getCursorPosition(&para,&index);
+    //m_edit->insert("\255", false, true, true); //FIXME
+    m_edit->insert("\255");
+    //m_edit->getCursorPosition(&para,&index); //FIXME
     // RTF doesn't like < and >
     QString txt = m_edit->text();
     txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);
-    m_edit->setCursorPosition(para, index);
+    //m_edit->setCursorPosition(para, index); //FIXME
     m_edit->setCurrentFont(saveFont);
     m_edit->setColor(saveColor);
 }

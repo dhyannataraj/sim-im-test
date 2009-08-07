@@ -56,12 +56,13 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
     m_edit->m_edit->setTextFormat(Qt::RichText);
     if (msg->getFlags() & MESSAGE_INSERT){
         QString text = msg->getPlainText();
-        m_edit->m_edit->insert(text, false, true, true);
+        //m_edit->m_edit->insert(text, false, true, true); //FIXME
+        m_edit->m_edit->insert(text); 
     }else{
         QString text = msg->getRichText();
         if (!text.isEmpty()){
             m_edit->m_edit->setText(text);
-            m_edit->m_edit->moveCursor(Q3TextEdit::MoveEnd, false);
+            m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
             if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
                 m_edit->m_edit->setBackground(msg->getBackground());
                 m_edit->m_edit->setForeground(msg->getForeground(), true);

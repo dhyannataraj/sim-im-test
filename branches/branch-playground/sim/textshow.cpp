@@ -38,26 +38,26 @@
 # include <kcolordialog.h>
 # include <kfontdialog.h>
 #else
-# include <qcolordialog.h>
-# include <qfontdialog.h>
+# include <QColordialog>
+# include <QFontdialog>
 #endif
 
-#include <qdatetime.h>
-#include <q3popupmenu.h>
-#include <qapplication.h>
-#include <qclipboard.h>
-#include <qpainter.h>
-#include <qregexp.h>
-#include <qobject.h>
-#include <qtimer.h>
-#include <qstringlist.h>
-#include <qtextcodec.h>
+#include <QDatetime>
+#include <QMenu>
+#include <QApplication>
+#include <QClipboard>
+#include <QPainter>
+#include <QRegexp>
+#include <QObject>
+#include <QTimer>
+#include <QStringlist>
+#include <QTextcodec>
 #include <QToolBar>
-#include <qlineedit.h>
-#include <qtoolbutton.h>
-#include <qstatusbar.h>
-#include <qtooltip.h>
-#include <qlayout.h>
+#include <QLineedit>
+#include <QToolbutton>
+#include <QStatusbar>
+#include <QTooltip>
+#include <QLayout>
 
 #include "toolbtn.h"
 #include "html.h"
@@ -85,7 +85,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
-    setWordWrap(WidgetWidth);
+    setWordWrapMode(QTextOption::WrapMode::WordWrap); //setWordWrap(WidgetWidth);
     setAutoFormatting(0);
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
@@ -125,32 +125,39 @@ void TextEdit::slotTextChanged()
 
 void TextEdit::slotClicked(int,int)
 {
-    int paraFrom, paraTo, indexFrom, indexTo;
+    if (QTextEdit::selectedText().isEmpty())
+        return;
+
+    //FIXME ContextMenu?
+
+    /*int paraFrom, paraTo, indexFrom, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
+
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
         return;
     m_bInClick = true;
     QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0));
     contentsContextMenuEvent(&e);
-    m_bInClick = false;
+    m_bInClick = false;*/
 }
 
-Q3PopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
+QMenu *TextEdit::createPopupMenu(const QPoint& pos)
 {
     if (m_bInClick)
         return NULL;
     m_popupPos = pos;
-    return TextShow::createPopupMenu(pos);
+    return createPopupMenu(pos);
 }
 
-bool TextEdit::isEmpty()
+bool TextEdit::isEmpty() //FIXME
 {
-    if (paragraphs() < 2){
+    //return TextShow::toPlainText()->isEmpty();
+  /*  if (paragraphs() < 2){
         QString t = text(0);
         if(textFormat() == Qt::RichText)
             t = unquoteText(t);
         return t.isEmpty() || (t == " ");
-    }
+    }*/
     return false;
 }
 
@@ -159,14 +166,14 @@ void TextEdit::setParam(void *param)
     m_param = param;
 }
 
-void TextEdit::slotColorChanged(const QColor &c)
+void TextEdit::slotColorChanged(const QColor &c) //FIXME
 {
     if (c == curFG)
         return;
     int parag;
     int index;
-    getCursorPosition(&parag, &index);
-    if (Q3TextEdit::text(parag).isEmpty()){
+    //getCursorPosition(&parag, &index);
+    if (QTextEdit::selectedText().isEmpty()){
         setColor(curFG);
         return;
     }
@@ -383,16 +390,16 @@ void TextEdit::setTextFormat(Qt::TextFormat format)
     if (format == textFormat())
         return;
     if (format == Qt::RichText){
-        Q3TextEdit::setTextFormat(format);
+        QTextEdit::setTextFormat(format);
         return;
     }
     QString t = unquoteText(text());
-    Q3TextEdit::setTextFormat(format);
+    QTextEdit::setTextFormat(format);
     setText(t);
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
-        : Q3TextEdit(p, name)
+        : QTextEdit(p, name)
 {
     setTextFormat(Qt::RichText);
     setReadOnly(true);
@@ -448,7 +455,7 @@ void TextShow::setSource(const QString &name)
         mark = name.mid( hash+1 );
     }
 
-    QString url = mimeSourceFactory()->makeAbsolute( source, context() );
+    QString url("");// mimeSourceFactory()->makeAbsolute( source, context() );  //FIXME
     QString txt;
 
     if (!mark.isEmpty()) {

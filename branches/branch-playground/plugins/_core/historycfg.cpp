@@ -33,7 +33,7 @@
 #include <qtimer.h>
 #include <qtabwidget.h>
 #include <qspinbox.h>
-#include <q3syntaxhighlighter.h>
+#include <QSyntaxHighlighter.h>
 
 #include <QTextStream>
 #include <QKeyEvent>
@@ -62,16 +62,31 @@
 static char STYLES[] = "styles/";
 static char EXT[]    = ".xsl";
 
-#undef Q3TextEdit
+//#undef QTextEdit
 
 using namespace std;
 using namespace SIM;
 
-class XmlHighlighter : public Q3SyntaxHighlighter
+class XmlHighlighter : public QSyntaxHighlighter
 {
 public:
-XmlHighlighter(Q3TextEdit *textEdit) : Q3SyntaxHighlighter(textEdit) {}
+XmlHighlighter(QTextEdit *textEdit) : QSyntaxHighlighter(textEdit) {}
     virtual int highlightParagraph( const QString &text, int endStateOfLastPara ) ;
+    void highlightBlock( const QString &text ) //FIXME whole Method!!!
+    { 
+         QTextCharFormat myClassFormat;
+         myClassFormat.setFontWeight(QFont::Bold);
+         myClassFormat.setForeground(Qt::darkMagenta);
+         QString pattern = "\\bMy[A-Za-z]+\\b";
+
+         QRegExp expression(pattern);
+         int index = text.indexOf(expression);
+         while (index >= 0) {
+             int length = expression.matchedLength();
+             setFormat(index, length, myClassFormat);
+             index = text.indexOf(expression, index + length);
+          }
+    }
 };
 
 const int TEXT			= -2;
@@ -211,7 +226,8 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     }
     lblPage1->setText(str1);
     lblPage2->setText(str2);
-    edtStyle->setWordWrap(Q3TextEdit::NoWrap);
+    //edtStyle->setWordWrap(QTextEdit::NoWrap);
+    edtStyle->setWordWrapMode(QTextOption::WrapMode::NoWrap);
     edtStyle->setTextFormat(Qt::RichText);
     highlighter = new XmlHighlighter(edtStyle);
     addStyles(user_file(STYLES), true);

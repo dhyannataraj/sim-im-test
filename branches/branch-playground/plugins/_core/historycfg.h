@@ -26,7 +26,7 @@
 #include "ui_historycfgbase.h"
 
 class CorePlugin;
-class Q3SyntaxHighlighter;
+class QSyntaxHighlighter;
 
 struct StyleDef
 {
@@ -68,7 +68,7 @@ protected:
     int  m_cur;
     int  m_edit;
     std::vector<StyleDef> m_styles;
-    Q3SyntaxHighlighter* highlighter;
+    QSyntaxHighlighter* highlighter;
 };
 
 #endif
