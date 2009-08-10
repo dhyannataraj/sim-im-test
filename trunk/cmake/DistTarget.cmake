@@ -34,3 +34,17 @@ ENDIF(WIN32 AND NOT UNIX)
 SET(CPACK_PACKAGE_EXECUTABLES "sim" "sim")
 
 INCLUDE(CPack)
+
+
+#########################################################################
+# This part of file were made by Swamy Dhyan Nataraj (Nikolay Shaplov)
+# and will be used for dist target instead of above text, when ready.
+#########################################################################
+
+FILE(WRITE "${Sim-IM_BINARY_DIR}/make-dist.manifest.txt" "") # Clearing dist manifest file.
+
+MACRO(ADD_TO_DIST_TARGET)
+    SET(_file_name ${ARGV0})
+    SET(_dist_type ${ARGV1})
+    FILE(APPEND "${Sim-IM_BINARY_DIR}/make-dist.manifest.txt" "${_file_name}\n")
+ENDMACRO(ADD_TO_DIST_TARGET)

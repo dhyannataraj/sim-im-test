@@ -18,7 +18,7 @@ MACRO(SIM_ADD_PLUGIN _name)
             SET (${_name}_FLAG_NON_WIN32 1)
         ENDIF(WIN32)
 
-        FOREACH(_platform ${${_name}_PLATFORMS})            # WIN32 UNIX NONWIN32 etc
+        FOREACH(_platform ${${_name}_PLATFORMS})            # COMMON WIN32 UNIX NON_WIN32 etc
             FOREACH(_src_type ${_src_types})
                 IF(NOT ${_name}_PLUGIN_FORBIDDEN)
                     IF(${_name}_FLAG_${_platform})           # i.e. __home_FLAG_WIN32
@@ -31,45 +31,48 @@ MACRO(SIM_ADD_PLUGIN _name)
                     ENDIF(${_name}_FLAG_${_platform})
                 ENDIF(NOT ${_name}_PLUGIN_FORBIDDEN)
                 LIST(APPEND _${_src_type}_ALL ${${_name}_${_src_type}_${_platform}})
+                FOREACH(a_file_name ${${_name}_${_src_type}_${_platform}})
+                  ADD_TO_DIST_TARGET("${Sim-IM_PLUGINS_SOURCE_DIR}/${_name}/${a_file_name}")
+                ENDFOREACH(a_file_name)
             ENDFOREACH(_src_type)
         ENDFOREACH(_platform)
         SET(${_name}_MESSAGE_SOURCES ${_UICS_ALL} ${_SRCS_ALL} PARENT_SCOPE)
         
 
-        SET(_srcs ${_SRCS})
-        SET(_hdrs ${_HDRS})
-        SET(_uics ${_UICS})
-        SET(_libs ${_LIBS})
-        MESSAGE(" srcs: ${_srcs}")
-        MESSAGE(" hdrs: ${_hdrs}")
-        MESSAGE(" uics: ${_uics}")
+        # SET(_srcs ${_SRCS})
+        # SET(_hdrs ${_HDRS})
+        # SET(_uics ${_UICS})
+        # SET(_libs ${_LIBS})
+        # MESSAGE(" srcs: ${_srcs}")
+        # MESSAGE(" hdrs: ${_hdrs}")
+        # MESSAGE(" uics: ${_uics}")
         
-        MESSAGE("==============================")
+        # MESSAGE("==============================")
 
-        MESSAGE(" SRCS_ALL: ${_SRCS_ALL}")
-        MESSAGE(" HDRS_ALL: ${_HDRS_ALL}")
-        MESSAGE(" UICS_ALL: ${_UICS_ALL}")
-        MESSAGE("==============================")
+        # MESSAGE(" SRCS_ALL: ${_SRCS_ALL}")
+        # MESSAGE(" HDRS_ALL: ${_HDRS_ALL}")
+        # MESSAGE(" UICS_ALL: ${_UICS_ALL}")
+        # MESSAGE("==============================")
 
     ##################################################
-    ELSE()
-        MESSAGE(FATAL_ERROR "I've forgot something!")
-        SET(_srcs ${${_name}_SRCS})
-        SET(_hdrs ${${_name}_HDRS})
-        SET(_uics ${${_name}_UICS})
-        SET(_libs ${${_name}_LIBS})
+    #ELSE()
+    #    MESSAGE(FATAL_ERROR "I've forgot something!")
+    #    SET(_srcs ${${_name}_SRCS})
+    #    SET(_hdrs ${${_name}_HDRS})
+    #    SET(_uics ${${_name}_UICS})
+    #    SET(_libs ${${_name}_LIBS})
     ENDIF()
     
     IF(NOT ${_name}_PLUGIN_FORBIDDEN)
-        KDE3_AUTOMOC(${_srcs})
+        KDE3_AUTOMOC(${_SRCS})
     
-        QT3_ADD_UI_FILES(_srcs ${_uics})
+        QT3_ADD_UI_FILES(_SRCS ${_UICS})
 
-        ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs} ${_MEDIA})
+        ADD_LIBRARY(${_name} SHARED ${_SRCS} ${_HDRS} ${_MEDIA})
 
         INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-        TARGET_LINK_LIBRARIES(${_name} simlib ${_libs})
+        TARGET_LINK_LIBRARIES(${_name} simlib ${_LIBS})
 
         SET_TARGET_PROPERTIES(${_name} PROPERTIES PREFIX "")
 
