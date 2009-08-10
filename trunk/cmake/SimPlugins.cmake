@@ -30,14 +30,20 @@ MACRO(SIM_ADD_PLUGIN _name)
                         ENDIF(_src_type STREQUAL FLEX)
                     ENDIF(${_name}_FLAG_${_platform})
                 ENDIF(NOT ${_name}_PLUGIN_FORBIDDEN)
+
+
                 LIST(APPEND _${_src_type}_ALL ${${_name}_${_src_type}_${_platform}})
                 FOREACH(a_file_name ${${_name}_${_src_type}_${_platform}})
-                  ADD_TO_DIST_TARGET("${Sim-IM_PLUGINS_SOURCE_DIR}/${_name}/${a_file_name}")
+                  IF(IS_ABSOLUTE ${a_file_name})
+                    ADD_TO_DIST_TARGET("${a_file_name}")
+                  ELSE(IS_ABSOLUTE ${a_file_name})
+                    ADD_TO_DIST_TARGET("${Sim-IM_PLUGINS_SOURCE_DIR}/${_name}/${a_file_name}")
+                  ENDIF(IS_ABSOLUTE ${a_file_name})
                 ENDFOREACH(a_file_name)
             ENDFOREACH(_src_type)
         ENDFOREACH(_platform)
         SET(${_name}_MESSAGE_SOURCES ${_UICS_ALL} ${_SRCS_ALL} PARENT_SCOPE)
-        
+        ADD_TO_DIST_TARGET("${Sim-IM_PLUGINS_SOURCE_DIR}/${_name}/CMakeLists.txt")
 
         # SET(_srcs ${_SRCS})
         # SET(_hdrs ${_HDRS})
