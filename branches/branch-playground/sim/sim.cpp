@@ -331,6 +331,13 @@ int main(int argc, char *argv[])
 #ifndef WIN32
     int _argc = 0;
     char **_argv = new char*[argc + 1];
+#ifdef Q_OS_MAC
+    for (char **p = argv; *p; ++p){
+        if( strncmp( "-psn_", *p, 4 ) != 0 ) {
+            _argv[_argc++] = *p;
+        }
+    }
+#else
     _argv[_argc++] = argv[0];
     char **to = argv + 1;
     // check all parameters and sort them
@@ -379,6 +386,7 @@ int main(int argc, char *argv[])
     }
     *to = NULL;
     _argv[_argc] = NULL;
+#endif
 #ifdef USE_KDE
     KCmdLineArgs::init( _argc, _argv, &aboutData );
     KCmdLineOptions options[] =
@@ -407,7 +415,11 @@ int main(int argc, char *argv[])
     SimApp app(argc, argv);
 #endif
     QApplication::addLibraryPath( app.applicationDirPath() + "/plugins" );
+#ifdef Q_OS_MAC
+    PluginManager p(_argc, _argv);
+#else
     PluginManager p(argc, argv);
+#endif
     app.setQuitOnLastWindowClosed( false );
     if (p.isLoaded())
         res = app.exec();
