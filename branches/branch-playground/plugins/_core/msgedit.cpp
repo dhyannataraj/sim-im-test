@@ -34,7 +34,6 @@
 #include <QDropEvent>
 #include <QDragMoveEvent>
 #include <QByteArray>
-#include <Q3PopupMenu>
 
 #include "simapi.h"
 
@@ -1320,7 +1319,7 @@ bool MsgEdit::processEvent(Event *e)
 
 void MsgEdit::setEmptyMessage()
 {
-    m_edit->setText(QString::null);
+    m_edit->setPlainText(QString());
     EventMenuGetDef eMenu(MenuMessage);
     eMenu.process();
     CommandsDef *cmdsMsg = eMenu.defs();
@@ -1436,7 +1435,7 @@ void MsgEdit::insertSmile(const QString &id)
             m_edit->insert(smiles.front());
         return;
     }
-    QString img_src = QString("<img src=icon:%1>").arg(id);
+    QString img_src = QString("<img src=sim:icons/%1>").arg(id);
     int para;
     int index;
     QFont saveFont = m_edit->font();
@@ -1446,9 +1445,9 @@ void MsgEdit::insertSmile(const QString &id)
     m_edit->insert("\255");
     //m_edit->getCursorPosition(&para,&index); //FIXME
     // RTF doesn't like < and >
-    QString txt = m_edit->text();
+    QString txt = m_edit->toHtml();
     txt.replace(QRegExp("\255"),img_src);
-    m_edit->setText(txt);
+    m_edit->setHtml(txt);
     //m_edit->setCursorPosition(para, index); //FIXME
     m_edit->setCurrentFont(saveFont);
     m_edit->setColor(saveColor);

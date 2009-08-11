@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qregexp.h>
+#include <QRegExp>
+#include <QDomDocument>
 
 #include "html.h"
 #include "icons.h"
@@ -44,15 +45,62 @@ UnquoteParser::UnquoteParser()
 {
 }
 
+QString GetTextFromElement( QDomElement el ) {
+    QString text;
+    QDomNode node = el.firstChild();
+    while( !node.isNull() ) {
+        switch( node.nodeType() ) {
+            case QDomNode::TextNode : {
+                QDomCharacterData data = node.toCharacterData();
+                text += data.data();
+                break;
+            }
+            case QDomNode::ElementNode : {
+                text += GetTextFromElement( node.toElement() );
+                break;
+            }
+        }
+        node = node.nextSibling();
+    }
+    QString sName = el.nodeName();
+    if( sName == "p" || sName == "br" ) {
+        text += "\n";
+    }
+    else if( sName == "img" ) {
+        QString src = el.attribute( "src" );
+        if (src.startsWith("sim:icons/")){
+            QStringList smiles = getIcons()->getSmile(src.mid(10));
+            if (!smiles.empty()){
+                text += smiles.front();
+            }
+        }
+    }
+    return text;
+}
+
 QString UnquoteParser::parse(const QString &str)
 {
+    QDomDocument doc;
+    doc.setContent( str );
+    QDomElement el = doc.firstChildElement( "html" );
+    if( el.isNull() )
+        return str;
+    el = el.firstChildElement( "body" );
+    if( el.isNull() )
+        return str;
+/*
     res = QString::null;
     m_bPar = false;
     m_bTD  = false;
     m_bTR  = false;
     m_bPre = true;
     HTMLParser::parse(str);
-    return res;
+*/
+    QString sText = GetTextFromElement( el );
+    if( sText.right(1) == "\n" ) {
+        sText = sText.left( sText.length() - 1 );
+    }
+    return sText;
 }
 
 void UnquoteParser::text(const QString &text)
@@ -112,8 +160,8 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
             res += unquoteString(alt);
             return;
         }
-        if (src.startsWith("icon:")){
-            QStringList smiles = getIcons()->getSmile(src.mid(5));
+        if (src.startsWith("sim:icons/")){
+            QStringList smiles = getIcons()->getSmile(src.mid(10));
             if (!smiles.empty()){
                 res += smiles.front();
                 return;

@@ -346,7 +346,7 @@ bool CommonStatus::processEvent(Event *e)
 							title = title.left(n) + ' ' + title.mid(n + 1);
 						break;
 					}
-            item.text	= QString("<img src=\"icon:%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
+            item.text	= QString("<img src=\"sim:icons/%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
                 .arg((data.flags & EventNotification::ClientNotificationData::E_INFO) ? "info" : "error")
                         .arg(title) + quoteString(item.text) + "</center>";
 			if (data.options.isEmpty())

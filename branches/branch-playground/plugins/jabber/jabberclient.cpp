@@ -1960,8 +1960,8 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
             res += unquoteString(alt);
             return;
         }
-        if (src.left(5) == "icon:"){
-            QStringList smiles = getIcons()->getSmile(src.mid(5));
+        if (src.left(10) == "sim:icons/"){
+            QStringList smiles = getIcons()->getSmile(src.mid(10));
             if (!smiles.empty()){
                 res += smiles.front();
                 return;

@@ -119,7 +119,7 @@ bool MsgGen::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
-            QString msgText = m_edit->m_edit->text();
+            QString msgText = m_edit->m_edit->toHtml();
             if (!msgText.isEmpty()){
                 log(L_DEBUG, "Send: %s", qPrintable(msgText));
                 Message *msg = new Message;

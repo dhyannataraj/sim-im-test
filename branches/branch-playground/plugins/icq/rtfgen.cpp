@@ -657,8 +657,8 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 				break;
 			}
 		}
-		if (src.startsWith("icon:")){
-			QStringList smiles = getIcons()->getSmile(src.mid(5));
+        if (src.startsWith("sim:icons/")){
+            QStringList smiles = getIcons()->getSmile(src.mid(10));
 			for (QStringList::iterator its = smiles.begin(); its != smiles.end(); ++its){
 				QString s = *its;
 				for (unsigned nSmile = 0; nSmile < 26; nSmile++){
@@ -956,7 +956,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
                 break;
             }
         }
-        if (src.left(5) != "icon:"){
+        if (src.left(10) != "sim:icons/"){
             text(alt);
             return;
         }
@@ -971,7 +971,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if ((*its) != def_smiles[nSmile])
                         continue;
-                    res += "<img src=\"icon:smile";
+                    res += "<img src=\"sim:icons/smile";
                     char b[4];
                     sprintf(b, "%X", nSmile);
                     res += b;
