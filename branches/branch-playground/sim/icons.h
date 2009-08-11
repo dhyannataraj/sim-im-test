@@ -18,10 +18,10 @@
 #ifndef _ICONS_H
 #define _ICONS_H
 
-#include <qicon.h>
-#include <qimage.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QIcon>
+#include <QImage>
+#include <QString>
+#include <QStringList>
 #include <QPixmap>
 
 #include "simapi.h"

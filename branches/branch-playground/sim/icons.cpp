@@ -30,7 +30,7 @@
 #include <QPixmap>
 #include <Q3MimeSourceFactory>
 #include <QImageReader>
-#include <QXmlStreamReader>
+#include <QDomDocument>
 
 #ifdef USE_KDE
 # include <kapp.h>
@@ -95,9 +95,6 @@ public:
     PictDef *getPict(const QString &name);
     void clear();
 protected:
-    void element_start(const QStringRef& el, const QXmlStreamAttributes& attrs);
-    void element_end(const QStringRef& el);
-    void char_data(const QStringRef& str);
 	void parse(const QByteArray &data);
     QString     m_name;
     QString     m_file;
@@ -509,110 +506,40 @@ void FileIconSet::clear()
 
 void FileIconSet::parse(const QByteArray &data)
 {
-    QXmlStreamReader xml(data);
-    while (!xml.atEnd()) {
-        QXmlStreamReader::TokenType tt = xml.readNext();
-        if (tt == QXmlStreamReader::StartElement)
-            element_start(xml.name(), xml.attributes());
-        else
-        if (tt == QXmlStreamReader::Characters)
-            char_data(xml.text());
-        else
-        if (tt == QXmlStreamReader::EndElement)
-            element_end(xml.name());
-    }
-}
-
-void FileIconSet::element_start(const QStringRef& el, const QXmlStreamAttributes& attrs)
-{
-    if (el == "icon"){
-        m_name.clear();
-        m_smile .clear();
-        m_flags = 0;
-        m_file.clear();
+    QDomDocument doc;
+    doc.setContent( data );
+    QDomElement icondef = doc.firstChildElement( "icondef" );
+    QDomElement icon = icondef.firstChildElement( "icon" );
+    while( !icon.isNull() ) {
+        PictDef pict;
+        smileDef smile;
+        QString sName = icon.attribute( "name", "s_" + QString::number(++Icons::nSmile) );
+        pict.flags = icon.attribute( "flags" ).toUInt();
+        QDomElement object = icon.firstChildElement( "object" );
+        pict.file = object.text();
 #ifdef USE_KDE
-        m_system.clear();
-#endif
-        m_name = attrs.value("name").toString();
-        m_flags = attrs.value("flags").toString().toUInt();
-#ifdef USE_KDE
-        m_system = attrs.value("kicon");
-#endif
-        if (m_name.isEmpty()){
-            m_name = "s_";
-            m_name += QString::number(++Icons::nSmile);
-        }
-        return;
-    }
-    if (el == "object" && m_file.isEmpty()){
-        QString mime = attrs.value("mime").toString();
-        if (mime.isEmpty())
-            return;
-        int n = mime.indexOf('/');
-        if (n < 0)
-            return;
-        if (!mime.startsWith("image"))
-            return;
-        mime = mime.mid(n + 1);
-        const QString lmime = mime.toLower();
-	   	const QList<QByteArray> fmts_list = QImageReader::supportedImageFormats();
-		for(QList<QByteArray>::ConstIterator it = fmts_list.begin(); it != fmts_list.end(); ++it)
-		{
-            const QString format = QString::fromUtf8(*it).toLower();
-            if (format != lmime)
-                continue;
-            m_data = &m_file;
-            return;
-		}
-        return;
-    }
-    if (el == "text"){
-        m_smile.clear();
-        m_data = &m_smile;
-        return;
-    }
-}
-
-void FileIconSet::element_end(const QStringRef& el)
-{
-    if (el == "icon"){
-        PictDef p;
-        p.file   = m_file;
-        p.flags  = m_flags;
-#ifdef USE_KDE
-        p.system = m_system;
-#endif
-        PIXMAP_MAP::iterator it = m_icons.find(m_name);
-        if (it == m_icons.end())
-            m_icons.insert(m_name, p);
-#ifdef USE_KDE
-        if (!m_name.startsWith("big.")){
-            QString big_name = "big." + m_name;
+        pict.system = icon.attribute( "kicon" );
+        if (!sName.startsWith("big.")){
+            PictDef bigpict;
+            QString big_name = "big." + sName;
             p.file.clear();
-            p.flags  = m_flags;
-            p.system = m_system;
+            bigpict.flags  = pict.flags;
+            bigpict.system = pict.system;
             it = m_icons.indexOf(big_name);
             if (it == m_icons.end())
-                m_icons.insert(PIXMAP_MAP::value_type(big_name, p));
+                m_icons.insert(PIXMAP_MAP::value_type(big_name, bigpict));
         }
 #endif
-    }
-    if (el == "text"){
-        if (!m_smile.isEmpty() && !m_name.isEmpty()){
-            smileDef s;
-            s.name  = m_name;
-            s.smile = m_smile;
-            m_smiles.push_back(s);
+        QDomElement text = icon.firstChildElement( "text" );
+        m_icons.insert( sName, pict );
+        while( !text.isNull() ) {
+            smile.name = sName;
+            smile.smile = text.text();
+            m_smiles.push_back( smile );
+            text = text.nextSiblingElement( "text" );
         }
-        m_smile.clear();
+        icon = icon.nextSiblingElement( "icon" );
     }
-    m_data = NULL;
-}
-
-void FileIconSet::char_data(const QStringRef& str)
-{
-    if (m_data)
-        *m_data += str.toString();
 }
 
 /*************************************
