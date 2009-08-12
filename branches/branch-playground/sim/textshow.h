@@ -25,10 +25,10 @@
 
 #include <qglobal.h>
 #include <QMainWindow>
-#include <QToolbutton>
+#include <QToolButton>
 #include <QLabel>
 
-#include <QTextedit>
+#include <QTextEdit>
 #include <QFrame>
 #ifdef USE_KDE
 #include <ktextedit.h>

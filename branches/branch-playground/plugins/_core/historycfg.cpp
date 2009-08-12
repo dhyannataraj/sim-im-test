@@ -21,19 +21,19 @@
 
 #include <algorithm>
 
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qvalidator.h>
-#include <qlabel.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qtimer.h>
-#include <qtabwidget.h>
-#include <qspinbox.h>
-#include <QSyntaxHighlighter.h>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QValidator>
+#include <QLabel>
+#include <QFile>
+#include <QDir>
+#include <QRegExp>
+#include <QTimer>
+#include <QTabWidget>
+#include <QSpinBox>
+#include <QSyntaxHighlighter>
 
 #include <QTextStream>
 #include <QKeyEvent>

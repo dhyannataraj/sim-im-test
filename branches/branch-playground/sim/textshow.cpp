@@ -38,25 +38,25 @@
 # include <kcolordialog.h>
 # include <kfontdialog.h>
 #else
-# include <QColordialog>
-# include <QFontdialog>
+# include <QColorDialog>
+# include <QFontDialog>
 #endif
 
-#include <QDatetime>
+#include <QDateTime>
 #include <QMenu>
 #include <QApplication>
 #include <QClipboard>
 #include <QPainter>
-#include <QRegexp>
+#include <QRegExp>
 #include <QObject>
 #include <QTimer>
-#include <QStringlist>
-#include <QTextcodec>
+#include <QStringList>
+#include <QTextCodec>
 #include <QToolBar>
-#include <QLineedit>
-#include <QToolbutton>
-#include <QStatusbar>
-#include <QTooltip>
+#include <QLineEdit>
+#include <QToolButton>
+#include <QStatusBar>
+#include <QToolTip>
 #include <QLayout>
 
 #include "toolbtn.h"
