@@ -15,6 +15,6 @@ SET(weather_HDRS_COMMON weather.h
 SET(weather_UICS_COMMON weathercfgbase.ui
                         wifacecfgbase.ui)
 
-ADD_JISP_ARCHIVE(jisp weather.jisp weather_MEDIA_COMMON)
+ADD_JISP_ARCHIVE(jisp weather.jisp weather_NON_SRC_TARGETS)
 
 SIM_ADD_PLUGIN(weather)

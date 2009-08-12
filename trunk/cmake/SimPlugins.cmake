@@ -42,6 +42,9 @@ MACRO(SIM_ADD_PLUGIN _name)
                 ENDFOREACH(a_file_name)
             ENDFOREACH(_src_type)
         ENDFOREACH(_platform)
+        # some make targets are generated not by source files but by ADD_CUSTOM_COMMAND (i.e. in ADD_JISP_ARCHIVE)
+        # in order not to add these targets to make dist file list we will keep them in _NON_SRC_TARGETS
+        SET(_NON_SRC_TARGETS ${${_name}_NON_SRC_TARGETS})
         SET(${_name}_MESSAGE_SOURCES ${_UICS_ALL} ${_SRCS_ALL} PARENT_SCOPE)
         ADD_TO_DIST_TARGET("${Sim-IM_PLUGINS_SOURCE_DIR}/${_name}/CMakeLists.txt")
 
@@ -74,7 +77,7 @@ MACRO(SIM_ADD_PLUGIN _name)
     
         QT3_ADD_UI_FILES(_SRCS ${_UICS})
 
-        ADD_LIBRARY(${_name} SHARED ${_SRCS} ${_HDRS} ${_MEDIA})
+        ADD_LIBRARY(${_name} SHARED ${_SRCS} ${_HDRS} ${_MEDIA} ${_NON_SRC_TARGETS})
 
         INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
