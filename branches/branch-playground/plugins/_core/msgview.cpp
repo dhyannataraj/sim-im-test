@@ -17,12 +17,6 @@
 
 #include "simapi.h"
 
-#include <qstringlist.h>
-#include <qtimer.h>
-#include <qdatetime.h>
-//Added by qt3to4:
-#include <QMenu>
-
 #include "icons.h"
 #include "html.h"
 #include "unquot.h"
@@ -31,6 +25,12 @@
 #include "msgview.h"
 #include "core.h"
 #include "history.h"
+
+#include <QStringList>
+#include <QTimer>
+#include <QDateTime>
+#include <QMenu>
+#include <QScrollBar>
 
 using namespace std;
 using namespace SIM;
@@ -1140,7 +1140,10 @@ MsgView::MsgView(QWidget *parent, unsigned id)
         if (!CorePlugin::m_plugin->getOwnColors())
             setBackground(0);
     }
-//    scrollToBottom();
+    QScrollBar *sbar = verticalScrollBar();
+    if( NULL != sbar ) {
+        sbar->setValue( sbar->maximum() );
+    }
     QTimer::singleShot(0, this, SLOT(init()));
 }
 
@@ -1150,7 +1153,10 @@ MsgView::~MsgView()
 
 void MsgView::init()
 {
-//    scrollToBottom();
+    QScrollBar *sbar = verticalScrollBar();
+    if( NULL != sbar ) {
+        sbar->setValue( sbar->maximum() );
+    }
 }
 
 bool MsgView::processEvent(Event *e)
@@ -1182,8 +1188,12 @@ bool MsgView::processEvent(Event *e)
         }
         if (bAdd){
             addMessage(msg);
-//            if (!hasSelectedText())
-//                scrollToBottom();
+            if (!hasSelectedText()) {
+                QScrollBar *sbar = verticalScrollBar();
+                if( NULL != sbar ) {
+                    sbar->setValue( sbar->maximum() );
+                }
+            }
         }
     }
     return MsgViewBase::processEvent(e);
