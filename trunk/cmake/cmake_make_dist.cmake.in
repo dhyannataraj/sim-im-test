@@ -3,20 +3,38 @@ IF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt")
   MESSAGE(FATAL_ERROR "Cannot find install manifest: \"@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt\"")
 ENDIF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt")
 
+SET(_tarball  "@CMAKE_CURRENT_BINARY_DIR@/sim.tar")
+
+EXEC_PROGRAM(
+  "@CMAKE_COMMAND@" ARGS "-E remove \"${_tarball}\""
+  OUTPUT_VARIABLE rm_out
+  RETURN_VALUE rm_retval
+)
+
 FILE(READ "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
-  MESSAGE(STATUS "${file}")
+  FILE(RELATIVE_PATH rel_file_name "@Sim-IM_SOURCE_DIR@" ${file})
+  MESSAGE(STATUS "${rel_file_name}")
   IF(EXISTS "${file}")
-    EXEC_PROGRAM(
-      tar  ARGS "-rvf sim.tar \"${file}\""
+
+
+    EXECUTE_PROCESS(
+      COMMAND pwd  
       OUTPUT_VARIABLE tar_out
-      RETURN_VALUE tar_retval
+      RESULT_VARIABLE tar_retval
+      WORKING_DIRECTORY "@Sim-IM_SOURCE_DIR@"
       )
-#    IF("${tar_retval}" STREQUAL 0)
-#    ELSE("${rm_retval}" STREQUAL 0)
-#      MESSAGE(FATAL_ERROR "Problem when removing \"${file}\"")
-#    ENDIF("${rm_retval}" STREQUAL 0)
+    EXECUTE_PROCESS(
+      COMMAND tar -rvf ${_tarball} "${rel_file_name}"
+      OUTPUT_VARIABLE tar_out
+      RESULT_VARIABLE tar_retval
+      WORKING_DIRECTORY "@Sim-IM_SOURCE_DIR@"
+      )
+    IF("${tar_retval}" STREQUAL 0)
+    ELSE("${tar_retval}" STREQUAL 0)
+      MESSAGE(FATAL_ERROR "Problem when adding \"${file}\": \n ${tar_out}")
+    ENDIF("${tar_retval}" STREQUAL 0)
   ELSE(EXISTS "${file}")
     MESSAGE(STATUS "File \"${file}\" does not exist.")
   ENDIF(EXISTS "${file}")

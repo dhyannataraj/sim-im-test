@@ -274,5 +274,15 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
         COMMAND ${MSGMERGE_EXECUTABLE} ${po_file}.backup ${CMAKE_SOURCE_DIR}/po/sim.pot >${po_file}
       )
     ENDFOREACH(po_file)
-
 ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )
+
+
+# for dist target
+CONFIGURE_FILE(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_make_dist.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist.cmake"
+  IMMEDIATE @ONLY)
+
+# dist target
+ADD_CUSTOM_TARGET(dist
+  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist.cmake")
