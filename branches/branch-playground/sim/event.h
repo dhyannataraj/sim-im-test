@@ -18,9 +18,10 @@
 #ifndef SIM_EVENT_H
 #define SIM_EVENT_H
 
-#include <qpoint.h>
-#include <qsize.h>
-#include <qstringlist.h>
+#include <QPoint>
+#include <QSize>
+#include <QStringList>
+#include <QVariant>
 
 #include "buffer.h"
 
@@ -882,6 +883,7 @@ protected:
 
 // CommandDef->param is getPreferencesWindow
 typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
+typedef QWidget* (*getPreferencesWindowContact)(QWidget *parent, QVariantMap* data);
 class EventAddPreferences : public Event
 {
 public:
@@ -1010,6 +1012,7 @@ const unsigned COMMAND_DISABLED     = 0x0010;
 const unsigned COMMAND_GLOBAL_ACCEL = 0x0020;
 const unsigned COMMAND_RECURSIVE    = 0x0040;
 const unsigned COMMAND_NEW_POPUP    = 0x0080;
+const unsigned COMMAND_CONTACT      = 0x0100;
 
 const unsigned BTN_TYPE             = 0xF000; //identifies one this block-constants, the following ones are a subtypes of this general identifier. these const's are handled in toolbtn.cpp
 const unsigned BTN_DEFAULT          = 0x0000; //constructs a new CToolButton

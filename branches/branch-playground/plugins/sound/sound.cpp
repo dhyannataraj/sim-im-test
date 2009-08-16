@@ -64,59 +64,24 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef soundData[] =
-    {
-#ifdef USE_KDE
-        { "UseArts",     DATA_BOOL,   1, DATA(1) },
-#endif
-        { "Player",      DATA_STRING, 1, "play" },
-#if !defined(USE_AUDIERE) && (defined(WIN32) || defined(__OS2__))
-        { "StartUp",     DATA_STRING, 1, "startup.wav" },
-        { "FileDone",    DATA_STRING, 1, "filedone.wav" },
-        { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
-        {  NULL,         DATA_UNKNOWN,0, 0 }
-#else
-        { "StartUp",     DATA_STRING, 1, "startup.ogg" },
-        { "FileDone",    DATA_STRING, 1, "filedone.ogg" },
-        { "MessageSent", DATA_STRING, 1, "msgsent.ogg" },
-        {  NULL,         DATA_UNKNOWN,0, 0 }
-#endif
-    };
-
-static DataDef soundUserData[] =
-    {
-#if !defined(USE_AUDIERE) && (defined(WIN32) || defined(__OS2__))
-        { "Alert", DATA_STRING, 1, "alert.wav" },
-#else
-        { "Alert", DATA_STRING, 1, "alert.ogg" },
-#endif
-        { "Receive", DATA_STRLIST, 1, 0 },
-        { "NoSoundIfActive", DATA_BOOL, 1, 0 },
-        { "Disable", DATA_BOOL, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
 static SoundPlugin *soundPlugin = NULL;
 
-static QWidget *getSoundSetup(QWidget *parent, void *data)
+static QWidget *getSoundSetup(QWidget *parent, QVariantMap* data)
 {
     return new SoundUserConfig(parent, data, soundPlugin);
 }
 
 SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
-        : Plugin(base)
+        : Plugin(base), PropertyHub("sound")
 {
-    load_data(soundData, &data, config);
     soundPlugin = this;
-    user_data_id = getContacts()->registerUserData(info.title, soundUserData);
+    m_media = Phonon::createPlayer(Phonon::NotificationCategory);
 
-    m_bChanged = false;
+	CmdSoundDisable = 1000022; // FIXME
 
-    CmdSoundDisable   = registerType();
-    EventSoundChanged = (SIM::SIMEvent)registerType();
-
-    Command cmd;
-    cmd->id       = user_data_id;
+	Command cmd;
+	cmd->id       = 0;
+	cmd->flags    = COMMAND_CONTACT;
     cmd->text	  = I18N_NOOP("&Sound");
     cmd->icon	  = "sound";
     cmd->icon_on  = QString();
@@ -134,51 +99,16 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->flags	  = COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
 
-    cmd->icon	  = QString();
-    cmd->icon_on  = QString();
-    cmd->bar_id   = 0;
-    cmd->menu_id  = MenuMain;
-    cmd->flags	  = COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    EventGetPluginInfo ePlugin("_core");
+	EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
     const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
-
-    m_process = NULL;
-    m_sound	 = NULL;
-#if !defined( WIN32 ) && !defined( __OS2__ )
-    m_player = 0;
-	connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
-#endif
-    m_checkTimer = new QTimer(this);
-	QObject::connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
-#ifndef __OS2__
-	// Under OS/2, playing startup sound leads SIM to crash on next sounds
-	// under investigation
-	this->destruct=false;
-    bDone=true;
-#endif
+    m_core = static_cast<CorePlugin*>(info->plugin);
 }
 
 SoundPlugin::~SoundPlugin()
 {
-#ifdef USE_AUDIERE
-	destruct=true;
-	while (!bDone) sleepTime(1000);
-#endif
-	delete m_sound;
+    PropertyHub::save();
 	soundPlugin = NULL;
-	EventCommandRemove(CmdSoundDisable).process();
-	EventRemovePreferences(user_data_id).process();
-	free_data(soundData, &data);
-	getContacts()->unregisterUserData(user_data_id);
-}
-
-QByteArray SoundPlugin::getConfig()
-{
-    return save_data(soundData, &data);
 }
 
 QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
@@ -188,360 +118,145 @@ QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
 
 bool SoundPlugin::processEvent(SIM::Event *e)
 {
-    if(e->type() == EventSoundChanged) {
-        Command cmd;
-        cmd->id    = CmdSoundDisable;
-        SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-        if (!data->Disable.toBool())
-            cmd->flags |= COMMAND_CHECKED;
-        m_bChanged = true;
-        EventCommandChecked(cmd).process();
-        m_bChanged = false;
-        return false;
-    }
-    switch (e->type()) {
-	case eEventLoginStart:
-	{
-		playSound(getStartUp());
-		break;
-	}
-	case eEventCheckCommandState: {
-        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
-        CommandDef *cmd = ecs->cmd();
-        if (cmd->id == CmdSoundDisable){
-            cmd->flags &= ~COMMAND_CHECKED;
-            SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-            if (!data->Disable.toBool())
-                cmd->flags |= COMMAND_CHECKED;
-            return true;
-        }
-        break;
-    }
-    case eEventCommandExec: {
-        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
-        CommandDef *cmd = ece->cmd();
-        if (!m_bChanged && (cmd->id == CmdSoundDisable)){
-            SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-            data->Disable.asBool() = !data->Disable.toBool();
-            SIM::Event eChanged(EventSoundChanged);
-            eChanged.process();
-            return true;
-        }
-        break;
-    }
-    case eEventContact: {
-        EventContact *ec = static_cast<EventContact*>(e);
-        if(ec->action() != EventContact::eOnline)
+    switch (e->type())
+    {
+        case eEventLoginStart:
+        {
+            playSound(property("StartUp").toString());
             break;
-        Contact *contact = ec->contact();
-        SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
-            EventPlaySound(data->Alert.str()).process();
         }
-        break;
-    }
-    case eEventMessageSent: {
-        EventMessage *em = static_cast<EventMessage*>(e);
-        Message *msg = em->msg();
-        QString err = msg->getError();
-        if (!err.isEmpty())
-            return false;
-        QString sound;
-        if (msg->type() == MessageFile){
-            sound = getFileDone();
-        }else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-            if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
+        case eEventPluginLoadConfig:
+        {
+            PropertyHub::load();
+            // TODO Defaults
+            break;
+        }
+		case eEventContact:
+        {
+            EventContact *ec = static_cast<EventContact*>(e);
+            if(ec->action() != EventContact::eOnline)
+                break;
+            Contact *contact = ec->contact();
+            bool disable = contact->userdata()->value("sound/Disable").toBool();
+            QString alert = contact->userdata()->value("sound/Alert").toString();
+			if(alert.isEmpty())
+				alert = getContacts()->userdata()->value("sound/Alert").toString();
+            if (!alert.isEmpty() && !disable)
+            {
+                EventPlaySound(alert).process();
+            }
+            break;
+        }
+        case eEventMessageSent:
+        {
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
+            QString err = msg->getError();
+            if (!err.isEmpty())
                 return false;
-            sound = getMessageSent();
+            QString sound;
+            if (msg->type() == MessageFile)
+            {
+                sound = property("FileDone").toString();
+            }
+            else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0)
+            {
+                if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
+                    return false;
+                sound = property("MessageSent").toString();
+            }
+            if (!sound.isEmpty())
+            {
+                EventPlaySound(sound).process();
+            }
+            break;
         }
-        if (!sound.isEmpty()){
-            EventPlaySound(sound).process();
+        case eEventMessageReceived:
+        {
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
+            if(msg->type() == MessageStatus)
+                return false;
+            Contact *contact = getContacts()->contact(msg->contact());
+			bool nosound, disable;
+            if(contact)
+            {
+				nosound = contact->userdata()->value("sound/NoSoundIfActive").toBool();
+				disable = contact->userdata()->value("sound/Disable").toBool();
+            }
+            else
+            {
+				nosound = getContacts()->userdata()->value("sound/NoSoundIfActive").toBool();
+				disable = getContacts()->userdata()->value("sound/Disable").toBool();
+            }
+            if(!disable && nosound)
+            {
+                EventActiveContact e;
+                e.process();
+                if (e.contactID() == contact->id())
+                    disable = true;
+            }
+            if(!disable)
+            {
+                QString sound = messageSound(msg->baseType(), contact->id());
+                playSound(sound);
+            }
+            break;
         }
-        break;
-    }
-    case eEventMessageReceived: {
-        EventMessage *em = static_cast<EventMessage*>(e);
-        Message *msg = em->msg();
-        if (msg->type() == MessageStatus)
-            return false;
-        Contact *contact = getContacts()->contact(msg->contact());
-        SoundUserData *data;
-        if (contact){
-            data = (SoundUserData*)(contact->getUserData(user_data_id));
-        }else{
-            data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
+        case eEventPlaySound:
+        {
+            EventPlaySound *s = static_cast<EventPlaySound*>(e);
+            playSound(s->sound());
+            return true;
         }
-        bool bEnable = !data->Disable.toBool();
-        if (bEnable && data->NoSoundIfActive.toBool()){
-            EventActiveContact e;
-            e.process();
-            if (e.contactID() == contact->id())
-                bEnable = false;
-        }
-        if (bEnable){
-            QString sound = messageSound(msg->baseType(), data);
-            playSound(sound);
-        }
-        break;
-    }
-    case eEventPlaySound: {
-        EventPlaySound *s = static_cast<EventPlaySound*>(e);
-        playSound(s->sound());
-        return true;
-    }
-    default:
+        default:
         break;
     }
     return false;
 }
 
-QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
+void SoundPlugin::playSound(const QString& path)
 {
-    CommandDef *def = core->messageTypes.find(type);
-    QString sound;
-    if (data)
-        sound = get_str(data->Receive, type);
-    if (sound == "(nosound)")
-        return QString();
-    if (sound.isEmpty()){
-        def = core->messageTypes.find(type);
-        if ((def == NULL) || (def->icon.isEmpty()))
-            return QString();
-        MessageDef *mdef = (MessageDef*)(def->param);
-        if (mdef->flags & MESSAGE_SYSTEM){
-            sound = "system";
-        }else if (mdef->flags & MESSAGE_ERROR){
-            sound = "error";
-        }else{
-            sound = def->icon;
-        }
-#if defined(USE_AUDIERE) || (!defined(WIN32) && !defined(__OS2__))
-		sound += ".ogg";  //FIXME:?? this is very bad
-#else
-		sound += ".wav";  //FIXME:?? this is very bad
-#endif
-        sound = fullName(sound);
-    }
-    return sound;
+	log(L_DEBUG, "Sound: %s", qPrintable(path));
+    m_media->setCurrentSource(Phonon::MediaSource(path));
+    m_media->play();
 }
 
-QString SoundPlugin::fullName(const QString &name)
+QString SoundPlugin::messageSound(unsigned type, unsigned long contact_id)
 {
-    if (name.isEmpty() || name == QLatin1String("(nosound)"))
-        return QString();
-    QDir d(name);
-    if(!d.isRelative())
-        return name;
-    const QString sound = QLatin1String("sounds") + QDir::separator() + name;
-    return app_file(sound);
-}
-
-void SoundPlugin::playSound(const QString &s)
-{
-    if (s.isEmpty())
+    CommandDef *def = m_core->messageTypes.find(type);
+	QVariantMap* data = NULL;
+	if(!contact_id)
 	{
-        return;
-	}
-    if (m_current == s)
-	{
-        return;
-	}
-    if(m_queue.contains(s))
-	{
-		if (m_sound == NULL)
-			processQueue();
-		return;
-	}
-    m_queue.append(s);
-    if (m_sound == NULL)
-        processQueue();
-}
-
-
-void SoundPlugin::processQueue()
-{
-    if (!m_current.isEmpty() || m_queue.isEmpty())
-        return;
-    m_current = m_queue.front();
-    m_queue.erase(m_queue.begin());
-    QString sound = fullName(m_current);
-    // check whether file is available
-    m_snd = sound;
-    if (!QFile::exists(sound)) {
-        m_current.clear();
-        return;
-    }
-#ifdef USE_KDE
-    if (getUseArts()){
-	this->run();
-        return; // arts
-    }
-    bool bSound = false;
-#elif defined(WIN32) || defined(__OS2__)
-    bool bSound = true;
-#else
-    /* If there is an external player selected, don't use Qt
-    Check first for getPlayer() since QSound::available()
-    can take 5 seconds to return a value */
-    bool bSound = !getPlayer().isEmpty() && QSound::isAvailable();
-#endif
-	if (bSound){
-        if (!QSound::isAvailable()){
-			m_queue.clear();
-			m_current.clear();
-			return;
-		}
-		delete m_sound;
-		m_sound   = NULL;
-#ifndef USE_AUDIERE
-		m_sound = new QSound(sound);
-		qDebug("\nNON-Threaded");
-		m_sound->play();
-		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
-#else
-	this->start();
-#endif
-
-        m_current.clear();
-        return; // QSound
-    }
-#if !defined( WIN32 ) && !defined( __OS2__ )
-	if (getPlayer().isEmpty()) {
-		m_current.clear();
-		return;
-	}
-	this->run();
-#endif
-}
-
-void SoundPlugin::run()
-{
-#ifdef USE_AUDIERE
-
-	//Fixme Handle whether dll is not present due to install errors ==> lead to crash
-
-	AudioDevicePtr device(OpenDevice());
-	if (!device)
-	{
-		log(L_WARN, "No Audio Device was found.");
-		return;
-	}
-	QFileInfo audiereSound(m_snd);
-
-	OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
-
-	if (!sndstream) 
-	{
-		log(L_WARN, "Audiostream could not be opened.");
-		return;
+		data = getContacts()->userdata();
 	}
 	else
 	{
-		sndstream->setVolume(1.0f);
-		sndstream->play();
-	}
-
-	while (sndstream->isPlaying())
-	{
-		sleepSecond();
-		bDone = false;
-		if (destruct)
-		{ //Plugin or SIM is shutting down, so lets fade out ;)
-			for (int i=1000; i>0; --i)
+		Contact* c = getContacts()->contact(contact_id);
+		if(c)
+		{
+			data = c->userdata();
+			if(!data->value("sound/override").toBool())
 			{
-				sndstream->setVolume(i*0.001f);
-				sleepTime(2);
+				Group* g = getContacts()->group(c->getGroup(), false);
+				if(g->userdata()->value("sound/override").toBool())
+					data = g->userdata();
+				else
+					data = getContacts()->userdata();
 			}
-			bDone=true;
-			return;
 		}
 	}
-	bDone=true;
-	return;
-#endif
-
-#if !defined( WIN32 ) && !defined( __OS2__ ) && !defined( USE_KDE )
-	/*
-	if(bDone)
+    QString sound;
+	if(data)
 	{
-		qDebug("\nThreaded mit getPlayer() davor");
-		bDone=false;
-		//EventExec e(, m_snd);
-		QString execme=QString("%1 \"%2\"\0").arg(getPlayer()).arg(m_snd);
-		system(execme.data());
-		//e.process();
-		qDebug("\nThreaded mit getPlayer() danach");
-		m_current.clear();
-		bDone=true;
-		return;
+		sound = data->value("sound/Receive" + QString::number(type)).toString();
 	}
-	*/
-	if((!m_process) && (!getPlayer().isEmpty()) && (!m_snd.isEmpty()))
+    if(sound == "(nosound)")
 	{
-		m_process = new QProcess(this);
-		m_process->start(getPlayer(), QStringList(m_snd));
-		connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished()));
-		return;
+        return QString();
 	}
-#endif
-#ifdef USE_KDE
-	if (bDone) {
-		qDebug("\nThreaded mit USE_KDE davor");
-		bDone=false;
-		KAudioPlayer::play(m_snd);
-		qDebug("\nThreaded mit USE_KDE danach");
-		m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-		m_current.clear();
-		bDone=true;
-		return;
-	}
-#endif
+    return sound;
 }
 
-void SoundPlugin::processFinished()
-{
-	delete m_process;
-	m_process = NULL;
-	m_current.clear();
-	processQueue();
-}
-
-void SoundPlugin::checkSound()
-{
-	bDone = true;
-
-#ifndef USE_AUDIERE
-
-    if (m_sound && !m_sound->isFinished())
-        bDone = false;
-#endif
-	if (bDone){
-        	m_checkTimer->stop();
-        if (m_sound)
-            delete m_sound;
-        m_sound   = NULL;
-	m_snd.clear();
-        m_current.clear();
-        processQueue();
-    }
-}
-
-#if defined( WIN32 ) || defined( __OS2__ )
-
-void SoundPlugin::childExited(int, int)
-{
-}
-
-#else
-
-void SoundPlugin::childExited(int pid, int)
-{
-    if (pid == m_player){
-        m_player = 0;
-        m_current.clear();
-        processQueue();
-    }
-}
-
-#endif
+// vim : expandtab
 

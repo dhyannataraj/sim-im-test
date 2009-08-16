@@ -17,6 +17,7 @@
 
 #include "misc.h"
 
+#include "log.h"
 #include "prefcfg.h"
 
 #include <QVBoxLayout>
@@ -31,24 +32,42 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
 {
     setupUi(this);
     void *data = NULL;
+    QVariantMap* mapdata = NULL;
     if (m_contact)
     {
         data = m_contact->getUserData(m_cmd->id);
         if (m_contact->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
+        mapdata = m_contact->userdata();
     }
     else if (m_group) {
         data = m_group->getUserData(m_cmd->id);
         if (m_group->userData.getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
+        mapdata = m_group->userdata();
     }
     QWidget *w = NULL;
-    if(data)
+	if(cmd->flags & COMMAND_CONTACT)
+	{
+        w = ((getPreferencesWindowContact)(cmd->param))(addWnd, mapdata);
+        chkOverride->setChecked(w->property("override").toBool());
+	}
+	else if(data)
+	{
         w = ((getPreferencesWindow)(cmd->param))(addWnd, data);
+	}
     if(w) {
         QVBoxLayout *lay = new QVBoxLayout(addWnd);
         lay->addWidget(w);
-        connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
+
+        if(cmd->flags & COMMAND_CONTACT)
+        {
+            connect(this, SIGNAL(apply(QVariantMap*, bool)), w, SLOT(apply(QVariantMap*, bool)));
+        }
+        else
+        {
+            connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
+        }
         if(addWnd)
             addWnd->setMinimumSize(w->minimumSizeHint());
         setMinimumSize(sizeHint());
@@ -62,31 +81,51 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
 
 void PrefConfig::apply()
 {
-	if (chkOverride->isChecked())
-	{
-		void *data = NULL;
-		if (m_contact)
-		{
-			data = m_contact->userData.getUserData(m_cmd->id, true);
-		}
-		else if (m_group)
-		{
-			data = m_group->userData.getUserData(m_cmd->id, true);
-		}
-		if (data)
-			emit apply(data);
-	}
-	else
-	{
-		if (m_contact)
-		{
-			m_contact->userData.freeUserData(m_cmd->id);
-		}
-		else if(m_group)
-		{
-			m_group->userData.freeUserData(m_cmd->id);
-		}
-	}
+    if(m_cmd->flags & COMMAND_CONTACT)
+    {
+        QVariantMap *data = NULL;
+        if (m_contact)
+        {
+            log(L_DEBUG, "Contact");
+            data = m_contact->userdata();
+        }
+        else if (m_group)
+        {
+            log(L_DEBUG, "Group");
+            data = m_group->userdata();
+        }
+        log(L_DEBUG, "NULL Contact");
+        if (data)
+            emit apply(data, chkOverride->isChecked());
+    }
+    else
+    {
+        if (chkOverride->isChecked())
+        {
+            void *data = NULL;
+            if (m_contact)
+            {
+                data = m_contact->userData.getUserData(m_cmd->id, true);
+            }
+            else if (m_group)
+            {
+                data = m_group->userData.getUserData(m_cmd->id, true);
+            }
+            if (data)
+                emit apply(data);
+        }
+        else
+        {
+            if (m_contact)
+            {
+                m_contact->userData.freeUserData(m_cmd->id);
+            }
+            else if(m_group)
+            {
+                m_group->userData.freeUserData(m_cmd->id);
+            }
+        }
+    }
 }
 
 void PrefConfig::overrideToggled(bool bState)

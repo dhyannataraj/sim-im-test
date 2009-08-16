@@ -27,12 +27,17 @@ class PrefConfig : public QWidget, public Ui::PrefConfigBase
     Q_OBJECT
 public:
     PrefConfig(QWidget *parent, SIM::CommandDef *cmd, SIM::Contact *contact, SIM::Group *group);
+
 signals:
     void apply(void*);
+    void apply(QVariantMap*, bool);
+
 public slots:
     void apply();
+
 protected slots:
     void overrideToggled(bool);
+
 protected:
     SIM::CommandDef	*m_cmd;
     SIM::Contact	*m_contact;

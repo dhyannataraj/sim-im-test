@@ -109,6 +109,8 @@ Contact::Contact(unsigned long id, Buffer *cfg)
 : m_id(id)
 {
     load_data(contactData, &data, cfg);
+    m_userdata = new QVariantMap();
+	m_userdata->insert("id", (uint)id);
 }
 
 Contact::~Contact()
@@ -119,6 +121,7 @@ Contact::~Contact()
     }
     free_data(contactData, &data);
     getContacts()->p->contacts.erase(m_id);
+	delete m_userdata;
 }
 
 const DataDef *Contact::dataDef()
@@ -583,6 +586,8 @@ Group::Group(unsigned long id, Buffer *cfg)
 {
     m_id = id;
     load_data(groupData, &data, cfg);
+    m_userdata = new QVariantMap();
+	m_userdata->insert("id", (uint)id);
 }
 
 Group::~Group()
@@ -608,6 +613,7 @@ Group::~Group()
             break;
         }
     }
+	delete m_userdata;
 }
 
 void *Group::getUserData(unsigned id, bool bCreate)
@@ -681,11 +687,13 @@ void ContactListPrivate::unregisterUserData(unsigned id)
 ContactList::ContactList()
 {
     p = new ContactListPrivate;
+	m_userData = new QVariantMap();
 }
 
 ContactList::~ContactList()
 {
     delete p;
+	delete m_userData;
 }
 
 unsigned ContactList::registerUserData(const QString &name, const DataDef *def)
@@ -701,6 +709,30 @@ void ContactList::unregisterUserData(unsigned id)
 Contact *ContactList::owner()
 {
     return p->owner;
+}
+
+QVariantMap* ContactList::userdata()
+{
+	return m_userData;
+}
+
+bool ContactList::groupExists(unsigned long id)
+{
+    vector<Group*>::iterator it;
+    for(it = p->groups.begin(); it != p->groups.end(); ++it)
+    {
+        if ((*it)->id() == id)
+            return true;
+    }
+    return false;
+}
+
+bool ContactList::contactExists(unsigned long id)
+{
+    map<unsigned long, Contact*>::iterator it = p->contacts.find(id);
+    if(it != p->contacts.end())
+        return true;
+    return false;
 }
 
 Contact *ContactList::contact(unsigned long id, bool isNew)
@@ -1648,6 +1680,7 @@ static const char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
 {
+	save_new();
     QString cfgName = user_file(CONTACTS_CONF);
     QFile f(cfgName + QString(BACKUP_SUFFIX)); // use backup file for this ...
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
@@ -1721,7 +1754,7 @@ void ContactList::save()
             f.write(line);
         }
     }
-    f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
+    f.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on f.close
     QFile::FileError status = f.error();
     const QString errorMessage = f.errorString();
     f.close();
@@ -1751,7 +1784,7 @@ void ContactList::clear()
 void ContactList::load()
 {
     clear();
-    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf"; //user_file(CONTACTS_CONF);
+    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
     QFile f(cfgName);
     if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
@@ -1791,6 +1824,75 @@ void ContactList::load()
         Client *client = getClient(i);
         client->contactsLoaded();
     }
+	load_new();
+}
+
+void ContactList::save_new()
+{
+	if(!ProfileManager::instance()->profilePath().isEmpty())
+	{
+		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
+		Config conf(filename);
+		for(QVariantMap::iterator it = m_userData->begin(); it != m_userData->end(); ++it)
+		{
+			conf.setValue(it.key(), it.value());
+		}
+
+        for(vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g)
+        {
+            QVariantMap* data = (*it_g)->userdata();
+            for(QVariantMap::iterator it = data->begin(); it != data->end(); ++it)
+            {
+                conf.setValue("Group/" + QString::number((*it_g)->id()) + '/' + it.key(), it.value());
+            }
+        }
+
+        for(map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c)
+        {
+            const Contact* contact = it_c->second;
+            if (contact->getFlags() & CONTACT_TEMPORARY)
+                continue;
+
+            QVariantMap* data = contact->userdata();
+            for(QVariantMap::iterator it = data->begin(); it != data->end(); ++it)
+            {
+                conf.setValue("Contact/" + QString::number(contact->id()) + '/' + it.key(), it.value());
+            }
+        }
+		conf.save();
+	}
+}
+
+void ContactList::load_new()
+{
+	if(!ProfileManager::instance()->profilePath().isEmpty())
+	{
+		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
+		Config conf(filename);
+		conf.load();
+		foreach(QString s, conf.allKeys())
+		{
+            // FIXME this is quite slow
+            if(s.section('/', 0, 0) == "Contact")
+            {
+                unsigned long id = s.section('/', 1, 1).toULong();
+                Contact* c;
+                c = contact(id, !contactExists(id));
+                c->userdata()->insert(s.section('/', 2), conf.value(s));
+            }
+            else if(s.section('/', 0, 0) == "Group")
+            {
+                unsigned long id = s.section('/', 1, 1).toULong();
+                Group* g;
+                g = group(id, !groupExists(id));
+                g->userdata()->insert(s.section('/', 2), conf.value(s));
+            }
+            else
+            {
+                m_userData->insert(s, conf.value(s));
+            }
+		}
+	}
 }
 
 void ContactListPrivate::flush(Contact *c, Group *g)

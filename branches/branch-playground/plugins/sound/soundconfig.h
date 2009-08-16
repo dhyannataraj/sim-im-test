@@ -36,7 +36,6 @@ public slots:
 protected slots:
     void artsToggled(bool);
 protected:
-    QString sound(const QString &text, const QString &def);
     SoundPlugin		*m_plugin;
     SoundUserConfig *user_cfg;
 };

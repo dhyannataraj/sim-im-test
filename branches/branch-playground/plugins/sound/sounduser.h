@@ -26,13 +26,17 @@ class SoundUserConfig : public QWidget, public Ui::SoundUserConfigBase
 {
     Q_OBJECT
 public:
-    SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin);
+    SoundUserConfig(QWidget *parent, QVariantMap* data, SoundPlugin *plugin);
+
 public slots:
-    void apply(void *data);
+    void apply(QVariantMap* data, bool override);
     void toggled(bool);
+
 protected:
     void resizeEvent(QResizeEvent*);
-    SoundPlugin *m_plugin;
+
+private:
+    SoundPlugin* m_plugin;
 };
 
 #endif

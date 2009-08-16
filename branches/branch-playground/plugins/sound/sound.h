@@ -24,10 +24,13 @@
 #include <qthread.h>
 #include <QProcess>
 #include <QByteArray>
+#include <Phonon/AudioOutput>
+#include <Phonon/MediaObject>
 
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 //#define USE_AUDIERE
 
@@ -83,62 +86,29 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin
-#ifdef WIN32
-    : public QThread,
-#else
-    : public QObject,
-#endif
-      public SIM::Plugin, public SIM::EventReceiver
-
+class SoundPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
     Q_OBJECT
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
 
-#ifdef USE_KDE
-    PROP_BOOL(UseArts);
-#endif
-    PROP_STR(Player);
-    PROP_STR(StartUp);
-    PROP_STR(FileDone);
-    PROP_STR(MessageSent);
-    unsigned long CmdSoundDisable;
+	void playSound(const QString& path);
+
     SIM::SIMEvent EventSoundChanged;
-protected Q_SLOTS:
-    void checkSound();
-    void childExited(int, int);
-    void processFinished();
 
 protected:
-    unsigned long user_data_id;
+	QString messageSound(unsigned type, unsigned long contact_id);
     virtual bool processEvent(SIM::Event *e);
-    virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void run();
-    QString fullName(const QString &name);
-    QString messageSound(unsigned type, SoundUserData *data);
-    void playSound(const QString &sound);
-    void processQueue();
-    QString         m_current;
-    QStringList     m_queue;
-    QSound         *m_sound;
-    QTimer         *m_checkTimer;
-    QString         m_snd;
-    QProcess       *m_process;
-
-#if !defined( WIN32 ) && !defined( __OS2__ )
-    long             m_player;
-#endif
-    SoundData	data;
-    CorePlugin	*core;
-    bool	    m_bChanged;
-    bool bDone;
-    bool destruct;
-    bool isPlaying;
     friend class SoundConfig;
     friend class SoundUserConfig;
+
+private:
+	Phonon::MediaObject* m_media;
+	CorePlugin* m_core;
+	unsigned long CmdSoundDisable;
+
 };
 
 #endif

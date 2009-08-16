@@ -162,10 +162,15 @@ public:
     ContactData data;
     const DataDef *dataDef();
     void setup();
+    QVariantMap* userdata() const { return m_userdata; }
+
 protected:
     unsigned long m_id;
     friend class ContactList;
     friend class ContactListPrivate;
+
+private:
+    QVariantMap* m_userdata;
 };
 
 struct GroupData
@@ -183,11 +188,15 @@ public:
     void *getUserData(unsigned id, bool bCreate = false);
     UserData userData;
     ClientUserData clientData;
+    QVariantMap* userdata() const { return m_userdata; }
+
 protected:
     unsigned long m_id;
-    GroupData data;
-    friend class ContactList;
+    GroupData data; friend class ContactList;
     friend class ContactListPrivate;
+
+private:
+    QVariantMap* m_userdata;
 };
 
 const unsigned STATUS_UNKNOWN   = 0;
@@ -326,6 +335,7 @@ public:
     ContactList();
     virtual ~ContactList();
     Contact *owner();
+	QVariantMap* userdata();
     void clear();
     void load();
     void save();
@@ -333,6 +343,8 @@ public:
     unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
     Contact *contact(unsigned long id=0, bool isNew=false);
+    bool contactExists(unsigned long id);
+    bool groupExists(unsigned long id);
     Group   *group(unsigned long id=0, bool isNew=false);
     void addContact(Contact *contact);
     int  groupIndex(unsigned long id);
@@ -421,6 +433,11 @@ public:
     static const ENCODING *getEncodings();
     const ENCODING *getEncoding(Contact *contact);
 protected:
+
+	void save_new();
+	void load_new();
+
+
     class ContactListPrivate *p;
     friend class Contact;
     friend class Group;
@@ -440,6 +457,9 @@ protected:
     friend class UserDataIterator;
 
     COPY_RESTRICTED(ContactList)
+
+private:
+	QVariantMap* m_userData;
 };
 
 EXPORT ContactList *getContacts();

@@ -20,6 +20,7 @@
 #include "sound.h"
 #include "editfile.h"
 #include "core.h"
+#include "log.h"
 
 #include <qcheckbox.h>
 #include <qfile.h>
@@ -50,27 +51,32 @@ static void addRow(QTableWidget *lstSound, int row, const QIcon &icon, const QSt
     lstSound->setItem(row, 1, item);
 }
 
-SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)
+SoundUserConfig::SoundUserConfig(QWidget *parent, QVariantMap* data, SoundPlugin *plugin)
   : QWidget(parent)
   , m_plugin(plugin)
 {
     setupUi(this);
 
-    SoundUserData *user_data = (SoundUserData*)data;
+	setProperty("override", data->value("sound/override").toBool());
 
     int row = 0;
-    addRow(lstSound, row, Icon("SIM"), i18n("Online alert"), ONLINE_ALERT, user_data->Alert.str());
+    addRow(lstSound, row, Icon("SIM"), i18n("Online alert"), ONLINE_ALERT, data->value("sound/Alert").toString());
 
     CommandDef *cmd;
-    CommandsMapIterator it(m_plugin->core->messageTypes);
-    while ((cmd = ++it) != NULL){
+    CommandsMapIterator it(m_plugin->m_core->messageTypes);
+    while((cmd = ++it) != NULL)
+    {
         MessageDef *def = (MessageDef*)(cmd->param);
         if ((def == NULL) || (cmd->icon.isEmpty()) ||
                 (def->flags & (MESSAGE_HIDDEN | MESSAGE_SENDONLY | MESSAGE_CHILD)))
+		{
             continue;
+		}
         if ((def->singular == NULL) || (def->plural == NULL) ||
                 (*def->singular == 0) || (*def->plural == 0))
+		{
             continue;
+		}
         QString type = i18n(def->singular, def->plural, 1);
         int pos = type.indexOf("1 ");
         if (pos == 0){
@@ -81,33 +87,37 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         type = type.left(1).toUpper() + type.mid(1);
 
         row++;
-        addRow(lstSound, row, Icon(cmd->icon), type, cmd->id, m_plugin->messageSound(cmd->id, user_data));
+        addRow(lstSound, row, Icon(cmd->icon), type, cmd->id, m_plugin->messageSound(cmd->id, data->value("id").toUInt()));
     }
-    chkActive->setChecked(user_data->NoSoundIfActive.toBool());
-    chkDisable->setChecked(user_data->Disable.toBool());
+    chkActive->setChecked(data->value("sound/NoSoundIfActive").toBool());
+    chkDisable->setChecked(data->value("sound/Disable").toBool());
     connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-    toggled(user_data->Disable.toBool());
+    toggled(data->value("sound/Disable").toBool());
     lstSound->resizeColumnsToContents();
     lstSound->setItemDelegate(new EditSoundDelegate(1, lstSound));
     lstSound->sortByColumn(0, Qt::AscendingOrder);
 }
 
-void SoundUserConfig::apply(void *data)
+void SoundUserConfig::apply(QVariantMap* data, bool override)
 {
-    SoundUserData *user_data = (SoundUserData*)data;
-    for (int row = 0; row < lstSound->rowCount(); ++row) {
+    for(int row = 0; row < lstSound->rowCount(); ++row)
+    {
         quint64 id = lstSound->item(row, 0)->data(Qt::UserRole).toULongLong();
         QString text = lstSound->item(row, 1)->data(Qt::EditRole).toString();
         if (text.isEmpty())
             text = "(nosound)";
-        if (id == ONLINE_ALERT){
-            user_data->Alert.str() = text;
-        }else{
-            set_str(&user_data->Receive, id, text);
+        if (id == ONLINE_ALERT)
+        {
+            data->insert("sound/Alert", text);
+        }
+        else
+        {
+            data->insert("sound/Receive" + QString::number(id), text);
         }
     }
-    user_data->NoSoundIfActive.asBool() = chkActive->isChecked();
-    user_data->Disable.asBool() = chkDisable->isChecked();
+    data->insert("sound/NoSoundIfActive", chkActive->isChecked());
+    data->insert("sound/Disable", chkDisable->isChecked());
+	data->insert("sound/override", override);
     Event e(m_plugin->EventSoundChanged);
     e.process();
 }
@@ -123,3 +133,4 @@ void SoundUserConfig::toggled(bool bState)
 {
     lstSound->setEnabled(!bState);
 }
+

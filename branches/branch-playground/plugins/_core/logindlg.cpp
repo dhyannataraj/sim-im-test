@@ -236,8 +236,6 @@ void LoginDialog::accept()
 		QDialog::accept();
 		return;
 	}
-	//EventLoginStart ev;
-	//ev.process();
 	QDialog::accept();
 
 }
