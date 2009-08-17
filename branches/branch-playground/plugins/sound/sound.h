@@ -20,8 +20,7 @@
 
 #include "simapi.h"
 
-#include <qobject.h>
-#include <qthread.h>
+#include <QObject>
 #include <QProcess>
 #include <QByteArray>
 #include <Phonon/AudioOutput>
@@ -32,20 +31,12 @@
 #include "plugins.h"
 #include "propertyhub.h"
 
-//#define USE_AUDIERE
-
 #ifdef WIN32
-#include <windows.h>
-
+    #include <windows.h>
 #else  // assume POSIX
 
 #include <unistd.h>
 
-#endif
-
-#ifdef USE_AUDIERE
-	#include <audiere.h>
-	#include <iostream>
 #endif
 
 inline void sleepSecond() {
@@ -58,16 +49,13 @@ inline void sleepSecond() {
 
 inline void sleepTime(int i) {
 #ifdef WIN32
-  Sleep(i);
+    Sleep(i);
 #else
-  sleep(i);
+    sleep(i);
 #endif
 }
 struct SoundData
 {
-#ifdef USE_KDE
-    SIM::Data	UseArts;
-#endif
     SIM::Data	Player;
     SIM::Data	StartUp;
     SIM::Data	FileDone;

@@ -23,10 +23,6 @@
 #include <qtimer.h>
 #include <QByteArray>
 
-#ifdef USE_KDE
-	#include <kaudioplayer.h>
-#endif
-
 #include "exec.h"
 #include "log.h"
 #include "core.h"
@@ -38,9 +34,6 @@
 
 using namespace std;
 using namespace SIM;
-#ifdef USE_AUDIERE
-  using namespace audiere;
-#endif
 
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
 const unsigned WAIT_SOUND_TIMEOUT	= 1000;
