@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <QVarLengthArray>
 #include <QDebug>
+#include <QProcess>
 
 #include "navigate.h"
 #include "navcfg.h"
@@ -432,19 +433,28 @@ bool NavigatePlugin::processEvent(Event *e)
                     bExec = true;
             }
         }
-        if (!bExec){
+        if (!bExec)
+        {
             if (proto == "file")
                 url = url.mid(5);
 			//ShellExecuteA(NULL, NULL, url.data(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
-			Q3Process openPathInExplorer;
-			QString path(url);
+            QString program = "explorer";
+            QStringList arguments;
+            arguments << url;
+
+            QProcess *openPathInExplorer = new QProcess(this);
+            openPathInExplorer->start(program, arguments);
+
+			//QProcess openPathInExplorer;
+			//QString path(url);
 			//path.replace("%20", " ");
-			openPathInExplorer.addArgument("explorer");
+			
+            /*openPathInExplorer .addArgument("explorer");
 			openPathInExplorer.addArgument(path);
 			if (openPathInExplorer.start())
                             qDebug() << i18n("Explorer started for Path");
 			else
-                            qDebug() << i18n("ERR: Explorer started for Path FAILED!");	
+                            qDebug() << i18n("ERR: Explorer started for Path FAILED!");	*/
         }
 #else
 #ifdef USE_KDE

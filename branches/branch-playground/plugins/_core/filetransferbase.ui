@@ -20,10 +20,10 @@
     <number>6</number>
    </property>
    <item row="0" column="0" colspan="3" >
-    <widget class="Q3ProgressBar" name="barFile" />
+    <widget class="QProgressBar" name="barFile" />
    </item>
    <item row="1" column="0" colspan="3" >
-    <widget class="Q3ProgressBar" name="barTotal" />
+    <widget class="QProgressBar" name="barTotal" />
    </item>
    <item row="7" column="1" >
     <spacer name="Spacer5" >
@@ -199,13 +199,6 @@
   </layout>
  </widget>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ProgressBar</class>
-   <extends>QFrame</extends>
-   <header>Qt3Support/Q3ProgressBar</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>btnCancel</tabstop>
   <tabstop>sldSpeed</tabstop>

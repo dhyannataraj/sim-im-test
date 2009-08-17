@@ -406,17 +406,17 @@ void FileTransferDlg::setBars()
     }
 }
 
-void FileTransferDlg::setProgress(Q3ProgressBar *bar, unsigned bytes, unsigned size)
+void FileTransferDlg::setProgress(QProgressBar *bar, unsigned bytes, unsigned size)
 {
     while (size > 0x1000000){
         size  = size  >> 1;
         bytes = bytes >> 1;
     }
     if (size == 0){
-        bar->setProgress(0);
+        bar->setValue(0);
         return;
     }
-    bar->setProgress(bytes * 100 / size);
+    bar->setValue(bytes * 100 / size);
 }
 
 void FileTransferDlg::calcSpeed(bool bTransfer)
@@ -524,7 +524,8 @@ void FileTransferDlg::goDir()
     if (m_dir.isEmpty())
         return;
 #ifdef WIN32
-    QString path = QString("file:") + QString("\"") + m_dir + QString("\"");
+    //QString path = QString("file:") + QString("\"") + m_dir + QString("\"");
+    QString path = QString("file:") + m_dir;
 #else
     QString path = QString("file:") + m_dir;
 #endif
