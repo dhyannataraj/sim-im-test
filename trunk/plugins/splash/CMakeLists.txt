@@ -12,3 +12,4 @@ SIM_ADD_PLUGIN(splash)
 
 # splash.png
 INSTALL(FILES splash.png DESTINATION ${SIM_PICT_DIR})
+ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/splash.png")

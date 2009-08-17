@@ -17,23 +17,28 @@ SET(sound_UICS_COMMON soundconfigbase.ui
 
 SIM_ADD_PLUGIN(sound)
 
-# install new sounds with known licence
-INSTALL(FILES sounds/added.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/alert.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/auth.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/authrequest.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/contacts.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/contactrequest.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/deleted.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/error.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/file.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/filedone.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/mailpager.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/message.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/msgsent.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/refused.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/sms.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/startup.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/url.ogg		DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/vip-online.ogg	DESTINATION ${SIM_SOUND_DIR})
-INSTALL(FILES sounds/web.ogg		DESTINATION ${SIM_SOUND_DIR})
+SET(oggs added.ogg
+         alert.ogg
+         auth.ogg
+         authrequest.ogg
+         contacts.ogg
+         contactrequest.ogg
+         deleted.ogg
+         error.ogg
+         file.ogg
+         filedone.ogg
+         mailpager.ogg
+         message.ogg
+         msgsent.ogg
+         refused.ogg
+         sms.ogg
+         startup.ogg
+         url.ogg
+         vip-online.ogg
+         web.ogg)
+
+FOREACH(ogg ${oggs})
+  INSTALL(FILES sounds/${ogg} DESTINATION ${SIM_SOUND_DIR})
+  ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/sounds/${ogg}")
+ENDFOREACH(ogg)
+

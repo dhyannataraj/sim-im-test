@@ -17,6 +17,11 @@ SET(sms_HDRS_COMMON gsm_ta.h
 
 SET(sms_UICS_COMMON smssetupbase.ui)
 
+# Do not know where xpm/simcard.xpm is used... it is not mentioned anywhere exept
+# Makefile.am
+# So I desided not to add it to make dist filelist. If I am wrong, please correct the code
+# N. Shaplov
+
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
