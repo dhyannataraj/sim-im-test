@@ -17,10 +17,10 @@
 
 #include "simapi.h"
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
-#include <qsound.h>
+#include <QCheckBox>
+
+#include <QTabWidget>
+#include <QSound>
 
 #include "editfile.h"
 #include "contacts.h"
@@ -39,17 +39,6 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 {
     setupUi(this);
 
-	/*
-#if defined( WIN32 ) || defined( __OS2__ )
-    lblPlayer->hide();
-    edtPlayer->hide();
-#else
-    if (bSound){
-        lblPlayer->setText(i18n("Qt provides sound output so you just need to set a player if you don't like Qt's sound."));
-    }
-    edtPlayer->setText(plugin->property("Player").toString());
-#endif
-*/
     edtStartup->setText(plugin->property("StartUp").toString());
     edtFileDone->setText(plugin->property("FileDone").toString());
     edtSent->setText(plugin->property("MessageSent").toString());
