@@ -173,12 +173,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib audiere.lib"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AddModuleNamesToAssembly=""
-				DelayLoadDLLs="audiere.dll"
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>

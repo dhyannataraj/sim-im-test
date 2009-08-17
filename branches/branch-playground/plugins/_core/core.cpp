@@ -3610,105 +3610,108 @@ QString CorePlugin::typeName(const QString &name)
 
 void CorePlugin::loadMenu()
 {
-	EventMenu(MenuConnections, EventMenu::eRemove).process();
+    EventMenu(MenuConnections, EventMenu::eRemove).process();
 
-	unsigned nClients = getContacts()->nClients();
+    unsigned nClients = getContacts()->nClients();
 
-	EventMenu(MenuConnections, EventMenu::eAdd).process();
+    EventMenu(MenuConnections, EventMenu::eAdd).process();
 
-	Command cmd;
-	cmd->id          = CmdCM;
-	cmd->text        = I18N_NOOP("Connection manager");
-	cmd->menu_id     = MenuConnections;
-	cmd->menu_grp    = 0x8000;
+    Command cmd;
+    cmd->id          = CmdCM;
+    cmd->text        = I18N_NOOP("Connection manager");
+    cmd->menu_id     = MenuConnections;
+    cmd->menu_grp    = 0x8000;
 
-	EventCommandCreate(cmd).process();
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdShowPanel;
-	cmd->text		= I18N_NOOP("Show status panel");
-	cmd->menu_grp	= 0x8001;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdShowPanel;
+    cmd->text		= I18N_NOOP("Show status panel");
+    cmd->menu_grp	= 0x8001;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	if (nClients >= 2){
-		cmd->id          = CmdConnections;
-		cmd->text        = I18N_NOOP("Connections");
-		cmd->menu_id     = MenuMain;
-		cmd->menu_grp    = 0x8040;
-		cmd->popup_id    = MenuConnections;
-		cmd->flags		 = COMMAND_DEFAULT;
-	}else{
-		cmd->id			= CmdConnections;
-		cmd->text		= I18N_NOOP("Connection manager");
-		cmd->menu_grp	= 0x8040;
-		cmd->menu_id	= MenuMain;
-		cmd->flags		= COMMAND_DEFAULT;
-	}
-	EventCommandCreate(cmd).process();
+    if (nClients >= 2)
+    {
+        cmd->id          = CmdConnections;
+        cmd->text        = I18N_NOOP("Connections");
+        cmd->menu_id     = MenuMain;
+        cmd->menu_grp    = 0x8040;
+        cmd->popup_id    = MenuConnections;
+        cmd->flags		 = COMMAND_DEFAULT;
+    }
+    else
+    {
+        cmd->id			= CmdConnections;
+        cmd->text		= I18N_NOOP("Connection manager");
+        cmd->menu_grp	= 0x8040;
+        cmd->menu_id	= MenuMain;
+        cmd->flags		= COMMAND_DEFAULT;
+    }
+    EventCommandCreate(cmd).process();
 
-	if (m_status == NULL)
-		m_status = new CommonStatus;
+    if (m_status == NULL)
+	    m_status = new CommonStatus;
 
-	for (unsigned i = 0; i < m_nClients; i++){
-		EventMenu(CmdClient + i, EventMenu::eRemove).process();
-	}
-	for (m_nClients = 0; m_nClients < getContacts()->nClients(); m_nClients++){
-		unsigned long menu_id = CmdClient + m_nClients;
-		EventMenu(menu_id, EventMenu::eAdd).process();
-		Client *client = getContacts()->getClient(m_nClients);
-		Protocol *protocol = client->protocol();
-		// FIXME
-		CommandDef *cmd = const_cast<CommandDef*>(protocol->statusList());
-		if (cmd){
-			Command c;
-			c->id       = CmdTitle;
-			c->text     = "_";
-			c->menu_id  = menu_id;
-			c->menu_grp = 0x0001;
-			c->flags    = COMMAND_CHECK_STATE | COMMAND_TITLE;
-			EventCommandCreate(c).process();
-			c->id		= CmdCommonStatus;
-			c->text		= I18N_NOOP("Common status");
-			c->menu_id	= menu_id;
-			c->menu_grp = 0x3000;
-			c->flags	= COMMAND_CHECK_STATE;
-			EventCommandCreate(c).process();
-			c->id		= CmdSetup;
-			c->text		= I18N_NOOP("Configure client");
-			c->icon		= "configure";
-			c->menu_id	= menu_id;
-			c->menu_grp = 0x3001;
-			c->flags	= COMMAND_DEFAULT;
-			EventCommandCreate(c).process();
-			c->id		= menu_id;
-			c->text		= "_";
-			c->icon		= QString::null;
-			c->menu_id	= MenuConnections;
-			c->menu_grp	= 0x1000 + menu_id;
-			c->popup_id	= menu_id;
-			c->flags	= COMMAND_CHECK_STATE;
-			EventCommandCreate(c).process();
-			unsigned id = 0x100;
-			//            for (; cmd->id; cmd++){
-			for (; !cmd->text.isEmpty(); cmd++){
-				c = *cmd;
-				c->menu_id = menu_id;
-				c->menu_grp = id++;
-				c->flags = COMMAND_CHECK_STATE;
-				EventCommandCreate(c).process();
-			}
-			if (protocol->description()->flags & PROTOCOL_INVISIBLE){
-				c->id		= CmdInvisible;
-				c->text		= I18N_NOOP("&Invisible");
-				c->icon		= protocol->description()->icon_on;
-				c->menu_grp	= 0x1000;
-				c->flags	= COMMAND_CHECK_STATE;
-				EventCommandCreate(c).process();
-			}
-		}
-		}
-		showPanel();
-	}
+    for (unsigned i = 0; i < m_nClients; i++)
+        EventMenu(CmdClient + i, EventMenu::eRemove).process();
+
+    for (m_nClients = 0; m_nClients < getContacts()->nClients(); m_nClients++){
+        unsigned long menu_id = CmdClient + m_nClients;
+        EventMenu(menu_id, EventMenu::eAdd).process();
+        Client *client = getContacts()->getClient(m_nClients);
+        Protocol *protocol = client->protocol();
+        // FIXME
+        CommandDef *cmd = const_cast<CommandDef*>(protocol->statusList());
+        if (cmd){
+	        Command c;
+	        c->id       = CmdTitle;
+	        c->text     = "_";
+	        c->menu_id  = menu_id;
+	        c->menu_grp = 0x0001;
+	        c->flags    = COMMAND_CHECK_STATE | COMMAND_TITLE;
+	        EventCommandCreate(c).process();
+	        c->id		= CmdCommonStatus;
+	        c->text		= I18N_NOOP("Common status");
+	        c->menu_id	= menu_id;
+	        c->menu_grp = 0x3000;
+	        c->flags	= COMMAND_CHECK_STATE;
+	        EventCommandCreate(c).process();
+	        c->id		= CmdSetup;
+	        c->text		= I18N_NOOP("Configure client");
+	        c->icon		= "configure";
+	        c->menu_id	= menu_id;
+	        c->menu_grp = 0x3001;
+	        c->flags	= COMMAND_DEFAULT;
+	        EventCommandCreate(c).process();
+	        c->id		= menu_id;
+	        c->text		= "_";
+	        c->icon		= QString::null;
+	        c->menu_id	= MenuConnections;
+	        c->menu_grp	= 0x1000 + menu_id;
+	        c->popup_id	= menu_id;
+	        c->flags	= COMMAND_CHECK_STATE;
+	        EventCommandCreate(c).process();
+	        unsigned id = 0x100;
+	        //            for (; cmd->id; cmd++){
+	        for (; !cmd->text.isEmpty(); cmd++){
+		        c = *cmd;
+		        c->menu_id = menu_id;
+		        c->menu_grp = id++;
+		        c->flags = COMMAND_CHECK_STATE;
+		        EventCommandCreate(c).process();
+	        }
+	        if (protocol->description()->flags & PROTOCOL_INVISIBLE){
+		        c->id		= CmdInvisible;
+		        c->text		= I18N_NOOP("&Invisible");
+		        c->icon		= protocol->description()->icon_on;
+		        c->menu_grp	= 0x1000;
+		        c->flags	= COMMAND_CHECK_STATE;
+		        EventCommandCreate(c).process();
+	        }
+        }
+    }
+    showPanel();
+}
 
 	void CorePlugin::showPanel()
 	{
