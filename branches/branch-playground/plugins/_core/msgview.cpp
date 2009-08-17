@@ -31,12 +31,15 @@
 #include <QDateTime>
 #include <QMenu>
 #include <QScrollBar>
+#include <QTextBlock>
+#include <QContextMenuEvent>
+#include <QTextDocumentFragment>
 
 using namespace std;
 using namespace SIM;
 
-static char MSG_ANCHOR[] = "<a name=\"m:";
-static char MSG_BEGIN[]  = "<a name=\"b\">";
+static char MSG_ANCHOR[] = "<a name=\"m://";
+static char MSG_BEGIN[]  = "<a name=\"b\"/>";
 
 class ViewParser : public HTMLParser
 {
@@ -205,6 +208,8 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
 
     setColors();
     setFont(CorePlugin::m_plugin->editFont);
+
+    setContextMenuPolicy( Qt::DefaultContextMenu );
 }
 
 MsgViewBase::~MsgViewBase()
@@ -518,8 +523,8 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     QString anchor = MSG_ANCHOR;
     anchor += id;
-    anchor += "\">";
-    res = anchor + res;
+    anchor += "\"/>";
+    res = "<p>" + anchor + res + "</p>";
     return res;
 }
 
@@ -611,48 +616,37 @@ void MsgViewBase::setBackground(unsigned n)
 
 void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
 {
-//    unsigned n = paragraphs();
-//    if (n > 0)
-//        n--;
+    unsigned n = document()->blockCount();
+    if (n > 0)
+        n--;
     append(messageText(msg, bUnread));
-//    if (!CorePlugin::m_plugin->getOwnColors())
-//        setBackground(n);
-//    if (bSync)
-//        sync(n);
+    if (!CorePlugin::m_plugin->getOwnColors())
+        setBackground(n);
 }
 
 bool MsgViewBase::findMessage(Message *msg)
 {
-/*
-    bool bFound = false;
-    for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
-        QString s = text(i);
+    QTextBlock block = document()->firstBlock();
+    while( block.isValid() ) {
+        QTextCursor cursor( block );
+        cursor.select( QTextCursor::BlockUnderCursor );
+        QTextDocumentFragment fragment( cursor );
+        QString s = fragment.toHtml();
         int n = s.indexOf(MSG_ANCHOR);
-        if (n < 0)
-            continue;
-        s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.indexOf('\"');
-        if (n < 0)
-            continue;
-        if (bFound){
-            setCursorPosition(i, 0);
-            moveCursor(MoveBackward, false);
-            ensureCursorVisible();
-            return true;
+        if (n >= 0) {
+            s = s.mid(n + strlen(MSG_ANCHOR));
+            n = s.indexOf('\"');
+            if (n >= 0) {
+                QString client;
+                if ((messageId(s.left(n), client) == msg->id()) && (client == msg->client())) {
+                    return true;
+                }
+            }
         }
-        QString client;
-        if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
-            continue;
-        setCursorPosition(i, 0);
-        ensureCursorVisible();
-        bFound = true;
+        block = block.next();
     }
-    if (!bFound)
-        return false;
-    moveCursor(MoveEnd, false);
-    ensureCursorVisible();
-*/
-    return true;
+
+    return false;
 }
 
 void MsgViewBase::setColors()
@@ -1069,39 +1063,45 @@ bool MsgViewBase::processEvent(Event *e)
 
 Message *MsgViewBase::currentMessage()
 {
-/*
-    int para = paragraphAt(m_popupPos);
-    if (para < 0)
+    QTextCursor cursor = cursorForPosition( m_popupPos );
+    QTextBlock block = cursor.block();
+    if( !block.isValid() )
         return NULL;
-    for (; para >= 0; para--){
-        QString s = text(para);
+    while( block.isValid() ) {
+        QTextCursor cursor( block );
+        cursor.select( QTextCursor::BlockUnderCursor );
+        QTextDocumentFragment fragment( cursor );
+        QString s = fragment.toHtml();
+        char *sss = s.toAscii().data();
         int n = s.indexOf(MSG_ANCHOR);
-        if (n < 0)
-            continue;
-        s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.indexOf('\"');
-        if (n < 0)
-            continue;
-        QString client;
-        unsigned id = messageId(s.left(n), client);
-        Message *msg = History::load(id, client, m_id);
-        if (msg)
-            return msg;
+        if (n >= 0) {
+            s = s.mid(n + strlen(MSG_ANCHOR));
+            n = s.indexOf('\"');
+            if (n >= 0) {
+                QString client;
+                unsigned id = messageId(s.left(n), client);
+                Message *msg = History::load(id, client, m_id);
+                if (msg)
+                    return msg;
+            }
+        }
+        block = block.previous();
     }
-*/
     return NULL;
 }
 
-QMenu *MsgViewBase::createPopupMenu(const QPoint& pos)
+void MsgViewBase::contextMenuEvent( QContextMenuEvent *event )
 {
-    m_popupPos = pos;
+    m_popupPos = event->pos();
     Command cmd;
     cmd->popup_id	= MenuMsgView;
     cmd->param		= this;
     cmd->flags		= COMMAND_NEW_POPUP;
     EventMenuGet e(cmd);
     e.process();
-    return e.menu();
+    QMenu *pMenu = e.menu();
+    pMenu->exec( event->globalPos() );
+    delete pMenu;
 }
 
 MsgView::MsgView(QWidget *parent, unsigned id)
