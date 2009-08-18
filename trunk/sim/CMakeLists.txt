@@ -1,10 +1,9 @@
-IF(NOT WIN32)
-    ADD_SUBDIRECTORY(png)
-ENDIF(NOT WIN32)
+ADD_SUBDIRECTORY(png)
 
 ######################
 # target sim library #
 ######################
+ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt")
 
 SET(sim_LIB_SRCS
         aboutdata.cpp
@@ -47,7 +46,9 @@ SET(sim_LIB_SRCS
         qzip/unzip.c
     )
 SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
-
+FOREACH(_file ${sim_LIB_SRCS})
+  ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
+ENDFOREACH(_file)
 
 SET(sim_LIB_HDRS
         aboutdata.h
@@ -55,6 +56,7 @@ SET(sim_LIB_HDRS
         buffer.h
         builtinlogger.h
         cfg.h
+        cjk_variants.h
         cmddef.h
         contacts.h
         country.h
@@ -64,8 +66,11 @@ SET(sim_LIB_HDRS
         exec.h
         fetch.h
         fontedit.h
+        html.h
         icons.h
         intedit.h
+        johab_hangul.h
+        kdeisversion.h
         linklabel.h
         listview.h
         log.h
@@ -89,12 +94,16 @@ SET(sim_LIB_HDRS
         qzip/qzip.h
         qzip/unzip.h
     )
+FOREACH(_file ${sim_LIB_HDRS})
+  ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
+ENDFOREACH(_file)
 
 # moc the sources
 KDE3_AUTOMOC(${sim_LIB_SRCS})
 
 # don't forget flex
 ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
+ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/html.ll")
 
 # our target
 ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS})
@@ -153,6 +162,7 @@ ENDIF(WIN32)
 SET(sim_EXE_SRCS
     sim.cpp
 )
+ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/sim.cpp")
 
 if(WIN32)
   if(MINGW)

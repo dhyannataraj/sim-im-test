@@ -278,6 +278,28 @@ ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )
 
 
 # for dist target
+SET(root_files CMakeLists.txt
+               COPYING
+               ChangeLog
+               ConfigureChecks.cmake
+               README
+               config.h.cmake
+               AUTHORS
+               AUTHORS.sim)
+FOREACH(file ${root_files})
+  ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/${file}")
+ENDFOREACH(file)
+
+FILE(GLOB cmake_files cmake/*.in cmake/*.cmake  cmake/COPYING-CMAKE-SCRIPTS)
+FOREACH(file ${cmake_files})
+  ADD_TO_DIST_TARGET("${file}")
+ENDFOREACH(file)
+
+FILE(GLOB po_files po/*.po po/*.pot)
+FOREACH(file ${po_files})
+  ADD_TO_DIST_TARGET("${file}")
+ENDFOREACH(file)
+
 CONFIGURE_FILE(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_make_dist.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist.cmake"

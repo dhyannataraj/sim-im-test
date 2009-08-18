@@ -7,6 +7,9 @@ SET(remote_PLATFORMS COMMON)
 SET(remote_SRCS_COMMON remote.cpp
                        remotecfg.cpp)
 
+SET(remote_HDRS_COMMON remote.h
+                       remotecfg.h)
+
 SET(remote_UICS_COMMON remotecfgbase.ui)
 
 SIM_ADD_PLUGIN(remote)
@@ -18,6 +21,8 @@ SIM_ADD_PLUGIN(remote)
 PROJECT(remote_ctrl)
 
 ADD_EXECUTABLE(simctrl simctrl.cpp)
+ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/simctrl.cpp")
+
 IF(SIM_ENABLE_FPIE)
     SET_TARGET_PROPERTIES(simctrl PROPERTIES COMPILE_FLAGS "${SIM_CXX_FPIE_FLAGS}")
     SET_TARGET_PROPERTIES(simctrl PROPERTIES LINK_FLAGS "${SIM_PIE_LDFLAGS}")

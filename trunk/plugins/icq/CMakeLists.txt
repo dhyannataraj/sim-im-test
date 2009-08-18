@@ -51,7 +51,9 @@ SET(icq_HDRS_COMMON aboutinfo.h
                     aimsearch.h
                     encodingdlg.h
                     homeinfo.h
+                    icq_events.h
                     icq.h
+                    icqbuddy.h
                     icqbuffer.h
                     icqclient.h
                     icqconfig.h
