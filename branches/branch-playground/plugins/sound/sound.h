@@ -23,8 +23,15 @@
 #include <QObject>
 #include <QProcess>
 #include <QByteArray>
-#include <Phonon/AudioOutput>
-#include <Phonon/MediaObject>
+
+#ifdef Q_WS_X11
+    #include "phonon/mediaobject.h"
+    #include "phonon/audiooutput.h"
+#endif
+#ifdef Q_WS_WIN
+    #include <Phonon/MediaObject>
+    #include <Phonon/AudioOutput>
+#endif
 
 #include "cfg.h"
 #include "event.h"
