@@ -196,11 +196,6 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
         , m_popupPos    (QPoint(0, 0))
         , xsl           (NULL)
 {
-    /*m_id = id;
-    m_nSelection = 0;
-    m_popupPos = QPoint(0, 0);
-    xsl = NULL;*/
-
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTF's defaut look for paragraphs.
