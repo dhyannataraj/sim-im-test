@@ -120,7 +120,10 @@ bool MsgGen::processEvent(Event *e)
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->toHtml();
-            if (!msgText.isEmpty()){
+            if (!msgText.isEmpty())
+			{
+				msgText.remove(QRegExp("$<!DOCTYPE[^>]*>"));
+				msgText.remove(QRegExp("<style[^>]*>[^<]*</style>"));
                 log(L_DEBUG, "Send: %s", qPrintable(msgText));
                 Message *msg = new Message;
                 msg->setText(msgText);
