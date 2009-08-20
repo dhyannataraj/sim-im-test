@@ -399,7 +399,7 @@ void TextEdit::setTextFormat(Qt::TextFormat format)
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
-        : QTextEdit(p, name)
+        : QTextBrowser(p, name)
 {
     setTextFormat(Qt::RichText);
     setReadOnly(true);

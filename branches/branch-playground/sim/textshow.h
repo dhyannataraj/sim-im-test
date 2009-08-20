@@ -28,7 +28,7 @@
 #include <QToolButton>
 #include <QLabel>
 
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QFrame>
 #ifdef USE_KDE
 #include <ktextedit.h>
@@ -46,7 +46,7 @@ const unsigned CmdItalic	= TextCmdBase + 3;
 const unsigned CmdUnderline	= TextCmdBase + 4;
 const unsigned CmdFont		= TextCmdBase + 5;
 
-class EXPORT TextShow : public QTextEdit
+class EXPORT TextShow : public QTextBrowser
 {
     Q_OBJECT
 public:
