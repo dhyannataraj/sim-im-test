@@ -122,7 +122,7 @@ bool MsgGen::processEvent(Event *e)
             QString msgText = m_edit->m_edit->toHtml();
             if (!msgText.isEmpty())
 			{
-				msgText.remove(QRegExp("$<!DOCTYPE[^>]*>"));
+				msgText.remove(QRegExp("^<!DOCTYPE[^>]*>"));
 				msgText.remove(QRegExp("<style[^>]*>[^<]*</style>"));
                 log(L_DEBUG, "Send: %s", qPrintable(msgText));
                 Message *msg = new Message;
