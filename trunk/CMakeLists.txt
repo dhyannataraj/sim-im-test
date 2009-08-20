@@ -1,10 +1,11 @@
 # main cmake file for SIM-IM
 
 PROJECT(Sim-IM)
+SET(Sim-IM_VERSION 0.9.5)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.4)
 if(COMMAND cmake_policy)
-	cmake_policy(SET CMP0003 NEW)
+    cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 SET(CMAKE_COLOR_MAKEFILE ON)
 
@@ -18,7 +19,7 @@ INCLUDE(MacroEnsureOutOfSourceBuild)
 
 INCLUDE(CPack)
 IF(NOT WIN32)
-	MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
+    MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
 ENDIF(NOT WIN32)
 
 SET(CPACK_IGNORE_FILES "/CVS/;/\\\\.svn/;\\\\.sw[p-z]$;~$;tmp$;/CMakeFiles/")
@@ -198,6 +199,13 @@ IF(DEV_BUILD)
     MESSAGE("Subversion not found. No revision number will be used")
   ENDIF()
 ENDIF()
+FIND_PROGRAM(BZIP2_EXECUTABLE bzip2)
+IF (BZIP2_EXECUTABLE)
+    MESSAGE(STATUS "Found bzip2: ${BZIP2_EXECUTABLE}")
+ELSE()
+    MESSAGE(SATUS "bzip2 not found")
+ENDIF()
+
 
 # subdirectories
 ADD_SUBDIRECTORY(sim)

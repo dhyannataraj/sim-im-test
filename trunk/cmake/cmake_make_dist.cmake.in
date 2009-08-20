@@ -3,39 +3,90 @@ IF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt")
   MESSAGE(FATAL_ERROR "Cannot find install manifest: \"@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt\"")
 ENDIF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt")
 
-SET(_tarball  "@CMAKE_CURRENT_BINARY_DIR@/sim.tar")
+SET(_base_name "sim-im_@Sim-IM_VERSION@")
+SET(_dev @DEV_BUILD@)
+IF(_dev)
+  SET(_base_name "${_base_name}~svn@Sim-IM_WC_REVISION@")
+ENDIF(@DEV_BUILD@)
 
-EXEC_PROGRAM(
-  "@CMAKE_COMMAND@" ARGS "-E remove \"${_tarball}\""
-  OUTPUT_VARIABLE rm_out
-  RETURN_VALUE rm_retval
+MESSAGE("Creating ${_base_name} source package:")
+MESSAGE("Prepearing files...")
+EXECUTE_PROCESS(
+  COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_CURRENT_BINARY_DIR@/${_base_name}"
+  OUTPUT_VARIABLE _out
+  RESULT_VARIABLE _res
 )
 
 FILE(READ "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   FILE(RELATIVE_PATH rel_file_name "@Sim-IM_SOURCE_DIR@" ${file})
-  MESSAGE(STATUS "${rel_file_name}")
+#  MESSAGE(STATUS "${rel_file_name}")
   IF(EXISTS "${file}")
 
+    EXECUTE_PROCESS(
+      COMMAND @CMAKE_COMMAND@ -E copy "${rel_file_name}" "@CMAKE_CURRENT_BINARY_DIR@/${_base_name}/${rel_file_name}"
+      OUTPUT_VARIABLE _out
+      RESULT_VARIABLE _res
+      ERROR_VARIABLE _err
+      WORKING_DIRECTORY "@Sim-IM_SOURCE_DIR@"
+    )
+    IF(_res)
+      MESSAGE(FATAL_ERROR "Error coping file ${rel_file_name}:\n ${_err}")
+    ENDIF(_res)
 
-    EXECUTE_PROCESS(
-      COMMAND pwd  
-      OUTPUT_VARIABLE tar_out
-      RESULT_VARIABLE tar_retval
-      WORKING_DIRECTORY "@Sim-IM_SOURCE_DIR@"
-      )
-    EXECUTE_PROCESS(
-      COMMAND tar -rvf ${_tarball} "${rel_file_name}"
-      OUTPUT_VARIABLE tar_out
-      RESULT_VARIABLE tar_retval
-      WORKING_DIRECTORY "@Sim-IM_SOURCE_DIR@"
-      )
-    IF("${tar_retval}" STREQUAL 0)
-    ELSE("${tar_retval}" STREQUAL 0)
-      MESSAGE(FATAL_ERROR "Problem when adding \"${file}\": \n ${tar_out}")
-    ENDIF("${tar_retval}" STREQUAL 0)
   ELSE(EXISTS "${file}")
     MESSAGE(STATUS "File \"${file}\" does not exist.")
   ENDIF(EXISTS "${file}")
 ENDFOREACH(file)
+
+MESSAGE("Creating tar.gz archive...")
+
+EXECUTE_PROCESS(
+  COMMAND @CMAKE_COMMAND@ -E tar -cvzf ${_base_name}.tar.gz ${_base_name}
+  OUTPUT_VARIABLE _out
+  RESULT_VARIABLE _res
+  ERROR_VARIABLE _err
+  WORKING_DIRECTORY @CMAKE_CURRENT_BINARY_DIR@
+)
+IF(_res)
+  MESSAGE(FATAL_ERROR "Error creating tar.gz archive:\n ${_err}")
+ENDIF(_res)
+
+SET(BZIP2_EXECUTABLE "@BZIP2_EXECUTABLE@")
+IF(BZIP2_EXECUTABLE)
+  MESSAGE("Creating tar.bz2 archive...")
+  EXECUTE_PROCESS(
+    COMMAND @CMAKE_COMMAND@ -E tar -cvf ${_base_name}.tar ${_base_name}
+    OUTPUT_VARIABLE _out
+    RESULT_VARIABLE _res
+    ERROR_VARIABLE _err
+    WORKING_DIRECTORY @CMAKE_CURRENT_BINARY_DIR@
+  )
+  IF(_res)
+    MESSAGE(FATAL_ERROR "Error creating tar archive:\n ${_err}")
+  ENDIF(_res)
+
+  EXECUTE_PROCESS(
+    COMMAND @BZIP2_EXECUTABLE@ ${_base_name}.tar
+    OUTPUT_VARIABLE _out
+    RESULT_VARIABLE _res
+    ERROR_VARIABLE _err
+    WORKING_DIRECTORY @CMAKE_CURRENT_BINARY_DIR@
+  )
+  IF(_res)
+    MESSAGE(FATAL_ERROR "Error b2zipping tar archive:\n ${_err}")
+  ENDIF(_res)
+
+ELSE(BZIP2_EXECUTABLE)
+  MESSAGE("bizp not fond: tar.bz2 archive were not created")
+ENDIF(BZIP2_EXECUTABLE)
+
+
+MESSAGE("Cleanup"...)
+EXECUTE_PROCESS(
+  COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_CURRENT_BINARY_DIR@/${_base_name}"
+  OUTPUT_VARIABLE _out
+  RESULT_VARIABLE _res
+)
+

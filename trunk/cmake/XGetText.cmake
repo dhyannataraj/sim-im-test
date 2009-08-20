@@ -4,7 +4,7 @@ FIND_PROGRAM(XGETTEXT_EXECUTABLE kde-xgettext)
 IF (XGETTEXT_EXECUTABLE)
     MESSAGE(STATUS "Found kde-xgettext: ${XGETTEXT_EXECUTABLE}")
 ELSE()
-    MESSAGE(SATUS "Xgettext not found")
+    MESSAGE(SATUS "kde-xgettext not found")
 ENDIF()
 
 FIND_PROGRAM(MSGMERGE_EXECUTABLE msgmerge)
