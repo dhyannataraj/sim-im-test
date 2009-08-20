@@ -197,14 +197,10 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
     m_popupPos = QPoint(0, 0);
     xsl = NULL;
 
-    /*QStyleSheet *style = new QStyleSheet(this);  //FIXME Block
-    QStyleSheetItem *style_p = style->item("p");
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTF's defaut look for paragraphs.
-    style_p->setMargin(QStyleSheetItem::MarginTop, 0);
-    style_p->setMargin(QStyleSheetItem::MarginBottom, 0);
-    setStyleSheet(style);*/
+    document()->setDefaultStyleSheet("p { margin-top: 0; margin-bottom: 0; }");
 
     setColors();
     setFont(CorePlugin::m_plugin->editFont);
@@ -828,11 +824,11 @@ bool MsgViewBase::processEvent(Event *e)
         return false;
     }
     if (e->type() == eEventMessageDeleted){
-        /*
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)
             return false;
+        /*
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             unsigned j;
             QString s = text(i);
@@ -901,7 +897,7 @@ bool MsgViewBase::processEvent(Event *e)
         switch (cmd->id){
         case CmdCopy:
             cmd->flags &= ~(COMMAND_DISABLED | COMMAND_CHECKED);
-            if (!hasSelectedText())
+            if (!textCursor().hasSelection())
                 cmd->flags |= COMMAND_DISABLED;
             return true;
         case CmdMsgOpen:
@@ -1116,7 +1112,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             nUnread++;
     }
     if (nCopy || nUnread){
-        QString t = text();
+        QString t = toHtml();
         HistoryIterator it(m_id);
         it.end();
         while ((nCopy > 0) || nUnread){
@@ -1137,7 +1133,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
                 }
             }
         }
-        setText(t);
+        setHtml(t);
         if (!CorePlugin::m_plugin->getOwnColors())
             setBackground(0);
     }
@@ -1189,7 +1185,7 @@ bool MsgView::processEvent(Event *e)
         }
         if (bAdd){
             addMessage(msg);
-            if (!hasSelectedText()) {
+            if (!textCursor().hasSelection()) {
                 QScrollBar *sbar = verticalScrollBar();
                 if( NULL != sbar ) {
                     sbar->setValue( sbar->maximum() );
