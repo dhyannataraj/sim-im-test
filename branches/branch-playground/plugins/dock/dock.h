@@ -18,12 +18,13 @@
 #ifndef _DOCK_H
 #define _DOCK_H
 
-#include <qobject.h>
-
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 #include "propertyhub.h"
+
+#include <QObject>
+#include <QDateTime>
 
 class DockWnd;
 class QMenu;
@@ -61,7 +62,7 @@ protected:
     unsigned long CmdToggle;
     unsigned long CmdCustomize;
     bool m_bQuit;
-    time_t m_inactiveTime;
+    QDateTime m_inactiveTime;
     friend class DockCfg;
     friend class DockWnd;
 };

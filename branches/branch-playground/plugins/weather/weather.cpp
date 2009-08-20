@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <time.h>
-
 #include <QApplication>
 #include <QWidget>
 #include <QToolBar>
@@ -102,11 +100,11 @@ void WeatherPlugin::timeout()
 {
     if (!getSocketFactory()->isActive() || !isDone() || property("ID").toString().isEmpty())
         return;
-    time_t now = time(NULL);
-    if ((unsigned)now < property("Time").toUInt() + CHECK1_INTERVAL)
+    QDateTime now = QDateTime::currentDateTime();
+    if ( now < QDateTime::fromTime_t(property("Time").toUInt()).addSecs(CHECK1_INTERVAL) )
         return;
     m_bForecast = false;
-    if ((unsigned)now >= property("ForecastTime").toUInt() + CHECK2_INTERVAL)
+    if ( now >= QDateTime::fromTime_t(property("ForecastTime").toUInt()).addSecs(CHECK2_INTERVAL) )
         m_bForecast = true;
     QString url = "http://xoap.weather.com/weather/local/";
     url += property("ID").toString();
@@ -161,10 +159,10 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
     if( !parse( document ) ) {
         return false;
     }
-    time_t now = time(NULL);
-    setProperty("Time", (unsigned int)now);
+    unsigned int now = QDateTime::currentDateTime().toTime_t();
+    setProperty("Time", now);
     if (m_bForecast)
-        setProperty("ForecastTime", (unsigned int)now);
+        setProperty("ForecastTime", now);
     updateButton();
     Event eUpdate(EventWeather);
     eUpdate.process();
@@ -228,13 +226,12 @@ bool WeatherPlugin::isDay()
     int set_h = 0, set_m = 0;
     if (!parseTime(property("Sun_raise").toString(), raise_h, raise_m) || !parseTime(property("Sun_set").toString(), set_h, set_m))
         return false;
-    time_t now = time(NULL);
-    struct tm *tm = localtime(&now);
-    if ((tm->tm_hour > raise_h) && (tm->tm_hour < set_h))
+    QDateTime now = QDateTime::currentDateTime().toLocalTime();
+    if ((now.time().hour() > raise_h) && (now.time().hour() < set_h))
         return true;
-    if ((tm->tm_hour == raise_h) && (tm->tm_min >= raise_m))
+    if ((now.time().hour() == raise_h) && (now.time().minute() >= raise_m))
         return true;
-    if ((tm->tm_hour == set_h) && (tm->tm_min <= set_m))
+    if ((now.time().hour() == set_h) && (now.time().minute() <= set_m))
         return true;
     return false;
 }

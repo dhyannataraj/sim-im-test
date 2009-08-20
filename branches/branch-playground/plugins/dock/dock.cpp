@@ -21,11 +21,10 @@
 #include "core.h"
 #include "mainwin.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qtimer.h>
-#include <qmenu.h>
-#include <time.h>
+#include <QApplication>
+#include <QWidget>
+#include <QTimer>
+#include <QMenu>
 
 using namespace SIM;
 
@@ -53,7 +52,6 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
   , Plugin(base)
   , m_dock(NULL)
   , m_popup(NULL)
-  , m_inactiveTime(0)
 {
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -163,10 +161,10 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
             }
             break;
         case QEvent::WindowDeactivate:
-            time(&m_inactiveTime);
+            m_inactiveTime = QDateTime::currentDateTime();
             break;
         case QEvent::WindowActivate:
-            m_inactiveTime = 0;
+            m_inactiveTime = QDateTime();
             break;
         default:
             break;
@@ -245,7 +243,7 @@ bool DockPlugin::processEvent(Event *e)
 				setProperty("ShowMain", false);
                 main->hide();
             }else{
-                m_inactiveTime = 0;
+                m_inactiveTime = QDateTime();
 				setProperty("ShowMain", true);
                 raiseWindow(main, property("Desktop").toUInt());
             }
@@ -340,13 +338,13 @@ void DockPlugin::timer()
 {
     if (!isMainShow())  // already hidden
         return;
-    if (!property("AutoHide").toBool() || (m_inactiveTime == 0))  // no autohide
+    if (!property("AutoHide").toBool() || (m_inactiveTime.isNull()))  // no autohide
         return;
     if (m_main != getMainWindow()) {
         m_main = getMainWindow();
         m_main->installEventFilter(this);
     }
-    if (time(NULL) > m_inactiveTime + (time_t)property("AutoHideInterval").toUInt()){
+    if (QDateTime::currentDateTime() > m_inactiveTime.addSecs(property("AutoHideInterval").toUInt())){
         if (m_main){
 			setProperty("ShowMain", false);
             m_main->hide();
