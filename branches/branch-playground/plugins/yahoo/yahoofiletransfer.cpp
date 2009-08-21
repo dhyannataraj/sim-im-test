@@ -36,13 +36,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <time.h>
-
 #include <list>
 
-#include <qfile.h>
-//Added by qt3to4:
+#include <QFile>
 #include <QByteArray>
+#include <QDateTime>
 
 #include "simapi.h"
 
@@ -278,8 +276,8 @@ void YahooFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now = time(NULL);
-    if ((unsigned)now != m_sendTime){
+    QDateTime now(QDateTime::currentDateTime());
+    if (now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;
     }

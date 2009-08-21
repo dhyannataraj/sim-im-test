@@ -15,14 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <time.h>
-
-#include <list>
-
-#include <qregexp.h>
-//Added by qt3to4:
-#include <QByteArray>
-
 #include "simapi.h"
 #include "buffer.h"
 #include "log.h"
@@ -32,6 +24,12 @@
 #include "jabber.h"
 #include "jabberclient.h"
 #include "jabbermessage.h"
+
+#include <list>
+
+#include <QRegExp>
+#include <QByteArray>
+#include <QDateTime>
 
 using namespace SIM;
 using namespace std;
@@ -251,8 +249,8 @@ void JabberFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now = time(NULL);
-    if ((unsigned)now != m_sendTime){
+    QDateTime now(QDateTime::currentDateTime());
+    if (now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;
     }

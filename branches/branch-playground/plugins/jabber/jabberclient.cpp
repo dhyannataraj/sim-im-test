@@ -17,23 +17,11 @@
 
 #include "simapi.h"
 
-#include <time.h>
-
 #ifndef WIN32
 #include <ctype.h>
 #endif
 
 #include <algorithm>
-
-#include <qtimer.h>
-#include <qregexp.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qfile.h>
-#include <qapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QByteArray>
 
 #include "html.h"
 #include "icons.h"
@@ -55,6 +43,17 @@
 #include "jabbermessage.h"
 #include "jabberbrowser.h"
 #include "infoproxy.h"
+
+#include <QTimer>
+#include <QRegExp>
+#include <QImage>
+#include <QPixmap>
+#include <QFile>
+#include <QApplication>
+#include <QWidget>
+#include <QByteArray>
+#include <QDateTime>
+#include <QDomDocument>
 
 using namespace std;
 using namespace SIM;
@@ -562,10 +561,10 @@ void JabberClient::setStatus(unsigned status)
 void JabberClient::setStatus(unsigned status, const QString &ar)
 {
     if (status  != m_status){
-        time_t now = time(NULL);
-        data.owner.StatusTime.asULong() = now;
+        QDateTime now = QDateTime::currentDateTime();
+        data.owner.StatusTime.asULong() = now.toTime_t();
         if (m_status == STATUS_OFFLINE)
-            data.owner.OnlineTime.asULong() = now;
+            data.owner.OnlineTime.asULong() = now.toTime_t();
         m_status = status;
         socket()->writeBuffer().packetStart();
         QString priority = QString::number(getPriority());
@@ -619,15 +618,15 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
         }
         Contact *contact;
         ContactList::ContactIterator it;
-        time_t now = time(NULL);
-        data.owner.StatusTime.asULong() = now;
+        QDateTime now(QDateTime::currentDateTime());
+        data.owner.StatusTime.asULong() = now.toTime_t();
         while ((contact = ++it) != NULL){
             JabberUserData *data;
             ClientDataIterator it(contact->clientData, this);
             while ((data = toJabberUserData(++it)) != NULL){
                 if (data->Status.toULong() == STATUS_OFFLINE)
                     continue;
-                data->StatusTime.asULong() = now;
+                data->StatusTime.asULong() = now.toTime_t();
                 setOffline(data);
                 StatusMessage *m = new StatusMessage();
                 m->setContact(contact->id());

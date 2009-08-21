@@ -17,17 +17,12 @@
 
 #include "simapi.h"
 
-#ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
-#else
-#include <time.h>
-#endif
-
-#include <qtimer.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QRegExp>
 #include <QCryptographicHash>
-//Added by qt3to4:
 #include <QByteArray>
+#include <QDateTime>
+
 #include <stdio.h>
 
 #include "fetch.h"
@@ -532,14 +527,13 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
         addParam("itemid", QString::number(msg->getID()));
     if (msg->getTime() == 0)
         msg->setTime(time(NULL));
-    time_t now;
-    now = msg->getTime();
-    struct tm *tm = localtime(&now);
-    addParam("year", QString::number(tm->tm_year + 1900));
-    addParam("mon",  QString::number(tm->tm_mon + 1));
-    addParam("day",  QString::number(tm->tm_mday));
-    addParam("hour", QString::number(tm->tm_hour));
-    addParam("min",  QString::number(tm->tm_min));
+    QDateTime now = QDateTime::fromTime_t( msg->getTime() );
+    now = now.toLocalTime();
+    addParam("year", QString::number(now.date().year() + 1900));
+    addParam("mon",  QString::number(now.date().month() + 1));
+    addParam("day",  QString::number(now.date().day()));
+    addParam("hour", QString::number(now.time().hour()));
+    addParam("min",  QString::number(now.time().minute()));
     if (msg->getPrivate()){
         switch (msg->getPrivate()){
         case 0:

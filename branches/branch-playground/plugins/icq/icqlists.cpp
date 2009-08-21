@@ -25,14 +25,14 @@
 #include <winsock.h>   // htons
 #endif
 #include <stdio.h>
-#include <time.h>
 #include <vector>
 
-#include <qtimer.h>
-#include <qbuffer.h>
-#include <qimage.h>
+#include <QTimer>
+#include <QBuffer>
+#include <QImage>
 #include <QCryptographicHash>
 #include <QByteArray>
+#include <QDateTime>
 
 #include "log.h"
 
@@ -94,7 +94,7 @@ const unsigned LIST_REQUEST_TIMEOUT = 50;
 class ListServerRequest
 {
 public:
-    ListServerRequest(unsigned short seq) : m_seq(seq), m_time(time(NULL)) {}
+    ListServerRequest(unsigned short seq) : m_seq(seq), m_time(QDateTime::currentDateTime()) {}
     virtual ~ListServerRequest() {};
 
     virtual void process(ICQClient *client, unsigned short res)
@@ -108,10 +108,10 @@ public:
     }
 
     unsigned short seq() const { return m_seq; }
-    time_t getTime() const { return m_time; }
+    QDateTime getTime() const { return m_time; }
 protected:
     unsigned short m_seq;
-    time_t m_time;
+    QDateTime m_time;
 };
 
 class GroupServerRequest : public ListServerRequest
@@ -1555,7 +1555,7 @@ void ICQClient::checkListRequest()
 {
     if (m_listRequest == NULL)
         return;
-    if (time(NULL) > (m_listRequest->getTime() + LIST_REQUEST_TIMEOUT)){
+    if (QDateTime::currentDateTime() > (m_listRequest->getTime().addSecs(LIST_REQUEST_TIMEOUT))){
         log(L_WARN, "List request timeout");
         m_listRequest->process(this, (unsigned short)(-1));
         delete m_listRequest;

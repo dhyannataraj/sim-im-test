@@ -451,7 +451,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     QDateTime t;
     t.setTime_t(msg->getTime());
     info += s.sprintf("<time><date>%%1</date><hour>%02u</hour><minute>%02u</minute><second>%02u</second></time>",
-                      t.time().hour(), t.time().minute(), t.time().second()) .arg(formatDate(msg->getTime()));
+                      t.time().hour(), t.time().minute(), t.time().second()) .arg(formatDate(QDateTime::fromTime_t(msg->getTime()).date()));
 
     s = "<?xml version=\"1.0\"?><message";
     s += options;

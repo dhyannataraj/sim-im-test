@@ -409,29 +409,25 @@ void setButtonsPict(QWidget *w)
 	}
 }
 
-EXPORT QString formatDateTime(unsigned long t)
+EXPORT QString formatDateTime(QDateTime t)
 {
-    if (t == 0)
-        return QString::null;
-    QDateTime time;
-    time.setTime_t(t);
+    if (t.isNull())
+        return QString();
 #ifdef USE_KDE4
-    return KGlobal::locale()->formatDateTime(time);
+    return KGlobal::locale()->formatDateTime(t);
 #else
-    return time.toString();
+    return t.toString();
 #endif
 }
 
-EXPORT QString formatDate(unsigned long t)
+EXPORT QString formatDate(QDate t)
 {
-    if (t == 0)
-        return QString::null;
-    QDateTime time;
-    time.setTime_t(t);
+    if (t.isNull())
+        return QString();
 #ifdef USE_KDE4
-    return KGlobal::locale()->formatDate(time.date());
+    return KGlobal::locale()->formatDate(t);
 #else
-    return time.date().toString();
+    return t.toString();
 #endif
 }
 

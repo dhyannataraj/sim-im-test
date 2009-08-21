@@ -15,13 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <time.h>
-
 #include <QFile>
 #include <QTimer>
 #include <QRegExp>
 #include <QByteArray>
 #include <QHostAddress>
+#include <QDateTime>
 
 #include "simapi.h"
 
@@ -347,8 +346,8 @@ void MSNFileTransfer::write_ready()
         m_state = WaitBye;
         return;
     }
-    time_t now = time(NULL);
-    if ((unsigned)now != m_sendTime){
+    QDateTime now(QDateTime::currentDateTime());
+    if (now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;
     }

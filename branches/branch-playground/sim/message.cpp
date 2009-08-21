@@ -538,7 +538,6 @@ FileTransfer::FileTransfer(FileMessage *msg)
     m_state		 = Unknown;
     m_overwrite  = Ask;
     m_transferBytes = 0;
-    m_sendTime   = 0;
     m_sendSize   = 0;
     m_transfer   = 0;
     if (msg){

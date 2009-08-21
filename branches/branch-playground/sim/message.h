@@ -20,6 +20,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QByteArray>
+#include <QDateTime>
 
 #include "simapi.h"
 #include "event.h"
@@ -207,7 +208,7 @@ protected:
     unsigned m_speed;
     unsigned m_transferBytes;
 
-    unsigned m_sendTime;
+    QDateTime m_sendTime;
     unsigned m_sendSize;
     unsigned m_transfer;
 

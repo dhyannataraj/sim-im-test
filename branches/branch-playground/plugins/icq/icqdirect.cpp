@@ -34,15 +34,13 @@
 #include <arpa/inet.h>
 #endif
 
-#include <time.h>
-
-#include <qfile.h>
-#include <qtimer.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QTimer>
+#include <QRegExp>
 #include <QList>
 #include <QByteArray>
 #include <QHostAddress>
+#include <QDateTime>
 
 #include "log.h"
 
@@ -1895,8 +1893,8 @@ void ICQFileTransfer::write_ready()
             m_notify->process();
         return;
     }
-    time_t now = time(NULL);
-    if ((unsigned)now != m_sendTime){
+    QDateTime now(QDateTime::currentDateTime());
+    if (now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;
     }

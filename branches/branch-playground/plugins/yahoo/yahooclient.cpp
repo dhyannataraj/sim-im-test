@@ -46,6 +46,7 @@
 #include <QFile>
 #include <QByteArray>
 #include <QHostAddress>
+#include <QDateTime>
 
 #include "html.h"
 #include "icons.h"
@@ -894,13 +895,13 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         QString statusIcon;
         contactInfo(data, old_status, style, statusIcon);
 
-        time_t now = time(NULL);
-        now -= idle;
+        QDateTime now(QDateTime::currentDateTime());
+        now = now.addSecs(-idle);
         if (data->Status.toULong() == YAHOO_STATUS_OFFLINE)
-            data->OnlineTime.asULong() = now;
+            data->OnlineTime.asULong() = now.toTime_t();
         data->Status.asULong() = state;
         data->bAway.asBool() = (away != 0);
-        data->StatusTime.asULong() = now;
+        data->StatusTime.asULong() = now.toTime_t();
 
         unsigned long new_status = STATUS_UNKNOWN;
         contactInfo(data, new_status, style, statusIcon);
@@ -941,10 +942,10 @@ void YahooClient::setStatus(unsigned status)
 {
     if (status  == m_status)
         return;
-    time_t now = time(NULL);
+    QDateTime now(QDateTime::currentDateTime());
     if (m_status == STATUS_OFFLINE)
-        data.owner.OnlineTime.asULong() = now;
-    data.owner.StatusTime.asULong() = now;
+        data.owner.OnlineTime.asULong() = now.toTime_t();
+    data.owner.StatusTime.asULong() = now.toTime_t();
     m_status = status;
     data.owner.Status.asULong() = m_status;
     EventClientChanged(this).process();

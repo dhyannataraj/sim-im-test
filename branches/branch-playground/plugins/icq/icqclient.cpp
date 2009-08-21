@@ -2634,8 +2634,7 @@ bool ICQClient::processEvent(Event *e)
             if (!m_bAIM)
                 m_snacBuddy->addBuddy(contact);
             if (contact == getContacts()->owner()){
-                //time_t now = time(NULL);
-                QDateTime now = QDateTime::currentDateTime();
+                QDateTime now(QDateTime::currentDateTime());
                 if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
                     data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
                     data.owner.PluginInfoTime.asULong() = now.toTime_t();

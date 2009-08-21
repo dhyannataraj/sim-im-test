@@ -18,7 +18,7 @@
 // system includes
 #include <QMultiMap>
 #include <stdio.h>
-#include <time.h>
+#include <QDateTime>
 // own header
 #include "event.h"
 // local includes
@@ -114,16 +114,14 @@ QString EventLog::make_packet_string(const EventLog &l)
             return m;
         const Buffer &b = l.buffer();
         unsigned start = b.packetStartPos();
-        time_t now = time(NULL);
-        struct tm *tm = localtime(&now);
+        QDateTime now(QDateTime::currentDateTime());
         QString name = type->name();
         if (!l.additionalInfo().isEmpty()){
             name += '.';
             name += l.additionalInfo();
         }
-        m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
-               tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
-               tm->tm_hour, tm->tm_min, tm->tm_sec,
+        m.sprintf("%s [%s] %s %u bytes\n",
+               now.toString("yyyy-MM-dd hh:mm:ss").toLatin1().data(),
                name.toLatin1().data(),
                (l.logLevel() & L_PACKET_IN) ? "Read" : "Write",
                b.size() - start);

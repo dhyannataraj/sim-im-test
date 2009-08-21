@@ -88,12 +88,6 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig) 
     chkHTTP->setChecked(m_client->getUseHTTP());
     edtUrl->setText(m_client->getURL());
     edtVHost->setEnabled(m_client->getUseVHost());
-    lnkRich->setText("(XEP-0071)");
-    lnkRich->setUrl("http://www.xmpp.org/extensions/xep-0071.html");
-    lnkTyping->setText("(XEP-0022)");
-    lnkTyping->setUrl("http://www.xmpp.org/extensions/xep-0022.html");
-    lnkVersion->setText("(XEP-0092)");
-    lnkVersion->setUrl("http://www.xmpp.org/extensions/xep-0092.html");
 }
 
 void JabberConfig::apply(Client*, void*)

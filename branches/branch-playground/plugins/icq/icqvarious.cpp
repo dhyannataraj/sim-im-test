@@ -248,6 +248,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     msg.unpack(type);
                     msg.unpack(flag);
                     msg.unpackStr(message);
+                    // ToDo: replace time_t & tm with QDateTime
                 #ifndef HAVE_TM_GMTOFF
                     sendTM.tm_sec  = -timezone;
                 #else
@@ -571,6 +572,7 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
             e.process();
         }else{
             int tz;
+            // ToDo: replace time_t & tm with QDateTime
 #ifndef HAVE_TM_GMTOFF
             tz = - timezone;
 #else
@@ -620,6 +622,7 @@ unsigned ICQClient::processInfoRequest()
 
 void ICQClient::checkInfoRequest()
 {
+    // ToDo: replace time_t & tm with QDateTime
     time_t now = time(NULL);
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ){
         if (((*it).request_id == 0) || ((time_t)((*it).start_time + INFO_REQUEST_TIMEOUT) < now)){
@@ -1716,6 +1719,7 @@ unsigned ICQClient::processSMSQueue()
         xmltree.pushnode(new XmlLeaf("senders_name",""));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 
+        // ToDo: replace time_t & tm with QDateTime
         char timestr[30];
         time_t t = time(NULL);
         struct tm *tm;

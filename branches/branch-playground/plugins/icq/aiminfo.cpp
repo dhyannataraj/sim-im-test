@@ -173,12 +173,12 @@ void AIMInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ':');
-        edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
+        edtOnline->setText(formatDateTime(QDateTime::fromTime_t(data->StatusTime.toULong())));
         lblNA->hide();
         edtNA->hide();
     }else{
         if (data->OnlineTime.toULong()){
-            edtOnline->setText(formatDateTime(data->OnlineTime.toULong()));
+            edtOnline->setText(formatDateTime(QDateTime::fromTime_t(data->OnlineTime.toULong())));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -188,7 +188,7 @@ void AIMInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.toULong()));
+            edtNA->setText(formatDateTime(QDateTime::fromTime_t(data->StatusTime.toULong())));
         }
     }
     if (data->IP.ip()){

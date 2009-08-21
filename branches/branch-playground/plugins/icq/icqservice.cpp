@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <time.h>
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -23,10 +22,11 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtimer.h>
-#include <qbuffer.h>
-#include <qimage.h>
+#include <QTimer>
+#include <QBuffer>
+#include <QImage>
 #include <QCryptographicHash>
+#include <QDateTime>
 
 #include "log.h"
 
@@ -502,26 +502,26 @@ void SnacIcqService::sendLogonStatus()
         m_client->sendInvisible(false);
     m_client->sendContactList();
 
-    time_t now = time(NULL);
+    QDateTime now(QDateTime::currentDateTime());
     if (m_client->data.owner.PluginInfoTime.toULong() == 0)
-        m_client->data.owner.PluginInfoTime.asULong() = now;
+        m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
     if (m_client->data.owner.PluginStatusTime.toULong() == 0)
-        m_client->data.owner.PluginStatusTime.asULong() = now;
+        m_client->data.owner.PluginStatusTime.asULong() = now.toTime_t();
     if (m_client->data.owner.InfoUpdateTime.toULong() == 0)
-        m_client->data.owner.InfoUpdateTime.asULong() = now;
-    m_client->data.owner.OnlineTime.asULong() = now;
+        m_client->data.owner.InfoUpdateTime.asULong() = now.toTime_t();
+    m_client->data.owner.OnlineTime.asULong() = now.toTime_t();
     if (getContacts()->owner()->getPhones() != m_client->data.owner.PhoneBook.str())
 	{
         m_client->data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
-        m_client->data.owner.PluginInfoTime.asULong() = now;
+        m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
     }
     if (m_client->getPicture() != m_client->data.owner.Picture.str()){
         m_client->data.owner.Picture.str() = m_client->getPicture();
-        m_client->data.owner.PluginInfoTime.asULong() = now;
+        m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
     }
     if (getContacts()->owner()->getPhoneStatus() != m_client->data.owner.FollowMe.toULong()){
         m_client->data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
-        m_client->data.owner.PluginStatusTime.asULong() = now;
+        m_client->data.owner.PluginStatusTime.asULong() = now.toTime_t();
     }
 
     ICQBuffer directInfo(25);

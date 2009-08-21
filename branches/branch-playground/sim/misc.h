@@ -20,9 +20,11 @@
 
 #include "simapi.h"
 
-#include <QColor>
 #include "contacts.h"
 #include "country.h"
+
+#include <QColor>
+#include <QDateTime>
 
 class KAboutData;
 class QComboBox;
@@ -57,10 +59,9 @@ class QIcon;
 
 namespace SIM {
 
-EXPORT QString formatDateTime(unsigned long t);
-
-EXPORT QString formatDateTime(unsigned long t);
-EXPORT QString formatDate(unsigned long t);
+EXPORT QString formatDateTime(QDateTime t);
+inline QString formatDateTime(unsigned int t){ return formatDateTime(QDateTime::fromTime_t(t)); }
+EXPORT QString formatDate(QDate t);
 EXPORT QString formatAddr(const Data &addr, unsigned port);
 
 // _____________________________________________________________________________________

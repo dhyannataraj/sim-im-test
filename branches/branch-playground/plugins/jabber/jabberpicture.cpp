@@ -23,7 +23,6 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qfile.h>
-#include <time.h>
 
 #include "ballonmsg.h"
 #include "editfile.h"

@@ -843,11 +843,11 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
             Message *msg = ++it;
             if ((msg == NULL))
                 break;
-            time_t t = msg->getTime();
-            char time[9];
-            strftime(time, 9, "%H:%M:%S", localtime(&t));
+            QDateTime t = QDateTime::fromTime_t(msg->getTime());
+            QString time;
+            time = t.toString("hh:mm:ss");
             stream << (msg->getFlags() & MESSAGE_RECEIVED ? contact : owner)
-                << " (" << formatDate(t) << " " << time << "):\n"
+                << " (" << formatDate(t.date()) << " " << time << "):\n"
                 << msg->getPlainText()
                 << "\n\n";
         }

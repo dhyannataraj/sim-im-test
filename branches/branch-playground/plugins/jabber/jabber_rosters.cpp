@@ -17,11 +17,10 @@
 
 #include "simapi.h"
 
-#include <time.h>
-
 #include <QImage>
 #include <QFile>
 #include <QByteArray>
+#include <QDateTime>
 
 #include "html.h"
 #include "log.h"
@@ -754,21 +753,47 @@ static unsigned get_number(QString &s, unsigned digits)
     return p.toUInt();
 }
 
-static time_t fromDelay(const QString &t)
+static QDateTime fromDelay(const QString &t)
 {
-    QString s = t;
-    time_t now = time(NULL);
-    struct tm _tm = *localtime(&now);
-    _tm.tm_year = get_number(s, 4) - 1900;
-    _tm.tm_mon  = get_number(s, 2) - 1;
-    _tm.tm_mday = get_number(s, 2);
-    get_number(s, 1);
-    _tm.tm_hour = get_number(s, 2);
-    get_number(s, 1);
-    _tm.tm_min  = get_number(s, 2);
-    get_number(s, 1);
-    _tm.tm_sec  = get_number(s, 2);
-    return mktime(&_tm);
+    QDateTime dt(QDateTime::currentDateTime());
+    QRegExp reg("^(\\d{4})-?(\\d{2})-?(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(.(\\d{3}))?((Z)|([-+]\\d{2}:\\d{2}))?$");
+    do {
+        if( reg.indexIn(t) == -1 )
+            break;
+        int numcap = reg.numCaptures();
+        if( numcap < 6 )
+            break;
+        QDate date;
+        date.setYMD(
+            reg.cap(1).toUInt(),
+            reg.cap(2).toUInt(),
+            reg.cap(3).toUInt()
+        );
+        QTime time;
+        time.setHMS(
+            reg.cap(4).toUInt(),
+            reg.cap(5).toUInt(),
+            reg.cap(6).toUInt()
+        );
+        dt.setDate( date );
+        dt.setTime( time );
+        if( numcap < 9 )
+            break;
+        QString sTZD = reg.cap(9);
+        if( sTZD == "Z" ) {
+            dt.setTimeSpec( Qt::UTC );
+        }
+        else {
+            dt.setTimeSpec( Qt::OffsetFromUTC );
+            int secs = QTime::fromString(sTZD.right(5),"hh:mm").secsTo(QTime(0,0,0,0));
+            if( sTZD[0] == '+' )
+                secs = -secs;
+            dt.setUtcOffset( secs );
+            dt.toLocalTime();
+        }
+    } while( false );
+
+    return dt;
 }
 
 JabberClient::PresenceRequest::~PresenceRequest()
@@ -827,14 +852,14 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }else{
         log(L_DEBUG, "Unsupported presence type %s", qPrintable(m_type));
     }
-    time_t time1 = time(NULL);
-    time_t time2 = 0;
+    QDateTime time1(QDateTime::currentDateTime());
+    QDateTime time2;
     if (!m_stamp1.isEmpty())
         time1 = fromDelay(m_stamp1);
     if (!m_stamp2.isEmpty()){
         time2 = fromDelay(m_stamp2);
         if (time2 > time1){
-            time_t t = time1;
+            QDateTime t = time1;
             time1 = time2;
             time2 = t;
         }
@@ -901,14 +926,14 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     bChanged = true;
                     data->nResources.asULong() = i;
                     set_str(&data->Resources, i, resource);
-                    set_str(&data->ResourceOnlineTime, i, QString::number(time2 ? time2 : time1));
+                    set_str(&data->ResourceOnlineTime, i, QString::number(!time2.isNull() ? time2.toTime_t() : time1.toTime_t()));
                     if (m_client->getUseVersion())
                         m_client->versionInfo(m_from);
                 }
                 if (QString::number(status) != get_str(data->ResourceStatus, i)){
                     bChanged = true;
                     set_str(&data->ResourceStatus, i, QString::number(status));
-                    set_str(&data->ResourceStatusTime, i, QString::number(time1));
+                    set_str(&data->ResourceStatusTime, i, QString::number(time1.toTime_t()));
                 }
                 if (m_status != get_str(data->ResourceReply, i)){
                     bChanged = true;
@@ -925,11 +950,11 @@ JabberClient::PresenceRequest::~PresenceRequest()
             if (data->Status.toULong() != status){
                 bChanged = true;
                 if ((status == STATUS_ONLINE) &&
-                        (((int)(time1 - m_client->data.owner.OnlineTime.toULong()) > 60) ||
+                        (((int)(time1.toTime_t() - m_client->data.owner.OnlineTime.toULong()) > 60) ||
                          (data->Status.toULong() != STATUS_OFFLINE)))
                     bOnLine = true;
                 if (data->Status.toULong() == STATUS_OFFLINE){
-                    data->OnlineTime.asULong() = time1;
+                    data->OnlineTime.asULong() = time1.toTime_t();
                     data->richText.asBool() = true;
                 }
                 if (status == STATUS_OFFLINE && data->IsTyping.toBool()){
@@ -938,7 +963,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     e.process();
                 }
                 data->Status.asULong() = status;
-                data->StatusTime.asULong() = time1;
+                data->StatusTime.asULong() = time1.toTime_t();
             }
             if (data->invisible.toBool() != bInvisible){
                 data->invisible.asBool() = bInvisible;
