@@ -1145,7 +1145,7 @@ void ICQClient::setOffline(ICQUserData *data)
             m_acceptMsg.erase(it);
             it = m_acceptMsg.begin();
         }
-        ++it;  //Exception: Client-Operator not incrementable, because variable "it" is broken at this position, anyhow
+        ++it;  //FIXME: Exception: Client-Operator not incrementable, because variable "it" is broken at this position, anyhow
     }
     if (data->Direct.object())
     {
