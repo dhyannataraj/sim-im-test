@@ -18,8 +18,8 @@
 #ifndef _MSGCONTACTS_H
 #define _MSGCONTACTS_H
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 
 #include "event.h"
 

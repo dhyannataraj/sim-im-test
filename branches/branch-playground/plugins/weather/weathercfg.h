@@ -25,7 +25,6 @@
 
 class WeatherPlugin;
 class WIfaceCfg;
-class QXmlStreamAttributes;
 
 class WeatherCfg : public QWidget, public Ui::WeatherCfgBase, public SIM::EventReceiver, public FetchClient
 {
@@ -44,14 +43,8 @@ protected:
     void fill();
     WeatherPlugin *m_plugin;
     WIfaceCfg	  *m_iface;
-    QString			m_id;
-    QString			m_data;
     QStringList		m_ids;
     QStringList		m_names;
-    bool parse(const QByteArray &data);
-    void element_start(const QStringRef& el, const QXmlStreamAttributes& attrs);
-    void element_end(const QStringRef& el);
-    void char_data(const QStringRef& str);
 };
 
 #endif

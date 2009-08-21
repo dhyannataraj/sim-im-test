@@ -15,51 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <time.h>
-#include <stdio.h>
-
-#include <algorithm>
-
-#include <QFontMetrics>
-#include <QTimer>
-#include <QApplication>
-#include <QRegExp>
-#include <QClipboard>
-#include <QResizeEvent>
-#include <QLabel>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QDragEnterEvent>
-#include <QFrame>
-#include <QDropEvent>
-#include <QDragMoveEvent>
-#include <QByteArray>
+#include "msgedit.h"
 
 #include "simapi.h"
 
-#ifdef USE_KDE
-#include "kdeisversion.h"
-#endif
-
-#include "ballonmsg.h"
-#include "buffer.h"
-#include "icons.h"
-#include "textshow.h"
+#include "userwnd.h"
 #include "toolbtn.h"
 
-#include "msgedit.h"
-#include "core.h"
+#include "msgrecv.h"
 #include "msgsms.h"
-#include "msgfile.h"
-#include "msggen.h"
-#include "msgauth.h"
 #include "msgurl.h"
 #include "msgcontacts.h"
-#include "msgrecv.h"
-#include "userwnd.h"
+#include "listview.h"
+#include "msgfile.h"
+#include "msgauth.h"
 #include "userlist.h"
-#include "history.h"
+#include "ballonmsg.h"
 #include "container.h"
+#include "icons.h"
+#include "history.h"
+
+#include <QVBoxLayout>
+#include <QTimer>
+#include <Q3UriDrag>
+#include <QApplication>
+#include <QClipboard>
 
 using namespace std;
 using namespace SIM;

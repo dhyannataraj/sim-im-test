@@ -22,10 +22,10 @@
 #include "event.h"
 
 #include <QToolBar>
-#include <qtoolbutton.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qlabel.h>
+#include <QToolButton>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QLabel>
 
 class Q3Accel;
 class QContextMenuEvent;

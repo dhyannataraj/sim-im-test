@@ -15,32 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "msggen.h"
 
+#include "simapi.h"
 #include "log.h"
 
-#include "msggen.h"
-#include "toolbtn.h"
 #include "msgedit.h"
-#include "textshow.h"
 #include "userwnd.h"
-#include "userlist.h"
-#include "core.h"
-
-#include <qtimer.h>
-#include <qtoolbutton.h>
-#include <q3accel.h>
-#include <qtooltip.h>
-#include <qlayout.h>
-#include <qregexp.h>
-
-#ifdef USE_KDE
-#include <kcolordialog.h>
-#include <kfontdialog.h>
-#else
-#include <qcolordialog.h>
-#include <qfontdialog.h>
-#endif
 
 using namespace SIM;
 

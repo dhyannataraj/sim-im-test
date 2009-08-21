@@ -23,7 +23,6 @@
 #include "ui_logconfigbase.h"
 
 class LoggerPlugin;
-class Q3ListViewItem;
 
 class LogConfig : public QWidget, public Ui::LogConfigBase, public SIM::EventReceiver
 {

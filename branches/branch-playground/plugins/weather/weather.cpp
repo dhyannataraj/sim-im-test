@@ -15,27 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QApplication>
-#include <QWidget>
-#include <QToolBar>
-#include <QTimer>
-#include <QFile>
-#include <QRegExp>
-#include <QToolTip>
-#include <QDateTime>
-#include <QByteArray>
-
-#include "buffer.h"
-#include "socket.h"
-#include "toolbtn.h"
-#include "icons.h"
-#include "log.h"
-#include "misc.h"
-#include "unquot.h"
-#include "mainwin.h"
-
 #include "weather.h"
 #include "weathercfg.h"
+
+#include "log.h"
+#include "misc.h"
+#include "icons.h"
+#include "socket.h"
+#include "mainwin.h"
+#include "toolbtn.h"
+#include "unquot.h"
+
+#include <QDomDocument>
+#include <QTimer>
 
 using namespace SIM;
 

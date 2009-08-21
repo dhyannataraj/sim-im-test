@@ -20,8 +20,6 @@
 
 #include "event.h"
 
-#include <qtoolbutton.h>
-
 class MsgEdit;
 
 class MsgReceived : public QObject, public SIM::EventReceiver

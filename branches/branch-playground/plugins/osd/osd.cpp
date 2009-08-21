@@ -216,6 +216,7 @@ OSDWidget::OSDWidget(OSDPlugin *plugin)
     setAttribute(Qt::WA_TranslucentBackground, true);
     setAttribute(Qt::WA_NoSystemBackground, true);
     setAttribute(Qt::WA_OpaquePaintEvent, true);
+    setAttribute(Qt::WA_MacAlwaysShowToolWindow, true);
     setAutoFillBackground(false);
     connect(&m_transTimer, SIGNAL(timeout()), this, SLOT(slotTimerFadeInTimeout()));
     QPalette pal = palette();

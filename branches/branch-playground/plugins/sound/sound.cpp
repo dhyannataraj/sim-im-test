@@ -17,12 +17,6 @@
 
 #include "simapi.h"
 
-#include <qdir.h>
-#include <qfile.h>
-#include <qsound.h>
-#include <qtimer.h>
-#include <QByteArray>
-
 #include "exec.h"
 #include "log.h"
 #include "core.h"
@@ -30,7 +24,6 @@
 #include "sound.h"
 #include "soundconfig.h"
 #include "sounduser.h"
-
 
 using namespace std;
 using namespace SIM;
@@ -212,6 +205,12 @@ void SoundPlugin::playSound(const QString& path)
 {
 	log(L_DEBUG, "Sound: %s", qPrintable(path));
     m_media->setCurrentSource(Phonon::MediaSource(path));
+    Phonon::State state = m_media->state();
+    if( state == Phonon::ErrorState ) {
+        QString sError = m_media->errorString();
+        log(L_DEBUG, "Sound playing error: %s", qPrintable(sError));
+        return;
+    }
     m_media->play();
 }
 

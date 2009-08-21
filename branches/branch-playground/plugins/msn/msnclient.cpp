@@ -164,8 +164,7 @@ void MSNClient::setStatus(unsigned status)
 {
     if (status  == m_status)
         return;
-    QDateTime now(QDateTime::currentDateTime());//.setDate()::toTime_t()
-    //time_t now = time(NULL);
+    QDateTime now(QDateTime::currentDateTime());
     if (m_status == STATUS_OFFLINE)
         data.owner.OnlineTime.asULong() = now.toTime_t();
     data.owner.StatusTime.asULong() = now.toTime_t();
@@ -553,8 +552,6 @@ void MSNClient::getLine(const QByteArray &line)
         QDateTime now(QDateTime::currentDateTime());
         if (data && (data->Status.toULong() != status))
         {
-            //time_t now = time(NULL);
-            
             data->Status.asULong() = status;
             if (data->Status.toULong() == STATUS_OFFLINE){
                 data->OnlineTime.asULong() = now.toTime_t();
@@ -580,7 +577,6 @@ void MSNClient::getLine(const QByteArray &line)
         if (data && (data->Status.toULong() != status))
         {
             QDateTime now(QDateTime::currentDateTime());
-            //time_t now = time(NULL);
             if (data->Status.toULong() == STATUS_OFFLINE){
                 data->OnlineTime.asULong() = now.toTime_t();
                 set_ip(&data->IP, 0);
@@ -835,7 +831,6 @@ void MSNClient::ping()
     if (getState() != Connected)
         return;
     QDateTime now(QDateTime::currentDateTime());
-    //time_t now = time(NULL);
     if (now.toTime_t() >= m_pingTime + PING_TIMEOUT){
         sendLine("PNG");
         m_pingTime = now.toTime_t();

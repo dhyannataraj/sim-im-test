@@ -18,12 +18,10 @@
 #ifndef _MSGSMS_H
 #define _MSGSMS_H
 
-#include <QComboBox>
 #include <QFrame>
 
 #include "event.h"
 
-class QToolButton;
 class QCheckBox;
 class MsgEdit;
 

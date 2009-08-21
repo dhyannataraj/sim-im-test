@@ -20,47 +20,23 @@
 
 #include "simapi.h"
 
-#include <QObject>
-#include <QProcess>
-#include <QByteArray>
-
-#ifdef Q_WS_X11
-    #include "phonon/mediaobject.h"
-    #include "phonon/audiooutput.h"
-#endif
-#ifdef Q_WS_WIN
-    #include <Phonon/MediaObject>
-    #include <Phonon/AudioOutput>
-#endif
-
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 #include "propertyhub.h"
 
-#ifdef WIN32
-    #include <windows.h>
-#else  // assume POSIX
-
-#include <unistd.h>
-
+#include <QObject>
+#include <QProcess>
+#include <QByteArray>
+#ifdef Q_WS_X11
+    #include "phonon/mediaobject.h"
+    #include "phonon/audiooutput.h"
+#endif
+#if defined( Q_WS_WIN ) || defined( Q_WS_MAC )
+    #include <Phonon/MediaObject>
+    #include <Phonon/AudioOutput>
 #endif
 
-inline void sleepSecond() {
-#ifdef WIN32
-  Sleep(1000);
-#else
-  sleep(1000);
-#endif
-}
-
-inline void sleepTime(int i) {
-#ifdef WIN32
-    Sleep(i);
-#else
-    sleep(i);
-#endif
-}
 struct SoundData
 {
     SIM::Data	Player;
@@ -81,7 +57,7 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class SoundPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

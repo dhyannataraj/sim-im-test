@@ -22,15 +22,7 @@
 #include "textshow.h"
 #include "event.h"
 
-#include <QLabel>
-#include <QDragMoveEvent>
-#include <QDropEvent>
-#include <QResizeEvent>
-#include <QFrame>
-#include <QMouseEvent>
 #include <Q3PopupMenu>
-#include <QVBoxLayout>
-#include <QDragEnterEvent>
 
 class CorePlugin;
 class UserWnd;

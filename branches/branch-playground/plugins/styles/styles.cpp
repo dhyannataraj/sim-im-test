@@ -84,11 +84,11 @@ void StylesPlugin::setFonts()
         if (m_saveBaseFont)
             QApplication::setFont(*m_saveBaseFont);
         if (m_saveMenuFont)
-            QApplication::setFont(*m_saveMenuFont, "Q3PopupMenu");
+            QApplication::setFont(*m_saveMenuFont, "QMenu");
     }else{
         setupDefaultFonts();
         QApplication::setFont(FontEdit::str2font(property("BaseFont").toString(), *m_saveBaseFont));
-        QApplication::setFont(FontEdit::str2font(property("MenuFont").toString(), *m_saveMenuFont), "Q3PopupMenu");
+        QApplication::setFont(FontEdit::str2font(property("MenuFont").toString(), *m_saveMenuFont), "QMenu");
     }
 }
 

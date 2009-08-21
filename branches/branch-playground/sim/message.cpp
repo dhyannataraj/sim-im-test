@@ -153,7 +153,7 @@ QString SMSMessage::presentation()
     QString net   = quoteString(getNetwork());
     if (!net.isEmpty())
         net = QString(" (") + net + ')';
-    QString res = QString("<p><a href=\"sms:%1\"><img src=\"icon:cell\">%2%3</a></p>")
+    QString res = QString("<p><a href=\"sms:%1\"><img src=\"sim:icons/cell\">%2%3</a></p>")
                   .arg(phone)
                   .arg(phone)
                   .arg(net);

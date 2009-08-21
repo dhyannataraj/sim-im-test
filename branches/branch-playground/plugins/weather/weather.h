@@ -18,18 +18,14 @@
 #ifndef _WEATHER_H
 #define _WEATHER_H
 
-#include "cfg.h"
-#include "event.h"
-#include "fetch.h"
-#include "plugins.h"
 #include "propertyhub.h"
+#include "plugins.h"
+#include "fetch.h"
+#include "event.h"
 
-#include <QDomDocument>
-
-class QByteArray;
-class QDateTime;
 class QToolBar;
-class QXmlStreamAttributes;
+class QDomDocument;
+class QDomElement;
 
 namespace SIM
 {

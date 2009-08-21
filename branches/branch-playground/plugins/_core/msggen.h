@@ -18,10 +18,10 @@
 #ifndef _MSGGEN_H
 #define _MSGGEN_H
 
-#include <qobject.h>
-#include <qstring.h>
-
 #include "event.h"
+
+#include <QObject>
+#include <QString>
 
 class MsgEdit;
 

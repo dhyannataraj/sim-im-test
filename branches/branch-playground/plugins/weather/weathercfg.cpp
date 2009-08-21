@@ -15,18 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QTimer>
-#include <QTabWidget>
-#include <QToolBar>
-#include <QXmlStreamReader>
-
-#include <ballonmsg.h>
-#include <log.h>
-#include <misc.h>
-
-#include "weather.h"
 #include "weathercfg.h"
+
 #include "wifacecfg.h"
+#include "weather.h"
+
+#include "log.h"
+#include "ballonmsg.h"
+#include "misc.h"
+
+#include <QToolBar>
+#include <QTimer>
+#include <QDomDocument>
 
 using namespace SIM;
 
@@ -84,10 +84,21 @@ bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
 {
     m_ids.clear();
     m_names.clear();
-    m_id.clear();
-    m_data .clear();
-    if (!parse(data))
+    QDomDocument doc;
+    if( !doc.setContent(data) ) {
         log(L_WARN, "XML parse error");
+    }
+    QDomElement el = doc.firstChildElement( "search" );
+    if( !el.isNull() ) {
+        el = el.firstChildElement( "loc" );
+        while( !el.isNull() ) {
+            QString sId = el.attribute( "id" );
+            QString sLocation = el.text();
+            m_ids.append(sId);
+            m_names.append(sLocation);
+            el = el.nextSiblingElement( "loc" );
+        }
+    }
     btnSearch->setText(i18n("&Search"));
     QString oldText = cmbLocation->lineEdit()->text();
     cmbLocation->clear();
@@ -144,44 +155,3 @@ void WeatherCfg::apply()
         m_plugin->hideBar();
     }
 }
-
-bool WeatherCfg::parse(const QByteArray &data)
-{
-    QXmlStreamReader xml(data);
-    while (!xml.atEnd()) {
-        QXmlStreamReader::TokenType tt = xml.readNext();
-        if (tt == QXmlStreamReader::StartElement)
-            element_start(xml.name(), xml.attributes());
-        else
-        if (tt == QXmlStreamReader::Characters)
-            char_data(xml.text());
-        else
-        if (tt == QXmlStreamReader::EndElement)
-            element_end(xml.name());
-    }
-    return (xml.error() == QXmlStreamReader::NoError);
-}
-
-void WeatherCfg::element_start(const QStringRef& el, const QXmlStreamAttributes& attrs)
-{
-    if (el == "loc"){
-        m_id = attrs.value("id").toString();
-    }
-}
-
-void WeatherCfg::element_end(const QStringRef& el)
-{
-    if (el == "loc" && !m_id.isEmpty() && !m_data.isEmpty()){
-        m_ids.append(m_id);
-        m_names.append(m_data);
-        m_id.clear();
-        m_data.clear();
-    }
-}
-
-void WeatherCfg::char_data(const QStringRef& str)
-{
-    if (!m_id.isEmpty())
-        m_data += str.toString();
-}
-
