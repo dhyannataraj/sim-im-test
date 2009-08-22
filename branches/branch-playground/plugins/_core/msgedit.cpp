@@ -40,6 +40,7 @@
 #include <Q3UriDrag>
 #include <QApplication>
 #include <QClipboard>
+#include <algorithm>
 
 using namespace std;
 using namespace SIM;
@@ -913,7 +914,7 @@ bool MsgEdit::send()
     }
     if (bSent){
         if (data){
-            ((clientData*)data)->LastSend.asULong() = time(NULL);
+            ((clientData*)data)->LastSend.asULong() = QDateTime::currentDateTime().toTime_t();
         }
     }else{
         if (m_msg){
@@ -1242,7 +1243,7 @@ bool MsgEdit::processEvent(Event *e)
                 }
             }else{
                 if (contact){
-                    contact->setLastActive(time(NULL));
+                    contact->setLastActive(QDateTime::currentDateTime().toTime_t());
                     EventContact(contact, EventContact::eStatus).process();
                 }
                 if (!multiply.empty() && (multiply_it != multiply.end())){

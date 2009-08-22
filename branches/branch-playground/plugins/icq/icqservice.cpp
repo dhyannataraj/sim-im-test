@@ -621,7 +621,7 @@ void SnacIcqService::sendUpdate()
         return;
     if (--m_nUpdates)
         return;
-    m_client->data.owner.InfoUpdateTime.asULong() = time(NULL);
+    m_client->data.owner.InfoUpdateTime.asULong() = QDateTime::currentDateTime().toTime_t();
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
     ICQBuffer directInfo(25);
@@ -693,7 +693,7 @@ void SnacIcqService::sendIdleTime()
         return;
     snac(ICQ_SNACxSRV_SETxIDLE);
     if(m_client->getIdleTime()) {
-        unsigned long idle = time(NULL) - m_client->getIdleTime();
+        unsigned long idle = QDateTime::currentDateTime().toTime_t() - m_client->getIdleTime();
         if (idle <= 0)
             idle = 1;
         m_client->socket()->writeBuffer() << idle;

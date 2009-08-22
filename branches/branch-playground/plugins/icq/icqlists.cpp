@@ -635,7 +635,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     EventGroup e(grp, EventGroup::eChanged);
                     e.process();
                 }
-                data.owner.OnlineTime.asULong() = time(NULL);
+                data.owner.OnlineTime.asULong() = QDateTime::currentDateTime().toTime_t();
                 if (m_logonStatus == STATUS_ONLINE){
                     m_status = STATUS_ONLINE;
                     sendCapability();

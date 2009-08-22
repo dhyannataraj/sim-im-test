@@ -2766,7 +2766,7 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	m_oft.parts_left = 1;
 	m_oft.total_size = totalSize();
 	m_oft.size = fileSize();
-	m_oft.mod_time = time(NULL); //FIXME
+	m_oft.mod_time = QDateTime::currentDateTime().toTime_t(); //FIXME
 	m_oft.checksum = calculateChecksum();
 	m_oft.rfrcsum = 0x0000ffff;
 	m_oft.rfsize = 0x0;

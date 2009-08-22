@@ -526,7 +526,7 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     if (msg->getID())
         addParam("itemid", QString::number(msg->getID()));
     if (msg->getTime() == 0)
-        msg->setTime(time(NULL));
+        msg->setTime(QDateTime::currentDateTime().toTime_t());
     QDateTime now = QDateTime::fromTime_t( msg->getTime() );
     now = now.toLocalTime();
     addParam("year", QString::number(now.date().year() + 1900));
