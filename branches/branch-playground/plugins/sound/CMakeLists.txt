@@ -18,10 +18,18 @@ SET(sound_UICS
         sounduserbase.ui
 )
 
+SET(sound_LIBS
+        ${QT_PHONON_LIBRARY}
+)
+
 REMOVE_DEFINITIONS(-DQT3_SUPPORT)
 REMOVE_DEFINITIONS(-DQT_3SUPPORT_LIB)
 REMOVE_DEFINITIONS(-DQT3_SUPPORT_WARNINGS)
-SIM_ADD_PLUGIN(sound)
+IF(QT_PHONON_FOUND)
+  SIM_ADD_PLUGIN(sound)
+ELSE(QT_PHONON_FOUND)
+  MESSAGE(STATUS "Cannot build sound plugin because Phonon is missing on your system")
+ENDIF(QT_PHONON_FOUND)
 
 # install new sounds with known licence
 INSTALL(FILES sounds/added.ogg		DESTINATION ${SIM_SOUND_DIR})
