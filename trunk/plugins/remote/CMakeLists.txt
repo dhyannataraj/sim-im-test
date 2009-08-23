@@ -32,7 +32,8 @@ INSTALL(TARGETS simctrl RUNTIME DESTINATION ${BINDIR})
 IF(NOT WIN32)
     INSTALL(FILES simctrl.desktop DESTINATION ${SERVICES_INSTALL_DIR})
 ENDIF(NOT WIN32)
-    
+ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/simctrl.desktop")
+
 IF(0)
 #doesn't work yet
 ########################

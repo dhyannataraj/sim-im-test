@@ -308,11 +308,26 @@ FOREACH(file ${po_files})
   ADD_TO_DIST_TARGET("${file}")
 ENDFOREACH(file)
 
+
 CONFIGURE_FILE(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_make_dist.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist.cmake"
   IMMEDIATE @ONLY)
 
-# dist target
+SET(DIST_TYPE "non-free")
+CONFIGURE_FILE(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_make_dist.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist_non-free.cmake"
+  IMMEDIATE @ONLY)
+
+# dist targets
 ADD_CUSTOM_TARGET(dist
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist.cmake")
+
+ADD_CUSTOM_TARGET(dist-non-free
+  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_make_dist_non-free.cmake")
+
+ADD_CUSTOM_TARGET(dist-all )
+#   DEPENDS dist dist-non-free )
+
+add_dependencies(dist-all dist dist-non-free)

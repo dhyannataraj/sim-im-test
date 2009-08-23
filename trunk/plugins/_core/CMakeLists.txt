@@ -154,23 +154,19 @@ SET(_core_UICS_COMMON arcfgbase.ui
                       userhistorycfgbase.ui
                       userviewcfgbase.ui )
 
-# so we don't need an extra CMakeLists.txt in every subdirectory
 
-ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_NON_SRC_TARGETS)
+IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/GPL-Icons/icondef.xml)
+    ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_NON_SRC_TARGETS)
+ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/GPL-Icons/icondef.xml)
 
 IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
-    message( "Using non-GPL icons" )
-    ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_NON_SRC_TARGETS)
-ELSE (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
-    message( "Using GPL icons" )
-    # substitute with gpl icons
-    ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_NON_SRC_TARGETS)
+    ADD_JISP_ARCHIVE(jisp  sim.jisp  _core_NON_SRC_TARGETS non-free)
 ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 
 FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
 INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
 FOREACH(file ${_prebuilt})
-  ADD_TO_DIST_TARGET(${file})
+  ADD_TO_DIST_TARGET(${file} non-free)
 ENDFOREACH(file ${_prebuilt})
 
 SIM_ADD_PLUGIN(_core)

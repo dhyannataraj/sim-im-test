@@ -1,23 +1,38 @@
-# from cmake wiki
-IF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt\"")
-ENDIF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt")
+# Copyright (c) 2009, Swami Dhyan Nataraj (Nikolay Shaplov), <n@shaplov.ru>
+#
+# Redistribution and use is allowed according to the terms of
+# GNU Public License  version 2 or later
+
+SET(_dist_type @DIST_TYPE@)
+
+IF(_dist_type)
+  SET(_manifest_postfix "-${_dist_type}")
+  SET(_base_name_postfix "_${_dist_type}")
+ENDIF(_dist_type)
+
+SET(_manifest "@CMAKE_CURRENT_BINARY_DIR@/make-dist${_manifest_postfix}.manifest.txt")
+
+IF(NOT EXISTS "${_manifest}")
+  MESSAGE(FATAL_ERROR "Cannot find make dist manifest: \"${_manifest}\"")
+ENDIF(NOT EXISTS "${_manifest}")
 
 SET(_base_name "sim-im_@Sim-IM_VERSION@")
 SET(_dev @DEV_BUILD@)
 IF(_dev)
   SET(_base_name "${_base_name}~svn@Sim-IM_WC_REVISION@")
 ENDIF(@DEV_BUILD@)
+SET(_base_name "${_base_name}${_base_name_postfix}")
+
 
 MESSAGE("Creating ${_base_name} source package:")
-MESSAGE("Prepearing files...")
+MESSAGE("   Prepearing files...")
 EXECUTE_PROCESS(
   COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_CURRENT_BINARY_DIR@/${_base_name}"
   OUTPUT_VARIABLE _out
   RESULT_VARIABLE _res
 )
 
-FILE(READ "@CMAKE_CURRENT_BINARY_DIR@/make-dist.manifest.txt" files)
+FILE(READ "${_manifest}" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   FILE(RELATIVE_PATH rel_file_name "@Sim-IM_SOURCE_DIR@" ${file})
@@ -36,11 +51,11 @@ FOREACH(file ${files})
     ENDIF(_res)
 
   ELSE(EXISTS "${file}")
-    MESSAGE(STATUS "File \"${file}\" does not exist.")
+    MESSAGE(FATAL_ERROR "File \"${file}\" does not exist.")
   ENDIF(EXISTS "${file}")
 ENDFOREACH(file)
 
-MESSAGE("Creating tar.gz archive...")
+MESSAGE("   Creating ${_base_name}.tar.gz...")
 
 EXECUTE_PROCESS(
   COMMAND @CMAKE_COMMAND@ -E tar -cvzf ${_base_name}.tar.gz ${_base_name}
@@ -55,7 +70,7 @@ ENDIF(_res)
 
 SET(BZIP2_EXECUTABLE "@BZIP2_EXECUTABLE@")
 IF(BZIP2_EXECUTABLE)
-  MESSAGE("Creating tar.bz2 archive...")
+  MESSAGE("   Creating ${_base_name}.tar.bz2...")
   EXECUTE_PROCESS(
     COMMAND @CMAKE_COMMAND@ -E tar -cvf ${_base_name}.tar ${_base_name}
     OUTPUT_VARIABLE _out
@@ -68,7 +83,7 @@ IF(BZIP2_EXECUTABLE)
   ENDIF(_res)
 
   EXECUTE_PROCESS(
-    COMMAND @BZIP2_EXECUTABLE@ ${_base_name}.tar
+    COMMAND @BZIP2_EXECUTABLE@ -f ${_base_name}.tar
     OUTPUT_VARIABLE _out
     RESULT_VARIABLE _res
     ERROR_VARIABLE _err
@@ -79,11 +94,11 @@ IF(BZIP2_EXECUTABLE)
   ENDIF(_res)
 
 ELSE(BZIP2_EXECUTABLE)
-  MESSAGE("bizp not fond: tar.bz2 archive were not created")
+  MESSAGE("   bizp not fond: tar.bz2 archive were not created")
 ENDIF(BZIP2_EXECUTABLE)
 
 
-MESSAGE("Cleanup"...)
+MESSAGE("   Cleanup"...)
 EXECUTE_PROCESS(
   COMMAND @CMAKE_COMMAND@ -E remove_directory "@CMAKE_CURRENT_BINARY_DIR@/${_base_name}"
   OUTPUT_VARIABLE _out

@@ -35,16 +35,23 @@ SET(CPACK_PACKAGE_EXECUTABLES "sim" "sim")
 
 INCLUDE(CPack)
 
-
 #########################################################################
 # This part of file were made by Swamy Dhyan Nataraj (Nikolay Shaplov)
 # and will be used for dist target instead of above text, when ready.
 #########################################################################
 
-FILE(WRITE "${Sim-IM_BINARY_DIR}/make-dist.manifest.txt" "") # Clearing dist manifest file.
+FILE(WRITE "${Sim-IM_BINARY_DIR}/make-dist.manifest.txt" "") # Clearing dist manifest files
+FILE(WRITE "${Sim-IM_BINARY_DIR}/make-dist-non-free.manifest.txt" "")
 
 MACRO(ADD_TO_DIST_TARGET)
-    SET(_file_name ${ARGV0})
-    SET(_dist_type ${ARGV1})
+  SET(_file_name ${ARGV0})
+  SET(_dist_type ${ARGV1})
+  IF( NOT _dist_type)
     FILE(APPEND "${Sim-IM_BINARY_DIR}/make-dist.manifest.txt" "${_file_name}\n")
+    FILE(APPEND "${Sim-IM_BINARY_DIR}/make-dist-non-free.manifest.txt" "${_file_name}\n")
+  ELSE( NOT _dist_type)
+    IF(_dist_type STREQUAL "non-free")
+      FILE(APPEND "${Sim-IM_BINARY_DIR}/make-dist-non-free.manifest.txt" "${_file_name}\n")
+    ENDIF(_dist_type STREQUAL "non-free")
+  ENDIF( NOT _dist_type)
 ENDMACRO(ADD_TO_DIST_TARGET)
