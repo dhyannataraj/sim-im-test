@@ -203,9 +203,7 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
 
     setColors();
     setFont(CorePlugin::m_plugin->editFont);
-
     setContextMenuPolicy( Qt::DefaultContextMenu );
-    setOpenExternalLinks(true);
 }
 
 MsgViewBase::~MsgViewBase()

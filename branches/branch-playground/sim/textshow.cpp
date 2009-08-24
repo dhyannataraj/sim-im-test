@@ -403,6 +403,8 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(Qt::RichText);
     setReadOnly(true);
+    connect(this, SIGNAL(sourceChanged( const QUrl &)  ),this,SLOT(setURL(const QUrl &)));
+    setOpenExternalLinks(true);
 }
 
 TextShow::~TextShow()
@@ -439,6 +441,11 @@ const QColor &TextShow::foreground() const
 void TextShow::emitLinkClicked(const QString &name)
 {
     setSource(name);
+}
+
+void TextShow::setURL(const QUrl &url)
+{
+    this->setSource(url.toString());
 }
 
 void TextShow::setSource(const QString &name)
@@ -517,10 +524,11 @@ void BgColorParser::tag_end(const QString&)
 
 RichTextEdit::RichTextEdit(QWidget *parent, const char *name)
         : QMainWindow(parent)
+        , m_edit     (new TextEdit(this))
+        , m_bar      (NULL)
+
 {
     setObjectName(name);
-    m_edit = new TextEdit(this);
-    m_bar  = NULL;
     setCentralWidget(m_edit);
 }
 

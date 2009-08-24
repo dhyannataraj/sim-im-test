@@ -52,11 +52,13 @@ class EXPORT TextShow : public QTextBrowser
 public:
     TextShow (QWidget *parent, const char *name=NULL);
     ~TextShow();
+public slots:
     virtual void setSource(const QString &url);
     const QColor &background() const;
     const QColor &foreground() const;
     void setForeground(const QColor&);
     void setBackground(const QColor&);
+    void setURL(const QUrl & src);
 signals:
     void finished();
 protected:
