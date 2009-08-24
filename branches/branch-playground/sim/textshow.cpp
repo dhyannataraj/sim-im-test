@@ -446,7 +446,7 @@ void TextShow::emitLinkClicked(const QString &name)
 
 void TextShow::setURL(const QUrl &url)
 {
-    this->setSource(url.toString());
+    setSource(url.toString());
 }
 
 void TextShow::setSource(const QString &name)
@@ -463,7 +463,7 @@ void TextShow::setSource(const QString &name)
         mark = name.mid( hash+1 );
     }
 
-    QString url("");// mimeSourceFactory()->makeAbsolute( source, context() );  //FIXME
+    QString url(source); //mimeSourceFactory()->makeAbsolute( source, context() );  //FIXME
     QString txt;
 
     if (!mark.isEmpty()) {
