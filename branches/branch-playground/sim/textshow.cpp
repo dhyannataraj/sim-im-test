@@ -403,8 +403,9 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(Qt::RichText);
     setReadOnly(true);
-    connect(this, SIGNAL(sourceChanged( const QUrl &)  ),this,SLOT(setURL(const QUrl &)));
+    connect(this, SIGNAL(anchorClicked ( const QUrl &)  ),this,SLOT(setURL(const QUrl &)));
     setOpenExternalLinks(true);
+    setOpenLinks(false);
 }
 
 TextShow::~TextShow()
@@ -472,7 +473,6 @@ void TextShow::setSource(const QString &name)
 
     EventGoURL e(url);
     e.process();
-
 #ifndef QT_NO_CURSOR
     if ( isVisible() )
         qApp->restoreOverrideCursor();
