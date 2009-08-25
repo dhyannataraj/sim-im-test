@@ -20,7 +20,7 @@ SET(_base_name "sim-im_@Sim-IM_VERSION@")
 SET(_dev @DEV_BUILD@)
 IF(_dev)
   SET(_base_name "${_base_name}~svn@Sim-IM_WC_REVISION@")
-ENDIF(@DEV_BUILD@)
+ENDIF(_dev)
 SET(_base_name "${_base_name}${_base_name_postfix}")
 
 

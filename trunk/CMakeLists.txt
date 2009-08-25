@@ -16,15 +16,9 @@ SET(QT_MT_REQUIRED True)
 INCLUDE(FindQt3)
 INCLUDE(MacroEnsureOutOfSourceBuild)
 
-
-INCLUDE(CPack)
 IF(NOT WIN32)
     MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
 ENDIF(NOT WIN32)
-
-SET(CPACK_IGNORE_FILES "/CVS/;/\\\\.svn/;\\\\.sw[p-z]$;~$;tmp$;/CMakeFiles/")
-SET(CPACK_PACKAGE_VERSION "0.9.5")
-SET(CPACK_PACKAGE_FILE_NAME "Sim-IM-0.9.5-Source")
 
 INCLUDE(Flex)
 INCLUDE(Jisp)
