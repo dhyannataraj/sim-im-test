@@ -55,6 +55,13 @@ FOREACH(file ${files})
   ENDIF(EXISTS "${file}")
 ENDFOREACH(file)
 
+IF(_dev)
+  FILE(WRITE "@CMAKE_CURRENT_BINARY_DIR@/${_base_name}/cmake/StaticRevDefinition.cmake"
+  "# This file were automaticly created by 'make dist' in order to remember sorce revision when all .svn files are lost\n"
+  "SET(Sim-IM_WC_REVISION \"@Sim-IM_WC_REVISION@\")\n"
+  )
+ENDIF(_dev)
+
 MESSAGE("   Creating ${_base_name}.tar.gz...")
 
 EXECUTE_PROCESS(
