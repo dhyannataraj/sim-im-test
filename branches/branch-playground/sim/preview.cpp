@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QVBoxLayout>
 #include <QPixmap>
+#include <QUrl>
 
 FilePreview::FilePreview(QWidget *parent)
 #ifdef USE_KDE

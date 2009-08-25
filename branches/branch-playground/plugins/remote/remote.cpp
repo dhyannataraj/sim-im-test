@@ -107,17 +107,17 @@ IPC::IPC()
 {
     s = NULL;
     QString name = prefix() + "mem";
-    hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, N_SLOTS * sizeof(unsigned), name.latin1());
+    hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, N_SLOTS * sizeof(unsigned), name.toLatin1());
     if (hMem)
         s = (unsigned*)MapViewOfFile(hMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if (s)
         memset(s, 0, N_SLOTS * sizeof(unsigned));
     name = prefix() + "mutex";
-    hMutex = CreateMutexA(NULL, FALSE, name.latin1());
+    hMutex = CreateMutexA(NULL, FALSE, name.toLatin1());
     name = prefix() + "in";
-    hEventIn = CreateEventA(NULL, TRUE, FALSE, name.latin1());
+    hEventIn = CreateEventA(NULL, TRUE, FALSE, name.toLatin1());
     name = prefix() + "out";
-    hEventOut = CreateEventA(NULL, TRUE, FALSE, name.latin1());
+    hEventOut = CreateEventA(NULL, TRUE, FALSE, name.toLatin1());
     bExit = false;
     start();
 }
@@ -159,7 +159,7 @@ void IPC::process()
         QString in;
         QString out;
         QString name = prefix() + QString::number(i);
-        Qt::HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.latin1());
+        Qt::HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.toLatin1());
         if (hMem == NULL){
             s[i] = SLOT_NONE;
             PulseEvent(hEventOut);
@@ -568,7 +568,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     switch (nCmd){
 #ifdef WIN32
     case CMD_ICON:{
-            IconWidget w(Pict(args[0].utf8()));
+            IconWidget w(Pict(args[0].toUtf8()));
             HICON icon = w.icon();
             ICONINFO info;
             if (!GetIconInfo(icon, &info))

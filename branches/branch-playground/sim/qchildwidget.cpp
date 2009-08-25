@@ -46,12 +46,12 @@ void QChildWidget::childEvent(QChildEvent *e)
 void QChildWidget::paintEvent(QPaintEvent*)
 {
     for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-        const QPixmap *bg = p->backgroundPixmap();
-        if (bg){
+        const QPixmap bg = p->palette().brush(p->backgroundRole()).texture();
+        if (!bg.isNull()){
             QPoint pos = mapToGlobal(QPoint(0, 0));
             pos = p->mapFromGlobal(pos);
             QPainter pp(this);
-            pp.drawTiledPixmap(0, 0, width(), height(), *bg, pos.x(), pos.y());
+            pp.drawTiledPixmap(0, 0, width(), height(), bg, pos.x(), pos.y());
             return;
         }
         if (p == topLevelWidget())
@@ -66,8 +66,8 @@ bool QChildWidget::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::Paint){
         QWidget *w = static_cast<QWidget*>(o);
         for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-            const QPixmap *bg = p->backgroundPixmap();
-            if (bg){
+            const QPixmap bg = p->palette().brush(p->backgroundRole()).texture();
+            if (!bg.isNull()){
                 QPoint pos = w->mapToGlobal(QPoint(0, 0));
                 pos = p->mapFromGlobal(pos);
                 QRect rc(pos.x(), pos.y(), w->width(), w->height());
@@ -75,13 +75,15 @@ bool QChildWidget::eventFilter(QObject *o, QEvent *e)
                     rcChild = rc;
                     QPixmap new_bg(w->width(), w->height());
                     QPainter pp(&new_bg);
-                    pp.drawTiledPixmap(0, 0, w->width(), w->height(), *bg, pos.x(), pos.y());
+                    pp.drawTiledPixmap(0, 0, w->width(), w->height(), bg, pos.x(), pos.y());
                     pp.end();
-                    w->setBackgroundPixmap(new_bg);
+                    QPalette palette = w->palette();
+                    palette.setBrush(w->backgroundRole(), QBrush(new_bg));
+                    w->setPalette(palette);
                 }
-                if (w->backgroundPixmap()){
+                if (!w->palette().brush(w->backgroundRole()).texture().isNull()){
                     QPainter pp(w);
-                    pp.drawPixmap(0, 0, *w->backgroundPixmap());
+                    pp.drawPixmap(0, 0, w->palette().brush(w->backgroundRole()).texture());
                 }
                 return true;
             }
@@ -89,10 +91,3 @@ bool QChildWidget::eventFilter(QObject *o, QEvent *e)
     }
     return false;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "qchildwidget.moc"
-#endif
-*/
-

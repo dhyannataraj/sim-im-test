@@ -54,8 +54,9 @@ protected:
 };
 
 CComboBox::CComboBox(QWidget *parent, const char *name)
-        : QComboBox(parent, name)
+        : QComboBox(parent)
 {
+    setObjectName(name);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
 }
 
@@ -159,7 +160,8 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (!data->Value.str().isEmpty())
                 static_cast<QTextEdit*>(widget)->setText(data->Value.str());
         }else if (data->Type.str() == "boolean" && !data->Label.str().isEmpty()){
-            widget = new QCheckBox(data->Label.str(), this, qPrintable(data->Field.str()));
+            widget = new QCheckBox(data->Label.str(), this);
+            widget->setObjectName(qPrintable(data->Field.str()));
             if (!data->Value.str().isEmpty() && !data->Value.str().startsWith("0"))
                 static_cast<QCheckBox*>(widget)->setChecked(true);
             data->Label.clear();
@@ -208,13 +210,15 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             if (!data->Value.str().isEmpty())
                 m_key = data->Value.str();
         }else if (data->Type.str() == "password"){
-            widget = new QLineEdit(this, "password");
+            widget = new QLineEdit(this);
+            widget->setObjectName("password");
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
             data->Label.str() = "Password";
         }else if (data->Type.str() == "online"){
-            widget = new QCheckBox(this, "online");
+            widget = new QCheckBox(this);
+            widget->setObjectName("online");
             static_cast<QCheckBox*>(widget)->setText(i18n("Online only"));
             bJoin = true;
         }else if (data->Type.str() == "sex"){
@@ -230,7 +234,8 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 if (data->Type.str() == QString::fromUtf8(f->tag))
                     break;
             if (f->tag){
-                widget = new QLineEdit(this, f->tag);
+                widget = new QLineEdit(this);
+                widget->setObjectName(f->tag);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
                 connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
                 if (!data->Value.str().isEmpty())
@@ -445,7 +450,8 @@ void JabberSearch::createLayout()
     unsigned nCols = 0;
     unsigned nRows = 0;
     QVBoxLayout *vlay = new QVBoxLayout(this);
-    QGridLayout *lay = new QGridLayout(vlay);
+    QGridLayout *lay = new QGridLayout(this);
+    vlay->addLayout(lay);
     vlay->setMargin(11);
     lay->setSpacing(6);
     vlay->addStretch();

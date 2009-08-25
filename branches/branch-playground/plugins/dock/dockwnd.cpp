@@ -153,11 +153,11 @@ bool DockWnd::processEvent(Event *e)
         break;
     case eEventShowNotification:{
         if (!m_bBalloon)
-            return NULL;
+            return false;
         EventShowNotification *ee = static_cast<EventShowNotification*>(e);
         const EventNotification::ClientNotificationData &data = ee->data();
         if (data.id == 0)
-            return NULL;
+            return false;
         foreach(BalloonItem item, m_queue ) {
             if (item.id == data.id)
                 return (void*)1;
