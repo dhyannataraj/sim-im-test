@@ -20,9 +20,9 @@
 
 #include "editfile.h"
 
-#include <qregexp.h>
-#include <qcheckbox.h>
-#include <qdir.h>
+#include <QRegExp>
+#include <QCheckBox>
+#include <QDir>
 
 HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
   : QWidget(parent)

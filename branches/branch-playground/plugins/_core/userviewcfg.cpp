@@ -19,9 +19,9 @@
 #include "userviewcfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLabel>
 
 using namespace SIM;
 

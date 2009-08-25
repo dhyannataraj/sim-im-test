@@ -19,10 +19,10 @@
 #include "workinfo.h"
 #include "icqclient.h"
 
-#include <qpushbutton.h>
-#include <qlineedit.h>
+#include <QPushButton>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qcombobox.h>
+#include <QComboBox>
 
 using namespace SIM;
 

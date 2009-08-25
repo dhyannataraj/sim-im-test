@@ -17,16 +17,16 @@
 
 #include "fontedit.h"
 
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qregexp.h>
+#include <QPushButton>
+#include <QLabel>
+#include <QRegExp>
 #include <QHBoxLayout>
 #include <QFrame>
 
 #ifdef USE_KDE4
 #include <kfontdialog.h>
 #else
-#include <qfontdialog.h>
+#include <QFontDialog>
 #endif
 
 #include "icons.h"

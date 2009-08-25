@@ -19,11 +19,11 @@
 
 #include "phonedetails.h"
 
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qvalidator.h>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QValidator>
 
 using namespace SIM;
 

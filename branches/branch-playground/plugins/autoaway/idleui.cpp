@@ -10,7 +10,7 @@
 #include<windows.h>
 #include<winuser.h>
 #include<assert.h>
-#include<qlibrary.h>
+#include<QLibrary>
 
 ////////////////
 // The following global data is SHARED among all instances of the DLL

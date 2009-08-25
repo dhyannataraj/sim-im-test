@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qpixmap.h>
-#include <qlineedit.h>
+#include <QPixmap>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qtabwidget.h>
-#include <qpushbutton.h>
+#include <QTabWidget>
+#include <QPushButton>
 //Added by qt3to4:
 #include <QResizeEvent>
 

@@ -17,12 +17,12 @@
 
 #include "simapi.h"
 
-#include <qtabwidget.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qfile.h>
+#include <QTabWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QImage>
+#include <QPixmap>
+#include <QFile>
 
 #include "ballonmsg.h"
 #include "editfile.h"

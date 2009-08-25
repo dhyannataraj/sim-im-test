@@ -21,11 +21,11 @@
 #include "floatywnd.h"
 #include "floaty.h"
 
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QPixmap>
+#include <QPainter>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>

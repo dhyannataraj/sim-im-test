@@ -36,7 +36,7 @@
 #endif
 
 #ifdef USE_KDE
-#include <qwidget.h>
+#include <QWidget>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kuniqueapplication.h>

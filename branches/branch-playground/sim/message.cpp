@@ -16,13 +16,12 @@
  ***************************************************************************/
 
 #include <time.h>
-
 #include <vector>
 
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qdiriterator.h>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QDirIterator>
 
 #include "message.h"
 #include "misc.h"

@@ -29,11 +29,11 @@
 
 #include <algorithm>
 
-#include <qtextcodec.h>
-#include <qfile.h>
-#include <qtimer.h>
-#include <qimage.h>
-#include <qregexp.h>
+#include <QTextCodec>
+#include <QFile>
+#include <QTimer>
+#include <QImage>
+#include <QRegExp>
 #include <QByteArray>
 #include <QHostAddress>
 

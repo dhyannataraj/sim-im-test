@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstyle.h>
-#include <qlayout.h>
+#include <QStyle>
+#include <QLayout>
 #include <q3header.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qpainter.h>
+#include <QPixmap>
+#include <QBitmap>
+#include <QPainter>
 #include <QAbstractButton>
-#include <qfileinfo.h>
+#include <QFileInfo>
 #include <QStyleOption>
 
 #include "editfile.h"

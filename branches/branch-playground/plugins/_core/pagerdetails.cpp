@@ -20,9 +20,9 @@
 
 #include "pagerdetails.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qfontmetrics.h>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QFontMetrics>
 
 using namespace SIM;
 

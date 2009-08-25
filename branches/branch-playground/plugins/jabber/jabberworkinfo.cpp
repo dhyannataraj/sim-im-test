@@ -19,8 +19,8 @@
 #include "jabberworkinfo.h"
 #include "jabber.h"
 
-#include <qlineedit.h>
-#include <qstringlist.h>
+#include <QLineEdit>
+#include <QStringList>
 
 using namespace SIM;
 

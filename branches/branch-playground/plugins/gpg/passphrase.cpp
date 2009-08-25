@@ -22,11 +22,11 @@
 #include "gpg.h"
 #include "ballonmsg.h"
 
-#include <qpixmap.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
+#include <QPixmap>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPushButton>
+#include <QCheckBox>
 
 using namespace SIM;
 

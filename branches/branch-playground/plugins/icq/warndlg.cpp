@@ -21,12 +21,12 @@
 #include "icqclient.h"
 #include "icqmessage.h"
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qregexp.h>
-#include <qcheckbox.h>
-#include <qtimer.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QLabel>
+#include <QRegExp>
+#include <QCheckBox>
+#include <QTimer>
 
 using namespace SIM;
 

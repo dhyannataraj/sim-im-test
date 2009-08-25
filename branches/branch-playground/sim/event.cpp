@@ -16,9 +16,10 @@
  ***************************************************************************/
 
 // system includes
-#include <QMultiMap>
 #include <stdio.h>
+#include <QMultiMap>
 #include <QDateTime>
+
 // own header
 #include "event.h"
 // local includes

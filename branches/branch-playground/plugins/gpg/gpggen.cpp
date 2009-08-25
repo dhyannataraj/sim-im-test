@@ -24,12 +24,12 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPushButton>
+#include <QLabel>
+#include <QFile>
 #include <q3process.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qfile.h>
 
 using namespace SIM;
 

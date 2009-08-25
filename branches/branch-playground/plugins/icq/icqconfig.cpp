@@ -19,14 +19,14 @@
 #include "icq.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qspinbox.h>
-#include <qvalidator.h>
-#include <qtabwidget.h>
-#include <qcombobox.h>
+#include <QTimer>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QLabel>
+#include <QSpinBox>
+#include <QValidator>
+#include <QTabWidget>
+#include <QComboBox>
 
 using namespace SIM;
 

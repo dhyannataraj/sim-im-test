@@ -18,9 +18,9 @@
 #include <map>
 #include <list>
 
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
 
 #include "ballonmsg.h"
 #include "unquot.h"

@@ -17,14 +17,14 @@
 
 #include "simapi.h"
 
-#include <qpushbutton.h>
-#include <qlistwidget.h>
+#include <QPushButton>
+#include <QListWidget>
 
 #ifdef USE_KDE
 # include <kfiledialog.h>
 # define QFileDialog	KFileDialog
 #else
-# include <qfiledialog.h>
+# include <QFileDialog>
 #endif
 
 #include "icons.h"

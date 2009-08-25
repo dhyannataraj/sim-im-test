@@ -1,7 +1,7 @@
 #ifndef _JABBER_EVENTS_H
 #define _JABBER_EVENTS_H
 
-#include <qstring.h>
+#include <QString>
 
 #include "event.h"
 

@@ -17,12 +17,12 @@
 
 #include <windows.h>
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qdir.h>
-#include <qlabel.h>
-#include <qtimer.h>
-#include <qregexp.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QDir>
+#include <QLabel>
+#include <QTimer>
+#include <QRegExp>
 
 #include "editfile.h"
 #include "icons.h"

@@ -18,7 +18,7 @@
 #ifndef _WINDOCK_H
 #define _WINDOCK_H
 
-#include <qobject.h>
+#include <QObject>
 
 #include "cfg.h"
 #include "event.h"

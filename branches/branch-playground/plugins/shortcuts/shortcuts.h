@@ -21,8 +21,8 @@
 #include <map>
 #include "simapi.h"
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 #include <QEvent>
 
 #include "cfg.h"

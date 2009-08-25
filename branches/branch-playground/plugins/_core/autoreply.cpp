@@ -22,10 +22,10 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
-#include <qcheckbox.h>
-#include <qtimer.h>
-#include <qlabel.h>
+#include <QPixmap>
+#include <QCheckBox>
+#include <QTimer>
+#include <QLabel>
 
 using namespace SIM;
 

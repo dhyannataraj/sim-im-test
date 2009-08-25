@@ -16,13 +16,13 @@
  ***************************************************************************/
 
 #include <q3multilineedit.h>
-#include <qlineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
+#include <QLineEdit>
+#include <QStringList>
+#include <QComboBox>
+#include <QPushButton>
+#include <QPixmap>
+#include <QLabel>
+#include <QTabWidget>
 
 #include "ballonmsg.h"
 #include "datepicker.h"

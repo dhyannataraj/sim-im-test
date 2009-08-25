@@ -16,26 +16,19 @@
  ***************************************************************************/
 
 #include "preview.h"
-#ifdef USE_KDE
-#include <kpreviewwidgetbase.h>
-#include <kurl.h>
-#else
-#include <q3filedialog.h>
-#endif
 
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qimage.h>
-#include <qfile.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QImage>
+#include <QFile>
+#include <QVBoxLayout>
 #include <QPixmap>
 
 FilePreview::FilePreview(QWidget *parent)
 #ifdef USE_KDE
         : KPreviewWidgetBase(parent)
 #else
-        : QWidget(parent)
+        : QFileDialog(parent)
 #endif
 {
 }
@@ -48,11 +41,11 @@ FilePreview::~FilePreview()
 
 void FilePreview::showPreview(const KURL &url)
 {
-    if (!url.isLocalFile()){
+    if (url.protocol()!=QString("file")){
         showPreview(NULL);
         return;
     }
-    QString fileName = url.directory(false, false);
+    QString fileName = url.directory();
     if (!fileName.isEmpty() && (fileName[fileName.length() - 1] != '/'))
         fileName += '/';
     fileName += url.fileName(false);
@@ -66,13 +59,13 @@ void FilePreview::clearPreview()
 
 #else
 
-void FilePreview::previewUrl(const Q3Url &url)
+void FilePreview::previewUrl(const QUrl &url)
 {
-    if (!url.isLocalFile()){
+    if (url.protocol()!=QString("file")){
         showPreview(NULL);
         return;
     }
-    QString fileName = url.toString(false, false);
+    QString fileName = url.toString();
     showPreview(fileName);
 }
 
@@ -86,7 +79,7 @@ PictPreview::PictPreview(QWidget *parent)
     label = new QLabel(this);
     label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     label->setMinimumSize(QSize(70, 70));
-    Q3VBoxLayout *lay = new Q3VBoxLayout(this);
+    QVBoxLayout *lay = new QVBoxLayout(this);
     lay->addWidget(label);
 }
 

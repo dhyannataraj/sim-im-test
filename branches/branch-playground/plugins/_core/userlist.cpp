@@ -19,11 +19,11 @@
 #include "core.h"
 
 #include <q3header.h>
-#include <qtimer.h>
-#include <qbitmap.h>
-#include <qstyle.h>
+#include <QTimer>
+#include <QBitmap>
+#include <QStyle>
 #include <QStyleOption>
-#include <qpainter.h>
+#include <QPainter>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QMouseEvent>

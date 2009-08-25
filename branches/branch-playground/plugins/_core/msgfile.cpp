@@ -24,15 +24,15 @@
 #include "userwnd.h"
 #include "core.h"
 
-#include <qtimer.h>
-#include <qtoolbutton.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QToolButton>
+#include <QRegExp>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+#include <QFileDialog>
 #endif
 
 using namespace SIM;

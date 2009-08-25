@@ -22,13 +22,14 @@
 #include "ballonmsg.h"
 #include "log.h"
 
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qfile.h>
-#include <time.h>
+#include <QPushButton>
+#include <QLabel>
+#include <QImage>
+#include <QPixmap>
+#include <QFile>
 #include <QImageReader>
+
+#include <time.h>
 
 using namespace SIM;
 

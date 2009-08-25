@@ -20,8 +20,8 @@
 
 #include"qzip.h"
 
-#include<qstringlist.h>
-#include<qfile.h>
+#include<QStringList>
+#include<QFile>
 #pragma warning(disable:4131)
 #pragma warning(disable:4100)
 #pragma warning(disable:4245)

@@ -18,10 +18,10 @@
 #include <windows.h>
 #include <windowsx.h>
 
-#include <qapplication.h>
+#include <QApplication>
 #include <QWidgetlist>
-#include <qmessagebox.h>
-#include <qtimer.h>
+#include <QMessageBox>
+#include <QTimer>
 
 #include "misc.h"
 

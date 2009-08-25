@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qbuffer.h>
-#include <qimage.h>
-#include <qfile.h>
-#include <qtimer.h>
+#include <QBuffer>
+#include <QImage>
+#include <QFile>
+#include <QTimer>
 
 #include "log.h"
 

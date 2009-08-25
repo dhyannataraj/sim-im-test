@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
+#include <QTimer>
 
 #include "misc.h"
 #include "exec.h"

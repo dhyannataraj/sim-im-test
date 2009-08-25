@@ -20,8 +20,8 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
-#include <qradiobutton.h>
+#include <QCheckBox>
+#include <QRadioButton>
 
 using namespace SIM;
 

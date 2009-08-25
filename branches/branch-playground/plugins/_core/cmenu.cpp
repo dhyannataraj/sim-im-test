@@ -22,8 +22,8 @@
 #include "commands.h"
 
 #include <q3accel.h>
-#include <qtimer.h>
-#include <qapplication.h>
+#include <QTimer>
+#include <QApplication>
 //Added by qt3to4:
 #include <Q3PopupMenu>
 #include <QDesktopWidget>

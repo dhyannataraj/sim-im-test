@@ -39,19 +39,19 @@
 #include <time.h>
 
 #include <stdio.h>
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qicon.h>
-#include <qpushbutton.h>
-#include <qobject.h>
-#include <qstringlist.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qdatetime.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
+#include <QWidget>
+#include <QPixmap>
+#include <QIcon>
+#include <QPushButton>
+#include <QObject>
+#include <QStringList>
+#include <QApplication>
+#include <QWidget>
+#include <QDateTime>
+#include <QComboBox>
+#include <QLineEdit>
 #include <q3multilineedit.h>                                      
-#include <qregexp.h>
+#include <QRegExp>
 
 #include <qdesktopwidget.h>
 #include <QByteArray>

@@ -19,7 +19,7 @@
 
 #include "jabberclient.h"
 
-#include <qtimer.h>
+#include <QTimer>
 #include <QCryptographicHash>
 
 using namespace SIM;

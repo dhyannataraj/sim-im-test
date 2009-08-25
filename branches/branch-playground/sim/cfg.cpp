@@ -33,7 +33,7 @@
 
 #include <QFile>
 #include <QToolBar>
-#include <qmainwindow.h>
+#include <QMainWindow>
 #include <QStringList>
 #include <QApplication>
 #include <QDir>

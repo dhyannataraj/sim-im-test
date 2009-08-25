@@ -22,10 +22,10 @@
 #include "core.h"
 #include "log.h"
 
-#include <qcheckbox.h>
-#include <qfile.h>
-#include <qlabel.h>
-#include <qpainter.h>
+#include <QCheckBox>
+#include <QFile>
+#include <QLabel>
+#include <QPainter>
 #include <QPixmap>
 #include <QResizeEvent>
 #include <QTableWidget>

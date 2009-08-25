@@ -26,8 +26,8 @@
 #include "shortcutcfg.h"
 #include "mainwin.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
+#include <QApplication>
+#include <QWidget>
 #include <q3accel.h>
 #include <q3popupmenu.h>
 //Added by qt3to4:

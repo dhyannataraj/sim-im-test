@@ -19,9 +19,9 @@
 #include "encodingdlg.h"
 #include "icqclient.h"
 
-#include <qcombobox.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
+#include <QComboBox>
+#include <QPixmap>
+#include <QPushButton>
 
 using namespace SIM;
 

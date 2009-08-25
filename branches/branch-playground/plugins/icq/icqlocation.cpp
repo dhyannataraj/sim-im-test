@@ -18,8 +18,7 @@
 #include "icqclient.h"
 #include "icqlocation.h"
 
-#include <qtextcodec.h>
-//Added by qt3to4:
+#include <QTextCodec>
 #include <QByteArray>
 #ifdef Q_OS_WIN32
 # include <winsock.h>

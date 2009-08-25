@@ -20,14 +20,13 @@
 #include <algorithm>
 #include <iostream>
 
-#include <qapplication.h>
-#include <qfile.h>
-#include <qpixmap.h>
-#include <qregexp.h>
-#include <qtimer.h>
-#include <qthread.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QFile>
+#include <QPixmap>
+#include <QRegExp>
+#include <QTimer>
+#include <QThread>
+#include <QWidget>
 #include <QByteArray>
 
 #include "icons.h"

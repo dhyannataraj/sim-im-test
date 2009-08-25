@@ -127,7 +127,7 @@
     <customwidget>
       <class>QWidget</class>
       <extends>QWidget</extends>
-      <header location="global" >qwidget.h</header>
+      <header location="global" >QWidget</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>

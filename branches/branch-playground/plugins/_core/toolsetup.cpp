@@ -22,11 +22,12 @@
 #include "toolsetup.h"
 #include "commands.h"
 
-#include <q3listbox.h>
-#include <qregexp.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+
+#include <QRegExp>
+#include <QPushButton>
 #include <QPixmap>
+#include <q3listbox.h>
+//Added by qt3to4:
 
 using namespace std;
 using namespace SIM;

@@ -18,19 +18,21 @@
 #include "shortcutcfg.h"
 #include "shortcuts.h"
 #include "qkeybutton.h"
-#include <QResizeEvent>
+
 #include "mousecfg.h"
 #include "core.h"
 #include "core_consts.h"
 #include "cmddef.h"
 
 #include <q3listview.h>
-#include <qlabel.h>
-#include <qregexp.h>
 #include <q3accel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qtabwidget.h>
+
+#include <QResizeEvent>
+#include <QLabel>
+#include <QRegExp>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QTabWidget>
 
 using namespace SIM;
 

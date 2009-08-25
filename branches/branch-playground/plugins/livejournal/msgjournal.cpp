@@ -22,9 +22,9 @@
 #include "ballonmsg.h"
 #include "toolbtn.h"
 
-#include <qlayout.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLayout>
+#include <QLineEdit>
+#include <QComboBox>
 
 using namespace SIM;
 

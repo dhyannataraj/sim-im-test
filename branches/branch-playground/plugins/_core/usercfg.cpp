@@ -23,16 +23,16 @@
 #include "arcfg.h"
 #include "log.h"
 
-#include <qpixmap.h>
+#include <QPixmap>
 #include <q3listview.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
+#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QPushButton>
 #include <q3widgetstack.h>
 #include <q3header.h>
-#include <qregexp.h>
-#include <qicon.h>
+#include <QRegExp>
+#include <QIcon>
 //Added by qt3to4:
 #include <QResizeEvent>
 

@@ -18,7 +18,7 @@
 #ifndef _SMSSETUP_H
 #define _SMSSETUP_H
 
-#include <qobject.h>
+#include <QObject>
 
 #include "contacts.h"
 

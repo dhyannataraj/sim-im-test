@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qmutex.h>
-#include <qtimer.h>
+#include <QMutex>
+#include <QTimer>
 #include <QSet>
 #include <QTimerEvent>
 

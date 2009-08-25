@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "socket.h"
-#include <qthread.h>
+#include <QThread>
 #include <list>
 
 class Q3Dns;

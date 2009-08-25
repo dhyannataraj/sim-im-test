@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
-#include <qstring.h>
+#include <QString>
 
 namespace SIM
 {

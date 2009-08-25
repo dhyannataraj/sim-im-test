@@ -19,9 +19,9 @@
 #include "jabberhomeinfo.h"
 #include "jabber.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qstringlist.h>
+#include <QStringList>
 
 using namespace SIM;
 

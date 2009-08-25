@@ -20,8 +20,8 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qtabwidget.h>
-#include <qcheckbox.h>
+#include <QTabWidget>
+#include <QCheckBox>
 
 using namespace SIM;
 

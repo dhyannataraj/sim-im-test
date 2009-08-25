@@ -15,10 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QLineEdit>
+#include <QPushButton>
+#include <QLabel>
 #include <QShowEvent>
 
 #include "icons.h"

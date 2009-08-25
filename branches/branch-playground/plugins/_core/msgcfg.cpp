@@ -20,9 +20,9 @@
 #include "smscfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtabwidget.h>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QTabWidget>
 
 MessageConfig::MessageConfig(QWidget *parent, void *_data)
   : QWidget(parent)

@@ -18,8 +18,8 @@
 #include "autoawaycfg.h"
 #include "autoaway.h"
 
-#include <qcheckbox.h>
-#include <qspinbox.h>
+#include <QCheckBox>
+#include <QSpinBox>
 
 AutoAwayConfig::AutoAwayConfig(QWidget *parent, AutoAwayPlugin *plugin) : QWidget(parent)
         //: AutoAwayConfigBase(parent)

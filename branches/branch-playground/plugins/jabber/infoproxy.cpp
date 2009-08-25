@@ -17,7 +17,7 @@
 
 #include "infoproxy.h"
 
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 using namespace SIM;
 

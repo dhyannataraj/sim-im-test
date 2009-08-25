@@ -19,7 +19,6 @@
 #define _JABBERSEARCH_H
 
 #include <QPushButton>
-
 #include "qchildwidget.h"
 
 class JabberClient;

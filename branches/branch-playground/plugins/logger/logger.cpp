@@ -16,11 +16,10 @@
  ***************************************************************************/
 
 #include <stdio.h>
-#include <qapplication.h>
-#include <qdir.h>
-#include <qfile.h>
-#include <qfileinfo.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QByteArray>
 
 #ifdef Q_OS_WIN

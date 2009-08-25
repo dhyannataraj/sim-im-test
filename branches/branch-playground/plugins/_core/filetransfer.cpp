@@ -19,17 +19,17 @@
 
 #include <time.h>
 
-#include <qpixmap.h>
-#include <qlineedit.h>
-#include <qslider.h>
-#include <qlabel.h>
-#include <qtimer.h>
+#include <QPixmap>
+#include <QLineEdit>
+#include <QSlider>
+#include <QLabel>
+#include <QTimer>
 #include <q3progressbar.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qregexp.h>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QFile>
+#include <QDir>
+#include <QRegExp>
 
 #include "ballonmsg.h"
 #include "icons.h"

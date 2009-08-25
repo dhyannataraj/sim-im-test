@@ -23,19 +23,19 @@
 #include "buffer.h"
 #include "core.h"
 
-#include <qpixmap.h>
-#include <q3listview.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <q3widgetstack.h>
-#include <qobject.h>
-#include <q3header.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QObject>
+#include <QTimer>
 #include <QByteArray>
 #include <QCloseEvent>
+#include <q3header.h>
+#include <q3listview.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
 
 namespace ConfigDlg
 {

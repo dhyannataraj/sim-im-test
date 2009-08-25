@@ -20,10 +20,10 @@
 #include "dockcfg.h"
 #include "dock.h"
 
-#include <qcheckbox.h>
-#include <qspinbox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QLabel>
 #ifdef USE_KDE
 #include <kwin.h>
 #endif

@@ -22,7 +22,7 @@
 #define CS_ZIP_H
 
 #include <simapi.h>
-#include <qstring.h>
+#include <QString>
 
 class QStringList;
 

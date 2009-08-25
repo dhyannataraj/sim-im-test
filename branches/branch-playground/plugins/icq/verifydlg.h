@@ -20,8 +20,7 @@
 
 #include "event.h"
 #include "ui_verifydlgbase.h"
-#include <qlineedit.h>
-//Added by qt3to4:
+#include <QLineEdit>
 #include <QPixmap>
 
 class QPixmap;

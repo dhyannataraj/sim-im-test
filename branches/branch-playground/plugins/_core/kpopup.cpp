@@ -21,11 +21,11 @@
 
 #ifndef USE_KDE
 
-#include <qcursor.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qfontmetrics.h>
-#include <qstyle.h>
+#include <QCursor>
+#include <QPainter>
+#include <QTimer>
+#include <QFontMetrics>
+#include <QStyle>
 #include "log.h"
 //Added by qt3to4:
 #include <QContextMenuEvent>

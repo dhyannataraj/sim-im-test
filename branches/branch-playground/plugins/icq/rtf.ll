@@ -22,7 +22,7 @@
 #include <stack>
 #include <stdarg.h>
 
-#include <qtextcodec.h>
+#include <QTextCodec>
 
 #include "unquot.h"
 #include "log.h"

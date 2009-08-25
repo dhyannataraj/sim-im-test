@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
+#include <QTimer>
+
 #include <stdio.h>
 
 #include "fetch.h"

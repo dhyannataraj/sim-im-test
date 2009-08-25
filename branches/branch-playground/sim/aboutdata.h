@@ -46,7 +46,7 @@
 #include "simapi.h"
 
 #include <QList>
-#include <qstring.h>
+#include <QString>
 
 /**
 * This structure is used to store information about a person or developer.

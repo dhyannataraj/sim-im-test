@@ -18,8 +18,8 @@
 #include "pastinfo.h"
 #include "icqclient.h"
 
-#include <qlineedit.h>
-#include <qcombobox.h>
+#include <QLineEdit>
+#include <QComboBox>
 
 using namespace SIM;
 

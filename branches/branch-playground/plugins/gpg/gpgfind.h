@@ -20,9 +20,9 @@
 
 #include "ui_gpgfindbase.h"
 
-#include <qdir.h>
-#include <qfileinfo.h>
-#include <qstring.h>
+#include <QDir>
+#include <QFileInfo>
+#include <QString>
 #include <q3valuestack.h>
 
 class EditFile;

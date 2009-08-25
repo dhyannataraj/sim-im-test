@@ -19,8 +19,8 @@
 #include "misc.h"
 #include "declinedlg.h"
 
-#include <qpixmap.h>
-#include <qlineedit.h>
+#include <QPixmap>
+#include <QLineEdit>
 
 using namespace SIM;
 

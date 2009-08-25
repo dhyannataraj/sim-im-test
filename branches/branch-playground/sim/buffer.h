@@ -19,8 +19,7 @@
 #define _BUFFER_H
 
 #include <QByteArray>
-#include <q3ptrlist.h>
-#include <qstring.h>
+#include <QString>
 
 #include "simapi.h"
 

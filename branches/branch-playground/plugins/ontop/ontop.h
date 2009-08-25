@@ -22,8 +22,7 @@
 #include <windows.h>
 #endif
 
-#include <qobject.h>
-//Added by qt3to4:
+#include <QObject>
 #include <QEvent>
 #include <QByteArray>
 

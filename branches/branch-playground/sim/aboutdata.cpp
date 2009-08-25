@@ -22,10 +22,8 @@
 #ifndef USE_KDE
 
 #include <qglobal.h>
-#include <qfile.h>
-#include <qstring.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QStringList>
 #include <QList>
 
 QString

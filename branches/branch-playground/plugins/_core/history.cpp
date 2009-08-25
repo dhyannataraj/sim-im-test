@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qtextcodec.h>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QRegExp>
+#include <QTextCodec>
 #include <QTextStream>
 #include <QByteArray>
 

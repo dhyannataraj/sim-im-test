@@ -15,12 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtabwidget.h>
+#include <QTabWidget>
 #include <q3listbox.h>
-#include <qstyle.h>
-#include <qdir.h>
-
-#include <qstylefactory.h>
+#include <QStyle>
+#include <QDir>
+#include <QStyleFactory>
 
 #include "fontconfig.h"
 #include "misc.h"

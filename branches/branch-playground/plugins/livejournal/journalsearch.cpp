@@ -18,8 +18,7 @@
 #include "journalsearch.h"
 #include "livejournal.h"
 
-#include <qlineedit.h>
-//Added by qt3to4:
+#include <QLineEdit>
 #include <QShowEvent>
 
 using namespace SIM;

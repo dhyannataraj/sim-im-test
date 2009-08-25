@@ -18,8 +18,8 @@
 #include "listview.h"
 
 #include <q3popupmenu.h>
-#include <qtimer.h>
-#include <qapplication.h>
+#include <QTimer>
+#include <QApplication>
 #include <q3header.h>
 //Added by qt3to4:
 #include <QContextMenuEvent>

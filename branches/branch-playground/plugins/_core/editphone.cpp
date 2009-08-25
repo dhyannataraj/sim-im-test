@@ -23,12 +23,12 @@
 #include "phonedetails.h"
 #include "pagerdetails.h"
 
-#include <qlineedit.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
+#include <QLineEdit>
+#include <QPixmap>
+#include <QPushButton>
 #include <q3widgetstack.h>
-#include <qcombobox.h>
-#include <qcheckbox.h>
+#include <QComboBox>
+#include <QCheckBox>
 
 using namespace SIM;
 

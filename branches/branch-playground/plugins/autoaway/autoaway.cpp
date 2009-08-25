@@ -33,7 +33,9 @@ Copyright (C) 2003  Tarkvara Design Inc.
 #ifdef WIN32
 #define _WIN32_WINNT 0x0500
 #include <windows.h>
-#include <qlibrary.h>
+
+#include <QLibrary>
+
 #include "idleui.h"
 
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
@@ -53,9 +55,9 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #endif
 
 #include <time.h>
-#include <qapplication.h>
-#include <qtimer.h>
-#include <qwidget.h>
+#include <QApplication>
+#include <QTimer>
+#include <QWidget>
 
 using namespace SIM;
 

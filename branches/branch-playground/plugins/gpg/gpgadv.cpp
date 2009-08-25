@@ -18,7 +18,7 @@
 #include "gpgadv.h"
 #include "gpg.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 
 GpgAdvanced::GpgAdvanced(QWidget *parent, GpgPlugin *plugin) : QWidget(parent)
 {

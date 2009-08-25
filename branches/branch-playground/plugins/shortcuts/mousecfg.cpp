@@ -16,12 +16,12 @@
  ***************************************************************************/
 
 #include <q3listview.h>
-#include <qlabel.h>
-#include <qregexp.h>
+#include <QLabel>
+#include <QRegExp>
 #include <q3accel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QResizeEvent>
 
 #include "log.h"

@@ -21,9 +21,9 @@
 #include "filter.h"
 #include "ignorelist.h"
 
-#include <qcheckbox.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QTabWidget>
+#include <QLabel>
 
 FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
   : QWidget(parent)

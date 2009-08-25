@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
-#include <qtabwidget.h>
-#include <qlineedit.h>
-#include <qspinbox.h>
-#include <qcheckbox.h>
+#include <QTimer>
+#include <QTabWidget>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QCheckBox>
 
 #include "linklabel.h"
 #include "misc.h"

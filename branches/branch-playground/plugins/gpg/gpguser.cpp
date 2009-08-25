@@ -20,11 +20,13 @@
 #include "gpguser.h"
 #include "gpg.h"
 
-#include <q3process.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-//Added by qt3to4:
+
+#include <QPushButton>
+#include <QComboBox>
 #include <QByteArray>
+#include <q3process.h>
+//Added by qt3to4:
+
 
 using namespace SIM;
 

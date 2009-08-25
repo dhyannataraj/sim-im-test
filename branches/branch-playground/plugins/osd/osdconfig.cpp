@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qtabwidget.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QTabWidget>
+#include <QLabel>
 
 #include "fontedit.h"
 #include "misc.h"

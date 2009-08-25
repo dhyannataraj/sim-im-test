@@ -27,16 +27,16 @@
 #include "userwnd.h"
 #include "history.h"
 
-#include <qpainter.h>
-#include <qpixmap.h>
+#include <QPainter>
+#include <QPixmap>
 #include <q3header.h>
-#include <qobject.h>
+#include <QObject>
 #include <q3popupmenu.h>
-#include <qtimer.h>
-#include <qstyle.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qcursor.h>
+#include <QTimer>
+#include <QStyle>
+#include <QApplication>
+#include <QWidget>
+#include <QCursor>
 //Added by qt3to4:
 #include <QFocusEvent>
 #include <QMouseEvent>

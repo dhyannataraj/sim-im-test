@@ -23,7 +23,7 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#include <qlibrary.h>
+#include <QLibrary>
 #include <QSettings>
 
 #include "homedircfg.h"
@@ -37,8 +37,8 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 #include <pwd.h>
 #endif
 
-#include <qdir.h>
-#include <qfile.h>
+#include <QDir>
+#include <QFile>
 
 #include "log.h"
 #include "misc.h"

@@ -19,10 +19,10 @@
 #include "misc.h"
 #include "editmail.h"
 
-#include <qlineedit.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
+#include <QLineEdit>
+#include <QPixmap>
+#include <QPushButton>
+#include <QCheckBox>
 
 using namespace SIM;
 

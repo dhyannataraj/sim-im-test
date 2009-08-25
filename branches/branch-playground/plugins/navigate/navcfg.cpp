@@ -17,9 +17,9 @@
 
 #include "simapi.h"
 
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QLabel>
 
 #include "navcfg.h"
 #include "navigate.h"

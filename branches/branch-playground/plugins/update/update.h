@@ -18,13 +18,15 @@
 #ifndef _UPDATE_H
 #define _UPDATE_H
 
-#include <qobject.h>
+
 
 #include "cfg.h"
 #include "event.h"
 #include "fetch.h"
 #include "plugins.h"
 #include "mainwin.h"
+
+#include <QObject>
 #include <QHttp>
 #include <QBuffer>
 #include <QDate>

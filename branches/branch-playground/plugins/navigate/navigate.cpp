@@ -25,12 +25,11 @@
 #include "core_consts.h"
 
 #ifdef USE_KDE
-#include <kapplication.h>
+    #include <kapplication.h>
 #endif
 
 #ifndef WIN32
-	#include <q3url.h>
-	//Added by qt3to4:
+	#include <QUrl>
 	#include <QByteArray>
 #endif
 
@@ -350,10 +349,11 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     cmd->icon		= QString::null;
     cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x7010;
-    EventCommandCreate(cmd).process();
-
     cmd->menu_id	= MenuMsgView;
     EventCommandCreate(cmd).process();
+
+    
+    //EventCommandCreate(cmd).process();
 }
 
 NavigatePlugin::~NavigatePlugin()
@@ -476,7 +476,7 @@ bool NavigatePlugin::processEvent(Event *e)
             url = url.mid(proto.length() + 1);
         }else{
             param = property("Browser").toString();
-			Q3Url qurl(url);
+			QUrl qurl(url);
 			QString encodedUrl = qurl.toString(true, false);
 			url = encodedUrl;
         }

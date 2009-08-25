@@ -15,9 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtabwidget.h>
-#include <qobject.h>
-//Added by qt3to4:
+#include <QTabWidget>
+#include <QObject>
 #include <QByteArray>
 
 #ifdef WIN32

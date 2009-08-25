@@ -1,5 +1,5 @@
 /***************************************************************************
-                          qchildwidget.h  -  description
+                          QChildWidget  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -18,8 +18,7 @@
 #ifndef _QCHILDWIDGET_H
 #define _QCHILDWIDGET_H
 
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QWidget>
 #include <QPaintEvent>
 #include <QChildEvent>
 #include <QEvent>

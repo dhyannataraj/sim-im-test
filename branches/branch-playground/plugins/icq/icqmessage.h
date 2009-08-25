@@ -20,9 +20,8 @@
 
 #include "contacts.h"
 
-#include <qlineedit.h>
-#include <qtoolbutton.h>
-//Added by qt3to4:
+#include <QLineEdit>
+#include <QToolButton>
 #include <QByteArray>
 
 const unsigned long MessageICQ              = 0x100;

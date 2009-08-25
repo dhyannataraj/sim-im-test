@@ -21,7 +21,7 @@
 #include "html.h"
 #include "misc.h"
 
-#include <qapplication.h>
+#include <QApplication>
 
 using namespace std;
 using namespace SIM;

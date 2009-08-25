@@ -2,16 +2,14 @@
 #ifndef _ICQDIRECT_H_
 #define _ICQDIRECT_H_
 
-#include <qobject.h>
-#include <qtimer.h>
-#include <qwaitcondition.h>
+#include <QObject>
+#include <QTimer>
+#include <QWaitCondition>
+
 #include "message.h"
 #include "socket.h"
 #include "icqclient.h"
-
 #include "icqicmb.h"
-#include "socket.h"
-#include "message.h"
 
 #define AOL_PROXY_HOST "ars.oscar.aol.com"
 #define AOL_PROXY_PORT 5190

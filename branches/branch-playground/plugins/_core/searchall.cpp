@@ -20,8 +20,7 @@
 #include "intedit.h"
 #include "log.h"
 
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
 #include <QShowEvent>
 
 using namespace std;

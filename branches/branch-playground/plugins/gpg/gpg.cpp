@@ -28,12 +28,12 @@
 #include "gpgcfg.h"
 #include "gpguser.h"
 
-#include <qtimer.h>
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qregexp.h>
+#include <QTimer>
+#include <QFile>
+#include <QFileInfo>
+#include <QRegExp>
 #include <q3process.h>
-#include <qapplication.h> //for Linux: qApp->processEvents();
+#include <QApplication> //for Linux: qApp->processEvents();
 //Added by qt3to4:
 #include <QList>
 #include <QByteArray>

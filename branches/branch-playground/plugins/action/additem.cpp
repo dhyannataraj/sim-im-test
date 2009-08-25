@@ -22,9 +22,9 @@
 #include "core_events.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
-#include <qtimer.h>
-#include <qpushbutton.h>
+#include <QPixmap>
+#include <QTimer>
+#include <QPushButton>
 
 using namespace SIM;
 

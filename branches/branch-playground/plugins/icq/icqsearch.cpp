@@ -23,10 +23,10 @@
 #include "intedit.h"
 #include "log.h"
 
-#include <qpushbutton.h>
-#include <qlabel.h>
+#include <QPushButton>
+#include <QLabel>
 #include <q3groupbox.h>
-#include <qcheckbox.h>
+#include <QCheckBox>
 //Added by qt3to4:
 #include <QShowEvent>
 

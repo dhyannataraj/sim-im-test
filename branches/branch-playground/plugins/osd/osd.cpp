@@ -23,16 +23,16 @@
 
 */
 
-#include <qtimer.h>
-#include <qpainter.h>
-#include <qapplication.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qregion.h>
-#include <qstyle.h>
-#include <qregexp.h>
-#include <qpushbutton.h>
-#include <qmessagebox.h>
+#include <QTimer>
+#include <QPainter>
+#include <QApplication>
+#include <QPixmap>
+#include <QBitmap>
+#include <QRegion>
+#include <QStyle>
+#include <QRegExp>
+#include <QPushButton>
+#include <QMessageBox>
 #include <QMouseEvent>
 #include <QDesktopWidget>
 

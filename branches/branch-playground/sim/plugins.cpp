@@ -17,15 +17,15 @@
 
 #include "plugins.h"
 
-#include <qapplication.h>
-#include <qdir.h>
-#include <qdiriterator.h>
-#include <qfile.h>
-#include <qlibrary.h>
-#include <qmessagebox.h>
-#include <qregexp.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QApplication>
+#include <QDir>
+#include <QDirIterator>
+#include <QFile>
+#include <QLibrary>
+#include <QMessageBox>
+#include <QRegExp>
+#include <QString>
+#include <QStringList>
 #include <QProcess>
 #include <QByteArray>
 #include <QVector>

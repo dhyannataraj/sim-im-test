@@ -17,12 +17,12 @@
 
 #include "simapi.h"
 
-#include <qtimer.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qspinbox.h>
-#include <qtabwidget.h>
+#include <QTimer>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QLabel>
+#include <QSpinBox>
+#include <QTabWidget>
 
 #include "linklabel.h"
 #include "misc.h"

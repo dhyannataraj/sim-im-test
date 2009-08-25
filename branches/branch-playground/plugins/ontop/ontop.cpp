@@ -18,9 +18,8 @@
 #include "simapi.h"
 #include "mainwin.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QWidget>
 #include <QByteArray>
 #include <QEvent>
 

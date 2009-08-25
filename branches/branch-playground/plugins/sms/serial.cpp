@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qapplication.h>
-#include <qevent.h>
-#include <qstringlist.h>
-#include <qtimer.h>
-#include <qdir.h>
-#include <qsocketnotifier.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QEvent>
+#include <QStringList>
+#include <QTimer>
+#include <QDir>
+#include <QSocketNotifier>
 #include <QByteArray>
+
 //#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 //#endif

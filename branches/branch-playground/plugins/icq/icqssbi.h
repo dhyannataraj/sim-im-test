@@ -1,8 +1,8 @@
 #ifndef ICQSSBI_H
 #define ICQSSBI_H
 
-#include <qobject.h>
-#include <qimage.h>
+#include <QObject>
+#include <QImage>
 #include "icqclient.h"
 
 class SSBISocket : public QObject, public ServiceSocket

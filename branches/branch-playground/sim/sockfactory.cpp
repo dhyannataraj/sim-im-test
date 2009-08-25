@@ -37,12 +37,12 @@
 
 #include <errno.h>
 
-#include <qfile.h>
-#include <qregexp.h>
+#include <QFile>
+#include <QRegExp>
 #include <q3socket.h>
 #include <q3socketdevice.h>
-#include <qsocketnotifier.h>
-#include <qtimer.h>
+#include <QSocketNotifier>
+#include <QTimer>
 #include <QTimerEvent>
 
 #ifndef WIN32

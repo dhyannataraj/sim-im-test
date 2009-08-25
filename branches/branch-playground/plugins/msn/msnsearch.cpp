@@ -19,10 +19,9 @@
 #include "msnclient.h"
 #include "intedit.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QShowEvent>
 
 using namespace SIM;

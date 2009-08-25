@@ -34,12 +34,12 @@
 #include <QTabWidget>
 #include <QSpinBox>
 #include <QSyntaxHighlighter>
-
 #include <QTextStream>
 #include <QKeyEvent>
 #include <QEvent>
+
 #ifdef USE_KDE
-# include <qapplication.h>
+# include <QApplication>
 //Added by qt3to4:
 # include <kglobal.h>
 # include <kstddirs.h>

@@ -29,7 +29,6 @@
 #include "log.h"
 
 #include "icqbuffer.h"
-//Added by qt3to4:
 #include <QByteArray>
 
 using namespace SIM;

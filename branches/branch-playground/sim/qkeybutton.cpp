@@ -16,15 +16,17 @@
  ***************************************************************************/
 
 #include "qkeybutton.h"
-//Added by qt3to4:
+
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QFocusEvent>
+#include <q3accel.h> //FIXME
+#include <QCursor>
+#include <QStringList>
+
 #include "log.h"
 
-#include <q3accel.h>
-#include <qcursor.h>
-#include <qstringlist.h>
+
 
 QKeyButton::QKeyButton(QWidget *parent, const char *name)
         :	QPushButton( parent )

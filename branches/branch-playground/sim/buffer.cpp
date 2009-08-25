@@ -28,8 +28,6 @@
 #include "buffer.h"
 #include "event.h"
 #include "log.h"
-//Added by qt3to4:
-#include <QByteArray>
 
 using namespace std;
 using namespace SIM;

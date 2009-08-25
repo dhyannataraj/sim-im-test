@@ -18,7 +18,7 @@
 #ifndef _SERIAL_H
 #define _SERIAL_H
 
-#include <qobject.h>
+#include <QObject>
 
 class SerialPortPrivate;
 class QEvent;

@@ -22,11 +22,10 @@
 #include <map>
 #include <list>
 
-#include <qfont.h>
-#include <qobject.h>
-#include <qthread.h>
+#include <QFont>
+#include <QObject>
+#include <QThread>
 #include <QByteArray>
-//Added by qt3to4:
 #include <QTranslator>
 
 #include "cmddef.h"

@@ -23,9 +23,8 @@
 
 #include <q3listview.h>
 #include <q3header.h>
-#include <qscrollbar.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
+#include <QScrollBar>
+#include <QPushButton>
 #include <QResizeEvent>
 #include <QCloseEvent>
 

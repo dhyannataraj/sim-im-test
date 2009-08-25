@@ -23,9 +23,9 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qtabwidget.h>
-#include <qpainter.h>
-#include <qpushbutton.h>
+#include <QTabWidget>
+#include <QPainter>
+#include <QPushButton>
 #include <QItemDelegate>
 
 using namespace SIM;

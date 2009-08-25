@@ -22,9 +22,9 @@
 #include "cmenu.h"
 #include "log.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <q3popupmenu.h>
-#include <qwidget.h>
+#include <QWidget>
 #include <q3accel.h>
 //Added by qt3to4:
 #include <QEvent>

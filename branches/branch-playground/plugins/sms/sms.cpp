@@ -22,10 +22,10 @@
 #include "core.h"
 #include "maininfo.h"
 
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qobject.h>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
+#include <QObject>
 
 using namespace SIM;
 

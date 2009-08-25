@@ -19,8 +19,8 @@
 #define _QKEYBUTTON_H_
 
 #include "simapi.h"
-#include <qpushbutton.h>
-//Added by qt3to4:
+
+#include <QPushButton>
 #include <QFocusEvent>
 #include <QKeyEvent>
 #include <QMouseEvent>

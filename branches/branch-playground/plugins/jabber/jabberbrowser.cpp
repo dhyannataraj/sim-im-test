@@ -28,11 +28,11 @@
 #include "core.h"
 #include "core_consts.h"
 
-#include <qpixmap.h>
+#include <QPixmap>
 #include <QToolBar>
-#include <qtimer.h>
-#include <qlabel.h>
-#include <qapplication.h>
+#include <QTimer>
+#include <QLabel>
+#include <QApplication>
 #include <QShowEvent>
 #include <QDesktopWidget>
 

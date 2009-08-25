@@ -20,13 +20,13 @@
 #include "icqclient.h"
 #include "ballonmsg.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3multilineedit.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
+#include <QStringList>
+#include <QComboBox>
+#include <QPixmap>
+#include <QLabel>
+#include <QTabWidget>
 
 using namespace SIM;
 

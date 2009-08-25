@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QLineEdit>
 
 #include "misc.h"
 

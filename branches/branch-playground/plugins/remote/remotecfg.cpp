@@ -19,11 +19,11 @@
 #include "remote.h"
 
 #include <q3buttongroup.h>
-#include <qradiobutton.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
-#include <qspinbox.h> 
-#include <qfile.h>
+#include <QRadioButton>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QSpinBox> 
+#include <QFile>
 
 static char TCP[] = "tcp:";
 

@@ -3,7 +3,7 @@
 #define ICQICMB_H
 
 #include <list>
-#include <qobject.h>
+#include <QObject>
 #include "snac.h"
 #include "message.h"
 

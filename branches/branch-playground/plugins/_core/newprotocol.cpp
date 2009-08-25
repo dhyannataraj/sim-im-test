@@ -17,10 +17,10 @@
 
 #include <algorithm>
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qtimer.h>
+#include <QPixmap>
+#include <QPushButton>
+#include <QComboBox>
+#include <QTimer>
 
 #include "icons.h"
 

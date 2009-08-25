@@ -18,9 +18,9 @@
 #include "userhistorycfg.h"
 #include "core.h"
 
-#include <qcheckbox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QSpinBox>
+#include <QLabel>
 
 UserHistoryCfg::UserHistoryCfg(QWidget *parent, void *d) : QWidget(parent)
         //: UserHistoryCfgBase(parent)

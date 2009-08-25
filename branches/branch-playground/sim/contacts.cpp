@@ -20,10 +20,10 @@ email                : vovan@shutoff.ru
 #include <list>
 #include <vector>
 
-#include <qfile.h>
-#include <qdir.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
+#include <QFile>
+#include <QDir>
+#include <QTextCodec>
+#include <QRegExp>
 #include <QByteArray>
 
 #include "buffer.h"

@@ -28,17 +28,17 @@ email                : vovan@shutoff.ru
 
 #include <QSettings>
 #include <QMainWindow>
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qfile.h>
-#include <qdir.h>
+#include <QTimer>
+#include <QApplication>
+#include <QWidget>
+#include <QFile>
+#include <QDir>
 #include <q3popupmenu.h>
-#include <qthread.h>
-#include <qtextcodec.h>
+#include <QThread>
+#include <QTextCodec>
 #include <q3process.h>
 #include <qinputdialog.h>
-#include <qmessagebox.h>
+#include <QMessageBox>
 #include <QTranslator>
 #include <QByteArray>
 #include <QDateTime>

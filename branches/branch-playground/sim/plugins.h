@@ -18,7 +18,7 @@
 #ifndef _PLUGINS_H
 #define _PLUGINS_H
 
-#include <qstring.h>
+#include <QString>
 #include <QWidget>
 #include "simapi.h"
 

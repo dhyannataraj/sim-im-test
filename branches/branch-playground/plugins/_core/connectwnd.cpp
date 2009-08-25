@@ -19,10 +19,10 @@
 #include "connectwnd.h"
 #include "linklabel.h"
 
-#include <qlabel.h>
-#include <qmovie.h>
+#include <QLabel>
+#include <QMovie>
 #include <q3frame.h>
-#include <qfile.h>
+#include <QFile>
 
 ConnectWnd::ConnectWnd(bool bStart) : QWizardPage(NULL)
 {

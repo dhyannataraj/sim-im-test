@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qpixmap.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QPixmap>
+#include <QLayout>
+#include <QLabel>
 #include <QBoxLayout>
 
 #include "icons.h"

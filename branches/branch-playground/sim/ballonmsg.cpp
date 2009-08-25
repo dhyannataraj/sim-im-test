@@ -17,16 +17,16 @@
 
 #include "ballonmsg.h"
 
-#include <qapplication.h>
-#include <qbitmap.h>
-#include <qframe.h>
-#include <qimage.h>
-#include <qcheckbox.h>
-#include <qlayout.h>
-#include <qpainter.h>
-#include <qpushbutton.h>
-#include <qtimer.h>
-#include <qtooltip.h>
+#include <QApplication>
+#include <QBitmap>
+#include <QFrame>
+#include <QImage>
+#include <QCheckbox>
+#include <QLayout>
+#include <QPainter>
+#include <QPushButton>
+#include <QTimer>
+#include <QToolTip>
 #include <QHBoxLayout>
 #include <QPaintEvent>
 #include <QPixmap>

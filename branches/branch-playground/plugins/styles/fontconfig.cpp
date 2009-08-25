@@ -20,9 +20,9 @@
 #include "styles.h"
 #include <qcolorbutton.h>
 
-#include <qcheckbox.h>
-#include <qapplication.h>
-#include <qmenu.h>
+#include <QCheckBox>
+#include <QApplication>
+#include <QMenu>
 
 FontConfig::FontConfig(QWidget *parent, StylesPlugin *plugin)
         : QWidget(parent)

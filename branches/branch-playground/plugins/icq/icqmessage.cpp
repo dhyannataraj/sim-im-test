@@ -15,16 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
-#include <qlayout.h>
-#include <qtextcodec.h>
-#include <qfile.h>
-#include <qfileinfo.h>
-#include <qimage.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QLayout>
+#include <QTextCodec>
+#include <QFile>
+#include <QFileInfo>
+#include <QImage>
+#include <QRegExp>
 #include <QList>
 #include <QByteArray>
+
 #include <memory>
 
 #include "toolbtn.h"

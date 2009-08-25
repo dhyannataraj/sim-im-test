@@ -21,7 +21,7 @@
 
 #include "ignorelist.h"
 
-#include <qpixmap.h>
+#include <QPixmap>
 
 using namespace SIM;
 

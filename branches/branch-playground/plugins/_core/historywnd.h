@@ -22,9 +22,8 @@
 #include "event.h"
 
 #include <QMainWindow>
-#include <qpixmap.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QLabel>
 #include <QResizeEvent>
 
 class MsgViewBase;

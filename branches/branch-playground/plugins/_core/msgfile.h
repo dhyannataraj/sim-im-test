@@ -18,8 +18,8 @@
 #ifndef _MSGFILE_H
 #define _MSGFILE_H
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 
 #include "event.h"
 

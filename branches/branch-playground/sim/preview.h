@@ -18,18 +18,18 @@
 #define PREVIEW_H
 
 #include "simapi.h"
-//Added by qt3to4:
 #include <QLabel>
 #ifdef USE_KDE
-#include <kpreviewwidgetbase.h>
+    #include <kpreviewwidgetbase.h>
+    #include <kurl.h>
 #else
-#include <q3filedialog.h>
+    #include <QFileDialog>
 #endif
 
 #ifdef USE_KDE
 class EXPORT FilePreview : public KPreviewWidgetBase
 #else
-class EXPORT FilePreview : public Q3FilePreview, public QWidget
+class EXPORT FilePreview : public QFileDialog
 #endif
 {
 public:
@@ -40,7 +40,7 @@ public:
     virtual void clearPreview();
 #else
     virtual void showPreview(const QString &file) = 0;
-    virtual void previewUrl(const Q3Url&);
+    virtual void previewUrl(const QUrl&);
 #endif
 };
 

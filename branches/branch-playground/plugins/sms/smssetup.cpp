@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qtimer.h>
-#include <qlabel.h>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QTimer>
+#include <QLabel>
 #include <q3progressbar.h>
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 #include "misc.h"
 

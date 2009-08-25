@@ -18,8 +18,8 @@
 #include "transparentcfg.h"
 #include "transparent.h"
 
-#include <qcheckbox.h>
-#include <qslider.h>
+#include <QCheckBox>
+#include <QSlider>
 
 TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin)
   : QWidget(parent)

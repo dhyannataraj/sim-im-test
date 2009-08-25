@@ -24,10 +24,10 @@
 #include "textshow.h"
 
 #include <q3accel.h>
-#include <qtooltip.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qlayout.h>
+#include <QToolTip>
+#include <QPainter>
+#include <QTimer>
+#include <QLayout>
 #include <q3popupmenu.h>
 
 using namespace std;

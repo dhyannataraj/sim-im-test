@@ -17,13 +17,12 @@
 
 #include "simapi.h"
 
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qimage.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QComboBox>
+#include <QSpinBox>
+#include <QLabel>
+#include <QLayout>
+#include <QImage>
+#include <QFile>
 #include <QStringList>
 #include <QImageReader>
 

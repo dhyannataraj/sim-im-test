@@ -23,7 +23,7 @@
 #include "userlist.h"
 #include "core.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 using namespace std;
 using namespace SIM;

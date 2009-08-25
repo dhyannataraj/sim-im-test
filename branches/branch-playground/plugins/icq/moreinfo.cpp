@@ -20,11 +20,11 @@
 #include "icqclient.h"
 #include "datepicker.h"
 
-#include <qpushbutton.h>
-#include <qdatetime.h>
-#include <qspinbox.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
+#include <QPushButton>
+#include <QDateTime>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QLineEdit>
 
 using namespace SIM;
 

@@ -20,10 +20,10 @@
 #include "icqclient.h"
 #include "ballonmsg.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <q3buttongroup.h>
-#include <qtabwidget.h>
-#include <qlineedit.h>
+#include <QTabWidget>
+#include <QLineEdit>
 
 using namespace SIM;
 

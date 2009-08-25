@@ -21,14 +21,14 @@
 #include <windows.h>
 #endif
 
-#include <qtabwidget.h>
-#include <qcombobox.h>
-#include <qradiobutton.h>
+#include <QTabWidget>
+#include <QComboBox>
+#include <QRadioButton>
 #include <q3buttongroup.h>
-#include <qcheckbox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qdir.h>
+#include <QCheckBox>
+#include <QSpinBox>
+#include <QLabel>
+#include <QDir>
 
 #include "log.h"
 

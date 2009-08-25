@@ -24,8 +24,8 @@
 #include <stack>
 #include <cctype>
 
-#include <qtextcodec.h>
-#include <qregexp.h>
+#include <QTextCodec>
+#include <QRegExp>
 
 #include "html.h"
 #include "icons.h"

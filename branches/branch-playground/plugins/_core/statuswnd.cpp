@@ -24,15 +24,15 @@
 #include "log.h"
 
 #include <q3popupmenu.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qobject.h>
-#include <qtooltip.h>
-#include <qtimer.h>
+#include <QLabel>
+#include <QLayout>
+#include <QObject>
+#include <QToolTip>
+#include <QTimer>
 #include <QFrame>
-#include <qtoolbutton.h>
-#include <qpainter.h>
-#include <qimage.h>
+#include <QToolButton>
+#include <QPainter>
+#include <QImage>
 //Added by qt3to4:
 #include <QHBoxLayout>
 #include <QResizeEvent>

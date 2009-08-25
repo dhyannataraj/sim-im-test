@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qregexp.h>
+#include <QRegExp>
 
 #include "ballonmsg.h"
 #include "unquot.h"

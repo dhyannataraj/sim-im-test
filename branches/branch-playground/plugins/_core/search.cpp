@@ -26,20 +26,27 @@
 #include "ballonmsg.h"
 //#include "searchbase.h"
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qvalidator.h>
-#include <qobject.h>
-#include <qstatusbar.h>
-#include <qtimer.h>
-#include <QFrame>
-#include <QResizeEvent>
-#include <QMoveEvent>
 #include <QCloseEvent>
-#include <QRadioButton>
+#include <QComboBox>
+#include <QFrame>
+#include <QLineEdit>
 #include <QMenu>
+#include <QMoveEvent>
+#include <QObject>
+#include <QPixmap>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QResizeEvent>
+#include <QStatusBar>
+#include <QTimer>
+#include <QValidator>
+
+
+
+
+
+
+
 
 using namespace std;
 using namespace SIM;

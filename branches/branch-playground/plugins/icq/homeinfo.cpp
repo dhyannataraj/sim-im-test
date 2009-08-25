@@ -18,10 +18,10 @@
 #include "homeinfo.h"
 #include "icqclient.h"
 
-#include <qlineedit.h>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPushButton>
 #include <q3multilineedit.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
 
 using namespace SIM;
 

@@ -25,11 +25,12 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtimer.h>
-#include <qbuffer.h>
-#include <qfile.h>
+#include <QTimer>
+#include <QBuffer>
+#include <QFile>
 #include <QList>
 #include <QByteArray>
+
 #include <memory>
 
 #include "log.h"

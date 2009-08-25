@@ -21,10 +21,10 @@
 #include "qcolorbutton.h"
 #ifndef USE_KDE4
 
-#include <qpainter.h>
-#include <qapplication.h>
-#include <qstyle.h>
-#include <qcolordialog.h>
+#include <QPainter>
+#include <QApplication>
+#include <QStyle>
+#include <QColorDialog>
 #include <QStyle>
 #include <QStyleOption>
 #include <QStyleOptionButton>

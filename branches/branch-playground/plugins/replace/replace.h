@@ -18,7 +18,7 @@
 #ifndef _REPLACE_H
 #define _REPLACE_H
 
-#include <qobject.h>
+#include <QObject>
 
 #include "cfg.h"
 #include "plugins.h"

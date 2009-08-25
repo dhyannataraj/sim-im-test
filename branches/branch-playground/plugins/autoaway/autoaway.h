@@ -18,7 +18,7 @@
 #ifndef _AUTOAWAY_H
 #define _AUTOAWAY_H
 
-#include <qobject.h>
+#include <QObject>
 
 #include "cfg.h"
 #include "event.h"

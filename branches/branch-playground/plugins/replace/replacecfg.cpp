@@ -23,7 +23,7 @@
 #include "intedit.h"
 
 #include <q3frame.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <q3header.h>
 #include <QResizeEvent>
 #include <QEvent>

@@ -22,16 +22,17 @@
 #include "listview.h"
 #include "core.h"
 
-#include <qlineedit.h>
-#include <qcombobox.h>
-#include <q3multilineedit.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qtimer.h>
-#include <qlabel.h>
-#include <qtabwidget.h>
-//Added by qt3to4:
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPixmap>
+#include <QPushButton>
+#include <QTimer>
+#include <QLabel>
+#include <QTabWidget>
 #include <QByteArray>
+#include <q3multilineedit.h>
+//Added by qt3to4:
+
 
 using namespace std;
 using namespace SIM;

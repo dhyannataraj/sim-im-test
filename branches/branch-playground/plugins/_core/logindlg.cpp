@@ -25,13 +25,13 @@ email                : vovan@shutoff.ru
 
 #include <QSettings>
 #include <QPixmap>
-#include <qcheckbox.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qdir.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPushButton>
+#include <QLabel>
+#include <QDir>
+#include <QLayout>
 #include <QApplication>
 #include <QTimer>
 #include <QInputDialog>

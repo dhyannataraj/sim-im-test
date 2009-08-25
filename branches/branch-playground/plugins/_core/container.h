@@ -24,11 +24,10 @@
 
 #include <QMainWindow>
 #include <QDockWidget>
-#include <qstatusbar.h>
-#include <qtabbar.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QStatusBar>
+#include <QTabBar>
+#include <QPixmap>
+#include <QLabel>
 #include <QResizeEvent>
 #include <QStackedWidget>
 #include <QByteArray>

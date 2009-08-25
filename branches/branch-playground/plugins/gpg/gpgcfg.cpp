@@ -28,9 +28,9 @@
 #include "gpgadv.h"
 #include "gpggen.h"
 
-#include <qtabwidget.h>
-#include <qcombobox.h>
-#include <qtimer.h>
+#include <QTabWidget>
+#include <QComboBox>
+#include <QTimer>
 #include <q3process.h>
 //Added by qt3to4:
 #include <QByteArray>

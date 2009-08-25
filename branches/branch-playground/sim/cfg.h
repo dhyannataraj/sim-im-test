@@ -21,7 +21,7 @@
 #include <QByteArray>
 #include <QMap>
 #include <QString>
-#include <qvariant.h>
+#include <QVariant>
 
 #include "simapi.h"
 

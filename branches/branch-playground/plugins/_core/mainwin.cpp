@@ -24,11 +24,11 @@
 #include "toolbtn.h"
 
 #include <QApplication>
-#include <qpixmap.h>
-#include <qlayout.h>
-#include <qtimer.h>
-#include <qsizegrip.h>
-#include <qstatusbar.h>
+#include <QPixmap>
+#include <QLayout>
+#include <QTimer>
+#include <QSizeGrip>
+#include <QStatusBar>
 #include <QDesktopWidget>
 
 using namespace SIM;

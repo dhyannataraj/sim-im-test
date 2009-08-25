@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qapplication.h>
-#include <qpalette.h>
-#include <qstyle.h>
-#include <qstylefactory.h>
-#include <qmenu.h>
+#include <QApplication>
+#include <QPalette>
+#include <QStyle>
+#include <QStyleFactory>
+#include <QMenu>
 
 #include "fontedit.h"
 #include "misc.h"

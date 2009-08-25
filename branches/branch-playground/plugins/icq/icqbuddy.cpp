@@ -28,8 +28,8 @@
 #include <netinet/in.h>
 #endif
 
-#include <qimage.h>
-#include <qfileinfo.h>
+#include <QImage>
+#include <QFileInfo>
 
 #include "log.h"
 #include "icqbuddy.h"

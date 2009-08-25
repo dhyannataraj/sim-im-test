@@ -18,8 +18,8 @@
 #ifndef _BACKGROUND_H
 #define _BACKGROUND_H
 
-#include <qimage.h>
-#include <qpixmap.h>
+#include <QImage>
+#include <QPixmap>
 //Added by qt3to4:
 #include <QByteArray>
 

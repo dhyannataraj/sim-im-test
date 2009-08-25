@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpainter.h>
-#include <qtabwidget.h>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QSpinBox>
+#include <QLabel>
+#include <QLayout>
+#include <QPainter>
+#include <QTabWidget>
 #include <QPixmap>
 
 #include "icons.h"

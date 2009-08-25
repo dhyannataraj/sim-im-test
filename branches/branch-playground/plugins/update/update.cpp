@@ -28,15 +28,15 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
-#include <qtimer.h>
-#include <qapplication.h>
+#include <QTimer>
+#include <QApplication>
 #include <QWidgetlist>
-#include <qregexp.h>
+#include <QRegExp>
 #include <QUrl>
-#include <qmessagebox.h>
-#include <qfile.h>
+#include <QMessageBox>
+#include <QFile>
 #include <QProcess>
-#include <qevent.h>
+#include <QtEvents>
 #include <QFileInfo>
 
 using namespace SIM;

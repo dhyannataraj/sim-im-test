@@ -28,9 +28,9 @@
 #include <arpa/inet.h>
 #endif
 
-#include <qtimer.h>
-#include <qdatetime.h>
-#include <qprocess.h>
+#include <QTimer>
+#include <QDateTime>
+#include <QProcess>
 
 #include "tmpl.h"
 #include "sockfactory.h"

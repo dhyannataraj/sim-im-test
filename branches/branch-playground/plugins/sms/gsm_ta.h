@@ -19,7 +19,7 @@
 #define _GSM_TA_H
 
 #include <QByteArray>
-#include <qobject.h>
+#include <QObject>
 #include <string>
 #include <list>
 #include <vector>
