@@ -20,7 +20,6 @@
 
 #include "ui_managerbase.h"
 #include "event.h"
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QResizeEvent>
 

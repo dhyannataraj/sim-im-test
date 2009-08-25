@@ -46,14 +46,12 @@
 #include <QObject>
 #include <QStringList>
 #include <QApplication>
-#include <QWidget>
 #include <QDateTime>
 #include <QComboBox>
 #include <QLineEdit>
 #include <q3multilineedit.h>                                      
 #include <QRegExp>
-
-#include <qdesktopwidget.h>
+#include <QDesktopWidget>
 #include <QByteArray>
 
 #ifdef USE_KDE4
