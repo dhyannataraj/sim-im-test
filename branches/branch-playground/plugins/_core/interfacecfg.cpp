@@ -175,8 +175,8 @@ QStringList InterfaceConfig::getLangItems()
             items.append(i18n(l->name));
             continue;
         }
-        QString po = CorePlugin::m_plugin->poFile(l->code);
-        if (po.isEmpty())
+        QString ts = CorePlugin::m_plugin->tsFile(l->code);
+        if (ts.isEmpty())
             continue;
         items.append(i18n(l->name));
     }

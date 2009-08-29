@@ -856,7 +856,7 @@ CorePlugin::~CorePlugin()
 	removeTranslator();
 }
 
-QString CorePlugin::poFile(const QString &lang)
+QString CorePlugin::tsFile(const QString &lang)
 {
 #if defined( WIN32 ) || defined( __OS2__ )
 	// lang is ascii, so this works fine
@@ -894,9 +894,9 @@ void CorePlugin::installTranslator()
 {
 	m_translator = NULL;
 	QString lang = property("Lang").toString();
-	if (lang == "-")
+    if (lang == "-")
 		return;
-	if (lang.length() == 0){
+	if (lang.isEmpty()){
 #ifdef WIN32
 		char buff[256];
 		int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVLANGNAME, buff, sizeof(buff));
@@ -920,8 +920,8 @@ void CorePlugin::installTranslator()
     #endif
 #endif
 	}
-	QString po = poFile(lang);
-	if (po.isEmpty())
+	QString ts = tsFile(lang);
+	if (ts.isEmpty())
 		return;
 	/*
 #if !defined(WIN32) && !defined(USE_KDE)
@@ -929,7 +929,7 @@ m_translator = new SIMTranslator(NULL, po);
 #else
 */
 	m_translator = new QTranslator(NULL);
-	m_translator->load(po);
+	m_translator->load(ts);
 	//#endif
 	qApp->installTranslator(m_translator);
 #if !defined(WIN32) && !defined(USE_KDE)

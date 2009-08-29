@@ -72,7 +72,7 @@ QString i18n(const char *text)
 {
     if ((text == NULL) || (*text == 0))
         return QString::null;
-    QString res = QObject::tr(text);
+    QString res = tr(text);
     if (res != QString::fromLatin1(text))
         return res;
     return QString::fromUtf8(text);
@@ -89,7 +89,7 @@ QString i18n(const char *comment, const char *text)
     s += comment;
     s += '\n';
     s += text;
-    QString res = QObject::tr(s);
+    QString res = tr(s);
     if (res != s.data())
         return res;
     return i18n(text);
