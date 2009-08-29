@@ -70,29 +70,22 @@
 
 QString i18n(const char *text)
 {
-    if ((text == NULL) || (*text == 0))
-        return QString::null;
-    QString res = tr(text);
-    if (res != QString::fromLatin1(text))
-        return res;
-    return QString::fromUtf8(text);
+    return QCoreApplication::translate("@default", text);
 }
 
 QString i18n(const char *comment, const char *text)
 {
-    if (text == NULL)
-        return QString::null;
-    if (comment == NULL)
+    if (!comment)
         return i18n(text);
+    if (!text)
+        return QString();
     QByteArray s;
     s = "_: ";
     s += comment;
     s += '\n';
     s += text;
-    QString res = tr(s);
-    if (res != s.data())
-        return res;
-    return i18n(text);
+
+    return i18n(s.constData());
 }
 
 
