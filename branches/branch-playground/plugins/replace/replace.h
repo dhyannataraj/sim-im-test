@@ -25,7 +25,7 @@
 #include "propertyhub.h"
 #include "event.h"
 
-class ReplacePlugin : virtual public QObject, public SIM::Plugin, public SIM::PropertyHub, public SIM::EventReceiver
+class ReplacePlugin : public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

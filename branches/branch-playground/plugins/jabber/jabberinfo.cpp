@@ -80,10 +80,11 @@ void JabberInfo::apply()
         }
         if (!errMsg.isEmpty()){
             for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-                if (p->inherits("QTabWidget")){
-                    static_cast<QTabWidget*>(p)->showPage(this);
-                    break;
-                }
+                QTabWidget *tb = qobject_cast<QTabWidget*>(p);
+                if (!tb)
+                    continue;
+                tb->showPage(this);
+                break;
             }
             emit raise(this);
             BalloonMsg::message(errMsg, errWidget);

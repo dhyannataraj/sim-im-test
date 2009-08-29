@@ -66,13 +66,13 @@ void IconsPlugin::setIcons(bool bForce)
     if (property("Default").toBool()){
         getIcons()->addIconSet("icons/smile.jisp", false);
     }else{
-		QStringList l = property("Icons").toStringList();
+        const QStringList l = property("Icons").toStringList();
         for (unsigned i = 0; i < property("NIcons").toUInt(); i++)
-		{
-			if(i >= l.size())
-				break;
+        {
+            if(i >= l.size())
+                break;
             getIcons()->addIconSet(l[i], false);
-		}
+        }
     }
     EventIconChanged().process();
 }

@@ -23,7 +23,6 @@
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QValidator>
-#include <QKeyEvent>
 
 class EXPORT IntLineEdit : public QLineEdit
 {

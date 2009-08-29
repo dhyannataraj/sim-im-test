@@ -26,7 +26,6 @@
 #include <QObject>
 #include <QThread>
 #include <QByteArray>
-#include <QTranslator>
 
 #include "cmddef.h"
 #include "event.h"

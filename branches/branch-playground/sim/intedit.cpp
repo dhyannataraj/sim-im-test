@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "intedit.h"
+#include <QKeyEvent>
 
 IntLineEdit::IntLineEdit(QWidget *parent)
     : QLineEdit(parent), id(0)

@@ -267,10 +267,9 @@ void Container::init()
 
     m_childs.clear();
 
-    QString windows = getWindows();
-    while (!windows.isEmpty())
-	{
-        unsigned long id = getToken(windows, ',').toULong();
+    QStringList windows = getWindows().split(',');
+    Q_FOREACH(const QString &win, windows) {
+        unsigned long id = win.toULong();
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
