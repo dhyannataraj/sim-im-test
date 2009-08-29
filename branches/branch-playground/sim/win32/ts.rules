@@ -7,7 +7,7 @@
 		<CustomBuildRule
 			Name="TS"
 			DisplayName="QT - Translation Release"
-			CommandLine="\bin\lrelease de.ts -qm ts\$(InputName).qm"
+			CommandLine="%qtdir%\bin\lrelease de.ts -qm $(InputPath)\ts\$(InputName).qm"
 			Outputs="$(ConfigurationName)\ts\$(InputName).qm"
 			FileExtensions="*.ts"
 			ExecutionDescription="Translation of $(InputName) is beeing processed..."
