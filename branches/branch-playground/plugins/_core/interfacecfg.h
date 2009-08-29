@@ -36,6 +36,14 @@ public:
 public slots:
     void apply();
     void modeChanged(int);
+    void setSimpleMode(bool);
+    void setChatMode(bool);
+    void setOpenEachContactInContainer(bool);
+    void setOpenGroupInContainer(bool);
+    void setOpenAllContactsInOneContainer(bool);
+    void connectControls();
+    void disconnectControls();
+    
 protected:
 #ifndef USE_KDE
     QStringList getLangItems();

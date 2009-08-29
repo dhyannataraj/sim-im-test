@@ -339,7 +339,7 @@ public:
     CoreData	data;
     bool m_bIgnoreEvents;
 signals:
-    void modeChanged();
+    void modeChanged(int);
 protected slots:
     void dialogFinished();
     void dialogDestroy();

@@ -85,6 +85,8 @@ static language langs[] =
 InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
+    connect(CorePlugin::m_plugin,SIGNAL(modeChanged(int)), this, SLOT( modeChanged(int)));
+
     for(QObject *p = parent; p != NULL; p = p->parent())
 	{
         if (!p->inherits("QTabWidget"))
@@ -121,7 +123,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     TextLabel1_2->hide();
     cmbLang->hide();
 #endif
-    connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
+    
     if (CorePlugin::m_plugin->getContainerMode())
     {
         optChat->setChecked(true);
@@ -196,9 +198,89 @@ QStringList InterfaceConfig::getLangItems()
 
 void InterfaceConfig::modeChanged(int mode)
 {
-    if (mode == 2) //chkSaveFont
-        return;
-    if (mode)
+    if (mode==1)
+        setOpenEachContactInContainer(true);
+    if (mode==2)
+        setOpenGroupInContainer(true);
+    if (mode==3)
+        setOpenAllContactsInOneContainer(true);
+}
+
+void InterfaceConfig::setSimpleMode(bool)
+{
+    disconnectControls();
+    optSimple->setChecked(true);
+    grpContainer->setEnabled(false);
+    connectControls();
+}
+
+void InterfaceConfig::setChatMode(bool)
+{
+    disconnectControls();
+    grpContainer->setEnabled(true);
+    optNew->setChecked(true);
+    CorePlugin::m_plugin->setContainerMode(0);
+    chkEnter->setChecked(false);
+    connectControls();
+}
+
+void InterfaceConfig::setOpenEachContactInContainer(bool)
+{
+    disconnectControls();
+    grpContainer->setEnabled(true);
+    optNew->setChecked(true);
+    CorePlugin::m_plugin->setContainerMode(0);
+    chkEnter->setChecked(false);
+    connectControls();
+}
+
+void InterfaceConfig::setOpenGroupInContainer(bool)
+{
+    disconnectControls();
+    optGroup->setChecked(true);
+    CorePlugin::m_plugin->setContainerMode(1);
+    connectControls();
+
+}
+
+void InterfaceConfig::setOpenAllContactsInOneContainer(bool)
+{
+    disconnectControls();
+    optOne->setChecked(true);
+    CorePlugin::m_plugin->setContainerMode(2);
+    connectControls();
+}
+
+void InterfaceConfig::connectControls()
+{
+    connect(optSimple, SIGNAL(toggled(bool)), this, SLOT(setSimpleMode                   (bool)));
+    connect(optChat,   SIGNAL(toggled(bool)), this, SLOT(setChatMode                     (bool)));
+    connect(optNew,    SIGNAL(toggled(bool)), this, SLOT(setOpenEachContactInContainer   (bool)));
+    connect(optGroup,  SIGNAL(toggled(bool)), this, SLOT(setOpenGroupInContainer         (bool)));
+    connect(optOne,    SIGNAL(toggled(bool)), this, SLOT(setOpenAllContactsInOneContainer(bool)));
+    connect(CorePlugin::m_plugin,SIGNAL(modeChanged(int)), this, SLOT( modeChanged(int)));
+}
+
+void InterfaceConfig::disconnectControls()
+{
+    disconnect(optSimple, SIGNAL(toggled(bool)), this, SLOT(setSimpleMode                   (bool)));
+    disconnect(optChat,   SIGNAL(toggled(bool)), this, SLOT(setChatMode                     (bool)));
+    disconnect(optNew,    SIGNAL(toggled(bool)), this, SLOT(setOpenEachContactInContainer   (bool)));
+    disconnect(optGroup,  SIGNAL(toggled(bool)), this, SLOT(setOpenGroupInContainer         (bool)));
+    disconnect(optOne,    SIGNAL(toggled(bool)), this, SLOT(setOpenAllContactsInOneContainer(bool)));
+    disconnect(CorePlugin::m_plugin,SIGNAL(modeChanged(int)), this, SLOT( modeChanged(int)));
+}
+/*
+void InterfaceConfig::ghghhgh()
+{
+    
+    //if (mode == 2) //chkSaveFont
+    //    return;
+    
+  
+
+        /*
+    if (mode==2)
 	{
         if(!grpContainer->isEnabled())
         {
@@ -206,15 +288,15 @@ void InterfaceConfig::modeChanged(int mode)
             optOne->setChecked(true);
         }
     }
+    if (mode==3)
 	else
 	{
         /*QAbstractButton *btn = grpContainer->selected();
         if (btn)
             btn->toggle();*/
-        chkEnter->setChecked(false);
-        grpContainer->setEnabled(false);
-    }
-}
+        
+    //}
+//}
 
 void InterfaceConfig::apply()
 {

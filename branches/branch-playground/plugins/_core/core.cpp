@@ -3776,7 +3776,7 @@ void CorePlugin::loadMenu()
 		if (value == data.ContainerMode.toULong())
 			return;
 		data.ContainerMode.asULong() = value;
-		emit modeChanged();
+		emit modeChanged(value);
 	}
 
 	QString CorePlugin::clientName(Client *client)
