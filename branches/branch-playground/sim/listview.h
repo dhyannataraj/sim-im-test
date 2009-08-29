@@ -21,17 +21,10 @@
 #include "simapi.h"
 #include "event.h"
 
-#include <q3listview.h>
 #include <q3dragobject.h>
-//Added by qt3to4:
-#include <QResizeEvent>
-#include <QEvent>
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QMouseEvent>
-#include <QDragMoveEvent>
-#include <QContextMenuEvent>
-#include <QKeyEvent>
+#include <q3listview.h>
+
+class Q3DragObject;
 
 const unsigned long MenuListView		= 0x100;
 const unsigned long CmdListDelete	= 0x100;

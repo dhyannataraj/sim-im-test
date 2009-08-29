@@ -25,12 +25,10 @@
 
 #include <QColor>
 #include <QDateTime>
-#include <QTranslator>
 
 class KAboutData;
 class QComboBox;
 class QIcon;
-class QTranslator;
 //class Data;
 
 #ifdef Q_OS_WIN
