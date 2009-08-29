@@ -12,6 +12,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath=".\sim\win32\uic.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -30,6 +33,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Uic"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -120,6 +126,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Uic"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -1618,13 +1627,6 @@
 			<File
 				RelativePath="sim\simapi.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\sim\simfs.h"

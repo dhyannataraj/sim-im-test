@@ -15,6 +15,9 @@
 		<ToolFile
 			RelativePath=".\ogg.rules"
 		/>
+		<ToolFile
+			RelativePath="..\..\sim\win32\uic.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -32,10 +35,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="Ogg"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Ogg"
+				Name="Uic"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -125,10 +131,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="Ogg"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Ogg"
+				Name="Uic"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -479,20 +488,14 @@
 					Name="Release|Win32"
 					>
 					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputName).ui ..."
-						CommandLine="%qtdir%\bin\uic.exe -o $(InputDir)\ui_$(InputName).h $(InputPath)&#x0D;&#x0A;"
-						Outputs="$(InputDir)ui_$(InputName).h"
+						Name="Uic"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputName).ui ..."
-						CommandLine="%qtdir%\bin\uic.exe -o $(InputDir)\ui_$(InputName).h $(InputPath)&#x0D;&#x0A;"
-						Outputs="$(InputDir)ui_$(InputName).h"
+						Name="Uic"
 					/>
 				</FileConfiguration>
 			</File>
@@ -503,20 +506,14 @@
 					Name="Release|Win32"
 					>
 					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputName).ui ..."
-						CommandLine="%qtdir%\bin\uic.exe -o $(InputDir)\ui_$(InputName).h $(InputPath)&#x0D;&#x0A;"
-						Outputs="$(InputDir)ui_$(InputName).h"
+						Name="Uic"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputName).ui ..."
-						CommandLine="%qtdir%\bin\uic.exe -o $(InputDir)\ui_$(InputName).h $(InputPath)&#x0D;&#x0A;"
-						Outputs="$(InputDir)ui_$(InputName).h"
+						Name="Uic"
 					/>
 				</FileConfiguration>
 			</File>

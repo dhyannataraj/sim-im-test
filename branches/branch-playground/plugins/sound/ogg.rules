@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <VisualStudioToolFile
-	Name="User Interface Compiler"
+	Name="Ogg Copy Tool"
 	Version="8,00"
 	>
 	<Rules>
 		<CustomBuildRule
 			Name="Ogg"
-			DisplayName="User Interface Compiler"
+			DisplayName="Ogg Copy Tool"
 			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;"
 			Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
 			FileExtensions="*.ogg"
