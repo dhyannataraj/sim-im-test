@@ -27,7 +27,7 @@ class HistoryConfig;
 class MessageConfig;
 class SMSConfig;
 
-class InterfaceConfig : public QWidget, public Ui::InterfaceConfigBase
+class InterfaceConfig : public QWidget, public Ui_Interface
 {
     Q_OBJECT
 public:

@@ -122,12 +122,20 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     cmbLang->hide();
 #endif
     connect(grpMode, SIGNAL(clicked(int)), this, SLOT(modeChanged(int)));
-    if (CorePlugin::m_plugin->getContainerMode()){
-        grpMode->setButton(1);
-        grpContainer->setButton(CorePlugin::m_plugin->getContainerMode() - 1);
+    if (CorePlugin::m_plugin->getContainerMode())
+    {
+        optChat->setChecked(true);
+        if (CorePlugin::m_plugin->getContainerMode()==0)
+            optNew->setChecked(true);
+        if (CorePlugin::m_plugin->getContainerMode()==1)
+            optGroup->setChecked(true);
+        if (CorePlugin::m_plugin->getContainerMode()==2)
+            optOne->setChecked(true);
         chkEnter->setChecked(CorePlugin::m_plugin->property("SendOnEnter").toBool());
-    }else{
-        grpMode->setButton(0);
+    }
+    else
+    {
+        optSimple->setChecked(true);
         grpContainer->setEnabled(false);
     }
     chkSaveFont->setChecked(CorePlugin::m_plugin->getEditSaveFont());
@@ -195,14 +203,14 @@ void InterfaceConfig::modeChanged(int mode)
         if(!grpContainer->isEnabled())
         {
             grpContainer->setEnabled(true);
-            grpContainer->setButton(2);
+            optOne->setChecked(true);
         }
     }
 	else
 	{
-        QAbstractButton *btn = grpContainer->selected();
+        /*QAbstractButton *btn = grpContainer->selected();
         if (btn)
-            btn->toggle();
+            btn->toggle();*/
         chkEnter->setChecked(false);
         grpContainer->setEnabled(false);
     }
@@ -220,35 +228,42 @@ void InterfaceConfig::apply()
 #ifndef USE_KDE
     int res = cmbLang->currentIndex();
     const char *lang = "";
-    if (res > 0){
+    if (res > 0)
+    {
         QStringList items = getLangItems();
         QString name = items[res - 1];
         const language *l;
-        for (l = langs; l->code; l++){
-            if (name == i18n(l->name)){
+        for (l = langs; l->code; l++)
+        {
+            if (name == i18n(l->name))
+            {
                 lang = l->code;
                 break;
             }
         }
     }
 #endif
-    if (grpMode->find(1)->isChecked()){
+    if (optChat->isChecked())
+    {
         int mode = 0;
-        if (btnGroup->isChecked())
+        if (optGroup->isChecked())
             mode = 1;
-        if (btnOne->isChecked())
+        if (optOne->isChecked())
             mode = 2;
         CorePlugin::m_plugin->setContainerMode(mode + 1);
         CorePlugin::m_plugin->setProperty("SendOnEnter", chkEnter->isChecked());
         CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toULong());
-    }else{
+    }
+    else
+    {
         CorePlugin::m_plugin->setContainerMode(0);
         CorePlugin::m_plugin->setProperty("SendOnEnter", false);
     }
     CorePlugin::m_plugin->setProperty("ShowOwnerName", chkOwnerName->isChecked());
     CorePlugin::m_plugin->setShowAvatarInContainer(chkAvatar->isChecked());
 #ifndef USE_KDE
-    if (lang != CorePlugin::m_plugin->property("Lang").toString()){
+    if (lang != CorePlugin::m_plugin->property("Lang").toString())
+    {
         CorePlugin::m_plugin->removeTranslator();
         CorePlugin::m_plugin->setProperty("Lang", lang);
         CorePlugin::m_plugin->installTranslator();
@@ -258,12 +273,15 @@ void InterfaceConfig::apply()
     HKEY subKey;
     if (RegOpenKeyExW(HKEY_CURRENT_USER, key_name, 0,
                       KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
-        if (chkStart->isChecked()){
+        if (chkStart->isChecked())
+        {
             QString path = app_file("sim.exe");
             DWORD res = RegSetValueExW(subKey, value_name, 0, REG_SZ, (BYTE*)path.utf16(), (path.length() + 1) * 2);
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
-        }else{
+        }
+        else
+        {
             DWORD res = RegDeleteValueW(subKey, value_name);
             if (res!=ERROR_SUCCESS && res!=ERROR_FILE_NOT_FOUND)
                 log(L_WARN, "RegDeleteValue fail %u", res);
