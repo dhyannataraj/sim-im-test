@@ -48,6 +48,7 @@ class _CORE_EXPORTS MainWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
+    MainWindow();
     MainWindow(SIM::Geometry&);
     ~MainWindow();
     static MainWindow *mainWindow();

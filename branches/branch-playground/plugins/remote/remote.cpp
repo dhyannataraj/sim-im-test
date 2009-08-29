@@ -629,7 +629,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     ContactInfo info;
                     QString active;
                     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
-                    if (core->getGroupMode()){
+                    if (core->property("GroupMode").toUInt()){
                         unsigned index = 0xFFFFFFFF;
                         if (contact->getGroup()){
                             Group *grp = getContacts()->group(contact->getGroup());
@@ -660,7 +660,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     info.id    = contact->id();
                     info.icon  = statusIcon;
                     info.group = contact->getGroup();
-                    if (core->getGroupMode()){
+                    if (core->property("GroupMode").toUInt()){
                         info.group = contact->getGroup();
                         list<unsigned>::iterator it;
                         for (it = groups.begin(); it != groups.end(); ++it)
@@ -789,14 +789,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_INVISIBLE:
         if (args.size()){
             bool bInvisible = isOn(args[0]);
-            if (core->getInvisible() != bInvisible){
-                core->setInvisible(bInvisible);
+            if (core->property("Invisible").toBool() != bInvisible){
+                core->setProperty("Invisible", bInvisible);
                 for (unsigned i = 0; i < getContacts()->nClients(); i++)
                     getContacts()->getClient(i)->setInvisible(bInvisible);
             }
         }else{
             out  = "INVISIBLE ";
-            out += core->getInvisible() ? "on" : "off";
+            out += core->property("Invisible").toBool() ? "on" : "off";
         }
         return true;
     case CMD_MAINWND:

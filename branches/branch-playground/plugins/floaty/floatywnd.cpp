@@ -146,33 +146,33 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     pv.win      = this;
     pv.isStatic = false;
     pv.height   = h;
-    if (m_plugin->core->getUseSysColors()){
+    if (m_plugin->core->property("UseSysColors").toBool()){
         p.setPen(palette().color(QPalette::Text));
     }else{
-        p.setPen(QColor(m_plugin->core->getColorOnline()));
+        p.setPen(QColor(m_plugin->core->property("ColorOnline").toUInt()));
     }
     EventPaintView e(&pv);
     e.process();
 
-    if (m_plugin->core->getUseSysColors()){
+    if (m_plugin->core->property("UseSysColors").toBool()){
         if (m_status != STATUS_ONLINE)
             p.setPen(palette().color(QPalette::Disabled, QPalette::Text));
     }else{
         switch (m_status){
         case STATUS_ONLINE:
-            p.setPen(m_plugin->core->getColorOnline());
+            p.setPen(m_plugin->core->property("ColorOnline").toUInt());
             break;
         case STATUS_AWAY:
-            p.setPen(m_plugin->core->getColorAway());
+            p.setPen(m_plugin->core->property("ColorAway").toUInt());
             break;
         case STATUS_NA:
-            p.setPen(m_plugin->core->getColorNA());
+            p.setPen(m_plugin->core->property("ColorNA").toUInt());
             break;
         case STATUS_DND:
-            p.setPen(m_plugin->core->getColorDND());
+            p.setPen(m_plugin->core->property("ColorDND").toUInt());
             break;
         default:
-            p.setPen(m_plugin->core->getColorOffline());
+            p.setPen(m_plugin->core->property("ColorOffline").toUInt());
             break;
         }
     }
@@ -291,7 +291,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         }
         mousePos = QPoint();
     }else{
-        if ((e->pos() == initMousePos) && !m_plugin->core->getUseDblClick()){
+        if ((e->pos() == initMousePos) && !m_plugin->core->property("UseDblClick").toBool()){
             EventDefaultAction(m_id).process();
         }
     }

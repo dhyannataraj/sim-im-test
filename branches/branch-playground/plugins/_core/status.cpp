@@ -147,7 +147,7 @@ void CommonStatus::setBarStatus()
 				{
                     const CommandDef *d;
                     unsigned i = getContacts()->nClients();
-					if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->getInvisible())
+					if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->property("Invisible").toBool())
 						for (i = 0; i < getContacts()->nClients(); i++)
 						{
 							Client *client = getContacts()->getClient(i);
@@ -308,9 +308,9 @@ void CommonStatus::checkInvisible()
 		return;
 
 	if (bAllInvisible)
-		CorePlugin::m_plugin->setInvisible(true);
+		CorePlugin::m_plugin->setProperty("Invisible", true);
 	if (bAllNotInvisible)
-		CorePlugin::m_plugin->setInvisible(false);
+		CorePlugin::m_plugin->setProperty("Invisible", false);
 }
 
 bool CommonStatus::processEvent(Event *e)
@@ -415,7 +415,7 @@ bool CommonStatus::processEvent(Event *e)
 			{
                 if (def->id == CmdInvisible)
 				{
-					if (CorePlugin::m_plugin->getInvisible())
+					if (CorePlugin::m_plugin->property("Invisible").toBool())
 						def->flags |= COMMAND_CHECKED;
 					else
 						def->flags &= ~COMMAND_CHECKED;
@@ -450,9 +450,9 @@ bool CommonStatus::processEvent(Event *e)
 			{
                 if (def->id == CmdInvisible)
 				{
-                    CorePlugin::m_plugin->setInvisible(!CorePlugin::m_plugin->getInvisible());
+                    CorePlugin::m_plugin->setProperty("Invisible", !CorePlugin::m_plugin->property("Invisible").toBool());
 					for (unsigned i = 0; i < getContacts()->nClients(); i++)
-						getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->getInvisible());
+						getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->property("Invisible").toBool());
                     return true;
                 }
                 Client *client = getContacts()->getClient(0);

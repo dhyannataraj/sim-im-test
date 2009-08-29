@@ -35,6 +35,36 @@ using namespace SIM;
 
 MainWindow *MainWindow::s_mainWindow = NULL;
 
+MainWindow::MainWindow()
+    : QMainWindow(NULL, Qt::Window)
+    , EventReceiver(LowestPriority)
+{
+    setObjectName("mainwnd");
+    setAttribute(Qt::WA_AlwaysShowToolTips);
+    Q_ASSERT(s_mainWindow == NULL);
+    s_mainWindow = this;
+    h_lay	 = NULL;
+    m_bNoResize = false;
+
+    m_icon = "SIM";
+    setWindowIcon(Icon(m_icon));
+    setTitle();
+
+    setIconSize(QSize(16,16));
+
+    m_bar = NULL;
+
+    main = new QWidget(this);
+    setCentralWidget(main);
+
+    lay = new QVBoxLayout(main);
+    lay->setMargin(0);
+
+    QStatusBar *status = statusBar();
+    status->show();
+    status->installEventFilter(this);
+}
+
 MainWindow::MainWindow(Geometry &geometry)
     : QMainWindow(NULL, Qt::Window)
     , EventReceiver(LowestPriority)
@@ -128,6 +158,7 @@ bool MainWindow::processEvent(Event *e)
 				EventToolbar e(ToolBarMain, this);
 				e.process();
 				m_bar = e.toolBar();
+                m_bar->setObjectName("MainToolbar");
 				this->addToolBar(m_bar);
 //				m_bar->setMaximumHeight(30);
 //				m_bar->setMinimumHeight(30); // FIXME

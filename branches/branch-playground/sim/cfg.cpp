@@ -128,7 +128,11 @@ void Config::save()
 	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
 	{
         QString towrite;
-        if(it.value().toStringList().size() > 1)
+        if(it.value().type() == QVariant::ByteArray)
+        {
+            towrite = it.key() + "=QByteArray(" + it.value().toByteArray().toHex() + ")\n";
+        }
+        else if(it.value().toStringList().size() > 1)
         {
             towrite = it.key() + "=QStringList:" + it.value().toStringList().join(",") + '\n';
         }
@@ -150,7 +154,14 @@ void Config::load()
 		if(entry.size() < 2)
 			continue;
         QString val = entry[1].trimmed();
-        if(val.startsWith("QStringList:"))
+        if(val.startsWith("QByteArray(") && val.endsWith(')'))
+        {
+            int n = 11; // strlen("QByteArray(");
+            QString hex = val.mid(n, val.size() - n - 1);
+            setValue(entry[0], QByteArray::fromHex(hex.toUtf8()));
+
+        }
+        else if(val.startsWith("QStringList:"))
         {
             setValue(entry[0], val.mid(QString("QStringList:").length()).split(','));
         }

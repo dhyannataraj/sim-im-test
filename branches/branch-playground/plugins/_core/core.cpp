@@ -222,27 +222,27 @@ static DataDef coreData[] =
 {
 	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
 //	{ "", DATA_ULONG, 1, 0 },		// StatusTime
-	{ "Invisible", DATA_BOOL, 1, 0 },
-	{ "Geometry", DATA_LONG, 5, DATA(-1) },
-	{ "ToolBar", DATA_LONG, 7, 0 },
-	{ "Buttons", DATA_STRLIST, 1, 0 },
-	{ "Menues", DATA_STRLIST, 1, 0 },
-	{ "GroupMode", DATA_ULONG, 1, DATA(1) },
-	{ "UseDblClick", DATA_BOOL, 1, 0 },
-	{ "UseSysColors", DATA_BOOL, 1, DATA(1) },
-	{ "ColorOnline", DATA_ULONG, 1, 0 },
-	{ "ColorOffline", DATA_ULONG, 1, 0 },
-	{ "ColorAway", DATA_ULONG, 1, 0 },
-	{ "ColorNA", DATA_ULONG, 1, 0 },
-	{ "ColorDND", DATA_ULONG, 1, 0 },
-	{ "ColorGroup", DATA_ULONG, 1, 0 },
-	{ "GroupSeparator", DATA_BOOL, 1, DATA(1) },
-	{ "Lang", DATA_STRING, 1, 0 },
+//	{ "Invisible", DATA_BOOL, 1, 0 },
+//	{ "Geometry", DATA_LONG, 5, DATA(-1) },
+//	{ "ToolBar", DATA_LONG, 7, 0 },
+//	{ "Buttons", DATA_STRLIST, 1, 0 },
+//	{ "Menues", DATA_STRLIST, 1, 0 },
+//	{ "GroupMode", DATA_ULONG, 1, DATA(1) },
+//	{ "UseDblClick", DATA_BOOL, 1, 0 },
+//	{ "UseSysColors", DATA_BOOL, 1, DATA(1) },
+//	{ "ColorOnline", DATA_ULONG, 1, 0 },
+//	{ "ColorOffline", DATA_ULONG, 1, 0 },
+//	{ "ColorAway", DATA_ULONG, 1, 0 },
+//	{ "ColorNA", DATA_ULONG, 1, 0 },
+//	{ "ColorDND", DATA_ULONG, 1, 0 },
+//	{ "ColorGroup", DATA_ULONG, 1, 0 },
+//	{ "GroupSeparator", DATA_BOOL, 1, DATA(1) },
+//	{ "Lang", DATA_STRING, 1, 0 },
 	{ "ContainerMode", DATA_ULONG, 1, DATA(2) },
-	{ "SendOnEnter", DATA_BOOL, 1, 0 },
-	{ "ShowOwnerName", DATA_BOOL, 1, 0 },
-	{ "ContainerGeometry", DATA_LONG, 5, DATA(-1) },
-	{ "ContainerBar", DATA_LONG, 7, 0 },
+//	{ "SendOnEnter", DATA_BOOL, 1, 0 },
+//	{ "ShowOwnerName", DATA_BOOL, 1, 0 },
+//	{ "ContainerGeometry", DATA_LONG, 5, DATA(-1) },
+//	{ "ContainerBar", DATA_LONG, 7, 0 },
 	{ "ContainerStatusSize", DATA_ULONG, 1, 0 },
 	{ "Containers", DATA_STRING, 1, 0 },
 	{ "Container", DATA_STRLIST, 1, 0 },
@@ -893,7 +893,7 @@ QString CorePlugin::poFile(const QString &lang)
 void CorePlugin::installTranslator()
 {
 	m_translator = NULL;
-	QString lang = getLang();
+	QString lang = property("Lang").toString();
 	if (lang == "-")
 		return;
 	if (lang.length() == 0){
@@ -1208,6 +1208,7 @@ bool CorePlugin::processEvent(Event *e)
 					return true;
 				}
 				QTimer::singleShot(0, this, SLOT(checkHistory()));
+				QTimer::singleShot(0, this, SLOT(postInit()));
 				return false;
 			}
 		case eEventQuit:
@@ -3000,6 +3001,7 @@ void CorePlugin::changeProfile(const QString& profilename)
 
 void CorePlugin::selectProfile()
 {
+	log(L_DEBUG, "CorePlugin::selectProfile()");
 	EventSaveState e;
 	e.process();
 	bool changed = init(false);
@@ -3146,7 +3148,7 @@ bool CorePlugin::init(bool bInit)
 
 	loadUnread();
 
-	m_main = new MainWindow(data.geometry);
+	m_main = new MainWindow(/*data.geometry*/);
 	m_view = new UserView;
 
 	if (!bNew)
@@ -3312,12 +3314,17 @@ QByteArray CorePlugin::getConfig()
 	setContainers(containers);
 	if (m_main)
 	{
-		saveGeometry(m_main, data.geometry);
+		//saveGeometry(m_main, data.geometry);
+		log(L_DEBUG, "Saving geometry");
+        setProperty("geometry", m_main->saveGeometry());
+        setProperty("toolbar_state", m_main->saveState());
+        /*
 		if (m_main->m_bar)
 		{
 			// Should update main toolbar pos only when toolbar is really exist...
 			saveToolbar(m_main->m_bar, data.toolBarState);
 		}
+        */
 	}
 
 	// We should save profile and noshow values in profile-independent _core config, and
@@ -3606,6 +3613,12 @@ QString CorePlugin::typeName(const QString &name)
 	if (!text.length())
 		log(L_DEBUG,"defText is empty!");
 	return text;
+}
+
+void CorePlugin::postInit()
+{
+    m_main->restoreGeometry(property("geometry").toByteArray());
+    m_main->restoreState(property("toolbar_state").toByteArray());
 }
 
 void CorePlugin::loadMenu()

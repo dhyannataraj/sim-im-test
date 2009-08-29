@@ -511,9 +511,12 @@ unsigned ICQBuffer::unpack(QByteArray &d, unsigned s)
         readn = s;
     d = QByteArray( data() + m_posRead, readn );
     unsigned size = d.size();
-    d.resize(size + 1);
-    d.data()[size] = '\0';
+    d.resize(size);
     m_posRead += readn;
+	if(d.endsWith((char)0))
+	{
+		d.chop(1);
+	}
     return readn;
 }
 

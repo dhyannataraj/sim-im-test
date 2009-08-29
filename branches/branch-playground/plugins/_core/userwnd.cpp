@@ -121,7 +121,7 @@ QString UserWnd::getName()
 QString UserWnd::getLongName()
 {
     QString res;
-    if (CorePlugin::m_plugin->getShowOwnerName() && !getContacts()->owner()->getName().isEmpty())
+    if (CorePlugin::m_plugin->property("ShowOwnerName").toBool() && !getContacts()->owner()->getName().isEmpty())
         res += getContacts()->owner()->getName();
     if (!res.isEmpty())
         res += " - ";

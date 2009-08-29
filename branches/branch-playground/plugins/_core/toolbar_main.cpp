@@ -48,7 +48,7 @@ void CorePlugin::createMainToolbar()
 
 	cmd->id          = CmdGroupToolbarButton;
 	cmd->text        = I18N_NOOP("&Groups");
-	cmd->icon        = getGroupMode() ? "grp_on" : "grp_off";
+	cmd->icon        = property("GroupMode").toUInt() ? "grp_on" : "grp_off";
 	cmd->icon_on     = QString::null;
 	cmd->bar_id      = ToolBarMain;
 	cmd->bar_grp     = 0x4000;
@@ -328,7 +328,7 @@ bool CorePlugin::updateMainToolbar(unsigned long commandID)
     Command cmd;
     cmd->id          = CmdGroupToolbarButton;
     cmd->text        = I18N_NOOP("&Groups");
-    cmd->icon        = getGroupMode() ? "grp_on" : "grp_off";
+    cmd->icon        = property("GroupMode").toUInt() ? "grp_on" : "grp_off";
     cmd->bar_id      = ToolBarMain;
     cmd->bar_grp     = 0x4000;
     cmd->menu_id     = 0;

@@ -31,7 +31,7 @@ using namespace std;
 using namespace SIM;
 const unsigned ErrorColor = 0xFF0101;
 
-SpellHighlighter::SpellHighlighter(Q3TextEdit *edit, SpellPlugin *plugin)
+SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
         : QSyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
 {
     m_paragraph = -1;
@@ -45,6 +45,10 @@ SpellHighlighter::~SpellHighlighter()
 {
 }
 
+void SpellHighlighter::highlightBlock(const QString&)
+{
+}
+
 int SpellHighlighter::highlightParagraph(const QString&, int state)
 {
     m_bDirty = false;
@@ -54,6 +58,7 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
         m_paragraph = state;
         m_words.clear();
     }
+	/*
     textEdit()->getCursorPosition(&m_parag, &m_index);
     m_pos = 0;
     m_bError = false;
@@ -65,6 +70,7 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     flushText();
     flush();
     m_curText = QString::null;
+	*/
     return state + 1;
 }
 
@@ -142,6 +148,7 @@ void SpellHighlighter::tag_end(const QString &tag)
 
 void SpellHighlighter::flush()
 {
+	/*
     if (m_curWord.isEmpty())
         return;
     SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", qPrintable(m_curWord), m_index, m_curStart, m_pos);
@@ -190,6 +197,7 @@ void SpellHighlighter::flush()
             emit check(m_curWord);
     }
     m_curWord.clear();
+	*/
 }
 
 void SpellHighlighter::slotMisspelling(const QString &word)
@@ -222,6 +230,7 @@ void SpellHighlighter::slotConfigChanged()
 
 bool SpellHighlighter::processEvent(SIM::Event *e)
 {
+	/*
     if (e->type() == SIM::eEventCheckCommandState){
         SIM::EventCheckCommandState *ecs = static_cast<SIM::EventCheckCommandState*>(e);
         SIM::CommandDef *cmd = ecs->cmd();
@@ -318,6 +327,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             }
         }
     }
+*/
     return false;
 }
 

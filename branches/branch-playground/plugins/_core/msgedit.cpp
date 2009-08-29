@@ -35,6 +35,7 @@
 #include "icons.h"
 #include "history.h"
 
+#include <algorithm>
 #include <QVBoxLayout>
 #include <QTimer>
 #include <Q3UriDrag>
@@ -158,7 +159,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
     m_edit->setBackground(QColor(255, 255, 255));
     m_edit->setForeground(QColor(CorePlugin::m_plugin->getEditForeground() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::m_plugin->editFont);
-    m_edit->setCtrlMode(!CorePlugin::m_plugin->getSendOnEnter());
+    m_edit->setCtrlMode(!CorePlugin::m_plugin->property("SendOnEnter").toBool());
     m_edit->setParam(this);
     setFocusProxy(m_edit);
 
@@ -968,7 +969,7 @@ void MsgEdit::stopSend(bool bCheck)
 void MsgEdit::modeChanged()
 {
     showCloseSend(CorePlugin::m_plugin->getContainerMode() != 0);
-    m_edit->setCtrlMode(CorePlugin::m_plugin->getSendOnEnter());
+    m_edit->setCtrlMode(CorePlugin::m_plugin->property("SendOnEnter").toBool());
 }
 
 bool MsgEdit::setType(unsigned type)

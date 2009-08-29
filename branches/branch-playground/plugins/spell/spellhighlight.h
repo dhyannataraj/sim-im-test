@@ -20,9 +20,9 @@
 
 #include <stack>
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <QSyntaxHighlighter.h>
+#include <QString>
+#include <QStringList>
+#include <QSyntaxHighlighter>
 
 #include "html.h"
 
@@ -30,19 +30,23 @@
 
 using std::stack;
 
-class SpellHighlighter : public QObject, public QSyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
+class SpellHighlighter : public QSyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    SpellHighlighter(Q3TextEdit *edit, SpellPlugin *m_plugin);
+    SpellHighlighter(QTextEdit *edit, SpellPlugin *m_plugin);
     ~SpellHighlighter();
+
+    virtual void highlightBlock(const QString&);
 signals:
     void check(const QString &);
+
 protected slots:
     void slotMisspelling(const QString &originalWord);
     void slotConfigChanged();
     void reformat();
     void restore();
+
 protected:
     MAP_BOOL m_words;
     int m_paragraph;

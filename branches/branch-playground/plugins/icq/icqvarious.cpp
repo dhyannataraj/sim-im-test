@@ -453,6 +453,7 @@ bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
             data->Address.str() = getContacts()->toUnicode(contact, Address);
             data->PrivateCellular.str() = getContacts()->toUnicode(contact, PrivateCellular);
             data->Zip.str() = getContacts()->toUnicode(contact, Zip);
+			log(L_DEBUG, "Address: %s(%s)", qPrintable(data->Address.str()), Address.toHex().data());
             b.unpack(n);
             data->Country.asULong() = n;
 

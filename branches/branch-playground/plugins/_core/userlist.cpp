@@ -75,16 +75,16 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     pv.height   = height();
     pv.margin   = 0;
     pv.isGroup  = (type() == GRP_ITEM);
-    if (CorePlugin::m_plugin->getUseSysColors()){
+    if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
         pp.setPen(cg.text());
     }else{
-        pp.setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
+        pp.setPen(QColor(CorePlugin::m_plugin->property("ColorOnline").toUInt()));
     }
     EventPaintView e(&pv);
     e.process();
     view->setStaticBackground(pv.isStatic);
     margin = pv.margin;
-    if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->getUseDblClick()){
+    if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->property("UseDblClick").toBool()){
         pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
         pp.setPen(cg.highlightedText());
     }
@@ -92,10 +92,10 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     pp.end();
     if (view->m_pressedItem == this){
         p->drawPixmap(QPoint(1, 1), bg);
-        if (CorePlugin::m_plugin->getUseSysColors()){
+        if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
             p->setPen(cg.text());
         }else{
-            p->setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
+            p->setPen(QColor(CorePlugin::m_plugin->property("ColorOnline").toUInt()));
         }
 		p->drawLine(0, 0, width - 1, 0);
 		p->drawLine(width - 1, 0, width - 1, height() -1);
@@ -1069,8 +1069,8 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text = i18n("Not in list");
         }
         int x = drawIndicator(p, 2 + margin, item, isGroupSelected(item->id()), cg);
-        if (!CorePlugin::m_plugin->getUseSysColors())
-            p->setPen(CorePlugin::m_plugin->getColorGroup());
+        if (!CorePlugin::m_plugin->property("UseSysColors").toBool())
+            p->setPen(CorePlugin::m_plugin->property("ColorGroup").toUInt());
         x = item->drawText(p, x, width, text);
         item->drawSeparator(p, x, width, cg);
         return;
@@ -1078,29 +1078,29 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
     if (base->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(base);
         int x = drawIndicator(p, 2 + margin, item, isSelected(item->id()), cg);
-        if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
-            if (CorePlugin::m_plugin->getUseSysColors()){
+        if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->property("UseDblClick").toBool()){
+            if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
                 if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                     p->setPen(palette().disabled().text());
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
-					p->setPen(CorePlugin::m_plugin->getColorOnline());
+					p->setPen(CorePlugin::m_plugin->property("ColorOnline").toUInt());
                     break;
                 case STATUS_FFC:
-					p->setPen(CorePlugin::m_plugin->getColorOnline());
+					p->setPen(CorePlugin::m_plugin->property("ColorOnline").toUInt());
                     break;
                 case STATUS_AWAY:
-                    p->setPen(CorePlugin::m_plugin->getColorAway());
+                    p->setPen(CorePlugin::m_plugin->property("ColorAway").toUInt());
                     break;
                 case STATUS_NA:
-                    p->setPen(CorePlugin::m_plugin->getColorNA());
+                    p->setPen(CorePlugin::m_plugin->property("ColorNA").toUInt());
                     break;
                 case STATUS_DND:
-                    p->setPen(CorePlugin::m_plugin->getColorDND());
+                    p->setPen(CorePlugin::m_plugin->property("ColorDND").toUInt());
                     break;
                 default:
-                    p->setPen(CorePlugin::m_plugin->getColorOffline());
+                    p->setPen(CorePlugin::m_plugin->property("ColorOffline").toUInt());
                     break;
                 }
             }

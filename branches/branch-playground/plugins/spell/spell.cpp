@@ -54,9 +54,11 @@ PSpellHighlighter::PSpellHighlighter(TextEdit *edit, SpellPlugin *plugin)
 
 PSpellHighlighter::~PSpellHighlighter()
 {
+	/*
     MAP_EDITS::iterator it = m_plugin->m_edits.find(static_cast<TextEdit*>(textEdit()));
     if (it != m_plugin->m_edits.end())
         m_plugin->m_edits.erase(it);
+		*/
 }
 
 SIM::Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)

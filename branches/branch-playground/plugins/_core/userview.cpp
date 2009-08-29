@@ -97,7 +97,7 @@ UserView::UserView() : UserListBase(NULL)
     EventAddWidget(this, true, EventAddWidget::eMainWindow).process();
     clear();
 
-    setGroupMode(CorePlugin::m_plugin->getGroupMode(), true);
+    setGroupMode(CorePlugin::m_plugin->property("GroupMode").toUInt(), true);
 
     edtGroup = new IntLineEdit(viewport());
     edtContact = new IntLineEdit(viewport());
@@ -234,8 +234,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 }
             }
         }
-        if (!CorePlugin::m_plugin->getUseSysColors())
-            p->setPen(CorePlugin::m_plugin->getColorGroup());
+        if (!CorePlugin::m_plugin->property("UseSysColors").toBool())
+            p->setPen(CorePlugin::m_plugin->property("ColorGroup").toUInt());
         QFont f(font());
         if (CorePlugin::m_plugin->getSmallGroupFont()){
             int size = f.pixelSize();
@@ -249,7 +249,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         f.setBold(true);
         p->setFont(f);
         x = item->drawText(p, x, width, text);
-        if (CorePlugin::m_plugin->getGroupSeparator())
+        if (CorePlugin::m_plugin->property("GroupSeparator").toBool())
             item->drawSeparator(p, x, width, cg);
         return;
     }
@@ -298,29 +298,29 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         if (x < 24)
             x = 24;
-        if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
-            if (CorePlugin::m_plugin->getUseSysColors()){
+        if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->property("UseDblClick").toBool()){
+            if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
                 if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                     p->setPen(palette().disabled().text());
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
-					p->setPen(CorePlugin::m_plugin->getColorOnline());
+					p->setPen(CorePlugin::m_plugin->property("ColorOnline").toUInt());
                     break;
                 case STATUS_FFC:
-                    p->setPen(CorePlugin::m_plugin->getColorOnline());
+                    p->setPen(CorePlugin::m_plugin->property("ColorOnline").toUInt());
                     break;
                 case STATUS_AWAY:
-                    p->setPen(CorePlugin::m_plugin->getColorAway());
+                    p->setPen(CorePlugin::m_plugin->property("ColorAway").toUInt());
                     break;
                 case STATUS_NA:
-                    p->setPen(CorePlugin::m_plugin->getColorNA());
+                    p->setPen(CorePlugin::m_plugin->property("ColorNA").toUInt());
                     break;
                 case STATUS_DND:
-                    p->setPen(CorePlugin::m_plugin->getColorDND());
+                    p->setPen(CorePlugin::m_plugin->property("ColorDND").toUInt());
                     break;
                 default:
-                    p->setPen(CorePlugin::m_plugin->getColorOffline());
+                    p->setPen(CorePlugin::m_plugin->property("ColorOffline").toUInt());
                     break;
                 }
             }
@@ -355,7 +355,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             QColor oldBg = p->background().color();
             p->setBackgroundMode(Qt::OpaqueMode);
             if (item == m_searchItem){
-                if ((item == currentItem()) && CorePlugin::m_plugin->getUseDblClick()){
+                if ((item == currentItem()) && CorePlugin::m_plugin->property("UseDblClick").toBool()){
                     p->setBackground(cg.highlightedText());
                     p->setPen(cg.highlight());
                 }else{
@@ -584,7 +584,7 @@ bool UserView::processEvent(Event *e)
             if (cmd->id == CmdGrpMode2)
                 setGroupMode(2);
             if (cmd->id == CmdGrpCreate){
-                if (CorePlugin::m_plugin->getGroupMode()){
+                if (CorePlugin::m_plugin->property("GroupMode").toUInt()){
                     /* Show empty groups because a new group is empty... */
                     CorePlugin::m_plugin->setProperty("ShowEmptyGroup", true);
                     m_bShowEmpty = true;
@@ -648,13 +648,13 @@ bool UserView::processEvent(Event *e)
             CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
-                if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->getGroupMode() == 0)) ||
-                        ((cmd->id == CmdGrpMode1) && (CorePlugin::m_plugin->getGroupMode() == 1)) ||
-                        ((cmd->id == CmdGrpMode2) && (CorePlugin::m_plugin->getGroupMode() == 2)) ||
+                if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->property("GroupMode").toUInt() == 0)) ||
+                        ((cmd->id == CmdGrpMode1) && (CorePlugin::m_plugin->property("GroupMode").toUInt() == 1)) ||
+                        ((cmd->id == CmdGrpMode2) && (CorePlugin::m_plugin->property("GroupMode").toUInt() == 2)) ||
                         ((cmd->id == CmdOnline) && CorePlugin::m_plugin->property("ShowOnLine").toBool()))
                     cmd->flags |= COMMAND_CHECKED;
                 if (cmd->id == CmdEmptyGroup){
-                    if (CorePlugin::m_plugin->getGroupMode() == 0)
+                    if (CorePlugin::m_plugin->property("GroupMode").toUInt() == 0)
                         return false;
                     if (CorePlugin::m_plugin->property("ShowEmptyGroup").toBool())
                         cmd->flags |= COMMAND_CHECKED;
@@ -807,7 +807,7 @@ bool UserView::processEvent(Event *e)
             }
             if (cmd->id == CmdGrpCreate) {
                 cmd->flags &= ~COMMAND_CHECKED;
-                return CorePlugin::m_plugin->getGroupMode() ? true : false;
+                return CorePlugin::m_plugin->property("GroupMode").toUInt() ? true : false;
             }
             break;
         }
@@ -920,9 +920,9 @@ void UserView::renameContact()
 
 void UserView::setGroupMode(unsigned mode, bool bFirst)
 {
-    if (!bFirst && (CorePlugin::m_plugin->getGroupMode() == mode))
+    if (!bFirst && (CorePlugin::m_plugin->property("GroupMode").toUInt() == mode))
         return;
-    CorePlugin::m_plugin->setGroupMode(mode);
+    CorePlugin::m_plugin->setProperty("GroupMode", mode);
     m_groupMode = mode;
     EventUpdateCommandState(CmdGroupToolbarButton).process();
     fill();
@@ -956,7 +956,7 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     Q3ListViewItem *item = m_pressedItem;
     UserListBase::contentsMouseReleaseEvent(e);
     if (item){
-        if (!CorePlugin::m_plugin->getUseDblClick()){
+        if (!CorePlugin::m_plugin->property("UseDblClick").toBool()){
             m_current = item;
             QTimer::singleShot(0, this, SLOT(doClick()));
         }
@@ -974,7 +974,7 @@ void UserView::doClick()
 {
     if (m_current == NULL)
         return;
-    if (m_current->isExpandable() && !CorePlugin::m_plugin->getUseDblClick()){
+    if (m_current->isExpandable() && !CorePlugin::m_plugin->property("UseDblClick").toBool()){
         m_current->setOpen(!m_current->isOpen());
     }else if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(m_current);
@@ -985,7 +985,7 @@ void UserView::doClick()
 
 void UserView::keyPressEvent(QKeyEvent *e)
 {
-    if (CorePlugin::m_plugin->getUseDblClick() || m_searchItem){
+    if (CorePlugin::m_plugin->property("UseDblClick").toBool() || m_searchItem){
         if (m_searchItem) {
 	    int store = 0;
 	    list<Q3ListViewItem*> items;
@@ -1269,7 +1269,7 @@ void UserView::unreadBlink()
             if (contact == NULL)
                 return;
             repaintItem(contact);
-            if (CorePlugin::m_plugin->getGroupMode() && !contact->parent()->isOpen()){
+            if (CorePlugin::m_plugin->property("GroupMode").toUInt() && !contact->parent()->isOpen()){
                 GroupItem *group = static_cast<GroupItem*>(contact->parent());
                 group->m_unread = contact->m_unread;
                 repaintItem(group);
@@ -1277,7 +1277,7 @@ void UserView::unreadBlink()
             }
         }
     }
-    if (CorePlugin::m_plugin->getGroupMode()){
+    if (CorePlugin::m_plugin->property("GroupMode").toUInt()){
         for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling()){
             resetUnread(item, grps);
         }

@@ -103,7 +103,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
         break;
     }
 #ifndef USE_KDE
-    QString cur = CorePlugin::m_plugin->getLang();
+    QString cur = CorePlugin::m_plugin->property("Lang").toString();
     cmbLang->insertItem(INT_MAX,i18n("System"));
     cmbLang->addItems(getLangItems());
     int nCurrent = 0;
@@ -125,7 +125,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     if (CorePlugin::m_plugin->getContainerMode()){
         grpMode->setButton(1);
         grpContainer->setButton(CorePlugin::m_plugin->getContainerMode() - 1);
-        chkEnter->setChecked(CorePlugin::m_plugin->getSendOnEnter());
+        chkEnter->setChecked(CorePlugin::m_plugin->property("SendOnEnter").toBool());
     }else{
         grpMode->setButton(0);
         grpContainer->setEnabled(false);
@@ -142,7 +142,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     lblCopy2->setText(copy2);
     spnCopy->setValue(CorePlugin::m_plugin->getCopyMessages());
     chkOwnerName->setText(i18n("Show own nickname in window title"));
-    chkOwnerName->setChecked(CorePlugin::m_plugin->getShowOwnerName());
+    chkOwnerName->setChecked(CorePlugin::m_plugin->property("ShowOwnerName").toBool());
     chkAvatar->setText(i18n("Show user avatar"));
     chkAvatar->setChecked(CorePlugin::m_plugin->getShowAvatarInContainer());
 #ifdef WIN32
@@ -239,18 +239,18 @@ void InterfaceConfig::apply()
         if (btnOne->isChecked())
             mode = 2;
         CorePlugin::m_plugin->setContainerMode(mode + 1);
-        CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());
+        CorePlugin::m_plugin->setProperty("SendOnEnter", chkEnter->isChecked());
         CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toULong());
     }else{
         CorePlugin::m_plugin->setContainerMode(0);
-        CorePlugin::m_plugin->setSendOnEnter(false);
+        CorePlugin::m_plugin->setProperty("SendOnEnter", false);
     }
-    CorePlugin::m_plugin->setShowOwnerName(chkOwnerName->isChecked());
+    CorePlugin::m_plugin->setProperty("ShowOwnerName", chkOwnerName->isChecked());
     CorePlugin::m_plugin->setShowAvatarInContainer(chkAvatar->isChecked());
 #ifndef USE_KDE
-    if (lang != CorePlugin::m_plugin->getLang()){
+    if (lang != CorePlugin::m_plugin->property("Lang").toString()){
         CorePlugin::m_plugin->removeTranslator();
-        CorePlugin::m_plugin->setLang(lang);
+        CorePlugin::m_plugin->setProperty("Lang", lang);
         CorePlugin::m_plugin->installTranslator();
     }
 #endif

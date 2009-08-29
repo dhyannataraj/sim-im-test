@@ -587,13 +587,16 @@ const unsigned NO_GROUP = 0x10000;
 void SearchDialog::searchClick()
 {
     if (m_bAdd){
-        if (CorePlugin::m_plugin->getGroupMode()){
+        if (CorePlugin::m_plugin->property("GroupMode").toUInt())
+        {
             EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
             eMenu.process();
             QMenu *popup = eMenu.menu();
             if (popup)
                 popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
-        }else{
+        }
+        else
+        {
             Command cmd;
             cmd->id = CmdContactGroup;
             cmd->menu_id = MenuSearchGroups;
@@ -737,7 +740,7 @@ void SearchDialog::enableOptions(bool bEnable)
 
 void SearchDialog::addClick()
 {
-    if (CorePlugin::m_plugin->getGroupMode()){
+    if (CorePlugin::m_plugin->property("GroupMode").toUInt()){
         EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
         eMenu.process();
         QMenu *popup = eMenu.menu();

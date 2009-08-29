@@ -63,27 +63,27 @@ struct CoreData
 {
     SIM::Data	ManualStatus;
 //    SIM::Data	StatusTime;
-    SIM::Data	Invisible;
-    SIM::Data	geometry[5];
-    SIM::Data	toolBarState[7];
-    SIM::Data	Buttons;
-    SIM::Data	Menues;
-    SIM::Data	GroupMode;
-    SIM::Data	UseDblClick;
-    SIM::Data	UseSysColors;
-    SIM::Data	ColorOnline;
-    SIM::Data	ColorOffline;
-    SIM::Data	ColorAway;
-    SIM::Data	ColorNA;
-    SIM::Data	ColorDND;
-    SIM::Data	ColorGroup;
-    SIM::Data	GroupSeparator;
-    SIM::Data	Lang;
+//    SIM::Data	Invisible;
+//    SIM::Data	geometry[5];
+//    SIM::Data	toolBarState[7];
+//    SIM::Data	Buttons;
+//    SIM::Data	Menues;
+//    SIM::Data	GroupMode;
+//    SIM::Data	UseDblClick;
+//    SIM::Data	UseSysColors;
+//    SIM::Data	ColorOnline;
+//    SIM::Data	ColorOffline;
+//    SIM::Data	ColorAway;
+//    SIM::Data	ColorNA;
+//    SIM::Data	ColorDND;
+//    SIM::Data	ColorGroup;
+//    SIM::Data	GroupSeparator;
+//    SIM::Data	Lang;
     SIM::Data	ContainerMode;
-    SIM::Data	SendOnEnter;
-    SIM::Data	ShowOwnerName;
-    SIM::Data	ContainerGeometry[5];
-    SIM::Data	ContainerBar[7];
+//    SIM::Data	SendOnEnter;
+//    SIM::Data	ShowOwnerName;
+//    SIM::Data	ContainerGeometry[5];
+//    SIM::Data	ContainerBar[7];
     SIM::Data	ContainerStatusSize;
     SIM::Data	Containers;
     SIM::Data	Container;
@@ -258,25 +258,25 @@ public:
     void setManualStatus(unsigned long status);
     unsigned long getManualStatus() { return data.ManualStatus.toULong(); }
 //    PROP_ULONG(StatusTime)
-    PROP_BOOL(Invisible)
-    PROP_STRLIST(Buttons)
-    PROP_STRLIST(Menues)
-    PROP_ULONG(GroupMode)
-    PROP_BOOL(UseDblClick)
-    PROP_BOOL(UseSysColors)
-    PROP_ULONG(ColorOnline)
-    PROP_ULONG(ColorOffline)
-    PROP_ULONG(ColorAway)
-    PROP_ULONG(ColorNA)
-    PROP_ULONG(ColorDND)
-    PROP_ULONG(ColorGroup)
-    PROP_BOOL(GroupSeparator)
-    PROP_STR(Lang);
+//    PROP_BOOL(Invisible)
+//    PROP_STRLIST(Buttons)
+//    PROP_STRLIST(Menues)
+//    PROP_ULONG(GroupMode)
+//    PROP_BOOL(UseDblClick)
+//    PROP_BOOL(UseSysColors)
+//    PROP_ULONG(ColorOnline)
+//    PROP_ULONG(ColorOffline)
+//    PROP_ULONG(ColorAway)
+//    PROP_ULONG(ColorNA)
+//    PROP_ULONG(ColorDND)
+//    PROP_ULONG(ColorGroup)
+//    PROP_BOOL(GroupSeparator)
+//    PROP_STR(Lang);
     //    PROP_ULONG(ContainerMode);
     unsigned getContainerMode();
     void setContainerMode(unsigned);
-    PROP_BOOL(SendOnEnter);
-    PROP_BOOL(ShowOwnerName);
+//    PROP_BOOL(SendOnEnter);
+//    PROP_BOOL(ShowOwnerName);
     PROP_ULONG(ContainerStatusSize);
     PROP_STR(Containers);
     PROP_STRLIST(Container);
@@ -351,6 +351,7 @@ protected slots:
     void alertFinished();
     void focusDestroyed();
     void showMain();
+	void postInit();
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual QByteArray getConfig();
