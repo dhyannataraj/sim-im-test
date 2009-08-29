@@ -21,7 +21,7 @@
 #include <QBitmap>
 #include <QFrame>
 #include <QImage>
-#include <QCheckbox>
+#include <QCheckBox>
 #include <QLayout>
 #include <QPainter>
 #include <QPushButton>

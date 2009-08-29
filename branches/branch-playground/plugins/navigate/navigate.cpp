@@ -477,7 +477,7 @@ bool NavigatePlugin::processEvent(Event *e)
         }else{
             param = property("Browser").toString();
 			QUrl qurl(url);
-			QString encodedUrl = qurl.toString(true, false);
+			QString encodedUrl = qurl.toString();
 			url = encodedUrl;
         }
 		QStringList ul;
