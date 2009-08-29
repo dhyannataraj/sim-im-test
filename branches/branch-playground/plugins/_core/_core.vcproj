@@ -12,6 +12,12 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\sim\win32\uic.rules"
+		/>
+		<ToolFile
+			RelativePath="..\..\sim\win32\ts.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -29,7 +35,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="Uic"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="TS"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -120,7 +132,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="Uic"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="TS"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -3677,491 +3695,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="po"
-			Filter="po"
-			>
-			<File
-				RelativePath="..\..\po\bg.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\ca.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\cs.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\de.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\el.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\es.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\fr.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\he.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\hu.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\it.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\nl.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\pl.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\pt_BR.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\ru.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\sk.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\sv.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\sw.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\th.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\tr.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\po\uk.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
 			Name="Pict"
 			Filter="gif"
 			>
@@ -4523,7 +4056,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\styles\$(InputFileName)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\styles\$(InputFileName)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\styles\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -4547,7 +4080,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\styles\$(InputFileName)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\styles\$(InputFileName)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\styles\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -5378,6 +4911,94 @@
 			</File>
 			<File
 				RelativePath=".\GPL-Icons\yahoo_online.png"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="ts"
+			>
+			<File
+				RelativePath="..\..\ts\bg.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\ca.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\cs.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\de.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\el.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\es.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\fr.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\he.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\hu.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\it.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\nl.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\pl.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\pt_BR.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\ru.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\sk.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\sv.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\sw.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\th.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\tr.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\uk.ts"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ts\zh_TW.ts"
 				>
 			</File>
 		</Filter>

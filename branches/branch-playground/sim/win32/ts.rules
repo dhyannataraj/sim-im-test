@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualStudioToolFile
-	Name="User Interface Compiler"
+	Name="QT - Translation Release"
 	Version="8,00"
 	>
 	<Rules>
 		<CustomBuildRule
 			Name="TS"
 			DisplayName="QT - Translation Release"
-			CommandLine="%qtdir%\bin\lrelease de.ts -qm $(InputPath)\ts\$(InputName).qm"
-			Outputs="$(ConfigurationName)\ts\$(InputName).qm"
+			CommandLine="%qtdir%\bin\lrelease $(InputPath) -qm $(InputName).qm&#x0D;&#x0A;move $(InputName).qm $(OutDir)\ts\$(InputName).qm"
+			Outputs="$(OutDir)\ts\$(InputName).qm"
 			FileExtensions="*.ts"
 			ExecutionDescription="Translation of $(InputName) is beeing processed..."
 			>

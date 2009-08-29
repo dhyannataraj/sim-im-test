@@ -860,7 +860,7 @@ QString CorePlugin::poFile(const QString &lang)
 {
 #if defined( WIN32 ) || defined( __OS2__ )
 	// lang is ascii, so this works fine
-	QString s = "po\\" + lang.toLower() + ".qm";
+	QString s = "ts\\" + lang.toLower() + ".qm";
 	QFile f(app_file(s));
 	if (!f.exists())
 		return QString();
