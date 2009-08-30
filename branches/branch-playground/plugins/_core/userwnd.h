@@ -67,7 +67,7 @@ signals:
 protected slots:
     void modeChanged();
     void editHeightChanged(int);
-    void toolbarChanged(QToolBar*);
+    void toolbarChanged(bool);
     void selectChanged();
 protected:
     PROP_ULONG(EditHeight);

@@ -78,7 +78,7 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
 	m_bBarChanged = false;
 	m_splitter->addWidget(m_edit);
 
-	connect(m_edit, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
 	connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 	connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
 	modeChanged();
@@ -222,7 +222,7 @@ void UserWnd::editHeightChanged(int h)
     }
 }
 
-void UserWnd::toolbarChanged(QToolBar*)
+void UserWnd::toolbarChanged(bool)
 {
     if (m_bBarChanged)
         return;

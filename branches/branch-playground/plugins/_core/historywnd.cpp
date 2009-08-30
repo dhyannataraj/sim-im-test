@@ -102,7 +102,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_bar = eHistoryBar.toolBar();
     m_bar->setParam((void*)m_id);
     restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
-    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    connect(m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
     addToolBar(m_bar);
     m_status = statusBar();
     m_progress = NULL;
