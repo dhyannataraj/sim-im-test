@@ -85,7 +85,10 @@ QString i18n(const char *comment, const char *text)
     s += '\n';
     s += text;
 
-    return i18n(s.constData());
+    QString sResult = i18n(s.constData());
+    if(sResult == s)
+        return text;
+    return sResult;
 }
 
 
