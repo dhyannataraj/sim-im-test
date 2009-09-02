@@ -194,7 +194,7 @@ void StdResolver::run()
 	} 
 	m_addr = inet_addr(inet_ntoa(*(struct in_addr*)server_entry->h_addr_list[0]));
 	m_done = true;
-    QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+    QTimer::singleShot(0, parent(), SLOT(resultsReady())); //FIXME parent() crash, because returned pointer is broken sometimes. :((
 }
 
 void StdResolver::timeout()

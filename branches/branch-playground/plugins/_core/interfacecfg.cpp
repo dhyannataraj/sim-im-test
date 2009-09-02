@@ -127,11 +127,11 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     if (CorePlugin::m_plugin->getContainerMode())
     {
         optChat->setChecked(true);
-        if (CorePlugin::m_plugin->getContainerMode()==0)
-            optNew->setChecked(true);
         if (CorePlugin::m_plugin->getContainerMode()==1)
-            optGroup->setChecked(true);
+            optNew->setChecked(true);
         if (CorePlugin::m_plugin->getContainerMode()==2)
+            optGroup->setChecked(true);
+        if (CorePlugin::m_plugin->getContainerMode()==3)
             optOne->setChecked(true);
         chkEnter->setChecked(CorePlugin::m_plugin->property("SendOnEnter").toBool());
     }
@@ -219,7 +219,7 @@ void InterfaceConfig::setChatMode(bool)
     disconnectControls();
     grpContainer->setEnabled(true);
     optNew->setChecked(true);
-    CorePlugin::m_plugin->setContainerMode(0);
+    //CorePlugin::m_plugin->setContainerMode(3);
     chkEnter->setChecked(false);
     connectControls();
 }
@@ -229,7 +229,7 @@ void InterfaceConfig::setOpenEachContactInContainer(bool)
     disconnectControls();
     grpContainer->setEnabled(true);
     optNew->setChecked(true);
-    CorePlugin::m_plugin->setContainerMode(0);
+    //CorePlugin::m_plugin->setContainerMode(1);
     chkEnter->setChecked(false);
     connectControls();
 }
@@ -238,7 +238,7 @@ void InterfaceConfig::setOpenGroupInContainer(bool)
 {
     disconnectControls();
     optGroup->setChecked(true);
-    CorePlugin::m_plugin->setContainerMode(1);
+    //CorePlugin::m_plugin->setContainerMode(2);
     chkEnter->setChecked(false);
     connectControls();
 
@@ -248,7 +248,7 @@ void InterfaceConfig::setOpenAllContactsInOneContainer(bool)
 {
     disconnectControls();
     optOne->setChecked(true);
-    CorePlugin::m_plugin->setContainerMode(2);
+    //CorePlugin::m_plugin->setContainerMode(3);
     chkEnter->setChecked(false);
     connectControls();
 }
@@ -327,22 +327,26 @@ void InterfaceConfig::apply()
         }
     }
 #endif
-    if (optChat->isChecked())
+    int mode = 0;
+    if (optSimple->isChecked())
     {
-        int mode = 0;
-        if (optGroup->isChecked())
-            mode = 1;
-        if (optOne->isChecked())
-            mode = 2;
-        CorePlugin::m_plugin->setContainerMode(mode + 1);
-        CorePlugin::m_plugin->setProperty("SendOnEnter", chkEnter->isChecked());
-        CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toULong());
+        CorePlugin::m_plugin->setContainerMode(mode);
+        CorePlugin::m_plugin->setProperty("SendOnEnter", false);
     }
     else
     {
-        CorePlugin::m_plugin->setContainerMode(0);
-        CorePlugin::m_plugin->setProperty("SendOnEnter", false);
+        
+        if (optNew->isChecked())
+            mode = 1;
+        if (optGroup->isChecked())
+            mode = 2;
+        if (optOne->isChecked())
+            mode = 3;
+        CorePlugin::m_plugin->setContainerMode(mode);
+        CorePlugin::m_plugin->setProperty("SendOnEnter", chkEnter->isChecked());
+        CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toULong());
     }
+
     CorePlugin::m_plugin->setProperty("ShowOwnerName", chkOwnerName->isChecked());
     CorePlugin::m_plugin->setShowAvatarInContainer(chkAvatar->isChecked());
 #ifndef USE_KDE
