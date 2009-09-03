@@ -85,7 +85,7 @@ static language langs[] =
 InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
-    connect(CorePlugin::m_plugin,SIGNAL(modeChanged(int)), this, SLOT( modeChanged(int)));
+    connectControls();
 
     for(QObject *p = parent; p != NULL; p = p->parent())
 	{
@@ -209,7 +209,6 @@ void InterfaceConfig::modeChanged(int mode)
 void InterfaceConfig::setSimpleMode(bool)
 {
     disconnectControls();
-    optSimple->setChecked(true);
     grpContainer->setEnabled(false);
     connectControls();
 }
@@ -218,8 +217,6 @@ void InterfaceConfig::setChatMode(bool)
 {
     disconnectControls();
     grpContainer->setEnabled(true);
-    optNew->setChecked(true);
-    //CorePlugin::m_plugin->setContainerMode(3);
     chkEnter->setChecked(false);
     connectControls();
 }
