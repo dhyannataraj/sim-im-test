@@ -1496,11 +1496,11 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
 	unsigned long test_ip = 0;
 
 	if (tlv(2))
-		test_ip = htonl((uint32_t)(*tlv(2)));
+		test_ip = ((uint32_t)(*tlv(2)));
     if (tlv(3))
-        real_ip = htonl((uint32_t)(*tlv(3)));
+        real_ip = ((uint32_t)(*tlv(3)));
     if (tlv(4))
-        ip = htonl((uint32_t)(*tlv(4)));
+        ip = ((uint32_t)(*tlv(4)));
     if (tlv(5))
         port = (*tlv(5));
 
