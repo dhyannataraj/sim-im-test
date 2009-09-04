@@ -226,7 +226,6 @@ void InterfaceConfig::setOpenEachContactInContainer(bool)
     disconnectControls();
     grpContainer->setEnabled(true);
     optNew->setChecked(true);
-    //CorePlugin::m_plugin->setContainerMode(1);
     chkEnter->setChecked(false);
     connectControls();
 }
@@ -235,7 +234,6 @@ void InterfaceConfig::setOpenGroupInContainer(bool)
 {
     disconnectControls();
     optGroup->setChecked(true);
-    //CorePlugin::m_plugin->setContainerMode(2);
     chkEnter->setChecked(false);
     connectControls();
 
@@ -245,7 +243,6 @@ void InterfaceConfig::setOpenAllContactsInOneContainer(bool)
 {
     disconnectControls();
     optOne->setChecked(true);
-    //CorePlugin::m_plugin->setContainerMode(3);
     chkEnter->setChecked(false);
     connectControls();
 }
