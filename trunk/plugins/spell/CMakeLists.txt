@@ -21,7 +21,7 @@ IF(ASPELL_FOUND AND NOT ENABLE_KDE3)
     # spell library #
     #################
 
-    SET(spell_LIBS
+    SET(spell_LIBS_COMMON
             ${ASPELL_LIBRARIES}
     )
 
