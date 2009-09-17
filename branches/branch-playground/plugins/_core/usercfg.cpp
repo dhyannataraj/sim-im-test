@@ -583,8 +583,10 @@ void UserConfig::accept()
 void UserConfig::resizeEvent(QResizeEvent *e)
 {
     QDialog::resizeEvent(e);
+	/*
     if (isVisible()){
         CorePlugin::m_plugin->data.CfgGeometry[WIDTH].asLong() = width();
         CorePlugin::m_plugin->data.CfgGeometry[HEIGHT].asLong() = height();
     }
+	*/
 }

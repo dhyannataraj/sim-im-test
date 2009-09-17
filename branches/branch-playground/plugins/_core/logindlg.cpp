@@ -97,11 +97,11 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
 	connect(cmbProfile, SIGNAL(activated(int)), this, SLOT(profileChanged(int)));
 	connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
 	connect(btnRename, SIGNAL(clicked()), this, SLOT(profileRename()));
-    profileChanged(cmbProfile->currentIndex());
 
     labelNew->hide();
-    lineEditNew->hide();
-    connect(lineEditNew,SIGNAL(textChanged(const QString&)),SLOT(newNameChanged(const QString&)));
+    e_newName->hide();
+    profileChanged(cmbProfile->currentIndex());
+    connect(e_newName,SIGNAL(textChanged(const QString&)),SLOT(newNameChanged(const QString&)));
 
     cmbProfile->setFocus();
 
@@ -163,11 +163,12 @@ void LoginDialog::accept()
 	{
 		m_profile = QString::null;
 		m_newProfile = true;
-        m_newProfileName = lineEditNew->text();
+        m_newProfileName = e_newName->text();
         if(!ProfileManager::instance()->newProfile(m_newProfileName)) {
             QMessageBox::information(NULL, i18n("Create Profile"), i18n("Error while creating a new profile"), QMessageBox::Ok);
             return;
         }
+        ProfileManager::instance()->selectProfile(m_newProfileName);
 		QDialog::accept();
 		return;
 	}
@@ -265,18 +266,19 @@ void LoginDialog::profileChanged(int)
 	if (n >= (int)cmbProfile->count() - 1)
 	{
         groupBoxPasswords->hide();
-        labelNew->show();
-        lineEditNew->show();
-        newNameChanged( lineEditNew->text() );
         clearInputs();
+		buttonOk->setEnabled(true);
 		btnDelete->setEnabled(false);
 		btnRename->hide();
+        labelNew->show();
+        e_newName->show();
+        newNameChanged(e_newName->text());
     }
 	else
 	{
 		btnRename->show();
         labelNew->hide();
-        lineEditNew->hide();
+        e_newName->hide();
         clearInputs();
 		ClientList clients;
 		CorePlugin::m_plugin->loadClients(cmbProfile->currentText(), clients);
@@ -399,7 +401,7 @@ void LoginDialog::fill()
 		if(cmbProfile->itemText(i) == profile)
 			newCur = i;
 	}
-    cmbProfile->insertItem(INT_MAX,i18n("New profile"));
+    cmbProfile->insertItem(INT_MAX, i18n("New profile"));
 	if (newCur != - 1)
 	{
         cmbProfile->setCurrentIndex(newCur);

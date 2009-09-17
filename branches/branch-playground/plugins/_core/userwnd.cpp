@@ -64,9 +64,10 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
 	m_splitter = new QSplitter(Qt::Vertical, this);
 	m_list = NULL;
 	m_view = NULL;
-
+/*
 	if (cfg == NULL)
 		copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
+		*/
 
 	m_bBarChanged = true;
 	if (CorePlugin::m_plugin->getContainerMode())
@@ -195,7 +196,7 @@ void UserWnd::modeChanged()
         m_view->show();
         int editHeight = getEditHeight();
         if (editHeight == 0)
-            editHeight = CorePlugin::m_plugin->getEditHeight();
+            editHeight = CorePlugin::m_plugin->property("EditHeight").toInt(); //getEditHeight();
         if (editHeight){
             QList<int> s;
             s.append(1);
@@ -218,7 +219,7 @@ void UserWnd::editHeightChanged(int h)
 {
     if (!m_bResize && CorePlugin::m_plugin->getContainerMode()){
         setEditHeight(h);
-        CorePlugin::m_plugin->setEditHeight(h);
+        CorePlugin::m_plugin->setProperty("EditHeight", h);
     }
 }
 
@@ -226,8 +227,8 @@ void UserWnd::toolbarChanged(bool)
 {
     if (m_bBarChanged)
         return;
-    saveToolbar(m_edit->m_bar, data.editBar);
-    copyData(CorePlugin::m_plugin->data.EditBar, data.editBar, 7);
+    //saveToolbar(m_edit->m_bar, data.editBar);
+    //copyData(CorePlugin::m_plugin->data.EditBar, data.editBar, 7);
 }
 
 unsigned UserWnd::type()

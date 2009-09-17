@@ -229,27 +229,27 @@ void FloatyWnd::setFont(QPainter *p)
 {
     QFont f(font());
     if (m_style & CONTACT_ITALIC){
-        if (m_plugin->core->getVisibleStyle()  & STYLE_ITALIC)
+        if (m_plugin->core->property("VisibleStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (m_plugin->core->getVisibleStyle()  & STYLE_UNDER)
+        if (m_plugin->core->property("VisibleStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (m_plugin->core->getVisibleStyle()  & STYLE_STRIKE)
+        if (m_plugin->core->property("VisibleStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_style & CONTACT_UNDERLINE){
-        if (m_plugin->core->getAuthStyle()  & STYLE_ITALIC)
+        if (m_plugin->core->property("AuthStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (m_plugin->core->getAuthStyle()  & STYLE_UNDER)
+        if (m_plugin->core->property("AuthStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (m_plugin->core->getAuthStyle()  & STYLE_STRIKE)
+        if (m_plugin->core->property("AuthStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_style & CONTACT_STRIKEOUT){
-        if (m_plugin->core->getInvisibleStyle()  & STYLE_ITALIC)
+        if (m_plugin->core->property("InvisibleStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (m_plugin->core->getInvisibleStyle()  & STYLE_UNDER)
+        if (m_plugin->core->property("InvisibleStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (m_plugin->core->getInvisibleStyle()  & STYLE_STRIKE)
+        if (m_plugin->core->property("InvisibleStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_blink & 1){

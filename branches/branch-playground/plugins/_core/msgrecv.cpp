@@ -52,9 +52,9 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
             p = msg->getRichText();
         EventAddHyperlinks e(p);
         e.process();
-        p = MsgViewBase::parseText(e.text(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        p = MsgViewBase::parseText(e.text(), CorePlugin::m_plugin->property("OwnColors").toBool(), CorePlugin::m_plugin->property("UseSmiles").toBool());
         m_edit->m_edit->setText(p);
-        if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
+        if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->property("OwnColors").toBool()){
             m_edit->m_edit->setBackground(msg->getBackground());
             m_edit->m_edit->setForeground(msg->getForeground(), true);
         }

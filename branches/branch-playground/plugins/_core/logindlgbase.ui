@@ -78,18 +78,14 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="_6">
-     <item>
-      <widget class="QLabel" name="labelNew">
-       <property name="text">
-        <string>New profile name:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditNew"/>
-     </item>
-    </layout>
+    <widget class="QLabel" name="labelNew">
+     <property name="text">
+      <string>New profile name:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="e_newName"/>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBoxPasswords">
@@ -189,7 +185,6 @@
   <tabstop>cmbProfile</tabstop>
   <tabstop>btnRename</tabstop>
   <tabstop>btnDelete</tabstop>
-  <tabstop>lineEditNew</tabstop>
   <tabstop>chkSave</tabstop>
  </tabstops>
  <resources/>

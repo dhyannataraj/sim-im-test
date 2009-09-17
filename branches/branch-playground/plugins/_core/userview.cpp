@@ -77,7 +77,7 @@ UserView::UserView() : UserListBase(NULL)
 
     setTreeStepSize(0);
 
-    setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
+    setVScrollBarMode(CorePlugin::m_plugin->property("NoScroller").toBool() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
     setHScrollBarMode(Q3ScrollView::AlwaysOff);
 
     blinkTimer = new QTimer(this);
@@ -158,7 +158,7 @@ int UserView::heightItem(UserViewItemBase *base)
     QFont f(font());
     int h = 0;
     if (base->type() == GRP_ITEM){
-        if (CorePlugin::m_plugin->getSmallGroupFont()){
+        if (CorePlugin::m_plugin->property("SmallGroupFont").toBool()){
             int size = f.pixelSize();
             if (size <= 0){
                 size = f.pointSize();
@@ -237,7 +237,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!CorePlugin::m_plugin->property("UseSysColors").toBool())
             p->setPen(CorePlugin::m_plugin->property("ColorGroup").toUInt());
         QFont f(font());
-        if (CorePlugin::m_plugin->getSmallGroupFont()){
+        if (CorePlugin::m_plugin->property("SmallGroupFont").toBool()){
             int size = f.pixelSize();
             if (size <= 0){
                 size = f.pointSize();
@@ -257,27 +257,27 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         ContactItem *item = static_cast<ContactItem*>(base);
         QFont f(font());
         if (item->style() & CONTACT_ITALIC){
-            if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_ITALIC)
+            if (CorePlugin::m_plugin->property("VisibleStyle").toUInt()  & STYLE_ITALIC)
                 f.setItalic(true);
-            if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_UNDER)
+            if (CorePlugin::m_plugin->property("VisibleStyle").toUInt()  & STYLE_UNDER)
                 f.setUnderline(true);
-            if (CorePlugin::m_plugin->getVisibleStyle()  & STYLE_STRIKE)
+            if (CorePlugin::m_plugin->property("VisibleStyle").toUInt()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
         if (item->style() & CONTACT_UNDERLINE){
-            if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_ITALIC)
+            if (CorePlugin::m_plugin->property("AuthStyle").toUInt()  & STYLE_ITALIC)
                 f.setItalic(true);
-            if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_UNDER)
+            if (CorePlugin::m_plugin->property("AuthStyle").toUInt()  & STYLE_UNDER)
                 f.setUnderline(true);
-            if (CorePlugin::m_plugin->getAuthStyle()  & STYLE_STRIKE)
+            if (CorePlugin::m_plugin->property("AuthStyle").toUInt()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
         if (item->style() & CONTACT_STRIKEOUT){
-            if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_ITALIC)
+            if (CorePlugin::m_plugin->property("InvisibleStyle").toUInt()  & STYLE_ITALIC)
                 f.setItalic(true);
-            if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_UNDER)
+            if (CorePlugin::m_plugin->property("InvisibleStyle").toUInt()  & STYLE_UNDER)
                 f.setUnderline(true);
-            if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
+            if (CorePlugin::m_plugin->property("InvisibleStyle").toUInt()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
         QString icons = item->text(CONTACT_ICONS);
@@ -392,7 +392,7 @@ bool UserView::processEvent(Event *e)
     switch (e->type())
 	{
     case eEventRepaintView:
-        setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
+        setVScrollBarMode(CorePlugin::m_plugin->property("NoScroller").toBool() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
         break;
     case eEventInit:
         m_bInit = true;
@@ -448,7 +448,7 @@ bool UserView::processEvent(Event *e)
                             QRect rc = itemRect(item);
                             QPoint p = viewport()->mapToGlobal(rc.topLeft());
                             rc = QRect(p.x(), p.y(), rc.width(), rc.height());
-                            m_bRemoveHistory = CorePlugin::m_plugin->getRemoveHistory();
+                            m_bRemoveHistory = CorePlugin::m_plugin->property("RemoveHistory").toBool();
                             BalloonMsg::ask((void*)contact->id(),
                                             i18n("Delete \"%1\"?") .arg(contact->getName()),
                                             this, SLOT(deleteContact(void*)), NULL, &rc, NULL,
@@ -864,7 +864,7 @@ void UserView::deleteContact(void *p)
        }
     } while (!no_more_messages_flag);
 
-    CorePlugin::m_plugin->setRemoveHistory(m_bRemoveHistory);
+    CorePlugin::m_plugin->setProperty("RemoveHistory", m_bRemoveHistory);
     if (!m_bRemoveHistory)
         contact->setFlags(contact->getFlags() | CONTACT_NOREMOVE_HISTORY);
     delete contact;

@@ -206,17 +206,17 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
         //: HistoryConfigBase(parent)
 {
 	setupUi(this);
-    chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
-    chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
-    chkExtViewer->setChecked(CorePlugin::m_plugin->getUseExtViewer());
-    edtExtViewer->setText(CorePlugin::m_plugin->getExtViewer());
-    chkAvatar->setChecked(CorePlugin::m_plugin->getShowAvatarInHistory());
+    chkOwn->setChecked(CorePlugin::m_plugin->property("OwnColors").toBool());
+    chkSmile->setChecked(CorePlugin::m_plugin->property("UseSmiles").toBool());
+    chkExtViewer->setChecked(CorePlugin::m_plugin->property("UseExtViewer").toBool());
+    edtExtViewer->setText(CorePlugin::m_plugin->property("ExtViewer").toString());
+    chkAvatar->setChecked(CorePlugin::m_plugin->property("ShowAvatarInHistory").toBool());
     m_cur = -1;
     cmbPage->setEditable(true);
     m_bDirty = false;
     QLineEdit *edit = cmbPage->lineEdit();
     edit->setValidator(new QIntValidator(1, 10000, edit));
-    edit->setText(QString::number(CorePlugin::m_plugin->getHistoryPage()));
+    edit->setText(QString::number(CorePlugin::m_plugin->property("HistoryPage").toUInt()));
     QString str1 = i18n("Show %1 messages per page");
     QString str2;
     int n = str1.indexOf("%1");
@@ -246,7 +246,7 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
 #else
     addStyles(app_file(STYLES), false);
 #endif
-    fillCombo(CorePlugin::m_plugin->getHistoryStyle());
+    fillCombo(CorePlugin::m_plugin->property("HistoryStyle").toString());
     connect(cmbStyle, SIGNAL(activated(int)), this, SLOT(styleSelected(int)));
     connect(btnCopy, SIGNAL(clicked()), this, SLOT(copy()));
     connect(btnRename, SIGNAL(clicked()), this, SLOT(rename()));
@@ -320,31 +320,31 @@ void HistoryConfig::apply()
     int cur = cmbStyle->currentIndex();
     if ((cur >= 0) && m_styles.size() &&
             (m_styles[cur].bChanged ||
-             (m_styles[cur].name != CorePlugin::m_plugin->getHistoryStyle()))){
-        CorePlugin::m_plugin->setHistoryStyle(m_styles[cur].name);
+             (m_styles[cur].name != CorePlugin::m_plugin->property("HistoryStyle").toString()))){
+        CorePlugin::m_plugin->setProperty("HistoryStyle", m_styles[cur].name);
         bChanged = true;
         delete CorePlugin::m_plugin->historyXSL;
         CorePlugin::m_plugin->historyXSL = new XSL(m_styles[cur].name);
     }
 
-    if (chkOwn->isChecked() != CorePlugin::m_plugin->getOwnColors()){
+    if (chkOwn->isChecked() != CorePlugin::m_plugin->property("OwnColors").toBool()){
         bChanged = true;
-        CorePlugin::m_plugin->setOwnColors(chkOwn->isChecked());
+        CorePlugin::m_plugin->setProperty("OwnColors", chkOwn->isChecked());
     }
-    if (chkSmile->isChecked() != CorePlugin::m_plugin->getUseSmiles()){
+    if (chkSmile->isChecked() != CorePlugin::m_plugin->property("UseSmiles").toBool()){
         bChanged = true;
-        CorePlugin::m_plugin->setUseSmiles(chkSmile->isChecked());
+        CorePlugin::m_plugin->setProperty("UseSmiles", chkSmile->isChecked());
     }
-    if (chkExtViewer->isChecked() != CorePlugin::m_plugin->getUseExtViewer()){
+    if (chkExtViewer->isChecked() != CorePlugin::m_plugin->property("UseExtViewer").toBool()){
         bChanged = true;
-        CorePlugin::m_plugin->setUseExtViewer(chkExtViewer->isChecked());
+        CorePlugin::m_plugin->setProperty("UseExtViewer", chkExtViewer->isChecked());
     }
-    if (chkAvatar->isChecked() != CorePlugin::m_plugin->getShowAvatarInHistory()){
+    if (chkAvatar->isChecked() != CorePlugin::m_plugin->property("ShowAvatarInHistory").toBool()){
         bChanged = true;
-        CorePlugin::m_plugin->setShowAvatarInHistory(chkAvatar->isChecked());
+        CorePlugin::m_plugin->setProperty("ShowAvatarInHistory", chkAvatar->isChecked());
     }
-    CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().toLocal8Bit());
-    CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toULong());
+    CorePlugin::m_plugin->setProperty("ExtViewer", edtExtViewer->text().toLocal8Bit());
+    CorePlugin::m_plugin->setProperty("HistoryPage", (uint)cmbPage->lineEdit()->text().toULong());
     if (bChanged){
         EventHistoryConfig(0).process();
     }
@@ -525,7 +525,7 @@ void HistoryConfig::realDelete()
     n += EXT;
     n = user_file(n);
     QFile::remove(n);
-    fillCombo(CorePlugin::m_plugin->getHistoryStyle());
+    fillCombo(CorePlugin::m_plugin->property("HistoryStyle").toString());
 }
 
 void HistoryConfig::rename()
@@ -662,10 +662,10 @@ void HistoryConfig::fillPreview()
     edtPreview->clear();
     edtPreview->setXSL(xsl);
     time_t now = time(NULL);
-    bool saveSmiles = CorePlugin::m_plugin->getUseSmiles();
-    bool saveOwn    = CorePlugin::m_plugin->getOwnColors();
-    CorePlugin::m_plugin->setUseSmiles(chkSmile->isChecked());
-    CorePlugin::m_plugin->setOwnColors(chkOwn->isChecked());
+    bool saveSmiles = CorePlugin::m_plugin->property("UseSmiles").toBool();
+    bool saveOwn    = CorePlugin::m_plugin->property("OwnColors").toBool();
+    CorePlugin::m_plugin->setProperty("UseSmiles", chkSmile->isChecked());
+    CorePlugin::m_plugin->setProperty("OwnColors", chkOwn->isChecked());
     Message m1;
     m1.setId((unsigned)(-1));
     m1.setFlags(MESSAGE_RECEIVED | MESSAGE_LIST);
@@ -704,8 +704,8 @@ void HistoryConfig::fillPreview()
         m5.setClient((getContacts()->getClient(0)->name() + '.'));
     edtPreview->addMessage(&m5);
     delete contact;
-    CorePlugin::m_plugin->setUseSmiles(saveSmiles);
-    CorePlugin::m_plugin->setOwnColors(saveOwn);
+    CorePlugin::m_plugin->setProperty("UseSmiles", saveSmiles);
+    CorePlugin::m_plugin->setProperty("OwnColors", saveOwn);
 }
 
 void HistoryConfig::toggledDays(bool bState)

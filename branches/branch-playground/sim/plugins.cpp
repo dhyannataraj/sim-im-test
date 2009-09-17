@@ -228,7 +228,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info		 = NULL;
         info.base		 = 0;
         plugins.push_back(info);
-        log(L_DEBUG,"Found plugin %s", qPrintable(info.name));
+        log(L_DEBUG, "Found plugin %s", qPrintable(info.name));
         fprintf(stderr,"Found plugin %s\n", qPrintable(info.name));
     }
     EventGetPluginInfo ePlugin("_core");
@@ -571,10 +571,10 @@ void PluginManagerPrivate::saveState()
     // Check current profile name
     QString current_profile;
     EventGetProfile e;
-    if (e.process()) current_profile=e.getProfile();
-    if ( current_profile.isEmpty() )
+    if(e.process()) current_profile=e.getProfile();
+    if(current_profile.isEmpty())
     {
-      // if current profile name is empty then shuld not write config for it.
+      // if current profile name is empty then should not write config for it.
       log(L_DEBUG, "Refusing writing %s for empty profile", PLUGINS_CONF);
       return;
     }

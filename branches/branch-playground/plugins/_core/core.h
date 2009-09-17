@@ -58,73 +58,6 @@ class CommonStatus;
 class StatusWnd;
 class ConnectionManager;
 
-struct CoreData
-{
-    SIM::Data	ManualStatus;
-//    SIM::Data	StatusTime;
-//    SIM::Data	Invisible;
-//    SIM::Data	geometry[5];
-//    SIM::Data	toolBarState[7];
-//    SIM::Data	Buttons;
-//    SIM::Data	Menues;
-//    SIM::Data	GroupMode;
-//    SIM::Data	UseDblClick;
-//    SIM::Data	UseSysColors;
-//    SIM::Data	ColorOnline;
-//    SIM::Data	ColorOffline;
-//    SIM::Data	ColorAway;
-//    SIM::Data	ColorNA;
-//    SIM::Data	ColorDND;
-//    SIM::Data	ColorGroup;
-//    SIM::Data	GroupSeparator;
-//    SIM::Data	Lang;
-    SIM::Data	ContainerMode;
-//    SIM::Data	SendOnEnter;
-//    SIM::Data	ShowOwnerName;
-//    SIM::Data	ContainerGeometry[5];
-//    SIM::Data	ContainerBar[7];
-    SIM::Data	ContainerStatusSize;
-    SIM::Data	Containers;
-    SIM::Data	Container;
-    SIM::Data	CopyMessages;
-    SIM::Data	EditHeight;
-    SIM::Data	EditBar[7];
-    SIM::Data	EditBackground;
-    SIM::Data	EditForeground;
-    SIM::Data	EditFont;
-    SIM::Data	EditSaveFont;
-    SIM::Data	OwnColors;
-    SIM::Data	UseSmiles;
-    SIM::Data	UseExtViewer;
-    SIM::Data	ExtViewer;
-    SIM::Data	CloseSend;
-    SIM::Data	HistoryPage;
-    SIM::Data	HistoryDirection;
-    SIM::Data	HistorySize[2];
-    SIM::Data	HistoryBar[7];
-    SIM::Data	HistoryAvatarBar[7];
-    SIM::Data	HistorySearch;
-    SIM::Data	Unread;
-    SIM::Data	NoShowAutoReply;
-    SIM::Data	SortMode;
-    SIM::Data	CloseTransfer;
-    SIM::Data	HistoryStyle;
-    SIM::Data	AuthStyle;
-    SIM::Data	VisibleStyle;
-    SIM::Data	InvisibleStyle;
-    SIM::Data	SmallGroupFont;
-    SIM::Data	ShowAllEncodings;
-    SIM::Data	NoJoinAlert;
-    SIM::Data	EnableSpell;
-    SIM::Data	RemoveHistory;
-    SIM::Data	SearchGeometry[5];
-    SIM::Data	SearchClient;
-    SIM::Data	NoScroller;
-    SIM::Data	CfgGeometry[5];
-    SIM::Data	ShowAvatarInHistory;
-    SIM::Data	ShowAvatarInContainer;
-};
-
 const unsigned CONTAINER_SIMPLE	= 0;
 const unsigned CONTAINER_NEW	= 1;
 const unsigned CONTAINER_GROUP	= 2;
@@ -255,61 +188,9 @@ public:
     CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
     void setManualStatus(unsigned long status);
-    unsigned long getManualStatus() { return data.ManualStatus.toULong(); }
-//    PROP_ULONG(StatusTime)
-//    PROP_BOOL(Invisible)
-//    PROP_STRLIST(Buttons)
-//    PROP_STRLIST(Menues)
-//    PROP_ULONG(GroupMode)
-//    PROP_BOOL(UseDblClick)
-//    PROP_BOOL(UseSysColors)
-//    PROP_ULONG(ColorOnline)
-//    PROP_ULONG(ColorOffline)
-//    PROP_ULONG(ColorAway)
-//    PROP_ULONG(ColorNA)
-//    PROP_ULONG(ColorDND)
-//    PROP_ULONG(ColorGroup)
-//    PROP_BOOL(GroupSeparator)
-//    PROP_STR(Lang);
-    //    PROP_ULONG(ContainerMode);
+    unsigned long getManualStatus() { return property("ManualStatus").toUInt(); }
     unsigned getContainerMode();
     void setContainerMode(unsigned);
-//    PROP_BOOL(SendOnEnter);
-//    PROP_BOOL(ShowOwnerName);
-    PROP_ULONG(ContainerStatusSize);
-    PROP_STR(Containers);
-    PROP_STRLIST(Container);
-    PROP_ULONG(CopyMessages);
-    PROP_ULONG(EditHeight);
-    PROP_ULONG(EditForeground);
-    PROP_ULONG(EditBackground);
-    PROP_STR(EditFont);
-    PROP_BOOL(EditSaveFont);
-    PROP_BOOL(OwnColors);
-    PROP_BOOL(UseSmiles);
-    PROP_BOOL(UseExtViewer);
-    PROP_STR(ExtViewer);
-    PROP_BOOL(CloseSend);
-    PROP_ULONG(HistoryPage);
-    PROP_BOOL(HistoryDirection);
-    PROP_UTF8(HistorySearch);
-    PROP_STR(Unread);
-    PROP_STRLIST(NoShowAutoReply);
-    PROP_ULONG(SortMode);
-    PROP_BOOL(CloseTransfer);
-    PROP_STR(HistoryStyle);
-    PROP_ULONG(AuthStyle);
-    PROP_ULONG(VisibleStyle);
-    PROP_ULONG(InvisibleStyle);
-    PROP_BOOL(SmallGroupFont);
-    PROP_BOOL(ShowAllEncodings);
-    PROP_BOOL(NoJoinAlert);
-    PROP_BOOL(EnableSpell);
-    PROP_BOOL(RemoveHistory);
-    PROP_STR(SearchClient);
-    PROP_BOOL(NoScroller);
-    PROP_BOOL(ShowAvatarInHistory);
-    PROP_BOOL(ShowAvatarInContainer);
     void setRegNew(bool p_new) {m_RegNew=p_new;}
     bool getRegNew() const {return m_RegNew;}
     void setICQUIN(QString p_uin) {m_ICQUIN=p_uin;}
@@ -336,7 +217,6 @@ public:
     QString clientName(SIM::Client *client);
 
     XSL	*historyXSL;
-    CoreData	data;
     bool m_bIgnoreEvents;
 signals:
     void modeChanged(int);

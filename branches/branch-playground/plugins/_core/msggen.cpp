@@ -44,7 +44,7 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
         if (!text.isEmpty()){
             m_edit->m_edit->setText(text);
             m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
-            if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
+            if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->property("OwnColors").toBool()){
                 m_edit->m_edit->setBackground(msg->getBackground());
                 m_edit->m_edit->setForeground(msg->getForeground(), true);
             }
@@ -113,7 +113,7 @@ bool MsgGen::processEvent(Event *e)
                 msg->setFlags(MESSAGE_RICHTEXT);
                 msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
                 msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);
-                msg->setFont(CorePlugin::m_plugin->getEditFont());
+                msg->setFont(CorePlugin::m_plugin->property("EditFont").toString());
                 m_edit->sendMessage(msg);
             }
             return true;

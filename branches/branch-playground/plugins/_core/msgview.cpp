@@ -420,7 +420,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     // in one chunk (since it's more efficient and causes less redraws), and there's
     // no way to set block's background color directly in Qt's HTML), so we make a note
     // of it in the HTML and set it retroactively in setBackground.
-    if (!CorePlugin::m_plugin->getOwnColors() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
+    if (!CorePlugin::m_plugin->property("OwnColors").toBool() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
         id += QString::number(msg->getBackground());
     // </hack>
     QString client_str = msg->client();
@@ -481,10 +481,10 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }
     EventAddHyperlinks e(msgText);
     e.process();
-    ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+    ViewParser parser(CorePlugin::m_plugin->property("OwnColors").toBool(), CorePlugin::m_plugin->property("UseSmiles").toBool());
     msgText = parser.parse(e.text());
     s += "<body";
-    if (!CorePlugin::m_plugin->getOwnColors() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
+    if (!CorePlugin::m_plugin->property("OwnColors").toBool() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
         s += QString::number(msg->getForeground(), 16).rightJustified(6, '0');
@@ -614,7 +614,7 @@ void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
     if (n > 0)
         n--;
     append(messageText(msg, bUnread));
-    if (!CorePlugin::m_plugin->getOwnColors())
+    if (!CorePlugin::m_plugin->property("OwnColors").toBool())
         setBackground(n);
 }
 
@@ -645,8 +645,8 @@ bool MsgViewBase::findMessage(Message *msg)
 
 void MsgViewBase::setColors()
 {
-    TextShow::setBackground(CorePlugin::m_plugin->getEditBackground());
-    TextShow::setForeground(CorePlugin::m_plugin->getEditForeground());
+    TextShow::setBackground(CorePlugin::m_plugin->property("EditBackground").toUInt());
+    TextShow::setForeground(CorePlugin::m_plugin->property("EditForeground").toUInt());
 }
 
 unsigned MsgViewBase::messageId(const QString &_s, QString &client)
@@ -1101,7 +1101,7 @@ void MsgViewBase::contextMenuEvent( QContextMenuEvent *event )
 MsgView::MsgView(QWidget *parent, unsigned id)
         : MsgViewBase(parent, NULL, id)
 {
-    int nCopy = CorePlugin::m_plugin->getCopyMessages();
+    int nCopy = CorePlugin::m_plugin->property("CopyMessages").toUInt();
     unsigned nUnread = 0;
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
         msg_id &m = (*it);
@@ -1131,7 +1131,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             }
         }
         setHtml(t);
-        if (!CorePlugin::m_plugin->getOwnColors())
+        if (!CorePlugin::m_plugin->property("OwnColors").toBool())
             setBackground(0);
     }
     QScrollBar *sbar = verticalScrollBar();

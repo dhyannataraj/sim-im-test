@@ -26,7 +26,6 @@
 using namespace SIM;
 
 ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact) : QWidget(p)
-        //: Ui::ARConfigBase(p)
 {
 	setupUi(this);
     m_status  = status;
@@ -35,7 +34,7 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     tabAR->setTabText(tabAR->indexOf(tab), name);
     ARUserData *ar;
     QString text;
-    QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(m_status);
+    QString noShow = CorePlugin::m_plugin->property("NoShowAutoReply").toMap().value(QString::number(m_status)).toString();
     if (m_contact){
         chkNoShow->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
@@ -85,7 +84,9 @@ void ARConfig::apply()
     }else{
         ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
         set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
-        CorePlugin::m_plugin->setNoShowAutoReply(m_status, chkNoShow->isChecked() ? "1" : "");
+		QVariantMap map = CorePlugin::m_plugin->property("NoShowAutoReply").toMap();
+		map.insert(QString::number(m_status), chkNoShow->isChecked() ? "1" : "");
+        CorePlugin::m_plugin->setProperty("NoShowAutoReply", map);
     }
 }
 
@@ -101,10 +102,4 @@ void ARConfig::help()
     e.process();
     BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "arcfg.moc"
-#endif
-*/
 

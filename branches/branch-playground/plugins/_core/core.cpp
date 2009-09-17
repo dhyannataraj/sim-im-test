@@ -220,7 +220,7 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
 static DataDef coreData[] =
 {
-	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
+//	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
 //	{ "", DATA_ULONG, 1, 0 },		// StatusTime
 //	{ "Invisible", DATA_BOOL, 1, 0 },
 //	{ "Geometry", DATA_LONG, 5, DATA(-1) },
@@ -238,59 +238,59 @@ static DataDef coreData[] =
 //	{ "ColorGroup", DATA_ULONG, 1, 0 },
 //	{ "GroupSeparator", DATA_BOOL, 1, DATA(1) },
 //	{ "Lang", DATA_STRING, 1, 0 },
-	{ "ContainerMode", DATA_ULONG, 1, DATA(2) },
+//	{ "ContainerMode", DATA_ULONG, 1, DATA(2) },
 //	{ "SendOnEnter", DATA_BOOL, 1, 0 },
 //	{ "ShowOwnerName", DATA_BOOL, 1, 0 },
 //	{ "ContainerGeometry", DATA_LONG, 5, DATA(-1) },
 //	{ "ContainerBar", DATA_LONG, 7, 0 },
-	{ "ContainerStatusSize", DATA_ULONG, 1, 0 },
-	{ "Containers", DATA_STRING, 1, 0 },
-	{ "Container", DATA_STRLIST, 1, 0 },
-	{ "CopyMessages", DATA_ULONG, 1, DATA(3) },
-	{ "EditHeight", DATA_ULONG, 1, DATA(100) },
-	{ "EditBar", DATA_LONG, 7, 0 },
-	{ "EditForeground", DATA_ULONG, 1, DATA(0xffffff) },
-	{ "EditBackground", DATA_ULONG, 1, DATA(0x000000) },
-	{ "EditFont", DATA_STRING, 1, 0 },
-	{ "EditSaveFont", DATA_BOOL, 1, 0 },
-	{ "OwnColors", DATA_BOOL, 1, 0 },
-	{ "UseSmiles", DATA_BOOL, 1, DATA(1) },
-	{ "UseExtViewer", DATA_BOOL, 1, 0 },
+//	{ "ContainerStatusSize", DATA_ULONG, 1, 0 },
+//	{ "Containers", DATA_STRING, 1, 0 },
+//	{ "Container", DATA_STRLIST, 1, 0 },
+//	{ "CopyMessages", DATA_ULONG, 1, DATA(3) },
+//	{ "EditHeight", DATA_ULONG, 1, DATA(100) },
+//	{ "EditBar", DATA_LONG, 7, 0 },
+//	{ "EditForeground", DATA_ULONG, 1, DATA(0xffffff) },
+//	{ "EditBackground", DATA_ULONG, 1, DATA(0x000000) },
+//	{ "EditFont", DATA_STRING, 1, 0 },
+//	{ "EditSaveFont", DATA_BOOL, 1, 0 },
+//	{ "OwnColors", DATA_BOOL, 1, 0 },
+//	{ "UseSmiles", DATA_BOOL, 1, DATA(1) },
+//	{ "UseExtViewer", DATA_BOOL, 1, 0 },
 #ifdef WIN32
-	{ "ExtViewer", DATA_STRING, 1, "notepad" },
+//	{ "ExtViewer", DATA_STRING, 1, "notepad" },
 #else /*WIN32*/
 #ifdef USE_KDE
-	{ "ExtViewer", DATA_STRING, 1, "kate" },
+//	{ "ExtViewer", DATA_STRING, 1, "kate" },
 #else/*USE_KDE*/
-	{ "ExtViewer", DATA_STRING, 1, "gvim" },
+//	{ "ExtViewer", DATA_STRING, 1, "gvim" },
 #endif/*USE_KDE*/
 #endif/*WIN32*/
-	{ "CloseSend", DATA_BOOL, 1, 0 },
-	{ "HistoryPage", DATA_ULONG, 1, DATA(100) },
-	{ "HistoryDirection", DATA_BOOL, 1, 0 },
-	{ "HistorySize", DATA_ULONG, 2, 0 },
-	{ "HistoryBar", DATA_LONG, 7, 0 },
-	{ "HistoryAvatarBar", DATA_LONG, 7, 0 },
-	{ "HistorySearch", DATA_UTF, 1, 0 },
-	{ "Unread", DATA_STRING, 1, 0 },
-	{ "NoShowAutoReply", DATA_STRLIST, 1, 0 },
-	{ "SortMode", DATA_ULONG, 1, DATA(0x00020301) },
-	{ "CloseTransfer", DATA_BOOL, 1, 0 },
-	{ "HistoryStyle", DATA_STRING, 1, "SIM" },
-	{ "AuthStyle", DATA_ULONG, 1, DATA(1) },
-	{ "VisibleStyle", DATA_ULONG, 1, DATA(2) },
-	{ "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
-	{ "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
-	{ "ShowAllEncodings", DATA_BOOL, 1, 0 },
-	{ "NoJoinAlert", DATA_BOOL, 1, 0 },
-	{ "EnableSpell", DATA_BOOL, 1, 0 },
-	{ "RemoveHistory", DATA_BOOL, 1, DATA(1) },
-	{ "SearchGeometry", DATA_LONG, 5, DATA(0) },
-	{ "SearchClient", DATA_STRING, 1, DATA(0) },
-	{ "NoScroller", DATA_BOOL, 1, DATA(0) },
-	{ "CfgGeometry", DATA_LONG, 5, DATA(0) },
-	{ "ShowAvatarInHistory", DATA_BOOL, 1, DATA(1) },
-	{ "ShowAvatarInContainer", DATA_BOOL, 1, DATA(1) },
+//	{ "CloseSend", DATA_BOOL, 1, 0 },
+//	{ "HistoryPage", DATA_ULONG, 1, DATA(100) },
+//	{ "HistoryDirection", DATA_BOOL, 1, 0 },
+//	{ "HistorySize", DATA_ULONG, 2, 0 },
+//	{ "HistoryBar", DATA_LONG, 7, 0 },
+//	{ "HistoryAvatarBar", DATA_LONG, 7, 0 },
+//	{ "HistorySearch", DATA_UTF, 1, 0 },
+//	{ "Unread", DATA_STRING, 1, 0 },
+//	{ "NoShowAutoReply", DATA_STRLIST, 1, 0 },
+//	{ "SortMode", DATA_ULONG, 1, DATA(0x00020301) },
+//	{ "CloseTransfer", DATA_BOOL, 1, 0 },
+//	{ "HistoryStyle", DATA_STRING, 1, "SIM" },
+//	{ "AuthStyle", DATA_ULONG, 1, DATA(1) },
+//	{ "VisibleStyle", DATA_ULONG, 1, DATA(2) },
+//	{ "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
+//	{ "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
+//	{ "ShowAllEncodings", DATA_BOOL, 1, 0 },
+//	{ "NoJoinAlert", DATA_BOOL, 1, 0 },
+//	{ "EnableSpell", DATA_BOOL, 1, 0 },
+//	{ "RemoveHistory", DATA_BOOL, 1, DATA(1) },
+//	{ "SearchGeometry", DATA_LONG, 5, DATA(0) },
+//	{ "SearchClient", DATA_STRING, 1, DATA(0) },
+//	{ "NoScroller", DATA_BOOL, 1, DATA(0) },
+//	{ "CfgGeometry", DATA_LONG, 5, DATA(0) },
+//	{ "ShowAvatarInHistory", DATA_BOOL, 1, DATA(1) },
+//	{ "ShowAvatarInContainer", DATA_BOOL, 1, DATA(1) },
 	{ NULL, DATA_UNKNOWN, 0, 0 }
 };
 
@@ -420,7 +420,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 {
    m_plugin = this;
 
-	load_data(coreData, &data, config);
     setProperty("StatusTime", QDateTime::currentDateTime().toTime_t());
 
 	user_data_id	 = getContacts()->registerUserData("core", coreUserData);
@@ -809,15 +808,15 @@ void CorePlugin::initData()
 {
 	delete historyXSL;
 
-	historyXSL = new XSL(getHistoryStyle());
-    if (getEditBackground() == 0 && getEditForeground() == 0)
+	historyXSL = new XSL(property("HistoryStyle").toString());
+    if (property("EditBackground").toUInt() == 0 && property("EditForeground").toUInt() == 0)
 	{
 		QPalette pal = QApplication::palette();
 		QColorGroup cg = pal.normal();
-		setEditBackground(cg.color(QColorGroup::Base).rgb() & 0xFFFFFF);
-		setEditForeground(cg.color(QColorGroup::Text).rgb() & 0xFFFFFF);
+		setProperty("EditBackground", cg.color(QColorGroup::Base).rgb() & 0xFFFFFF);
+		setProperty("EditForeground", cg.color(QColorGroup::Text).rgb() & 0xFFFFFF);
 	}
-	editFont = FontEdit::str2font(getEditFont(), QApplication::font());
+	editFont = FontEdit::str2font(property("EditFont").toString(), QApplication::font());
 	setAutoReplies();
 }
 
@@ -852,7 +851,6 @@ CorePlugin::~CorePlugin()
 	getContacts()->unregisterUserData(sms_data_id);
 	getContacts()->unregisterUserData(user_data_id);
 
-	free_data(coreData, &data);
 	removeTranslator();
 }
 
@@ -1071,7 +1069,7 @@ bool CorePlugin::processEvent(Event *e)
 				return false;
 			}
 		case eEventJoinAlert:
-			if (!getNoJoinAlert() && (m_alert == NULL))
+			if (!property("NoJoinAlert").toBool() && (m_alert == NULL))
 			{
 				Command cmd;
 				cmd->id = CmdStatusBar;
@@ -1186,8 +1184,6 @@ bool CorePlugin::processEvent(Event *e)
 				if (info->plugin == this)
 				{
 					QString profile = ProfileManager::instance()->currentProfileName();
-					free_data(coreData, &data);
-					load_data(coreData, &data, info->cfg);
 					setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 					if (info->cfg){
 						delete info->cfg;
@@ -1683,7 +1679,7 @@ bool CorePlugin::processEvent(Event *e)
 								nEncoding++;
 								continue;
 							}
-							if (!getShowAllEncodings())
+							if (!property("ShowAllEncodings").toBool())
 								continue;
 							nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
 							nEncoding++;
@@ -1711,7 +1707,7 @@ bool CorePlugin::processEvent(Event *e)
 							cmds[nEncoding].text_wrk = (*it);
 							nEncoding++;
 						}
-						if (!getShowAllEncodings())
+						if (!property("ShowAllEncodings").toBool())
 							return true;
 						cmds[nEncoding++].text = "_";
 						nomain.sort();
@@ -1732,20 +1728,20 @@ bool CorePlugin::processEvent(Event *e)
 					}
 					if (cmd->id == CmdAllEncodings){
 						cmd->flags &= ~COMMAND_CHECKED;
-						if (getShowAllEncodings())
+						if (property("ShowAllEncodings").toBool())
 							cmd->flags |= COMMAND_CHECKED;
 						return true;
 					}
 				}
 				if (cmd->id == CmdEnableSpell){
 					cmd->flags &= ~COMMAND_CHECKED;
-					if (getEnableSpell())
+					if (property("EnableSpell").toBool())
 						cmd->flags |= COMMAND_CHECKED;
 					return true;
 				}
 				if (cmd->id == CmdSendClose){
 					cmd->flags &= ~COMMAND_CHECKED;
-					if (getCloseSend())
+					if (property("CloseSend").toBool())
 						cmd->flags |= COMMAND_CHECKED;
 					return false;
 				}
@@ -2307,7 +2303,7 @@ bool CorePlugin::processEvent(Event *e)
 						QToolButton *btn = qobject_cast<QToolButton*>(eWidget.widget());
 						if (btn)
 							QTimer::singleShot(0, btn, SLOT(animateClick()));
-						setShowAllEncodings(!getShowAllEncodings());
+						setProperty("ShowAllEncodings", !property("ShowAllEncodings").toBool());
 						return true;
 					}
 					Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2330,7 +2326,7 @@ bool CorePlugin::processEvent(Event *e)
 								main.append(i18n(enc->language) + " (" + enc->codec + ')');
 								continue;
 							}
-							if (!getShowAllEncodings())
+							if (!property("ShowAllEncodings").toBool())
 								continue;
 							nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
 						}
@@ -2369,7 +2365,7 @@ bool CorePlugin::processEvent(Event *e)
 					return false;
 				}
 				if (cmd->id == CmdEnableSpell){
-					setEnableSpell(cmd->flags & COMMAND_CHECKED);
+					setProperty("EnableSpell", cmd->flags & COMMAND_CHECKED);
 					return false;
 				}
 				if (cmd->menu_id == MenuMessage){
@@ -2504,7 +2500,7 @@ bool CorePlugin::processEvent(Event *e)
 					return true;
 				}
 				if (cmd->id == CmdSendClose){
-					setCloseSend((cmd->flags & COMMAND_CHECKED) != 0);
+					setProperty("CloseSend", (cmd->flags & COMMAND_CHECKED) != 0);
 					return true;
 				}
 				if (cmd->id == CmdSendSMS){
@@ -2522,7 +2518,7 @@ bool CorePlugin::processEvent(Event *e)
 				}
 				if (cmd->id == CmdHistory){
 					unsigned long id = (unsigned long)(cmd->param);
-					if (!getUseExtViewer()){
+					if (!property("UseExtViewer").toBool()){
 						HistoryWindow *wnd = NULL;
 						QWidgetList list = QApplication::topLevelWidgets();
                         QWidget * w;
@@ -2538,8 +2534,10 @@ bool CorePlugin::processEvent(Event *e)
 						}
 						if (wnd == NULL){
 							wnd = new HistoryWindow(id);
+							/*
 							if (data.HistorySize[0].toULong() && data.HistorySize[1].toULong())
 								wnd->resize(data.HistorySize[0].toULong(), data.HistorySize[1].toULong());
+								*/
 						}
 						raiseWindow(wnd);
 					}
@@ -2548,7 +2546,7 @@ bool CorePlugin::processEvent(Event *e)
 						if (!m_HistoryThread)
 							m_HistoryThread = new HistoryThread();
 						m_HistoryThread->set_id(id);
-						m_HistoryThread->set_Viewer(getExtViewer());
+						m_HistoryThread->set_Viewer(property("ExtViewer").toString());
 						m_HistoryThread->start();
 					}
 					return true;
@@ -2561,6 +2559,7 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_cfg == NULL){
                     	m_cfg = new ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
+						/*
 						if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
 							data.CfgGeometry[WIDTH].asLong()  = 500;
 							data.CfgGeometry[HEIGHT].asLong() = 380;
@@ -2568,6 +2567,7 @@ bool CorePlugin::processEvent(Event *e)
 						}else{
 							restoreGeometry(m_cfg, data.CfgGeometry, true, true);
 						}
+						*/
 					}
 					raiseWindow(m_cfg);
 					return true;
@@ -2576,6 +2576,7 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_search == NULL){
 						m_search = new SearchDialog;
 						connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
+						/*
 						if ((data.SearchGeometry[WIDTH].toLong() == 0) || (data.SearchGeometry[HEIGHT].toLong() == 0)){
 							data.SearchGeometry[WIDTH].asLong()  = 500;
 							data.SearchGeometry[HEIGHT].asLong() = 380;
@@ -2583,6 +2584,7 @@ bool CorePlugin::processEvent(Event *e)
 						}else{
 							restoreGeometry(m_search, data.SearchGeometry, true, true);
 						}
+						*/
 					}
 					raiseWindow(m_search);
 					return false;
@@ -2695,7 +2697,7 @@ bool CorePlugin::processEvent(Event *e)
 					if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) ||
 								(client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
 							(client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
-						QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(cmd->id);
+						QString noShow = CorePlugin::m_plugin->property("NoShowAutoReply").toMap().value(QString::number(cmd->id)).toString();
 						if (noShow.isEmpty()){
 							AutoReplyDialog dlg(cmd->id);
 							if (!dlg.exec())
@@ -2927,11 +2929,13 @@ void CorePlugin::showInfo(CommandDef *cmd)
 	}
 	if (cfg == NULL){
 		cfg = new UserConfig(contact, group);
+		/*
 		if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
 			data.CfgGeometry[WIDTH].asLong()  = 500;
 			data.CfgGeometry[HEIGHT].asLong() = 380;
 		}
 		cfg->resize(data.CfgGeometry[WIDTH].toLong(), data.CfgGeometry[HEIGHT].toLong());
+		*/
 	}
 	raiseWindow(cfg);
 	if (!cfg->raisePage(cmd->id))
@@ -2985,8 +2989,6 @@ void CorePlugin::changeProfile(const QString& profilename)
 	EventGetPluginInfo eInfo("_core");
 	eInfo.process();
 	pluginInfo *info = eInfo.info();
-	free_data(coreData, &data);
-	load_data(coreData, &data, info->cfg);
 	setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 	if (info->cfg){
 		delete info->cfg;
@@ -3153,15 +3155,17 @@ bool CorePlugin::init(bool bInit)
 
 	if (!bNew)
     {
-		QString containers = getContainers();
+		QString containers = property("Containers").toString();
+		QVariantMap containerMap = property("Container").toMap();
 		while (!containers.isEmpty())
         {
-			Container *c = new Container(0, getContainer(getToken(containers, ',').toULong()).toUtf8().constData());
+			Container *c = new Container(0, containerMap.value(getToken(containers, ',')).toString().toUtf8().constData());
 			c->init();
 		}
 	}
-	clearContainer();
-	setContainers(QString::null);
+	//clearContainer();
+	setProperty("Containers", QString());
+	setProperty("Container", QVariantMap());
 
 	m_bInit = true;
 	loadMenu();
@@ -3273,31 +3277,32 @@ QByteArray CorePlugin::getConfig()
 		unread_str += ',';
 		unread_str += m.client;
 	}
-	setUnread(unread_str);
+	setProperty("Unread", unread_str);
 
-	unsigned editBgColor = getEditBackground();
-	unsigned editFgColor = getEditForeground();
+	unsigned editBgColor = property("EditBackground").toUInt();
+	unsigned editFgColor = property("EditForeground").toUInt();
 
 	QPalette pal = QApplication::palette();
 	QColorGroup cg = pal.normal();
-	if (((cg.color(QColorGroup::Base).rgb() & 0xFFFFFF) == getEditBackground()) &&
-			((cg.color(QColorGroup::Text).rgb() & 0xFFFFFF) == getEditForeground()))
+	if (((cg.color(QColorGroup::Base).rgb() & 0xFFFFFF) == property("EditBackground").toUInt()) &&
+			((cg.color(QColorGroup::Text).rgb() & 0xFFFFFF) == property("EditForeground").toUInt()))
 	{
-		setEditBackground(0);
-		setEditForeground(0);
+		setProperty("EditBackground", 0);
+		setProperty("EditForeground", 0);
 	}
 
 	QString ef     = FontEdit::font2str(editFont, false);
 	QString def_ef = FontEdit::font2str(QApplication::font(), false);
-	setEditFont(ef);
-	if ((ef == def_ef) || !getEditSaveFont())
-		setEditFont(QString::null);
+	setProperty("EditFont", ef);
+	if ((ef == def_ef) || !property("EditSaveFont").toBool())
+		setProperty("EditFont", QString());
 
-	clearContainer();
+	//clearContainer();
 	QString containers;
 
 	QWidgetList list = QApplication::topLevelWidgets();
 	QWidget* w;
+	QVariantMap containerMap;// = property("Container").toMap();
     foreach(w,list)
 	{
 		if (w->inherits("Container"))
@@ -3308,10 +3313,10 @@ QByteArray CorePlugin::getConfig()
 			if (!containers.isEmpty())
 				containers += ',';
 			containers += QString::number(c->getId());
-			setContainer(c->getId(), c->getState());
+			containerMap.insert(QString::number(c->getId()), c->getState());
 		}
 	}
-	setContainers(containers);
+	setProperty("Containers", containers);
 	if (m_main)
 	{
 		//saveGeometry(m_main, data.geometry);
@@ -3451,16 +3456,15 @@ QByteArray CorePlugin::getConfig()
 	QString dir = user_file("");
 	chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
-	QByteArray res = save_data(coreData, &data);
-	setEditBackground(editBgColor);
-	setEditForeground(editFgColor);
-	return res;
+	setProperty("EditBackground", editBgColor);
+	setProperty("EditForeground", editFgColor);
+	return QByteArray();
 }
 
 void CorePlugin::loadUnread()
 {
 	unread.clear();
-	QString unread_str = getUnread();
+	QString unread_str = property("Unread").toString();
 	while (!unread_str.isEmpty()){
 		QString item = getToken(unread_str, ';');
 		unsigned long contact = getToken(item, ',').toULong();
@@ -3475,7 +3479,7 @@ void CorePlugin::loadUnread()
 		m.type    = msg->baseType();
 		unread.push_back(m);
 	}
-	setUnread(QString::null);
+	setProperty("Unread", QString());
 }
 
 void CorePlugin::clearUnread(unsigned contact_id)
@@ -3768,14 +3772,12 @@ void CorePlugin::loadMenu()
 
 	unsigned CorePlugin::getContainerMode()
 	{
-		return data.ContainerMode.toULong();
+		return property("ContainerMode").toUInt(); //data.ContainerMode.toULong();
 	}
 
 	void CorePlugin::setContainerMode(unsigned value)
 	{
-		if (value == data.ContainerMode.toULong())
-			return;
-		data.ContainerMode.asULong() = value;
+		setProperty("ContainerMode", value);
 		emit modeChanged(value);
 	}
 
@@ -3807,13 +3809,14 @@ void CorePlugin::loadMenu()
 		if (status == getManualStatus())
 			return;
 		setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
-		data.ManualStatus.asULong() = status;
+		//data.ManualStatus.asULong() = status;
+		setProperty("ManualStatus", (uint)status);
 	}
 
 	void CorePlugin::alertFinished()
 	{
 		if (m_alert)
-			setNoJoinAlert(m_alert->isChecked());
+			setProperty("NoJoinAlert", m_alert->isChecked());
 		m_alert = NULL;
 	}
 

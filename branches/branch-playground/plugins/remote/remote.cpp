@@ -625,7 +625,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     unsigned status = contact->contactInfo(style, statusIcon);
                     if ((status == STATUS_OFFLINE) && core->property("ShowOnLine").toBool())
                         continue;
-                    unsigned mode = core->getSortMode();
+                    unsigned mode = core->property("SortMode").toUInt();
                     ContactInfo info;
                     QString active;
                     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
@@ -762,7 +762,8 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             }
             if (core->getManualStatus() == status)
                 return true;
-            core->data.ManualStatus.asULong()  = status;
+            //core->data.ManualStatus.asULong()  = status;
+			core->setProperty("ManualStatus", (unsigned int)status);
             core->setProperty("StatusTime", (unsigned int)time(NULL));
             EventClientStatus().process();
             return true;

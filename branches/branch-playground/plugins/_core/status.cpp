@@ -478,7 +478,7 @@ bool CommonStatus::processEvent(Event *e)
 
 				if (bOfflineStatus || 
 					(def->id != STATUS_ONLINE && def->id != STATUS_OFFLINE)){
-                    QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
+                    QString noShow = CorePlugin::m_plugin->property("NoShowAutoReply").toMap().value(QString::number(def->id)).toString();
                     if (noShow.isEmpty())
 					{
                         AutoReplyDialog dlg(def->id);

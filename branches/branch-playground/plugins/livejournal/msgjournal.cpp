@@ -76,7 +76,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
     if (!text.isEmpty()){
         m_edit->m_edit->setText(text);
         m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
-        if ((msg->getBackground() != msg->getForeground()) && !LiveJournalPlugin::core->getOwnColors()){
+        if ((msg->getBackground() != msg->getForeground()) && !LiveJournalPlugin::core->property("OwnColors").toBool()){
             m_edit->m_edit->setBackground(msg->getBackground());
             m_edit->m_edit->setForeground(msg->getForeground(), true);
         }
@@ -181,7 +181,7 @@ void MsgJournal::send(const QString& msgText)
     msg->setTime(m_time);
     msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
     msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);
-    msg->setFont(LiveJournalPlugin::core->getEditFont());
+    msg->setFont(LiveJournalPlugin::core->property("EditFont").toString());
     msg->setSubject(m_wnd->edtSubj->text());
     msg->setPrivate(m_wnd->cmbSecurity->currentIndex());
     msg->setMood(m_wnd->cmbMood->currentIndex());

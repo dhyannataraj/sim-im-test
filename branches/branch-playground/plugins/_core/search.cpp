@@ -109,22 +109,26 @@ SearchDialog::SearchDialog()
 
 SearchDialog::~SearchDialog()
 {
-	::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+	//::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
 {
     Q3MainWindow::resizeEvent(e);
     m_result->adjustColumn();
+	/*
     if (isVisible())
 		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+		*/
 }
 
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
     Q3MainWindow::moveEvent(e);
+	/*
     if (isVisible())
 		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+		*/
 }
 
 void SearchDialog::closeEvent(QCloseEvent *e)
@@ -194,7 +198,7 @@ void SearchDialog::fillClients()
             current = m_widgets.size() - 1;
         if (client->protocol()->description()->flags & PROTOCOL_SEARCH)
             nClients++;
-        if (client->name() == CorePlugin::m_plugin->getSearchClient())
+        if (client->name() == CorePlugin::m_plugin->property("SearchClient").toString())
             defCurrent = m_widgets.size() - 1;
     }
     if (nClients > 1){
@@ -306,7 +310,7 @@ void SearchDialog::setTitle()
     QString name;
     if ((client != NULL) && (client != (Client*)(-1)))
         name = client->name();
-    CorePlugin::m_plugin->setSearchClient(name);
+    CorePlugin::m_plugin->setProperty("SearchClient", name);
     if (m_bAdd){
         setWindowTitle(i18n("Add") + ": " + m_search->cmbClients->currentText());
         setWindowIcon(Icon("add"));

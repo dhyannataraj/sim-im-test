@@ -21,7 +21,6 @@
 #include <vector>
 
 #include "qcolorbutton.h"
-//Added by qt3to4:
 #include <QEvent>
 #include "ui_historycfgbase.h"
 

@@ -140,7 +140,7 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
         optSimple->setChecked(true);
         grpContainer->setEnabled(false);
     }
-    chkSaveFont->setChecked(CorePlugin::m_plugin->getEditSaveFont());
+    chkSaveFont->setChecked(CorePlugin::m_plugin->property("EditSaveFont").toBool());
     QString copy2;
     QString copy1 = i18n("Copy %1 messages from history");
     int n = copy1.indexOf("%1");
@@ -150,11 +150,11 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     }
     lblCopy1->setText(copy1);
     lblCopy2->setText(copy2);
-    spnCopy->setValue(CorePlugin::m_plugin->getCopyMessages());
+    spnCopy->setValue(CorePlugin::m_plugin->property("CopyMessages").toUInt());
     chkOwnerName->setText(i18n("Show own nickname in window title"));
     chkOwnerName->setChecked(CorePlugin::m_plugin->property("ShowOwnerName").toBool());
     chkAvatar->setText(i18n("Show user avatar"));
-    chkAvatar->setChecked(CorePlugin::m_plugin->getShowAvatarInContainer());
+    chkAvatar->setChecked(CorePlugin::m_plugin->property("ShowAvatarInContainer").toBool());
 #ifdef WIN32
     HKEY subKey;
     if (RegOpenKeyExW(HKEY_CURRENT_USER, key_name, 0,
@@ -266,33 +266,6 @@ void InterfaceConfig::disconnectControls()
     disconnect(optOne,    SIGNAL(toggled(bool)), this, SLOT(setOpenAllContactsInOneContainer(bool)));
     disconnect(CorePlugin::m_plugin,SIGNAL(modeChanged(int)), this, SLOT( modeChanged(int)));
 }
-/*
-void InterfaceConfig::ghghhgh()
-{
-    
-    //if (mode == 2) //chkSaveFont
-    //    return;
-    
-  
-
-        /*
-    if (mode==2)
-	{
-        if(!grpContainer->isEnabled())
-        {
-            grpContainer->setEnabled(true);
-            optOne->setChecked(true);
-        }
-    }
-    if (mode==3)
-	else
-	{
-        /*QAbstractButton *btn = grpContainer->selected();
-        if (btn)
-            btn->toggle();*/
-        
-    //}
-//}
 
 void InterfaceConfig::apply()
 {
@@ -302,7 +275,7 @@ void InterfaceConfig::apply()
     msg_cfg->apply(data);
     data = getContacts()->getUserData(CorePlugin::m_plugin->sms_data_id);
     sms_cfg->apply(data);
-    CorePlugin::m_plugin->setEditSaveFont(chkSaveFont->isChecked());
+    CorePlugin::m_plugin->setProperty("EditSaveFont", chkSaveFont->isChecked());
 #ifndef USE_KDE
     int res = cmbLang->currentIndex();
     const char *lang = "";
@@ -338,11 +311,11 @@ void InterfaceConfig::apply()
             mode = 3;
         CorePlugin::m_plugin->setContainerMode(mode);
         CorePlugin::m_plugin->setProperty("SendOnEnter", chkEnter->isChecked());
-        CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toULong());
+        CorePlugin::m_plugin->setProperty("CopyMessages", (uint)spnCopy->text().toULong());
     }
 
     CorePlugin::m_plugin->setProperty("ShowOwnerName", chkOwnerName->isChecked());
-    CorePlugin::m_plugin->setShowAvatarInContainer(chkAvatar->isChecked());
+    CorePlugin::m_plugin->setProperty("ShowAvatarInContainer", chkAvatar->isChecked());
 #ifndef USE_KDE
     if (lang != CorePlugin::m_plugin->property("Lang").toString())
     {

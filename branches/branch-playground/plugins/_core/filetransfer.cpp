@@ -257,7 +257,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL, Qt::WDestruct
     m_totalSize	= 0;
     m_state = FileTransfer::Unknown;
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
-    chkClose->setChecked(CorePlugin::m_plugin->getCloseTransfer());
+    chkClose->setChecked(CorePlugin::m_plugin->property("CloseTransfer").toBool());
     connect(chkClose, SIGNAL(toggled(bool)), this, SLOT(closeToggled(bool)));
     connect(btnGo, SIGNAL(clicked()), this, SLOT(goDir()));
 }
@@ -491,7 +491,7 @@ void FileTransferDlg::printTime()
 
 void FileTransferDlg::closeToggled(bool bState)
 {
-    CorePlugin::m_plugin->setCloseTransfer(bState);
+    CorePlugin::m_plugin->setProperty("CloseTransfer", bState);
 }
 
 void FileTransferDlg::action(int nAct, void*)
