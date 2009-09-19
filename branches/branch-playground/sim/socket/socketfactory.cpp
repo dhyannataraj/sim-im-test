@@ -11,9 +11,9 @@
 
 namespace SIM
 {
-
-    struct SocketFactoryPrivate
+    class SocketFactoryPrivate
     {
+    public:
         bool m_bActive;
 
         QSet<ClientSocket*> errSockets;

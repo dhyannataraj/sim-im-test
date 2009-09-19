@@ -219,6 +219,7 @@ void InterfaceConfig::setChatMode(bool)
     grpContainer->setEnabled(true);
     chkEnter->setChecked(false);
     connectControls();
+    setOpenAllContactsInOneContainer(true);
 }
 
 void InterfaceConfig::setOpenEachContactInContainer(bool)

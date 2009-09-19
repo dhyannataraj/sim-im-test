@@ -32,7 +32,7 @@ namespace SIM
 		void idle();
 
 	private:
-		struct SocketFactoryPrivate *d;
+		SocketFactoryPrivate *d;
 
 		COPY_RESTRICTED(SocketFactory)
 	};
