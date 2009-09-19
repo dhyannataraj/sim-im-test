@@ -11,7 +11,15 @@ void TestBuffer::testCommonTypes()
 	buf << c1 << c2 << c3 << c4;
 	QVERIFY2(buf.writePos() == 4, "Unexpected 'char' size"); // should take 4 bytes
 	unsigned long l;
-	buf >> l;
+	buf >> l; /*
+        .\tests\testbuffer.cpp(14) : error C2248: 'QByteArray:perator QNoImplicitBoolCast' : cannot access private member declared in class 'QByteArray'
+         \qt4\include\qtcore\../../src/corelib/tools/qbytearray.h(349) : see declaration of 'QByteArray:perator QNoImplicitBoolCast'
+         \qt4\include\qtcore\../../src/corelib/tools/qbytearray.h(124) : see declaration of 'QByteArray'
+        .\tests\testbuffer.cpp(14) : warning C4552: '>>' : operator has no effect; expected operator with side-effect
+
+        because of uint32_t in win32, buffer.h line 82
+        */
+
 	QVERIFY2(l == 0x61626364, "Unexpected endianness");
 	QVERIFY2(buf.readPos() == 4, "Unexpected 'unsigned long' size");
 	buf << "Test";
