@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "sockfactory.h"
+#include "serversocketnotify.h"
 #include "fetch.h"
 #include "log.h"
 #include "misc.h"

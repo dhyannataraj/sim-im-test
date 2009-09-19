@@ -1535,7 +1535,6 @@ bool CorePlugin::processEvent(Event *e)
 				log(L_DEBUG, "contactID: %ld", contact->id());
             	foreach (w,list)
 				{
-					log(L_DEBUG, "w");
 					if (w->inherits("Container"))
 					{
 						log(L_DEBUG, "ContainerFound");
@@ -3116,8 +3115,14 @@ bool CorePlugin::init(bool bInit)
 		bNew = true;
 	}
 	PropertyHub::load();
+	// Defaults:
 	if(!property("ShowPanel").isValid())
 		setProperty("ShowPanel", true); // Show status panel by default
+	if(!property("HistoryStyle").isValid())
+		setProperty("HistoryStyle", "SIM");
+	if(property("HistoryPage").toUInt() == 0)
+		setProperty("HistoryPage", 100);
+	historyXSL = new XSL(property("HistoryStyle").toString());
 	EventPluginLoadConfig eplc;
 	eplc.process();
 	if (!bLoaded)

@@ -20,7 +20,7 @@
 #include "core.h"
 #include "ballonmsg.h"
 #include "toolbtn.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "log.h"
 
 #include <q3popupmenu.h>

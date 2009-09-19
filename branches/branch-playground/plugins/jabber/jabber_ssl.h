@@ -19,7 +19,7 @@
 #define _JABBER_SSL_H
 
 #include "simapi.h"
-#include "socket.h"
+#include "socket/socket.h"
 
 #ifdef ENABLE_OPENSSL
 

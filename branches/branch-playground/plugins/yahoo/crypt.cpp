@@ -24,7 +24,7 @@
 
 #include <QCryptographicHash>
 
-#include "socket.h"
+#include "socket/socket.h"
 
 /* Define our magic string to mark salt for MD5 "encryption"
    replacement.  This is meant to be the same as for other MD5 based

@@ -32,7 +32,8 @@
 #include "fetch.h"
 #include "log.h"
 #include "misc.h"
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/serversocketnotify.h"
 
 #include "proxy.h"
 #include "proxycfg.h"

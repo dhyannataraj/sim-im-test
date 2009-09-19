@@ -35,12 +35,12 @@ public:
     virtual ~FetchClient();
     void fetch(const QString &url, const QString &headers = QString::null, Buffer *postData = NULL, bool bRedirect = true);
     virtual const char *read_data(char *buf, unsigned &size);
-    virtual bool     write_data(const char *buf, unsigned size);
+    virtual bool write_data(const char *buf, unsigned size);
     virtual unsigned post_size();
-    virtual bool     done(unsigned code, Buffer &data, const QString &headers) = 0;
-    bool	isDone();
-    void        stop();
-    void	set_speed(unsigned speed);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers) = 0;
+    bool isDone();
+    void stop();
+    void set_speed(unsigned speed);
     static bool	crackUrl(const QString &url, QString &proto, QString &host, unsigned short &port, QString &user, QString &pass, QString &uri, QString &extra);
     void clearCookies();
 private:

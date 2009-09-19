@@ -18,7 +18,7 @@
 #ifndef MSNHTTP_H
 #define MSNHTTP_H	1
 
-#include "socket.h"
+#include "socket/socket.h"
 #include "fetch.h"
 
 class MSNClient;

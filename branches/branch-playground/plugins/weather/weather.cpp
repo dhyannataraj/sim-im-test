@@ -21,7 +21,7 @@
 #include "log.h"
 #include "misc.h"
 #include "icons.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "mainwin.h"
 #include "toolbtn.h"
 #include "unquot.h"

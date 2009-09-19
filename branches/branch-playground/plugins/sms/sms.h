@@ -18,7 +18,7 @@
 #ifndef _SMS_H
 #define _SMS_H
 
-#include "socket.h"
+#include "socket/socket.h"
 #include "log.h"
 
 class SMSProtocol;

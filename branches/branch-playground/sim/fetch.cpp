@@ -19,7 +19,7 @@
 
 #include "fetch.h"
 #include "fetchclientprivate.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "misc.h"
 
 using namespace SIM;
@@ -107,7 +107,7 @@ void CookieCash::empty() {
 
 const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 
-static char _HTTP[] = "HTTP";
+//static char _HTTP[] = "HTTP";
 
 static QList<FetchClientPrivate*> *m_done = NULL;
 
@@ -295,7 +295,7 @@ void FetchClientPrivate::dataReadProgress ( int done, int total ) {
 void FetchClientPrivate::dataSendProgress( int done, int total ) {
 }
 
-void FetchClientPrivate::done( bool error ) {
+void FetchClientPrivate::done(bool error ) {
     QString sHeaders;
     QList<QPair<QString, QString> > vals = m_Response.values();
     QPair<QString, QString> pair;

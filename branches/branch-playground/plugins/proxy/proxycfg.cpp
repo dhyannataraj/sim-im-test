@@ -27,7 +27,7 @@
 
 #include "icons.h"
 #include "misc.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "fetch.h"
 
 #include "proxycfg.h"

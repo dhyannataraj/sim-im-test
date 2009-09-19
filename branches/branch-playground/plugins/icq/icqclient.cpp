@@ -30,7 +30,7 @@
 #include <QDateTime>
 
 #include "buffer.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "unquot.h"
 #include "log.h"
 #include "icons.h"

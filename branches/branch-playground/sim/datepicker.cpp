@@ -95,4 +95,8 @@ PickerPopup::PickerPopup(DatePicker *picker)
 }
 
 PickerPopup::~PickerPopup()
-{}
+{
+}
+
+// vim: set expandtab:
+

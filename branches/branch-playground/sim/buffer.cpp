@@ -194,6 +194,14 @@ Buffer &Buffer::operator >> (long &c)
     return *this;
 }
 
+Buffer &Buffer::operator >> (uint32_t &c)
+{
+    if (unpack((char*)&c, 4) != 4)
+        c = 0;
+    c = ntohl(c);
+    return *this;
+}
+
 bool Buffer::scan(const char *substr, QByteArray &res)
 {
     char c = *substr;

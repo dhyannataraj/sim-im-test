@@ -37,9 +37,8 @@
 class EXPORT Buffer : public QByteArray
 {
 public:
-    Buffer(unsigned size=0);
+    Buffer(unsigned size = 0);
     Buffer(const QByteArray &ba);
-    //Buffer(const QByteArray &cstr);
     virtual ~Buffer();
 
     bool add(uint size);
@@ -51,8 +50,8 @@ public:
     void setWritePos(unsigned size);
     void setReadPos(unsigned size);
 
-    const char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
-    char* data(unsigned pos=0) { return (char*)QByteArray::data() + pos; }
+    const char* data(unsigned pos = 0) const { return QByteArray::data() + pos; }
+    char* data(unsigned pos = 0) { return (char*)QByteArray::data() + pos; }
 
     void packetStart();
     unsigned long packetStartPos() const { return m_packetStartPos; }
@@ -78,6 +77,7 @@ public:
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (long &c);
     Buffer &operator >> (unsigned long &c) { return operator >> ((long&)c); }
+    Buffer &operator >> (uint32_t &c);
 
     bool scan(const char *substr, QByteArray &res);
 

@@ -18,9 +18,9 @@
 #ifndef _YAHOOCLIENT_H
 #define _YAHOOCLIENT_H
 
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/serversocketnotify.h"
 #include "fetch.h"
-//Added by qt3to4:
 #include <QByteArray>
 
 #ifdef __OS2__

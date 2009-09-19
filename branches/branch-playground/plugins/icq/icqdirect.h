@@ -7,7 +7,7 @@
 #include <QWaitCondition>
 
 #include "message.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "icqclient.h"
 #include "icqicmb.h"
 

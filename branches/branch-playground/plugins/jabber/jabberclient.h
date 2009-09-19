@@ -25,7 +25,8 @@
 
 #include "simapi.h"
 #include "sax.h"
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/serversocketnotify.h"
 
 #include "jabberbuffer.h"
 

@@ -19,7 +19,7 @@
 #define _LIVEJOURNAL_H
 
 #include "buffer.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include "fetch.h"
 //Added by qt3to4:
 #include <QByteArray>

@@ -37,8 +37,6 @@ SET(sim_LIB_SRCS
 		qkeybutton.cpp
 		sax.cpp
 		simfs.cpp
-		socket.cpp
-		sockfactory.cpp
 		sslclient.cpp
 		textshow.cpp
 		toolbtn.cpp
@@ -48,6 +46,9 @@ SET(sim_LIB_SRCS
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
+		socket/socket.cpp
+		socket/sockfactory.cpp
+		socket/serversocketnotify.cpp
 	)
 SET(sim_LIB_HDRS
 	    aboutdata.h
@@ -82,8 +83,6 @@ SET(sim_LIB_HDRS
 		simapi.h
 		simfs.h
 		singleton.h
-		socket.h
-		sockfactory.h
 		textshow.h
 		toolbtn.h
 		translit.h
@@ -93,6 +92,10 @@ SET(sim_LIB_HDRS
 		qzip/qzip.h
 		qzip/unzip.h
 		fetchclientprivate.h
+		socket/socket.h
+		socket/sockfactory.h
+		socket/socketnotify.h
+		socket/serversocketnotify.h
 	)
 
 # moc the sources
@@ -154,6 +157,22 @@ ENDIF(WIN32)
 IF(APPLE)
     SET(LIBRARY_OUTPUT_PATH ${LIBDIR})
 ENDIF(APPLE)
+
+# unit tests
+SET(sim_tests_srcs
+    tests/test.cpp
+    tests/testbuffer.cpp
+)
+
+
+SET(sim_tests_hdrs
+    tests/testbuffer.h
+)
+
+QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
+
+ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
+TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES})
 
 ##################
 # sim executable #

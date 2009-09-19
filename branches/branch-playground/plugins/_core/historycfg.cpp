@@ -203,7 +203,6 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
 
 
 HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
-        //: HistoryConfigBase(parent)
 {
 	setupUi(this);
     chkOwn->setChecked(CorePlugin::m_plugin->property("OwnColors").toBool());

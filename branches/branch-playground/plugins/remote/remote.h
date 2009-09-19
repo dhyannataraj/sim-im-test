@@ -18,7 +18,8 @@
 #ifndef _REMOTE_H
 #define _REMOTE_H
 
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/serversocketnotify.h"
 #include "propertyhub.h"
 #include <QByteArray>
 

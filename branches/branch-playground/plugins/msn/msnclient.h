@@ -18,7 +18,8 @@
 #ifndef _MSNCLIENT_H
 #define _MSNCLIENT_H
 
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/serversocketnotify.h"
 #include "fetch.h"
 #include <QByteArray>
 

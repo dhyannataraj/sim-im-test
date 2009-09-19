@@ -22,7 +22,7 @@
 
 #include "core_events.h"
 
-#include "sockfactory.h"
+#include "socket/sockfactory.h"
 
 #ifdef WIN32
 #include <winsock.h>

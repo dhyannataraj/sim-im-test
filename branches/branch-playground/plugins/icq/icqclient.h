@@ -31,7 +31,8 @@
 #include "icqservice.h"
 #include "icqicmb.h"
 
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/serversocketnotify.h"
 #include "icq.h"
 #include "icqbuffer.h"
 

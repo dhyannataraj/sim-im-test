@@ -18,7 +18,7 @@
 #define _ICQBUFFER_H
 
 #include "buffer.h"
-#include "socket.h"
+#include "socket/socket.h"
 #include <string> //Fixme
 #include <QList>
 

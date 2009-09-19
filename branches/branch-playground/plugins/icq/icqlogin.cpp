@@ -19,12 +19,11 @@
 #include <QPixmap>
 #include <QApplication>
 #include <QCryptographicHash>
-//Added by qt3to4:
 #include <QByteArray>
 
 #include "log.h"
 #include "buffer.h"
-#include "socket.h"
+#include "socket/socket.h"
 
 #include "icqclient.h"
 #include "verifydlg.h"

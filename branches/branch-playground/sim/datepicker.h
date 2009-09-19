@@ -28,23 +28,29 @@ class QPushButton;
 
 class EXPORT DatePicker : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    DatePicker(QWidget *parent);
-    ~DatePicker();
+	DatePicker(QWidget *parent);
+	~DatePicker();
 
-    QDate getDate() const;
-public Q_SLOTS:
+	QDate getDate() const;
+
+public slots:
     void setDate(const QDate&);
-Q_SIGNALS:
-    void changed();
-protected Q_SLOTS:
-    void showPopup();
+
+signals:
+	void changed();
+
+	protected slots:
+		void showPopup();
+
 protected:
-    void setEnabled(bool);
-    QDateEdit	*m_edit;
-    QPushButton	*m_button;
+	void setEnabled(bool);
+	QDateEdit	*m_edit;
+	QPushButton	*m_button;
 };
 
 #endif
+
+// vim: set expandtab:
 

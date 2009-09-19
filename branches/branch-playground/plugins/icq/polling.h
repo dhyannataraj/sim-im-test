@@ -18,7 +18,7 @@
 #ifndef _POLLING_H
 #define _POLLING_H
 
-#include "socket.h"
+#include "socket/socket.h"
 
 class HttpRequest;
 class HttpPacket;

@@ -25,6 +25,7 @@
 #include "contacts.h"
 #include "event.h"
 #include "simapi.h"
+#include "socketnotify.h"
 
 class QTimer;
 
@@ -36,18 +37,6 @@ typedef struct bio_st BIO;
 
 namespace SIM
 {
-
-class EXPORT SocketNotify
-{
-public:
-    SocketNotify() {}
-    virtual ~SocketNotify() {}
-    virtual void connect_ready() = 0;
-    virtual void read_ready() = 0;
-    virtual void write_ready() = 0;
-    virtual void error_state(const QString &err_text, unsigned code = 0) = 0;
-    virtual void resolve_ready(unsigned long) {}
-};
 
 class EXPORT Socket
 {
@@ -85,22 +74,6 @@ public:
 
 class ServerSocket;
 class TCPClient;
-
-class EXPORT ServerSocketNotify
-{
-public:
-    ServerSocketNotify();
-    virtual ~ServerSocketNotify();
-    virtual bool accept(Socket*, unsigned long ip) = 0;
-    virtual void bind_ready(unsigned short port) = 0;
-    virtual bool error(const QString &err) = 0;
-    virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
-#ifndef WIN32
-    virtual void bind(const char *path);
-#endif
-    void setListener(ServerSocket *listener);
-    ServerSocket *m_listener;
-};
 
 class EXPORT ServerSocket
 {
