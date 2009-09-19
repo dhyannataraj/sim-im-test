@@ -274,7 +274,7 @@ void WeatherPlugin::updateButton()
     unsigned n = (property("Forecast").toUInt() + 1) / 2;
     if (n < 3)
         n = property("Forecast").toUInt();
-    for (int iDay = 1; iDay <= property("Forecast").toUInt(); iDay++){
+    for (unsigned int iDay = 1; iDay <= property("Forecast").toUInt(); iDay++){
         tip += forecastReplace(ftip,iDay);
         if (--n == 0){
             tip += "</td><td>";

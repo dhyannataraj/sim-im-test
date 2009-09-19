@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "update.h"
-#include "socket.h"
+#include "socket/socketfactory.h"
 #include "core.h"
 #include "ballonmsg.h"
 #include "aboutdata.h"
