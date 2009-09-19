@@ -13,7 +13,7 @@ void TestBuffer::testCommonTypes()
 	unsigned long l;
 	buf >> l; /*
         .\tests\testbuffer.cpp(14) : error C2248: 'QByteArray:perator QNoImplicitBoolCast' : cannot access private member declared in class 'QByteArray'
-         \qt4\include\qtcore\../../src/corelib/tools/qbytearray.h(349) : see declaration of 'QByteArray:perator QNoImplicitBoolCast'
+         \qt4\include\qtcore\../../src/corelib/tools/qbytearray.h(349) : see declaration of 'QByteArray::operator QNoImplicitBoolCast'
          \qt4\include\qtcore\../../src/corelib/tools/qbytearray.h(124) : see declaration of 'QByteArray'
         .\tests\testbuffer.cpp(14) : warning C4552: '>>' : operator has no effect; expected operator with side-effect
 
