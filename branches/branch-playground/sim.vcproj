@@ -1707,8 +1707,8 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Performing Custom Build Step"
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-							Outputs="$(InputDir)moc_$(InputName).cpp"
+							CommandLine=""
+							Outputs=""
 						/>
 					</FileConfiguration>
 				</File>
@@ -1993,6 +1993,22 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\sim\socket\clientsocket.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\socket\interfacechecker.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\socket\ip.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\socket\ipresolver.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\socket\serversocket.cpp"
 					>
 				</File>
@@ -2049,10 +2065,6 @@
 					</File>
 					<File
 						RelativePath=".\sim\socket\moc_interfacechecker.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\sim\socket\moc_ip.cpp"
 						>
 					</File>
 					<File
