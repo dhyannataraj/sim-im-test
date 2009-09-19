@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include "socket/socket.h"
+#include "socket/sslclient.h"
 
 #ifdef ENABLE_OPENSSL
 

@@ -22,8 +22,6 @@
 
 #include "core_events.h"
 
-#include "socket/sockfactory.h"
-
 #ifdef WIN32
 #include <winsock.h>
 #else

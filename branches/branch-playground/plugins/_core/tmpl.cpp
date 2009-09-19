@@ -33,7 +33,7 @@
 #include <QProcess>
 
 #include "tmpl.h"
-#include "socket/sockfactory.h"
+#include "socket/ip.h"
 
 using namespace std;
 using namespace SIM;

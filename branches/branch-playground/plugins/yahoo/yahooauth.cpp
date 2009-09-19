@@ -43,6 +43,7 @@
 
 #include "yahooclient.h"
 #include "socket/socket.h"
+#include "socket/clientsocket.h"
 
 #define OPENSSL_NO_SHA0 // we need the new one!
 #include <openssl/sha.h>

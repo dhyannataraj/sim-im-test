@@ -28,6 +28,7 @@
 #include "status.h"
 #include "core.h"
 #include "socket/socket.h"
+#include "socket/socketfactory.h"
 #include "statuswnd.h"
 #include "logindlg.h"
 #include "autoreply.h"

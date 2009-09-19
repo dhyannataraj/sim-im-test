@@ -21,6 +21,7 @@
 #include "ballonmsg.h"
 #include "toolbtn.h"
 #include "socket/socket.h"
+#include "socket/socketfactory.h"
 #include "log.h"
 
 #include <q3popupmenu.h>

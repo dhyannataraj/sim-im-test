@@ -33,6 +33,10 @@
 
 #include "socket/socket.h"
 #include "socket/serversocketnotify.h"
+#include "socket/clientsocket.h"
+#include "socket/tcpclient.h"
+#include "socket/interfacechecker.h"
+#include "socket/sslclient.h"
 #include "icq.h"
 #include "icqbuffer.h"
 

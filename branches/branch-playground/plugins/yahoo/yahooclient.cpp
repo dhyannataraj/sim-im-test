@@ -53,6 +53,7 @@
 #include "log.h"
 #include "unquot.h"
 #include "core.h"
+#include "socket/clientsocket.h"
 
 #include "yahoo.h"
 #include "yahooclient.h"

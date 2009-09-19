@@ -30,6 +30,7 @@
 
 #include "msn.h"
 #include "msnclient.h"
+#include "socket/clientsocket.h"
 
 using namespace SIM;
 

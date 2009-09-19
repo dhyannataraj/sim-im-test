@@ -19,6 +19,7 @@
 
 #include "buffer.h"
 #include "socket/socket.h"
+#include "socket/clientsocket.h"
 #include <string> //Fixme
 #include <QList>
 

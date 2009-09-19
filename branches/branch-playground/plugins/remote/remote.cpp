@@ -32,6 +32,7 @@
 #include "icons.h"
 #include "log.h"
 
+#include "socket/clientsocket.h"
 #include "remote.h"
 #include "remotecfg.h"
 #include "core.h"

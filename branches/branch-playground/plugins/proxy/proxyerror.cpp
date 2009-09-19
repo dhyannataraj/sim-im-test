@@ -25,6 +25,7 @@
 
 #include "proxyerror.h"
 #include "proxycfg.h"
+#include "socket/tcpclient.h"
 
 using namespace SIM;
 

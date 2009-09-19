@@ -27,6 +27,7 @@
 #include "msnpacket.h"
 #include "msnclient.h"
 #include "msn.h"
+#include "socket/clientsocket.h"
 
 using namespace std;
 using namespace SIM;

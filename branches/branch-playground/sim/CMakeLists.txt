@@ -37,7 +37,6 @@ SET(sim_LIB_SRCS
 		qkeybutton.cpp
 		sax.cpp
 		simfs.cpp
-		sslclient.cpp
 		textshow.cpp
 		toolbtn.cpp
 		translit.cpp
@@ -47,8 +46,20 @@ SET(sim_LIB_SRCS
 		qzip/qzip.cpp
 		qzip/unzip.c
 		socket/socket.cpp
-		socket/sockfactory.cpp
 		socket/serversocketnotify.cpp
+		socket/serversocket.cpp
+		socket/socketfactory.cpp
+		socket/clientsocket.cpp
+		socket/tcpclient.cpp
+		socket/interfacechecker.cpp
+		socket/sslclient.cpp
+		socket/simclientsocket.cpp
+		socket/simserversocket.cpp
+		socket/simresolver.cpp
+		socket/simsockets.cpp
+		socket/stdresolver.cpp
+		socket/ip.cpp
+		socket/ipresolver.cpp
 	)
 SET(sim_LIB_HDRS
 	    aboutdata.h
@@ -93,9 +104,21 @@ SET(sim_LIB_HDRS
 		qzip/unzip.h
 		fetchclientprivate.h
 		socket/socket.h
-		socket/sockfactory.h
 		socket/socketnotify.h
 		socket/serversocketnotify.h
+		socket/serversocket.h
+		socket/socketfactory.h
+		socket/clientsocket.h
+		socket/tcpclient.h
+		socket/interfacechecker.h
+		socket/sslclient.h
+		socket/simclientsocket.h
+		socket/simserversocket.h
+		socket/simsockets.h
+		socket/simresolver.h
+		socket/stdresolver.h
+		socket/ip.h
+		socket/ipresolver.h
 	)
 
 # moc the sources

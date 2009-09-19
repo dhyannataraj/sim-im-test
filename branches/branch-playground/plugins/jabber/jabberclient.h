@@ -27,6 +27,7 @@
 #include "sax.h"
 #include "socket/socket.h"
 #include "socket/serversocketnotify.h"
+#include "socket/tcpclient.h"
 
 #include "jabberbuffer.h"
 

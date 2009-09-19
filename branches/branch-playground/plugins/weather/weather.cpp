@@ -22,6 +22,7 @@
 #include "misc.h"
 #include "icons.h"
 #include "socket/socket.h"
+#include "socket/socketfactory.h"
 #include "mainwin.h"
 #include "toolbtn.h"
 #include "unquot.h"

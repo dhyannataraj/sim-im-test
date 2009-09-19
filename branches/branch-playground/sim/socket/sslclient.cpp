@@ -29,6 +29,7 @@
 #include "log.h"
 #include "misc.h"
 #include "socket.h"
+#include "sslclient.h"
 
 namespace SIM
 {

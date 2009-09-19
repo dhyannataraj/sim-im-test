@@ -31,7 +31,7 @@
 #include <QVector>
 #include <memory>
 
-#include "socket/sockfactory.h"
+#include "socket/simsockets.h"
 #include "fetch.h"
 #include "exec.h"
 #include "misc.h"

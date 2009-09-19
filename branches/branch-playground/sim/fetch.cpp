@@ -20,6 +20,7 @@
 #include "fetch.h"
 #include "fetchclientprivate.h"
 #include "socket/socket.h"
+#include "socket/socketfactory.h"
 #include "misc.h"
 
 using namespace SIM;

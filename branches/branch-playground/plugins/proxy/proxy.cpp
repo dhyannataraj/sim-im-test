@@ -34,6 +34,10 @@
 #include "misc.h"
 #include "socket/socket.h"
 #include "socket/serversocketnotify.h"
+#include "socket/serversocket.h"
+#include "socket/clientsocket.h"
+#include "socket/tcpclient.h"
+#include "socket/socketfactory.h"
 
 #include "proxy.h"
 #include "proxycfg.h"

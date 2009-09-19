@@ -47,6 +47,7 @@
 #include "log.h"
 #include "message.h"
 #include "misc.h"
+#include "socket/clientsocket.h"
 
 #include "yahoo.h"
 #include "yahooclient.h"

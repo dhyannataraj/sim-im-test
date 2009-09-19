@@ -18,8 +18,9 @@
 #ifndef _SMS_H
 #define _SMS_H
 
-#include "socket/socket.h"
 #include "log.h"
+#include "socket/socket.h"
+#include "socket/tcpclient.h"
 
 class SMSProtocol;
 class GsmTA;

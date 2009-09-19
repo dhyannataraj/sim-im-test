@@ -35,6 +35,8 @@
 #include "msninfo.h"
 #include "msnsearch.h"
 
+#include "socket/clientsocket.h"
+
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xFFFFFFFF
 #endif

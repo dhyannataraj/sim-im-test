@@ -20,8 +20,8 @@
 
 #include "buffer.h"
 #include "socket/socket.h"
+#include "socket/tcpclient.h"
 #include "fetch.h"
-//Added by qt3to4:
 #include <QByteArray>
 
 const unsigned long JournalCmdBase			= 0x00070000;

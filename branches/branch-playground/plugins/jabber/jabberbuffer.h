@@ -19,7 +19,7 @@
 
 #include "buffer.h"
 #include "socket/socket.h"
-//Added by qt3to4:
+#include "socket/clientsocket.h"
 #include <QByteArray>
 
 class JabberBuffer : public Buffer

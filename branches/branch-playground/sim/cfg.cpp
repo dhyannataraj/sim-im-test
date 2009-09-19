@@ -51,8 +51,8 @@
 #include "kdeisversion.h"
 #endif
 
-#include "sockfactory.h"
-#include "socket.h"
+#include "socket/socket.h"
+#include "socket/ip.h"
 #include "log.h"
 #include "misc.h"
 
