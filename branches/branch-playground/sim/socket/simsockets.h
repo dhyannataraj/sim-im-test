@@ -14,7 +14,7 @@
 
 namespace SIM
 {
-    class SIMSockets : public SocketFactory
+    class EXPORT SIMSockets : public SocketFactory
     {
         Q_OBJECT
     public:

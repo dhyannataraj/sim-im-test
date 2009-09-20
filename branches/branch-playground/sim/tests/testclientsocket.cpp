@@ -44,6 +44,7 @@ namespace testClientSocket
 
     unsigned long TestSocket::localHost()
     {
+        return 0;
     }
 
     void TestSocket::pause(unsigned)
@@ -68,6 +69,7 @@ namespace testClientSocket
     bool TestFactory::erase(SIM::ClientSocket* sock)
     {
         socketCounter--;
+        return true;
     }
 
     SIM::ServerSocket* TestFactory::createServerSocket()
@@ -89,6 +91,7 @@ namespace testClientSocket
 
     bool TestClientSocketNotify::error_state(const QString &err, unsigned code)
     {
+        return false;
     }
 
     void TestClientSocketNotify::connect_ready()
@@ -149,6 +152,7 @@ namespace testClientSocket
         case e
         }
         */
+        return true;
     }
 }
 
