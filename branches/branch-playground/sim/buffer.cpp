@@ -194,6 +194,12 @@ Buffer &Buffer::operator >> (long &c)
     return *this;
 }
 
+Buffer &Buffer::operator >> (unsigned long &c)
+{
+    return operator >> ((long&)c);
+}
+
+
 #ifndef WIN32
 
 Buffer &Buffer::operator >> (uint32_t &c)

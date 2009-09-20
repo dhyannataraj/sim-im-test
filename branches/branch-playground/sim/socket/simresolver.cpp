@@ -18,6 +18,7 @@
 
 #include "simresolver.h"
 
+#include "fetch.h"
 #include "socketfactory.h"
 #include "log.h"
 

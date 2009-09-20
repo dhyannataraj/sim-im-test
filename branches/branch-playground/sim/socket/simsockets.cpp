@@ -7,6 +7,7 @@
 #include "simresolver.h"
 #include "simclientsocket.h"
 #include "simserversocket.h"
+#include "fetch.h"
 
 namespace SIM
 {

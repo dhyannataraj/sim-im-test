@@ -21,6 +21,7 @@
 
 #include "simclientsocket.h"
 
+#include "fetch.h"
 #include "socketfactory.h"
 #include "simsockets.h"
 #include "log.h"

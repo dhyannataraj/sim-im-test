@@ -76,7 +76,7 @@ public:
     Buffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (long &c);
-    Buffer &operator >> (unsigned long &c) { return operator >> ((long&)c); }
+    Buffer &operator >> (unsigned long &c);// { return operator >> ((long&)c); }
 #ifndef WIN32
     Buffer &operator >> (uint32_t &c);
 #endif
