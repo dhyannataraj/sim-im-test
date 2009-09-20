@@ -13,6 +13,12 @@ namespace SIM
     SIMSockets::SIMSockets(QObject *parent)
         : SocketFactory(parent)
     {
+        m_resolver = new StdResolver(this, QString::null);
+    }
+
+    SIMSockets::SIMSockets(QObject *parent, IResolver* resolver) : SocketFactory(parent),
+        m_resolver(resolver)
+    {
     }
 
     SIMSockets::~SIMSockets()
@@ -35,13 +41,7 @@ namespace SIM
 
     void SIMSockets::resolve(const QString &host)
     {
-        // Win32 uses old resolver, based on QDns (which is buggy in qt3)
-        // *nix use new resolver
-        //#ifdef WIN32
-        //    SIMResolver *resolver = new SIMResolver(this, host);
-        //#else
-        StdResolver *resolver = new StdResolver(this, host);
-        //#endif
+        IResolver* resolver = m_resolver->clone(host);
         resolvers.push_back(resolver);
     }
 
@@ -73,6 +73,13 @@ namespace SIM
             delete r;
             it = resolvers.begin();
         }
+    }
+
+    void SIMSockets::setResolver(IResolver* resolver)
+    {
+        if(m_resolver)
+            delete m_resolver;
+        m_resolver = resolver;
     }
 
     Socket *SIMSockets::createSocket()

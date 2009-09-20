@@ -23,8 +23,8 @@
 namespace SIM
 {
     StdResolver::StdResolver(QObject* parent, const QString& host) : QThread(parent), m_done(false),
-    m_timeout(false), m_addr(0),
-    m_host(host)
+        m_timeout(false), m_addr(0),
+        m_host(host)
     {
         log(L_DEBUG, "StdResolver::StdResolver()");
         this->start();
@@ -76,6 +76,11 @@ namespace SIM
     bool StdResolver::isTimeout()
     {
         return m_timeout;
+    }
+
+    IResolver* StdResolver::clone(const QString& host)
+    {
+        return new StdResolver(parent(), host);
     }
 }
 

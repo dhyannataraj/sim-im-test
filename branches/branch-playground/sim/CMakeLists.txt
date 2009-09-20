@@ -185,11 +185,15 @@ ENDIF(APPLE)
 SET(sim_tests_srcs
     tests/test.cpp
     tests/testbuffer.cpp
+    tests/testsocketfactory.cpp
+    tests/testclientsocket.cpp
 )
 
 
 SET(sim_tests_hdrs
     tests/testbuffer.h
+    tests/testsocketfactory.h
+    tests/testclientsocket.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
@@ -255,3 +259,4 @@ if(WIN32)
   INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/ssleay32.dll DESTINATION ${BINDIR})
   INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/zlib1.dll    DESTINATION ${BINDIR})
 endif(WIN32)
+

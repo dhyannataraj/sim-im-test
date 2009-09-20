@@ -19,10 +19,13 @@ namespace SIM
         Q_OBJECT
     public:
         SIMSockets(QObject *parent);
+        SIMSockets(QObject *parent, IResolver* resolver);
         virtual ~SIMSockets();
         virtual Socket *createSocket();
         virtual ServerSocket *createServerSocket();
-        void resolve(const QString &host);
+
+        virtual void resolve(const QString &host);
+        virtual void setResolver(IResolver* resolver);
 
     signals:
         void resolveReady(unsigned long res, const QString &);
@@ -34,6 +37,8 @@ namespace SIM
 
     protected:
         std::list<IResolver*> resolvers;
+    private:
+        IResolver* m_resolver;
     };
 }
 

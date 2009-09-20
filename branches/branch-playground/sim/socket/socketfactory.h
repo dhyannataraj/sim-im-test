@@ -11,6 +11,7 @@ namespace SIM
 	class ServerSocket;
 	class Socket;
 	class SocketFactoryPrivate;
+    class IResolver;
 
 	class EXPORT SocketFactory : public QObject
 	{
@@ -23,10 +24,12 @@ namespace SIM
 		void remove(Socket*);
 		void remove(ServerSocket*);
 		bool add(ClientSocket *s);
-		bool erase(ClientSocket *s);
+		virtual bool erase(ClientSocket *s);
 		void setActive(bool);
 		bool isActive() const;
 		virtual void checkState() {}
+        virtual void resolve(const QString &host) = 0;
+        virtual void setResolver(IResolver* resolver) = 0;
 
 	protected slots:
 		void idle();

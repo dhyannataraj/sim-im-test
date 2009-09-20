@@ -20,9 +20,10 @@ namespace SIM
         virtual QString host() const;
         virtual bool isDone();
         virtual bool isTimeout();
+        virtual IResolver* clone(const QString& host);
 
-        protected slots:
-            void   resolveTimeout();
+    protected slots:
+        void   resolveTimeout();
         void   resolveReady();
 
     private:

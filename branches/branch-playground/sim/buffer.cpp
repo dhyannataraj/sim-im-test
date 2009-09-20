@@ -194,6 +194,8 @@ Buffer &Buffer::operator >> (long &c)
     return *this;
 }
 
+#ifndef WIN32
+
 Buffer &Buffer::operator >> (uint32_t &c)
 {
     if (unpack((char*)&c, 4) != 4)
@@ -201,6 +203,8 @@ Buffer &Buffer::operator >> (uint32_t &c)
     c = ntohl(c);
     return *this;
 }
+
+#endif
 
 bool Buffer::scan(const char *substr, QByteArray &res)
 {

@@ -92,6 +92,10 @@ namespace SIM
         return bTimeout;
     }
 
+    IResolver* SIMResolver::clone(const QString& host)
+    {
+        return new SIMResolver(parent(), host);
+    }
 }
 
 // vim: set expandtab:

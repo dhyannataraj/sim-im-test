@@ -58,10 +58,3 @@ void Socket::error(const QString &err_text, unsigned code)
 
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "socket.moc"
-#endif
-*/
-
-
