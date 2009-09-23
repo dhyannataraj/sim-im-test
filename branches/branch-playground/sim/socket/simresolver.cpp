@@ -3,84 +3,58 @@
 	#include <winsock.h>
 	#include <wininet.h>
 #else
-	#include <sys/socket.h>
-	#include <sys/time.h>
-	#include <sys/un.h>
-	#include <netinet/in.h>
-	#include <netdb.h>
 	#include <arpa/inet.h>
-	#include <pwd.h>
-	#include <net/if.h>
-	#include <sys/ioctl.h>
 #endif
 
 #include <errno.h>
 
 #include "simresolver.h"
 
-#include "fetch.h"
 #include "socketfactory.h"
-#include "log.h"
 
 namespace SIM
 {
     SIMResolver::SIMResolver(QObject *parent, const QString &host)
         : QObject(parent)
     {
+        m_sHost = host;
         bDone = false;
         bTimeout = false;
-#ifdef WIN32
-        bool bState;
-        if(get_connection_state(bState) && !bState)
-        {
-            QTimer::singleShot(0, this, SLOT(resolveTimeout()));
-            return;
-        }
-#endif
-        timer = new QTimer(this);
-        connect(timer, SIGNAL(timeout()), this, SLOT(resolveTimeout()));
-        timer->start(20000);
-        dns = new Q3Dns(host, Q3Dns::A);
-        connect(dns, SIGNAL(resultsReady()), this, SLOT(resolveReady()));
+        QTimer::singleShot(20000, this, SLOT(resolveTimeout()));
+        QHostInfo::lookupHost(m_sHost, this, SLOT(resolveReady(QHostInfo)));
     }
 
     SIMResolver::~SIMResolver()
     {
-        delete dns;
-        delete timer;
     }
 
     void SIMResolver::resolveTimeout()
     {
-        bDone    = true;
-        bTimeout = true;
-        getSocketFactory()->setActive(false);
-        QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+        if( !bDone ) {
+            bDone    = true;
+            bTimeout = true;
+            getSocketFactory()->setActive(false);
+            QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+        }
     }
 
-    void SIMResolver::resolveReady()
+    void SIMResolver::resolveReady(const QHostInfo &host)
     {
         bDone = true;
+        m_listAddresses = host.addresses();
         QTimer::singleShot(0, parent(), SLOT(resultsReady()));
     }
 
     unsigned long SIMResolver::addr()
     {
-        if (dns->addresses().isEmpty())
+        if (m_listAddresses.isEmpty())
             return INADDR_NONE;
-        // crissi
-        struct hostent * server_entry;
-        if ( ( server_entry = gethostbyname( dns->label().toAscii() ) ) == NULL )
-        {
-            log( L_WARN, "gethostbyname failed\n" );
-            return htonl(dns->addresses().first().toIPv4Address());
-        }
-        return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
+        return htonl(m_listAddresses.first().toIPv4Address());
     }
 
     QString SIMResolver::host() const
     {
-        return dns->label();
+        return m_sHost;
     }
 
     bool SIMResolver::isDone()

@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
-#include <Q3Dns>
+#include <QHostInfo>
 #include "iresolver.h"
 
 namespace SIM
@@ -23,14 +23,14 @@ namespace SIM
         virtual IResolver* clone(const QString& host);
 
     protected slots:
-        void   resolveTimeout();
-        void   resolveReady();
+        void resolveTimeout();
+        void resolveReady(const QHostInfo &host);
 
     private:
-        QTimer *timer;
-        Q3Dns   *dns;
         bool   bDone;
         bool   bTimeout;
+        QString m_sHost;
+        QList<QHostAddress> m_listAddresses;
     };
 
 }

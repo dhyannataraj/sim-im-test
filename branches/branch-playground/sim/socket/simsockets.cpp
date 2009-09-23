@@ -14,7 +14,7 @@ namespace SIM
     SIMSockets::SIMSockets(QObject *parent)
         : SocketFactory(parent)
     {
-        m_resolver = new StdResolver(this, QString::null);
+        m_resolver = new SIMResolver(this, QString::null);
     }
 
     SIMSockets::SIMSockets(QObject *parent, IResolver* resolver) : SocketFactory(parent),
