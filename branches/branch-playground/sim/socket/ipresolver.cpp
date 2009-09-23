@@ -6,10 +6,8 @@
 	// name resolving
 	#include <netdb.h>
 	#include <arpa/inet.h>
-	#include <q3dns.h>
 #else
-    #include <winsock2.h>
-	#include <q3dns.h>
+    //#include <winsock2.h>
 #endif
 
 

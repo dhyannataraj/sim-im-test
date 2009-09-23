@@ -347,7 +347,7 @@ ConfigureDialog::~ConfigureDialog()
         const pluginInfo *info = e.info();
         if (info == NULL)
             break;
-        if (info->plugin == NULL)
+        if (info->plugin == NULL || info->name=="_core") //_core is deleted by pluginmanager, it may not be deleted here, would cause a a stack overflow
             continue;
         if (info->bDisabled){
             EventUnloadPlugin eUnload(info->name);
