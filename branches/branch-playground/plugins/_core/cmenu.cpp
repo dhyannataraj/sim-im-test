@@ -99,7 +99,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
 	}
 	else if (bSeparator)
 	{
-		m_wrk->insertSeparator();
+		m_wrk->addSeparator();
 		bSeparator = false;
 	}
 	QIcon icons;

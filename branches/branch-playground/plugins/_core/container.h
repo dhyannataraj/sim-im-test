@@ -157,6 +157,8 @@ protected:
     QStackedWidget	*m_wnds;
     Q3Accel			*m_accel;
     std::list<UserWnd*> m_childs;
+    QFrame *frm;
+    QVBoxLayout *lay;
 };
 
 #endif

@@ -233,12 +233,12 @@ void Container::init()
     if (m_bInit)
         return;
 
-    QFrame *frm = new QFrame(this);
+    frm = new QFrame(this);
     setCentralWidget(frm);
 
     QObject::connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
-    QVBoxLayout *lay = new QVBoxLayout(frm);
+    lay = new QVBoxLayout(frm);
     m_wnds = new QStackedWidget(frm);
     m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     lay->addWidget(m_wnds);

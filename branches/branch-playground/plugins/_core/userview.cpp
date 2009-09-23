@@ -548,8 +548,9 @@ bool UserView::processEvent(Event *e)
 					{
                         userWnd = from->wnd(contact->id());
                         from->removeUserWnd(userWnd);
+                        delete userWnd;
                     }
-                    if (userWnd == NULL)
+                    if (from->wnd(contact->id()) == NULL)
                         userWnd = new UserWnd(contact->id(), NULL, true, true);
                     if (to == NULL)
                         to = new Container(max_id + 1);
@@ -558,6 +559,7 @@ bool UserView::processEvent(Event *e)
                     to->setNoSwitch(true);
                     raiseWindow(to);
                     to->setNoSwitch(false);
+                    delete userWnd;
                 }
                 return true;
             }
