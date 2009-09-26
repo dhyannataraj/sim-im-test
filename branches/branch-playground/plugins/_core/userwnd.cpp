@@ -64,7 +64,7 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
 	m_splitter = new QSplitter(Qt::Vertical, this);
 	m_list = NULL;
 	m_view = NULL;
-/*
+    /* Fixme Todin
 	if (cfg == NULL)
 		copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
 		*/

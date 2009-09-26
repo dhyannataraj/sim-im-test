@@ -109,6 +109,7 @@ SearchDialog::SearchDialog()
 
 SearchDialog::~SearchDialog()
 {
+    // Fixme Todin
 	//::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
@@ -116,7 +117,7 @@ void SearchDialog::resizeEvent(QResizeEvent *e)
 {
     Q3MainWindow::resizeEvent(e);
     m_result->adjustColumn();
-	/*
+	/* Fixme Todin
     if (isVisible())
 		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 		*/
@@ -125,7 +126,7 @@ void SearchDialog::resizeEvent(QResizeEvent *e)
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
     Q3MainWindow::moveEvent(e);
-	/*
+	/* Fixme Todin
     if (isVisible())
 		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 		*/

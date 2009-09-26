@@ -2533,7 +2533,7 @@ bool CorePlugin::processEvent(Event *e)
 						}
 						if (wnd == NULL){
 							wnd = new HistoryWindow(id);
-							/*
+							/* Fixme Todin
 							if (data.HistorySize[0].toULong() && data.HistorySize[1].toULong())
 								wnd->resize(data.HistorySize[0].toULong(), data.HistorySize[1].toULong());
 								*/
@@ -2558,7 +2558,7 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_cfg == NULL){
                     	m_cfg = new ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
-						/*
+						/*  Fixme Todin
 						if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
 							data.CfgGeometry[WIDTH].asLong()  = 500;
 							data.CfgGeometry[HEIGHT].asLong() = 380;
@@ -2575,7 +2575,7 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_search == NULL){
 						m_search = new SearchDialog;
 						connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
-						/*
+						/*  Fixme Todin
 						if ((data.SearchGeometry[WIDTH].toLong() == 0) || (data.SearchGeometry[HEIGHT].toLong() == 0)){
 							data.SearchGeometry[WIDTH].asLong()  = 500;
 							data.SearchGeometry[HEIGHT].asLong() = 380;
@@ -2928,7 +2928,7 @@ void CorePlugin::showInfo(CommandDef *cmd)
 	}
 	if (cfg == NULL){
 		cfg = new UserConfig(contact, group);
-		/*
+		/*  Fixme Todin
 		if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
 			data.CfgGeometry[WIDTH].asLong()  = 500;
 			data.CfgGeometry[HEIGHT].asLong() = 380;
