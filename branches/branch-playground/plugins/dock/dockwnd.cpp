@@ -22,6 +22,8 @@
 #include "dockwnd.h"
 #include "dock.h"
 #include "core.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include <QPainter>
 #include <QTimer>

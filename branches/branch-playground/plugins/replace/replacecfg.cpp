@@ -37,15 +37,22 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin) : QWidget(parent)
     lstKeys->addColumn(i18n("You type"));
     lstKeys->addColumn(i18n("You send"));
     lstKeys->setExpandingColumn(1);
-    lstKeys->setSorting(2);
+    //lstKeys->setSorting(2);
     for (unsigned i = 1; i <= m_plugin->property("Keys").toUInt(); i++){
         QString key = m_plugin->property("Key").toStringList().value(i);
         QString value = m_plugin->property("Value").toStringList().value(i);
         if (key.isEmpty())
             continue;
-        new Q3ListViewItem(lstKeys, key, value, QString::number(m_count++));
+        //new ListViewItem(lstKeys, key, value, QString::number(m_count++));
+		ListViewItem* keyval = new ListViewItem(lstKeys);
+		keyval->setText(0, key);
+		keyval->setText(1, value);
+		/*
+		lstKeys->setItem(r, 0, new ListViewItem(key));
+		lstKeys->setItem(r, 1, new ListViewItem(value));
+		*/
     }
-    new Q3ListViewItem(lstKeys, "", "", QString::number(m_count++));
+    //new ListViewItem(lstKeys, "", "", QString::number(m_count++));
     lstKeys->adjustColumn();
     m_edit = new IntLineEdit(lstKeys->viewport());
     m_edit->installEventFilter(this);
@@ -57,8 +64,8 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin) : QWidget(parent)
     m_bDelete = false;
     setEdit();
     connect(lstKeys, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
-    connect(lstKeys->header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
-    connect(lstKeys, SIGNAL(mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int)), this, SLOT(mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int)));
+   // connect(lstKeys->header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
+    connect(lstKeys, SIGNAL(mouseButtonPressed(int, ListViewItem*, const QPoint&, int)), this, SLOT(mouseButtonPressed(int, ListViewItem*, const QPoint&, int)));
 }
 
 ReplaceCfg::~ReplaceCfg()
@@ -72,13 +79,15 @@ void ReplaceCfg::apply()
     unsigned n = 0;
 	QStringList keys;
 	QStringList values;
-    for (Q3ListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
-        if (item->text(0).isEmpty())
-            continue;
-        n++;
+	for(int c = 0; c < lstKeys->topLevelItemCount(); c++)
+	{
+		ListViewItem *item = static_cast<ListViewItem*>(lstKeys->topLevelItem(c));
+		if (item->text(0).isEmpty())
+			continue;
+		n++;
 		keys.append(item->text(0));
 		values.append(item->text(1));
-    }
+	}
 	m_plugin->setProperty("Key", keys);
 	m_plugin->setProperty("Value", values);
     m_plugin->setProperty("Keys", n);
@@ -139,13 +148,20 @@ void ReplaceCfg::flush()
         return;
     }
     if ((m_editCol == 0) && m_editItem->text(0).isEmpty())
-        new Q3ListViewItem(lstKeys, "", "", QString::number(m_count++));
+	{
+		/*
+		int r = lstKeys->rowCount();
+		lstKeys->setItem(r, 0, new ListViewItem(""));
+		lstKeys->setItem(r, 1, new ListViewItem(""));
+		*/
+	}
+    //    new ListViewItem(lstKeys, "", "", QString::number(m_count++));
     m_editItem->setText(m_editCol, m_edit->text());
 }
 
 void ReplaceCfg::setEdit()
 {
-    Q3ListViewItem *item = lstKeys->currentItem();
+    ListViewItem *item = lstKeys->currentItem();
     if (item == NULL){
         m_edit->hide();
     }else{
@@ -157,7 +173,7 @@ void ReplaceCfg::setEdit()
             m_editCol = m_col;
             m_editItem = item;
         }
-        QRect rc = lstKeys->itemRect(item);
+        QRect rc = lstKeys->visualItemRect(item);
         if (m_col){
             rc.setLeft(lstKeys->columnWidth(0));
             rc.setWidth(lstKeys->columnWidth(1));
@@ -182,7 +198,7 @@ void ReplaceCfg::sizeChange(int,int,int)
     setEdit();
 }
 
-void ReplaceCfg::mouseButtonPressed(int, Q3ListViewItem *item, const QPoint&, int col)
+void ReplaceCfg::mouseButtonPressed(int, ListViewItem *item, const QPoint&, int col)
 {
     if (item){
         m_col = col;

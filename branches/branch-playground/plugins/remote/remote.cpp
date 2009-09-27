@@ -33,6 +33,9 @@
 #include "log.h"
 
 #include "socket/clientsocket.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
+#include "contacts/client.h"
 #include "remote.h"
 #include "remotecfg.h"
 #include "core.h"

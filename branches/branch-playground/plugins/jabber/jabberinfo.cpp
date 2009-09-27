@@ -28,6 +28,7 @@
 #include "datepicker.h"
 #include "icons.h"
 #include "misc.h"
+#include "contacts/contact.h"
 
 #include "jabberclient.h"
 #include "jabberinfo.h"

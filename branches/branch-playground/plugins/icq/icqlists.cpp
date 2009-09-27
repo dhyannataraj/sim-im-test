@@ -18,6 +18,8 @@
 #include "icqclient.h"
 #include "icqmessage.h"
 #include "core.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 #ifndef WIN32
 #include <netinet/in.h>

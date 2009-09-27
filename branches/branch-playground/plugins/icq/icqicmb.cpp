@@ -48,6 +48,8 @@
 #include "icqmessage.h"
 #include "icqdirect.h"
 #include "icq.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 using namespace std;
 using namespace SIM;

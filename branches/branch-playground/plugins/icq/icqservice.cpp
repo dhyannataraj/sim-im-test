@@ -32,6 +32,7 @@
 
 #include "icqclient.h"
 #include "icqservice.h"
+#include "contacts/contact.h"
 
 using namespace std;
 using namespace SIM;

@@ -22,6 +22,7 @@
 #include "arcfg.h"
 #include "buffer.h"
 #include "core.h"
+#include "contacts/client.h"
 
 #include <QPixmap>
 #include <QTabWidget>

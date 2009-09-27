@@ -18,6 +18,9 @@
 #include <time.h>
 
 #include "log.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include "core.h"
 

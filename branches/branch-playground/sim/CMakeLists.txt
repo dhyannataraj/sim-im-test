@@ -45,6 +45,16 @@ SET(sim_LIB_SRCS
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
+		contacts/userdata.cpp
+		contacts/contactlistprivate.cpp
+		contacts/clientuserdata.cpp
+		contacts/clientuserdataprivate.cpp
+		contacts/clientdataiterator.cpp
+		contacts/packettype.cpp
+		contacts/contact.cpp
+		contacts/group.cpp
+		contacts/protocol.cpp
+		contacts/client.cpp
 		socket/socket.cpp
 		socket/serversocketnotify.cpp
 		socket/serversocket.cpp
@@ -103,6 +113,16 @@ SET(sim_LIB_HDRS
 		qzip/qzip.h
 		qzip/unzip.h
 		fetchclientprivate.h
+		contacts/userdata.h
+		contacts/contactlistprivate.h
+		contacts/clientuserdata.h
+		contacts/clientuserdataprivate.h
+		contacts/clientdataiterator.h
+		contacts/packettype.h
+		contacts/contact.h
+		contacts/group.h
+		contacts/protocol.h
+		contacts/client.h
 		socket/socket.h
 		socket/socketnotify.h
 		socket/serversocketnotify.h

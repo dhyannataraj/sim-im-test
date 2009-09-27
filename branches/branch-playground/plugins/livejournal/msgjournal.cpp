@@ -21,6 +21,8 @@
 #include "userwnd.h"
 #include "ballonmsg.h"
 #include "toolbtn.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
 
 #include <QLayout>
 #include <QLineEdit>

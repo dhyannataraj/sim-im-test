@@ -22,7 +22,7 @@
 
 #include "event.h"
 
-class Q3ListViewItem;
+class ListViewItem;
 
 class IgnoreList : public QWidget, public Ui::IgnoreListBase, public SIM::EventReceiver
 {
@@ -30,16 +30,16 @@ class IgnoreList : public QWidget, public Ui::IgnoreListBase, public SIM::EventR
 public:
     IgnoreList(QWidget *parent);
 protected slots:
-    void deleteItem(Q3ListViewItem*);
+    void deleteItem(ListViewItem*);
     void dragStart();
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
 protected:
     virtual bool processEvent(SIM::Event *e);
-    void removeItem(Q3ListViewItem*);
-    void updateItem(Q3ListViewItem*, SIM::Contact*);
-    void unignoreItem(Q3ListViewItem*);
-    Q3ListViewItem *findItem(SIM::Contact*);
+    void removeItem(ListViewItem*);
+    void updateItem(ListViewItem*, SIM::Contact*);
+    void unignoreItem(ListViewItem*);
+    ListViewItem *findItem(SIM::Contact*);
 };
 
 #endif

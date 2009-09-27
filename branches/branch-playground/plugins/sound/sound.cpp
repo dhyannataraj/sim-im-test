@@ -24,6 +24,8 @@
 #include "sound.h"
 #include "soundconfig.h"
 #include "sounduser.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 using namespace std;
 using namespace SIM;

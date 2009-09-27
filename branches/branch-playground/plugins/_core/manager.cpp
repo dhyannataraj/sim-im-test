@@ -20,6 +20,7 @@
 #include "newprotocol.h"
 #include "connectionsettings.h"
 #include "core.h"
+#include "contacts/client.h"
 
 #include <q3listview.h>
 #include <q3header.h>

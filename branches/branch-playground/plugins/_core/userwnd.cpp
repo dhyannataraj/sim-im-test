@@ -25,6 +25,8 @@
 #include "core.h"
 #include "container.h"
 #include "history.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include <QToolBar>
 #include <QApplication>

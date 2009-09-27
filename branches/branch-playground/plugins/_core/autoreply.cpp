@@ -21,6 +21,7 @@
 #include "core.h"
 #include "ballonmsg.h"
 #include "editfile.h"
+#include "contacts/client.h"
 
 #include <QPixmap>
 #include <QCheckBox>

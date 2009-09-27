@@ -34,6 +34,7 @@
 #include "ballonmsg.h"
 #include "icons.h"
 #include "unquot.h"
+#include "contacts/contact.h"
 
 #include "filetransfer.h"
 #include "core.h"

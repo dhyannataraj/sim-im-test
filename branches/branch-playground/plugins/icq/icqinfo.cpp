@@ -19,6 +19,7 @@
 #include "icqinfo.h"
 #include "icqclient.h"
 #include "ballonmsg.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <q3multilineedit.h>

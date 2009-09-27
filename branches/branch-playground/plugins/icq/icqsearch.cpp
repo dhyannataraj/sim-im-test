@@ -22,6 +22,7 @@
 #include "aimsearch.h"
 #include "intedit.h"
 #include "log.h"
+#include "contacts/contact.h"
 
 #include <QPushButton>
 #include <QLabel>

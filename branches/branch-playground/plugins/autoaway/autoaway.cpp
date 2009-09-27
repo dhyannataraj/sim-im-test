@@ -29,6 +29,7 @@ Copyright (C) 2003  Tarkvara Design Inc.
 #include "autoaway.h"
 #include "autoawaycfg.h"
 #include "core.h"
+#include "contacts/client.h"
 
 #ifdef WIN32
 #define _WIN32_WINNT 0x0500

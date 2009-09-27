@@ -53,6 +53,10 @@ email                : vovan@shutoff.ru
 #include "unquot.h"
 #include "xsl.h"
 #include "textshow.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
+#include "contacts/client.h"
 // _core
 #include "core.h"
 #include "cfgdlg.h"

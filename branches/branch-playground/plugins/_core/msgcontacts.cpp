@@ -22,6 +22,7 @@
 #include "userwnd.h"
 #include "userlist.h"
 #include "core.h"
+#include "contacts/contact.h"
 
 #include <QLayout>
 

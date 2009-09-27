@@ -21,6 +21,7 @@
 #include "userwnd.h"
 #include "textshow.h"
 #include "core.h"
+#include "contacts/contact.h"
 
 #include <QCheckBox>
 #include <QHBoxLayout>

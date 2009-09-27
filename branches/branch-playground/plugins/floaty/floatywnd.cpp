@@ -20,6 +20,7 @@
 
 #include "floatywnd.h"
 #include "floaty.h"
+#include "contacts/contact.h"
 
 #include <QPixmap>
 #include <QPainter>
@@ -511,6 +512,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         delete msg;
         return;
     }
+	/*
     if (Q3TextDrag::canDecode(e)){
         QString str;
         if (Q3TextDrag::decode(e, str)){
@@ -525,6 +527,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
             return;
         }
     }
+	*/
 }
 
 bool FloatyWnd::event( QEvent *event ) {

@@ -19,6 +19,8 @@
 
 #include "log.h"
 #include "prefcfg.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 #include <QVBoxLayout>
 

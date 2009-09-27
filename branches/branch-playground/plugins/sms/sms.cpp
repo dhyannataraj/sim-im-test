@@ -21,6 +21,8 @@
 #include "gsm_ta.h"
 #include "core.h"
 #include "maininfo.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
 
 #include <QTimer>
 #include <QApplication>
@@ -137,12 +139,12 @@ void SMSPlugin::removePhoneCol()
 
 void SMSPlugin::setPhoneCol(MainInfo *w)
 {
-    w->lstPhones->addColumn(" ", 16);
+    w->lstPhones->addColumn(" "/*, 16*/);
 }
 
 void SMSPlugin::removePhoneCol(MainInfo *w)
 {
-    w->lstPhones->removeColumn(COL_TYPE);
+    //w->lstPhones->removeColumn(COL_TYPE);
 }
 
 bool SMSPlugin::eventFilter(QObject *obj, QEvent *e)

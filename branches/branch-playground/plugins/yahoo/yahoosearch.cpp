@@ -18,9 +18,10 @@
 #include <QLabel>
 #include <QComboBox>
 #include <cstdio>
-//Added by qt3to4:
 #include <QByteArray>
 #include <QShowEvent>
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 #include "country.h"
 #include "intedit.h"

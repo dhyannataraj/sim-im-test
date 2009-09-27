@@ -20,7 +20,7 @@
 
 #include "ui_maininfobase.h"
 
-class Q3ListViewItem;
+class ListViewItem;
 
 // Lets do this later whole in one, because at the moment it only breaks linking of all other plugins...
 #ifdef MAKE__CORE_LIB
@@ -38,10 +38,10 @@ protected slots:
     void apply();
     void mailSelectionChanged();
     void phoneSelectionChanged();
-    void deleteMail(Q3ListViewItem *item);
-    void deletePhone(Q3ListViewItem *item);
-    void editMail(Q3ListViewItem *item);
-    void editPhone(Q3ListViewItem *item);
+    void deleteMail(ListViewItem *item);
+    void deletePhone(ListViewItem *item);
+    void editMail(ListViewItem *item);
+    void editPhone(ListViewItem *item);
     void addMail();
     void editMail();
     void deleteMail();
@@ -51,7 +51,7 @@ protected slots:
 protected:
     void fill();
     virtual bool processEvent(SIM::Event*);
-    void fillPhoneItem(Q3ListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
+    void fillPhoneItem(ListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
     void fillCurrentCombo();
     void fillEncoding();
     void getEncoding(bool SendContactChangedEvent = true);

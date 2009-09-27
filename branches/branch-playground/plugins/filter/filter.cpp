@@ -25,6 +25,7 @@
 
 #include "filter.h"
 #include "filtercfg.h"
+#include "contacts/contact.h"
 
 using namespace SIM;
 

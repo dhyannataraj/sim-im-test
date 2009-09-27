@@ -19,6 +19,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 
+#include "contacts/contact.h"
 #include "misc.h"
 
 #include "forwardcfg.h"

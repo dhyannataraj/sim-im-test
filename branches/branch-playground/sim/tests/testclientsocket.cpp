@@ -102,6 +102,25 @@ namespace testClientSocket
     {
     }
 
+    TestTCPClient::TestTCPClient() : TCPClient(0, 0)
+    {
+    }
+    QString TestTCPClient::getServer() const
+    {
+    }
+
+    unsigned short TestTCPClient::getPort() const
+    {
+    }
+
+    void TestTCPClient::setStatus(unsigned status)
+    {
+    }
+
+    void TestTCPClient::disconnected()
+    {
+    }
+
     void TestClientSocket::testCtorDtor()
     {
         SIM::ClientSocket* socket = new SIM::ClientSocket(m_notify);
@@ -115,20 +134,33 @@ namespace testClientSocket
     void TestClientSocket::testReading()
     {
         SIM::ClientSocket* socket = new SIM::ClientSocket(m_notify);
+        int oldSocketConnect = m_eSocketConnect;
         socket->connect("doesntmatter.com", 80, NULL);
+        QCOMPARE(m_eSocketConnect, oldSocketConnect); // There should be no event, if client is NULL
+
         TestSocket* s = dynamic_cast<TestSocket*>(socket->socket());
         QVERIFY(s);
+
         s->length = 40;
         socket->readBuffer().resize(256);
-
         socket->read_ready();
         Buffer b = socket->readBuffer();
         char buf[256];
         int r = b.unpack(buf, 10);
-        QCOMPARE(r, 10);
         buf[10] = 0;
+
+        QCOMPARE(r, 10);
         QVERIFY2(strncmp(buf, "ABCDEFGHIJ", 10) == 0, "Socket reading failed");
 
+        delete socket;
+    }
+    
+    void TestClientSocket::testConnectEvent()
+    {
+        SIM::ClientSocket* socket = new SIM::ClientSocket(m_notify);
+        int oldSocketConnect = m_eSocketConnect;
+        socket->connect("doesntmatter.com", 80, new TestTCPClient());
+        QCOMPARE(m_eSocketConnect, oldSocketConnect + 1); // Exactly one event should occur
         delete socket;
     }
 
@@ -144,14 +176,14 @@ namespace testClientSocket
         delete SIM::PluginManager::factory;
     }
 
-    bool TestClientSocket::processEvent(class Event* e)
+    bool TestClientSocket::processEvent(SIM::Event* e)
     {
-        /*
         switch(e->type())
         {
-        case e
+            case SIM::eEventSocketConnect:
+                m_eSocketConnect++;
+                break;
         }
-        */
         return true;
     }
 }

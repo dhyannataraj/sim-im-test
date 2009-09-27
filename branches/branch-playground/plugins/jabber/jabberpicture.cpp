@@ -28,6 +28,7 @@
 #include "editfile.h"
 #include "misc.h"
 #include "preview.h"
+#include "contacts/contact.h"
 
 #include "jabberclient.h"
 #include "jabberpicture.h"

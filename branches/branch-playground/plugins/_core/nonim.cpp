@@ -19,7 +19,7 @@
 
 #include "nonim.h"
 #include "intedit.h"
-//Added by qt3to4:
+#include "contacts/contact.h"
 #include <QShowEvent>
 
 using namespace SIM;

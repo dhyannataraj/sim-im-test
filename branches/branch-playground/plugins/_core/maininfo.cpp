@@ -31,7 +31,7 @@
 #include <QTabWidget>
 #include <QByteArray>
 #include <q3multilineedit.h>
-//Added by qt3to4:
+#include "contacts/contact.h"
 
 
 using namespace std;
@@ -109,8 +109,8 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact) : QWidget(parent)
     fill();
     connect(lstMails, SIGNAL(selectionChanged()), this, SLOT(mailSelectionChanged()));
     connect(lstPhones, SIGNAL(selectionChanged()), this, SLOT(phoneSelectionChanged()));
-    connect(lstMails, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deleteMail(Q3ListViewItem*)));
-    connect(lstPhones, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deletePhone(Q3ListViewItem*)));
+    connect(lstMails, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteMail(ListViewItem*)));
+    connect(lstPhones, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deletePhone(ListViewItem*)));
     connect(btnMailAdd, SIGNAL(clicked()), this, SLOT(addMail()));
     connect(btnMailEdit, SIGNAL(clicked()), this, SLOT(editMail()));
     connect(btnMailDelete, SIGNAL(clicked()), this, SLOT(deleteMail()));
@@ -137,7 +137,7 @@ bool MainInfo::processEvent(Event *e)
         if (cmd->menu_id == MenuMailList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
                 return false;
-            Q3ListViewItem *item = (Q3ListViewItem*)(cmd->param);
+            ListViewItem *item = (ListViewItem*)(cmd->param);
             if (item->listView() != lstMails)
                 return false;
             cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
@@ -149,7 +149,7 @@ bool MainInfo::processEvent(Event *e)
         if (cmd->menu_id == MenuPhoneList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
                 return false;
-            Q3ListViewItem *item = (Q3ListViewItem*)(cmd->param);
+            ListViewItem *item = (ListViewItem*)(cmd->param);
             if (item->listView() != lstPhones)
                 return false;
             cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
@@ -164,7 +164,7 @@ bool MainInfo::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if (cmd->menu_id == MenuMailList){
-            Q3ListViewItem *item = (Q3ListViewItem*)(cmd->param);
+            ListViewItem *item = (ListViewItem*)(cmd->param);
             if (item->listView() != lstMails)
                 return false;
             bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
@@ -180,7 +180,7 @@ bool MainInfo::processEvent(Event *e)
             }
         }
         if (cmd->menu_id == MenuPhoneList){
-            Q3ListViewItem *item = (Q3ListViewItem*)(cmd->param);
+            ListViewItem *item = (ListViewItem*)(cmd->param);
             if (item->listView() != lstPhones)
                 return false;
             bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
@@ -236,7 +236,7 @@ void MainInfo::fill()
     while (mails.length()){
         QString mailItem = getToken(mails, ';', false);
         QString mail = getToken(mailItem, '/');
-        Q3ListViewItem *item = new Q3ListViewItem(lstMails);
+        ListViewItem *item = new ListViewItem(lstMails);
         item->setText(MAIL_ADDRESS, mail);
         item->setText(MAIL_PROTO, mailItem);
         item->setPixmap(MAIL_ADDRESS, Pict("mail_generic"));
@@ -259,7 +259,7 @@ void MainInfo::fill()
 
         if (!phoneItem.isEmpty())
             icon = getToken(phoneItem, ',').toULong();
-        Q3ListViewItem *item = new Q3ListViewItem(lstPhones);
+        ListViewItem *item = new ListViewItem(lstPhones);
         fillPhoneItem(item, number, type, icon, proto);
         cmbCurrent->insertItem(INT_MAX,number);
         if (!phoneItem.isEmpty()){
@@ -284,9 +284,11 @@ void MainInfo::apply()
         contact->setPhoneStatus(cmbStatus->currentIndex());
     }
     contact->setNotes(edtNotes->text());
-    Q3ListViewItem *item;
+    ListViewItem *item;
     QString mails;
-    for (item = lstMails->firstChild(); item; item = item->nextSibling()){
+    for (int i = 0; i <lstMails->topLevelItemCount(); i++)
+	{
+		item = static_cast<ListViewItem*>(lstMails->topLevelItem(i));
         if (mails.length())
             mails += ';';
         mails += quoteChars(item->text(MAIL_ADDRESS), ";/");
@@ -295,7 +297,9 @@ void MainInfo::apply()
     }
     contact->setEMails(mails);
     QString phones;
-    for (item = lstPhones->firstChild(); item; item = item->nextSibling()){
+    for (int i = 0; i < lstPhones->topLevelItemCount(); i++)
+    {
+        item = static_cast<ListViewItem*>(lstPhones->topLevelItem(i));
         if (phones.length())
             phones += ';';
         phones += quoteChars(item->text(PHONE_NUMBER), ";/,");
@@ -336,7 +340,7 @@ void MainInfo::apply()
 
 void MainInfo::mailSelectionChanged()
 {
-    Q3ListViewItem *item = lstMails->currentItem();
+    ListViewItem *item = lstMails->currentItem();
     bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
     btnMailEdit->setEnabled(bEnable);
     btnMailDelete->setEnabled(bEnable);
@@ -344,7 +348,7 @@ void MainInfo::mailSelectionChanged()
 
 void MainInfo::phoneSelectionChanged()
 {
-    Q3ListViewItem *item = lstPhones->currentItem();
+    ListViewItem *item = lstPhones->currentItem();
     bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
     btnPhoneEdit->setEnabled(bEnable);
     btnPhoneDelete->setEnabled(bEnable);
@@ -354,7 +358,7 @@ void MainInfo::addMail()
 {
     EditMail dlg(this, "", false, m_contact == NULL);
     if (dlg.exec() && !dlg.res.isEmpty()){
-        Q3ListViewItem *item = new Q3ListViewItem(lstMails);
+        ListViewItem *item = new ListViewItem(lstMails);
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish){
             item->setText(MAIL_PUBLISH, i18n("Yes"));
@@ -369,11 +373,11 @@ void MainInfo::addMail()
 
 void MainInfo::editMail()
 {
-    Q3ListViewItem *item = lstMails->currentItem();
+    ListViewItem *item = lstMails->currentItem();
     editMail(item);
 }
 
-void MainInfo::editMail(Q3ListViewItem *item)
+void MainInfo::editMail(ListViewItem *item)
 {
     if ((item == NULL) || (!item->text(MAIL_PROTO).isEmpty() && (item->text(MAIL_PROTO) != "-")))
         return;
@@ -396,7 +400,7 @@ void MainInfo::deleteMail()
     deleteMail(lstMails->currentItem());
 }
 
-void MainInfo::deleteMail(Q3ListViewItem *item)
+void MainInfo::deleteMail(ListViewItem *item)
 {
     if ((item == NULL) || (!item->text(MAIL_PROTO).isEmpty() && (item->text(MAIL_PROTO) != "-")))
         return;
@@ -410,18 +414,18 @@ void MainInfo::addPhone()
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)
             proto = QString::null;
-        fillPhoneItem(new Q3ListViewItem(lstPhones), dlg.number, dlg.type, dlg.icon, proto);
+        fillPhoneItem(new ListViewItem(lstPhones), dlg.number, dlg.type, dlg.icon, proto);
         fillCurrentCombo();
     }
 }
 
 void MainInfo::editPhone()
 {
-    Q3ListViewItem *item = lstPhones->currentItem();
+    ListViewItem *item = lstPhones->currentItem();
     editPhone(item);
 }
 
-void MainInfo::editPhone(Q3ListViewItem *item)
+void MainInfo::editPhone(ListViewItem *item)
 {
     if (item == NULL)
         return;
@@ -443,7 +447,7 @@ void MainInfo::deletePhone()
     deletePhone(lstPhones->currentItem());
 }
 
-void MainInfo::deletePhone(Q3ListViewItem *item)
+void MainInfo::deletePhone(ListViewItem *item)
 {
     if (item == NULL)
         return;
@@ -454,7 +458,7 @@ void MainInfo::deletePhone(Q3ListViewItem *item)
     fillCurrentCombo();
 }
 
-void MainInfo::fillPhoneItem(Q3ListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto)
+void MainInfo::fillPhoneItem(ListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto)
 {
     item->setText(PHONE_PROTO, proto);
     item->setText(PHONE_NUMBER, number);
@@ -493,7 +497,8 @@ void MainInfo::fillCurrentCombo()
     cmbCurrent->insertItem(INT_MAX,"");
     unsigned n = 1;
     unsigned cur = 0;
-    for (Q3ListViewItem *item = lstPhones->firstChild(); item; item = item->nextSibling(), n++){
+    for (n = 1; n < lstPhones->topLevelItemCount(); n++){
+        ListViewItem* item = static_cast<ListViewItem*>(lstPhones->topLevelItem(n));
         QString phone = item->text(PHONE_NUMBER);
         if (phone == current)
             cur = n;
@@ -608,4 +613,6 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
 #include "maininfo.moc"
 #endif
 */
+
+// vim: set expandtab:
 

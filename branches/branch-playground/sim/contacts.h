@@ -21,183 +21,26 @@
 #include "cfg.h"
 #include "plugins.h"
 #include "message.h"
+#include "contacts/userdata.h"
+#include "contacts/clientuserdata.h"
+#include "contacts/packettype.h"
+#include "contacts/protocol.h"
 
+#include <map>
 #include <QImage>
 #include <QString>
 #include <QSet>
 
 namespace SIM {
 
-class EXPORT UserData
-{
-public:
-    UserData();
-    ~UserData();
-    QByteArray save() const;
-    void load(unsigned long id, const DataDef *def, Buffer *cfg);
-    void *getUserData(unsigned id, bool bCreate);
-    void freeUserData(unsigned id);
-protected:
-    class UserDataPrivate *d;
-
-    COPY_RESTRICTED(UserData)
-};
-
 class Client;
 class ClientDataIterator;
 
-struct clientData       // Base struct for all clientData
-{
-    Data    Sign;       // Protocol ID, must be ICQ_SIGN, JABBER_SIGN etc
-    Data    LastSend;
-};
-
-class EXPORT ClientUserData
-{
-public:
-    ClientUserData();
-    ~ClientUserData();
-    QByteArray save() const;
-    void load(Client *client, Buffer *cfg);
-    void *getData(Client *client);
-    bool have(void*);
-    void *createData(Client *client);
-    void freeData(void*);
-    void freeClientData(Client *client);
-    void sort();
-    void join(ClientUserData &data);
-    void join(clientData *cData, ClientUserData &data);
-    unsigned size();
-    Client *activeClient(void *&data, Client *client);
-    QString property(const char *name);
-protected:
-    class ClientUserDataPrivate *p;
-    friend class ClientDataIterator;
-
-    COPY_RESTRICTED(ClientUserData)
-};
-
-class EXPORT ClientDataIterator
-{
-public:
-    ClientDataIterator(ClientUserData &data, Client *client=NULL);
-    ~ClientDataIterator();
-    clientData *operator ++();
-    Client *client();
-    void reset();
-protected:
-    class ClientDataIteratorPrivate *p;
-
-    COPY_RESTRICTED(ClientDataIterator)
-};
-
-class EXPORT PacketType
-{
-public:
-    PacketType(unsigned id, const QString &name, bool bText);
-    ~PacketType();
-    unsigned id() const { return m_id; }
-    const QString &name() const { return m_name; }
-    bool isText() const { return m_bText; }
-protected:
-    unsigned m_id;
-    QString  m_name;
-    bool     m_bText;
-};
 
 const unsigned PHONE    = 0;
 const unsigned FAX      = 1;
 const unsigned CELLULAR = 2;
 const unsigned PAGER    = 3;
-
-struct ContactData
-{
-    Data            Group;      // Group ID
-    Data            Name;       // Contact Display Name (UTF-8)
-    Data            Ignore;     // In ignore list
-    Data            LastActive;
-    Data            EMails;
-    Data            Phones;
-    Data            PhoneStatus;
-    Data            FirstName;
-    Data            LastName;
-    Data            Notes;
-    Data            Flags;
-    Data            Encoding;
-};
-
-const unsigned CONTACT_TEMP             = 0x0001;
-const unsigned CONTACT_DRAG             = 0x0002;
-const unsigned CONTACT_NOREMOVE_HISTORY = 0x1000;
-
-const unsigned CONTACT_TEMPORARY    = CONTACT_TEMP | CONTACT_DRAG;
-
-class EXPORT Contact
-{
-public:
-    Contact(unsigned long id = 0, Buffer *cfg = NULL);
-    virtual ~Contact();
-    unsigned long id() const { return m_id; }
-    PROP_ULONG(Group)
-    PROP_UTF8(Name)
-    PROP_BOOL(Ignore)
-    PROP_ULONG(LastActive)
-    PROP_UTF8(EMails)
-    PROP_UTF8(Phones)
-    PROP_ULONG(PhoneStatus)
-    PROP_UTF8(FirstName)
-    PROP_UTF8(LastName)
-    PROP_UTF8(Notes)
-    PROP_ULONG(Flags)
-    PROP_STR(Encoding)
-    void *getUserData(unsigned id, bool bCreate = false);
-    UserData userData;
-    ClientUserData clientData;
-    bool setFirstName(const QString &name, const QString &client);
-    bool setLastName(const QString &name, const QString &client);
-    bool setEMails(const QString &mails, const QString &client);
-    bool setPhones(const QString &phones, const QString &client);
-    unsigned long contactInfo(unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
-    QString tipText();
-    ContactData data;
-    const DataDef *dataDef();
-    void setup();
-    QVariantMap* userdata() const { return m_userdata; }
-
-protected:
-    unsigned long m_id;
-    friend class ContactList;
-    friend class ContactListPrivate;
-
-private:
-    QVariantMap* m_userdata;
-};
-
-struct GroupData
-{
-    Data        Name;       // Display name (UTF-8)
-};
-
-class EXPORT Group
-{
-public:
-    Group(unsigned long id = 0, Buffer *cfg = NULL);
-    virtual ~Group();
-    unsigned long id() { return m_id; }
-    PROP_UTF8(Name)
-    void *getUserData(unsigned id, bool bCreate = false);
-    UserData userData;
-    ClientUserData clientData;
-    QVariantMap* userdata() const { return m_userdata; }
-
-protected:
-    unsigned long m_id;
-    GroupData data; friend class ContactList;
-    friend class ContactListPrivate;
-
-private:
-    QVariantMap* m_userdata;
-};
 
 const unsigned STATUS_UNKNOWN   = 0;
 const unsigned STATUS_OFFLINE   = 1;
@@ -229,33 +72,16 @@ const unsigned PROTOCOL_NO_AUTH         = 0x10000000;
 class ContactList;
 class Client;
 
-class EXPORT Protocol
+struct _ClientUserData
 {
-public:
-    Protocol(Plugin *plugin);
-    virtual ~Protocol();
-    Plugin  *plugin() { return m_plugin; }
-    virtual Client  *createClient(Buffer *cfg) = 0;
-    virtual const CommandDef *description() = 0;
-    virtual const CommandDef *statusList() = 0;
-    virtual const DataDef *userDataDef() = 0;
-protected:
-    Plugin *m_plugin;
+    Client  *client;
+    Data    *data;
 };
 
-struct ClientData
-{
-    Data    ManualStatus;
-    Data    CommonStatus;
-    Data    Password;
-    Data    SavePassword;
-    Data    PreviousPassword;
-    Data    Invisible;
-    Data    LastSend;
-};
 
 const unsigned AuthError = 1;
 
+/*
 class EXPORT Client
 {
 public:
@@ -311,6 +137,7 @@ protected:
     ClientData  data;
     Protocol    *m_protocol;
 };
+*/
 
 struct UserDataDef
 {
@@ -463,6 +290,7 @@ private:
 };
 
 EXPORT ContactList *getContacts();
+typedef std::map<unsigned, PacketType*>	PACKET_MAP;
 
 } // namespace SIM
 

@@ -25,6 +25,7 @@
 #include "listview.h"
 #include "misc.h"
 #include "log.h"
+#include "contacts/contact.h"
 
 #include "jabberclient.h"
 #include "jabberadd.h"

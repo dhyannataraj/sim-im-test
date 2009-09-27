@@ -39,7 +39,6 @@ extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
                      const QString &name, const QString &type, const QString &category) : QDialog(browser, NULL, false, Qt::WDestructiveClose)
-        //: DiscoInfoBase(browser, NULL, false, Qt::WDestructiveClose)
 {
 	setupUi(this);
     m_browser = browser;
@@ -211,7 +210,7 @@ bool DiscoInfo::processEvent(Event *e)
                 m_statId = QString::null;
                 return true;
             }
-            Q3ListViewItem *i = new Q3ListViewItem(lstStat);
+            ListViewItem *i = new ListViewItem(lstStat);
             i->setText(0, item->jid);
             i->setText(1, item->name);
             i->setText(2, item->node);

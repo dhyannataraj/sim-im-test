@@ -23,6 +23,8 @@
 #include "gpg.h"
 #include "ballonmsg.h"
 #include "editfile.h"
+#include "contacts/group.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <QComboBox>

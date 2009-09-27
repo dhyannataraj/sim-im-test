@@ -18,6 +18,7 @@
 #include "icons.h"
 #include "misc.h"
 #include "connectionsettings.h"
+#include "contacts/client.h"
 
 #include <QVBoxLayout>
 

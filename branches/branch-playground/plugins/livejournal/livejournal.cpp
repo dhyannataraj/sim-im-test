@@ -30,6 +30,8 @@
 #include "log.h"
 #include "unquot.h"
 #include "core.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
 
 #include "livejournal.h"
 #include "livejournalcfg.h"

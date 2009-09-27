@@ -24,7 +24,6 @@
 #include "ui_icqsecurebase.h"
 
 class ICQClient;
-class ListView;
 struct ICQUserData;
 
 class ICQSecure : public QWidget, public Ui::ICQSecureBase, public SIM::EventReceiver
@@ -36,8 +35,8 @@ public slots:
     void apply();
     void apply(SIM::Client*, void*);
     void hideIpToggled(bool);
-    void deleteVisibleItem(Q3ListViewItem *item);
-    void deleteInvisibleItem(Q3ListViewItem *item);
+    void deleteVisibleItem(ListViewItem *item);
+    void deleteInvisibleItem(ListViewItem *item);
 protected:
     virtual bool processEvent(SIM::Event *e);
     void fill();

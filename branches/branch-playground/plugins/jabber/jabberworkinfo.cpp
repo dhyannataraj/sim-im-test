@@ -18,6 +18,7 @@
 #include "jabberclient.h"
 #include "jabberworkinfo.h"
 #include "jabber.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <QStringList>

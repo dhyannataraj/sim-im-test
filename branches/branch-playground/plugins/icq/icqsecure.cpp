@@ -19,6 +19,7 @@
 #include "icqsecure.h"
 #include "icqclient.h"
 #include "ballonmsg.h"
+#include "contacts/contact.h"
 
 #include <QCheckBox>
 #include <q3buttongroup.h>
@@ -35,11 +36,11 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client) : QWidget(parent)
     setListView(lstVisible);
     setListView(lstInvisible);
     fill();
-    connect(lstVisible, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deleteVisibleItem(Q3ListViewItem*)));
-    connect(lstInvisible, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deleteInvisibleItem(Q3ListViewItem*)));
+    connect(lstVisible, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteVisibleItem(ListViewItem*)));
+    connect(lstInvisible, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteInvisibleItem(ListViewItem*)));
 }
 
-void ICQSecure::deleteVisibleItem(Q3ListViewItem *item)
+void ICQSecure::deleteVisibleItem(ListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
@@ -53,7 +54,7 @@ void ICQSecure::deleteVisibleItem(Q3ListViewItem *item)
     }
 }
 
-void ICQSecure::deleteInvisibleItem(Q3ListViewItem *item)
+void ICQSecure::deleteInvisibleItem(ListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
@@ -128,37 +129,39 @@ bool ICQSecure::processEvent(Event *e)
 
 void ICQSecure::setListView(ListView *lst)
 {
-    lst->setSorting(0);
+    //lst->setSorting(0);
     lst->addColumn(i18n("UIN"));
     lst->addColumn(i18n("Nick"));
     lst->addColumn(i18n("Name"));
     lst->addColumn(i18n("EMail"));
-    lst->setColumnAlignment(0, Qt::AlignRight);
+    //lst->setColumnAlignment(0, Qt::AlignRight);
     lst->setExpandingColumn(3);
 }
 
-class ListViewItem : public Q3ListViewItem
+/*
+class ListViewItem : public ListViewItem
 {
 public:
     ListViewItem(Q3ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4);
     virtual QString key ( int column, bool ascending ) const;
 };
 
-ListViewItem::ListViewItem(Q3ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4)
-        : Q3ListViewItem(view, t1, t2, t3, t4)
+ListViewItem::ListViewItem(ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4)
+        : ListViewItem(view, t1, t2, t3, t4)
 {
 }
 
 QString ListViewItem::key(int column, bool ascending) const
 {
     if (column)
-        return Q3ListViewItem::key(column, ascending);
+        return ListViewItem::key(column, ascending);
     QString res = text(0);
     while (res.length() < 13){
         res = QString("0") + res;
     }
     return res;
 }
+*/
 
 void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
 {
@@ -188,7 +191,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
                         mails += ", ";
                     mails += mailItem;
                 }
-                Q3ListViewItem *item = new Q3ListViewItem(lst);
+                ListViewItem *item = new ListViewItem(lst);
                 item->setText(0,QString::number(data->Uin.toULong()));
                 item->setText(1,contact->getName());
                 item->setText(2,firstName);

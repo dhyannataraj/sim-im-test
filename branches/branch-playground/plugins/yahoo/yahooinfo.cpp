@@ -20,6 +20,7 @@
 #include "yahooinfo.h"
 #include "yahooclient.h"
 #include "core.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <QStringList>

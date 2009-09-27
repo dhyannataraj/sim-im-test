@@ -5,9 +5,11 @@
 #include <QtTest/QtTest>
 #include <QObject>
 #include "event.h"
+#include "contacts.h"
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
 #include "socket/iresolver.h"
+#include "socket/tcpclient.h"
 
 namespace testClientSocket
 {
@@ -53,23 +55,50 @@ namespace testClientSocket
         
     };
 
-    /*
-    class TestThread : public QThread
+    class TestTCPClient : public SIM::TCPClient, public TestClientSocketNotify
     {
     public:
-        TestThread(QObject* parent);
+        TestTCPClient();
+        virtual QString getServer() const;
+        virtual unsigned short getPort() const;
 
+        QString name()
+        {
+            return QString("TestTCPClient");
+        }
+        QString dataName(void*)
+        {
+            return QString("TestDataName");
+        }
+        QWidget *setupWnd() {return 0;}
+        bool isMyData(SIM::clientData*&, SIM::Contact*&) {return false;}
+        bool createData(SIM::clientData*&, SIM::Contact*) { return false;}
+        void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL) {}
+        void setupContact(SIM::Contact*, void *data){}
+        bool send(SIM::Message*, void *data){return false;}
+        bool canSend(unsigned type, void *data){return false;}
+        QWidget *searchWindow(QWidget *parent){return 0;}
+        virtual void packet_ready() {}
+
+    protected:
+        virtual void setStatus(unsigned status);
+        virtual void disconnected();
     };
-    */
-
+    
     class TestClientSocket : public QObject, public SIM::EventReceiver
     {
         Q_OBJECT
     public:
-        virtual bool processEvent(class Event*);
+        TestClientSocket() : QObject(),
+            SIM::EventReceiver(),
+            m_eSocketConnect(0)
+        {
+        }
+        virtual bool processEvent(SIM::Event*);
     private slots:
         void testCtorDtor();
         void testReading();
+        void testConnectEvent();
         void initTestCase();
         void cleanupTestCase();
 
@@ -77,6 +106,8 @@ namespace testClientSocket
         SIM::ClientSocket* m_socket;
         TestClientSocketNotify* m_notify;
         TestFactory* m_factory;
+
+        int m_eSocketConnect;
     };
 }
 

@@ -18,6 +18,7 @@
 #include "aboutinfo.h"
 #include "icqclient.h"
 #include "textshow.h"
+#include "contacts/contact.h"
 
 using namespace SIM;
 

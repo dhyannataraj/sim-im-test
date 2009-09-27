@@ -22,6 +22,7 @@
 #include "core.h"
 #include "userview.h"
 #include "toolbtn.h"
+#include "contacts/contact.h"
 
 #include <QApplication>
 #include <QPixmap>

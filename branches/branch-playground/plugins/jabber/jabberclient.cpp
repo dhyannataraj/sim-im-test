@@ -29,6 +29,9 @@
 #include "unquot.h"
 #include "core.h"
 #include "core_events.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 #include "jabberclient.h"
 #include "jabber.h"

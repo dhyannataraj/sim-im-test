@@ -25,6 +25,8 @@
 #include "msgview.h"
 #include "toolbtn.h"
 #include "history.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include <QPixmap>
 #include <QTimer>

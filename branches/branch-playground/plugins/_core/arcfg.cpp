@@ -19,6 +19,7 @@
 #include "core.h"
 #include "ballonmsg.h"
 #include "editfile.h"
+#include "contacts/contact.h"
 
 #include <QTabWidget>
 #include <QCheckBox>

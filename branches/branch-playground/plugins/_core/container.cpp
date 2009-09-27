@@ -25,6 +25,8 @@
 #include "toolbtn.h"
 #include "buffer.h"
 #include "icons.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include <QSplitter>
 #include <QLayout>

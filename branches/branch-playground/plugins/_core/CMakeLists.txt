@@ -63,6 +63,7 @@ SET(_core_SRCS
         userlist.cpp
         userview.cpp
         userviewcfg.cpp
+		userviewdelegate.cpp
         userwnd.cpp
 )
 
@@ -128,6 +129,7 @@ SET(_core_HDRS
         userlist.h
         userview.h
         userviewcfg.h
+		userviewdelegate.h
         userwnd.h
 )
 

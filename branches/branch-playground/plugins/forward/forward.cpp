@@ -18,6 +18,10 @@
 #include "forward.h"
 #include "forwardcfg.h"
 #include "core.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
+#include "contacts/client.h"
 
 using namespace SIM;
 

@@ -35,6 +35,7 @@
 #include "icq.h"
 #include "core.h"
 #include "xml.h"
+#include "contacts/contact.h"
 
 using namespace std;
 using namespace SIM;

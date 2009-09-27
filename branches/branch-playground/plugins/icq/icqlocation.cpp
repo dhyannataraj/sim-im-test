@@ -17,6 +17,7 @@
 
 #include "icqclient.h"
 #include "icqlocation.h"
+#include "contacts/contact.h"
 
 #include <QTextCodec>
 #include <QByteArray>

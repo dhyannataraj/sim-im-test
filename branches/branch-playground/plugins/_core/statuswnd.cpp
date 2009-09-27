@@ -23,6 +23,7 @@
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
 #include "log.h"
+#include "contacts/client.h"
 
 #include <q3popupmenu.h>
 #include <QLabel>

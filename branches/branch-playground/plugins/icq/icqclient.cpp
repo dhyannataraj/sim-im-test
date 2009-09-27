@@ -34,6 +34,8 @@
 #include "unquot.h"
 #include "log.h"
 #include "icons.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 #include "icq.h"
 #include "icqconfig.h"

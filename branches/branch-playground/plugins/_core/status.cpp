@@ -32,6 +32,7 @@
 #include "statuswnd.h"
 #include "logindlg.h"
 #include "autoreply.h"
+#include "contacts/client.h"
 
 using namespace std;
 using namespace SIM;

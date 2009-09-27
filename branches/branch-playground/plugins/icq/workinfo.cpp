@@ -18,6 +18,7 @@
 #include "icons.h"
 #include "workinfo.h"
 #include "icqclient.h"
+#include "contacts/contact.h"
 
 #include <QPushButton>
 #include <QLineEdit>

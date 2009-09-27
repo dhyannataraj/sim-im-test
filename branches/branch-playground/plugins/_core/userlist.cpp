@@ -24,29 +24,32 @@
 #include <QStyle>
 #include <QStyleOption>
 #include <QPainter>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QAbstractButton>
 #include "log.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 using namespace std;
 using namespace SIM;
 
 UserViewItemBase::UserViewItemBase(UserListBase *parent)
-        : Q3ListViewItem(parent)
+        : ListViewItem(parent)
 {
 }
 
 UserViewItemBase::UserViewItemBase(UserViewItemBase *parent)
-        : Q3ListViewItem(parent)
+        : ListViewItem(parent)
 {
 }
 
 void UserViewItemBase::setup()
 {
+	/*
     UserListBase *view = static_cast<UserListBase*>(listView());
     setHeight(view->heightItem(this));
+	*/
 }
 
 void UserViewItemBase::paintFocus(QPainter*, const QColorGroup&, const QRect & )
@@ -68,7 +71,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     pp.fillRect(QRect(0, 0, width, height()), cg.base());
     EventPaintView::PaintView pv;
     pv.p        = &pp;
-    pv.pos      = view->viewport()->mapToParent(view->itemRect(this).topLeft());
+    pv.pos      = view->viewport()->mapToParent(view->visualItemRect(this).topLeft());
     pv.size		= QSize(width, height());
     pv.win      = view;
     pv.isStatic = false;
@@ -82,7 +85,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     }
     EventPaintView e(&pv);
     e.process();
-    view->setStaticBackground(pv.isStatic);
+    //view->setStaticBackground(pv.isStatic);
     margin = pv.margin;
     if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->property("UseDblClick").toBool()){
         pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
@@ -115,7 +118,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
 int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &text)
 {
     QRect br;
-    p->drawText(x, 0, width, height(), Qt::AlignLeft | Qt::AlignVCenter, text, -1, &br);
+    p->drawText(x, 0, width, (static_cast<UserListBase*>(listView()))->heightItem(this), Qt::AlignLeft | Qt::AlignVCenter, text, -1, &br);
     return br.right() + 5;
 }
 
@@ -134,8 +137,8 @@ DivItem::DivItem(UserListBase *view, unsigned type)
 {
     m_type = type;
     setText(0, QString::number(m_type));
-    setExpandable(true);
-    setSelectable(false);
+    //setExpandable(true);
+    //setSelectable(false);
 }
 
 GroupItem::GroupItem(UserListBase *view, Group *grp, bool bOffline)
@@ -159,8 +162,8 @@ void GroupItem::init(Group *grp)
     m_unread = 0;
     m_nContacts = 0;
     m_nContactsOnline = 0;
-    setExpandable(true);
-    setSelectable(true);
+    //setExpandable(true);
+    //setSelectable(true);
     ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::m_plugin->list_data_id, false));
     if (data == NULL){
         setOpen(true);
@@ -189,17 +192,17 @@ void GroupItem::update(Group *grp, bool bInit)
     setText(0, s);
     if (bInit)
         return;
-    Q3ListViewItem *p = parent();
+    ListViewItem *p = static_cast<ListViewItem*>(parent());
     if (p){
-        p->sort();
+        //p->sort();
         return;
     }
-    listView()->sort();
+    //listView()->sort();
 }
 
 void GroupItem::setOpen(bool bOpen)
 {
-    UserViewItemBase::setOpen(bOpen);
+    //UserViewItemBase::setOpen(bOpen);
     Group *grp = getContacts()->group(m_id);
     if (grp){
         ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::m_plugin->list_data_id, !bOpen));
@@ -218,14 +221,14 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
-    setDragEnabled(true);
+    //setDragEnabled(true);
 }
 
 void ContactItem::init(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_bOnline    = false;
     m_bBlink	 = false;
-    setSelectable(true);
+    //setSelectable(true);
     update(contact, status, style, icons, unread);
 }
 
@@ -270,7 +273,7 @@ QString ContactItem::key(int column, bool ascending ) const
         }
         return res;
     }
-    return UserViewItemBase::key(column, ascending);
+    return QString::null; //UserViewItemBase::key(column, ascending);
 }
 
 UserListBase::UserListBase(QWidget *parent)
@@ -282,11 +285,11 @@ UserListBase::UserListBase(QWidget *parent)
     m_bShowOnline = false;
     m_bShowEmpty  = false;
 
-    header()->hide();
-    addColumn("", -1);
-    setHScrollBarMode(AlwaysOff);
-    setVScrollBarMode(Auto);
-    setSorting(0);
+    //header()->hide();
+    addColumn("");
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    //setSorting(0);
 
     updTimer = new QTimer(this);
     connect(updTimer, SIGNAL(timeout()), this, SLOT(drawUpdates()));
@@ -302,9 +305,9 @@ void UserListBase::drawUpdates()
 {
     m_bDirty = false;
     updTimer->stop();
-    Q3ListViewItem *item;
-    int x = contentsX();
-    int y = contentsY();
+    ListViewItem *item;
+    int x = viewport()->x();
+    int y = viewport()->y();
     viewport()->setUpdatesEnabled(false);
     bool bChanged = false;
     list<unsigned long>::iterator it;
@@ -316,7 +319,7 @@ void UserListBase::drawUpdates()
         case 1:
             item = findGroupItem(group->id());
             if (item){
-                if (!m_bShowEmpty && (item->firstChild() == NULL)){
+                if (!m_bShowEmpty && (item->child(0) == NULL)){
                     delete item;
                     bChanged = true;
                 }else{
@@ -331,13 +334,15 @@ void UserListBase::drawUpdates()
             }
             break;
         case 2:
-            for (item = firstChild(); item; item = item->nextSibling()){
+            for(int c = 0; c < topLevelItemCount(); c++)
+            {
+                item = static_cast<ListViewItem*>(topLevelItem(c));
                 UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
                 if (i->type() != DIV_ITEM) continue;
                 DivItem *divItem = static_cast<DivItem*>(i);
                 GroupItem *grpItem = findGroupItem(group->id(), divItem);
                 if (grpItem){
-                    if (!m_bShowEmpty && (item->firstChild() == NULL)){
+                    if (!m_bShowEmpty && (item->child(0) == NULL)){
                         delete grpItem;
                         bChanged = true;
                     }else{
@@ -359,7 +364,9 @@ void UserListBase::drawUpdates()
     DivItem *itemOffline = NULL;
     if (updContacts.size()){
         if (m_groupMode != 1){
-            for (item = firstChild(); item != NULL; item = item->nextSibling()){
+            for(int c = 0; c < topLevelItemCount(); c++)
+            {
+                item = static_cast<ListViewItem*>(topLevelItem(c));
                 UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
                 if (i->type() != DIV_ITEM) continue;
                 DivItem *divItem = static_cast<DivItem*>(i);
@@ -392,7 +399,7 @@ void UserListBase::drawUpdates()
                     if (contactItem){
                         deleteItem(contactItem); //<== crash
                         bChanged = true;
-                        if (itemOnline->firstChild() == NULL){
+                        if (itemOnline->child(0) == NULL){
                             deleteItem(itemOnline);
                             itemOnline = NULL;
                         }
@@ -404,7 +411,7 @@ void UserListBase::drawUpdates()
                         if (contactItem){
                             deleteItem(contactItem);
                             bChanged = true;
-                            if (itemOffline->firstChild() == NULL){
+                            if (itemOffline->child(0) == NULL){
                                 deleteItem(itemOffline);
                                 itemOffline = NULL;
                             }
@@ -432,7 +439,7 @@ void UserListBase::drawUpdates()
                     if (contactItem){
                         deleteItem(contactItem);
                         bChanged = true;
-                        if (itemOffline->firstChild() == NULL){
+                        if (itemOffline->child(0) == NULL){
                             deleteItem(itemOffline);
                             itemOffline = NULL;
                         }
@@ -467,7 +474,7 @@ void UserListBase::drawUpdates()
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
                     bChanged = true;
-                    if (!m_bShowEmpty && (grpItem->firstChild() == NULL))
+                    if (!m_bShowEmpty && (grpItem->child(0) == NULL))
                         delete grpItem;
                     contactItem = NULL;
                     grpItem = NULL;
@@ -523,7 +530,7 @@ void UserListBase::drawUpdates()
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
                     bChanged = true;
-                    if (!m_bShowEmpty && (grpItem->firstChild() == NULL))
+                    if (!m_bShowEmpty && (grpItem->child(0) == NULL))
                         delete grpItem;
                     grpItem = NULL;
                     contactItem = NULL;
@@ -540,10 +547,10 @@ void UserListBase::drawUpdates()
                         deleteItem(contactItem);
                         contactItem = NULL;
                         bChanged = true;
-                        if (m_bShowOnline && (grpItem->firstChild() == NULL)){
+                        if (m_bShowOnline && (grpItem->child(0) == NULL)){
                             deleteItem(grpItem);
                             grpItem = NULL;
-                            if (itemOffline->firstChild() == NULL){
+                            if (itemOffline->child(0) == NULL){
                                 deleteItem(itemOffline);
                                 itemOffline = NULL;
                             }
@@ -586,19 +593,19 @@ void UserListBase::drawUpdates()
         }
     }
     updContacts.clear();
-    for (list<Q3ListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
-        if ((*it_sort)->firstChild() == NULL)
+    for (list<ListViewItem*>::iterator it_sort = sortItems.begin(); it_sort != sortItems.end(); ++it_sort){
+        if ((*it_sort)->child(0) == NULL)
             continue;
-        (*it_sort)->sort();
+        //(*it_sort)->sort();
         bChanged = true;
     }
     sortItems.clear();
-    center(x, y, 0, 0);
+    //center(x, y, 0, 0);
     viewport()->setUpdatesEnabled(true);
     if (bChanged){
         viewport()->repaint();
     }else{
-        for (list<Q3ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
+        for (list<ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it)
             (*it)->repaint();
     }
     updatedItems.clear();
@@ -664,18 +671,18 @@ void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGro
 	}
 }
 
-void UserListBase::addSortItem(Q3ListViewItem *item)
+void UserListBase::addSortItem(ListViewItem *item)
 {
-    for (list<Q3ListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
+    for (list<ListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
         if ((*it) == item)
             return;
     }
     sortItems.push_back(item);
 }
 
-void UserListBase::addUpdatedItem(Q3ListViewItem *item)
+void UserListBase::addUpdatedItem(ListViewItem *item)
 {
-    for (list<Q3ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
+    for (list<ListViewItem*>::iterator it = updatedItems.begin(); it != updatedItems.end(); ++it){
         if ((*it) == item)
             return;
     }
@@ -832,21 +839,26 @@ void UserListBase::fill()
     adjustColumn();
 }
 
-static void resort(Q3ListViewItem *item)
+static void resort(ListViewItem *item)
 {
+	/*
     if (!item->isExpandable())
         return;
     item->sort();
     for (item = item->firstChild(); item; item = item->nextSibling())
         resort(item);
+		*/
 }
 
 bool UserListBase::processEvent(Event *e)
 {
     if (e->type() == eEventRepaintView){
-        sort();
-        for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling())
+        //sort();
+        for(int c = 0; c < topLevelItemCount(); c++)
+        {
+            ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(c));
             resort(item);
+        }
         viewport()->repaint();
     }
     if (m_bInit){
@@ -873,8 +885,9 @@ bool UserListBase::processEvent(Event *e)
                         deleteItem(grpItem);
                         break;
                     case 2:
-                        Q3ListViewItem *item;
-                        for (item = firstChild(); item; item = item->nextSibling()){
+                        for(int c = 0; c < topLevelItemCount(); c++)
+                        {
+                            ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(c));
                             UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
                             if (i->type() != DIV_ITEM) continue;
                             DivItem *divItem = static_cast<DivItem*>(i);
@@ -907,19 +920,19 @@ bool UserListBase::processEvent(Event *e)
                             addGroupForUpdate(grpItem->id());
                             deleteItem(item);
                             if ((m_groupMode == 2) &&
-                                    (grpItem->firstChild() == NULL) &&
+                                    (grpItem->child(0) == NULL) &&
                                     m_bShowOnline){
                                 DivItem *div = static_cast<DivItem*>(grpItem->parent());
                                 if (div->state() == DIV_OFFLINE){
                                     deleteItem(grpItem);
-                                    if (div->firstChild() == NULL)
+                                    if (div->child(0) == NULL)
                                         deleteItem(div);
                                 }
                             }
                         }else{
-                            Q3ListViewItem *p = item->parent();
+                            ListViewItem *p = static_cast<ListViewItem*>(item->parent());
                             deleteItem(item);
-                            if (p->firstChild() == NULL)
+                            if (p->child(0) == NULL)
                                 deleteItem(p);
                         }
                     }
@@ -958,16 +971,19 @@ bool UserListBase::processEvent(Event *e)
     return ListView::processEvent(e);
 }
 
-GroupItem *UserListBase::findGroupItem(unsigned id, Q3ListViewItem *p)
+GroupItem *UserListBase::findGroupItem(unsigned id, ListViewItem *p)
 {
-    for (Q3ListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
+    for(int c = 0; c < (p ? p->childCount() : topLevelItemCount()); c++)
+    {
+        ListViewItem *item = static_cast<ListViewItem*>(!p ? topLevelItem(c) : p->child(c));
         UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
         if (i->type() == GRP_ITEM){
             GroupItem *grpItem = static_cast<GroupItem*>(item);
             if (grpItem->id() == id)
                 return grpItem;
         }
-        if (item->isExpandable()){
+        //if (item->isExpandable())
+        {
             GroupItem *res = findGroupItem(id, item);
             if (res)
                 return res;
@@ -976,16 +992,19 @@ GroupItem *UserListBase::findGroupItem(unsigned id, Q3ListViewItem *p)
     return NULL;
 }
 
-ContactItem *UserListBase::findContactItem(unsigned id, Q3ListViewItem *p)
+ContactItem *UserListBase::findContactItem(unsigned id, ListViewItem *p)
 {
-    for (Q3ListViewItem *item = p ? p->firstChild() : firstChild(); item; item = item->nextSibling()){
+    for(int c = 0; c < (p ? p->childCount() : topLevelItemCount()); c++)
+    {
+        ListViewItem *item = static_cast<ListViewItem*>(p ? p->child(c) : topLevelItem(c));
         UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
         if (i->type() == USR_ITEM){
             ContactItem *contactItem = static_cast<ContactItem*>(item);
             if (contactItem->id() == id)
                 return contactItem;
         }
-        if (item->isExpandable()){
+        //if (item->isExpandable())
+        {
             ContactItem *res = findContactItem(id, item);
             if (res)
                 return res;
@@ -1007,35 +1026,41 @@ unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, QString 
     return status;
 }
 
-void UserListBase::deleteItem(Q3ListViewItem *item)
+void UserListBase::deleteItem(ListViewItem *item)
 {
     if (item == NULL)
         return;
-    if (item == currentItem()) {
-        Q3ListViewItem *nextItem = item->nextSibling();
+    /*
+    if (item == currentItem())
+    {
+
+        ListViewItem *nextItem = static_cast<ListViewItem*>(item->nextSibling());
         if (nextItem == NULL){
             if (item->parent()){
-                nextItem = item->parent()->firstChild();
+                nextItem = static_cast<ListViewItem*>(item->parent())->child(0);
             }else{
-                nextItem = firstChild();
+                nextItem = static_cast<ListViewItem*>(topLevelItem(0));
             }
             for (; nextItem ; nextItem = nextItem->nextSibling())
                 if (nextItem->nextSibling() == item)
                     break;
         }
         if ((nextItem == NULL) && item->parent()){
-            nextItem = item->parent();
+            nextItem = static_cast<ListViewItem*>(item->parent());
             if (nextItem->firstChild() && (nextItem->firstChild() != item)){
                 for (nextItem = nextItem->firstChild(); nextItem; nextItem = nextItem->nextSibling())
                     if (nextItem->nextSibling() == item)
                         break;
             }
         }
-        if (nextItem){
+        if (nextItem)
+        {
             setCurrentItem(nextItem);
-            ensureItemVisible(nextItem);
+            //ensureItemVisible(nextItem);
+            //scrollTo(item);
         }
     }
+    */
     delete item;
 }
 
@@ -1139,7 +1164,7 @@ bool UserList::isGroupSelected(unsigned id)
 #define CHECK_ON	QStyle::State_On
 #define CHECK_NOCHANGE	QStyle::State_NoChange
 
-int UserList::drawIndicator(QPainter *p, int x, Q3ListViewItem *item, bool bState, const QColorGroup &cg) //p unused, cg unused
+int UserList::drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QColorGroup &cg) //p unused, cg unused
 {
     QStyleOptionButton opt;
     opt.state = bState ? CHECK_ON : CHECK_OFF;
@@ -1163,7 +1188,7 @@ int UserListBase::heightItem(UserViewItemBase*)
 
 void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-    Q3ListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+    ListViewItem *list_item = itemAt(e->pos());
     if (list_item == NULL)
         return;
     switch (static_cast<UserViewItemBase*>(list_item)->type()){
@@ -1185,31 +1210,37 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
 			{
                 selected.push_back(item->id());
             }
-            item->repaint();
-            item->parent()->repaint();
+            //item->repaint();
+            //item->parent()->repaint();
+            update();
             emit selectChanged();
             break;
         }
     case GRP_ITEM:{
             GroupItem *item = static_cast<GroupItem*>(list_item);
             if(isGroupSelected(item->id()))
-			{
-                for(Q3ListViewItem *i = item->firstChild(); i; i = i->nextSibling())
-				{
+            {
+                for(int c = 0; c < topLevelItemCount(); c++)
+                {
+                    ListViewItem *i = static_cast<ListViewItem*>(topLevelItem(c));
                     ContactItem *ci = static_cast<ContactItem*>(i);
                     list<unsigned>::iterator it;
                     for(it = selected.begin(); it != selected.end(); ++it)
-					{
+                    {
                         if((*it) == ci->id())
-						{
+                        {
                             selected.erase(it);
                             break;
                         }
                     }
                     ci->repaint();
                 }
-            }else{
-                for (Q3ListViewItem *i = item->firstChild(); i; i = i->nextSibling()){
+            }
+            else
+            {
+                for(int c = 0; c < topLevelItemCount(); c++)
+                {
+                    ListViewItem *i = static_cast<ListViewItem*>(topLevelItem(c));
                     ContactItem *ci = static_cast<ContactItem*>(i);
                     list<unsigned>::iterator it;
                     for (it = selected.begin(); it != selected.end(); ++it)
@@ -1224,7 +1255,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
             item->repaint();
             emit selectChanged();
             break;
-        }
+      }
     }
     m_pressedItem = NULL;
 }
@@ -1235,3 +1266,4 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
 #endif
 */
 
+// vim: set expandtab:

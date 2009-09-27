@@ -27,6 +27,7 @@
 
 #include "msninfo.h"
 #include "msnclient.h"
+#include "contacts/contact.h"
 
 using namespace SIM;
 

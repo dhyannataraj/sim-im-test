@@ -54,6 +54,9 @@
 #include "unquot.h"
 #include "core.h"
 #include "socket/clientsocket.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 #include "yahoo.h"
 #include "yahooclient.h"

@@ -18,6 +18,9 @@
 #include "msgedit.h"
 
 #include "simapi.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include "userwnd.h"
 #include "toolbtn.h"

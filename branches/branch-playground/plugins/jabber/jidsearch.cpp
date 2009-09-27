@@ -28,6 +28,7 @@
 #include "jabbersearch.h"
 #include "jidadvsearch.h"
 #include "jabber.h"
+#include "contacts/contact.h"
 
 using namespace SIM;
 

@@ -18,6 +18,7 @@
 #include "icons.h"
 #include "aiminfo.h"
 #include "icqclient.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <QStringList>

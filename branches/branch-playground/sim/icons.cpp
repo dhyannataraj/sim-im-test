@@ -43,6 +43,7 @@
 #include "log.h"
 #include "qzip/qzip.h"
 #include "unquot.h"
+#include "contacts/client.h"
 
 const unsigned ICON_COLOR_MASK  = 0x000000FF;
 

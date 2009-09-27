@@ -61,10 +61,10 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
 #endif
     connect(edtPath, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(btnFind, SIGNAL(clicked()), this, SLOT(find()));
-    connect(lstLang, SIGNAL(clickItem(Q3ListViewItem*)), this, SLOT(langClicked(Q3ListViewItem*)));
+    connect(lstLang, SIGNAL(clickItem(ListViewItem*)), this, SLOT(langClicked(ListViewItem*)));
     lstLang->addColumn("");
     lstLang->addColumn("");
-    lstLang->header()->hide();
+    //lstLang->header()->hide();
     lstLang->setExpandingColumn(0);
     lstLang->adjustColumn();
     textChanged(edtPath->text());
@@ -83,7 +83,9 @@ void SpellConfig::apply()
     m_plugin->setProperty("Path", edtPath->text());
 #endif
     QString lang;
-    for (Q3ListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
+    for(int c = 0; c < lstLang->topLevelItemCount(); c++)
+    {
+        ListViewItem *item = static_cast<ListViewItem*>(lstLang->topLevelItem(c));
         if (item->text(COL_CHECKED).isEmpty())
             continue;
         if (!lang.isEmpty())
@@ -143,7 +145,14 @@ void SpellConfig::textChanged(const QString&)
                     break;
                 }
             }
-            Q3ListViewItem *item = new Q3ListViewItem(lstLang, l, "", bCheck ? "1" : "");
+            ListViewItem* item = new ListViewItem(lstLang);
+            item->setText(0, l);
+            item->setText(1, bCheck ? "1" : "");
+            /*
+            lstLang->setItem(r, 0, item);
+            lstLang->setItem(r, 1, new ListViewItem(""));
+            lstLang->setItem(r, 2, new ListViewItem(bCheck ? "1" : ""));
+            */
             setCheck(item);
         }
     }
@@ -167,7 +176,7 @@ void SpellConfig::findFinished()
 #endif
 }
 
-void SpellConfig::langClicked(Q3ListViewItem *item)
+void SpellConfig::langClicked(ListViewItem *item)
 {
     if(!item)
         return;
@@ -184,7 +193,7 @@ void SpellConfig::langClicked(Q3ListViewItem *item)
 #define CHECK_ON        QStyle::State_On
 #define CHECK_NOCHANGE  QStyle::State_NoChange
 
-void SpellConfig::setCheck(Q3ListViewItem *item)
+void SpellConfig::setCheck(ListViewItem *item)
 {
     QStyleOptionButton opt;
     opt.state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
@@ -201,3 +210,4 @@ void SpellConfig::setCheck(Q3ListViewItem *item)
     item->setPixmap(COL_CHECK, pixInd);
 }
 
+// vim: set expandtab: 

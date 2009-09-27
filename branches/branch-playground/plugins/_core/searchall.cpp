@@ -19,6 +19,7 @@
 #include "search.h"
 #include "intedit.h"
 #include "log.h"
+#include "contacts/client.h"
 
 #include <QTimer>
 #include <QShowEvent>

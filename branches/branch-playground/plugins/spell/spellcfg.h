@@ -23,7 +23,7 @@
 #include <QResizeEvent>
 
 class SpellPlugin;
-class Q3ListViewItem;
+class ListViewItem;
 
 #ifdef WIN32
 class SpellFind;
@@ -40,9 +40,9 @@ public slots:
     void find();
     void findFinished();
     void textChanged(const QString &str);
-    void langClicked(Q3ListViewItem*);
+    void langClicked(ListViewItem*);
 protected:
-    void setCheck(Q3ListViewItem *item);
+    void setCheck(ListViewItem *item);
     void resizeEvent(QResizeEvent *e);
 #ifdef WIN32
     SpellFind	*m_find;

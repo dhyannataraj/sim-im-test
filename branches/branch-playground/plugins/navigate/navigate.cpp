@@ -23,6 +23,7 @@
 #include "log.h"
 #include "core.h"
 #include "core_consts.h"
+#include "contacts/contact.h"
 
 #ifdef USE_KDE
     #include <kapplication.h>

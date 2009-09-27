@@ -40,6 +40,7 @@
 #include "log.h"
 #include "core.h"
 #include "icons.h"
+#include "contacts/contact.h"
 
 #include "osd.h"
 #include "osdconfig.h"

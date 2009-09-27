@@ -19,6 +19,7 @@
 #include "icqclient.h"
 #include "icqmessage.h"
 #include "icqdirect.h"
+#include "contacts/contact.h"
 
 #include "core_events.h"
 

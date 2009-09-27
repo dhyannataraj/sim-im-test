@@ -21,6 +21,7 @@
 #include "preview.h"
 #include "ballonmsg.h"
 #include "log.h"
+#include "contacts/contact.h"
 
 #include <QPushButton>
 #include <QLabel>

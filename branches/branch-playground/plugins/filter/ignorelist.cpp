@@ -20,6 +20,7 @@
 #include "misc.h"
 
 #include "ignorelist.h"
+#include "contacts/contact.h"
 
 #include <QPixmap>
 
@@ -44,7 +45,7 @@ IgnoreList::IgnoreList(QWidget *parent) : QWidget(parent)
     lstIgnore->addColumn(i18n("Contact"));
     lstIgnore->addColumn(i18n("Name"));
     lstIgnore->addColumn(i18n("EMail"));
-    connect(lstIgnore, SIGNAL(deleteItem(Q3ListViewItem*)), this, SLOT(deleteItem(Q3ListViewItem*)));
+    connect(lstIgnore, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteItem(ListViewItem*)));
     connect(lstIgnore, SIGNAL(dragStart()), this, SLOT(dragStart()));
     connect(lstIgnore, SIGNAL(dragEnter(QMimeSource*)), this, SLOT(dragEnter(QMimeSource*)));
     connect(lstIgnore, SIGNAL(drop(QMimeSource*)), this, SLOT(drop(QMimeSource*)));
@@ -53,7 +54,7 @@ IgnoreList::IgnoreList(QWidget *parent) : QWidget(parent)
     while ((contact = ++it) != NULL){
         if (!contact->getIgnore())
             continue;
-        Q3ListViewItem *item = new Q3ListViewItem(lstIgnore);
+        ListViewItem *item = new ListViewItem(lstIgnore);
         updateItem(item, contact);
     }
 }
@@ -70,10 +71,10 @@ bool IgnoreList::processEvent(Event *e)
                 break;
             }
             case EventContact::eCreated: {
-                Q3ListViewItem *item = findItem(contact);
+                ListViewItem *item = findItem(contact);
                 if (contact->getIgnore()){
                     if (item == NULL)
-                        item = new Q3ListViewItem(lstIgnore);
+                        item = new ListViewItem(lstIgnore);
                     updateItem(item, contact);
                 }else{
                     removeItem(item);
@@ -82,14 +83,14 @@ bool IgnoreList::processEvent(Event *e)
             }
             case EventContact::eChanged: {
                 if(contact->getIgnore()) {
-                    Q3ListViewItem *item = findItem(contact);
+                    ListViewItem *item = findItem(contact);
                     if(!item) {
                         if (item == NULL)
-                            item = new Q3ListViewItem(lstIgnore);
+                            item = new ListViewItem(lstIgnore);
                         updateItem(item, contact);
                     }
                 } else {
-                    Q3ListViewItem *item = findItem(contact);
+                    ListViewItem *item = findItem(contact);
                     removeItem(item);
                 }
                 break;
@@ -103,7 +104,7 @@ bool IgnoreList::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdListUnignore) && (cmd->menu_id == MenuListView)){
-            Q3ListViewItem *item = (Q3ListViewItem*)(cmd->param);
+            ListViewItem *item = (ListViewItem*)(cmd->param);
             if (item->listView() == lstIgnore){
                 unignoreItem(item);
                 return true;
@@ -117,7 +118,7 @@ bool IgnoreList::processEvent(Event *e)
     return false;
 }
 
-void IgnoreList::updateItem(Q3ListViewItem *item, Contact *contact)
+void IgnoreList::updateItem(ListViewItem *item, Contact *contact)
 {
     QString name = contact->getName();
     QString firstName = contact->getFirstName();
@@ -147,16 +148,18 @@ void IgnoreList::updateItem(Q3ListViewItem *item, Contact *contact)
     item->setPixmap(0, Pict(statusIcon));
 }
 
-Q3ListViewItem *IgnoreList::findItem(Contact *contact)
+ListViewItem *IgnoreList::findItem(Contact *contact)
 {
-    for (Q3ListViewItem *item = lstIgnore->firstChild(); item; item = item->nextSibling()){
-        if (item->text(3).toUInt() == contact->id())
-            return item;
-    }
-    return NULL;
+	for(int c = 0; c < lstIgnore->topLevelItemCount(); c++)
+	{
+		ListViewItem *item = static_cast<ListViewItem*>(lstIgnore->topLevelItem(c));
+		if (item->text(3).toUInt() == contact->id())
+			return item;
+	}
+	return NULL;
 }
 
-void IgnoreList::unignoreItem(Q3ListViewItem *item)
+void IgnoreList::unignoreItem(ListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
     if (contact) {
@@ -165,7 +168,7 @@ void IgnoreList::unignoreItem(Q3ListViewItem *item)
     }
 }
 
-void IgnoreList::deleteItem(Q3ListViewItem *item)
+void IgnoreList::deleteItem(ListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
     if (contact) {
@@ -175,7 +178,7 @@ void IgnoreList::deleteItem(Q3ListViewItem *item)
 
 void IgnoreList::dragStart()
 {
-    Q3ListViewItem *item = lstIgnore->currentItem();
+    ListViewItem *item = lstIgnore->currentItem();
     if (item == NULL)
         return;
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
@@ -213,11 +216,12 @@ void IgnoreList::drop(QMimeSource *s)
     }
 }
 
-void IgnoreList::removeItem(Q3ListViewItem *item)
+void IgnoreList::removeItem(ListViewItem *item)
 {
     if (item == NULL)
         return;
-    Q3ListViewItem *nextItem = NULL;
+	/*
+    ListViewItem *nextItem = NULL;
     if (item == lstIgnore->currentItem()){
         nextItem = item->nextSibling();
         if (nextItem == NULL){
@@ -226,8 +230,9 @@ void IgnoreList::removeItem(Q3ListViewItem *item)
                     break;
         }
     }
+	*/
     delete item;
-    if (nextItem)
-        lstIgnore->setCurrentItem(nextItem);
+    //if (nextItem)
+     //   lstIgnore->setCurrentItem(nextItem);
 }
 

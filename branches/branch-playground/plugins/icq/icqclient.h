@@ -37,6 +37,7 @@
 #include "socket/tcpclient.h"
 #include "socket/interfacechecker.h"
 #include "socket/sslclient.h"
+#include "contacts/clientdataiterator.h"
 #include "icq.h"
 #include "icqbuffer.h"
 

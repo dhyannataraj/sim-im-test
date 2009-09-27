@@ -27,7 +27,7 @@
 #include <QLabel>
 
 class ListView;
-class Q3ListViewItem;
+class ListViewItem;
 class QStatusBar;
 class CToolBar;
 class DiscoInfo;
@@ -85,7 +85,7 @@ signals:
     void addSearch(QWidget*, SIM::Client*, const QString&);
 protected slots:
     void selectionChanged();
-    void currentChanged(Q3ListViewItem*);
+    void currentChanged(ListViewItem*);
     void dragStart();
     void showReg();
     void showConfig();
@@ -101,16 +101,16 @@ protected:
     void addHistory(const QString &str);
     bool haveFeature(const char*);
     bool haveFeature(const char*, const QString&);
-    Q3ListViewItem *findItem(unsigned col, const QString &id);
-    Q3ListViewItem *findItem(unsigned col, const QString &id, Q3ListViewItem *item);
-    void setItemPict(Q3ListViewItem *item);
-    void adjustColumn(Q3ListViewItem *item);
-    void loadItem(Q3ListViewItem *item);
+    ListViewItem *findItem(unsigned col, const QString &id);
+    ListViewItem *findItem(unsigned col, const QString &id, ListViewItem *item);
+    void setItemPict(ListViewItem *item);
+    void adjustColumn(ListViewItem *item);
+    void loadItem(ListViewItem *item);
     void checkDone();
-    bool checkDone(Q3ListViewItem*);
+    bool checkDone(ListViewItem*);
     void startProcess();
     void changeMode();
-    void changeMode(Q3ListViewItem *item);
+    void changeMode(ListViewItem *item);
     void showEvent(QShowEvent*);
     bool		 m_bInProcess;
     JabberClient *m_client;

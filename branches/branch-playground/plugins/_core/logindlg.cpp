@@ -22,6 +22,7 @@ email                : vovan@shutoff.ru
 #include "linklabel.h"
 #include "log.h"
 #include "profilemanager.h"
+#include "contacts/client.h"
 
 #include <QSettings>
 #include <QPixmap>

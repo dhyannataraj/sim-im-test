@@ -17,6 +17,7 @@
 
 #include "journalsearch.h"
 #include "livejournal.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <QShowEvent>

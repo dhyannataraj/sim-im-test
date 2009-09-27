@@ -18,6 +18,7 @@
 #include "jabberclient.h"
 #include "jabberaboutinfo.h"
 #include "jabber.h"
+#include "contacts/contact.h"
 
 #include <q3multilineedit.h>
 

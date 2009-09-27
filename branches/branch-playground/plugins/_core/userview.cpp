@@ -25,7 +25,12 @@
 #include "linklabel.h"
 #include "container.h"
 #include "userwnd.h"
+#include "userviewdelegate.h"
 #include "history.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
+#include "contacts/group.h"
+#include "contacts/clientdataiterator.h"
 
 #include <QPainter>
 #include <QPixmap>
@@ -69,16 +74,21 @@ UserView::UserView() : UserListBase(NULL)
     m_bShowOnline = CorePlugin::m_plugin->property("ShowOnLine").toBool();
     m_bShowEmpty = CorePlugin::m_plugin->property("ShowEmptyGroup").toBool();
 
-    setBackgroundMode(Qt::NoBackground);
-    viewport()->setBackgroundMode(Qt::NoBackground);
+    setItemDelegate(new UserViewDelegate(this));
+
+    //setBackgroundMode(Qt::NoBackground);
+    //viewport()->setBackgroundMode(Qt::NoBackground);
 
     mTipItem = NULL;
     m_current = NULL;
+    setRootIsDecorated(false);
+    setHeaderHidden(true);
+    setAnimated(true);
 
-    setTreeStepSize(0);
+    //setTreeStepSize(0);
 
-    setVScrollBarMode(CorePlugin::m_plugin->property("NoScroller").toBool() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
-    setHScrollBarMode(Q3ScrollView::AlwaysOff);
+    setVerticalScrollBarPolicy(CorePlugin::m_plugin->property("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
@@ -120,7 +130,7 @@ UserView::UserView() : UserListBase(NULL)
     connect(edtContact, SIGNAL(returnPressed()), this, SLOT(editContactEnter()));
     connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
 
-    setShowToolTips( false );
+    //setShowToolTips( false );
 }
 
 UserView::~UserView()
@@ -143,18 +153,20 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     pv.height   = r.height();
     pv.margin   = 0;
     pv.isGroup  = false;
-    Q3ListViewItem *item = firstChild();
+    ListViewItem *item = firstChild();
     if (item)
         pv.height = item->height();
     EventPaintView e(&pv);
     e.process();
     pp.end();
     p->drawPixmap(r.topLeft(), bg);
-    setStaticBackground(pv.isStatic);
+    //setStaticBackground(pv.isStatic);
 }
 
 int UserView::heightItem(UserViewItemBase *base)
 {
+    if(!base)
+        return 0;
     QFont f(font());
     int h = 0;
     if (base->type() == GRP_ITEM){
@@ -197,7 +209,8 @@ int UserView::heightItem(UserViewItemBase *base)
 
 void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
 {
-    if (base->type() == GRP_ITEM){
+    if (base->type() == GRP_ITEM)
+    {
         GroupItem *item = static_cast<GroupItem*>(base);
         QString text;
         if (item->id()){
@@ -219,7 +232,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text += QString::number(item->m_nContacts);
             text += ')';
         }
-        QImage img = Image(item->isOpen() ? "expanded" : "collapsed");
+        QImage img = Image(item->isExpanded() ? "expanded" : "collapsed");
         if (!img.isNull())
             p->drawImage(2 + margin, (item->height() - img.height()) / 2, img);
         int x = 24 + margin;
@@ -253,7 +266,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             item->drawSeparator(p, x, width, cg);
         return;
     }
-    if (base->type() == USR_ITEM){
+    if (base->type() == USR_ITEM)
+    {
         ContactItem *item = static_cast<ContactItem*>(base);
         QFont f(font());
         if (item->style() & CONTACT_ITALIC){
@@ -292,7 +306,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             QImage img = Image(icon);
             if (!img.isNull()){
                 x += 2;
-                p->drawImage(x, (item->height() - img.height()) / 2, img);
+                p->drawImage(x, (item->height()/* - img.height()*/) / 2, img);
                 x += img.width() + 2;
             }
         }
@@ -325,32 +339,35 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 }
             }
         }
-        if (item->m_bBlink){
+        if (item->m_bBlink)
             f.setBold(true);
-        }else{
+        else
             f.setBold(false);
-        }
+
         p->setFont(f);
         QString highlight;
         QString text = item->text(CONTACT_TEXT);
         int pos=0;
-        if (!m_search.isEmpty()){
+        if(!m_search.isEmpty())
+        {
             pos=text.toUpper().indexOf(m_search.toUpper());
             //Search from the beginning of contact name
             /*if (text.left(m_search.length()).upper() == m_search.upper())
                 highlight = text.left(m_search.length());*/
             //Search for substring in contact name
-            if (pos>-1)
+            if (pos > -1)
                 highlight=text.mid(pos,m_search.length());
         }
         int save_x = x;
+        //p->setPen(QColor(0, 0, 0));
         x = item->drawText(p, x, width, text);
-        if (pos>0)
+        if (pos > 0)
             /*drawText returns bounding x coordinate of the output +5,
               so to have actual x coordinate to draw, we ned to -4*/
             save_x = item->drawText(p, save_x, width, text.left(pos)) - 4;
         x += 2;
-        if (!highlight.isEmpty()){
+        if (!highlight.isEmpty())
+        {
             QPen oldPen = p->pen();
             QColor oldBg = p->background().color();
             p->setBackgroundMode(Qt::OpaqueMode);
@@ -392,7 +409,7 @@ bool UserView::processEvent(Event *e)
     switch (e->type())
 	{
     case eEventRepaintView:
-        setVScrollBarMode(CorePlugin::m_plugin->property("NoScroller").toBool() ? Q3ScrollView::AlwaysOff : Q3ScrollView::Auto);
+		setVerticalScrollBarPolicy(CorePlugin::m_plugin->property("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
         break;
     case eEventInit:
         m_bInit = true;
@@ -442,10 +459,10 @@ bool UserView::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     if (cmd->id == CmdContactDelete){
-                        Q3ListViewItem *item = findContactItem(contact->id());
+                        ListViewItem *item = findContactItem(contact->id());
                         if (item){
-                            ensureItemVisible(item);
-                            QRect rc = itemRect(item);
+                            //scrollTo(model()->index(item->row(), item->column()));
+                            QRect rc = visualItemRect(item);
                             QPoint p = viewport()->mapToGlobal(rc.topLeft());
                             rc = QRect(p.x(), p.y(), rc.width(), rc.height());
                             m_bRemoveHistory = CorePlugin::m_plugin->property("RemoveHistory").toBool();
@@ -457,7 +474,7 @@ bool UserView::processEvent(Event *e)
                         return true;
                     }
                     if (cmd->id == CmdContactRename){
-                        Q3ListViewItem *item = findContactItem(contact->id());
+                        ListViewItem *item = findContactItem(contact->id());
                         if (item){
                             setCurrentItem(item);
                             renameContact();
@@ -593,7 +610,7 @@ bool UserView::processEvent(Event *e)
                     fill();
                     Group *g = getContacts()->group(0, true);
                     drawUpdates();
-                    Q3ListViewItem *item = findGroupItem(g->id());
+                    ListViewItem *item = findGroupItem(g->id());
                     if (item){
                         setCurrentItem(item);
                         QTimer::singleShot(0, this, SLOT(renameGroup()));
@@ -602,7 +619,7 @@ bool UserView::processEvent(Event *e)
                 return true;
             }
             if (cmd->id == CmdGrpRename){
-                Q3ListViewItem *item = findGroupItem((unsigned long)(cmd->param));
+                ListViewItem *item = findGroupItem((unsigned long)(cmd->param));
                 if (item){
                     setCurrentItem(item);
                     renameGroup();
@@ -612,9 +629,9 @@ bool UserView::processEvent(Event *e)
             if (cmd->id == CmdGrpUp){
                 unsigned long grp_id = (unsigned long)(cmd->param);
                 getContacts()->moveGroup(grp_id, true);
-                Q3ListViewItem *item = findGroupItem(grp_id);
+                ListViewItem *item = findGroupItem(grp_id);
                 if (item){
-                    ensureItemVisible(item);
+                    //scrollTo(model()->index(item->row(), item->column()));
                     setCurrentItem(item);
                 }
                 return true;
@@ -622,20 +639,20 @@ bool UserView::processEvent(Event *e)
             if (cmd->id == CmdGrpDown){
                 unsigned long grp_id = (unsigned long)(cmd->param);
                 getContacts()->moveGroup(grp_id, false);
-                Q3ListViewItem *item = findGroupItem(grp_id);
+                ListViewItem *item = findGroupItem(grp_id);
                 if (item){
-                    ensureItemVisible(item);
+                    //scrollTo(model()->index(item->row(), item->column()));
                     setCurrentItem(item);
                 }
                 return true;
             }
             if (cmd->id == CmdGrpDelete){
                 unsigned long grp_id = (unsigned long)(cmd->param);
-                Q3ListViewItem *item = findGroupItem(grp_id);
+                ListViewItem *item = findGroupItem(grp_id);
                 Group *g = getContacts()->group(grp_id);
                 if (item && g){
-                    ensureItemVisible(item);
-                    QRect rc = itemRect(item);
+                    //scrollTo(model()->index(item->row(), item->column()));
+                    QRect rc = visualItemRect(item);
                     QPoint p = viewport()->mapToGlobal(rc.topLeft());
                     rc = QRect(p.x(), p.y(), rc.width(), rc.height());
                     BalloonMsg::ask((void*)grp_id,
@@ -874,7 +891,7 @@ void UserView::deleteContact(void *p)
 
 void UserView::renameGroup()
 {
-    Q3ListViewItem *item = currentItem();
+    ListViewItem *item = currentItem();
     if (item == NULL)
         return;
     UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
@@ -883,9 +900,9 @@ void UserView::renameGroup()
     GroupItem *grpItem = static_cast<GroupItem*>(item);
     Group *g = getContacts()->group(grpItem->id());
     if (g){
-        ensureItemVisible(item);
+        //scrollTo(model()->index(item->row(), item->column()));
         QString name = g->getName();
-        QRect rc = itemRect(item);
+        QRect rc = visualItemRect(item);
         rc.setLeft(rc.left() + 18);
         edtGroup->id = g->id();
         edtGroup->setGeometry(rc);
@@ -898,7 +915,7 @@ void UserView::renameGroup()
 
 void UserView::renameContact()
 {
-    Q3ListViewItem *item = currentItem();
+    ListViewItem *item = currentItem();
     if (item == NULL)
         return;
     UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
@@ -907,9 +924,9 @@ void UserView::renameContact()
     ContactItem *contactItem = static_cast<ContactItem*>(item);
     Contact *contact = getContacts()->contact(contactItem->id());
     if (contact){
-        ensureItemVisible(item);
+        //scrollTo(model()->index(item->row(), item->column()));
         QString name = contact->getName();
-        QRect rc = itemRect(item);
+        QRect rc = visualItemRect(item);
         rc.setLeft(rc.left() + 18);
         edtContact->id = contact->id();
         edtContact->setGeometry(rc);
@@ -941,10 +958,10 @@ bool UserView::eventFilter(QObject *obj, QEvent *e)
     return res;
 }
 
-void UserView::contentsMousePressEvent(QMouseEvent *e)
+void UserView::mousePressEvent(QMouseEvent *e)
 {
     stopSearch();
-    UserListBase::contentsMousePressEvent(e);
+    UserListBase::mousePressEvent(e);
 }
 
 void UserView::focusOutEvent(QFocusEvent *e)
@@ -953,10 +970,10 @@ void UserView::focusOutEvent(QFocusEvent *e)
     UserListBase::focusOutEvent(e);
 }
 
-void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
+void UserView::mouseReleaseEvent(QMouseEvent *e)
 {
-    Q3ListViewItem *item = m_pressedItem;
-    UserListBase::contentsMouseReleaseEvent(e);
+    ListViewItem *item = m_pressedItem;
+    UserListBase::mouseReleaseEvent(e);
     if (item){
         if (!CorePlugin::m_plugin->property("UseDblClick").toBool()){
             m_current = item;
@@ -965,10 +982,10 @@ void UserView::contentsMouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-void UserView::contentsMouseDoubleClickEvent(QMouseEvent *e)
+void UserView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    UserListBase::contentsMouseDoubleClickEvent(e);
-    m_current = itemAt(contentsToViewport(e->pos()));
+    UserListBase::mouseDoubleClickEvent(e);
+    m_current = itemAt(e->pos());
     QTimer::singleShot(0, this, SLOT(doClick()));
 }
 
@@ -990,8 +1007,8 @@ void UserView::keyPressEvent(QKeyEvent *e)
     if (CorePlugin::m_plugin->property("UseDblClick").toBool() || m_searchItem){
         if (m_searchItem) {
 	    int store = 0;
-	    list<Q3ListViewItem*> items;
-	    list<Q3ListViewItem*>::iterator it;
+	    list<ListViewItem*> items;
+	    list<ListViewItem*>::iterator it;
             search(items);
 	    if (!items.empty()) {
 	        for (it = items.begin(); it != items.end(); ++it)
@@ -1016,8 +1033,8 @@ void UserView::keyPressEvent(QKeyEvent *e)
     bool bTip = false;
     if (m_searchItem && (m_searchItem == mTipItem))
         bTip = true;
-    list<Q3ListViewItem*> old_items;
-    list<Q3ListViewItem*> new_items;
+    list<ListViewItem*> old_items;
+    list<ListViewItem*> new_items;
     switch (e->key()){
 		case Qt::Key_BackSpace:
         if (m_search.isEmpty()){
@@ -1028,7 +1045,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
         m_search = m_search.left(m_search.length() - 1);
         if (m_search.isEmpty()){
             m_searchItem = NULL;
-            list<Q3ListViewItem*>::iterator it;
+            list<ListViewItem*>::iterator it;
             for (it = closed_items.begin(); it != closed_items.end(); ++it)
                  (*it)->setOpen(false);
         }else{
@@ -1055,7 +1072,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
         }
         if (m_searchItem){
             search(old_items);
-            list<Q3ListViewItem*>::iterator it_old;
+            list<ListViewItem*>::iterator it_old;
             for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
                 if ((*it_old) == m_searchItem)
                     break;
@@ -1075,7 +1092,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
         }
         if (m_searchItem){
             search(old_items);
-            list<Q3ListViewItem*>::iterator it_old;
+            list<ListViewItem*>::iterator it_old;
             for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
                 if ((*it_old) == m_searchItem)
                     break;
@@ -1091,7 +1108,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
 		case Qt::Key_Plus:
 		case Qt::Key_Minus:
         if (m_search.isEmpty()){
-            Q3ListViewItem *item = currentItem();
+            ListViewItem *item = currentItem();
             if (item && item->isExpandable()){
                 UserListBase::keyPressEvent(e);
                 return;
@@ -1109,9 +1126,12 @@ void UserView::keyPressEvent(QKeyEvent *e)
         }
         if (m_search.isEmpty()) {
             closed_items.clear();
-            for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling())
-                 if (item->isExpandable() && !(item->isOpen()))
-                     closed_items.push_back(item);
+            for(int c = 0; c < topLevelItemCount(); c++)
+            {
+                ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(c));
+                if (item->isExpandable() && !(item->isOpen()))
+                    closed_items.push_back(item);
+            }
         }
         QString save_search = m_search;
         search(old_items);
@@ -1126,8 +1146,8 @@ void UserView::keyPressEvent(QKeyEvent *e)
             m_searchItem = new_items.front();
         }
     }
-    list<Q3ListViewItem*>::iterator it_old;
-    list<Q3ListViewItem*>::iterator it_new;
+    list<ListViewItem*>::iterator it_old;
+    list<ListViewItem*>::iterator it_new;
     for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old){
         for (it_new = new_items.begin(); it_new != new_items.end(); ++it_new)
             if (*it_new == *it_old)
@@ -1139,13 +1159,13 @@ void UserView::keyPressEvent(QKeyEvent *e)
         (*it_new)->repaint();
     setCurrentItem(m_searchItem);
     if (m_searchItem){
-        ensureItemVisible(m_searchItem);
+        //scrollTo(model()->index(m_searchItem->row(), m_searchItem->column()));
     }
     if (m_search.isEmpty() || (m_searchItem == NULL)){
         QToolTip::hideText();
     }else{
         QString tip = i18n("Search: %1") .arg(m_search);
-        QRect tipRect = itemRect(m_searchItem);
+        QRect tipRect = visualItemRect(m_searchItem);
         QPoint p = viewport()->mapToGlobal(tipRect.topLeft());
         QToolTip::showText( mapToGlobal( tipRect.topLeft() ), tip, this, tipRect );
     }
@@ -1155,17 +1175,17 @@ void UserView::stopSearch()
 {
     if (m_search.isEmpty())
         return;
-    list<Q3ListViewItem*> old_items;
+    list<ListViewItem*> old_items;
     search(old_items);
     m_search = QString::null;
     m_searchItem = NULL;
-    list<Q3ListViewItem*>::iterator it_old;
+    list<ListViewItem*>::iterator it_old;
     for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
         (*it_old)->repaint();
     QToolTip::hideText();
 }
 
-bool UserView::getMenu(Q3ListViewItem *list_item, unsigned long &id, void* &param)
+bool UserView::getMenu(ListViewItem *list_item, unsigned long &id, void* &param)
 {
     if (list_item == NULL)
         return false;
@@ -1227,10 +1247,10 @@ unsigned UserView::getUnread(unsigned contact_id)
     return 0;
 }
 
-static void resetUnread(Q3ListViewItem *item, list<Q3ListViewItem*> &grp)
+static void resetUnread(ListViewItem *item, list<ListViewItem*> &grp)
 {
     if (static_cast<UserViewItemBase*>(item)->type() == GRP_ITEM){
-        list<Q3ListViewItem*>::iterator it;
+        list<ListViewItem*>::iterator it;
         for (it = grp.begin(); it != grp.end(); ++it)
             if ((*it) == item)
                 break;
@@ -1245,8 +1265,11 @@ static void resetUnread(Q3ListViewItem *item, list<Q3ListViewItem*> &grp)
     }
     if (!item->isExpandable())
         return;
-    for (item = item->firstChild(); item; item = item->nextSibling())
-        resetUnread(item, grp);
+    for(int c = 0; c < item->childCount(); c++)
+    {
+        ListViewItem *i= static_cast<ListViewItem*>(item->child(c));
+        resetUnread(i, grp);
+    }
 }
 
 void UserView::unreadBlink()
@@ -1262,7 +1285,7 @@ void UserView::unreadBlink()
             continue;
         blinks.push_back((*it).contact);
     }
-    list<Q3ListViewItem*> grps;
+    list<ListViewItem*> grps;
     if (blinks.empty()){
         unreadTimer->stop();
     }else{
@@ -1270,18 +1293,21 @@ void UserView::unreadBlink()
             ContactItem *contact = findContactItem((*itb), NULL);
             if (contact == NULL)
                 return;
-            repaintItem(contact);
-            if (CorePlugin::m_plugin->property("GroupMode").toUInt() && !contact->parent()->isOpen()){
+            update();
+            //repaintItem(contact);
+            if (CorePlugin::m_plugin->property("GroupMode").toUInt() && !contact->parent()->isExpanded()){
                 GroupItem *group = static_cast<GroupItem*>(contact->parent());
                 group->m_unread = contact->m_unread;
-                repaintItem(group);
+                update();
                 grps.push_back(group);
             }
         }
     }
     if (CorePlugin::m_plugin->property("GroupMode").toUInt()){
-        for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling()){
-            resetUnread(item, grps);
+        for(int c = 0; c < topLevelItemCount(); c++)
+        {
+            ListViewItem *i = static_cast<ListViewItem*>(topLevelItem(c));
+            resetUnread(i, grps);
         }
     }
 }
@@ -1298,7 +1324,8 @@ void UserView::blink()
             break;
         }
         contact->m_bBlink = m_bBlink;
-        repaintItem(contact);
+        update();
+        //repaintItem(contact);
         ++it;
     }
     if (m_bBlink)
@@ -1317,7 +1344,7 @@ void UserView::blink()
         blinkTimer->stop();
 }
 
-void UserView::deleteItem(Q3ListViewItem *item)
+void UserView::deleteItem(ListViewItem *item)
 {
     if (item == NULL)
         return;
@@ -1347,7 +1374,7 @@ UserViewContactDragObject::~UserViewContactDragObject()
 {
 }
 
-Q3DragObject *UserView::dragObject()
+QMimeData *UserView::dragObject()
 {
     if (currentItem() == NULL)
         return NULL;
@@ -1361,24 +1388,24 @@ Q3DragObject *UserView::dragObject()
     return new UserViewContactDragObject(this, contact);
 }
 
-void UserView::contentsDragEnterEvent(QDragEnterEvent *e)
+void UserView::dragEnterEvent(QDragEnterEvent *e)
 {
     dragEvent(e, false);
 }
 
-void UserView::contentsDragMoveEvent(QDragMoveEvent *e)
+void UserView::dragMoveEvent(QDragMoveEvent *e)
 {
     dragEvent(e, false);
 }
 
-void UserView::contentsDropEvent(QDropEvent *e)
+void UserView::dropEvent(QDropEvent *e)
 {
     dragEvent(e, true);
 }
 
 void UserView::dragEvent(QDropEvent *e, bool isDrop)
 {
-    Q3ListViewItem *list_item = itemAt(contentsToViewport(e->pos()));
+    ListViewItem *list_item = itemAt(e->pos());
     if (list_item == NULL){
         e->ignore();
         return;
@@ -1440,6 +1467,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 delete msg;
                 return;
             }
+            /*
             if (Q3TextDrag::canDecode(e)){
                 QString str;
                 if (Q3TextDrag::decode(e, str)){
@@ -1454,6 +1482,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                     return;
                 }
             }
+            */
             break;
         }
     }
@@ -1483,8 +1512,8 @@ void UserView::doDrop()
                 break;
             joinContactsData.contact1 = contact_item->id();
             joinContactsData.contact2 = m_dropContactId;
-            ensureItemVisible(contact_item);
-            QRect rc = itemRect(contact_item);
+            //scrollTo(model()->index(contact_item->row(), contact_item->column()));
+            QRect rc = visualItemRect(contact_item);
             QPoint p = viewport()->mapToGlobal(rc.topLeft());
             rc = QRect(p.x(), p.y(), rc.width(), rc.height());
             BalloonMsg::ask(NULL,
@@ -1536,34 +1565,46 @@ void UserView::cancelJoinContacts(void*)
 
 void UserView::sortAll()
 {
-    sort();
-    for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling())
+    //sort();
+    for(int c = 0; c < topLevelItemCount(); c++)
+    {
+        ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(c));
         sortAll(item);
+    }
 }
 
-void UserView::sortAll(Q3ListViewItem *item)
+void UserView::sortAll(ListViewItem *item)
 {
-    item->sort();
-    for (item = item->firstChild(); item; item = item->nextSibling())
+    //item->sort();
+    for(int c = 0; c < topLevelItemCount(); c++)
+    {
+        ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(c));
         sortAll(item);
+    }
 }
 
-void UserView::search(list<Q3ListViewItem*> &items)
+void UserView::search(list<ListViewItem*> &items)
 {
     if (m_search.isEmpty())
         return;
-    list<Q3ListViewItem*>::iterator it;
+    list<ListViewItem*>::iterator it;
     for (it = closed_items.begin(); it != closed_items.end(); ++it)
-         (*it)->setOpen(false);
-    for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling())
+        (*it)->setOpen(false);
+    for(int c = 0; c < topLevelItemCount(); c++)
+    {
+        ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(c));
         search(item, items);
+    }
 }
 
-void UserView::search(Q3ListViewItem *item, list<Q3ListViewItem*> &items)
+void UserView::search(ListViewItem *item, list<ListViewItem*> &items)
 {
-  if (item->isExpandable()){
-        for (Q3ListViewItem *child = item->firstChild(); child; child = child->nextSibling())
-            search(child, items);
+    if (item->isExpandable()){
+        for(int c = 0; c < item->childCount(); c++)
+        {
+            ListViewItem *ch = static_cast<ListViewItem*>(item->child(c));
+            search(ch, items);
+        }
     }
     if (static_cast<UserViewItemBase*>(item)->type() != USR_ITEM)
         return;
@@ -1574,7 +1615,7 @@ void UserView::search(Q3ListViewItem *item, list<Q3ListViewItem*> &items)
     //Search for substring in contact name
     if (name.contains(m_search,Qt::CaseInsensitive)>0) {
         //log(L_DEBUG, "Contact List search: Found name %s", (const char *)name.local8Bit());
-        item->parent()->setOpen(true);
+        item->parent()->setExpanded(true);
         items.push_back(item);
     } else {
       void *data;
@@ -1588,7 +1629,7 @@ void UserView::search(Q3ListViewItem *item, list<Q3ListViewItem*> &items)
           //log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
           if (contactName.contains(m_search,Qt::CaseInsensitive)>0) {
               //log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
-              item->parent()->setOpen(true);
+              item->parent()->setExpanded(true);
               items.push_back(item);
               break;
           }
@@ -1602,7 +1643,7 @@ void UserView::dragScroll() //rewrite!?
     pos = viewport()->mapFromGlobal(pos);
     if ((pos.x() < 0) || (pos.x() > viewport()->width()))
         return;
-    Q3ListViewItem *item = NULL;
+    ListViewItem *item = NULL;
     if (pos.y() < 0){
         pos = QPoint(pos.x(), -1);
         item = itemAt(pos);
@@ -1614,8 +1655,9 @@ void UserView::dragScroll() //rewrite!?
             item = itemAt(pos);
         }
     }
-    if (item)
-        ensureItemVisible(item);
+    
+    //if (item)
+        //scrollTo(model()->index(item->row(), item->column()));
 }
 
 bool UserView::event( QEvent *event ) {
@@ -1623,7 +1665,7 @@ bool UserView::event( QEvent *event ) {
         do {
             QHelpEvent *e = dynamic_cast<QHelpEvent*>( event );
             QPoint pos = e->pos();
-            Q3ListViewItem *list_item = itemAt ( pos );
+            ListViewItem *list_item = itemAt ( pos );
             if( NULL == list_item )
                 break;
 
@@ -1640,7 +1682,7 @@ bool UserView::event( QEvent *event ) {
                 break;
 
             QString tip = contact->tipText();
-            QRect tipRect = itemRect(mTipItem);
+            QRect tipRect = visualItemRect(mTipItem);
             QToolTip::showText( mapToGlobal( e->pos() ), tip, this, tipRect );
 
             return true;
@@ -1651,3 +1693,5 @@ bool UserView::event( QEvent *event ) {
 
     return UserListBase::event( event );
 }
+
+// vim: set expandtab:

@@ -27,6 +27,7 @@
 #include "newprotocol.h"
 #include "connectwnd.h"
 #include "core.h"
+#include "contacts/client.h"
 
 using namespace std;
 using namespace SIM;

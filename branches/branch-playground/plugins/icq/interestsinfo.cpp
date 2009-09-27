@@ -17,6 +17,7 @@
 
 #include "interestsinfo.h"
 #include "icqclient.h"
+#include "contacts/contact.h"
 
 #include <QLineEdit>
 #include <QComboBox>

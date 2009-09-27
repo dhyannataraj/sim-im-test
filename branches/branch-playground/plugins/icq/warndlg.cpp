@@ -20,6 +20,7 @@
 #include "ballonmsg.h"
 #include "icqclient.h"
 #include "icqmessage.h"
+#include "contacts/contact.h"
 
 #include <QPixmap>
 #include <QPushButton>

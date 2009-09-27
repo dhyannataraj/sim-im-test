@@ -19,6 +19,7 @@
 #include "moreinfo.h"
 #include "icqclient.h"
 #include "datepicker.h"
+#include "contacts/contact.h"
 
 #include <QPushButton>
 #include <QDateTime>

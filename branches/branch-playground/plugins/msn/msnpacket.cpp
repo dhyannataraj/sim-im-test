@@ -28,6 +28,9 @@
 #include "msnclient.h"
 #include "msn.h"
 #include "socket/clientsocket.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
 
 using namespace std;
 using namespace SIM;

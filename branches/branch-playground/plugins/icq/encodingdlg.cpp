@@ -18,6 +18,7 @@
 #include "icons.h"
 #include "encodingdlg.h"
 #include "icqclient.h"
+#include "contacts/contact.h"
 
 #include <QComboBox>
 #include <QPixmap>

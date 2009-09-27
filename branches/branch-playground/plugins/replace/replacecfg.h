@@ -22,7 +22,7 @@
 
 class ReplacePlugin;
 class IntLineEdit;
-class Q3ListViewItem;
+class ListViewItem;
 
 class ReplaceCfg : public QWidget, public Ui::ReplaceCfgBase
 {
@@ -34,7 +34,7 @@ public slots:
     void apply();
     void selectionChanged();
     void sizeChange(int,int,int);
-    void mouseButtonPressed(int, Q3ListViewItem*, const QPoint&, int);
+    void mouseButtonPressed(int, ListViewItem*, const QPoint&, int);
 protected:
     bool eventFilter(QObject*, QEvent*);
     void flush();
@@ -42,7 +42,7 @@ protected:
     unsigned	  m_col;
     void resizeEvent(QResizeEvent *e);
     ReplacePlugin *m_plugin;
-    Q3ListViewItem *m_editItem;
+    ListViewItem *m_editItem;
     unsigned	  m_editCol;
     unsigned	  m_count;
     void		  setEdit();

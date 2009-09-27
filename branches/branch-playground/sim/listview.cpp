@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "listview.h"
+#include "contacts/contact.h"
+#include "log.h"
 
 #include <q3popupmenu.h>
 #include <QTimer>
@@ -31,6 +33,7 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <QDragEnterEvent>
+#include <QScrollBar>
 
 #include "misc.h"
 
@@ -38,8 +41,72 @@ using namespace SIM;
 
 bool ListView::s_bInit = false;
 
-ListView::ListView(QWidget *parent, const char *name)
-        : Q3ListView(parent, name)
+ListViewItem::ListViewItem() : QTreeWidgetItem(), m_open(true)
+{
+    setExpanded(true);
+}
+
+ListViewItem::ListViewItem(const QString& name) : QTreeWidgetItem()
+{
+    setExpanded(true);
+}
+
+ListViewItem::ListViewItem(ListView* parent) : QTreeWidgetItem(parent)
+{
+    setExpanded(true);
+}
+
+ListViewItem::ListViewItem(ListViewItem* parent) : QTreeWidgetItem(parent)
+{
+    setExpanded(true);
+}
+
+ListViewItem::~ListViewItem()
+{
+}
+
+ListView* ListViewItem::listView() const
+{
+    return static_cast<ListView*>(treeWidget());
+}
+
+QPixmap ListViewItem::pixmap(int t)
+{
+    return icon(t).pixmap();
+}
+
+void ListViewItem::setPixmap(int col, QPixmap p)
+{
+    setIcon(col, p);
+}
+
+void ListViewItem::repaint()
+{
+    ListView* lv = listView();
+    lv->update();
+}
+
+bool ListViewItem::isOpen()
+{
+    return QTreeWidgetItem::isExpanded();
+}
+
+void ListViewItem::setOpen(bool o)
+{
+    return QTreeWidgetItem::setExpanded(o);
+}
+
+bool ListViewItem::isExpandable()
+{
+    return m_expandable;
+}
+
+void ListViewItem::setExpandable(bool e)
+{
+    m_expandable = e;
+}
+
+ListView::ListView(QWidget *parent) : QTreeWidget(parent)
 {
     m_menuId = MenuListView;
     if (!s_bInit){
@@ -57,13 +124,14 @@ ListView::ListView(QWidget *parent, const char *name)
 
         EventCommandCreate(cmd).process();
     }
-    setAllColumnsShowFocus(true);
+    setColumnCount(0);
+    //setAllColumnsShowFocus(true);
     m_bAcceptDrop = false;
     viewport()->setAcceptDrops(true);
     m_pressedItem = NULL;
     m_expandingColumn = -1;
     verticalScrollBar()->installEventFilter(this);
-    connect(header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
+    //connect(header(), SIGNAL(sizeChange(int,int,int)), this, SLOT(sizeChange(int,int,int)));
     m_resizeTimer = new QTimer(this);
     connect(m_resizeTimer, SIGNAL(timeout()), this, SLOT(adjustColumn()));
 }
@@ -77,7 +145,7 @@ void ListView::sizeChange(int,int,int)
     QTimer::singleShot(0, this, SLOT(adjustColumn()));
 }
 
-bool ListView::getMenu(Q3ListViewItem *item, unsigned long &id, void *&param)
+bool ListView::getMenu(ListViewItem *item, unsigned long &id, void *&param)
 {
     if (m_menuId == 0)
         return false;
@@ -91,13 +159,21 @@ void ListView::setMenu(unsigned long menuId)
     m_menuId = menuId;
 }
 
+void ListView::setOpen(bool o)
+{
+}
+
+void ListView::setOpen(ListViewItem* item, bool o)
+{
+}
+
 bool ListView::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdListDelete) && (cmd->menu_id == MenuListView)){
-            Q3ListViewItem *item = (Q3ListViewItem*)(cmd->param);
+            ListViewItem *item = (ListViewItem*)(cmd->param);
             if (item->listView() == this){
                 emit deleteItem(item);
                 return true;
@@ -117,7 +193,7 @@ void ListView::keyPressEvent(QKeyEvent *e)
             key |= Qt::CTRL;
         if (e->modifiers() & Qt::AltModifier)
             key |= Qt::ALT;
-        Q3ListViewItem *item = currentItem();
+        ListViewItem *item = currentItem();
         if (item){
             unsigned long id;
             void *param;
@@ -132,39 +208,56 @@ void ListView::keyPressEvent(QKeyEvent *e)
         showPopup(currentItem(), QPoint());
         return;
     }
-    Q3ListView::keyPressEvent(e);
+    QTreeWidget::keyPressEvent(e);
+}
+
+ListViewItem* ListView::currentItem()
+{
+    return static_cast<ListViewItem*>(QTreeWidget::currentItem());
 }
 
 void ListView::viewportMousePressEvent(QMouseEvent *e)
 {
-    Q3ListView::viewportMousePressEvent(e);
+    //QTreeWidget::viewportMousePressEvent(e);
 }
 
-void ListView::contentsMousePressEvent(QMouseEvent *e)
+void ListView::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton){
-        m_pressedItem = itemAt(contentsToViewport(e->pos()));
-        if (m_pressedItem && !m_pressedItem->isSelectable())
-            m_pressedItem = NULL;
+        m_pressedItem = itemAt(e->pos());
+        /*
+           if (m_pressedItem && !m_pressedItem->isSelectable())
+           m_pressedItem = NULL;
+           */
         if (m_pressedItem)
-            repaintItem(m_pressedItem);
+        {
+            update();
+            //repaintItem(m_pressedItem);
+            //update(model()->index(m_pressedItem->row(), 0));
+        }
     }
-    Q3ListView::contentsMousePressEvent(e);
+    QTreeWidget::mousePressEvent(e);
 }
 
-void ListView::contentsMouseMoveEvent(QMouseEvent *e)
+void ListView::mouseMoveEvent(QMouseEvent *e)
 {
-    Q3ListView::contentsMouseMoveEvent(e);
+    QTreeWidget::mouseMoveEvent(e);
 }
 
-void ListView::contentsMouseReleaseEvent(QMouseEvent *e)
+ListViewItem* ListView::itemAt(const QPoint& p)
 {
-    Q3ListView::contentsMouseReleaseEvent(e);
+    return static_cast<ListViewItem*>(QTreeWidget::itemAt(p));
+}
+
+void ListView::mouseReleaseEvent(QMouseEvent *e)
+{
+    QTreeWidget::mouseReleaseEvent(e);
     if (m_pressedItem){
-        Q3ListViewItem *item = m_pressedItem;
+        ListViewItem *item = m_pressedItem;
         m_pressedItem = NULL;
-        item->repaint();
-        Q3ListViewItem *citem = itemAt(contentsToViewport(e->pos()));
+        //update(model()->index(item->row(), 0));
+        update();
+        ListViewItem *citem = itemAt(e->pos());
         if (item == citem)
             emit clickItem(item);
     }
@@ -173,11 +266,11 @@ void ListView::contentsMouseReleaseEvent(QMouseEvent *e)
 void ListView::viewportContextMenuEvent( QContextMenuEvent *e)
 {
     QPoint p = e->globalPos();
-    Q3ListViewItem *list_item = itemAt(viewport()->mapFromGlobal(p));
+    ListViewItem *list_item = itemAt(viewport()->mapFromGlobal(p));
     showPopup(list_item, p);
 }
 
-void ListView::showPopup(Q3ListViewItem *item, QPoint p)
+void ListView::showPopup(ListViewItem *item, QPoint p)
 {
     unsigned long id;
     void *param;
@@ -188,7 +281,7 @@ void ListView::showPopup(Q3ListViewItem *item, QPoint p)
     if (!getMenu(item, id, param))
         return;
     if (p.isNull()){
-        QRect rc = itemRect(item);
+        QRect rc = visualItemRect(item);
         p = QPoint(rc.x() + rc.width() / 2, rc.y() + rc.height() / 2);
         p = viewport()->mapToGlobal(p);
     }
@@ -206,7 +299,7 @@ bool ListView::eventFilter(QObject *o, QEvent *e)
     if ((o == verticalScrollBar()) &&
             ((e->type() == QEvent::Show) || (e->type() == QEvent::Hide)))
         adjustColumn();
-    return Q3ListView::eventFilter(o, e);
+    return QTreeWidget::eventFilter(o, e);
 }
 
 int ListView::expandingColumn() const
@@ -222,8 +315,13 @@ void ListView::setExpandingColumn(int n)
 
 void ListView::resizeEvent(QResizeEvent *e)
 {
-    Q3ListView::resizeEvent(e);
+    QTreeWidget::resizeEvent(e);
     adjustColumn();
+}
+
+ListViewItem* ListView::firstChild()
+{
+    return static_cast<ListViewItem*>(topLevelItem(0));
 }
 
 void ListView::adjustColumn()
@@ -241,18 +339,19 @@ void ListView::adjustColumn()
         QScrollBar *vBar = verticalScrollBar();
         if (vBar->isVisible())
             w -= vBar->width();
-        for (int i = 0; i < columns(); i++){
+        for (int i = 0; i < columnCount(); i++){
             if (i == m_expandingColumn)
                 continue;
             w -= columnWidth(i);
         }
         int minW = 40;
-        for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling()){
+        for (int i = 0; i < topLevelItemCount(); i++){
+            ListViewItem *item = static_cast<ListViewItem*>(topLevelItem(i));
             QFontMetrics fm(font());
             int ww = fm.width(item->text(m_expandingColumn));
-            const QPixmap *pict = item->pixmap(m_expandingColumn);
-            if (pict)
-                ww += pict->width() + 2;
+            const QPixmap pict = item->pixmap(m_expandingColumn);
+            if (!pict.isNull())
+                ww += pict.width() + 2;
             if (ww > minW)
                 minW = ww + 8;
         }
@@ -269,13 +368,15 @@ void ListView::startDrag()
     startDrag(dragObject());
 }
 
-void ListView::startDrag(Q3DragObject *d)
+void ListView::startDrag(QMimeData *d)
 {
+    /*
     if (d)
         d->dragCopy();
+        */
 }
 
-Q3DragObject *ListView::dragObject()
+QMimeData *ListView::dragObject()
 {
     return NULL;
 }
@@ -285,7 +386,7 @@ void ListView::acceptDrop(bool bAccept)
     m_bAcceptDrop = bAccept;
 }
 
-void ListView::contentsDragEnterEvent(QDragEnterEvent *e)
+void ListView::dragEnterEvent(QDragEnterEvent *e)
 {
     emit dragEnter(e);
     if (m_bAcceptDrop){
@@ -295,7 +396,7 @@ void ListView::contentsDragEnterEvent(QDragEnterEvent *e)
     e->ignore();
 }
 
-void ListView::contentsDragMoveEvent(QDragMoveEvent *e)
+void ListView::dragMoveEvent(QDragMoveEvent *e)
 {
     if (m_bAcceptDrop){
         e->accept();
@@ -304,7 +405,7 @@ void ListView::contentsDragMoveEvent(QDragMoveEvent *e)
     e->ignore();
 }
 
-void ListView::contentsDropEvent(QDropEvent *e)
+void ListView::dropEvent(QDropEvent *e)
 {
     if (m_bAcceptDrop){
         e->accept();
@@ -314,25 +415,36 @@ void ListView::contentsDropEvent(QDropEvent *e)
     e->ignore();
 }
 
+void ListView::addColumn(const QString& name)
+{
+    /*
+    ListViewItem* item = new ListViewItem(this);
+    item->setText(name);
+    setHorizontalHeaderItem(columnCount(), item);
+    */
+    setColumnCount(columnCount() + 1);
+    headerItem()->setText(columnCount() - 1, name);
+}
+
 static char CONTACT_MIME[] = "application/x-contact";
 
-ContactDragObject::ContactDragObject(ListView *dragSource, Contact *contact)
-        : Q3StoredDrag(CONTACT_MIME, dragSource)
+    ContactDragObject::ContactDragObject(ListView *dragSource, Contact *contact) : QMimeData()
 {
     QByteArray data;
     m_id = contact->id();
     data.resize(sizeof(m_id));
     memcpy(data.data(), &m_id, sizeof(m_id));
-    setEncodedData(data);
+    setData(CONTACT_MIME, data);
 }
 
 ContactDragObject::~ContactDragObject()
 {
     ListView *view = static_cast<ListView*>(parent());
     if (view && view->m_pressedItem){
-        Q3ListViewItem *item = view->m_pressedItem;
+        ListViewItem *item = view->m_pressedItem;
         view->m_pressedItem = NULL;
-        item->repaint();
+        //view->update(view->model()->index(item->row(), item->column()));
+        view->update();
     }
     Contact *contact = getContacts()->contact(m_id);
     if (contact && (contact->getFlags() & CONTACT_DRAG))
@@ -356,10 +468,4 @@ Contact *ContactDragObject::decode( QMimeSource *s )
     return getContacts()->contact(id);
 }
 
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "listview.moc"
-#endif
-*/
-
+// vim: set expandtab:

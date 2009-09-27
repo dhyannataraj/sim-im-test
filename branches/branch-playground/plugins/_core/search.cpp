@@ -24,6 +24,9 @@
 #include "searchall.h"
 #include "toolbtn.h"
 #include "ballonmsg.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
+#include "contacts/group.h"
 //#include "searchbase.h"
 
 #include <QCloseEvent>
@@ -40,13 +43,6 @@
 #include <QStatusBar>
 #include <QTimer>
 #include <QValidator>
-
-
-
-
-
-
-
 
 using namespace std;
 using namespace SIM;
@@ -87,7 +83,7 @@ SearchDialog::SearchDialog()
     connect(m_search->cmbClients, SIGNAL(activated(int)), this, SLOT(clientActivated(int)));
     m_result = new ListView(m_search->wndResult);
     m_result->addColumn(i18n("Results"));
-    m_result->setShowSortIndicator(true);
+    //m_result->setShowSortIndicator(true);
     m_result->setExpandingColumn(0);
     m_result->setFrameShadow(QFrame::Sunken);
     m_result->setLineWidth(1);
@@ -270,13 +266,15 @@ void SearchDialog::fillClients()
                 searchDone(m_active);
             if (widgets[n].widget == m_current)
                 m_current = NULL;
-            for (Q3ListViewItem *item = m_result->firstChild(); item; ){
-                Q3ListViewItem *next = item->nextSibling();
+            for (int i = 0; i < m_result->topLevelItemCount(); i++){
+                ListViewItem *item = static_cast<ListViewItem*>(m_result->topLevelItem(i));
                 if ((QWidget*)(item->text(COL_SEARCH_WND).toULong()) == widgets[n].widget)
                     delete item;
+				/*
                 if (next == NULL)
                     break;
                 item = next;
+				*/
             }
             delete widgets[n].widget;
         }
@@ -638,7 +636,7 @@ void SearchDialog::setStatus()
     QString message = i18n("Search");
     if (m_result->firstChild()){
         message += ": ";
-        message += i18n("%n contact found", "%n contacts found", m_result->childCount());
+        message += i18n("%n contact found", "%n contacts found", m_result->columnCount());
     }
     m_status->showMessage(message);
 }
@@ -662,8 +660,11 @@ void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
 {
     int i;
     if (!m_bColumns){
-        for (i = m_result->columns() - 1; i >= 0; i--)
+		m_result->setColumnCount(0);
+		/*
+        for (i = m_result->columnCount() - 1; i >= 0; i--)
             m_result->removeColumn(i);
+			*/
         m_bColumns = true;
     }
     for (i = 0; i < columns.count() / 2; i++)
@@ -672,25 +673,28 @@ void SearchDialog::setColumns(const QStringList &columns, int n, QWidget*)
     m_result->adjustColumn();
 }
 
-class SearchViewItem : public Q3ListViewItem
+class SearchViewItem : public ListViewItem
 {
 public:
-SearchViewItem(Q3ListView *view) : Q3ListViewItem(view) {}
+SearchViewItem(ListView *view) : ListViewItem(view) {}
     QString key(int column, bool ascending) const;
 };
 
 QString SearchViewItem::key(int column, bool ascending) const
 {
+	/*
     if (column)
-        return Q3ListViewItem::key(column, ascending);
+        return ListViewItem::key(column, ascending);
+		*/
     QString res = text(COL_KEY);
     return res;
 }
 
 void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
-    Q3ListViewItem *item;
-    for (item = m_result->firstChild(); item; item = item->nextSibling()){
+    ListViewItem *item;
+	for (int i = 0; i < m_result->topLevelItemCount(); i++){
+		ListViewItem *next = static_cast<ListViewItem*>(m_result->topLevelItem(i));
         if (item->text(COL_KEY) == values[1])
             break;
     }
@@ -732,7 +736,7 @@ void SearchDialog::update()
 void SearchDialog::selectionChanged()
 {
     if (m_result && ((m_currentResult == NULL) || (m_currentResult == m_result))){
-        bool bEnable = (m_result->selectedItem() != NULL);
+        bool bEnable = (m_result->selectedItems().count() > 0);
         enableOptions(bEnable);
     }
 }
@@ -806,8 +810,11 @@ void SearchDialog::newSearch()
             cb->setCurrentIndex(0);
     }
     m_result->clear();
-    for (int i = m_result->columns() - 1; i >= 0; i--)
+	/*
+    for (int i = m_result->columnCount() - 1; i >= 0; i--)
         m_result->removeColumn(i);
+		*/
+	m_result->setColumnCount(0);
     m_result->addColumn(i18n("Results"));
     m_result->setExpandingColumn(0);
     m_result->adjustColumn();

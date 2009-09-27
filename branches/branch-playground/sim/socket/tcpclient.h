@@ -6,6 +6,7 @@
 #include "clientsocketnotify.h"
 #include "event.h"
 #include "contacts.h"
+#include "contacts/client.h"
 
 namespace SIM
 {

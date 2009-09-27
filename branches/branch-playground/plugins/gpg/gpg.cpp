@@ -23,6 +23,8 @@
 #include "userwnd.h"
 #include "passphrase.h"
 #include "ballonmsg.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include "gpg.h"
 #include "gpgcfg.h"

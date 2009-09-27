@@ -54,6 +54,8 @@
 #include "core.h"
 #include "textshow.h"
 #include "msgview.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #ifdef __OS2__
 #undef COMMENT

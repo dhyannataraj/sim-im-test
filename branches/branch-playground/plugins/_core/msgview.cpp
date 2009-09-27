@@ -21,6 +21,9 @@
 #include "html.h"
 #include "unquot.h"
 #include "xsl.h"
+#include "contacts/clientdataiterator.h"
+#include "contacts/contact.h"
+#include "contacts/client.h"
 
 #include "msgview.h"
 #include "core.h"

@@ -19,6 +19,7 @@
 #include "floatywnd.h"
 
 #include "core.h"
+#include "contacts/contact.h"
 
 #include <QMenu>
 #include <QApplication>
