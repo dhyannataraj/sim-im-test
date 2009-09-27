@@ -973,6 +973,7 @@
 			</File>
 			<Filter
 				Name="generated"
+				Filter="*base.cpp;moc_*.cpp"
 				>
 				<File
 					RelativePath="sim\html.cpp"
@@ -1645,6 +1646,7 @@
 			>
 			<Filter
 				Name="Header Files"
+				Filter="h;hpp;hxx;hm;inl"
 				>
 				<File
 					RelativePath=".\sim\socket\clientsocket.h"
@@ -1991,6 +1993,7 @@
 			</Filter>
 			<Filter
 				Name="Source Files"
+				Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 				>
 				<File
 					RelativePath=".\sim\socket\clientsocket.cpp"
@@ -2124,6 +2127,105 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="contacts"
+			>
+			<Filter
+				Name="Source Files"
+				Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+				>
+				<File
+					RelativePath=".\sim\contacts\client.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\clientdataiterator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\clientuserdata.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\clientuserdataprivate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\contact.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\contactlistprivate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\group.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\packettype.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\protocol.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\userdata.cpp"
+					>
+				</File>
+				<Filter
+					Name="generated"
+					Filter="*base.cpp;moc_*.cpp"
+					>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				Filter="h;hpp;hxx;hm;inl"
+				>
+				<File
+					RelativePath=".\sim\contacts\client.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\clientdataiterator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\clientuserdata.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\clientuserdataprivate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\contact.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\contactlistprivate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\group.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\packettype.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\protocol.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\userdata.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

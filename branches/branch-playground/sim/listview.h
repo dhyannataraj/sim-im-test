@@ -32,7 +32,7 @@ const unsigned long CmdListDelete	= 0x100;
 class QTimer;
 
 class ListView;
-class ListViewItem : public QTreeWidgetItem
+class EXPORT ListViewItem : public QTreeWidgetItem
 {
 public:
     ListViewItem();
