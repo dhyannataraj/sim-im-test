@@ -427,8 +427,18 @@
     <!--  Author: Nikolay Shaplov N@shaplov.ru -->
     <!-- Sources: http://websvn.kde.org/tags/KDE/3.5.9/kdebase/kcontrol/pics/cr16-app-cookie.png -->
     <!--          http://websvn.kde.org/tags/KDE/3.5.9/kdebase/kcontrol/pics/cr64-app-cookie.png -->
-    
   </icon>
+
+  <icon name="more">
+     <object mime="image/png">more_info.png</object>
+     <!-- Licence: GNU/LGPL -->
+     <!--  Author: Everaldo Coelho -->
+     <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/access.png -->
+
+     <!--FIXME: icon "more" is alse used as a button icon for date picker. We should use two different icons for
+                "ICQ more info" and for "date picker" -->
+  </icon>
+    
         
       
       
