@@ -30,7 +30,7 @@ unsigned CmdListUnignore = 0x130001;
 
 IgnoreList::IgnoreList(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     Command cmd;
     cmd->id          = CmdListUnignore;
     cmd->text        = I18N_NOOP("Unignore");

@@ -21,32 +21,25 @@
 #include "ui_replacecfgbase.h"
 
 class ReplacePlugin;
-class IntLineEdit;
-class ListViewItem;
 
 class ReplaceCfg : public QWidget, public Ui::ReplaceCfgBase
 {
     Q_OBJECT
+
 public:
     ReplaceCfg(QWidget *parent, ReplacePlugin *plugin);
     virtual ~ReplaceCfg();
+
 public slots:
     void apply();
-    void selectionChanged();
-    void sizeChange(int,int,int);
-    void mouseButtonPressed(int, ListViewItem*, const QPoint&, int);
+    void cellChanged( int row, int column );
+
 protected:
-    bool eventFilter(QObject*, QEvent*);
-    void flush();
-    IntLineEdit   *m_edit;
-    unsigned	  m_col;
-    void resizeEvent(QResizeEvent *e);
+    bool string( int row, QString &sKey, QString &sValue );
+    void addString( QString sKey, QString sValue );
+    void autosizeColumns();
+
     ReplacePlugin *m_plugin;
-    ListViewItem *m_editItem;
-    unsigned	  m_editCol;
-    unsigned	  m_count;
-    void		  setEdit();
-    bool		  m_bDelete;
 };
 
 #endif

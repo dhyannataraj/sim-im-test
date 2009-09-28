@@ -49,7 +49,7 @@
 #include <QDateTime>
 #include <QComboBox>
 #include <QLineEdit>
-#include <q3multilineedit.h>                                      
+#include <QTextEdit>
 #include <QRegExp>
 #include <QDesktopWidget>
 #include <QByteArray>
@@ -521,8 +521,8 @@ EXPORT void disableWidget(QWidget *w)
     w->setPalette(pal);
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);
-    }else if (w->inherits("Q3MulitLineEdit")){
-        static_cast<Q3MultiLineEdit*>(w)->setReadOnly(true);
+    }else if (w->inherits("QTextEdit")){
+        static_cast<QTextEdit*>(w)->setReadOnly(true);
     }else{
         w->setEnabled(false);
     }

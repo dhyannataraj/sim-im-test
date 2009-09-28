@@ -142,7 +142,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 }
 
 ZodiakWnd::ZodiakWnd(DatePicker *parent)
-        : QFrame(parent)
+    : QFrame(parent)
 {
     m_picker = parent;
     setLineWidth(0);

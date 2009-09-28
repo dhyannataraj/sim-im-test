@@ -28,7 +28,6 @@
 #include <QMap>
 #include <QList>
 #include <QPixmap>
-#include <Q3MimeSourceFactory>
 #include <QImageReader>
 #include <QDomDocument>
 
@@ -106,14 +105,6 @@ protected:
 #endif
     unsigned    m_flags;
     UnZip      *m_zip;
-};
-
-class MyMimeSourceFactory : public Q3MimeSourceFactory
-{
-public:
-    MyMimeSourceFactory() {};
-    ~MyMimeSourceFactory() {};
-    virtual const QMimeSource* data(const QString &abs_name) const;
 };
 
 class IconsPrivate
@@ -543,21 +534,6 @@ void FileIconSet::parse(const QByteArray &data)
     }
 }
 
-/*************************************
- * MyMimeSourceFactory for QTextEdits
- *************************************/
-const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
-{
-    QString name = abs_name;
-    if (name.left(5) == "icon:"){
-        name = name.mid(5);
-        PictDef *p = getPict(name);
-        if (p)
-            ((Q3MimeSourceFactory*)this)->setImage(abs_name, p->image);
-    }
-    return Q3MimeSourceFactory::data(abs_name);
-}
-
 /*****************
  * Icons
  *****************/
@@ -573,14 +549,6 @@ Icons *Icons::instance()
 Icons::Icons()
 : d(new IconsPrivate())
 {
-    /* This idea came from kapplication.cpp
-       I had a similar idea with setting the old defaultFactory in
-       the destructor but this won't work :(
-       Christian */
-    Q3MimeSourceFactory* oldDefaultFactory = Q3MimeSourceFactory::takeDefaultFactory();
-    Q3MimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
-    if (oldDefaultFactory)
-        Q3MimeSourceFactory::addFactory( oldDefaultFactory );
     addIconSet("icons/sim.jisp", true);
 	d->m_workset = new WrkIconSet;
     d->defSets.append(d->m_workset);

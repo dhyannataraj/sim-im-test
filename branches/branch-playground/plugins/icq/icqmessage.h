@@ -38,8 +38,6 @@ const unsigned long MessageCloseSecure      = 0x110;
 const unsigned long MessageICQFile          = 0x112;
 const unsigned long MessageWarning          = 0x113;
 
-class ListView;
-
 class IcqContactsMessage : public SIM::ContactsMessage
 {
 public:
