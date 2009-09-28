@@ -460,6 +460,22 @@
     <!-- So this icon entry will be associated with black square with number 2 on it, for a while -->
     <!-- and if nobody managed to find where it is used, it should be removed from here -->
   </icon>
+
+  <icon name="useroffline">
+    <object mime="image/png">unknown_icon_3.png</object>
+    <!-- "useroffline" icon is mentioned in original Sim-IM jisp set, but I do not know where it is used -->
+    <!-- there is no such icon entry in source code (at least I didn't find it) -->
+    <!-- So this icon entry will be associated with black square with number 3 on it, for a while -->
+    <!-- and if nobody managed to find where it is used, it should be removed from here -->
+  </icon>
+  <icon name="userunknown">
+    <object mime="image/png">unknown_icon_4.png</object>
+    <!-- "userunknown" icon is mentioned in original Sim-IM jisp set, but I do not know where it is used -->
+    <!-- there is no such icon entry in source code (at least I didn't find it) -->
+    <!-- So this icon entry will be associated with black square with number 4 on it, for a while -->
+    <!-- and if nobody managed to find where it is used, it should be removed from here -->
+  </icon>
+    
       
         
       
