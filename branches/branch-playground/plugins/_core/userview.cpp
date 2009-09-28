@@ -85,6 +85,7 @@ UserView::UserView() : UserListBase(NULL)
     setHeaderHidden(true);
     setAnimated(true);
 
+    setIndentation(0);
     //setTreeStepSize(0);
 
     setVerticalScrollBarPolicy(CorePlugin::m_plugin->property("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
@@ -993,9 +994,13 @@ void UserView::doClick()
 {
     if (m_current == NULL)
         return;
-    if (m_current->isExpandable() && !CorePlugin::m_plugin->property("UseDblClick").toBool()){
+    log(L_DEBUG, "%d",static_cast<UserViewItemBase*>(m_current)->type());
+    if (m_current->isExpandable() && !CorePlugin::m_plugin->property("UseDblClick").toBool())
+    {
         m_current->setOpen(!m_current->isOpen());
-    }else if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM){
+    }
+    else if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM)
+    {
         ContactItem *item = static_cast<ContactItem*>(m_current);
         EventDefaultAction(item->id()).process();
     }

@@ -137,7 +137,7 @@ DivItem::DivItem(UserListBase *view, unsigned type)
 {
     m_type = type;
     setText(0, QString::number(m_type));
-    //setExpandable(true);
+    setExpandable(true);
     //setSelectable(false);
 }
 
@@ -162,7 +162,7 @@ void GroupItem::init(Group *grp)
     m_unread = 0;
     m_nContacts = 0;
     m_nContactsOnline = 0;
-    //setExpandable(true);
+    setExpandable(true);
     //setSelectable(true);
     ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::m_plugin->list_data_id, false));
     if (data == NULL){
@@ -221,6 +221,7 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
+    setExpandable(false);
     //setDragEnabled(true);
 }
 

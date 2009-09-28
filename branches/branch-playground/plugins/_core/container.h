@@ -35,6 +35,7 @@
 #include <QMoveEvent>
 #include <QMouseEvent>
 #include <QTabBar>
+#include <QVBoxLayout>
 #include <list>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
