@@ -430,15 +430,37 @@
   </icon>
 
   <icon name="more">
-     <object mime="image/png">more_info.png</object>
-     <!-- Licence: GNU/LGPL -->
-     <!--  Author: Everaldo Coelho -->
-     <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/access.png -->
+    <object mime="image/png">more_info.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Everaldo Coelho -->
+    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/access.png -->
 
-     <!--FIXME: icon "more" is alse used as a button icon for date picker. We should use two different icons for
+    <!--FIXME: icon "more" is alse used as a button icon for date picker. We should use two different icons for
                 "ICQ more info" and for "date picker" -->
   </icon>
-    
+  <icon name="interest">
+    <object mime="image/png">interest.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Authors: Daria Mihailova, Nikolay Shaolov -->
+    <!-- Sources: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/kguitar.png -->
+    <!--          Socker Ball drawn by Daria Mihailova -->
+
+  </icon>
+  <icon name="past">
+    <object mime="image/png">education.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: David Vignoni -->
+    <!--  Source: http://www.icon-king.com/files/nuvola-1.0.tar.gz 16x16/apps/package_edutainment.png -->
+  </icon>
+
+  <icon name="useronline">
+    <object mime="image/png">unknown_icon_2.png</object>
+    <!-- "useronline" icon is mentioned in original Sim-IM jisp set, but I do not know where it is used -->
+    <!-- there is no such icon entry in source code (at least I didn't find it) -->
+    <!-- So this icon entry will be associated with black square with number 2 on it, for a while -->
+    <!-- and if nobody managed to find where it is used, it should be removed from here -->
+  </icon>
+      
         
       
       
