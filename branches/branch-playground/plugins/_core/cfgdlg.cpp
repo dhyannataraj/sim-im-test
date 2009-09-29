@@ -50,11 +50,11 @@ const unsigned CLIENT_ITEM  = 3;
 const unsigned MAIN_ITEM    = 4;
 const unsigned AR_ITEM      = 5;
 
-class ConfigItem : public Q3ListViewItem
+class ConfigItem : public QTreeWidgetItem
 {
 public:
-    ConfigItem(Q3ListViewItem *item, unsigned id);
-    ConfigItem(Q3ListView *view, unsigned id);
+    ConfigItem(QTreeWidgetItem *item, unsigned id);
+    ConfigItem(QTreeWidget *view, unsigned id);
     ~ConfigItem();
     void show();
     void deleteWidget();
@@ -75,14 +75,14 @@ protected:
 unsigned ConfigItem::defId = 0x10000;
 unsigned ConfigItem::curIndex;
 
-ConfigItem::ConfigItem(Q3ListView *view, unsigned id)
-        : Q3ListViewItem(view)
+ConfigItem::ConfigItem(QTreeWidget *view, unsigned id)
+        : QTreeWidgetItem(view)
 {
     init(id);
 }
 
-ConfigItem::ConfigItem(Q3ListViewItem *item, unsigned id)
-        : Q3ListViewItem(item)
+ConfigItem::ConfigItem(QTreeWidgetItem *item, unsigned id)
+        : QTreeWidgetItem(item)
 {
     init(id);
 }
@@ -114,10 +114,12 @@ void ConfigItem::init(unsigned id)
 bool ConfigItem::raisePage(QWidget *w)
 {
     if (m_widget == w){
-        listView()->setCurrentItem(this);
+        treeWidget()->setCurrentItem(this);
         return true;
     }
-    for (Q3ListViewItem *item = firstChild(); item; item = item->nextSibling()){
+	for(int i = 0; i < childCount(); i++)
+	{
+		QTreeWidgetItem* item = child(i);
         if (static_cast<ConfigItem*>(item)->raisePage(w))
             return true;
     }
@@ -126,18 +128,18 @@ bool ConfigItem::raisePage(QWidget *w)
 
 void ConfigItem::show()
 {
-    ConfigureDialog *dlg = static_cast<ConfigureDialog*>(listView()->topLevelWidget());
+    ConfigureDialog *dlg = static_cast<ConfigureDialog*>(treeWidget()->topLevelWidget());
     if (m_widget == NULL){
         m_widget = getWidget(dlg);
         if (m_widget == NULL)
             return;
-        dlg->wnd->addWidget(m_widget, id() ? id() : defId++);
+        m_id = dlg->wnd->addWidget(m_widget/*, id() ? id() : defId++*/);
         dlg->wnd->setMinimumSize(dlg->wnd->sizeHint());
         QObject::connect(dlg, SIGNAL(applyChanges()), m_widget, SLOT(apply()));
         QTimer::singleShot(50, dlg, SLOT(repaintCurrent()));
     }
     dlg->showUpdate(type() == CLIENT_ITEM);
-    dlg->wnd->raiseWidget(m_widget);
+    dlg->wnd->setCurrentWidget(m_widget);
 }
 
 void ConfigItem::apply()
@@ -152,7 +154,7 @@ QWidget *ConfigItem::getWidget(ConfigureDialog*)
 class PluginItem : public ConfigItem
 {
 public:
-    PluginItem(Q3ListViewItem *view, const QString &text, pluginInfo *info, unsigned id);
+    PluginItem(QTreeWidgetItem *view, const QString &text, pluginInfo *info, unsigned id);
     pluginInfo *info() { return m_info; }
     virtual void apply();
     virtual unsigned type() { return PLUGIN_ITEM; }
@@ -161,7 +163,7 @@ private:
     pluginInfo *m_info;
 };
 
-PluginItem::PluginItem(Q3ListViewItem *item, const QString &text, pluginInfo *info, unsigned id)
+PluginItem::PluginItem(QTreeWidgetItem *item, const QString &text, pluginInfo *info, unsigned id)
         : ConfigItem(item, id)
 {
     m_info = info;
@@ -195,8 +197,8 @@ QWidget *PluginItem::getWidget(ConfigureDialog *dlg)
 class ClientItem : public ConfigItem
 {
 public:
-    ClientItem(Q3ListViewItem *item, Client *client, CommandDef *cmd);
-    ClientItem(Q3ListView *view, Client *client, CommandDef *cmd);
+    ClientItem(QTreeWidgetItem *item, Client *client, CommandDef *cmd);
+    ClientItem(QTreeWidget *view, Client *client, CommandDef *cmd);
     Client *client() { return m_client;  }
     virtual unsigned type() { return CLIENT_ITEM; }
 private:
@@ -206,7 +208,7 @@ private:
     Client *m_client;
 };
 
-ClientItem::ClientItem(Q3ListViewItem *item, Client *client, CommandDef *cmd)
+ClientItem::ClientItem(QTreeWidgetItem *item, Client *client, CommandDef *cmd)
         : ConfigItem(item, 0)
 {
     m_client = client;
@@ -214,7 +216,7 @@ ClientItem::ClientItem(Q3ListViewItem *item, Client *client, CommandDef *cmd)
     init();
 }
 
-ClientItem::ClientItem(Q3ListView *view, Client *client, CommandDef *cmd)
+ClientItem::ClientItem(QTreeWidget *view, Client *client, CommandDef *cmd)
         : ConfigItem(view, 0)
 {
     m_client = client;
@@ -231,7 +233,7 @@ void ClientItem::init()
         setText(0, i18n(m_cmd->text));
     }
     if (!m_cmd->icon.isEmpty())
-        setPixmap(0, Pict(m_cmd->icon));
+        setIcon(0, Pict(m_cmd->icon));
 }
 
 QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
@@ -245,14 +247,14 @@ QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
 class ARItem : public ConfigItem
 {
 public:
-    ARItem(Q3ListViewItem *view, const CommandDef *d);
+    ARItem(QTreeWidgetItem *view, const CommandDef *d);
     virtual unsigned type() { return AR_ITEM; }
 private:
     virtual QWidget *getWidget(ConfigureDialog *dlg);
     unsigned m_status;
 };
 
-ARItem::ARItem(Q3ListViewItem *item, const CommandDef *d)
+ARItem::ARItem(QTreeWidgetItem *item, const CommandDef *d)
         : ConfigItem(item, 0)
 {
     QString icon;
@@ -285,7 +287,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *d)
         icon=d->icon;
         break;
     }
-    setPixmap(0, Pict(icon));
+    setIcon(0, Pict(icon));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -296,17 +298,17 @@ QWidget *ARItem::getWidget(ConfigureDialog *dlg)
 class MainInfoItem : public ConfigItem
 {
 public:
-    MainInfoItem(Q3ListView *view, unsigned id);
+    MainInfoItem(QTreeWidget *view, unsigned id);
     unsigned type() { return MAIN_ITEM; }
 protected:
     virtual QWidget *getWidget(ConfigureDialog *dlg);
 };
 
-MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
+MainInfoItem::MainInfoItem(QTreeWidget *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info"));
+    setIcon(0, Pict("info"));
 }
 
 QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
@@ -330,13 +332,14 @@ ConfigureDialog::ConfigureDialog() : QDialog(NULL)
     if (!iconSet.pixmap(QSize(16,16), QIcon::Normal).isNull())
         btnUpdate->setIcon(iconSet);
     btnUpdate->hide();
-    lstBox->setHScrollBarMode(Q3ScrollView::AlwaysOff);
+    lstBox->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     fill(0);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
     connect(btnUpdate, SIGNAL(clicked()), this, SLOT(updateInfo()));
-    connect(lstBox, SIGNAL(currentChanged(Q3ListViewItem*)), this, SLOT(itemSelected(Q3ListViewItem*)));
-    lstBox->setCurrentItem(lstBox->firstChild());
-    itemSelected(lstBox->firstChild());
+    connect(lstBox, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)),
+            this, SLOT(itemSelected(QTreeWidgetItem*, QTreeWidgetItem*)));
+    lstBox->setCurrentItem(lstBox->topLevelItem(0));
+    itemSelected(lstBox->topLevelItem(0), 0);
 }
 
 ConfigureDialog::~ConfigureDialog()
@@ -358,10 +361,12 @@ ConfigureDialog::~ConfigureDialog()
 	//::saveGeometry(this, CorePlugin::m_plugin->data.CfgGeometry);
 }
 
-static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
+static unsigned itemWidth(QTreeWidgetItem *item, QFontMetrics &fm)
 {
     unsigned w = fm.width(item->text(0)) + 64;
-    for (Q3ListViewItem *child = item->firstChild(); child ; child = child->nextSibling()){
+	for(int i = 0; i < item->childCount(); i++)
+	{
+		QTreeWidgetItem *child = item->child(i);
         w = QMAX(w, itemWidth(child, fm));
     }
     return w;
@@ -370,7 +375,7 @@ static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
 void ConfigureDialog::fill(unsigned id)
 {
     lstBox->clear();
-    lstBox->setSorting(1);
+    lstBox->sortItems(1, Qt::AscendingOrder);
 
     ConfigItem *parentItem = new MainInfoItem(lstBox, 0);
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -383,7 +388,7 @@ void ConfigureDialog::fill(unsigned id)
                     new ClientItem(parentItem, client, cmds);
                 }else{
                     parentItem = new ClientItem(lstBox, client, cmds);
-                    parentItem->setOpen(true);
+                    parentItem->setExpanded(true);
                 }
             }
         }
@@ -399,7 +404,7 @@ void ConfigureDialog::fill(unsigned id)
         if (parentItem == NULL){
             parentItem = new ConfigItem(lstBox, 0);
             parentItem->setText(0, i18n("Autoreply"));
-            parentItem->setOpen(true);
+            parentItem->setExpanded(true);
         }
         for (const CommandDef *d = protocol->statusList(); !d->text.isEmpty(); d++){
             if (((protocol->description()->flags & PROTOCOL_AR_OFFLINE) == 0) &&
@@ -418,8 +423,8 @@ void ConfigureDialog::fill(unsigned id)
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Plugins"));
-    parentItem->setPixmap(0, Pict("run"));
-    parentItem->setOpen(true);
+    parentItem->setIcon(0, Pict("run"));
+    parentItem->setExpanded(true);
 
     for ( n = 0;; n++){
         EventGetPluginInfo e(n);
@@ -438,28 +443,35 @@ void ConfigureDialog::fill(unsigned id)
 
     QFontMetrics fm(lstBox->font());
     unsigned w = 0;
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+	for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+	{
+		QTreeWidgetItem *item = lstBox->topLevelItem(i);
         w = QMAX(w, itemWidth(item, fm));
     }
     lstBox->setFixedWidth(w);
     lstBox->setColumnWidth(0, w - 2);
 
-    if (id){
-        for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+    if (id)
+    {
+        for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+        {
+            QTreeWidgetItem *item = lstBox->topLevelItem(i);
             if (setCurrentItem(item, id))
                 return;
         }
     }
-    lstBox->setCurrentItem(lstBox->firstChild());
+    lstBox->setCurrentItem(lstBox->topLevelItem(0));
 }
 
-bool ConfigureDialog::setCurrentItem(Q3ListViewItem *parent, unsigned id)
+bool ConfigureDialog::setCurrentItem(QTreeWidgetItem *parent, unsigned id)
 {
     if (static_cast<ConfigItem*>(parent)->id() == id){
         lstBox->setCurrentItem(parent);
         return true;
     }
-    for (Q3ListViewItem *item = parent->firstChild(); item; item = item->nextSibling()){
+    for(int i = 0; i < parent->childCount(); i++)
+    {
+    QTreeWidgetItem *item = parent->child(i);
         if (setCurrentItem(item, id))
             return true;
     }
@@ -472,19 +484,23 @@ void ConfigureDialog::closeEvent(QCloseEvent *e)
     emit finished();
 }
 
-void ConfigureDialog::itemSelected(Q3ListViewItem *item)
+void ConfigureDialog::itemSelected(QTreeWidgetItem *item, QTreeWidgetItem* /* previous */)
 {
-    if (item){
+    if (item)
+    {
         static_cast<ConfigItem*>(item)->show();
         lstBox->setCurrentItem(item);
     }
 }
 
-void ConfigureDialog::apply(Q3ListViewItem *item)
+void ConfigureDialog::apply(QTreeWidgetItem *item)
 {
     static_cast<ConfigItem*>(item)->apply();
-    for (item = item->firstChild(); item; item = item->nextSibling())
-        apply(item);
+    for(int i = 0; i < item->childCount(); i++)
+    {
+        QTreeWidgetItem* it = item->child(i);
+        apply(it);
+    }
 }
 
 void ConfigureDialog::reject()
@@ -524,17 +540,19 @@ void ConfigureDialog::apply()
         free_data(def, data);
         delete[] data;
     }
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(i);
         apply(item);
     }
     if (bLanguageChanged){
         unsigned id = 0;
         if (lstBox->currentItem())
             id = static_cast<ConfigItem*>(lstBox->currentItem())->id();
-        disconnect(lstBox, SIGNAL(currentChanged(Q3ListViewItem*)), this, SLOT(itemSelected(Q3ListViewItem*)));
+        disconnect(lstBox, SIGNAL(currentChanged(QTreeWidgetItem*)), this, SLOT(itemSelected(QTreeWidgetItem*)));
         fill(id);
-        connect(lstBox, SIGNAL(currentChanged(Q3ListViewItem*)), this, SLOT(itemSelected(Q3ListViewItem*)));
-        itemSelected(lstBox->currentItem());
+        connect(lstBox, SIGNAL(currentChanged(QTreeWidgetItem*)), this, SLOT(itemSelected(QTreeWidgetItem*)));
+        itemSelected(lstBox->currentItem(), 0);
         buttonApply->setText(i18n("&Apply"));
         buttonOk->setText(i18n("&OK"));
         buttonCancel->setText(i18n("&Cancel"));
@@ -554,8 +572,10 @@ bool ConfigureDialog::processEvent(Event *e)
         EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
         pluginInfo *info = p->info();
         if (info && info->plugin == NULL){
-            for (Q3ListViewItem *i = lstBox->firstChild(); i; i = i->nextSibling()){
-                ConfigItem *item = static_cast<ConfigItem*>(i);
+            for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+            {
+                QTreeWidgetItem *it = lstBox->topLevelItem(i);
+                ConfigItem *item = static_cast<ConfigItem*>(it);
                 if (item->type() != PLUGIN_ITEM)
                     continue;
                 if (static_cast<PluginItem*>(item)->info() == info){
@@ -625,12 +645,14 @@ void ConfigureDialog::updateInfo()
 
 void ConfigureDialog::raisePage(Client *client)
 {
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(i);
         if (static_cast<ConfigItem*>(item)->type() != CLIENT_ITEM)
             continue;
         if (static_cast<ClientItem*>(item)->client() == client){
             lstBox->setCurrentItem(item);
-            lstBox->ensureItemVisible(item);
+            //lstBox->ensureItemVisible(item); //FIXME
             return;
         }
     }
@@ -640,7 +662,9 @@ void ConfigureDialog::raisePage(QWidget *widget)
 {
     if (!m_bAccept)
         return;
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(i);
         if (static_cast<ConfigItem*>(item)->raisePage(widget)){
             m_bAccept = false;
             break;
@@ -650,7 +674,7 @@ void ConfigureDialog::raisePage(QWidget *widget)
 
 void ConfigureDialog::raisePhoneBook()
 {
-    lstBox->setCurrentItem(lstBox->firstChild());
+    lstBox->setCurrentItem(lstBox->topLevelItem(0));
     QWidget *w = static_cast<ConfigItem*>(lstBox->currentItem())->widget();
     if (w == NULL)
         return;
@@ -665,35 +689,40 @@ void ConfigureDialog::raisePhoneBook()
 
 void ConfigureDialog::repaintCurrent()
 {
-    QWidget *active = wnd->visibleWidget();
+    QWidget *active = wnd->currentWidget();
     if (active == NULL)
         return;
     active->repaint();
-    Q3ListViewItem *item = findItem(active);
+    QTreeWidgetItem *item = findItem(active);
     if (item)
         lstBox->setCurrentItem(item);
     lstBox->repaint();
 }
 
-Q3ListViewItem *ConfigureDialog::findItem(QWidget *w)
+QTreeWidgetItem *ConfigureDialog::findItem(QWidget *w)
 {
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
-        Q3ListViewItem *res = findItem(w, item);
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(0);
+        QTreeWidgetItem *res = findItem(w, item);
         if (res)
             return res;
     }
     return NULL;
 }
 
-Q3ListViewItem *ConfigureDialog::findItem(QWidget *w, Q3ListViewItem *parent)
+QTreeWidgetItem *ConfigureDialog::findItem(QWidget *w, QTreeWidgetItem *parent)
 {
     if (static_cast<ConfigItem*>(parent)->m_widget == w)
         return parent;
-    for (Q3ListViewItem *item = parent->firstChild(); item; item = item->nextSibling()){
-        Q3ListViewItem *res = findItem(w, item);
+    for(int i = 0; i < parent->childCount(); i++)
+    {
+        QTreeWidgetItem *item = parent->child(i);
+        QTreeWidgetItem *res = findItem(w, item);
         if (res)
             return res;
     }
     return NULL;
 }
 
+// vim: set expandtab:

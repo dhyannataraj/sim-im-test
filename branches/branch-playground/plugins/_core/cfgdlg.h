@@ -19,7 +19,6 @@
 #define _CFGDLG_H
 
 #include "ui_cfgdlgbase.h"
-//Added by qt3to4:
 #include <QCloseEvent>
 #include "event.h"
 
@@ -39,19 +38,19 @@ signals:
 protected slots:
     void apply();
     void updateInfo();
-    void itemSelected(Q3ListViewItem*);
+    void itemSelected(QTreeWidgetItem*, QTreeWidgetItem*);
     void raisePage(QWidget*);
     void repaintCurrent();
 protected:
     void accept();
     void reject();
-    void apply(Q3ListViewItem *item);
+    void apply(QTreeWidgetItem *item);
     virtual bool processEvent(SIM::Event*);
     void fill(unsigned id);
     void setTitle();
-    bool setCurrentItem(Q3ListViewItem *parent, unsigned id);
-    Q3ListViewItem *findItem(QWidget *w);
-    Q3ListViewItem *findItem(QWidget *w, Q3ListViewItem *parent);
+    bool setCurrentItem(QTreeWidgetItem *parent, unsigned id);
+    QTreeWidgetItem *findItem(QWidget *w);
+    QTreeWidgetItem *findItem(QWidget *w, QTreeWidgetItem *parent);
     unsigned m_nUpdates;
     bool m_bAccept;
     void closeEvent(QCloseEvent*);

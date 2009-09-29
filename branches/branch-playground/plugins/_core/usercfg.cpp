@@ -43,11 +43,11 @@
 using namespace std;
 using namespace SIM;
 
-class ConfigItem : public Q3ListViewItem
+class ConfigItem : public QTreeWidgetItem
 {
 public:
-    ConfigItem(Q3ListViewItem *item, unsigned id, bool bShowUpdate = false);
-    ConfigItem(Q3ListView *view, unsigned id, bool bShowUpdate = false);
+    ConfigItem(QTreeWidgetItem *item, bool bShowUpdate = false);
+    ConfigItem(QTreeWidget *view, bool bShowUpdate = false);
     ~ConfigItem();
     void show();
     unsigned id() { return m_id; }
@@ -56,7 +56,7 @@ protected:
     unsigned m_id;
     bool m_bShowUpdate;
     static unsigned defId;
-    void init(unsigned id);
+    void init();
     virtual QWidget *getWidget(UserConfig *dlg);
     QWidget *m_widget;
 };
@@ -64,18 +64,18 @@ protected:
 unsigned ConfigItem::defId = 0x10000;
 unsigned ConfigItem::curIndex;
 
-ConfigItem::ConfigItem(Q3ListView *view, unsigned id, bool bShowUpdate)
-        : Q3ListViewItem(view)
+ConfigItem::ConfigItem(QTreeWidget *view, bool bShowUpdate)
+        : QTreeWidgetItem(view)
 {
     m_bShowUpdate = bShowUpdate;
-    init(id);
+    init();
 }
 
-ConfigItem::ConfigItem(Q3ListViewItem *item, unsigned id, bool bShowUpdate)
-        : Q3ListViewItem(item)
+ConfigItem::ConfigItem(QTreeWidgetItem *item, bool bShowUpdate)
+        : QTreeWidgetItem(item)
 {
     m_bShowUpdate = bShowUpdate;
-    init(id);
+    init();
 }
 
 ConfigItem::~ConfigItem()
@@ -84,10 +84,9 @@ ConfigItem::~ConfigItem()
         delete m_widget;
 }
 
-void ConfigItem::init(unsigned id)
+void ConfigItem::init()
 {
     m_widget = NULL;
-    m_id = id;
     QString key = QString::number(++curIndex);
     while (key.length() < 4)
         key = '0' + key;
@@ -96,21 +95,20 @@ void ConfigItem::init(unsigned id)
 
 void ConfigItem::show()
 {
-    UserConfig *dlg = qobject_cast<UserConfig*>(listView()->topLevelWidget());
+    UserConfig *dlg = qobject_cast<UserConfig*>(treeWidget()->topLevelWidget());
 	if(!dlg)
 		return;
-	log(L_DEBUG, "ConfigItem::show()");
     if(m_widget == NULL)
 	{
         m_widget = getWidget(dlg);
         if (m_widget == NULL)
             return;
-        dlg->wnd->addWidget(m_widget, id() ? id() : defId++);
+        m_id = dlg->wnd->addWidget(m_widget/*, id() ? id() : defId++*/);
         dlg->wnd->setMinimumSize(dlg->wnd->sizeHint());
         QObject::connect(dlg, SIGNAL(applyChanges()), m_widget, SLOT(apply()));
     }
     dlg->showUpdate(m_bShowUpdate);
-    dlg->wnd->raiseWidget(m_widget);
+    dlg->wnd->setCurrentWidget(m_widget);
 }
 
 QWidget *ConfigItem::getWidget(UserConfig*)
@@ -121,20 +119,20 @@ QWidget *ConfigItem::getWidget(UserConfig*)
 class PrefItem : public ConfigItem
 {
 public:
-    PrefItem(Q3ListViewItem *parent, CommandDef *cmd);
+    PrefItem(QTreeWidgetItem *parent, CommandDef *cmd);
 protected:
     virtual QWidget *getWidget(UserConfig *dlg);
     CommandDef *m_cmd;
 };
 
-PrefItem::PrefItem(Q3ListViewItem *parent, CommandDef *cmd)
-        : ConfigItem(parent, cmd->id)
+PrefItem::PrefItem(QTreeWidgetItem *parent, CommandDef *cmd)
+        : ConfigItem(parent)
 {
     m_cmd = cmd;
     QString title = i18n(cmd->text);
     title = title.remove('&');
     setText(0, title);
-    setPixmap(0, Pict(cmd->icon));
+    setIcon(0, Pict(cmd->icon));
 }
 
 QWidget *PrefItem::getWidget(UserConfig *dlg)
@@ -145,8 +143,8 @@ QWidget *PrefItem::getWidget(UserConfig *dlg)
 class ClientItem : public ConfigItem
 {
 public:
-    ClientItem(Q3ListView *view, Client *client, void *_data, CommandDef *cmd);
-    ClientItem(Q3ListViewItem *item, Client *client, void *_data, CommandDef *cmd);
+    ClientItem(QTreeWidget *view, Client *client, void *_data, CommandDef *cmd);
+    ClientItem(QTreeWidgetItem *item, Client *client, void *_data, CommandDef *cmd);
 protected:
     void init(CommandDef *cmd);
     virtual QWidget *getWidget(UserConfig *dlg);
@@ -155,16 +153,16 @@ protected:
     CommandDef *m_cmd;
 };
 
-ClientItem::ClientItem(Q3ListView *view, Client *client, void *data, CommandDef *cmd)
-        : ConfigItem(view, 0, true)
+ClientItem::ClientItem(QTreeWidget *view, Client *client, void *data, CommandDef *cmd)
+        : ConfigItem(view, true)
 {
     m_client = client;
     m_data   = data;
     init(cmd);
 }
 
-ClientItem::ClientItem(Q3ListViewItem *item, Client *client, void *data, CommandDef *cmd)
-        : ConfigItem(item, 0, true)
+ClientItem::ClientItem(QTreeWidgetItem *item, Client *client, void *data, CommandDef *cmd)
+        : ConfigItem(item, true)
 {
     m_client = client;
     m_data   = data;
@@ -181,7 +179,7 @@ void ClientItem::init(CommandDef *cmd)
         setText(0, i18n(cmd->text));
     }
     if (!cmd->icon.isEmpty())
-        setPixmap(0, Pict(cmd->icon));
+        setIcon(0, Pict(cmd->icon));
 }
 
 QWidget *ClientItem::getWidget(UserConfig *dlg)
@@ -196,16 +194,16 @@ QWidget *ClientItem::getWidget(UserConfig *dlg)
 class MainInfoItem : public ConfigItem
 {
 public:
-    MainInfoItem(Q3ListView *view, unsigned id);
+    MainInfoItem(QTreeWidget *view, unsigned id);
 protected:
     virtual QWidget *getWidget(UserConfig *dlg);
 };
 
-MainInfoItem::MainInfoItem(Q3ListView *view, unsigned id)
+MainInfoItem::MainInfoItem(QTreeWidget *view, unsigned id)
         : ConfigItem(view, id)
 {
     setText(0, i18n("User info"));
-    setPixmap(0, Pict("info"));
+    setIcon(0, Pict("info"));
 }
 
 QWidget *MainInfoItem::getWidget(UserConfig *dlg)
@@ -216,13 +214,13 @@ QWidget *MainInfoItem::getWidget(UserConfig *dlg)
 class ARItem : public ConfigItem
 {
 public:
-    ARItem(Q3ListViewItem *item, const CommandDef *def);
+    ARItem(QTreeWidgetItem *item, const CommandDef *def);
 protected:
     virtual QWidget *getWidget(UserConfig *dlg);
     unsigned m_status;
 };
 
-ARItem::ARItem(Q3ListViewItem *item, const CommandDef *def)
+ARItem::ARItem(QTreeWidgetItem *item, const CommandDef *def)
         : ConfigItem(item, 0)
 {
     QString icon;
@@ -255,7 +253,7 @@ ARItem::ARItem(Q3ListViewItem *item, const CommandDef *def)
         icon=def->icon;
         break;
     }
-    setPixmap(0, Pict(icon));
+    setIcon(0, Pict(icon));
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
@@ -263,10 +261,12 @@ QWidget *ARItem::getWidget(UserConfig *dlg)
     return new ARConfig(dlg, m_status, text(0), dlg->m_contact);
 }
 
-static unsigned itemWidth(Q3ListViewItem *item, QFontMetrics &fm)
+static unsigned itemWidth(QTreeWidgetItem *item, QFontMetrics &fm)
 {
     unsigned w = fm.width(item->text(0)) + 64;
-    for (Q3ListViewItem *child = item->firstChild(); child ; child = child->nextSibling()){
+	for(int i = 0; i < item->childCount(); i++)
+	{
+		QTreeWidgetItem *child = item->child(i);
         w = QMAX(w, itemWidth(child, fm));
     }
     return w;
@@ -290,18 +290,19 @@ UserConfig::UserConfig(Contact *contact, Group *group)
     btnUpdate->setIcon(Icon("webpress"));
     btnUpdate->hide();
 
-    lstBox->setHScrollBarMode(Q3ScrollView::AlwaysOff);
-    lstBox->setSorting(1);
+    lstBox->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    lstBox->sortItems(1, Qt::AscendingOrder);
     lstBox->header()->hide();
 
     fill();
 
-    connect(lstBox, SIGNAL(currentChanged(Q3ListViewItem*)), this, SLOT(itemSelected(Q3ListViewItem*)));
+    connect(lstBox, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)),
+            this, SLOT(itemSelected(QTreeWidgetItem*, QTreeWidgetItem*)));
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
     connect(btnUpdate, SIGNAL(clicked()), this, SLOT(updateInfo()));
 
-    lstBox->setCurrentItem(lstBox->firstChild());
-    itemSelected(lstBox->firstChild());
+    lstBox->setCurrentItem(lstBox->topLevelItem(0));
+    itemSelected(lstBox->topLevelItem(0), 0);
 }
 
 UserConfig::~UserConfig()
@@ -342,7 +343,7 @@ void UserConfig::fill()
 {
     ConfigItem::curIndex = 1;
     lstBox->clear();
-    Q3ListViewItem *parentItem;
+    QTreeWidgetItem *parentItem;
     if (m_contact){
         parentItem = new MainInfoItem(lstBox, CmdInfo);
         ClientDataIterator it(m_contact->clientData);
@@ -359,7 +360,7 @@ void UserConfig::fill()
                         new ClientItem(parentItem, it.client(), data, cmds);
                     }else{
                         parentItem = new ClientItem(lstBox, it.client(), data, cmds);
-                        parentItem->setOpen(true);
+                        parentItem->setExpanded(true);
                     }
                 }
             }
@@ -381,7 +382,7 @@ void UserConfig::fill()
         if (parentItem == NULL){
             parentItem = new ConfigItem(lstBox, 0);
             parentItem->setText(0, i18n("Autoreply"));
-            parentItem->setOpen(true);
+            parentItem->setExpanded(true);
         }
         for (const CommandDef *d = it.client()->protocol()->statusList(); !d->text.isEmpty(); d++){
             if ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE))
@@ -399,8 +400,8 @@ void UserConfig::fill()
 
     parentItem = new ConfigItem(lstBox, 0);
     parentItem->setText(0, i18n("Settings"));
-    parentItem->setPixmap(0, Pict("configure"));
-    parentItem->setOpen(true);
+    parentItem->setIcon(0, Pict("configure"));
+    parentItem->setExpanded(true);
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::m_plugin->preferences);
     m_defaultPage = 0;
@@ -413,7 +414,9 @@ void UserConfig::fill()
 
     QFontMetrics fm(lstBox->font());
     unsigned w = 0;
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
+	for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+	{
+		QTreeWidgetItem *item = lstBox->topLevelItem(i);
         w = QMAX(w, itemWidth(item, fm));
     }
     lstBox->setFixedWidth(w);
@@ -422,8 +425,9 @@ void UserConfig::fill()
 
 bool UserConfig::raisePage(unsigned id)
 {
-    Q3ListViewItem *item;
-    for (item = lstBox->firstChild(); item; item = item->nextSibling()){
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(i);
         if (raisePage(id, item))
             return true;
     }
@@ -435,15 +439,17 @@ bool UserConfig::raiseDefaultPage()
     return raisePage(m_defaultPage);
 }
 
-bool UserConfig::raisePage(unsigned id, Q3ListViewItem *item)
+bool UserConfig::raisePage(unsigned id, QTreeWidgetItem *item)
 {
     unsigned item_id = static_cast<ConfigItem*>(item)->id();
     if (item_id && ((item_id == id) || (id == 0))){
         lstBox->setCurrentItem(item);
         return true;
     }
-    for (item = item->firstChild(); item; item = item->nextSibling()){
-        if (raisePage(id, item))
+    for(int i = 0; i < item->childCount(); i++)
+    {
+        QTreeWidgetItem* it = item->child(i);
+        if (raisePage(id, it))
             return true;
     }
     return false;
@@ -458,7 +464,7 @@ void UserConfig::apply()
     e.process();
 }
 
-void UserConfig::itemSelected(Q3ListViewItem *item)
+void UserConfig::itemSelected(QTreeWidgetItem *item, QTreeWidgetItem* /* previous */)
 {
     static_cast<ConfigItem*>(item)->show();
 }
@@ -534,18 +540,23 @@ bool UserConfig::processEvent(Event *e)
 
 void UserConfig::removeCommand(unsigned id)
 {
-    for (Q3ListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling())
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(i);
         removeCommand(id, item);
+    }
 }
 
-bool UserConfig::removeCommand(unsigned id, Q3ListViewItem *item)
+bool UserConfig::removeCommand(unsigned id, QTreeWidgetItem *item)
 {
     if (item->text(1).toUInt() == id){
         delete item;
         return true;
     }
-    for (item = item->firstChild(); item; item = item->nextSibling()){
-        if (removeCommand(id, item))
+    for(int i = 0; i < item->childCount(); i++)
+    {
+        QTreeWidgetItem *it= item->child(i);
+        if (removeCommand(id, it))
             return true;
     }
     return false;
@@ -594,3 +605,5 @@ void UserConfig::resizeEvent(QResizeEvent *e)
     }
 	*/
 }
+
+// vim: set expandtab: 

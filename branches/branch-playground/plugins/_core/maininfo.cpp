@@ -107,8 +107,8 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact) : QWidget(parent)
     if (m_contact == NULL)
         tabMain->removeTab(tabMain->indexOf(tabNotes));
     fill();
-    connect(lstMails, SIGNAL(selectionChanged()), this, SLOT(mailSelectionChanged()));
-    connect(lstPhones, SIGNAL(selectionChanged()), this, SLOT(phoneSelectionChanged()));
+    connect(lstMails, SIGNAL(itemSelectionChanged()), this, SLOT(mailSelectionChanged()));
+    connect(lstPhones, SIGNAL(itemSelectionChanged()), this, SLOT(phoneSelectionChanged()));
     connect(lstMails, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteMail(ListViewItem*)));
     connect(lstPhones, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deletePhone(ListViewItem*)));
     connect(btnMailAdd, SIGNAL(clicked()), this, SLOT(addMail()));

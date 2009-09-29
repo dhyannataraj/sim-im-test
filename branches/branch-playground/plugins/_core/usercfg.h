@@ -20,7 +20,6 @@
 
 #include "ui_cfgdlgbase.h"
 #include "event.h"
-//Added by qt3to4:
 #include <QResizeEvent>
 
 class CorePlugin;
@@ -40,7 +39,7 @@ signals:
     void applyChanges();
 protected slots:
     void apply();
-    void itemSelected(Q3ListViewItem*);
+    void itemSelected(QTreeWidgetItem*, QTreeWidgetItem*);
     void updateInfo();
 protected:
     virtual void accept();
@@ -50,9 +49,9 @@ protected:
     void fill();
     unsigned m_nUpdates;
     unsigned m_defaultPage;
-    bool raisePage(unsigned id, Q3ListViewItem*);
+    bool raisePage(unsigned id, QTreeWidgetItem*);
     void removeCommand(unsigned id);
-    bool removeCommand(unsigned id, Q3ListViewItem*);
+    bool removeCommand(unsigned id, QTreeWidgetItem*);
 };
 
 #endif

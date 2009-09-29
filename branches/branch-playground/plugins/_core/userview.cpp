@@ -994,7 +994,6 @@ void UserView::doClick()
 {
     if (m_current == NULL)
         return;
-    log(L_DEBUG, "%d",static_cast<UserViewItemBase*>(m_current)->type());
     if (m_current->isExpandable() && !CorePlugin::m_plugin->property("UseDblClick").toBool())
     {
         m_current->setOpen(!m_current->isOpen());
