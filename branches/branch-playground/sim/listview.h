@@ -104,6 +104,7 @@ protected:
     void dropEvent(QDropEvent *e);
     void keyPressEvent(QKeyEvent *e);
     void showPopup(ListViewItem *item, QPoint p);
+    void contextMenuEvent(QContextMenuEvent* e);
     int m_expandingColumn;
     unsigned long m_menuId;
     QTimer	 *m_resizeTimer;

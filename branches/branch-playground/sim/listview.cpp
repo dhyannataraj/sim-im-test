@@ -223,7 +223,8 @@ void ListView::viewportMousePressEvent(QMouseEvent *e)
 
 void ListView::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton){
+    if (e->button() == Qt::LeftButton)
+    {
         m_pressedItem = itemAt(e->pos());
         /*
            if (m_pressedItem && !m_pressedItem->isSelectable())
@@ -291,6 +292,27 @@ void ListView::showPopup(ListViewItem *item, QPoint p)
     if (menu){
         setCurrentItem(item);
         menu->popup(p);
+    }
+}
+
+void ListView::contextMenuEvent(QContextMenuEvent* e)
+{
+    unsigned long id;
+    void *param;
+
+    ListViewItem* item = itemAt(e->pos());
+    if (item == NULL)
+        return;
+
+    if (!getMenu(item, id, param))
+        return;
+    EventMenuProcess eMenu(id, param);
+    eMenu.process();
+    QMenu *menu = eMenu.menu();
+    if (menu)
+    {
+        setCurrentItem(item);
+        menu->popup(e->globalPos());
     }
 }
 

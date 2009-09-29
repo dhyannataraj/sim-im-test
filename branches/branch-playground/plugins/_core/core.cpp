@@ -2537,10 +2537,10 @@ bool CorePlugin::processEvent(Event *e)
 						}
 						if (wnd == NULL){
 							wnd = new HistoryWindow(id);
-							/* Fixme Todin
-							if (data.HistorySize[0].toULong() && data.HistorySize[1].toULong())
-								wnd->resize(data.HistorySize[0].toULong(), data.HistorySize[1].toULong());
-								*/
+                            unsigned int historySizeX = property("HistorySizeX").toUInt();
+                            unsigned int historySizeY = property("HistorySizeY").toUInt();
+                            if(historySizeX && historySizeY)
+                                wnd->resize(historySizeX, historySizeY);
 						}
 						raiseWindow(wnd);
 					}
@@ -2562,15 +2562,15 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_cfg == NULL){
                     	m_cfg = new ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
-						/*  Fixme Todin
-						if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
-							data.CfgGeometry[WIDTH].asLong()  = 500;
-							data.CfgGeometry[HEIGHT].asLong() = 380;
-							restoreGeometry(m_cfg, data.CfgGeometry, false, true);
-						}else{
-							restoreGeometry(m_cfg, data.CfgGeometry, true, true);
-						}
-						*/
+
+                        unsigned int cfgGeometryWidth = property("CfgGeometryWidth").toUInt();
+                        unsigned int cfgGeometryHeight = property("CfgGeometryHeight").toUInt();
+                        if(cfgGeometryWidth == 0 || cfgGeometryHeight == 0)
+                        {
+                            cfgGeometryWidth = 500;
+                            cfgGeometryHeight = 380;
+                        }
+                        m_cfg->resize(cfgGeometryWidth, cfgGeometryHeight);
 					}
 					raiseWindow(m_cfg);
 					return true;
@@ -2579,15 +2579,14 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_search == NULL){
 						m_search = new SearchDialog;
 						connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
-						/*  Fixme Todin
-						if ((data.SearchGeometry[WIDTH].toLong() == 0) || (data.SearchGeometry[HEIGHT].toLong() == 0)){
-							data.SearchGeometry[WIDTH].asLong()  = 500;
-							data.SearchGeometry[HEIGHT].asLong() = 380;
-							restoreGeometry(m_search, data.SearchGeometry, false, true);
-						}else{
-							restoreGeometry(m_search, data.SearchGeometry, true, true);
-						}
-						*/
+                        unsigned int searchGeometryWidth = property("SearchGeometryWidth").toUInt();
+                        unsigned int searchGeometryHeight = property("SearchGeometryHeight").toUInt();
+                        if(searchGeometryWidth == 0 || searchGeometryHeight == 0)
+                        {
+                            searchGeometryWidth = 500;
+                            searchGeometryHeight = 380;
+                        }
+                        m_search->resize(searchGeometryWidth, searchGeometryHeight);
 					}
 					raiseWindow(m_search);
 					return false;
@@ -2932,13 +2931,14 @@ void CorePlugin::showInfo(CommandDef *cmd)
 	}
 	if (cfg == NULL){
 		cfg = new UserConfig(contact, group);
-		/*  Fixme Todin
-		if ((data.CfgGeometry[WIDTH].toLong() == 0) || (data.CfgGeometry[HEIGHT].toLong() == 0)){
-			data.CfgGeometry[WIDTH].asLong()  = 500;
-			data.CfgGeometry[HEIGHT].asLong() = 380;
-		}
-		cfg->resize(data.CfgGeometry[WIDTH].toLong(), data.CfgGeometry[HEIGHT].toLong());
-		*/
+        unsigned int cfgGeometryWidth = property("CfgGeometryWidth").toUInt();
+        unsigned int cfgGeometryHeight = property("CfgGeometryHeight").toUInt();
+        if(cfgGeometryWidth == 0 || cfgGeometryHeight == 0)
+        {
+            cfgGeometryWidth = 500;
+            cfgGeometryHeight = 380;
+        }
+        m_cfg->resize(cfgGeometryWidth, cfgGeometryHeight);
 	}
 	raiseWindow(cfg);
 	if (!cfg->raisePage(cmd->id))
@@ -3739,148 +3739,148 @@ void CorePlugin::loadMenu()
     showPanel();
 }
 
-	void CorePlugin::showPanel()
-	{
-		if (m_main == NULL)
-			return;
-		bool bShow = property("ShowPanel").toBool();
-		if (bShow){
-			if (getContacts()->nClients() < 2)
-				bShow = false;
-		}
-		if (bShow){
-			if (m_statusWnd == NULL)
-				m_statusWnd = new StatusWnd;
-			m_statusWnd->show();
-			return;
-		}
-		if (m_statusWnd){
-			delete m_statusWnd;
-			m_statusWnd = NULL;
-		}
-	}
+void CorePlugin::showPanel()
+{
+    if (m_main == NULL)
+        return;
+    bool bShow = property("ShowPanel").toBool();
+    if (bShow){
+        if (getContacts()->nClients() < 2)
+            bShow = false;
+    }
+    if (bShow){
+        if (m_statusWnd == NULL)
+            m_statusWnd = new StatusWnd;
+        m_statusWnd->show();
+        return;
+    }
+    if (m_statusWnd){
+        delete m_statusWnd;
+        m_statusWnd = NULL;
+    }
+}
 
-	ClientList::ClientList()
-	{
-	}
+ClientList::ClientList()
+{
+}
 
-	ClientList::~ClientList()
-	{
-		CorePlugin::m_plugin->m_bIgnoreEvents = true;
-		for (ClientList::iterator it = begin(); it != end(); ++it)
-			delete *it;
-		CorePlugin::m_plugin->m_bIgnoreEvents = false;
-	}
+ClientList::~ClientList()
+{
+    CorePlugin::m_plugin->m_bIgnoreEvents = true;
+    for (ClientList::iterator it = begin(); it != end(); ++it)
+        delete *it;
+    CorePlugin::m_plugin->m_bIgnoreEvents = false;
+}
 
-	void ClientList::addToContacts()
-	{
-		for (ClientList::iterator it = begin(); it != end(); ++it)
-			getContacts()->addClient(*it);
-		clear();
-	}
+void ClientList::addToContacts()
+{
+    for (ClientList::iterator it = begin(); it != end(); ++it)
+        getContacts()->addClient(*it);
+    clear();
+}
 
-	unsigned CorePlugin::getContainerMode()
-	{
-		return property("ContainerMode").toUInt(); //data.ContainerMode.toULong();
-	}
+unsigned CorePlugin::getContainerMode()
+{
+    return property("ContainerMode").toUInt(); //data.ContainerMode.toULong();
+}
 
-	void CorePlugin::setContainerMode(unsigned value)
-	{
-		setProperty("ContainerMode", value);
-		emit modeChanged(value);
-	}
+void CorePlugin::setContainerMode(unsigned value)
+{
+    setProperty("ContainerMode", value);
+    emit modeChanged(value);
+}
 
-	QString CorePlugin::clientName(Client *client)
-	{
-		QString s = client->name();
-		QString res = i18n(getToken(s, '.'));
-		res += ' ';
-		return res + s;
-	}
+QString CorePlugin::clientName(Client *client)
+{
+    QString s = client->name();
+    QString res = i18n(getToken(s, '.'));
+    res += ' ';
+    return res + s;
+}
 
-	void CorePlugin::checkHistory()
-	{
-		Contact *contact;
-		ContactList::ContactIterator it;
-		while ((contact = ++it) != NULL){
-			HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
-			if ((data == NULL) || !data->CutDays.toBool())
-				continue;
-            QDateTime now(QDateTime::currentDateTime());
-            now = now.addSecs(-data->Days.toULong() * 24 * 60 * 60);
-            History::cut(NULL, contact->id(), now.toTime_t());
-		}
-		QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
-	}
+void CorePlugin::checkHistory()
+{
+    Contact *contact;
+    ContactList::ContactIterator it;
+    while ((contact = ++it) != NULL){
+        HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
+        if ((data == NULL) || !data->CutDays.toBool())
+            continue;
+        QDateTime now(QDateTime::currentDateTime());
+        now = now.addSecs(-data->Days.toULong() * 24 * 60 * 60);
+        History::cut(NULL, contact->id(), now.toTime_t());
+    }
+    QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
+}
 
-	void CorePlugin::setManualStatus(unsigned long status)
-	{
-		if (status == getManualStatus())
-			return;
-		setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
-		//data.ManualStatus.asULong() = status;
-		setProperty("ManualStatus", (uint)status);
-	}
+void CorePlugin::setManualStatus(unsigned long status)
+{
+    if (status == getManualStatus())
+        return;
+    setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
+    //data.ManualStatus.asULong() = status;
+    setProperty("ManualStatus", (uint)status);
+}
 
-	void CorePlugin::alertFinished()
-	{
-		if (m_alert)
-			setProperty("NoJoinAlert", m_alert->isChecked());
-		m_alert = NULL;
-	}
+void CorePlugin::alertFinished()
+{
+    if (m_alert)
+        setProperty("NoJoinAlert", m_alert->isChecked());
+    m_alert = NULL;
+}
 
-	void CorePlugin::focusDestroyed()
-	{
-		m_focus = NULL;
-	}
+void CorePlugin::focusDestroyed()
+{
+    m_focus = NULL;
+}
 
-	bool CorePlugin::lockProfile(const QString &profile, bool bSend)
-	{
-		if (profile.isEmpty()){
-			if (m_lock){
-				delete m_lock;
-				m_lock = NULL;
-			}
-			return true;
-		}
-		FileLock *lock = new FileLock(user_file(".lock"));
-		if (!lock->lock(bSend)){
-			delete lock;
-			return false;
-		}
-		if (m_lock)
-			delete m_lock;
-		m_lock = lock;
-		return true;
-	}
+bool CorePlugin::lockProfile(const QString &profile, bool bSend)
+{
+    if (profile.isEmpty()){
+        if (m_lock){
+            delete m_lock;
+            m_lock = NULL;
+        }
+        return true;
+    }
+    FileLock *lock = new FileLock(user_file(".lock"));
+    if (!lock->lock(bSend)){
+        delete lock;
+        return false;
+    }
+    if (m_lock)
+        delete m_lock;
+    m_lock = lock;
+    return true;
+}
 
-	void CorePlugin::showMain()
-	{
-		if (m_main){
-			m_main->show();
-			raiseWindow(m_main);
-		}
-	}
+void CorePlugin::showMain()
+{
+    if (m_main){
+        m_main->show();
+        raiseWindow(m_main);
+    }
+}
 
 #ifdef WIN32
 
-	LockThread::LockThread(Qt::HANDLE _hEvent)
-	{
-		hEvent = _hEvent;
-	}
+LockThread::LockThread(Qt::HANDLE _hEvent)
+{
+    hEvent = _hEvent;
+}
 
-	void LockThread::run()
-	{
-		for (;;){
-			DWORD res = WaitForSingleObject(hEvent, INFINITE);
-			if (res == WAIT_ABANDONED)
-				break;
-			QTimer::singleShot(0, CorePlugin::m_plugin, SLOT(showMain()));
-		}
-	}
+void LockThread::run()
+{
+    for (;;){
+        DWORD res = WaitForSingleObject(hEvent, INFINITE);
+        if (res == WAIT_ABANDONED)
+            break;
+        QTimer::singleShot(0, CorePlugin::m_plugin, SLOT(showMain()));
+    }
+}
 
-	// From zlib
-	// Copyright (C) 1995-2002 Mark Adler
+// From zlib
+// Copyright (C) 1995-2002 Mark Adler
 
 #define BASE 65521L
 #define NMAX 5552
@@ -3891,110 +3891,112 @@ void CorePlugin::loadMenu()
 #define DO8(buf,i)  DO4(buf,i); DO4(buf,i+4);
 #define DO16(buf)   DO8(buf,0); DO8(buf,8);
 
-	unsigned adler32(const char *buf, unsigned len)
-	{
-		unsigned long s1 = 0;
-		unsigned long s2 = 0;
-		int k;
-		while (len > 0) {
-			k = len < NMAX ? len : NMAX;
-			len -= k;
-			while (k >= 16) {
-				DO16(buf);
-				buf += 16;
-				k -= 16;
-			}
-			if (k != 0) do {
-				s1 += *buf++;
-				s2 += s1;
-			} while (--k);
-			s1 %= BASE;
-			s2 %= BASE;
-		}
-		return (s2 << 16) | s1;
-	}
+unsigned adler32(const char *buf, unsigned len)
+{
+    unsigned long s1 = 0;
+    unsigned long s2 = 0;
+    int k;
+    while (len > 0) {
+        k = len < NMAX ? len : NMAX;
+        len -= k;
+        while (k >= 16) {
+            DO16(buf);
+            buf += 16;
+            k -= 16;
+        }
+        if (k != 0) do {
+            s1 += *buf++;
+            s2 += s1;
+        } while (--k);
+        s1 %= BASE;
+        s2 %= BASE;
+    }
+    return (s2 << 16) | s1;
+}
 
 #endif
 
-	FileLock::FileLock(const QString &name)
-		: QFile(name)
-	{
+    FileLock::FileLock(const QString &name)
+: QFile(name)
+{
 #ifdef WIN32
-		m_thread = NULL;
+    m_thread = NULL;
 #else
-		m_bLock  = false;
+    m_bLock  = false;
 #endif
-	}
+}
 
-	FileLock::~FileLock()
-	{
+FileLock::~FileLock()
+{
 #ifdef WIN32
-		if (m_thread){
-			CloseHandle(m_thread->hEvent);
-			m_thread->wait(1000);
-			m_thread->terminate();
-			delete m_thread;
-		}
+    if (m_thread){
+        CloseHandle(m_thread->hEvent);
+        m_thread->wait(1000);
+        m_thread->terminate();
+        delete m_thread;
+    }
 #else
-		close();
-		if (m_bLock)
-            QFile::remove(fileName());
+    close();
+    if (m_bLock)
+        QFile::remove(fileName());
 #endif
-	}
+}
 
 #ifdef WIN32
-	bool FileLock::lock(bool bSend)
-	{
-		QString event = "SIM.";
-                const QByteArray s = fileName().toLocal8Bit();
-		event += QString::number(adler32(s.data(), s.length()));
-		Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.toLatin1());
-		if (hEvent){
-			if (bSend)
-				SetEvent(hEvent);
-			CloseHandle(hEvent);
-			return false;
-		}
-		hEvent = CreateEventA(NULL, false, false, event.toLatin1());
-		if (hEvent == NULL)
-			return false;
-		m_thread = new LockThread(hEvent);
-		m_thread->start();
+bool FileLock::lock(bool bSend)
+{
+    QString event = "SIM.";
+    const QByteArray s = fileName().toLocal8Bit();
+    event += QString::number(adler32(s.data(), s.length()));
+    Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.toLatin1());
+    if (hEvent){
+        if (bSend)
+            SetEvent(hEvent);
+        CloseHandle(hEvent);
+        return false;
+    }
+    hEvent = CreateEventA(NULL, false, false, event.toLatin1());
+    if (hEvent == NULL)
+        return false;
+    m_thread = new LockThread(hEvent);
+    m_thread->start();
 #else
-		bool FileLock::lock(bool)
-		{
-			if (!open(QIODevice::ReadWrite | QIODevice::Truncate)){
-                log(L_WARN, "Can't create %s", qPrintable(fileName()));
-				return false;
-			}
-			struct flock fl;
-			fl.l_type   = F_WRLCK;
-			fl.l_whence = SEEK_SET;
-			fl.l_start  = 0;
-			fl.l_len    = 1;
-			if (fcntl(handle(), F_SETLK, &fl) == -1){
-				//QFile::remove(name());
-				return false;
-			}
-			m_bLock = true;
+    bool FileLock::lock(bool)
+    {
+        if (!open(QIODevice::ReadWrite | QIODevice::Truncate)){
+            log(L_WARN, "Can't create %s", qPrintable(fileName()));
+            return false;
+        }
+        struct flock fl;
+        fl.l_type   = F_WRLCK;
+        fl.l_whence = SEEK_SET;
+        fl.l_start  = 0;
+        fl.l_len    = 1;
+        if (fcntl(handle(), F_SETLK, &fl) == -1){
+            //QFile::remove(name());
+            return false;
+        }
+        m_bLock = true;
 #endif
-			return true;
-		}
+        return true;
+    }
 
-		void HistoryThread::run()
-		{
-			QString str = user_file(".history_file");
-			History::save(m_id, str);
-			Q3Process *m_ex;
-			m_ex = new Q3Process();
-			m_ex->addArgument(m_Viewer);
-			m_ex->addArgument(str);
-			m_ex->start();
-		}
+    void HistoryThread::run()
+    {
+        QString str = user_file(".history_file");
+        History::save(m_id, str);
+        Q3Process *m_ex;
+        m_ex = new Q3Process();
+        m_ex->addArgument(m_Viewer);
+        m_ex->addArgument(str);
+        m_ex->start();
+    }
 
-		/*
+    /*
 #ifndef NO_MOC_INCLUDES
 #include "core.moc"
 #endif
 */
+
+    // vim: set expandtab:
 
