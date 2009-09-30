@@ -22,19 +22,18 @@
 #include <QCheckBox>
 
 SMSConfig::SMSConfig(QWidget *parent, void *_data) : QWidget(parent)
-        //: SMSConfigBase(parent)
 {
 	setupUi(this);
     SMSUserData *data = (SMSUserData*)(_data);
-    edtBefore->setText(data->SMSSignatureBefore.str());
-    edtAfter->setText(data->SMSSignatureAfter.str());
+    edtBefore->setPlainText(data->SMSSignatureBefore.str());
+    edtAfter->setPlainText(data->SMSSignatureAfter.str());
 }
 
 void SMSConfig::apply(void *_data)
 {
     SMSUserData *data = (SMSUserData*)(_data);
-    data->SMSSignatureBefore.str() = edtBefore->text();
-    data->SMSSignatureAfter.str() = edtAfter->text();
+    data->SMSSignatureBefore.str() = edtBefore->toPlainText();
+    data->SMSSignatureAfter.str() = edtAfter->toPlainText();
 }
 
 /*

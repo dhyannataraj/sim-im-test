@@ -25,7 +25,6 @@
 using namespace SIM;
 
 NonIM::NonIM(QWidget *parent) : QWidget(parent)
-        //: NonIMBase(parent)
 {
 	setupUi(this);
     connect(this, SIGNAL(setAdd(bool)), topLevelWidget(), SLOT(setAdd(bool)));

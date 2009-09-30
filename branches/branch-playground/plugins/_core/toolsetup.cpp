@@ -120,10 +120,12 @@ void ToolBarSetup::applyClick()
     }
 }
 
-void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
+void ToolBarSetup::addButton(QListWidget *lst, unsigned id)
 {
     if (id == 0){
-        lst->insertItem(Pict("separator"), i18n("Separator"));
+        QListWidgetItem* item = new QListWidgetItem(i18n("Separator"), lst);
+        item->setIcon(Pict("separator"));
+        lst->addItem(item);
         return;
     }
     CommandsList list(*m_def, true);
@@ -132,10 +134,9 @@ void ToolBarSetup::addButton(Q3ListBox *lst, unsigned id)
         if ((s->id == id) && !s->text.isEmpty()){
             QString name = i18n(s->text);
             name = name.remove('&');
+            QListWidgetItem* item = new QListWidgetItem(name, lst);
             if (!s->icon.isEmpty()){
-                lst->insertItem(Pict(s->icon), name);
-            }else{
-                lst->insertItem(name);
+                item->setIcon(Pict(s->icon));
             }
             return;
         }
@@ -147,8 +148,8 @@ void ToolBarSetup::selectionChanged()
     btnAdd->setEnabled(lstButtons->currentItem() >= 0);
     btnRemove->setEnabled(lstActive->currentItem() >= 0);
     btnUp->setEnabled(lstActive->currentItem() > 0);
-    btnDown->setEnabled((lstActive->currentItem() >= 0) &&
-                        (lstActive->currentItem() < (int)(lstActive->count() - 1)));
+    btnDown->setEnabled((lstActive->currentRow() >= 0) &&
+                        (lstActive->currentRow() < (int)(lstActive->count() - 1)));
 }
 
 void ToolBarSetup::setButtons()
@@ -171,13 +172,13 @@ void ToolBarSetup::setButtons()
 
 void ToolBarSetup::addClick()
 {
-    int i = lstButtons->currentItem();
+    int i = lstButtons->currentRow();
     if (i < 0)
         return;
     if (i == (int)(lstButtons->count() - 1)){
         active.push_back(0);
         addButton(lstActive, 0);
-        lstActive->setCurrentItem(lstActive->count() - 1);
+        lstActive->setCurrentRow(lstActive->count() - 1);
         return;
     }
     int n = i;
@@ -195,7 +196,7 @@ void ToolBarSetup::addClick()
             active.push_back(id);
             addButton(lstActive, id);
             delete lstButtons->item(n);
-            lstActive->setCurrentItem(lstActive->count() - 1);
+            lstActive->setCurrentRow(lstActive->count() - 1);
             bDirty = true;
             return;
         }
@@ -204,7 +205,7 @@ void ToolBarSetup::addClick()
 
 void ToolBarSetup::removeClick()
 {
-    int i = lstActive->currentItem();
+    int i = lstActive->currentRow();
     if (i < 0) return;
     delete lstActive->item(i);
     vector<unsigned>::iterator it = active.begin();
@@ -216,39 +217,41 @@ void ToolBarSetup::removeClick()
 
 void ToolBarSetup::upClick()
 {
-    int i = lstActive->currentItem();
+    int i = lstActive->currentRow();
     if (i <= 0) return;
     unsigned old = active[i - 1];
     active[i - 1] = active[i];
     active[i] = old;
-    QString s = lstActive->text(i);
-    QPixmap p;
-    if (lstActive->pixmap(i)) p = *lstActive->pixmap(i);
-    lstActive->removeItem(i);
-    lstActive->insertItem(p, s, i-1);
-    lstActive->setCurrentItem(i-1);
+    QString s = lstActive->item(i)->text();
+    QIcon icon = lstActive->item(i)->icon();
+    QListWidgetItem* item = lstActive->takeItem(i);
+    if(item)
+        delete item;
+    item = new QListWidgetItem(s, lstActive);
+    item->setIcon(icon);
+    lstActive->insertItem(i - 1, item);
+    lstActive->setCurrentRow(i - 1);
     bDirty = true;
 }
 
 void ToolBarSetup::downClick()
 {
-    int i = lstActive->currentItem();
+    int i = lstActive->currentRow();
     if ((i < 0) || (i >= (int)(lstActive->count() - 1))) return;
     unsigned old = active[i + 1];
     active[i + 1] = active[i];
     active[i] = old;
-    QString s = lstActive->text(i);
-    QPixmap p;
-    if (lstActive->pixmap(i)) p = *lstActive->pixmap(i);
-    lstActive->removeItem(i);
-    lstActive->insertItem(p, s, i+1);
-    lstActive->setCurrentItem(i+1);
+    QString s = lstActive->item(i)->text();
+    QIcon icon = lstActive->item(i)->icon();
+    QListWidgetItem* item = lstActive->takeItem(i);
+    if(item)
+        delete item;
+    item = new QListWidgetItem(s, lstActive);
+    item->setIcon(icon);
+    lstActive->insertItem(i + 1, item);
+    lstActive->setCurrentRow(i + 1);
     bDirty = true;
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "toolsetup.moc"
-#endif
-*/
+// vim: set expandtab: 
 

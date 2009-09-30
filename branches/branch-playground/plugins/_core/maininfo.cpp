@@ -230,7 +230,7 @@ void MainInfo::fill()
         cmbDisplay->insertItem(INT_MAX,lastName);
     cmbDisplay->lineEdit()->setText(contact->getName());
 
-    edtNotes->setText(contact->getNotes());
+    edtNotes->setPlainText(contact->getNotes());
     QString mails = contact->getEMails();
     lstMails->clear();
     while (mails.length()){
@@ -283,7 +283,7 @@ void MainInfo::apply()
         contact = getContacts()->owner();
         contact->setPhoneStatus(cmbStatus->currentIndex());
     }
-    contact->setNotes(edtNotes->text());
+    contact->setNotes(edtNotes->toPlainText());
     ListViewItem *item;
     QString mails;
     for (int i = 0; i <lstMails->topLevelItemCount(); i++)

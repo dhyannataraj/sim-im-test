@@ -23,7 +23,7 @@
 
 class CorePlugin;
 
-class UserViewConfig : public QWidget, public Ui::UserViewConfigBase
+class UserViewConfig : public QWidget, public Ui::ContactList
 {
     Q_OBJECT
 public:

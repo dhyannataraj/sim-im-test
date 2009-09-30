@@ -25,7 +25,7 @@
 
 class Commands;
 
-class ToolBarSetup : public QDialog, public Ui::ToolBarSetupBase
+class ToolBarSetup : public QDialog, public Ui::ToolBarSetup
 {
     Q_OBJECT
 public:
@@ -44,7 +44,7 @@ protected:
     Commands	*m_bars;
     std::vector<unsigned> active;
     bool bDirty;
-    void addButton(Q3ListBox *lst, unsigned id);
+    void addButton(QListWidget *lst, unsigned id);
     void setButtons();
     friend class Commands;
 };

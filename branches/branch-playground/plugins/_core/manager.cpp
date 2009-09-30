@@ -22,8 +22,7 @@
 #include "core.h"
 #include "contacts/client.h"
 
-#include <q3listview.h>
-#include <q3header.h>
+#include <QListWidget>
 #include <QScrollBar>
 #include <QPushButton>
 #include <QResizeEvent>
@@ -39,9 +38,7 @@ ConnectionManager::ConnectionManager(bool bModal)
     SET_WNDPROC("manager")
     setWindowIcon(Icon("configure"));
     setButtonsPict(this);
-    lstConnection->setHScrollBarMode(Q3ScrollView::AlwaysOff);
-    lstConnection->header()->hide();
-    lstConnection->setSorting(1);
+    lstConnection->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     fill();
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addClient()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(removeClient()));
@@ -55,21 +52,17 @@ ConnectionManager::ConnectionManager(bool bModal)
 void ConnectionManager::fill(Client *current)
 {
     lstConnection->clear();
-    Q3ListViewItem *curItem = NULL;
+    QListWidgetItem *curItem = NULL;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         Protocol *protocol = client->protocol();
         const CommandDef *descr = protocol->description();
         QString text = CorePlugin::m_plugin->clientName(client);
-        Q3ListViewItem *item = new Q3ListViewItem(lstConnection, text);
+        QListWidgetItem *item = new QListWidgetItem(text, lstConnection);
         if (descr)
-            item->setPixmap(0, Pict(descr->icon));
+            item->setIcon(Pict(descr->icon));
         if (current == client)
             curItem = item;
-        QString index = QString::number(i);
-        while (index.length() < 6)
-            index = QString("0") + index;
-        item->setText(1, index);
     }
     if (curItem)
         lstConnection->setCurrentItem(curItem);
@@ -78,7 +71,7 @@ void ConnectionManager::fill(Client *current)
 
 void ConnectionManager::selectionChanged()
 {
-    Q3ListViewItem *item = lstConnection->currentItem();
+    QListWidgetItem *item = lstConnection->currentItem();
     if (item == NULL){
         btnUp->setEnabled(false);
         btnDown->setEnabled(false);
@@ -88,29 +81,15 @@ void ConnectionManager::selectionChanged()
     }
     btnUpdate->setEnabled(true);
     btnRemove->setEnabled(true);
-    int n = 0;
-    int index = -1;
-    for (Q3ListViewItem *i = lstConnection->firstChild(); i; i = i->nextSibling(), n++){
-        if (i == item)
-            index = n;
-    }
+    int index = lstConnection->row(item);
     btnUp->setEnabled(index > 0);
-    btnDown->setEnabled(index < n - 1);
+    btnDown->setEnabled(index < lstConnection->count());
 }
 
 void ConnectionManager::closeEvent(QCloseEvent *e)
 {
     QDialog::closeEvent(e);
     emit finished();
-}
-
-void ConnectionManager::resizeEvent(QResizeEvent *e)
-{
-    QDialog::resizeEvent(e);
-    int w = lstConnection->width() - 4;
-    if (lstConnection->verticalScrollBar()->isVisible())
-        w -= lstConnection->verticalScrollBar()->width();
-    lstConnection->setColumnWidth(0, w);
 }
 
 void ConnectionManager::addClient()
@@ -122,17 +101,10 @@ void ConnectionManager::addClient()
 
 Client *ConnectionManager::currentClient()
 {
-    Q3ListViewItem *item = lstConnection->currentItem();
+    QListWidgetItem *item = lstConnection->currentItem();
     if (item == NULL)
         return NULL;
-    unsigned n = 0;
-    int index = -1;
-    for (Q3ListViewItem *i = lstConnection->firstChild(); i; i = i->nextSibling(), n++){
-        if (i == item){
-            index = n;
-            break;
-        }
-    }
+    int index = lstConnection->row(item);
     if (index == -1)
         return NULL;
     return getContacts()->getClient(index);

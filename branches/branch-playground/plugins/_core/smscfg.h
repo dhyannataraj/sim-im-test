@@ -20,7 +20,7 @@
 
 #include "ui_smscfgbase.h"
 
-class SMSConfig : public QWidget, public Ui::SMSConfigBase
+class SMSConfig : public QWidget, public Ui::SMSConfig
 {
     Q_OBJECT
 public:

@@ -22,10 +22,11 @@
 #include "event.h"
 #include <QCloseEvent>
 #include <QResizeEvent>
+#include <QDialog>
 
 class CorePlugin;
 
-class ConnectionManager : public QDialog, public Ui::ConnectionManagerBase
+class ConnectionManager : public QDialog, public Ui::Connection
 {
     Q_OBJECT
 public:
@@ -41,7 +42,6 @@ protected slots:
     void selectionChanged();
 protected:
     virtual void closeEvent(QCloseEvent *e);
-    virtual void resizeEvent(QResizeEvent *e);
     SIM::Client *currentClient();
     void fill(SIM::Client *current = NULL);
     bool m_bModal;

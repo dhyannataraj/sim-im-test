@@ -24,7 +24,7 @@
 #include <QShowEvent>
 #include <QWidget>
 
-class NonIM : public QWidget, public Ui::NonIMBase
+class NonIM : public QWidget, public Ui::NonIM
 {
     Q_OBJECT
 public:

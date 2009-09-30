@@ -37,16 +37,15 @@
 #include <QLayout>
 #include <QStringList>
 #include <QMessageBox>
-#include <q3dockarea.h>
 #include <QHBoxLayout>
 #include <QResizeEvent>
 #include <QLabel>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
-#define Q3FileDialog KFileDialog
+#define QFileDialog KFileDialog
 #else
-#include <q3filedialog.h>
+#include <QFileDialog>
 #endif
 
 #include <time.h>
@@ -273,7 +272,7 @@ bool HistoryWindow::processEvent(Event *e)
         }
         if (cmd->id == CmdHistorySave)
         {
-            QString str = Q3FileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
+            QString str = QFileDialog::getSaveFileName(this, QString::null, QString::null, i18n("Textfile (*.txt)"));
             if(!str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){

@@ -18,7 +18,7 @@
 #include "userlist.h"
 #include "core.h"
 
-#include <q3header.h>
+#include <QScrollBar>
 #include <QTimer>
 #include <QBitmap>
 #include <QStyle>
@@ -128,7 +128,7 @@ void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColor
 	{
         QStyleOption option;
         option.rect = QRect(x, height()/2, width - 6 - x, 1);
-        listView()->style()->drawPrimitive(QStyle::PE_Q3Separator, &option, p);
+        treeWidget()->style()->drawPrimitive(QStyle::PE_Q3Separator, &option, p);
     }
 }
 

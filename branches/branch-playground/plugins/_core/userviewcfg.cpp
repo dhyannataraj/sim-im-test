@@ -26,7 +26,6 @@
 using namespace SIM;
 
 UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
-        //: UserViewConfigBase(parent)
 {
 	setupUi(this);
     chkDblClick->setChecked(CorePlugin::m_plugin->property("UseDblClick").toBool());

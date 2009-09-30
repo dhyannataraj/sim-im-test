@@ -21,7 +21,6 @@
 #include <list>
 #include "listview.h"
 #include <QMouseEvent>
-#include <Q3ListView>
 
 using namespace std;
 

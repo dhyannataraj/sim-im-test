@@ -22,8 +22,7 @@
 #include "contacts.h"
 #include "ui_searchbase.h"
 
-#include <q3mainwindow.h>
-//Added by qt3to4:
+#include <QMainWindow>
 #include <QResizeEvent>
 #include <QMoveEvent>
 #include <QCloseEvent>
@@ -41,14 +40,14 @@ struct ClientWidget
     QString		name;
 };
 
-class SearchWidget : public QWidget, public Ui::SearchBase
+class SearchWidget : public QWidget, public Ui::Search
 {
 	Q_OBJECT
 public:
 	SearchWidget(QWidget* parent);
 };
 
-class SearchDialog : public Q3MainWindow, public SIM::EventReceiver
+class SearchDialog : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

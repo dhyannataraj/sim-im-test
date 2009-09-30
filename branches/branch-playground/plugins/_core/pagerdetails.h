@@ -21,7 +21,7 @@
 #include "ui_pagerbase.h"
 #include "event.h"
 
-class PagerDetails : public QWidget, public Ui::PagerDetailsBase
+class PagerDetails : public QWidget, public Ui::PagerDetails
 {
     Q_OBJECT
 public:

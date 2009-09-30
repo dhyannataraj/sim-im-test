@@ -23,7 +23,7 @@
 class PhoneDetails;
 class PagerDetails;
 
-class EditPhone : public QDialog, public Ui::EditPhoneBase
+class EditPhone : public QDialog, public Ui::EditPhone
 {
     Q_OBJECT
 public:

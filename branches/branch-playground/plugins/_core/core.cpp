@@ -36,8 +36,8 @@ email                : vovan@shutoff.ru
 #include <q3popupmenu.h>
 #include <QThread>
 #include <QTextCodec>
-#include <q3process.h>
-#include <qinputdialog.h>
+#include <QProcess>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QTranslator>
 #include <QByteArray>
@@ -2938,7 +2938,7 @@ void CorePlugin::showInfo(CommandDef *cmd)
             cfgGeometryWidth = 500;
             cfgGeometryHeight = 380;
         }
-        m_cfg->resize(cfgGeometryWidth, cfgGeometryHeight);
+        cfg->resize(cfgGeometryWidth, cfgGeometryHeight);
 	}
 	raiseWindow(cfg);
 	if (!cfg->raisePage(cmd->id))
@@ -3981,16 +3981,14 @@ bool FileLock::lock(bool bSend)
         return true;
     }
 
-    void HistoryThread::run()
-    {
-        QString str = user_file(".history_file");
-        History::save(m_id, str);
-        Q3Process *m_ex;
-        m_ex = new Q3Process();
-        m_ex->addArgument(m_Viewer);
-        m_ex->addArgument(str);
-        m_ex->start();
-    }
+void HistoryThread::run()
+{
+    QString str = user_file(".history_file");
+    History::save(m_id, str);
+    QProcess *m_ex;
+    m_ex = new QProcess();
+    m_ex->start(m_Viewer, QStringList(str));
+}
 
     /*
 #ifndef NO_MOC_INCLUDES
@@ -3998,5 +3996,5 @@ bool FileLock::lock(bool bSend)
 #endif
 */
 
-    // vim: set expandtab:
+// vim: set expandtab:
 

@@ -89,7 +89,7 @@ SearchDialog::SearchDialog()
     m_result->setLineWidth(1);
     addResult(m_result);
     showResult(NULL);
-    aboutToShow(m_search->wndCondition->visibleWidget());
+    aboutToShow(m_search->wndCondition->currentWidget());
     connect(m_search->btnSearch, SIGNAL(clicked()), this, SLOT(searchClick()));
     m_search->cmbClients->setFocus();
     connect(m_search->btnOptions, SIGNAL(clicked()), this, SLOT(optionsClick()));
@@ -111,7 +111,7 @@ SearchDialog::~SearchDialog()
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
 {
-    Q3MainWindow::resizeEvent(e);
+    QMainWindow::resizeEvent(e);
     m_result->adjustColumn();
 	/* Fixme Todin
     if (isVisible())
@@ -121,7 +121,7 @@ void SearchDialog::resizeEvent(QResizeEvent *e)
 
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
-    Q3MainWindow::moveEvent(e);
+    QMainWindow::moveEvent(e);
 	/* Fixme Todin
     if (isVisible())
 		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
@@ -130,7 +130,7 @@ void SearchDialog::moveEvent(QMoveEvent *e)
 
 void SearchDialog::closeEvent(QCloseEvent *e)
 {
-    Q3MainWindow::closeEvent(e);
+    QMainWindow::closeEvent(e);
     emit finished();
 }
 
@@ -184,7 +184,7 @@ void SearchDialog::fillClients()
             break;
         }
         if (n >= widgets.size())
-            m_search->wndCondition->addWidget(search, ++m_id);
+            m_id = m_search->wndCondition->addWidget(search);
         m_search->cmbClients->addItem(Icon(client->protocol()->description()->icon),
                                       CorePlugin::m_plugin->clientName(client));
         ClientWidget cw;
@@ -210,7 +210,7 @@ void SearchDialog::fillClients()
         }
         if (search == NULL){
             search = new SearchAll(m_search->wndCondition);
-            m_search->wndCondition->addWidget(new SearchAll(m_search->wndCondition), ++m_id);
+            m_id = m_search->wndCondition->addWidget(new SearchAll(m_search->wndCondition));
         }
         m_search->cmbClients->addItem(Icon("find"), i18n("All networks"));
         ClientWidget cw;
@@ -231,7 +231,7 @@ void SearchDialog::fillClients()
     }
     if (search == NULL){
         search = new NonIM(m_search->wndCondition);
-        m_search->wndCondition->addWidget(search, ++m_id);
+        m_id = m_search->wndCondition->addWidget(search);
     }
     m_search->cmbClients->addItem(Icon("nonim"), i18n("Non-IM contact"));
     ClientWidget cw;
@@ -296,7 +296,7 @@ void SearchDialog::clientActivated(int n)
     searchDone(m_active);
     if (m_widgets[n].widget != m_current)
         showResult(NULL);
-    m_search->wndCondition->raiseWidget(m_widgets[n].widget);
+    m_search->wndCondition->setCurrentWidget(m_widgets[n].widget);
     setTitle();
 }
 
@@ -574,14 +574,14 @@ void SearchDialog::resultDestroyed()
 
 void SearchDialog::addResult(QWidget *w)
 {
-    m_search->wndResult->addWidget(w, ++m_result_id);
+    m_result_id = m_search->wndResult->addWidget(w);
 }
 
 void SearchDialog::showResult(QWidget *w)
 {
     if (w == NULL)
         w = m_result;
-    m_search->wndResult->raiseWidget(w);
+    m_search->wndResult->setCurrentWidget(w);
     selectionChanged();
 }
 
@@ -830,7 +830,7 @@ void SearchDialog::addSearch(QWidget *w, Client *client, const QString &name)
             return;
         }
     }
-    m_search->wndCondition->addWidget(w, ++m_id);
+    m_id = m_search->wndCondition->addWidget(w);
     ClientWidget cw;
     cw.widget = w;
     cw.client = client;

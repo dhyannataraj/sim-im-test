@@ -25,7 +25,6 @@
 
 #include <QCheckBox>
 #include <QHBoxLayout>
-#include <Q3Frame>
 
 using namespace SIM;
 

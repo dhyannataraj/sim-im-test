@@ -29,7 +29,7 @@ class ListViewItem;
 # define _CORE_EXPORTS Q_DECL_IMPORT
 #endif
 
-class _CORE_EXPORTS MainInfo : public QWidget, public Ui::MainInfoBase, public SIM::EventReceiver
+class _CORE_EXPORTS MainInfo : public QWidget, public Ui::MainInfo, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

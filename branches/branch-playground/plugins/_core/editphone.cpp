@@ -37,7 +37,6 @@ extern const char *phoneTypeNames[];
 
 EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type, unsigned icon, bool bPublish, bool bShowPublish)
                 :QDialog(parent)
-        //: EditPhoneBase(parent, "editphone", true)
 {
     setObjectName("editphone");
     setupUi(this);
@@ -48,8 +47,8 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     m_ok = false;
     m_phone = new PhoneDetails(wndDetails, (icon == PAGER) ? QString() : number);
     m_pager = new PagerDetails(wndDetails, (icon == PAGER) ? number : QString());
-    wndDetails->addWidget(m_phone, 1);
-    wndDetails->addWidget(m_pager, 2);
+    wndDetails->addWidget(m_phone);
+    wndDetails->addWidget(m_pager);
     connect(m_phone, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     connect(m_pager, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     edtDetails->setReadOnly(true);
@@ -77,18 +76,18 @@ void EditPhone::typeChanged(int)
 {
     switch (cmbType->currentIndex()){
     case 0:
-        wndDetails->raiseWidget(m_phone);
+        wndDetails->setCurrentWidget(m_phone);
         m_phone->setExtensionShow(true);
         m_phone->getNumber();
         break;
     case 1:
     case 2:
-        wndDetails->raiseWidget(m_phone);
+        wndDetails->setCurrentWidget(m_phone);
         m_phone->setExtensionShow(false);
         m_phone->getNumber();
         break;
     case 3:
-        wndDetails->raiseWidget(m_pager);
+        wndDetails->setCurrentWidget(m_pager);
         m_pager->getNumber();
         break;
     }
@@ -156,4 +155,6 @@ void EditPhone::accept()
 #include "editphone.moc"
 #endif
 */
+
+// vim: set expandtab:
 
