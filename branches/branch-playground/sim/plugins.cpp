@@ -400,9 +400,15 @@ namespace SIM
         {
             pluginInfo &info = plugins[n];
             if (to && (info.plugin == to))
-                break;
-            if (to && info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
-                continue;
+                continue; // Were: break;
+                          // Now unload all plugins exept one passed as arg
+
+///////////////////////////////////////////////////
+// I do not know why Shutov ignored protocol plugins here
+// but on changing profile we should release protocol that no longer in use
+///////////////////////////////////////////////////
+//        if (to && info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))  //FIXME Compleatly remove these two lines
+//            continue;
             release(info, to != NULL);
             info.bDisabled = false;
             info.bFromCfg  = false;
