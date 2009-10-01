@@ -100,7 +100,7 @@ namespace SIM
             // can be removed in SocketFactory::erase();
             if(!s)
                 continue;
-            ClientSocketNotify *n = s->m_notify;
+            ClientSocketNotify *n = s->m_notify; //crash here after killing INET-Connection. s = 0x0643c820 {m_sock=0xfeeefeee m_notify=0xfeeefeee bRawMode=true errString = 0xfeeefeee ...}
             if (n){
                 QString errString = s->errorString();
                 s->errString.clear();
