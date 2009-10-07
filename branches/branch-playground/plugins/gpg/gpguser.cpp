@@ -24,8 +24,7 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QByteArray>
-#include <q3process.h>
-//Added by qt3to4:
+#include <QProcess>
 
 
 using namespace SIM;
@@ -75,10 +74,10 @@ void GpgUser::refresh()
     sl += home;
     sl += GpgPlugin::plugin->property("PublicList").toString().split(' ');
 
-    m_process = new Q3Process(sl, this);
+    m_process = new QProcess(this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(publicReady()));
-    m_process->start();
+    m_process->start(sl.join(" "));
 }
 
 void GpgUser::publicReady()
@@ -87,8 +86,9 @@ void GpgUser::publicReady()
     int n   = 1;
     cmbPublic->clear();
     cmbPublic->insertItem(INT_MAX,i18n("None"));
-    if (m_process->normalExit() && m_process->exitStatus() == 0){
-        QByteArray str(m_process->readStdout());
+    if (m_process->exitStatus() == QProcess::NormalExit && m_process->exitCode() == 0){
+		m_process->setReadChannel(QProcess::StandardOutput);
+        QByteArray str(m_process->readAll());
         for (;;){
             QByteArray line;
             line = getToken(str, '\n');

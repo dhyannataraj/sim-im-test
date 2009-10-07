@@ -19,10 +19,9 @@
 #define _AIMSEARCH_H
 
 #include "ui_aimsearchbase.h"
-//Added by qt3to4:
 #include <QShowEvent>
 
-class AIMSearch : public QWidget, public Ui::AIMSearchBase
+class AIMSearch : public QWidget, public Ui::AIMSearch
 {
     Q_OBJECT
 public:

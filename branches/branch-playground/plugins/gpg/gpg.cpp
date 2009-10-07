@@ -34,7 +34,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QRegExp>
-#include <q3process.h>
+#include <QProcess>
 #include <QApplication> //for Linux: qApp->processEvents();
 //Added by qt3to4:
 #include <QList>
@@ -183,12 +183,12 @@ void GpgPlugin::decryptReady()
 {
     int res = 0;
     for (QList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
-        Q3Process *p = (*it).process;
-        if (p && !p->isRunning() && (*it).msg){
+        QProcess *p = (*it).process;
+        if (p && p->state() != QProcess::Running && (*it).msg){
             Message *msg = (*it).msg;
             (*it).msg = NULL;
             QTimer::singleShot(0, this, SLOT(clear()));
-            if (p->normalExit() && p->exitStatus() == 0){
+            if (p->exitStatus() == QProcess::NormalExit && p->exitCode() == 0){
                 QString s = (*it).outfile;
                 QFile f(s);
                 if (f.open(QIODevice::ReadOnly)){
@@ -238,7 +238,8 @@ void GpgPlugin::decryptReady()
             }else{
                 QString key;
                 QString passphrase;
-                QByteArray ba = p->readStderr();
+				p->setReadChannel(QProcess::StandardError);
+                QByteArray ba = p->readAll();
                 QString str = QString::fromUtf8(ba.data(), ba.size());
                 while(!str.isEmpty()) {
                     key = getToken(str, '\n');
@@ -300,16 +301,17 @@ void GpgPlugin::decryptReady()
 void GpgPlugin::importReady()
 {
     for (QList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
-        Q3Process *p = (*it).process;
-        if (p && !p->isRunning()){
+        QProcess *p = (*it).process;
+        if (p && p->state() != QProcess::Running){
             Message *msg = new Message(MessageGPGKey);
             msg->setContact((*it).msg->contact());
             msg->setClient((*it).msg->client());
             msg->setFlags((*it).msg->getFlags());
 
-            QByteArray ba = p->readStderr();
+			p->setReadChannel(QProcess::StandardError);
+            QByteArray ba = p->readAll();
             QString err = QString::fromLocal8Bit(ba.data(), ba.size());
-            if (p->normalExit() && p->exitStatus() == 0){
+            if (p->exitStatus() == QProcess::NormalExit && p->exitCode() == 0){
                 QRegExp r1("[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]:");
                 QRegExp r2("\".*\"");
                 int len;
@@ -337,7 +339,7 @@ void GpgPlugin::importReady()
                     sl += home;
                     sl += property("PublicList").toString().split(' ');
 
-                    Q3Process *proc = new Q3Process(sl, this);
+                    QProcess *proc = new QProcess(this);
 
                     DecryptMsg dm;
                     dm.process = proc;
@@ -345,7 +347,7 @@ void GpgPlugin::importReady()
                     dm.outfile = key_name;
                     m_public.push_back(dm);
                     connect(dm.process, SIGNAL(processExited()), this, SLOT(publicReady()));
-                    dm.process->start();
+                    dm.process->start(sl.join(" "));
                 } else {
                     QString str;
                     if(!err.isEmpty())
@@ -506,16 +508,15 @@ bool GpgPlugin::processEvent(Event *e)
                         sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), output);
                         sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), data->Key.str());
 
-                        Q3Process proc(sl, this);
+                        QProcess proc(this);
 
-                        if(!proc.start())
-                            return true;
+                        proc.start(sl.join(" "));
 
                         // FIXME: not soo good...
-                        while(proc.isRunning())
+                        while(proc.state() == QProcess::Running)
                             qApp->processEvents();
 
-                        if (!proc.normalExit() || proc.exitStatus() != 0){
+                        if (proc.exitStatus() != QProcess::NormalExit || proc.exitCode() != 0){
                             es->msg()->setError(I18N_NOOP("Encrypt failed"));
                             QFile::remove(input);
                             QFile::remove(output);
@@ -573,7 +574,7 @@ bool GpgPlugin::processEvent(Event *e)
                     sl += property("Import").toString().split(' ');
                     sl = sl.replaceInStrings(QRegExp("\\%keyfile\\%"), input);
 
-                    Q3Process *proc = new Q3Process(sl, this);
+                    QProcess *proc = new QProcess(this);
 
                     DecryptMsg dm;
                     dm.process = proc;
@@ -581,7 +582,8 @@ bool GpgPlugin::processEvent(Event *e)
                     dm.infile  = input;
                     m_import.push_back(dm);
                     connect(dm.process, SIGNAL(processExited()), this, SLOT(importReady()));
-                    dm.process->launch(QString("\n"));
+                    dm.process->start(sl.join(" "));
+					dm.process->write("\n");
                     return msg;
                 }
             }
@@ -641,7 +643,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     sl = sl.replaceInStrings(QRegExp("\\%plainfile\\%"), output);
     sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), input);
 
-    Q3Process *proc = new Q3Process(sl, this);
+    QProcess *proc = new QProcess(this);
 
     DecryptMsg dm;
     dm.process = proc;
@@ -653,17 +655,19 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     m_decrypt.push_back(dm);
 
     connect(dm.process, SIGNAL(processExited()), this, SLOT(decryptReady()));
-    dm.process->launch(aPassphrase);
+    dm.process->start(sl.join(" "));
+	dm.process->write(aPassphrase.toUtf8().data());
     return true;
 }
 
 void GpgPlugin::publicReady()
 {
     for (QList<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
-        Q3Process *p = (*it).process;
-        if (p && !p->isRunning()){
-            if (p->normalExit() && p->exitStatus() == 0){
-                QByteArray str(p->readStdout());
+        QProcess *p = (*it).process;
+        if (p && p->state() != QProcess::Running){
+            if (p->exitStatus() == QProcess::NormalExit && p->exitCode() == 0){
+				p->setReadChannel(QProcess::StandardError);
+                QByteArray str(p->readAll());
                 for (;;){
                     QByteArray line;
                     line = getToken(str, '\n');
@@ -873,11 +877,11 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     sl += GpgPlugin::plugin->property("Export").toString().split(' ');
     sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), m_key);
 
-    m_process = new Q3Process(sl, this);
+    m_process = new QProcess(this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(exportReady()));
-    if (!m_process->start())
-        exportReady();
+	m_process->start(sl.join(" "));
+	exportReady();
 }
 
 MsgGPGKey::~MsgGPGKey()
@@ -892,16 +896,18 @@ void MsgGPGKey::init()
 
 void MsgGPGKey::exportReady()
 {
-    if (m_process->normalExit() && m_process->exitStatus() == 0) {
-        QByteArray ba1 = m_process->readStdout();
+    if (m_process->exitStatus() == QProcess::NormalExit && m_process->exitCode() == 0) {
+		m_process->setReadChannel(QProcess::StandardOutput);
+        QByteArray ba1 = m_process->readAll();
         m_edit->m_edit->setText(QString::fromLocal8Bit(ba1.data(), ba1.size()));
         if(ba1.isEmpty()) {
-            QByteArray ba2 = m_process->readStderr();
+			m_process->setReadChannel(QProcess::StandardError);
+            QByteArray ba2 = m_process->readAll();
             QString errStr;
             if(!ba2.isEmpty())
                 errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ") ";
             BalloonMsg::message(i18n("Can't read gpg key ") + errStr +
-                                     " Command: " + m_process->arguments().join(" "), m_edit->m_edit);
+                                     " Error code: " + QString::number(m_process->error()), m_edit->m_edit);
         }
     }
 

@@ -31,7 +31,7 @@
 #include <QTabWidget>
 #include <QComboBox>
 #include <QTimer>
-#include <q3process.h>
+#include <QProcess>
 //Added by qt3to4:
 #include <QByteArray>
 
@@ -194,24 +194,23 @@ void GpgCfg::refresh()
     sl += home;
     sl += GpgPlugin::plugin->property("SecretList").toString().split(' ');
 
-    m_process = new Q3Process(sl, this);
+    m_process = new QProcess(this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
-    if (!m_process->start()) {
-        BalloonMsg::message(i18n("Get secret list failed"), btnRefresh);
-        delete m_process;
-        m_process = 0;
-    }
+	m_process->start(sl.join(" "));
 }
 
 void GpgCfg::secretReady()
 {
-    if (m_process->normalExit() && m_process->exitStatus()==0) {
-        fillSecret(m_process->readStdout());
+    if (m_process->exitStatus() == QProcess::NormalExit && m_process->exitCode() == 0) {
+		m_process->setReadChannel(QProcess::StandardOutput);
+        fillSecret(m_process->readAll());
     } else {
         QByteArray ba1, ba2;
-        ba1 = m_process->readStderr();
-        ba2 = m_process->readStdout();
+		m_process->setReadChannel(QProcess::StandardError);
+        ba1 = m_process->readAll();
+		m_process->setReadChannel(QProcess::StandardOutput);
+        ba2 = m_process->readAll();
         QString s(" (");
         if (!ba1.isEmpty())
             s += QString::fromLocal8Bit(ba1.data(), ba1.size());
@@ -241,4 +240,6 @@ void GpgCfg::selectKey(int n)
         }
     }
 }
+
+// vim: set expandtab:
 

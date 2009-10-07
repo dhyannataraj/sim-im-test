@@ -22,7 +22,7 @@
 #include "textshow.h"
 #include "event.h"
 
-#include <Q3PopupMenu>
+#include <QMenu>
 
 class CorePlugin;
 class UserWnd;
@@ -44,7 +44,7 @@ class MsgTextEdit : public TextEdit
 public:
     MsgTextEdit(MsgEdit *edit, QWidget *parent);
 protected:
-    virtual Q3PopupMenu *createPopupMenu(const QPoint& pos);
+	virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void contentsDropEvent(QDropEvent*);
     virtual void contentsDragEnterEvent(QDragEnterEvent*);
     virtual void contentsDragMoveEvent(QDragMoveEvent*);

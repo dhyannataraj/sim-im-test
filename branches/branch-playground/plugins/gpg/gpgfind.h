@@ -23,7 +23,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QString>
-#include <q3valuestack.h>
+#include <QStack>
 
 class EditFile;
 
@@ -40,8 +40,8 @@ protected slots:
 protected:
     bool checkPath();
     QString                  m_path;
-    Q3ValueStack<QStringList> m_tree;
-    Q3ValueStack<unsigned>    m_pos;
+    QStack<QStringList> m_tree;
+    QStack<unsigned>    m_pos;
     QFileInfoList            m_drives;
     QFileInfo               *m_drive;
     EditFile                *m_edit;

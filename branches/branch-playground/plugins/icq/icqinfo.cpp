@@ -199,7 +199,7 @@ void ICQInfo::fill()
         initCombo(cmbRandom, m_client->getRandomChatGroup(), chat_groups);
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(m_data->AutoReply.str());
+        edtAutoReply->setPlainText(m_data->AutoReply.str());
     }else{
         edtAutoReply->hide();
     }

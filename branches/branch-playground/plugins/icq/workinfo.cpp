@@ -114,7 +114,7 @@ void WorkInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL)
         data = &m_client->data.owner;
-    edtAddress->setText(data->WorkAddress.str());
+    edtAddress->setPlainText(data->WorkAddress.str());
     edtCity->setText(data->WorkCity.str());
     edtState->setText(data->WorkState.str());
     edtZip->setText(data->WorkZip.str());
@@ -146,7 +146,7 @@ void WorkInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
-    data->WorkAddress.str()     = edtAddress->text();
+    data->WorkAddress.str()     = edtAddress->toPlainText();
     data->WorkCity.str()        = edtCity->text();
     data->WorkState.str()       = edtState->text();
     data->WorkZip.str()         = edtZip->text();

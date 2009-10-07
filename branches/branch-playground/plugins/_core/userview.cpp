@@ -48,7 +48,7 @@
 #include <QDragEnterEvent>
 #include <QKeyEvent>
 #include <QEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QDropEvent>
 #include <QDragMoveEvent>
 #include <QToolTip>
@@ -103,8 +103,8 @@ UserView::UserView() : UserListBase(NULL)
     m_dropItem = NULL;
     m_searchItem = NULL;
 
-    setFrameStyle(Q3Frame::Panel);
-    setFrameShadow(Q3Frame::Sunken);
+    setFrameStyle(QFrame::StyledPanel);
+    setFrameShadow(QFrame::Sunken);
     EventAddWidget(this, true, EventAddWidget::eMainWindow).process();
     clear();
 
@@ -1471,22 +1471,18 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 delete msg;
                 return;
             }
-            /*
-            if (Q3TextDrag::canDecode(e)){
-                QString str;
-                if (Q3TextDrag::decode(e, str)){
-                    e->accept();
-                    if (isDrop){
-                        Message *msg = new Message(MessageGeneric);
-                        msg->setText(str);
-                        msg->setContact(static_cast<ContactItem*>(item)->id());
-                        EventOpenMessage(msg).process();
-                        delete msg;
-                    }
-                    return;
+            if (!e->mimeData()->text().isEmpty()) {
+                QString str = e->mimeData()->text();
+                e->accept();
+                if (isDrop) {
+                    Message *msg = new Message(MessageGeneric);
+                    msg->setText(str);
+                    msg->setContact(static_cast<ContactItem*>(item)->id());
+                    EventOpenMessage(msg).process();
+                    delete msg;
                 }
+                return;
             }
-            */
             break;
         }
     }

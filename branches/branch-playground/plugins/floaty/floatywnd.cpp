@@ -512,22 +512,17 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
         delete msg;
         return;
     }
-	/*
-    if (Q3TextDrag::canDecode(e)){
-        QString str;
-        if (Q3TextDrag::decode(e, str)){
-            e->accept();
-            if (isDrop){
-                Message *msg = new Message(MessageGeneric);
-                msg->setText(str);
-                msg->setContact(m_id);
-                EventOpenMessage(msg).process();
-                delete msg;
-            }
-            return;
+    if (!e->mimeData()->text().isEmpty()) {
+        e->accept();
+        if (isDrop) {
+            Message *msg = new Message(MessageGeneric);
+            msg->setText(e->mimeData()->text());
+            msg->setContact(m_id);
+            EventOpenMessage(msg).process();
+            delete msg;
         }
+        return;
     }
-	*/
 }
 
 bool FloatyWnd::event( QEvent *event ) {
@@ -551,3 +546,6 @@ bool FloatyWnd::event( QEvent *event ) {
 
     return QWidget::event( event );
 }
+
+// vim: set expandtab: 
+

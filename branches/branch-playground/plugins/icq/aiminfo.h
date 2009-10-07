@@ -24,7 +24,7 @@
 class ICQClient;
 struct ICQUserData;
 
-class AIMInfo : public QWidget, public Ui::AIMInfoBase, public SIM::EventReceiver
+class AIMInfo : public QWidget, public Ui::AIMInfo, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

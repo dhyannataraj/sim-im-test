@@ -38,12 +38,12 @@ struct GpgUserData
     SIM::Data   Use;
 };
 
-class Q3Process;
+class QProcess;
 
 struct DecryptMsg
 {
     SIM::Message *msg;
-    Q3Process    *process;
+    QProcess    *process;
     QString     infile;
     QString     outfile;
     unsigned    contact;
@@ -109,7 +109,7 @@ protected:
     QString     m_client;
     QString     m_key;
     MsgEdit     *m_edit;
-    Q3Process    *m_process;
+    QProcess	*m_process;
 };
 
 #endif

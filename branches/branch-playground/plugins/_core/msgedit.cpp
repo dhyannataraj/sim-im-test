@@ -64,20 +64,18 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
 #endif
 }
 
-Q3PopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
+void MsgTextEdit::contextMenuEvent(QContextMenuEvent* event)
 {
     if (m_bInClick)
-        return NULL;
+        return;
     Command cmd;
     cmd->popup_id	= MenuTextEdit;
     cmd->param		= parentWidget()->parentWidget();
     cmd->flags		= COMMAND_NEW_POPUP;
-    m_popupPos = pos;
     EventMenuGet e(cmd);
     e.process();
-// Fixme!
-//  return e.menu();
-    return NULL;
+	if(e.menu())
+		e.menu()->exec(event->globalPos());
 }
 
 Message *MsgTextEdit::createMessage(QMimeSource *src)

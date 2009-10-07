@@ -76,8 +76,10 @@ void ICQSecure::apply()
         m_client->setHideIP(chkHideIP->isChecked());
     }
     unsigned mode = 0;
-    if (grpDirect->selected())
-        mode = grpDirect->id(grpDirect->selected());
+	if(btnDirectAllow->isChecked())
+		mode = 1;
+	else if(btnDirectAuth->isChecked())
+		mode = 2;
     if (mode != m_client->getDirectMode()){
         bStatusChanged = true;
         m_client->setDirectMode(mode);
@@ -104,7 +106,22 @@ void ICQSecure::fill()
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     chkUseMD5->setChecked(m_client->getUseMD5());
-    grpDirect->setButton(m_client->getDirectMode());
+
+    switch(m_client->getDirectMode())
+	{
+		case 0:
+			btnDirectContact->setChecked(true);
+			break;
+		case 1:
+			btnDirectAllow->setChecked(true);
+			break;
+		case 2:
+			btnDirectAuth->setChecked(true);
+			break;
+		default:
+			break;
+
+	}
     fillListView(lstVisible, &ICQUserData::VisibleId);
     fillListView(lstInvisible, &ICQUserData::InvisibleId);
     hideIpToggled(m_client->getHideIP());
@@ -137,31 +154,6 @@ void ICQSecure::setListView(ListView *lst)
     //lst->setColumnAlignment(0, Qt::AlignRight);
     lst->setExpandingColumn(3);
 }
-
-/*
-class ListViewItem : public ListViewItem
-{
-public:
-    ListViewItem(Q3ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4);
-    virtual QString key ( int column, bool ascending ) const;
-};
-
-ListViewItem::ListViewItem(ListView *view, const QString &t1, const QString &t2, const QString &t3, const QString &t4)
-        : ListViewItem(view, t1, t2, t3, t4)
-{
-}
-
-QString ListViewItem::key(int column, bool ascending) const
-{
-    if (column)
-        return ListViewItem::key(column, ascending);
-    QString res = text(0);
-    while (res.length() < 13){
-        res = QString("0") + res;
-    }
-    return res;
-}
-*/
 
 void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
 {
@@ -209,12 +201,29 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
 
 void ICQSecure::hideIpToggled(bool bOn)
 {
-    if (bOn){
-        grpDirect->setButton(2);
+    if (bOn) {
+        btnDirectAuth->setChecked(true);
         grpDirect->setEnabled(false);
-    }else{
-        grpDirect->setButton(m_client->getDirectMode());
+    } else {
+        switch(m_client->getDirectMode())
+        {
+            case 0:
+                btnDirectContact->setChecked(true);
+                break;
+            case 1:
+                btnDirectAllow->setChecked(true);
+                break;
+            case 2:
+                btnDirectAuth->setChecked(true);
+                break;
+            default:
+                break;
+
+        }
         grpDirect->setEnabled(true);
     }
 }
+
+
+// vim: set expandtab:
 

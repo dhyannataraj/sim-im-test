@@ -31,7 +31,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QFile>
-#include <q3process.h>
+#include <QProcess>
 
 using namespace SIM;
 
@@ -142,34 +142,27 @@ void GpgGen::accept()
     sl += fname;
 
     delete m_process;	// to be sure...
-    m_process = new Q3Process(sl, this);
+    m_process = new QProcess(this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
 
-    if (!m_process->start()) {
-        edtName->setEnabled(true);
-        cmbMail->setEnabled(true);
-        edtComment->setEnabled(true);
-        lblProcess->setText(QString::null);
-        buttonOk->setEnabled(true);
-        BalloonMsg::message(i18n("Generate key failed"), buttonOk);
-        delete m_process;
-        m_process = 0;
-    }
+    m_process->start(sl.join(" "));
 }
 
 void GpgGen::genKeyReady()
 {
 	QFile::remove(user_file("keys/genkey.txt"));
-	if(m_process->normalExit() && m_process->exitStatus() == 0)
+	if(m_process->exitStatus() == QProcess::NormalExit && m_process->exitCode() == 0)
 	{
 		QDialog::accept();
 	}
 	else
 	{
 		QByteArray ba1, ba2;
-		ba1 = m_process->readStderr();
-		ba2 = m_process->readStdout();
+		m_process->setReadChannel(QProcess::StandardError);
+		ba1 = m_process->readAll();
+		m_process->setReadChannel(QProcess::StandardOutput);
+		ba2 = m_process->readAll();
 		QString s(" (");
 		if (!ba1.isEmpty())
 			s += QString::fromLocal8Bit(ba1.data(), ba1.size());

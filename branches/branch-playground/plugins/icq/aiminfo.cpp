@@ -153,7 +153,7 @@ void AIMInfo::fill()
         status = m_client->getStatus();
     }
     if (m_data && !m_data->AutoReply.str().isEmpty()){
-        edtAutoReply->setText(m_data->AutoReply.str());
+        edtAutoReply->setPlainText(m_data->AutoReply.str());
     }else{
         edtAutoReply->hide();
     }

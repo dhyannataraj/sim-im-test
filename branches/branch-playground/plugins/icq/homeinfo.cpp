@@ -55,7 +55,7 @@ void HomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
-    data->Address.str() = edtAddress->text();
+    data->Address.str() = edtAddress->toPlainText();
     data->City.str()    = edtCity->text();
     data->State.str()   = edtState->text();
     data->Zip.str()     = edtZip->text();
@@ -111,7 +111,7 @@ void HomeInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL)
         data = &m_client->data.owner;
-    edtAddress->setText(data->Address.str());
+    edtAddress->setPlainText(data->Address.str());
     edtCity->setText(data->City.str());
     edtState->setText(data->State.str());
     edtZip->setText(data->Zip.str());

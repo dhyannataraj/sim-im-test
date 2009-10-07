@@ -22,7 +22,7 @@
 
 struct GpgUserData;
 class GpgPlugin;
-class Q3Process;
+class QProcess;
 
 class GpgUser : public QWidget, public Ui::GpgUserBase
 {
@@ -35,7 +35,7 @@ public slots:
     void refresh();
     void publicReady();
 protected:
-    Q3Process   *m_process;
+    QProcess   *m_process;
     QString     m_key;
 };
 

@@ -22,7 +22,7 @@
 
 class GpgPlugin;
 class GpgAdvanced;
-class Q3Process;
+class QProcess;
 
 #ifdef WIN32
 class GpgFind;
@@ -45,7 +45,7 @@ public slots:
 protected:
     void fillSecret(const QByteArray &ba = QByteArray());
     bool        m_bNew;
-    Q3Process   *m_process;
+    QProcess   *m_process;
     GpgPlugin  *m_plugin;
 #ifdef WIN32
     GpgFind    *m_find;

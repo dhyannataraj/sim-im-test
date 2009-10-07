@@ -22,7 +22,7 @@
 
 class GpgPlugin;
 
-class GpgAdvanced : public QWidget, public Ui::GpgAdvancedBase
+class GpgAdvanced : public QWidget, public Ui::GpgAdvanced
 {
     Q_OBJECT
 public:

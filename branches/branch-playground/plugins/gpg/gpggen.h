@@ -20,7 +20,7 @@
 
 #include "ui_gpggenbase.h"
 
-class Q3Process;
+class QProcess;
 class GpgCfg;
 
 class GpgGen : public QDialog, public Ui::GpgGenBase
@@ -34,7 +34,7 @@ protected slots:
     void genKeyReady();
 protected:
     void accept();
-    Q3Process *m_process;
+    QProcess *m_process;
     GpgCfg   *m_cfg;
 };
 
