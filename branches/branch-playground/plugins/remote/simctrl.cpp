@@ -20,7 +20,6 @@
 #endif
 
 #include <stdio.h>
-#include <signal.h>
 #include <errno.h>
 
 #ifndef WIN32
@@ -31,6 +30,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <pwd.h>
+#include <signal.h>
 #endif
 
 #include <string>
