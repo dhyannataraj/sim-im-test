@@ -77,7 +77,7 @@ QString CComboBox::value()
 const unsigned MAX_ELEMENTS = 8;
 
 JabberSearch::JabberSearch(QWidget *parent, const char *name)
-        : QChildWidget(parent, name)
+        : QWizardPage(parent)
 {
 }
 

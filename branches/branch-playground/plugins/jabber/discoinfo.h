@@ -28,7 +28,7 @@ class JabberHomeInfo;
 class JabberWorkInfo;
 class JabberAboutInfo;
 
-class DiscoInfo : public QDialog, public Ui::DiscoInfoBase, public SIM::EventReceiver
+class DiscoInfo : public QDialog, public Ui::DiscoInfo, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

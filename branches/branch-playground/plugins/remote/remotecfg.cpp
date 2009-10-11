@@ -50,11 +50,12 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin) : QWidget(pare
     chkTCP->hide();
     edtPath->setText("/tmp/sim.%user%");
     if (path.startsWith(TCP)){
-        grpRemote->setButton(2);
+		btnTCP->setChecked(true);
+
         edtPort->setValue(path.mid(strlen(TCP)).toUShort());
         edtPath->setEnabled(false);
     }else{
-        grpRemote->setButton(1);
+		btnUNIX->setChecked(true);
         edtPath->setText(path);
         edtPort->setEnabled(false);
     }
@@ -79,7 +80,7 @@ void RemoteConfig::apply()
     }
     m_plugin->setProperty("EnableMenu", chkIE->isChecked());
 #else
-    if (grpRemote->id(grpRemote->selected()) == 2){
+    if (btnTCP->isChecked()){
         path  = TCP;
         path += edtPort->text();
     }else{

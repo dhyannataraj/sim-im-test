@@ -17,10 +17,8 @@
 
 #include <QPixmap>
 #include <QLineEdit>
-#include <q3multilineedit.h>
 #include <QTabWidget>
 #include <QPushButton>
-//Added by qt3to4:
 #include <QResizeEvent>
 
 #include "icons.h"
@@ -105,7 +103,7 @@ void DiscoInfo::reset()
     edtJName->setText(m_name);
     edtType->setText(m_type);
     edtCategory->setText(m_category);
-    edtNameSpace->setText(m_features);
+    edtNameSpace->setPlainText(m_features);
     bool bTime    = false;
     bool bLast	  = false;
     bool bStat	  = false;

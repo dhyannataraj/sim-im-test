@@ -36,6 +36,8 @@
 #include <QMouseEvent>
 #include <QTabBar>
 #include <QVBoxLayout>
+#include <QList>
+#include <QShortcut>
 #include <list>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
@@ -48,7 +50,6 @@ class CToolBar;
 class QWidgetStack;
 class CorePlugin;
 class Container;
-class Q3Accel;
 
 struct ContainerData
 {
@@ -129,7 +130,7 @@ public slots:
     void contactSelected(int);
     void toolbarChanged(QToolBar*);
     void statusChanged(int);
-    void accelActivated(int);
+    void accelActivated();
     void statusChanged(UserWnd*);
     void modeChanged();
     void wndClosed();
@@ -142,6 +143,7 @@ protected:
     virtual bool processEvent(SIM::Event*);
     void showBar();
     void setupAccel();
+	QShortcut* makeShortcut(unsigned int key, unsigned int id);
     ContainerData	data;
     bool			m_bInit;
     bool			m_bInSize;
@@ -156,7 +158,7 @@ protected:
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;
     QStackedWidget	*m_wnds;
-    Q3Accel			*m_accel;
+	QList<QShortcut*> m_shortcuts;
     std::list<UserWnd*> m_childs;
     QFrame *frm;
     QVBoxLayout *lay;

@@ -26,7 +26,7 @@
 
 class SMSClient;
 
-class SMSSetup : public QWidget, public Ui::SMSSetupBase
+class SMSSetup : public QWidget, public Ui::SMSSetup
 {
     Q_OBJECT
 public:

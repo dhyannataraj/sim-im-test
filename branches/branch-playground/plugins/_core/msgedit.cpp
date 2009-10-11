@@ -25,6 +25,7 @@
 #include "userwnd.h"
 #include "toolbtn.h"
 
+#include "log.h"
 #include "msgrecv.h"
 #include "msgsms.h"
 #include "msgurl.h"
@@ -41,7 +42,6 @@
 #include <algorithm>
 #include <QVBoxLayout>
 #include <QTimer>
-#include <Q3UriDrag>
 #include <QApplication>
 #include <QClipboard>
 #include <algorithm>
@@ -459,6 +459,8 @@ static QObject *generateUrl(MsgEdit *p, Message *msg)
 
 static Message *dropUrl(QMimeSource *src)
 {
+	log(L_DEBUG, "FIXME: Message:dropUrl");
+	/*
     if (Q3UriDrag::canDecode(src)){
         QStringList l;
         if (Q3UriDrag::decodeLocalFiles(src, l))
@@ -469,6 +471,7 @@ static Message *dropUrl(QMimeSource *src)
         msg->setUrl(l[0]);
         return msg;
     }
+	*/
     return NULL;
 }
 
@@ -534,6 +537,8 @@ static QObject* generateFile(MsgEdit *w, Message *msg)
 
 Message *dropFile(QMimeSource *src)
 {
+	log(L_DEBUG, "FIXME: Message:dropFile");
+	/*
     if (Q3UriDrag::canDecode(src)){
         QStringList files;
         if (Q3UriDrag::decodeLocalFiles(src, files) && files.count()){
@@ -550,6 +555,7 @@ Message *dropFile(QMimeSource *src)
             return m;
         }
     }
+	*/
     return NULL;
 }
 

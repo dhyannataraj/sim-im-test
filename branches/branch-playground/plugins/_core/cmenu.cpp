@@ -24,8 +24,6 @@
 #include <q3accel.h>
 #include <QTimer>
 #include <QApplication>
-//Added by qt3to4:
-#include <Q3PopupMenu>
 #include <QDesktopWidget>
 #include <QMenuItem>
 
@@ -172,7 +170,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
 		if (s->flags & COMMAND_DISABLED)
 			m_wrk->setItemEnabled(id, false);
 		if (!s->accel.isEmpty())
-			m_wrk->setAccel(Q3Accel::stringToKey(i18n(s->accel)), id);
+			m_wrk->setAccel(QKeySequence::fromString(i18n(s->accel)), id);
 		m_wrk->setItemChecked(id, (s->flags & COMMAND_CHECKED) != 0);
 	}
 	bSeparator = false;

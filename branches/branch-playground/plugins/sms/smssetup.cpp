@@ -61,8 +61,8 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client) : QWidget(parent)
         }else{
             lblCharge->setText(i18n("Battery:"));
         }
-        barCharge->setProgress(client->getCharge());
-        barQuality->setProgress(client->getQuality());
+        barCharge->setValue(client->getCharge());
+        barQuality->setValue(client->getQuality());
         edtModel->setReadOnly(true);
         edtModel->setText(client->model());
         edtOper->setText(client->oper());

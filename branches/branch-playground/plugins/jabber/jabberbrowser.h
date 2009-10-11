@@ -21,8 +21,8 @@
 #include "jabberclient.h"
 
 #include <QMainWindow>
-#include <q3wizard.h>
-//Added by qt3to4:
+#include <QWizard>
+#include <QHBoxLayout>
 #include <QShowEvent>
 #include <QLabel>
 
@@ -48,7 +48,7 @@ const unsigned COL_MODE				= 9;
 class JabberSearch;
 class JIDSearch;
 
-class JabberWizard : public Q3Wizard, public SIM::EventReceiver
+class JabberWizard : public QWizard, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

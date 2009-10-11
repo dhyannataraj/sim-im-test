@@ -27,7 +27,7 @@ struct JabberUserData;
 class JabberClient;
 class JIDAdvSearch;
 
-class JIDSearch : public QWidget, public Ui::JIDSearchBase, public SIM::EventReceiver
+class JIDSearch : public QWidget, public Ui::JIDSearch, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

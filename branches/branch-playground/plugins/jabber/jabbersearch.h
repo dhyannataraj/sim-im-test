@@ -19,7 +19,7 @@
 #define _JABBERSEARCH_H
 
 #include <QPushButton>
-#include "qchildwidget.h"
+#include <QWizardPage>
 
 class JabberClient;
 struct JabberAgentInfo;
@@ -35,7 +35,7 @@ protected:
     QString m_help;
 };
 
-class JabberSearch : public QChildWidget
+class JabberSearch : public QWizardPage
 {
     Q_OBJECT
 public:

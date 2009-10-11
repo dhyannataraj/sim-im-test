@@ -166,7 +166,7 @@ void JabberInfo::resourceActivated(int i)
         edtAutoReply->hide();
     }else{
         edtAutoReply->show();
-        edtAutoReply->setText(autoReply);
+        edtAutoReply->setPlainText(autoReply);
     }
     if (clientName.isEmpty()){
         edtClient->setEnabled(false);

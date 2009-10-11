@@ -19,8 +19,7 @@
 #define _JABBERCLIENT_H
 
 #include <vector>
-#include <q3valuestack.h>
-//Added by qt3to4:
+#include <QStack>
 #include <QByteArray>
 
 #include "simapi.h"
@@ -230,7 +229,7 @@ public:
         virtual void element_end(const QString& el);
         virtual void char_data(const QString& str);
         QString  		m_element;
-        Q3ValueStack<QString>	m_els;
+        QStack<QString>	m_els;
         QString		    m_id;
         JabberClient	*m_client;
         friend class JabberClient;

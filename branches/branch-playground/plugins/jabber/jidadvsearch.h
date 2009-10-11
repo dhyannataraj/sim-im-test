@@ -22,7 +22,7 @@
 //Added by qt3to4:
 #include <QShowEvent>
 
-class JIDAdvSearch : public QWidget, public Ui::JIDAdvSearchBase
+class JIDAdvSearch : public QWidget, public Ui::JIDAdvSearch
 {
     Q_OBJECT
 public:

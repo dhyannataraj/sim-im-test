@@ -258,8 +258,6 @@ void Container::init()
     connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
     //connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
     connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));
-    m_accel = new Q3Accel(this);
-    connect(m_accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
     setupAccel();
     showBar();
 	setStatusBar(m_status);
@@ -293,23 +291,31 @@ void Container::init()
     show();
 }
 
+QShortcut* Container::makeShortcut(unsigned int key, unsigned int id)
+{
+	QShortcut* shortcut = new QShortcut(QKeySequence(key), this);
+	shortcut->setProperty("id", id);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(accelActivated()));
+	return shortcut;
+}
+
 void Container::setupAccel()
 {
-    m_accel->clear();
-    m_accel->insertItem(Qt::Key_1 + Qt::ALT, 1);
-    m_accel->insertItem(Qt::Key_2 + Qt::ALT, 2);
-    m_accel->insertItem(Qt::Key_3 + Qt::ALT, 3);
-    m_accel->insertItem(Qt::Key_4 + Qt::ALT, 4);
-    m_accel->insertItem(Qt::Key_5 + Qt::ALT, 5);
-    m_accel->insertItem(Qt::Key_6 + Qt::ALT, 6);
-    m_accel->insertItem(Qt::Key_7 + Qt::ALT, 7);
-    m_accel->insertItem(Qt::Key_8 + Qt::ALT, 8);
-    m_accel->insertItem(Qt::Key_9 + Qt::ALT, 9);
-    m_accel->insertItem(Qt::Key_0 + Qt::ALT, 10);
-    m_accel->insertItem(Qt::Key_Left + Qt::ALT, 11);
-    m_accel->insertItem(Qt::Key_Right + Qt::ALT, 12);
-    m_accel->insertItem(Qt::Key_Home + Qt::ALT, 13);
-    m_accel->insertItem(Qt::Key_End + Qt::ALT, 14);
+	m_shortcuts.clear();
+    m_shortcuts.append(makeShortcut(Qt::Key_1 + Qt::ALT, 1));
+    m_shortcuts.append(makeShortcut(Qt::Key_2 + Qt::ALT, 2));
+    m_shortcuts.append(makeShortcut(Qt::Key_3 + Qt::ALT, 3));
+    m_shortcuts.append(makeShortcut(Qt::Key_4 + Qt::ALT, 4));
+    m_shortcuts.append(makeShortcut(Qt::Key_5 + Qt::ALT, 5));
+    m_shortcuts.append(makeShortcut(Qt::Key_6 + Qt::ALT, 6));
+    m_shortcuts.append(makeShortcut(Qt::Key_7 + Qt::ALT, 7));
+    m_shortcuts.append(makeShortcut(Qt::Key_8 + Qt::ALT, 8));
+    m_shortcuts.append(makeShortcut(Qt::Key_9 + Qt::ALT, 9));
+    m_shortcuts.append(makeShortcut(Qt::Key_0 + Qt::ALT, 10));
+    m_shortcuts.append(makeShortcut(Qt::Key_Left + Qt::ALT, 11));
+    m_shortcuts.append(makeShortcut(Qt::Key_Right + Qt::ALT, 12));
+    m_shortcuts.append(makeShortcut(Qt::Key_Home + Qt::ALT, 13));
+    m_shortcuts.append(makeShortcut(Qt::Key_End + Qt::ALT, 14));
 
     EventMenuGetDef eMenu(MenuMessage);
     eMenu.process();
@@ -319,7 +325,7 @@ void Container::setupAccel()
     while ((c = ++it) != NULL){
         if (c->accel.isEmpty())
             continue;
-        m_accel->insertItem(Q3Accel::stringToKey(c->accel), ACCEL_MESSAGE + c->id);
+        m_shortcuts.append(makeShortcut(QKeySequence::fromString(c->accel), ACCEL_MESSAGE + c->id));
     }
 }
 
@@ -595,8 +601,12 @@ void Container::statusChanged(UserWnd *wnd)
         m_status->showMessage(wnd->status());
 }
 
-void Container::accelActivated(int id)
+void Container::accelActivated()
 {
+	QShortcut* sender = dynamic_cast<QShortcut*>(QObject::sender());
+	unsigned int id = 0;
+	if(sender)
+		id = sender->property("id").toUInt();
     if ((unsigned)id >= ACCEL_MESSAGE){
         Command cmd;
         cmd->id      = id - ACCEL_MESSAGE;
@@ -1154,3 +1164,4 @@ UserWnd* UserTabBar::wndForTab(int tab) {
 
   return v.value<UserWnd*>();
 }
+

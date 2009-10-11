@@ -192,7 +192,7 @@ static void getKey(const QString &key_str, int &mod, int &key)
 {
     mod = 0;
     key = 0;
-    int kkey = Q3Accel::stringToKey(key_str);
+    int kkey = QKeySequence::fromString(key_str);
     if (kkey & Qt::ALT) mod |= MOD_ALT;
     if (kkey & Qt::CTRL) mod |= MOD_CONTROL;
     if (kkey & Qt::SHIFT) mod |= MOD_SHIFT;
@@ -391,7 +391,7 @@ static void initializeMods()
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
     m_cmd = *cmd;
-    m_key = Q3Accel::stringToKey(cmd->accel);
+    m_key = QKeySequence::fromString(cmd->accel);
     m_state = 0;
     if (m_key & Qt::SHIFT){
         m_key &= ~Qt::SHIFT;

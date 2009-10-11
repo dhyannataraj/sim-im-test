@@ -139,12 +139,12 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
     if (key){
         CommandsList list(*d.def, true);
         CommandDef *cmd;
-        while ((cmd = ++list) !=NULL){
+        while ((cmd = ++list) != NULL){
             int cmdKey;
             if ((key & Qt::ALT) && ((key & ~Qt::MODIFIER_MASK) != Qt::Key_Alt)){
                 if (cmd->text.isEmpty())
                     continue;
-                cmdKey = Q3Accel::shortcutKey(i18n(cmd->text));
+                cmdKey = QKeySequence::mnemonic(i18n(cmd->text));
                 if((cmdKey & ~Qt::UNICODE_ACCEL) == key)
                 {
                     cmd->param = param;
@@ -155,7 +155,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             }
             if (cmd->accel.isEmpty())
                 continue;
-            cmdKey = Q3Accel::stringToKey(i18n(cmd->accel));
+            cmdKey = QKeySequence::fromString(i18n(cmd->accel));
             if (cmdKey == key){
                 cmd->param = param;
                 EventCommandExec eCmd(cmd);
@@ -262,8 +262,8 @@ bool Commands::eventFilter(QObject *o, QEvent *e)
                     id = bar->m_def->id();
                 }
                 if (id){
-                    Q3PopupMenu *popup = static_cast<Q3PopupMenu*>(o);
-                    popup->insertItem(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
+                    QMenu *popup = static_cast<QMenu*>(o);
+                    popup->addAction(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
                     cur_id = id;
                 }
             }
@@ -323,3 +323,4 @@ void Commands::set(CommandsDef *def, const char *str)
     }
 }
 
+// vim: set expandtab: 

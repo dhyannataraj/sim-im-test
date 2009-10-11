@@ -52,7 +52,7 @@ LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool 
     chkFastServer->setChecked(client->getFastServer());
     chkUseFormatting->setChecked(client->getUseFormatting());
     chkUseSignature->setChecked(client->getUseSignature());
-    edtSignature->setText(client->getSignatureText());
+    edtSignature->setPlainText(client->getSignatureText());
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPassword, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(chkUseSignature, SIGNAL(toggled(bool)), this, SLOT(useSigToggled(bool)));
@@ -84,8 +84,8 @@ void LiveJournalCfg::apply()
     m_client->setFastServer(chkFastServer->isChecked());
     m_client->setUseFormatting(chkUseFormatting->isChecked());
     m_client->setUseSignature(chkUseSignature->isChecked());
-    if (edtSignature->text() != m_client->getSignatureText())
-        m_client->setSignature(edtSignature->text());
+    if (edtSignature->toPlainText() != m_client->getSignatureText())
+        m_client->setSignature(edtSignature->toPlainText());
 }
 
 void LiveJournalCfg::apply(Client*, void*)

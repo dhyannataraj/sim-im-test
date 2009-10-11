@@ -43,16 +43,18 @@ using namespace SIM;
 const unsigned BROWSE_INFO	= 8;
 
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type)
-        : Q3Wizard(parent, NULL, FALSE, Qt::WType_TopLevel | Qt::WDestructiveClose)
+        : QWizard(parent, Qt::WType_TopLevel | Qt::WDestructiveClose)
 {
     m_type = type;
     m_search = new JabberSearch;
     m_search->init(this, client, jid, node, title, m_type == "register");
-    addPage(m_search, title);
+    addPage(m_search);
+	/*
     m_result = new QLabel(this);
-    addPage(m_result, title);
+    addPage(m_result);
+	*/
     m_result->setText(i18n("Process"));
-    helpButton()->hide();
+    //helpButton()->hide();
     SET_WNDPROC("jbrowser")
     setWindowIcon(Icon(icon));
     setWindowTitle(title);
@@ -61,7 +63,7 @@ JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString 
 
 void JabberWizard::search()
 {
-    showPage(m_result);
+    //showPage(m_result);
 }
 
 void JabberWizard::textChanged(const QString&)
@@ -71,9 +73,9 @@ void JabberWizard::textChanged(const QString&)
 
 void JabberWizard::slotSelected(const QString&)
 {
-    if (currentPage() != m_result)
+    //if (currentPage() != m_result)
         return;
-    setFinishEnabled(m_result, false);
+    //setFinishEnabled(m_result, false);
     QString condition = m_search->condition(NULL);
     m_id = m_search->m_client->process(m_search->m_jid, m_search->m_node, condition, m_type);
 }
@@ -91,7 +93,7 @@ bool JabberWizard::processEvent(Event *e)
                 m_result->setText(err);
             }else{
                 m_result->setText(i18n("Done"));
-                setFinishEnabled(m_result, true);
+                //setFinishEnabled(m_result, true);
                 QTimer::singleShot(0, this, SLOT(close()));
             }
             return true;
@@ -102,14 +104,14 @@ bool JabberWizard::processEvent(Event *e)
 
 void JabberWizard::setNext()
 {
-    nextButton()->setEnabled(m_search->canSearch());
+    //nextButton()->setEnabled(m_search->canSearch());
 }
 
 void JabberWizard::initTitle()
 {
     if (m_search->m_title.isEmpty())
         return;
-    setTitle(m_search, m_search->m_title);
+    setWindowTitle(m_search->m_title);
 }
 
 JabberBrowser::JabberBrowser()

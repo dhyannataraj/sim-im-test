@@ -27,7 +27,7 @@
 class MSNClient;
 class GroupRadioButton;
 
-class MSNSearch : public QWidget, public Ui::MSNSearchBase
+class MSNSearch : public QWidget, public Ui::MSNSearch
 {
     Q_OBJECT
 public:

@@ -66,7 +66,7 @@ bool JabberAboutInfo::processEvent(Event *e)
 void JabberAboutInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtAbout->setText(data->Desc.str());
+    edtAbout->setPlainText(data->Desc.str());
 }
 
 void JabberAboutInfo::apply(Client *client, void *_data)
@@ -74,7 +74,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    data->Desc.str() = edtAbout->text();
+    data->Desc.str() = edtAbout->toPlainText();
 }
 
 /*

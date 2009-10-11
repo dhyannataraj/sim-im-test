@@ -24,8 +24,8 @@
 #include "core_consts.h"
 #include "cmddef.h"
 
-#include <q3listview.h>
-#include <q3accel.h>
+#include <QKeySequence>
+#include <QScrollBar>
 
 #include <QResizeEvent>
 #include <QLabel>
@@ -40,14 +40,14 @@ ShortcutsConfig::ShortcutsConfig(QWidget *parent, ShortcutsPlugin *plugin) : QWi
 {
 	setupUi(this);
     m_plugin = plugin;
-    lstKeys->setSorting(0);
+    //lstKeys->setSorting(0);
     loadMenu(MenuMain, true);
     loadMenu(MenuGroup, false);
     loadMenu(MenuContact, false);
     loadMenu(MenuStatus, true);
     adjustColumns();
     selectionChanged();
-    connect(lstKeys, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(lstKeys, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
     connect(edtKey, SIGNAL(changed()), this, SLOT(keyChanged()));
     connect(btnClear, SIGNAL(clicked()), this, SLOT(keyClear()));
     connect(chkGlobal, SIGNAL(toggled(bool)), this, SLOT(globalChanged(bool)));
@@ -85,11 +85,11 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
             int key = 0;
             const QString cfg_accel = m_plugin->property("Key").toMap().value(QString::number(s->id)).toString();
             if (!cfg_accel.isEmpty())
-                key = Q3Accel::stringToKey(cfg_accel);
+                key = QKeySequence::fromString(cfg_accel);
             if ((key == 0) && !s->accel.isEmpty())
-                key = Q3Accel::stringToKey(i18n(s->accel));
+                key = QKeySequence::fromString(i18n(s->accel));
             if (key)
-                accel = Q3Accel::keyToString(key);
+                accel = QKeySequence(key).toString();
             QString global;
             bool bGlobal = m_plugin->getOldGlobal(s);
             const QString cfg_global = m_plugin->property("Global").toMap().value(QString::number(s->id)).toString();
@@ -97,15 +97,22 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
                 bGlobal = !bGlobal;
             if (bGlobal)
                 global = i18n("Global");
-            Q3ListViewItem *item;
-            for (item = lstKeys->firstChild(); item; item = item->nextSibling()){
+            QTreeWidgetItem *item;
+			for(int i = 0; i < lstKeys->topLevelItemCount(); i++)
+			{
+				item = lstKeys->topLevelItem(i);
                 if (item->text(3).toUInt() == s->id)
                     break;
             }
             if (item == NULL)
-                new Q3ListViewItem(lstKeys,
-                                  title, accel, global,
-                                  QString::number(s->id), bCanGlobal ? "1" : "");
+			{
+                QTreeWidgetItem* it = new QTreeWidgetItem(lstKeys,
+                                  QStringList(title));
+				it->setText(1, accel);
+				it->setText(2, global);
+				it->setText(3, QString::number(s->id));
+				it->setText(4, bCanGlobal ? "1" : "");
+			}
         }
     }
 }
@@ -132,11 +139,14 @@ void ShortcutsConfig::saveMenu(unsigned long id)
         while ((s = ++list) != NULL){
             if ((s->id == 0) || s->popup_id)
                 continue;
-            for (Q3ListViewItem *item = lstKeys->firstChild(); item; item = item->nextSibling()){
+            QTreeWidgetItem *item;
+			for(int i = 0; i < lstKeys->topLevelItemCount(); i++)
+			{
+				item = lstKeys->topLevelItem(i);
                 if (item->text(3).toUInt() != s->id) continue;
-                int key = Q3Accel::stringToKey(item->text(1));
+                int key = QKeySequence::fromString(item->text(1));
                 const QString cfg_key = m_plugin->getOldKey(s);
-                if (key == Q3Accel::stringToKey(cfg_key)){
+                if (key == QKeySequence::fromString(cfg_key)){
 					QVariantMap map;
 					map = m_plugin->property("Key").toMap();
 					map.remove(QString::number(s->id));
@@ -190,7 +200,7 @@ void ShortcutsConfig::adjustColumns()
 
 void ShortcutsConfig::selectionChanged()
 {
-    Q3ListViewItem *item = lstKeys->currentItem();
+    QTreeWidgetItem *item = lstKeys->currentItem();
     if (item == NULL){
         lblKey->setText(QString::null);
         edtKey->setEnabled(false);
@@ -213,7 +223,7 @@ void ShortcutsConfig::selectionChanged()
 
 void ShortcutsConfig::keyClear()
 {
-    Q3ListViewItem *item = lstKeys->currentItem();
+    QTreeWidgetItem *item = lstKeys->currentItem();
     if (item == NULL)
         return;
     item->setText(1, QString::null);
@@ -223,7 +233,7 @@ void ShortcutsConfig::keyClear()
 
 void ShortcutsConfig::keyChanged()
 {
-    Q3ListViewItem *item = lstKeys->currentItem();
+    QTreeWidgetItem *item = lstKeys->currentItem();
     if (item == NULL)
         return;
     QString key = edtKey->text();
@@ -239,9 +249,11 @@ void ShortcutsConfig::keyChanged()
 
 void ShortcutsConfig::globalChanged(bool)
 {
-    Q3ListViewItem *item = lstKeys->currentItem();
+    QTreeWidgetItem *item = lstKeys->currentItem();
     if ((item == NULL) || item->text(4).isEmpty())
         return;
     item->setText(2, chkGlobal->isChecked() ? i18n("Global") : QString::null);
 }
+
+// vim: set expandtab:
 

@@ -38,7 +38,7 @@ MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin) : QWidget(par
 {
 	setupUi(this);
     m_plugin = plugin;
-    lstCmd->setSorting(0);
+    //lstCmd->setSorting(0);
     loadMenu(MenuMain);
     loadMenu(MenuGroup);
     loadMenu(MenuContact);
@@ -51,7 +51,7 @@ MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin) : QWidget(par
     cmbButton->insertItem(INT_MAX,i18n("Right dblclick"));
     cmbButton->insertItem(INT_MAX,i18n("Middle dblclick"));
     selectionChanged();
-    connect(lstCmd, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(lstCmd, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
     connect(cmbButton, SIGNAL(activated(int)), this, SLOT(buttonChanged(int)));
     connect(chkAlt, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
     connect(chkCtrl, SIGNAL(toggled(bool)), this, SLOT(changed(bool)));
@@ -65,8 +65,9 @@ MouseConfig::~MouseConfig()
 void MouseConfig::apply()
 {
 	QMap<QString, QVariant> map;
-    for (Q3ListViewItem *item = lstCmd->firstChild(); item; item = item->nextSibling())
+	for(int i = 0; i < lstCmd->topLevelItemCount(); i++)
 	{
+		QTreeWidgetItem* item = lstCmd->topLevelItem(i);
 		map.insert(item->text(2), item->text(1).toLatin1());
     }
 	m_plugin->setProperty("Mouse", map);
@@ -102,22 +103,27 @@ void MouseConfig::loadMenu(unsigned long id)
             QString title = i18n(s->text);
             if (title == "_")
                 continue;
-            Q3ListViewItem *item;
-            for (item = lstCmd->firstChild(); item; item = item->nextSibling()){
+            QTreeWidgetItem *item;
+            for(int i = 0; i < lstCmd->topLevelItemCount(); i++)
+            {
+                item = lstCmd->topLevelItem(i);
                 if (QString::number(s->popup_id) == item->text(3))
                     break;
             }
             if (item)
                 continue;
             title = title.remove('&');
-            new Q3ListViewItem(lstCmd, title, m_plugin->property("Mouse").toMap().value(QString::number(s->id)).toString(), QString::number(s->id), QString::number(s->popup_id));
+            QTreeWidgetItem* it = new QTreeWidgetItem(lstCmd, QStringList(title));
+            it->setText(1, m_plugin->property("Mouse").toMap().value(QString::number(s->id)).toString());
+            it->setText(2, QString::number(s->id));
+            it->setText(3, QString::number(s->popup_id));
         }
     }
 }
 
 void MouseConfig::selectionChanged()
 {
-    Q3ListViewItem *item = lstCmd->currentItem();
+    QTreeWidgetItem *item = lstCmd->currentItem();
     if (item == NULL){
         lblCmd->setText("");
         cmbButton->setCurrentIndex(0);
@@ -165,10 +171,11 @@ void MouseConfig::changed(bool)
             n |= Qt::ShiftButton;
         res = ShortcutsPlugin::buttonToString(n);
     }
-    Q3ListViewItem *item = lstCmd->currentItem();
+    QTreeWidgetItem *item = lstCmd->currentItem();
     if (item == NULL)
         return;
     item->setText(1, res);
     adjustColumns();
 }
 
+// vim: set expandtab:

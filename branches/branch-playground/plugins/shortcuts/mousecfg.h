@@ -22,7 +22,7 @@
 
 class ShortcutsPlugin;
 
-class MouseConfig : public QWidget, public Ui::MouseConfigBase
+class MouseConfig : public QWidget, public Ui::MouseCfg
 {
     Q_OBJECT
 public:

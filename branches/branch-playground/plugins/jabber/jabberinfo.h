@@ -24,7 +24,7 @@
 struct JabberUserData;
 class JabberClient;
 
-class JabberInfo : public QWidget, public Ui::JabberInfoBase, public SIM::EventReceiver
+class JabberInfo : public QWidget, public Ui::JabberInfo, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -74,8 +74,8 @@ bool JabberHomeInfo::processEvent(Event *e)
 void JabberHomeInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtStreet->setText(data->Street.str());
-    edtExt->setText(data->ExtAddr.str());
+    edtStreet->setPlainText(data->Street.str());
+    edtExt->setPlainText(data->ExtAddr.str());
     edtCity->setText(data->City.str());
     edtState->setText(data->Region.str());
     edtZip->setText(data->PCode.str());
@@ -87,8 +87,8 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    data->Street.str() = edtStreet->text();
-    data->ExtAddr.str() = edtExt->text();
+    data->Street.str() = edtStreet->toPlainText();
+    data->ExtAddr.str() = edtExt->toPlainText();
     data->City.str()    = edtCity->text();
     data->Region.str()  = edtState->text();
     data->PCode.str()   = edtZip->text();
