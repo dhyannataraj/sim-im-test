@@ -22,6 +22,7 @@
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
 #include "misc.h"
+#include "log.h"
 
 using namespace SIM;
 
@@ -113,16 +114,16 @@ const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 static QList<FetchClientPrivate*> *m_done = NULL;
 
 FetchClient::FetchClient()
+  : p( NULL )
 {
     p = new FetchClientPrivate(this);
 }
 
 FetchClient::~FetchClient()
 {
-    if (p){
-        p->m_client = NULL;
-        p->stop();
+    if ( NULL != p ){
         delete p;
+        p = NULL;
     }
 }
 
@@ -194,8 +195,15 @@ void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffe
         sMethod = "POST";
     }
 
+    log( L_DEBUG, "HTTP: Started %s request for %s", qPrintable( sMethod ), qPrintable( url ) );
+
+    bool bbb = m_pHttp->hasPendingRequests();
+
     QString sHost = m_uri.host();
     QString sPath = m_uri.encodedPath();
+    if( sPath.isEmpty() ) {
+        sPath = "/";
+    }
     QString sQuery = m_uri.encodedQuery();
     if( !sQuery.isEmpty() ) {
         sPath = sPath + "?" + sQuery;
@@ -217,6 +225,8 @@ void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffe
         header.addValue( key, val.trimmed() );
     }
 
+    m_bDone = false;
+
     if( NULL != postData ) {
         m_postData = *postData;
         m_pHttp->request(header,m_postData);
@@ -224,18 +234,19 @@ void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffe
     else {
         m_pHttp->request(header);
     }
-
-    m_bDone = false;
 }
 
 FetchClientPrivate::~FetchClientPrivate()
 {
+    m_client = NULL;
     stop();
 }
 
 void FetchClientPrivate::stop()
 {
     if( NULL != m_pHttp ) {
+        disconnect(m_pHttp, 0, 0, 0);
+        m_pHttp->abort();
         delete m_pHttp;
         m_pHttp = NULL;
     }
@@ -297,6 +308,19 @@ void FetchClientPrivate::dataSendProgress( int done, int total ) {
 }
 
 void FetchClientPrivate::done(bool error ) {
+    if( error ) {
+        log( L_DEBUG, "HTTP: Request done with error!" );
+        if( NULL != m_client ) {
+            Buffer buf = QByteArray();
+            QString str;
+            m_client->done( 0, buf, str );
+        }
+        m_bDone = true;
+        return;
+    }
+
+    log( L_DEBUG, "HTTP: Request done without error." );
+
     QString sHeaders;
     QList<QPair<QString, QString> > vals = m_Response.values();
     QPair<QString, QString> pair;

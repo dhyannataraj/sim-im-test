@@ -27,7 +27,6 @@
 
 class MsgEdit;
 class MsgView;
-class ListView;
 class CorePlugin;
 class QToolBar;
 class UserList;

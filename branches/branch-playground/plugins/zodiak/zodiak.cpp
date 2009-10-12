@@ -132,7 +132,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
             DatePicker *picker = (DatePicker*)(ce->child());
             for (QList<Picker>::iterator it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker){
-                    m_pickers.remove(it);
+                    m_pickers.erase(it);
                     break;
                 }
             }
@@ -146,7 +146,7 @@ ZodiakWnd::ZodiakWnd(DatePicker *parent)
 {
     m_picker = parent;
     setLineWidth(0);
-    QGridLayout *lay = new QGridLayout(this, 2, 2);
+    QGridLayout *lay = new QGridLayout(this);
     lay->setSpacing(2);
     lay->setMargin(4);
     m_picture = new QLabel(this);

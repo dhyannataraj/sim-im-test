@@ -142,7 +142,7 @@ bool OnTopPlugin::processEvent(Event *e)
         EventOnTop *eot = static_cast<EventOnTop*>(e);
         QWidget *main = getMainWindow();
         if (main == NULL)
-            return NULL;
+            return false;
         HWND hState = HWND_NOTOPMOST;
         if (property("OnTop").toBool())
             hState = HWND_TOPMOST;
@@ -158,7 +158,7 @@ bool OnTopPlugin::processEvent(Event *e)
         EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
         QWidget *main = getMainWindow();
         if (main == NULL)
-            return NULL;
+            return false;
         if (IsWindowUnicode(main->winId())){
             if (eitm->showInTaskmanager() && property("InTask").toBool()){
                 SetWindowLongW(main->winId(), GWL_EXSTYLE,

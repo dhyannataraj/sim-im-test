@@ -39,7 +39,7 @@ const unsigned SLOT_OUT		= 2;
 
 #endif
 
-class RemotePlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify, public SIM::PropertyHub
+class RemotePlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
 {
     Q_OBJECT
 public:

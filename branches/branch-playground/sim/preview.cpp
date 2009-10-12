@@ -62,7 +62,7 @@ void FilePreview::clearPreview()
 
 void FilePreview::previewUrl(const QUrl &url)
 {
-    if (url.protocol()!=QString("file")){
+    if (url.scheme()!=QString("file")){
         showPreview(NULL);
         return;
     }

@@ -161,7 +161,7 @@ HDDEDATA DDEconversation::Execute(const QString &cmd)
     if (hConv == NULL)
         return NULL;
     DDEstring c(cmd);
-    DWORD res = NULL;
+    DWORD res = 0;
     HDDEDATA hData = DdeClientTransaction(NULL, 0, hConv, c, CF_TEXT, XTYP_REQUEST, 30000, &res);
     if (hData == NULL)
         DdeGetLastError((DWORD)DDEbase::base);

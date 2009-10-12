@@ -27,7 +27,7 @@ using namespace SIM;
 
 UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     chkDblClick->setChecked(CorePlugin::m_plugin->property("UseDblClick").toBool());
     chkSysColors->setChecked(CorePlugin::m_plugin->property("UseSysColors").toBool());
     btnOnline->setColor(CorePlugin::m_plugin->property("ColorOnline").toUInt());
@@ -136,8 +136,8 @@ void UserViewConfig::apply()
 void UserViewConfig::colorsToggled(bool state)
 {
     if (state){
-        QColor textColor = colorGroup().text();
-        QColor disabledColor = palette().disabled().text();
+        QColor textColor = palette().color(QPalette::Active, QPalette::Text);
+        QColor disabledColor = palette().color(QPalette::Disabled, QPalette::Text);
         btnOnline->setColor(textColor);
         btnOffline->setColor(disabledColor);
         btnAway->setColor(disabledColor);
@@ -238,11 +238,3 @@ unsigned UserViewConfig::getSortMode()
     }
     return (m3 << 16) + (m2 << 8) + m1;
 }
-
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "userviewcfg.moc"
-#endif
-*/
-
