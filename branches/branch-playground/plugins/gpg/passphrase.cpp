@@ -30,9 +30,10 @@
 
 using namespace SIM;
 
-PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key) : QDialog(NULL, "passphrase", false, Qt::WDestructiveClose)
+PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key) : QDialog(NULL, Qt::WDestructiveClose)
 {
-	setupUi(this);
+    setupUi(this);
+    setObjectName("passphrase");
     m_plugin = plugin;
     SET_WNDPROC("passphrase")
     setWindowIcon(Icon("encrypted"));

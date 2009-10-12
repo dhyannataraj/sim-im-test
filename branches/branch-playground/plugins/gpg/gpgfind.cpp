@@ -32,9 +32,9 @@
 
 using namespace SIM;
 
-GpgFind::GpgFind(EditFile *edt) : QDialog(NULL, NULL, false, Qt::WDestructiveClose)
+GpgFind::GpgFind(EditFile *edt) : QDialog(NULL, Qt::WDestructiveClose)
 {
-	setupUi(this);
+    setupUi(this);
     SET_WNDPROC("find")
     setWindowIcon(Icon("find"));
     setButtonsPict(this);

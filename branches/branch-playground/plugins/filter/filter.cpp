@@ -201,12 +201,12 @@ bool FilterPlugin::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             if (cmd->menu_id == MenuMsgView){
                 MsgViewBase *edit = (MsgViewBase*)(cmd->param);
-                if (edit->hasSelectedText())
+                if (edit->textCursor().hasSelection())
                     return true;
             } else
             if (cmd->menu_id == MenuTextEdit){
                 TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
-                if (edit->hasSelectedText())
+                if (edit->textCursor().hasSelection())
                     return true;
             }
             return false;
@@ -246,18 +246,17 @@ bool FilterPlugin::processEvent(Event *e)
             unsigned id = 0;
             if (cmd->menu_id == MenuMsgView){
                 MsgViewBase *view = (MsgViewBase*)(cmd->param);
-                if (view->hasSelectedText()){
-                    text = view->selectedText();
+                if (view->textCursor().hasSelection()){
+                    text = view->textCursor().selectedText();
                     text = unquoteText(text);
                     id = view->m_id;
                 }
             }else if (cmd->menu_id == MenuTextEdit){
                 MsgEdit *medit = (MsgEdit*)(cmd->param);
                 TextEdit *edit = medit->m_edit;
-                if (edit->hasSelectedText()){
-                    text = edit->selectedText();
-                    if (edit->textFormat() == Qt::RichText)
-                        text = unquoteText(text);
+                if (edit->textCursor().hasSelection()){
+                    text = edit->textCursor().selectedText();
+                    text = unquoteText(text);
                     id = medit->m_userWnd->id();
                 }
             }

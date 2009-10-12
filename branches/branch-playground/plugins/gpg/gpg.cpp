@@ -952,7 +952,7 @@ bool MsgGPGKey::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
-            QString msgText = m_edit->m_edit->text();
+            QString msgText = m_edit->m_edit->toPlainText();
             if (!msgText.isEmpty()){
                 Message *msg = new Message;
                 msg->setText(msgText);

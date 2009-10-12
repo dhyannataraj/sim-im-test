@@ -20,9 +20,9 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QFocusEvent>
-#include <q3accel.h> //FIXME
 #include <QCursor>
 #include <QStringList>
+#include <QKeySequence>
 
 #include "log.h"
 
@@ -112,7 +112,7 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
         key_state = Qt::MetaModifier;
         break;
     default:
-        name = Q3Accel::keyToString(e->key());
+        name = (QString)QKeySequence(e->key());
         if ((name[0] == '<') && (name[(int)(name.length()-1)] == '>'))
             return;
     }
