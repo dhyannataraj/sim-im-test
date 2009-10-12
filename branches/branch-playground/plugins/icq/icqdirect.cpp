@@ -797,10 +797,10 @@ void DirectClient::processPacket()
         bool itDeleted = false;
         QList<SendDirectMsg>::iterator it;
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
-            if ((*it).seq != seq)
+            if (it->seq != seq)
                 continue;
-            if ((*it).msg == NULL){
-                if ((*it).type == PLUGIN_AR){
+            if (it->msg == NULL){
+                if (it->type == PLUGIN_AR){
                     Contact *contact = NULL;
                     m_client->findContact(m_client->screen(m_data), NULL, false, contact);
                     m_data->AutoReply.str() = getContacts()->toUnicode(contact,msg_str);
@@ -808,7 +808,7 @@ void DirectClient::processPacket()
                     itDeleted = true;
                     break;
                 }
-                unsigned plugin_index = (*it).type;
+                unsigned plugin_index = it->type;
                 switch (plugin_index){
                 case PLUGIN_FILESERVER:
                 case PLUGIN_FOLLOWME:
@@ -824,7 +824,7 @@ void DirectClient::processPacket()
 				itDeleted = true;
 				break;
             }
-            Message *msg = (*it).msg;
+            Message *msg = it->msg;
             if (command == TCP_CANCEL){
                 EventMessageCancel(msg).process();
                 delete msg;
@@ -883,7 +883,7 @@ void DirectClient::processPacket()
                         Message m; //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope, see previous declaration at line '842'
                         m.setContact(msg->contact());
                         m.setClient(msg->client());
-                        if ((*it).type == CAP_RTF){
+                        if (it->type == CAP_RTF){
                             m.setText(m_client->removeImages(msg->getRichText(), true));
                             flags |= MESSAGE_RICHTEXT;
                         }else{
@@ -1408,11 +1408,11 @@ void DirectClient::processMsgQueue()
 bool DirectClient::cancelMessage(Message *msg)
 {
     for (QList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-        if ((*it).msg == msg){
-            if ((*it).seq){
+        if (it->msg == msg){
+            if (it->seq){
                 ICQBuffer &mb = m_socket->writeBuffer();
-                startPacket(TCP_CANCEL, (*it).seq);
-                mb.pack((unsigned short)(*it).icq_type);
+                startPacket(TCP_CANCEL, it->seq);
+                mb.pack((unsigned short)it->icq_type);
                 mb.pack((unsigned short)0);
                 mb.pack((unsigned short)0);
                 QByteArray message;

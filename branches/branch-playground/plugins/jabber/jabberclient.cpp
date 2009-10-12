@@ -226,10 +226,10 @@ QByteArray JabberClient::getConfig()
     for (list<JabberListRequest>::iterator it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
         if (!lr.isEmpty())
             lr += ';';
-        lr += quoteChars((*it).jid, ",;");
+        lr += quoteChars(it->jid, ",;");
         lr += ',';
-        lr += quoteChars((*it).grp, ",;");
-        if ((*it).bDelete)
+        lr += quoteChars(it->grp, ",;");
+        if (it->bDelete)
             lr += ",1";
     }
     setListRequest(lr);
@@ -2469,7 +2469,7 @@ void JabberClient::listRequest(JabberUserData *data, const QString &name, const 
     QString jid = data->ID.str();
     list<JabberListRequest>::iterator it;
     for (it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
-        if (jid == (*it).jid){
+        if (jid == it->jid){
             m_listRequests.erase(it);
             break;
         }
@@ -2487,7 +2487,7 @@ JabberListRequest *JabberClient::findRequest(const QString &jid, bool bRemove)
 {
     list<JabberListRequest>::iterator it;
     for (it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
-        if ((*it).jid == jid){
+        if (it->jid == jid){
             if (bRemove){
                 m_listRequests.erase(it);
                 return NULL;

@@ -1613,7 +1613,7 @@ MSNListRequest *MSNClient::findRequest(const QString &name, unsigned type, bool 
     if (m_requests.empty())
         return NULL;
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
-        if (((*it).Type == type) && (it->Name == name)){
+        if ((it->Type == type) && (it->Name == name)){
             if (bDelete){
                 m_requests.erase(it);
                 return NULL;
@@ -1633,7 +1633,7 @@ void MSNClient::processRequests()
         Contact *contact;
         MSNPacket *packet = NULL;
         MSNUserData *data;
-        switch ((*it).Type){
+        switch (it->Type){
         case LR_CONTACTxCHANGED:
             data = findContact(it->Name, contact);
             if (data){
@@ -2170,7 +2170,7 @@ static STR_VALUES parseValues(const QString &str)
         if (it == res.end()){
             res.insert(STR_VALUES::value_type(key, p));
         }else{
-            (*it).second = p;
+            it->second = p;
         }
         s = s.trimmed();
     }
@@ -2207,17 +2207,17 @@ void SBSocket::messageReady()
             STR_VALUES v = parseValues(line.trimmed());
             STR_VALUES::iterator it = v.find("charset");
             if (it != v.end())
-                charset = (*it).second;
+                charset = it->second;
             continue;
         }
         if (key == "X-MMS-IM-Format"){
             STR_VALUES v = parseValues(line.trimmed());
             STR_VALUES::iterator it = v.find("FN");
             if (it != v.end())
-                font = m_client->unquote((*it).second);
+                font = m_client->unquote(it->second);
             it = v.find("EF");
             if (it != v.end()){
-                QString effects = (*it).second;
+                QString effects = it->second;
                 if (effects.indexOf('B') != -1)
                     font += ", bold";
                 if (effects.indexOf('I') != -1)
@@ -2229,7 +2229,7 @@ void SBSocket::messageReady()
             }
             it = v.find("CO");
             if (it != v.end())
-                color = (*it).second.toULong(&bColor, 16);
+                color = it->second.toULong(&bColor, 16);
             continue;
         }
         if (key == "TypingUser"){
@@ -2368,7 +2368,7 @@ void SBSocket::messageReady()
             EventMessageReceived e(msg);
             if (e.process()){
                 for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-                    if ((*it).msg == msg){
+                    if (it->msg == msg){
                         m_acceptMsg.erase(it);
                         break;
                     }
@@ -2385,8 +2385,8 @@ void SBSocket::messageReady()
                 m_data->Port.asULong() = port;
             list<msgInvite>::iterator it;
             for (it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
-                if ((*it).cookie == cookie){
-                    Message *msg = (*it).msg;
+                if (it->cookie == cookie){
+                    Message *msg = it->msg;
                     if (msg->type() == MessageFile){
                         m_waitMsg.erase(it);
                         FileMessage *m = static_cast<FileMessage*>(msg);
@@ -2423,8 +2423,8 @@ void SBSocket::messageReady()
             if (code == "REJECT"){
                 list<msgInvite>::iterator it;
                 for (it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
-                    if ((*it).cookie == cookie){
-                        Message *msg = (*it).msg;
+                    if (it->cookie == cookie){
+                        Message *msg = it->msg;
                         msg->setError(I18N_NOOP("Message declined"));
                         EventMessageSent(msg).process();
                         delete msg;
@@ -2438,8 +2438,8 @@ void SBSocket::messageReady()
             }
             list<msgInvite>::iterator it;
             for (it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-                if ((*it).cookie == cookie){
-                    Message *msg = (*it).msg;
+                if (it->cookie == cookie){
+                    Message *msg = it->msg;
                     EventMessageDeleted(msg).process();
                     delete msg;
                     m_acceptMsg.erase(it);
@@ -2691,10 +2691,10 @@ void SBSocket::acceptMessage(unsigned short port, unsigned cookie, unsigned auth
 bool SBSocket::acceptMessage(Message *msg, const QString &dir, OverwriteMode mode)
 {
     for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-        if ((*it).msg->id() != msg->id())
+        if (it->msg->id() != msg->id())
             continue;
-        Message *msg = (*it).msg;
-        unsigned cookie = (*it).cookie;
+        Message *msg = it->msg;
+        unsigned cookie = it->cookie;
         m_acceptMsg.erase(it);
         MSNFileTransfer *ft = new MSNFileTransfer(static_cast<FileMessage*>(msg), m_client, m_data);
         ft->setDir(dir);
@@ -2725,10 +2725,10 @@ void SBSocket::declineMessage(unsigned cookie)
 bool SBSocket::declineMessage(Message *msg, const QString &reason)
 {
     for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-        if ((*it).msg->id() != msg->id())
+        if (it->msg->id() != msg->id())
             continue;
-        Message *msg = (*it).msg;
-        unsigned cookie = (*it).cookie;
+        Message *msg = it->msg;
+        unsigned cookie = it->cookie;
         m_acceptMsg.erase(it);
         declineMessage(cookie);
         if (!reason.isEmpty()){

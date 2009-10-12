@@ -162,7 +162,7 @@ public:
         while(it != it_begin)
         {
             it--;
-            if ((*it).hasCharStyle())
+            if (it->hasCharStyle())
                 return &(*it);
         }
         return NULL;
@@ -617,7 +617,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 		m_lastParagraphPos = res.length();
 		m_bSpace = true;
 		for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it).toLower();
+            QString name = it->toLower();
 			++it;
 			QString value = (*it);
 			if (name == "dir")
@@ -684,7 +684,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
 	// Process attributes which all tags share.
 
 	for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-        QString name = (*it).toLower();
+        QString name = it->toLower();
 		++it;
 		QString value = (*it);
 

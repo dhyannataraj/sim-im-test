@@ -114,7 +114,7 @@ void ToolBarSetup::applyClick()
             }
             config += QByteArray::number(id);
         }
-        m_def->setConfig(config);
+        m_def->setConfig(QString(config));
         m_bars->set(m_def, config);
         bDirty = false;
     }

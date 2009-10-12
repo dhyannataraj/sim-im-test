@@ -579,7 +579,7 @@ ICQUserData *ICQClient::findInfoRequest(unsigned short seq, Contact *&contact)
         log(L_WARN, "Info req %u not found", seq);
         return NULL;
     }
-    QString screen = (*it).second;
+    QString screen = it->second;
     m_info_req.erase(it);
     return findContact(screen, NULL, false, contact);
 }

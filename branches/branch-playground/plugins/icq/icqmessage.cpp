@@ -1031,9 +1031,9 @@ void ICQClient::packMessage(ICQBuffer &b, Message *msg, ICQUserData *data, unsig
             res = QString::number(c.size());
             for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                 res += '\xFE';
-                res += getContacts()->fromUnicode(getContact(data), (*it).first.str());
+                res += getContacts()->fromUnicode(getContact(data), it->first.str());
                 res += '\xFE';
-                res += getContacts()->fromUnicode(getContact(data), (*it).second.alias);
+                res += getContacts()->fromUnicode(getContact(data), it->second.alias);
             }
             res += '\xFE';
             type = ICQ_MSGxCONTACTxLIST;

@@ -166,7 +166,7 @@ void SpellHighlighter::flush()
                 setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
             }else if (m_parag == m_paragraph){
                 MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
-                if ((it == m_words.end()) || (*it).second)
+                if ((it == m_words.end()) || it->second)
                     setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
             }
         }
@@ -185,7 +185,7 @@ void SpellHighlighter::flush()
     }
     MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
     if (it != m_words.end()){
-        if (!(*it).second){
+        if (!it->second){
             if (!m_bError)
                 setFormat(m_curStart, m_pos - m_curStart, QColor(ErrorColor));
         }else if (m_bError){
@@ -206,9 +206,9 @@ void SpellHighlighter::slotMisspelling(const QString &word)
     if (it == m_words.end()){
         m_words.insert(MAP_BOOL::value_type(SIM::my_string(word), false));
     }else{
-        if (!(*it).second)
+        if (!it->second)
             return;
-        (*it).second = false;
+        it->second = false;
     }
     m_bDirty = true;
     QTimer::singleShot(300, this, SLOT(reformat()));
@@ -299,9 +299,9 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
                 if (it == m_words.end()){
                     m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
-                    if ((*it).second)
+                    if (it->second)
                         return false;
-                    (*it).second = true;
+                    it->second = true;
                 }
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
@@ -313,9 +313,9 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
                 if (it == m_words.end()){
                     m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
-                    if ((*it).second)
+                    if (it->second)
                         return false;
-                    (*it).second = true;
+                    it->second = true;
                 }
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));

@@ -413,7 +413,7 @@ void HistoryConfig::copy()
     QRegExp re("\\.[0-9]+$");
     unsigned next = 0;
     for (vector<StyleDef>::iterator it = m_styles.begin(); it != m_styles.end(); ++it){
-        QString nn = (*it).name;
+        QString nn = it->name;
         int n = nn.indexOf(re);
         if (n < 0)
             continue;
@@ -558,7 +558,7 @@ void HistoryConfig::realRename()
         int n = 0;
         vector<StyleDef>::iterator it;
         for (it = m_styles.begin(); it != m_styles.end(); ++it, n++){
-            if ((*it).name == newName){
+            if (it->name == newName){
                 if (n < m_edit)
                     m_edit--;
                 m_styles.erase(it);

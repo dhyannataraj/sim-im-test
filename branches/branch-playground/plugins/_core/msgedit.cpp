@@ -1445,9 +1445,9 @@ void MsgEdit::insertSmile(const QString &id)
 void MsgEdit::goNext()
 {
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-        if ((*it).contact != m_userWnd->id())
+        if (it->contact != m_userWnd->id())
             continue;
-        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
+        Message *msg = History::load(it->id, it->client, it->contact);
         if (msg == NULL)
             continue;
         EventOpenMessage(msg).process();
@@ -1475,10 +1475,10 @@ void MsgEdit::setupNext()
     unsigned type  = 0;
     unsigned count = 0;
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-        if ((*it).contact != m_userWnd->id())
+        if (it->contact != m_userWnd->id())
             continue;
         if (count == 0)
-            type = (*it).type;
+            type = it->type;
         count++;
     }
     QString str = i18n("&Next");

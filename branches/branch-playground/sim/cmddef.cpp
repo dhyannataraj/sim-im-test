@@ -68,7 +68,7 @@ bool CommandsDefPrivate::changeCommand(const CommandDef *cmd)
     list<CommandDef>::iterator it;
     for (it = buttons.begin(); it != buttons.end(); ++it)
 	{
-        if ((*it).id == cmd->id)
+        if (it->id == cmd->id)
 		{
             (*it) = *cmd;
             return true;
@@ -87,7 +87,7 @@ bool CommandsDefPrivate::addCommand(const CommandDef *cmd)
         list<CommandDef>::iterator it;
         for (it = buttons.begin(); it != buttons.end(); ++it)
 		{
-            unsigned grp = m_bMenu ? (*it).menu_grp : (*it).bar_grp;
+            unsigned grp = m_bMenu ? it->menu_grp : it->bar_grp;
             if (grp > item_grp){
                 buttons.insert(it, *cmd);
                 return true;
@@ -101,7 +101,7 @@ bool CommandsDefPrivate::addCommand(const CommandDef *cmd)
 bool CommandsDefPrivate::delCommand(unsigned id)
 {
     for (list<CommandDef>::iterator it = buttons.begin(); it != buttons.end(); ++it){
-        if ((*it).id == id){
+        if (it->id == id){
             buttons.erase(it);
             return true;
         }
@@ -129,7 +129,7 @@ bool CommandsDefPrivate::processEvent(Event *e)
 				CommandDef *def = ecc->cmd();
 				if (def->param == NULL){
 					for (it = buttons.begin(); it != buttons.end(); ++it){
-						if ((*it).id == def->id){
+						if (it->id == def->id){
 							*it = *def;
 							break;
 						}
@@ -333,13 +333,9 @@ CommandsList::CommandsList(CommandsDef &def, bool bFull)
 {
     def.p->generateConfig();
     if (bFull)
-	{
         p = new CommandsListPrivateFull(def.p);
-    }
 	else
-	{
         p = new CommandsListPrivateShort(def.p);
-    }
 }
 
 CommandsList::~CommandsList()
@@ -393,6 +389,11 @@ void CommandsDef::setConfig(const QString &cfg_str)
     p->setConfig(cfg_str);
 }
 
+void CommandsDef::setConfig(const QVariant &cfg_variant)
+{
+    p->setConfig(cfg_variant.toString());
+}
+
 class CommandsMapPrivate : public map<unsigned, CommandDef>
 {
 };
@@ -412,7 +413,7 @@ CommandDef *CommandsMap::find(unsigned id)
     CommandsMapPrivate::iterator it = p->find(id);
     if (it == p->end())
         return NULL;
-    return &(*it).second;
+    return &it->second;
 }
 
 bool CommandsMap::add(CommandDef *def)
@@ -422,7 +423,7 @@ bool CommandsMap::add(CommandDef *def)
         p->insert(CommandsMapPrivate::value_type(def->id, *def));
         return true;
     }
-    (*it).second = *def;
+    it->second = *def;
     return false;
 }
 

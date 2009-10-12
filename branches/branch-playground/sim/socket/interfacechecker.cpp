@@ -74,7 +74,7 @@ namespace SIM
 
         for(std::map<std::string, tIFState>::iterator it = m_states.begin(); it != m_states.end(); ++it)
         {
-            (*it).second.present = false;
+            it->second.present = false;
         }
 
         for(int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)

@@ -379,9 +379,9 @@ QByteArray ICQClient::getConfig()
     {
         if (listRequest.length())
             listRequest += ';';
-        listRequest += QString::number((*it).type);
+        listRequest += QString::number(it->type);
         listRequest += ',';
-        listRequest += (*it).screen;
+        listRequest += it->screen;
     }
     setListRequests(listRequest);
     QByteArray res = Client::getConfig();
@@ -531,7 +531,7 @@ RateInfo *ICQClient::rateInfo(unsigned snac)
     RATE_MAP::iterator it = m_rate_grp.find(snac);
     if (it == m_rate_grp.end())
         return NULL;
-    return &m_rates[(*it).second];
+    return &m_rates[it->second];
 }
 
 unsigned ICQClient::delayTime(unsigned snac)
@@ -2563,7 +2563,7 @@ bool ICQClient::processEvent(Event *e)
             return false;
         if (m_bAIM){
             if ((getState() == Connected) && (m_status == STATUS_AWAY)){
-                if ((*it).bDirect){
+                if (it->bDirect){
                     setAwayMessage(t->tmpl);
                 }else{
                     sendCapability(t->tmpl);
@@ -2610,9 +2610,9 @@ bool ICQClient::processEvent(Event *e)
                 continue;
             list<ListRequest>::iterator it;
             for (it = listRequests.begin(); it != listRequests.end(); it++){
-                if ((*it).type != LIST_USER_CHANGED)
+                if (it->type != LIST_USER_CHANGED)
                     continue;
-                if ((*it).screen == screen(data))
+                if (it->screen == screen(data))
                     break;
             }
             if (it != listRequests.end())

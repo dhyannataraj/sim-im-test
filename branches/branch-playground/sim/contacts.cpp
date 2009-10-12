@@ -85,13 +85,13 @@ static void add_str (STR_LIST & m, const QString & value, QString client)
 
     /* check if value is already in str_list */
     for (it = m.begin (); it != m.end (); ++it) {
-        QString     v = (*it).value;
+        QString     v = it->value;
         if (v == value)
             break;
     }
     /* already there */
     if (it != m.end ()) {
-        QStringList &proto = (*it).proto;
+        QStringList &proto = it->proto;
         /* client == '-' --> ignore */
         if (!proto.empty () && client == QLatin1String("-"))
             return;
@@ -160,19 +160,19 @@ static QString addStrings (const QString &old_value, const QString &values,
     /* add new client if new client was given */
     if (!client.isEmpty()) {
         for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
-            add_str (str_list, (*it).value, client);
+            add_str (str_list, it->value, client);
         }
     }
 
     /* now build new string */
     QString     res;
     for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
-        QStringList &proto = (*it).proto;
+        QStringList &proto = it->proto;
         if (proto.size() == 0)
             continue;
         if (res.length())
             res += ';';
-        res += quoteChars ((*it).value, ";/");
+        res += quoteChars (it->value, ";/");
         res += '/';
         QString     proto_str;
         for (QStringList::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
@@ -711,7 +711,7 @@ PacketIteratorPrivate::PacketIteratorPrivate()
 PacketType *PacketIteratorPrivate::operator++()
 {
     if (it != getContacts()->p->packets.end()){
-        PacketType *res = (*it).second;
+        PacketType *res = it->second;
         ++it;
         return res;
     }
@@ -751,7 +751,7 @@ void ContactList::removePacketType(unsigned id)
 {
     PACKET_MAP::iterator it = p->packets.find(id);
     if (it != p->packets.end()){
-        delete (*it).second;
+        delete it->second;
         p->packets.erase(it);
     }
 }
@@ -761,7 +761,7 @@ PacketType *ContactList::getPacketType(unsigned id)
     PACKET_MAP::iterator it = p->packets.find(id);
     if (it == p->packets.end())
         return NULL;
-    return (*it).second;
+    return it->second;
 }
 
 bool ContactList::moveClient(Client *client, bool bUp)

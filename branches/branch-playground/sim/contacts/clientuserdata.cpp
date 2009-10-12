@@ -52,7 +52,7 @@ namespace SIM
     bool ClientUserData::have(void *data)
     {
         for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
-            if ((*it).data == data)
+            if (it->data == data)
                 return true;
         }
         return false;
@@ -62,11 +62,11 @@ namespace SIM
     {
         ClientUserDataPrivate::iterator it;
         for (it = p->begin(); it != p->end(); ++it){
-            if (((*it).client == client) && ((*it).data == data))
+            if ((it->client == client) && (it->data == data))
                 break;
-            if (((clientData*)((*it).data))->Sign.toULong() != ((clientData*)data)->Sign.toULong())
+            if (((clientData*)(it->data))->Sign.toULong() != ((clientData*)data)->Sign.toULong())
                 continue;
-            if (client->compareData(data, (*it).data))
+            if (client->compareData(data, it->data))
                 return NULL;
         }
         if (it == p->end())
@@ -74,13 +74,13 @@ namespace SIM
         if (client->getState() == Client::Connected)
             return client;
         for (++it; it != p->end(); ++it){
-            if ((*it).client->getState() != Client::Connected)
+            if (it->client->getState() != Client::Connected)
                 continue;
-            if (((clientData*)((*it).data))->Sign.toULong() != ((clientData*)data)->Sign.toULong())
+            if (((clientData*)(it->data))->Sign.toULong() != ((clientData*)data)->Sign.toULong())
                 continue;
-            if (client->compareData(data, (*it).data)){
-                data = (*it).data;
-                return (*it).client;
+            if (client->compareData(data, it->data)){
+                data = it->data;
+                return it->client;
             }
         }
         return client;
@@ -109,7 +109,7 @@ namespace SIM
     void ClientUserData::load(Client *client, Buffer *cfg)
     {
         for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
-            Client *c = (*it).client;
+            Client *c = it->client;
             if(c == client)
                 return;
         }
@@ -141,8 +141,8 @@ namespace SIM
     void *ClientUserData::getData(Client *client)
     {
         for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
-            if ((*it).client == client)
-                return (*it).data;
+            if (it->client == client)
+                return it->data;
         }
         return NULL;
     }
@@ -151,8 +151,8 @@ namespace SIM
     {
         SIM::Data *data = (SIM::Data*)_data;
         for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
-            if ((*it).data == data){
-                free_data((*it).client->protocol()->userDataDef(), data);
+            if (it->data == data){
+                free_data(it->client->protocol()->userDataDef(), data);
                 delete[] data;
                 p->erase(it);
                 return;
@@ -163,12 +163,12 @@ namespace SIM
     void ClientUserData::freeClientData(Client *client)
     {
         for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end();){
-            if ((*it).client != client){
+            if (it->client != client){
                 ++it;
                 continue;
             }
-            free_data((*it).client->protocol()->userDataDef(), (*it).data);
-            delete[] (*it).data;
+            free_data(it->client->protocol()->userDataDef(), it->data);
+            delete[] it->data;
             p->erase(it);
             it = p->begin();
         }
@@ -185,7 +185,7 @@ namespace SIM
     void ClientUserData::join(clientData *cData, ClientUserData &data)
     {
         for (ClientUserDataPrivate::iterator it = data.p->begin(); it != data.p->end(); ++it){
-            if ((*it).data == &(cData->Sign)){
+            if (it->data == &(cData->Sign)){
                 p->push_back(*it);
                 data.p->erase(it);
                 break;

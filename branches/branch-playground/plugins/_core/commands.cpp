@@ -40,7 +40,7 @@ Commands::~Commands()
 {
     CMDS_MAP::iterator it;
     for (it = bars.begin(); it != bars.end(); ++it){
-        delete (*it).second;
+        delete it->second;
     }
     MENU_MAP::iterator itm;
     for (itm = menus.begin(); itm != menus.end(); ++itm){
@@ -54,7 +54,7 @@ CommandsDef *Commands::createBar(unsigned id)
 {
     CMDS_MAP::iterator it = bars.find(id);
     if (it != bars.end())
-        return (*it).second;
+        return it->second;
     CommandsDef *def = new CommandsDef(id, false);
     bars.insert(CMDS_MAP::value_type(id, def));
     return def;
@@ -65,16 +65,16 @@ void Commands::removeBar(unsigned id)
     CMDS_MAP::iterator it = bars.find(id);
     if (it == bars.end())
         return;
-    delete (*it).second;
+    delete it->second;
     bars.erase(it);
 }
 
 void Commands::clear()
 {
     for (MENU_MAP::iterator it = menus.begin(); it != menus.end(); ++it){
-        if ((*it).second.menu){
-            delete (*it).second.menu;
-            (*it).second.menu = NULL;
+        if (it->second.menu){
+            delete it->second.menu;
+            it->second.menu = NULL;
         }
     }
 }
@@ -83,7 +83,7 @@ CommandsDef *Commands::createMenu(unsigned id)
 {
     MENU_MAP::iterator it = menus.find(id);
     if (it != menus.end())
-        return (*it).second.def;
+        return it->second.def;
     MenuDef def;
     def.def  = new CommandsDef(id, true);
     def.menu = NULL;
@@ -97,9 +97,9 @@ void Commands::removeMenu(unsigned id)
     MENU_MAP::iterator it = menus.find(id);
     if (it == menus.end())
         return;
-    if ((*it).second.menu)
-        delete (*it).second.menu;
-    delete (*it).second.def;
+    if (it->second.menu)
+        delete it->second.menu;
+    delete it->second.def;
     menus.erase(it);
 }
 
@@ -108,8 +108,8 @@ CToolBar *Commands::show(unsigned id, QMainWindow *parent)
     CMDS_MAP::iterator it = bars.find(id);
     if (it == bars.end())
         return NULL;
-    (*it).second->setConfig(CorePlugin::m_plugin->property("Button" + QString::number(id)).toString());
-    return new CToolBar((*it).second, parent);
+    it->second->setConfig(CorePlugin::m_plugin->property(QString("Button") + QString::number(id)));
+    return new CToolBar(it->second, parent);
 }
 
 CMenu *Commands::get(CommandDef *cmd)
@@ -117,12 +117,12 @@ CMenu *Commands::get(CommandDef *cmd)
     MENU_MAP::iterator it = menus.find(cmd->popup_id);
     if (it == menus.end())
         return NULL;
-    MenuDef &d = (*it).second;
+    MenuDef &d = it->second;
     if (d.menu && ((cmd->flags & COMMAND_NEW_POPUP) == 0)){
         d.menu->setParam(cmd->param);
         return d.menu;
     }
-    d.def->setConfig(CorePlugin::m_plugin->property("Menu" + QString(cmd->popup_id)).toString());
+    d.def->setConfig(CorePlugin::m_plugin->property(QString("Menu") + QString(cmd->popup_id)));
     CMenu *menu = new CMenu(d.def);
     menu->setParam(cmd->param);
     if ((cmd->flags & COMMAND_NEW_POPUP) == 0)
@@ -135,7 +135,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
     MENU_MAP::iterator it = menus.find(id);
     if (it == menus.end())
         return NULL;
-    MenuDef &d = (*it).second;
+    MenuDef &d = it->second;
     if (key){
         CommandsList list(*d.def, true);
         CommandDef *cmd;
@@ -170,7 +170,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         d.menu->setParam(param);
         return d.menu;
     }
-    d.def->setConfig(CorePlugin::m_plugin->property("Menu" + QString::number(id)).toString());
+    d.def->setConfig(CorePlugin::m_plugin->property(QString("Menu") + QString::number(id)));
     d.menu = new CMenu(d.def);
     d.menu->setParam(param);
     return d.menu;
@@ -181,7 +181,7 @@ CommandsDef *Commands::getDef(unsigned id)
     MENU_MAP::iterator it = menus.find(id);
     if (it == menus.end())
         return NULL;
-    return (*it).second.def;
+    return it->second.def;
 }
 
 bool Commands::processEvent(Event *e)
@@ -277,7 +277,7 @@ void Commands::popupActivated()
     CMDS_MAP::iterator it = bars.find(cur_id);
     if (it == bars.end())
         return;
-    customize((*it).second);
+    customize(it->second);
 }
 
 void Commands::customize(CommandsDef *def)
@@ -305,8 +305,8 @@ void Commands::customizeMenu(unsigned long id)
     MENU_MAP::iterator it = menus.find(id);
     if (it == menus.end())
         return;
-    MenuDef &d = (*it).second;
-    d.def->setConfig(CorePlugin::m_plugin->property("Menu" + QString::number(id)).toString());
+    MenuDef &d = it->second;
+    d.def->setConfig(CorePlugin::m_plugin->property(QString("Menu") + QString::number(id)));
     customize(d.def);
 }
 
@@ -314,11 +314,11 @@ void Commands::set(CommandsDef *def, const char *str)
 {
     if (def->isMenu())
     {
-        CorePlugin::m_plugin->setProperty("Menu" + QString::number(def->id()), str);
+        CorePlugin::m_plugin->setProperty(QString("Menu") + QString::number(def->id()), str);
     }
     else
     {
-        CorePlugin::m_plugin->setProperty("Button" + QString::number(def->id()), str);
+        CorePlugin::m_plugin->setProperty(QString("Button") + QString::number(def->id()), str);
         EventToolbarChanged(def).process();
     }
 }

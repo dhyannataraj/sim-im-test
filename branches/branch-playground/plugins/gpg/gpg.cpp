@@ -118,17 +118,17 @@ GpgPlugin::~GpgPlugin()
     unregisterMessage();
     QList<DecryptMsg>::ConstIterator it;
     for (it = m_decrypt.constBegin(); it != m_decrypt.constEnd(); ++it){
-        delete (*it).msg;
-        delete (*it).process;
+        delete it->msg;
+        delete it->process;
     }
     for (it = m_import.constBegin(); it != m_import.constEnd(); ++it){
-        delete (*it).msg;
-        delete (*it).process;
+        delete it->msg;
+        delete it->process;
     }
     for (it = m_public.constBegin(); it != m_public.constEnd(); ++it)
-        delete (*it).process;
+        delete it->process;
     for (it = m_wait.constBegin(); it != m_wait.constEnd(); ++it)
-        delete (*it).msg;
+        delete it->msg;
     getContacts()->unregisterUserData(user_data_id);
 }
 
@@ -145,35 +145,35 @@ void GpgPlugin::clear()
 {
     QList<DecryptMsg>::iterator it;
     for (it = m_decrypt.begin(); it != m_decrypt.end();){
-        if ((*it).msg){
+        if (it->msg){
             ++it;
             continue;
         }
-        delete (*it).process;
-        QFile::remove((*it).infile);
-        QFile::remove((*it).outfile);
+        delete it->process;
+        QFile::remove(it->infile);
+        QFile::remove(it->outfile);
         m_decrypt.erase(it);
         it = m_decrypt.begin();
     }
     for (it = m_import.begin(); it != m_import.end(); ){
-        if ((*it).msg){
+        if (it->msg){
             ++it;
             continue;
         }
-        delete (*it).process;
-        QFile::remove((*it).infile);
-        QFile::remove((*it).outfile);
+        delete it->process;
+        QFile::remove(it->infile);
+        QFile::remove(it->outfile);
         m_import.erase(it);
         it = m_import.begin();
     }
     for (it = m_public.begin(); it != m_public.end(); ){
-        if ((*it).contact){
+        if (it->contact){
             ++it;
             continue;
         }
-        delete (*it).process;
-        QFile::remove((*it).infile);
-        QFile::remove((*it).outfile);
+        delete it->process;
+        QFile::remove(it->infile);
+        QFile::remove(it->outfile);
         m_public.erase(it);
         it = m_public.begin();
     }
@@ -183,13 +183,13 @@ void GpgPlugin::decryptReady()
 {
     int res = 0;
     for (QList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
-        QProcess *p = (*it).process;
-        if (p && p->state() != QProcess::Running && (*it).msg){
-            Message *msg = (*it).msg;
-            (*it).msg = NULL;
+        QProcess *p = it->process;
+        if (p && p->state() != QProcess::Running && it->msg){
+            Message *msg = it->msg;
+            it->msg = NULL;
             QTimer::singleShot(0, this, SLOT(clear()));
             if (p->exitStatus() == QProcess::NormalExit && p->exitCode() == 0){
-                QString s = (*it).outfile;
+                QString s = it->outfile;
                 QFile f(s);
                 if (f.open(QIODevice::ReadOnly)){
                     QByteArray ba = f.readAll();
@@ -199,28 +199,28 @@ void GpgPlugin::decryptReady()
                     log(L_WARN, "Can't open output decrypt file %s", qPrintable(s));
                     res = -1;
                 }
-                if (!(*it).key.isEmpty()){
+                if (!it->key.isEmpty()){
                     unsigned i = 1;
                     for (i = 1; i <= property("NPassphrases").toUInt(); i++){
-                        if ((*it).key == property("Keys").toStringList()[i])
+                        if (it->key == property("Keys").toStringList()[i])
                             break;
                     }
                     if (i > property("NPassphrases").toUInt()){
                         setProperty("NPassphrases", i);
                         QStringList l = property("Keys").toStringList();
-                        l[i] = (*it).key;
+                        l[i] = it->key;
                         setProperty("Keys", l);
                     }
 
                     QStringList list = property("Passphrases").toStringList();
-                    list[i] = (*it).passphrase;
+                    list[i] = it->passphrase;
                     setProperty("Passphrases", list);
                     for (;;){
                         QList<DecryptMsg>::iterator itw;
                         bool bDecode = false;
                         for (itw = m_wait.begin(); itw != m_wait.end(); ++itw){
-                            if ((*itw).key == (*it).key){
-                                decode((*itw).msg, (*it).passphrase, (*it).key);
+                            if ((*itw).key == it->key){
+                                decode((*itw).msg, it->passphrase, it->key);
                                 m_wait.erase(itw);
                                 bDecode = true;
                                 break;
@@ -229,7 +229,7 @@ void GpgPlugin::decryptReady()
                         if (!bDecode)
                             break;
                     }
-                    if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                    if (m_passphraseDlg && (it->key == m_passphraseDlg->m_key)){
                         delete m_passphraseDlg;
                         m_passphraseDlg = NULL;
                         askPassphrase();
@@ -248,7 +248,7 @@ void GpgPlugin::decryptReady()
                         if(n < 0)
                             break;
                         key = key.mid(n + strlen("BAD_PASSPHRASE "));
-                        if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                        if (m_passphraseDlg && (it->key == m_passphraseDlg->m_key)){
                             DecryptMsg m;
                             m.msg    = msg;
                             m.key    = key;
@@ -256,7 +256,7 @@ void GpgPlugin::decryptReady()
                             m_passphraseDlg->error();
                             return;
                         }
-                        if ((*it).passphrase.isEmpty()){
+                        if (it->passphrase.isEmpty()){
                             for (unsigned i = 1; i <= property("NPassphrases").toUInt(); i++){
                                 if (key == property("Keys").toStringList()[i]){
                                     passphrase = property("Passphrases").toStringList()[i];
@@ -264,7 +264,7 @@ void GpgPlugin::decryptReady()
                                 }
                             }
                         }
-                        if ((*it).passphrase.isEmpty() && !passphrase.isEmpty()){
+                        if (it->passphrase.isEmpty() && !passphrase.isEmpty()){
                             if (decode(msg, passphrase, key))
                                 return;
                         }else{
@@ -272,14 +272,14 @@ void GpgPlugin::decryptReady()
                             m.msg    = msg;
                             m.key    = key;
                             m_wait.push_back(m);
-                            (*it).msg = NULL;
+                            it->msg = NULL;
                             QTimer::singleShot(0, this, SLOT(clear()));
                             askPassphrase();
                             return;
                         }
                     }
                 }
-                if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                if (m_passphraseDlg && (it->key == m_passphraseDlg->m_key)){
                     delete m_passphraseDlg;
                     m_passphraseDlg = NULL;
                     askPassphrase();
@@ -301,12 +301,12 @@ void GpgPlugin::decryptReady()
 void GpgPlugin::importReady()
 {
     for (QList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
-        QProcess *p = (*it).process;
+        QProcess *p = it->process;
         if (p && p->state() != QProcess::Running){
             Message *msg = new Message(MessageGPGKey);
-            msg->setContact((*it).msg->contact());
-            msg->setClient((*it).msg->client());
-            msg->setFlags((*it).msg->getFlags());
+            msg->setContact(it->msg->contact());
+            msg->setClient(it->msg->client());
+            msg->setFlags(it->msg->getFlags());
 
 			p->setReadChannel(QProcess::StandardError);
             QByteArray ba = p->readAll();
@@ -327,8 +327,8 @@ void GpgPlugin::importReady()
 					len = r2.matchedLength();
                     text += err.mid(pos + 1, len - 2);
                     msg->setText(text);
-                    delete (*it).msg;
-                    (*it).msg = msg;
+                    delete it->msg;
+                    it->msg = msg;
 
                     QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -360,10 +360,10 @@ void GpgPlugin::importReady()
                     str = '(' + err + ')';
                 msg->setText(i18n("Importing public key failed") + str);
             }
-            EventMessageReceived e((*it).msg);
+            EventMessageReceived e(it->msg);
             if (!e.process(this))
-                delete (*it).msg;
-            (*it).msg = NULL;
+                delete it->msg;
+            it->msg = NULL;
             QTimer::singleShot(0, this, SLOT(clear()));
             return;
         }
@@ -445,10 +445,10 @@ bool GpgPlugin::processEvent(Event *e)
             EventMessage *em = static_cast<EventMessage*>(e);
             Message *msg = em->msg();
             for (QList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
-                if ((*it).msg == msg){
+                if (it->msg == msg){
                     if (msg->getError().isEmpty()){
                         Message m(MessageGPGKey);
-                        m.setText((*it).key);
+                        m.setText(it->key);
                         m.setClient(msg->client());
                         m.setContact(msg->contact());
                         EventSent(&m).process();
@@ -663,7 +663,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
 void GpgPlugin::publicReady()
 {
     for (QList<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
-        QProcess *p = (*it).process;
+        QProcess *p = it->process;
         if (p && p->state() != QProcess::Running){
             if (p->exitStatus() == QProcess::NormalExit && p->exitCode() == 0){
 				p->setReadChannel(QProcess::StandardError);
@@ -679,12 +679,12 @@ void GpgPlugin::publicReady()
                         getToken(line, ':');
                         getToken(line, ':');
                         QString sign = getToken(line, ':');
-                        QString name = (*it).outfile;
+                        QString name = it->outfile;
                         int pos = sign.length() - name.length();
                         if (pos < 0)
                             pos = 0;
                         if (sign.mid(pos) == name.toLatin1()){
-                            Contact *contact = getContacts()->contact((*it).contact);
+                            Contact *contact = getContacts()->contact(it->contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
                                 data->Key.str() = sign;
@@ -694,7 +694,7 @@ void GpgPlugin::publicReady()
                     }
                 }
             }
-            (*it).contact = 0;
+            it->contact = 0;
             break;
         }
     }
@@ -703,8 +703,8 @@ void GpgPlugin::publicReady()
 void GpgPlugin::passphraseApply(const QString &passphrase)
 {
     for (QList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end(); ++it){
-        if ((*it).key == m_passphraseDlg->m_key){
-            Message *msg = (*it).msg;
+        if (it->key == m_passphraseDlg->m_key){
+            Message *msg = it->msg;
             m_wait.erase(it);
             decode(msg, passphrase, m_passphraseDlg->m_key);
             return;
@@ -834,13 +834,13 @@ void GpgPlugin::passphraseFinished()
 {
     if (m_passphraseDlg){
         for (QList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end();){
-            if ((*it).key != m_passphraseDlg->m_key){
+            if (it->key != m_passphraseDlg->m_key){
                 ++it;
                 continue;
             }
-            EventMessageReceived e((*it).msg);
+            EventMessageReceived e(it->msg);
             if (!e.process(this))
-                delete (*it).msg;
+                delete it->msg;
             m_wait.erase(it);
             it = m_wait.begin();
         }

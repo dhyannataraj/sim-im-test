@@ -455,23 +455,23 @@ MSNServerMessage::~MSNServerMessage()
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())
-        set_ip(&m_client->data.owner.IP, QHostAddress(qPrintable((*it).second)).toIPv4Address());
+        set_ip(&m_client->data.owner.IP, QHostAddress(qPrintable(it->second)).toIPv4Address());
     it = values.find("Content-Type");
     if (it != values.end()){
-        QString content_type = (*it).second;
+        QString content_type = it->second;
         content_type = getToken(content_type, ';');
         if (content_type == "text/x-msmsgsinitialemailnotification"){
             m_client->m_init_mail = QString::null;
             it = values.find("Post-URL");
             if (it != values.end())
-                m_client->m_init_mail = (*it).second;
+                m_client->m_init_mail = it->second;
             it = values.find("Inbox-URL");
             if (it != values.end())
-                m_client->m_init_mail += (*it).second;
+                m_client->m_init_mail += it->second;
             it = values.find("Inbox-Unread");
             if (it == values.end())
                 return;
-            unsigned nUnread = (*it).second.toUInt();
+            unsigned nUnread = it->second.toUInt();
             if (nUnread){
                 EventNotification::ClientNotificationData data;
                 data.client     = m_client;
@@ -489,14 +489,14 @@ MSNServerMessage::~MSNServerMessage()
             m_client->m_new_mail = QString::null;
             it = values.find("Post-URL");
             if (it != values.end())
-                m_client->m_new_mail = (*it).second;
+                m_client->m_new_mail = it->second;
             it = values.find("Message-URL");
             if (it != values.end())
-                m_client->m_new_mail += (*it).second;
+                m_client->m_new_mail += it->second;
             QString from;
             it = values.find("From-Addr");
             if (it != values.end())
-                from = (*it).second;
+                from = it->second;
             QString msg = i18n("You have new mail");
             if (!from.isEmpty())
                 msg = i18n("%1 from %2") .arg(msg) .arg(from);

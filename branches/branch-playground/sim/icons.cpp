@@ -172,14 +172,14 @@ void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, 
 {
     QList<smileDef>::iterator it;
     for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
-        const QString pat = (*it).smile;
+        const QString pat = it->smile;
         int n = text.indexOf(pat);
         if (n < 0)
             continue;
         if (((unsigned)n < start) || (((unsigned)n == start) && ((unsigned)pat.length() > size))){
             start = n;
             size  = pat.length();
-            name  = (*it).name;
+            name  = it->name;
         }
     }
 }
@@ -190,14 +190,14 @@ void IconSet::getSmiles(QStringList &smiles, QStringList &used)
     bool bOK = false;
     QList<smileDef>::iterator it;
     for (it = m_smiles.begin(); it != m_smiles.end(); ++it){
-        if (name != (*it).name){
+        if (name != it->name){
             if (bOK && !name.isEmpty())
                 smiles.push_back(name);
-            name = (*it).name;
+            name = it->name;
             bOK = true;
         }
-        if (!used.contains((*it).smile)){
-            used.append((*it).smile);
+        if (!used.contains(it->smile)){
+            used.append(it->smile);
         }else{
             bOK = false;
         }
@@ -482,7 +482,7 @@ PictDef *FileIconSet::getPict(const QString &name)
         if (it.value().file.isEmpty())
             return NULL;
         QByteArray arr;
-        if (!m_zip->readFile((*it).file, &arr) && !m_zip->readFile(QFileInfo(m_zip->name()).baseName() + '/' + (*it).file, &arr))
+        if (!m_zip->readFile(it->file, &arr) && !m_zip->readFile(QFileInfo(m_zip->name()).baseName() + '/' + it->file, &arr))
             return NULL;
         it.value().image = QImage::fromData(arr).convertToFormat(QImage::Format_ARGB32);
     }

@@ -231,7 +231,7 @@ void CommonStatus::rebuildStatus()
 			if (it == status.end())
 				status.insert(MAP_STATUS::value_type(cmd->id, 1));
 			else
-				(*it).second++;
+				it->second++;
         }
 		if (!(nInvisible == -1 && client->protocol()->description()->flags & PROTOCOL_INVISIBLE))
 			continue;
@@ -258,7 +258,7 @@ void CommonStatus::rebuildStatus()
         MAP_STATUS::iterator it = status.find(cmd->id);
         if (it == status.end())
             continue;
-        if ((*it).second != nClients)
+        if (it->second != nClients)
             continue;
         CommandDef c = *cmd;
         if (FirstStatus == 0)
@@ -328,7 +328,7 @@ bool CommonStatus::processEvent(Event *e)
             EventShowNotification *ee = static_cast<EventShowNotification*>(e);
             const EventNotification::ClientNotificationData &data = ee->data();
 			for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it)
-				if ((*it).id == data.id)
+				if (it->id == data.id)
 					return true;
             BalloonItem item;
             item.id     = data.id;

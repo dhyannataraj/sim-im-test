@@ -119,7 +119,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
             DatePicker *picker = (DatePicker*)(ce->child());
             QList<Picker>::iterator it;
             for (it = m_pickers.begin(); it != m_pickers.end(); ++it){
-                if ((*it).picker == picker)
+                if (it->picker == picker)
                     break;
             }
             if (it == m_pickers.end())
@@ -131,7 +131,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
             for (QList<Picker>::iterator it = m_pickers.begin(); it != m_pickers.end(); ++it){
-                if ((*it).picker == picker){
+                if (it->picker == picker){
                     m_pickers.erase(it);
                     break;
                 }

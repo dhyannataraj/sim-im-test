@@ -69,7 +69,7 @@ YahooFileTransfer::YahooFileTransfer(FileMessage *msg, YahooUserData *data, Yaho
 YahooFileTransfer::~YahooFileTransfer()
 {
     for (list<Message_ID>::iterator it = m_client->m_waitMsg.begin(); it != m_client->m_waitMsg.end(); ++it){
-        if ((*it).msg == m_msg){
+        if (it->msg == m_msg){
             m_client->m_waitMsg.erase(it);
             break;
         }

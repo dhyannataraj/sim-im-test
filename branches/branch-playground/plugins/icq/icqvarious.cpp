@@ -181,7 +181,7 @@ void ICQClient::clearServerRequests()
     varRequests.clear();
     list<InfoRequest>::iterator it;
     for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
-        Contact *contact = getContacts()->contact((*it).uin);
+        Contact *contact = getContacts()->contact(it->uin);
         if (contact == NULL)
             continue;
         EventContact e(contact, EventContact::eFetchInfoFailed);
@@ -604,18 +604,18 @@ unsigned ICQClient::processInfoRequest()
     if ((getState() != Connected) || infoRequests.empty())
         return 0;
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ++it){
-        if ((*it).request_id)
+        if (it->request_id)
             continue;
         unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV));
         if (delay)
             return delay;
-        unsigned long uin = (*it).uin;
+        unsigned long uin = it->uin;
         serverRequest(ICQ_SRVxREQ_MORE);
         socket()->writeBuffer() << ((uin == data.owner.Uin.toULong()) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
         socket()->writeBuffer().pack(uin);
         sendServerRequest();
-        (*it).request_id = m_nMsgSequence;
-        (*it).start_time = time(NULL);
+        it->request_id = m_nMsgSequence;
+        it->start_time = time(NULL);
         log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
         varRequests.push_back(new FullInfoRequest(this, m_nMsgSequence, uin));
     }
@@ -627,11 +627,11 @@ void ICQClient::checkInfoRequest()
     // ToDo: replace time_t & tm with QDateTime
     time_t now = time(NULL);
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ){
-        if (((*it).request_id == 0) || ((time_t)((*it).start_time + INFO_REQUEST_TIMEOUT) < now)){
+        if ((it->request_id == 0) || ((time_t)(it->start_time + INFO_REQUEST_TIMEOUT) < now)){
             ++it;
             continue;
         }
-        ServerRequest *req = findServerRequest((*it).request_id);
+        ServerRequest *req = findServerRequest(it->request_id);
         if (req){
             req->fail();
         }else{
@@ -644,7 +644,7 @@ void ICQClient::checkInfoRequest()
 void ICQClient::addFullInfoRequest(unsigned long uin)
 {
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ++it){
-        if ((*it).uin == uin)
+        if (it->uin == uin)
             return;
     }
     InfoRequest r;
@@ -659,7 +659,7 @@ void ICQClient::removeFullInfoRequest(unsigned long uin)
 {
     list<InfoRequest>::iterator it;
     for (it = infoRequests.begin(); it != infoRequests.end(); ++it){
-        if ((*it).uin == uin){
+        if (it->uin == uin){
             infoRequests.erase(it);
             break;
         }
@@ -1748,9 +1748,9 @@ unsigned ICQClient::processSMSQueue()
 void ICQClient::clearSMSQueue()
 {
     for (list<SendMsg>::iterator it = snacICBM()->smsQueue.begin(); it != snacICBM()->smsQueue.end(); ++it){
-        (*it).msg->setError(I18N_NOOP("Client go offline"));
-        EventMessageSent((*it).msg).process();
-        delete (*it).msg;
+        it->msg->setError(I18N_NOOP("Client go offline"));
+        EventMessageSent(it->msg).process();
+        delete it->msg;
     }
     snacICBM()->smsQueue.clear();
     m_sendSmsId = 0;

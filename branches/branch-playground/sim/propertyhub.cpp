@@ -56,7 +56,7 @@ void PropertyHub::parseSection(const QString& string)
     QStringList lines = string.split('\n');
     for(QStringList::iterator it = lines.begin(); it != lines.end(); ++it)
     {
-        QStringList line = (*it).split('=');
+        QStringList line = it->split('=');
         if(line.size() != 2)
             continue;
         this->setProperty(qPrintable(line[0].trimmed()), line[1]);

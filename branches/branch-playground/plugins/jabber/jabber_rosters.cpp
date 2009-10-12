@@ -2144,11 +2144,11 @@ void JabberClient::processList()
         req->add_attribute("xmlns", "jabber:iq:roster");
         req->start_element("item");
         req->add_attribute("jid", r.jid);
-        if ((*it).bDelete)
+        if (it->bDelete)
             req->add_attribute("subscription", "remove");
-        if (!(*it).name.isEmpty())
+        if (!it->name.isEmpty())
             req->add_attribute("name", r.name);
-        if (!(*it).bDelete)
+        if (!it->bDelete)
             req->text_tag("group", r.grp);
         req->send();
         m_requests.push_back(req);

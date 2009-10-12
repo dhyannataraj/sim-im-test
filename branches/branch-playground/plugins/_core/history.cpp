@@ -555,7 +555,7 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
         MAP_MSG::iterator it = s_tempMsg->find(id);
         if (it == s_tempMsg->end())
             return NULL;
-        msg_save &ms = (*it).second;
+        msg_save &ms = it->second;
         Buffer config;
         config = ms.msg;
         config.setWritePos(0);
@@ -670,7 +670,7 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
         }
     }
     for (CLIENTS_MAP::iterator it = clients.begin(); it != clients.end(); ++it)
-        del((*it).first.str(), msg ? msg->contact() : contact_id, (*it).second + 1, false);
+        del(it->first.str(), msg ? msg->contact() : contact_id, it->second + 1, false);
 }
 
 void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy, Message *msg)

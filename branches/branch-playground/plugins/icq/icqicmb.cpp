@@ -447,34 +447,34 @@ void SnacIcqICBM::clearMsgQueue()
 {
 	list<SendMsg>::iterator it;
 	for (it = sendFgQueue.begin(); it != sendFgQueue.end(); ++it){
-		if ((*it).socket){
+		if (it->socket){
 			// dunno know if this is ok - vladimir please take a look
-			(*it).socket->acceptReverse(NULL);
+			it->socket->acceptReverse(NULL);
 			continue;
 		}
-		if ((*it).msg)
+		if (it->msg)
 		{
-			(*it).msg->setError(I18N_NOOP("Client go offline"));
-			EventMessageSent((*it).msg).process();
-			if ((*it).msg == m_send.msg)
+			it->msg->setError(I18N_NOOP("Client go offline"));
+			EventMessageSent(it->msg).process();
+			if (it->msg == m_send.msg)
 				m_send.msg = NULL;
-			delete (*it).msg;
+			delete it->msg;
 		}
 	}
 	sendFgQueue.clear();
 	for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
-		if ((*it).socket){
+		if (it->socket){
 			// dunno know if this is ok - vladimir please take a look
-			(*it).socket->acceptReverse(NULL);
+			it->socket->acceptReverse(NULL);
 			continue;
 		}
-		if((*it).msg)
+		if(it->msg)
 		{
-			(*it).msg->setError(I18N_NOOP("Client go offline"));
-			EventMessageSent((*it).msg).process();
-			if ((*it).msg == m_send.msg)
+			it->msg->setError(I18N_NOOP("Client go offline"));
+			EventMessageSent(it->msg).process();
+			if (it->msg == m_send.msg)
 				m_send.msg = NULL;
-			delete (*it).msg;
+			delete it->msg;
 		}
 	}
 	sendBgQueue.clear();
@@ -921,11 +921,11 @@ bool SnacIcqICBM::cancelMessage(SIM::Message* msg)
 	{
 		for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it)
 		{
-			if ((*it).msg == msg)
+			if (it->msg == msg)
 			{
 				if (it == smsQueue.begin())
 				{
-					(*it).text = QString::null;
+					it->text = QString::null;
 				}
 				else
 				{
@@ -960,7 +960,7 @@ bool SnacIcqICBM::cancelMessage(SIM::Message* msg)
 		list<SendMsg>::iterator it;
 		for(it = sendFgQueue.begin(); it != sendFgQueue.end(); ++it)
 		{
-			if((*it).msg == msg)
+			if(it->msg == msg)
 			{
 				sendFgQueue.erase(it);
 				delete msg;
@@ -969,7 +969,7 @@ bool SnacIcqICBM::cancelMessage(SIM::Message* msg)
 		}
 		for(it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it)
 		{
-			if ((*it).msg == msg)
+			if (it->msg == msg)
 			{
 				sendBgQueue.erase(it);
 				delete msg;
@@ -978,7 +978,7 @@ bool SnacIcqICBM::cancelMessage(SIM::Message* msg)
 		}
 		for(it = replyQueue.begin(); it != replyQueue.end(); ++it)
 		{
-			if ((*it).msg == msg)
+			if (it->msg == msg)
 			{
 				replyQueue.erase(it);
 				delete msg;
@@ -1049,12 +1049,12 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                 if (data){
                     list<SendMsg>::iterator it;
                     for (it = sendFgQueue.begin(); it != sendFgQueue.end();){
-                        if ((*it).screen != m_send.screen){
+                        if (it->screen != m_send.screen){
                             ++it;
                             continue;
                         }
-                        if ((*it).msg){
-                            (*it).flags = 0;
+                        if (it->msg){
+                            it->flags = 0;
                             ++it;
                             continue;
                         }
@@ -1062,12 +1062,12 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
                         it = sendFgQueue.begin();
                     }
                     for (it = sendBgQueue.begin(); it != sendBgQueue.end();){
-                        if ((*it).screen != m_send.screen){
+                        if (it->screen != m_send.screen){
                             ++it;
                             continue;
                         }
-                        if ((*it).msg){
-                            (*it).flags = 0;
+                        if (it->msg){
+                            it->flags = 0;
                             ++it;
                             continue;
                         }
@@ -1222,20 +1222,20 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
             if (it == replyQueue.end())
                 break;
 
-            unsigned plugin_type = (*it).flags;
+            unsigned plugin_type = it->flags;
             if (plugin_type == PLUGIN_AIM_FT_ACK){
-                m_client->m_processMsg.push_back((*it).msg);
+                m_client->m_processMsg.push_back(it->msg);
                 replyQueue.erase(it);
                 break;
             }
-            if ((*it).msg){
+            if (it->msg){
                 QByteArray answer;
                 socket()->readBuffer() >> answer;
-                if (ackMessage((*it).msg, ackFlags, answer)){
+                if (ackMessage(it->msg, ackFlags, answer)){
                     ackMessage(*it);
                 }else{
-                    EventMessageSent((*it).msg).process();
-                    delete (*it).msg;
+                    EventMessageSent(it->msg).process();
+                    delete it->msg;
                 }
                 replyQueue.erase(it);
                 break;
@@ -1823,7 +1823,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
                 }
 				else
 				{
-                    Message *msg = (*it).msg; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '1254'
+                    Message *msg = it->msg; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '1254'
                     replyQueue.erase(it);
                     if(msg->type() == MessageFile)
 					{
@@ -2169,8 +2169,8 @@ bool SnacIcqICBM::processMsg()
                 vector<alias_group> cc;
                 for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                     alias_group c; //Fixme: Local declaration of 'c' hides declaration of the same name in outer scope, see previous declaration at line '1786'
-                    c.alias = (*it).first.str();
-                    c.grp   = (*it).second.grp;
+                    c.alias = it->first.str();
+                    c.grp   = it->second.grp;
                     cc.push_back(c);
                 }
                 sort(cc.begin(), cc.end());

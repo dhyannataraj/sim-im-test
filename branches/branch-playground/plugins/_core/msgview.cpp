@@ -247,7 +247,7 @@ void MsgViewBase::update()
         unsigned id = messageId(s.left(n), client);
         list<Msg_Id>::iterator it;
         for (it = m_updated.begin(); it != m_updated.end(); ++it){
-            if (((*it).id == id) && ((*it).client == client))
+            if ((it->id == id) && (it->client == client))
                 break;
         }
         if (it != m_updated.end())
@@ -275,7 +275,7 @@ void MsgViewBase::update()
         unsigned id = messageId(s.left(n), client);
         list<Msg_Id>::iterator it;
         for (it = msgs.begin(); it != msgs.end(); ++it){
-            if (((*it).id == id) && ((*it).client == client))
+            if ((it->id == id) && (it->client == client))
                 break;
         }
         if (it != msgs.end())
@@ -294,7 +294,7 @@ void MsgViewBase::update()
     setReadOnly(true);
     QString text;
     for (list<Msg_Id>::iterator it = msgs.begin(); it != msgs.end(); ++it){
-        Message *msg = History::load((*it).id, (*it).client, m_id);
+        Message *msg = History::load(it->id, it->client, m_id);
         if (msg == NULL)
             continue;
         bool bUnread = false;
@@ -1302,7 +1302,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     if (tag == "img"){
         QString src;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-            QString name = (*it).toLower();
+            QString name = it->toLower();
             ++it;
             QString value = *it;
             if (name == "src"){
@@ -1344,7 +1344,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
 
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-        QString name = (*it).toLower();
+        QString name = it->toLower();
         ++it;
         QString value = *it;
 

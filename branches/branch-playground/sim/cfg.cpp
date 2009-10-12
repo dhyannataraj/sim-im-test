@@ -187,7 +187,7 @@ void Config::mergeOldConfig(const QString& filename)
         QStringList lines = re.cap(2).split('\n');
         for(QStringList::iterator it = lines.begin(); it != lines.end(); ++it)
         {
-            QStringList line = (*it).split('=');
+            QStringList line = it->split('=');
             if(line.size() != 2)
                 continue;
 

@@ -124,9 +124,9 @@ void FloatyWnd::init()
     h += 6;
     resize(w, h);
     for (list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
-        if ((*it).contact != m_id)
+        if (it->contact != m_id)
             continue;
-        m_unread = (*it).type;
+        m_unread = it->type;
         m_plugin->startBlink();
         break;
     }

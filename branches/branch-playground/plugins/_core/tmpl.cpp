@@ -69,10 +69,10 @@ bool Tmpl::processEvent(Event *e)
 void Tmpl::clear()
 {
     for (QList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
-        if ((*it).bReady && (*it).process){
-            delete (*it).process;
-            (*it).process = NULL;
-            (*it).bReady = false;
+        if (it->bReady && it->process){
+            delete it->process;
+            it->process = NULL;
+            it->bReady = false;
             if (process(*it)){
                 tmpls.erase(it);
                 it = tmpls.begin();
@@ -88,12 +88,12 @@ void Tmpl::clear()
 void Tmpl::ready()
 {
     for (QList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
-        QProcess *p = (*it).process;
+        QProcess *p = it->process;
         if (p && p->state() == QProcess::NotRunning){
             if (p->exitStatus() == QProcess::NormalExit){
-                (*it).bReady = true;
+                it->bReady = true;
                 p->setReadChannel(QProcess::StandardOutput);
-                (*it).res += QString::fromLocal8Bit(p->readAll());
+                it->res += QString::fromLocal8Bit(p->readAll());
                 QTimer::singleShot(0, this, SLOT(clear()));
                 return;
             }
@@ -187,7 +187,7 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
         if (tag == "Unread"){
             unsigned nUnread = 0;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-                if ((*it).contact == contact->id())
+                if (it->contact == contact->id())
                     nUnread++;
             }
             res += QString::number(nUnread);

@@ -59,9 +59,9 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
             m_edit->m_edit->setForeground(msg->getForeground(), true);
         }
         for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-            if (((*it).id == msg->id()) &&
-                    ((*it).contact == msg->contact()) &&
-                    ((*it).client == msg->client())){
+            if ((it->id == msg->id()) &&
+                    (it->contact == msg->contact()) &&
+                    (it->client == msg->client())){
                 CorePlugin::m_plugin->unread.erase(it);
                 EventMessageRead(msg).process();
                 break;

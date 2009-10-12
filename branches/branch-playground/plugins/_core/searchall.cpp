@@ -53,7 +53,7 @@ void SearchAll::refresh()
     for (it = m_searches.begin(); it != m_searches.end(); ){
         vector<ClientWidget>::iterator itw;
         for (itw = widgets.begin(); itw != widgets.end(); ++itw)
-            if ((*it).first == (*itw).widget)
+            if (it->first == (*itw).widget)
                 break;
         if (itw != widgets.end()){
             ++it;
@@ -80,12 +80,12 @@ void SearchAll::searchStop()
 {
     emit sSearchStop();
     for (WND_MAP::iterator it = m_searches.begin(); it != m_searches.end(); ++it){
-        disconnect(this, SIGNAL(sSearchStop()), (*it).first, SLOT(searchStop()));
-        disconnect(this, SIGNAL(searchMail(const QString&)), (*it).first, SLOT(searchMail(const QString&)));
-        disconnect(this, SIGNAL(searchName(const QString&, const QString&, const QString&)), (*it).first, SLOT(searchName(const QString&, const QString&, const QString&)));
-        disconnect((*it).first, SIGNAL(searchDone(QWidget*)), this, SLOT(slotSearchDone(QWidget*)));
-        disconnect((*it).first, SIGNAL(setColumns(const QStringList&, int, QWidget*)), this, SLOT(slotSetColumns(const QStringList&, int, QWidget*)));
-        disconnect((*it).first, SIGNAL(addItem(const QStringList&, QWidget*)), this, SLOT(slotAddItem(const QStringList&, QWidget*)));
+        disconnect(this, SIGNAL(sSearchStop()), it->first, SLOT(searchStop()));
+        disconnect(this, SIGNAL(searchMail(const QString&)), it->first, SLOT(searchMail(const QString&)));
+        disconnect(this, SIGNAL(searchName(const QString&, const QString&, const QString&)), it->first, SLOT(searchName(const QString&, const QString&, const QString&)));
+        disconnect(it->first, SIGNAL(searchDone(QWidget*)), this, SLOT(slotSearchDone(QWidget*)));
+        disconnect(it->first, SIGNAL(setColumns(const QStringList&, int, QWidget*)), this, SLOT(slotSetColumns(const QStringList&, int, QWidget*)));
+        disconnect(it->first, SIGNAL(addItem(const QStringList&, QWidget*)), this, SLOT(slotAddItem(const QStringList&, QWidget*)));
     }
 }
 
@@ -134,7 +134,7 @@ void SearchAll::slotSetColumns(const QStringList &attrs, int, QWidget *w)
         return;
     int i;
     for (i = 0; i < attrs.count() / 2; i++)
-        (*it).second.append(attrs[2 * i]);
+        it->second.append(attrs[2 * i]);
     QStringList newAttrs;
     for (i = 0; i < attrs.count() / 2; i++){
         QString attr = attrs[i * 2];
@@ -164,8 +164,8 @@ void SearchAll::slotAddItem(const QStringList &attrs, QWidget *w)
     for (int i = 0; i < m_attrs.count(); i++){
         QString attr = m_attrs[i];
         QString v;
-        for (int n = 0; n < (*it).second.count(); n++){
-            if ((*it).second[n] == attr){
+        for (int n = 0; n < it->second.count(); n++){
+            if (it->second[n] == attr){
                 v = attrs[n + 2];
                 break;
             }

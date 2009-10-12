@@ -586,7 +586,7 @@ bool ShortcutsPlugin::processEvent(Event *e)
             }
         }
         for (MAP_CMDS::iterator it = mouseCmds.begin(); it != mouseCmds.end();){
-            if ((*it).second.id != id){
+            if (it->second.id != id){
                 ++it;
                 continue;
             }
@@ -607,7 +607,7 @@ QString ShortcutsPlugin::getOldKey(CommandDef *cmd)
 {
     MAP_STR::iterator it = oldKeys.find(cmd->id);
     if (it != oldKeys.end())
-        return (*it).second;
+        return it->second;
     return cmd->accel;
 }
 
@@ -615,7 +615,7 @@ bool ShortcutsPlugin::getOldGlobal(CommandDef *cmd)
 {
     MAP_BOOL::iterator it = oldGlobals.find(cmd->id);
     if (it != oldGlobals.end())
-        return (*it).second;
+        return it->second;
     return ((cmd->flags & COMMAND_GLOBAL_ACCEL) != 0);
 }
 
@@ -825,7 +825,7 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
         button |= me->modifiers();
         MAP_CMDS::iterator it = mouseCmds.find(button);
         if (it != mouseCmds.end()){
-            CommandDef *cmd = &(*it).second;
+            CommandDef *cmd = &it->second;
             EventMenuGet e(cmd);
             e.process();
             QMenu *popup = e.menu();

@@ -426,11 +426,11 @@ bool UserView::processEvent(Event *e)
             bool bStart = blinks.empty();
             list<BlinkCount>::iterator it;
             for (it = blinks.begin(); it != blinks.end(); ++it){
-                if ((*it).id == contact->id())
+                if (it->id == contact->id())
                     break;
             }
             if (it != blinks.end()){
-                (*it).count = BLINK_COUNT;
+                it->count = BLINK_COUNT;
                 return false;
             }
             BlinkCount bc;
@@ -1240,12 +1240,12 @@ void UserView::editContactEnter()
 unsigned UserView::getUnread(unsigned contact_id)
 {
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-        if ((*it).contact == contact_id){
+        if (it->contact == contact_id){
             if (!unreadTimer->isActive()){
                 m_bUnreadBlink = true;
                 unreadTimer->start(BLINK_TIMEOUT);
             }
-            return (*it).type;
+            return it->type;
         }
     }
     return 0;
@@ -1283,11 +1283,11 @@ void UserView::unreadBlink()
     list<unsigned>::iterator itb;
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
         for (itb = blinks.begin(); itb != blinks.end(); ++itb)
-            if ((*itb) == (*it).contact)
+            if ((*itb) == it->contact)
                 break;
         if (itb != blinks.end())
             continue;
-        blinks.push_back((*it).contact);
+        blinks.push_back(it->contact);
     }
     list<ListViewItem*> grps;
     if (blinks.empty()){
@@ -1321,7 +1321,7 @@ void UserView::blink()
     m_bBlink = !m_bBlink;
     list<BlinkCount>::iterator it;
     for (it = blinks.begin(); it != blinks.end();){
-        ContactItem *contact = findContactItem((*it).id, NULL);
+        ContactItem *contact = findContactItem(it->id, NULL);
         if (contact == NULL){
             blinks.erase(it);
             it = blinks.begin();
@@ -1335,9 +1335,9 @@ void UserView::blink()
     if (m_bBlink)
         return;
     for (it = blinks.begin(); it != blinks.end(); ++it)
-        (*it).count--;
+        it->count--;
     for (it = blinks.begin(); it != blinks.end(); ){
-        if ((*it).count){
+        if (it->count){
             ++it;
             continue;
         }

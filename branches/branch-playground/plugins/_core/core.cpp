@@ -1492,7 +1492,7 @@ bool CorePlugin::processEvent(Event *e)
 				unsigned long contact_id = eda->id();
 				unsigned index = 0;
 				for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it, index++){
-					if ((*it).contact != contact_id)
+					if (it->contact != contact_id)
 						continue;
 					Command cmd;
 					cmd->id = CmdUnread + index;
@@ -2051,16 +2051,16 @@ bool CorePlugin::processEvent(Event *e)
 						vector<clientContact> ways;
 						getWays(ways, contact);
 						for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
-							if ((cmd->id == MessageSMS) && ((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS))
+							if ((cmd->id == MessageSMS) && (it->client->protocol()->description()->flags & PROTOCOL_NOSMS))
 								return false;
-							if ((*it).client->canSend(cmd->id, (*it).data)){
+							if (it->client->canSend(cmd->id, it->data)){
 								return true;
 							}
 						}
 						if ((cmd->id == MessageSMS) && !ways.empty()){
 							vector<clientContact>::iterator it;
 							for (it = ways.begin(); it != ways.end(); ++it){
-								if (((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS) == 0)
+								if ((it->client->protocol()->description()->flags & PROTOCOL_NOSMS) == 0)
 									break;
 							}
 							if (it == ways.end())
@@ -2159,11 +2159,11 @@ bool CorePlugin::processEvent(Event *e)
 					CommandDef *def;
 					unsigned n = 0;
 					for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it, n++){
-						if (contact_id && ((*it).contact != contact_id))
+						if (contact_id && (it->contact != contact_id))
 							continue;
 						msgIndex m;
-						m.contact = (*it).contact;
-						m.type    = (*it).type;
+						m.contact = it->contact;
+						m.type    = it->type;
 						itc = count.find(m);
 						if (itc == count.end()){
 							msgCount c;
@@ -2765,7 +2765,7 @@ bool CorePlugin::processEvent(Event *e)
 					unsigned n = cmd->id - CmdUnread;
 					for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it){
 						if (n-- == 0){
-							Message *msg = History::load((*it).id, (*it).client, (*it).contact);
+							Message *msg = History::load(it->id, it->client, it->contact);
 							if (msg){
 								msg->setFlags(msg->getFlags() & ~MESSAGE_NORAISE);
 								EventOpenMessage(msg).process();

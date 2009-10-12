@@ -264,8 +264,8 @@ bool JabberAdd::processEvent(Event *e)
         }
         list<ItemInfo>::iterator it;
         for (it = m_disco_items.begin(); it != m_disco_items.end(); ++it){
-            if ((*it).id == item->id){
-                addSearch((*it).jid, (*it).node, item->features, item->type);
+            if (it->id == item->id){
+                addSearch(it->jid, it->node, item->features, item->type);
                 m_disco_items.erase(it);
                 checkDone();
                 break;
@@ -277,27 +277,27 @@ bool JabberAdd::processEvent(Event *e)
         JabberAgentInfo *data = eai->agentInfo();
         list<AgentSearch>::iterator it;
         for (it = m_agents.begin(); it != m_agents.end(); ++it)
-            if ((*it).id_info == data->ReqID.str())
+            if (it->id_info == data->ReqID.str())
                 break;
         if (it == m_agents.end())
             return false;
         if (data->Type.str().isEmpty()){
-            (*it).id_info = QString::null;
+            it->id_info = QString::null;
             if (m_first.isEmpty())
-                (*it).fill |= FILL_FIRST;
+                it->fill |= FILL_FIRST;
             if (m_last.isEmpty())
-                (*it).fill |= FILL_LAST;
+                it->fill |= FILL_LAST;
             if (m_nick.isEmpty())
-                (*it).fill |= FILL_NICK;
+                it->fill |= FILL_NICK;
             if (m_mail.isEmpty())
-                (*it).fill |= FILL_MAIL;
-            if ((*it).fill != FILL_ALL){
+                it->fill |= FILL_MAIL;
+            if (it->fill != FILL_ALL){
                 m_agents.erase(it);
                 checkDone();
                 return true;
             }
-            (*it).id_search = m_client->search((*it).jid, (*it).node, (*it).condition);
-            if ((*it).condition.left(6) != "x:data"){
+            it->id_search = m_client->search(it->jid, it->node, it->condition);
+            if (it->condition.left(6) != "x:data"){
                 addAttr("", i18n("JID"));
                 addAttr("first", i18n("First Name"));
                 addAttr("last", i18n("Last Name"));
@@ -308,8 +308,8 @@ bool JabberAdd::processEvent(Event *e)
             return true;
         }
         if (data->Type.str() == "x"){
-            (*it).condition = "x:data";
-            (*it).fill = 0;
+            it->condition = "x:data";
+            it->fill = 0;
             return true;
         }
         QString value;
@@ -321,47 +321,47 @@ bool JabberAdd::processEvent(Event *e)
             field = data->Field.str();
             if ((data->Field.str() == "first") && !m_first.isEmpty()){
                 value = m_first;
-                (*it).fill |= FILL_FIRST;
+                it->fill |= FILL_FIRST;
             }
             if ((data->Field.str() == "last") && !m_last.isEmpty()){
                 value = m_last;
-                (*it).fill |= FILL_LAST;
+                it->fill |= FILL_LAST;
             }
             if (((data->Field.str() == "nickname") || (data->Field.str() == "nick")) && !m_nick.isEmpty()){
                 value = m_nick;
-                (*it).fill |= FILL_NICK;
+                it->fill |= FILL_NICK;
             }
             if ((data->Field.str() == "email") && !m_mail.isEmpty()){
                 value = m_mail;
-                (*it).fill |= FILL_MAIL;
+                it->fill |= FILL_MAIL;
             }
         }
         if ((data->Type.str() == "first") && !m_first.isEmpty()){
             field = data->Type.str();
             value = m_first;
-            (*it).fill |= FILL_FIRST;
+            it->fill |= FILL_FIRST;
         }
         if ((data->Type.str() == "last") && !m_last.isEmpty()){
             field = data->Type.str();
             value = m_last;
-            (*it).fill |= FILL_LAST;
+            it->fill |= FILL_LAST;
         }
         if (((data->Type.str() == "nickname") || (data->Type.str() == "nick")) && !m_nick.isEmpty()){
             field = data->Type.str();
             value = m_nick;
-            (*it).fill |= FILL_NICK;
+            it->fill |= FILL_NICK;
         }
         if ((data->Type.str() == "email") && !m_mail.isEmpty()){
             field = data->Type.str();
             value = m_mail;
-            (*it).fill |= FILL_MAIL;
+            it->fill |= FILL_MAIL;
         }
         if (!value.isEmpty()){
-            if (!(*it).condition.isEmpty())
-                (*it).condition += ';';
-            (*it).condition += field;
-            (*it).condition += '=';
-            (*it).condition += quoteChars(value, ";");
+            if (!it->condition.isEmpty())
+                it->condition += ';';
+            it->condition += field;
+            it->condition += '=';
+            it->condition += quoteChars(value, ";");
         }
         return true;
     }
@@ -370,7 +370,7 @@ bool JabberAdd::processEvent(Event *e)
         JabberSearchData *data = es->searchData();
         list<AgentSearch>::iterator it;
         for (it = m_agents.begin(); it != m_agents.end(); ++it)
-            if ((*it).id_search == data->ID.str())
+            if (it->id_search == data->ID.str())
                 break;
         if (it == m_agents.end())
             return false;
@@ -378,23 +378,23 @@ bool JabberAdd::processEvent(Event *e)
             addAttr("", i18n("JID"));
             for (unsigned i = 0; i < data->nFields.toULong(); i++){
                 addAttr(get_str(data->Fields, i * 2), get_str(data->Fields, i * 2 + 1));
-                (*it).fields.push_back(get_str(data->Fields, i * 2));
+                it->fields.push_back(get_str(data->Fields, i * 2));
             }
             addAttrs();
             return true;
         }
         QString icon = "Jabber";
-        if ((*it).type == "icq"){
+        if (it->type == "icq"){
             icon = "ICQ";
-        }else if ((*it).type == "aim"){
+        }else if (it->type == "aim"){
             icon = "AIM";
-        }else if ((*it).type == "msn"){
+        }else if (it->type == "msn"){
             icon = "MSN";
-        }else if ((*it).type == "yahoo"){
+        }else if (it->type == "yahoo"){
             icon = "Yahoo!";
-        }else if ((*it).type == "sms"){
+        }else if (it->type == "sms"){
             icon = "sms";
-        }else if (((*it).type == "x-gadugadu") || ((*it).type == "gg")){
+        }else if ((it->type == "x-gadugadu") || (it->type == "gg")){
             icon = "GG";
         }
         if (!data->Status.str().isEmpty()){
@@ -420,8 +420,8 @@ bool JabberAdd::processEvent(Event *e)
             }else if ((m_fields[i] == "email") && !data->EMail.str().isEmpty()){
                 v = data->EMail.str();
             }else{
-                for (unsigned n = 0; n < (*it).fields.size(); n++){
-                    if ((*it).fields[n] == m_fields[i]){
+                for (unsigned n = 0; n < it->fields.size(); n++){
+                    if (it->fields[n] == m_fields[i]){
                         v = get_str(data->Fields, n);
                         break;
                     }
@@ -436,7 +436,7 @@ bool JabberAdd::processEvent(Event *e)
         QString id = esd->userID();
         list<AgentSearch>::iterator it;
         for (it = m_agents.begin(); it != m_agents.end(); ++it)
-            if ((*it).id_search == id)
+            if (it->id_search == id)
                 break;
         if (it == m_agents.end())
             return false;

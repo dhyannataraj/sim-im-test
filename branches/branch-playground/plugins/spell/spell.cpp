@@ -205,7 +205,7 @@ void SpellPlugin::textEditFinished(TextEdit *edit)
 {
     MAP_EDITS::iterator it = m_edits.find(edit);
     if (it != m_edits.end())
-        delete (*it).second;
+        delete it->second;
 }
 
 void SpellPlugin::check(const QString &word)

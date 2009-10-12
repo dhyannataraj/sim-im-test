@@ -21,6 +21,7 @@
 #include "simapi.h"
 
 class QString;
+class QVariant;
 
 namespace SIM {
 
@@ -48,7 +49,8 @@ public:
     ~CommandsDef();
     unsigned id();
     bool isMenu();
-    void setConfig(const QString &cfg);
+    void setConfig(const QString &cfg_str);
+    void setConfig(const QVariant &cfg_variant);
     void set(const CommandDef *def);
     void set(const CommandDef &def);
 private:

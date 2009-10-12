@@ -846,8 +846,8 @@ void ICQClient::sendInvisible(bool bInvisible)
 ListRequest *ICQClient::findContactListRequest(const QString &screen)
 {
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
-        if ((((*it).type == LIST_USER_CHANGED) || ((*it).type == LIST_USER_DELETED)) &&
-                ((*it).screen == screen))
+        if (((it->type == LIST_USER_CHANGED) || (it->type == LIST_USER_DELETED)) &&
+                (it->screen == screen))
             return &(*it);
     }
     return NULL;
@@ -856,10 +856,10 @@ ListRequest *ICQClient::findContactListRequest(const QString &screen)
 ListRequest *ICQClient::findGroupListRequest(unsigned short id)
 {
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
-        switch ((*it).type){
+        switch (it->type){
         case LIST_GROUP_DELETED:
         case LIST_GROUP_CHANGED:
-            if ((*it).icq_id == id)
+            if (it->icq_id == id)
                 return &(*it);
             break;
         }
@@ -1574,9 +1574,9 @@ void ICQClient::addGroupRequest(Group *group)
     if (data == NULL){
         list<ListRequest>::iterator it;
         for (it = listRequests.begin(); it != listRequests.end(); it++){
-            if ((*it).type != LIST_GROUP_CHANGED)
+            if (it->type != LIST_GROUP_CHANGED)
                 continue;
-            if ((*it).screen.toULong() == group->id())
+            if (it->screen.toULong() == group->id())
                 return;
         }
         ListRequest lr;
@@ -1588,9 +1588,9 @@ void ICQClient::addGroupRequest(Group *group)
     }
     list<ListRequest>::iterator it;
     for (it = listRequests.begin(); it != listRequests.end(); it++){
-        if ((*it).type != LIST_GROUP_CHANGED)
+        if (it->type != LIST_GROUP_CHANGED)
             continue;
-        if ((*it).icq_id == data->IcqID.toULong())
+        if (it->icq_id == data->IcqID.toULong())
             return;
     }
     QString alias = data->Alias.str();
@@ -1611,9 +1611,9 @@ void ICQClient::addContactRequest(Contact *contact)
     while ((data = toICQUserData(++it)) != NULL){
         list<ListRequest>::iterator it;
         for (it = listRequests.begin(); it != listRequests.end(); it++){
-            if ((*it).type != LIST_USER_CHANGED)
+            if (it->type != LIST_USER_CHANGED)
                 continue;
-            if ((*it).screen == screen(data))
+            if (it->screen == screen(data))
                 return;
         }
 

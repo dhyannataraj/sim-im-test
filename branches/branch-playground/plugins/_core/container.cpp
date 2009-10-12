@@ -75,6 +75,7 @@ protected:
     virtual QSizePolicy sizePolicy() const;
 };
 
+//FIXME: Obsolete?
 static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
 {
     for(unsigned i = 0; i < count; i++)
@@ -393,7 +394,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     bool bHighlight = false;
     for(list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it)
 	{
-        if((*it).contact == wnd->id())
+        if(it->contact == wnd->id())
 		{
             bHighlight = true;
             break;
@@ -752,7 +753,7 @@ bool Container::processEvent(Event *e)
 				if (userWnd){
 					bool bHighlight = false;
 					for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
-						if ((*it).contact != msg->contact())
+						if (it->contact != msg->contact())
 							continue;
 						bHighlight = true;
 						break;

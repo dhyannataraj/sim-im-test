@@ -225,7 +225,7 @@ void MigrateDialog::process()
             hTo.close();
             hFrom.setFileName(h_path + (*it));
             lblStatus->setText(h_path + (*it));
-            hTo.setFileName(h_path + QString(m_owner) + '.' + (*it).left((*it).indexOf('.')));
+            hTo.setFileName(h_path + QString(m_owner) + '.' + it->left(it->indexOf('.')));
             if (!hFrom.open(QIODevice::ReadOnly)){
                 error(i18n("Can't open %1") .arg(hFrom.fileName()));
                 return;

@@ -149,8 +149,8 @@ QByteArray YahooClient::getConfig()
     for (list<ListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
         if (!requests.isEmpty())
             requests += ";";
-        requests += QString::number((*it).type);
-        requests += (*it).name;
+        requests += QString::number(it->type);
+        requests += it->name;
     }
     setListRequests(requests);
     res += save_data(yahooClientData, &data);
@@ -247,8 +247,8 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (!m_values.empty()){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             size += 4;
-            size += (*it).second.length();
-            size += QByteArray::number((*it).first).length();
+            size += it->second.length();
+            size += QByteArray::number(it->first).length();
         }
     }
     socket()->writeBuffer().packetStart();
@@ -257,9 +257,9 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             socket()->writeBuffer()
-            << QByteArray::number((*it).first).constData()
+            << QByteArray::number(it->first).constData()
             << (unsigned short)0xC080
-            << (*it).second.constData()
+            << it->second.constData()
             << (unsigned short)0xC080;
         }
     }
@@ -303,8 +303,8 @@ void YahooClient::connect_ready()
 const char *Params::operator [](unsigned id)
 {
     for (iterator it = begin(); it != end(); ++it){
-        if ((*it).first == id)
-            return (*it).second.data();
+        if (it->first == id)
+            return it->second.data();
     }
     return "";
 }
@@ -451,8 +451,8 @@ void YahooClient::process_packet(Params &params)
         if ((params[28] == NULL) && params[11]){
             unsigned id =atol(params[11]);
             for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
-                if ((*it).id == id){
-                    FileMessage *msg = static_cast<FileMessage*>((*it).msg);
+                if (it->id == id){
+                    FileMessage *msg = static_cast<FileMessage*>(it->msg);
                     m_waitMsg.erase(it);
                     if (msg->m_transfer){
                         static_cast<YahooFileTransfer*>(msg->m_transfer)->error_state(I18N_NOOP("Message declined"), 0);
@@ -1885,7 +1885,7 @@ bool YahooClient::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
-            if ((*it).msg == msg){
+            if (it->msg == msg){
                 m_waitMsg.erase(it);
                 delete msg;
                 return true;
@@ -2048,8 +2048,8 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     addParam(54, "MSG1.0");
     sendPacket(YAHOO_SERVICE_P2PFILEXFER, YAHOO_STATUS_AVAILABLE);
     for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
-        if ((*it).msg == msg){
-            (*it).id = m_ft_id;
+        if (it->msg == msg){
+            it->id = m_ft_id;
             break;
         }
     }
@@ -2147,7 +2147,7 @@ void YahooPlugin::unregisterMessages()
 ListRequest *YahooClient::findRequest(const QString &name)
 {
     for (list<ListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
-        if ((*it).name == name)
+        if (it->name == name)
             return &(*it);
     }
     return NULL;

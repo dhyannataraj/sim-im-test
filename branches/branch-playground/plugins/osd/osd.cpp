@@ -551,9 +551,9 @@ void OSDPlugin::processQueue()
                 TYPE_MAP::iterator itc;
                 QString msg_text;
                 for (it = core->unread.begin(); it != core->unread.end(); ++it){
-                    if ((*it).contact != m_request.contact)
+                    if (it->contact != m_request.contact)
                         continue;
-                    unsigned type = (*it).type;
+                    unsigned type = it->type;
                     itc = types.find(type);
                     if (itc == types.end()){
                         types.insert(TYPE_MAP::value_type(type, 1));
@@ -562,7 +562,7 @@ void OSDPlugin::processQueue()
                     }
                     if (!data->EnableMessageShowContent.toBool())
                         continue;
-                    EventLoadMessage e((*it).id, (*it).client, (*it).contact);
+                    EventLoadMessage e(it->id, it->client, it->contact);
                     e.process();
                     Message *msg = e.message();
                     if (msg == NULL)
@@ -680,11 +680,11 @@ void OSDPlugin::closeClick()
 {
     if (m_request.type == OSD_MESSAGE){
         for (list<msg_id>::iterator it = core->unread.begin(); it != core->unread.end(); ){
-            if ((*it).contact != m_request.contact){
+            if (it->contact != m_request.contact){
                 ++it;
                 continue;
             }
-            EventLoadMessage e((*it).id, (*it).client, (*it).contact);
+            EventLoadMessage e(it->id, it->client, it->contact);
             e.process();
             Message *msg = e.message();
             core->unread.erase(it);

@@ -329,13 +329,13 @@ void DockWnd::reset()
     MAP_COUNT::iterator itc;
     for (std::list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
         if (m_unread.isEmpty()){
-            CommandDef *def = m_plugin->m_core->messageTypes.find((*it).type);
+            CommandDef *def = m_plugin->m_core->messageTypes.find(it->type);
             if (def)
                 m_unread = def->icon;
         }
         msgIndex m;
-        m.contact = (*it).contact;
-        m.type    = (*it).type;
+        m.contact = it->contact;
+        m.type    = it->type;
         itc = count.find(m);
         if (itc == count.end()){
             count.insert(m, 1);

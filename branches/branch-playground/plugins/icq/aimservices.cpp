@@ -182,9 +182,9 @@ void SearchSocket::process()
     for (REQUEST_MAP::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
         snac(USER_DIRECTORY_SERVICE, USER_DIRECTORY_SEARCH, true);
         bool bLatin;
-        if (!(*it).count() == 0)
+        if (!it->count() == 0)
             continue;
-        if (!(*it).count() == 1){
+        if (!it->count() == 1){
             QStringList sl = (*it);
             QString mail = sl[0];
             bLatin = bLatin1(mail);

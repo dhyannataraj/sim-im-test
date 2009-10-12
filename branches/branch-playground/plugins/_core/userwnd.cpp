@@ -47,6 +47,7 @@ static DataDef userWndData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
+//FIXME: Obsolete?
 static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
 {
     for(unsigned i = 0; i < count; i++)
@@ -322,12 +323,12 @@ void UserWnd::markAsRead()
         return;
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); )
     {
-        if ((*it).contact != m_id) 
+        if (it->contact != m_id) 
         {
             ++it;
             continue;
         }
-        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
+        Message *msg = History::load(it->id, it->client, it->contact);
         CorePlugin::m_plugin->unread.erase(it);
         if (msg){
             EventMessageRead(msg).process();
