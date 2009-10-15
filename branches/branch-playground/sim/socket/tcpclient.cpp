@@ -44,9 +44,9 @@ namespace SIM
 		return false;
 	}
 
-	void TCPClient::resolve_ready(unsigned long ip)
+        void TCPClient::resolve_ready(QHostAddress ip)
 	{
-		m_ip = ip;
+                m_ip = ip.toIPv4Address();
 	}
 
 	bool TCPClient::error_state(const QString &err, unsigned code)

@@ -32,6 +32,8 @@ public:
     virtual void write(const char *buf, unsigned size);
     virtual void close();
     virtual Mode mode() const { return Web; }
+    virtual bool isEncrypted(){ return false; }
+    virtual bool startEncryption(){ return false; }
 protected:
     virtual bool done(unsigned code, Buffer &data, const QString &headers);
     Buffer readData;

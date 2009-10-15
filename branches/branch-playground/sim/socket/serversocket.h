@@ -15,9 +15,6 @@ namespace SIM
 		virtual ~ServerSocket() {}
 		void setNotify(ServerSocketNotify *n) { notify = n; }
 		virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client) = 0;
-#ifndef WIN32
-		virtual void bind(const char *path) = 0;
-#endif
 		virtual void close() = 0;
 
 	protected:

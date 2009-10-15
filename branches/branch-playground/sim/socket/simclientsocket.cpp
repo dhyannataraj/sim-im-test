@@ -1,62 +1,68 @@
-
-#include <Q3Socket>
-#include <Q3SocketDevice>
-#include <QTimerEvent>
-
-#ifdef WIN32
-	#include <winsock.h>
-	#include <wininet.h>
-#else
-	#include <sys/socket.h>
-	#include <sys/time.h>
-	#include <sys/un.h>
-	#include <netinet/in.h>
-	#include <netdb.h>
-	#include <arpa/inet.h>
-	#include <pwd.h>
-	#include <net/if.h>
-	#include <sys/ioctl.h>
-#endif
-#include <errno.h>
-
 #include "simclientsocket.h"
 
-#include "fetch.h"
+#include <QSslSocket>
+#include <QNetworkInterface>
+
 #include "socketfactory.h"
-#include "simsockets.h"
 #include "log.h"
 #include "misc.h"
 
 namespace SIM
 {
-    const unsigned CONNECT_TIMEOUT = 60;
+    const unsigned CONNECT_TIMEOUT = 60;  // FIXME hardcoded
+    const unsigned CARRIER_CHECK_TIMEOUT = 10000;  // FIXME hardcoded
 
-    SIMClientSocket::SIMClientSocket(Q3Socket *s)
+    SIMClientSocket::SIMClientSocket( QSslSocket *s )
+        : m_carrierCheckTimer( this )
+        , m_connectionTimer( this )
+        , bInWrite( false )
+        , sock( NULL )
+        , m_bEncrypted( false )
     {
-        sock = s;
-        if (sock == NULL)
-            sock = new Q3Socket(this);
-        QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
-        QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
-        QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
-        QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
-        QObject::connect(sock, SIGNAL(bytesWritten(int)), this, SLOT(slotBytesWritten(int)));
-        bInWrite = false;
-        timer = NULL;
-        m_carrierCheckTimer = 0;
+        pickUpSocket( s );
+        m_carrierCheckTimer.setInterval( CARRIER_CHECK_TIMEOUT );
+        QObject::connect( &m_carrierCheckTimer, SIGNAL(timeout()), SLOT(checkInterface()) );
+        m_connectionTimer.setInterval( CONNECT_TIMEOUT );
+        QObject::connect( &m_connectionTimer, SIGNAL(timeout()), SLOT(connectionTimeout()) );
     }
 
     SIMClientSocket::~SIMClientSocket()
     {
-        if (!sock)
+        dropSocket();
+    }
+
+    void SIMClientSocket::pickUpSocket( QSslSocket *pSocket ) {
+        if( NULL != sock )
+            dropSocket();
+
+        sock = pSocket;
+        if( NULL == sock )
+            return;
+
+        QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
+        QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(slotConnectionClosed()));
+        QObject::connect(sock, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
+        QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(slotReadReady()));
+        QObject::connect(sock, SIGNAL(bytesWritten(qint64)), this, SLOT(slotBytesWritten(qint64)));
+        QObject::connect(sock, SIGNAL(encrypted()), this, SLOT(sslEncrypted()));
+        QObject::connect(sock, SIGNAL(encryptedBytesWritten(qint64)), this, SLOT(sslEncryptedBytesWritten(qint64)));
+        QObject::connect(sock, SIGNAL(modeChanged(QSslSocket::SslMode)), this, SLOT(sslModeChanged(QSslSocket::SslMode)));
+        QObject::connect(sock, SIGNAL(peerVerifyError(const QSslError&)), this, SLOT(sslPeerVerifyError(const QSslError&)));
+        QObject::connect(sock, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
+
+    }
+
+    void SIMClientSocket::dropSocket() {
+        if( NULL == sock )
             return;
         timerStop();
+        disconnect( sock, 0, 0, 0 );
         sock->close();
-
-        if (sock->state() == Q3Socket::Closing)
-            sock->connect(sock, SIGNAL(delayedCloseFinished()), SLOT(deleteLater()));
+        if( sock->state() == QAbstractSocket::ClosingState )
+            sock->connect( sock, SIGNAL(disconnected()), SLOT(deleteLater()) );
         else
             delete sock;
+        sock = NULL;
     }
 
     void SIMClientSocket::close()
@@ -67,10 +73,8 @@ namespace SIM
 
     void SIMClientSocket::timerStop()
     {
-        if (timer){
-            delete timer;
-            timer = NULL;
-        }
+        m_connectionTimer.stop();
+        m_carrierCheckTimer.stop();
     }
 
     void SIMClientSocket::slotLookupFinished(int state)
@@ -102,6 +106,8 @@ namespace SIM
 
     void SIMClientSocket::write(const char *buf, unsigned int size)
     {
+        if( NULL == sock )
+            return;
         bInWrite = true;
         int res = sock->write(buf, size);
         bInWrite = false;
@@ -116,61 +122,30 @@ namespace SIM
 
     void SIMClientSocket::connect(const QString &_host, unsigned short _port)
     {
+        if( ( NULL != sock ) && sock->state() != QAbstractSocket::UnconnectedState ) {
+            dropSocket();
+        }
+        if( NULL == sock ) {
+            pickUpSocket( new QSslSocket( this ) );
+        }
         port = _port;
         host = _host;
-        if (host.isNull())
-            host=""; // Avoid crashing when _host is NULL
-#ifdef WIN32
-        bool bState;
-        if (get_connection_state(bState) && !bState){
-            QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
-            return;
-        }
-#endif
-        log(L_DEBUG, QString("Connect to %1:%2").arg(host).arg(port));
-        if (inet_addr(host.toUtf8()) == INADDR_NONE){
-            log(L_DEBUG, QString("Start resolve %1").arg(host));
-            SIMSockets *s = static_cast<SIMSockets*>(getSocketFactory());
-            QObject::connect(s, SIGNAL(resolveReady(unsigned long, const QString&)),
-                    this, SLOT(resolveReady(unsigned long, const QString&)));
-            s->resolve(host);
-            return;
-        }
-        resolveReady(inet_addr(host.toUtf8()), host);
+        log( L_DEBUG, QString("Connect to %1:%2").arg(host).arg(port) );
+        sock->connectToHost( host, port );
     }
 
-    void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
+    void SIMClientSocket::resolveReady(const QHostAddress &addr, const QString &_host)
     {
-        if (_host != host)
-            return;
-        if (addr == INADDR_NONE){
-            if (notify)
-                notify->error_state(I18N_NOOP("Can't resolve host"));
-            return;
-        }
-        if (notify)
-            notify->resolve_ready(addr);
-        in_addr a;
-        a.s_addr = addr;
-        host = inet_ntoa(a);
-        log(L_DEBUG, QString("Resolve ready %1").arg(host));
-        timerStop();
-        timer = new QTimer(this);
-        QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
-        timer->start(CONNECT_TIMEOUT * 1000);
-        sock->connectToHost(host, port);
     }
 
     void SIMClientSocket::slotConnected()
     {
-        log(L_DEBUG, "Connected");
         timerStop();
+        log(L_DEBUG, "Connected");
         if (notify) notify->connect_ready();
         getSocketFactory()->setActive(true);
         m_state = true;
-#if !defined(WIN32) && !defined(Q_OS_MAC)
-        m_carrierCheckTimer = startTimer(10000); // FIXME hardcoded
-#endif
+        m_carrierCheckTimer.start();
     }
 
     void SIMClientSocket::slotConnectionClosed()
@@ -179,28 +154,24 @@ namespace SIM
         timerStop();
         if (notify)
             notify->error_state(I18N_NOOP("Connection closed"));
-#ifdef WIN32
-        bool bState;
-        if (get_connection_state(bState) && !bState)
-            getSocketFactory()->setActive(false);
-#endif
+        checkInterface();
     }
 
-    void SIMClientSocket::timeout()
-    {
+    void SIMClientSocket::connectionTimeout() {
         QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
-    }
-
-    void SIMClientSocket::timerEvent(QTimerEvent* ev)
-    {
-        if(m_carrierCheckTimer != 0 && ev->timerId() == m_carrierCheckTimer)
-        {
-            checkInterface();
-        }
     }
 
     void SIMClientSocket::checkInterface()
     {
+        bool bHaveInterfaces = false;
+        QList<QNetworkInterface> listInterfaces = QNetworkInterface::allInterfaces();
+        QNetworkInterface intfce;
+        foreach( intfce, listInterfaces ) {
+            if( !intfce.flags().testFlag( QNetworkInterface::IsLoopBack ) ) {
+                bHaveInterfaces = true;
+            }
+        }
+/*
 #if !defined(WIN32) && !defined(Q_OS_MAC)
         int fd = sock->socket();
         if(fd == -1)
@@ -273,11 +244,12 @@ namespace SIM
 #else
         return;
 #endif
+*/
     }
 
     void SIMClientSocket::error(int errcode)
     {
-        log(L_DEBUG, "SIMClientSocket::error(%d), SocketDevice error: %d", errcode, sock->socketDevice()->error());
+        log(L_DEBUG, "SIMClientSocket error(%d), Socket error: %s", errcode, sock->errorString().toLatin1().data());
     }
 
     void SIMClientSocket::slotReadReady()
@@ -286,7 +258,7 @@ namespace SIM
             notify->read_ready();
     }
 
-    void SIMClientSocket::slotBytesWritten(int)
+    void SIMClientSocket::slotBytesWritten(qint64)
     {
         slotBytesWritten();
     }
@@ -298,35 +270,18 @@ namespace SIM
             notify->write_ready();
     }
 
-#ifdef WIN32
-#define socklen_t int
-#endif
-
     unsigned long SIMClientSocket::localHost()
     {
-        unsigned long res = 0;
-        int s = sock->socket();
-        struct sockaddr_in addr;
-        memset(&addr, sizeof(addr), 0);
-        socklen_t size = sizeof(addr);
-        if (getsockname(s, (struct sockaddr*)&addr, &size) >= 0)
-            res = addr.sin_addr.s_addr;
-        if (res == 0x7F000001){
-            char hostName[255];
-            if (gethostname(hostName,sizeof(hostName)) >= 0) {
-                struct hostent *he = NULL;
-                he = gethostbyname(hostName);
-                if (he != NULL)
-                    res = *((unsigned long*)(he->h_addr));
-            }
+        if( NULL != sock ) {
+            return sock->localAddress().toIPv4Address();
         }
-        return res;
+        return 0;
     }
 
-    void SIMClientSocket::slotError(int err)
+    void SIMClientSocket::slotError(QAbstractSocket::SocketError err)
     {
         if (err)
-            log(L_DEBUG, "Slot error %u", err);
+            log(L_DEBUG, "Socket error %s", sock->errorString().toLatin1().data());
         timerStop();
         if (notify)
             notify->error_state(I18N_NOOP("Socket error"));
@@ -339,9 +294,44 @@ namespace SIM
 
     int SIMClientSocket::getFd()
     {
-        return sock->socket();
+        return sock->socketDescriptor();
     }
 
+    bool SIMClientSocket::isEncrypted() {
+        if( NULL == sock )
+            return false;
+
+        return sock->isEncrypted();
+    }
+
+    bool SIMClientSocket::startEncryption() {
+        if( NULL == sock )
+            return false;
+        if( sock->isEncrypted() )
+            return true;
+        sock->setPeerVerifyMode( QSslSocket::VerifyNone ); // No UI for SSL
+        sock->startClientEncryption();
+    }
+
+    void SIMClientSocket::sslEncrypted() {
+        notify->connect_ready();
+    }
+
+    void SIMClientSocket::sslEncryptedBytesWritten( qint64 written ) {
+        int ggg = 0;
+    }
+
+    void SIMClientSocket::sslModeChanged( QSslSocket::SslMode mode ) {
+        int ggg = 0;
+    }
+
+    void SIMClientSocket::sslPeerVerifyError( const QSslError & error ) {
+        int ggg = 0;
+    }
+
+    void SIMClientSocket::sslErrors( const QList<QSslError> & errors ) {
+        int ggg = 0;
+    }
 }
 
 // vim: set expandtab:

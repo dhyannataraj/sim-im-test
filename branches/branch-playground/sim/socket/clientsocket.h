@@ -39,7 +39,7 @@ namespace SIM
     protected:
         virtual void connect_ready();
         virtual void write_ready();
-        virtual void resolve_ready(unsigned long ip);
+        virtual void resolve_ready(QHostAddress ip);
 
         Socket *m_sock;
         ClientSocketNotify *m_notify;

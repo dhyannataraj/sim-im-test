@@ -924,12 +924,10 @@ protected:
     QList<SendDirectMsg> m_queue;
     QString name();
     QString m_name;
-#ifdef ENABLE_OPENSSL
     void secureConnect();
     void secureListen();
     void secureStop(bool bShutdown);
     SIM::SSLClient *m_ssl;
-#endif
 };
 
 class ICQFileTransfer : public SIM::FileTransfer, public DirectSocket, public SIM::ServerSocketNotify

@@ -22,19 +22,14 @@
 #include "socket/socket.h"
 #include "socket/sslclient.h"
 
-#ifdef ENABLE_OPENSSL
-
 class JabberSSL : public SIM::SSLClient
 {
 public:
     JabberSSL(SIM::Socket*, bool);
-protected:
-    virtual bool initSSL();
 private:
     bool m_forceSSL;
 
 };
 
-#endif
 #endif
 

@@ -34,6 +34,8 @@ public:
     virtual void write(const char *buf, unsigned size);
     virtual void close();
     virtual Mode mode() const { return Web; }
+    virtual bool isEncrypted(){ return false; }
+    virtual bool startEncryption(){ return false; }
 protected slots:
     void idle();
 protected:

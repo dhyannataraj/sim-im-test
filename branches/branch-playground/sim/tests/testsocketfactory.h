@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <QObject>
 #include <QString>
+#include <QHostAddress>
 #include <QtTest/QtTest>
 #include "socket/iresolver.h"
 #include "socket/socketfactory.h"
@@ -34,10 +35,17 @@ public:
         QTimer::singleShot(1, this, SLOT(ready()));
     }
 
-    virtual ~TestResolver() {};
-    virtual unsigned long addr()
+    virtual ~TestResolver() {}
+    virtual QHostAddress addr()
     {
-        return m_addr;
+        return QHostAddress( m_addr );
+    }
+
+    virtual QList<QHostAddress> addresses()
+    {
+        QList<QHostAddress> listAddresses;
+        listAddresses << QHostAddress( m_addr );
+        return listAddresses;
     }
 
     virtual QString host() const
@@ -91,15 +99,6 @@ private:
 class TestSocketFactory : public QObject
 {
     Q_OBJECT
-public slots:
-    void ready(unsigned long res, const QString& str);
-
-private slots:
-    void testResolve();
-
-private:
-    unsigned long m_addr;
-
 };
 
 }

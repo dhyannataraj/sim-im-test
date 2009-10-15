@@ -35,7 +35,7 @@ namespace SIM
         virtual void	setStatus(unsigned status) = 0;
         virtual void	disconnected() = 0;
 
-        virtual void	resolve_ready(unsigned long);
+        virtual void	resolve_ready(QHostAddress);
         virtual void	connect_ready();
         virtual bool	error_state(const QString &err, unsigned code = 0);
         virtual void	socketConnect();

@@ -23,6 +23,8 @@ namespace testClientSocket
         virtual void close();
         virtual unsigned long localHost();
         virtual void pause(unsigned);
+        virtual bool isEncrypted(){ return false; }
+        virtual bool startEncryption(){ return false; }
 
         static int socketCounter;
         int length;

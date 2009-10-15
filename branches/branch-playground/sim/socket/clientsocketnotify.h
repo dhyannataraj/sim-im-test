@@ -4,6 +4,8 @@
 
 #include "simapi.h"
 
+#include <QHostAddress>
+
 namespace SIM
 {
     class EXPORT ClientSocketNotify
@@ -15,7 +17,7 @@ namespace SIM
         virtual void connect_ready() = 0;
         virtual void packet_ready() = 0;
         virtual void write_ready() {}
-        virtual void resolve_ready(unsigned long) {}
+        virtual void resolve_ready(QHostAddress) {}
     };
 }
 

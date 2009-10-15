@@ -36,6 +36,8 @@ public:
     virtual void write(const char *buf, unsigned size);
     virtual void close();
     virtual Mode mode() const { return Web; }
+    virtual bool isEncrypted(){ return false; }
+    virtual bool startEncryption(){ return false; }
 protected:
     QString getKey();
     virtual bool done(unsigned code, Buffer &data, const QString &headers);
@@ -55,7 +57,6 @@ JabberHttpPool::JabberHttpPool(const QString &url)
     : m_url(url)
 {
     m_cookie = "0";
-#ifdef ENABLE_OPENSSL
 /*
         Buffer k;
         for (unsigned i = 0; i < 48; i++){
@@ -65,7 +66,6 @@ JabberHttpPool::JabberHttpPool(const QString &url)
         m_seed += k.toBase64();
 */
     m_seed = "foo";
-#endif
 }
 
 JabberHttpPool::~JabberHttpPool()
@@ -74,7 +74,6 @@ JabberHttpPool::~JabberHttpPool()
 
 QString JabberHttpPool::getKey()
 {
-#ifdef ENABLE_OPENSSL
     if (m_key.isEmpty()){
         m_key = m_seed;
         return m_key;
@@ -84,9 +83,6 @@ QString JabberHttpPool::getKey()
     b.pack(digest, digest.size());
     m_key = b.toBase64();
     return m_key;
-#else
-    return QString::null;
-#endif
 }
 
 int JabberHttpPool::read(char *buf, unsigned size)
@@ -107,9 +103,7 @@ void JabberHttpPool::write(const char *buf, unsigned size)
         return;
     Buffer *packet = new Buffer;
     *packet << (const char*)m_cookie.toLocal8Bit().data();
-#ifdef ENABLE_OPENSSL
     *packet << ";" << (const char*)getKey().toLocal8Bit().data();
-#endif
     *packet << ",";
     log(L_DEBUG, "%s;%s,", qPrintable(m_cookie), qPrintable(getKey()));
     packet->pack(writeData.data(), writeData.writePos());

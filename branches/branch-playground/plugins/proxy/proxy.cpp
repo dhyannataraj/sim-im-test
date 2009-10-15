@@ -165,6 +165,8 @@ public:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual Mode mode() const { return Indirect; }
+    virtual bool isEncrypted(){ return false; }
+    virtual bool startEncryption(){ return false; }
     PROP_ULONG(Type);
     PROP_STR(Host);
     PROP_USHORT(Port);
@@ -468,7 +470,7 @@ void SOCKS4_Proxy::connect_ready()
         if (hp) addr = *((unsigned long*)(hp->h_addr_list[0]));
     }
     if (notify)
-        notify->resolve_ready(addr);
+        notify->resolve_ready(QHostAddress(addr));
     bOut
     << (char)4
     << (char)1
@@ -673,7 +675,7 @@ void SOCKS5_Proxy::read_ready()
         bIn >> b1 >> b2;
         bIn >> ip;
         if (notify)
-            notify->resolve_ready(ip);
+            notify->resolve_ready(QHostAddress(ip));
         proxy_connect_ready();
         return;
     default:

@@ -61,6 +61,8 @@ namespace SIM
         const QString &getHost() const { return m_host; }
         unsigned short getPort() const { return m_port; }
         const SocketNotify *getNotify() const { return notify; }
+        virtual bool isEncrypted() = 0;
+        virtual bool startEncryption() = 0;
         virtual int getFd() { return 0;}; // kind of hack
     };
 }

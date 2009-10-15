@@ -4,10 +4,9 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QSslSocket>
 
 #include "socket.h"
-
-class Q3Socket;
 
 namespace SIM
 {
@@ -15,7 +14,7 @@ namespace SIM
     {
         Q_OBJECT
     public:
-        SIMClientSocket(Q3Socket *s=NULL);
+        SIMClientSocket(QSslSocket *s=NULL);
         virtual ~SIMClientSocket();
         virtual int read(char *buf, unsigned int size);
         virtual void write(const char *buf, unsigned int size);
@@ -24,6 +23,8 @@ namespace SIM
         virtual void pause(unsigned);
         virtual void close();
         virtual int getFd();
+        virtual bool isEncrypted();
+        virtual bool startEncryption();
 
     signals:
         void interfaceDown(int sockfd); // Probably, sockfd is not needed
@@ -33,26 +34,33 @@ namespace SIM
         void slotConnected();
         void slotConnectionClosed();
         void slotReadReady();
-        void slotBytesWritten(int);
+        void slotBytesWritten(qint64);
         void slotBytesWritten();
-        void slotError(int);
+        void slotError(QAbstractSocket::SocketError);
         void slotLookupFinished(int);
-        void resolveReady(unsigned long addr, const QString &host);
-        void timeout();
+        void resolveReady(const QHostAddress &addr, const QString &host);
         void error(int errcode);
         void checkInterface();
-        void timerEvent(QTimerEvent* ev);
+        void connectionTimeout();
+        void sslEncrypted();
+        void sslEncryptedBytesWritten( qint64 written );
+        void sslModeChanged( QSslSocket::SslMode mode );
+        void sslPeerVerifyError( const QSslError & error );
+        void sslErrors( const QList<QSslError> & errors );
 
     protected:
-        int m_carrierCheckTimer;
+        void pickUpSocket( QSslSocket *pSocket );
+        void dropSocket();
+        QTimer m_carrierCheckTimer;
+        QTimer m_connectionTimer;
         bool m_state;
         void timerStop();
         unsigned short port;
         QString host;
-        Q3Socket *sock;
-        QTimer  *timer;
+        QSslSocket *sock;
         bool bInWrite;
         QString m_interface;
+        bool m_bEncrypted;
     };
 }
 

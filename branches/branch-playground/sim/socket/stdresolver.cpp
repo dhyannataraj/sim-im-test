@@ -14,6 +14,8 @@
 	#include <sys/ioctl.h>
 #endif
 
+#include <QHostAddress>
+
 #include <errno.h>
 
 #include "stdresolver.h"
@@ -23,7 +25,7 @@
 namespace SIM
 {
     StdResolver::StdResolver(QObject* parent, const QString& host) : QThread(parent), m_done(false),
-        m_timeout(false), m_addr(0),
+        m_timeout(false), m_addr(INADDR_NONE),
         m_host(host)
     {
         log(L_DEBUG, "StdResolver::StdResolver()");
@@ -38,9 +40,21 @@ namespace SIM
         delete m_timer;
     }
 
-    unsigned long StdResolver::addr()
+    QHostAddress StdResolver::addr()
     {
-        return m_addr;
+        if( INADDR_NONE == m_addr ) {
+            return QHostAddress();
+        }
+        return QHostAddress( m_addr );
+    }
+
+    QList<QHostAddress> StdResolver::addresses()
+    {
+        QList<QHostAddress> listAddresses;
+        if( INADDR_NONE != m_addr ) {
+            listAddresses << QHostAddress( m_addr );
+        }
+        return listAddresses;
     }
 
     QString StdResolver::host() const

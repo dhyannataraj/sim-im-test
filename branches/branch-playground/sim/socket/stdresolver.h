@@ -15,7 +15,8 @@ namespace SIM
     public:
         StdResolver(QObject* parent, const QString& host);
         virtual ~StdResolver();
-        virtual unsigned long addr();
+        virtual QHostAddress addr();
+        virtual QList<QHostAddress> addresses();
         virtual QString host() const;
         virtual bool isDone();
         virtual bool isTimeout();

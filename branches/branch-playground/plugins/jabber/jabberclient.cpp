@@ -281,18 +281,11 @@ void JabberClient::connect_ready()
         connected();
         return;
     }
-#ifdef ENABLE_OPENSSL
     m_bSSL = true;
     // FIXME HACKHACKHACK!!!11 alarm
     SSLClient *ssl = new JabberSSL(socket()->socket(), (bool)!(getServer().compare("talk.google.com")));
     socket()->setSocket(ssl);
-    if (!ssl->init()){
-        socket()->error_state("SSL init error");
-        return;
-    }
-    ssl->connect();
-    ssl->process();
-#endif
+    ssl->startEncryption();
 }
 
 void JabberClient::connected()
@@ -941,15 +934,11 @@ void JabberClient::handshake(const QString &id)
     if (getRegister()){
         auth_register();
     }else{
-#ifdef ENABLE_OPENSSL
         if (getUsePlain()){
             auth_plain();
         }else{
             auth_digest();
         }
-#else
-auth_plain();
-#endif
     }
 }
 

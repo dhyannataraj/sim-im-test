@@ -87,8 +87,6 @@ void JabberClient::auth_register()
     m_requests.push_back(req);
 }
 
-#ifdef ENABLE_OPENSSL
-
 void JabberClient::auth_digest()
 {
     AuthRequest *req = new AuthRequest(this);
@@ -112,5 +110,3 @@ void JabberClient::auth_digest()
     req->send();
     m_requests.push_back(req);
 }
-
-#endif

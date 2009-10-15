@@ -89,11 +89,11 @@ protected:
 
     virtual void processPacket();
     virtual bool error_state(const QString &err, unsigned code);
-	virtual void resolve_ready(unsigned long ip);
+    virtual void resolve_ready(QHostAddress ip);
     virtual void startReceive(unsigned pos);
     virtual void bind_ready(unsigned short port);
     virtual bool error(const QString &err);
-	void negotiateWithProxy();
+    void negotiateWithProxy();
 
 	bool readOFT(OftData* oft);
 	bool writeOFT(OftData* oft);

@@ -83,7 +83,7 @@ namespace SIM
 		return (m_sock != NULL);
 	}
 
-	void ClientSocket::resolve_ready(unsigned long ip)
+        void ClientSocket::resolve_ready(QHostAddress ip)
 	{
 		m_notify->resolve_ready(ip);
 	}

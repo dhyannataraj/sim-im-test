@@ -466,9 +466,7 @@ protected:
     void		processList();
 
     void		auth_plain();
-#ifdef ENABLE_OPENSSL
     void		auth_digest();
-#endif
     void		auth_register();
     bool		m_bSSL;
     bool		m_bJoin;

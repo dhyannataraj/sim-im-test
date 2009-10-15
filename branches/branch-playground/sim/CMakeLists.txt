@@ -65,9 +65,7 @@ SET(sim_LIB_SRCS
 		socket/sslclient.cpp
 		socket/simclientsocket.cpp
 		socket/simserversocket.cpp
-		socket/simresolver.cpp
 		socket/simsockets.cpp
-		socket/stdresolver.cpp
 		socket/ip.cpp
 		socket/ipresolver.cpp
 	)
@@ -135,8 +133,6 @@ SET(sim_LIB_HDRS
 		socket/simclientsocket.h
 		socket/simserversocket.h
 		socket/simsockets.h
-		socket/simresolver.h
-		socket/stdresolver.h
 		socket/ip.h
 		socket/ipresolver.h
 	)

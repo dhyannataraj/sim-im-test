@@ -58,15 +58,9 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig) 
         edtServer1->setText(i18n("jabber.org"));
         edtPort1->setValue(m_client->getPort());
     }
-#ifdef ENABLE_OPENSSL
     chkSSL->setChecked(m_client->getUseSSL());
     chkSSL1->setChecked(m_client->getUseSSL());
     chkPlain->setChecked(m_client->getUsePlain());
-#else
-    chkSSL1->hide();
-    chkSSL->hide();
-    chkPlain->hide();
-#endif
     edtMinPort->setValue(m_client->getMinPort());
     edtMaxPort->setValue(m_client->getMaxPort());
     chkVHost->setChecked(m_client->getUseVHost());
@@ -127,14 +121,12 @@ void JabberConfig::apply()
         m_client->setPassword(edtPasswd->text());
         m_client->setRegister(chkRegister->isChecked());
     }
-#ifdef ENABLE_OPENSSL
     if (m_bConfig){
         m_client->setUseSSL(chkSSL1->isChecked());
     }else{
         m_client->setUseSSL(chkSSL->isChecked());
     }
     m_client->setUsePlain(chkPlain->isChecked());
-#endif
     m_client->setMinPort(edtMinPort->text().toUShort());
     m_client->setMaxPort(edtMaxPort->text().toUShort());
     m_client->setTyping(chkTyping->isChecked());

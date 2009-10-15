@@ -450,9 +450,7 @@ DirectClient::DirectClient(Socket *s, ICQClient *client, unsigned long ip)
 {
     m_channel = PLUGIN_NULL;
     m_state = WaitLogin;
-#ifdef ENABLE_OPENSSL
     m_ssl = NULL;
-#endif
 }
 
 DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channel)
@@ -461,9 +459,7 @@ DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channe
     m_state   = None;
     m_channel = channel;
     m_port    = (unsigned short)(data->Port.toULong());
-#ifdef ENABLE_OPENSSL
     m_ssl = NULL;
-#endif
 }
 
 DirectClient::~DirectClient()
@@ -483,18 +479,12 @@ DirectClient::~DirectClient()
             m_data->DirectPluginStatus.clear();
         break;
     }
-#ifdef ENABLE_OPENSSL
     secureStop(false);
-#endif
 }
 
 bool DirectClient::isSecure()
 {
-#ifdef ENABLE_OPENSSL
     return m_ssl && m_ssl->connected();
-#else
-    return false;
-#endif
 }
 
 void DirectClient::processPacket()
@@ -708,17 +698,13 @@ void DirectClient::processPacket()
         case ICQ_MSGxSECURExOPEN:
         case ICQ_MSGxSECURExCLOSE:
             msg_str = NULL;
-#ifdef ENABLE_OPENSSL
             msg_str = "1";
-#endif
             sendAck(seq, type, msgFlags, msg_str);
-#ifdef ENABLE_OPENSSL
             if (type == ICQ_MSGxSECURExOPEN){
                 secureListen();
             }else{
                 secureStop(true);
             }
-#endif
             return;
         }
         if (m_channel == PLUGIN_NULL){
@@ -834,7 +820,6 @@ void DirectClient::processPacket()
             id.id_l = seq;
             Message *m = m_client->parseMessage(type, m_client->screen(m_data), msg_str, m_socket->readBuffer(), id, 0); //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope, see previous declaration at line '671'
             switch (msg->type()){
-#ifdef ENABLE_OPENSSL
             case MessageCloseSecure:
                 secureStop(true);
                 break;
@@ -845,7 +830,6 @@ void DirectClient::processPacket()
                     secureConnect();
                 }
                 return;
-#endif
             case MessageFile:
                 if (m == NULL){
                     m_socket->error_state("Ack without message");
@@ -1445,13 +1429,10 @@ void DirectClient::addPluginInfoRequest(unsigned plugin_index)
     processMsgQueue();
 }
 
-#ifdef ENABLE_OPENSSL
-
 class ICQ_SSLClient : public SSLClient
 {
 public:
-ICQ_SSLClient(Socket *s) : SSLClient(s) {}
-    virtual bool initSSL() { return initTLS1(true); }
+    ICQ_SSLClient(Socket *s) : SSLClient(s) {}
 };
 
 
@@ -1459,15 +1440,9 @@ void DirectClient::secureConnect()
 {
     if (m_ssl != NULL) return;
     m_ssl = new ICQ_SSLClient(m_socket->socket());
-    if (!m_ssl->init()){
-        delete m_ssl;
-        m_ssl = NULL;
-        return;
-    }
     m_socket->setSocket(m_ssl);
     m_state = SSLconnect;
-    m_ssl->connect();
-    m_ssl->process();
+    m_ssl->startEncryption();
 }
 
 void DirectClient::secureListen()
@@ -1475,23 +1450,16 @@ void DirectClient::secureListen()
     if (m_ssl != NULL)
         return;
     m_ssl = new ICQ_SSLClient(m_socket->socket());
-    if (!m_ssl->init()){
-        delete m_ssl;
-        m_ssl = NULL;
-        return;
-    }
     m_socket->setSocket(m_ssl);
     m_state = SSLconnect;
-    m_ssl->accept();
-    m_ssl->process();
+//    m_ssl->accept();
 }
 
 void DirectClient::secureStop(bool bShutdown)
 {
     if (m_ssl){
         if (bShutdown){
-            m_ssl->shutdown();
-            m_ssl->process();
+            m_ssl->close();
         }
         m_socket->setSocket(m_ssl->socket(), false);
         m_ssl->setSocket(NULL);
@@ -1504,7 +1472,6 @@ void DirectClient::secureStop(bool bShutdown)
         }
     }
 }
-#endif
 
 QString DirectClient::name()
 {
@@ -2365,9 +2332,9 @@ void AIMFileTransfer::negotiateWithProxy()
 	}
 }
 
-void AIMFileTransfer::resolve_ready(unsigned long ip)
+void AIMFileTransfer::resolve_ready(QHostAddress ip)
 {
-	m_ip = ip;
+        m_ip = ip.toIPv4Address();
 }
 
 bool AIMFileTransfer::error_state(const QString &err, unsigned)
@@ -3059,7 +3026,7 @@ void AIMOutcomingFileTransfer::connect(unsigned long ip, unsigned short port)
 			m_notify->process();
 
 		m_state = ProxyConnection;
-		connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, NULL);
+                connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
 	}
 	else
 	{

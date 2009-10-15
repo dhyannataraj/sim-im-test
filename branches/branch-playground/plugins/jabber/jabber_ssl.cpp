@@ -17,8 +17,6 @@
 
 #include "simapi.h"
 
-#ifdef ENABLE_OPENSSL
-
 #include "jabber_ssl.h"
 
 using namespace SIM;
@@ -27,11 +25,3 @@ JabberSSL::JabberSSL(Socket *s, bool forceSSL)
         : SSLClient(s), m_forceSSL(forceSSL)
 {
 }
-
-bool JabberSSL::initSSL()
-{
-    return initTLS1(false, m_forceSSL);
-}
-
-#endif
-

@@ -3044,7 +3044,6 @@ bool ICQClient::send(Message *msg, void *_data)
         snacICBM()->sendMTN(screen(data), msg->type() == MessageTypingStart ? ICQ_MTN_START : ICQ_MTN_FINISH);
         delete msg;
         return true;
-#ifdef ENABLE_OPENSSL
     case MessageOpenSecure: {
         if (data == NULL)
             return false;
@@ -3066,7 +3065,6 @@ bool ICQClient::send(Message *msg, void *_data)
             return dc->sendMessage(msg);
         return false;
     }
-#endif
     case MessageWarning:
         return snacICBM()->sendThruServer(msg, data);
     case MessageContacts:
@@ -3128,7 +3126,6 @@ bool ICQClient::canSend(unsigned type, void *_data)
                (data->Uin.toULong() || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
         return data && (data->Uin.toULong() == 0);
-#ifdef ENABLE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status.toULong() & 0xFFFF) == ICQ_STATUS_OFFLINE))
             return false;
@@ -3148,7 +3145,6 @@ bool ICQClient::canSend(unsigned type, void *_data)
             DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
             return dc && dc->isSecure();
         }
-#endif
     }
     return false;
 }
