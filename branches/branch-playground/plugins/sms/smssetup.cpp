@@ -20,7 +20,6 @@
 #include <QCheckBox>
 #include <QTimer>
 #include <QLabel>
-#include <q3progressbar.h>
 #include <QTabWidget>
 
 #include "misc.h"

@@ -20,9 +20,6 @@ namespace SIM
 		virtual void bind_ready(unsigned short port) = 0;
 		virtual bool error(const QString &err) = 0;
 		virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
-#ifndef WIN32
-		virtual void bind(const char *path);
-#endif
 		void setListener(ServerSocket *listener);
 		ServerSocket *m_listener;
 	};

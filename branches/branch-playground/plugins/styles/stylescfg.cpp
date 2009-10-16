@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <QTabWidget>
-#include <q3listbox.h>
 #include <QStyle>
 #include <QDir>
 #include <QStyleFactory>

@@ -3,29 +3,28 @@
 #define SIM_IPRESOLVER_H
 
 #include <QObject>
-#include <list>
+#include <QList>
 
-#include "ip.h"
-
-class Q3Dns;
+class QHostInfo;
 
 namespace SIM
 {
+    class IP;
+
     class IPResolver : public QObject
     {
         Q_OBJECT
     public:
         IPResolver();
         ~IPResolver();
-        std::list<IP*> queue;
-        void start_resolve();
+        void addAddress( IP *ip );
+        void removeAddress( IP *ip );
 
     protected slots:
-        void resolve_ready();
+        void resolve_ready( const QHostInfo &host );
 
     protected:
-        unsigned long m_addr;
-        Q3Dns *resolver;
+        QList<IP*> queue;
     };
 
 }

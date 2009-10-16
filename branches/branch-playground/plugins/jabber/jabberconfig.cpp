@@ -48,7 +48,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig) 
     edtResource->setText(m_client->data.owner.Resource.str());
     edtVHost->setText(m_client->data.VHost.str());
     if (m_bConfig){
-        tabCfg->removePage(tabJabber);
+        tabCfg->removeTab(tabCfg->indexOf(tabJabber));
     }else{
         lblServer->hide();
         edtServer->hide();

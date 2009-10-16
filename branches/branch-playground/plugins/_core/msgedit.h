@@ -44,7 +44,7 @@ class MsgTextEdit : public TextEdit
 public:
     MsgTextEdit(MsgEdit *edit, QWidget *parent);
 protected:
-	virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void contentsDropEvent(QDropEvent*);
     virtual void contentsDragEnterEvent(QDragEnterEvent*);
     virtual void contentsDragMoveEvent(QDragMoveEvent*);

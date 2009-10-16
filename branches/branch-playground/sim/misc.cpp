@@ -517,7 +517,18 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info
 EXPORT void disableWidget(QWidget *w)
 {
     QPalette pal = w->palette();
-    pal.setDisabled(pal.active());
+    pal.setColorGroup(
+        QPalette::Disabled,
+        pal.brush( QPalette::Active, QPalette::WindowText ),
+        pal.brush( QPalette::Active, QPalette::Button ),
+        pal.brush( QPalette::Active, QPalette::Light ),
+        pal.brush( QPalette::Active, QPalette::Dark ),
+        pal.brush( QPalette::Active, QPalette::Mid ),
+        pal.brush( QPalette::Active, QPalette::Text ),
+        pal.brush( QPalette::Active, QPalette::BrightText ),
+        pal.brush( QPalette::Active, QPalette::Base ),
+        pal.brush( QPalette::Active, QPalette::Window )
+    );
     w->setPalette(pal);
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);

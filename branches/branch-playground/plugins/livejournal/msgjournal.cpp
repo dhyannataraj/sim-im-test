@@ -73,11 +73,10 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         }
     }
     m_wnd->cmbComment->setCurrentIndex(m->getComments());
-    m_edit->m_edit->setTextFormat(Qt::RichText);
     QString text = msg->getRichText();
     if (!text.isEmpty()){
         m_edit->m_edit->setText(text);
-        m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+        m_edit->m_edit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
         if ((msg->getBackground() != msg->getForeground()) && !LiveJournalPlugin::core->property("OwnColors").toBool()){
             m_edit->m_edit->setBackground(msg->getBackground());
             m_edit->m_edit->setForeground(msg->getForeground(), true);
@@ -142,7 +141,7 @@ bool MsgJournal::processEvent(Event *e)
         CommandDef *cmd = ece->cmd();
         if (cmd->param == m_edit){
             if (cmd->id == CmdSend){
-                QString msgText = m_edit->m_edit->text();
+                QString msgText = m_edit->m_edit->toHtml();
                 if (!msgText.isEmpty())
                     send(msgText);
                 return true;

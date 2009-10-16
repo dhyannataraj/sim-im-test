@@ -47,7 +47,6 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -162,7 +161,7 @@ bool MsgFile::processEvent(Event *e)
                 CToolEdit *edtName = qobject_cast<CToolEdit*>(eWidget.widget());
                 if (edtName == NULL)
                     return false;
-                QString msgText = m_edit->m_edit->text();
+                QString msgText = m_edit->m_edit->toPlainText();
                 QString file = edtName->text();
                 QStringList files;
                 QString f;

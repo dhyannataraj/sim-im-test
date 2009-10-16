@@ -24,7 +24,6 @@
 #include <QTabWidget>
 #include <QComboBox>
 #include <QRadioButton>
-#include <q3buttongroup.h>
 #include <QCheckBox>
 #include <QSpinBox>
 #include <QLabel>

@@ -22,6 +22,7 @@
 #include "misc.h"
 
 #include <QApplication>
+#include <QKeyEvent>
 
 using namespace std;
 using namespace SIM;

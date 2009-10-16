@@ -292,7 +292,7 @@ void JabberSearch::setSize()
         QSize s1 = QSize(p->width(), p->height());
         if (s.isValid())
             p->setMinimumSize(s);
-        p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
+        p->resize(qMax(s.width(), s1.width()), qMax(s.height(), s1.height()));
         if (p->layout())
             p->layout()->invalidate();
         if (p == topLevelWidget())
@@ -300,7 +300,7 @@ void JabberSearch::setSize()
     }
     QWidget *t = topLevelWidget();
     QSize s = t->sizeHint();
-    t->resize(QMAX(t->width(), s.width()), QMAX(t->height(), s.height()));
+    t->resize(qMax(t->width(), s.width()), qMax(t->height(), s.height()));
     t->adjustSize();
 }
 
@@ -462,7 +462,7 @@ void JabberSearch::createLayout()
         if (!m_label.isEmpty()){
             QLabel *label = new QLabel(m_label, this);
             label->setWordWrap(true);
-            lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
+            lay->addWidget(label, 0, 0, 1, nCols * 3 + 1);
             m_label = QString::null;
             start = 1;
         }
@@ -481,16 +481,16 @@ void JabberSearch::createLayout()
                     lay->addWidget(m_descs[i], row, col + 2, Qt::AlignVCenter);
                     m_descs[i]->show();
                 }else{
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, Qt::AlignVCenter);
+                    lay->addWidget(m_widgets[i], row, col + 1, 1, 1, Qt::AlignVCenter);
                 }
                 m_labels[i]->show();
             }else{
                 if (m_descs[i]){
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, Qt::AlignVCenter);
+                    lay->addWidget(m_widgets[i], row, col, 1, 2, Qt::AlignVCenter);
                     lay->addWidget(m_descs[i], row, col + 2, Qt::AlignBottom);
                     m_descs[i]->show();
                 }else{
-                    lay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, Qt::AlignVCenter);
+                    lay->addWidget(m_widgets[i], row, col, 1, 3, Qt::AlignVCenter);
                 }
             }
             m_widgets[i]->show();
@@ -499,7 +499,7 @@ void JabberSearch::createLayout()
     if (!m_instruction.isEmpty()){
         QLabel *label = new QLabel(m_instruction, this);
         label->setWordWrap(true);
-        lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 3 - 1);
+        lay->addWidget(label, nRows + start, 0, 1, nCols * 3 - 1);
         m_instruction = QString::null;
     }
 }
@@ -600,7 +600,7 @@ void JIDJabberSearch::createLayout()
         if (bMain){
             if (m_labels[i]){
                 static_cast<QLabel*>(m_labels[i])->setAlignment(Qt::AlignVCenter);
-                lay->addMultiCellWidget(m_labels[i], rowMain, rowMain, 0, 1, Qt::AlignVCenter);
+                lay->addWidget(m_labels[i], rowMain, 0, 1, 2, Qt::AlignVCenter);
                 m_labels[i]->show();
                 rowMain++;
             }
@@ -609,7 +609,7 @@ void JIDJabberSearch::createLayout()
                 lay->addWidget(m_descs[i], rowMain, 1, Qt::AlignVCenter);
                 m_descs[i]->show();
             }else{
-                lay->addMultiCellWidget(m_widgets[i], rowMain, rowMain, 0, 1, Qt::AlignVCenter);
+                lay->addWidget(m_widgets[i], rowMain, 0, 1, 2, Qt::AlignVCenter);
             }
             m_widgets[i]->show();
             rowMain++;
@@ -634,16 +634,16 @@ void JIDJabberSearch::createLayout()
                     alay->addWidget(m_descs[i], row, col + 2, Qt::AlignVCenter);
                     m_descs[i]->show();
                 }else{
-                    alay->addMultiCellWidget(m_widgets[i], row, row, col + 1, col + 2, Qt::AlignVCenter);
+                    alay->addWidget(m_widgets[i], row, col + 1, 1, 2, Qt::AlignVCenter);
                 }
                 m_labels[i]->show();
             }else{
                 if (m_descs[i]){
-                    alay->addMultiCellWidget(m_widgets[i], row, row, col, col + 1, Qt::AlignVCenter);
+                    alay->addWidget(m_widgets[i], row, col, 1, 2, Qt::AlignVCenter);
                     alay->addWidget(m_descs[i], row, col + 2, Qt::AlignBottom);
                     m_descs[i]->show();
                 }else{
-                    alay->addMultiCellWidget(m_widgets[i], row, row, col, col + 2, Qt::AlignVCenter);
+                    alay->addWidget(m_widgets[i], row, col, 1, 3, Qt::AlignVCenter);
                 }
             }
             m_widgets[i]->show();

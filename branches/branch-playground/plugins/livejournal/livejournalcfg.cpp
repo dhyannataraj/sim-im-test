@@ -17,7 +17,6 @@
 
 #include <QCheckBox>
 #include <QLineEdit>
-#include <q3multilineedit.h>
 #include <QSpinBox>
 #include <QTimer>
 

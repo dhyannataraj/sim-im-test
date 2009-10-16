@@ -23,10 +23,7 @@
 #include "log.h"
 
 #include <QApplication>
-#include <q3popupmenu.h>
 #include <QWidget>
-#include <q3accel.h>
-//Added by qt3to4:
 #include <QEvent>
 
 using namespace SIM;
@@ -108,7 +105,8 @@ CToolBar *Commands::show(unsigned id, QMainWindow *parent)
     CMDS_MAP::iterator it = bars.find(id);
     if (it == bars.end())
         return NULL;
-    it->second->setConfig(CorePlugin::m_plugin->property(QString("Button") + QString::number(id)));
+    QString sName = QString("Button") + QString::number(id);
+    it->second->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
     return new CToolBar(it->second, parent);
 }
 
@@ -122,7 +120,8 @@ CMenu *Commands::get(CommandDef *cmd)
         d.menu->setParam(cmd->param);
         return d.menu;
     }
-    d.def->setConfig(CorePlugin::m_plugin->property(QString("Menu") + QString(cmd->popup_id)));
+    QString sName = QString("Menu") + QString::number(cmd->popup_id);
+    d.def->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
     CMenu *menu = new CMenu(d.def);
     menu->setParam(cmd->param);
     if ((cmd->flags & COMMAND_NEW_POPUP) == 0)
@@ -132,6 +131,7 @@ CMenu *Commands::get(CommandDef *cmd)
 
 CMenu *Commands::processMenu(unsigned id, void *param, int key)
 {
+    QKeySequence Key( key );
     MENU_MAP::iterator it = menus.find(id);
     if (it == menus.end())
         return NULL;
@@ -140,7 +140,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         CommandsList list(*d.def, true);
         CommandDef *cmd;
         while ((cmd = ++list) != NULL){
-            int cmdKey;
+            QKeySequence cmdKey;
             if ((key & Qt::ALT) && ((key & ~Qt::MODIFIER_MASK) != Qt::Key_Alt)){
                 if (cmd->text.isEmpty())
                     continue;
@@ -156,7 +156,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             if (cmd->accel.isEmpty())
                 continue;
             cmdKey = QKeySequence::fromString(i18n(cmd->accel));
-            if (cmdKey == key){
+            if (cmdKey == Key){
                 cmd->param = param;
                 EventCommandExec eCmd(cmd);
                 if (eCmd.process())
@@ -170,7 +170,8 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         d.menu->setParam(param);
         return d.menu;
     }
-    d.def->setConfig(CorePlugin::m_plugin->property(QString("Menu") + QString::number(id)));
+    QString sName = QString("Menu") + QString::number(id);
+    d.def->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
     d.menu = new CMenu(d.def);
     d.menu->setParam(param);
     return d.menu;
@@ -306,7 +307,8 @@ void Commands::customizeMenu(unsigned long id)
     if (it == menus.end())
         return;
     MenuDef &d = it->second;
-    d.def->setConfig(CorePlugin::m_plugin->property(QString("Menu") + QString::number(id)));
+    QString sName = QString("Menu") + QString::number(id);
+    d.def->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
     customize(d.def);
 }
 
@@ -314,11 +316,13 @@ void Commands::set(CommandsDef *def, const char *str)
 {
     if (def->isMenu())
     {
-        CorePlugin::m_plugin->setProperty(QString("Menu") + QString::number(def->id()), str);
+        QString sName = QString("Menu") + QString::number(def->id());
+        CorePlugin::m_plugin->setProperty(sName.toLatin1().data(), str);
     }
     else
     {
-        CorePlugin::m_plugin->setProperty(QString("Button") + QString::number(def->id()), str);
+        QString sName = QString("Button") + QString::number(def->id());
+        CorePlugin::m_plugin->setProperty(sName.toLatin1().data(), str);
         EventToolbarChanged(def).process();
     }
 }

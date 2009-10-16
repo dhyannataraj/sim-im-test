@@ -38,7 +38,6 @@ using namespace std;
 using namespace SIM;
 
 #ifdef WIN32
-#include <q3process.h>
 #include <windows.h>
 #include <ddeml.h>
 

@@ -18,7 +18,6 @@
 #include "remotecfg.h"
 #include "remote.h"
 
-#include <q3buttongroup.h>
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QLineEdit>

@@ -33,7 +33,6 @@ email                : vovan@shutoff.ru
 #include <QWidget>
 #include <QFile>
 #include <QDir>
-#include <q3popupmenu.h>
 #include <QThread>
 #include <QTextCodec>
 #include <QProcess>
@@ -810,18 +809,17 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
 void CorePlugin::initData()
 {
-	delete historyXSL;
+    delete historyXSL;
 
-	historyXSL = new XSL(property("HistoryStyle").toString());
+    historyXSL = new XSL(property("HistoryStyle").toString());
     if (property("EditBackground").toUInt() == 0 && property("EditForeground").toUInt() == 0)
-	{
-		QPalette pal = QApplication::palette();
-		QColorGroup cg = pal.normal();
-		setProperty("EditBackground", cg.color(QColorGroup::Base).rgb() & 0xFFFFFF);
-		setProperty("EditForeground", cg.color(QColorGroup::Text).rgb() & 0xFFFFFF);
-	}
-	editFont = FontEdit::str2font(property("EditFont").toString(), QApplication::font());
-	setAutoReplies();
+    {
+        QPalette pal = QApplication::palette();
+        setProperty("EditBackground", pal.color(QPalette::Base).rgb() & 0xFFFFFF);
+        setProperty("EditForeground", pal.color(QPalette::Text).rgb() & 0xFFFFFF);
+    }
+    editFont = FontEdit::str2font(property("EditFont").toString(), QApplication::font());
+    setAutoReplies();
 }
 
 void CorePlugin::setAutoReplies()
@@ -3159,8 +3157,9 @@ bool CorePlugin::init(bool bInit)
 
 	loadUnread();
 
-	m_main = new MainWindow(/*data.geometry*/);
-	m_view = new UserView;
+        m_main = new MainWindow(/*data.geometry*/);
+        m_main->restoreGeometry(property("geometry").toByteArray());
+        m_view = new UserView;
 
 	if (!bNew)
     {
@@ -3292,9 +3291,8 @@ QByteArray CorePlugin::getConfig()
 	unsigned editFgColor = property("EditForeground").toUInt();
 
 	QPalette pal = QApplication::palette();
-	QColorGroup cg = pal.normal();
-	if (((cg.color(QColorGroup::Base).rgb() & 0xFFFFFF) == property("EditBackground").toUInt()) &&
-			((cg.color(QColorGroup::Text).rgb() & 0xFFFFFF) == property("EditForeground").toUInt()))
+        if (((pal.color(QPalette::Base).rgb() & 0xFFFFFF) == property("EditBackground").toUInt()) &&
+            ((pal.color(QPalette::Text).rgb() & 0xFFFFFF) == property("EditForeground").toUInt()))
 	{
 		setProperty("EditBackground", 0);
 		setProperty("EditForeground", 0);

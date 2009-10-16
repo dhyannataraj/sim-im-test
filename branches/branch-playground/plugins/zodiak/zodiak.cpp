@@ -153,7 +153,7 @@ ZodiakWnd::ZodiakWnd(DatePicker *parent)
     m_picture->setFixedSize(52, 52);
     m_picture->setFrameShadow(Sunken);
     m_picture->setLineWidth(1);
-    lay->addMultiCellWidget(m_picture, 0, 1, 0, 0);
+    lay->addWidget(m_picture, 0, 0, 1, 2);
     m_name = new QLabel(this);
     QFont f(font());
     f.setBold(true);
@@ -170,6 +170,8 @@ ZodiakWnd::ZodiakWnd(DatePicker *parent)
 
 void ZodiakWnd::paintEvent(QPaintEvent *e)
 {
+// ToDo: Restore this
+/*
     if (parentWidget() && parentWidget()->parentWidget() && parentWidget()->parentWidget()->backgroundPixmap()){
         QPoint pos = mapToParent(QPoint(0, 0));
         pos = parentWidget()->mapToParent(pos);
@@ -177,6 +179,7 @@ void ZodiakWnd::paintEvent(QPaintEvent *e)
         p.drawTiledPixmap(0, 0, width(), height(), *parentWidget()->parentWidget()->backgroundPixmap(), pos.x(), pos.y());
         return;
     }
+*/
     QFrame::paintEvent(e);
 }
 

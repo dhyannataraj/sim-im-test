@@ -276,7 +276,7 @@ QString getConfigRootPath()
         makedir(defPath + '\\');
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
-        if (!f.open(IO_ReadWrite | IO_Truncate))
+        if (!f.open(QIODevice::ReadWrite | QIODevice::Truncate))
             defPath = "";
         f.close();
         QFile::remove(lockTest);

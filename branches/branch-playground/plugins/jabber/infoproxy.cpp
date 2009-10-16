@@ -24,11 +24,11 @@ using namespace SIM;
 InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title) : QWidget(parent)
         //: InfoProxyBase(parent)
 {
-	setupUi(this);
+    setupUi(this);
     connect(this, SIGNAL(sig_apply()), child, SLOT(apply()));
     connect(this, SIGNAL(sig_apply(SIM::Client*, void*)), child, SLOT(apply(SIM::Client*, void*)));
     tabInfo->addTab(child, title);
-    tabInfo->removePage(tab);
+    tabInfo->removeTab(tabInfo->indexOf(tab));
 }
 
 void InfoProxy::apply()

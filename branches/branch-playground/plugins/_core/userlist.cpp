@@ -27,6 +27,8 @@
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QAbstractButton>
+#include <QScrollBar>
+
 #include "log.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"
@@ -52,11 +54,11 @@ void UserViewItemBase::setup()
 	*/
 }
 
-void UserViewItemBase::paintFocus(QPainter*, const QColorGroup&, const QRect & )
+void UserViewItemBase::paintFocus(QPainter*, const QPalette&, const QRect & )
 {
 }
 
-void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int width, int)
+void UserViewItemBase::paintCell(QPainter *p, const QPalette &cg, int, int width, int)
 {
     UserListBase *view = static_cast<UserListBase*>(listView());
     width = view->width() - 4;
@@ -79,7 +81,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     pv.margin   = 0;
     pv.isGroup  = (type() == GRP_ITEM);
     if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
-        pp.setPen(cg.text());
+        pp.setPen(cg.color(QPalette::Disabled,QPalette::WindowText));
     }else{
         pp.setPen(QColor(CorePlugin::m_plugin->property("ColorOnline").toUInt()));
     }
@@ -89,28 +91,28 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     margin = pv.margin;
     if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->property("UseDblClick").toBool()){
         pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
-        pp.setPen(cg.highlightedText());
+        pp.setPen(cg.color(QPalette::HighlightedText));
     }
     view->drawItem(this, &pp, cg, width, margin);
     pp.end();
     if (view->m_pressedItem == this){
         p->drawPixmap(QPoint(1, 1), bg);
         if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
-            p->setPen(cg.text());
+            p->setPen(cg.color(QPalette::Text));
         }else{
             p->setPen(QColor(CorePlugin::m_plugin->property("ColorOnline").toUInt()));
         }
-		p->drawLine(0, 0, width - 1, 0);
-		p->drawLine(width - 1, 0, width - 1, height() -1);
-		p->drawLine(width - 1, height() -1, 0, height() - 1);
-		p->drawLine(0, height() - 1, 0, 0);
+        p->drawLine(0, 0, width - 1, 0);
+        p->drawLine(width - 1, 0, width - 1, height() -1);
+        p->drawLine(width - 1, height() -1, 0, height() - 1);
+        p->drawLine(0, height() - 1, 0, 0);
 
-        p->setPen(cg.shadow());
-		p->drawLine(width - 2, 1, 1, 1);
-		p->drawLine(1, 1, 1, height() - 2);
+        p->setPen(cg.color(QPalette::Shadow));
+        p->drawLine(width - 2, 1, 1, 1);
+        p->drawLine(1, 1, 1, height() - 2);
     }
-	else
-	{
+    else
+    {
         p->drawPixmap(QPoint(0, 0), bg);
     }
 }
@@ -118,11 +120,11 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
 int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &text)
 {
     QRect br;
-    p->drawText(x, 0, width, (static_cast<UserListBase*>(listView()))->heightItem(this), Qt::AlignLeft | Qt::AlignVCenter, text, -1, &br);
+    p->drawText(x, 0, width, (static_cast<UserListBase*>(listView()))->heightItem(this), Qt::AlignLeft | Qt::AlignVCenter, text, &br);
     return br.right() + 5;
 }
 
-void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg) //cg unused
+void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QPalette &cg) //cg unused
 {
     if (x < width - 6)
 	{
@@ -640,7 +642,7 @@ void UserListBase::addContactForUpdate(unsigned long id)
     }
 }
 
-void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
+void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin)
 {
 	if (base->type() == DIV_ITEM)
 	{
@@ -1078,7 +1080,7 @@ UserList::~UserList()
     emit finished();
 }
 
-void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
+void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin)
 {
     if (base->type() == GRP_ITEM){
         GroupItem *item = static_cast<GroupItem*>(base);
@@ -1107,7 +1109,7 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->property("UseDblClick").toBool()){
             if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
                 if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
-                    p->setPen(palette().disabled().text());
+                    p->setPen(palette().color(QPalette::Disabled,QPalette::Text));
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
@@ -1165,7 +1167,7 @@ bool UserList::isGroupSelected(unsigned id)
 #define CHECK_ON	QStyle::State_On
 #define CHECK_NOCHANGE	QStyle::State_NoChange
 
-int UserList::drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QColorGroup &cg) //p unused, cg unused
+int UserList::drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QPalette &cg) //p unused, cg unused
 {
     QStyleOptionButton opt;
     opt.state = bState ? CHECK_ON : CHECK_OFF;
@@ -1260,11 +1262,5 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
     }
     m_pressedItem = NULL;
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "userlist.moc"
-#endif
-*/
 
 // vim: set expandtab:

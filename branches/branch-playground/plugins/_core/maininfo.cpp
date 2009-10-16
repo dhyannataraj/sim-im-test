@@ -30,7 +30,7 @@
 #include <QLabel>
 #include <QTabWidget>
 #include <QByteArray>
-#include <q3multilineedit.h>
+
 #include "contacts/contact.h"
 
 

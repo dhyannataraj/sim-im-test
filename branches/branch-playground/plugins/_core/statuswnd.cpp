@@ -25,7 +25,6 @@
 #include "log.h"
 #include "contacts/client.h"
 
-#include <q3popupmenu.h>
 #include <QLabel>
 #include <QLayout>
 #include <QObject>
@@ -35,11 +34,11 @@
 #include <QToolButton>
 #include <QPainter>
 #include <QImage>
-//Added by qt3to4:
 #include <QHBoxLayout>
 #include <QResizeEvent>
 #include <QPixmap>
 #include <QMouseEvent>
+#include <QMenu>
 
 using namespace std;
 using namespace SIM;
@@ -142,17 +141,17 @@ void StatusLabel::timeout()
 
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
-	if(me->button() == Qt::RightButton)
-	{
-		EventMenuProcess eMenu(m_id, (void *)winId());
-		eMenu.process();
+    if(me->button() == Qt::RightButton)
+    {
+        EventMenuProcess eMenu(m_id, (void *)winId());
+        eMenu.process();
         QMenu *popup = eMenu.menu();
-		if(popup)
-		{
-			QPoint pos = CToolButton::popupPos(this, popup);
-			popup->popup(pos);
-		}
-	}
+        if(popup)
+        {
+            QPoint pos = CToolButton::popupPos(this, popup);
+            popup->popup(pos);
+        }
+    }
 }
 
 StatusFrame::StatusFrame(QWidget *parent) : QFrame(parent), EventReceiver(LowPriority + 1)

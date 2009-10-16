@@ -20,8 +20,6 @@
 #include "jabber.h"
 #include "contacts/contact.h"
 
-#include <q3multilineedit.h>
-
 using namespace SIM;
 
 JabberAboutInfo::JabberAboutInfo(QWidget *parent, JabberUserData *data, JabberClient *client) : QWidget(parent)

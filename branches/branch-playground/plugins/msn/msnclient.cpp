@@ -695,14 +695,14 @@ void MSNClient::getLine(const QByteArray &line)
         if (size == 0){
             log(L_WARN, "Empty server personal message size");
             //return;
-		}
-		else
-		{
-			m_msg = new MSNServerMessage(this, size);
-			// only we post the message in log now.....
-			log(L_WARN, "Personal message: %s", m_msg);
-        	//packet_ready();
-		}
+        }
+        else
+        {
+            m_msg = new MSNServerMessage(this, size);
+            // only we post the message in log now.....
+            log(L_WARN, "Personal message: %s", m_msg);
+            //packet_ready();
+        }
         return;
     }
     if (cmd == "LSG"){

@@ -33,10 +33,6 @@
 #include <QTimer>
 #include <QByteArray>
 #include <QCloseEvent>
-#include <q3header.h>
-#include <q3listview.h>
-#include <q3widgetstack.h>
-//Added by qt3to4:
 
 namespace ConfigDlg
 {
@@ -367,7 +363,7 @@ static unsigned itemWidth(QTreeWidgetItem *item, QFontMetrics &fm)
 	for(int i = 0; i < item->childCount(); i++)
 	{
 		QTreeWidgetItem *child = item->child(i);
-        w = QMAX(w, itemWidth(child, fm));
+        w = qMax(w, itemWidth(child, fm));
     }
     return w;
 }
@@ -446,7 +442,7 @@ void ConfigureDialog::fill(unsigned id)
 	for(int i = 0; i < lstBox->topLevelItemCount(); i++)
 	{
 		QTreeWidgetItem *item = lstBox->topLevelItem(i);
-        w = QMAX(w, itemWidth(item, fm));
+        w = qMax(w, itemWidth(item, fm));
     }
     lstBox->setFixedWidth(w);
     lstBox->setColumnWidth(0, w - 2);

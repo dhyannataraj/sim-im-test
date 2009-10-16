@@ -65,7 +65,7 @@ public slots:
     void doClick();
     void dragScroll();
 protected:
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
+    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
     virtual bool getMenu(ListViewItem *item, unsigned long &id, void* &param);

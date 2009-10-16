@@ -47,11 +47,11 @@ static FilePreview *createPreview(QWidget *parent)
 JabberPicture::JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto) : QWidget(parent)
         //: JabberPictureBase(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_data   = data;
     m_client = client;
     m_bPhoto = bPhoto;
-    tabPict->changeTab(tab, m_bPhoto ? i18n("&Photo") : i18n("&Logo"));
+    tabPict->setTabText(tabPict->indexOf(tab), m_bPhoto ? i18n("&Photo") : i18n("&Logo"));
     if (m_data){
         edtPict->hide();
         btnClear->hide();

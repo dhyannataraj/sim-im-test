@@ -21,7 +21,6 @@
 #include "contacts/contact.h"
 
 #include <QLineEdit>
-#include <q3multilineedit.h>
 #include <QStringList>
 
 using namespace SIM;

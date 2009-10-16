@@ -27,7 +27,6 @@
 #include <QLineEdit>
 #include <QLabel>
 
-class Q3Accel;
 class QContextMenuEvent;
 class QHideEvent;
 class QMainWindow;
@@ -52,7 +51,7 @@ public:
     void setChecked(SIM::CommandDef *def);
     void setDisabled(SIM::CommandDef *def);
     void setShow(SIM::CommandDef *def);
-    const SIM::CommandDef &def() const { return m_def; };
+    const SIM::CommandDef &def() const { return m_def; }
     void setDef(const SIM::CommandDef &def) { m_def = def; }
 protected:
     SIM::CommandDef m_def;
@@ -88,7 +87,6 @@ protected:
     void setAccel(int key);
     void enableAccel(bool bState);
     unsigned accelKey;
-    Q3Accel *accel;
     QPoint popupPos(QWidget *p);
 };
 

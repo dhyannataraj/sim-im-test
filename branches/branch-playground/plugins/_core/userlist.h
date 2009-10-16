@@ -46,10 +46,10 @@ public:
     UserViewItemBase(UserViewItemBase *parent);
     virtual unsigned type() = 0;
     virtual void setup();
-    virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
-    virtual void paintFocus(QPainter*, const QColorGroup&, const QRect & );
+    virtual void paintCell(QPainter *p, const QPalette &cg, int column, int width, int align);
+    virtual void paintFocus(QPainter*, const QPalette&, const QRect & );
     int drawText(QPainter *p, int x, int width, const QString &text);
-    void drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg);
+    void drawSeparator(QPainter *p, int x, int width, const QPalette &cg);
 };
 
 class DivItem : public UserViewItemBase
@@ -115,7 +115,7 @@ protected:
     unsigned m_bShowOnline;
     unsigned m_bShowEmpty;
     virtual bool processEvent(SIM::Event*);
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
+    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     unsigned getUserStatus(SIM::Contact *contact, unsigned &style, QString &icons);
     virtual unsigned getUnread(unsigned contact_id);
@@ -148,10 +148,10 @@ signals:
     void finished();
 protected:
     virtual void contentsMouseReleaseEvent(QMouseEvent *e);
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
+    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin);
     bool isSelected(unsigned id);
     bool isGroupSelected(unsigned id);
-    int drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QColorGroup &cg);
+    int drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QPalette &cg);
 };
 
 #endif

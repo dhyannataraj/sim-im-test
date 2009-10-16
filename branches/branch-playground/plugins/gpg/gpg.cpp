@@ -856,7 +856,6 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     m_edit   = parent;
     m_edit->m_edit->setText(QString::null);
     m_edit->m_edit->setReadOnly(true);
-    m_edit->m_edit->setTextFormat(Qt::PlainText);
     m_edit->m_edit->setParam(m_edit);
 
     Command cmd;

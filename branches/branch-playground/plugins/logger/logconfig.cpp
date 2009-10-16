@@ -17,7 +17,6 @@
 
 #include <QStyle>
 #include <QLayout>
-#include <q3header.h>
 #include <QPixmap>
 #include <QBitmap>
 #include <QPainter>

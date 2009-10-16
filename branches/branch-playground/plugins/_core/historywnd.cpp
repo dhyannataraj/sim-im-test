@@ -89,7 +89,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_history_page_count=CorePlugin::m_plugin->property("HistoryPage").toUInt();
     m_avatar_bar=NULL;
 
-    setWindowFlags(Qt::WDestructiveClose);
+    setAttribute(Qt::WA_DeleteOnClose, true);
     m_id = id;
     setWindowIcon(Icon("history"));
     setName();

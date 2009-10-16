@@ -41,7 +41,7 @@ public:
 protected slots:
     void showMenu();
     void hideMenu();
-    void menuActivated(int);
+    void menuActivated(QAction *action);
     void clearMenu();
 protected:
     void processItem(SIM::CommandDef *s, bool &bSeparator, bool &bFirst, unsigned base_id);

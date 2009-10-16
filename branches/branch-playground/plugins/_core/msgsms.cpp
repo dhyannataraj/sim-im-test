@@ -41,7 +41,6 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString t = msg->getPlainText();
     if (!t.isEmpty())
         m_edit->m_edit->setText(t);
@@ -80,7 +79,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
         connect(m_panel, SIGNAL(destroyed()), this, SLOT(panelDestroyed()));
         m_panel->show();
     }
-    if (m_edit->m_edit->text().isEmpty()){
+    if (m_edit->m_edit->toPlainText().isEmpty()){
         EventTemplate::TemplateExpand t;
         if (!data->SMSSignatureBefore.str().isEmpty()){
             t.tmpl = data->SMSSignatureBefore.str();
@@ -138,7 +137,7 @@ void MsgSMS::textChanged(const QString&)
 void MsgSMS::textChanged()
 {
     QString phone;
-    QString msgText = m_edit->m_edit->text();
+    QString msgText = m_edit->m_edit->toPlainText();
     Command cmd;
     cmd->id    = CmdTranslit;
     cmd->param = m_edit;
@@ -210,7 +209,7 @@ bool MsgSMS::processEvent(Event *e)
             m_edit->m_edit->append(t->tmpl);
         }else{
             m_edit->m_edit->setText(t->tmpl);
-            m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+            m_edit->m_edit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
             m_bExpand = true;
             Contact *contact = getContacts()->contact(m_id);
             if (contact){
@@ -228,7 +227,7 @@ bool MsgSMS::processEvent(Event *e)
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             unsigned flags = 0;
-            QString msgText = m_edit->m_edit->text();
+            QString msgText = m_edit->m_edit->toPlainText();
             QString phone;
             Command c;
             c->id    = CmdPhoneNumber;

@@ -37,7 +37,6 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(Qt::PlainText);
     QString text = msg->getPlainText();
     if (!text.isEmpty())
         parent->m_edit->setText(text);
@@ -84,7 +83,7 @@ bool MsgAuth::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
-            QString msgText = m_edit->m_edit->text();
+            QString msgText = m_edit->m_edit->toPlainText();
             AuthMessage *msg = new AuthMessage(m_type);
             msg->setText(msgText);
             msg->setContact(m_edit->m_userWnd->id());

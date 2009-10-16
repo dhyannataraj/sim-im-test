@@ -21,7 +21,6 @@
 
 #include <QLabel>
 #include <QMovie>
-#include <q3frame.h>
 #include <QFile>
 
 ConnectWnd::ConnectWnd(bool bStart) : QWizardPage(NULL)

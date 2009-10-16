@@ -22,7 +22,6 @@
 #include "contacts/contact.h"
 
 #include <QCheckBox>
-#include <q3buttongroup.h>
 #include <QTabWidget>
 #include <QLineEdit>
 

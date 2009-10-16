@@ -19,11 +19,9 @@
 #include "contacts/contact.h"
 #include "log.h"
 
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <QTimer>
 #include <QApplication>
-#include <q3header.h>
-//Added by qt3to4:
 #include <QContextMenuEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
@@ -72,7 +70,7 @@ ListView* ListViewItem::listView() const
 
 QPixmap ListViewItem::pixmap(int t)
 {
-    return icon(t).pixmap();
+    return icon(t).pixmap(QSize(16,16));
 }
 
 void ListViewItem::setPixmap(int col, QPixmap p)

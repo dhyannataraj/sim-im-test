@@ -24,7 +24,6 @@
 #include <QSlider>
 #include <QLabel>
 #include <QTimer>
-#include <q3progressbar.h>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QFile>
@@ -213,12 +212,11 @@ void FileTransferDlgNotify::resume()
     return;
 }
 
-FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL, Qt::WDestructiveClose | Qt::WStyle_Title| Qt::WStyle_NormalBorder |Qt::WStyle_Customize | Qt::WStyle_MinMax | Qt::WStyle_SysMenu)
-        //: FileTransferBase(NULL, "filetransfer", false, Qt::WDestructiveClose)
+FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL)
 {
-	setupUi(this);
+    setupUi(this);
     m_msg = msg;
-    SET_WNDPROC("filetransfer")
+    setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowIcon(Icon("file"));
     setButtonsPict(this);
     QString name;

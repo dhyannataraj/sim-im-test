@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3multilineedit.h>
 #include <QLineEdit>
 #include <QStringList>
 #include <QComboBox>
@@ -84,7 +83,7 @@ void JabberInfo::apply()
                 QTabWidget *tb = qobject_cast<QTabWidget*>(p);
                 if (!tb)
                     continue;
-                tb->showPage(this);
+                tb->setCurrentIndex(tb->indexOf(this));
                 break;
             }
             emit raise(this);

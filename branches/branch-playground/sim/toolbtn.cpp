@@ -17,7 +17,6 @@
 
 #include "toolbtn.h"
 
-#include <q3accel.h>
 #include <QApplication>
 #include <QMainWindow>
 #include <QComboBox>
@@ -39,6 +38,7 @@
 #include <QPaintEvent>
 #include <QDesktopWidget>
 #include <QHash>
+#include <QStylePainter>
 
 #include "cmddef.h"
 #include "log.h"
@@ -121,12 +121,11 @@ CToolButton::CToolButton (CToolBar *parent, CommandDef *def)
     accelKey = 0;
     connect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
     connect(this, SIGNAL(toggled(bool)), this, SLOT(btnToggled(bool)));
-    accel = NULL;
     if(!def->accel.isEmpty())
     {
-        accel = new Q3Accel(this);
-        accel->insertItem(Q3Accel::stringToKey(def->accel));
-        connect(accel, SIGNAL(activated(int)), this, SLOT(accelActivated(int)));
+        QAction *pAction = new QAction( this );
+        pAction->setShortcut( QKeySequence( def->accel ) );
+        connect( pAction, SIGNAL(triggered()), SLOT(accelActivated()) );
     }
     setState();
 }
@@ -147,7 +146,7 @@ void CToolButton::setTextLabel()
     if (text.isEmpty()) {
       text = i18n(m_def.text.toUtf8().constData());
     }
-    int key = Q3Accel::shortcutKey(text);
+    int key = QKeySequence(text);
     setAccel(key);
     QString t = text;
     int pos = t.indexOf("<br>");
@@ -168,22 +167,19 @@ void CToolButton::setState()
         setCheckable(true);
         QToolButton::setChecked((m_def.flags & COMMAND_CHECKED) != 0);
     }
+    QIcon icon;
     if((!m_def.icon_on.isEmpty()) && (m_def.icon != m_def.icon_on))
     {
-        QIcon offIcon = Icon(m_def.icon);
-        if (!offIcon.pixmap(QIcon::Small, QIcon::Normal).isNull())
-        {
-            QIcon icons = offIcon;
-            QPixmap off = Pict(m_def.icon_on);
-            if (!off.isNull())
-                icons.setPixmap(off, QIcon::Small, QIcon::Normal, QIcon::On);
-            setIcon(icons);
-        }
+        QPixmap on = Pict(m_def.icon_on);
+        QPixmap off = Pict(m_def.icon);
+        icon.addPixmap(on,QIcon::Normal,QIcon::On);
+        icon.addPixmap(off,QIcon::Normal,QIcon::Off);
     }
     else
     {
-        setIcon(Icon(m_def.icon));
+        icon=Icon(m_def.icon);
     }
+    setIcon(icon);
     CToolItem::setState();
 }
 
@@ -277,7 +273,7 @@ void CToolButton::setAccel(int key)
 {
     accelKey = key;
     if (isVisible())
-        QToolButton::setAccel(key);
+        QToolButton::setShortcut(key);
 }
 
 void CToolButton::showEvent(QShowEvent *e)
@@ -295,9 +291,7 @@ void CToolButton::hideEvent(QHideEvent *e)
 void CToolButton::enableAccel(bool bState)
 {
     if (accelKey == 0) return;
-    QToolButton::setAccel(bState ? accelKey : 0);
-    if (accel)
-        accel->setEnabled(bState);
+    QToolButton::setShortcut(bState ? accelKey : 0);
 }
 
 /*****************************
@@ -348,88 +342,25 @@ void CToolPictButton::setState()
 
 void CToolPictButton::paintEvent(QPaintEvent*e)
 {
-    QToolBar *bar = static_cast<QToolBar*>(parent());
-    if(bar->orientation() != Qt::Vertical)
-    {
-        QToolButton::paintEvent( e );
-        return;
+    QStyleOptionToolButton opt;
+    initStyleOption( &opt );
+    QToolBar *bar = static_cast<QToolBar*>( parent() );
+    QRect rect = opt.rect;
+    if( bar->orientation() == Qt::Vertical ) {
+        opt.rect.setHeight( rect.width() );
+        opt.rect.setWidth( rect.height() );
     }
-
-	QPixmap pict(width(), height());
-	QPainter p(&pict);
-	QWidget *pw = static_cast<QWidget*>(parent());
-	if(pw)
-		if (pw->backgroundPixmap())
-			p.drawTiledPixmap(0, 0, width(), height(), *pw->backgroundPixmap(), x(), y());
-		else
-			p.fillRect(0, 0, width(), height(), colorGroup().button());
-	//QToolButton::render(&p);
-	int w = 4;
-	QRect rc(4, 4, width() - 4, height() - 4);
-	if(!m_def.icon.isNull() && m_def.icon != QLatin1String("empty"))
-	{
-		QIcon icons = Icon(m_def.icon);
-		if (!icons.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-			const QPixmap &pict = icons.pixmap(QIcon::Small, isEnabled() ? QIcon::Active : QIcon::Disabled);
-			QToolBar *bar = static_cast<QToolBar*>(parent());
-			if (bar->orientation() == Qt::Vertical)
-			{
-				p.drawPixmap((width() - pict.width()) / 2, 4, pict);
-				QMatrix m;
-				m.rotate(90);
-				p.setWorldMatrix(m);
-				rc = QRect(8 + pict.height(), -4, height() - 4, 4 - width());
-				w = pict.height() + 4;
-			}
-			else
-			{
-				p.drawPixmap(4, (height()  - pict.height()) / 2, pict);
-				rc = QRect(8 + pict.width(), 4, width() - 4, height() - 4);
-				w = pict.width() + 4;
-			}
-		}
-	}
-	else
-	{
-		QToolBar *bar = static_cast<QToolBar*>(parent());
-		if (bar->orientation() == Qt::Vertical)
-		{
-			QMatrix m;
-			m.rotate(90);
-			p.setWorldMatrix(m);
-			rc = QRect(4, -4, height() - 4, 4 - width());
-		}
-		else
-			rc = QRect(4, 4, width() - 4, height() - 4);
-	}
-	const QColorGroup &cg = isEnabled() ? palette().active() : palette().disabled();
-	p.setPen(cg.text());
-	QString text = m_text;
-	if (text.isEmpty())
-		text = i18n(m_def.text);
-	if ((m_def.flags & BTN_DIV) && (text.indexOf(" | ") >= 0)){
-		QStringList parts = text.split(" | ");
-		unsigned n;
-		for (n = parts.count(); n > 0; n--)
-		{
-			text = QString::null;
-			for (unsigned i = 0; i < n; i++)
-			{
-				if (!text.isEmpty())
-					text += ' ';
-				text += parts[i];
-			}
-			QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());
-			rcb = p.boundingRect(rcb, Qt::AlignLeft | Qt::ShowPrefix | Qt::SingleLine, text);
-			if (rcb.width() + w < rc.width())
-				break;
-		}
-	}
-	p.drawText(rc, Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix | Qt::SingleLine, text);
-	p.end();
-	p.begin(this);
-	p.drawPixmap(0, 0, pict);
-	p.end();
+    QPixmap pixmap( opt.rect.width(), opt.rect.height() );
+    pixmap.fill( Qt::transparent );
+    QStylePainter p( &pixmap, this );
+    p.drawComplexControl( QStyle::CC_ToolButton, opt );
+    QPainter rp( this );
+    QMatrix m;
+    if( bar->orientation() == Qt::Vertical ) {
+        m.rotate( 90. );
+    }
+    rp.drawPixmap( rect, pixmap.transformed( m ) );
+    return;
 }
 
 /*****************************

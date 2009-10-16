@@ -73,7 +73,6 @@ public:
     TextEdit(QWidget *parent, const char *name = NULL);
     ~TextEdit();
     void setCtrlMode(bool);
-    void setTextFormat(Qt::TextFormat);
     const QColor &foreground() const;
     const QColor &defForeground() const;
     void setForeground(const QColor&, bool bDef);
@@ -138,22 +137,6 @@ protected Q_SLOTS:
     void colorSelected(int);
 protected:
     QColor m_color;
-};
-
-class EXPORT RichTextEdit : public QMainWindow
-{
-    Q_OBJECT
-public:
-    RichTextEdit(QWidget *parent, const char *name = NULL);
-    void setText(const QString&);
-    QString text();
-    void setTextFormat(Qt::TextFormat);
-    Qt::TextFormat textFormat();
-    void setReadOnly(bool bState);
-    void showBar();
-protected:
-    TextEdit	*m_edit;
-    CToolBar	*m_bar;
 };
 
 #endif

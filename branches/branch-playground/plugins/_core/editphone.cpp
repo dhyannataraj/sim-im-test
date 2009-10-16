@@ -26,7 +26,6 @@
 #include <QLineEdit>
 #include <QPixmap>
 #include <QPushButton>
-#include <q3widgetstack.h>
 #include <QComboBox>
 #include <QCheckBox>
 

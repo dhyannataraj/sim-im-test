@@ -96,7 +96,7 @@ namespace SIM
             return size;
         int res = sock->read(buf, size);
         if (res < 0){
-            log(L_DEBUG, "QClientSocket::read error %u", errno);
+            log(L_DEBUG, "QClientSocket::read error %s", sock->errorString().toLatin1().data());
             if (notify)
                 notify->error_state(I18N_NOOP("Read socket error"));
             return -1;
@@ -290,11 +290,6 @@ namespace SIM
     void SIMClientSocket::pause(unsigned t)
     {
         QTimer::singleShot(t * 1000, this, SLOT(slotBytesWritten()));
-    }
-
-    int SIMClientSocket::getFd()
-    {
-        return sock->socketDescriptor();
     }
 
     bool SIMClientSocket::isEncrypted() {

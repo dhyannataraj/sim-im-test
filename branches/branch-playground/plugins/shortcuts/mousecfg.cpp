@@ -15,14 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3listview.h>
 #include <QLabel>
 #include <QRegExp>
-#include <q3accel.h>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QResizeEvent>
+#include <QScrollBar>
 
 #include "log.h"
 #include "cmddef.h"
@@ -132,10 +131,11 @@ void MouseConfig::selectionChanged()
     }
     lblCmd->setText(item->text(0));
     int n = ShortcutsPlugin::stringToButton(item->text(1).toLatin1());
-    if (n == 0)
-        chkAlt->setChecked((n & Qt::AltButton) != 0);
-    chkCtrl->setChecked((n & Qt::ControlButton) != 0);
-    chkShift->setChecked((n & Qt::ShiftButton) != 0);
+// ToDo: Restore this
+//    if (n == 0)
+//        chkAlt->setChecked((n & Qt::AltButton) != 0);
+//    chkCtrl->setChecked((n & Qt::ControlButton) != 0);
+//    chkShift->setChecked((n & Qt::ShiftButton) != 0);
     cmbButton->setEnabled(true);
     cmbButton->setCurrentIndex(n);
     buttonChanged(0);
@@ -162,6 +162,8 @@ void MouseConfig::changed(bool)
 {
     QString res;
     int n = cmbButton->currentIndex();
+// ToDo: Restore this
+/*
     if (n){
         if (chkAlt->isChecked())
             n |= Qt::AltButton;
@@ -171,6 +173,7 @@ void MouseConfig::changed(bool)
             n |= Qt::ShiftButton;
         res = ShortcutsPlugin::buttonToString(n);
     }
+*/
     QTreeWidgetItem *item = lstCmd->currentItem();
     if (item == NULL)
         return;

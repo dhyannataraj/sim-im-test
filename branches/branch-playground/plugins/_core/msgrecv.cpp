@@ -23,12 +23,10 @@
 #include "core.h"
 #include "textshow.h"
 
-#include <q3accel.h>
 #include <QToolTip>
 #include <QPainter>
 #include <QTimer>
 #include <QLayout>
-#include <q3popupmenu.h>
 
 using namespace std;
 using namespace SIM;
@@ -46,7 +44,6 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
 
     if (m_bOpen){
         m_edit->m_edit->setReadOnly(true);
-        m_edit->m_edit->setTextFormat(Qt::RichText);
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();

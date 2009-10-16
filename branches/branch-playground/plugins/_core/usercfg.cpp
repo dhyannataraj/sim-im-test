@@ -28,16 +28,12 @@
 #include "contacts/client.h"
 
 #include <QPixmap>
-#include <q3listview.h>
 #include <QTabWidget>
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
-#include <q3widgetstack.h>
-#include <q3header.h>
 #include <QRegExp>
 #include <QIcon>
-//Added by qt3to4:
 #include <QResizeEvent>
 
 using namespace std;
@@ -267,7 +263,7 @@ static unsigned itemWidth(QTreeWidgetItem *item, QFontMetrics &fm)
 	for(int i = 0; i < item->childCount(); i++)
 	{
 		QTreeWidgetItem *child = item->child(i);
-        w = QMAX(w, itemWidth(child, fm));
+        w = qMax(w, itemWidth(child, fm));
     }
     return w;
 }
@@ -414,10 +410,10 @@ void UserConfig::fill()
 
     QFontMetrics fm(lstBox->font());
     unsigned w = 0;
-	for(int i = 0; i < lstBox->topLevelItemCount(); i++)
-	{
-		QTreeWidgetItem *item = lstBox->topLevelItem(i);
-        w = QMAX(w, itemWidth(item, fm));
+    for(int i = 0; i < lstBox->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *item = lstBox->topLevelItem(i);
+        w = qMax(w, itemWidth(item, fm));
     }
     lstBox->setFixedWidth(w);
     lstBox->setColumnWidth(0, w - 2);

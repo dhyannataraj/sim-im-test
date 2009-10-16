@@ -1205,7 +1205,7 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
     if (state[0].asLong() != SAVE_STATE)
     {
         if (state[1].asLong() == 0)
-        state[1].asLong() = (unsigned)(Qt::Top);
+        state[1].asLong() = (unsigned)(Qt::TopToolBarArea);
         state[2].asLong() = 0;
         state[3].asLong() = 0;
         state[4].asLong() = SAVE_STATE;

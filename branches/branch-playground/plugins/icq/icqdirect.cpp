@@ -2116,7 +2116,7 @@ bool AIMFileTransfer::readOFT(OftData* oft)
 
 	if(oft->magic != OFT_magic)
 	{
-		log(L_DEBUG, "Invalid magic for OFT in stream %08x", oft->magic);
+                log(L_DEBUG, "Invalid magic for OFT in stream %08x", (unsigned int)oft->magic);
 		return false;
 	}
 
@@ -2227,7 +2227,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	unsigned long checksum = 0xFFFF;
 	//bool high = true;
 	QByteArray chunk(1024, '\0');
-	Q_ULONG bytesread = 0;
+	ulong bytesread = 0;
 	long streamposition = 0;
 	m_file->reset();
 	do
@@ -2242,7 +2242,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 
-    log(L_WARN, "Calculating checksum: %s (%08x)", qPrintable(m_file->fileName()), checksum);
+    log(L_WARN, "Calculating checksum: %s (%08x)", qPrintable(m_file->fileName()), (unsigned int)checksum);
 	return checksum;
 }
 
@@ -2273,7 +2273,7 @@ unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int
 
 void AIMFileTransfer::connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2)
 {
-	log(L_DEBUG, "Proxy connection, host = %s, port = %d", host.data(), port);
+	log(L_DEBUG, "Proxy connection, host = %s, port = %d", host.toLatin1().data(), port);
 	m_proxy = true;
     m_port = port;
 	m_cookie2 = cookie2;
@@ -2633,7 +2633,7 @@ void AIMIncomingFileTransfer::receiveNextBlock(long size)
                 long hret = m_file->write(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
 		if(hret != size)
 		{
-			log(L_DEBUG, "Error while writing to file: %d", hret);
+			log(L_DEBUG, "Error while writing to file: %d", (int)hret);
 			m_socket->error_state("Error write file");
 			return;
 		}

@@ -19,9 +19,8 @@
 
 #include "toolbarcfg.h"
 
-#include <qapplication.h>
-#include <q3popupmenu.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QMenu>
 #include <QEvent>
 
 ToolbarsCfg::ToolbarsCfg()
@@ -41,7 +40,7 @@ bool ToolbarsCfg::eventFilter(QObject *o, QEvent *e)
         if(parent && (parent->inherits("MainWindow") || parent->inherits("CToolBar")))
         {
             QMenu *popup = static_cast<QMenu*>(o);
-            popup->insertItem(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
+            popup->addAction(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
         }
     }
     return QObject::eventFilter(o, e);

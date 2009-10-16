@@ -53,7 +53,7 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, 
             QSize s  = p->sizeHint();
             QSize s1 = QSize(p->width(), p->height());
             p->setMinimumSize(s);
-            p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
+            p->resize(qMax(s.width(), s1.width()), qMax(s.height(), s1.height()));
             if (p->layout())
                 p->layout()->invalidate();
             if (p == topLevelWidget())

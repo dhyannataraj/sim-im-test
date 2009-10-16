@@ -57,47 +57,47 @@ static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
 UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Qt::Horizontal, NULL)
 {
-	load_data(userWndData, &data, cfg);
-	m_id = id;
-	m_bResize = false;
-	m_bClosed = false;
-	m_bTyping = false;
-	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    load_data(userWndData, &data, cfg);
+    m_id = id;
+    m_bResize = false;
+    m_bClosed = false;
+    m_bTyping = false;
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-	m_splitter = new QSplitter(Qt::Vertical, this);
-	m_list = NULL;
-	m_view = NULL;
+    m_splitter = new QSplitter(Qt::Vertical, this);
+    m_list = NULL;
+    m_view = NULL;
     /* Fixme Todin
-	if (cfg == NULL)
-		copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
-		*/
+    if (cfg == NULL)
+        copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
+    */
 
-	m_bBarChanged = true;
-	if (CorePlugin::m_plugin->getContainerMode())
-		bReceived = false;
-	addWidget(m_splitter);
-	m_edit = new MsgEdit(m_splitter, this);
-	setFocusProxy(m_edit);
-	restoreToolbar(m_edit->m_bar, data.editBar);
-	m_bBarChanged = false;
-	m_splitter->addWidget(m_edit);
+    m_bBarChanged = true;
+    if (CorePlugin::m_plugin->getContainerMode())
+        bReceived = false;
+    addWidget(m_splitter);
+    m_edit = new MsgEdit(m_splitter, this);
+    setFocusProxy(m_edit);
+    restoreToolbar(m_edit->m_bar, data.editBar);
+    m_bBarChanged = false;
+    m_splitter->addWidget(m_edit);
 
     connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
-	connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
-	connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
-	modeChanged();
+    connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
+    modeChanged();
 
-	if (!bAdjust && getMessageType() == 0)
-		return;
+    if (!bAdjust && getMessageType() == 0)
+        return;
 
-	if (!m_edit->adjustType())
-	{
-		unsigned type = getMessageType();
-		Message *msg = new Message(MessageGeneric);
-		setMessage(msg);
-		delete msg;
-		setMessageType(type);
-	}
+    if (!m_edit->adjustType())
+    {
+        unsigned type = getMessageType();
+        Message *msg = new Message(MessageGeneric);
+        setMessage(msg);
+        delete msg;
+        setMessageType(type);
+    }
 }
 
 UserWnd::~UserWnd()
@@ -191,11 +191,11 @@ QString UserWnd::getIcon()
 void UserWnd::modeChanged()
 {
     if (CorePlugin::m_plugin->getContainerMode())
-	{
+    {
         if (m_view == NULL)
             m_view = new MsgView(m_splitter, m_id);
-        m_splitter->moveToFirst(m_view);
-        m_splitter->setResizeMode(m_edit, QSplitter::KeepSize);
+        m_splitter->insertWidget(0, m_view);
+        m_splitter->setStretchFactor(0, 0);
         m_view->show();
         int editHeight = getEditHeight();
         if (editHeight == 0)
@@ -209,8 +209,8 @@ void UserWnd::modeChanged()
             m_bResize = false;
         }
     }
-	else
-	{
+    else
+    {
         if (m_view){
             delete m_view;
             m_view = NULL;
@@ -283,7 +283,7 @@ void UserWnd::showListView(bool bShow)
         if (m_list == NULL)
         {
             m_list = new UserList(this);
-            setResizeMode(m_list, QSplitter::Stretch);
+            setStretchFactor(indexOf(m_list), 1);
             connect(m_list, SIGNAL(selectChanged()), this, SLOT(selectChanged()));
 
             if(topLevelWidget()->inherits("Container"))

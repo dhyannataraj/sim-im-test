@@ -33,7 +33,7 @@ YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig) : Q
     m_client = client;
     m_bConfig = bConfig;
     if (m_bConfig)
-        tabCfg->removePage(tabYahoo);
+        tabCfg->removeTab(tabCfg->indexOf(tabYahoo));
     QTimer::singleShot(0, this, SLOT(changed()));
     edtLogin->setText(m_client->getLogin());
     edtPassword->setText(m_client->getPassword());

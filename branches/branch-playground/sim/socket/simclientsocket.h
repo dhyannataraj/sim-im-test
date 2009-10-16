@@ -22,7 +22,6 @@ namespace SIM
         virtual unsigned long localHost();
         virtual void pause(unsigned);
         virtual void close();
-        virtual int getFd();
         virtual bool isEncrypted();
         virtual bool startEncryption();
 

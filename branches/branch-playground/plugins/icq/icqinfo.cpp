@@ -22,7 +22,6 @@
 #include "contacts/contact.h"
 
 #include <QLineEdit>
-#include <q3multilineedit.h>
 #include <QStringList>
 #include <QComboBox>
 #include <QPixmap>

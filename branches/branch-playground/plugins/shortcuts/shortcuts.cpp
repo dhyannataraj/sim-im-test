@@ -28,12 +28,10 @@
 
 #include <QApplication>
 #include <QWidget>
-#include <q3accel.h>
-#include <q3popupmenu.h>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QEvent>
 #include <QByteArray>
+#include <QMenu>
 
 #ifdef WIN32
 	#include <windows.h>
@@ -705,12 +703,15 @@ unsigned ShortcutsPlugin::stringToButton(const QString &cfg)
 QString ShortcutsPlugin::buttonToString(unsigned n)
 {
     QString res;
+// ToDo: Restore this
+/*
     if (n & Qt::AltButton)
         res = "Alt+";
     if (n & Qt::ControlButton)
         res = "Ctrl+";
     if (n & Qt::ShiftButton)
         res = "Shift+";
+*/
     n = n & 7;
     if (n == 0)
         return QString::null;

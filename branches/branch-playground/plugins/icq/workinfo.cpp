@@ -22,14 +22,13 @@
 
 #include <QPushButton>
 #include <QLineEdit>
-#include <q3multilineedit.h>
 #include <QComboBox>
 
 using namespace SIM;
 
 WorkInfo::WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_data    = data;
     m_client  = client;
     m_contact = contact;

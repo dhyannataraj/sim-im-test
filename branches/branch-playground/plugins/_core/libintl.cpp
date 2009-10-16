@@ -77,7 +77,7 @@ Cambridge, MA 02139, USA.  */
 # define W(flag, data) ((flag) ? SWAP (data) : (data))
 #endif
 
-typedef Q_UINT32 nls_uint32;
+typedef quint32 nls_uint32;
 
 struct loaded_domain
 {

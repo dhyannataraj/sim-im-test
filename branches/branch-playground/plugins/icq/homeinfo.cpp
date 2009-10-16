@@ -23,7 +23,6 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
-#include <q3multilineedit.h>
 
 using namespace SIM;
 

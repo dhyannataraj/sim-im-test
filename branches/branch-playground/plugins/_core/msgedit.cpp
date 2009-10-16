@@ -1103,20 +1103,20 @@ bool MsgEdit::processEvent(Event *e)
         case CmdUndo:
             if (m_edit->isReadOnly())
                 return false;
-            if (!m_edit->isUndoAvailable())
+            if (!m_edit->document()->isUndoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
             return true;
         case CmdRedo:
             if (m_edit->isReadOnly())
                 return false;
-            if (!m_edit->isRedoAvailable())
+            if (!m_edit->document()->isRedoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
             return true;
         case CmdCut:
             if (m_edit->isReadOnly())
                 return false;
         case CmdCopy:
-            if (!m_edit->hasSelectedText())
+            if (m_edit->textCursor().selectedText().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
             return true;
         case CmdPaste:
@@ -1129,7 +1129,7 @@ bool MsgEdit::processEvent(Event *e)
             if (m_edit->isReadOnly())
                 return false;
         case CmdSelectAll:
-            if (m_edit->text().isEmpty())
+            if (m_edit->toPlainText().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
             return true;
         }
@@ -1417,21 +1417,14 @@ void MsgEdit::colorsChanged()
 
 void MsgEdit::insertSmile(const QString &id)
 {
-    if (m_edit->textFormat() == Qt::PlainText){
-        QStringList smiles = getIcons()->getSmile(id);
-        if (!smiles.empty())
-            //m_edit->insert(smiles.front(), false, true, true);  //FIXME
-            m_edit->insert(smiles.front());
-        return;
-    }
     QString img_src = QString("<img src=sim:icons/%1>").arg(id);
     int para;
     int index;
     QFont saveFont = m_edit->font();
-    QColor saveColor = m_edit->color();
+    QColor saveColor = m_edit->textColor();
     // determine the current position of the cursor
     //m_edit->insert("\255", false, true, true); //FIXME
-    m_edit->insert("\255");
+    m_edit->insertPlainText("\255");
     //m_edit->getCursorPosition(&para,&index); //FIXME
     // RTF doesn't like < and >
     QString txt = m_edit->toHtml();
@@ -1439,7 +1432,7 @@ void MsgEdit::insertSmile(const QString &id)
     m_edit->setHtml(txt);
     //m_edit->setCursorPosition(para, index); //FIXME
     m_edit->setCurrentFont(saveFont);
-    m_edit->setColor(saveColor);
+    m_edit->setTextColor(saveColor);
 }
 
 void MsgEdit::goNext()
@@ -1544,11 +1537,11 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned nSmiles = 0;
     QStringList::iterator it;
     for (it = smiles.begin(); it != smiles.end(); ++it)
-	{
+    {
         QPixmap pict = Pict(*it);
-		s = QSize(QMAX(s.width(), pict.width()), QMAX(s.height(), pict.height()));
-		nSmiles++;
-	}
+        s = QSize(qMax(s.width(), pict.width()), qMax(s.height(), pict.height()));
+        nSmiles++;
+    }
 
     unsigned rows = 4;
     unsigned cols = (nSmiles + 3) / 4;

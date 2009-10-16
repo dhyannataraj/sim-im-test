@@ -36,9 +36,10 @@ using namespace SIM;
 extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
-                     const QString &name, const QString &type, const QString &category) : QDialog(browser, NULL, false, Qt::WDestructiveClose)
+                     const QString &name, const QString &type, const QString &category) : QDialog(browser)
 {
-	setupUi(this);
+    setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose,true);
     m_browser = browser;
     SET_WNDPROC("jbrowser")
     setWindowIcon(Icon("Jabber_online"));

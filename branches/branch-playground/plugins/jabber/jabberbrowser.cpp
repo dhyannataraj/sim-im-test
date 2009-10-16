@@ -43,8 +43,9 @@ using namespace SIM;
 const unsigned BROWSE_INFO	= 8;
 
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type)
-        : QWizard(parent, Qt::WType_TopLevel | Qt::WDestructiveClose)
+        : QWizard(parent, Qt::Window)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     m_type = type;
     m_search = new JabberSearch;
     m_search->init(this, client, jid, node, title, m_type == "register");

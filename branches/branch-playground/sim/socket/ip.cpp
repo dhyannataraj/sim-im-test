@@ -14,12 +14,7 @@ namespace SIM
     IP::~IP()
     {
         if (pResolver){
-            for (std::list<IP*>::iterator it = pResolver->queue.begin(); it != pResolver->queue.end(); ++it){
-                if ((*it) == this){
-                    pResolver->queue.erase(it);
-                    break;
-                }
-            }
+            pResolver->removeAddress( this );
         }
     }
 
@@ -42,12 +37,8 @@ namespace SIM
             return;
         if (pResolver == NULL)
             pResolver = new IPResolver;
-        for (std::list<IP*>::iterator it = pResolver->queue.begin(); it != pResolver->queue.end(); ++it){
-            if ((*it) == this)
-                return;
-        }
-        pResolver->queue.push_back(this);
-        pResolver->start_resolve();
+
+        pResolver->addAddress( this );
     }
 
 }

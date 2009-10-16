@@ -36,7 +36,6 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QMenu>
-#include <q3accel.h>
 #include <QPainter>
 #include <QApplication>
 #include <QWidget>
@@ -136,8 +135,9 @@ Container::Container(unsigned id, const char *cfg)
     m_avatar_window.setWidget(&m_avatar_label);
     //m_avatar_window.setOrientation(Qt::Vertical);
     m_avatar_window.setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    m_avatar_window.setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
     addDockWidget(Qt::LeftDockWidgetArea, &m_avatar_window);
-    setWindowFlags(Qt::WDestructiveClose);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 
     setIconSize(QSize(16,16));
 
@@ -222,10 +222,14 @@ Container::Container(unsigned id, const char *cfg)
 
 Container::~Container()
 {
-    list<UserWnd*> wnds = m_tabBar->windows();
+    if( NULL != m_tabBar )
+    {
+        list<UserWnd*> wnds = m_tabBar->windows();
+        list<UserWnd*>::iterator it;
+        for (it = wnds.begin(); it != wnds.end(); ++it)
+            disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
+    }
     list<UserWnd*>::iterator it;
-    for (it = wnds.begin(); it != wnds.end(); ++it)
-        disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     for (it = m_childs.begin(); it != m_childs.end(); ++it)
         delete (*it);
     free_data(containerData, &data);
@@ -419,7 +423,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
             m_tabSplitter->setSizes(s);
             m_bStatusSize = false;
         }
-        m_tabSplitter->setResizeMode(m_status, QSplitter::KeepSize);
+        m_tabSplitter->setStretchFactor(m_tabSplitter->indexOf(m_status), 0);
     }
 }
 
@@ -982,7 +986,7 @@ void Container::setReadMode()
 
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 {
-    setShape(QTabBar::TriangularBelow);
+    setShape(QTabBar::TriangularSouth);
 }
 
 UserWnd *UserTabBar::wnd(unsigned id)

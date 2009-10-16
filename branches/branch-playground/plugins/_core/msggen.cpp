@@ -34,16 +34,15 @@ MsgGen::MsgGen(MsgEdit *parent, Message *msg)
         m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
-    m_edit->m_edit->setTextFormat(Qt::RichText);
     if (msg->getFlags() & MESSAGE_INSERT){
         QString text = msg->getPlainText();
         //m_edit->m_edit->insert(text, false, true, true); //FIXME
-        m_edit->m_edit->insert(text); 
+        m_edit->m_edit->insertHtml(text);
     }else{
         QString text = msg->getRichText();
         if (!text.isEmpty()){
             m_edit->m_edit->setText(text);
-            m_edit->m_edit->moveCursor(QTextEdit::MoveEnd, false);
+            m_edit->m_edit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
             if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->property("OwnColors").toBool()){
                 m_edit->m_edit->setBackground(msg->getBackground());
                 m_edit->m_edit->setForeground(msg->getForeground(), true);

@@ -728,7 +728,7 @@ namespace SIM
 
         log(L_DEBUG, "Exec: %s", qPrintable(prg));
 
-        Q_ULONG child;
+        ulong child;
         QStringList arglist;
 
         // split prg to program name and optional arguments

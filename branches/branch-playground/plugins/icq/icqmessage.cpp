@@ -349,7 +349,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 	ICQBuffer b(info.size());
 	b.pack(info.c_str(), info.size());
 
-	log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, info.length());
+    log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, (unsigned int)info.length());
 
     int n = msgType.find("URL");
     if (n >= 0){

@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #include <QPushButton>
-#include <q3groupbox.h>
-//Added by qt3to4:
 #include <QShowEvent>
 
 #include "icons.h"
@@ -36,7 +34,7 @@ JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
                      const QString &node, const QString &type) : QWidget(parent)
         //: JIDSearchBase(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_client = client;
     m_jid    = jid;
     m_node	 = node;
@@ -44,10 +42,8 @@ JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClicked()));
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
     QIcon is = Icon("1rightarrow");
-    if (!is.pixmap(QIcon::Small, QIcon::Normal).isNull()){
-        btnBrowser->setIcon(is);
-        btnAdvanced->setIcon(is);
-    }
+    btnBrowser->setIcon(is);
+    btnAdvanced->setIcon(is);
     m_bInit = false;
     m_adv = new JIDAdvSearch(this);
     jidSearch->setAdvanced(m_adv);

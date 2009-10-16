@@ -26,8 +26,6 @@
 #include <QRegExp>
 #include <QPushButton>
 #include <QPixmap>
-#include <q3listbox.h>
-//Added by qt3to4:
 
 using namespace std;
 using namespace SIM;

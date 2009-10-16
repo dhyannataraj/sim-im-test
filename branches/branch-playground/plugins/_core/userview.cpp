@@ -34,15 +34,13 @@
 
 #include <QPainter>
 #include <QPixmap>
-#include <q3header.h>
 #include <QObject>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <QTimer>
 #include <QStyle>
 #include <QApplication>
 #include <QWidget>
 #include <QCursor>
-//Added by qt3to4:
 #include <QFocusEvent>
 #include <QMouseEvent>
 #include <QDragEnterEvent>
@@ -144,7 +142,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
         return;
     QPixmap bg(r.width(), r.height());
     QPainter pp(&bg);
-    pp.fillRect(QRect(0, 0, r.width(), r.height()), colorGroup().base());
+    pp.fillRect(QRect(0, 0, r.width(), r.height()), palette().color(QPalette::Base));
     EventPaintView::PaintView pv;
     pv.p        = &pp;
     pv.pos      = viewport()->mapToParent(r.topLeft());
@@ -207,8 +205,7 @@ int UserView::heightItem(UserViewItemBase *base)
     return h + 2;
 }
 
-
-void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin)
+void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin)
 {
     if (base->type() == GRP_ITEM)
     {
@@ -316,7 +313,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->property("UseDblClick").toBool()){
             if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
                 if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
-                    p->setPen(palette().disabled().text());
+                    p->setPen(palette().color(QPalette::Disabled,QPalette::Text));
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
@@ -374,11 +371,11 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             p->setBackgroundMode(Qt::OpaqueMode);
             if (item == m_searchItem){
                 if ((item == currentItem()) && CorePlugin::m_plugin->property("UseDblClick").toBool()){
-                    p->setBackground(cg.highlightedText());
-                    p->setPen(cg.highlight());
+                    p->setBackground(cg.color(QPalette::HighlightedText));
+                    p->setPen(cg.color(QPalette::Highlight));
                 }else{
-                    p->setBackground(cg.highlight());
-                    p->setPen(cg.highlightedText());
+                    p->setBackground(cg.color(QPalette::Highlight));
+                    p->setPen(cg.color(QPalette::HighlightedText));
                 }
             }else{
                 p->setBackground(oldPen.color());
@@ -1040,7 +1037,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
     list<ListViewItem*> old_items;
     list<ListViewItem*> new_items;
     switch (e->key()){
-		case Qt::Key_BackSpace:
+        case Qt::Key_Backspace:
         if (m_search.isEmpty()){
             UserListBase::keyPressEvent(e);
             return;

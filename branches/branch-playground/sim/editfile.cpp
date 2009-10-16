@@ -31,13 +31,7 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QFileDialog>
-
-#ifdef USE_KDE
-# include <kfiledialog.h>
-# include <kdiroperator.h>
-# define Q3FileDialog	KFileDialog
-#else
-#endif
+#include <QContextMenuEvent>
 
 #include "editfile.h"
 #include "event.h"
@@ -289,7 +283,7 @@ void LineEdit::contextMenuEvent(QContextMenuEvent *e)
             popup->addAction(a);
         }
     }
-    popup->exec(e->globalPos());
+    popup->popup(e->globalPos());
     delete popup;
 }
 

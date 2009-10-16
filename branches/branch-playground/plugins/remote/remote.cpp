@@ -287,10 +287,11 @@ void RemotePlugin::bind()
     if (path.startsWith(TCP)){
         unsigned short port = path.mid(strlen(TCP)).toUShort();
         ServerSocketNotify::bind(port, port, NULL);
-#ifndef WIN32
-    }else{
-        ServerSocketNotify::bind(path.toLatin1());
-#endif
+// ToDo: Restore this
+//#ifndef WIN32
+//    }else{
+//        ServerSocketNotify::bind(path.toLatin1());
+//#endif
     }
 }
 

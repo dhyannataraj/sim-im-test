@@ -229,7 +229,6 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     lblPage2->setText(str2);
     //edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setWordWrapMode(QTextOption::NoWrap);
-    edtStyle->setTextFormat(Qt::RichText);
     highlighter = new XmlHighlighter(edtStyle);
     addStyles(user_file(STYLES), true);
     str1 = i18n("Use external viewer");
@@ -282,7 +281,7 @@ void HistoryConfig::apply()
     if (tabStyle->currentWidget() == source){
         int cur = cmbStyle->currentIndex();
         if (m_bDirty && (cur >= 0))
-            m_styles[cur].text = unquoteText(edtStyle->text());
+            m_styles[cur].text = unquoteText(edtStyle->toHtml());
     }
     for (unsigned i = 0; i < m_styles.size(); i++){
         if (m_styles[i].text.isEmpty() || !m_styles[i].bCustom)
@@ -392,7 +391,7 @@ void HistoryConfig::styleSelected(int n)
         return;
     if (m_styles.size() == 0) return;
     if (m_bDirty && (m_cur >= 0))
-        m_styles[m_cur].text = unquoteText(edtStyle->text());
+        m_styles[m_cur].text = unquoteText(edtStyle->toHtml());
     m_cur = n;
     bool bCustom = m_styles[n].bCustom;
     btnRename->setEnabled(bCustom);
@@ -418,7 +417,7 @@ void HistoryConfig::copy()
         if (n < 0)
             continue;
         nn = nn.mid(n + 1);
-        next = QMAX(next, nn.toUInt());
+        next = qMax(next, nn.toUInt());
     }
     int nn = name.indexOf(re);
     if (nn >= 0){
@@ -614,7 +613,7 @@ void HistoryConfig::viewChanged(QWidget *w)
         if (!m_styles[cur].bCustom)
             return;
         if (m_bDirty){
-            m_styles[cur].text = unquoteText(edtStyle->text());
+            m_styles[cur].text = unquoteText(edtStyle->toHtml());
             fillPreview();
         }
     }else{

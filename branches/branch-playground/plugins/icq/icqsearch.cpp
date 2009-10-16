@@ -26,9 +26,7 @@
 
 #include <QPushButton>
 #include <QLabel>
-#include <q3groupbox.h>
 #include <QCheckBox>
-//Added by qt3to4:
 #include <QShowEvent>
 
 using namespace std;
