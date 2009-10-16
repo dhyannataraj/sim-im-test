@@ -19,7 +19,6 @@
 #include <QLayout>
 #include <QPixmap>
 #include <QBitmap>
-#include <QPainter>
 #include <QAbstractButton>
 #include <QFileInfo>
 #include <QStyleOption>

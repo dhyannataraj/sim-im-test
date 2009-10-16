@@ -19,14 +19,14 @@
 #define _USERVIEW_H
 
 #include "userlist.h"
-//Added by qt3to4:
-#include <QEvent>
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QMouseEvent>
-#include <QDragMoveEvent>
-#include <QKeyEvent>
-#include <QFocusEvent>
+
+//#include <QEvent>
+//#include <QDragEnterEvent>
+//#include <QDropEvent>
+//#include <QMouseEvent>
+//#include <QDragMoveEvent>
+//#include <QKeyEvent>
+//#include <QFocusEvent>
 
 class CorePlugin;
 class IntLineEdit;
@@ -65,8 +65,6 @@ public slots:
     void doClick();
     void dragScroll();
 protected:
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin);
-    virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
     virtual bool getMenu(ListViewItem *item, unsigned long &id, void* &param);
     virtual bool processEvent(SIM::Event*); virtual bool event( QEvent *event );
@@ -100,7 +98,7 @@ protected:
     QString	 m_search;
     bool	 m_bRemoveHistory;
     ListViewItem *m_searchItem;
-	friend class UserViewDelegate;
+    friend class UserViewDelegate;
 };
 
 #endif

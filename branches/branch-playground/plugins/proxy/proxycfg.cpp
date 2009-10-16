@@ -21,7 +21,6 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QLayout>
-#include <QPainter>
 #include <QTabWidget>
 #include <QPixmap>
 

@@ -36,7 +36,6 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QMenu>
-#include <QPainter>
 #include <QApplication>
 #include <QWidget>
 #include <QPixmap>

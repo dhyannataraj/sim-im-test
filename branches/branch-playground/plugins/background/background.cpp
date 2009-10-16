@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPainter>
 #include <QFile>
 #include <QPixmap>
 #include <QByteArray>
+#include <QPainter>
 
 #include "misc.h"
 

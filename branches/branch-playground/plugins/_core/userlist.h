@@ -26,6 +26,7 @@ using namespace std;
 
 class UserListBase;
 class QTimer;
+class UserViewDelegate;
 
 const unsigned DIV_ITEM = 0;
 const unsigned GRP_ITEM = 1;
@@ -46,10 +47,6 @@ public:
     UserViewItemBase(UserViewItemBase *parent);
     virtual unsigned type() = 0;
     virtual void setup();
-    virtual void paintCell(QPainter *p, const QPalette &cg, int column, int width, int align);
-    virtual void paintFocus(QPainter*, const QPalette&, const QRect & );
-    int drawText(QPainter *p, int x, int width, const QString &text);
-    void drawSeparator(QPainter *p, int x, int width, const QPalette &cg);
 };
 
 class DivItem : public UserViewItemBase
@@ -61,6 +58,7 @@ public:
 protected:
     unsigned m_type;
     friend class UserListBase;
+    friend class UserViewDelegate;
 };
 
 class GroupItem : public UserViewItemBase
@@ -115,8 +113,6 @@ protected:
     unsigned m_bShowOnline;
     unsigned m_bShowEmpty;
     virtual bool processEvent(SIM::Event*);
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin);
-    virtual int heightItem(UserViewItemBase *base);
     unsigned getUserStatus(SIM::Contact *contact, unsigned &style, QString &icons);
     virtual unsigned getUnread(unsigned contact_id);
     GroupItem *findGroupItem(unsigned id, ListViewItem *p = NULL);
@@ -148,7 +144,6 @@ signals:
     void finished();
 protected:
     virtual void contentsMouseReleaseEvent(QMouseEvent *e);
-    virtual void drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin);
     bool isSelected(unsigned id);
     bool isGroupSelected(unsigned id);
     int drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QPalette &cg);

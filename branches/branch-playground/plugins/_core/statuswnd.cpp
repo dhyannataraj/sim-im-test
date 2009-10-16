@@ -32,7 +32,6 @@
 #include <QTimer>
 #include <QFrame>
 #include <QToolButton>
-#include <QPainter>
 #include <QImage>
 #include <QHBoxLayout>
 #include <QResizeEvent>

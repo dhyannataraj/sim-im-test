@@ -46,7 +46,6 @@
 #include <QMenu>
 #include <QApplication>
 #include <QClipboard>
-#include <QPainter>
 #include <QRegExp>
 #include <QObject>
 #include <QTimer>

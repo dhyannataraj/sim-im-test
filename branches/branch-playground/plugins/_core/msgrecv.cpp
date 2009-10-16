@@ -24,7 +24,6 @@
 #include "textshow.h"
 
 #include <QToolTip>
-#include <QPainter>
 #include <QTimer>
 #include <QLayout>
 

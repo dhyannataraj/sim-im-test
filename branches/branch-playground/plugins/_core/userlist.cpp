@@ -48,90 +48,6 @@ UserViewItemBase::UserViewItemBase(UserViewItemBase *parent)
 
 void UserViewItemBase::setup()
 {
-	/*
-    UserListBase *view = static_cast<UserListBase*>(listView());
-    setHeight(view->heightItem(this));
-	*/
-}
-
-void UserViewItemBase::paintFocus(QPainter*, const QPalette&, const QRect & )
-{
-}
-
-void UserViewItemBase::paintCell(QPainter *p, const QPalette &cg, int, int width, int)
-{
-    UserListBase *view = static_cast<UserListBase*>(listView());
-    width = view->width() - 4;
-    QScrollBar *vBar = view->verticalScrollBar();
-    if (vBar->isVisible())
-        width -= vBar->width();
-    if (width < 1)
-        width = 1;
-    QPixmap bg(width, height());
-    QPainter pp(&bg);
-    int margin = 0;
-    pp.fillRect(QRect(0, 0, width, height()), cg.base());
-    EventPaintView::PaintView pv;
-    pv.p        = &pp;
-    pv.pos      = view->viewport()->mapToParent(view->visualItemRect(this).topLeft());
-    pv.size		= QSize(width, height());
-    pv.win      = view;
-    pv.isStatic = false;
-    pv.height   = height();
-    pv.margin   = 0;
-    pv.isGroup  = (type() == GRP_ITEM);
-    if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
-        pp.setPen(cg.color(QPalette::Disabled,QPalette::WindowText));
-    }else{
-        pp.setPen(QColor(CorePlugin::m_plugin->property("ColorOnline").toUInt()));
-    }
-    EventPaintView e(&pv);
-    e.process();
-    //view->setStaticBackground(pv.isStatic);
-    margin = pv.margin;
-    if (isSelected() && view->hasFocus() && CorePlugin::m_plugin->property("UseDblClick").toBool()){
-        pp.fillRect(QRect(0, 0, width, height()), cg.highlight());
-        pp.setPen(cg.color(QPalette::HighlightedText));
-    }
-    view->drawItem(this, &pp, cg, width, margin);
-    pp.end();
-    if (view->m_pressedItem == this){
-        p->drawPixmap(QPoint(1, 1), bg);
-        if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
-            p->setPen(cg.color(QPalette::Text));
-        }else{
-            p->setPen(QColor(CorePlugin::m_plugin->property("ColorOnline").toUInt()));
-        }
-        p->drawLine(0, 0, width - 1, 0);
-        p->drawLine(width - 1, 0, width - 1, height() -1);
-        p->drawLine(width - 1, height() -1, 0, height() - 1);
-        p->drawLine(0, height() - 1, 0, 0);
-
-        p->setPen(cg.color(QPalette::Shadow));
-        p->drawLine(width - 2, 1, 1, 1);
-        p->drawLine(1, 1, 1, height() - 2);
-    }
-    else
-    {
-        p->drawPixmap(QPoint(0, 0), bg);
-    }
-}
-
-int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &text)
-{
-    QRect br;
-    p->drawText(x, 0, width, (static_cast<UserListBase*>(listView()))->heightItem(this), Qt::AlignLeft | Qt::AlignVCenter, text, &br);
-    return br.right() + 5;
-}
-
-void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QPalette &cg) //cg unused
-{
-    if (x < width - 6)
-	{
-        QStyleOption option;
-        option.rect = QRect(x, height()/2, width - 6 - x, 1);
-        treeWidget()->style()->drawPrimitive(QStyle::PE_Q3Separator, &option, p);
-    }
 }
 
 DivItem::DivItem(UserListBase *view, unsigned type)
@@ -642,38 +558,6 @@ void UserListBase::addContactForUpdate(unsigned long id)
     }
 }
 
-void UserListBase::drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin)
-{
-	if (base->type() == DIV_ITEM)
-	{
-		DivItem *divItem = static_cast<DivItem*>(base);
-		QString text;
-		switch (divItem->m_type)
-		{
-			case DIV_ONLINE:
-				text = i18n("Online");
-				break;
-			case DIV_OFFLINE:
-				text = i18n("Offline");
-				break;
-		}
-		QFont f(font());
-		int size = f.pixelSize();
-		if (size <= 0)
-		{
-			size = f.pointSize();
-			f.setPointSize(size * 3 / 4);
-		}
-		else
-		{
-			f.setPixelSize(size * 3 / 4);
-		}
-		p->setFont(f);
-		int x = base->drawText(p, 24 + margin, width, text);
-		base->drawSeparator(p, x, width, cg);
-	}
-}
-
 void UserListBase::addSortItem(ListViewItem *item)
 {
     for (list<ListViewItem*>::iterator it = sortItems.begin(); it != sortItems.end(); ++it){
@@ -1080,65 +964,6 @@ UserList::~UserList()
     emit finished();
 }
 
-void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QPalette &cg, int width, int margin)
-{
-    if (base->type() == GRP_ITEM){
-        GroupItem *item = static_cast<GroupItem*>(base);
-        p->setFont(font());
-        QString text;
-        if (item->id()){
-            Group *grp = getContacts()->group(item->id());
-            if (grp){
-                text = grp->getName();
-            }else{
-                text = "???";
-            }
-        }else{
-            text = i18n("Not in list");
-        }
-        int x = drawIndicator(p, 2 + margin, item, isGroupSelected(item->id()), cg);
-        if (!CorePlugin::m_plugin->property("UseSysColors").toBool())
-            p->setPen(CorePlugin::m_plugin->property("ColorGroup").toUInt());
-        x = item->drawText(p, x, width, text);
-        item->drawSeparator(p, x, width, cg);
-        return;
-    }
-    if (base->type() == USR_ITEM){
-        ContactItem *item = static_cast<ContactItem*>(base);
-        int x = drawIndicator(p, 2 + margin, item, isSelected(item->id()), cg);
-        if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->property("UseDblClick").toBool()){
-            if (CorePlugin::m_plugin->property("UseSysColors").toBool()){
-                if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
-                    p->setPen(palette().color(QPalette::Disabled,QPalette::Text));
-            }else{
-                switch (item->status()){
-                case STATUS_ONLINE:
-					p->setPen(CorePlugin::m_plugin->property("ColorOnline").toUInt());
-                    break;
-                case STATUS_FFC:
-					p->setPen(CorePlugin::m_plugin->property("ColorOnline").toUInt());
-                    break;
-                case STATUS_AWAY:
-                    p->setPen(CorePlugin::m_plugin->property("ColorAway").toUInt());
-                    break;
-                case STATUS_NA:
-                    p->setPen(CorePlugin::m_plugin->property("ColorNA").toUInt());
-                    break;
-                case STATUS_DND:
-                    p->setPen(CorePlugin::m_plugin->property("ColorDND").toUInt());
-                    break;
-                default:
-                    p->setPen(CorePlugin::m_plugin->property("ColorOffline").toUInt());
-                    break;
-                }
-            }
-        }
-        x = item->drawText(p, x, width, item->text(CONTACT_TEXT));
-        return;
-    }
-    UserListBase::drawItem(base, p, cg, width, margin);
-}
-
 bool UserList::isSelected(unsigned id)
 {
     for (list<unsigned>::iterator it = selected.begin(); it != selected.end(); ++it){
@@ -1179,7 +1004,7 @@ int UserList::drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState,
     x += w + 2;
     return x;
 }
-
+/*
 int UserListBase::heightItem(UserViewItemBase*)
 {
     QFontMetrics fm(font());
@@ -1188,7 +1013,7 @@ int UserListBase::heightItem(UserViewItemBase*)
         h = 22;
     return h;
 }
-
+*/
 void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
 {
     ListViewItem *list_item = itemAt(e->pos());

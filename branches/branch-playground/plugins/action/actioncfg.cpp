@@ -24,7 +24,6 @@
 #include "editfile.h"
 
 #include <QTabWidget>
-#include <QPainter>
 #include <QPushButton>
 #include <QItemDelegate>
 
