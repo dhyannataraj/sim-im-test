@@ -164,7 +164,7 @@ void UpdatePlugin::testForUpdate(){
 		httpmsg = new QHttp(this);
 		connect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
 		QBuffer *buffer_um = new QBuffer(&bytes_um);
-		buffer_um->open(IO_ReadWrite);
+        buffer_um->open(QIODevice::ReadWrite);
 		httpmsg->setHost(um.host());
 		Request_um=httpmsg->get(um.path(),buffer_um);
     }
@@ -184,7 +184,7 @@ void UpdatePlugin::UpdateMsgDownloadFinished(int requestId, bool error){
 		http = new QHttp(this);
 		connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
 		QBuffer *buffer = new QBuffer(&bytes);
-		buffer->open(IO_ReadWrite);
+		buffer->open(QIODevice::ReadWrite);
 		http->setHost(u.host());
 		Request=http->get(u.path(),buffer);
 	}
@@ -262,9 +262,9 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 		echo %SIMVERSION% %SIMTAG% %SVNTAG% %DATE% %TIME% >update.php
 	*/
 	//Cut the Time away
-	remote = remote.stripWhiteSpace();
+	remote = remote.trimmed();
 	remote = remote.left(remote.length()-11);
-	remote = remote.stripWhiteSpace();
+	remote = remote.trimmed();
 	
 	remote	= remote.replace("  "," "); //No double whitespaces, because scanning is wrong then
 	local	= local.replace("  "," ");
@@ -273,7 +273,7 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	remote  = remote.section(' ',4,4,QString::SectionDefault);
 	
 	QString month("Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec");
-	QStringList ml=QStringList::split(',', month);
+	QStringList ml = month.split(',', QString::SkipEmptyParts);
 	int i=0;
 	for ( QStringList::Iterator it = ml.begin() ; it != ml.end(); ++it, ++i ) {
 		QString search(*it);
@@ -348,7 +348,7 @@ void UpdatePlugin::downloadFile()
 	 }
 
      file = new QFile(fileName);
-	 if (!file->open(IO_WriteOnly)) {
+	 if (!file->open(QIODevice::WriteOnly)) {
 		 QMessageBox::critical( 0, i18n("HTTP"),
 				i18n("Unable to save the file %1: %2.")
                 .arg(fileName).arg(file->errorString()));
@@ -443,15 +443,15 @@ bool UpdatePlugin::processEvent(Event *e)
 
 QString UpdatePlugin::getHeader(const QString &name, const QString &headers)
 {
-    int idx = headers.find(name + ':');
+    int idx = headers.indexOf(name + ':');
     if(idx != -1) {
-        int end = headers.find('\n', idx);
+        int end = headers.indexOf('\n', idx);
         QString res;
         if(end == -1)
             res = headers.mid(idx);
         else
             res = headers.mid(idx, end - idx + 1);
-        return res.stripWhiteSpace();
+        return res.trimmed();
     }
     return QString::null;
 }

@@ -8,9 +8,6 @@
  ***************************************************************************/
 
 #pragma once
-#ifndef QT3_SUPPORT
-	#define QT3_SUPPORT
-#endif
 
 #include <windows.h>
 #include <process.h>
@@ -20,26 +17,19 @@
 #include <QApplication>
 #include <QString>
 #include <QBitmap>
-#include <Q3Button>
 #include <QPushButton>
 #include <QClipboard>
 #include <QCursor>
-#include <Qdialog>
-#include <Q3dragobject>
-#include <Q3frame>
+#include <QDialog>
 #include <QFile>
-#include <Q3filedialog>
 #include <QImage>
 #include <QLabel>
 #include <QLayout>
 #include <QLineedit>
 #include <QPainter>
 #include <QColorGroup>
-#include <Q3listview>
-#include <Q3multilineedit>
 #include <QObject>
 #include <QMenu>
-#include <Q3Popupmenu>
 #include <QPushbutton>
 #include <QSocketnotifier>
 #include <QString>
@@ -53,7 +43,7 @@
 
 //Fixme:
 //#ifndef NO_QT_MOC_HEADER
-#include <QMetaobject>
+#include <QMetaObject>
 /*#include <private/qucomextra_p>
 #include <QSignalslotimp>
 #endif*/

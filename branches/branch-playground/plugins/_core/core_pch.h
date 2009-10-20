@@ -30,14 +30,6 @@
 #include <QToolTip>
 #include <QValidator>
 
-#include <q3button.h>
-#include <q3dragobject.h>
-#include <q3frame.h>
-#include <q3filedialog.h>
-#include <q3listview.h>
-#include <q3multilineedit.h>
-#include <q3popupmenu.h>
-
 //Fixme:
 //#ifndef NO_QT_MOC_HEADER
 #include <qmetaobject.h>
