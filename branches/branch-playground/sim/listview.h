@@ -71,12 +71,12 @@ public:
     void startDrag(QMimeData*);
     void acceptDrop(bool bAccept);
     void setMenu(unsigned long menuId);
-	ListViewItem* currentItem();
-	ListViewItem* itemAt(const QPoint& p);
-	ListViewItem* firstChild();
-	void addColumn(const QString& name);
-	void setOpen(bool o);
-	void setOpen(ListViewItem* item, bool o);
+    ListViewItem* currentItem();
+    ListViewItem* itemAt(const QPoint& p);
+    ListViewItem* firstChild();
+    void addColumn(const QString& name);
+    void setOpen(bool o);
+    void setOpen(ListViewItem* item, bool o);
 
 signals:
     void clickItem(ListViewItem*);
@@ -116,7 +116,7 @@ class EXPORT ContactDragObject : public QMimeData
 {
     Q_OBJECT
 public:
-    ContactDragObject(ListView *dragSource, SIM::Contact *contact);
+    ContactDragObject( SIM::Contact *contact );
     ~ContactDragObject();
     static bool canDecode(QMimeSource*);
     static SIM::Contact *decode(QMimeSource*);

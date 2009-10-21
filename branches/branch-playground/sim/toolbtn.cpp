@@ -532,7 +532,7 @@ CToolBar::CToolBar(CommandsDef *def, QMainWindow *parent)
   , EventReceiver(LowPriority)
   , m_def(def)
 { 
-    setIconSize(QSize(16,16));
+//    setIconSize(QSize(16,16));
     setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
     bChanged = false;
     m_param = this;

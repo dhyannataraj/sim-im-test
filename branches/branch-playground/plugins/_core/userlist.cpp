@@ -17,6 +17,8 @@
 
 #include "userlist.h"
 #include "core.h"
+#include "icons.h"
+#include "userview.h"
 
 #include <QScrollBar>
 #include <QTimer>
@@ -57,6 +59,31 @@ DivItem::DivItem(UserListBase *view, unsigned type)
     setText(0, QString::number(m_type));
     setExpandable(true);
     //setSelectable(false);
+}
+
+QVariant DivItem::data( int column, int role ) const
+{
+    QVariant result;
+
+    switch( role )
+    {
+        case Qt::DisplayRole : {
+            QString text;
+            switch( m_type )
+            {
+                case DIV_ONLINE:
+                    text = i18n("Online");
+                    break;
+                case DIV_OFFLINE:
+                    text = i18n("Offline");
+                    break;
+            }
+            result = QVariant( text );
+            break;
+        }
+    }
+
+    return result;
 }
 
 GroupItem::GroupItem(UserListBase *view, Group *grp, bool bOffline)
@@ -134,20 +161,54 @@ void GroupItem::setOpen(bool bOpen)
     }
 }
 
+QVariant GroupItem::data( int column, int role ) const {
+    QVariant result;
+
+    switch( role )
+    {
+        case Qt::DisplayRole : {
+            QString text;
+            if (id()){
+                Group *grp = getContacts()->group(id());
+                if (grp){
+                    text = grp->getName();
+                }else{
+                    text = "???";
+                }
+            }else{
+                text = i18n("Not in list");
+            }
+            if (m_nContacts){
+                text += " (";
+                if (m_nContactsOnline){
+                    text += QString::number(m_nContactsOnline);
+                    text += '/';
+                }
+                text += QString::number(m_nContacts);
+                text += ')';
+            }
+            result = QVariant( text );
+            break;
+        }
+    }
+
+    return result;
+}
+
 ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
         : UserViewItemBase(view)
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
     setExpandable(false);
-    //setDragEnabled(true);
+    setFlags( flags() | Qt::ItemIsDragEnabled );
 }
 
 void ContactItem::init(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_bOnline    = false;
     m_bBlink	 = false;
-    //setSelectable(true);
+    setFlags( flags() | Qt::ItemIsSelectable );
     update(contact, status, style, icons, unread);
 }
 
@@ -156,10 +217,11 @@ bool ContactItem::update(Contact *contact, unsigned status, unsigned style, cons
     m_unread = unread;
     m_style  = style;
     m_status = status;
-    QString name = contact->getName();
     QString active;
     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
-    setText(CONTACT_TEXT, name);
+    m_sExtraIcons = icons;
+    QString icon = getToken(m_sExtraIcons, ',');
+    m_Icon = Icon(icon);
     setText(CONTACT_ICONS, icons);
     setText(CONTACT_ACTIVE, active);
     setText(CONTACT_STATUS, QString::number(9 - status));
@@ -195,6 +257,44 @@ QString ContactItem::key(int column, bool ascending ) const
     return QString::null; //UserViewItemBase::key(column, ascending);
 }
 
+QVariant ContactItem::data( int column, int role ) const
+{
+    Contact *contact = getContacts()->contact( m_id );
+    if( NULL == contact )
+        return QVariant();
+
+    QVariant result;
+
+    switch( role )
+    {
+        case Qt::DisplayRole : {
+            result = QVariant( contact->getName() );
+            break;
+        }
+        case Qt::DecorationRole : {
+            QIcon icon = m_Icon;
+            UserView* uv = dynamic_cast<UserView*>( treeWidget() );
+            if( m_unread && uv->m_bUnreadBlink ) {
+                CommandDef *def = CorePlugin::m_plugin->messageTypes.find( m_unread );
+                if (def)
+                    icon = Icon( def->icon );
+            }
+            result = QVariant( icon );
+            break;
+        }
+        case Qt::ToolTipRole : {
+            result = QVariant( contact->tipText() );
+            break;
+        }
+        case SIM::ExtraIconsRole : {
+            result = QVariant( m_sExtraIcons );
+            break;
+        }
+    }
+
+    return result;
+}
+
 UserListBase::UserListBase(QWidget *parent)
         : ListView(parent)
 {
@@ -206,8 +306,8 @@ UserListBase::UserListBase(QWidget *parent)
 
     //header()->hide();
     addColumn("");
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     //setSorting(0);
 
     updTimer = new QTimer(this);

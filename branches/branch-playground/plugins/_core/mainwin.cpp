@@ -51,7 +51,7 @@ MainWindow::MainWindow()
     setWindowIcon(Icon(m_icon));
     setTitle();
 
-    setIconSize(QSize(16,16));
+//    setIconSize(QSize(16,16));
 
     m_bar = NULL;
 
@@ -81,7 +81,7 @@ MainWindow::MainWindow(Geometry &geometry)
     setWindowIcon(Icon(m_icon));
     setTitle();
 
-    setIconSize(QSize(16,16));
+//    setIconSize(QSize(16,16));
 
     m_bar = NULL;
 

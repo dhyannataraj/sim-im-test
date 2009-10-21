@@ -448,7 +448,7 @@ void ListView::addColumn(const QString& name)
 
 static char CONTACT_MIME[] = "application/x-contact";
 
-    ContactDragObject::ContactDragObject(ListView *dragSource, Contact *contact) : QMimeData()
+ContactDragObject::ContactDragObject( Contact *contact ) : QMimeData()
 {
     QByteArray data;
     m_id = contact->id();

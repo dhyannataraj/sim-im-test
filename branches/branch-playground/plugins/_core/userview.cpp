@@ -130,6 +130,9 @@ UserView::UserView() : UserListBase(NULL)
     connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
 
     //setShowToolTips( false );
+
+    setDragDropMode( QAbstractItemView::DragDrop );
+    setDropIndicatorShown( true );
 }
 
 UserView::~UserView()
@@ -1119,20 +1122,37 @@ void UserView::deleteItem(ListViewItem *item)
 class UserViewContactDragObject : public ContactDragObject
 {
 public:
-    UserViewContactDragObject(UserView *view, Contact *contact);
-    ~UserViewContactDragObject();
+    UserViewContactDragObject( const UserView *view, Contact *contact );
+    virtual ~UserViewContactDragObject();
 };
 
-UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *contact)
-        : ContactDragObject(view, contact)
+UserViewContactDragObject::UserViewContactDragObject( const UserView *view, Contact *contact )
+    : ContactDragObject( contact )
 {
-	QTimer *dragTimer = new QTimer(this);
-	connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
-	dragTimer->start(200);
+    QTimer *dragTimer = new QTimer(this);
+    connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
+    dragTimer->start(200);
 }
 
 UserViewContactDragObject::~UserViewContactDragObject()
 {
+}
+
+QMimeData *UserView::mimeData( const QList<QTreeWidgetItem *> items ) const
+{
+    if( items.count() != 1 )
+        return NULL;
+
+    QTreeWidgetItem *pItem = items.first();
+
+    UserViewItemBase *base_item = static_cast<UserViewItemBase*>(pItem);
+    if (base_item->type() != USR_ITEM)
+        return NULL;
+    ContactItem *item = static_cast<ContactItem*>(base_item);
+    Contact *contact = getContacts()->contact(item->id());
+    if (contact == NULL)
+        return NULL;
+    return new UserViewContactDragObject(this, contact);
 }
 
 QMimeData *UserView::dragObject()
@@ -1182,6 +1202,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                 contact->setFlags(contact->getFlags() & ~CONTACT_DRAG);
                 QTimer::singleShot(0, this, SLOT(doDrop()));
             }
+            e->setDropAction( Qt::MoveAction );
             e->accept();
             return;
         }
@@ -1190,7 +1211,8 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             if (ContactDragObject::canDecode(e)){
                 Contact *contact = ContactDragObject::decode(e);
                 if (static_cast<ContactItem*>(item)->id() == contact->id()){
-                    e->ignore();
+                    e->setDropAction( Qt::IgnoreAction );
+                    e->accept();
                     return;
                 }
                 if (isDrop){
@@ -1198,9 +1220,11 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                     m_dropContactId = contact->id();
                     contact->setFlags(contact->getFlags() & ~CONTACT_DRAG);
                     QTimer::singleShot(0, this, SLOT(doDrop()));
+                    e->ignore();
+                    return;
                 }
+                e->setDropAction( Qt::MoveAction );
                 e->accept();
-                return;
             }
             Message *msg = NULL;
             CommandDef *cmd;
@@ -1243,7 +1267,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             break;
         }
     }
-    e->ignore();
+    e->accept();
 }
 
 void UserView::doDrop()
@@ -1415,40 +1439,6 @@ void UserView::dragScroll() //rewrite!?
     
     //if (item)
         //scrollTo(model()->index(item->row(), item->column()));
-}
-
-bool UserView::event( QEvent *event ) {
-    if( QEvent::ToolTip == event->type() ) {
-        do {
-            QHelpEvent *e = dynamic_cast<QHelpEvent*>( event );
-            QPoint pos = e->pos();
-            ListViewItem *list_item = itemAt ( pos );
-            if( NULL == list_item )
-                break;
-
-            UserViewItemBase *base_item = dynamic_cast<UserViewItemBase*>(list_item);
-            if( NULL == base_item )
-                break;
-
-            if( base_item->type() != USR_ITEM )
-                break;
-
-            ContactItem *item = static_cast<ContactItem*>(list_item);
-            Contact *contact = getContacts()->contact(item->id());
-            if( NULL == contact )
-                break;
-
-            QString tip = contact->tipText();
-            QRect tipRect = visualItemRect(mTipItem);
-            QToolTip::showText( mapToGlobal( e->pos() ), tip, this, tipRect );
-
-            return true;
-        } while( false );
-
-        QToolTip::hideText();
-    }
-
-    return UserListBase::event( event );
 }
 
 // vim: set expandtab:

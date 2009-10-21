@@ -67,7 +67,7 @@ public slots:
 protected:
     virtual unsigned getUnread(unsigned contact_id);
     virtual bool getMenu(ListViewItem *item, unsigned long &id, void* &param);
-    virtual bool processEvent(SIM::Event*); virtual bool event( QEvent *event );
+    virtual bool processEvent(SIM::Event*);
     void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
     void setGroupMode(unsigned mode, bool bFirst=false);
@@ -76,7 +76,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
     void dragEnterEvent(QDragEnterEvent *e);
-    void dragMoveEvent(QDragMoveEvent *e);
+    virtual void dragMoveEvent(QDragMoveEvent *e);
     void dropEvent(QDropEvent *e);
     void focusOutEvent(QFocusEvent*);
     void sortAll();
@@ -85,6 +85,7 @@ protected:
     void search(std::list<ListViewItem*> &items);
     void search(ListViewItem*, std::list<ListViewItem*> &items);
     void stopSearch();
+    virtual QMimeData *mimeData( const QList<QTreeWidgetItem *> items ) const;
     QMimeData *dragObject();
     virtual void deleteItem(ListViewItem *item);
     std::list<BlinkCount> blinks;

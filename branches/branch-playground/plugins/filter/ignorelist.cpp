@@ -182,24 +182,24 @@ void IgnoreList::dragStart()
     if (item == NULL)
         return;
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
-    if (contact)
-        lstIgnore->startDrag(new ContactDragObject(lstIgnore, contact));
+//    if (contact)
+//        lstIgnore->startDrag(new ContactDragObject(lstIgnore, contact));
 }
 
 void IgnoreList::dragEnter(QMimeSource *s)
 {
-    if (ContactDragObject::canDecode(s)){
-        Contact *contact = ContactDragObject::decode(s);
-        if (contact){
-            if (!contact->getIgnore()){
-                log(L_DEBUG, "Set true");
-                lstIgnore->acceptDrop(true);
-                return;
-            }
-        }
-    }
-    log(L_DEBUG, "Set false");
-    lstIgnore->acceptDrop(false);
+//    if (ContactDragObject::canDecode(s)){
+//        Contact *contact = ContactDragObject::decode(s);
+//        if (contact){
+//            if (!contact->getIgnore()){
+//                log(L_DEBUG, "Set true");
+//                lstIgnore->acceptDrop(true);
+//                return;
+//            }
+//        }
+//    }
+//    log(L_DEBUG, "Set false");
+//    lstIgnore->acceptDrop(false);
 }
 
 void IgnoreList::drop(QMimeSource *s)

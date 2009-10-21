@@ -1013,6 +1013,7 @@ const unsigned COMMAND_GLOBAL_ACCEL = 0x0020;
 const unsigned COMMAND_RECURSIVE    = 0x0040;
 const unsigned COMMAND_NEW_POPUP    = 0x0080;
 const unsigned COMMAND_CONTACT      = 0x0100;
+const unsigned COMMAND_CHECKEBLE    = 0x0200;
 
 const unsigned BTN_TYPE             = 0xF000; //identifies one this block-constants, the following ones are a subtypes of this general identifier. these const's are handled in toolbtn.cpp
 const unsigned BTN_DEFAULT          = 0x0000; //constructs a new CToolButton

@@ -782,7 +782,7 @@ void SearchDialog::dragStart()
     Contact *contact = createContact(CONTACT_DRAG);
     if (contact == NULL)
         return;
-    m_result->startDrag(new ContactDragObject(m_result, contact));
+//    m_result->startDrag(new ContactDragObject(m_result, contact));
 }
 
 void SearchDialog::optionsClick()

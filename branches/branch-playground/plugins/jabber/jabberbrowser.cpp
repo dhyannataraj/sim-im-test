@@ -803,6 +803,7 @@ void JabberBrowser::changeMode(ListViewItem *item)
 
 void JabberBrowser::dragStart()
 {
+/*
     ListViewItem *item = m_list->currentItem();
     if (item == NULL)
         return;
@@ -814,6 +815,7 @@ void JabberBrowser::dragStart()
         contact->setFlags(CONTACT_DRAG);
     }
     m_list->startDrag(new ContactDragObject(m_list, contact));
+*/
 }
 
 void JabberBrowser::stop(const QString &err)

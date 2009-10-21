@@ -40,6 +40,12 @@ const unsigned CONTACT_ICONS	= 2;
 const unsigned CONTACT_ACTIVE	= 3;
 const unsigned CONTACT_STATUS	= 4;
 
+namespace SIM {
+    enum ItemDataRole {
+        ExtraIconsRole = Qt::UserRole + 0,
+    };
+}
+
 class UserViewItemBase : public ListViewItem
 {
 public:
@@ -59,6 +65,7 @@ protected:
     unsigned m_type;
     friend class UserListBase;
     friend class UserViewDelegate;
+    virtual QVariant data( int column, int role ) const;
 };
 
 class GroupItem : public UserViewItemBase
@@ -67,11 +74,12 @@ public:
     GroupItem(UserListBase *view, SIM::Group *grp, bool bOffline);
     GroupItem(UserViewItemBase *view, SIM::Group *grp, bool bOffline);
     unsigned type() { return GRP_ITEM; }
-    unsigned long id() { return m_id; }
+    unsigned long id() const { return m_id; }
     void update(SIM::Group *grp, bool bInit=false);
     unsigned m_nContacts;
     unsigned m_nContactsOnline;
     unsigned m_unread;
+    virtual QVariant data( int column, int role ) const;
 protected:
     virtual void setOpen(bool bOpen);
     void init(SIM::Group *grp);
@@ -91,12 +99,16 @@ public:
     bool m_bOnline;
     bool m_bBlink;
     unsigned m_unread;
+    virtual QVariant data( int column, int role ) const;
 protected:
     virtual QString key(int column, bool ascending) const;
     void init(SIM::Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread);
     unsigned long m_id;
     unsigned m_style;
     unsigned m_status;
+    QIcon m_Icon;
+    QString m_sExtraIcons;
+    SIM::Contact *contact;
 };
 
 class UserListBase : public ListView

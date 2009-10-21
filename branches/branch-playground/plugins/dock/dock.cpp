@@ -346,7 +346,7 @@ void DockPlugin::timer()
     }
     if (QDateTime::currentDateTime() > m_inactiveTime.addSecs(property("AutoHideInterval").toUInt())){
         if (m_main){
-			setProperty("ShowMain", false);
+            setProperty("ShowMain", false);
             m_main->hide();
         }
     }

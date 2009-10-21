@@ -34,6 +34,7 @@ using namespace SIM;
 
 void DockWnd::trayAction(QSystemTrayIcon::ActivationReason reason)
 {
+    log( L_DEBUG, "Tray activation reason: %d", (int)reason );
     switch (reason){
     case QSystemTrayIcon::Context:
         showPopup();
