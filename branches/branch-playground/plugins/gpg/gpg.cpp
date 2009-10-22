@@ -36,7 +36,6 @@
 #include <QRegExp>
 #include <QProcess>
 #include <QApplication> //for Linux: qApp->processEvents();
-//Added by qt3to4:
 #include <QList>
 #include <QByteArray>
 

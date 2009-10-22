@@ -32,7 +32,6 @@
 #include <QComboBox>
 #include <QTimer>
 #include <QProcess>
-//Added by qt3to4:
 #include <QByteArray>
 
 using namespace SIM;

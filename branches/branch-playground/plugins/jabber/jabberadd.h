@@ -20,7 +20,7 @@
 
 #include "jabberclient.h"
 #include "ui_jabberaddbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class JabberClient;

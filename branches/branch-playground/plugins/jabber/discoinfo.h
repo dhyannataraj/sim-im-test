@@ -20,7 +20,7 @@
 
 #include "jabberclient.h"
 #include "ui_discoinfobase.h"
-//Added by qt3to4:
+
 #include <QResizeEvent>
 
 class JabberBrowser;

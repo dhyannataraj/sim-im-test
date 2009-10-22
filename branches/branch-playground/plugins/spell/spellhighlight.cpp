@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtimer.h>
-//Added by qt3to4:
-#include <QByteArray>
-
 #include "log.h"
 #include "textshow.h"
 
@@ -26,6 +22,9 @@
 #include "spell.h"
 #include "msgedit.h"
 #include "core.h"
+
+#include <QTimer>
+#include <QByteArray>
 
 using namespace std;
 using namespace SIM;

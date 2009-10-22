@@ -18,16 +18,15 @@
 #ifndef _GPG_H
 #define _GPG_H
 
-#include <QObject>
-#include <QString>
-#include <QList>
-//Added by qt3to4:
-#include <QByteArray>
-
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 #include "propertyhub.h"
+
+#include <QObject>
+#include <QString>
+#include <QList>
+#include <QByteArray>
 
 const unsigned long MessageGPGKey       = 0x5000;
 const unsigned long MessageGPGUse       = 0x5001;

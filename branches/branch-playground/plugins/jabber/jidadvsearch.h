@@ -19,7 +19,7 @@
 #define _JIDADVSEARCH_H
 
 #include "ui_jidadvsearchbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class JIDAdvSearch : public QWidget, public Ui::JIDAdvSearch

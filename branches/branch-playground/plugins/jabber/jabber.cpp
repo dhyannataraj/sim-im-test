@@ -19,7 +19,7 @@
 #include "jabber.h"
 #include "misc.h"
 #include "core_consts.h"
-//Added by qt3to4:
+
 #include <QByteArray>
 
 using namespace SIM;

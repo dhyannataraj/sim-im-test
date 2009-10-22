@@ -18,15 +18,14 @@
 #ifndef _BACKGROUND_H
 #define _BACKGROUND_H
 
-#include <QImage>
-#include <QPixmap>
-//Added by qt3to4:
-#include <QByteArray>
-
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 #include "propertyhub.h"
+
+#include <QImage>
+#include <QPixmap>
+#include <QByteArray>
 
 const unsigned ContactLeft  = 0;
 const unsigned ContactScale = 1;

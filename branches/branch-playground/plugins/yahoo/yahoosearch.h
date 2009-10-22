@@ -22,7 +22,7 @@
 #include "fetch.h"
 
 #include "ui_yahoosearchbase.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 class YahooClient;

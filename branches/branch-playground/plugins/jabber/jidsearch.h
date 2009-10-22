@@ -20,7 +20,7 @@
 
 #include "ui_jidsearchbase.h"
 #include "event.h"
-//Added by qt3to4:
+
 #include <QShowEvent>
 
 struct JabberUserData;

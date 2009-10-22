@@ -20,7 +20,7 @@
 
 #include "cfg.h"
 #include "message.h"
-//Added by qt3to4:
+
 #include <QByteArray>
 
 const unsigned long MessageJabber		= 0x201;

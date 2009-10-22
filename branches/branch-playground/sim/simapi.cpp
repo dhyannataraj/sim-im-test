@@ -47,7 +47,6 @@
 #include <qdatetime.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <q3multilineedit.h>
 #include <qregexp.h>
 
 #include <qdesktopwidget.h>
@@ -595,7 +594,7 @@ EXPORT void disableWidget(QWidget *w)
     if (w->inherits("QLineEdit")){
         static_cast<QLineEdit*>(w)->setReadOnly(true);
     }else if (w->inherits("QMulitLineEdit")){
-        static_cast<Q3MultiLineEdit*>(w)->setReadOnly(true);
+        static_cast<QMulitLineEdit*>(w)->setReadOnly(true);
     }else{
         w->setEnabled(false);
     }

@@ -23,10 +23,9 @@
 #include "spellhighlight.h"
 #include "core.h"
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QWidget>
+#include <QFile>
 #include <QByteArray>
 #include <QChildEvent>
 #include <QEvent>

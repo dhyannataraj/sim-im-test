@@ -19,7 +19,7 @@
 #define _JABBER_H
 
 #include "contacts.h"
-//Added by qt3to4:
+
 #include <QByteArray>
 
 const unsigned JabberCmdBase	= 0x00050000;

@@ -40,7 +40,6 @@
 
 #ifdef USE_KDE
 # include <QApplication>
-//Added by qt3to4:
 # include <kglobal.h>
 # include <kstddirs.h>
 #endif

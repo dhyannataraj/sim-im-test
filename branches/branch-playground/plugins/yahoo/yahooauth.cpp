@@ -51,7 +51,7 @@
 
 #include <cstdio>
 #include <ctype.h>
-//Added by qt3to4:
+
 #include <QByteArray>
 
 extern "C"

@@ -80,7 +80,6 @@
 //#include "qjpegio.h"
 #include "qkeybutton.h"
 #include "QRegExp"
-#include "q3simplerichtext.h"
 #include "sax.h"
 #include "singleton.h"
 #include "socket/socket.h"

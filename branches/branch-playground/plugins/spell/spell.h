@@ -18,17 +18,16 @@
 #ifndef _SPELL_H
 #define _SPELL_H
 
-#include <qobject.h>
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <QEvent>
-#include <QByteArray>
-
 #include "cfg.h"
 #include "event.h"
 #include "misc.h"
 #include "plugins.h"
 #include "propertyhub.h"
+
+#include <QObject>
+#include <QStringList>
+#include <QEvent>
+#include <QByteArray>
 
 using std::list;
 

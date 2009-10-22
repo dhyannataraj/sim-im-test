@@ -19,7 +19,7 @@
 #define _MSNPACKET_H
 
 #include "msnclient.h"
-//Added by qt3to4:
+
 #include <QByteArray>
 
 class MSNPacket
