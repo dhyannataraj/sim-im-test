@@ -19,7 +19,6 @@
 #define _SPELLCFG_H
 
 #include "ui_spellcfgbase.h"
-//Added by qt3to4:
 #include <QResizeEvent>
 
 class SpellPlugin;

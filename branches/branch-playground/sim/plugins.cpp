@@ -469,7 +469,10 @@ namespace SIM
     {
         Config* profile = ProfileManager::instance()->currentProfile();
         if(profile)
+        {
             info.bDisabled = !profile->value(info.name + "/enabled").toBool();
+            info.bFromCfg = true;
+        }
         if (info.plugin)
             return true;
         EventArg a1("--enable-" + info.name);

@@ -21,11 +21,9 @@
 
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <q3header.h>
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qstyle.h>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QResizeEvent>
 #include <QStyleOption>
