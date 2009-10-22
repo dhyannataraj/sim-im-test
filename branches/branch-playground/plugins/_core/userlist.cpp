@@ -39,12 +39,12 @@ using namespace std;
 using namespace SIM;
 
 UserViewItemBase::UserViewItemBase(UserListBase *parent)
-        : ListViewItem(parent)
+    : ListViewItem(parent)
 {
 }
 
 UserViewItemBase::UserViewItemBase(UserViewItemBase *parent)
-        : ListViewItem(parent)
+    : ListViewItem(parent)
 {
 }
 
@@ -52,8 +52,18 @@ void UserViewItemBase::setup()
 {
 }
 
+void UserViewItemBase::setCheckable( bool bCheckable ) {
+    if( bCheckable ) {
+        setFlags( flags() | Qt::ItemIsUserCheckable );
+        setCheckState( 0, Qt::Unchecked );
+    }
+    else {
+        setFlags( flags() & ~Qt::ItemIsUserCheckable );
+    }
+}
+
 DivItem::DivItem(UserListBase *view, unsigned type)
-        : UserViewItemBase(view)
+    : UserViewItemBase(view)
 {
     m_type = type;
     setText(0, QString::number(m_type));
@@ -81,25 +91,29 @@ QVariant DivItem::data( int column, int role ) const
             result = QVariant( text );
             break;
         }
+        default :
+            return UserViewItemBase::data( column, role );
     }
 
     return result;
 }
 
-GroupItem::GroupItem(UserListBase *view, Group *grp, bool bOffline)
-        : UserViewItemBase(view)
+GroupItem::GroupItem(UserListBase *view, Group *grp, bool bOffline, bool bCheckable )
+    : UserViewItemBase(view)
 {
     m_id = grp->id();
     m_bOffline = bOffline;
     init(grp);
+    setCheckable( bCheckable );
 }
 
-GroupItem::GroupItem(UserViewItemBase *view, Group *grp, bool bOffline)
-        : UserViewItemBase(view)
+GroupItem::GroupItem( UserViewItemBase *view, Group *grp, bool bOffline, bool bCheckable )
+    : UserViewItemBase(view)
 {
     m_id = grp->id();
     m_bOffline = bOffline;
     init(grp);
+    setCheckable( bCheckable );
 }
 
 void GroupItem::init(Group *grp)
@@ -190,25 +204,38 @@ QVariant GroupItem::data( int column, int role ) const {
             result = QVariant( text );
             break;
         }
+        default :
+            return UserViewItemBase::data( column, role );
     }
 
     return result;
 }
 
-ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
-        : UserViewItemBase(view)
+void GroupItem::setData( int column, int role, const QVariant &value ) {
+    if( Qt::CheckStateRole == role ) {
+        Qt::CheckState cs = (Qt::CheckState)value.toInt();
+        for( int i = 0 ; i < childCount() ; i++ ) {
+            child( i )->setCheckState( 0, cs );
+        }
+    }
+
+    UserViewItemBase::setData( column, role, value );
+}
+
+ContactItem::ContactItem( UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread, bool bCheckable )
+    : UserViewItemBase(view)
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
     setExpandable(false);
-    setFlags( flags() | Qt::ItemIsDragEnabled );
+    setCheckable( bCheckable );
+    setFlags( flags() | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable );
 }
 
 void ContactItem::init(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_bOnline    = false;
     m_bBlink	 = false;
-    setFlags( flags() | Qt::ItemIsSelectable );
     update(contact, status, style, icons, unread);
 }
 
@@ -290,19 +317,22 @@ QVariant ContactItem::data( int column, int role ) const
             result = QVariant( m_sExtraIcons );
             break;
         }
+        default :
+            return UserViewItemBase::data( column, role );
     }
 
     return result;
 }
 
 UserListBase::UserListBase(QWidget *parent)
-        : ListView(parent)
+    : ListView(parent)
 {
     m_bInit  = false;
     m_bDirty = false;
     m_groupMode = 1;
     m_bShowOnline = false;
     m_bShowEmpty  = false;
+    m_bCheckable = false;
 
     //header()->hide();
     addColumn("");
@@ -347,7 +377,7 @@ void UserListBase::drawUpdates()
                 }
             }else{
                 if (m_bShowEmpty){
-                    new GroupItem(this, group, true);
+                    new GroupItem( this, group, true, m_bCheckable );
                     bChanged = true;
                 }
             }
@@ -370,7 +400,7 @@ void UserListBase::drawUpdates()
                     }
                 }else{
                     if (m_bShowEmpty){
-                        new GroupItem(divItem, group, divItem->state() == DIV_OFFLINE);
+                        new GroupItem( divItem, group, divItem->state() == DIV_OFFLINE, m_bCheckable );
                         bChanged = true;
                     }
                 }
@@ -449,7 +479,7 @@ void UserListBase::drawUpdates()
                         addSortItem(itemOffline);
                     addUpdatedItem(contactItem);
                 }else{
-                    contactItem = new ContactItem(itemOffline, contact, status, style, icons, unread);
+                    contactItem = new ContactItem( itemOffline, contact, status, style, icons, unread, m_bCheckable );
                     bChanged = true;
                 }
             }else{
@@ -475,7 +505,7 @@ void UserListBase::drawUpdates()
                         addSortItem(itemOnline);
                     addUpdatedItem(contactItem);
                 }else{
-                    contactItem = new ContactItem(itemOnline, contact, status, style, icons, unread);
+                    contactItem = new ContactItem( itemOnline, contact, status, style, icons, unread, m_bCheckable );
                     bChanged = true;
                 }
             }
@@ -505,7 +535,7 @@ void UserListBase::drawUpdates()
                     if (grpItem == NULL){
                         Group *grp = getContacts()->group(contact->getGroup());
                         if (grp){
-                            grpItem = new GroupItem(this, grp, true);
+                            grpItem = new GroupItem( this, grp, true, m_bCheckable );
                             bChanged = true;
                         }
                     }
@@ -528,7 +558,7 @@ void UserListBase::drawUpdates()
                         }
                     }else{
                         bChanged = true;
-                        contactItem = new ContactItem(grpItem, contact, status, style, icons, unread);
+                        contactItem = new ContactItem( grpItem, contact, status, style, icons, unread, m_bCheckable );
                         grpItem->m_nContacts++;
                         if (!m_bShowOnline && (status > STATUS_OFFLINE)){
                             grpItem->m_nContactsOnline++;
@@ -596,7 +626,7 @@ void UserListBase::drawUpdates()
                 if (grp == NULL)
                     break;
                 bChanged = true;
-                grpItem = new GroupItem(divItem, grp, true);
+                grpItem = new GroupItem( divItem, grp, true, m_bCheckable );
                 addSortItem(divItem);
             }
             contactItem = findContactItem(contact->id(), grpItem);
@@ -605,7 +635,7 @@ void UserListBase::drawUpdates()
                     addSortItem(grpItem);
             }else{
                 bChanged = true;
-                new ContactItem(grpItem, contact, status, style, icons, unread);
+                new ContactItem( grpItem, contact, status, style, icons, unread, m_bCheckable );
                 grpItem->m_nContacts++;
                 addGroupForUpdate(grpItem->id());
             }
@@ -724,7 +754,7 @@ void UserListBase::fill()
                     divItem = divItemOnline;
                 }
             }
-            new ContactItem(divItem, contact, status, style, icons, unread);
+            new ContactItem( divItem, contact, status, style, icons, unread, m_bCheckable );
         }
         break;
     case 1:
@@ -732,9 +762,9 @@ void UserListBase::fill()
             while ((grp = ++grp_it) != NULL){
                 if (grp->id() == 0)
                     continue;
-                grpItem = new GroupItem(this, grp, true);
+                grpItem = new GroupItem( this, grp, true, m_bCheckable );
             }
-            grpItem = new GroupItem(this, list->group(0), true);
+            grpItem = new GroupItem( this, list->group(0), true, m_bCheckable );
         }
         while ((contact = ++contact_it) != NULL){
             if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
@@ -753,11 +783,11 @@ void UserListBase::fill()
             if (grpItem == NULL){
                 grp = list->group(contact->getGroup());
                 if (grp)
-                    grpItem = new GroupItem(this, grp, true);
+                    grpItem = new GroupItem( this, grp, true, m_bCheckable );
                 if (grpItem == NULL)
                     continue;
             }
-            contactItem = new ContactItem(grpItem, contact, status, style, icons, unread);
+            contactItem = new ContactItem( grpItem, contact, status, style, icons, unread, m_bCheckable );
             grpItem->m_nContacts++;
             if ((status > STATUS_OFFLINE) && !m_bShowOnline){
                 grpItem->m_nContactsOnline++;
@@ -772,9 +802,9 @@ void UserListBase::fill()
             while ((grp = ++grp_it) != NULL){
                 if (grp->id() == 0)
                     continue;
-                grpItem = new GroupItem(divItemOnline, grp, false);
+                grpItem = new GroupItem( divItemOnline, grp, false, m_bCheckable );
             }
-            grpItem = new GroupItem(divItemOnline, list->group(0), false);
+            grpItem = new GroupItem( divItemOnline, list->group(0), false, m_bCheckable );
         }
         if (!m_bShowOnline){
             divItemOffline = new DivItem(this, DIV_OFFLINE);
@@ -784,9 +814,9 @@ void UserListBase::fill()
                 while ((grp = ++grp_it) != NULL){
                     if (grp->id() == 0)
                         continue;
-                    grpItem = new GroupItem(divItemOffline, grp, true);
+                    grpItem = new GroupItem( divItemOffline, grp, true, m_bCheckable );
                 }
-                grpItem = new GroupItem(divItemOffline, list->group(0), true);
+                grpItem = new GroupItem( divItemOffline, list->group(0), true, m_bCheckable );
             }
         }
         while ((contact = ++contact_it) != NULL){
@@ -816,9 +846,9 @@ void UserListBase::fill()
                 Group *grp = getContacts()->group(contact->getGroup());
                 if (grp == NULL)
                     continue;
-                grpItem = new GroupItem(divItem, grp, true);
+                grpItem = new GroupItem( divItem, grp, true, m_bCheckable );
             }
-            new ContactItem(grpItem, contact, status, style, icons, unread);
+            new ContactItem( grpItem, contact, status, style, icons, unread, m_bCheckable );
             grpItem->m_nContacts++;
         }
         break;
@@ -1052,8 +1082,9 @@ void UserListBase::deleteItem(ListViewItem *item)
 }
 
 UserList::UserList(QWidget *parent)
-        : UserListBase(parent)
+    : UserListBase(parent)
 {
+    m_bCheckable = true;
     m_bInit  = true;
     setMenu(0);
     fill();
@@ -1061,131 +1092,51 @@ UserList::UserList(QWidget *parent)
 
 UserList::~UserList()
 {
-    emit finished();
 }
 
-bool UserList::isSelected(unsigned id)
-{
-    for (list<unsigned>::iterator it = selected.begin(); it != selected.end(); ++it){
-        if ((*it) == id)
-            return true;
-    }
-    return false;
+void UserList::select( unsigned int id ) {
+    ContactItem *pItem = this->findContactItem( id, NULL );
+    if( NULL != pItem )
+        pItem->setCheckState( 0, Qt::Checked );
 }
 
-bool UserList::isGroupSelected(unsigned id)
-{
-    bool bRes = false;
-    ContactList::ContactIterator it;
-    Contact *contact;
-    while ((contact = ++it) != NULL){
-        if (contact->getGroup() != id)
-            continue;
-        if (!isSelected(contact->id()))
-            return false;
-        bRes = true;
-    }
-    return bRes;
+bool UserList::isHaveSelected() {
+    QList< unsigned int > list = selected();
+    return ( list.count() > 0 );
 }
 
-#define CHECK_OFF	QStyle::State_Off
-#define CHECK_ON	QStyle::State_On
-#define CHECK_NOCHANGE	QStyle::State_NoChange
+QList< unsigned int > UserList::selected( QTreeWidgetItem *pItem ) {
+    QList< unsigned int > list;
 
-int UserList::drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QPalette &cg) //p unused, cg unused
-{
-    QStyleOptionButton opt;
-    opt.state = bState ? CHECK_ON : CHECK_OFF;
-    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
-    QRect rc(x, (item->height() - h) / 2, w, h);
-    opt.rect = rc;
-    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &opt, p);
-    x += w + 2;
-    return x;
-}
-/*
-int UserListBase::heightItem(UserViewItemBase*)
-{
-    QFontMetrics fm(font());
-    int h = fm.height() + 4;
-    if (h < 22)
-        h = 22;
-    return h;
-}
-*/
-void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
-{
-    ListViewItem *list_item = itemAt(e->pos());
-    if (list_item == NULL)
-        return;
-    switch (static_cast<UserViewItemBase*>(list_item)->type()){
-    case USR_ITEM:
-		{
-            ContactItem *item = static_cast<ContactItem*>(list_item);
-            if (isSelected(item->id()))
-			{
-                for (list<unsigned>::iterator it = selected.begin(); it != selected.end(); ++it)
-				{
-                    if ((*it) == item->id())
-					{
-                        selected.erase(it);
-                        break;
-                    }
-                }
-            }
-			else
-			{
-                selected.push_back(item->id());
-            }
-            //item->repaint();
-            //item->parent()->repaint();
-            update();
-            emit selectChanged();
-            break;
+    QList< QTreeWidgetItem* > listSubItems;
+
+    if( NULL == pItem ) {
+        for( int i = 0 ; i < topLevelItemCount() ; i++ ) {
+            listSubItems.push_back( topLevelItem( i ) );
         }
-    case GRP_ITEM:{
-            GroupItem *item = static_cast<GroupItem*>(list_item);
-            if(isGroupSelected(item->id()))
-            {
-                for(int c = 0; c < topLevelItemCount(); c++)
-                {
-                    ListViewItem *i = static_cast<ListViewItem*>(topLevelItem(c));
-                    ContactItem *ci = static_cast<ContactItem*>(i);
-                    list<unsigned>::iterator it;
-                    for(it = selected.begin(); it != selected.end(); ++it)
-                    {
-                        if((*it) == ci->id())
-                        {
-                            selected.erase(it);
-                            break;
-                        }
-                    }
-                    ci->repaint();
-                }
-            }
-            else
-            {
-                for(int c = 0; c < topLevelItemCount(); c++)
-                {
-                    ListViewItem *i = static_cast<ListViewItem*>(topLevelItem(c));
-                    ContactItem *ci = static_cast<ContactItem*>(i);
-                    list<unsigned>::iterator it;
-                    for (it = selected.begin(); it != selected.end(); ++it)
-                        if ((*it) == ci->id())
-                            break;
-                    if (it == selected.end()){
-                        selected.push_back(ci->id());
-                        ci->repaint();
-                    }
-                }
-            }
-            item->repaint();
-            emit selectChanged();
-            break;
-      }
     }
-    m_pressedItem = NULL;
+    else {
+        for( int i = 0 ; i < pItem->childCount() ; i++ ) {
+            listSubItems.push_back( pItem->child( i ) );
+        }
+    }
+
+    foreach( QTreeWidgetItem* pSubItem, listSubItems ) {
+        UserViewItemBase *pBaseItem = static_cast<UserViewItemBase*>( pSubItem );
+        if( GRP_ITEM == pBaseItem->type() ) {
+            list.append( selected( pSubItem ) );
+        }
+        else if( ( USR_ITEM == pBaseItem->type() ) && ( Qt::Checked == pSubItem->checkState( 0 ) ) ) {
+            ContactItem *pContactItem = static_cast<ContactItem*>( pSubItem );
+            list.push_back( pContactItem->id() );
+        }
+    }
+
+    return list;
+}
+
+QList< unsigned int > UserList::selected() {
+    return selected( NULL );
 }
 
 // vim: set expandtab:

@@ -68,7 +68,6 @@ protected:
     virtual unsigned getUnread(unsigned contact_id);
     virtual bool getMenu(ListViewItem *item, unsigned long &id, void* &param);
     virtual bool processEvent(SIM::Event*);
-    void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
     void setGroupMode(unsigned mode, bool bFirst=false);
     void keyPressEvent(QKeyEvent *e);

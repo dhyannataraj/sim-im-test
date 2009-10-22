@@ -50,6 +50,7 @@
 #include <QDropEvent>
 #include <QDragMoveEvent>
 #include <QToolTip>
+#include <QScrollBar>
 
 using namespace std;
 using namespace SIM;
@@ -74,9 +75,6 @@ UserView::UserView() : UserListBase(NULL)
 
     setItemDelegate(new UserViewDelegate(this));
 
-    //setBackgroundMode(Qt::NoBackground);
-    //viewport()->setBackgroundMode(Qt::NoBackground);
-
     mTipItem = NULL;
     m_current = NULL;
     setRootIsDecorated(false);
@@ -84,7 +82,6 @@ UserView::UserView() : UserListBase(NULL)
     setAnimated(true);
 
     setIndentation(0);
-    //setTreeStepSize(0);
 
     setVerticalScrollBarPolicy(CorePlugin::m_plugin->property("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -129,8 +126,6 @@ UserView::UserView() : UserListBase(NULL)
     connect(edtContact, SIGNAL(returnPressed()), this, SLOT(editContactEnter()));
     connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
 
-    //setShowToolTips( false );
-
     setDragDropMode( QAbstractItemView::DragDrop );
     setDropIndicatorShown( true );
 }
@@ -139,36 +134,10 @@ UserView::~UserView()
 {
 }
 
-void UserView::paintEmptyArea(QPainter *p, const QRect &r)
-{
-    if ((r.width() == 0) || (r.height() == 0))
-        return;
-    QPixmap bg(r.width(), r.height());
-    QPainter pp(&bg);
-    pp.fillRect(QRect(0, 0, r.width(), r.height()), palette().color(QPalette::Base));
-    EventPaintView::PaintView pv;
-    pv.p        = &pp;
-    pv.pos      = viewport()->mapToParent(r.topLeft());
-    pv.size	= r.size();
-    pv.win      = this;
-    pv.isStatic = false;
-    pv.height   = r.height();
-    pv.margin   = 0;
-    pv.isGroup  = false;
-    ListViewItem *item = firstChild();
-    if (item)
-        pv.height = item->height();
-    EventPaintView e(&pv);
-    e.process();
-    pp.end();
-    p->drawPixmap(r.topLeft(), bg);
-    //setStaticBackground(pv.isStatic);
-}
-
 bool UserView::processEvent(Event *e)
 {
     switch (e->type())
-	{
+    {
     case eEventRepaintView:
 		setVerticalScrollBarPolicy(CorePlugin::m_plugin->property("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
         break;
@@ -177,7 +146,7 @@ bool UserView::processEvent(Event *e)
         fill();
         break;
     case eEventContact:
-	 	{
+    {
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eOnline)
             break;
@@ -206,14 +175,14 @@ bool UserView::processEvent(Event *e)
     case eEventMessageReceived:
     case eEventMessageDeleted:
     case eEventMessageRead:
-		{
+    {
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         addContactForUpdate(msg->contact());
         break;
     }
     case eEventCommandExec:
-		{
+    {
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
             CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuContact){
@@ -787,8 +756,8 @@ void UserView::keyPressEvent(QKeyEvent *e)
 	    setCurrentItem(m_searchItem);
 	}
         switch (e->key()){
-			case Qt::Key_Return:
-			case Qt::Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
             m_current = currentItem();
             QTimer::singleShot(0, this, SLOT(doClick()));
             return;

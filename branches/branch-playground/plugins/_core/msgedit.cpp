@@ -848,14 +848,13 @@ bool MsgEdit::sendMessage(Message *msg)
     m_flags = 0;
 
     if (m_userWnd->m_list){
-        multiply = m_userWnd->m_list->selected;
-        if (multiply.empty())
+        if( !m_userWnd->m_list->isHaveSelected() )
             return false;
-        multiply_it = multiply.begin();
-        msg->setContact(*multiply_it);
+        multiply = m_userWnd->m_list->selected();
+        msg->setContact( multiply.first() );
+        multiply.pop_front();
         msg->setClient(NULL);
-        ++multiply_it;
-        if (multiply_it != multiply.end())
+        if( multiply.count() > 0 )
             msg->setFlags(msg->getFlags() | MESSAGE_MULTIPLY);
     }else if (!m_resource.isEmpty()){
         void *data = NULL;
@@ -1254,7 +1253,7 @@ bool MsgEdit::processEvent(Event *e)
                     contact->setLastActive(QDateTime::currentDateTime().toTime_t());
                     EventContact(contact, EventContact::eStatus).process();
                 }
-                if (!multiply.empty() && (multiply_it != multiply.end())){
+                if (!multiply.empty() ){
                     CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
@@ -1264,11 +1263,11 @@ bool MsgEdit::processEvent(Event *e)
                         config.setWritePos(0);
                         config.getSection();
                         m_msg = (mdef->create)(&config);
-                        m_msg->setContact(*multiply_it);
+                        m_msg->setContact( multiply.first() );
+                        multiply.pop_front();
                         m_msg->setClient(NULL);
                         m_msg->setFlags(m_msg->getFlags() | MESSAGE_MULTIPLY);
-                        ++multiply_it;
-                        if (multiply_it == multiply.end())
+                        if( multiply.empty() )
                             m_msg->setFlags(m_msg->getFlags() | MESSAGE_LAST);
                         send();
                         return false;

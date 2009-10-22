@@ -80,8 +80,7 @@ void ListViewItem::setPixmap(int col, QPixmap p)
 
 void ListViewItem::repaint()
 {
-    ListView* lv = listView();
-    lv->update();
+    emitDataChanged();
 }
 
 bool ListViewItem::isOpen()

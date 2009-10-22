@@ -53,6 +53,8 @@ public:
     UserViewItemBase(UserViewItemBase *parent);
     virtual unsigned type() = 0;
     virtual void setup();
+protected:
+    void setCheckable( bool bCheckable );
 };
 
 class DivItem : public UserViewItemBase
@@ -71,8 +73,8 @@ protected:
 class GroupItem : public UserViewItemBase
 {
 public:
-    GroupItem(UserListBase *view, SIM::Group *grp, bool bOffline);
-    GroupItem(UserViewItemBase *view, SIM::Group *grp, bool bOffline);
+    GroupItem(UserListBase *view, SIM::Group *grp, bool bOffline, bool bCheckable );
+    GroupItem(UserViewItemBase *view, SIM::Group *grp, bool bOffline, bool bCheckable );
     unsigned type() { return GRP_ITEM; }
     unsigned long id() const { return m_id; }
     void update(SIM::Group *grp, bool bInit=false);
@@ -80,6 +82,7 @@ public:
     unsigned m_nContactsOnline;
     unsigned m_unread;
     virtual QVariant data( int column, int role ) const;
+    virtual void setData( int column, int role, const QVariant &value );
 protected:
     virtual void setOpen(bool bOpen);
     void init(SIM::Group *grp);
@@ -90,7 +93,7 @@ protected:
 class ContactItem : public UserViewItemBase
 {
 public:
-    ContactItem(UserViewItemBase *view, SIM::Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread);
+    ContactItem(UserViewItemBase *view, SIM::Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread, bool bCheckable );
     unsigned type() { return USR_ITEM; }
     unsigned long id() { return m_id; }
     unsigned style() { return m_style; }
@@ -142,23 +145,26 @@ protected:
     bool m_bInit;
     QTimer *updTimer;
     friend class UserViewItemBase;
+    bool m_bCheckable;
 };
 
-class UserList : public UserListBase
+class UserList
+    : public UserListBase
 {
     Q_OBJECT
 public:
-    UserList(QWidget *parent);
-    ~UserList();
-    std::list<unsigned> selected;
+    UserList( QWidget *parent );
+    virtual ~UserList();
+
+    void select( unsigned int id );
+    bool isHaveSelected();
+    QList< unsigned int > selected();
+
 signals:
     void selectChanged();
-    void finished();
+
 protected:
-    virtual void contentsMouseReleaseEvent(QMouseEvent *e);
-    bool isSelected(unsigned id);
-    bool isGroupSelected(unsigned id);
-    int drawIndicator(QPainter *p, int x, ListViewItem *item, bool bState, const QPalette &cg);
+    QList< unsigned int > selected( QTreeWidgetItem *pItem );
 };
 
 #endif

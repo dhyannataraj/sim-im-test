@@ -106,8 +106,7 @@ protected:
     bool        m_bTyping;
     QString     m_typingClient;
     bool send();
-    std::list<unsigned> multiply;
-    std::list<unsigned>::iterator multiply_it;
+    QList< unsigned int > multiply;
     SIM::CommandDef m_cmd;
     SIM::Message   *m_msg;
     EventMessageRetry::MsgSend m_retry;

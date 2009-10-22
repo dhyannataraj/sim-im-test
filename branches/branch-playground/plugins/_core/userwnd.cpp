@@ -291,7 +291,7 @@ void UserWnd::showListView(bool bShow)
                 Container *c = qobject_cast<Container*>(topLevelWidget());
                 list<UserWnd*> wnd = c->windows();
                 for (list<UserWnd*>::iterator it = wnd.begin(); it != wnd.end(); ++it)
-                    m_list->selected.push_back((*it)->id());
+                    m_list->select((*it)->id());
             }
         }
         m_list->show();

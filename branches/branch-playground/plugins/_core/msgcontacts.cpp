@@ -46,7 +46,7 @@ MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
         if (proto == "sim"){
             unsigned contact_id = url.toULong();
             if (getContacts()->contact(contact_id))
-                m_list->selected.push_back(contact_id);
+                m_list->select( contact_id );
         }
     }
     changed();
@@ -76,7 +76,7 @@ void MsgContacts::changed()
 {
     Command cmd;
     cmd->id    = CmdSend;
-    cmd->flags = m_list->selected.empty() ? COMMAND_DISABLED : 0;
+    cmd->flags = m_list->isHaveSelected() ? 0 : COMMAND_DISABLED;
     cmd->param = m_edit;
     EventCommandDisabled(cmd).process();
 }
@@ -121,12 +121,13 @@ bool MsgContacts::processEvent(Event *e)
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->toPlainText();
             QString contacts;
-            for (list<unsigned>::iterator it = m_list->selected.begin(); it != m_list->selected.end(); ++it){
-                Contact *contact = getContacts()->contact(*it);
+            QList< unsigned int > listSelected = m_list->selected();
+            foreach( unsigned int id, listSelected ) {
+                Contact *contact = getContacts()->contact( id );
                 if (contact){
                     if (!contacts.isEmpty())
                         contacts += ';';
-                    contacts += QString("sim:%1,%2") .arg(*it) .arg(contact->getName());
+                    contacts += QString("sim:%1,%2") .arg( id ) .arg( contact->getName() );
                 }
             }
             if (!contacts.isEmpty()){
