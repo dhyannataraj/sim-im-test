@@ -73,7 +73,11 @@ void DockWnd::messageClicked() {
 void DockWnd::showPopup()
 {
     m_menu = m_plugin->createMenu();
+#ifdef Q_OS_MAC
     m_TrayIcon.setContextMenu( m_menu );
+#else
+    m_menu->exec( QCursor::pos() );
+#endif
 }
 
 DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
