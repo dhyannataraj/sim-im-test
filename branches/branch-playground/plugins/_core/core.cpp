@@ -1269,7 +1269,7 @@ bool CorePlugin::processEvent(Event *e)
 						break;
 				if (i >= getContacts()->nClients()){
 					Client *client = getContacts()->getClient(0);
-					setManualStatus(client->getManualStatus());
+					//setManualStatus(client->getManualStatus());
 					client->setCommonStatus(true);
 					EventClientChanged(client).process();
 				}

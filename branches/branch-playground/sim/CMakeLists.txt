@@ -7,7 +7,6 @@ ENDIF(NOT WIN32)
 ######################
 
 SET(sim_LIB_SRCS
-	    aboutdata.cpp
 		ballonmsg.cpp
 		buffer.cpp
 		builtinlogger.cpp
@@ -70,7 +69,6 @@ SET(sim_LIB_SRCS
 		socket/ipresolver.cpp
 	)
 SET(sim_LIB_HDRS
-	    aboutdata.h
 		ballonmsg.h
 		buffer.h
 		builtinlogger.h
