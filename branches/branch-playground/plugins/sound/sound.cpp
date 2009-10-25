@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QDir>
 #include "simapi.h"
 
 #include "exec.h"
@@ -110,13 +111,19 @@ bool SoundPlugin::processEvent(SIM::Event *e)
     {
         case eEventLoginStart:
         {
+			log(L_DEBUG, "Startup sound: %s", qPrintable(property("StartUp").toString()));
             playSound(property("StartUp").toString());
             break;
         }
         case eEventPluginLoadConfig:
         {
             PropertyHub::load();
-            // TODO Defaults
+			if(!property("StartUp").isValid())
+				setProperty("StartUp", "sounds/startup.ogg");
+			if(!property("MessageSent").isValid())
+				setProperty("MessageSent", "sounds/msgsent.ogg");
+			if(!property("FileDone").isValid())
+				setProperty("FileDone", "sounds/filedone.ogg");
             break;
         }
 		case eEventContact:
@@ -205,8 +212,14 @@ bool SoundPlugin::processEvent(SIM::Event *e)
 
 void SoundPlugin::playSound(const QString& path)
 {
+	QString snd;
 	log(L_DEBUG, "Sound: %s", qPrintable(path));
-    m_media->setCurrentSource(Phonon::MediaSource(path));
+	QDir d(path);
+	if(d.isRelative())
+		snd = app_file(path);
+	else
+		snd = path;
+    m_media->setCurrentSource(Phonon::MediaSource(snd));
     Phonon::State state = m_media->state();
     if( state == Phonon::ErrorState ) {
         QString sError = m_media->errorString();

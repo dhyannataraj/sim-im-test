@@ -3157,9 +3157,12 @@ bool CorePlugin::init(bool bInit)
 
 	loadUnread();
 
-        m_main = new MainWindow(/*data.geometry*/);
-        m_main->restoreGeometry(property("geometry").toByteArray());
-        m_view = new UserView;
+    m_main = new MainWindow(/*data.geometry*/);
+    m_main->restoreGeometry(property("geometry").toByteArray());
+    m_view = new UserView;
+
+    EventLoginStart e;
+    e.process();
 
 	if (!bNew)
     {
