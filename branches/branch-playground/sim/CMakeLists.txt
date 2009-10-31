@@ -7,37 +7,25 @@ ENDIF(NOT WIN32)
 ######################
 
 SET(sim_LIB_SRCS
-		ballonmsg.cpp
 		buffer.cpp
 		builtinlogger.cpp
 		cfg.cpp
 		cmddef.cpp
 		contacts.cpp
 		country.cpp
-		datepicker.cpp
-		editfile.cpp
 		event.cpp
 		exec.cpp
 		fetch.cpp
-		fontedit.cpp
 		icons.cpp
-		intedit.cpp
-		linklabel.cpp
-		listview.cpp
 		log.cpp
 		message.cpp
 		misc.cpp
+		paths.cpp
 		plugins.cpp
-		preview.cpp
 		profilemanager.cpp
 		propertyhub.cpp
-		qchildwidget.cpp
-		qcolorbutton.cpp
-		qkeybutton.cpp
 		sax.cpp
 		simfs.cpp
-		textshow.cpp
-		toolbtn.cpp
 		translit.cpp
 		unquot.cpp
 		xsl.cpp
@@ -69,39 +57,27 @@ SET(sim_LIB_SRCS
 		socket/ipresolver.cpp
 	)
 SET(sim_LIB_HDRS
-		ballonmsg.h
 		buffer.h
 		builtinlogger.h
 		cfg.h
 		cmddef.h
 		contacts.h
 		country.h
-		datepicker.h
-		editfile.h
 		event.h
 		exec.h
 		fetch.h
-		fontedit.h
 		icons.h
-		intedit.h
-		linklabel.h
-		listview.h
 		log.h
 		message.h
 		misc.h
+		paths.h
 		plugins.h
-		preview.h
 		profilemanager.h
 		propertyhub.h
-		qchildwidget.h
-		qcolorbutton.h
-		qkeybutton.h
 		sax.h
 		simapi.h
 		simfs.h
 		singleton.h
-		textshow.h
-		toolbtn.h
 		translit.h
 		unquot.h
 		xsl.h
@@ -135,6 +111,14 @@ SET(sim_LIB_HDRS
 		socket/ipresolver.h
 	)
 
+IF(ENABLE_KDE4)
+	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/kdesimapp.cpp)
+	SET(sim_LIB_HDRS ${sim_LIB_HDRS} simapp/kdesimapp.h)
+ELSE(ENABLE_KDE4)
+	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/simapp.cpp)
+	SET(sim_LIB_HDRS ${sim_LIB_HDRS} simapp/simapp.h)
+ENDIF(ENABLE_KDE4)
+
 # moc the sources
 QT4_WRAP_CPP(MOC_SRCS ${sim_LIB_HDRS})
 SOURCE_GROUP(MOC-Files FILES ${MOC_SRCS})
@@ -158,6 +142,7 @@ ADD_DEFINITIONS(-DNOUNCRYPT)
 # additional include dirs - at least ${CMAKE_CURRENT_BINARY_DIR} is needed
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
+TARGET_LINK_LIBRARIES(simlib simguilib)
 # openssl is optional
 IF(OPENSSL_FOUND)
   INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
@@ -213,7 +198,7 @@ SET(sim_tests_hdrs
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
 
 ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
-TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(test simlib simguilib ${QT_LIBRARIES})
 
 ##################
 # sim executable #

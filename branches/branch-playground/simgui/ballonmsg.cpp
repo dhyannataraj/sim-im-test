@@ -309,3 +309,4 @@ void BalloonButton::click()
     emit action(id);
     topLevelWidget()->close();
 }
+
