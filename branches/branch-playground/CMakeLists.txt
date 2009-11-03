@@ -91,7 +91,7 @@ ADD_DEFINITIONS(${QT_DEFINITIONS} -DHAVE_CONFIG_H)
 INCLUDE_DIRECTORIES(${QT_INCLUDE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${Sim-IM_SOURCE_DIR}/sim
-                    ${Sim-IM_SOURCE_DIR}/simgui
+                    ${Sim-IM_SOURCE_DIR}/sim/simgui
                     ${Sim-IM_SOURCE_DIR}/plugins/_core)
 LINK_DIRECTORIES(${QT_LIB_DIR})
 
@@ -157,7 +157,6 @@ endif(WIN32)
 	
 # subdirectories
 ADD_SUBDIRECTORY(sim)
-ADD_SUBDIRECTORY(simgui)
 SIM_FIND_PLUGINS(${Sim-IM_SOURCE_DIR}/plugins)
 SIM_INCLUDE_PLUGINS()
 

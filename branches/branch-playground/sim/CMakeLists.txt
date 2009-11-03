@@ -56,6 +56,21 @@ SET(sim_LIB_SRCS
 		socket/simsockets.cpp
 		socket/ip.cpp
 		socket/ipresolver.cpp
+
+		simgui/ballonmsg.cpp
+		simgui/datepicker.cpp
+		simgui/editfile.cpp
+		simgui/fontedit.cpp
+		simgui/intedit.cpp
+		simgui/linklabel.cpp
+		simgui/listview.cpp
+		simgui/logindlg.cpp
+		simgui/preview.cpp
+		simgui/qchildwidget.cpp
+		simgui/qcolorbutton.cpp
+		simgui/qkeybutton.cpp
+		simgui/textshow.cpp
+		simgui/toolbtn.cpp
 	)
 SET(sim_LIB_HDRS
 		buffer.h
@@ -111,7 +126,24 @@ SET(sim_LIB_HDRS
 		socket/simsockets.h
 		socket/ip.h
 		socket/ipresolver.h
+		simgui/ballonmsg.h
+		simgui/datepicker.h
+		simgui/editfile.h
+		simgui/fontedit.h
+		simgui/intedit.h
+		simgui/linklabel.h
+		simgui/listview.h
+		simgui/logindlg.h
+		simgui/preview.h
+		simgui/qchildwidget.h
+		simgui/qcolorbutton.h
+		simgui/qkeybutton.h
+		simgui/textshow.h
+		simgui/toolbtn.h
 	)
+
+SET(sim_ui
+	simgui/logindlgbase.ui)
 
 IF(ENABLE_KDE4)
 	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/kdesimapp.cpp)
@@ -123,13 +155,14 @@ ENDIF(ENABLE_KDE4)
 
 # moc the sources
 QT4_WRAP_CPP(MOC_SRCS ${sim_LIB_HDRS})
+QT4_WRAP_UI(sim_ui_headers ${sim_ui})
 SOURCE_GROUP(MOC-Files FILES ${MOC_SRCS})
 
 # don't forget flex
 ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
 
 # our target
-ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS} ${MOC_SRCS})
+ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS} ${MOC_SRCS} ${sim_ui_headers})
 
 IF(WIN32 AND NOT MINGW)
     SET_TARGET_PROPERTIES(simlib PROPERTIES VERSION 0.0.0 SOVERSION 0)
@@ -144,7 +177,7 @@ ADD_DEFINITIONS(-DNOUNCRYPT)
 # additional include dirs - at least ${CMAKE_CURRENT_BINARY_DIR} is needed
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-TARGET_LINK_LIBRARIES(simlib simguilib)
+TARGET_LINK_LIBRARIES(simlib)
 # openssl is optional
 IF(OPENSSL_FOUND)
   INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
@@ -200,7 +233,7 @@ SET(sim_tests_hdrs
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
 
 ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
-TARGET_LINK_LIBRARIES(test simlib simguilib ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
 
 ##################
 # sim executable #
