@@ -18,7 +18,7 @@
 #include "update.h"
 #include "socket/socketfactory.h"
 #include "core.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "aboutdata.h"
 #include "log.h"
 #include "mainwin.h"

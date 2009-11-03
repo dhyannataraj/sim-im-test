@@ -19,7 +19,7 @@
 #define _MSGEDIT_H
 
 #include "core.h"
-#include "textshow.h"
+#include "simgui/textshow.h"
 #include "event.h"
 
 #include <QMenu>

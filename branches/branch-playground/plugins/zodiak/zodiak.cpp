@@ -30,7 +30,7 @@
 #include <QLabel>
 #include <QEvent>
 
-#include "datepicker.h"
+#include "simgui/datepicker.h"
 #include "misc.h"
 
 #include "zodiak.h"

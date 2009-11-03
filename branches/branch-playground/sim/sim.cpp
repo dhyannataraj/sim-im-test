@@ -151,6 +151,7 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, i
 static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
 #endif
 
+#ifndef WIN32
 void parseArgs(int* l_argc, char*** l_argv, int argc, char** argv)
 {
 	int _argc = *l_argc;
@@ -214,6 +215,7 @@ void parseArgs(int* l_argc, char*** l_argv, int argc, char** argv)
 	*l_argc = _argc;
 	*l_argv = _argv;
 }
+#endif
 
 int main(int argc, char *argv[])
 {

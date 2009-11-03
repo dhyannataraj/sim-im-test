@@ -93,12 +93,12 @@
   <customwidget>
    <class>LineEdit</class>
    <extends>QWidget</extends>
-   <header>editfile.h</header>
+   <header>simgui/editfile.h</header>
   </customwidget>
   <customwidget>
    <class>MultiLineEdit</class>
    <extends>QWidget</extends>
-   <header>editfile.h</header>
+   <header>simgui/editfile.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
