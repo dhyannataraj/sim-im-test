@@ -286,6 +286,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\clientlist.cpp"
+				>
+			</File>
+			<File
 				RelativePath="sim\cmddef.cpp"
 				>
 				<FileConfiguration
@@ -716,6 +720,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\sim\moc_clientlist.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\moc_exec.cpp"
 					>
 				</File>
@@ -756,6 +764,30 @@
 			<File
 				RelativePath="sim\cjk_variants.h"
 				>
+			</File>
+			<File
+				RelativePath=".\sim\clientlist.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\sim\cmddef.h"
@@ -1772,6 +1804,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="sim\simgui\logindlg.cpp"
+					>
+				</File>
+				<File
 					RelativePath="sim\simgui\preview.cpp"
 					>
 					<FileConfiguration
@@ -1933,6 +1969,10 @@
 					</File>
 					<File
 						RelativePath=".\sim\simgui\moc_listview.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\sim\simgui\moc_logindlg.cpp"
 						>
 					</File>
 					<File
@@ -2130,6 +2170,30 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\sim\simgui\logindlg.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="sim\simgui\preview.h"
 					>
 				</File>
@@ -2252,6 +2316,24 @@
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
+				</File>
+				<Filter
+					Name="generated"
+					Filter="*base.h;ui_*.h"
+					>
+					<File
+						RelativePath=".\sim\simgui\ui_logindlgbase.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Interfaces"
+				Filter="*.ui"
+				>
+				<File
+					RelativePath=".\sim\simgui\logindlgbase.ui"
+					>
 				</File>
 			</Filter>
 		</Filter>

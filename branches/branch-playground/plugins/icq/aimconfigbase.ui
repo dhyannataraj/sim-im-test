@@ -218,7 +218,7 @@
     <customwidget>
       <class>LinkLabel</class>
       <extends>QWidget</extends>
-      <header location="local" >linklabel.h</header>
+      <header location="local" >simgui/linklabel.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>
