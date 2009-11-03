@@ -28,6 +28,7 @@
 #include "connectwnd.h"
 #include "core.h"
 #include "contacts/client.h"
+#include "log.h"
 
 using namespace std;
 using namespace SIM;
@@ -271,4 +272,6 @@ bool NewProtocol::processEvent(Event *e)
     }
     return false;
 }
+// vim: set expandtab:
+
 

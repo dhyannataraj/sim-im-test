@@ -20,7 +20,10 @@
 
 
 #include "event.h"
+#include "contacts/client.h"
+#include "buffer.h"
 #include "ui_logindlgbase.h"
+#include "clientlist.h"
 
 class QLabel;
 class QLineEdit;
@@ -37,6 +40,11 @@ public:
 	QString profile() { return m_profile; }
 	bool isNewProfile() { return m_newProfile; }
     QString newProfileName() { return m_newProfileName; }
+
+signals:
+    void changeProfile(const QString& profilename);
+    void loadClients();
+
 protected slots:
     void saveToggled(bool);
     void profileChanged(int);
@@ -46,22 +54,27 @@ protected slots:
     void loginComplete();
     void adjust();
     void newNameChanged( const QString &text );
+
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();
-    QString m_profile;
-    QString m_loginProfile;
-	bool m_newProfile;
+    void makeInputs(unsigned &row, SIM::Client *client);
     void clearInputs();
     void fill();
     void startLogin();
     void stopLogin();
+    void loadClients(const QString& profilename, SIM::ClientList&);
+    SIM::Client *loadClient(const QString &name, Buffer *cfg);
+
+private:
+    QString m_profile;
+    QString m_loginProfile;
+	bool m_newProfile;
     bool m_bLogin;
     bool m_bInit;
     bool m_bProfileChanged;
-    void makeInputs(unsigned &row, SIM::Client *client);
     QList<QLabel*>	picts;
     QList<QLabel*>	texts;
     QList<QLineEdit*>	passwords;
@@ -72,4 +85,6 @@ protected:
 };
 
 #endif
+
+// vim: set expandtab:
 

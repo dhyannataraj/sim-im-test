@@ -33,6 +33,7 @@
 #include "plugins.h"
 #include "propertyhub.h"
 #include "core_consts.h"
+#include "clientlist.h"
 
 using namespace std;
 
@@ -115,14 +116,6 @@ struct HistoryUserData
     SIM::Data	MaxSize;
     SIM::Data	CutDays;
     SIM::Data	Days;
-};
-
-class ClientList : public vector<SIM::Client*>
-{
-public:
-    ClientList();
-    ~ClientList();
-    void addToContacts();
 };
 
 
@@ -217,7 +210,6 @@ public:
     QString clientName(SIM::Client *client);
 
     XSL	*historyXSL;
-    bool m_bIgnoreEvents;
 signals:
     void modeChanged(int);
 protected slots:
@@ -231,6 +223,7 @@ protected slots:
     void focusDestroyed();
     void showMain();
 	void postInit();
+	void ignoreEvents(bool i);
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual QByteArray getConfig();
@@ -239,8 +232,8 @@ protected:
     bool init(bool bFirst);
     void destroy();
     void loadDir();
-    void loadClients(ClientList&);
-    void loadClients(const QString& profilename, ClientList&);
+    void loadClients(SIM::ClientList&);
+    void loadClients(const QString& profilename, SIM::ClientList&);
     void loadMenu();
     QString tsFile(const QString &lang);
     SIM::Client *loadClient(const QString &name, Buffer *cfg);
@@ -289,6 +282,9 @@ protected:
     QString             m_ICQUIN;
     QString             m_ICQPassword;
     HistoryThread      *m_HistoryThread;
+
+private:
+    bool m_bIgnoreEvents;
 
     friend class MainWindow;
     friend class UserView;

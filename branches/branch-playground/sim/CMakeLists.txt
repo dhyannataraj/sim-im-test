@@ -10,6 +10,7 @@ SET(sim_LIB_SRCS
 		buffer.cpp
 		builtinlogger.cpp
 		cfg.cpp
+		clientlist.cpp
 		cmddef.cpp
 		contacts.cpp
 		country.cpp
@@ -60,6 +61,7 @@ SET(sim_LIB_HDRS
 		buffer.h
 		builtinlogger.h
 		cfg.h
+		clientlist.h
 		cmddef.h
 		contacts.h
 		country.h

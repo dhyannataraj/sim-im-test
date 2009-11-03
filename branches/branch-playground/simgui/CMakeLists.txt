@@ -10,6 +10,7 @@ SET(simgui_LIB_SRCS
 	intedit.cpp
 	linklabel.cpp
 	listview.cpp
+	logindlg.cpp
 	preview.cpp
 	qchildwidget.cpp
 	qcolorbutton.cpp
@@ -25,6 +26,7 @@ SET(simgui_LIB_HDRS
 	intedit.h
 	linklabel.h
 	listview.h
+	logindlg.h
 	preview.h
 	qchildwidget.h
 	qcolorbutton.h
@@ -33,12 +35,16 @@ SET(simgui_LIB_HDRS
 	toolbtn.h
 	)
 
+SET(simgui_ui
+	logindlgbase.ui)
+
 # moc the sources
 QT4_WRAP_CPP(simgui_MOC_SRCS ${simgui_LIB_HDRS})
+QT4_WRAP_UI(simgui_ui_headers ${simgui_ui})
 #SOURCE_GROUP(MOC-Files FILES ${MOC_SRCS})
 
 # our target
-ADD_LIBRARY(simguilib SHARED ${simgui_LIB_SRCS} ${simgui_MOC_SRCS})
+ADD_LIBRARY(simguilib SHARED ${simgui_LIB_SRCS} ${simgui_MOC_SRCS} ${simgui_ui_headers})
 
 #IF(WIN32 AND NOT MINGW)
     #SET_TARGET_PROPERTIES(simguilib PROPERTIES VERSION 0.0.0 SOVERSION 0)
@@ -50,7 +56,7 @@ ADD_LIBRARY(simguilib SHARED ${simgui_LIB_SRCS} ${simgui_MOC_SRCS})
 SET_TARGET_PROPERTIES(simguilib PROPERTIES DEFINE_SYMBOL SIMAPI_EXPORTS)
 
 # additional include dirs - at least ${CMAKE_CURRENT_BINARY_DIR} is needed
-#INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 #IF(ENABLE_KDE4)
   #TARGET_LINK_LIBRARIES(simguilib ${KDE4_KDECORE_LIBRARY} ${KDE4_KDEUI_LIBRARY} ${KDE4_KIO_LIBRARY})

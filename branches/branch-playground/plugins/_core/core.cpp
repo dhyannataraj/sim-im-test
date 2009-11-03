@@ -2975,6 +2975,11 @@ void CorePlugin::hideWindows()
 	}
 }
 
+void CorePlugin::ignoreEvents(bool i)
+{
+    m_bIgnoreEvents = i;
+}
+
 void CorePlugin::changeProfile(const QString& profilename)
 {
 	log(L_DEBUG, "CorePlugin::changeProfile()");
@@ -3129,7 +3134,8 @@ bool CorePlugin::init(bool bInit)
 	eplc.process();
 	if (!bLoaded)
 	{
-		ClientList clients;
+        SIM::ClientList clients;
+        connect(&clients, SIGNAL(ignoreEvents(bool)), this, SLOT(ignoreEvents(bool)));
 		loadClients(clients);
 		clients.addToContacts();
 	}
@@ -3526,9 +3532,8 @@ Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 	return new Message(MessageGeneric, cfg);
 }
 
-void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
+void CorePlugin::loadClients(const QString& profilename, SIM::ClientList& clients)
 {
-	log(L_DEBUG, "CorePlugin::loadClients(%s)", qPrintable(profilename));
 	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
 	QFile f(cfgName);
 	if (!f.open(QIODevice::ReadOnly))
@@ -3549,9 +3554,8 @@ void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 	}
 }
 
-void CorePlugin::loadClients(ClientList &clients)
+void CorePlugin::loadClients(SIM::ClientList &clients)
 {
-	log(L_DEBUG, "CorePlugin::loadClients()");
 	loadClients(ProfileManager::instance()->currentProfileName(), clients);
 }
 
@@ -3761,24 +3765,6 @@ void CorePlugin::showPanel()
     }
 }
 
-ClientList::ClientList()
-{
-}
-
-ClientList::~ClientList()
-{
-    CorePlugin::m_plugin->m_bIgnoreEvents = true;
-    for (ClientList::iterator it = begin(); it != end(); ++it)
-        delete *it;
-    CorePlugin::m_plugin->m_bIgnoreEvents = false;
-}
-
-void ClientList::addToContacts()
-{
-    for (ClientList::iterator it = begin(); it != end(); ++it)
-        getContacts()->addClient(*it);
-    clear();
-}
 
 unsigned CorePlugin::getContainerMode()
 {

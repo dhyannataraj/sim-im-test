@@ -178,7 +178,7 @@ void LoginDialog::accept()
 		settings.setValue("SavePasswd", chkSave->isChecked());
 		settings.setValue("NoShow", chkNoShow->isChecked());
 		m_profile = QString::null;
-		CorePlugin::m_plugin->changeProfile(QString::null);
+		emit changeProfile(QString::null);
 		QDialog::accept();
 		return;
 	}
@@ -191,10 +191,10 @@ void LoginDialog::accept()
 
 	// Probably, it shouldn't be here
 	ProfileManager::instance()->selectProfile(m_profile);
-	CorePlugin::m_plugin->changeProfile(m_profile);
+	emit changeProfile(m_profile);
 
 	ClientList clients;
-	CorePlugin::m_plugin->loadClients(m_profile, clients);
+	loadClients(m_profile, clients);
 	clients.addToContacts();
 	getContacts()->load();
 
@@ -282,7 +282,7 @@ void LoginDialog::profileChanged(int)
         e_newName->hide();
         clearInputs();
 		ClientList clients;
-		CorePlugin::m_plugin->loadClients(cmbProfile->currentText(), clients);
+		loadClients(cmbProfile->currentText(), clients);
 		unsigned nClients = 0;
 		unsigned i;
 		for (i = 0; i < clients.size(); i++)
@@ -443,7 +443,7 @@ void LoginDialog::profileDelete()
 	if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
 		return;
 		*/
-	QString curProfile = cmbProfile->currentText(); //CorePlugin::m_plugin->m_profiles[n];
+	QString curProfile = cmbProfile->currentText();
 	ProfileManager::instance()->removeProfile(curProfile);
 	clearInputs();
 	btnDelete->setEnabled(false);
@@ -466,10 +466,12 @@ void LoginDialog::profileRename()
 			QMessageBox::information(this, i18n("Rename Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
 			continue;
 		}
+		/*
         else if(!d.rename(CorePlugin::m_plugin->m_profiles[cmbProfile->currentIndex()], name)) {
 			QMessageBox::information(this, i18n("Rename Profile"), i18n("Unable to rename the profile.  Please do not use any special characters."), QMessageBox::Ok);
 			continue;
 		}
+		*/
 		break;
 	}
 	ProfileManager::instance()->renameProfile(old_name, name);
@@ -579,4 +581,64 @@ void LoginDialog::newNameChanged( const QString &text ) {
 
     QDir d(ProfileManager::instance()->rootPath());
     buttonOk->setEnabled( !d.exists( text ) );
+}
+
+void LoginDialog::loadClients(const QString& profilename, SIM::ClientList& clients)
+{
+	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
+	QFile f(cfgName);
+	if (!f.open(QIODevice::ReadOnly))
+    {
+        log(L_ERROR, "[1]Can't open %s", qPrintable(cfgName));
+		return;
+	}
+	Buffer cfg = f.readAll();
+	for (;;)
+    {
+		QByteArray section = cfg.getSection();
+		if (section.isEmpty())
+			break;
+		QString s = section;	// ?
+		Client *client = loadClient(s, &cfg);
+		if (client)
+			clients.push_back(client);
+	}
+}
+
+Client* LoginDialog::loadClient(const QString &name, Buffer *cfg)
+{
+	if (name.isEmpty())
+		return NULL;
+	QString clientName = name;
+	QString pluginName = getToken(clientName, '/');
+    if (pluginName.isEmpty() || clientName.length() == 0)
+		return NULL;
+	EventGetPluginInfo e(pluginName);
+	e.process();
+	pluginInfo *info = e.info();
+	if (info == NULL)
+    {
+        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
+		return NULL;
+	}
+	if (info->info == NULL)
+    {
+		EventLoadPlugin e(pluginName);
+		e.process();
+	}
+	if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
+    {
+        log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
+		return NULL;
+	}
+	info->bDisabled = false;
+	EventApplyPlugin eApply(pluginName);
+	eApply.process();
+	Protocol *protocol;
+	ContactList::ProtocolIterator it;
+    while ((protocol = ++it) != NULL)
+        if (protocol->description()->text == clientName)
+            return protocol->createClient(cfg);
+    log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
+	return NULL;
 }
