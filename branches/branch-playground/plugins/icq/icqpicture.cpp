@@ -17,11 +17,13 @@
 
 #include "icqpicture.h"
 #include "icqclient.h"
-#include "editfile.h"
-#include "preview.h"
-#include "simgui/ballonmsg.h"
+
 #include "log.h"
+
 #include "contacts/contact.h"
+#include "simgui/editfile.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/preview.h"
 
 #include <QPushButton>
 #include <QLabel>

@@ -29,7 +29,7 @@ class QLabel;
 class QLineEdit;
 class LinkLabel;
 
-class LoginDialog : public QDialog, public Ui::LoginDialogBase, public SIM::EventReceiver
+class EXPORT LoginDialog : public QDialog, public Ui::LoginDialogBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

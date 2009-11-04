@@ -18,8 +18,9 @@
 #include "icons.h"
 #include "moreinfo.h"
 #include "icqclient.h"
-#include "datepicker.h"
+
 #include "contacts/contact.h"
+#include "simgui/datepicker.h"
 
 #include <QPushButton>
 #include <QDateTime>

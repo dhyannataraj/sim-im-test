@@ -24,11 +24,12 @@
 #include <QPixmap>
 #include <QFile>
 
-#include "simgui/ballonmsg.h"
-#include "editfile.h"
 #include "misc.h"
-#include "preview.h"
+
 #include "contacts/contact.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/editfile.h"
+#include "simgui/preview.h"
 
 #include "jabberclient.h"
 #include "jabberpicture.h"

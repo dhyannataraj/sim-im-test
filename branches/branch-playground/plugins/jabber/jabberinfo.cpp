@@ -23,11 +23,12 @@
 #include <QLabel>
 #include <QTabWidget>
 
-#include "simgui/ballonmsg.h"
-#include "datepicker.h"
 #include "icons.h"
 #include "misc.h"
+
 #include "contacts/contact.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/datepicker.h"
 
 #include "jabberclient.h"
 #include "jabberinfo.h"

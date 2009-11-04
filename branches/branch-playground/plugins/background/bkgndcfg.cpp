@@ -29,7 +29,7 @@
 #include "misc.h"
 #include "simgui/linklabel.h"
 #include "simgui/editfile.h"
-#include "preview.h"
+#include "simgui/preview.h"
 
 #include "bkgndcfg.h"
 #include "background.h"
