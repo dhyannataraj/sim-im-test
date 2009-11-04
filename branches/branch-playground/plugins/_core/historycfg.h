@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "qcolorbutton.h"
+#include "simgui/qcolorbutton.h"
 #include <QEvent>
 #include "ui_historycfgbase.h"
 

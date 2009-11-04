@@ -20,7 +20,7 @@
 
 #include "cfg.h"
 
-#include "listview.h"
+#include "simgui/listview.h"
 #include "ui_icqsecurebase.h"
 
 class ICQClient;

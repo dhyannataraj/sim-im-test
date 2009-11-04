@@ -186,7 +186,7 @@
   <customwidget>
    <class>TextShow</class>
    <extends>QWidget</extends>
-   <header>textshow.h</header>
+   <header>simgui/textshow.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

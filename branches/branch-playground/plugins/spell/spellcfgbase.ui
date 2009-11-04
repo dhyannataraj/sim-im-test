@@ -94,7 +94,7 @@
     <customwidget>
       <class>QWidget</class>
       <extends>QWidget</extends>
-      <header location="global" >qwidget.h</header>
+      <header location="global" >QWidget</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>
@@ -112,7 +112,7 @@
     <customwidget>
       <class>EditFile</class>
       <extends>QWidget</extends>
-      <header location="local" >editfile.h</header>
+      <header location="local" >simgui/editfile.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>
@@ -127,7 +127,7 @@
     <customwidget>
       <class>LinkLabel</class>
       <extends>QWidget</extends>
-      <header location="local" >linklabel.h</header>
+      <header location="local" >simgui/linklabel.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>
@@ -145,7 +145,7 @@
     <customwidget>
       <class>ListView</class>
       <extends>QWidget</extends>
-      <header location="local" >listview.h</header>
+      <header location="local" >simgui/listview.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>

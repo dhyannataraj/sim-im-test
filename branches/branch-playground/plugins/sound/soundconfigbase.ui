@@ -90,7 +90,7 @@
   <customwidget>
    <class>EditSound</class>
    <extends>QWidget</extends>
-   <header>editfile.h</header>
+   <header>simgui/editfile.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

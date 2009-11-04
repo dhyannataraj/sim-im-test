@@ -36,7 +36,7 @@
 #include <QMouseEvent>
 #include <QDesktopWidget>
 
-#include "fontedit.h"
+#include "simgui/fontedit.h"
 #include "log.h"
 #include "core.h"
 #include "icons.h"

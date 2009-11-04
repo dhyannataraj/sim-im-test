@@ -18,7 +18,7 @@
 #include "homedircfg.h"
 #include "homedir.h"
 
-#include "editfile.h"
+#include "simgui/editfile.h"
 
 #include <QRegExp>
 #include <QCheckBox>

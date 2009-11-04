@@ -19,10 +19,11 @@
 
 #include "log.h"
 #include "msgedit.h"
-#include "textshow.h"
 #include "userwnd.h"
 #include "passphrase.h"
-#include "ballonmsg.h"
+
+#include "simgui/textshow.h"
+#include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
 

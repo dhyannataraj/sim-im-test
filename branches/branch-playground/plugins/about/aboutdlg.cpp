@@ -31,7 +31,7 @@
 #include "aboutdata.h"
 #include "icons.h"
 #include "misc.h"
-#include "textshow.h"
+#include "simgui/textshow.h"
 
 #include "aboutdlg.h"
 #include "about.h"

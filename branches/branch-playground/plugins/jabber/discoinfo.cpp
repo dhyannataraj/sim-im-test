@@ -22,7 +22,7 @@
 #include <QResizeEvent>
 
 #include "icons.h"
-#include "listview.h"
+#include "simgui/listview.h"
 #include "misc.h"
 
 #include "jabberclient.h"

@@ -17,7 +17,7 @@
 
 #include "replace.h"
 #include "replacecfg.h"
-#include "textshow.h"
+#include "simgui/textshow.h"
 #include "html.h"
 #include "misc.h"
 

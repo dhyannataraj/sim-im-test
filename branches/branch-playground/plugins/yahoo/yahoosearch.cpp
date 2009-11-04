@@ -15,16 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <cstdio>
+
 #include <QLabel>
 #include <QComboBox>
-#include <cstdio>
 #include <QByteArray>
 #include <QShowEvent>
+
 #include "contacts/contact.h"
 #include "contacts/group.h"
+#include "simgui/intedit.h"
 
 #include "country.h"
-#include "intedit.h"
 #include "log.h"
 #include "misc.h"
 

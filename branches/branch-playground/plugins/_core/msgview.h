@@ -21,7 +21,7 @@
 #include <vector>
 #include <list>
 
-#include "textshow.h"
+#include "simgui/textshow.h"
 #include <QMenu>
 
 class CorePlugin;

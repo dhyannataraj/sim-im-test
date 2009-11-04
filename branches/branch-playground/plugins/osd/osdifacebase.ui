@@ -188,7 +188,7 @@
   <customwidget>
    <class>FontEdit</class>
    <extends>QWidget</extends>
-   <header>fontedit.h</header>
+   <header>simgui/fontedit.h</header>
   </customwidget>
   <customwidget>
    <class>QColorButton</class>

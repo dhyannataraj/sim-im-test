@@ -60,7 +60,7 @@
   <customwidget>
    <class>LinkLabel</class>
    <extends>QWidget</extends>
-   <header>linklabel.h</header>
+   <header>simgui/linklabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

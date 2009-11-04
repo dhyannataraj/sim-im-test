@@ -24,7 +24,7 @@
 #include <QSpinBox>
 #include <QTabWidget>
 
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 #include "misc.h"
 
 #include "jabberclient.h"

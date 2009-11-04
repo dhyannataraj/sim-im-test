@@ -28,9 +28,10 @@
 #include <QResizeEvent>
 #include <QStyleOption>
 
-#include "editfile.h"
-#include "linklabel.h"
-#include "listview.h"
+#include "simgui/editfile.h"
+#include "simgui/linklabel.h"
+#include "simgui/listview.h"
+
 #include "log.h"
 
 #include "spellcfg.h"

@@ -23,8 +23,8 @@
 #include <QFileInfo>
 #include <QStyleOption>
 
-#include "editfile.h"
-#include "listview.h"
+#include "simgui/editfile.h"
+#include "simgui/listview.h"
 #include "log.h"
 #include "misc.h"
 

@@ -18,7 +18,7 @@
 #include "icons.h"
 #include "sounduser.h"
 #include "sound.h"
-#include "editfile.h"
+#include "simgui/editfile.h"
 #include "core.h"
 #include "log.h"
 

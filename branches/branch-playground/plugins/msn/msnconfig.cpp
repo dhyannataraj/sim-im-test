@@ -21,7 +21,7 @@
 #include <QTabWidget>
 #include <QCheckBox>
 
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 #include "misc.h"
 
 #include "msnconfig.h"

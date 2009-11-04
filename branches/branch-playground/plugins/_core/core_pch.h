@@ -67,8 +67,6 @@
 #include "historywnd.h"
 #include "interfacecfg.h"
 #include "ui_interfacecfgbase.h"
-#include "logindlg.h"
-#include "ui_logindlgbase.h"
 #include "maininfo.h"
 #include "ui_maininfobase.h"
 #include "mainwin.h"

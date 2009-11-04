@@ -40,7 +40,7 @@
 #endif
 
 #include "icons.h"
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 #include "userview.h"
 #include "core.h"
 

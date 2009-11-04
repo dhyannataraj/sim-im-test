@@ -17,7 +17,7 @@
 
 #include <QRegExp>
 
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "unquot.h"
 #include "msgedit.h"
 #include "msgview.h"

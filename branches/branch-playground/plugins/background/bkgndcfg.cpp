@@ -27,8 +27,8 @@
 #include <QImageReader>
 
 #include "misc.h"
-#include "linklabel.h"
-#include "editfile.h"
+#include "simgui/linklabel.h"
+#include "simgui/editfile.h"
 #include "preview.h"
 
 #include "bkgndcfg.h"

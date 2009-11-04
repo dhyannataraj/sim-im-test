@@ -21,11 +21,12 @@
 #include "log.h"
 #include "misc.h"
 #include "icons.h"
+#include "mainwin.h"
+#include "unquot.h"
+
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
-#include "mainwin.h"
-#include "toolbtn.h"
-#include "unquot.h"
+#include "simgui/toolbtn.h"
 
 #include <QDomDocument>
 #include <QTimer>

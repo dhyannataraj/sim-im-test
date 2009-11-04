@@ -21,9 +21,9 @@
 #include <QTabWidget>
 #include <QLabel>
 
-#include "fontedit.h"
+#include "simgui/fontedit.h"
 #include "misc.h"
-#include "qcolorbutton.h"
+#include "simgui/qcolorbutton.h"
 
 #include "osdconfig.h"
 #include "osdiface.h"

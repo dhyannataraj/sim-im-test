@@ -319,7 +319,7 @@
     <customwidget>
       <class>TextEdit</class>
       <extends>QWidget</extends>
-      <header location="local" >textshow.h</header>
+      <header location="local" >simgui/textshow.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>

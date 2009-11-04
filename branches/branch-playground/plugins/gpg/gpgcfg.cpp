@@ -19,9 +19,9 @@
 
 #include "gpg.h"
 #include "gpgcfg.h"
-#include "ballonmsg.h"
-#include "editfile.h"
-#include "linklabel.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/editfile.h"
+#include "simgui/linklabel.h"
 #ifdef WIN32
 #include "gpgfind.h"
 #endif

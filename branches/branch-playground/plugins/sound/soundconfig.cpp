@@ -22,7 +22,7 @@
 #include <QTabWidget>
 #include <QSound>
 
-#include "editfile.h"
+#include "simgui/editfile.h"
 #include "contacts.h"
 #include "misc.h"
 

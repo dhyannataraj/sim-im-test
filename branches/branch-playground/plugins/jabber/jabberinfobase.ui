@@ -418,7 +418,7 @@
   <customwidget>
    <class>DatePicker</class>
    <extends>QWidget</extends>
-   <header>datepicker.h</header>
+   <header>simgui/datepicker.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -434,7 +434,7 @@
   <tabstop>edtNA</tabstop>
  </tabstops>
  <includes>
-  <include location="local">datepicker.h</include>
+  <include location="local">simgui/datepicker.h</include>
  </includes>
  <resources/>
  <connections/>

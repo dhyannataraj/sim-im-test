@@ -21,8 +21,9 @@
 #include "gpggen.h"
 #include "gpgcfg.h"
 #include "gpg.h"
-#include "ballonmsg.h"
-#include "editfile.h"
+
+#include "simgui/ballonmsg.h"
+#include "simgui/editfile.h"
 #include "contacts/group.h"
 #include "contacts/contact.h"
 

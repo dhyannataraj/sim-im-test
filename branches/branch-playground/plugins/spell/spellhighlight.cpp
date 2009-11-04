@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "log.h"
-#include "textshow.h"
+#include "simgui/textshow.h"
 
 #include "spellhighlight.h"
 #include "spell.h"

@@ -80,7 +80,7 @@
     <customwidget>
       <class>FontEdit</class>
       <extends>QWidget</extends>
-      <header location="local" >fontedit.h</header>
+      <header location="local" >simgui/fontedit.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>
@@ -95,7 +95,7 @@
     <customwidget>
       <class>QWidget</class>
       <extends>QWidget</extends>
-      <header location="global" >qwidget.h</header>
+      <header location="global" >QWidget</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>

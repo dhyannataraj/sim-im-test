@@ -194,7 +194,7 @@
 <customwidgets>
     <customwidget>
         <class>RadioGroup</class>
-        <header location="local">intedit.h</header>
+        <header location="local">simgui/intedit.h</header>
     </customwidget>
 </customwidgets>
  <tabstops>

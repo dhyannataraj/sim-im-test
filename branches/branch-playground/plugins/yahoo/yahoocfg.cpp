@@ -21,7 +21,7 @@
 #include <QSpinBox>
 #include <QCheckBox>
 
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 #include "misc.h"
 
 #include "yahoocfg.h"

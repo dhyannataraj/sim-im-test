@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "editfile.h"
-#include "misc.h"
 
+#include "misc.h"
 #include "menucfg.h"
 #include "action.h"
 #include "additem.h"
+
+#include "simgui/editfile.h"
 
 #include <QListWidgetItem>
 

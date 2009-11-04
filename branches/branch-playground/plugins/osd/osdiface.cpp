@@ -20,9 +20,9 @@
 #include <QSpinBox>
 #include <QLabel>
 
-#include "fontedit.h"
+#include "simgui/fontedit.h"
 #include "misc.h"
-#include "qcolorbutton.h"
+#include "simgui/qcolorbutton.h"
 
 #include "osdiface.h"
 #include "osd.h"

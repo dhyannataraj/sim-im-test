@@ -20,7 +20,7 @@
 #include <QSpinBox>
 #include <QTimer>
 
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 #include "misc.h"
 
 #include "livejournalcfg.h"

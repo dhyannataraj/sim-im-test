@@ -20,7 +20,7 @@
 
 #include "passphrase.h"
 #include "gpg.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 
 #include <QPixmap>
 #include <QLineEdit>

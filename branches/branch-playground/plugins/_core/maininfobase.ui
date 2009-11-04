@@ -374,7 +374,7 @@ It is impossible to change numbers which were received from the user.</string>
   <customwidget>
    <class>ListView</class>
    <extends>QWidget</extends>
-   <header>listview.h</header>
+   <header>simgui/listview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

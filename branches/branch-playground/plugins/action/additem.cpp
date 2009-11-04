@@ -17,10 +17,11 @@
 
 #include "icons.h"
 #include "additem.h"
-#include "ballonmsg.h"
 #include "core.h"
 #include "core_events.h"
-#include "editfile.h"
+
+#include "simgui/ballonmsg.h"
+#include "simgui/editfile.h"
 
 #include <QPixmap>
 #include <QTimer>

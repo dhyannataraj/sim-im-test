@@ -21,9 +21,9 @@
 #include <QStyleFactory>
 #include <QMenu>
 
-#include "fontedit.h"
-#include "misc.h"
+#include "simgui/fontedit.h"
 
+#include "misc.h"
 #include "styles.h"
 #include "stylescfg.h"
 

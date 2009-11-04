@@ -138,12 +138,12 @@
   <customwidget>
    <class>QColorButton</class>
    <extends>QWidget</extends>
-   <header>qcolorbutton.h</header>
+   <header>simgui/qcolorbutton.h</header>
   </customwidget>
   <customwidget>
    <class>FontEdit</class>
    <extends>QWidget</extends>
-   <header>fontedit.h</header>
+   <header>simgui/fontedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

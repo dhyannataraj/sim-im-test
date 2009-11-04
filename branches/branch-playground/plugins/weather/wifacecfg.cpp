@@ -21,7 +21,7 @@
 
 #include "misc.h"
 #include "unquot.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 
 using namespace SIM;
 

@@ -17,7 +17,7 @@
 
 #include "shortcutcfg.h"
 #include "shortcuts.h"
-#include "qkeybutton.h"
+#include "simgui/qkeybutton.h"
 
 #include "mousecfg.h"
 #include "core.h"

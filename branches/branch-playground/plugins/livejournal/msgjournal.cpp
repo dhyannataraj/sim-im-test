@@ -19,8 +19,9 @@
 #include "livejournal.h"
 #include "msgedit.h"
 #include "userwnd.h"
-#include "ballonmsg.h"
-#include "toolbtn.h"
+
+#include "simgui/ballonmsg.h"
+#include "simgui/toolbtn.h"
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
 

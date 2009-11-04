@@ -233,7 +233,7 @@
     <customwidget>
       <class>EditFile</class>
       <extends>QWidget</extends>
-      <header location="local" >editfile.h</header>
+      <header location="local" >simgui/editfile.h</header>
       <sizehint>
         <width>-1</width>
         <height>-1</height>

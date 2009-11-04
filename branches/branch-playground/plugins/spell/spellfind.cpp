@@ -24,7 +24,7 @@
 #include <qregexp.h>
 #include <qtimer.h>
 
-#include "editfile.h"
+#include "simgui/editfile.h"
 #include "icons.h"
 #include "misc.h"
 

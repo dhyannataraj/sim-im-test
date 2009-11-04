@@ -16,9 +16,9 @@
  ***************************************************************************/
 
 #include "fontconfig.h"
-#include "fontedit.h"
+#include "simgui/fontedit.h"
 #include "styles.h"
-#include <qcolorbutton.h>
+#include "simgui/qcolorbutton.h"
 
 #include <QCheckBox>
 #include <QApplication>

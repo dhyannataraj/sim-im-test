@@ -21,8 +21,9 @@
 #include "weather.h"
 
 #include "log.h"
-#include "ballonmsg.h"
 #include "misc.h"
+
+#include "simgui/ballonmsg.h"
 
 #include <QToolBar>
 #include <QTimer>

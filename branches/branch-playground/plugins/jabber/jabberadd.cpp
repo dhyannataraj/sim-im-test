@@ -21,8 +21,8 @@
 #include <QShowEvent>
 
 #include "icons.h"
-#include "intedit.h"
-#include "listview.h"
+#include "simgui/intedit.h"
+#include "simgui/listview.h"
 #include "misc.h"
 #include "log.h"
 #include "contacts/contact.h"

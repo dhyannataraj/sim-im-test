@@ -101,7 +101,7 @@
   <customwidget>
    <class>QKeyButton</class>
    <extends>QWidget</extends>
-   <header>qkeybutton.h</header>
+   <header>simgui/qkeybutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -584,7 +584,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>LinkLabel</class>
    <extends>QWidget</extends>
-   <header>linklabel.h</header>
+   <header>simgui/linklabel.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -598,10 +598,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>chkIcons</tabstop>
  </tabstops>
  <includes>
-  <include location="local">linklabel.h</include>
-  <include location="local">linklabel.h</include>
-  <include location="local">linklabel.h</include>
-  <include location="local">linklabel.h</include>
+  <include location="local">simgui/linklabel.h</include>
  </includes>
  <resources/>
  <connections/>
