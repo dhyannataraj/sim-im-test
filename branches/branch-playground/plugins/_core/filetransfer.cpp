@@ -30,7 +30,7 @@
 #include <QDir>
 #include <QRegExp>
 
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "icons.h"
 #include "unquot.h"
 #include "contacts/contact.h"

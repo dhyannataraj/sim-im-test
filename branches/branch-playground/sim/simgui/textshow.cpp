@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "textshow.h"
+#include "simgui/textshow.h"
 
 #ifdef USE_KDE
 # include <keditcl.h>
@@ -58,7 +58,7 @@
 #include <QToolTip>
 #include <QLayout>
 
-#include "toolbtn.h"
+#include "simgui/toolbtn.h"
 #include "html.h"
 #include "misc.h"
 #include "unquot.h"

@@ -22,11 +22,11 @@
 #include "container.h"
 #include "userwnd.h"
 #include "core.h"
-#include "toolbtn.h"
 #include "buffer.h"
 #include "icons.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
+#include "simgui/toolbtn.h"
 
 #include <QSplitter>
 #include <QLayout>

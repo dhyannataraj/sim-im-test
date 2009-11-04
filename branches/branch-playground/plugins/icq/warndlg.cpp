@@ -17,7 +17,7 @@
 
 #include "icons.h"
 #include "warndlg.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "icqclient.h"
 #include "icqmessage.h"
 #include "contacts/contact.h"

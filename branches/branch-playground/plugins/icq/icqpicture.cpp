@@ -19,7 +19,7 @@
 #include "icqclient.h"
 #include "editfile.h"
 #include "preview.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "log.h"
 #include "contacts/contact.h"
 

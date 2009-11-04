@@ -17,8 +17,8 @@
 
 #include "arcfg.h"
 #include "core.h"
-#include "ballonmsg.h"
-#include "editfile.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/editfile.h"
 #include "contacts/contact.h"
 
 #include <QTabWidget>

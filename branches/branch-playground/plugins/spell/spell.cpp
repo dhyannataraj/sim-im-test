@@ -19,7 +19,7 @@
 #include "spell.h"
 #include "spellcfg.h"
 #include "speller.h"
-#include "textshow.h"
+#include "simgui/textshow.h"
 #include "spellhighlight.h"
 #include "core.h"
 

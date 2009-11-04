@@ -20,7 +20,7 @@
 #include "icqclient.h"
 #include "advsearch.h"
 #include "aimsearch.h"
-#include "intedit.h"
+#include "simgui/intedit.h"
 #include "log.h"
 #include "contacts/contact.h"
 

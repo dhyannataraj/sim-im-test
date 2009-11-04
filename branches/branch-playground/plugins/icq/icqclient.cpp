@@ -54,7 +54,7 @@
 #include "icqmessage.h"
 #include "securedlg.h"
 #include "msgedit.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "encodingdlg.h"
 #include "warndlg.h"
 

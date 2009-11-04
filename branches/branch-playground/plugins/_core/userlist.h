@@ -19,7 +19,7 @@
 #define _USERLIST_H
 
 #include <list>
-#include "listview.h"
+#include "simgui/listview.h"
 #include <QMouseEvent>
 
 using namespace std;

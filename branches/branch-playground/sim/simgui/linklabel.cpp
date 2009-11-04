@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 #include "event.h"
 
 #include <QMouseEvent>

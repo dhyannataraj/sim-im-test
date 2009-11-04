@@ -16,13 +16,14 @@
  ***************************************************************************/
 
 #include "msgcontacts.h"
-#include "toolbtn.h"
 #include "msgedit.h"
-#include "textshow.h"
+
 #include "userwnd.h"
 #include "userlist.h"
 #include "core.h"
 #include "contacts/contact.h"
+#include "simgui/textshow.h"
+#include "simgui/toolbtn.h"
 
 #include <QLayout>
 

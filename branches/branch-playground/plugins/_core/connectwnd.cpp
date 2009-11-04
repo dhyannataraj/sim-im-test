@@ -17,7 +17,7 @@
 
 #include "misc.h"
 #include "connectwnd.h"
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 
 #include <QLabel>
 #include <QMovie>

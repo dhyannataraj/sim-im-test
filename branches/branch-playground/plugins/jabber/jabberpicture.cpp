@@ -24,7 +24,7 @@
 #include <QPixmap>
 #include <QFile>
 
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "editfile.h"
 #include "misc.h"
 #include "preview.h"

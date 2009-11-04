@@ -23,7 +23,7 @@
 #include <QLabel>
 #include <QTabWidget>
 
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "datepicker.h"
 #include "icons.h"
 #include "misc.h"

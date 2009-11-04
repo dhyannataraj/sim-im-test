@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "intedit.h"
+#include "simgui/intedit.h"
 #include <QKeyEvent>
 
 IntLineEdit::IntLineEdit(QWidget *parent)

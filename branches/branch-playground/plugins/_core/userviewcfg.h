@@ -18,7 +18,7 @@
 #ifndef _USERVIEWCFG_H
 #define _USERVIEWCFG_H
 
-#include "qcolorbutton.h"
+#include "simgui/qcolorbutton.h"
 #include "ui_userviewcfgbase.h"
 
 class CorePlugin;

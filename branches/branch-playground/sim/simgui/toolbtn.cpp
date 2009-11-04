@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "toolbtn.h"
+#include "simgui/toolbtn.h"
 
 #include <QApplication>
 #include <QMainWindow>

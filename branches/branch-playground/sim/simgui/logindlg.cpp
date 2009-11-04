@@ -17,9 +17,9 @@ email                : vovan@shutoff.ru
 
 #include "icons.h"
 #include "core.h"
-#include "logindlg.h"
-#include "ballonmsg.h"
-#include "linklabel.h"
+#include "simgui/logindlg.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/linklabel.h"
 #include "log.h"
 #include "profilemanager.h"
 #include "contacts/client.h"

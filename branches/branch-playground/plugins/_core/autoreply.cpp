@@ -19,8 +19,8 @@
 
 #include "autoreply.h"
 #include "core.h"
-#include "ballonmsg.h"
-#include "editfile.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/editfile.h"
 #include "contacts/client.h"
 
 #include <QPixmap>

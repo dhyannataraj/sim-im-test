@@ -21,8 +21,8 @@
 #include "mainwin.h"
 #include "core.h"
 #include "userview.h"
-#include "toolbtn.h"
 #include "contacts/contact.h"
+#include "simgui/toolbtn.h"
 
 #include <QApplication>
 #include <QPixmap>

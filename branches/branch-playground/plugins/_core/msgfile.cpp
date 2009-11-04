@@ -18,11 +18,13 @@
 #include "simapi.h"
 
 #include "msgfile.h"
-#include "toolbtn.h"
 #include "msgedit.h"
-#include "textshow.h"
 #include "userwnd.h"
 #include "core.h"
+
+#include "simgui/toolbtn.h"
+#include "simgui/textshow.h"
+
 
 #include <QTimer>
 #include <QToolButton>

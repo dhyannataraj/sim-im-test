@@ -193,7 +193,7 @@
   <customwidget>
    <class>QColorButton</class>
    <extends>QWidget</extends>
-   <header>qcolorbutton.h</header>
+   <header>simgui/qcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

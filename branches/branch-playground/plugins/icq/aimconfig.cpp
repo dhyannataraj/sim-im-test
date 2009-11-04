@@ -17,7 +17,7 @@
 
 #include "aimconfig.h"
 #include "icq.h"
-#include "linklabel.h"
+#include "simgui/linklabel.h"
 
 #include <QTimer>
 #include <QLineEdit>

@@ -16,12 +16,14 @@
  ***************************************************************************/
 
 #include "msgurl.h"
-#include "toolbtn.h"
 #include "msgedit.h"
-#include "textshow.h"
 #include "userwnd.h"
 #include "userlist.h"
 #include "core.h"
+
+#include "simgui/toolbtn.h"
+#include "simgui/textshow.h"
+
 
 using namespace SIM;
 

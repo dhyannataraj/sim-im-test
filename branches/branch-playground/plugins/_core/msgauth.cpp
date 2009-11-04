@@ -16,11 +16,12 @@
  ***************************************************************************/
 
 #include "msgauth.h"
-#include "toolbtn.h"
 #include "msgedit.h"
-#include "textshow.h"
+#include "simgui/textshow.h"
 #include "userwnd.h"
 #include "core.h"
+
+#include "simgui/toolbtn.h"
 
 #include <QTimer>
 #include <QToolButton>

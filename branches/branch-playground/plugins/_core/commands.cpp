@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "commands.h"
-#include "toolbtn.h"
+#include "simgui/toolbtn.h"
 #include "toolsetup.h"
 #include "core.h"
 #include "cmenu.h"

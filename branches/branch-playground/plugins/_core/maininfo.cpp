@@ -19,7 +19,7 @@
 #include "maininfo.h"
 #include "editmail.h"
 #include "editphone.h"
-#include "listview.h"
+#include "simgui/listview.h"
 #include "core.h"
 
 #include <QLineEdit>

@@ -20,9 +20,9 @@
 
 #include "userview.h"
 #include "core.h"
-#include "intedit.h"
-#include "ballonmsg.h"
-#include "linklabel.h"
+#include "simgui/intedit.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/linklabel.h"
 #include "container.h"
 #include "userwnd.h"
 #include "userviewdelegate.h"

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "filecfg.h"
-#include "editfile.h"
+#include "simgui/editfile.h"
 #include "smscfg.h"
 #include "core.h"
 

@@ -31,7 +31,7 @@
 #include <QPixmap>
 #include <QVBoxLayout>
 
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "icons.h"
 #include "misc.h"
 

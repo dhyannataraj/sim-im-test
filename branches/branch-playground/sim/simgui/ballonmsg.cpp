@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 
 #include <QApplication>
 #include <QBitmap>

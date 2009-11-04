@@ -27,7 +27,7 @@
 
 #include <memory>
 
-#include "toolbtn.h"
+#include "simgui/toolbtn.h"
 #include "log.h"
 
 #include "icqmessage.h"

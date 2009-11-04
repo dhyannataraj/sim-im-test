@@ -18,8 +18,8 @@
 #include "contacts.h"
 
 #include "nonim.h"
-#include "intedit.h"
 #include "contacts/contact.h"
+#include "simgui/intedit.h"
 #include <QShowEvent>
 
 using namespace SIM;

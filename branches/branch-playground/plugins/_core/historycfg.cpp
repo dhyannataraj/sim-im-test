@@ -44,15 +44,17 @@
 # include <kstddirs.h>
 #endif
 
-#include "ballonmsg.h"
+
 #include "log.h"
 #include "unquot.h"
 #include "xsl.h"
 
 #include "historycfg.h"
 #include "core.h"
-#include "textshow.h"
 #include "msgview.h"
+
+#include "simgui/ballonmsg.h"
+#include "simgui/textshow.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
 

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "fontedit.h"
+#include "simgui/fontedit.h"
 
 #include <QPushButton>
 #include <QLabel>

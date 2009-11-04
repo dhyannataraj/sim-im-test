@@ -18,7 +18,7 @@
 #include "icons.h"
 #include "icqinfo.h"
 #include "icqclient.h"
-#include "ballonmsg.h"
+#include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
 
 #include <QLineEdit>

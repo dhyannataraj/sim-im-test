@@ -22,17 +22,17 @@
 #include <QApplication>
 #include <QWidget>
 
-#include "ballonmsg.h"
 #include "unquot.h"
-
 #include "status.h"
 #include "core.h"
+#include "statuswnd.h"
+#include "simgui/logindlg.h"
+#include "autoreply.h"
+
+#include "contacts/client.h"
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
-#include "statuswnd.h"
-#include "logindlg.h"
-#include "autoreply.h"
-#include "contacts/client.h"
+#include "simgui/ballonmsg.h"
 
 using namespace std;
 using namespace SIM;

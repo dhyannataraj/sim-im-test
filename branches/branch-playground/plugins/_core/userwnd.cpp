@@ -20,7 +20,7 @@
 #include "userwnd.h"
 #include "msgedit.h"
 #include "msgview.h"
-#include "toolbtn.h"
+#include "simgui/toolbtn.h"
 #include "userlist.h"
 #include "core.h"
 #include "container.h"

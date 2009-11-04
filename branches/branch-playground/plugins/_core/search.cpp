@@ -19,11 +19,13 @@
 #include "search.h"
 #include "usercfg.h"
 #include "core.h"
-#include "listview.h"
+
 #include "nonim.h"
 #include "searchall.h"
-#include "toolbtn.h"
-#include "ballonmsg.h"
+
+#include "simgui/ballonmsg.h"
+#include "simgui/toolbtn.h"
+
 #include "contacts/contact.h"
 #include "contacts/client.h"
 #include "contacts/group.h"

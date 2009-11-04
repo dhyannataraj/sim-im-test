@@ -18,12 +18,14 @@
 #include "icons.h"
 #include "statuswnd.h"
 #include "core.h"
-#include "ballonmsg.h"
-#include "toolbtn.h"
+#include "log.h"
+
+#include "contacts/client.h"
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
-#include "log.h"
-#include "contacts/client.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/toolbtn.h"
+
 
 #include <QLabel>
 #include <QLayout>

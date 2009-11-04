@@ -43,15 +43,17 @@ email                : vovan@shutoff.ru
 #include <QDateTime>
 
 // simlib
-#include "ballonmsg.h"
+
 #include "buffer.h"
 #include "icons.h"
 #include "log.h"
 #include "kdeisversion.h"
-#include "toolbtn.h"
 #include "unquot.h"
 #include "xsl.h"
-#include "textshow.h"
+
+#include "simgui/textshow.h"
+#include "simgui/toolbtn.h"
+#include "simgui/ballonmsg.h"
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"
@@ -65,7 +67,7 @@ email                : vovan@shutoff.ru
 #include "usercfg.h"
 #include "interfacecfg.h"
 #include "search.h"
-#include "logindlg.h"
+#include "simgui/logindlg.h"
 #include "newprotocol.h"
 #include "status.h"
 #include "statuswnd.h"
@@ -74,7 +76,8 @@ email                : vovan@shutoff.ru
 #include "container.h"
 #include "userwnd.h"
 #include "msgedit.h"
-#include "fontedit.h"
+#include "simgui/fontedit.h"
+#include "clientlist.h"
 #include "history.h"
 #include "historywnd.h"
 #include "msgcfg.h"

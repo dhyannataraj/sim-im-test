@@ -17,9 +17,10 @@
 
 #include "searchall.h"
 #include "search.h"
-#include "intedit.h"
 #include "log.h"
+
 #include "contacts/client.h"
+#include "simgui/intedit.h"
 
 #include <QTimer>
 #include <QShowEvent>

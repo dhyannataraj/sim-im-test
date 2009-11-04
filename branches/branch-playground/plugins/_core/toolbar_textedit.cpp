@@ -23,7 +23,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "core.h"
-#include "textshow.h" // for CmdBgColor and all others...
+#include "simgui/textshow.h" // for CmdBgColor and all others...
 
 using namespace SIM;
 

@@ -17,7 +17,7 @@
 
 #include "msnsearch.h"
 #include "msnclient.h"
-#include "intedit.h"
+#include "simgui/intedit.h"
 #include "contacts/contact.h"
 
 #include <QComboBox>

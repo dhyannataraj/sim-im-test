@@ -18,10 +18,11 @@
 #include "msgrecv.h"
 #include "msgedit.h"
 #include "msgview.h"
-#include "toolbtn.h"
 #include "history.h"
 #include "core.h"
-#include "textshow.h"
+
+#include "simgui/toolbtn.h"
+#include "simgui/textshow.h"
 
 #include <QToolTip>
 #include <QTimer>
