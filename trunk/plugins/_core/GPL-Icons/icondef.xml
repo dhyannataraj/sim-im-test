@@ -475,11 +475,30 @@
     <!-- So this icon entry will be associated with black square with number 4 on it, for a while -->
     <!-- and if nobody managed to find where it is used, it should be removed from here -->
   </icon>
-    
-      
-        
-      
-      
-      
-  
+  <icon name="web">
+    <object mime="image/png">web-panel.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Everaldo Coelho -->
+    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/agt_web.png -->
+  </icon>
+  <icon name="mailpager">
+    <object mime="image/png">unknown_icon_5.png</object>
+    <!-- Mail-pager feature should be removed from Sim-IM, see bug #16318. So, no real icon here -->
+  </icon>
+  <icon name="icqphone">
+    <object mime="image/png">icq-phone.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Everaldo Coelho -->
+    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/sipphone.png -->
+    <!--  FIXME:  Do not know where and when this icon is shown -->
+  </icon>
+  <icon name="icqphonebusy">
+    <object mime="image/png">icq-phone-busy.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/sipphone.png -->
+    <!--          http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/yahoo_busy.png -->
+    <!--  FIXME:  Do not know where and when this icon is shown -->
+  </icon>
+
 </icondef>
