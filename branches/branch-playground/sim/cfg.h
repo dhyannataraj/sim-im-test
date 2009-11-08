@@ -22,6 +22,7 @@
 #include <QMap>
 #include <QString>
 #include <QVariant>
+#include <QSharedPointer>
 
 #include "simapi.h"
 
@@ -58,6 +59,8 @@ private:
 	QString m_filename;
 	bool m_changed;
 };
+
+typedef QSharedPointer<Config> ConfigPtr;
 
 enum DataType {
     DATA_UNKNOWN = 0,

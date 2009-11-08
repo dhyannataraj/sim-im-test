@@ -90,6 +90,7 @@ MACRO_BOOL_TO_01(DEV_BUILD CVS_BUILD)
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DHAVE_CONFIG_H)
 INCLUDE_DIRECTORIES(${QT_INCLUDE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}/sim
                     ${Sim-IM_SOURCE_DIR}/sim
                     ${Sim-IM_SOURCE_DIR}/sim/simgui
                     ${Sim-IM_SOURCE_DIR}/plugins/_core)

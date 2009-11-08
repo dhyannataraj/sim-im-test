@@ -8,7 +8,7 @@
 class SimApp : public KUniqueApplication
 {
 public:
-    SimApp();
+    SimApp(int argc, char** argv);
     virtual ~SimApp();
     int newInstance();
     void commitData(QSessionManager&);

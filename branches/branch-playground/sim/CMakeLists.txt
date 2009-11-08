@@ -23,6 +23,7 @@ SET(sim_LIB_SRCS
 		misc.cpp
 		paths.cpp
 		plugins.cpp
+		profile.cpp
 		profilemanager.cpp
 		propertyhub.cpp
 		sax.cpp
@@ -89,6 +90,7 @@ SET(sim_LIB_HDRS
 		misc.h
 		paths.h
 		plugins.h
+		profile.h
 		profilemanager.h
 		propertyhub.h
 		sax.h

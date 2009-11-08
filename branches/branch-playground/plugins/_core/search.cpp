@@ -25,6 +25,7 @@
 
 #include "simgui/ballonmsg.h"
 #include "simgui/toolbtn.h"
+#include "simgui/listview.h"
 
 #include "contacts/contact.h"
 #include "contacts/client.h"

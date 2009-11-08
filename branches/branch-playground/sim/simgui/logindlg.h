@@ -22,7 +22,7 @@
 #include "event.h"
 #include "contacts/client.h"
 #include "buffer.h"
-#include "simgui/ui_logindlgbase.h"
+#include "ui_logindlgbase.h"
 #include "clientlist.h"
 
 class QLabel;

@@ -4,6 +4,7 @@
 
 #include <QObject>
 #include <vector>
+#include "contacts/client.h"
 
 namespace SIM
 {

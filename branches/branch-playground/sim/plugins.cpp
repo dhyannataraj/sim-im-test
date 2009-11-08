@@ -73,11 +73,25 @@ namespace SIM
         m_current = (m_current | 0x3F) + 1;
     }
 
+    struct PluginDescriptor
+    {
+        QString name;
+        QString path;
+        bool protocol;
+    };
+
     class PluginManagerPrivate : public EventReceiver
     {
         public:
             PluginManagerPrivate(int argc, char **argv);
             ~PluginManagerPrivate();
+
+            QStringList enumPlugins();
+            //bool loadPlugins(const QStringList& plugins);
+            bool loadPlugin(const QString& pluginname);
+            bool unloadPlugin(const QString& pluginname);
+            Plugin* plugin(const QString& pluginname); 
+
         protected:
             virtual bool processEvent(Event *e);
 
@@ -86,6 +100,8 @@ namespace SIM
 
             bool create(pluginInfo&);
             bool createPlugin(pluginInfo&);
+
+            void scan();
 
             void release(pluginInfo&, bool bFree = true);
             void release(const QString &name);
@@ -104,16 +120,18 @@ namespace SIM
             bool setInfo(const QString &name);
 
             bool arePluginsInBuildDirectory(QStringList& pluginsList);
-            void loadPlugins(const QStringList& pluginsList);
+            bool findPluginsInDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList);
+            bool loadPlugins(const QStringList& pluginsList);
             QString getPluginName(pluginInfo &info);
 
 #ifndef WIN32
             Q_PID execute(const QString &prg, const QStringList &args);
 #endif
-
+       private:
             QString app_name;
             QStringList args;
             QVector<pluginInfo> plugins;
+            QList<PluginDescriptor> m_plugins;
             QStringList cmds;
             QStringList descrs;
 
@@ -123,28 +141,84 @@ namespace SIM
             bool m_bAbort;
             bool m_bPluginsInBuildDir;  // plugins in build dir -> full path in pluginInfo.filePath
 
-            ExecManager	 *m_exec;
+            ExecManager	*m_exec;
             std::auto_ptr<BuiltinLogger> builtinLogger;
 
             friend class PluginManager;
     };
+    
+    QStringList PluginManagerPrivate::enumPlugins()
+    {
+        QStringList pluginsList;
+        if(arePluginsInBuildDirectory(pluginsList))
+        {
+            m_bPluginsInBuildDir = true;
+        }
+        else
+        {
+#if defined( WIN32 ) || defined( __OS2__ )
+            QString pluginDir(app_file("plugins"));
+#else
+            QString pluginDir(PLUGIN_PATH);
+#endif
+            findPluginsInDir(pluginDir, QString::null, pluginsList);
+        }
+        qSort(pluginsList);
+        return pluginsList;
+    }
+
+    /*
+    bool PluginManagerPrivate::loadPlugins(const QStringList& plugins)
+    {
+    }
+    */
+
+    bool PluginManagerPrivate::loadPlugin(const QString& pluginname)
+    {
+    }
+
+    bool PluginManagerPrivate::unloadPlugin(const QString& pluginname)
+    {
+    }
+
+    Plugin* PluginManagerPrivate::plugin(const QString& pluginname)
+    {
+    }
+
+    void PluginManagerPrivate::scan()
+    {
+        foreach(pluginInfo info, plugins)
+        {
+            PluginDescriptor plugin;
+            plugin.name = info.name;
+            plugin.path = app_file(getPluginName(info));
+            QLibrary lib(plugin.path);
+            if(!lib.load())
+                continue;
+        }
+    }
 
     static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
     {
         return QString::compare(p1.name, p2.name, Qt::CaseInsensitive) < 0;
     }
 
-    static bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
+    bool PluginManagerPrivate::findPluginsInDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
     {
         QString pluginsDir(appDir.absoluteFilePath("plugins"));
-        log(L_DEBUG, "Searching for plugins in build directory '%s'...", qPrintable(pluginsDir));
+        log(L_DEBUG, "Searching for plugins in directory '%s'...", qPrintable(pluginsDir));
         int count = 0;
         // trunk/plugins/*
         QDirIterator it(pluginsDir, QDir::Dirs|QDir::NoDotAndDotDot);
         while (it.hasNext()) {
             const QString dir = it.next();
             // trunk/plugins/$plugin_name/$plugin_name.so
-            const QString pluginFilename = dir + '/' + subdir + '/' + it.fileName() + LTDL_SHLIB_EXT;
+            QString pluginFilename;
+            if(!subdir.isEmpty())
+                pluginFilename = dir + QDir::separator() + subdir + QDir::separator() + it.fileName() + LTDL_SHLIB_EXT;
+            else
+                pluginFilename = dir + QDir::separator() + it.fileName() + LTDL_SHLIB_EXT;
+
             if (QFile::exists(pluginFilename)) {
                 log(L_DEBUG, "Found '%s'...", qPrintable(pluginFilename));
                 pluginsList.append(pluginFilename);
@@ -158,13 +232,13 @@ namespace SIM
     bool PluginManagerPrivate::arePluginsInBuildDirectory(QStringList& pluginsList)
     {
         QDir appDir(qApp->applicationDirPath());
-        if(findPluginsInBuildDir(appDir, ".", pluginsList)                    // cmake location is source dir itself
-                || findPluginsInBuildDir(appDir.path() + "/..", ".", pluginsList)  // 
-                || findPluginsInBuildDir(appDir, ".libs", pluginsList)             // autotools location is .libs subdur
-                || findPluginsInBuildDir(appDir.path() + "/..", ".libs", pluginsList) 
-                || findPluginsInBuildDir(appDir.path() + "/..", "debug", pluginsList)   // msvc + cmake
-                || findPluginsInBuildDir(appDir.path() + "/..", "release", pluginsList) // msvc + cmake
-                || findPluginsInBuildDir(appDir.path() + "/..", "relwithdebinfo", pluginsList) // msvc + cmake
+        if(findPluginsInDir(appDir, ".", pluginsList)                    // cmake location is source dir itself
+                || findPluginsInDir(appDir.path() + "/..", ".", pluginsList)  // 
+                || findPluginsInDir(appDir, ".libs", pluginsList)             // autotools location is .libs subdur
+                || findPluginsInDir(appDir.path() + "/..", ".libs", pluginsList) 
+                || findPluginsInDir(appDir.path() + "/..", "debug", pluginsList)   // msvc + cmake
+                || findPluginsInDir(appDir.path() + "/..", "release", pluginsList) // msvc + cmake
+                || findPluginsInDir(appDir.path() + "/..", "relwithdebinfo", pluginsList) // msvc + cmake
           )
             return true;
         return false;
@@ -189,7 +263,7 @@ namespace SIM
         return pluginName;
     }
 
-    void PluginManagerPrivate::loadPlugins(const QStringList& pluginsList)
+    bool PluginManagerPrivate::loadPlugins(const QStringList& pluginsList)
     {
         for(QStringList::const_iterator it = pluginsList.begin(); it != pluginsList.end(); ++it)
         {
@@ -214,8 +288,8 @@ namespace SIM
             info.base		 = 0;
             plugins.push_back(info);
             log(L_DEBUG, "Found plugin %s", qPrintable(info.name));
-            fprintf(stderr,"Found plugin %s\n", qPrintable(info.name));
         }
+        return true;
     }
 
     PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
@@ -238,35 +312,7 @@ namespace SIM
         m_bLoaded = false;
         m_bInInit = true;
 
-        QStringList pluginsList;
-        if(arePluginsInBuildDirectory(pluginsList))
-        {
-            log(L_DEBUG,"Loading plugins from build directory!");
-            m_bPluginsInBuildDir = true;
-        }
-        else
-        {
-#if defined( WIN32 ) || defined( __OS2__ )
-            QString pluginDir(app_file("plugins"));
-#else
-            QString pluginDir(PLUGIN_PATH);
-#endif
-            QDirIterator it(pluginDir, QStringList("*"LTDL_SHLIB_EXT), QDir::Files);
-            while (it.hasNext())
-                pluginsList.append(it.next());
-
-            if(pluginsList.count() == 0) {
-                log(L_ERROR,
-                        "Can't access %s or directory contains no plugins!",
-                        qPrintable(pluginDir));
-                m_bAbort = true;
-                return;
-            }
-            m_bAbort = false;
-
-            log(L_DEBUG,"Loading plugins from %s",qPrintable(pluginDir));
-        }
-        qSort(pluginsList);
+        QStringList pluginsList = enumPlugins();
         loadPlugins(pluginsList);
 
         EventGetPluginInfo ePlugin("_core");
@@ -467,11 +513,21 @@ namespace SIM
 
     bool PluginManagerPrivate::create(pluginInfo &info)
     {
-        Config* profile = ProfileManager::instance()->currentProfile();
-        if(profile)
+        /*
+        if(ProfileManager::instance()->currentProfile().isNull())
         {
-            info.bDisabled = !profile->value(info.name + "/enabled").toBool();
-            info.bFromCfg = true;
+            log(L_DEBUG, "No profile selected");
+            return false;
+        }
+        */
+        if(!ProfileManager::instance()->currentProfile().isNull())
+        {
+            ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
+            if(profile)
+            {
+                info.bDisabled = !profile->value(info.name + "/enabled").toBool();
+                info.bFromCfg = true;
+            }
         }
         if (info.plugin)
             return true;
@@ -557,6 +613,7 @@ namespace SIM
     }
 
     void PluginManagerPrivate::release(const QString &name)
+
     {
         pluginInfo *info = getInfo(name);
         if (info)
@@ -624,7 +681,7 @@ namespace SIM
         for (int i = 0; i < plugins.size(); i++)
         {
             pluginInfo &info = plugins[i];
-            ProfileManager::instance()->currentProfile()->setValue(info.name + "/enabled", !info.bDisabled);
+            ProfileManager::instance()->currentProfile()->config()->setValue(info.name + "/enabled", !info.bDisabled);
         }
         ProfileManager::instance()->sync();
     }
@@ -781,6 +838,31 @@ namespace SIM
     bool PluginManager::isLoaded()
     {
         return !p->m_bAbort;
+    }
+
+    QStringList PluginManager::enumPlugins()
+    {
+        return p->enumPlugins();
+    }
+
+    bool PluginManager::loadPlugins(const QStringList& plugins)
+    {
+        return p->loadPlugins(plugins);
+    }
+
+    bool PluginManager::loadPlugin(const QString& pluginname)
+    {
+        return p->loadPlugin(pluginname);
+    }
+
+    bool PluginManager::unloadPlugin(const QString& pluginname)
+    {
+        return p->unloadPlugin(pluginname);
+    }
+
+    Plugin* PluginManager::plugin(const QString& pluginname)
+    {
+        return p->plugin(pluginname);
     }
 
     ContactList *PluginManager::contacts = NULL;

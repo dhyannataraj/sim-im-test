@@ -28,29 +28,9 @@ class Buffer;
 
 namespace SIM
 {
-
-	/* PluginManager - base class for main application */
-
 	class Client;
 	class ContactList;
 	class SocketFactory;
-
-	class EXPORT PluginManager
-	{
-	public:
-		PluginManager(int argc, char **argv);
-		~PluginManager();
-		bool isLoaded();
-		static ContactList *contacts;
-		static SocketFactory *factory;
-
-	private:
-		class PluginManagerPrivate *p;
-
-		COPY_RESTRICTED(PluginManager)
-	};
-
-	/* Plugin prototype */
 
 	class EXPORT Plugin
 	{
@@ -66,6 +46,27 @@ namespace SIM
 		unsigned m_base;
 	};
 
+	class EXPORT PluginManager
+	{
+	public:
+		PluginManager(int argc, char **argv);
+		~PluginManager();
+        QStringList enumPlugins();
+        bool loadPlugins(const QStringList& plugins);
+        bool loadPlugin(const QString& pluginname);
+        bool unloadPlugin(const QString& pluginname);
+        Plugin* plugin(const QString& pluginname); 
+		bool isLoaded();
+		static ContactList *contacts;
+		static SocketFactory *factory;
+
+	private:
+		class PluginManagerPrivate *p;
+
+		COPY_RESTRICTED(PluginManager)
+	};
+
+	/* Plugin prototype */
 	typedef Plugin *createPlugin(unsigned base, bool bStart, Buffer *cfg);
 
 	const unsigned PLUGIN_KDE_COMPILE    = 0x0001;

@@ -6,6 +6,7 @@
 
 #include "cfg.h"
 #include "singleton.h"
+#include "profile.h"
 
 namespace SIM
 {
@@ -19,8 +20,8 @@ namespace SIM
 
 		bool selectProfile(const QString& name);
 
-		Config* currentProfile();
-		QString currentProfileName() { return m_currentProfile; }
+		ProfilePtr currentProfile();
+		QString currentProfileName();
 
 		QString profilePath();
 
@@ -35,8 +36,7 @@ namespace SIM
 		void sync();
 	private:
 		QString m_rootPath;
-		QString m_currentProfile;
-		Config* m_settings;
+		ProfilePtr m_currentProfile;
 	};
 }
 

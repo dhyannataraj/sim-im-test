@@ -1,7 +1,7 @@
 
 #include "kdesimapp.h"
 
-SimApp::SimApp() : KUniqueApplication()
+SimApp::SimApp(int argc, char** argv) : KUniqueApplication()
 {
     firstInstance = true;
 }

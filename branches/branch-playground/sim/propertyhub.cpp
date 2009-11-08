@@ -20,7 +20,7 @@ bool PropertyHub::save()
 {
 	//log(L_DEBUG, "PropertyHub::save()");
 	QList<QByteArray> props = this->dynamicPropertyNames();
-	Config* profile = ProfileManager::instance()->currentProfile();
+	ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
 	if(!profile)
 		return false;
 	profile->beginGroup(m_namespace);
@@ -36,7 +36,7 @@ bool PropertyHub::save()
 bool PropertyHub::load()
 {
 	//log(L_DEBUG, "PropertyHub::load()");
-	Config* profile = ProfileManager::instance()->currentProfile();
+	ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
 	if(!profile)
 		return false;
 	profile->beginGroup(m_namespace);

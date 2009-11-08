@@ -9,15 +9,12 @@ namespace SIM
    template <> EXPORT ProfileManager* Singleton<ProfileManager>::m_instance = 0;
 #endif
 	ProfileManager::ProfileManager(const QString& rootpath) : Singleton<ProfileManager>(),
-		m_rootPath(rootpath),
-		m_settings(NULL)
+		m_rootPath(rootpath)
 	{
 	}
 	
 	ProfileManager::~ProfileManager()
 	{
-		if(m_settings)
-			delete m_settings;
 	}
 
 	QStringList ProfileManager::enumProfiles()
@@ -43,28 +40,29 @@ namespace SIM
 
 	bool ProfileManager::selectProfile(const QString& name)
 	{
-		// TODO check for existance and lock
-		m_currentProfile = name;
-		QString profile_conf = m_rootPath + QDir::separator() + m_currentProfile + QDir::separator() + "profile.conf";
-		QString old_config = m_rootPath + QDir::separator() + m_currentProfile + QDir::separator() + "plugins.conf";
+		if(!enumProfiles().contains(name))
+			return false;
+		// TODO lock
+		QString profile_conf = m_rootPath + QDir::separator() + name + QDir::separator() + "profile.conf";
+		QString old_config = m_rootPath + QDir::separator() + name + QDir::separator() + "plugins.conf";
 		log(L_DEBUG, "Selecting profile:  %s", profile_conf.toUtf8().data());
-		m_settings = new Config(profile_conf);
-		m_settings->load();
-            m_settings->mergeOldConfig(old_config);
-
+		ConfigPtr config = ConfigPtr(new Config(profile_conf));
+		config->load();
+            config->mergeOldConfig(old_config);
+		m_currentProfile = ProfilePtr(new Profile(config, name));
 		return true;
 	}
 
-	Config* ProfileManager::currentProfile()
+	ProfilePtr ProfileManager::currentProfile()
 	{
-		return m_settings;
+		return m_currentProfile;
 	}
 
 	QString ProfileManager::profilePath()
 	{
-		if(m_currentProfile.isEmpty())
+		if(m_currentProfile.isNull())
 			return QString::null;
-		return m_rootPath + QDir::separator() + m_currentProfile;
+		return m_rootPath + QDir::separator() + m_currentProfile->name();
 	}
 
 	void ProfileManager::removeProfile(const QString& name)
@@ -88,8 +86,15 @@ namespace SIM
 
 	void ProfileManager::sync()
 	{
-		if(m_settings)
-			m_settings->save();
+		if(!m_currentProfile.isNull() && !m_currentProfile->config().isNull())
+			m_currentProfile->config()->save();
+	}
+
+	QString ProfileManager::currentProfileName()
+	{
+		if(!m_currentProfile.isNull())
+			return m_currentProfile->name();
+		return QString::null;
 	}
 }
 
