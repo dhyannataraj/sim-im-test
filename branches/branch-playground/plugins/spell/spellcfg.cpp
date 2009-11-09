@@ -19,18 +19,8 @@
 #include "spellfind.h"
 #endif
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qbitmap.h>
-#include <qpainter.h>
-#include <qstyle.h>
-#include <QPixmap>
-#include <QResizeEvent>
-#include <QStyleOption>
-
 #include "simgui/editfile.h"
 #include "simgui/linklabel.h"
-#include "simgui/listview.h"
 
 #include "log.h"
 
@@ -40,13 +30,9 @@
 
 using namespace SIM;
 
-const unsigned COL_NAME		= 0;
-const unsigned COL_CHECK	= 1;
-const unsigned COL_CHECKED	= 2;
-
 SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
     m_plugin = plugin;
 #ifdef WIN32
     edtPath->setText(m_plugin->property("Path").toString());
@@ -60,12 +46,6 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
 #endif
     connect(edtPath, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(btnFind, SIGNAL(clicked()), this, SLOT(find()));
-    connect(lstLang, SIGNAL(clickItem(ListViewItem*)), this, SLOT(langClicked(ListViewItem*)));
-    lstLang->addColumn("");
-    lstLang->addColumn("");
-    //lstLang->header()->hide();
-    lstLang->setExpandingColumn(0);
-    lstLang->adjustColumn();
     textChanged(edtPath->text());
 }
 
@@ -82,30 +62,20 @@ void SpellConfig::apply()
     m_plugin->setProperty("Path", edtPath->text());
 #endif
     QString lang;
-    for(int c = 0; c < lstLang->topLevelItemCount(); c++)
+    for(int c = 0; c < lstLang->count(); c++)
     {
-        ListViewItem *item = static_cast<ListViewItem*>(lstLang->topLevelItem(c));
-        if (item->text(COL_CHECKED).isEmpty())
+        QListWidgetItem *item = lstLang->item( c );
+        if (item->checkState() == Qt::Unchecked)
             continue;
         if (!lang.isEmpty())
             lang += ';';
-        lang += item->text(COL_NAME);
+        lang += item->text();
     }
     m_plugin->setProperty("Lang", lang);
     m_plugin->reset();
 }
 
-void SpellConfig::resizeEvent(QResizeEvent *e)
-{
-    QWidget::resizeEvent(e);
-    lstLang->adjustColumn();
-}
-
-#ifdef WIN32
 void SpellConfig::textChanged(const QString &str)
-#else
-void SpellConfig::textChanged(const QString&)
-#endif
 {
     QString langs;
 #ifdef WIN32
@@ -116,11 +86,7 @@ void SpellConfig::textChanged(const QString&)
 #endif
         lnkAspell->hide();
         btnFind->hide();
-#ifdef WIN32
         SpellerBase base(str);
-#else
-        SpellerBase base(QString::null);
-#endif
         SpellerConfig cfg(base);
         langs = cfg.getLangs();
 #ifdef WIN32
@@ -133,6 +99,7 @@ void SpellConfig::textChanged(const QString&)
     }else{
         lblLang->setEnabled(true);
         lstLang->setEnabled(true);
+        int r = 0;
         while (!langs.isEmpty()){
             QString l = SIM::getToken(langs, ';');
             bool bCheck = false;
@@ -144,15 +111,12 @@ void SpellConfig::textChanged(const QString&)
                     break;
                 }
             }
-            ListViewItem* item = new ListViewItem(lstLang);
-            item->setText(0, l);
-            item->setText(1, bCheck ? "1" : "");
-            /*
-            lstLang->setItem(r, 0, item);
-            lstLang->setItem(r, 1, new ListViewItem(""));
-            lstLang->setItem(r, 2, new ListViewItem(bCheck ? "1" : ""));
-            */
-            setCheck(item);
+            QListWidgetItem* item = new QListWidgetItem();
+            item->setText(l);
+            item->setFlags( item->flags() | Qt::ItemIsUserCheckable );
+            item->setCheckState( bCheck ? Qt::Checked : Qt::Unchecked );
+            lstLang->insertItem( r, item );
+            r++;
         }
     }
 }
@@ -173,40 +137,6 @@ void SpellConfig::findFinished()
 #ifdef WIN32
     m_find = NULL;
 #endif
-}
-
-void SpellConfig::langClicked(ListViewItem *item)
-{
-    if(!item)
-        return;
-    SIM::log(SIM::L_DEBUG, "langClicked");
-    if (item->text(COL_CHECKED).isEmpty()){
-        item->setText(COL_CHECKED, "1");
-    }else{
-        item->setText(COL_CHECKED, "");
-    }
-    setCheck(item);
-}
-
-#define CHECK_OFF       QStyle::State_Off
-#define CHECK_ON        QStyle::State_On
-#define CHECK_NOCHANGE  QStyle::State_NoChange
-
-void SpellConfig::setCheck(ListViewItem *item)
-{
-    QStyleOptionButton opt;
-    opt.state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
-    int w = style()->pixelMetric(QStyle::PM_IndicatorWidth);
-    int h = style()->pixelMetric(QStyle::PM_IndicatorHeight);
-    QPixmap pixInd(w, h);
-    QPainter pInd(&pixInd);
-    pInd.setBrush(palette().brush(QPalette::Active, QPalette::Background));
-    QRect rc(0, 0, w, h);
-    pInd.eraseRect(rc);
-    opt.rect = rc;
-    style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &opt, &pInd, this);
-    pInd.end();
-    item->setPixmap(COL_CHECK, pixInd);
 }
 
 // vim: set expandtab: 

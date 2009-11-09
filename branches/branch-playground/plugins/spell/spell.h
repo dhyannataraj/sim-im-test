@@ -29,23 +29,20 @@
 #include <QEvent>
 #include <QByteArray>
 
-using std::list;
-
-class TextEdit;
+class QTextEdit;
 class QSyntaxHighlighter;
-class KDictSpellingHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef std::map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
-typedef std::map<SIM::my_string, bool> MAP_BOOL;
+typedef QMap<QTextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+typedef QMap<SIM::my_string, bool> MAP_BOOL;
 
-class SpellPlugin : virtual public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class SpellPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     SpellPlugin(unsigned, Buffer*);
-    ~SpellPlugin();
+    virtual ~SpellPlugin();
     MAP_EDITS m_edits;
     void reset();
     unsigned CmdSpell;
@@ -56,7 +53,7 @@ signals:
     void misspelling(const QString &word);
     void configChanged();
 protected slots:
-    void textEditFinished(TextEdit*);
+    void textEditFinished(QTextEdit*);
     void check(const QString &word);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
@@ -65,9 +62,9 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     void activate();
     void deactivate();
-    bool			m_bActive;
-    SpellerBase		*m_base;
-    list<Speller*>	m_spellers;
+    bool            m_bActive;
+    SpellerBase     *m_base;
+    QList<Speller*> m_spellers;
 };
 
 #endif

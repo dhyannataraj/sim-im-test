@@ -36,24 +36,24 @@ SpellerBase::SpellerBase(const QString &path)
     m_aspellLib = new QLibrary(p);
 
     if (m_aspellLib->load() && m_aspellLib->isLoaded()){
-        (void*&)_new_aspell_config = m_aspellLib->resolve("new_aspell_config");
-        (void*&)_delete_aspell_config = m_aspellLib->resolve("new_aspell_config");
-        (void*&)_get_aspell_dict_info_list = m_aspellLib->resolve("get_aspell_dict_info_list");
-        (void*&)_aspell_dict_info_list_elements = m_aspellLib->resolve("aspell_dict_info_list_elements");
-        (void*&)_delete_aspell_dict_info_enumeration = m_aspellLib->resolve("delete_aspell_dict_info_enumeration");
-        (void*&)_aspell_dict_info_enumeration_next = m_aspellLib->resolve("aspell_dict_info_enumeration_next");
-        (void*&)_aspell_config_replace = m_aspellLib->resolve("aspell_config_replace");
-        (void*&)_new_aspell_speller = m_aspellLib->resolve("new_aspell_speller");
-        (void*&)_to_aspell_speller = m_aspellLib->resolve("to_aspell_speller");
-        (void*&)_delete_aspell_speller = m_aspellLib->resolve("delete_aspell_speller");
-        (void*&)_aspell_error_message = m_aspellLib->resolve("aspell_error_message");
-        (void*&)_aspell_error = m_aspellLib->resolve("aspell_error");
-        (void*&)_delete_aspell_can_have_error = m_aspellLib->resolve("delete_aspell_can_have_error");
-        (void*&)_aspell_speller_check = m_aspellLib->resolve("aspell_speller_check");
-        (void*&)_aspell_speller_suggest = m_aspellLib->resolve("aspell_speller_suggest");
-        (void*&)_aspell_word_list_elements = m_aspellLib->resolve("aspell_word_list_elements");
-        (void*&)_aspell_string_enumeration_next = m_aspellLib->resolve("aspell_string_enumeration_next");
-        (void*&)_aspell_speller_add_to_personal = m_aspellLib->resolve("aspell_speller_add_to_personal");
+        (void*&)_new_aspell_config                      = m_aspellLib->resolve("new_aspell_config");
+        (void*&)_delete_aspell_config                   = m_aspellLib->resolve("new_aspell_config");
+        (void*&)_get_aspell_dict_info_list              = m_aspellLib->resolve("get_aspell_dict_info_list");
+        (void*&)_aspell_dict_info_list_elements         = m_aspellLib->resolve("aspell_dict_info_list_elements");
+        (void*&)_delete_aspell_dict_info_enumeration    = m_aspellLib->resolve("delete_aspell_dict_info_enumeration");
+        (void*&)_aspell_dict_info_enumeration_next      = m_aspellLib->resolve("aspell_dict_info_enumeration_next");
+        (void*&)_aspell_config_replace                  = m_aspellLib->resolve("aspell_config_replace");
+        (void*&)_new_aspell_speller                     = m_aspellLib->resolve("new_aspell_speller");
+        (void*&)_to_aspell_speller                      = m_aspellLib->resolve("to_aspell_speller");
+        (void*&)_delete_aspell_speller                  = m_aspellLib->resolve("delete_aspell_speller");
+        (void*&)_aspell_error_message                   = m_aspellLib->resolve("aspell_error_message");
+        (void*&)_aspell_error                           = m_aspellLib->resolve("aspell_error");
+        (void*&)_delete_aspell_can_have_error           = m_aspellLib->resolve("delete_aspell_can_have_error");
+        (void*&)_aspell_speller_check                   = m_aspellLib->resolve("aspell_speller_check");
+        (void*&)_aspell_speller_suggest                 = m_aspellLib->resolve("aspell_speller_suggest");
+        (void*&)_aspell_word_list_elements              = m_aspellLib->resolve("aspell_word_list_elements");
+        (void*&)_aspell_string_enumeration_next         = m_aspellLib->resolve("aspell_string_enumeration_next");
+        (void*&)_aspell_speller_add_to_personal         = m_aspellLib->resolve("aspell_speller_add_to_personal");
         if ((_new_aspell_config == NULL) ||
                 (_delete_aspell_config == NULL) ||
                 (_get_aspell_dict_info_list == NULL) ||
@@ -106,24 +106,24 @@ void SpellerBase::init()
     _aspell_speller_add_to_personal = NULL;
 }
 
-#define new_aspell_config()							m_base._new_aspell_config()
-#define delete_aspell_config(cfg)					m_base._delete_aspell_config(cfg)
-#define get_aspell_dict_info_list(cfg)				m_base._get_aspell_dict_info_list(cfg)
-#define aspell_dict_info_list_elements(dlist)		m_base._aspell_dict_info_list_elements(dlist)
-#define delete_aspell_dict_info_enumeration(dlist)	m_base._delete_aspell_dict_info_enumeration(dlist)
-#define aspell_dict_info_enumeration_next(dlist)	m_base._aspell_dict_info_enumeration_next(dlist)
-#define aspell_config_replace(c, k, v)				m_base._aspell_config_replace(c, k, v)
-#define new_aspell_speller(dlist)					m_base._new_aspell_speller(dlist)
-#define to_aspell_speller(dlist)					m_base._to_aspell_speller(dlist)
-#define delete_aspell_speller(dlist)				m_base._delete_aspell_speller(dlist)
-#define aspell_error_message(dlist)					m_base._aspell_error_message(dlist)
-#define aspell_error(dlist)							m_base._aspell_error(dlist)
-#define delete_aspell_can_have_error(dlist)			m_base._delete_aspell_can_have_error(dlist)
-#define aspell_speller_check(c, v, s)				m_base._aspell_speller_check(c, v, s)
-#define aspell_speller_suggest(c, v, s)				m_base._aspell_speller_suggest(c, v, s)
-#define aspell_word_list_elements(c)				m_base._aspell_word_list_elements(c)
-#define aspell_string_enumeration_next(c)			m_base._aspell_string_enumeration_next(c)
-#define aspell_speller_add_to_personal(c, v, s)		m_base._aspell_speller_suggest(c, v, s)
+#define new_aspell_config()                         m_base._new_aspell_config()
+#define delete_aspell_config(cfg)                   m_base._delete_aspell_config(cfg)
+#define get_aspell_dict_info_list(cfg)              m_base._get_aspell_dict_info_list(cfg)
+#define aspell_dict_info_list_elements(dlist)       m_base._aspell_dict_info_list_elements(dlist)
+#define delete_aspell_dict_info_enumeration(dlist)  m_base._delete_aspell_dict_info_enumeration(dlist)
+#define aspell_dict_info_enumeration_next(dlist)    m_base._aspell_dict_info_enumeration_next(dlist)
+#define aspell_config_replace(c, k, v)              m_base._aspell_config_replace(c, k, v)
+#define new_aspell_speller(dlist)                   m_base._new_aspell_speller(dlist)
+#define to_aspell_speller(dlist)                    m_base._to_aspell_speller(dlist)
+#define delete_aspell_speller(dlist)                m_base._delete_aspell_speller(dlist)
+#define aspell_error_message(dlist)                 m_base._aspell_error_message(dlist)
+#define aspell_error(dlist)                         m_base._aspell_error(dlist)
+#define delete_aspell_can_have_error(dlist)         m_base._delete_aspell_can_have_error(dlist)
+#define aspell_speller_check(c, v, s)               m_base._aspell_speller_check(c, v, s)
+#define aspell_speller_suggest(c, v, s)             m_base._aspell_speller_suggest(c, v, s)
+#define aspell_word_list_elements(c)                m_base._aspell_word_list_elements(c)
+#define aspell_string_enumeration_next(c)           m_base._aspell_string_enumeration_next(c)
+#define aspell_speller_add_to_personal(c, v, s)     m_base._aspell_speller_suggest(c, v, s)
 
 #else
 
@@ -137,7 +137,7 @@ SpellerBase::~SpellerBase()
 
 
 SpellerConfig::SpellerConfig(SpellerBase &base)
-        : m_base(base)
+    : m_base(base)
 {
 #ifdef WIN32
     cfg = NULL;

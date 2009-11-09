@@ -21,9 +21,8 @@
 #include "simapi.h"
 
 #include <aspell.h>
-#include <qstring.h>
-#include <qstringlist.h>
-
+#include <QString>
+#include <QStringList>
 
 class SpellerBase
 {

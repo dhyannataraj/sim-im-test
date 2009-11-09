@@ -14,12 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <algorithm>
 
 #include "spell.h"
 #include "spellcfg.h"
 #include "speller.h"
-#include "simgui/textshow.h"
 #include "spellhighlight.h"
 #include "core.h"
 
@@ -37,15 +35,15 @@ using namespace SIM;
 class PSpellHighlighter : public SpellHighlighter
 {
 public:
-    PSpellHighlighter(TextEdit *edit, SpellPlugin *plugin);
+    PSpellHighlighter(QTextEdit *edit, SpellPlugin *plugin);
     ~PSpellHighlighter();
 };
 
-PSpellHighlighter::PSpellHighlighter(TextEdit *edit, SpellPlugin *plugin)
+PSpellHighlighter::PSpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
         : SpellHighlighter(edit, plugin)
 {
-    m_plugin->m_edits.insert(MAP_EDITS::value_type(edit, this));
-    QObject::connect(edit, SIGNAL(finished(TextEdit*)), plugin, SLOT(textEditFinished(TextEdit*)));
+    m_plugin->m_edits.insert(edit, this);
+    QObject::connect(edit, SIGNAL(finished(QTextEdit*)), plugin, SLOT(textEditFinished(QTextEdit*)));
     QObject::connect(this, SIGNAL(check(const QString&)), plugin, SLOT(check(const QString&)));
     QObject::connect(plugin, SIGNAL(misspelling(const QString&)), this, SLOT(slotMisspelling(const QString&)));
     QObject::connect(plugin, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
@@ -100,19 +98,22 @@ SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
 
 SpellPlugin::~SpellPlugin()
 {
-	PropertyHub::save();
+    PropertyHub::save();
     EventCommandRemove(CmdSpell).process();
     deactivate();
-    for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it)
-        delete (*it);
+    while( !m_spellers.empty() ) {
+        delete m_spellers.first();
+        m_spellers.removeFirst();
+    }
     delete m_base;
 }
 
 void SpellPlugin::reset()
 {
-    for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it)
-        delete (*it);
-    m_spellers.clear();
+    while( !m_spellers.empty() ) {
+        delete m_spellers.first();
+        m_spellers.removeFirst();
+    }
     if (m_base)
         delete m_base;
 #ifdef WIN32
@@ -143,17 +144,15 @@ void SpellPlugin::reset()
 
 void SpellPlugin::activate()
 {
-	if (m_bActive)
-		return;
-	m_bActive = true;
-	qApp->installEventFilter(this);
-	QWidgetList list = QApplication::allWidgets();
-    QWidget * w;
-    foreach (w,list)
-	{
+    if( m_bActive )
+        return;
+    m_bActive = true;
+    qApp->installEventFilter(this);
+    QWidgetList list = QApplication::allWidgets();
+    foreach( QWidget *w, list ) {
 		if (w->inherits("TextEdit"))
-			new PSpellHighlighter(static_cast<TextEdit*>(w), this);
-	}
+                        new PSpellHighlighter(static_cast<QTextEdit*>(w), this);
+    }
 }
 
 void SpellPlugin::deactivate()
@@ -162,8 +161,11 @@ void SpellPlugin::deactivate()
         return;
     m_bActive = false;
     qApp->removeEventFilter(this);
-    while (!m_edits.empty())
-        delete (*m_edits.begin()).second;
+    while (!m_edits.empty()) {
+        QSyntaxHighlighter *pHighlighter = m_edits.begin().value();
+        m_edits.remove( m_edits.begin().key() );
+        delete pHighlighter;
+    }
     m_edits.clear();
 }
 
@@ -191,7 +193,7 @@ bool SpellPlugin::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
         if (ce->child()->inherits("MsgTextEdit")){
-            TextEdit *edit = static_cast<TextEdit*>(ce->child());
+            QTextEdit *edit = static_cast<QTextEdit*>(ce->child());
             MAP_EDITS::iterator it = m_edits.find(edit);
             if (it == m_edits.end())
                 new PSpellHighlighter(edit, this);
@@ -200,17 +202,19 @@ bool SpellPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-void SpellPlugin::textEditFinished(TextEdit *edit)
+void SpellPlugin::textEditFinished(QTextEdit *edit)
 {
-    MAP_EDITS::iterator it = m_edits.find(edit);
-    if (it != m_edits.end())
-        delete it->second;
+    MAP_EDITS::iterator it = m_edits.find( edit );
+    if( it != m_edits.end() ) {
+        delete it.value();
+        m_edits.remove( edit );
+    }
 }
 
 void SpellPlugin::check(const QString &word)
 {
-    for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        if ((*it)->check(word.toUtf8()) == 1)
+    foreach( Speller *pSpeller, m_spellers ) {
+        if( pSpeller->check(word.toUtf8()) == 1 )
             return;
     }
     emit misspelling(word);
@@ -218,16 +222,16 @@ void SpellPlugin::check(const QString &word)
 
 void SpellPlugin::add(const QString &word)
 {
-    for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        if ((*it)->add(word.toUtf8()))
+    foreach( Speller *pSpeller, m_spellers ) {
+        if( pSpeller->add(word.toUtf8()) )
             return;
     }
 }
 
 struct WordWeight
 {
-    QString		word;
-    unsigned	weight;
+    QString     word;
+    unsigned    weight;
 };
 
 bool operator < (const WordWeight &w1, const WordWeight &w2) { return w1.weight > w2.weight; }
@@ -251,8 +255,8 @@ static unsigned weight(const QString &s1, const QString &s2)
 QStringList SpellPlugin::suggestions(const QString &word)
 {
     QStringList res;
-    for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
-        QStringList wl = (*it)->suggestions(word.toUtf8());
+    foreach( Speller *pSpeller, m_spellers ) {
+        QStringList wl = pSpeller->suggestions(word.toUtf8());
         for (QStringList::Iterator it = wl.begin(); it != wl.end(); ++it){
             QString wrd = (*it);
             QStringList::Iterator itr;

@@ -19,10 +19,8 @@
 #define _SPELLCFG_H
 
 #include "ui_spellcfgbase.h"
-#include <QResizeEvent>
 
 class SpellPlugin;
-class ListViewItem;
 
 #ifdef WIN32
 class SpellFind;
@@ -39,10 +37,7 @@ public slots:
     void find();
     void findFinished();
     void textChanged(const QString &str);
-    void langClicked(ListViewItem*);
 protected:
-    void setCheck(ListViewItem *item);
-    void resizeEvent(QResizeEvent *e);
 #ifdef WIN32
     SpellFind	*m_find;
 #endif

@@ -203,11 +203,11 @@ void SpellHighlighter::slotMisspelling(const QString &word)
 {
     MAP_BOOL::iterator it = m_words.find(SIM::my_string(word));
     if (it == m_words.end()){
-        m_words.insert(MAP_BOOL::value_type(SIM::my_string(word), false));
+        m_words.insert(SIM::my_string(word), false);
     }else{
-        if (!it->second)
+        if (!it.value())
             return;
-        it->second = false;
+        m_words[SIM::my_string(word)] = false;
     }
     m_bDirty = true;
     QTimer::singleShot(300, this, SLOT(reformat()));

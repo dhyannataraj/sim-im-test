@@ -52,7 +52,7 @@ protected:
     int m_paragraph;
     int highlightParagraph( const QString &text, int endStateOfLastPara );
     virtual void text(const QString &text);
-    virtual void tag_start(const QString &tag, const list<QString> &options);
+    virtual void tag_start(const QString &tag, const std::list<QString> &options);
     virtual void tag_end(const QString &tag);
     virtual bool processEvent(SIM::Event *e);
     void flush();
