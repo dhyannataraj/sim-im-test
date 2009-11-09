@@ -15,18 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "spellcfg.h"
+#include "spell.h"
+#include "speller.h"
 #ifdef WIN32
 #include "spellfind.h"
 #endif
 
-#include "simgui/editfile.h"
-#include "simgui/linklabel.h"
-
 #include "log.h"
-
-#include "spellcfg.h"
-#include "spell.h"
-#include "speller.h"
+#include "simgui/editfile.h"
 
 using namespace SIM;
 
@@ -37,8 +34,6 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
 #ifdef WIN32
     edtPath->setText(m_plugin->property("Path").toString());
     edtPath->setFilter(i18n("ASpell(aspell.exe)"));
-    lnkAspell->setUrl("http://aspell.net/win32/");
-    lnkAspell->setText(i18n("Download ASpell"));
     m_find = NULL;
 #else
     lblPath->hide();
