@@ -4,12 +4,17 @@
 #include <QFile>
 #include "paths.h"
 
+
 #ifdef WIN32
 #include <windows.h>
 #include <shlobj.h>
 static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
 static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
+#else
+#include <sys/stat.h>
 #endif
+
+using namespace std;
 
 namespace SIM
 {

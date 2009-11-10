@@ -3,8 +3,9 @@
 #define SIMAPP_H
 #include <QApplication>
 #include <QSessionManager>
+#include "simapi.h"
 
-class SimApp : public QApplication
+class EXPORT SimApp : public QApplication
 {
 public:
     SimApp(int &argc, char **argv);

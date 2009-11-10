@@ -3,10 +3,11 @@
 #define SIM_PATHS_H
 
 #include <QString>
+#include "simapi.h"
 
 namespace SIM
 {
-    class PathManager
+    class EXPORT PathManager
     {
     public:
         static QString configRoot();
