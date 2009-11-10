@@ -201,6 +201,8 @@ void SearchDialog::fillClients()
         if (client->name() == CorePlugin::m_plugin->property("SearchClient").toString())
             defCurrent = m_widgets.size() - 1;
     }
+// ToDo: Restore this
+/*
     if (nClients > 1){
         unsigned n;
         QWidget *search = NULL;
@@ -273,15 +275,11 @@ void SearchDialog::fillClients()
                 ListViewItem *item = static_cast<ListViewItem*>(m_result->topLevelItem(i));
                 if ((QWidget*)(item->text(COL_SEARCH_WND).toULong()) == widgets[n].widget)
                     delete item;
-				/*
-                if (next == NULL)
-                    break;
-                item = next;
-				*/
             }
             delete widgets[n].widget;
         }
     }
+*/
     if (current == -1)
         current = defCurrent;
     if (current == -1)

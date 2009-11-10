@@ -161,7 +161,7 @@ namespace SIM
 #else
             QString pluginDir(PLUGIN_PATH);
 #endif
-            findPluginsInDir(pluginDir, QString::null, pluginsList);
+            pluginsList = QDir(pluginDir).entryList( QStringList( QString("*") + LTDL_SHLIB_EXT ) );
         }
         qSort(pluginsList);
         return pluginsList;

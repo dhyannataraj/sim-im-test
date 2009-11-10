@@ -175,12 +175,17 @@ int main(int argc, char *argv[])
         exit(-1);
 #endif
     SimApp app(argc, argv);
-    QApplication::addLibraryPath(app.applicationDirPath() + "/plugins");
+#ifdef Q_OS_MAC
+    QString sPluginPath = app.applicationDirPath() + "/../";
+#else
+    QString sPluginPath = app.applicationDirPath() + "/plugins";
+#endif
+    QApplication::addLibraryPath(sPluginPath);
     PluginManager p(argc, argv);
     app.setQuitOnLastWindowClosed( false );
     if (p.isLoaded())
         res = app.exec();
-	return res;
+    return res;
 }
 
 // vim: set expandtab:
