@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qlibrary.h>
-#include <qstringlist.h>
+#include "speller.h"
 
 #include "log.h"
 
-#include "speller.h"
+#include <QFile>
+#include <QStringList>
 
 #ifdef Q_OS_WIN
+
+#include <QLibrary>
 
 SpellerBase::SpellerBase(const QString &path)
 {

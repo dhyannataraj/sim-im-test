@@ -44,8 +44,25 @@ SpellHighlighter::~SpellHighlighter()
 {
 }
 
-void SpellHighlighter::highlightBlock(const QString&)
+void SpellHighlighter::highlightBlock( const QString &sText )
 {
+    QTextCharFormat format;
+    format.setUnderlineColor( Qt::red );
+    format.setUnderlineStyle( QTextCharFormat::SpellCheckUnderline );
+
+    QRegExp expression( "\\b(\\w+)\\W+" );
+    QRegExp expression2( "\\b(\\w+)" );
+    int index = expression.indexIn( sText );
+    while (index >= 0) {
+        int length = expression.matchedLength();
+        QString s = sText.mid( index, length );
+        expression2.indexIn( s );
+        QString sWord = s.left( expression2.matchedLength() );
+        if( !m_plugin->check( sWord ) ) {
+            setFormat( index, expression2.matchedLength(), format );
+        }
+        index = expression.indexIn( sText, index + length );
+    }
 }
 
 int SpellHighlighter::highlightParagraph(const QString&, int state)

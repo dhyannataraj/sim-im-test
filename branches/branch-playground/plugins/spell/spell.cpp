@@ -92,8 +92,6 @@ SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
     cmd->menu_grp    = 0x0100;
     cmd->flags		 = SIM::COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
-
-    reset();
 }
 
 SpellPlugin::~SpellPlugin()
@@ -161,11 +159,11 @@ void SpellPlugin::deactivate()
         return;
     m_bActive = false;
     qApp->removeEventFilter(this);
-    while (!m_edits.empty()) {
-        QSyntaxHighlighter *pHighlighter = m_edits.begin().value();
-        m_edits.remove( m_edits.begin().key() );
-        delete pHighlighter;
-    }
+//    while (!m_edits.empty()) {
+//        QSyntaxHighlighter *pHighlighter = m_edits.begin().value();
+//        m_edits.remove( m_edits.begin().key() );
+//        delete pHighlighter;
+//    }
     m_edits.clear();
 }
 
@@ -181,25 +179,54 @@ QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
 
 bool SpellPlugin::processEvent(SIM::Event* e)
 {
-	if(e->type() == eEventPluginLoadConfig)
-	{
-		PropertyHub::load();
-	}
+    if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHub::load();
+        reset();
+    }
     return false;
 }
+
+class NewChildEvent : public QEvent
+{
+public:
+    NewChildEvent() : QEvent( (QEvent::Type)( QEvent::User + 100 ) ) {};
+};
 
 bool SpellPlugin::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::ChildAdded){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
-        if (ce->child()->inherits("MsgTextEdit")){
-            QTextEdit *edit = static_cast<QTextEdit*>(ce->child());
-            MAP_EDITS::iterator it = m_edits.find(edit);
-            if (it == m_edits.end())
-                new PSpellHighlighter(edit, this);
-        }
+        QObject *pChild = ce->child();
+        connect( pChild, SIGNAL(destroyed(QObject*)), SLOT(tempChildDestroyed(QObject*)) );
+        m_listTempChilds.push_back( pChild );
+        QApplication::postEvent( this, new NewChildEvent() );
     }
     return QObject::eventFilter(o, e);
+}
+
+void SpellPlugin::tempChildDestroyed( QObject *pObject ) {
+    int index = m_listTempChilds.indexOf( pObject );
+    if( -1 != index ) {
+        m_listTempChilds.removeAt( index );
+        pObject->disconnect( this );
+    }
+}
+
+bool SpellPlugin::event( QEvent *e ) {
+    if( ( e->type() == ( QEvent::User + 100 ) ) && ( m_listTempChilds.count() > 0 ) ) {
+        QObject *pChild = m_listTempChilds.first();
+        pChild->disconnect( this );
+        m_listTempChilds.pop_front();
+        if( pChild->inherits( "MsgTextEdit" ) ) {
+            QTextEdit *edit = static_cast<QTextEdit*>( pChild );
+            MAP_EDITS::iterator it = m_edits.find(edit);
+            if( it == m_edits.end() )
+                new PSpellHighlighter(edit, this);
+        }
+        return true;
+    }
+    SIM::PropertyHub::event( e );
 }
 
 void SpellPlugin::textEditFinished(QTextEdit *edit)
@@ -211,13 +238,15 @@ void SpellPlugin::textEditFinished(QTextEdit *edit)
     }
 }
 
-void SpellPlugin::check(const QString &word)
+bool SpellPlugin::check(const QString &word)
 {
     foreach( Speller *pSpeller, m_spellers ) {
         if( pSpeller->check(word.toUtf8()) == 1 )
-            return;
+            return true;
     }
     emit misspelling(word);
+
+    return false;
 }
 
 void SpellPlugin::add(const QString &word)

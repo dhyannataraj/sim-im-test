@@ -2,6 +2,8 @@
 #ifndef SIM_PATHS_H
 #define SIM_PATHS_H
 
+#include "cfg.h"
+
 #include <QString>
 #include "simapi.h"
 

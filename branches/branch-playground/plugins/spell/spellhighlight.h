@@ -37,7 +37,7 @@ public:
     SpellHighlighter(QTextEdit *edit, SpellPlugin *m_plugin);
     ~SpellHighlighter();
 
-    virtual void highlightBlock(const QString&);
+    virtual void highlightBlock( const QString &sText );
 signals:
     void check(const QString &);
 

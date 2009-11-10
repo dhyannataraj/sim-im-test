@@ -54,9 +54,14 @@ signals:
     void configChanged();
 protected slots:
     void textEditFinished(QTextEdit*);
-    void check(const QString &word);
+    void tempChildDestroyed(QObject*);
+
+public slots:
+    bool check(const QString &word);
+
 protected:
     bool eventFilter(QObject *o, QEvent *e);
+    virtual bool event( QEvent *e );
     virtual bool processEvent(SIM::Event *e);
     virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
@@ -65,6 +70,7 @@ protected:
     bool            m_bActive;
     SpellerBase     *m_base;
     QList<Speller*> m_spellers;
+    QList<QObject*> m_listTempChilds;
 };
 
 #endif

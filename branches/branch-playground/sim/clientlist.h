@@ -8,7 +8,6 @@
 
 namespace SIM
 {
-    class Client;
     class EXPORT ClientList : public QObject, public std::vector<Client*>
     {
         Q_OBJECT

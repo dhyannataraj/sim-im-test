@@ -1,6 +1,9 @@
 
 #ifndef SIMAPP_H
 #define SIMAPP_H
+
+#include "cfg.h"
+
 #include <QApplication>
 #include <QSessionManager>
 #include "simapi.h"
