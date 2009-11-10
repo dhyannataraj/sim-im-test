@@ -7,11 +7,8 @@
 class SimApp : public QApplication
 {
 public:
-    SimApp(int &argc, char **argv)
-      : QApplication(argc, argv)
-    {}
-    ~SimApp()
-    {}
+    SimApp(int &argc, char **argv);
+    ~SimApp();
 protected:
     void commitData(QSessionManager&);
     void saveState(QSessionManager&);

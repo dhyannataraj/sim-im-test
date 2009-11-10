@@ -4,6 +4,16 @@
 #include "log.h"
 #include "misc.h"
 
+SimApp::SimApp(int &argc, char **argv)
+      : QApplication(argc, argv)
+{
+
+}
+SimApp::~SimApp()
+{
+
+}
+
 void SimApp::commitData(QSessionManager&)
 {
 	SIM::save_state();
