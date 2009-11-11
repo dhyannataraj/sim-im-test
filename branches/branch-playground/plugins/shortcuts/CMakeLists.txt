@@ -1,6 +1,7 @@
 #####################
 # shortcuts library #
 #####################
+IF(BUILD_DROPPED)
 SET(shortcuts_SRCS
         mousecfg.cpp
         shortcutcfg.cpp
@@ -23,3 +24,4 @@ SET(shortcuts_LIBS
 )
 
 SIM_ADD_PLUGIN(shortcuts)
+ENDIF(BUILD_DROPPED)

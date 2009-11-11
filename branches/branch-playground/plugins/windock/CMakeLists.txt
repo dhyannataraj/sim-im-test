@@ -1,3 +1,4 @@
+IF(BUILD_DROPPED)
 IF(WIN32)
     ###################
     # windock library #
@@ -20,3 +21,4 @@ IF(WIN32)
 ELSE(WIN32)
     MESSAGE(STATUS "Windock plugin can only be used on windows")
 ENDIF(WIN32)
+ENDIF(BUILD_DROPPED)

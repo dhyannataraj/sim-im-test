@@ -181,10 +181,11 @@ int main(int argc, char *argv[])
     QString sPluginPath = app.applicationDirPath() + "/plugins";
 #endif
     QApplication::addLibraryPath(sPluginPath);
-    PluginManager p(argc, argv);
-    app.setQuitOnLastWindowClosed( false );
-    if (p.isLoaded())
+    SIM::createPluginManager(argc, argv);
+    app.setQuitOnLastWindowClosed(false);
+    if (SIM::getPluginManager()->isLoaded())
         res = app.exec();
+    SIM::destroyPluginManager();
     return res;
 }
 

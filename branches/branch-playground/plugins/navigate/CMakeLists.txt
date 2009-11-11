@@ -1,6 +1,7 @@
 ####################
 # navigate library #
 ####################
+IF(BUILD_DROPPED)
 SET(navigate_SRCS
         navcfg.cpp
         navigate.cpp
@@ -21,3 +22,4 @@ REMOVE_DEFINITIONS(-DQT3_SUPPORT)
 REMOVE_DEFINITIONS(-DQT_3SUPPORT_LIB)
 REMOVE_DEFINITIONS(-DQT3_SUPPORT_WARNINGS)
 SIM_ADD_PLUGIN(navigate)
+ENDIF(BUILD_DROPPED)

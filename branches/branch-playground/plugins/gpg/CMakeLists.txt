@@ -1,6 +1,7 @@
 ###############
 # gpg library #
 ###############
+IF(BUILD_DROPPED)
 IF(WIN32)
 	SET (gpg_SRCS gpgfind.cpp)
 	SET (gpg_HDRS gpgfind.h)
@@ -37,3 +38,4 @@ SET(gpg_UICS
 )
 
 SIM_ADD_PLUGIN(gpg)
+ENDIF(BUILD_DROPPED)

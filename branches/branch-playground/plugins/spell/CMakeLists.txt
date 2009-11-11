@@ -1,3 +1,4 @@
+IF(BUILD_DROPPED)
 IF(ASPELL_FOUND AND NOT ENABLE_KDE3)
 
     #################
@@ -49,3 +50,4 @@ ELSE(ASPELL_FOUND AND NOT ENABLE_KDE3)
     MESSAGE(STATUS "Cannot build spell plugin because aspell is missing on your system")
   ENDIF(ENABLE_KDE3)
 ENDIF(ASPELL_FOUND AND NOT ENABLE_KDE3)
+ENDIF(BUILD_DROPPED)

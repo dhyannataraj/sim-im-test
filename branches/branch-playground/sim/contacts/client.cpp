@@ -23,7 +23,8 @@ namespace SIM
 
     Client::Client(Protocol *protocol, Buffer *cfg)
     {
-        load_data(_clientData, &data, cfg);
+        if(cfg)
+            load_data(_clientData, &data, cfg);
 
         // now uncrypt password somehow
         QString pswd = getPassword();

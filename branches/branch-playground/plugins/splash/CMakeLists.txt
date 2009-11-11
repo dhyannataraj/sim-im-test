@@ -1,6 +1,7 @@
 ##################
 # splash library #
 ##################
+IF(BUILD_DROPPED)
 SET(splash_SRCS
         splash.cpp
 )
@@ -16,3 +17,4 @@ SIM_ADD_PLUGIN(splash)
 
 # splash.png
 INSTALL(FILES splash.png DESTINATION ${SIM_PICT_DIR})
+ENDIF(BUILD_DROPPED)

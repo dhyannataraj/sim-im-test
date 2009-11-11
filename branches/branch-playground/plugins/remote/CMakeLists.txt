@@ -1,6 +1,7 @@
 ##################
 # remote library #
 ##################
+IF(BUILD_DROPPED)
 PROJECT(remote)
 
 SET(remote_LIB_SRCS
@@ -74,3 +75,4 @@ ADD_EXECUTABLE(simremote simremote.idl sim_remote.cpp simControl.cpp simremote.r
 INSTALL(TARGETS simremote RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 ENDIF(0)
+ENDIF(BUILD_DROPPED)

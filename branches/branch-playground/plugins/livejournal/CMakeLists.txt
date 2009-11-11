@@ -1,6 +1,7 @@
 #######################
 # livejournal library #
 #######################
+IF(BUILD_DROPPED)
 SET(livejournal_SRCS
         journalsearch.cpp
         livejournal.cpp
@@ -22,3 +23,4 @@ SET(livejournal_UICS
 )
 
 SIM_ADD_PLUGIN(livejournal)
+ENDIF(BUILD_DROPPED)

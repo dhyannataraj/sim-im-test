@@ -84,6 +84,7 @@ MACRO_BOOL_TO_01(X11_FOUND HAVE_X)
 
 # development or release builds
 OPTION(DEV_BUILD "Build development version" YES)
+OPTION(BUILD_DROPPED "Build dropped plugins" NO)
 MACRO_BOOL_TO_01(DEV_BUILD CVS_BUILD)
 
 # global settings for every project

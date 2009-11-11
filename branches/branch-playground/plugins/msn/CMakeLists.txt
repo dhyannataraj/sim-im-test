@@ -1,6 +1,7 @@
 ###############
 # msn library #
 ###############
+IF(BUILD_DROPPED)
 SET(msn_SRCS
         msn.cpp
         msnclient.cpp
@@ -29,3 +30,4 @@ SET(msn_UICS
 )
 
 SIM_ADD_PLUGIN(msn)
+ENDIF(BUILD_DROPPED)

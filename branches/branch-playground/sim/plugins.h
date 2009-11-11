@@ -18,6 +18,7 @@
 #ifndef _PLUGINS_H
 #define _PLUGINS_H
 
+#include <QSharedPointer>
 #include <QString>
 #include <QWidget>
 #include "simapi.h"
@@ -46,19 +47,18 @@ namespace SIM
 		unsigned m_base;
 	};
 
+    typedef QSharedPointer<Plugin> PluginPtr;
+
 	class EXPORT PluginManager
 	{
 	public:
 		PluginManager(int argc, char **argv);
 		~PluginManager();
         QStringList enumPlugins();
-        bool loadPlugins(const QStringList& plugins);
-        bool loadPlugin(const QString& pluginname);
-        bool unloadPlugin(const QString& pluginname);
-        Plugin* plugin(const QString& pluginname); 
 		bool isLoaded();
 		static ContactList *contacts;
 		static SocketFactory *factory;
+        PluginPtr plugin(const QString& pluginname);
 
 	private:
 		class PluginManagerPrivate *p;
@@ -106,6 +106,10 @@ namespace SIM
 	};
 
 	SIM_EXPORT PluginInfo *GetPluginInfo();
+
+    PluginManager* getPluginManager();
+    void createPluginManager(int argc, char** argv);
+    void destroyPluginManager();
 
 } // namespace SIM
 

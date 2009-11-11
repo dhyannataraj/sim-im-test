@@ -1,6 +1,7 @@
 #################
 # yahoo library #
 #################
+IF(BUILD_DROPPED)
 if(OPENSSL_FOUND)
     SET(yahoo_SRCS
             crypt.cpp
@@ -36,3 +37,4 @@ if(OPENSSL_FOUND)
 else(OPENSSL_FOUND)
     MESSAGE(STATUS "OpenSSL library not found, yahoo plugin disabled")
 endif(OPENSSL_FOUND)
+ENDIF(BUILD_DROPPED)

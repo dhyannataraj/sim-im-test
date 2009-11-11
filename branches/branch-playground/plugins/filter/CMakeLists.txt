@@ -1,6 +1,7 @@
 ##################
 # filter library #
 ##################
+IF(BUILD_DROPPED)
 SET(filter_SRCS
         filter.cpp
         filtercfg.cpp
@@ -19,3 +20,4 @@ SET(filter_UICS
 )
 
 SIM_ADD_PLUGIN(filter)
+ENDIF(BUILD_DROPPED)

@@ -87,10 +87,7 @@ namespace SIM
             ~PluginManagerPrivate();
 
             QStringList enumPlugins();
-            //bool loadPlugins(const QStringList& plugins);
-            bool loadPlugin(const QString& pluginname);
-            bool unloadPlugin(const QString& pluginname);
-            Plugin* plugin(const QString& pluginname); 
+            PluginPtr plugin(const QString& pluginname);
 
         protected:
             virtual bool processEvent(Event *e);
@@ -146,6 +143,11 @@ namespace SIM
 
             friend class PluginManager;
     };
+
+    PluginPtr PluginManagerPrivate::plugin(const QString& pluginname)
+    {
+        return PluginPtr();
+    }
     
     QStringList PluginManagerPrivate::enumPlugins()
     {
@@ -165,27 +167,6 @@ namespace SIM
         }
         qSort(pluginsList);
         return pluginsList;
-    }
-
-    /*
-    bool PluginManagerPrivate::loadPlugins(const QStringList& plugins)
-    {
-    }
-    */
-
-    bool PluginManagerPrivate::loadPlugin(const QString& pluginname)
-    {
-		return false;
-    }
-
-    bool PluginManagerPrivate::unloadPlugin(const QString& pluginname)
-    {
-		return false;
-    }
-
-    Plugin* PluginManagerPrivate::plugin(const QString& pluginname)
-    {
-		return NULL;
     }
 
     void PluginManagerPrivate::scan()
@@ -848,24 +829,28 @@ namespace SIM
         return p->enumPlugins();
     }
 
-    bool PluginManager::loadPlugins(const QStringList& plugins)
-    {
-        return p->loadPlugins(plugins);
-    }
-
-    bool PluginManager::loadPlugin(const QString& pluginname)
-    {
-        return p->loadPlugin(pluginname);
-    }
-
-    bool PluginManager::unloadPlugin(const QString& pluginname)
-    {
-        return p->unloadPlugin(pluginname);
-    }
-
-    Plugin* PluginManager::plugin(const QString& pluginname)
+    PluginPtr PluginManager::plugin(const QString& pluginname)
     {
         return p->plugin(pluginname);
+    }
+
+    static PluginManager* g_pluginManager = 0;
+
+    PluginManager* getPluginManager()
+    {
+        return g_pluginManager;
+    }
+
+    void createPluginManager(int argc, char** argv)
+    {
+        Q_ASSERT(g_pluginManager == 0);
+        g_pluginManager = new PluginManager(argc, argv);
+    }
+
+    void destroyPluginManager()
+    {
+        Q_ASSERT(g_pluginManager != 0);
+        delete g_pluginManager;
     }
 
     ContactList *PluginManager::contacts = NULL;

@@ -1,6 +1,7 @@
 ###############
 # sms library #
 ###############
+IF(BUILD_DROPPED)
 SET(sms_SRCS
         gsm_ta.cpp
         serial.cpp
@@ -27,3 +28,4 @@ SET(sms_LIBS
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
 SIM_ADD_PLUGIN(sms)
+ENDIF(BUILD_DROPPED)

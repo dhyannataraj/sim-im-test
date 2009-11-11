@@ -217,25 +217,27 @@ IF(APPLE)
     SET(LIBRARY_OUTPUT_PATH ${LIBDIR})
 ENDIF(APPLE)
 
-## unit tests
-#SET(sim_tests_srcs
-#    tests/test.cpp
-#    tests/testbuffer.cpp
-#    tests/testsocketfactory.cpp
-#    tests/testclientsocket.cpp
-#)
-#
-#
-#SET(sim_tests_hdrs
-#    tests/testbuffer.h
-#    tests/testsocketfactory.h
-#    tests/testclientsocket.h
-#)
-#
-#QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
-#
-#ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
-#TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
+# unit tests
+SET(sim_tests_srcs
+    tests/test.cpp
+    tests/testbuffer.cpp
+    tests/testsocketfactory.cpp
+    tests/testclientsocket.cpp
+    tests/testcontactlist.cpp
+)
+
+
+SET(sim_tests_hdrs
+    tests/testbuffer.h
+    tests/testsocketfactory.h
+    tests/testclientsocket.h
+    tests/testcontactlist.h
+)
+
+QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
+
+ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
+TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
 
 ##################
 # sim executable #

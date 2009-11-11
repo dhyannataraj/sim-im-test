@@ -1,6 +1,7 @@
 ##################
 # update library #
 ##################
+IF(BUILD_DROPPED)
 IF(FALSE)
 
 SET(update_SRCS
@@ -14,3 +15,4 @@ SET(update_HDRS
 SIM_ADD_PLUGIN(update)
 
 ENDIF(FALSE)
+ENDIF(BUILD_DROPPED)

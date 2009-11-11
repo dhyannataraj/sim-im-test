@@ -1,6 +1,7 @@
 ###################
 # replace library #
 ###################
+IF(BUILD_DROPPED)
 SET(replace_SRCS
         replace.cpp
         replacecfg.cpp
@@ -16,3 +17,4 @@ SET(replace_UICS
 )
 
 SIM_ADD_PLUGIN(replace)
+ENDIF(BUILD_DROPPED)

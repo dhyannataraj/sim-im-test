@@ -1,6 +1,7 @@
 #################
 # proxy library #
 #################
+IF(BUILD_DROPPED)
 PROJECT(proxy)
 
 SET(proxy_SRCS
@@ -28,3 +29,4 @@ SET(proxy_LIBS
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
 SIM_ADD_PLUGIN(proxy)
+ENDIF(BUILD_DROPPED)
