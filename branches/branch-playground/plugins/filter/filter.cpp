@@ -204,11 +204,11 @@ bool FilterPlugin::processEvent(Event *e)
                 if (edit->textCursor().hasSelection())
                     return true;
             } else
-            if (cmd->menu_id == MenuTextEdit){
+            /*if (cmd->menu_id == MenuTextEdit){
                 TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
                 if (edit->textCursor().hasSelection())
                     return true;
-            }
+            }*/							//Fixme Block (crashing on rightclick in msgedit from container)
             return false;
         }
         if (cmd->menu_id == MenuContactGroup){
