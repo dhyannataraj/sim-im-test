@@ -35,7 +35,7 @@ class IP;
 
 namespace SIM {
 
-class Config
+class EXPORT Config
 {
 public:
 	Config(const QString& filename);

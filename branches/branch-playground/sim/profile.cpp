@@ -46,6 +46,7 @@ namespace SIM
                     plugins.append(pluginName);
             }
         }
+		return plugins;
     }
 }
 

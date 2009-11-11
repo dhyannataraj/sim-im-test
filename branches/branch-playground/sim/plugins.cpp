@@ -175,14 +175,17 @@ namespace SIM
 
     bool PluginManagerPrivate::loadPlugin(const QString& pluginname)
     {
+		return false;
     }
 
     bool PluginManagerPrivate::unloadPlugin(const QString& pluginname)
     {
+		return false;
     }
 
     Plugin* PluginManagerPrivate::plugin(const QString& pluginname)
     {
+		return NULL;
     }
 
     void PluginManagerPrivate::scan()
