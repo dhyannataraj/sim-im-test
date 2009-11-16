@@ -306,6 +306,7 @@ namespace SIM
             return true;
         sock->setPeerVerifyMode( QSslSocket::VerifyNone ); // No UI for SSL
         sock->startClientEncryption();
+        //Fixme warning C4715: 'SIM::SIMClientSocket::startEncryption' : not all control paths return a value
     }
 
     void SIMClientSocket::sslEncrypted() {

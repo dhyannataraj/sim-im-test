@@ -109,7 +109,7 @@ void MouseConfig::loadMenu(unsigned long id)
                 if (QString::number(s->popup_id) == item->text(3))
                     break;
             }
-            if (item)
+            if (item) //Fixme: warning C4701: potentially uninitialized local variable 'item' used
                 continue;
             title = title.remove('&');
             QTreeWidgetItem* it = new QTreeWidgetItem(lstCmd, QStringList(title));

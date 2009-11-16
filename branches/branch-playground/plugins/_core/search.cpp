@@ -696,7 +696,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
     ListViewItem *item;
 	for (int i = 0; i < m_result->topLevelItemCount(); i++){
 		ListViewItem *next = static_cast<ListViewItem*>(m_result->topLevelItem(i));
-        if (item->text(COL_KEY) == values[1])
+        if (item->text(COL_KEY) == values[1]) //Fixme: warning C4700: uninitialized local variable 'item' used
             break;
     }
     if (item){

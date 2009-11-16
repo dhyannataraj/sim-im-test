@@ -77,7 +77,7 @@ void JabberWizard::slotSelected(const QString&)
     //if (currentPage() != m_result)
         return;
     //setFinishEnabled(m_result, false);
-    QString condition = m_search->condition(NULL);
+    QString condition = m_search->condition(NULL); //Fixme unreachable code
     m_id = m_search->m_client->process(m_search->m_jid, m_search->m_node, condition, m_type);
 }
 
@@ -667,7 +667,7 @@ bool JabberBrowser::processEvent(Event *e)
 							(i->text(COL_NODE) == item->node))
 						break;
 				}
-				if (i)
+				if (i) //Fixme warning C4701: potentially uninitialized local variable 'i' used
 				{
                     it = i;
                 }else{
