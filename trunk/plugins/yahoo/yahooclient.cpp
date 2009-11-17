@@ -83,35 +83,35 @@ const unsigned	YAHOO_LOGIN_DUPL	= 99;
 
 static DataDef yahooUserData[] =
     {
-        { "", DATA_ULONG, 1, DATA(9) },		// Sign
-        { "LastSend", DATA_ULONG, 1, 0 },
-        { "Login", DATA_UTF, 1, 0 },
-        { "Nick", DATA_UTF, 1, 0 },
-        { "First", DATA_UTF, 1, 0 },
-        { "Last", DATA_UTF, 1, 0 },
-        { "EMail", DATA_UTF, 1, 0 },
-        { "", DATA_ULONG, 1, DATA(-1) },	// Status
-        { "", DATA_BOOL, 1, 0 },			// bAway
-        { "", DATA_UTF, 1, 0 },				// AwayMessage
-        { "StatusTime", DATA_ULONG, 1, 0 },
-        { "OnlineTime", DATA_ULONG, 1, 0 },
-        { "Group", DATA_STRING, 1, 0 },
-        { "", DATA_BOOL, 1, 0 },			// bChecked
-        { "", DATA_BOOL, 1, 0 },			// bTyping
-        { NULL, DATA_UNKNOWN, 0, 0 }
+        { ""            , DATA_ULONG    , 1, DATA(9) },		// Sign
+        { "LastSend"    , DATA_ULONG    , 1, 0 },
+        { "Login"       , DATA_UTF      , 1, 0 },
+        { "Nick"        , DATA_UTF      , 1, 0 },
+        { "First"       , DATA_UTF      , 1, 0 },
+        { "Last"        , DATA_UTF      , 1, 0 },
+        { "EMail"       , DATA_UTF      , 1, 0 },
+        { ""            , DATA_ULONG    , 1, DATA(-1) },	// Status
+        { ""            , DATA_BOOL     , 1, 0 },			// bAway
+        { ""            , DATA_UTF      , 1, 0 },				// AwayMessage
+        { "StatusTime"  , DATA_ULONG    , 1, 0 },
+        { "OnlineTime"  , DATA_ULONG    , 1, 0 },
+        { "Group"       , DATA_STRING   , 1, 0 },
+        { ""            , DATA_BOOL     , 1, 0 },			// bChecked
+        { ""            , DATA_BOOL     , 1, 0 },			// bTyping
+        { NULL          , DATA_UNKNOWN  , 0, 0 }
     };
 
 static DataDef yahooClientData[] =
     {
-        { "Server", DATA_STRING, 1, "scs.msg.yahoo.com" },
-        { "Port", DATA_ULONG, 1, DATA(5050) },
-        { "MinPort", DATA_ULONG, 1, DATA(1024) },
-        { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
-        { "UseHTTP", DATA_BOOL, 1, 0 },
-        { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
-        { "ListRequests", DATA_STRING, 1, 0 },
-        { "", DATA_STRUCT, sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
-        { NULL, DATA_UNKNOWN, 0, 0 }
+        { "Server"      , DATA_STRING   , 1, "scs.msg.yahoo.com" },
+        { "Port"        , DATA_ULONG    , 1, DATA(5050) },
+        { "MinPort"     , DATA_ULONG    , 1, DATA(1024) },
+        { "MaxPort"     , DATA_ULONG    , 1, DATA(0xFFFE) },
+        { "UseHTTP"     , DATA_BOOL     , 1, 0 },
+        { "AutoHTTP"    , DATA_BOOL     , 1, DATA(1) },
+        { "ListRequests", DATA_STRING   , 1, 0 },
+        { ""            , DATA_STRUCT   , sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
+        { NULL          , DATA_UNKNOWN  , 0, 0 }
     };
 
 const DataDef *YahooProtocol::userDataDef()

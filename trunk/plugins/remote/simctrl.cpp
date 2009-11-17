@@ -1,36 +1,36 @@
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+    #include "config.h"
 #endif
 
 #ifdef HAVE_STDLIB_H
-#include <stdlib.h>
+    #include <stdlib.h>
 #endif
 #ifdef HAVE_STDDEF_H
-#include <stddef.h>
+    #include <stddef.h>
 #endif
 #ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
+    #include <inttypes.h>
 #else
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
+    #ifdef HAVE_STDINT_H
+        #include <stdint.h>
+    #endif
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+    #include <unistd.h>
 #endif
 
 #include <stdio.h>
-#include <signal.h>
 #include <errno.h>
 
 #ifndef WIN32
-#include <sys/socket.h>
-#include <unistd.h>
-#include <sys/un.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <pwd.h>
+    #include <sys/socket.h>
+    #include <unistd.h>
+    #include <sys/un.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+    #include <netdb.h>
+    #include <pwd.h>
+    #include <signal.h>
 #endif
 
 #include <string>
@@ -38,13 +38,13 @@
 #include <memory>
 
 #ifdef WIN32
-#include <windows.h>
-#define socklen_t	int
-#define in_addr_t int
+    #include <windows.h>
+    #define socklen_t	int
+    #define in_addr_t int
 #endif
 
 #ifndef INADDR_NONE
-#define INADDR_NONE     0xFFFFFFFF
+    #define INADDR_NONE     0xFFFFFFFF
 #endif
 
 using namespace std;
