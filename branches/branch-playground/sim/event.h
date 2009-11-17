@@ -75,13 +75,13 @@ protected:
 
 enum SIMEvent
 {
-    eEventLog	= 0x0001,	// Log Output
-    eEventInit	= 0x0101,	// application init after all plugins are loaded
-    eEventQuit	= 0x0102,	// last event until plugins are unloaded
-    eEventExec	= 0x0110,	// execute an external program
+    eEventLog               = 0x0001,	// Log Output
+    eEventInit              = 0x0101,	// application init after all plugins are loaded
+    eEventQuit              = 0x0102,	// last event until plugins are unloaded
+    eEventExec              = 0x0110,	// execute an external program
     eEventSocketActive      = 0x0112,	// change socket activity state
-	eEventInterfaceDown		= 0x0113,	// emmited when socket detects eth down
-	eEventInterfaceUp		= 0x0114,
+    eEventInterfaceDown     = 0x0113,	// emmited when socket detects eth down
+    eEventInterfaceUp       = 0x0114,
 
     eEventArg               = 0x0201,   // get command line argument
     eEventGetArgs           = 0x0202,   // get all command line arguments
@@ -96,7 +96,7 @@ enum SIMEvent
     eEventPluginsUnload     = 0x0308,   // unload all plugins
     eEventSaveState         = 0x0309,   // plugins should save their config
     eEventClientsChanged    = 0x0311,   // a client was added/removed
-	eEventPluginLoadConfig  = 0x0312,
+    eEventPluginLoadConfig  = 0x0312,
 
     eEventIconChanged       = 0x0401,   // icons changed
     eEventSetMainIcon       = 0x0402,   // set the main icon
@@ -128,7 +128,7 @@ enum SIMEvent
     eEventRemovePreferences = 0x0581,
 
     eEventClientChanged     = 0x0590,   // a client changed status
-	eEventLoginStart		= 0x0591,	// login process initiated
+    eEventLoginStart        = 0x0591,	// login process initiated
 
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
@@ -168,48 +168,48 @@ enum SIMEvent
     eEventShowNotification  = 0x1302,
 
     // for _core plugin
-    eEventCreateMessageType	= 0x1401,
-    eEventRemoveMessageType	= 0x1402,
-    eEventRealSendMessage	= 0x1403,
+    eEventCreateMessageType = 0x1401,
+    eEventRemoveMessageType = 0x1402,
+    eEventRealSendMessage   = 0x1403,
     eEventHistoryConfig	    = 0x1404,
     eEventTemplateExpand    = 0x1405,
     eEventTemplateExpanded  = 0x1406,
-    eEventARRequest			= 0x1407,
-    eEventClientStatus		= 0x1408,
-    eEventLoadMessage		= 0x1409,
-    eEventDefaultAction		= 0x1410,
+    eEventARRequest         = 0x1407,
+    eEventClientStatus      = 0x1408,
+    eEventLoadMessage       = 0x1409,
+    eEventDefaultAction     = 0x1410,
     eEventContactClient     = 0x1411,
-    eEventActiveContact		= 0x1414,
-    eEventMessageRetry		= 0x1415,
+    eEventActiveContact     = 0x1414,
+    eEventMessageRetry      = 0x1415,
     eEventHistoryColors	    = 0x1416,
-    eEventCheckSend			= 0x1418,
-    eEventCutHistory		= 0x1419,
-    eEventTmplHelp			= 0x1420,
-    eEventTmplHelpList		= 0x1421,
-    eEventDeleteMessage		= 0x1422,
-    eEventRewriteMessage	= 0x1423,
-    eEventJoinAlert			= 0x1424,
+    eEventCheckSend         = 0x1418,
+    eEventCutHistory        = 0x1419,
+    eEventTmplHelp          = 0x1420,
+    eEventTmplHelpList      = 0x1421,
+    eEventDeleteMessage     = 0x1422,
+    eEventRewriteMessage    = 0x1423,
+    eEventJoinAlert         = 0x1424,
 
     // for jabber-plugin
 // not nice, but currently no other idea :(
 // not handled ...
 //    eEventAgentFound		= 0x1501,
-    eEventAgentInfo		    = 0x1502,
-    eEventAgentRegister 	= 0x1503,
-    eEventJabberSearch		= 0x1504,
-    eEventJabberSearchDone	= 0x1505,
-    eEventDiscoItem		    = 0x1506,
-    eEventVCard			    = 0x1507,
-    eEventClientVersion	    = 0x1508,
-    eEventClientLastInfo	= 0x1509,
-    eEventClientTimeInfo	= 0x1510,
+    eEventAgentInfo         = 0x1502,
+    eEventAgentRegister     = 0x1503,
+    eEventJabberSearch      = 0x1504,
+    eEventJabberSearchDone  = 0x1505,
+    eEventDiscoItem         = 0x1506,
+    eEventVCard             = 0x1507,
+    eEventClientVersion     = 0x1508,
+    eEventClientLastInfo    = 0x1509,
+    eEventClientTimeInfo    = 0x1510,
 
     // for jabber-plugin
-    eEventICQSearch			= 0x16001,
-    eEventICQSearchDone		= 0x16002,
+    eEventICQSearch         = 0x16001,
+    eEventICQSearchDone     = 0x16002,
 // currently unhandled
-//    eEventRandomChat          = 0x16003,
-//    eEventRandomChatInfo      = 0x16004,
+//  eEventRandomChat        = 0x16003,
+//  eEventRandomChatInfo    = 0x16004,
 
     // for ontop-plugins
     eEventInTaskManager	    = 0x1701,

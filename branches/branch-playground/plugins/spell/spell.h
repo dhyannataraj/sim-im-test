@@ -34,7 +34,6 @@ class QSyntaxHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef QMap<QTextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
 typedef QMap<SIM::my_string, bool> MAP_BOOL;
 
 class SpellPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
@@ -43,21 +42,23 @@ class SpellPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public 
 public:
     SpellPlugin(unsigned, Buffer*);
     virtual ~SpellPlugin();
-    MAP_EDITS m_edits;
+
     void reset();
+
     unsigned CmdSpell;
+
     QStringList suggestions(const QString &word);
     void add(const QString &word);
-    MAP_BOOL m_ignore;
+    bool check(const QString &word);
+    void ignore(const QString &word);
+
 signals:
     void misspelling(const QString &word);
     void configChanged();
+
 protected slots:
     void textEditFinished(QTextEdit*);
     void tempChildDestroyed(QObject*);
-
-public slots:
-    bool check(const QString &word);
 
 protected:
     bool eventFilter(QObject *o, QEvent *e);
@@ -71,6 +72,7 @@ protected:
     SpellerBase     *m_base;
     QList<Speller*> m_spellers;
     QList<QObject*> m_listTempChilds;
+    QStringList m_listIgnore;
 };
 
 #endif

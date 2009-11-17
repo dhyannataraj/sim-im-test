@@ -107,9 +107,9 @@ namespace SIM
 
 	SIM_EXPORT PluginInfo *GetPluginInfo();
 
-    PluginManager* getPluginManager();
-    void createPluginManager(int argc, char** argv);
-    void destroyPluginManager();
+    PluginManager* EXPORT getPluginManager();
+    void EXPORT createPluginManager(int argc, char** argv);
+    void EXPORT destroyPluginManager();
 
 } // namespace SIM
 

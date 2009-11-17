@@ -97,14 +97,14 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
                 bGlobal = !bGlobal;
             if (bGlobal)
                 global = i18n("Global");
-            QTreeWidgetItem *item;
+            QTreeWidgetItem *item = NULL;
 			for(int i = 0; i < lstKeys->topLevelItemCount(); i++)
 			{
 				item = lstKeys->topLevelItem(i);
                 if (item->text(3).toUInt() == s->id)
                     break;
             }
-            if (item == NULL) //Fixme: warning C4701: potentially uninitialized local variable 'item' used
+            if (item == NULL)
 			{
                 QTreeWidgetItem* it = new QTreeWidgetItem(lstKeys,
                                   QStringList(title));

@@ -31,13 +31,10 @@ using namespace SIM;
 const unsigned ErrorColor = 0xFF0101;
 
 SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
-        : QSyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
+    : QSyntaxHighlighter(edit)
+    , EventReceiver(SIM::HighPriority)
+    , m_plugin( plugin )
 {
-    m_paragraph = -1;
-    m_bDirty = false;
-    m_plugin = plugin;
-    m_bCheck = false;
-    m_bDisable = false;
 }
 
 SpellHighlighter::~SpellHighlighter()
@@ -65,215 +62,28 @@ void SpellHighlighter::highlightBlock( const QString &sText )
     }
 }
 
-int SpellHighlighter::highlightParagraph(const QString&, int state)
-{
-    m_bDirty = false;
-    if (state == -2)
-        state = 0;
-    if (state != m_paragraph){
-        m_paragraph = state;
-        m_words.clear();
-    }
-	/*
-    textEdit()->getCursorPosition(&m_parag, &m_index);
-    m_pos = 0;
-    m_bError = false;
-    while (!m_fonts.empty())
-        m_fonts.pop();
-    m_curWord = QString::null;
-    m_curStart = 0;
-    parse(textEdit()->text(m_paragraph));
-    flushText();
-    flush();
-    m_curText = QString::null;
-	*/
-    return state + 1;
-}
-
-void SpellHighlighter::text(const QString &text)
-{
-    m_curText += text;
-}
-
-void SpellHighlighter::flushText()
-{
-    if (m_curText.isEmpty())
-        return;
-    int i;
-    for (i = 0; i < (int)(m_curText.length());){
-        if (m_curText[i].isSpace() || m_curText[i].isPunct()){
-            flush();
-            for (; i < (int)(m_curText.length()); i++, m_pos++){
-                if (!m_curText[i].isSpace() && !m_curText[i].isPunct())
-                    break;
-            }
-            m_curStart = m_pos;
-            continue;
-        }
-        m_curWord += m_curText[i];
-        m_pos++;
-        i++;
-    }
-    m_curText = QString::null;
-}
-
-void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
-{
-    if ((tag == "img") || (tag == "br")){
-        flush();
-        m_pos++;
-    }
-    if (tag == "span"){
-        m_fonts.push(m_bError);
-        QString key;
-        QString val;
-        list<QString>::const_iterator it;
-        for (it = opt.begin(); it != opt.end(); ++it){
-            key = (*it);
-            ++it;
-            val = (*it);
-            if (key == "style")
-                break;
-        }
-        if (it != opt.end()){
-            list<QString> styles = parseStyle(val);
-            for (it = styles.begin(); it != styles.end(); ++it){
-                key = (*it);
-                ++it;
-                val = (*it);
-                if ((key == "color") && (val.toLower() == QLatin1String("#ff0101"))){
-                    m_bError = true;
-                    break;
-                }
-            }
-        }
-    }
-}
-
-void SpellHighlighter::tag_end(const QString &tag)
-{
-    flushText();
-    if (tag == "span"){
-        if (m_fonts.empty())
-            return;
-        flush();
-        m_bError = m_fonts.top();
-        m_fonts.pop();
-    }
-}
-
-void SpellHighlighter::flush()
-{
-	/*
-    if (m_curWord.isEmpty())
-        return;
-    SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", qPrintable(m_curWord), m_index, m_curStart, m_pos);
-
-    if ((m_index >= m_curStart) && (m_index <= m_pos)){
-        if (m_bCheck){
-            m_word       = m_curWord;
-            m_bInError   = m_bError;
-            m_start_word = m_curStart;
-            m_curWord.clear();
-            return;
-        }
-        if (m_bError){
-            if (m_bDisable) {
-                setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
-            }else if (m_parag == m_paragraph){
-                MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
-                if ((it == m_words.end()) || it->second)
-                    setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
-            }
-        }
-        m_curWord.clear();
-        return;
-    }
-    if (m_bCheck){
-        m_curWord.clear();
-        return;
-    }
-    if (m_bDisable){
-        if (m_bError)
-            setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
-        m_curWord.clear();
-        return;
-    }
-    MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
-    if (it != m_words.end()){
-        if (!it->second){
-            if (!m_bError)
-                setFormat(m_curStart, m_pos - m_curStart, QColor(ErrorColor));
-        }else if (m_bError){
-            setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
-        }
-    }else{
-        m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_curWord), true));
-        if (m_plugin->m_ignore.find(SIM::my_string(m_curWord)) == m_plugin->m_ignore.end())
-            emit check(m_curWord);
-    }
-    m_curWord.clear();
-	*/
-}
-
-void SpellHighlighter::slotMisspelling(const QString &word)
-{
-    MAP_BOOL::iterator it = m_words.find(SIM::my_string(word));
-    if (it == m_words.end()){
-        m_words.insert(SIM::my_string(word), false);
-    }else{
-        if (!it.value())
-            return;
-        m_words[SIM::my_string(word)] = false;
-    }
-    m_bDirty = true;
-    QTimer::singleShot(300, this, SLOT(reformat()));
-}
-
-void SpellHighlighter::reformat()
-{
-    if (!m_bDirty)
-        return;
-    m_bDirty = false;
-    rehighlight();
-}
-
-void SpellHighlighter::slotConfigChanged()
-{
-    m_bDirty = true;
-    rehighlight();
-}
-
 bool SpellHighlighter::processEvent(SIM::Event *e)
 {
-	/*
     if (e->type() == SIM::eEventCheckCommandState){
         SIM::EventCheckCommandState *ecs = static_cast<SIM::EventCheckCommandState*>(e);
         SIM::CommandDef *cmd = ecs->cmd();
         if (cmd->id == m_plugin->CmdSpell){
-            MsgEdit *m_edit = (MsgEdit*)(cmd->param);
-            if (m_edit->m_edit != textEdit())
+            TextEdit *pEdit = (TextEdit*)(cmd->param);
+            if( pEdit->document() != document() )
                 return false;
-            m_index = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
-            m_pos = 0;
-            m_bError   = false;
-            m_bInError = false;
-            m_curStart = 0;
-            m_word     = QString::null;
-            m_curWord  = QString::null;
-            while (!m_fonts.empty())
-                m_fonts.pop();
-            m_bCheck = true;
-            parse(textEdit()->text(m_paragraph));
-            flushText();
-            m_curText = QString::null;
-            m_bCheck = false;
-            if (!m_bInError)
+            m_listSuggestions.clear();
+            QTextCursor cursor = pEdit->cursorForPosition( pEdit->m_popupPos );
+            cursor.select( QTextCursor::WordUnderCursor );
+            QString sWord = cursor.selectedText();
+            if( sWord.isEmpty() )
                 return false;
-            m_sug = m_plugin->suggestions(m_word);
-            SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];
+            if( m_plugin->check( sWord ) )
+                return false;
+
+            m_listSuggestions = m_plugin->suggestions( sWord );
+            SIM::CommandDef *cmds = new SIM::CommandDef[m_listSuggestions.count() + 3];
             unsigned i = 0;
-            for (QStringList::Iterator it = m_sug.begin(); it != m_sug.end(); ++it, i++){
+            for (QStringList::Iterator it = m_listSuggestions.begin(); it != m_listSuggestions.end(); ++it, i++){
                 cmds[i].id   = m_plugin->CmdSpell + i + 2;
                 cmds[i].text = "_";
                 cmds[i].text_wrk = (*it);
@@ -284,34 +94,34 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             }
             cmds[i].id   = m_plugin->CmdSpell;
             cmds[i].text = "_";
-            cmds[i].text_wrk = i18n("Add '%1'").arg(m_word);
+            cmds[i].text_wrk = i18n("Add '%1'").arg( sWord );
             i++;
             cmds[i].id   = m_plugin->CmdSpell + 1;
             cmds[i].text = "_";
-            cmds[i].text_wrk = i18n("Ignore '%1'").arg(m_word);
+            cmds[i].text_wrk = i18n("Ignore '%1'").arg( sWord );
 
             cmd->param  = cmds;
             cmd->flags |= SIM::COMMAND_RECURSIVE;
+
             return true;
         }
     } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
-        if (cmd->id == CmdSend){
-            if (((MsgEdit*)(cmd->param))->m_edit == textEdit()){
-                m_bDisable = true;
-                rehighlight();
-                QTimer::singleShot(50, this, SLOT(restore()));
-            }
-        }
-        if ((cmd->id >= m_plugin->CmdSpell) && (cmd->id < m_plugin->CmdSpell + m_sug.count() + 1)){
-            MsgEdit *m_edit = (MsgEdit*)(cmd->param);
-            if (m_edit->m_edit != textEdit())
+        if ((cmd->id >= m_plugin->CmdSpell) && (cmd->id < m_plugin->CmdSpell + m_listSuggestions.count() + 1)){
+            TextEdit *pEdit = (TextEdit*)(cmd->param);
+            if( pEdit->document() != document() )
+                return false;
+            QTextCursor cursor = pEdit->cursorForPosition( pEdit->m_popupPos );
+            cursor.select( QTextCursor::WordUnderCursor );
+            QString sWord = cursor.selectedText();
+            if( sWord.isEmpty() )
                 return false;
             if (cmd->id == m_plugin->CmdSpell){
-                m_plugin->add(m_word);
-                MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_word));
+                m_plugin->add( sWord );
+/*
+                MAP_BOOL::iterator it = m_words.find(SIM::my_string( sWord ));
                 if (it == m_words.end()){
                     m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
@@ -321,7 +131,9 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
                 }
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
+*/
             }else  if (cmd->id == m_plugin->CmdSpell + 1){
+/*
                 MAP_BOOL::iterator it = m_plugin->m_ignore.find(SIM::my_string(m_word));
                 if (it == m_plugin->m_ignore.end())
                     m_plugin->m_ignore.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
@@ -335,21 +147,13 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
                 }
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
+*/
             }else{
-                unsigned n = cmd->id - m_plugin->CmdSpell - 2;
-                QString word = m_sug[n];
-                textEdit()->setSelection(m_parag, m_start_word, m_parag, m_start_word + m_word.length(), 0);
-                textEdit()->insert(word, true, true, true);
+                sWord = m_listSuggestions[cmd->id - m_plugin->CmdSpell - 2];
+                cursor.insertText( sWord );
             }
         }
     }
-*/
+
     return false;
 }
-
-void SpellHighlighter::restore()
-{
-    m_bDisable = false;
-    rehighlight();
-}
-

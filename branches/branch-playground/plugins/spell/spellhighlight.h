@@ -18,61 +18,26 @@
 #ifndef _SPELLHIGHLIGHT_H
 #define _SPELLHIGHLIGHT_H
 
-#include <stack>
-
-#include <QString>
-#include <QStringList>
-#include <QSyntaxHighlighter>
-
-#include "html.h"
-
 #include "spell.h"
 
-using std::stack;
+#include <QString>
+#include <QSyntaxHighlighter>
 
-class SpellHighlighter : public QSyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
+class SpellHighlighter
+    : public QSyntaxHighlighter
+    , public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     SpellHighlighter(QTextEdit *edit, SpellPlugin *m_plugin);
-    ~SpellHighlighter();
+    virtual ~SpellHighlighter();
 
     virtual void highlightBlock( const QString &sText );
-signals:
-    void check(const QString &);
-
-protected slots:
-    void slotMisspelling(const QString &originalWord);
-    void slotConfigChanged();
-    void reformat();
-    void restore();
 
 protected:
-    MAP_BOOL m_words;
-    int m_paragraph;
-    int highlightParagraph( const QString &text, int endStateOfLastPara );
-    virtual void text(const QString &text);
-    virtual void tag_start(const QString &tag, const std::list<QString> &options);
-    virtual void tag_end(const QString &tag);
     virtual bool processEvent(SIM::Event *e);
-    void flush();
-    void flushText();
-    int m_pos;
-    int m_index;
-    int m_parag;
-    int m_start_word;
-    int m_curStart;
-    bool m_bError;
-    bool m_bDirty;
-    bool m_bCheck;
-    bool m_bInError;
-    bool m_bDisable;
-    stack<bool> m_fonts;
-    QString		m_curText;
-    QString		m_curWord;
-    QString     m_word;
-    QStringList	m_sug;
     SpellPlugin *m_plugin;
+    QStringList m_listSuggestions;
 };
 
 #endif

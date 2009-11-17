@@ -40,22 +40,12 @@ public:
 };
 
 PSpellHighlighter::PSpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
-        : SpellHighlighter(edit, plugin)
+    : SpellHighlighter(edit, plugin)
 {
-    m_plugin->m_edits.insert(edit, this);
-    QObject::connect(edit, SIGNAL(finished(QTextEdit*)), plugin, SLOT(textEditFinished(QTextEdit*)));
-    QObject::connect(this, SIGNAL(check(const QString&)), plugin, SLOT(check(const QString&)));
-    QObject::connect(plugin, SIGNAL(misspelling(const QString&)), this, SLOT(slotMisspelling(const QString&)));
-    QObject::connect(plugin, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
 }
 
 PSpellHighlighter::~PSpellHighlighter()
 {
-	/*
-    MAP_EDITS::iterator it = m_plugin->m_edits.find(static_cast<TextEdit*>(textEdit()));
-    if (it != m_plugin->m_edits.end())
-        m_plugin->m_edits.erase(it);
-		*/
 }
 
 SIM::Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)
@@ -79,18 +69,19 @@ EXPORT_PROC SIM::PluginInfo* GetPluginInfo()
 }
 
 SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("spell")
+    : Plugin( base )
+    , PropertyHub( "spell" )
 {
     m_bActive = false;
     m_base = NULL;
     CmdSpell = registerType();
 
     SIM::Command cmd;
-    cmd->id          = CmdSpell;
-    cmd->text        = "_";
-    cmd->menu_id     = MenuTextEdit;
-    cmd->menu_grp    = 0x0100;
-    cmd->flags		 = SIM::COMMAND_CHECK_STATE;
+    cmd->id         = CmdSpell;
+    cmd->text       = "_";
+    cmd->menu_id    = MenuTextEdit;
+    cmd->menu_grp   = 0x0100;
+    cmd->flags      = SIM::COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
 }
 
@@ -148,8 +139,8 @@ void SpellPlugin::activate()
     qApp->installEventFilter(this);
     QWidgetList list = QApplication::allWidgets();
     foreach( QWidget *w, list ) {
-		if (w->inherits("TextEdit"))
-                        new PSpellHighlighter(static_cast<QTextEdit*>(w), this);
+        if (w->inherits("TextEdit"))
+            new PSpellHighlighter(static_cast<QTextEdit*>(w), this);
     }
 }
 
@@ -159,12 +150,6 @@ void SpellPlugin::deactivate()
         return;
     m_bActive = false;
     qApp->removeEventFilter(this);
-//    while (!m_edits.empty()) {
-//        QSyntaxHighlighter *pHighlighter = m_edits.begin().value();
-//        m_edits.remove( m_edits.begin().key() );
-//        delete pHighlighter;
-//    }
-    m_edits.clear();
 }
 
 QByteArray SpellPlugin::getConfig()
@@ -220,9 +205,7 @@ bool SpellPlugin::event( QEvent *e ) {
         m_listTempChilds.pop_front();
         if( pChild->inherits( "MsgTextEdit" ) ) {
             QTextEdit *edit = static_cast<QTextEdit*>( pChild );
-            MAP_EDITS::iterator it = m_edits.find(edit);
-            if( it == m_edits.end() )
-                new PSpellHighlighter(edit, this);
+            new PSpellHighlighter(edit, this);
         }
         return true;
     }
@@ -231,20 +214,17 @@ bool SpellPlugin::event( QEvent *e ) {
 
 void SpellPlugin::textEditFinished(QTextEdit *edit)
 {
-    MAP_EDITS::iterator it = m_edits.find( edit );
-    if( it != m_edits.end() ) {
-        delete it.value();
-        m_edits.remove( edit );
-    }
 }
 
 bool SpellPlugin::check(const QString &word)
 {
+    if( -1 != m_listIgnore.indexOf( word ) )
+        return true;
+
     foreach( Speller *pSpeller, m_spellers ) {
         if( pSpeller->check(word.toUtf8()) == 1 )
             return true;
     }
-    emit misspelling(word);
 
     return false;
 }
@@ -255,6 +235,11 @@ void SpellPlugin::add(const QString &word)
         if( pSpeller->add(word.toUtf8()) )
             return;
     }
+}
+
+void SpellPlugin::ignore(const QString &word) {
+    if( -1 != m_listIgnore.indexOf( word ) )
+        m_listIgnore.push_back( word );
 }
 
 struct WordWeight

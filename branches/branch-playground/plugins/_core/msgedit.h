@@ -58,21 +58,21 @@ class MsgEdit : public QFrame, public SIM::EventReceiver
 public:
     MsgEdit(QWidget *parent, UserWnd *userWnd);
     ~MsgEdit();
-    CToolBar	*m_bar;
-    bool		setMessage(SIM::Message *msg, bool bSetFocus);
-    UserWnd		*m_userWnd;
+    CToolBar    *m_bar;
+    bool        setMessage(SIM::Message *msg, bool bSetFocus);
+    UserWnd     *m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
-    bool		sendMessage(SIM::Message *msg);
+    bool        sendMessage(SIM::Message *msg);
     static void setupMessages();
-    void		getWays(std::vector<ClientStatus> &cs, SIM::Contact *contact);
-    SIM::Client	*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id, bool bUseClient=true);
-    bool		m_bReceived;
-    unsigned	m_flags;
-    void		execCommand(SIM::CommandDef *cmd);
+    void        getWays(std::vector<ClientStatus> &cs, SIM::Contact *contact);
+    SIM::Client *client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id, bool bUseClient=true);
+    bool        m_bReceived;
+    unsigned    m_flags;
+    void        execCommand(SIM::CommandDef *cmd);
     unsigned	type() { return m_type; }
-    bool		adjustType();
-    QString m_resource;
+    bool        adjustType();
+    QString     m_resource;
 signals:
     void heightChanged(int);
     void init();
@@ -91,10 +91,10 @@ public slots:
     void editFinished();
     void editFontChanged(const QFont&);
 protected:
-    QObject  *m_processor;
-    QObject	 *m_recvProcessor;
-    unsigned m_type;
-    virtual bool processEvent(SIM::Event*);
+    QObject     *m_processor;
+    QObject     *m_recvProcessor;
+    unsigned    m_type;
+    virtual bool    processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void stopSend(bool bCheck=true);
     void showCloseSend(bool bShow);

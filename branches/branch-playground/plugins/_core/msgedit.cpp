@@ -68,14 +68,18 @@ void MsgTextEdit::contextMenuEvent(QContextMenuEvent* event)
 {
     if (m_bInClick)
         return;
+
+    m_popupPos = event->pos();
+
     Command cmd;
+
     cmd->popup_id	= MenuTextEdit;
-    cmd->param		= parentWidget()->parentWidget();
+    cmd->param		= (TextEdit*)this;
     cmd->flags		= COMMAND_NEW_POPUP;
     EventMenuGet e(cmd);
     e.process();
-	if(e.menu())
-		e.menu()->exec(event->globalPos());
+    if(e.menu())
+        e.menu()->exec(event->globalPos());
 }
 
 Message *MsgTextEdit::createMessage(QMimeSource *src)
@@ -1082,7 +1086,7 @@ bool MsgEdit::processEvent(Event *e)
     case eEventCheckCommandState: {
         EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
-        if ((cmd->param == this) && (cmd->id == CmdTranslit)){
+        if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
@@ -1095,7 +1099,7 @@ bool MsgEdit::processEvent(Event *e)
             }
             return false;
         }
-        if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
+        if ((cmd->menu_id != MenuTextEdit) || (cmd->param != (TextEdit*)m_edit))
             return false;
         cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
         switch (cmd->id){
@@ -1149,7 +1153,7 @@ bool MsgEdit::processEvent(Event *e)
         }
 #endif
 #endif
-        if ((cmd->id == CmdSmile) && (cmd->param == this)){
+        if ((cmd->id == CmdSmile) && (cmd->param == (TextEdit*)m_edit)){
             EventCommandWidget eWidget(cmd);
             eWidget.process();
             QToolButton *btnSmile = qobject_cast<QToolButton*>(eWidget.widget());
@@ -1162,7 +1166,7 @@ bool MsgEdit::processEvent(Event *e)
             }
             return true;
         }
-        if ((cmd->param == this) && (cmd->id == CmdTranslit)){
+        if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
@@ -1170,11 +1174,11 @@ bool MsgEdit::processEvent(Event *e)
             }
             return true;
         }
-        if ((cmd->id == CmdMultiply) && (cmd->param == this)){
+        if ((cmd->id == CmdMultiply) && (cmd->param == (TextEdit*)m_edit)){
             m_userWnd->showListView((cmd->flags & COMMAND_CHECKED) != 0);
             return true;
         }
-        if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
+        if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == (TextEdit*)m_edit)){
             switch (cmd->id){
             case CmdMsgAnswer:{
                     Message *msg = new Message(MessageGeneric);
@@ -1188,7 +1192,7 @@ bool MsgEdit::processEvent(Event *e)
                 break;
             }
         }
-        if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
+        if ((cmd->menu_id != MenuTextEdit) || (cmd->param != (TextEdit*)m_edit))
             return false;
         switch (cmd->id){
         case CmdUndo:

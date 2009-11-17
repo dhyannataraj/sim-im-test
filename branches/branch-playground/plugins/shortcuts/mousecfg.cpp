@@ -102,14 +102,14 @@ void MouseConfig::loadMenu(unsigned long id)
             QString title = i18n(s->text);
             if (title == "_")
                 continue;
-            QTreeWidgetItem *item;
+            QTreeWidgetItem *item = NULL;
             for(int i = 0; i < lstCmd->topLevelItemCount(); i++)
             {
                 item = lstCmd->topLevelItem(i);
                 if (QString::number(s->popup_id) == item->text(3))
                     break;
             }
-            if (item) //Fixme: warning C4701: potentially uninitialized local variable 'item' used
+            if ( NULL != item)
                 continue;
             title = title.remove('&');
             QTreeWidgetItem* it = new QTreeWidgetItem(lstCmd, QStringList(title));
