@@ -55,11 +55,11 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
         : TextEdit(parent)
 {
     m_edit = edit;
-    setBackground(CorePlugin::m_plugin->property("EditBackground").toUInt());
-    setForeground(CorePlugin::m_plugin->property("EditForeground").toUInt(), true);
+    setBackground(CorePlugin::instance()->property("EditBackground").toUInt());
+    setForeground(CorePlugin::instance()->property("EditForeground").toUInt(), true);
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
-    setCheckSpellingEnabled(CorePlugin::m_plugin->getEnableSpell());
+    setCheckSpellingEnabled(CorePlugin::instance()->getEnableSpell());
 #endif
 #endif
 }
@@ -86,7 +86,7 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
 {
     Message *msg = NULL;
     CommandDef *cmd;
-    CommandsMapIterator it(CorePlugin::m_plugin->messageTypes);
+    CommandsMapIterator it(CorePlugin::instance()->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
         if (def && def->drag){
@@ -154,17 +154,17 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
     m_recvProcessor = NULL;
     m_cmd.param = NULL;
 
-    connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    connect(CorePlugin::instance(), SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
 
     m_edit = new MsgTextEdit(this, this);
-    m_edit->setBackground(QColor(CorePlugin::m_plugin->property("EditBackground").toUInt() & 0xFFFFFF));
+    m_edit->setBackground(QColor(CorePlugin::instance()->property("EditBackground").toUInt() & 0xFFFFFF));
     m_edit->setBackground(QColor(255, 255, 255));
-    m_edit->setForeground(QColor(CorePlugin::m_plugin->property("EditForeground").toUInt() & 0xFFFFFF), true);
-    m_edit->setFont(CorePlugin::m_plugin->editFont);
-    m_edit->setCtrlMode(!CorePlugin::m_plugin->property("SendOnEnter").toBool());
+    m_edit->setForeground(QColor(CorePlugin::instance()->property("EditForeground").toUInt() & 0xFFFFFF), true);
+    m_edit->setFont(CorePlugin::instance()->editFont);
+    m_edit->setCtrlMode(!CorePlugin::instance()->property("SendOnEnter").toBool());
     m_edit->setParam(this);
     setFocusProxy(m_edit);
 
@@ -186,7 +186,7 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
     m_layout->addWidget(m_bar);
     m_layout->addWidget(m_edit);
 
-    if (CorePlugin::m_plugin->getContainerMode() == 0)
+    if (CorePlugin::instance()->getContainerMode() == 0)
         showCloseSend(false);
 }
 
@@ -241,7 +241,7 @@ void MsgEdit::showCloseSend(bool bState)
     cmd->bar_grp	= 0x7010;
     cmd->flags		= bState ? COMMAND_DEFAULT : BTN_HIDE;
     cmd->param		= this;
-    if (CorePlugin::m_plugin->property("CloseSend").toBool())
+    if (CorePlugin::instance()->property("CloseSend").toBool())
         cmd->flags |= COMMAND_CHECKED;
     EventCommandChange(cmd).process();
 }
@@ -254,9 +254,9 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
 
 void MsgEdit::editFontChanged(const QFont &f)
 {
-    if (!CorePlugin::m_plugin->property("EditSaveFont").toBool())
+    if (!CorePlugin::instance()->property("EditSaveFont").toBool())
         return;
-    CorePlugin::m_plugin->editFont = f;
+    CorePlugin::instance()->editFont = f;
 }
 
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
@@ -268,7 +268,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
     QObject *processor = NULL;
     MsgReceived *rcv = NULL;
     if (m_bReceived){
-        if ((msg->getFlags() & MESSAGE_OPEN) || (CorePlugin::m_plugin->getContainerMode() == 0)){
+        if ((msg->getFlags() & MESSAGE_OPEN) || (CorePlugin::instance()->getContainerMode() == 0)){
             rcv = new MsgReceived(this, msg, true);
             processor = rcv;
         }else{
@@ -279,7 +279,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         }
     }else{
         QObject *(*create)(MsgEdit *custom, Message *msg) = NULL;
-        CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(msg->baseType());
+        CommandDef *cmd = CorePlugin::instance()->messageTypes.find(msg->baseType());
         if (cmd == NULL)
             return false;
         MessageDef *def = (MessageDef*)(cmd->param);
@@ -828,7 +828,7 @@ bool MsgEdit::sendMessage(Message *msg)
         return false;
     }
     bool bClose = true;
-    if (CorePlugin::m_plugin->getContainerMode()){
+    if (CorePlugin::instance()->getContainerMode()){
         bClose = false;
         Command cmd;
         cmd->id		= CmdSendClose;
@@ -839,11 +839,11 @@ bool MsgEdit::sendMessage(Message *msg)
         if (btnClose)
             bClose = btnClose->isChecked();
     }
-    CorePlugin::m_plugin->setProperty("CloseSend", bClose);
+    CorePlugin::instance()->setProperty("CloseSend", bClose);
 
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
-        TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
+        TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id));
         if (data && data->Translit.toBool())
             msg->setFlags(msg->getFlags() | MESSAGE_TRANSLIT);
     }
@@ -978,14 +978,14 @@ void MsgEdit::stopSend(bool bCheck)
 
 void MsgEdit::modeChanged()
 {
-    showCloseSend(CorePlugin::m_plugin->getContainerMode() != 0);
-    m_edit->setCtrlMode(CorePlugin::m_plugin->property("SendOnEnter").toBool());
+    showCloseSend(CorePlugin::instance()->getContainerMode() != 0);
+    m_edit->setCtrlMode(CorePlugin::instance()->property("SendOnEnter").toBool());
 }
 
 bool MsgEdit::setType(unsigned type)
 {
     CommandDef *def;
-    def = CorePlugin::m_plugin->messageTypes.find(type);
+    def = CorePlugin::instance()->messageTypes.find(type);
     if (def == NULL)
         return false;
     MessageDef *mdef = (MessageDef*)(def->param);
@@ -1060,7 +1060,7 @@ bool MsgEdit::processEvent(Event *e)
         if (msg->getFlags() & MESSAGE_NOVIEW)
             return false;
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
-            if (CorePlugin::m_plugin->getContainerMode()){
+            if (CorePlugin::instance()->getContainerMode()){
                 bool bSetFocus = false;
                 if (topLevelWidget() && topLevelWidget()->inherits("Container")){
                     Container *container = static_cast<Container*>(topLevelWidget());
@@ -1089,7 +1089,7 @@ bool MsgEdit::processEvent(Event *e)
         if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
-                TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
+                TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id));
                 if (data){
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (data->Translit.toBool())
@@ -1169,7 +1169,7 @@ bool MsgEdit::processEvent(Event *e)
         if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
-                TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
+                TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id, true));
                 data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return true;
@@ -1258,7 +1258,7 @@ bool MsgEdit::processEvent(Event *e)
                     EventContact(contact, EventContact::eStatus).process();
                 }
                 if (!multiply.empty() ){
-                    CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
+                    CommandDef *def = CorePlugin::instance()->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
                         QByteArray cfg = m_msg->save();
@@ -1279,7 +1279,7 @@ bool MsgEdit::processEvent(Event *e)
                 }
                 stopSend();
                 bool bClose = true;
-                if (CorePlugin::m_plugin->getContainerMode()){
+                if (CorePlugin::instance()->getContainerMode()){
                     bClose = false;
                     Command cmd;
                     cmd->id		= CmdSendClose;
@@ -1290,14 +1290,14 @@ bool MsgEdit::processEvent(Event *e)
                     if (btnClose)
                         bClose = btnClose->isChecked();
                 }
-                CorePlugin::m_plugin->setProperty("CloseSend", bClose);
+                CorePlugin::instance()->setProperty("CloseSend", bClose);
                 if (bClose){
                     QTimer::singleShot(0, m_userWnd, SLOT(close()));
                 }else{
                     setEmptyMessage();
-                    m_edit->setFont(CorePlugin::m_plugin->editFont);
-                    m_edit->setForeground(CorePlugin::m_plugin->property("EditForeground").toUInt(), true);
-                    m_edit->setBackground(CorePlugin::m_plugin->property("EditBackground").toUInt());
+                    m_edit->setFont(CorePlugin::instance()->editFont);
+                    m_edit->setForeground(CorePlugin::instance()->property("EditForeground").toUInt(), true);
+                    m_edit->setBackground(CorePlugin::instance()->property("EditBackground").toUInt());
                 }
             }
         }
@@ -1321,7 +1321,7 @@ void MsgEdit::setEmptyMessage()
         c->param = (void*)(m_userWnd->m_id);
         if (EventCheckCommandState(c).process()){
             Message *msg;
-            CommandDef *def = CorePlugin::m_plugin->messageTypes.find(c->id);
+            CommandDef *def = CorePlugin::instance()->messageTypes.find(c->id);
             if (def == NULL)
                 continue;
             MessageDef *mdef = (MessageDef*)(def->param);
@@ -1413,8 +1413,8 @@ void MsgEdit::editLostFocus()
 
 void MsgEdit::colorsChanged()
 {
-    CorePlugin::m_plugin->setProperty("EditBackground", m_edit->background().rgb());
-    CorePlugin::m_plugin->setProperty("EditForeground", m_edit->foreground().rgb());
+    CorePlugin::instance()->setProperty("EditBackground", m_edit->background().rgb());
+    CorePlugin::instance()->setProperty("EditForeground", m_edit->foreground().rgb());
     EventHistoryColors().process();
 }
 
@@ -1440,7 +1440,7 @@ void MsgEdit::insertSmile(const QString &id)
 
 void MsgEdit::goNext()
 {
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         if (it->contact != m_userWnd->id())
             continue;
         Message *msg = History::load(it->id, it->client, it->contact);
@@ -1450,7 +1450,7 @@ void MsgEdit::goNext()
         delete msg;
         return;
     }
-    if (CorePlugin::m_plugin->getContainerMode()){
+    if (CorePlugin::instance()->getContainerMode()){
         setEmptyMessage();
         return;
     }
@@ -1470,7 +1470,7 @@ void MsgEdit::setupNext()
 
     unsigned type  = 0;
     unsigned count = 0;
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         if (it->contact != m_userWnd->id())
             continue;
         if (count == 0)
@@ -1482,7 +1482,7 @@ void MsgEdit::setupNext()
         str += QString(" [%1]") .arg(count);
 
     CommandDef *def = NULL;
-    def = CorePlugin::m_plugin->messageTypes.find(type);
+    def = CorePlugin::instance()->messageTypes.find(type);
 
     CommandDef c = btnNext->def();
     c.text_wrk = str;

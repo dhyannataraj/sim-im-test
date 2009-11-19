@@ -87,11 +87,6 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->menu_grp = 0;
     cmd->flags	  = COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
-
-	EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    m_core = static_cast<CorePlugin*>(info->plugin);
 }
 
 SoundPlugin::~SoundPlugin()
@@ -231,7 +226,6 @@ void SoundPlugin::playSound(const QString& path)
 
 QString SoundPlugin::messageSound(unsigned type, unsigned long contact_id)
 {
-    CommandDef *def = m_core->messageTypes.find(type);
 	QVariantMap* data = NULL;
 	if(!contact_id)
 	{

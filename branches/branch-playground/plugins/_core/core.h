@@ -34,6 +34,7 @@
 #include "propertyhub.h"
 #include "core_consts.h"
 #include "clientlist.h"
+#include "simapi.h"
 
 using namespace std;
 
@@ -174,7 +175,7 @@ protected:
     QString m_Viewer;
 };
 
-class CorePlugin : public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class EXPORT CorePlugin : public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -205,11 +206,11 @@ public:
     list<msg_id>	unread;
 
     QFont editFont;
-    static CorePlugin	*m_plugin;
     SIM::Message *createMessage(const char *type, Buffer *cfg);
     QString clientName(SIM::Client *client);
 
     XSL	*historyXSL;
+    static CorePlugin* instance();
 signals:
     void modeChanged(int);
 protected slots:
@@ -285,6 +286,7 @@ protected:
 
 private:
     bool m_bIgnoreEvents;
+    static CorePlugin	*m_plugin;
 
     friend class MainWindow;
     friend class UserView;
@@ -304,4 +306,6 @@ private:
 };
 
 #endif
+
+// vim: set expandtab:
 

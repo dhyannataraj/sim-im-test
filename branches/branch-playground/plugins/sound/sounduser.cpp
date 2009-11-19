@@ -63,7 +63,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, QVariantMap* data, SoundPlugin
     addRow(lstSound, row, Icon("SIM"), i18n("Online alert"), ONLINE_ALERT, data->value("sound/Alert").toString());
 
     CommandDef *cmd;
-    CommandsMapIterator it(m_plugin->m_core->messageTypes);
+    CommandsMapIterator it(CorePlugin::instance()->messageTypes);
     while((cmd = ++it) != NULL)
     {
         MessageDef *def = (MessageDef*)(cmd->param);

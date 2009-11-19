@@ -74,7 +74,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
             cmbPhone->setText(t);
     }
     textChanged();
-    SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::m_plugin->sms_data_id));
+    SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::instance()->sms_data_id));
     if (contact->getFlags() & CONTACT_TEMP){
         m_panel = new SMSPanel(m_edit);
         m_edit->m_layout->insertWidget(0, m_panel);
@@ -215,7 +215,7 @@ bool MsgSMS::processEvent(Event *e)
             m_bExpand = true;
             Contact *contact = getContacts()->contact(m_id);
             if (contact){
-                SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::m_plugin->sms_data_id));
+                SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::instance()->sms_data_id));
                 if (!data->SMSSignatureAfter.str().isEmpty()){
                     t->tmpl = data->SMSSignatureAfter.str();
                     EventTemplateExpand(t).process();

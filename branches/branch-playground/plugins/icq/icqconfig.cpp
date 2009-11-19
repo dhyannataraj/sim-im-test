@@ -36,10 +36,7 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     setupUi(this);
     m_client = client;
     m_bConfig = bConfig;
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
+
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));
         connect(chkNew, SIGNAL(toggled(bool)), this, SLOT(newToggled(bool)));
@@ -47,13 +44,15 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
             edtUin->setText(QString::number(m_client->data.owner.Uin.toULong()));
             chkNew->setChecked(false);
             edtPasswd->setText(m_client->getPassword());
-        }else if(core->getRegNew()) {
-          edtUin->setText(core->getICQUIN());
-          edtPasswd->setText(core->getICQPassword());
+/*         }else if(core->getRegNew()) {
+ *             edtUin->setText(core->getICQUIN());
+ *             edtPasswd->setText(core->getICQPassword());
+ */
         }else{
             chkNew->setChecked(true);
         }
-        edtUin->setValidator(new QIntValidator(1000, 0x7FFFFFFF, edtUin));  //FIXME: we will have to do something when UIN is grater than signed int
+    //FIXME: we will have to do something when UIN is greater than signed int
+        edtUin->setValidator(new QIntValidator(1000, 0x7FFFFFFF, edtUin));  
         connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     }else{
@@ -151,4 +150,7 @@ void ICQConfig::changed()
            edtPort->text().toUShort();
     emit okEnabled(bOK);
 }
+
+// vim: set expandtab:
+
 

@@ -106,7 +106,7 @@ CToolBar *Commands::show(unsigned id, QMainWindow *parent)
     if (it == bars.end())
         return NULL;
     QString sName = QString("Button") + QString::number(id);
-    it->second->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
+    it->second->setConfig(CorePlugin::instance()->property(sName.toLatin1().data()));
     return new CToolBar(it->second, parent);
 }
 
@@ -121,7 +121,7 @@ CMenu *Commands::get(CommandDef *cmd)
         return d.menu;
     }
     QString sName = QString("Menu") + QString::number(cmd->popup_id);
-    d.def->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
+    d.def->setConfig(CorePlugin::instance()->property(sName.toLatin1().data()));
     CMenu *menu = new CMenu(d.def);
     menu->setParam(cmd->param);
     if ((cmd->flags & COMMAND_NEW_POPUP) == 0)
@@ -171,7 +171,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         return d.menu;
     }
     QString sName = QString("Menu") + QString::number(id);
-    d.def->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
+    d.def->setConfig(CorePlugin::instance()->property(sName.toLatin1().data()));
     d.menu = new CMenu(d.def);
     d.menu->setParam(param);
     return d.menu;
@@ -308,7 +308,7 @@ void Commands::customizeMenu(unsigned long id)
         return;
     MenuDef &d = it->second;
     QString sName = QString("Menu") + QString::number(id);
-    d.def->setConfig(CorePlugin::m_plugin->property(sName.toLatin1().data()));
+    d.def->setConfig(CorePlugin::instance()->property(sName.toLatin1().data()));
     customize(d.def);
 }
 
@@ -317,12 +317,12 @@ void Commands::set(CommandsDef *def, const char *str)
     if (def->isMenu())
     {
         QString sName = QString("Menu") + QString::number(def->id());
-        CorePlugin::m_plugin->setProperty(sName.toLatin1().data(), str);
+        CorePlugin::instance()->setProperty(sName.toLatin1().data(), str);
     }
     else
     {
         QString sName = QString("Button") + QString::number(def->id());
-        CorePlugin::m_plugin->setProperty(sName.toLatin1().data(), str);
+        CorePlugin::instance()->setProperty(sName.toLatin1().data(), str);
         EventToolbarChanged(def).process();
     }
 }

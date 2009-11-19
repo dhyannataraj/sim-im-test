@@ -42,9 +42,19 @@ namespace SIM
 		virtual QByteArray getConfig() { return QByteArray(); }
 		unsigned registerType();
 		void boundTypes();
+
+        void setName(QString& n);
+        QString name();
+
+        bool isProtocolPlugin();
+        void setProtocolPlugin(bool proto);
+
 	protected:
 		unsigned m_current;
 		unsigned m_base;
+
+    private:
+        class PluginPrivate* p;
 	};
 
     typedef QSharedPointer<Plugin> PluginPtr;
@@ -54,11 +64,11 @@ namespace SIM
 	public:
 		PluginManager(int argc, char **argv);
 		~PluginManager();
-        QStringList enumPlugins();
 		bool isLoaded();
 		static ContactList *contacts;
 		static SocketFactory *factory;
         PluginPtr plugin(const QString& pluginname);
+        QStringList enumPlugins();
 
 	private:
 		class PluginManagerPrivate *p;
@@ -93,7 +103,7 @@ namespace SIM
 
 	struct pluginInfo
 	{
-		Plugin          *plugin;
+		PluginPtr       plugin;
 		QString         name;
 		QString         filePath;
 		Buffer          *cfg;           // configuration data

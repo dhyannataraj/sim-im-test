@@ -92,7 +92,7 @@ static Message *createMessage(unsigned id, const char *type, Buffer *cfg)
 {
     if ((type == NULL) || (*type == 0))
         return NULL;
-    Message *msg = CorePlugin::m_plugin->createMessage(type, cfg);
+    Message *msg = CorePlugin::instance()->createMessage(type, cfg);
     if (msg){
         msg->setId(id);
         return msg;
@@ -140,7 +140,7 @@ Message *HistoryFile::load(unsigned id)
     Buffer cfg;
     cfg = readAll();
     QByteArray type = cfg.getSection();
-    Message *msg = CorePlugin::m_plugin->createMessage(type, &cfg);
+    Message *msg = CorePlugin::instance()->createMessage(type, &cfg);
     if (msg == NULL)
         return NULL;
     msg->setId(id);
@@ -607,7 +607,7 @@ void History::add(Message *msg, const QString &type)
     HistoryUserData *data = NULL;
     Contact *contact = getContacts()->contact(msg->contact());
     if (contact)
-        data = (HistoryUserData*)(contact->getUserData(CorePlugin::m_plugin->history_data_id));
+        data = (HistoryUserData*)(contact->getUserData(CorePlugin::instance()->history_data_id));
     if (data && data->CutSize.toBool()){
         QFileInfo fInfo(f_name);
         if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toULong() * 0x100000 + CUT_BLOCK)){

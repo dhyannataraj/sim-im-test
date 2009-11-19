@@ -48,6 +48,41 @@ namespace SIM
         }
 		return plugins;
     }
+
+    void Profile::enablePlugin(const QString& name)
+    {
+        if(m_config.isNull())
+            return;
+        if(!enabledPlugins().contains(name))
+            m_config->setValue(name + "/enabled", true);
+    }
+
+    void Profile::disablePlugin(const QString& name)
+    {
+        if(m_config.isNull())
+            return;
+        if(enabledPlugins().contains(name))
+            m_config->setValue(name + "/enabled", false);
+    }
+
+    void Profile::addPlugin(PluginPtr plugin)
+    {
+        m_plugins.append(plugin);
+    }
+
+    void Profile::removePlugin(const QString& name)
+    {
+        int i = 0;
+        foreach(PluginPtr p, m_plugins) // FIXME
+        {
+            if(p->name() == name)
+            {
+                m_plugins.removeAt(i);
+                break;
+            }
+            i++;
+        }
+    }
 }
 
 // vim: set expandtab:

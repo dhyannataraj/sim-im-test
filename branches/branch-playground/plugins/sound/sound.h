@@ -77,7 +77,6 @@ protected:
 
 private:
 	Phonon::MediaObject* m_media;
-	CorePlugin* m_core;
 	unsigned long CmdSoundDisable;
 
 };

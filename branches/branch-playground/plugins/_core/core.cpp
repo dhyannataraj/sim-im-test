@@ -3980,11 +3980,10 @@ void HistoryThread::run()
     m_ex->start(m_Viewer, QStringList(str));
 }
 
-    /*
-#ifndef NO_MOC_INCLUDES
-#include "core.moc"
-#endif
-*/
+CorePlugin* CorePlugin::instance()
+{
+    return m_plugin;
+}
 
 // vim: set expandtab:
 

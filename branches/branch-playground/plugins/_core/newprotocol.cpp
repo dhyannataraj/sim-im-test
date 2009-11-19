@@ -24,6 +24,7 @@
 
 #include "icons.h"
 
+#include "profilemanager.h"
 #include "newprotocol.h"
 #include "connectwnd.h"
 #include "core.h"
@@ -66,26 +67,15 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
     }
 
 //    helpButton()->hide();
-    for (unsigned long n = 0;; n++){
-        EventGetPluginInfo e(n);
-        e.process();
-        pluginInfo *info = e.info();
-        if (info == NULL)
-            break;
-        if (info->info == NULL){
-            EventLoadPlugin e(info->name);
-            e.process();
-            if (info->info && !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-                EventUnloadPlugin e(info->name);
-                e.process();
-            }
-        }
-        if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
-            continue;
-        info->bDisabled = false;
-        EventApplyPlugin eApply(info->name);
-        eApply.process();
+
+    QStringList plugins = getPluginManager()->enumPlugins();
+    foreach(QString pluginname, plugins)
+    {
+        PluginPtr plugin = getPluginManager()->plugin(pluginname);
+        if(plugin->isProtocolPlugin())
+            m_protocolPlugins.append(plugin);
     }
+
     Protocol *protocol;
     ContactList::ProtocolIterator it;
     while ((protocol = ++it) != NULL){
@@ -108,6 +98,7 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
 //        pageChanged(NULL);
     }
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(pageChanged(int)));
+    log(L_DEBUG, "NewProtocol::NewProtocol()");
 }
 
 NewProtocol::~NewProtocol()
@@ -118,29 +109,11 @@ NewProtocol::~NewProtocol()
         delete m_setup;
     if (m_client)
         delete m_client;
-    for (unsigned long n = 0;; n++){
-        EventGetPluginInfo e(n);
-        e.process();
-        pluginInfo *info = e.info();
-        if (info == NULL)
-            break;
-        if ((info->info == NULL) ||
-                !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
-            continue;
-        unsigned i;
-        for (i = 0; i < getContacts()->nClients(); i++){
-            Client *client = getContacts()->getClient(i);
-            if (client->protocol()->plugin() == info->plugin)
-                break;
-        }
-        if (i < getContacts()->nClients())
-            continue;
-        info->bDisabled = true;
-        EventApplyPlugin eApply(info->name);
-        eApply.process();
-        EventUnloadPlugin eUnload(info->name);
-        eUnload.process();
-    }
+    
+    // Protocol::plugin() returns raw Plugin pointer, we need smart
+    SIM::PluginPtr added = getPluginManager()->plugin(m_protocol->plugin()->name());
+    SIM::ProfileManager::instance()->currentProfile()->addPlugin(added);
+    log(L_DEBUG, "NewProtocol::~NewProtocol()");
 }
 
 void NewProtocol::protocolChanged(int n)
@@ -156,6 +129,7 @@ void NewProtocol::protocolChanged(int n)
     if ((n < 0) || (n >= (int)(m_protocols.size())))
         return;
     Protocol *protocol = m_protocols[n];
+    m_protocol = protocol;
     m_client = protocol->createClient(NULL);
     if (m_client == NULL)
         return;
@@ -173,7 +147,7 @@ void NewProtocol::protocolChanged(int n)
     m_connectWnd->setTitle(i18n(protocol->description()->text));
     if(m_last)
     {
-    m_last->setTitle(i18n(protocol->description()->text));
+        m_last->setTitle(i18n(protocol->description()->text));
     }
 //    setNextEnabled(currentPage(), true);
     setWindowIcon(Icon(protocol->description()->icon));
@@ -191,7 +165,7 @@ void NewProtocol::pageChanged(int id)
     if (currentPage() == m_connectWnd){
         emit apply();
         m_bConnect = true;
-        unsigned status = CorePlugin::m_plugin->getManualStatus();
+        unsigned status = CorePlugin::instance()->getManualStatus();
         if (status == STATUS_OFFLINE)
             status = STATUS_ONLINE;
         m_client->setStatus(status, false);
@@ -228,7 +202,7 @@ void NewProtocol::loginComplete()
         return;
     m_bConnect = false;
     m_bConnected = true;
-    m_client->setStatus(CorePlugin::m_plugin->getManualStatus(), true);
+    m_client->setStatus(CorePlugin::instance()->getManualStatus(), true);
     m_connectWnd->setConnecting(false);
 //    setNextEnabled(currentPage(), true);
 //    setFinishEnabled(m_connectWnd, true);

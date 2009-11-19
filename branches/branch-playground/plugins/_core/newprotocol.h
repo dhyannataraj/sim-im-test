@@ -19,13 +19,19 @@
 #define _NEWPROTOCOL_H
 
 #include <vector>
-#include "contacts.h"
 #include <QWizard>
+#include "contacts.h"
+#include "plugins.h"
 
 #include "ui_newprotocolbase.h"
 
 class ConnectWnd;
 class CorePlugin;
+
+namespace SIM
+{
+	class Protocol;
+}
 
 class NewProtocol
     : public QWizard
@@ -45,7 +51,7 @@ protected slots:
     void okEnabled(bool);
     void pageChanged(int);
     void loginComplete();
-protected:
+private:
     virtual bool processEvent(SIM::Event*);
     virtual void reject();
     std::vector<SIM::Protocol*>	m_protocols;
@@ -57,6 +63,8 @@ protected:
     bool	m_bConnect;
     bool	m_bConnected;
     bool	m_bStart;
+    QList<SIM::PluginPtr> m_protocolPlugins;
+	SIM::Protocol* m_protocol;
 };
 
 #endif

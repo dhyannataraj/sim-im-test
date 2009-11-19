@@ -75,7 +75,6 @@ public:
     static SIM::Protocol *m_icq;
     static SIM::Protocol *m_aim;
     static ICQPlugin  *icq_plugin;
-    static CorePlugin *core;
     void registerMessages();
     void unregisterMessages();
 };

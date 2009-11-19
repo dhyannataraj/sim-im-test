@@ -126,7 +126,7 @@ void StatusLabel::setPict()
     }
     QPixmap p = Pict(icon);
     setPixmap(p);
-    QString tip = CorePlugin::m_plugin->clientName(m_client);
+    QString tip = CorePlugin::instance()->clientName(m_client);
     tip += '\n';
     tip += i18n(text);
     setToolTip(tip);
@@ -208,7 +208,7 @@ bool StatusFrame::processEvent(Event *e)
                 if (lbl->x() + lbl->width() > width()) {
                     cmds[n].id = 1;
                     cmds[n].text = "_";
-                    cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
+                    cmds[n].text_wrk = CorePlugin::instance()->clientName(lbl->m_client);
                     cmds[n].popup_id = lbl->m_id;
                     if (lbl->m_client->getState() == Client::Error) {
                         cmds[n].icon = "error";

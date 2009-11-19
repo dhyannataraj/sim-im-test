@@ -205,7 +205,7 @@ MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
     document()->setDefaultStyleSheet("p { margin-top: 0; margin-bottom: 0; }");
 
     setColors();
-    setFont(CorePlugin::m_plugin->editFont);
+    setFont(CorePlugin::instance()->editFont);
     setContextMenuPolicy( Qt::DefaultContextMenu );
 }
 
@@ -298,7 +298,7 @@ void MsgViewBase::update()
         if (msg == NULL)
             continue;
         bool bUnread = false;
-        for (list<msg_id>::iterator itu = CorePlugin::m_plugin->unread.begin(); itu != CorePlugin::m_plugin->unread.end(); ++itu){
+        for (list<msg_id>::iterator itu = CorePlugin::instance()->unread.begin(); itu != CorePlugin::instance()->unread.end(); ++itu){
             msg_id &m = (*itu);
             if ((m.contact == msg->contact()) &&
                     (m.id == msg->id()) &&
@@ -312,7 +312,7 @@ void MsgViewBase::update()
     }
     viewport()->setUpdatesEnabled(true);
     append(text);   //<= here occurred a crash
-    if (!CorePlugin::m_plugin->getOwnColors())
+    if (!CorePlugin::instance()->getOwnColors())
         setBackground(i);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
         setSelection(paraFrom, indexFrom, paraTo, indexTo, 0);
@@ -330,7 +330,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     QString status;
 
     QString icon = "message";
-    const CommandDef *def = CorePlugin::m_plugin->messageTypes.find(msg->type());
+    const CommandDef *def = CorePlugin::instance()->messageTypes.find(msg->type());
     if (def)
         icon = def->icon;
     bool bDirection = false;
@@ -396,7 +396,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
             }
         }
         if (!bUnread){
-            for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+            for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
                 msg_id &m = (*it);
                 if ((m.id == msg->id()) &&
                         (m.contact == msg->contact()) &&
@@ -423,7 +423,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     // in one chunk (since it's more efficient and causes less redraws), and there's
     // no way to set block's background color directly in Qt's HTML), so we make a note
     // of it in the HTML and set it retroactively in setBackground.
-    if (!CorePlugin::m_plugin->property("OwnColors").toBool() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
+    if (!CorePlugin::instance()->property("OwnColors").toBool() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
         id += QString::number(msg->getBackground());
     // </hack>
     QString client_str = msg->client();
@@ -464,7 +464,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         msgText = msg->presentation();
         if (msgText.isEmpty()){
             unsigned type = msg->baseType();
-            CommandDef *cmd = CorePlugin::m_plugin->messageTypes.find(type);
+            CommandDef *cmd = CorePlugin::instance()->messageTypes.find(type);
             if (cmd){
                 MessageDef *def = (MessageDef*)(cmd->param);
                 msgText = i18n(def->singular, def->plural, 1);
@@ -484,10 +484,10 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }
     EventAddHyperlinks e(msgText);
     e.process();
-    ViewParser parser(CorePlugin::m_plugin->property("OwnColors").toBool(), CorePlugin::m_plugin->property("UseSmiles").toBool());
+    ViewParser parser(CorePlugin::instance()->property("OwnColors").toBool(), CorePlugin::instance()->property("UseSmiles").toBool());
     msgText = parser.parse(e.text());
     s += "<body";
-    if (!CorePlugin::m_plugin->property("OwnColors").toBool() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
+    if (!CorePlugin::instance()->property("OwnColors").toBool() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {
         s += " fgcolor=\"#";
         s += QString::number(msg->getForeground(), 16).rightJustified(6, '0');
@@ -512,7 +512,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     s += "</message>";
     XSL *p = xsl;
     if (p == NULL)
-        p = CorePlugin::m_plugin->historyXSL;
+        p = CorePlugin::instance()->historyXSL;
     QString res = p->process(s);
 
     XslOutputParser outParser;
@@ -617,7 +617,7 @@ void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
     if (n > 0)
         n--;
     append(messageText(msg, bUnread));
-    if (!CorePlugin::m_plugin->property("OwnColors").toBool())
+    if (!CorePlugin::instance()->property("OwnColors").toBool())
         setBackground(n);
 }
 
@@ -648,8 +648,8 @@ bool MsgViewBase::findMessage(Message *msg)
 
 void MsgViewBase::setColors()
 {
-    TextShow::setBackground(CorePlugin::m_plugin->property("EditBackground").toUInt());
-    TextShow::setForeground(CorePlugin::m_plugin->property("EditForeground").toUInt());
+    TextShow::setBackground(CorePlugin::instance()->property("EditBackground").toUInt());
+    TextShow::setForeground(CorePlugin::instance()->property("EditForeground").toUInt());
 }
 
 unsigned MsgViewBase::messageId(const QString &_s, QString &client)
@@ -710,7 +710,7 @@ void MsgViewBase::reload()
     int para;
     int pos = charAt(QPoint(x, y), &para);
     setText(t);
-    if (!CorePlugin::m_plugin->getOwnColors())
+    if (!CorePlugin::instance()->getOwnColors())
         setBackground(0);
     if (pos == -1){
         scrollToBottom();
@@ -905,7 +905,7 @@ bool MsgViewBase::processEvent(Event *e)
             if (msg){
                 unsigned type = msg->baseType();
                 delete msg;
-                CommandDef *def = CorePlugin::m_plugin->messageTypes.find(type);
+                CommandDef *def = CorePlugin::instance()->messageTypes.find(type);
                 if (def == NULL)
                     return false;
                 cmd->icon = def->icon;
@@ -924,7 +924,7 @@ bool MsgViewBase::processEvent(Event *e)
                 MessageDef *mdef = NULL;
                 unsigned type = msg->baseType();
                 const CommandDef *cmdsSpecial = NULL;
-                CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                CommandDef *msgCmd = CorePlugin::instance()->messageTypes.find(type);
                 if (msgCmd)
                     mdef = (MessageDef*)(msgCmd->param);
 
@@ -1018,7 +1018,7 @@ bool MsgViewBase::processEvent(Event *e)
                 if (cmd->id >= CmdMsgSpecial){
                     MessageDef *mdef = NULL;
                     unsigned type = msg->baseType();
-                    CommandDef *msgCmd = CorePlugin::m_plugin->messageTypes.find(type);
+                    CommandDef *msgCmd = CorePlugin::instance()->messageTypes.find(type);
                     if (msgCmd)
                         mdef = (MessageDef*)(msgCmd->param);
                     const CommandDef *cmds = NULL;
@@ -1104,9 +1104,9 @@ void MsgViewBase::contextMenuEvent( QContextMenuEvent *event )
 MsgView::MsgView(QWidget *parent, unsigned id)
         : MsgViewBase(parent, NULL, id)
 {
-    int nCopy = CorePlugin::m_plugin->property("CopyMessages").toUInt();
+    int nCopy = CorePlugin::instance()->property("CopyMessages").toUInt();
     unsigned nUnread = 0;
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         msg_id &m = (*it);
         if (m.contact == m_id)
             nUnread++;
@@ -1123,7 +1123,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             nCopy--;
             if (nUnread == 0)
                 continue;
-            for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+            for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
                 msg_id &m = (*it);
                 if ((m.contact == msg->contact()) &&
                         (m.id == msg->id()) &&
@@ -1134,7 +1134,7 @@ MsgView::MsgView(QWidget *parent, unsigned id)
             }
         }
         setHtml(t);
-        if (!CorePlugin::m_plugin->property("OwnColors").toBool())
+        if (!CorePlugin::instance()->property("OwnColors").toBool())
             setBackground(0);
     }
     QScrollBar *sbar = verticalScrollBar();
@@ -1170,7 +1170,7 @@ bool MsgView::processEvent(Event *e)
             bAdd = false;
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
                 if (data && data->LogStatus.asBool() != NEW_MSG_NOOPEN)
                     bAdd = true;
             }
@@ -1178,7 +1178,7 @@ bool MsgView::processEvent(Event *e)
         if (bAdd && (e->type() == eEventMessageReceived)){
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
                 if (data->OpenNewMessage.asULong() != NEW_MSG_NOOPEN)
                     bAdd = false;
             }

@@ -291,18 +291,11 @@ const CommandDef *AIMProtocol::statusList()
 Protocol *ICQPlugin::m_icq = NULL;
 Protocol *ICQPlugin::m_aim = NULL;
 
-CorePlugin *ICQPlugin::core = NULL;
-
 ICQPlugin *ICQPlugin::icq_plugin = NULL;
 
 ICQPlugin::ICQPlugin(unsigned base)
         : Plugin(base)
 {
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
-
     icq_plugin = this;
 
     OscarPacket = registerType();

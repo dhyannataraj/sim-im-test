@@ -57,11 +57,52 @@
 
 namespace SIM
 {
+    typedef QWeakPointer<Plugin> PluginWeakPtr;
+
+    class PluginPrivate
+    {
+    public:
+        PluginPrivate()
+        {
+        }
+
+        virtual ~PluginPrivate()
+        {
+        }
+
+        void setName(const QString& n)
+        {
+            m_name = n;
+        }
+
+        QString name()
+        {
+            return m_name;
+        }
+
+        bool isProtocolPlugin()
+        {
+            return m_protocol;
+        }
+
+        void setProtocolPlugin(bool proto)
+        {
+            m_protocol = proto;
+        }
+        
+    private:
+        QString m_name;
+        bool m_protocol;
+
+    };
 
     Plugin::Plugin(unsigned base)
         : m_current(base)
-          , m_base(base)
-    {}
+          , m_base(base),
+          p(new PluginPrivate)
+    {
+        p->setProtocolPlugin(false);
+    }
 
     unsigned Plugin::registerType()
     {
@@ -73,12 +114,26 @@ namespace SIM
         m_current = (m_current | 0x3F) + 1;
     }
 
-    struct PluginDescriptor
+    void Plugin::setName(QString& name)
     {
-        QString name;
-        QString path;
-        bool protocol;
-    };
+        p->setName(name);
+    }
+
+    QString Plugin::name()
+    {
+        return p->name();
+    }
+
+    bool Plugin::isProtocolPlugin()
+    {
+        return p->isProtocolPlugin();
+    }
+
+    void Plugin::setProtocolPlugin(bool proto)
+    {
+        p->setProtocolPlugin(proto);
+    }
+
 
     class PluginManagerPrivate : public EventReceiver
     {
@@ -86,8 +141,11 @@ namespace SIM
             PluginManagerPrivate(int argc, char **argv);
             ~PluginManagerPrivate();
 
-            QStringList enumPlugins();
+            QStringList enumPluginPaths();
+            QStringList enumPluginNames();
             PluginPtr plugin(const QString& pluginname);
+
+            void scan();
 
         protected:
             virtual bool processEvent(Event *e);
@@ -97,8 +155,6 @@ namespace SIM
 
             bool create(pluginInfo&);
             bool createPlugin(pluginInfo&);
-
-            void scan();
 
             void release(pluginInfo&, bool bFree = true);
             void release(const QString &name);
@@ -128,7 +184,7 @@ namespace SIM
             QString app_name;
             QStringList args;
             QVector<pluginInfo> plugins;
-            QList<PluginDescriptor> m_plugins;
+            QList<PluginWeakPtr> m_plugins;
             QStringList cmds;
             QStringList descrs;
 
@@ -146,10 +202,37 @@ namespace SIM
 
     PluginPtr PluginManagerPrivate::plugin(const QString& pluginname)
     {
-        return PluginPtr();
+        foreach(PluginWeakPtr ptr, m_plugins)
+        {
+            PluginPtr strongptr = ptr.toStrongRef();
+            if(!strongptr.isNull() && strongptr->name() == pluginname)
+                return strongptr;
+        }
+        // TODO remove stale PluginWeakPtrs
+        int i = 0;
+        foreach(pluginInfo info, plugins)
+        {
+            if(info.name == pluginname)
+                break;
+            i++;
+        }
+        if(i >= plugins.size())
+            return PluginPtr();
+        create(plugins[i]);
+        return plugins[i].plugin;
+    }
+
+    QStringList PluginManagerPrivate::enumPluginNames()
+    {
+        QStringList names;
+        foreach(pluginInfo info, plugins)
+        {
+            names.append(info.name);
+        }
+        return names;
     }
     
-    QStringList PluginManagerPrivate::enumPlugins()
+    QStringList PluginManagerPrivate::enumPluginPaths()
     {
         QStringList pluginsList;
         if(arePluginsInBuildDirectory(pluginsList))
@@ -167,19 +250,6 @@ namespace SIM
         }
         qSort(pluginsList);
         return pluginsList;
-    }
-
-    void PluginManagerPrivate::scan()
-    {
-        foreach(pluginInfo info, plugins)
-        {
-            PluginDescriptor plugin;
-            plugin.name = info.name;
-            plugin.path = app_file(getPluginName(info));
-            QLibrary lib(plugin.path);
-            if(!lib.load())
-                continue;
-        }
     }
 
     static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
@@ -256,7 +326,7 @@ namespace SIM
             if (p > 0)
                 f = f.left(p);
             pluginInfo info;
-            info.plugin		 = NULL;
+            info.plugin = PluginPtr();
 #if defined( WIN32 ) || defined( __OS2__ )
             info.name        = f.toLower();
 #else
@@ -296,7 +366,7 @@ namespace SIM
         m_bLoaded = false;
         m_bInInit = true;
 
-        QStringList pluginsList = enumPlugins();
+        QStringList pluginsList = enumPluginPaths();
         loadPlugins(pluginsList);
 
         EventGetPluginInfo ePlugin("_core");
@@ -558,7 +628,9 @@ namespace SIM
             m_base += 0x1000;
             info.base = m_base;
         }
-        info.plugin = info.info->create(info.base, m_bInInit, info.cfg);
+        info.plugin = PluginPtr(info.info->create(info.base, m_bInInit, info.cfg));
+        info.plugin->setName(info.name);
+        m_plugins.append(info.plugin);
         if (info.plugin == NULL){
             info.bNoCreate = true;
             info.bDisabled = true;
@@ -572,6 +644,8 @@ namespace SIM
             reloadState();
             loadState();
         }
+        if (info.info->flags & PLUGIN_PROTOCOL)
+            info.plugin->setProtocolPlugin(true);
         EventPluginChanged e(&info);
         e.process();
         return true;
@@ -608,8 +682,7 @@ namespace SIM
     {
         if (info.plugin){
             log(L_DEBUG, "Unload plugin %s", qPrintable(info.name));
-            delete info.plugin;
-            info.plugin = NULL;
+            info.plugin.clear();
             EventPluginChanged e(&info);
             e.process();
         }
@@ -826,7 +899,7 @@ namespace SIM
 
     QStringList PluginManager::enumPlugins()
     {
-        return p->enumPlugins();
+        return p->enumPluginNames();
     }
 
     PluginPtr PluginManager::plugin(const QString& pluginname)
@@ -858,3 +931,4 @@ namespace SIM
 }
 
 // vim: set expandtab:
+

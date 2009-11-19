@@ -158,13 +158,6 @@ OSDPlugin::OSDPlugin(unsigned base)
     
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
-   
-
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
-    
 }
 
 OSDPlugin::~OSDPlugin()
@@ -494,7 +487,7 @@ void OSDPlugin::processQueue()
         QString text;
         OSDUserData *data = NULL;
         data = (OSDUserData*)contact->getUserData(user_data_id);
-		uint ms=core->getManualStatus();
+		uint ms = STATUS_ONLINE; //core->getManualStatus();
         switch (m_request.type){
         case OSD_ALERTONLINE:
             if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
@@ -545,69 +538,70 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_MESSAGE:
-           if (data->EnableMessage.toBool() && core){
-                list<msg_id>::iterator it;
-                TYPE_MAP types;
-                TYPE_MAP::iterator itc;
-                QString msg_text;
-                for (it = core->unread.begin(); it != core->unread.end(); ++it){
-                    if (it->contact != m_request.contact)
-                        continue;
-                    unsigned type = it->type;
-                    itc = types.find(type);
-                    if (itc == types.end()){
-                        types.insert(TYPE_MAP::value_type(type, 1));
-                    }else{
-                        (*itc).second++;
-                    }
-                    if (!data->EnableMessageShowContent.toBool())
-                        continue;
-                    EventLoadMessage e(it->id, it->client, it->contact);
-                    e.process();
-                    Message *msg = e.message();
-                    if (msg == NULL)
-                        continue;
-                    QString msgText = msg->getPlainText().trimmed();
-                    if (msgText.isEmpty())
-                        continue;
-                    if (!msg_text.isEmpty())
-                        msg_text += "\n";
-                    msg_text += msgText;
-                }
-                if (types.empty())
-                    break;
-                for (itc = types.begin(); itc != types.end(); ++itc){
-                    CommandDef *def = core->messageTypes.find((*itc).first);
-                    if (def == NULL)
-                        continue;
-                    MessageDef *mdef = (MessageDef*)(def->param);
-                    QString msg = i18n(mdef->singular, mdef->plural, (*itc).second);
-                    if ((*itc).second == 1){
-                        int pos = msg.indexOf("1 ");
-                        if (pos > 0){
-                            msg = msg.left(pos);
-                        }else if (pos == 0){
-                            msg = msg.mid(2);
-                        }
-                        msg = msg.left(1).toUpper() + msg.mid(1);
-                    }
-                    if (!text.isEmpty())
-                        text += ", ";
-                    text += msg;
-                }
-
-                
-                if ( core->getManualStatus()==STATUS_NA && 
-                      data->EnableCapsLockFlash.toBool() && 
-                      ! this->isRunning() 
-                    )
-                    this->start(); //Start flashing the CapsLock if enabled
-                text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
-                if (msg_text.isEmpty())
-                    break;
-                text += ":\n";
-                text += msg_text;
-            }
+/*            if (data->EnableMessage.toBool() && core ){
+ *                 list<msg_id>::iterator it;
+ *                 TYPE_MAP types;
+ *                 TYPE_MAP::iterator itc;
+ *                 QString msg_text;
+ *                 for (it = core->unread.begin(); it != core->unread.end(); ++it){
+ *                     if (it->contact != m_request.contact)
+ *                         continue;
+ *                     unsigned type = it->type;
+ *                     itc = types.find(type);
+ *                     if (itc == types.end()){
+ *                         types.insert(TYPE_MAP::value_type(type, 1));
+ *                     }else{
+ *                         (*itc).second++;
+ *                     }
+ *                     if (!data->EnableMessageShowContent.toBool())
+ *                         continue;
+ *                     EventLoadMessage e(it->id, it->client, it->contact);
+ *                     e.process();
+ *                     Message *msg = e.message();
+ *                     if (msg == NULL)
+ *                         continue;
+ *                     QString msgText = msg->getPlainText().trimmed();
+ *                     if (msgText.isEmpty())
+ *                         continue;
+ *                     if (!msg_text.isEmpty())
+ *                         msg_text += "\n";
+ *                     msg_text += msgText;
+ *                 }
+ *                 if (types.empty())
+ *                     break;
+ *                 for (itc = types.begin(); itc != types.end(); ++itc){
+ *                     CommandDef *def = core->messageTypes.find((*itc).first);
+ *                     if (def == NULL)
+ *                         continue;
+ *                     MessageDef *mdef = (MessageDef*)(def->param);
+ *                     QString msg = i18n(mdef->singular, mdef->plural, (*itc).second);
+ *                     if ((*itc).second == 1){
+ *                         int pos = msg.indexOf("1 ");
+ *                         if (pos > 0){
+ *                             msg = msg.left(pos);
+ *                         }else if (pos == 0){
+ *                             msg = msg.mid(2);
+ *                         }
+ *                         msg = msg.left(1).toUpper() + msg.mid(1);
+ *                     }
+ *                     if (!text.isEmpty())
+ *                         text += ", ";
+ *                     text += msg;
+ *                 }
+ * 
+ *                 
+ *                 if ( core->getManualStatus()==STATUS_NA && 
+ *                       data->EnableCapsLockFlash.toBool() && 
+ *                       ! this->isRunning() 
+ *                     )
+ *                     this->start(); //Start flashing the CapsLock if enabled
+ *                 text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
+ *                 if (msg_text.isEmpty())
+ *                     break;
+ *                 text += ":\n";
+ *                 text += msg_text;
+ *             }
+ */
             break;
         default:
             break;
@@ -678,24 +672,25 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
 
 void OSDPlugin::closeClick()
 {
-    if (m_request.type == OSD_MESSAGE){
-        for (list<msg_id>::iterator it = core->unread.begin(); it != core->unread.end(); ){
-            if (it->contact != m_request.contact){
-                ++it;
-                continue;
-            }
-            EventLoadMessage e(it->id, it->client, it->contact);
-            e.process();
-            Message *msg = e.message();
-            core->unread.erase(it);
-            if (msg){
-                EventMessageRead(msg).process();
-                delete msg;
-            }
-            it = core->unread.begin();
-        }
-    }
-    timeout();
+/*     if (m_request.type == OSD_MESSAGE){
+ *         for (list<msg_id>::iterator it = core->unread.begin(); it != core->unread.end(); ){
+ *             if (it->contact != m_request.contact){
+ *                 ++it;
+ *                 continue;
+ *             }
+ *             EventLoadMessage e(it->id, it->client, it->contact);
+ *             e.process();
+ *             Message *msg = e.message();
+ *             core->unread.erase(it);
+ *             if (msg){
+ *                 EventMessageRead(msg).process();
+ *                 delete msg;
+ *             }
+ *             it = core->unread.begin();
+ *         }
+ *     }
+ *     timeout();
+ */
 }
 
 void OSDPlugin::dblClick()
@@ -752,61 +747,64 @@ bool OSDPlugin::processEvent(Event *e)
         }
         break;
     }
-    case eEventMessageReceived: {
-        EventMessage *em = static_cast<EventMessage*>(e);
-        Message *msg = em->msg();
-        Contact *contact = getContacts()->contact(msg->contact());
-        if (contact == NULL)
-            break;
-        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
-        if (data == NULL)
-            break;
-        osd.contact = msg->contact();
-	if (! core->unread.empty())
-	    bHaveUnreadMessages=true;
-        if (msg->type() == MessageStatus) {
-            StatusMessage *smsg = (StatusMessage*)msg;
-            switch (smsg->getStatus()) {
-            case STATUS_AWAY:
-                osd.type = OSD_ALERTAWAY;
-                break;
-            case STATUS_NA:
-                osd.type = OSD_ALERTNA;
-                break;
-            case STATUS_DND:
-                osd.type = OSD_ALERTDND;
-                break;
-            case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
-                osd.type = OSD_ALERTOCCUPIED;
-                break;
-            case STATUS_FFC:
-                osd.type = OSD_ALERTFFC;
-                break;
-            case STATUS_OFFLINE:
-                osd.type = OSD_ALERTOFFLINE;
-                break;
-            case STATUS_ONLINE:
-                osd.type = OSD_NONE;
-                return false;
-            default:
-                log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
-                osd.type = OSD_NONE;
-                return false;
-            }
-            m_queue.push_back(osd);
-            processQueue();
-        }else{
-            osd.type    = OSD_MESSAGE;
-            if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
-                m_queue.push_front(osd);
-                m_timer->stop();    bTimerActive=false;
-                m_timer->start(100);bTimerActive=true; 
-            }else{
-                m_queue.push_back(osd);
-                processQueue();
-            }
-        }
-        break;
+    case eEventMessageReceived:
+		{
+			EventMessage *em = static_cast<EventMessage*>(e);
+			Message *msg = em->msg();
+			Contact *contact = getContacts()->contact(msg->contact());
+			if (contact == NULL)
+				break;
+			OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+			if (data == NULL)
+				break;
+			osd.contact = msg->contact();
+			PluginPtr coreplugin = getPluginManager()->plugin("_core");
+			CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data()); // FIXME
+			if (!core->unread.empty())
+				bHaveUnreadMessages=true;
+			if (msg->type() == MessageStatus) {
+				StatusMessage *smsg = (StatusMessage*)msg;
+				switch (smsg->getStatus()) {
+					case STATUS_AWAY:
+						osd.type = OSD_ALERTAWAY;
+						break;
+					case STATUS_NA:
+						osd.type = OSD_ALERTNA;
+						break;
+					case STATUS_DND:
+						osd.type = OSD_ALERTDND;
+						break;
+					case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
+						osd.type = OSD_ALERTOCCUPIED;
+						break;
+					case STATUS_FFC:
+						osd.type = OSD_ALERTFFC;
+						break;
+					case STATUS_OFFLINE:
+						osd.type = OSD_ALERTOFFLINE;
+						break;
+					case STATUS_ONLINE:
+						osd.type = OSD_NONE;
+						return false;
+					default:
+						log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
+						osd.type = OSD_NONE;
+						return false;
+				}
+				m_queue.push_back(osd);
+				processQueue();
+			}else{
+				osd.type    = OSD_MESSAGE;
+				if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
+					m_queue.push_front(osd);
+					m_timer->stop();    bTimerActive=false;
+					m_timer->start(100);bTimerActive=true; 
+				}else{
+					m_queue.push_back(osd);
+					processQueue();
+				}
+			}
+			break;
     }
     case eEventMessageDeleted:
     case eEventMessageRead: {

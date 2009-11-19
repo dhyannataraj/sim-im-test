@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include "cfg.h"
+#include "plugins.h"
 
 namespace SIM
 {
@@ -22,10 +23,16 @@ namespace SIM
         QString name();
 
         QStringList enabledPlugins();
+        void enablePlugin(const QString& name);
+        void disablePlugin(const QString& name);
+
+        void addPlugin(PluginPtr plugin);
+        void removePlugin(const QString& name);
 
 	private:
         QString m_name;
 		ConfigPtr m_config;
+        QList<PluginPtr> m_plugins;
 	};
 
 	typedef QSharedPointer<Profile> ProfilePtr;
