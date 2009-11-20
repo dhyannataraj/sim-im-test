@@ -500,5 +500,21 @@
     <!--          http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/yahoo_busy.png -->
     <!--  FIXME:  Do not know where and when this icon is shown -->
   </icon>
+  <icon name="sharedfiles">
+    <object mime="image/png">unknown_icon_6.png</object>
+    <!-- Shared files feature is seemed to be disabled at AOL, see bug #16423 -->
+    <!-- So this icon should never appeared in Sim-IM-->
+  </icon>
+  <icon name="reg">
+    <object mime="image/png">register.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: David Vignoni -->
+    <!--  Source: http://www.icon-king.com/files/nuvola-1.0.tar.gz 16x16/apps/cache.png -->
+  </icon>
+  <icon name="connect">
+    <object mime="image/png">connect.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-connect_established.png -->
+  </icon>
 
 </icondef>
