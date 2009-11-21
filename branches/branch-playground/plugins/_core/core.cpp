@@ -350,7 +350,7 @@ static DataDef historyUserData[] =
 	{ NULL, DATA_UNKNOWN, 0, 0 }
 };
 
-CorePlugin *CorePlugin::m_plugin = NULL;
+//CorePlugin *CorePlugin::m_plugin = CorePlugin::instance();
 
 static QWidget *getInterfaceSetup(QWidget *parent, void *data)
 {
@@ -3817,7 +3817,7 @@ void LockThread::run()
         DWORD res = WaitForSingleObject(hEvent, INFINITE);
         if (res == WAIT_ABANDONED)
             break;
-        QTimer::singleShot(0, CorePlugin::m_plugin, SLOT(showMain()));
+        QTimer::singleShot(0, CorePlugin::instance(), SLOT(showMain()));
     }
 }
 
