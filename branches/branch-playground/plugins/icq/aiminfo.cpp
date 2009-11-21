@@ -160,7 +160,9 @@ void AIMInfo::fill()
 
     int current = 0;
     QString text;
-    for (const CommandDef *cmd = ICQPlugin::m_aim->statusList(); cmd->id; cmd++){
+	ProtocolPtr proto = ICQPlugin::icq_plugin->m_aim;
+	AIMProtocol* aim = static_cast<AIMProtocol*>(proto.data());
+    for (const CommandDef *cmd = aim->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
             continue;
         if (status == cmd->id){

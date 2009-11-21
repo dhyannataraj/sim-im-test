@@ -2,6 +2,7 @@
 #ifndef SIM_PROTOCOL_H
 #define SIM_PROTOCOL_H
 
+#include <QSharedPointer>
 #include "simapi.h"
 #include "plugins.h"
 #include "event.h"
@@ -16,15 +17,21 @@ namespace SIM
         Protocol(Plugin *plugin);
         virtual ~Protocol();
         Plugin  *plugin() { return m_plugin; }
+        QString pluginName() { return m_pluginName; }
         virtual Client  *createClient(Buffer *cfg) = 0;
         virtual const CommandDef *description() = 0;
         virtual const CommandDef *statusList() = 0;
         virtual const DataDef *userDataDef() = 0;
+
     protected:
         Plugin *m_plugin;
+        QString m_pluginName;
     };
+
+    typedef QSharedPointer<Protocol> ProtocolPtr;
 }
 
 #endif
+
 // vim: set expandtab:
 

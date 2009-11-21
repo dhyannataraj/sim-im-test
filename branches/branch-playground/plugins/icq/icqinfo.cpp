@@ -208,7 +208,9 @@ void ICQInfo::fill()
     if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.toBool()){
         cmbStatus->addItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
-        for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){
+		ProtocolPtr proto = ICQPlugin::icq_plugin->m_icq;
+		ICQProtocol* icq = static_cast<ICQProtocol*>(proto.data());
+        for (const CommandDef *cmd = icq->statusList(); cmd->id; cmd++){
             if (cmd->flags & COMMAND_CHECK_STATE)
                 continue;
             if (status == cmd->id){

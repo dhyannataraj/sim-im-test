@@ -15,8 +15,8 @@ namespace SIM
     SIMClientSocket::SIMClientSocket( QSslSocket *s )
         : m_carrierCheckTimer( this )
         , m_connectionTimer( this )
-        , bInWrite( false )
         , sock( NULL )
+        , bInWrite( false )
         , m_bEncrypted( false )
     {
         pickUpSocket( s );
@@ -314,19 +314,15 @@ namespace SIM
     }
 
     void SIMClientSocket::sslEncryptedBytesWritten( qint64 written ) {
-        int ggg = 0;
     }
 
     void SIMClientSocket::sslModeChanged( QSslSocket::SslMode mode ) {
-        int ggg = 0;
     }
 
     void SIMClientSocket::sslPeerVerifyError( const QSslError & error ) {
-        int ggg = 0;
     }
 
     void SIMClientSocket::sslErrors( const QList<QSslError> & errors ) {
-        int ggg = 0;
     }
 }
 

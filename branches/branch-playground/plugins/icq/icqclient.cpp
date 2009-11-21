@@ -225,7 +225,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 {
     m_bAIM = bAIM;
 
-
     load_data(icqClientData, &data, cfg);
     if (data.owner.Uin.toULong() != 0)
         m_bAIM = false;

@@ -72,8 +72,8 @@ public:
     unsigned AIMDirectPacket;
     unsigned RetrySendDND;
     unsigned RetrySendOccupied;
-    static SIM::Protocol *m_icq;
-    static SIM::Protocol *m_aim;
+    SIM::ProtocolPtr m_icq;
+    SIM::ProtocolPtr m_aim;
     static ICQPlugin  *icq_plugin;
     void registerMessages();
     void unregisterMessages();

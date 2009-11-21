@@ -109,10 +109,6 @@ void CookieCash::empty() {
 
 const unsigned UNKNOWN_SIZE = (unsigned)(-1);
 
-//static char _HTTP[] = "HTTP";
-
-static QList<FetchClientPrivate*> *m_done = NULL;
-
 FetchClient::FetchClient()
   : p( NULL )
 {
@@ -154,12 +150,12 @@ void FetchClient::clearCookies()
 }
 
 FetchClientPrivate::FetchClientPrivate(FetchClient *client)
-  : m_pHttp( NULL )
-  , m_bRedirect( true )
-  , m_client( client )
+  : m_client( client )
+  , m_pHttp( NULL )
   , m_bDone( true )
-  , m_state( None )
+  , m_bRedirect( true )
   , m_code( 0 )
+  , m_state( None )
 {
 }
 
@@ -196,8 +192,6 @@ void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffe
     }
 
     log( L_DEBUG, "HTTP: Started %s request for %s", qPrintable( sMethod ), qPrintable( url ) );
-
-    bool bbb = m_pHttp->hasPendingRequests();
 
     QString sHost = m_uri.host();
     QString sPath = m_uri.encodedPath();

@@ -18,6 +18,7 @@
 #include "icq.h"
 #include "icqconfig.h"
 #include "core.h"
+#include "contacts/protocolmanager.h"
 
 using namespace SIM;
 
@@ -288,8 +289,8 @@ const CommandDef *AIMProtocol::statusList()
     return aim_status_list;
 }
 
-Protocol *ICQPlugin::m_icq = NULL;
-Protocol *ICQPlugin::m_aim = NULL;
+//Protocol *ICQPlugin::m_icq = NULL;
+//Protocol *ICQPlugin::m_aim = NULL;
 
 ICQPlugin *ICQPlugin::icq_plugin = NULL;
 
@@ -305,8 +306,10 @@ ICQPlugin::ICQPlugin(unsigned base)
     AIMDirectPacket = registerType();
     getContacts()->addPacketType(AIMDirectPacket, "AIM.Direct");
 
-    m_icq = new ICQProtocol(this);
-    m_aim = new AIMProtocol(this);
+    m_icq = ProtocolPtr(new ICQProtocol(this));
+	getProtocolManager()->addProtocol(m_icq);
+    m_aim = ProtocolPtr(new AIMProtocol(this));
+	getProtocolManager()->addProtocol(m_aim);
 
     EventMenu(MenuSearchResult, EventMenu::eAdd).process();
     EventMenu(MenuIcqGroups, EventMenu::eAdd).process();
@@ -362,9 +365,8 @@ ICQPlugin::ICQPlugin(unsigned base)
 ICQPlugin::~ICQPlugin()
 {
     unregisterMessages();
-
-    delete m_icq;
-    delete m_aim;
+	getProtocolManager()->removeProtocol(m_aim);
+	getProtocolManager()->removeProtocol(m_icq);
 
     getContacts()->removePacketType(OscarPacket);
     getContacts()->removePacketType(ICQDirectPacket);

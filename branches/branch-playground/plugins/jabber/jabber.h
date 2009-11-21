@@ -87,7 +87,7 @@ public:
     static JabberPlugin *plugin;
 protected:
     virtual QByteArray getConfig();
-    SIM::Protocol *m_protocol;
+    SIM::ProtocolPtr m_protocol;
 };
 
 #endif

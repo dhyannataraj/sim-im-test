@@ -19,6 +19,7 @@
 #include "jabber.h"
 #include "misc.h"
 #include "core_consts.h"
+#include "contacts/protocolmanager.h"
 
 #include <QByteArray>
 
@@ -351,7 +352,8 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
     cmd->menu_grp	 = 0x2002;
     EventCommandCreate(cmd).process();
 
-    m_protocol = new JabberProtocol(this);
+    m_protocol = ProtocolPtr(new JabberProtocol(this));
+	getProtocolManager()->addProtocol(m_protocol);
     registerMessages();
 }
 
@@ -365,7 +367,7 @@ JabberPlugin::~JabberPlugin()
 
     EventToolbar(BarBrowser, EventToolbar::eRemove).process();
 
-    delete m_protocol;
+	getProtocolManager()->removeProtocol(m_protocol);
     getContacts()->removePacketType(JabberPacket);
 
     free_data(jabberData, &data);

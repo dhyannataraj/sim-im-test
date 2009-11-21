@@ -43,6 +43,7 @@ SET(sim_LIB_SRCS
 		contacts/contact.cpp
 		contacts/group.cpp
 		contacts/protocol.cpp
+		contacts/protocolmanager.cpp
 		contacts/client.cpp
 		socket/socket.cpp
 		socket/serversocketnotify.cpp
@@ -112,6 +113,7 @@ SET(sim_LIB_HDRS
 		contacts/contact.h
 		contacts/group.h
 		contacts/protocol.h
+		contacts/protocolmanager.h
 		contacts/client.h
 		socket/socket.h
 		socket/socketnotify.h
@@ -222,6 +224,7 @@ SET(sim_tests_srcs
     tests/testsocketfactory.cpp
     tests/testclientsocket.cpp
     tests/testcontactlist.cpp
+    tests/testprotocolmanager.cpp
 )
 
 
@@ -230,6 +233,7 @@ SET(sim_tests_hdrs
     tests/testsocketfactory.h
     tests/testclientsocket.h
     tests/testcontactlist.h
+    tests/testprotocolmanager.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})

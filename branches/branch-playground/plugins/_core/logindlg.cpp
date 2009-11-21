@@ -16,13 +16,14 @@ email                : vovan@shutoff.ru
 ***************************************************************************/
 
 #include "contacts/client.h"
+#include "contacts/protocolmanager.h"
 #include "core.h"
 #include "icons.h"
 #include "log.h"
 #include "profilemanager.h"
 #include "simgui/ballonmsg.h"
 #include "simgui/linklabel.h"
-#include "simgui/logindlg.h"
+#include "logindlg.h"
 
 #include <QApplication>
 #include <QCheckBox>
@@ -627,8 +628,8 @@ Client* LoginDialog::loadClient(const QString &name, Buffer *cfg)
 	}
 	m_protocolPlugins.append(plugin);
 	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
-	Protocol *protocol;
-	ContactList::ProtocolIterator it;
+	ProtocolPtr protocol;
+	ProtocolIterator it;
     while ((protocol = ++it) != NULL)
         if (protocol->description()->text == clientName)
             return protocol->createClient(cfg);

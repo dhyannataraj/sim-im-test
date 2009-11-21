@@ -58,6 +58,7 @@ email                : vovan@shutoff.ru
 #include "contacts/contact.h"
 #include "contacts/group.h"
 #include "contacts/client.h"
+#include "contacts/protocolmanager.h"
 // _core
 #include "core.h"
 #include "cfgdlg.h"
@@ -3542,8 +3543,8 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 		return NULL;
 	}
 	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
-	Protocol *protocol;
-	ContactList::ProtocolIterator it;
+	ProtocolPtr protocol;
+	ProtocolIterator it;
     while ((protocol = ++it) != NULL)
         if (protocol->description()->text == clientName)
             return protocol->createClient(cfg);

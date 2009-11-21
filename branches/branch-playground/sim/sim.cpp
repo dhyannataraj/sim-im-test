@@ -23,6 +23,7 @@
 #include "simfs.h"
 #include "paths.h"
 #include "socket/socketfactory.h"
+#include "contacts/protocolmanager.h"
 
 #include <QDir>
 
@@ -123,13 +124,17 @@ int main(int argc, char *argv[])
     QApplication::addLibraryPath(sPluginPath);
     SIM::createSocketFactory();
     SIM::createContactList();
+    SIM::createProtocolManager();
     SIM::createPluginManager(argc, argv);
+
     if(!getPluginManager()->initialize())
         return 1;
     app.setQuitOnLastWindowClosed(false);
     if (SIM::getPluginManager()->isLoaded())
         res = app.exec();
+    
     SIM::destroyPluginManager();
+    SIM::destroyProtocolManager();
     SIM::destroyContactList();
     SIM::destroySocketFactory();
     return res;

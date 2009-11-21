@@ -156,26 +156,6 @@ namespace SIM
         return p->name();
     }
 
-//    bool Plugin::isProtocolPlugin()
-//    {
-//        return p->isProtocolPlugin();
-//    }
-//
-//    void Plugin::setProtocolPlugin(bool proto)
-//    {
-//        p->setProtocolPlugin(proto);
-//    }
-//
-//    void Plugin::setAlwaysEnabled(bool ae)
-//    {
-//        p->setAlwaysEnabled(ae);
-//    }
-//
-//    bool Plugin::isAlwaysEnabled()
-//    {
-//        return p->isAlwaysEnabled();
-//    }
-
     PluginInfo* Plugin::getInfo()
     {
         return getPluginManager()->getPluginInfo(name());

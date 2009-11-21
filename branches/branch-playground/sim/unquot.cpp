@@ -59,6 +59,8 @@ QString GetTextFromElement( QDomElement el ) {
                 text += GetTextFromElement( node.toElement() );
                 break;
             }
+			default:
+				break;
         }
         node = node.nextSibling();
     }

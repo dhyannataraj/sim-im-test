@@ -77,7 +77,7 @@ namespace SIM
             it->second.present = false;
         }
 
-        for(int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)
+        for(unsigned int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)
         {
             ifrp = ibuf + i; 
             strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
