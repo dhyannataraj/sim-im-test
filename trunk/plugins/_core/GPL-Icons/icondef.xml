@@ -502,7 +502,7 @@
   </icon>
   <icon name="sharedfiles">
     <object mime="image/png">unknown_icon_6.png</object>
-    <!-- Shared files feature is seemed to be disabled at AOL, see bug #16423 -->
+    <!-- Shared files feature seems to be disabled at AOL, see bug #16423 -->
     <!-- So this icon should never appeared in Sim-IM-->
   </icon>
   <icon name="reg">
@@ -515,6 +515,24 @@
     <object mime="image/png">connect.png</object>
     <!-- Licence: GNU/GPL -->
     <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-connect_established.png -->
+  </icon>
+  <icon name="lunch">
+    <object mime="image/png">msn_lunch.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Everaldo Coelho -->
+    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/msn_lunch.png -->
+  </icon>
+  <icon name="onback">
+    <object mime="image/png">msn_onback.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Everaldo Coelho -->
+    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/msn_away.png -->
+  </icon>
+  <icon name="onphone">
+    <object mime="image/png">msn_onphone.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Everaldo Coelho -->
+    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/msn_phone.png -->
   </icon>
 
 </icondef>
