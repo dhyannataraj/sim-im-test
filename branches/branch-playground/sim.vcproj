@@ -2275,10 +2275,6 @@
 				Name="Interfaces"
 				Filter="*.ui"
 				>
-				<File
-					RelativePath=".\sim\simgui\logindlgbase.ui"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
