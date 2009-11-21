@@ -622,7 +622,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\simgui\logindlg.cpp"
+				RelativePath="sim\logindlg.cpp"
 				>
 			</File>
 			<File
@@ -1434,7 +1434,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\sim\simgui\moc_logindlg.cpp"
+					RelativePath=".\sim\moc_logindlg.cpp"
 					>
 				</File>
 				<File
@@ -2013,7 +2013,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\sim\simgui\logindlg.h"
+				RelativePath=".\sim\logindlg.h"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
