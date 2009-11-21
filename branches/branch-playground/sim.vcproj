@@ -2269,15 +2269,6 @@
 						/>
 					</FileConfiguration>
 				</File>
-				<Filter
-					Name="generated"
-					Filter="*base.h;ui_*.h"
-					>
-					<File
-						RelativePath=".\sim\simgui\ui_logindlgbase.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
