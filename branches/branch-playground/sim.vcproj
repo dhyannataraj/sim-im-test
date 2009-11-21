@@ -1522,6 +1522,10 @@
 		<Filter
 			Name="contacts"
 			>
+			<File
+				RelativePath=".\sim\contacts\protocolmanager.cpp"
+				>
+			</File>
 			<Filter
 				Name="Source Files"
 				Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -1610,6 +1614,10 @@
 				</File>
 				<File
 					RelativePath=".\sim\contacts\protocol.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\protocolmanager.h"
 					>
 				</File>
 				<File
