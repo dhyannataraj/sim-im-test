@@ -17,7 +17,8 @@ TestThread::~TestThread()
 
 void TestThread::run()
 {
-    m_factory = new SIM::SIMSockets(NULL);
+    SIM::createSocketFactory();
+    m_factory = SIM::getSocketFactory();
 }
 
 }

@@ -25,8 +25,10 @@ namespace SIM
         QStringList enabledPlugins();
         void enablePlugin(const QString& name);
         void disablePlugin(const QString& name);
+        void loadPlugins();
 
-        void addPlugin(PluginPtr plugin);
+    protected:
+        void addPlugin(const QString& name);
         void removePlugin(const QString& name);
 
 	private:

@@ -71,9 +71,8 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
     QStringList plugins = getPluginManager()->enumPlugins();
     foreach(QString pluginname, plugins)
     {
-        PluginPtr plugin = getPluginManager()->plugin(pluginname);
-        if(plugin->isProtocolPlugin())
-            m_protocolPlugins.append(plugin);
+        if(getPluginManager()->isPluginProtocol(pluginname))
+            m_protocolPlugins.append(getPluginManager()->plugin(pluginname));
     }
 
     Protocol *protocol;
@@ -111,8 +110,7 @@ NewProtocol::~NewProtocol()
         delete m_client;
     
     // Protocol::plugin() returns raw Plugin pointer, we need smart
-    SIM::PluginPtr added = getPluginManager()->plugin(m_protocol->plugin()->name());
-    SIM::ProfileManager::instance()->currentProfile()->addPlugin(added);
+    SIM::ProfileManager::instance()->currentProfile()->enablePlugin(m_protocol->plugin()->name());
     log(L_DEBUG, "NewProtocol::~NewProtocol()");
 }
 

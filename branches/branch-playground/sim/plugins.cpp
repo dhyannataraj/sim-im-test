@@ -58,6 +58,21 @@
 namespace SIM
 {
     typedef QWeakPointer<Plugin> PluginWeakPtr;
+	struct pluginInfo
+	{
+		QString name;
+        QString title;
+        QString description;
+        bool alwaysEnabled;
+        bool protocolPlugin;
+		PluginWeakPtr plugin;
+		Buffer *cfg;           // configuration data
+		unsigned base;           // base for plugin types
+		QString filePath;
+		PluginInfo *info;
+		QLibrary *module;        // so or dll handle
+        friend class PluginManagerPrivate;
+	};
 
     class PluginPrivate
     {
@@ -89,11 +104,21 @@ namespace SIM
         {
             m_protocol = proto;
         }
+
+        void setAlwaysEnabled(bool ae)
+        {
+            m_alwaysEnabled = ae;
+        }
+
+        bool isAlwaysEnabled()
+        {
+            return m_alwaysEnabled;
+        }
         
     private:
         QString m_name;
         bool m_protocol;
-
+        bool m_alwaysEnabled;
     };
 
     Plugin::Plugin(unsigned base)
@@ -102,6 +127,13 @@ namespace SIM
           p(new PluginPrivate)
     {
         p->setProtocolPlugin(false);
+        p->setAlwaysEnabled(false);
+    }
+
+    Plugin::~Plugin()
+    {
+        log(L_DEBUG, "Plugin::~Plugin(%s)", qPrintable(name()));
+        delete p;
     }
 
     unsigned Plugin::registerType()
@@ -114,7 +146,7 @@ namespace SIM
         m_current = (m_current | 0x3F) + 1;
     }
 
-    void Plugin::setName(QString& name)
+    void Plugin::setName(const QString& name)
     {
         p->setName(name);
     }
@@ -124,16 +156,30 @@ namespace SIM
         return p->name();
     }
 
-    bool Plugin::isProtocolPlugin()
-    {
-        return p->isProtocolPlugin();
-    }
+//    bool Plugin::isProtocolPlugin()
+//    {
+//        return p->isProtocolPlugin();
+//    }
+//
+//    void Plugin::setProtocolPlugin(bool proto)
+//    {
+//        p->setProtocolPlugin(proto);
+//    }
+//
+//    void Plugin::setAlwaysEnabled(bool ae)
+//    {
+//        p->setAlwaysEnabled(ae);
+//    }
+//
+//    bool Plugin::isAlwaysEnabled()
+//    {
+//        return p->isAlwaysEnabled();
+//    }
 
-    void Plugin::setProtocolPlugin(bool proto)
+    PluginInfo* Plugin::getInfo()
     {
-        p->setProtocolPlugin(proto);
+        return getPluginManager()->getPluginInfo(name());
     }
-
 
     class PluginManagerPrivate : public EventReceiver
     {
@@ -141,11 +187,15 @@ namespace SIM
             PluginManagerPrivate(int argc, char **argv);
             ~PluginManagerPrivate();
 
+
+            bool initialize();
             QStringList enumPluginPaths();
             QStringList enumPluginNames();
             PluginPtr plugin(const QString& pluginname);
-
-            void scan();
+            QString pluginTitle(const QString& pluginname);
+            QString pluginDescription(const QString& pluginname);
+            bool isPluginAlwaysEnabled(const QString& pluginname);
+            bool isPluginProtocol(const QString& pluginname);
 
         protected:
             virtual bool processEvent(Event *e);
@@ -153,20 +203,19 @@ namespace SIM
             bool findParam(EventArg *a);
             void usage(const QString &);
 
-            bool create(pluginInfo&);
-            bool createPlugin(pluginInfo&);
+            void scan();
+            PluginPtr create(pluginInfo&);
+            PluginPtr createPlugin(pluginInfo&);
 
             void release(pluginInfo&, bool bFree = true);
             void release(const QString &name);
-            void release_all(Plugin *to);
+            void release_all();
 
             void load(pluginInfo&);
             void load(const QString &name);
-            void load_all(EventPluginsLoad *p);
 
             void saveState();
-            void loadState();
-            void reloadState();
+            PluginInfo *getPluginInfo(const QString &name);
 
             pluginInfo *getInfo(const QString &name);
             pluginInfo *getInfo(int n);
@@ -174,19 +223,20 @@ namespace SIM
 
             bool arePluginsInBuildDirectory(QStringList& pluginsList);
             bool findPluginsInDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList);
-            bool loadPlugins(const QStringList& pluginsList);
+            bool initPluginList(const QStringList& pluginsList);
             QString getPluginName(pluginInfo &info);
 
 #ifndef WIN32
             Q_PID execute(const QString &prg, const QStringList &args);
 #endif
+            void collectGarbage();
        private:
             QString app_name;
             QStringList args;
             QVector<pluginInfo> plugins;
-            QList<PluginWeakPtr> m_plugins;
             QStringList cmds;
             QStringList descrs;
+            PluginPtr m_core;
 
             unsigned m_base;
             bool m_bLoaded;
@@ -202,13 +252,7 @@ namespace SIM
 
     PluginPtr PluginManagerPrivate::plugin(const QString& pluginname)
     {
-        foreach(PluginWeakPtr ptr, m_plugins)
-        {
-            PluginPtr strongptr = ptr.toStrongRef();
-            if(!strongptr.isNull() && strongptr->name() == pluginname)
-                return strongptr;
-        }
-        // TODO remove stale PluginWeakPtrs
+        collectGarbage(); // FIXME this should be in more appropriate location
         int i = 0;
         foreach(pluginInfo info, plugins)
         {
@@ -218,8 +262,7 @@ namespace SIM
         }
         if(i >= plugins.size())
             return PluginPtr();
-        create(plugins[i]);
-        return plugins[i].plugin;
+        return create(plugins[i]);
     }
 
     QStringList PluginManagerPrivate::enumPluginNames()
@@ -230,6 +273,42 @@ namespace SIM
             names.append(info.name);
         }
         return names;
+    }
+
+    QString PluginManagerPrivate::pluginTitle(const QString& pluginname)
+    {
+        return getInfo(pluginname)->title;
+    }
+
+    QString PluginManagerPrivate::pluginDescription(const QString& pluginname)
+    {
+        return getInfo(pluginname)->description;
+    }
+
+    bool PluginManagerPrivate::isPluginAlwaysEnabled(const QString& pluginname)
+    {
+        return getInfo(pluginname)->alwaysEnabled;
+    }
+
+    bool PluginManagerPrivate::isPluginProtocol(const QString& pluginname)
+    {
+        return getInfo(pluginname)->protocolPlugin;
+    }
+
+    PluginInfo* PluginManagerPrivate::getPluginInfo(const QString &name)
+    {
+        return getInfo(name)->info;
+    }
+
+    void PluginManagerPrivate::collectGarbage()
+    {
+        for(int i = 0; i < plugins.size(); i++)
+        {
+            if(plugins[i].plugin.isNull() && plugins[i].module)
+            {
+                release(plugins[i]);
+            }
+        }
     }
     
     QStringList PluginManagerPrivate::enumPluginPaths()
@@ -317,7 +396,7 @@ namespace SIM
         return pluginName;
     }
 
-    bool PluginManagerPrivate::loadPlugins(const QStringList& pluginsList)
+    bool PluginManagerPrivate::initPluginList(const QStringList& pluginsList)
     {
         for(QStringList::const_iterator it = pluginsList.begin(); it != pluginsList.end(); ++it)
         {
@@ -334,14 +413,50 @@ namespace SIM
 #endif
             info.filePath    = *it;
             info.cfg		 = NULL;
-            info.bDisabled	 = false;
-            info.bNoCreate	 = false;
-            info.bFromCfg	 = false;
             info.module		 = NULL;
             info.info		 = NULL;
             info.base		 = 0;
+            info.alwaysEnabled = false;
+            info.protocolPlugin = false;
             plugins.push_back(info);
             log(L_DEBUG, "Found plugin %s", qPrintable(info.name));
+        }
+        return true;
+    }
+
+    void PluginManagerPrivate::scan()
+    {
+        for(int i = 0; i < plugins.count(); ++i) {
+            create(plugins[i]);
+        }
+    }
+
+    bool PluginManagerPrivate::initialize()
+    {
+        m_base = 0;
+        m_bLoaded = false;
+        m_bInInit = true;
+
+        QStringList pluginsList = enumPluginPaths();
+        initPluginList(pluginsList);
+
+        m_core = plugin("_core");
+        if (m_core.isNull())
+        {
+            log(L_ERROR, "Fatal error: Core plugin failed to load. Aborting!");
+            m_bAbort = true;
+            return false;
+        }
+        qSort(plugins.begin(), plugins.end(), cmp_plugin);
+
+        scan();
+        EventInit eStart;
+        eStart.process();
+        if(eStart.abortLoading())
+        {
+            log(L_ERROR,"EventInit failed - aborting!");
+            m_bAbort = true;
+            return false;
         }
         return true;
     }
@@ -362,38 +477,6 @@ namespace SIM
         for (argv++, argc--; argc > 0; argv++, argc--)
             args.push_back(QString::fromLocal8Bit(*argv));
 
-        m_base = 0;
-        m_bLoaded = false;
-        m_bInInit = true;
-
-        QStringList pluginsList = enumPluginPaths();
-        loadPlugins(pluginsList);
-
-        EventGetPluginInfo ePlugin("_core");
-        ePlugin.process();
-        const pluginInfo *coreInfo = ePlugin.info();
-        if (!coreInfo)
-        {
-            log(L_ERROR,"Fatal error: Core plugin failed to load. Aborting!");
-            m_bAbort = true;
-            return;
-        }
-        qSort(plugins.begin(), plugins.end(), cmp_plugin);
-        const int size = plugins.count();
-        for(int i = 0; i < size; ++i) {
-            create(plugins[i]);
-            if (m_bAbort)
-                return;
-        }
-
-        EventInit eStart;
-        eStart.process();
-        if(eStart.abortLoading())
-        {
-            log(L_ERROR,"EventInit failed - aborting!");
-            m_bAbort = true;
-            return;
-        }
         for (QStringList::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
             if ((*it_args).length()){
                 usage(*it_args);
@@ -405,7 +488,7 @@ namespace SIM
 
     PluginManagerPrivate::~PluginManagerPrivate()
     {
-        release_all(NULL);
+        release_all();
         delete m_exec;
         setLogEnable(false);
         XSL::cleanup();
@@ -418,44 +501,6 @@ namespace SIM
                 {
                     EventArg *a = static_cast<EventArg*>(e);
                     return findParam(a);
-                }
-            case eEventGetPluginInfo:
-                {
-                    EventGetPluginInfo *info = static_cast<EventGetPluginInfo*>(e);
-                    if(info->pluginName().isEmpty())
-                        info->setInfo(getInfo(info->idx()));
-                    else
-                        info->setInfo(getInfo(info->pluginName()));
-                    return true;
-                }
-            case eEventApplyPlugin:
-                {
-                    EventApplyPlugin *p = static_cast<EventApplyPlugin*>(e);
-                    return setInfo(p->pluginName());
-                }
-            case eEventPluginsUnload:
-                {
-                    EventPluginsUnload *p = static_cast<EventPluginsUnload*>(e);
-                    release_all(p->plugin());
-                    return true;
-                }
-            case eEventPluginsLoad:
-                {
-                    EventPluginsLoad *p = static_cast<EventPluginsLoad*>(e);
-                    load_all(p);
-                    return true;
-                }
-            case eEventUnloadPlugin:
-                {
-                    EventUnloadPlugin *p = static_cast<EventUnloadPlugin*>(e);
-                    release(p->pluginName());
-                    return true;
-                }
-            case eEventLoadPlugin:
-                {
-                    EventLoadPlugin *p = static_cast<EventLoadPlugin*>(e);
-                    load(p->pluginName());
-                    return true;
                 }
             case eEventSaveState:
                 saveState();
@@ -492,27 +537,15 @@ namespace SIM
         return NULL;
     }
 
-    void PluginManagerPrivate::release_all(Plugin *to)
+    void PluginManagerPrivate::release_all()
     {
         if(!plugins.size())
             return;
         for(int n = plugins.size() - 1; n > 0; n--)
         {
             pluginInfo &info = plugins[n];
-            if (to && (info.plugin == to))
-                continue; // Were: break;
-                          // Now unload all plugins exept one passed as arg
-
-///////////////////////////////////////////////////
-// I do not know why Shutov ignored protocol plugins here
-// but on changing profile we should release protocol that no longer in use
-///////////////////////////////////////////////////
-//        if (to && info.info && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))  //FIXME Compleatly remove these two lines
-//            continue;
-            release(info, to != NULL);
-            info.bDisabled = false;
-            info.bFromCfg  = false;
-            if (info.cfg){
+            release(info);
+            if (info.cfg) {
                 delete info.cfg;
                 info.cfg = NULL;
             }
@@ -565,113 +598,46 @@ namespace SIM
         }
     }
 
-    bool PluginManagerPrivate::create(pluginInfo &info)
+    PluginPtr PluginManagerPrivate::create(pluginInfo &info)
     {
-        /*
-        if(ProfileManager::instance()->currentProfile().isNull())
-        {
-            log(L_DEBUG, "No profile selected");
-            return false;
-        }
-        */
-        if(!ProfileManager::instance()->currentProfile().isNull())
-        {
-            ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
-            if(profile)
-            {
-                info.bDisabled = !profile->value(info.name + "/enabled").toBool();
-                info.bFromCfg = true;
-            }
-        }
-        if (info.plugin)
-            return true;
-        EventArg a1("--enable-" + info.name);
-        if (a1.process())
-        {
-            info.bDisabled = false;
-            info.bFromCfg = true;
-        }
-        EventArg a2("--disable-" + info.name);
-        if (a2.process()){
-            info.bDisabled = true;
-            info.bFromCfg = true;
-        }
-        if (info.bDisabled)
-            return false;
+        if (!info.plugin.isNull())
+            return info.plugin.toStrongRef();
         load(info);
         if (info.info == NULL)
-            return false;
-        if (m_bInInit && (info.info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-            info.bDisabled = true;
-            release(info);
-            return false;
-        }
+            return PluginPtr();
         return createPlugin(info);
     }
 
-    bool PluginManagerPrivate::createPlugin(pluginInfo &info)
+    PluginPtr PluginManagerPrivate::createPlugin(pluginInfo &info)
     {
-        if (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT))){
-            info.bDisabled = true;
-            release(info);
-            return false;
-        }
         log(L_DEBUG, "[1]Load plugin %s", qPrintable(info.name));
-        if (!m_bLoaded && !(info.info->flags & (PLUGIN_NO_CONFIG_PATH & ~PLUGIN_DEFAULT))){
-            loadState();
-            if (info.bDisabled || (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT)))){
-                release(info);
-                return false;
-            }
-        }
         if (info.base == 0){
             m_base += 0x1000;
             info.base = m_base;
         }
-        info.plugin = PluginPtr(info.info->create(info.base, m_bInInit, info.cfg));
-        info.plugin->setName(info.name);
-        m_plugins.append(info.plugin);
-        if (info.plugin == NULL){
-            info.bNoCreate = true;
-            info.bDisabled = true;
-            return false;
+        PluginPtr plugin = PluginPtr(info.info->create(info.base, m_bInInit, info.cfg));
+        info.plugin = plugin.toWeakRef();
+        info.title = info.info->title;
+        info.description = info.info->description;
+        plugin->setName(info.name);
+        if (info.plugin == NULL) {
+            return PluginPtr();
         }
         if (info.cfg){
             delete info.cfg;
             info.cfg = NULL;
         }
-        if (info.info->flags & PLUGIN_RELOAD){
-            reloadState();
-            loadState();
-        }
         if (info.info->flags & PLUGIN_PROTOCOL)
-            info.plugin->setProtocolPlugin(true);
-        EventPluginChanged e(&info);
-        e.process();
-        return true;
-    }
+            info.protocolPlugin = true;
+        if (info.info->flags & PLUGIN_NODISABLE)
+            info.alwaysEnabled = true;
 
-    void PluginManagerPrivate::load_all(EventPluginsLoad *p)
-    {
-        if (p->abortLoading()){
-            m_bAbort = true;
-            qApp->quit();
-            return;
-        }
-        Plugin *from = p->plugin();
-        reloadState();
-        int i;
-        for (i = 0; i < plugins.size(); i++){
-            pluginInfo &info = plugins[i];
-            if (info.plugin == from)
-                break;
-        }
-        for (; i < plugins.size(); i++)
-            create(plugins[i]);
+        EventPluginChanged e(info.name);
+        e.process();
+        return plugin;
     }
 
     void PluginManagerPrivate::release(const QString &name)
-
     {
         pluginInfo *info = getInfo(name);
         if (info)
@@ -680,15 +646,17 @@ namespace SIM
 
     void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
     {
-        if (info.plugin){
-            log(L_DEBUG, "Unload plugin %s", qPrintable(info.name));
+        if (info.plugin) {
             info.plugin.clear();
-            EventPluginChanged e(&info);
+            EventPluginChanged e(info.name);
             e.process();
         }
-        if (info.module){
+        if (info.module) {
             if (bFree)
+            {
+                log(L_DEBUG, "[2]Unload plugin %s", qPrintable(info.name));
                 delete info.module;
+            }
             info.module = NULL;
         }
         info.info = NULL;
@@ -707,7 +675,8 @@ namespace SIM
         pluginInfo *info = getInfo(name);
         if (info == NULL)
             return false;
-        if (info->bDisabled)
+        bool disabled = !ProfileManager::instance()->currentProfile()->config()->value(info->name + "/enabled").toBool();
+        if (disabled)
         {
             if (info->plugin == NULL)
                 return false;
@@ -717,7 +686,6 @@ namespace SIM
         }
         if (info->plugin)
             return false;
-        info->bFromCfg = true;
         load(*info);
         createPlugin(*info);
         return true;
@@ -735,35 +703,10 @@ namespace SIM
         if (m_bAbort)
             return;
         getContacts()->save();
-        for (int i = 0; i < plugins.size(); i++)
-        {
-            pluginInfo &info = plugins[i];
-            ProfileManager::instance()->currentProfile()->config()->setValue(info.name + "/enabled", !info.bDisabled);
-        }
         ProfileManager::instance()->sync();
     }
 
     const unsigned long NO_PLUGIN = (unsigned long)(-1);
-
-    void PluginManagerPrivate::reloadState()
-    {
-        m_bLoaded = false;
-        for (int i = 0; i < plugins.size(); i++){
-            pluginInfo &info = plugins[i];
-            if (info.cfg){
-                delete info.cfg;
-                info.cfg = NULL;
-            }
-        }
-    }
-
-    void PluginManagerPrivate::loadState()
-    {
-        if (m_bLoaded)
-            return;
-        m_bLoaded = true;
-        return;
-    }
 
     bool PluginManagerPrivate::findParam(EventArg *a)
     {
@@ -873,9 +816,12 @@ namespace SIM
     PluginManager::PluginManager(int argc, char **argv)
     {
         EventReceiver::initList();
-        factory = new SIMSockets(qApp);
-        contacts = new ContactList;
         p = new PluginManagerPrivate(argc, argv);
+    }
+
+    bool PluginManager::initialize()
+    {
+        return p->initialize();
     }
 
     void deleteResolver();
@@ -883,10 +829,7 @@ namespace SIM
     PluginManager::~PluginManager()
     {
         EventQuit().process();
-        contacts->clearClients();
         delete p;
-        delete contacts;
-        delete factory;
         EventReceiver::destroyList();
         deleteResolver();
         ProfileManager::instance()->sync();
@@ -907,6 +850,31 @@ namespace SIM
         return p->plugin(pluginname);
     }
 
+    QString PluginManager::pluginTitle(const QString& pluginname)
+    {
+        return p->pluginTitle(pluginname);
+    }
+
+    QString PluginManager::pluginDescription(const QString& pluginname)
+    {
+        return p->pluginDescription(pluginname);
+    }
+
+    bool PluginManager::isPluginAlwaysEnabled(const QString& pluginname)
+    {
+        return p->isPluginAlwaysEnabled(pluginname);
+    }
+
+    bool PluginManager::isPluginProtocol(const QString& pluginname)
+    {
+        return p->isPluginProtocol(pluginname);
+    }
+
+    PluginInfo* PluginManager::getPluginInfo(const QString& pluginname)
+    {
+        return p->getPluginInfo(pluginname);
+    }
+
     static PluginManager* g_pluginManager = 0;
 
     PluginManager* getPluginManager()
@@ -925,9 +893,6 @@ namespace SIM
         Q_ASSERT(g_pluginManager != 0);
         delete g_pluginManager;
     }
-
-    ContactList *PluginManager::contacts = NULL;
-    SocketFactory *PluginManager::factory = NULL;
 }
 
 // vim: set expandtab:

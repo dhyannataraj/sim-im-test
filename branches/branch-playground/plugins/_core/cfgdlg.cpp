@@ -23,6 +23,8 @@
 #include "buffer.h"
 #include "core.h"
 #include "contacts/client.h"
+#include "profilemanager.h"
+#include "log.h"
 
 #include <QPixmap>
 #include <QTabWidget>
@@ -150,44 +152,39 @@ QWidget *ConfigItem::getWidget(ConfigureDialog*)
 class PluginItem : public ConfigItem
 {
 public:
-    PluginItem(QTreeWidgetItem *view, const QString &text, pluginInfo *info, unsigned id);
-    pluginInfo *info() { return m_info; }
+    PluginItem(QTreeWidgetItem *view, const QString& name, const QString& title, unsigned id);
     virtual void apply();
     virtual unsigned type() { return PLUGIN_ITEM; }
 private:
     virtual QWidget *getWidget(ConfigureDialog *dlg);
-    pluginInfo *m_info;
+    QString m_name;
 };
 
-PluginItem::PluginItem(QTreeWidgetItem *item, const QString &text, pluginInfo *info, unsigned id)
-        : ConfigItem(item, id)
+PluginItem::PluginItem(QTreeWidgetItem *item, const QString& name, const QString& title, unsigned id)
+        : ConfigItem(item, id), m_name(name)
 {
-    m_info = info;
-    setText(0, text);
-    setText(1, text);
+    setText(0, title);
+    setText(1, title);
 }
 
 void PluginItem::apply()
 {
-    if (m_info->bNoCreate)
+    if (getPluginManager()->isPluginAlwaysEnabled(m_name))
         return;
-    if (m_info->info && (m_info->info->flags & PLUGIN_NODISABLE))
-        return;
-    if (m_widget){
+    if (m_widget) {
         PluginCfg *w = static_cast<PluginCfg*>(m_widget);
-        if (w->chkEnable->isChecked() == m_info->bDisabled){
-            m_info->bDisabled = !w->chkEnable->isChecked();
-            delete m_widget;
-            m_widget = NULL;
-        }
+        if (w->chkEnable->isChecked())
+            ProfileManager::instance()->currentProfile()->enablePlugin(m_name);
+        else
+            ProfileManager::instance()->currentProfile()->disablePlugin(m_name);
+        delete m_widget;
+        m_widget = 0;
     }
-    EventApplyPlugin e(m_info->name);
-    e.process();
 }
 
 QWidget *PluginItem::getWidget(ConfigureDialog *dlg)
 {
-    return new PluginCfg(dlg->wnd, m_info);
+    return new PluginCfg(dlg->wnd, m_name);
 }
 
 class ClientItem : public ConfigItem
@@ -341,20 +338,6 @@ ConfigureDialog::ConfigureDialog() : QDialog(NULL)
 ConfigureDialog::~ConfigureDialog()
 {
     lstBox->clear();
-    for (unsigned long n = 0;; n++){
-        EventGetPluginInfo e(n);
-        e.process();
-        const pluginInfo *info = e.info();
-        if (info == NULL)
-            break;
-        if (info->plugin == NULL || info->name=="_core") //_core is deleted by pluginmanager, it may not be deleted here, would cause a a stack overflow
-            continue;
-        if (info->bDisabled){
-            EventUnloadPlugin eUnload(info->name);
-            eUnload.process();
-        }
-    }
-	//::saveGeometry(this, CorePlugin::m_plugin->data.CfgGeometry);
 }
 
 static unsigned itemWidth(QTreeWidgetItem *item, QFontMetrics &fm)
@@ -422,19 +405,14 @@ void ConfigureDialog::fill(unsigned id)
     parentItem->setIcon(0, Pict("run"));
     parentItem->setExpanded(true);
 
-    for ( n = 0;; n++){
-        EventGetPluginInfo e(n);
-        e.process();
-        pluginInfo *info = e.info();
-        if (info == NULL)
-            break;
-        if (info->info == NULL){
-            EventLoadPlugin e(info->name);
-            e.process();
-        }
-        if ((info->info == NULL) || (info->info->title == NULL)) continue;
-        QString title = i18n(info->info->title);
-        new PluginItem(parentItem, title, info, n);
+    QStringList plugins = getPluginManager()->enumPlugins();
+    foreach(QString plugin, plugins)
+    {
+        log(L_DEBUG, "plugin: %s", qPrintable(plugin));
+        QString title = getPluginManager()->pluginTitle(plugin);
+        if(title.isEmpty())
+            continue;
+        new PluginItem(parentItem, plugin, title, n);
     }
 
     QFontMetrics fm(lstBox->font());
@@ -564,23 +542,6 @@ bool ConfigureDialog::processEvent(Event *e)
 {
     if (e->type() == eEventLanguageChanged)
         bLanguageChanged = true;
-    if (e->type() == eEventPluginChanged){
-        EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
-        pluginInfo *info = p->info();
-        if (info && info->plugin == NULL){
-            for(int i = 0; i < lstBox->topLevelItemCount(); i++)
-            {
-                QTreeWidgetItem *it = lstBox->topLevelItem(i);
-                ConfigItem *item = static_cast<ConfigItem*>(it);
-                if (item->type() != PLUGIN_ITEM)
-                    continue;
-                if (static_cast<PluginItem*>(item)->info() == info){
-                    item->deleteWidget();
-                    break;
-                }
-            }
-        }
-    }
     if (e->type() == eEventClientsChanged){
         unsigned id = 0;
         if (lstBox->currentItem())

@@ -88,12 +88,6 @@ enum SIMEvent
 
     eEventLanguageChanged   = 0x0301,   // i18n changed
     eEventPluginChanged     = 0x0302,   // a plugin was (un)loaded
-    eEventGetPluginInfo     = 0x0303,   // get plugin at pluginidx n, ret: pluginInfo
-    eEventApplyPlugin       = 0x0304,   // ?
-    eEventLoadPlugin        = 0x0305,   // a plugin should be loaded
-    eEventUnloadPlugin      = 0x0306,   // a plugin should be unloaded
-    eEventPluginsLoad       = 0x0307,   // load all plugins
-    eEventPluginsUnload     = 0x0308,   // unload all plugins
     eEventSaveState         = 0x0309,   // plugins should save their config
     eEventClientsChanged    = 0x0311,   // a client was added/removed
     eEventPluginLoadConfig  = 0x0312,
@@ -369,83 +363,11 @@ protected:
 class EXPORT EventPluginChanged : public Event
 {
 public:
-	EventPluginChanged(pluginInfo *info)
-		: Event(eEventPluginChanged), m_info(info) {}
-	pluginInfo *info() const { return m_info; }
+	EventPluginChanged(const QString& pluginname)
+		: Event(eEventPluginChanged), m_pluginName(pluginname) {}
+	QString pluginName() const { return m_pluginName; }
 protected:
-	pluginInfo *m_info;
-};
-
-class EXPORT EventGetPluginInfo : public Event
-{
-public:
-	EventGetPluginInfo(unsigned idx)
-		: Event(eEventGetPluginInfo), m_idx(idx), m_pluginName(), m_info(0) {}
-	EventGetPluginInfo(const QString &pluginName)
-		: Event(eEventGetPluginInfo), m_idx(0), m_pluginName(pluginName), m_info(0) {}
-    unsigned idx() const { return m_idx; }
-    const QString &pluginName() const { return m_pluginName; }
-    // out
-    void setInfo(pluginInfo *info) { m_info = info; }
-	pluginInfo *info() const { return m_info; }
-protected:
-    unsigned    m_idx;
-    QString     m_pluginName;
-	pluginInfo *m_info;
-};
-
-class EXPORT EventApplyPlugin : public Event
-{
-public:
-	EventApplyPlugin(const QString &pluginName)
-		: Event(eEventApplyPlugin), m_pluginName(pluginName) {}
-	const QString &pluginName() const { return m_pluginName; }
-protected:
-	QString     m_pluginName;
-};
-
-class EXPORT EventLoadPlugin : public Event
-{
-public:
-	EventLoadPlugin(const QString &pluginName)
-		: Event(eEventLoadPlugin), m_pluginName(pluginName) {}
-	const QString &pluginName() const { return m_pluginName; }
-protected:
-	QString     m_pluginName;
-};
-
-class EXPORT EventUnloadPlugin : public Event
-{
-public:
-	EventUnloadPlugin(const QString &pluginName)
-		: Event(eEventUnloadPlugin), m_pluginName(pluginName) {}
-	const QString &pluginName() const { return m_pluginName; }
-protected:
-	QString     m_pluginName;
-};
-
-class EXPORT EventPluginsLoad : public Event
-{
-public:
-    EventPluginsLoad()
-        : Event(eEventPluginsLoad), m_bAbort(true), m_plugin(NULL) {}
-	EventPluginsLoad(Plugin *plugin)
-		: Event(eEventPluginsLoad), m_bAbort(false), m_plugin(plugin) {}
-    bool abortLoading() const { return m_bAbort; }
-	Plugin *plugin() const { return m_plugin; }
-protected:
-    bool       m_bAbort;
-	Plugin    *m_plugin;
-};
-
-class EXPORT EventPluginsUnload : public Event
-{
-public:
-	EventPluginsUnload(Plugin *plugin)
-		: Event(eEventPluginsUnload), m_plugin(plugin) {}
-	Plugin *plugin() const { return m_plugin; }
-protected:
-	Plugin    *m_plugin;
+	QString m_pluginName;
 };
 
 class EXPORT EventSaveState : public Event

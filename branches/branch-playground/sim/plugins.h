@@ -29,25 +29,22 @@ class Buffer;
 
 namespace SIM
 {
-	class Client;
-	class ContactList;
-	class SocketFactory;
+    struct PluginInfo;
 
 	class EXPORT Plugin
 	{
 	public:
 		Plugin(unsigned base);
-		virtual ~Plugin() {}
+		virtual ~Plugin();
 		virtual QWidget *createConfigWindow(QWidget* /* *parent */ ) { return NULL; }
 		virtual QByteArray getConfig() { return QByteArray(); }
 		unsigned registerType();
 		void boundTypes();
 
-        void setName(QString& n);
+        void setName(const QString& n);
         QString name();
 
-        bool isProtocolPlugin();
-        void setProtocolPlugin(bool proto);
+        PluginInfo* getInfo();
 
 	protected:
 		unsigned m_current;
@@ -64,11 +61,18 @@ namespace SIM
 	public:
 		PluginManager(int argc, char **argv);
 		~PluginManager();
+        bool initialize();
 		bool isLoaded();
-		static ContactList *contacts;
-		static SocketFactory *factory;
         PluginPtr plugin(const QString& pluginname);
         QStringList enumPlugins();
+
+        QString pluginTitle(const QString& pluginname);
+        QString pluginDescription(const QString& pluginname);
+        
+        bool isPluginAlwaysEnabled(const QString& pluginname);
+        bool isPluginProtocol(const QString& pluginname);
+
+        PluginInfo* getPluginInfo(const QString& pluginname);
 
 	private:
 		class PluginManagerPrivate *p;
@@ -77,7 +81,7 @@ namespace SIM
 	};
 
 	/* Plugin prototype */
-	typedef Plugin *createPlugin(unsigned base, bool bStart, Buffer *cfg);
+	typedef Plugin* createPlugin(unsigned base, bool bStart, Buffer *cfg);
 
 	const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
 #ifdef USE_KDE
@@ -101,23 +105,9 @@ namespace SIM
 		unsigned        flags;          // plugin flags
 	};
 
-	struct pluginInfo
-	{
-		PluginPtr       plugin;
-		QString         name;
-		QString         filePath;
-		Buffer          *cfg;           // configuration data
-		bool            bDisabled;      // no load this plugin
-		bool            bNoCreate;      // can't create plugin
-		bool            bFromCfg;       // init state from config
-		QLibrary        *module;        // so or dll handle
-		PluginInfo      *info;
-		unsigned        base;           // base for plugin types
-	};
-
 	SIM_EXPORT PluginInfo *GetPluginInfo();
 
-    PluginManager* EXPORT getPluginManager();
+    SIM_EXPORT PluginManager* getPluginManager();
     void EXPORT createPluginManager(int argc, char** argv);
     void EXPORT destroyPluginManager();
 

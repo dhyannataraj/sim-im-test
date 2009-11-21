@@ -49,13 +49,13 @@ namespace testContactList
 
     void TestContactList::initTestCase()
     {
-        m_contactList = new SIM::ContactList();
-        PluginManager::contacts = m_contactList;
+        SIM::createContactList();
+        m_contactList = SIM::getContacts();
     }
 
     void TestContactList::cleanupTestCase()
     {
-        delete m_contactList;
+        SIM::destroyContactList();
     }
 
     void TestContactList::testClientManipulation()

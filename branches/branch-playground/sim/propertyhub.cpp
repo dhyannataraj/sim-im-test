@@ -20,6 +20,8 @@ bool PropertyHub::save()
 {
 	//log(L_DEBUG, "PropertyHub::save()");
 	QList<QByteArray> props = this->dynamicPropertyNames();
+	if(!ProfileManager::instance()->currentProfile())
+		return false;
 	ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
 	if(!profile)
 		return false;
@@ -43,6 +45,8 @@ bool PropertyHub::load()
 	QStringList keys = profile->allKeys();
 	foreach(const QString &key, keys)
 	{
+		if(key == "enabled")
+			continue;
 		//log(L_DEBUG, "Loading property: %s : %s", key.toUtf8().data(), profile->value(key).toString().toUtf8().data());
 		this->setProperty(qPrintable(key), profile->value(key));
 	}

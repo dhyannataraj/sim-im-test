@@ -189,9 +189,9 @@ bool Commands::processEvent(Event *e)
 {
     switch (e->type())
     {
-        case eEventPluginsUnload:
-            clear();
-            break;
+//        case eEventPluginsUnload:
+//            clear();
+//            break;
         case eEventToolbar:
             {
                 EventToolbar *et = static_cast<EventToolbar*>(e);

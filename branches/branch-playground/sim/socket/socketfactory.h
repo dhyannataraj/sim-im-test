@@ -38,6 +38,8 @@ namespace SIM
         COPY_RESTRICTED(SocketFactory)
     };
 
+    EXPORT void createSocketFactory();
+    EXPORT void destroySocketFactory();
     SocketFactory EXPORT *getSocketFactory();
 }
 

@@ -1234,9 +1234,26 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
     return c;
 }
 
+static ContactList* gs_contactList = 0;
+
+EXPORT void createContactList()
+{
+	if(gs_contactList)
+		return;
+	gs_contactList = new ContactList();
+}
+
+EXPORT void destroyContactList()
+{
+	if(!gs_contactList)
+		return;
+	delete gs_contactList;
+	gs_contactList = 0;
+}
+
 EXPORT ContactList *getContacts()
 {
-    return PluginManager::contacts;
+    return gs_contactList;
 }
 
 // see also http://www.iana.org/assignments/character-sets

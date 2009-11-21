@@ -42,6 +42,8 @@ namespace SIM
 	{
 		if(!enumProfiles().contains(name))
 			return false;
+		if(!m_currentProfile.isNull() && m_currentProfile->name() == name)
+			return true;
 		// TODO lock
 		QString profile_conf = m_rootPath + QDir::separator() + name + QDir::separator() + "profile.conf";
 		QString old_config = m_rootPath + QDir::separator() + name + QDir::separator() + "plugins.conf";
@@ -50,6 +52,7 @@ namespace SIM
 		config->load();
             config->mergeOldConfig(old_config);
 		m_currentProfile = ProfilePtr(new Profile(config, name));
+		m_currentProfile->loadPlugins();
 		return true;
 	}
 

@@ -1,5 +1,6 @@
 
 #include <list>
+#include <QApplication>
 
 #include "simsockets.h"
 
@@ -44,9 +45,24 @@ namespace SIM
         return new SIMServerSocket();
     }
 
+    static SocketFactory* gs_socketfactory = 0;
+
+    EXPORT void createSocketFactory()
+    {
+        if(!gs_socketfactory)
+            gs_socketfactory = new SIMSockets(qApp);
+    }
+
+    EXPORT void destroySocketFactory()
+    {
+        if(gs_socketfactory)
+            delete gs_socketfactory;
+        gs_socketfactory = 0;
+    }
+
     SocketFactory *getSocketFactory()
     {
-        return PluginManager::factory;
+        return gs_socketfactory;
     }
 
 }

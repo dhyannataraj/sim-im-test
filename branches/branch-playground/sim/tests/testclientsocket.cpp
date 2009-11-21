@@ -167,13 +167,11 @@ namespace testClientSocket
     void TestClientSocket::initTestCase()
     {
         m_factory = new TestFactory(this);
-        SIM::PluginManager::factory = m_factory;
         m_notify = new TestClientSocketNotify();
     }
 
     void TestClientSocket::cleanupTestCase()
     {
-        delete SIM::PluginManager::factory;
     }
 
     bool TestClientSocket::processEvent(SIM::Event* e)
@@ -182,6 +180,8 @@ namespace testClientSocket
         {
             case SIM::eEventSocketConnect:
                 m_eSocketConnect++;
+                break;
+            default:
                 break;
         }
         return true;

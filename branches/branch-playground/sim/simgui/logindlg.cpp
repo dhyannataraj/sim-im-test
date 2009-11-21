@@ -15,30 +15,30 @@ email                : vovan@shutoff.ru
 *                                                                         *
 ***************************************************************************/
 
-#include "icons.h"
+#include "contacts/client.h"
 #include "core.h"
-#include "simgui/logindlg.h"
-#include "simgui/ballonmsg.h"
-#include "simgui/linklabel.h"
+#include "icons.h"
 #include "log.h"
 #include "profilemanager.h"
-#include "contacts/client.h"
+#include "simgui/ballonmsg.h"
+#include "simgui/linklabel.h"
+#include "simgui/logindlg.h"
 
-#include <QSettings>
-#include <QPixmap>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QPushButton>
-#include <QLabel>
-#include <QDir>
-#include <QLayout>
 #include <QApplication>
-#include <QTimer>
-#include <QInputDialog>
-#include <QMessageBox>
+#include <QCheckBox>
 #include <QCloseEvent>
+#include <QComboBox>
 #include <QDesktopWidget>
+#include <QDir>
+#include <QInputDialog>
+#include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QMessageBox>
+#include <QPixmap>
+#include <QPushButton>
+#include <QSettings>
+#include <QTimer>
 
 using namespace SIM;
 
@@ -281,6 +281,7 @@ void LoginDialog::profileChanged(int)
         labelNew->hide();
         e_newName->hide();
         clearInputs();
+		ProfileManager::instance()->selectProfile(cmbProfile->currentText());
 		ClientList clients;
 		loadClients(cmbProfile->currentText(), clients);
 		unsigned nClients = 0;
@@ -613,27 +614,19 @@ Client* LoginDialog::loadClient(const QString &name, Buffer *cfg)
 	QString pluginName = getToken(clientName, '/');
     if (pluginName.isEmpty() || clientName.length() == 0)
 		return NULL;
-	EventGetPluginInfo e(pluginName);
-	e.process();
-	pluginInfo *info = e.info();
-	if (info == NULL)
-    {
-        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
-		return NULL;
-	}
-	if (info->info == NULL)
-    {
-		EventLoadPlugin e(pluginName);
-		e.process();
-	}
-	if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
+	if(!getPluginManager()->isPluginProtocol(pluginName))
     {
         log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
 		return NULL;
 	}
-	info->bDisabled = false;
-	EventApplyPlugin eApply(pluginName);
-	eApply.process();
+	PluginPtr plugin = getPluginManager()->plugin(pluginName);
+	if(plugin.isNull())
+    {
+        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
+		return NULL;
+	}
+	m_protocolPlugins.append(plugin);
+	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
 	Protocol *protocol;
 	ContactList::ProtocolIterator it;
     while ((protocol = ++it) != NULL)
@@ -642,3 +635,4 @@ Client* LoginDialog::loadClient(const QString &name, Buffer *cfg)
     log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
 	return NULL;
 }
+

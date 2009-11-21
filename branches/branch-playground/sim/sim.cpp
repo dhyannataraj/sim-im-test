@@ -22,6 +22,7 @@
 #include "profilemanager.h"
 #include "simfs.h"
 #include "paths.h"
+#include "socket/socketfactory.h"
 
 #include <QDir>
 
@@ -62,67 +63,6 @@ void simMessageOutput(QtMsgType, const char *msg)
     if (logEnabled())
         log(SIM::L_DEBUG, "QT: %s", msg);
 }
-
-#ifndef WIN32
-
-static const char *qt_args[] =
-    {
-#ifdef USE_KDE
-        "caption:",
-        "icon:",
-        "miniicon:",
-        "config:",
-        "dcopserver:",
-        "nocrashhandler",
-        "waitforwm",
-        "style:",
-        "geometry:",
-        "smkey:",
-        "nofork",
-        "help",
-        "help-kde",
-        "help-qt",
-        "help-all",
-        "author",
-        "version",
-        "license",
-#endif
-        "display:",
-        "session:",
-        "cmap"
-        "ncols:",
-        "nograb",
-        "dograb",
-        "sync",
-        "fn",
-        "font:",
-        "bg",
-        "background:",
-        "fg",
-        "foreground:",
-        "btn",
-        "button:",
-        "name:",
-        "title:",
-        "reverse",
-        "screen:",
-        NULL
-    };
-
-#if !defined(Q_OS_MAC) && !defined(__OS2__)
-extern "C" {
-    static int (*old_errhandler)(Display*, XErrorEvent*) = NULL;
-    static int x_errhandler( Display *dpy, XErrorEvent *err )
-    {
-        if (err->error_code == BadMatch)
-            return 0;
-        if (old_errhandler)
-            return old_errhandler(dpy, err);
-        return 0;
-    }
-}
-#endif
-#endif
 
 #ifndef REVISION_NUMBER
 	#define REVISION_NUMBER 
@@ -181,11 +121,17 @@ int main(int argc, char *argv[])
     QString sPluginPath = app.applicationDirPath() + "/plugins";
 #endif
     QApplication::addLibraryPath(sPluginPath);
+    SIM::createSocketFactory();
+    SIM::createContactList();
     SIM::createPluginManager(argc, argv);
+    if(!getPluginManager()->initialize())
+        return 1;
     app.setQuitOnLastWindowClosed(false);
     if (SIM::getPluginManager()->isLoaded())
         res = app.exec();
     SIM::destroyPluginManager();
+    SIM::destroyContactList();
+    SIM::destroySocketFactory();
     return res;
 }
 

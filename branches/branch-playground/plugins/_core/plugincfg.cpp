@@ -16,19 +16,22 @@
  ***************************************************************************/
 
 #include "misc.h"
+#include "profilemanager.h"
+#include "log.h"
 
 #include "plugincfg.h"
 #include <QVBoxLayout>
 
 using namespace SIM;
 
-PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
+PluginCfg::PluginCfg(QWidget *parent, const QString& pluginname) : QWidget(parent)
 {
 	setupUi(this);
-    m_info = info;
-    if(m_info->plugin)
+    m_pluginName = pluginname;
+	if(ProfileManager::instance()->currentProfile()->enabledPlugins().contains(m_pluginName))
 	{
-        QWidget *w = m_info->plugin->createConfigWindow(addWnd);
+		PluginPtr plugin = getPluginManager()->plugin(pluginname);
+        QWidget *w = plugin->createConfigWindow(addWnd);
         if (w){
             QVBoxLayout *lay = new QVBoxLayout(addWnd);
             lay->addWidget(w);
@@ -42,9 +45,9 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
         }
     }
     // adjust description
-    if(m_info->info && m_info->info->description)
+    if(!getPluginManager()->pluginDescription(pluginname).isNull())
 	{
-        lblDescription->setText(i18n(m_info->info->description));
+        lblDescription->setText(i18n(getPluginManager()->pluginDescription(pluginname)));
     }
 	else
 	{
@@ -52,23 +55,18 @@ PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info) : QWidget(parent)
     }
     // adjust tab
     tabWnd->setCurrentIndex(0);
-    tabWnd->setTabText(0, i18n(m_info->info->title));
+    tabWnd->setTabText(0, i18n(getPluginManager()->pluginTitle(pluginname)));
     tabWnd->setMinimumSize(tabWnd->sizeHint());
     tabWnd->adjustSize();
     // adjust complete widget
     setMinimumSize(sizeHint());
     adjustSize();
-    if (m_info->info && (m_info->info->flags & PLUGIN_NODISABLE)){
+    if (getPluginManager()->isPluginAlwaysEnabled(pluginname)) {
         chkEnable->hide();
-    }else{
-        if (m_info->bNoCreate){
-            chkEnable->setEnabled(false);
-            chkEnable->setChecked(false);
-        }else{
-            chkEnable->setEnabled(true);
-            chkEnable->setChecked(!m_info->bDisabled);
-        }
-    }
+	} else {
+		chkEnable->setEnabled(true);
+		chkEnable->setChecked(ProfileManager::instance()->currentProfile()->enabledPlugins().contains(pluginname));
+	}
 }
 
 void PluginCfg::apply()

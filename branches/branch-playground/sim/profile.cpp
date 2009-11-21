@@ -1,5 +1,6 @@
 
 #include "profile.h"
+#include "log.h"
 
 namespace SIM
 {
@@ -41,9 +42,13 @@ namespace SIM
         {
             if(s.endsWith("/enabled"))
             {
-                QString pluginName = s.left(s.indexOf('/'));
-                if(!pluginName.isEmpty())
-                    plugins.append(pluginName);
+                bool val = m_config->value(s).toBool();
+                if(val)
+                {
+                    QString pluginName = s.left(s.indexOf('/'));
+                    if(!pluginName.isEmpty())
+                        plugins.append(pluginName);
+                }
             }
         }
 		return plugins;
@@ -54,7 +59,11 @@ namespace SIM
         if(m_config.isNull())
             return;
         if(!enabledPlugins().contains(name))
+        {
+            log(L_DEBUG, "enablePlugin(%s)", qPrintable(name));
             m_config->setValue(name + "/enabled", true);
+            addPlugin(name);
+        }
     }
 
     void Profile::disablePlugin(const QString& name)
@@ -62,12 +71,18 @@ namespace SIM
         if(m_config.isNull())
             return;
         if(enabledPlugins().contains(name))
+        {
+            log(L_DEBUG, "disablePlugin(%s)", qPrintable(name));
             m_config->setValue(name + "/enabled", false);
+            removePlugin(name);
+        }
     }
 
-    void Profile::addPlugin(PluginPtr plugin)
+    void Profile::addPlugin(const QString& name)
     {
-        m_plugins.append(plugin);
+        PluginPtr plugin = getPluginManager()->plugin(name);
+        if(!plugin.isNull())
+            m_plugins.append(plugin);
     }
 
     void Profile::removePlugin(const QString& name)
@@ -81,6 +96,16 @@ namespace SIM
                 break;
             }
             i++;
+        }
+    }
+
+    void Profile::loadPlugins()
+    {
+        m_plugins.clear();
+        QStringList plugins = enabledPlugins();
+        foreach(QString name, plugins)
+        {
+            addPlugin(name);
         }
     }
 }

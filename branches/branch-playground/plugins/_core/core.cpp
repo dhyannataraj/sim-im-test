@@ -1185,15 +1185,10 @@ bool CorePlugin::processEvent(Event *e)
 		case eEventPluginChanged:
 			{
 				EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
-				pluginInfo *info = p->info();
-				if (info->plugin == this)
+				if (p->pluginName() == "_core")
 				{
 					QString profile = ProfileManager::instance()->currentProfileName();
 					setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
-					if (info->cfg){
-						delete info->cfg;
-						info->cfg = NULL;
-					}
 					removeTranslator();
 					installTranslator();
 					initData();
@@ -2986,24 +2981,10 @@ void CorePlugin::ignoreEvents(bool i)
 void CorePlugin::changeProfile(const QString& profilename)
 {
 	log(L_DEBUG, "CorePlugin::changeProfile()");
-	//QString saveProfile = getProfile();
 	destroy();
 	getContacts()->clearClients();
-	EventPluginsUnload eUnload(this);
-	eUnload.process();
 	getContacts()->clear();
-	//    preferences.clear();
-	EventPluginsLoad eLoad(this);
-	eLoad.process();
-	EventGetPluginInfo eInfo("_core");
-	eInfo.process();
-	pluginInfo *info = eInfo.info();
 	setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
-	if (info->cfg){
-		delete info->cfg;
-		info->cfg = NULL;
-	}
-	//setProfile(saveProfile);
 	ProfileManager::instance()->selectProfile(profilename);
 	removeTranslator();
 	installTranslator();
@@ -3067,11 +3048,6 @@ bool CorePlugin::init(bool bInit)
 		LoginDialog dlg(bInit, NULL, "", bInit ? QString() : settings.value("Profile").toString());
 		if (dlg.exec() == 0)
 		{
-			if (bInit || dlg.isChanged())
-			{
-				EventPluginsLoad eAbort;
-				eAbort.process();
-			}
 			return false;
 		}
 		newProfile = dlg.isNewProfile();
@@ -3114,8 +3090,6 @@ bool CorePlugin::init(bool bInit)
 			delete(pDlg);
             if (d.exists(sNewProfileName))
                 d.rmdir(sNewProfileName);
-			EventPluginsLoad eAbort;
-			eAbort.process();
 			return false;
 		}
 		delete(pDlg);
@@ -3424,22 +3398,8 @@ QByteArray CorePlugin::getConfig()
 		for (unsigned i = 0; i < getContacts()->nClients(); i++){
 			Client *client = getContacts()->getClient(i);
 			Protocol *protocol = client->protocol();
-			pluginInfo *info = NULL;
-			for (unsigned long n = 0;; n++){
-				EventGetPluginInfo e(n);
-				e.process();
-				info = e.info();
-				if (info == NULL)
-					break;
-				if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
-					continue;
-				if (info->plugin == protocol->plugin())
-					break;
-			}
-			if (info == NULL)
-				continue;
 			QByteArray line = "[";
-			line += QFile::encodeName(info->name).data();
+			line += QFile::encodeName(protocol->plugin()->name()).data();
 			line += '/';
 			line += protocol->description()->text.toUtf8();
 			line += "]\n";
@@ -3570,27 +3530,18 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 	QString pluginName = getToken(clientName, '/');
     if (pluginName.isEmpty() || clientName.length() == 0)
 		return NULL;
-	EventGetPluginInfo e(pluginName);
-	e.process();
-	pluginInfo *info = e.info();
-	if (info == NULL)
-    {
-        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
-		return NULL;
-	}
-	if (info->info == NULL)
-    {
-		EventLoadPlugin e(pluginName);
-		e.process();
-	}
-	if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
+	if(!getPluginManager()->isPluginProtocol(pluginName))
     {
         log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
 		return NULL;
 	}
-	info->bDisabled = false;
-	EventApplyPlugin eApply(pluginName);
-	eApply.process();
+	PluginPtr plugin = getPluginManager()->plugin(pluginName);
+	if(plugin.isNull())
+    {
+        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
+		return NULL;
+	}
+	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
 	Protocol *protocol;
 	ContactList::ProtocolIterator it;
     while ((protocol = ++it) != NULL)

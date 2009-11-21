@@ -289,6 +289,9 @@ private:
 	QVariantMap* m_userData;
 };
 
+EXPORT void createContactList();
+EXPORT void destroyContactList();
+
 EXPORT ContactList *getContacts();
 typedef std::map<unsigned, PacketType*>	PACKET_MAP;
 

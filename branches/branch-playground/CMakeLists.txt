@@ -12,6 +12,9 @@ if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
+SET(CMAKE_CXX_FLAGS  "-g -Wall")
+SET(LINK_FLAGS "-g")
+
 IF( APPLE )
     SET( PROGNAME Sim-IM )
     SET( MACOSX_BUNDLE_BUNDLE_NAME Sim-IM )
