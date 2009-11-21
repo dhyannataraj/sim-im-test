@@ -2271,11 +2271,6 @@
 					</File>
 				</Filter>
 			</Filter>
-			<Filter
-				Name="Interfaces"
-				Filter="*.ui"
-				>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="simapp"
