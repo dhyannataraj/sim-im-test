@@ -23,6 +23,7 @@ SET(_core_SRCS
         historycfg.cpp
         historywnd.cpp
         interfacecfg.cpp
+		logindlg.cpp
         maininfo.cpp
         mainwin.cpp
         manager.cpp
@@ -95,6 +96,7 @@ SET(_core_HDRS
         historycfg.h
         historywnd.h
         interfacecfg.h
+		logindlg.h
         maininfo.h
         mainwin.h
         manager.h
@@ -145,6 +147,7 @@ SET(_core_UICS
         fontconfigbase.ui
         historycfgbase.ui
         interfacecfgbase.ui
+		logindlgbase.ui
         maininfobase.ui
         managerbase.ui
         msgcfgbase.ui
