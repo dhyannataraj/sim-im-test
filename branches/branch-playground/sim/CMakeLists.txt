@@ -65,7 +65,6 @@ SET(sim_LIB_SRCS
 		simgui/intedit.cpp
 		simgui/linklabel.cpp
 		simgui/listview.cpp
-		simgui/logindlg.cpp
 		simgui/preview.cpp
 		simgui/qchildwidget.cpp
 		simgui/qcolorbutton.cpp
@@ -135,7 +134,6 @@ SET(sim_LIB_HDRS
 		simgui/intedit.h
 		simgui/linklabel.h
 		simgui/listview.h
-		simgui/logindlg.h
 		simgui/preview.h
 		simgui/qchildwidget.h
 		simgui/qcolorbutton.h
@@ -144,8 +142,8 @@ SET(sim_LIB_HDRS
 		simgui/toolbtn.h
 	)
 
-SET(sim_ui
-	simgui/logindlgbase.ui)
+#SET(sim_ui
+#	simgui/logindlgbase.ui)
 
 IF(ENABLE_KDE4)
 	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/kdesimapp.cpp)
