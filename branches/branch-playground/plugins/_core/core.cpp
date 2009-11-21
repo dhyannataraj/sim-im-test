@@ -68,7 +68,7 @@ email                : vovan@shutoff.ru
 #include "usercfg.h"
 #include "interfacecfg.h"
 #include "search.h"
-#include "simgui/logindlg.h"
+#include "logindlg.h"
 #include "newprotocol.h"
 #include "status.h"
 #include "statuswnd.h"

@@ -622,7 +622,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\logindlg.cpp"
+				RelativePath="logindlg.cpp"
 				>
 			</File>
 			<File
@@ -1434,7 +1434,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\sim\moc_logindlg.cpp"
+					RelativePath=".\moc_logindlg.cpp"
 					>
 				</File>
 				<File
@@ -2013,7 +2013,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\sim\logindlg.h"
+				RelativePath=".\logindlg.h"
 				>
 				<FileConfiguration
 					Name="Release|Win32"

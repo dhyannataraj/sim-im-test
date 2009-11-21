@@ -26,7 +26,7 @@
 #include "status.h"
 #include "core.h"
 #include "statuswnd.h"
-#include "simgui/logindlg.h"
+#include "logindlg.h"
 #include "autoreply.h"
 
 #include "contacts/client.h"
