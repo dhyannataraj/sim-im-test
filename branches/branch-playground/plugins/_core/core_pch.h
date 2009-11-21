@@ -115,3 +115,5 @@
 #include "userviewcfg.h"
 #include "ui_userviewcfgbase.h"
 #include "userwnd.h"
+#include "simgui/logindlg.h"
+#include "simgui/ui_logindlgbase.h"
