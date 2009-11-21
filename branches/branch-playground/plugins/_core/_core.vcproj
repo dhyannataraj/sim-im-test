@@ -2036,7 +2036,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-
 			<File
 				RelativePath="maininfo.h"
 				>
@@ -3024,6 +3023,10 @@
 			</File>
 			<File
 				RelativePath="interfacecfgbase.ui"
+				>
+			</File>
+			<File
+				RelativePath=".\logindlgbase.ui"
 				>
 			</File>
 			<File
