@@ -29,6 +29,7 @@
 #include "connectwnd.h"
 #include "core.h"
 #include "contacts/client.h"
+#include "contacts/protocolmanager.h"
 #include "log.h"
 
 using namespace std;
@@ -75,15 +76,15 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
             m_protocolPlugins.append(getPluginManager()->plugin(pluginname));
     }
 
-    Protocol *protocol;
-    ContactList::ProtocolIterator it;
+    ProtocolPtr protocol;
+    ProtocolIterator it;
     while ((protocol = ++it) != NULL){
         const CommandDef *cmd = protocol->description();
         if (cmd == NULL)
             continue;
         m_protocols.push_back(protocol);
     }
-    sort(m_protocols.begin(), m_protocols.end(), cmp_protocol);
+    //sort(m_protocols.begin(), m_protocols.end(), cmp_protocol);
     for (unsigned i = 0; i < m_protocols.size(); i++){
         const CommandDef *cmd = m_protocols[i]->description();
         cmbProtocol->addItem(Icon(cmd->icon), i18n(cmd->text));
@@ -126,7 +127,7 @@ void NewProtocol::protocolChanged(int n)
     }
     if ((n < 0) || (n >= (int)(m_protocols.size())))
         return;
-    Protocol *protocol = m_protocols[n];
+    ProtocolPtr protocol = m_protocols[n];
     m_protocol = protocol;
     m_client = protocol->createClient(NULL);
     if (m_client == NULL)

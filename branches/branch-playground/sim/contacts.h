@@ -146,19 +146,6 @@ public:
 
         COPY_RESTRICTED(ContactIterator)
     };
-    class EXPORT ProtocolIterator
-    {
-    public:
-        Protocol *operator++();
-        ProtocolIterator();
-        ~ProtocolIterator();
-        void reset();
-    protected:
-        class ProtocolIteratorPrivate *p;
-        friend class ContactList;
-
-        COPY_RESTRICTED(ProtocolIterator)
-    };
     class EXPORT PacketIterator
     {
     public:
@@ -171,18 +158,6 @@ public:
         friend class ContactList;
 
         COPY_RESTRICTED(PacketIterator)
-    };
-    class EXPORT UserDataIterator
-    {
-    public:
-        UserDataDef *operator++();
-        UserDataIterator();
-        ~UserDataIterator();
-    protected:
-        class UserDataIteratorPrivate *p;
-        friend class ContactList;
-
-        COPY_RESTRICTED(UserDataIterator)
     };
     void *getUserData(unsigned id);
     unsigned nClients();

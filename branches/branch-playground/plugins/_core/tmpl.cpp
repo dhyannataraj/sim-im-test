@@ -206,16 +206,16 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
         if (data)
             continue;
 
-        UserDataDef *def;
-        ContactList::UserDataIterator it;
-        while ((def = ++it) != NULL){
-            SIM::Data *data = (SIM::Data*)contact->getUserData(def->id);
-            if (data == NULL)
-                continue;
-            if (getTag(tag, data, def->def, res)){
-                break;
-            }
-        }
+//        UserDataDef *def;
+//        ContactList::UserDataIterator it;
+//        while ((def = ++it) != NULL){
+//            SIM::Data *data = (SIM::Data*)contact->getUserData(def->id);
+//            if (data == NULL)
+//                continue;
+//            if (getTag(tag, data, def->def, res)){
+//                break;
+//            }
+//        }
     }
     return res;
 }

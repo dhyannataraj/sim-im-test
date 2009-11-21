@@ -652,49 +652,6 @@ Contact *ContactList::ContactIterator::operator ++()
     return ++(*p);
 }
 
-class ProtocolIteratorPrivate
-{
-public:
-    ProtocolIteratorPrivate();
-    Protocol *operator++();
-    list<Protocol*>::iterator it;
-};
-
-ProtocolIteratorPrivate::ProtocolIteratorPrivate()
-{
-    it = getContacts()->p->protocols.begin();
-}
-
-Protocol *ProtocolIteratorPrivate::operator++()
-{
-    if (it != getContacts()->p->protocols.end()){
-        Protocol *res = (*it);
-        ++it;
-        return res;
-    }
-    return NULL;
-}
-
-ContactList::ProtocolIterator::ProtocolIterator()
-{
-    p = new ProtocolIteratorPrivate;
-}
-
-void ContactList::ProtocolIterator::reset()
-{
-    p->it = getContacts()->p->protocols.begin();
-}
-
-ContactList::ProtocolIterator::~ProtocolIterator()
-{
-    delete p;
-}
-
-Protocol *ContactList::ProtocolIterator::operator ++()
-{
-    return ++(*p);
-}
-
 class PacketIteratorPrivate
 {
 public:
@@ -808,37 +765,6 @@ void ClientUserData::sort()
 {
     std::sort(p->begin(), p->end(), cmp_client_data);
 }
-
-// _____________________________________________________________________________________
-
-class UserDataIteratorPrivate : public map<unsigned long, UserDataDef>::iterator
-{
-public:
-UserDataIteratorPrivate(const map<unsigned long, UserDataDef>::iterator &it) :
-    map<unsigned long, UserDataDef>::iterator(it) {}
-};
-
-UserDataDef *ContactList::UserDataIterator::operator++()
-{
-    if ((*p) == getContacts()->p->userDataDef.end())
-        return NULL;
-    UserDataDef *res = &(*p)->second;
-    ++(*p);
-    return res;
-}
-
-ContactList::UserDataIterator::UserDataIterator()
-{
-    p = new UserDataIteratorPrivate(getContacts()->p->userDataDef.begin());
-}
-
-ContactList::UserDataIterator::~UserDataIterator()
-{
-    delete p;
-}
-
-// ______________________________________________________________________________________
-
 
 void ContactList::addClient(Client *client)
 {

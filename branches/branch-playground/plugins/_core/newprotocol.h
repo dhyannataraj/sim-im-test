@@ -22,6 +22,7 @@
 #include <QWizard>
 #include "contacts.h"
 #include "plugins.h"
+#include "contacts/protocol.h"
 
 #include "ui_newprotocolbase.h"
 
@@ -54,7 +55,7 @@ protected slots:
 private:
     virtual bool processEvent(SIM::Event*);
     virtual void reject();
-    std::vector<SIM::Protocol*>	m_protocols;
+    std::vector<SIM::ProtocolPtr> m_protocols;
     ConnectWnd	*m_connectWnd;
     QWidget *m_setup;
     QWizardPage *m_setupPage;
@@ -64,7 +65,7 @@ private:
     bool	m_bConnected;
     bool	m_bStart;
     QList<SIM::PluginPtr> m_protocolPlugins;
-	SIM::Protocol* m_protocol;
+	SIM::ProtocolPtr m_protocol;
 };
 
 #endif
