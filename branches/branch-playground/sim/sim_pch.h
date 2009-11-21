@@ -89,5 +89,3 @@
 #include "simgui/qkeybutton.h"
 #include "simgui/textshow.h"
 #include "simgui/toolbtn.h"
-#include "simgui/logindlg.h"
-#include "simgui/ui_logindlgbase.h"
