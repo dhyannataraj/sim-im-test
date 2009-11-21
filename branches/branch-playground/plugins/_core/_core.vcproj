@@ -2885,6 +2885,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ui_logindlgbase.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ui_maininfobase.h"
 					>
 				</File>
