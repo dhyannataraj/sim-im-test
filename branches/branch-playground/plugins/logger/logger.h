@@ -32,7 +32,7 @@ const unsigned short L_PACKETS = 0x08;
 
 class QFile;
 
-class LoggerPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class LoggerPlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

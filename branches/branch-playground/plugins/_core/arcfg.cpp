@@ -35,11 +35,11 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     tabAR->setTabText(tabAR->indexOf(tab), name);
     ARUserData *ar;
     QString text;
-    QString noShow = CorePlugin::instance()->property("NoShowAutoReply").toMap().value(QString::number(m_status)).toString();
+    QString noShow = CorePlugin::instance()->value("NoShowAutoReply").toMap().value(QString::number(m_status)).toString();
     if (m_contact){
         chkNoShow->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-        ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::instance()->ar_data_id, false));
+        ar = (ARUserData*)(m_contact->getUserData().getUserData(CorePlugin::instance()->ar_data_id, false));
         if (ar)
             text = get_str(ar->AutoReply, m_status);
         if (!text.isEmpty()){
@@ -48,7 +48,7 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
             ar = NULL;
             Group *grp = getContacts()->group(m_contact->getGroup());
             if (grp)
-                ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::instance()->ar_data_id, false));
+                ar = (ARUserData*)(m_contact->getUserData().getUserData(CorePlugin::instance()->ar_data_id, false));
             if (ar)
                 text = get_str(ar->AutoReply, m_status);
         }
@@ -73,21 +73,21 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
 
 void ARConfig::apply()
 {
-    if (m_contact){
-        if (chkOverride->isChecked()){
-            ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::instance()->ar_data_id, true));
+    if (m_contact) {
+        if (chkOverride->isChecked()) {
+            ARUserData *ar = (ARUserData*)(m_contact->getUserData().getUserData(CorePlugin::instance()->ar_data_id, true));
             set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
-        }else{
-            ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::instance()->ar_data_id, false));
+        } else {
+            ARUserData *ar = (ARUserData*)(m_contact->getUserData().getUserData(CorePlugin::instance()->ar_data_id, false));
             if (ar)
                 set_str(&ar->AutoReply, m_status, QString::null);
         }
-    }else{
+    } else {
         ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::instance()->ar_data_id));
         set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
-		QVariantMap map = CorePlugin::instance()->property("NoShowAutoReply").toMap();
+		QVariantMap map = CorePlugin::instance()->value("NoShowAutoReply").toMap();
 		map.insert(QString::number(m_status), chkNoShow->isChecked() ? "1" : "");
-        CorePlugin::instance()->setProperty("NoShowAutoReply", map);
+        CorePlugin::instance()->setValue("NoShowAutoReply", map);
     }
 }
 
@@ -103,4 +103,6 @@ void ARConfig::help()
     e.process();
     BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
+
+// vim: set expandtab:
 

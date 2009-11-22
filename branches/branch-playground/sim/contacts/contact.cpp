@@ -107,6 +107,16 @@ namespace SIM
         while ((data = ++it) != NULL)
             it.client()->setupContact(this, data);
     }
+
+//    void Contact::setValue(const QString& key, const QVariant& val)
+//    {
+//        m_userdata.insert(key, val);
+//    }
+//
+//    QVariant Contact::value(const QString& key)
+//    {
+//        return m_userdata[key];
+//    }
 }
 
 // vim: set expandtab:

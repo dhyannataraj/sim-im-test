@@ -38,13 +38,13 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
     if (m_contact)
     {
         data = m_contact->getUserData(m_cmd->id);
-        if (m_contact->userData.getUserData(m_cmd->id, false))
+        if (m_contact->getUserData().getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
         mapdata = m_contact->userdata();
     }
     else if (m_group) {
         data = m_group->getUserData(m_cmd->id);
-        if (m_group->userData.getUserData(m_cmd->id, false))
+        if (m_group->getUserData().getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
         mapdata = m_group->userdata();
     }
@@ -107,11 +107,11 @@ void PrefConfig::apply()
             void *data = NULL;
             if (m_contact)
             {
-                data = m_contact->userData.getUserData(m_cmd->id, true);
+                data = m_contact->getUserData().getUserData(m_cmd->id, true);
             }
             else if (m_group)
             {
-                data = m_group->userData.getUserData(m_cmd->id, true);
+                data = m_group->getUserData().getUserData(m_cmd->id, true);
             }
             if (data)
                 emit apply(data);
@@ -120,11 +120,11 @@ void PrefConfig::apply()
         {
             if (m_contact)
             {
-                m_contact->userData.freeUserData(m_cmd->id);
+                m_contact->getUserData().freeUserData(m_cmd->id);
             }
             else if(m_group)
             {
-                m_group->userData.freeUserData(m_cmd->id);
+                m_group->getUserData().freeUserData(m_cmd->id);
             }
         }
     }

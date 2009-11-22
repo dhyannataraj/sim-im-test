@@ -147,13 +147,13 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
 
         if (tag == "TimeStatus"){
             QDateTime dt;
-            dt.setTime_t(CorePlugin::m_plugin->property("StatusTime").toUInt());
+            dt.setTime_t(CorePlugin::m_plugin->value("StatusTime").toUInt());
             res += dt.toString("hh:mm");
             continue;
         }
 
         if (tag == "IntervalStatus"){
-            res += QString::number(time(NULL) - CorePlugin::m_plugin->property("StatusTime").toUInt());
+            res += QString::number(time(NULL) - CorePlugin::m_plugin->value("StatusTime").toUInt());
             continue;
         }
 

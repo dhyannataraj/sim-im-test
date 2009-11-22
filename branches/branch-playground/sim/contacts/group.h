@@ -21,9 +21,9 @@ namespace SIM
         unsigned long id() { return m_id; }
         PROP_UTF8(Name)
         void *getUserData(unsigned id, bool bCreate = false);
-        UserData userData;
         ClientUserData clientData;
         QVariantMap* userdata() const { return m_userdata; }
+        UserData& getUserData() { return userData; }
 
     protected:
         unsigned long m_id;
@@ -31,6 +31,7 @@ namespace SIM
         friend class ContactListPrivate;
 
     private:
+        UserData userData;
         QVariantMap* m_userdata;
     };
 }

@@ -48,7 +48,6 @@ namespace SIM
         PROP_ULONG(Flags)
         PROP_STR(Encoding)
         void *getUserData(unsigned id, bool bCreate = false);
-        UserData userData;
         ClientUserData clientData;
         bool setFirstName(const QString &name, const QString &client);
         bool setLastName(const QString &name, const QString &client);
@@ -61,12 +60,14 @@ namespace SIM
         void setup();
         QVariantMap* userdata() const { return m_userdata; }
 
+        UserData& getUserData() { return userData; }
     protected:
         unsigned long m_id;
         friend class ContactList;
         friend class ContactListPrivate;
 
     private:
+        UserData userData;
         QVariantMap* m_userdata;
     };
 

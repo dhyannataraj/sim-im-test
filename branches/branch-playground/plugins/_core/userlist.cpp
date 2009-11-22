@@ -259,7 +259,7 @@ bool ContactItem::update(Contact *contact, unsigned status, unsigned style, cons
 QString ContactItem::key(int column, bool ascending ) const
 {
     if (column == 0){
-        unsigned mode = CorePlugin::instance()->property("SortMode").toUInt();
+        unsigned mode = CorePlugin::instance()->value("SortMode").toUInt();
         QString res;
         for (;;){
             int n = 0;

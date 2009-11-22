@@ -126,9 +126,9 @@ void AutoReplyDialog::timeout()
 
 void AutoReplyDialog::accept()
 {
-	QVariantMap map = CorePlugin::instance()->property("NoShowAutoReply").toMap();
+	QVariantMap map = CorePlugin::instance()->value("NoShowAutoReply").toMap();
 	map.insert(QString::number(m_status), chkNoShow->isChecked() ? "1" : "");
-	CorePlugin::instance()->setProperty("NoShowAutoReply", map);
+	CorePlugin::instance()->setValue("NoShowAutoReply", map);
 
     ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::instance()->ar_data_id));
     set_str(&ar->AutoReply, m_status, edtAutoResponse->toPlainText());

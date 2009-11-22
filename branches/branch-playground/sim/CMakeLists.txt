@@ -225,6 +225,7 @@ SET(sim_tests_srcs
     tests/testclientsocket.cpp
     tests/testcontactlist.cpp
     tests/testprotocolmanager.cpp
+	tests/testpropertyhub.cpp
 )
 
 
@@ -234,6 +235,7 @@ SET(sim_tests_hdrs
     tests/testclientsocket.h
     tests/testcontactlist.h
     tests/testprotocolmanager.h
+	tests/testpropertyhub.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})

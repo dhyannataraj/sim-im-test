@@ -55,8 +55,8 @@ MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)
         : TextEdit(parent)
 {
     m_edit = edit;
-    setBackground(CorePlugin::instance()->property("EditBackground").toUInt());
-    setForeground(CorePlugin::instance()->property("EditForeground").toUInt(), true);
+    setBackground(CorePlugin::instance()->value("EditBackground").toUInt());
+    setForeground(CorePlugin::instance()->value("EditForeground").toUInt(), true);
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
     setCheckSpellingEnabled(CorePlugin::instance()->getEnableSpell());
@@ -160,11 +160,11 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
     m_layout->setMargin(0);
 
     m_edit = new MsgTextEdit(this, this);
-    m_edit->setBackground(QColor(CorePlugin::instance()->property("EditBackground").toUInt() & 0xFFFFFF));
+    m_edit->setBackground(QColor(CorePlugin::instance()->value("EditBackground").toUInt() & 0xFFFFFF));
     m_edit->setBackground(QColor(255, 255, 255));
-    m_edit->setForeground(QColor(CorePlugin::instance()->property("EditForeground").toUInt() & 0xFFFFFF), true);
+    m_edit->setForeground(QColor(CorePlugin::instance()->value("EditForeground").toUInt() & 0xFFFFFF), true);
     m_edit->setFont(CorePlugin::instance()->editFont);
-    m_edit->setCtrlMode(!CorePlugin::instance()->property("SendOnEnter").toBool());
+    m_edit->setCtrlMode(!CorePlugin::instance()->value("SendOnEnter").toBool());
     m_edit->setParam(this);
     setFocusProxy(m_edit);
 
@@ -241,7 +241,7 @@ void MsgEdit::showCloseSend(bool bState)
     cmd->bar_grp	= 0x7010;
     cmd->flags		= bState ? COMMAND_DEFAULT : BTN_HIDE;
     cmd->param		= this;
-    if (CorePlugin::instance()->property("CloseSend").toBool())
+    if (CorePlugin::instance()->value("CloseSend").toBool())
         cmd->flags |= COMMAND_CHECKED;
     EventCommandChange(cmd).process();
 }
@@ -254,7 +254,7 @@ void MsgEdit::resizeEvent(QResizeEvent *e)
 
 void MsgEdit::editFontChanged(const QFont &f)
 {
-    if (!CorePlugin::instance()->property("EditSaveFont").toBool())
+    if (!CorePlugin::instance()->value("EditSaveFont").toBool())
         return;
     CorePlugin::instance()->editFont = f;
 }
@@ -839,7 +839,7 @@ bool MsgEdit::sendMessage(Message *msg)
         if (btnClose)
             bClose = btnClose->isChecked();
     }
-    CorePlugin::instance()->setProperty("CloseSend", bClose);
+    CorePlugin::instance()->setValue("CloseSend", bClose);
 
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
@@ -979,7 +979,7 @@ void MsgEdit::stopSend(bool bCheck)
 void MsgEdit::modeChanged()
 {
     showCloseSend(CorePlugin::instance()->getContainerMode() != 0);
-    m_edit->setCtrlMode(CorePlugin::instance()->property("SendOnEnter").toBool());
+    m_edit->setCtrlMode(CorePlugin::instance()->value("SendOnEnter").toBool());
 }
 
 bool MsgEdit::setType(unsigned type)
@@ -1290,14 +1290,14 @@ bool MsgEdit::processEvent(Event *e)
                     if (btnClose)
                         bClose = btnClose->isChecked();
                 }
-                CorePlugin::instance()->setProperty("CloseSend", bClose);
+                CorePlugin::instance()->setValue("CloseSend", bClose);
                 if (bClose){
                     QTimer::singleShot(0, m_userWnd, SLOT(close()));
                 }else{
                     setEmptyMessage();
                     m_edit->setFont(CorePlugin::instance()->editFont);
-                    m_edit->setForeground(CorePlugin::instance()->property("EditForeground").toUInt(), true);
-                    m_edit->setBackground(CorePlugin::instance()->property("EditBackground").toUInt());
+                    m_edit->setForeground(CorePlugin::instance()->value("EditForeground").toUInt(), true);
+                    m_edit->setBackground(CorePlugin::instance()->value("EditBackground").toUInt());
                 }
             }
         }
@@ -1413,8 +1413,8 @@ void MsgEdit::editLostFocus()
 
 void MsgEdit::colorsChanged()
 {
-    CorePlugin::instance()->setProperty("EditBackground", m_edit->background().rgb());
-    CorePlugin::instance()->setProperty("EditForeground", m_edit->foreground().rgb());
+    CorePlugin::instance()->setValue("EditBackground", m_edit->background().rgb());
+    CorePlugin::instance()->setValue("EditForeground", m_edit->foreground().rgb());
     EventHistoryColors().process();
 }
 

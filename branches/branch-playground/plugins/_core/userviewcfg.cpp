@@ -28,23 +28,23 @@ using namespace SIM;
 UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
-    chkDblClick->setChecked(CorePlugin::instance()->property("UseDblClick").toBool());
-    chkSysColors->setChecked(CorePlugin::instance()->property("UseSysColors").toBool());
-    btnOnline->setColor(CorePlugin::instance()->property("ColorOnline").toUInt());
-    btnOffline->setColor(CorePlugin::instance()->property("ColorOffline").toUInt());
-    btnAway->setColor(CorePlugin::instance()->property("ColorAway").toUInt());
-    btnNA->setColor(CorePlugin::instance()->property("ColorNA").toUInt());
-    btnDND->setColor(CorePlugin::instance()->property("ColorDND").toUInt());
-    btnGroup->setColor(CorePlugin::instance()->property("ColorGroup").toUInt());
-    chkGroupSeparator->setChecked(CorePlugin::instance()->property("GroupSeparator").toBool());
-    chkSmallFont->setChecked(CorePlugin::instance()->property("SmallGroupFont").toBool());
-    chkScroll->setChecked(CorePlugin::instance()->property("NoScroller").toBool());
+    chkDblClick->setChecked(CorePlugin::instance()->value("UseDblClick").toBool());
+    chkSysColors->setChecked(CorePlugin::instance()->value("UseSysColors").toBool());
+    btnOnline->setColor(CorePlugin::instance()->value("ColorOnline").toUInt());
+    btnOffline->setColor(CorePlugin::instance()->value("ColorOffline").toUInt());
+    btnAway->setColor(CorePlugin::instance()->value("ColorAway").toUInt());
+    btnNA->setColor(CorePlugin::instance()->value("ColorNA").toUInt());
+    btnDND->setColor(CorePlugin::instance()->value("ColorDND").toUInt());
+    btnGroup->setColor(CorePlugin::instance()->value("ColorGroup").toUInt());
+    chkGroupSeparator->setChecked(CorePlugin::instance()->value("GroupSeparator").toBool());
+    chkSmallFont->setChecked(CorePlugin::instance()->value("SmallGroupFont").toBool());
+    chkScroll->setChecked(CorePlugin::instance()->value("NoScroller").toBool());
     connect(chkSysColors, SIGNAL(toggled(bool)), this, SLOT(colorsToggled(bool)));
     colorsToggled(chkSysColors->isChecked());
     fillBox(cmbSort1);
     fillBox(cmbSort2);
     fillBox(cmbSort3);
-    setProperty("SortMode", CorePlugin::instance()->property("SortMode").toUInt());
+	CorePlugin::instance()->setValue("SortMode", CorePlugin::instance()->value("SortMode").toUInt());
     connect(cmbSort1, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort2, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
     connect(cmbSort3, SIGNAL(activated(int)), this, SLOT(sortChanged(int)));
@@ -75,15 +75,15 @@ UserViewConfig::UserViewConfig(QWidget *parent) : QWidget(parent)
     connect(btnInvisible1, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
     connect(btnInvisible2, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
     connect(btnInvisible3, SIGNAL(toggled(bool)), this, SLOT(setFonts(bool)));
-    btnAuth1->setChecked((CorePlugin::instance()->property("AuthStyle").toUInt() & STYLE_STRIKE) != 0);
-    btnAuth2->setChecked((CorePlugin::instance()->property("AuthStyle").toUInt() & STYLE_ITALIC) != 0);
-    btnAuth3->setChecked((CorePlugin::instance()->property("AuthStyle").toUInt() & STYLE_UNDER) != 0);
-    btnVisible1->setChecked((CorePlugin::instance()->property("VisibleStyle").toUInt() & STYLE_STRIKE) != 0);
-    btnVisible2->setChecked((CorePlugin::instance()->property("VisibleStyle").toUInt() & STYLE_ITALIC) != 0);
-    btnVisible3->setChecked((CorePlugin::instance()->property("VisibleStyle").toUInt() & STYLE_UNDER) != 0);
-    btnInvisible1->setChecked((CorePlugin::instance()->property("InvisibleStyle").toUInt() & STYLE_STRIKE) != 0);
-    btnInvisible2->setChecked((CorePlugin::instance()->property("InvisibleStyle").toUInt() & STYLE_ITALIC) != 0);
-    btnInvisible3->setChecked((CorePlugin::instance()->property("InvisibleStyle").toUInt() & STYLE_UNDER) != 0);
+    btnAuth1->setChecked((CorePlugin::instance()->value("AuthStyle").toUInt() & STYLE_STRIKE) != 0);
+    btnAuth2->setChecked((CorePlugin::instance()->value("AuthStyle").toUInt() & STYLE_ITALIC) != 0);
+    btnAuth3->setChecked((CorePlugin::instance()->value("AuthStyle").toUInt() & STYLE_UNDER) != 0);
+    btnVisible1->setChecked((CorePlugin::instance()->value("VisibleStyle").toUInt() & STYLE_STRIKE) != 0);
+    btnVisible2->setChecked((CorePlugin::instance()->value("VisibleStyle").toUInt() & STYLE_ITALIC) != 0);
+    btnVisible3->setChecked((CorePlugin::instance()->value("VisibleStyle").toUInt() & STYLE_UNDER) != 0);
+    btnInvisible1->setChecked((CorePlugin::instance()->value("InvisibleStyle").toUInt() & STYLE_STRIKE) != 0);
+    btnInvisible2->setChecked((CorePlugin::instance()->value("InvisibleStyle").toUInt() & STYLE_ITALIC) != 0);
+    btnInvisible3->setChecked((CorePlugin::instance()->value("InvisibleStyle").toUInt() & STYLE_UNDER) != 0);
     setFonts(true);
 }
 
@@ -93,42 +93,42 @@ UserViewConfig::~UserViewConfig()
 
 void UserViewConfig::apply()
 {
-    CorePlugin::instance()->setProperty("UseDblClick", chkDblClick->isChecked());
-    CorePlugin::instance()->setProperty("UseSysColors", chkSysColors->isChecked());
-    CorePlugin::instance()->setProperty("GroupSeparator", chkGroupSeparator->isChecked());
-    CorePlugin::instance()->setProperty("SortMode", getSortMode());
-    CorePlugin::instance()->setProperty("SmallGroupFont", chkSmallFont->isChecked());
-    CorePlugin::instance()->setProperty("NoScroller", chkScroll->isChecked());
-    if (CorePlugin::instance()->property("UseSysColors").toBool()){
-        CorePlugin::instance()->setProperty("ColorOnline", 0);
-        CorePlugin::instance()->setProperty("ColorOffline", 0);
-        CorePlugin::instance()->setProperty("ColorAway", 0);
-        CorePlugin::instance()->setProperty("ColorNA", 0);
-        CorePlugin::instance()->setProperty("ColorDND", 0);
-        CorePlugin::instance()->setProperty("ColorGroup", 0);
+    CorePlugin::instance()->setValue("UseDblClick", chkDblClick->isChecked());
+    CorePlugin::instance()->setValue("UseSysColors", chkSysColors->isChecked());
+    CorePlugin::instance()->setValue("GroupSeparator", chkGroupSeparator->isChecked());
+    CorePlugin::instance()->setValue("SortMode", getSortMode());
+    CorePlugin::instance()->setValue("SmallGroupFont", chkSmallFont->isChecked());
+    CorePlugin::instance()->setValue("NoScroller", chkScroll->isChecked());
+    if (CorePlugin::instance()->value("UseSysColors").toBool()){
+        CorePlugin::instance()->setValue("ColorOnline", 0);
+        CorePlugin::instance()->setValue("ColorOffline", 0);
+        CorePlugin::instance()->setValue("ColorAway", 0);
+        CorePlugin::instance()->setValue("ColorNA", 0);
+        CorePlugin::instance()->setValue("ColorDND", 0);
+        CorePlugin::instance()->setValue("ColorGroup", 0);
     }else{
-        CorePlugin::instance()->setProperty("ColorOnline", btnOnline->color().rgb());
-        CorePlugin::instance()->setProperty("ColorOffline", btnOffline->color().rgb());
-        CorePlugin::instance()->setProperty("ColorAway", btnAway->color().rgb());
-        CorePlugin::instance()->setProperty("ColorNA", btnNA->color().rgb());
-        CorePlugin::instance()->setProperty("ColorDND", btnDND->color().rgb());
-        CorePlugin::instance()->setProperty("ColorGroup", btnGroup->color().rgb());
+        CorePlugin::instance()->setValue("ColorOnline", btnOnline->color().rgb());
+        CorePlugin::instance()->setValue("ColorOffline", btnOffline->color().rgb());
+        CorePlugin::instance()->setValue("ColorAway", btnAway->color().rgb());
+        CorePlugin::instance()->setValue("ColorNA", btnNA->color().rgb());
+        CorePlugin::instance()->setValue("ColorDND", btnDND->color().rgb());
+        CorePlugin::instance()->setValue("ColorGroup", btnGroup->color().rgb());
     }
     unsigned style = 0;
     if (btnAuth1->isChecked()) style |= STYLE_STRIKE;
     if (btnAuth2->isChecked()) style |= STYLE_ITALIC;
     if (btnAuth3->isChecked()) style |= STYLE_UNDER;
-    CorePlugin::instance()->setProperty("AuthStyle", style);
+    CorePlugin::instance()->setValue("AuthStyle", style);
     style = 0;
     if (btnVisible1->isChecked()) style |= STYLE_STRIKE;
     if (btnVisible2->isChecked()) style |= STYLE_ITALIC;
     if (btnVisible3->isChecked()) style |= STYLE_UNDER;
-    CorePlugin::instance()->setProperty("VisibleStyle", style);
+    CorePlugin::instance()->setValue("VisibleStyle", style);
     style = 0;
     if (btnInvisible1->isChecked()) style |= STYLE_STRIKE;
     if (btnInvisible2->isChecked()) style |= STYLE_ITALIC;
     if (btnInvisible3->isChecked()) style |= STYLE_UNDER;
-    CorePlugin::instance()->setProperty("InvisibleStyle", style);
+    CorePlugin::instance()->setValue("InvisibleStyle", style);
     EventRepaintView e;
     e.process();
 }

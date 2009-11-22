@@ -198,7 +198,7 @@ void SearchDialog::fillClients()
             current = m_widgets.size() - 1;
         if (client->protocol()->description()->flags & PROTOCOL_SEARCH)
             nClients++;
-        if (client->name() == CorePlugin::m_plugin->property("SearchClient").toString())
+        if (client->name() == CorePlugin::m_plugin->value("SearchClient").toString())
             defCurrent = m_widgets.size() - 1;
     }
 // ToDo: Restore this
@@ -310,7 +310,7 @@ void SearchDialog::setTitle()
     QString name;
     if ((client != NULL) && (client != (Client*)(-1)))
         name = client->name();
-    CorePlugin::m_plugin->setProperty("SearchClient", name);
+    CorePlugin::m_plugin->setValue("SearchClient", name);
     if (m_bAdd){
         setWindowTitle(i18n("Add") + ": " + m_search->cmbClients->currentText());
         setWindowIcon(Icon("add"));
@@ -591,7 +591,7 @@ const unsigned NO_GROUP = 0x10000;
 void SearchDialog::searchClick()
 {
     if (m_bAdd){
-        if (CorePlugin::m_plugin->property("GroupMode").toUInt())
+        if (CorePlugin::m_plugin->value("GroupMode").toUInt())
         {
             EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
             eMenu.process();
@@ -750,7 +750,7 @@ void SearchDialog::enableOptions(bool bEnable)
 
 void SearchDialog::addClick()
 {
-    if (CorePlugin::m_plugin->property("GroupMode").toUInt()){
+    if (CorePlugin::m_plugin->value("GroupMode").toUInt()){
         EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
         eMenu.process();
         QMenu *popup = eMenu.menu();

@@ -86,7 +86,7 @@ void HistoryProgressBar::setProgress(unsigned n)
 
 HistoryWindow::HistoryWindow(unsigned long id)
 {
-    m_history_page_count=CorePlugin::m_plugin->property("HistoryPage").toUInt();
+    m_history_page_count=CorePlugin::m_plugin->value("HistoryPage").toUInt();
     m_avatar_bar=NULL;
 
     setAttribute(Qt::WA_DeleteOnClose, true);
@@ -118,16 +118,16 @@ HistoryWindow::HistoryWindow(unsigned long id)
     CToolCombo *cmbFind = qobject_cast<CToolCombo*>(eHistoryWidget.widget());
     if(cmbFind)
     {
-        const QStringList history = CorePlugin::m_plugin->property("HistorySearch").toString().split(';');
+        const QStringList history = CorePlugin::m_plugin->value("HistorySearch").toString().split(';');
         cmbFind->addItems(history);
         cmbFind->setText(QString());
     }
     m_it = NULL;
-    m_bDirection = CorePlugin::m_plugin->property("HistoryDirection").toBool();
+    m_bDirection = CorePlugin::m_plugin->value("HistoryDirection").toBool();
     m_bar->checkState();
     m_bar->show();
 
-    if(CorePlugin::m_plugin->property("ShowAvatarInHistory").toBool())
+    if(CorePlugin::m_plugin->value("ShowAvatarInHistory").toBool())
     {
         unsigned j = 0;
         QImage img;
@@ -242,7 +242,7 @@ bool HistoryWindow::processEvent(Event *e)
         if (cmd->id == CmdHistoryDirection)
         {
             bool bDirection = ((cmd->flags & COMMAND_CHECKED) != 0);
-            CorePlugin::m_plugin->setProperty("HistoryDirection", bDirection);
+            CorePlugin::m_plugin->setValue("HistoryDirection", bDirection);
             if (bDirection != m_bDirection)
             {
                 m_bDirection = bDirection;
@@ -446,7 +446,7 @@ const unsigned MAX_HISTORY = 10;
 
 void HistoryWindow::addHistory(const QString &str)
 {
-    QStringList l = CorePlugin::m_plugin->property("HistorySearch").toString().split(';');
+    QStringList l = CorePlugin::m_plugin->value("HistorySearch").toString().split(';');
     l.removeAll(str);
     l.prepend(str);
 
@@ -460,6 +460,6 @@ void HistoryWindow::addHistory(const QString &str)
             res += ';';
         res += quoteChars(str, ";");
     }
-    CorePlugin::m_plugin->setProperty("HistorySearch", res);
+    CorePlugin::m_plugin->setValue("HistorySearch", res);
 }
 

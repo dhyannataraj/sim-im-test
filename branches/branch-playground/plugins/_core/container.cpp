@@ -210,7 +210,7 @@ Container::Container(unsigned id, const char *cfg)
                     break;
             }
         }
-        setStatusSize(CorePlugin::m_plugin->property("ContainerStatusSize").toUInt());
+        setStatusSize(CorePlugin::m_plugin->value("ContainerStatusSize").toUInt());
     }
     /*
     m_bInSize = true;
@@ -510,7 +510,7 @@ void Container::contactSelected(int)
     if (isActiveWindow())
         userWnd->markAsRead();
 
-    if(CorePlugin::m_plugin->property("ShowAvatarInContainer").toBool())
+    if(CorePlugin::m_plugin->value("ShowAvatarInContainer").toBool())
     {
         Client *client = NULL;
         unsigned j=0;
@@ -595,7 +595,7 @@ void Container::statusChanged(int width)
 {
     if (m_tabBar->isVisible() && !m_bStatusSize){
         setStatusSize(width);
-        CorePlugin::m_plugin->setProperty("ContainerStatusSize", width);
+        CorePlugin::m_plugin->setValue("ContainerStatusSize", width);
     }
 }
 

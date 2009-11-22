@@ -39,9 +39,9 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 {
     setupUi(this);
 
-    edtStartup->setText(plugin->property("StartUp").toString());
-    edtFileDone->setText(plugin->property("FileDone").toString());
-    edtSent->setText(plugin->property("MessageSent").toString());
+    edtStartup->setText(plugin->value("StartUp").toString());
+    edtFileDone->setText(plugin->value("FileDone").toString());
+    edtSent->setText(plugin->value("MessageSent").toString());
 
     for (QObject *p = parent; p != NULL; p = p->parent())
     {
@@ -67,9 +67,9 @@ void SoundConfig::apply()
 		QVariantMap* data = getContacts()->userdata();
 		user_cfg->apply(data, true);
     }
-	m_plugin->setProperty("StartUp", edtStartup->text());
-    m_plugin->setProperty("FileDone", edtFileDone->text());
-    m_plugin->setProperty("MessageSent", edtSent->text());
+	m_plugin->setValue("StartUp", edtStartup->text());
+    m_plugin->setValue("FileDone", edtFileDone->text());
+    m_plugin->setValue("MessageSent", edtSent->text());
 }
 
 void SoundConfig::artsToggled(bool)

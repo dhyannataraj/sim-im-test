@@ -208,17 +208,17 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
 HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
-    chkOwn->setChecked(CorePlugin::instance()->property("OwnColors").toBool());
-    chkSmile->setChecked(CorePlugin::instance()->property("UseSmiles").toBool());
-    chkExtViewer->setChecked(CorePlugin::instance()->property("UseExtViewer").toBool());
-    edtExtViewer->setText(CorePlugin::instance()->property("ExtViewer").toString());
-    chkAvatar->setChecked(CorePlugin::instance()->property("ShowAvatarInHistory").toBool());
+    chkOwn->setChecked(CorePlugin::instance()->value("OwnColors").toBool());
+    chkSmile->setChecked(CorePlugin::instance()->value("UseSmiles").toBool());
+    chkExtViewer->setChecked(CorePlugin::instance()->value("UseExtViewer").toBool());
+    edtExtViewer->setText(CorePlugin::instance()->value("ExtViewer").toString());
+    chkAvatar->setChecked(CorePlugin::instance()->value("ShowAvatarInHistory").toBool());
     m_cur = -1;
     cmbPage->setEditable(true);
     m_bDirty = false;
     QLineEdit *edit = cmbPage->lineEdit();
     edit->setValidator(new QIntValidator(1, 10000, edit));
-    edit->setText(QString::number(CorePlugin::instance()->property("HistoryPage").toUInt()));
+    edit->setText(QString::number(CorePlugin::instance()->value("HistoryPage").toUInt()));
     QString str1 = i18n("Show %1 messages per page");
     QString str2;
     int n = str1.indexOf("%1");
@@ -247,7 +247,7 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
 #else
     addStyles(app_file(STYLES), false);
 #endif
-    fillCombo(CorePlugin::instance()->property("HistoryStyle").toString());
+    fillCombo(CorePlugin::instance()->value("HistoryStyle").toString());
     connect(cmbStyle, SIGNAL(activated(int)), this, SLOT(styleSelected(int)));
     connect(btnCopy, SIGNAL(clicked()), this, SLOT(copy()));
     connect(btnRename, SIGNAL(clicked()), this, SLOT(rename()));
@@ -321,31 +321,31 @@ void HistoryConfig::apply()
     int cur = cmbStyle->currentIndex();
     if ((cur >= 0) && m_styles.size() &&
             (m_styles[cur].bChanged ||
-             (m_styles[cur].name != CorePlugin::instance()->property("HistoryStyle").toString()))){
-        CorePlugin::instance()->setProperty("HistoryStyle", m_styles[cur].name);
+             (m_styles[cur].name != CorePlugin::instance()->value("HistoryStyle").toString()))){
+        CorePlugin::instance()->setValue("HistoryStyle", m_styles[cur].name);
         bChanged = true;
         delete CorePlugin::instance()->historyXSL;
         CorePlugin::instance()->historyXSL = new XSL(m_styles[cur].name);
     }
 
-    if (chkOwn->isChecked() != CorePlugin::instance()->property("OwnColors").toBool()){
+    if (chkOwn->isChecked() != CorePlugin::instance()->value("OwnColors").toBool()){
         bChanged = true;
-        CorePlugin::instance()->setProperty("OwnColors", chkOwn->isChecked());
+        CorePlugin::instance()->setValue("OwnColors", chkOwn->isChecked());
     }
-    if (chkSmile->isChecked() != CorePlugin::instance()->property("UseSmiles").toBool()){
+    if (chkSmile->isChecked() != CorePlugin::instance()->value("UseSmiles").toBool()){
         bChanged = true;
-        CorePlugin::instance()->setProperty("UseSmiles", chkSmile->isChecked());
+        CorePlugin::instance()->setValue("UseSmiles", chkSmile->isChecked());
     }
-    if (chkExtViewer->isChecked() != CorePlugin::instance()->property("UseExtViewer").toBool()){
+    if (chkExtViewer->isChecked() != CorePlugin::instance()->value("UseExtViewer").toBool()){
         bChanged = true;
-        CorePlugin::instance()->setProperty("UseExtViewer", chkExtViewer->isChecked());
+        CorePlugin::instance()->setValue("UseExtViewer", chkExtViewer->isChecked());
     }
-    if (chkAvatar->isChecked() != CorePlugin::instance()->property("ShowAvatarInHistory").toBool()){
+    if (chkAvatar->isChecked() != CorePlugin::instance()->value("ShowAvatarInHistory").toBool()){
         bChanged = true;
-        CorePlugin::instance()->setProperty("ShowAvatarInHistory", chkAvatar->isChecked());
+        CorePlugin::instance()->setValue("ShowAvatarInHistory", chkAvatar->isChecked());
     }
-    CorePlugin::instance()->setProperty("ExtViewer", edtExtViewer->text().toLocal8Bit());
-    CorePlugin::instance()->setProperty("HistoryPage", (uint)cmbPage->lineEdit()->text().toULong());
+    CorePlugin::instance()->setValue("ExtViewer", edtExtViewer->text().toLocal8Bit());
+    CorePlugin::instance()->setValue("HistoryPage", (uint)cmbPage->lineEdit()->text().toULong());
     if (bChanged){
         EventHistoryConfig(0).process();
     }
@@ -526,7 +526,7 @@ void HistoryConfig::realDelete()
     n += EXT;
     n = user_file(n);
     QFile::remove(n);
-    fillCombo(CorePlugin::instance()->property("HistoryStyle").toString());
+    fillCombo(CorePlugin::instance()->value("HistoryStyle").toString());
 }
 
 void HistoryConfig::rename()
@@ -663,10 +663,10 @@ void HistoryConfig::fillPreview()
     edtPreview->clear();
     edtPreview->setXSL(xsl);
     time_t now = time(NULL);
-    bool saveSmiles = CorePlugin::instance()->property("UseSmiles").toBool();
-    bool saveOwn    = CorePlugin::instance()->property("OwnColors").toBool();
-    CorePlugin::instance()->setProperty("UseSmiles", chkSmile->isChecked());
-    CorePlugin::instance()->setProperty("OwnColors", chkOwn->isChecked());
+    bool saveSmiles = CorePlugin::instance()->value("UseSmiles").toBool();
+    bool saveOwn    = CorePlugin::instance()->value("OwnColors").toBool();
+    CorePlugin::instance()->setValue("UseSmiles", chkSmile->isChecked());
+    CorePlugin::instance()->setValue("OwnColors", chkOwn->isChecked());
     Message m1;
     m1.setId((unsigned)(-1));
     m1.setFlags(MESSAGE_RECEIVED | MESSAGE_LIST);
@@ -705,8 +705,8 @@ void HistoryConfig::fillPreview()
         m5.setClient((getContacts()->getClient(0)->name() + '.'));
     edtPreview->addMessage(&m5);
     delete contact;
-    CorePlugin::instance()->setProperty("UseSmiles", saveSmiles);
-    CorePlugin::instance()->setProperty("OwnColors", saveOwn);
+    CorePlugin::instance()->setValue("UseSmiles", saveSmiles);
+    CorePlugin::instance()->setValue("OwnColors", saveOwn);
 }
 
 void HistoryConfig::toggledDays(bool bState)

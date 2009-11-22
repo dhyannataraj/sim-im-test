@@ -57,7 +57,7 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -4,17 +4,23 @@
 
 #include <QObject>
 #include <QString>
+#include <QVariant>
 
 #include "simapi.h"
 
 namespace SIM
 {
-	class EXPORT PropertyHub : virtual public QObject
+	class EXPORT PropertyHub
 	{
-		Q_OBJECT
 	public:
 		PropertyHub(const QString& ns);
 		virtual ~PropertyHub();
+
+		void setValue(const QString& key, const QVariant& value);
+		QVariant value(const QString& key);
+		void setStringMapValue(const QString& mapname, int key, const QString& value);
+		QString stringMapValue(const QString& mapname, int key);
+		QList<QString> allKeys();
 
 		bool save();
 		bool load();
@@ -22,6 +28,7 @@ namespace SIM
         void parseSection(const QString& string);
 	private:
 		QString m_namespace;
+		QVariantMap m_data;
 	};
 }
 

@@ -63,15 +63,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
-        : Plugin(base),
-        PropertyHub("logger"),
-        m_file(NULL)
+        : QObject()
+		, PropertyHub("logger")
+		, Plugin(base)
+        , m_file(NULL)
 {
 
     EventArg e("-d:", I18N_NOOP("Set debug level"));
     if (e.process())
-        setProperty("LogLevel", e.value().toUInt());
-    const QStringList packets = property("LogPackets").toString().split(',');
+        setValue("LogLevel", e.value().toUInt());
+    const QStringList packets = value("LogPackets").toString().split(',');
     Q_FOREACH (const QString &v, packets) {
         setLogType(v.toULong(), true);
     }
@@ -95,7 +96,7 @@ QByteArray LoggerPlugin::getConfig()
             packets += ',';
         packets += QByteArray::number(setIt.next());
     }
-    setProperty("LogPackets", packets);
+    setValue("LogPackets", packets);
     */
     return QByteArray();
 }
@@ -117,7 +118,7 @@ void LoggerPlugin::openFile()
 */
     delete m_file;
     m_file = NULL;
-    QString fname = property("File").toString();
+    QString fname = value("File").toString();
     if (fname.isEmpty())
         return;
     // This is because sim crashes when a logfile is larger than 100MB ...
@@ -171,8 +172,8 @@ bool LoggerPlugin::processEvent(Event *e)
     if(e->type() == eEventLog)
     {
         EventLog *l = static_cast<EventLog*>(e);
-        if (((l->packetID() == 0) && (l->logLevel() & property("LogLevel").toUInt())) ||
-                (l->packetID() && ((property("LogLevel").toUInt() & L_PACKETS) || isLogType(l->packetID()))))
+        if (((l->packetID() == 0) && (l->logLevel() & value("LogLevel").toUInt())) ||
+                (l->packetID() && ((value("LogLevel").toUInt() & L_PACKETS) || isLogType(l->packetID()))))
         {
             QString s;
             s = EventLog::make_packet_string(*l);

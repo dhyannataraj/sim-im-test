@@ -5,6 +5,7 @@
 #include "testsocketfactory.h"
 #include "testclientsocket.h"
 #include "testprotocolmanager.h"
+#include "testpropertyhub.h"
 
 int main(int argc, char** argv)
 {
@@ -12,6 +13,7 @@ int main(int argc, char** argv)
 	QTest::qExec(new TestBuffer());
 	QTest::qExec(new testSocketFactory::TestSocketFactory());
 	QTest::qExec(new testProtocolManager::Test());
+	QTest::qExec(new testPropertyHub::Test());
 	return 0;
 }
 

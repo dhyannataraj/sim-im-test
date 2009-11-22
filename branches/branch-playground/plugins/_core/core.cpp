@@ -404,7 +404,8 @@ static autoReply autoReplies[] =
 };
 
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
-  : PropertyHub     ("_core")
+  : QObject()
+  , PropertyHub     ("_core")
   , Plugin          (base)
   , EventReceiver   (HighPriority)
   , historyXSL      (NULL)
@@ -429,7 +430,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 {
    m_plugin = this;
 
-    setProperty("StatusTime", QDateTime::currentDateTime().toTime_t());
+    setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
 
 	user_data_id	 = getContacts()->registerUserData("core", coreUserData);
 	sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
@@ -817,14 +818,14 @@ void CorePlugin::initData()
 {
     delete historyXSL;
 
-    historyXSL = new XSL(property("HistoryStyle").toString());
-    if (property("EditBackground").toUInt() == 0 && property("EditForeground").toUInt() == 0)
+    historyXSL = new XSL(value("HistoryStyle").toString());
+    if (value("EditBackground").toUInt() == 0 && value("EditForeground").toUInt() == 0)
     {
         QPalette pal = QApplication::palette();
-        setProperty("EditBackground", pal.color(QPalette::Base).rgb() & 0xFFFFFF);
-        setProperty("EditForeground", pal.color(QPalette::Text).rgb() & 0xFFFFFF);
+        setValue("EditBackground", pal.color(QPalette::Base).rgb() & 0xFFFFFF);
+        setValue("EditForeground", pal.color(QPalette::Text).rgb() & 0xFFFFFF);
     }
-    editFont = FontEdit::str2font(property("EditFont").toString(), QApplication::font());
+    editFont = FontEdit::str2font(value("EditFont").toString(), QApplication::font());
     setAutoReplies();
 }
 
@@ -899,7 +900,7 @@ QString CorePlugin::tsFile(const QString &lang)
 void CorePlugin::installTranslator()
 {
 	m_translator = NULL;
-	QString lang = property("Lang").toString();
+	QString lang = value("Lang").toString();
     if (lang == "-")
 		return;
 	if (lang.isEmpty()){
@@ -1077,7 +1078,7 @@ bool CorePlugin::processEvent(Event *e)
 				return false;
 			}
 		case eEventJoinAlert:
-			if (!property("NoJoinAlert").toBool() && (m_alert == NULL))
+			if (!value("NoJoinAlert").toBool() && (m_alert == NULL))
 			{
 				Command cmd;
 				cmd->id = CmdStatusBar;
@@ -1147,14 +1148,14 @@ bool CorePlugin::processEvent(Event *e)
 				ARUserData *ar;
 				QString tmpl;
 				if (r->contact){
-					ar = (ARUserData*)(r->contact->userData.getUserData(ar_data_id, false));
+					ar = (ARUserData*)(r->contact->getUserData().getUserData(ar_data_id, false));
 					if (ar)
 						tmpl = get_str(ar->AutoReply, r->status);
 					if (tmpl.isEmpty()){
 						ar = NULL;
 						Group *grp = getContacts()->group(r->contact->getGroup());
 						if (grp)
-							ar = (ARUserData*)(grp->userData.getUserData(ar_data_id, false));
+							ar = (ARUserData*)(grp->getUserData().getUserData(ar_data_id, false));
 						if (ar)
 							tmpl = get_str(ar->AutoReply, r->status);
 					}
@@ -1191,7 +1192,7 @@ bool CorePlugin::processEvent(Event *e)
 				if (p->pluginName() == "_core")
 				{
 					QString profile = ProfileManager::instance()->currentProfileName();
-					setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
+					setValue("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 					removeTranslator();
 					installTranslator();
 					initData();
@@ -1681,7 +1682,7 @@ bool CorePlugin::processEvent(Event *e)
 								nEncoding++;
 								continue;
 							}
-							if (!property("ShowAllEncodings").toBool())
+							if (!value("ShowAllEncodings").toBool())
 								continue;
 							nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
 							nEncoding++;
@@ -1709,7 +1710,7 @@ bool CorePlugin::processEvent(Event *e)
 							cmds[nEncoding].text_wrk = (*it);
 							nEncoding++;
 						}
-						if (!property("ShowAllEncodings").toBool())
+						if (!value("ShowAllEncodings").toBool())
 							return true;
 						cmds[nEncoding++].text = "_";
 						nomain.sort();
@@ -1730,20 +1731,20 @@ bool CorePlugin::processEvent(Event *e)
 					}
 					if (cmd->id == CmdAllEncodings){
 						cmd->flags &= ~COMMAND_CHECKED;
-						if (property("ShowAllEncodings").toBool())
+						if (value("ShowAllEncodings").toBool())
 							cmd->flags |= COMMAND_CHECKED;
 						return true;
 					}
 				}
 				if (cmd->id == CmdEnableSpell){
 					cmd->flags &= ~COMMAND_CHECKED;
-					if (property("EnableSpell").toBool())
+					if (value("EnableSpell").toBool())
 						cmd->flags |= COMMAND_CHECKED;
 					return true;
 				}
 				if (cmd->id == CmdSendClose){
 					cmd->flags &= ~COMMAND_CHECKED;
-					if (property("CloseSend").toBool())
+					if (value("CloseSend").toBool())
 						cmd->flags |= COMMAND_CHECKED;
 					return false;
 				}
@@ -2305,7 +2306,7 @@ bool CorePlugin::processEvent(Event *e)
 						QToolButton *btn = qobject_cast<QToolButton*>(eWidget.widget());
 						if (btn)
 							QTimer::singleShot(0, btn, SLOT(animateClick()));
-						setProperty("ShowAllEncodings", !property("ShowAllEncodings").toBool());
+						setValue("ShowAllEncodings", !value("ShowAllEncodings").toBool());
 						return true;
 					}
 					Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2328,7 +2329,7 @@ bool CorePlugin::processEvent(Event *e)
 								main.append(i18n(enc->language) + " (" + enc->codec + ')');
 								continue;
 							}
-							if (!property("ShowAllEncodings").toBool())
+							if (!value("ShowAllEncodings").toBool())
 								continue;
 							nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
 						}
@@ -2367,7 +2368,7 @@ bool CorePlugin::processEvent(Event *e)
 					return false;
 				}
 				if (cmd->id == CmdEnableSpell){
-					setProperty("EnableSpell", cmd->flags & COMMAND_CHECKED);
+					setValue("EnableSpell", cmd->flags & COMMAND_CHECKED);
 					return false;
 				}
 				if (cmd->menu_id == MenuMessage){
@@ -2502,7 +2503,7 @@ bool CorePlugin::processEvent(Event *e)
 					return true;
 				}
 				if (cmd->id == CmdSendClose){
-					setProperty("CloseSend", (cmd->flags & COMMAND_CHECKED) != 0);
+					setValue("CloseSend", (cmd->flags & COMMAND_CHECKED) != 0);
 					return true;
 				}
 				if (cmd->id == CmdSendSMS){
@@ -2520,7 +2521,7 @@ bool CorePlugin::processEvent(Event *e)
 				}
 				if (cmd->id == CmdHistory){
 					unsigned long id = (unsigned long)(cmd->param);
-					if (!property("UseExtViewer").toBool()){
+					if (!value("UseExtViewer").toBool()){
 						HistoryWindow *wnd = NULL;
 						QWidgetList list = QApplication::topLevelWidgets();
                         QWidget * w;
@@ -2536,8 +2537,8 @@ bool CorePlugin::processEvent(Event *e)
 						}
 						if (wnd == NULL){
 							wnd = new HistoryWindow(id);
-                            unsigned int historySizeX = property("HistorySizeX").toUInt();
-                            unsigned int historySizeY = property("HistorySizeY").toUInt();
+                            unsigned int historySizeX = value("HistorySizeX").toUInt();
+                            unsigned int historySizeY = value("HistorySizeY").toUInt();
                             if(historySizeX && historySizeY)
                                 wnd->resize(historySizeX, historySizeY);
 						}
@@ -2548,7 +2549,7 @@ bool CorePlugin::processEvent(Event *e)
 						if (!m_HistoryThread)
 							m_HistoryThread = new HistoryThread();
 						m_HistoryThread->set_id(id);
-						m_HistoryThread->set_Viewer(property("ExtViewer").toString());
+						m_HistoryThread->set_Viewer(value("ExtViewer").toString());
 						m_HistoryThread->start();
 					}
 					return true;
@@ -2562,8 +2563,8 @@ bool CorePlugin::processEvent(Event *e)
                     	m_cfg = new ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
 
-                        unsigned int cfgGeometryWidth = property("CfgGeometryWidth").toUInt();
-                        unsigned int cfgGeometryHeight = property("CfgGeometryHeight").toUInt();
+                        unsigned int cfgGeometryWidth = value("CfgGeometryWidth").toUInt();
+                        unsigned int cfgGeometryHeight = value("CfgGeometryHeight").toUInt();
                         if(cfgGeometryWidth == 0 || cfgGeometryHeight == 0)
                         {
                             cfgGeometryWidth = 500;
@@ -2578,8 +2579,8 @@ bool CorePlugin::processEvent(Event *e)
 					if (m_search == NULL){
 						m_search = new SearchDialog;
 						connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                        unsigned int searchGeometryWidth = property("SearchGeometryWidth").toUInt();
-                        unsigned int searchGeometryHeight = property("SearchGeometryHeight").toUInt();
+                        unsigned int searchGeometryWidth = value("SearchGeometryWidth").toUInt();
+                        unsigned int searchGeometryHeight = value("SearchGeometryHeight").toUInt();
                         if(searchGeometryWidth == 0 || searchGeometryHeight == 0)
                         {
                             searchGeometryWidth = 500;
@@ -2698,7 +2699,7 @@ bool CorePlugin::processEvent(Event *e)
 					if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) ||
 								(client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
 							(client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
-						QString noShow = CorePlugin::m_plugin->property("NoShowAutoReply").toMap().value(QString::number(cmd->id)).toString();
+						QString noShow = CorePlugin::m_plugin->value("NoShowAutoReply").toMap().value(QString::number(cmd->id)).toString();
 						if (noShow.isEmpty()){
 							AutoReplyDialog dlg(cmd->id);
 							if (!dlg.exec())
@@ -2848,7 +2849,7 @@ bool CorePlugin::processEvent(Event *e)
 				}
 				if (cmd->id == CmdShowPanel)
 				{
-					setProperty("ShowPanel", ((cmd->flags & COMMAND_CHECKED) != 0));
+					setValue("ShowPanel", ((cmd->flags & COMMAND_CHECKED) != 0));
 					//setShowPanel((cmd->flags & COMMAND_CHECKED) != 0);
 					showPanel();
 				}
@@ -2930,8 +2931,8 @@ void CorePlugin::showInfo(CommandDef *cmd)
 	}
 	if (cfg == NULL){
 		cfg = new UserConfig(contact, group);
-        unsigned int cfgGeometryWidth = property("CfgGeometryWidth").toUInt();
-        unsigned int cfgGeometryHeight = property("CfgGeometryHeight").toUInt();
+        unsigned int cfgGeometryWidth = value("CfgGeometryWidth").toUInt();
+        unsigned int cfgGeometryHeight = value("CfgGeometryHeight").toUInt();
         if(cfgGeometryWidth == 0 || cfgGeometryHeight == 0)
         {
             cfgGeometryWidth = 500;
@@ -2987,7 +2988,7 @@ void CorePlugin::changeProfile(const QString& profilename)
 	destroy();
 	getContacts()->clearClients();
 	getContacts()->clear();
-	setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
+	setValue("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
 	ProfileManager::instance()->selectProfile(profilename);
 	removeTranslator();
 	installTranslator();
@@ -3103,13 +3104,13 @@ bool CorePlugin::init(bool bInit)
 	}
 	PropertyHub::load();
 	// Defaults:
-	if(!property("ShowPanel").isValid())
-		setProperty("ShowPanel", true); // Show status panel by default
-	if(!property("HistoryStyle").isValid())
-		setProperty("HistoryStyle", "SIM");
-	if(property("HistoryPage").toUInt() == 0)
-		setProperty("HistoryPage", 100);
-	historyXSL = new XSL(property("HistoryStyle").toString());
+	if(!value("ShowPanel").isValid())
+		setValue("ShowPanel", true); // Show status panel by default
+	if(!value("HistoryStyle").isValid())
+		setValue("HistoryStyle", "SIM");
+	if(value("HistoryPage").toUInt() == 0)
+		setValue("HistoryPage", 100);
+	historyXSL = new XSL(value("HistoryStyle").toString());
 	EventPluginLoadConfig eplc;
 	eplc.process();
 	if (!bLoaded)
@@ -3144,7 +3145,7 @@ bool CorePlugin::init(bool bInit)
 	loadUnread();
 
     m_main = new MainWindow(/*data.geometry*/);
-    m_main->restoreGeometry(property("geometry").toByteArray());
+    m_main->restoreGeometry(value("geometry").toByteArray());
     m_view = new UserView;
 
     EventLoginStart e;
@@ -3152,8 +3153,8 @@ bool CorePlugin::init(bool bInit)
 
 	if (!bNew)
     {
-		QString containers = property("Containers").toString();
-		QVariantMap containerMap = property("Container").toMap();
+		QString containers = value("Containers").toString();
+		QVariantMap containerMap = value("Container").toMap();
 		while (!containers.isEmpty())
         {
 			Container *c = new Container(0, containerMap.value(getToken(containers, ',')).toString().toUtf8().constData());
@@ -3161,8 +3162,8 @@ bool CorePlugin::init(bool bInit)
 		}
 	}
 	//clearContainer();
-	setProperty("Containers", QString());
-	setProperty("Container", QVariantMap());
+	setValue("Containers", QString());
+	setValue("Container", QVariantMap());
 
 	m_bInit = true;
 	loadMenu();
@@ -3274,31 +3275,31 @@ QByteArray CorePlugin::getConfig()
 		unread_str += ',';
 		unread_str += m.client;
 	}
-	setProperty("Unread", unread_str);
+	setValue("Unread", unread_str);
 
-	unsigned editBgColor = property("EditBackground").toUInt();
-	unsigned editFgColor = property("EditForeground").toUInt();
+	unsigned editBgColor = value("EditBackground").toUInt();
+	unsigned editFgColor = value("EditForeground").toUInt();
 
 	QPalette pal = QApplication::palette();
-        if (((pal.color(QPalette::Base).rgb() & 0xFFFFFF) == property("EditBackground").toUInt()) &&
-            ((pal.color(QPalette::Text).rgb() & 0xFFFFFF) == property("EditForeground").toUInt()))
+        if (((pal.color(QPalette::Base).rgb() & 0xFFFFFF) == value("EditBackground").toUInt()) &&
+            ((pal.color(QPalette::Text).rgb() & 0xFFFFFF) == value("EditForeground").toUInt()))
 	{
-		setProperty("EditBackground", 0);
-		setProperty("EditForeground", 0);
+		setValue("EditBackground", 0);
+		setValue("EditForeground", 0);
 	}
 
 	QString ef     = FontEdit::font2str(editFont, false);
 	QString def_ef = FontEdit::font2str(QApplication::font(), false);
-	setProperty("EditFont", ef);
-	if ((ef == def_ef) || !property("EditSaveFont").toBool())
-		setProperty("EditFont", QString());
+	setValue("EditFont", ef);
+	if ((ef == def_ef) || !value("EditSaveFont").toBool())
+		setValue("EditFont", QString());
 
 	//clearContainer();
 	QString containers;
 
 	QWidgetList list = QApplication::topLevelWidgets();
 	QWidget* w;
-	QVariantMap containerMap;// = property("Container").toMap();
+	QVariantMap containerMap;// = value("Container").toMap();
     foreach(w,list)
 	{
 		if (w->inherits("Container"))
@@ -3312,13 +3313,13 @@ QByteArray CorePlugin::getConfig()
 			containerMap.insert(QString::number(c->getId()), c->getState());
 		}
 	}
-	setProperty("Containers", containers);
+	setValue("Containers", containers);
 	if (m_main)
 	{
 		//saveGeometry(m_main, data.geometry);
 		log(L_DEBUG, "Saving geometry");
-        setProperty("geometry", m_main->saveGeometry());
-        setProperty("toolbar_state", m_main->saveState());
+        setValue("geometry", m_main->saveGeometry());
+        setValue("toolbar_state", m_main->saveState());
         /*
 		if (m_main->m_bar)
 		{
@@ -3438,15 +3439,15 @@ QByteArray CorePlugin::getConfig()
 	QString dir = user_file("");
 	chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
-	setProperty("EditBackground", editBgColor);
-	setProperty("EditForeground", editFgColor);
+	setValue("EditBackground", editBgColor);
+	setValue("EditForeground", editFgColor);
 	return QByteArray();
 }
 
 void CorePlugin::loadUnread()
 {
 	unread.clear();
-	QString unread_str = property("Unread").toString();
+	QString unread_str = value("Unread").toString();
 	while (!unread_str.isEmpty()){
 		QString item = getToken(unread_str, ';');
 		unsigned long contact = getToken(item, ',').toULong();
@@ -3461,7 +3462,7 @@ void CorePlugin::loadUnread()
 		m.type    = msg->baseType();
 		unread.push_back(m);
 	}
-	setProperty("Unread", QString());
+	setValue("Unread", QString());
 }
 
 void CorePlugin::clearUnread(unsigned contact_id)
@@ -3592,8 +3593,8 @@ QString CorePlugin::typeName(const QString &name)
 
 void CorePlugin::postInit()
 {
-    m_main->restoreGeometry(property("geometry").toByteArray());
-    m_main->restoreState(property("toolbar_state").toByteArray());
+    m_main->restoreGeometry(value("geometry").toByteArray());
+    m_main->restoreState(value("toolbar_state").toByteArray());
 }
 
 void CorePlugin::loadMenu()
@@ -3705,7 +3706,7 @@ void CorePlugin::showPanel()
 {
     if (m_main == NULL)
         return;
-    bool bShow = property("ShowPanel").toBool();
+    bool bShow = value("ShowPanel").toBool();
     if (bShow){
         if (getContacts()->nClients() < 2)
             bShow = false;
@@ -3725,12 +3726,12 @@ void CorePlugin::showPanel()
 
 unsigned CorePlugin::getContainerMode()
 {
-    return property("ContainerMode").toUInt(); //data.ContainerMode.toULong();
+    return value("ContainerMode").toUInt(); //data.ContainerMode.toULong();
 }
 
 void CorePlugin::setContainerMode(unsigned value)
 {
-    setProperty("ContainerMode", value);
+    setValue("ContainerMode", value);
     emit modeChanged(value);
 }
 
@@ -3761,15 +3762,15 @@ void CorePlugin::setManualStatus(unsigned long status)
 {
     if (status == getManualStatus())
         return;
-    setProperty("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
+    setValue("StatusTime", (unsigned int)QDateTime::currentDateTime().toTime_t());
     //data.ManualStatus.asULong() = status;
-    setProperty("ManualStatus", (uint)status);
+    setValue("ManualStatus", (uint)status);
 }
 
 void CorePlugin::alertFinished()
 {
     if (m_alert)
-        setProperty("NoJoinAlert", m_alert->isChecked());
+        setValue("NoJoinAlert", m_alert->isChecked());
     m_alert = NULL;
 }
 

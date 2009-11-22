@@ -51,10 +51,10 @@ void UserViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
                     }
                 }
             }
-            if (!CorePlugin::instance()->property("UseSysColors").toBool())
-                p->setPen(CorePlugin::instance()->property("ColorGroup").toUInt());
+            if (!CorePlugin::instance()->value("UseSysColors").toBool())
+                p->setPen(CorePlugin::instance()->value("ColorGroup").toUInt());
             QFont f(option.font);
-            if (CorePlugin::instance()->property("SmallGroupFont").toBool()){
+            if (CorePlugin::instance()->value("SmallGroupFont").toBool()){
                 int size = f.pixelSize();
                 if (size <= 0){
                     size = f.pointSize();
@@ -66,7 +66,7 @@ void UserViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
             f.setBold(true);
             p->setFont(f);
             x = drawText(p, x, itemsize, text);
-            if (CorePlugin::instance()->property("GroupSeparator").toBool())
+            if (CorePlugin::instance()->value("GroupSeparator").toBool())
                 drawSeparator(p, x, itemsize, m_uv->style());
             break;
         }
@@ -75,27 +75,27 @@ void UserViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
             ContactItem *item = static_cast<ContactItem*>(base);
             QFont f(option.font);
             if (item->style() & CONTACT_ITALIC){
-                if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_ITALIC)
+                if (CorePlugin::instance()->value("VisibleStyle").toUInt()  & STYLE_ITALIC)
                     f.setItalic(true);
-                if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_UNDER)
+                if (CorePlugin::instance()->value("VisibleStyle").toUInt()  & STYLE_UNDER)
                     f.setUnderline(true);
-                if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_STRIKE)
+                if (CorePlugin::instance()->value("VisibleStyle").toUInt()  & STYLE_STRIKE)
                     f.setStrikeOut(true);
             }
             if (item->style() & CONTACT_UNDERLINE){
-                if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_ITALIC)
+                if (CorePlugin::instance()->value("AuthStyle").toUInt()  & STYLE_ITALIC)
                     f.setItalic(true);
-                if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_UNDER)
+                if (CorePlugin::instance()->value("AuthStyle").toUInt()  & STYLE_UNDER)
                     f.setUnderline(true);
-                if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_STRIKE)
+                if (CorePlugin::instance()->value("AuthStyle").toUInt()  & STYLE_STRIKE)
                     f.setStrikeOut(true);
             }
             if (item->style() & CONTACT_STRIKEOUT){
-                if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_ITALIC)
+                if (CorePlugin::instance()->value("InvisibleStyle").toUInt()  & STYLE_ITALIC)
                     f.setItalic(true);
-                if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_UNDER)
+                if (CorePlugin::instance()->value("InvisibleStyle").toUInt()  & STYLE_UNDER)
                     f.setUnderline(true);
-                if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_STRIKE)
+                if (CorePlugin::instance()->value("InvisibleStyle").toUInt()  & STYLE_STRIKE)
                     f.setStrikeOut(true);
             }
             int x = margin;
@@ -108,29 +108,29 @@ void UserViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
             }
             if (x < 24)
                 x = 24;
-            if (!item->isSelected() || !m_uv->hasFocus() || !CorePlugin::instance()->property("UseDblClick").toBool()){
-                if (CorePlugin::instance()->property("UseSysColors").toBool()){
+            if (!item->isSelected() || !m_uv->hasFocus() || !CorePlugin::instance()->value("UseDblClick").toBool()){
+                if (CorePlugin::instance()->value("UseSysColors").toBool()){
                     if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                         p->setPen(m_uv->palette().color(QPalette::Disabled,QPalette::Text));
                 }else{
                     switch (item->status()){
                     case STATUS_ONLINE:
-                        p->setPen(CorePlugin::instance()->property("ColorOnline").toUInt());
+                        p->setPen(CorePlugin::instance()->value("ColorOnline").toUInt());
                         break;
                     case STATUS_FFC:
-                        p->setPen(CorePlugin::instance()->property("ColorOnline").toUInt());
+                        p->setPen(CorePlugin::instance()->value("ColorOnline").toUInt());
                         break;
                     case STATUS_AWAY:
-                        p->setPen(CorePlugin::instance()->property("ColorAway").toUInt());
+                        p->setPen(CorePlugin::instance()->value("ColorAway").toUInt());
                         break;
                     case STATUS_NA:
-                        p->setPen(CorePlugin::instance()->property("ColorNA").toUInt());
+                        p->setPen(CorePlugin::instance()->value("ColorNA").toUInt());
                         break;
                     case STATUS_DND:
-                        p->setPen(CorePlugin::instance()->property("ColorDND").toUInt());
+                        p->setPen(CorePlugin::instance()->value("ColorDND").toUInt());
                         break;
                     default:
-                        p->setPen(CorePlugin::instance()->property("ColorOffline").toUInt());
+                        p->setPen(CorePlugin::instance()->value("ColorOffline").toUInt());
                         break;
                     }
                 }
@@ -163,7 +163,7 @@ void UserViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
                 QColor oldBg = p->background().color();
                 p->setBackgroundMode(Qt::OpaqueMode);
                 if (item == m_uv->m_searchItem){
-                    if ((item == m_uv->currentItem()) && CorePlugin::instance()->property("UseDblClick").toBool()){
+                    if ((item == m_uv->currentItem()) && CorePlugin::instance()->value("UseDblClick").toBool()){
                         p->setBackground(cg.color(QPalette::HighlightedText));
                         p->setPen(cg.color(QPalette::Highlight));
                     }else{
@@ -230,7 +230,7 @@ QSize UserViewDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
     QFont f(option.font);
     int h = 0;
     if (base->type() == GRP_ITEM){
-        if (CorePlugin::instance()->property("SmallGroupFont").toBool()){
+        if (CorePlugin::instance()->value("SmallGroupFont").toBool()){
             int size = f.pixelSize();
             if (size <= 0){
                 size = f.pointSize();

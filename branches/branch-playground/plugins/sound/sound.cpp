@@ -61,7 +61,7 @@ static QWidget *getSoundSetup(QWidget *parent, QVariantMap* data)
 }
 
 SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
-        : Plugin(base), PropertyHub("sound")
+        : QObject(), PropertyHub("sound"), Plugin(base)
 {
     soundPlugin = this;
     m_media = Phonon::createPlayer(Phonon::NotificationCategory);
@@ -106,19 +106,19 @@ bool SoundPlugin::processEvent(SIM::Event *e)
     {
         case eEventLoginStart:
         {
-			log(L_DEBUG, "Startup sound: %s", qPrintable(property("StartUp").toString()));
-            playSound(property("StartUp").toString());
+			log(L_DEBUG, "Startup sound: %s", qPrintable(value("StartUp").toString()));
+            playSound(value("StartUp").toString());
             break;
         }
         case eEventPluginLoadConfig:
         {
             PropertyHub::load();
-			if(!property("StartUp").isValid())
-				setProperty("StartUp", "sounds/startup.ogg");
-			if(!property("MessageSent").isValid())
-				setProperty("MessageSent", "sounds/msgsent.ogg");
-			if(!property("FileDone").isValid())
-				setProperty("FileDone", "sounds/filedone.ogg");
+			if(!value("StartUp").isValid())
+				setValue("StartUp", "sounds/startup.ogg");
+			if(!value("MessageSent").isValid())
+				setValue("MessageSent", "sounds/msgsent.ogg");
+			if(!value("FileDone").isValid())
+				setValue("FileDone", "sounds/filedone.ogg");
             break;
         }
 		case eEventContact:
@@ -147,13 +147,13 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             QString sound;
             if (msg->type() == MessageFile)
             {
-                sound = property("FileDone").toString();
+                sound = value("FileDone").toString();
             }
             else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0)
             {
                 if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
                     return false;
-                sound = property("MessageSent").toString();
+                sound = value("MessageSent").toString();
             }
             if (!sound.isEmpty())
             {

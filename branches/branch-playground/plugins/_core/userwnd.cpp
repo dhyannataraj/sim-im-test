@@ -125,7 +125,7 @@ QString UserWnd::getName()
 QString UserWnd::getLongName()
 {
     QString res;
-    if (CorePlugin::m_plugin->property("ShowOwnerName").toBool() && !getContacts()->owner()->getName().isEmpty())
+    if (CorePlugin::m_plugin->value("ShowOwnerName").toBool() && !getContacts()->owner()->getName().isEmpty())
         res += getContacts()->owner()->getName();
     if (!res.isEmpty())
         res += " - ";
@@ -199,7 +199,7 @@ void UserWnd::modeChanged()
         m_view->show();
         int editHeight = getEditHeight();
         if (editHeight == 0)
-            editHeight = CorePlugin::m_plugin->property("EditHeight").toInt(); //getEditHeight();
+            editHeight = CorePlugin::m_plugin->value("EditHeight").toInt(); //getEditHeight();
         if (editHeight){
             QList<int> s;
             s.append(1);
@@ -222,7 +222,7 @@ void UserWnd::editHeightChanged(int h)
 {
     if (!m_bResize && CorePlugin::m_plugin->getContainerMode()){
         setEditHeight(h);
-        CorePlugin::m_plugin->setProperty("EditHeight", h);
+        CorePlugin::m_plugin->setValue("EditHeight", h);
     }
 }
 

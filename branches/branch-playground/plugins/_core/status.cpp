@@ -149,7 +149,7 @@ void CommonStatus::setBarStatus()
 				{
                     const CommandDef *d;
                     unsigned i = getContacts()->nClients();
-					if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->property("Invisible").toBool())
+					if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->value("Invisible").toBool())
 						for (i = 0; i < getContacts()->nClients(); i++)
 						{
 							Client *client = getContacts()->getClient(i);
@@ -310,9 +310,9 @@ void CommonStatus::checkInvisible()
 		return;
 
 	if (bAllInvisible)
-		CorePlugin::m_plugin->setProperty("Invisible", true);
+		CorePlugin::m_plugin->setValue("Invisible", true);
 	if (bAllNotInvisible)
-		CorePlugin::m_plugin->setProperty("Invisible", false);
+		CorePlugin::m_plugin->setValue("Invisible", false);
 }
 
 bool CommonStatus::processEvent(Event *e)
@@ -417,7 +417,7 @@ bool CommonStatus::processEvent(Event *e)
 			{
                 if (def->id == CmdInvisible)
 				{
-					if (CorePlugin::m_plugin->property("Invisible").toBool())
+					if (CorePlugin::m_plugin->value("Invisible").toBool())
 						def->flags |= COMMAND_CHECKED;
 					else
 						def->flags &= ~COMMAND_CHECKED;
@@ -452,9 +452,9 @@ bool CommonStatus::processEvent(Event *e)
 			{
                 if (def->id == CmdInvisible)
 				{
-                    CorePlugin::m_plugin->setProperty("Invisible", !CorePlugin::m_plugin->property("Invisible").toBool());
+                    CorePlugin::m_plugin->setValue("Invisible", !CorePlugin::m_plugin->value("Invisible").toBool());
 					for (unsigned i = 0; i < getContacts()->nClients(); i++)
-						getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->property("Invisible").toBool());
+						getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->value("Invisible").toBool());
                     return true;
                 }
                 Client *client = getContacts()->getClient(0);
@@ -480,7 +480,7 @@ bool CommonStatus::processEvent(Event *e)
 
 				if (bOfflineStatus || 
 					(def->id != STATUS_ONLINE && def->id != STATUS_OFFLINE)){
-                    QString noShow = CorePlugin::m_plugin->property("NoShowAutoReply").toMap().value(QString::number(def->id)).toString();
+                    QString noShow = CorePlugin::m_plugin->value("NoShowAutoReply").toMap().value(QString::number(def->id)).toString();
                     if (noShow.isEmpty())
 					{
                         AutoReplyDialog dlg(def->id);

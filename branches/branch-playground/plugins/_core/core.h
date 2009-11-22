@@ -175,14 +175,14 @@ protected:
     QString m_Viewer;
 };
 
-class EXPORT CorePlugin : public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class EXPORT CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
     void setManualStatus(unsigned long status);
-    unsigned long getManualStatus() { return property("ManualStatus").toUInt(); }
+    unsigned long getManualStatus() { return PropertyHub::value("ManualStatus").toUInt(); }
     unsigned getContainerMode();
     void setContainerMode(unsigned);
     void setRegNew(bool p_new) {m_RegNew=p_new;}
