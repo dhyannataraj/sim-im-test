@@ -54,7 +54,7 @@ void SearchAll::refresh()
     for (it = m_searches.begin(); it != m_searches.end(); ){
         vector<ClientWidget>::iterator itw;
         for (itw = widgets.begin(); itw != widgets.end(); ++itw)
-            if (it->first == (*itw).widget)
+            if (it->first == itw->widget)
                 break;
         if (itw != widgets.end()){
             ++it;

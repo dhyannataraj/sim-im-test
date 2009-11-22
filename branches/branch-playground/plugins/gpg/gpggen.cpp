@@ -86,9 +86,9 @@ void GpgGen::textChanged(const QString&)
 }
 
 #ifdef WIN32
-#define CRLF	"\r\n"
+	#define CRLF	"\r\n"
 #else
-#define CRLF	"\n"
+	#define CRLF	"\n"
 #endif
 
 void GpgGen::accept()

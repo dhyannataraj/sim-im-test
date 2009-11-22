@@ -1038,7 +1038,7 @@ void YahooClient::disconnected()
     }
     list<Message_ID>::iterator itw;
     for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); itw = m_waitMsg.begin()){
-        Message *msg = (*itw).msg;
+        Message *msg = itw->msg;
         msg->setError(I18N_NOOP("Client go offline"));
         EventMessageSent(msg).process();
         delete msg;

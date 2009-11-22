@@ -1833,26 +1833,26 @@ bool CorePlugin::processEvent(Event *e)
 							unsigned long status = STATUS_UNKNOWN;
 							unsigned style = 0;
 							QString statusIcon;
-							if ((*itw).bNew){
-								void *data = (*itw).data;
-								Client *client = contact->clientData.activeClient(data, (*itw).client);
+							if (itw->bNew){
+								void *data = itw->data;
+								Client *client = contact->clientData.activeClient(data, itw->client);
 								if (client == NULL){
-									client = (*itw).client;
-									data   = (*itw).data;
+									client = itw->client;
+									data   = itw->data;
 								}
 								client->contactInfo(data, status, style, statusIcon);
 							}else{
-								(*itw).client->contactInfo((*itw).data, status, style, statusIcon);
+								itw->client->contactInfo(itw->data, status, style, statusIcon);
 							}
 							cmds[n].icon = statusIcon;
-							QString t = (*itw).client->contactName((*itw).data);
+							QString t = itw->client->contactName(itw->data);
 							bool bFrom = false;
 							for (unsigned i = 0; i < getContacts()->nClients(); i++){
 								Client *client = getContacts()->getClient(i);
-								if (client == (*itw).client)
+								if (client == itw->client)
 									continue;
 								Contact *contact;
-								clientData *data = (*itw).data;
+								clientData *data = itw->data;
 								if (client->isMyData(data, contact)){
 									bFrom = true;
 									break;
@@ -1860,7 +1860,7 @@ bool CorePlugin::processEvent(Event *e)
 							}
 							if (bFrom){
 								t += ' ';
-								t += i18n("from %1") .arg((*itw).client->name());
+								t += i18n("from %1") .arg(itw->client->name());
 							}
 							cmds[n].text_wrk = t;
 						}

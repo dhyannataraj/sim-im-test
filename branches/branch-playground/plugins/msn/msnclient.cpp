@@ -1934,13 +1934,13 @@ SBSocket::~SBSocket()
     }
     list<msgInvite>::iterator itw;
     for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); ++itw){
-        Message *msg = (*itw).msg;
+        Message *msg = itw->msg;
         msg->setError(I18N_NOOP("Contact go offline"));
         EventMessageSent(msg).process();
         delete msg;
     }
     for (itw = m_acceptMsg.begin(); itw != m_acceptMsg.end(); ++itw){
-        Message *msg = (*itw).msg;
+        Message *msg = itw->msg;
         EventMessageDeleted(msg).process();
         delete msg;
     }

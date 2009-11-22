@@ -219,8 +219,8 @@ void GpgPlugin::decryptReady()
                         QList<DecryptMsg>::iterator itw;
                         bool bDecode = false;
                         for (itw = m_wait.begin(); itw != m_wait.end(); ++itw){
-                            if ((*itw).key == it->key){
-                                decode((*itw).msg, it->passphrase, it->key);
+                            if (itw->key == it->key){
+                                decode(itw->msg, it->passphrase, it->key);
                                 m_wait.erase(itw);
                                 bDecode = true;
                                 break;
