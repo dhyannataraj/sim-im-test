@@ -24,6 +24,7 @@
 #include <QVariant>
 
 #include "buffer.h"
+#include "propertyhub.h"
 
 class CToolBar;
 class QPainter;
@@ -805,7 +806,7 @@ protected:
 
 // CommandDef->param is getPreferencesWindow
 typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
-typedef QWidget* (*getPreferencesWindowContact)(QWidget *parent, QVariantMap* data);
+typedef QWidget* (*getPreferencesWindowContact)(QWidget *parent, PropertyHub* data);
 class EventAddPreferences : public Event
 {
 public:

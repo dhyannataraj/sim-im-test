@@ -64,7 +64,7 @@ void SoundConfig::apply()
 {
     if(user_cfg)
 	{
-		QVariantMap* data = getContacts()->userdata();
+		SIM::PropertyHub* data = getContacts()->userdata();
 		user_cfg->apply(data, true);
     }
 	m_plugin->setValue("StartUp", edtStartup->text());

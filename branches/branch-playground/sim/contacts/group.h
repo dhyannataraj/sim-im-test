@@ -5,6 +5,7 @@
 #include "simapi.h"
 #include "userdata.h"
 #include "clientuserdata.h"
+#include "propertyhub.h"
 
 namespace SIM
 {
@@ -22,7 +23,7 @@ namespace SIM
         PROP_UTF8(Name)
         void *getUserData(unsigned id, bool bCreate = false);
         ClientUserData clientData;
-        QVariantMap* userdata() const { return m_userdata; }
+        PropertyHub* userdata() const { return m_userdata; }
         UserData& getUserData() { return userData; }
 
     protected:
@@ -32,7 +33,7 @@ namespace SIM
 
     private:
         UserData userData;
-        QVariantMap* m_userdata;
+        PropertyHub* m_userdata;
     };
 }
 

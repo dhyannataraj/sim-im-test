@@ -25,6 +25,7 @@
 #include "contacts/clientuserdata.h"
 #include "contacts/packettype.h"
 #include "contacts/protocol.h"
+#include "propertyhub.h"
 
 #include <map>
 #include <QImage>
@@ -104,7 +105,7 @@ public:
     ContactList();
     virtual ~ContactList();
     Contact *owner();
-	QVariantMap* userdata();
+	PropertyHub* userdata();
     void clear();
     void load();
     void save();
@@ -203,7 +204,7 @@ protected:
     COPY_RESTRICTED(ContactList)
 
 private:
-	QVariantMap* m_userData;
+	PropertyHub* m_userData;
 };
 
 EXPORT void createContactList();

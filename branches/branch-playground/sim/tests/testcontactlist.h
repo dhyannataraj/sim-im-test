@@ -6,6 +6,7 @@
 #include <QObject>
 #include "contacts.h"
 #include "contacts/client.h"
+#include "event.h"
 
 namespace testContactList
 {
@@ -26,17 +27,25 @@ namespace testContactList
         virtual QWidget* searchWindow(QWidget *parent);
     };
 
-    class TestContactList : public QObject
+    class Test: public QObject, public SIM::EventReceiver
     {
         Q_OBJECT
+    public:
+        Test();
+        virtual bool processEvent(SIM::Event*);
     private slots:
         void initTestCase();
         void cleanupTestCase();
 
         void testClientManipulation();
+        void testGroupManipulation();
+        void testGroupIterator();
+        void testContactManipulation();
         
     private:
         ContactList* m_contactList;
+        int m_groupAdded;
+        int m_contactAdded;
     };
 
 }

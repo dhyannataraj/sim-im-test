@@ -51,7 +51,7 @@ static void addRow(QTableWidget *lstSound, int row, const QIcon &icon, const QSt
     lstSound->setItem(row, 1, item);
 }
 
-SoundUserConfig::SoundUserConfig(QWidget *parent, QVariantMap* data, SoundPlugin *plugin)
+SoundUserConfig::SoundUserConfig(QWidget *parent, SIM::PropertyHub* data, SoundPlugin *plugin)
   : QWidget(parent)
   , m_plugin(plugin)
 {
@@ -101,7 +101,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, QVariantMap* data, SoundPlugin
     lstSound->sortByColumn(0, Qt::AscendingOrder);
 }
 
-void SoundUserConfig::apply(QVariantMap* data, bool override)
+void SoundUserConfig::apply(SIM::PropertyHub* data, bool override)
 {
     for(int row = 0; row < lstSound->rowCount(); ++row)
     {
@@ -111,16 +111,16 @@ void SoundUserConfig::apply(QVariantMap* data, bool override)
             text = "(nosound)";
         if (id == ONLINE_ALERT)
         {
-            data->insert("sound/Alert", text);
+            data->setValue("sound/Alert", text);
         }
         else
         {
-            data->insert("sound/Receive" + QString::number(id), text);
+            data->setValue("sound/Receive" + QString::number(id), text);
         }
     }
-    data->insert("sound/NoSoundIfActive", chkActive->isChecked());
-    data->insert("sound/Disable", chkDisable->isChecked());
-	data->insert("sound/override", override);
+    data->setValue("sound/NoSoundIfActive", chkActive->isChecked());
+    data->setValue("sound/Disable", chkDisable->isChecked());
+	data->setValue("sound/override", override);
     Event e(m_plugin->EventSoundChanged);
     e.process();
 }

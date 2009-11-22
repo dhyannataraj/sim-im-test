@@ -19,6 +19,7 @@
 #define _SOUNDUSER_H
 
 #include "ui_sounduserbase.h"
+#include "propertyhub.h"
 
 class SoundPlugin;
 
@@ -26,10 +27,10 @@ class SoundUserConfig : public QWidget, public Ui::SoundUserConfigBase
 {
     Q_OBJECT
 public:
-    SoundUserConfig(QWidget *parent, QVariantMap* data, SoundPlugin *plugin);
+    SoundUserConfig(QWidget *parent, SIM::PropertyHub* data, SoundPlugin *plugin);
 
 public slots:
-    void apply(QVariantMap* data, bool override);
+    void apply(SIM::PropertyHub* data, bool override);
     void toggled(bool);
 
 protected:

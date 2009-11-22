@@ -55,7 +55,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 static SoundPlugin *soundPlugin = NULL;
 
-static QWidget *getSoundSetup(QWidget *parent, QVariantMap* data)
+static QWidget *getSoundSetup(QWidget *parent, SIM::PropertyHub* data)
 {
     return new SoundUserConfig(parent, data, soundPlugin);
 }
@@ -226,7 +226,7 @@ void SoundPlugin::playSound(const QString& path)
 
 QString SoundPlugin::messageSound(unsigned type, unsigned long contact_id)
 {
-	QVariantMap* data = NULL;
+	SIM::PropertyHub* data = NULL;
 	if(!contact_id)
 	{
 		data = getContacts()->userdata();

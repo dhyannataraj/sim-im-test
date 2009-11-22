@@ -34,7 +34,7 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
 {
     setupUi(this);
     void *data = NULL;
-    QVariantMap* mapdata = NULL;
+	SIM::PropertyHub* mapdata = NULL;
     if (m_contact)
     {
         data = m_contact->getUserData(m_cmd->id);
@@ -64,7 +64,7 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
 
         if(cmd->flags & COMMAND_CONTACT)
         {
-            connect(this, SIGNAL(apply(QVariantMap*, bool)), w, SLOT(apply(QVariantMap*, bool)));
+            connect(this, SIGNAL(apply(SIM::PropertyHub*, bool)), w, SLOT(apply(SIM::PropertyHub*, bool)));
         }
         else
         {
@@ -85,7 +85,7 @@ void PrefConfig::apply()
 {
     if(m_cmd->flags & COMMAND_CONTACT)
     {
-        QVariantMap *data = NULL;
+		SIM::PropertyHub *data = NULL;
         if (m_contact)
         {
             log(L_DEBUG, "Contact");

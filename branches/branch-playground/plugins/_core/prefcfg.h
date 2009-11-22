@@ -30,7 +30,7 @@ public:
 
 signals:
     void apply(void*);
-    void apply(QVariantMap*, bool);
+    void apply(SIM::PropertyHub*, bool);
 
 public slots:
     void apply();

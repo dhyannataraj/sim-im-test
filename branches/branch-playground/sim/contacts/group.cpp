@@ -19,8 +19,8 @@ namespace SIM
     {
         m_id = id;
         load_data(groupData, &data, cfg);
-        m_userdata = new QVariantMap();
-        m_userdata->insert("id", (uint)id);
+        m_userdata = new PropertyHub("");
+        m_userdata->setValue("id", (uint)id);
     }
 
     Group::~Group()

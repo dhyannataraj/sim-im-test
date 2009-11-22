@@ -3,6 +3,7 @@
 #define SIM_CONTACT_H
 
 #include "userdata.h"
+#include "propertyhub.h"
 #include "clientuserdata.h"
 
 namespace SIM
@@ -58,7 +59,7 @@ namespace SIM
         ContactData data;
         const DataDef *dataDef();
         void setup();
-        QVariantMap* userdata() const { return m_userdata; }
+        PropertyHub* userdata() const { return m_userdata; }
 
         UserData& getUserData() { return userData; }
     protected:
@@ -68,7 +69,7 @@ namespace SIM
 
     private:
         UserData userData;
-        QVariantMap* m_userdata;
+        PropertyHub* m_userdata;
     };
 
 }
