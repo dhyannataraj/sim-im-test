@@ -32,9 +32,9 @@ namespace SIM
         std::map<unsigned long, Contact*>  contacts;
         std::vector<Group*>  groups;
         std::vector<Client*> clients;
-        std::list<Protocol*> protocols;
-        PACKET_MAP		packets;
-        bool			bNoRemove;
+        QList<Protocol*>     protocols;
+        PACKET_MAP           packets;
+        bool                 bNoRemove;
     };
 }
 

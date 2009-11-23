@@ -36,7 +36,7 @@ class Speller;
 
 typedef QMap<SIM::my_string, bool> MAP_BOOL;
 
-class SpellPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class SpellPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

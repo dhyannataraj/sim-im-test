@@ -53,11 +53,6 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
   , m_dock(NULL)
   , m_popup(NULL)
 {
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    m_core = static_cast<CorePlugin*>(info->plugin);
-
     DockMenu     = registerType();
     CmdTitle	 = registerType();
     CmdToggle    = registerType();
@@ -153,7 +148,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
         case QEvent::Close:
             if (!m_bQuit){
                 QWidget *main = static_cast<QWidget*>(o);
-				setProperty("ShowMain", false);
+                setProperty("ShowMain", false);
                 //setShowMain(false);
                 main->hide();
 				e->ignore();
@@ -240,11 +235,11 @@ bool DockPlugin::processEvent(Event *e)
             if(!main)
                 return false;
             if (isMainShow()){
-				setProperty("ShowMain", false);
+                setProperty("ShowMain", false);
                 main->hide();
             }else{
                 m_inactiveTime = QDateTime();
-				setProperty("ShowMain", true);
+                setProperty("ShowMain", true);
                 raiseWindow(main, property("Desktop").toUInt());
             }
             return (void*)1;
@@ -312,7 +307,7 @@ void DockPlugin::doubleClicked()
     if (m_popup)
         return;
 
-    if (!m_core->unread.size())
+    if ( 0 == CorePlugin::instance()->unread.size() )
         return;
 
     Command cmd;

@@ -56,7 +56,7 @@ struct KeyMsg
     SIM::Message   *msg;
 };
 
-class GpgPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class GpgPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
 	Q_OBJECT
 public:

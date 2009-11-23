@@ -25,7 +25,6 @@
 #include "plugins.h"
 
 class QTimer;
-class CorePlugin;
 
 struct AutoAwayData
 {
@@ -63,7 +62,6 @@ protected:
     bool bAway;
     bool bNA;
     bool bOff;
-    CorePlugin *core;
     QTimer *m_timer;
     AutoAwayData data;
 };

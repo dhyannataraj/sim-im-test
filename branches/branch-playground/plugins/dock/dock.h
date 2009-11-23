@@ -28,9 +28,8 @@
 
 class DockWnd;
 class QMenu;
-class CorePlugin;
 
-class DockPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class DockPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -56,7 +55,6 @@ protected:
     DockWnd *m_dock;
     QWidget* m_main;
     QMenu *m_popup;
-    CorePlugin *m_core;
     unsigned long DockMenu;
     unsigned long CmdTitle;
     unsigned long CmdToggle;

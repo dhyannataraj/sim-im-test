@@ -29,8 +29,6 @@ struct ForwardUserData
     SIM::Data	Translit;
 };
 
-class CorePlugin;
-
 class ForwardPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
@@ -38,8 +36,7 @@ public:
     virtual ~ForwardPlugin();
     unsigned long user_data_id;
 protected:
-    CorePlugin	*core;
-    virtual QWidget *createConfigWindow(QWidget *parent);
+   virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool processEvent(SIM::Event *e);
 };
 

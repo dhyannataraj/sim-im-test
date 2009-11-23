@@ -66,7 +66,7 @@ ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *
     addRow(lstEvent, row, Icon("SIM"), i18n("Status changed"), CONTACT_STATUS, data->Status.str());
 
     CommandDef *cmd;
-    CommandsMapIterator it(m_plugin->core->messageTypes);
+    CommandsMapIterator it(CorePlugin::instance()->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
         if ((def == NULL) || (cmd->icon.isEmpty()) ||

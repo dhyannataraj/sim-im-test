@@ -252,7 +252,7 @@ void SnacIcqICBM::sendType2(const QString &screen, ICQBuffer &msgBuf, const Mess
 			}
 		}
         b.tlv(0x05, port);
-		log(L_DEBUG, "RealIP = %08x, IP = %08x, port = %04x", (get_ip(client()->data.owner.RealIP)), (get_ip(client()->data.owner.IP)), port);
+                log(L_DEBUG, "RealIP = %08x, IP = %08x, port = %04x", (unsigned int)(get_ip(client()->data.owner.RealIP)), (unsigned int)(get_ip(client()->data.owner.IP)), port);
     }
     copyTlv(b, tlvs, 0x17);
     copyTlv(b, tlvs, 0x0E);
@@ -1513,7 +1513,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
            // codepage?
         }
 
-	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",test_ip, real_ip, ip, port);
+        log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",(unsigned int)test_ip, (unsigned int)real_ip, (unsigned int)ip, port);
 
     if(real_ip || ip)
 	{

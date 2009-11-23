@@ -71,11 +71,6 @@ ForwardPlugin::ForwardPlugin(unsigned base)
     cmd->icon	  = "cell";
     cmd->param	 = (void*)getForwardSetup;
     EventAddPreferences(cmd).process();
-
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
 }
 
 ForwardPlugin::~ForwardPlugin()
@@ -104,7 +99,7 @@ bool ForwardPlugin::processEvent(Event *e)
                 Group *grp;
                 ContactList::GroupIterator it;
                 while ((grp = ++it) != NULL){
-                    data = (ForwardUserData*)(grp->userData.getUserData(user_data_id, false));
+                    data = (ForwardUserData*)(grp->getUserData(user_data_id, false));
                     if (data && !data->Phone.str().isEmpty()){
                         bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
@@ -115,7 +110,7 @@ bool ForwardPlugin::processEvent(Event *e)
                 Contact *contact;
                 ContactList::ContactIterator it;
                 while ((contact = ++it) != NULL){
-                    data = (ForwardUserData*)(contact->userData.getUserData(user_data_id, false));
+                    data = (ForwardUserData*)(contact->getUserData(user_data_id, false));
                     if (data && !data->Phone.str().isEmpty()){
                         bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
@@ -154,7 +149,7 @@ bool ForwardPlugin::processEvent(Event *e)
         ForwardUserData *data = (ForwardUserData*)(contact->getUserData(user_data_id));
         if ((data == NULL) || (data->Phone.str().isEmpty()))
             return false;
-        unsigned status = core->getManualStatus();
+        unsigned status = CorePlugin::instance()->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
             unsigned flags = MESSAGE_NOHISTORY;

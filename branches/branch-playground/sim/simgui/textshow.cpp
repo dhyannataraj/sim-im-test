@@ -169,8 +169,8 @@ void TextEdit::slotColorChanged(const QColor &c) //FIXME
 {
     if (c == curFG)
         return;
-    int parag;
-    int index;
+    //int parag;
+    //int index;
     //getCursorPosition(&parag, &index);
     if (QTextEdit::textCursor().selectedText().isEmpty()){
         setTextColor(curFG);

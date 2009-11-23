@@ -23,7 +23,7 @@
 #include "propertyhub.h"
 
 
-class IconsPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class IconsPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     IconsPlugin(unsigned, Buffer*);

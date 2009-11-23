@@ -15,12 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <algorithm>
-
-#include <QPixmap>
-#include <QPushButton>
-#include <QComboBox>
-#include <QTimer>
+#include "newprotocol.h"
 
 #include "icons.h"
 
@@ -31,6 +26,11 @@
 #include "contacts/client.h"
 #include "contacts/protocolmanager.h"
 #include "log.h"
+
+#include <QPixmap>
+#include <QPushButton>
+#include <QComboBox>
+#include <QTimer>
 
 using namespace std;
 using namespace SIM;

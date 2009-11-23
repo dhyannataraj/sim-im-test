@@ -123,7 +123,7 @@ void FloatyWnd::init()
     w += 15;
     h += 6;
     resize(w, h);
-    for (list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         if (it->contact != m_id)
             continue;
         m_unread = it->type;
@@ -147,33 +147,33 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     pv.win      = this;
     pv.isStatic = false;
     pv.height   = h;
-    if (m_plugin->core->property("UseSysColors").toBool()){
+    if (CorePlugin::instance()->property("UseSysColors").toBool()){
         p.setPen(palette().color(QPalette::Text));
     }else{
-        p.setPen(QColor(m_plugin->core->property("ColorOnline").toUInt()));
+        p.setPen(QColor(CorePlugin::instance()->property("ColorOnline").toUInt()));
     }
     EventPaintView e(&pv);
     e.process();
 
-    if (m_plugin->core->property("UseSysColors").toBool()){
+    if (CorePlugin::instance()->property("UseSysColors").toBool()){
         if (m_status != STATUS_ONLINE)
             p.setPen(palette().color(QPalette::Disabled, QPalette::Text));
     }else{
         switch (m_status){
         case STATUS_ONLINE:
-            p.setPen(m_plugin->core->property("ColorOnline").toUInt());
+            p.setPen(CorePlugin::instance()->property("ColorOnline").toUInt());
             break;
         case STATUS_AWAY:
-            p.setPen(m_plugin->core->property("ColorAway").toUInt());
+            p.setPen(CorePlugin::instance()->property("ColorAway").toUInt());
             break;
         case STATUS_NA:
-            p.setPen(m_plugin->core->property("ColorNA").toUInt());
+            p.setPen(CorePlugin::instance()->property("ColorNA").toUInt());
             break;
         case STATUS_DND:
-            p.setPen(m_plugin->core->property("ColorDND").toUInt());
+            p.setPen(CorePlugin::instance()->property("ColorDND").toUInt());
             break;
         default:
-            p.setPen(m_plugin->core->property("ColorOffline").toUInt());
+            p.setPen(CorePlugin::instance()->property("ColorOffline").toUInt());
             break;
         }
     }
@@ -181,7 +181,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     int x = 0;
     QString statusIcon = m_statusIcon;
     if (m_unread && m_plugin->m_bBlink){
-        CommandDef *def = m_plugin->core->messageTypes.find(m_unread);
+        CommandDef *def = CorePlugin::instance()->messageTypes.find(m_unread);
         if (def)
             statusIcon = def->icon;
     }
@@ -230,27 +230,27 @@ void FloatyWnd::setFont(QPainter *p)
 {
     QFont f(font());
     if (m_style & CONTACT_ITALIC){
-        if (m_plugin->core->property("VisibleStyle").toUInt()  & STYLE_ITALIC)
+        if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (m_plugin->core->property("VisibleStyle").toUInt()  & STYLE_UNDER)
+        if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (m_plugin->core->property("VisibleStyle").toUInt()  & STYLE_STRIKE)
+        if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_style & CONTACT_UNDERLINE){
-        if (m_plugin->core->property("AuthStyle").toUInt()  & STYLE_ITALIC)
+        if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (m_plugin->core->property("AuthStyle").toUInt()  & STYLE_UNDER)
+        if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (m_plugin->core->property("AuthStyle").toUInt()  & STYLE_STRIKE)
+        if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_style & CONTACT_STRIKEOUT){
-        if (m_plugin->core->property("InvisibleStyle").toUInt()  & STYLE_ITALIC)
+        if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (m_plugin->core->property("InvisibleStyle").toUInt()  & STYLE_UNDER)
+        if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (m_plugin->core->property("InvisibleStyle").toUInt()  & STYLE_STRIKE)
+        if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_blink & 1){
@@ -284,7 +284,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         releaseMouse();
         Contact *contact = getContacts()->contact(m_id);
         if (contact){
-            FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(m_plugin->user_data_id, false));
+            FloatyUserData *data = (FloatyUserData*)(contact->getUserData(m_plugin->user_data_id, false));
             if (data){
                 data->X.asLong() = x();
                 data->Y.asLong() = y();
@@ -292,7 +292,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         }
         mousePos = QPoint();
     }else{
-        if ((e->pos() == initMousePos) && !m_plugin->core->property("UseDblClick").toBool()){
+        if ((e->pos() == initMousePos) && !CorePlugin::instance()->property("UseDblClick").toBool()){
             EventDefaultAction(m_id).process();
         }
     }
@@ -487,7 +487,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
 {
     Message *msg = NULL;
     CommandDef *cmd;
-    CommandsMapIterator it(m_plugin->core->messageTypes);
+    CommandsMapIterator it(CorePlugin::instance()->messageTypes);
     while ((cmd = ++it) != NULL){
         MessageDef *def = (MessageDef*)(cmd->param);
         if (def && def->drag){

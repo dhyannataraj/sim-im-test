@@ -73,14 +73,11 @@ protected:
     JournalMessageData data;
 };
 
-class CorePlugin;
-
 class LiveJournalPlugin : public SIM::Plugin
 {
 public:
     LiveJournalPlugin(unsigned);
     virtual ~LiveJournalPlugin();
-    static CorePlugin *core;
     static unsigned MenuCount;
 protected:
     SIM::Protocol *m_protocol;

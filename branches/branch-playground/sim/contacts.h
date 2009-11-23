@@ -179,8 +179,8 @@ public:
     const ENCODING *getEncoding(Contact *contact);
 protected:
 
-	void save_new();
-	void load_new();
+    void save_new();
+    void load_new();
 
 
     class ContactListPrivate *p;

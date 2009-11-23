@@ -15,16 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QFile>
-#include <QPixmap>
-#include <QByteArray>
-#include <QPainter>
-
 #include "misc.h"
 
 #include "background.h"
 #include "bkgndcfg.h"
 #include "log.h"
+
+#include <QFile>
+#include <QPixmap>
+#include <QByteArray>
+#include <QPainter>
 
 using namespace SIM;
 
@@ -56,7 +56,7 @@ BackgroundPlugin::BackgroundPlugin(unsigned base, Buffer *config)
 
 BackgroundPlugin::~BackgroundPlugin()
 {
-	PropertyHub::save();
+    PropertyHub::save();
 }
 
 QByteArray BackgroundPlugin::getConfig()
@@ -116,11 +116,11 @@ bool BackgroundPlugin::processEvent(Event *e)
         }
         pv->margin = pv->isGroup ? property("MarginGroup").toUInt() : property("MarginContact").toUInt();
     }
-	else if(e->type() == eEventPluginLoadConfig)
-	{
-		PropertyHub::load();
-		redraw();
-	}
+    else if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHub::load();
+        redraw();
+    }
     return false;
 }
 

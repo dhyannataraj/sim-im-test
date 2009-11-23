@@ -61,7 +61,7 @@ struct OnTopData
 //    SIM::Data	ContainerOnTop;
 };
 
-class OnTopPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class OnTopPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

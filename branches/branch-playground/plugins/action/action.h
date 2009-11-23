@@ -26,7 +26,6 @@
 #include "event.h"
 #include "plugins.h"
 
-class CorePlugin;
 class QProcess;
 
 struct ActionUserData
@@ -44,7 +43,6 @@ class ActionPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 public:
     ActionPlugin(unsigned);
     virtual ~ActionPlugin();
-    CorePlugin	*core;
     unsigned long action_data_id;
 protected slots:
     void ready(int, QProcess::ExitStatus);

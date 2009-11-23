@@ -1,7 +1,5 @@
-
 #include "protocol.h"
 #include "contactlistprivate.h"
-#include <list>
 
 namespace SIM
 {

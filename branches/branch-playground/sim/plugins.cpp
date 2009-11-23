@@ -596,6 +596,8 @@ namespace SIM
             info.base = m_base;
         }
         PluginPtr plugin = PluginPtr(info.info->create(info.base, m_bInInit, info.cfg));
+        if( plugin == NULL )
+            return PluginPtr();
         info.plugin = plugin.toWeakRef();
         info.title = info.info->title;
         info.description = info.info->description;

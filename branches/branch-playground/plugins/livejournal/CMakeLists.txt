@@ -22,5 +22,9 @@ SET(livejournal_UICS
         msgjournalbase.ui
 )
 
+SET(livejournal_LIBS
+        _core
+)
+
 SIM_ADD_PLUGIN(livejournal)
 ENDIF(BUILD_DROPPED)

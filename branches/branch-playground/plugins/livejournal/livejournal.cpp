@@ -182,7 +182,6 @@ static MessageDef defUpdatedMessage =
         NULL
     };
 
-CorePlugin *LiveJournalPlugin::core = NULL;
 unsigned LiveJournalPlugin::MenuCount = 0;
 
 LiveJournalPlugin::LiveJournalPlugin(unsigned base)
@@ -228,11 +227,6 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defUpdatedMessage;
     EventCreateMessageType(cmd).process();
-
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
 }
 
 LiveJournalPlugin::~LiveJournalPlugin()

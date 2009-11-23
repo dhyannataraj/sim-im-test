@@ -197,10 +197,6 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
     }
 */
 #endif
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
     bAway = false;
     bNA   = false;
     bOff  = false;
@@ -258,7 +254,7 @@ QWidget *AutoAwayPlugin::createConfigWindow(QWidget *parent)
 
 void AutoAwayPlugin::timeout()
 {
-    unsigned long newStatus = core->getManualStatus();
+    unsigned long newStatus = CorePlugin::instance()->getManualStatus();
     unsigned long oldStatus =getRealManualStatus();
     unsigned idle_time = getIdleTime() / 60;
     if (oldStatus != STATUS_UNKNOWN && !bAway && !bNA && !bOff){
@@ -275,14 +271,14 @@ void AutoAwayPlugin::timeout()
         newStatus = oldStatus;
         oldStatus = STATUS_UNKNOWN;
     }else if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time >= getAwayTime())){
-        unsigned long status = core->getManualStatus();
+        unsigned long status = CorePlugin::instance()->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
         oldStatus = status;
         newStatus = STATUS_AWAY;
         bAway = true;
     }else  if (!bNA && !bOff && getEnableNA() && (idle_time >= getNATime())){
-        unsigned long status = core->getManualStatus();
+        unsigned long status = CorePlugin::instance()->getManualStatus();
         if ((status == STATUS_NA) || (status == STATUS_OFFLINE))
             return;
         if (!bAway)
@@ -290,7 +286,7 @@ void AutoAwayPlugin::timeout()
         bNA = true;
         newStatus = STATUS_NA;
     }else if (!bOff && getEnableOff() && (idle_time >= getOffTime())){
-        unsigned long status = core->getManualStatus();
+        unsigned long status = CorePlugin::instance()->getManualStatus();
         if (status == STATUS_OFFLINE)
             return;
         if (!bNA)
@@ -298,7 +294,7 @@ void AutoAwayPlugin::timeout()
         bOff = true;
         newStatus = STATUS_OFFLINE;
     }
-    if (newStatus == core->getManualStatus())
+    if (newStatus == CorePlugin::instance()->getManualStatus())
         return;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
@@ -306,11 +302,11 @@ void AutoAwayPlugin::timeout()
             continue;
         client->setStatus(newStatus, true);
     }
-    if (core->getManualStatus() == newStatus)
+    if (CorePlugin::instance()->getManualStatus() == newStatus)
         return;
-    core->setProperty("StatusTime", (unsigned int)time(NULL)); //data.StatusTime.asULong() = time(NULL);
+    CorePlugin::instance()->setProperty("StatusTime", (unsigned int)time(NULL)); //data.StatusTime.asULong() = time(NULL);
     //core->data.ManualStatus.asULong() = newStatus;
-	core->setProperty("ManualStatus", (unsigned int)newStatus);
+    CorePlugin::instance()->setProperty("ManualStatus", (unsigned int)newStatus);
     setRealManualStatus(oldStatus);
     EventClientStatus().process();
 }

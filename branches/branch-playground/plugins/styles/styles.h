@@ -27,7 +27,7 @@ class QFont;
 class QStyle;
 class QPalette;
 
-class StylesPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class StylesPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     StylesPlugin(unsigned, Buffer*);

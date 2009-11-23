@@ -332,9 +332,9 @@ void DockWnd::reset()
     m_unreadText = QString::null;
     MAP_COUNT count;
     MAP_COUNT::iterator itc;
-    for (std::list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
+    for (std::list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         if (m_unread.isEmpty()){
-            CommandDef *def = m_plugin->m_core->messageTypes.find(it->type);
+            CommandDef *def =CorePlugin::instance()->messageTypes.find(it->type);
             if (def)
                 m_unread = def->icon;
         }
@@ -350,7 +350,7 @@ void DockWnd::reset()
     }
     if (!count.empty()){
         for (itc = count.begin(); itc != count.end(); ++itc){
-            CommandDef *def = m_plugin->m_core->messageTypes.find(itc.key().type);
+            CommandDef *def = CorePlugin::instance()->messageTypes.find(itc.key().type);
             if (def == NULL)
                 continue;
             MessageDef *mdef = (MessageDef*)(def->param);

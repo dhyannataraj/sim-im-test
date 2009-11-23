@@ -209,7 +209,7 @@ bool SpellPlugin::event( QEvent *e ) {
         }
         return true;
     }
-    SIM::PropertyHub::event( e );
+    QObject::event( e );
 }
 
 void SpellPlugin::textEditFinished(QTextEdit *edit)

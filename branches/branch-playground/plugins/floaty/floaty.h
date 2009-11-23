@@ -35,7 +35,6 @@ struct FloatyUserData
 };
 
 class FloatyWnd;
-class CorePlugin;
 class QTimer;
 
 class FloatyPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -44,7 +43,6 @@ class FloatyPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 public:
     FloatyPlugin(unsigned);
     virtual ~FloatyPlugin();
-    CorePlugin *core;
     bool m_bBlink;
     void startBlink();
 protected slots:

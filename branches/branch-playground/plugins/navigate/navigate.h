@@ -27,7 +27,7 @@
 #include <QByteArray>
 
 
-class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class NavigatePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     NavigatePlugin(unsigned, Buffer *name);

@@ -34,7 +34,7 @@ const unsigned WindowBottom = 3;
 const unsigned WindowCenter = 4;
 const unsigned WindowScale  = 5;
 
-class BackgroundPlugin : public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class BackgroundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
 {
 public:
     BackgroundPlugin(unsigned, Buffer *name);

@@ -35,10 +35,6 @@ const unsigned BLINK_COUNT      = 8;
 Plugin *createFloatyPlugin(unsigned base, bool, Buffer*)
 {
     FloatyPlugin *plugin = new FloatyPlugin(base);
-    if (plugin->core == NULL){
-        delete plugin;
-        return NULL;
-    }
     return plugin;
 }
 
@@ -80,11 +76,6 @@ FloatyPlugin::FloatyPlugin(unsigned base)
     cmd->menu_grp = 0xB000;
     cmd->flags	  = COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
-
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
 }
 
 FloatyPlugin::~FloatyPlugin()
@@ -101,7 +92,7 @@ bool FloatyPlugin::processEvent(Event *e)
             Contact *contact;
             ContactList::ContactIterator it;
             while ((contact = ++it) != NULL){
-                FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
+                FloatyUserData *data = (FloatyUserData*)(contact->getUserData(user_data_id, false));
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
@@ -117,7 +108,7 @@ bool FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
+                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData(user_data_id, false));
                     if (data){
                         cmd->text = I18N_NOOP("Floating off");
                         cmd->flags |= COMMAND_CHECKED;
@@ -136,13 +127,12 @@ bool FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, false));
+                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData(user_data_id, false));
                     if (data){
                         FloatyWnd *wnd = m_floaties.take(contact->id());
                         delete wnd;
-                        contact->userData.freeUserData(user_data_id);
                     }else{
-                        data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
+                        data = (FloatyUserData*)(contact->getUserData(user_data_id, true));
                         QRect r = QApplication::desktop()->availableGeometry();
                         data->X.asLong() = r.x();
                         data->Y.asLong() = r.y();

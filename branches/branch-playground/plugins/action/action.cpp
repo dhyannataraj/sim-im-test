@@ -90,11 +90,6 @@ ActionPlugin::ActionPlugin(unsigned base)
     cmd->menu_grp = 0xC000;
     cmd->param	 = NULL;
     EventCommandCreate(cmd).process();
-
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
 }
 
 ActionPlugin::~ActionPlugin()

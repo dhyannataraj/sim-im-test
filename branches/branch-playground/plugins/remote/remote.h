@@ -24,7 +24,6 @@
 #include <QByteArray>
 
 class ControlSocket;
-class CorePlugin;
 
 #ifdef WIN32
 
@@ -39,16 +38,15 @@ const unsigned SLOT_OUT		= 2;
 
 #endif
 
-class RemotePlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
+class RemotePlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
 {
     Q_OBJECT
 public:
-	RemotePlugin();
+    RemotePlugin();
     RemotePlugin(unsigned, Buffer*);
     ~RemotePlugin();
     void bind();
     std::list<ControlSocket*> m_sockets;
-    CorePlugin	*core;
 public slots:
     void command();
     bool command(const QString&, QString&, bool &bError);

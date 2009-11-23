@@ -36,7 +36,7 @@ struct NetMonitorData
 
 class MonitorWindow;
 
-class NetmonitorPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class NetmonitorPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -29,7 +29,7 @@
 class QWidget;
 class QTimer;
 
-class TransparentPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class TransparentPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

@@ -411,7 +411,7 @@ bool GpgPlugin::processEvent(Event *e)
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
                         return false;
-                    GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
+                    GpgUserData *data = (GpgUserData*)(contact->getUserData(user_data_id, false));
                     if (!data || data->Key.str().isEmpty())
                         return false;
                     if (data->Use.toBool())
@@ -428,7 +428,7 @@ bool GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return false;
-                GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
+                GpgUserData *data = (GpgUserData*)(contact->getUserData(user_data_id, false));
                 if (data && !data->Key.str().isEmpty())
                     data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
                 return true;
@@ -465,7 +465,7 @@ bool GpgPlugin::processEvent(Event *e)
             if (msg->type() == MessageGeneric){
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
-                    GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
+                    GpgUserData *data = (GpgUserData*)(contact->getUserData(user_data_id, false));
                     if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
@@ -484,7 +484,7 @@ bool GpgPlugin::processEvent(Event *e)
                 (es->msg()->getFlags() & MESSAGE_SECURE)){
                 Contact *contact = getContacts()->contact(es->msg()->contact());
                 if (contact){
-                    GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
+                    GpgUserData *data = (GpgUserData*)(contact->getUserData(user_data_id, false));
                     if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)es->msg());
@@ -686,7 +686,7 @@ void GpgPlugin::publicReady()
                         if (sign.mid(pos) == name.toLatin1()){
                             Contact *contact = getContacts()->contact(it->contact);
                             if (contact){
-                                GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
+                                GpgUserData *data = (GpgUserData*)(contact->getUserData(user_data_id, true));
                                 data->Key.str() = sign;
                             }
                             break;

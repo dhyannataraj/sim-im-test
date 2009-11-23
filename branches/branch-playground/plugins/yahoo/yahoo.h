@@ -31,15 +31,12 @@ public:
     virtual const SIM::DataDef *userDataDef();
 };
 
-class CorePlugin;
-
 class YahooPlugin : public SIM::Plugin
 {
 public:
     YahooPlugin(unsigned);
     virtual ~YahooPlugin();
     static unsigned YahooPacket;
-    static CorePlugin *core;
 protected:
     void registerMessages();
     void unregisterMessages();

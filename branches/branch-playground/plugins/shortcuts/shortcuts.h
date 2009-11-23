@@ -76,7 +76,7 @@ protected:
 #endif
 };
 
-class ShortcutsPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class ShortcutsPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

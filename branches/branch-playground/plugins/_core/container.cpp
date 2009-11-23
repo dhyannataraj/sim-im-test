@@ -50,15 +50,6 @@
 #include <QVariant>
 #include <QColor>
 
-#ifdef WIN32
-#include <windows.h>
-#else
-#ifdef USE_KDE
-#include "kdeisversion.h"
-#include <kwin.h>
-#endif
-#endif
-
 using namespace std;
 using namespace SIM;
 
@@ -657,31 +648,6 @@ static const char *accels[] =
         "Alt+0"
     };
 
-#ifdef WIN32
-
-extern bool bFullScreen;
-
-#ifndef FLASHW_TRAY
-struct FLASHWINFO
-{
-    unsigned long cbSize;
-    HWND hwnd;
-    unsigned long dwFlags;
-    unsigned long uCount;
-    unsigned long dwTimeout;
-};
-
-
-#define FLASHW_TRAY         0x00000002
-#define FLASHW_TIMERNOFG    0x0000000C
-
-
-static BOOL (WINAPI *FlashWindowEx)(FLASHWINFO*) = NULL;
-#endif
-static BOOL (WINAPI *fwe)(FLASHWINFO*) = NULL;
-static bool initFlash = false;
-#endif
-
 #if 0
 i18n("male", "%1 is typing")
 i18n("female", "%1 is typing")
@@ -689,29 +655,7 @@ i18n("female", "%1 is typing")
 
 void Container::flash()
 {
-#ifdef WIN32
-    if (!initFlash){
-        HINSTANCE hLib = GetModuleHandleA("user32");
-        if (hLib != NULL)
-            (DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
-        initFlash = true;
-    }
-    if (fwe){
-        FLASHWINFO fInfo;
-        fInfo.cbSize  = sizeof(fInfo);
-        fInfo.dwFlags = FLASHW_TRAY | FLASHW_TIMERNOFG;
-        fInfo.hwnd = winId();
-        fInfo.uCount = 0;
-        fInfo.dwTimeout = 1000;
-        fwe(&fInfo);
-    }
-#else
-#if defined(USE_KDE)
-#if KDE_IS_VERSION(3,2,0)
-    KWin::demandAttention(winId(), true);
-#endif	/* KDE_IS_VERSION(3,2,0) */
-#endif	/* USE_KDE */
-#endif	/* ndef WIN32 */
+    QApplication::alert( this );
 }
 
 bool Container::processEvent(Event *e)

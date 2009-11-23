@@ -32,7 +32,7 @@ namespace SIM
 class IconSet;
 }
 
-class WeatherPlugin : virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public FetchClient
+class WeatherPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:

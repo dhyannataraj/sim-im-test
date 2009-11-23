@@ -201,8 +201,8 @@ void SearchDialog::fillClients()
         if (client->name() == CorePlugin::m_plugin->value("SearchClient").toString())
             defCurrent = m_widgets.size() - 1;
     }
-// ToDo: Restore this
-/*
+
+
     if (nClients > 1){
         unsigned n;
         QWidget *search = NULL;
@@ -214,8 +214,8 @@ void SearchDialog::fillClients()
             }
         }
         if (search == NULL){
-            search = new SearchAll(m_search->wndCondition);
-            m_id = m_search->wndCondition->addWidget(new SearchAll(m_search->wndCondition));
+            search = new SearchAll(NULL);
+            m_id = m_search->wndCondition->addWidget(search);
         }
         m_search->cmbClients->addItem(Icon("find"), i18n("All networks"));
         ClientWidget cw;
@@ -235,7 +235,7 @@ void SearchDialog::fillClients()
         }
     }
     if (search == NULL){
-        search = new NonIM(m_search->wndCondition);
+        search = new NonIM(NULL);
         m_id = m_search->wndCondition->addWidget(search);
     }
     m_search->cmbClients->addItem(Icon("nonim"), i18n("Non-IM contact"));
@@ -279,7 +279,7 @@ void SearchDialog::fillClients()
             delete widgets[n].widget;
         }
     }
-*/
+
     if (current == -1)
         current = defCurrent;
     if (current == -1)

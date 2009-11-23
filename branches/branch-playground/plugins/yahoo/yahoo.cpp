@@ -42,15 +42,10 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 unsigned YahooPlugin::YahooPacket = 0;
-CorePlugin *YahooPlugin::core = NULL;
 
 YahooPlugin::YahooPlugin(unsigned base)
         : Plugin(base)
 {
-    EventGetPluginInfo ePlugin("_core");
-    ePlugin.process();
-    const pluginInfo *info = ePlugin.info();
-    core = static_cast<CorePlugin*>(info->plugin);
     YahooPacket = registerType();
     getContacts()->addPacketType(YahooPacket, "Yahoo!");
     registerMessages();
