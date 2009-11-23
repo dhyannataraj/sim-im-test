@@ -70,8 +70,8 @@ UserView::UserView() : UserListBase(NULL)
 {
     m_bBlink = false;
     m_bUnreadBlink = false;
-    m_bShowOnline = CorePlugin::m_plugin->value("ShowOnLine").toBool();
-    m_bShowEmpty = CorePlugin::m_plugin->value("ShowEmptyGroup").toBool();
+    m_bShowOnline = CorePlugin::instance()->value("ShowOnLine").toBool();
+    m_bShowEmpty = CorePlugin::instance()->value("ShowEmptyGroup").toBool();
 
     setItemDelegate(new UserViewDelegate(this));
 
@@ -83,7 +83,7 @@ UserView::UserView() : UserListBase(NULL)
 
     setIndentation(0);
 
-    setVerticalScrollBarPolicy(CorePlugin::m_plugin->value("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+    setVerticalScrollBarPolicy(CorePlugin::instance()->value("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     blinkTimer = new QTimer(this);
@@ -103,7 +103,7 @@ UserView::UserView() : UserListBase(NULL)
     EventAddWidget(this, true, EventAddWidget::eMainWindow).process();
     clear();
 
-    setGroupMode(CorePlugin::m_plugin->value("GroupMode").toUInt(), true);
+    setGroupMode(CorePlugin::instance()->value("GroupMode").toUInt(), true);
 
     edtGroup = new IntLineEdit(viewport());
     edtContact = new IntLineEdit(viewport());
@@ -139,7 +139,7 @@ bool UserView::processEvent(Event *e)
     switch (e->type())
     {
     case eEventRepaintView:
-		setVerticalScrollBarPolicy(CorePlugin::m_plugin->value("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+		setVerticalScrollBarPolicy(CorePlugin::instance()->value("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
         break;
     case eEventInit:
         m_bInit = true;
@@ -195,7 +195,7 @@ bool UserView::processEvent(Event *e)
                             QRect rc = visualItemRect(item);
                             QPoint p = viewport()->mapToGlobal(rc.topLeft());
                             rc = QRect(p.x(), p.y(), rc.width(), rc.height());
-                            m_bRemoveHistory = CorePlugin::m_plugin->value("RemoveHistory").toBool();
+                            m_bRemoveHistory = CorePlugin::instance()->value("RemoveHistory").toBool();
                             BalloonMsg::ask((void*)contact->id(),
                                             i18n("Delete \"%1\"?") .arg(contact->getName()),
                                             this, SLOT(deleteContact(void*)), NULL, &rc, NULL,
@@ -212,7 +212,7 @@ bool UserView::processEvent(Event *e)
                         return true;
                     }
                     if (cmd->id == CmdShowAlways){
-                        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
+                        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::instance()->list_data_id, true));
                         if (data){
                             bool bShow = false;
                             if (cmd->flags & COMMAND_CHECKED)
@@ -311,7 +311,7 @@ bool UserView::processEvent(Event *e)
                 return true;
             }
             if (cmd->id == CmdOnline){
-                CorePlugin::m_plugin->setValue("ShowOnLine", ((cmd->flags & COMMAND_CHECKED) != 0));
+                CorePlugin::instance()->setValue("ShowOnLine", ((cmd->flags & COMMAND_CHECKED) != 0));
                 m_bShowOnline = (cmd->flags & COMMAND_CHECKED);
                 if (cmd->menu_id){
                     CommandDef c = *cmd;
@@ -322,7 +322,7 @@ bool UserView::processEvent(Event *e)
                 fill();
             }
             if (cmd->id == CmdEmptyGroup){
-                CorePlugin::m_plugin->setValue("ShowEmptyGroup", ((cmd->flags & COMMAND_CHECKED) != 0));
+                CorePlugin::instance()->setValue("ShowEmptyGroup", ((cmd->flags & COMMAND_CHECKED) != 0));
                 m_bShowEmpty = (cmd->flags & COMMAND_CHECKED);
                 fill();
             }
@@ -333,9 +333,9 @@ bool UserView::processEvent(Event *e)
             if (cmd->id == CmdGrpMode2)
                 setGroupMode(2);
             if (cmd->id == CmdGrpCreate){
-                if (CorePlugin::m_plugin->value("GroupMode").toUInt()){
+                if (CorePlugin::instance()->value("GroupMode").toUInt()){
                     /* Show empty groups because a new group is empty... */
-                    CorePlugin::m_plugin->setValue("ShowEmptyGroup", true);
+                    CorePlugin::instance()->setValue("ShowEmptyGroup", true);
                     m_bShowEmpty = true;
                     fill();
                     Group *g = getContacts()->group(0, true);
@@ -397,15 +397,15 @@ bool UserView::processEvent(Event *e)
             CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
-                if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->value("GroupMode").toUInt() == 0)) ||
-                        ((cmd->id == CmdGrpMode1) && (CorePlugin::m_plugin->value("GroupMode").toUInt() == 1)) ||
-                        ((cmd->id == CmdGrpMode2) && (CorePlugin::m_plugin->value("GroupMode").toUInt() == 2)) ||
-                        ((cmd->id == CmdOnline) && CorePlugin::m_plugin->value("ShowOnLine").toBool()))
+                if (((cmd->id == CmdGrpOff) && (CorePlugin::instance()->value("GroupMode").toUInt() == 0)) ||
+                        ((cmd->id == CmdGrpMode1) && (CorePlugin::instance()->value("GroupMode").toUInt() == 1)) ||
+                        ((cmd->id == CmdGrpMode2) && (CorePlugin::instance()->value("GroupMode").toUInt() == 2)) ||
+                        ((cmd->id == CmdOnline) && CorePlugin::instance()->value("ShowOnLine").toBool()))
                     cmd->flags |= COMMAND_CHECKED;
                 if (cmd->id == CmdEmptyGroup){
-                    if (CorePlugin::m_plugin->value("GroupMode").toUInt() == 0)
+                    if (CorePlugin::instance()->value("GroupMode").toUInt() == 0)
                         return false;
-                    if (CorePlugin::m_plugin->value("ShowEmptyGroup").toBool())
+                    if (CorePlugin::instance()->value("ShowEmptyGroup").toBool())
                         cmd->flags |= COMMAND_CHECKED;
                 }
                 return true;
@@ -421,7 +421,7 @@ bool UserView::processEvent(Event *e)
                 if (cmd->id == CmdShowAlways){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
-                        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
+                        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::instance()->list_data_id, true));
                         cmd->flags &= ~COMMAND_CHECKED;
                         if (data && data->ShowAlways.toBool())
                             cmd->flags |= COMMAND_CHECKED;
@@ -556,7 +556,7 @@ bool UserView::processEvent(Event *e)
             }
             if (cmd->id == CmdGrpCreate) {
                 cmd->flags &= ~COMMAND_CHECKED;
-                return CorePlugin::m_plugin->value("GroupMode").toUInt() ? true : false;
+                return CorePlugin::instance()->value("GroupMode").toUInt() ? true : false;
             }
             break;
         }
@@ -598,7 +598,7 @@ void UserView::deleteContact(void *p)
       no_more_messages_flag = 1;
       // we should restart unread messages iteration after each message deletion
       // because deleting message will change "unread" list
-      for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+      for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
           msg_id &message_id = *it;
           if ( message_id.contact == contact->id())
           {
@@ -613,7 +613,7 @@ void UserView::deleteContact(void *p)
        }
     } while (!no_more_messages_flag);
 
-    CorePlugin::m_plugin->setValue("RemoveHistory", m_bRemoveHistory);
+    CorePlugin::instance()->setValue("RemoveHistory", m_bRemoveHistory);
     if (!m_bRemoveHistory)
         contact->setFlags(contact->getFlags() | CONTACT_NOREMOVE_HISTORY);
     delete contact;
@@ -669,9 +669,9 @@ void UserView::renameContact()
 
 void UserView::setGroupMode(unsigned mode, bool bFirst)
 {
-    if (!bFirst && (CorePlugin::m_plugin->value("GroupMode").toUInt() == mode))
+    if (!bFirst && (CorePlugin::instance()->value("GroupMode").toUInt() == mode))
         return;
-    CorePlugin::m_plugin->setValue("GroupMode", mode);
+    CorePlugin::instance()->setValue("GroupMode", mode);
     m_groupMode = mode;
     EventUpdateCommandState(CmdGroupToolbarButton).process();
     fill();
@@ -705,7 +705,7 @@ void UserView::mouseReleaseEvent(QMouseEvent *e)
     ListViewItem *item = m_pressedItem;
     UserListBase::mouseReleaseEvent(e);
     if (item){
-        if (!CorePlugin::m_plugin->value("UseDblClick").toBool()){
+        if (!CorePlugin::instance()->value("UseDblClick").toBool()){
             m_current = item;
             QTimer::singleShot(0, this, SLOT(doClick()));
         }
@@ -723,7 +723,7 @@ void UserView::doClick()
 {
     if (m_current == NULL)
         return;
-    if (m_current->isExpandable() && !CorePlugin::m_plugin->value("UseDblClick").toBool())
+    if (m_current->isExpandable() && !CorePlugin::instance()->value("UseDblClick").toBool())
     {
         m_current->setOpen(!m_current->isOpen());
     }
@@ -737,7 +737,7 @@ void UserView::doClick()
 
 void UserView::keyPressEvent(QKeyEvent *e)
 {
-    if (CorePlugin::m_plugin->value("UseDblClick").toBool() || m_searchItem){
+    if (CorePlugin::instance()->value("UseDblClick").toBool() || m_searchItem){
         if (m_searchItem) {
 	    int store = 0;
 	    list<ListViewItem*> items;
@@ -968,7 +968,7 @@ void UserView::editContactEnter()
 
 unsigned UserView::getUnread(unsigned contact_id)
 {
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         if (it->contact == contact_id){
             if (!unreadTimer->isActive()){
                 m_bUnreadBlink = true;
@@ -1010,7 +1010,7 @@ void UserView::unreadBlink()
     m_bUnreadBlink = !m_bUnreadBlink;
     list<unsigned> blinks;
     list<unsigned>::iterator itb;
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         for (itb = blinks.begin(); itb != blinks.end(); ++itb)
             if ((*itb) == it->contact)
                 break;
@@ -1028,7 +1028,7 @@ void UserView::unreadBlink()
                 return;
             update();
             //repaintItem(contact);
-            if (CorePlugin::m_plugin->value("GroupMode").toUInt() && !contact->parent()->isExpanded()){
+            if (CorePlugin::instance()->value("GroupMode").toUInt() && !contact->parent()->isExpanded()){
                 GroupItem *group = static_cast<GroupItem*>(contact->parent());
                 group->m_unread = contact->m_unread;
                 update();
@@ -1036,7 +1036,7 @@ void UserView::unreadBlink()
             }
         }
     }
-    if (CorePlugin::m_plugin->value("GroupMode").toUInt()){
+    if (CorePlugin::instance()->value("GroupMode").toUInt()){
         for(int c = 0; c < topLevelItemCount(); c++)
         {
             ListViewItem *i = static_cast<ListViewItem*>(topLevelItem(c));
@@ -1197,7 +1197,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             }
             Message *msg = NULL;
             CommandDef *cmd;
-            CommandsMapIterator it(CorePlugin::m_plugin->messageTypes);
+            CommandsMapIterator it(CorePlugin::instance()->messageTypes);
             while ((cmd = ++it) != NULL){
                 MessageDef *def = (MessageDef*)(cmd->param);
                 if (def && def->drag){

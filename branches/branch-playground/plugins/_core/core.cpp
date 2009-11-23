@@ -1332,7 +1332,7 @@ bool CorePlugin::processEvent(Event *e)
 				EventRemoveMessageType *ermt = static_cast<EventRemoveMessageType*>(e);
 				unsigned long id = ermt->id();
 				CommandDef *def;
-				def = CorePlugin::m_plugin->messageTypes.find(id);
+				def = CorePlugin::instance()->messageTypes.find(id);
 				if (def){
 					MessageDef *mdef = (MessageDef*)(def->param);
 					if (mdef->cmdReceived){
@@ -1421,11 +1421,11 @@ bool CorePlugin::processEvent(Event *e)
 					}
 					unsigned type = msg->baseType();
 					if (type == MessageStatus){
-						CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+						CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
 						if ((data == NULL) || !data->LogStatus.toBool())
 							return false;
 					}else if (type == MessageFile){
-						CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+						CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
 						if (data){
 							if (data->AcceptMode.toULong() == 1){
 								QString dir = data->IncomingPath.str();
@@ -1491,7 +1491,7 @@ bool CorePlugin::processEvent(Event *e)
 				EventDefaultAction *eda = static_cast<EventDefaultAction*>(e);
 				unsigned long contact_id = eda->id();
 				unsigned index = 0;
-				for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it, index++){
+				for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it, index++){
 					if (it->contact != contact_id)
 						continue;
 					Command cmd;
@@ -2699,7 +2699,7 @@ bool CorePlugin::processEvent(Event *e)
 					if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) ||
 								(client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
 							(client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
-						QString noShow = CorePlugin::m_plugin->value("NoShowAutoReply").toMap().value(QString::number(cmd->id)).toString();
+						QString noShow = CorePlugin::instance()->value("NoShowAutoReply").toMap().value(QString::number(cmd->id)).toString();
 						if (noShow.isEmpty()){
 							AutoReplyDialog dlg(cmd->id);
 							if (!dlg.exec())
@@ -2720,7 +2720,7 @@ bool CorePlugin::processEvent(Event *e)
 				Message *msg = (Message*)(cmd->param);
 				if (cmd->id == CmdFileAccept){
 					Contact *contact = getContacts()->contact(msg->contact());
-					CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
+					CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
 					QString dir;
 					if (data)
 						dir = data->IncomingPath.str();

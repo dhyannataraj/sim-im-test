@@ -399,7 +399,7 @@ void UserConfig::fill()
     parentItem->setIcon(0, Pict("configure"));
     parentItem->setExpanded(true);
     CommandDef *cmd;
-    CommandsMapIterator itc(CorePlugin::m_plugin->preferences);
+    CommandsMapIterator itc(CorePlugin::instance()->preferences);
     m_defaultPage = 0;
     while((cmd = ++itc) != NULL)
 	{
@@ -596,8 +596,8 @@ void UserConfig::resizeEvent(QResizeEvent *e)
     QDialog::resizeEvent(e);
 	/* Fixme Todin
     if (isVisible()){
-        CorePlugin::m_plugin->data.CfgGeometry[WIDTH].asLong() = width();
-        CorePlugin::m_plugin->data.CfgGeometry[HEIGHT].asLong() = height();
+        CorePlugin::instance()->data.CfgGeometry[WIDTH].asLong() = width();
+        CorePlugin::instance()->data.CfgGeometry[HEIGHT].asLong() = height();
     }
 	*/
 }

@@ -69,11 +69,11 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
     m_view = NULL;
     /* Fixme Todin
     if (cfg == NULL)
-        copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
+        copyData(data.editBar, CorePlugin::instance()->data.EditBar, 7);
     */
 
     m_bBarChanged = true;
-    if (CorePlugin::m_plugin->getContainerMode())
+    if (CorePlugin::instance()->getContainerMode())
         bReceived = false;
     addWidget(m_splitter);
     m_edit = new MsgEdit(m_splitter, this);
@@ -83,7 +83,7 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
     m_splitter->addWidget(m_edit);
 
     connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
-    connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    connect(CorePlugin::instance(), SIGNAL(modeChanged()), this, SLOT(modeChanged()));
     connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
 
@@ -125,7 +125,7 @@ QString UserWnd::getName()
 QString UserWnd::getLongName()
 {
     QString res;
-    if (CorePlugin::m_plugin->value("ShowOwnerName").toBool() && !getContacts()->owner()->getName().isEmpty())
+    if (CorePlugin::instance()->value("ShowOwnerName").toBool() && !getContacts()->owner()->getName().isEmpty())
         res += getContacts()->owner()->getName();
     if (!res.isEmpty())
         res += " - ";
@@ -190,7 +190,7 @@ QString UserWnd::getIcon()
 
 void UserWnd::modeChanged()
 {
-    if (CorePlugin::m_plugin->getContainerMode())
+    if (CorePlugin::instance()->getContainerMode())
     {
         if (m_view == NULL)
             m_view = new MsgView(m_splitter, m_id);
@@ -199,7 +199,7 @@ void UserWnd::modeChanged()
         m_view->show();
         int editHeight = getEditHeight();
         if (editHeight == 0)
-            editHeight = CorePlugin::m_plugin->value("EditHeight").toInt(); //getEditHeight();
+            editHeight = CorePlugin::instance()->value("EditHeight").toInt(); //getEditHeight();
         if (editHeight){
             QList<int> s;
             s.append(1);
@@ -220,9 +220,9 @@ void UserWnd::modeChanged()
 
 void UserWnd::editHeightChanged(int h)
 {
-    if (!m_bResize && CorePlugin::m_plugin->getContainerMode()){
+    if (!m_bResize && CorePlugin::instance()->getContainerMode()){
         setEditHeight(h);
-        CorePlugin::m_plugin->setValue("EditHeight", h);
+        CorePlugin::instance()->setValue("EditHeight", h);
     }
 }
 
@@ -231,7 +231,7 @@ void UserWnd::toolbarChanged(bool)
     if (m_bBarChanged)
         return;
     //saveToolbar(m_edit->m_bar, data.editBar);
-    //copyData(CorePlugin::m_plugin->data.EditBar, data.editBar, 7);
+    //copyData(CorePlugin::instance()->data.EditBar, data.editBar, 7);
 }
 
 unsigned UserWnd::type()
@@ -321,7 +321,7 @@ void UserWnd::markAsRead()
 {
     if (m_view == NULL)
         return;
-    for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); )
+    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); )
     {
         if (it->contact != m_id) 
         {
@@ -329,12 +329,12 @@ void UserWnd::markAsRead()
             continue;
         }
         Message *msg = History::load(it->id, it->client, it->contact);
-        CorePlugin::m_plugin->unread.erase(it);
+        CorePlugin::instance()->unread.erase(it);
         if (msg){
             EventMessageRead(msg).process();
             delete msg;
         }
-        it = CorePlugin::m_plugin->unread.begin();
+        it = CorePlugin::instance()->unread.begin();
     }
 }
 

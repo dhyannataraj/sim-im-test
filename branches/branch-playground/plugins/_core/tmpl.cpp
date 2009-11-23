@@ -147,13 +147,13 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
 
         if (tag == "TimeStatus"){
             QDateTime dt;
-            dt.setTime_t(CorePlugin::m_plugin->value("StatusTime").toUInt());
+            dt.setTime_t(CorePlugin::instance()->value("StatusTime").toUInt());
             res += dt.toString("hh:mm");
             continue;
         }
 
         if (tag == "IntervalStatus"){
-            res += QString::number(time(NULL) - CorePlugin::m_plugin->value("StatusTime").toUInt());
+            res += QString::number(time(NULL) - CorePlugin::instance()->value("StatusTime").toUInt());
             continue;
         }
 
@@ -186,7 +186,7 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
 
         if (tag == "Unread"){
             unsigned nUnread = 0;
-            for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+            for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
                 if (it->contact == contact->id())
                     nUnread++;
             }

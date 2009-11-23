@@ -116,7 +116,7 @@ void CommonStatus::setBarStatus()
             if (m_bBlink)
 			{
                 icon = "SIM_online";
-                status = CorePlugin::m_plugin->getManualStatus();
+                status = CorePlugin::instance()->getManualStatus();
             }
 			else
 			{
@@ -131,7 +131,7 @@ void CommonStatus::setBarStatus()
                 delete m_timer;
                 m_timer = NULL;
             }
-            unsigned status = CorePlugin::m_plugin->getManualStatus();
+            unsigned status = CorePlugin::instance()->getManualStatus();
             unsigned i;
             for (i = 0; i < getContacts()->nClients(); i++){
                 Client *client = getContacts()->getClient(i);
@@ -149,7 +149,7 @@ void CommonStatus::setBarStatus()
 				{
                     const CommandDef *d;
                     unsigned i = getContacts()->nClients();
-					if ((status == STATUS_ONLINE) && CorePlugin::m_plugin->value("Invisible").toBool())
+					if ((status == STATUS_ONLINE) && CorePlugin::instance()->value("Invisible").toBool())
 						for (i = 0; i < getContacts()->nClients(); i++)
 						{
 							Client *client = getContacts()->getClient(i);
@@ -263,7 +263,7 @@ void CommonStatus::rebuildStatus()
         CommandDef c = *cmd;
         if (FirstStatus == 0)
             FirstStatus = cmd->id;
-        if ((ManualStatus == 0) && (CorePlugin::m_plugin->getManualStatus() == cmd->id))
+        if ((ManualStatus == 0) && (CorePlugin::instance()->getManualStatus() == cmd->id))
             ManualStatus = cmd->id;
 		if (c.id == STATUS_ONLINE)
 			c.icon = "SIM_online";
@@ -286,7 +286,7 @@ void CommonStatus::rebuildStatus()
     }
     if (ManualStatus == 0)
         ManualStatus = FirstStatus;
-    CorePlugin::m_plugin->setManualStatus(ManualStatus);
+    CorePlugin::instance()->setManualStatus(ManualStatus);
     setBarStatus();
 }
 
@@ -310,9 +310,9 @@ void CommonStatus::checkInvisible()
 		return;
 
 	if (bAllInvisible)
-		CorePlugin::m_plugin->setValue("Invisible", true);
+		CorePlugin::instance()->setValue("Invisible", true);
 	if (bAllNotInvisible)
-		CorePlugin::m_plugin->setValue("Invisible", false);
+		CorePlugin::instance()->setValue("Invisible", false);
 }
 
 bool CommonStatus::processEvent(Event *e)
@@ -417,7 +417,7 @@ bool CommonStatus::processEvent(Event *e)
 			{
                 if (def->id == CmdInvisible)
 				{
-					if (CorePlugin::m_plugin->value("Invisible").toBool())
+					if (CorePlugin::instance()->value("Invisible").toBool())
 						def->flags |= COMMAND_CHECKED;
 					else
 						def->flags &= ~COMMAND_CHECKED;
@@ -434,7 +434,7 @@ bool CommonStatus::processEvent(Event *e)
                 if (curStatus == NULL)
                     return 0;
                 bool bChecked = false;
-                unsigned status = CorePlugin::m_plugin->getManualStatus();
+                unsigned status = CorePlugin::instance()->getManualStatus();
                 bChecked = (status == curStatus->id);
 
 				if (bChecked)
@@ -452,9 +452,9 @@ bool CommonStatus::processEvent(Event *e)
 			{
                 if (def->id == CmdInvisible)
 				{
-                    CorePlugin::m_plugin->setValue("Invisible", !CorePlugin::m_plugin->value("Invisible").toBool());
+                    CorePlugin::instance()->setValue("Invisible", !CorePlugin::instance()->value("Invisible").toBool());
 					for (unsigned i = 0; i < getContacts()->nClients(); i++)
-						getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->value("Invisible").toBool());
+						getContacts()->getClient(i)->setInvisible(CorePlugin::instance()->value("Invisible").toBool());
                     return true;
                 }
                 Client *client = getContacts()->getClient(0);
@@ -480,7 +480,7 @@ bool CommonStatus::processEvent(Event *e)
 
 				if (bOfflineStatus || 
 					(def->id != STATUS_ONLINE && def->id != STATUS_OFFLINE)){
-                    QString noShow = CorePlugin::m_plugin->value("NoShowAutoReply").toMap().value(QString::number(def->id)).toString();
+                    QString noShow = CorePlugin::instance()->value("NoShowAutoReply").toMap().value(QString::number(def->id)).toString();
                     if (noShow.isEmpty())
 					{
                         AutoReplyDialog dlg(def->id);
@@ -488,7 +488,7 @@ bool CommonStatus::processEvent(Event *e)
                             return true;
                     }
                 }
-                CorePlugin::m_plugin->setManualStatus(def->id);
+                CorePlugin::instance()->setManualStatus(def->id);
                 for (unsigned i = 0; i < getContacts()->nClients(); i++)
 				{
                     Client *client = getContacts()->getClient(i);
@@ -519,8 +519,8 @@ void CommonStatus::showBalloon()
         return;
     }
     BalloonItem &item = m_queue.front();
-    if (CorePlugin::m_plugin->m_statusWnd)
-        m_balloon = CorePlugin::m_plugin->m_statusWnd->showError(item.text, item.buttons, item.client);
+    if (CorePlugin::instance()->m_statusWnd)
+        m_balloon = CorePlugin::instance()->m_statusWnd->showError(item.text, item.buttons, item.client);
     if (m_balloon == NULL)
         m_balloon = new BalloonMsg(NULL, item.text, item.buttons, widget);
     connect(m_balloon, SIGNAL(yes_action(void*)), this, SLOT(yes_action(void*)));

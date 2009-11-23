@@ -109,7 +109,7 @@ SearchDialog::SearchDialog()
 SearchDialog::~SearchDialog()
 {
     // Fixme Todin
-	//::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+	//::saveGeometry(this, CorePlugin::instance()->data.SearchGeometry);
 }
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
@@ -118,7 +118,7 @@ void SearchDialog::resizeEvent(QResizeEvent *e)
     m_result->adjustColumn();
 	/* Fixme Todin
     if (isVisible())
-		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+		::saveGeometry(this, CorePlugin::instance()->data.SearchGeometry);
 		*/
 }
 
@@ -127,7 +127,7 @@ void SearchDialog::moveEvent(QMoveEvent *e)
     QMainWindow::moveEvent(e);
 	/* Fixme Todin
     if (isVisible())
-		::saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
+		::saveGeometry(this, CorePlugin::instance()->data.SearchGeometry);
 		*/
 }
 
@@ -189,7 +189,7 @@ void SearchDialog::fillClients()
         if (n >= widgets.size())
             m_id = m_search->wndCondition->addWidget(search);
         m_search->cmbClients->addItem(Icon(client->protocol()->description()->icon),
-                                      CorePlugin::m_plugin->clientName(client));
+                                      CorePlugin::instance()->clientName(client));
         ClientWidget cw;
         cw.client = client;
         cw.widget = search;
@@ -198,7 +198,7 @@ void SearchDialog::fillClients()
             current = m_widgets.size() - 1;
         if (client->protocol()->description()->flags & PROTOCOL_SEARCH)
             nClients++;
-        if (client->name() == CorePlugin::m_plugin->value("SearchClient").toString())
+        if (client->name() == CorePlugin::instance()->value("SearchClient").toString())
             defCurrent = m_widgets.size() - 1;
     }
 
@@ -310,7 +310,7 @@ void SearchDialog::setTitle()
     QString name;
     if ((client != NULL) && (client != (Client*)(-1)))
         name = client->name();
-    CorePlugin::m_plugin->setValue("SearchClient", name);
+    CorePlugin::instance()->setValue("SearchClient", name);
     if (m_bAdd){
         setWindowTitle(i18n("Add") + ": " + m_search->cmbClients->currentText());
         setWindowIcon(Icon("add"));
@@ -377,7 +377,7 @@ bool SearchDialog::processEvent(Event *e)
                 cmd->id		 = CmdInfo;
                 cmd->menu_id = MenuContact;
                 cmd->param   = (void*)(contact->id());
-                CorePlugin::m_plugin->showInfo(cmd);
+                CorePlugin::instance()->showInfo(cmd);
                 return true;
             }
             if (cmd->id == CmdSearchMsg){
@@ -591,7 +591,7 @@ const unsigned NO_GROUP = 0x10000;
 void SearchDialog::searchClick()
 {
     if (m_bAdd){
-        if (CorePlugin::m_plugin->value("GroupMode").toUInt())
+        if (CorePlugin::instance()->value("GroupMode").toUInt())
         {
             EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
             eMenu.process();
@@ -750,7 +750,7 @@ void SearchDialog::enableOptions(bool bEnable)
 
 void SearchDialog::addClick()
 {
-    if (CorePlugin::m_plugin->value("GroupMode").toUInt()){
+    if (CorePlugin::instance()->value("GroupMode").toUInt()){
         EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
         eMenu.process();
         QMenu *popup = eMenu.menu();

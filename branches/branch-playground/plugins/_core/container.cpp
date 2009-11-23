@@ -147,8 +147,8 @@ Container::Container(unsigned id, const char *cfg)
     if (cfg == NULL)
     {
         setId(id);
-        //copyData(data.barState, CorePlugin::m_plugin->data.ContainerBar, 7);
-        //copyData(data.geometry, CorePlugin::m_plugin->data.ContainerGeometry, 5);
+        //copyData(data.barState, CorePlugin::instance()->data.ContainerBar, 7);
+        //copyData(data.geometry, CorePlugin::instance()->data.ContainerGeometry, 5);
         if((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1))
         {
             QWidget *desktop = QApplication::desktop();
@@ -201,7 +201,7 @@ Container::Container(unsigned id, const char *cfg)
                     break;
             }
         }
-        setStatusSize(CorePlugin::m_plugin->value("ContainerStatusSize").toUInt());
+        setStatusSize(CorePlugin::instance()->value("ContainerStatusSize").toUInt());
     }
     /*
     m_bInSize = true;
@@ -233,7 +233,7 @@ void Container::init()
     frm = new QFrame(this);
     setCentralWidget(frm);
 
-    QObject::connect(CorePlugin::m_plugin, SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    QObject::connect(CorePlugin::instance(), SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
     lay = new QVBoxLayout(frm);
     m_wnds = new QStackedWidget(frm);
@@ -386,7 +386,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
     m_wnds->addWidget(wnd);
 //    m_tabSplitter->addWidget(m_wnds);
     bool bHighlight = false;
-    for(list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it)
+    for(list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it)
 	{
         if(it->contact == wnd->id())
 		{
@@ -501,7 +501,7 @@ void Container::contactSelected(int)
     if (isActiveWindow())
         userWnd->markAsRead();
 
-    if(CorePlugin::m_plugin->value("ShowAvatarInContainer").toBool())
+    if(CorePlugin::instance()->value("ShowAvatarInContainer").toBool())
     {
         Client *client = NULL;
         unsigned j=0;
@@ -536,7 +536,7 @@ void Container::contactSelected(int)
 void Container::setMessageType(unsigned type)
 {
     CommandDef *def;
-    def = CorePlugin::m_plugin->messageTypes.find(type);
+    def = CorePlugin::instance()->messageTypes.find(type);
     if (def == NULL)
         return;
     Command cmd;
@@ -560,8 +560,8 @@ void Container::resizeEvent(QResizeEvent *e)
     if (m_bInSize)
         return;
     ::saveGeometry(this, data.geometry);
-    //CorePlugin::m_plugin->data.ContainerGeometry[WIDTH]  = data.geometry[WIDTH];
-    //CorePlugin::m_plugin->data.ContainerGeometry[HEIGHT] = data.geometry[HEIGHT];
+    //CorePlugin::instance()->data.ContainerGeometry[WIDTH]  = data.geometry[WIDTH];
+    //CorePlugin::instance()->data.ContainerGeometry[HEIGHT] = data.geometry[HEIGHT];
 }
 
 void Container::moveEvent(QMoveEvent *e)
@@ -570,8 +570,8 @@ void Container::moveEvent(QMoveEvent *e)
     if (m_bInSize)
         return;
     ::saveGeometry(this, data.geometry);
-    //CorePlugin::m_plugin->data.ContainerGeometry[LEFT] = data.geometry[LEFT];
-    //CorePlugin::m_plugin->data.ContainerGeometry[TOP]  = data.geometry[TOP];
+    //CorePlugin::instance()->data.ContainerGeometry[LEFT] = data.geometry[LEFT];
+    //CorePlugin::instance()->data.ContainerGeometry[TOP]  = data.geometry[TOP];
 }
 
 void Container::toolbarChanged(QToolBar*)
@@ -579,14 +579,14 @@ void Container::toolbarChanged(QToolBar*)
     if (m_bBarChanged)
         return;
     saveToolbar(m_bar, data.barState);
-    //copyData(CorePlugin::m_plugin->data.ContainerBar, data.barState, 7);
+    //copyData(CorePlugin::instance()->data.ContainerBar, data.barState, 7);
 }
 
 void Container::statusChanged(int width)
 {
     if (m_tabBar->isVisible() && !m_bStatusSize){
         setStatusSize(width);
-        CorePlugin::m_plugin->setValue("ContainerStatusSize", width);
+        CorePlugin::instance()->setValue("ContainerStatusSize", width);
     }
 }
 
@@ -675,7 +675,7 @@ bool Container::processEvent(Event *e)
 				}
 				if (msg->getFlags() & MESSAGE_NOVIEW)
 					return false;
-				if (CorePlugin::m_plugin->getContainerMode())
+				if (CorePlugin::instance()->getContainerMode())
 				{
 					if (isActiveWindow() && !isMinimized())
 					{
@@ -699,7 +699,7 @@ bool Container::processEvent(Event *e)
 				UserWnd *userWnd = wnd(msg->contact());
 				if (userWnd){
 					bool bHighlight = false;
-					for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+					for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
 						if (it->contact != msg->contact())
 							continue;
 						bHighlight = true;
@@ -844,9 +844,9 @@ bool Container::processEvent(Event *e)
 
 void Container::modeChanged()
 {
-    if (isReceived() && CorePlugin::m_plugin->getContainerMode())
+    if (isReceived() && CorePlugin::instance()->getContainerMode())
         QTimer::singleShot(0, this, SLOT(close()));
-    if (CorePlugin::m_plugin->getContainerMode() == 0){
+    if (CorePlugin::instance()->getContainerMode() == 0){
         list<UserWnd*> wnds = m_tabBar->windows();
         for (list<UserWnd*>::iterator it = wnds.begin(); it != wnds.end(); ++it){
             if ((*it) != m_tabBar->currentWnd())

@@ -163,7 +163,7 @@ bool MainWindow::processEvent(Event *e)
 				this->addToolBar(m_bar);
 //				m_bar->setMaximumHeight(30);
 //				m_bar->setMinimumHeight(30); // FIXME
-				//restoreToolbar(m_bar, CorePlugin::m_plugin->data.toolBarState);
+				//restoreToolbar(m_bar, CorePlugin::instance()->data.toolBarState);
 				raiseWindow(this);
 				break;
 			}
@@ -258,8 +258,8 @@ void MainWindow::setTitle()
 void MainWindow::focusInEvent(QFocusEvent *e)
 {
     QMainWindow::focusInEvent(e);
-    if (CorePlugin::m_plugin->m_view)
-        CorePlugin::m_plugin->m_view->setFocus();
+    if (CorePlugin::instance()->m_view)
+        CorePlugin::instance()->m_view->setFocus();
 }
 
 

@@ -57,7 +57,7 @@ void ConnectionManager::fill(Client *current)
         Client *client = getContacts()->getClient(i);
         Protocol *protocol = client->protocol();
         const CommandDef *descr = protocol->description();
-        QString text = CorePlugin::m_plugin->clientName(client);
+        QString text = CorePlugin::instance()->clientName(client);
         QListWidgetItem *item = new QListWidgetItem(text, lstConnection);
         if (descr)
             item->setIcon(Pict(descr->icon));

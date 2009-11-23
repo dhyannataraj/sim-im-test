@@ -86,7 +86,7 @@ void HistoryProgressBar::setProgress(unsigned n)
 
 HistoryWindow::HistoryWindow(unsigned long id)
 {
-    m_history_page_count=CorePlugin::m_plugin->value("HistoryPage").toUInt();
+    m_history_page_count=CorePlugin::instance()->value("HistoryPage").toUInt();
     m_avatar_bar=NULL;
 
     setAttribute(Qt::WA_DeleteOnClose, true);
@@ -102,7 +102,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     eHistoryBar.process();
     m_bar = eHistoryBar.toolBar();
     m_bar->setParam((void*)m_id);
-    //restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
+    //restoreToolbar(m_bar, CorePlugin::instance()->data.HistoryBar);
     connect(m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
     addToolBar(m_bar);
     m_status = statusBar();
@@ -118,16 +118,16 @@ HistoryWindow::HistoryWindow(unsigned long id)
     CToolCombo *cmbFind = qobject_cast<CToolCombo*>(eHistoryWidget.widget());
     if(cmbFind)
     {
-        const QStringList history = CorePlugin::m_plugin->value("HistorySearch").toString().split(';');
+        const QStringList history = CorePlugin::instance()->value("HistorySearch").toString().split(';');
         cmbFind->addItems(history);
         cmbFind->setText(QString());
     }
     m_it = NULL;
-    m_bDirection = CorePlugin::m_plugin->value("HistoryDirection").toBool();
+    m_bDirection = CorePlugin::instance()->value("HistoryDirection").toBool();
     m_bar->checkState();
     m_bar->show();
 
-    if(CorePlugin::m_plugin->value("ShowAvatarInHistory").toBool())
+    if(CorePlugin::instance()->value("ShowAvatarInHistory").toBool())
     {
         unsigned j = 0;
         QImage img;
@@ -151,7 +151,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
             //m_avatar_bar->setHorizontalStretchable(false);
             //m_avatar_bar->setVerticalStretchable(false);
             m_avatar_bar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            //restoreToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
+            //restoreToolbar(m_avatar_bar, CorePlugin::instance()->data.HistoryAvatarBar);
 
             Command cmd;
             cmd->id = CmdHistoryAvatar;
@@ -242,7 +242,7 @@ bool HistoryWindow::processEvent(Event *e)
         if (cmd->id == CmdHistoryDirection)
         {
             bool bDirection = ((cmd->flags & COMMAND_CHECKED) != 0);
-            CorePlugin::m_plugin->setValue("HistoryDirection", bDirection);
+            CorePlugin::instance()->setValue("HistoryDirection", bDirection);
             if (bDirection != m_bDirection)
             {
                 m_bDirection = bDirection;
@@ -336,14 +336,14 @@ bool HistoryWindow::processEvent(Event *e)
 void HistoryWindow::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    //CorePlugin::m_plugin->data.HistorySize[0].asULong() = width();
-    //CorePlugin::m_plugin->data.HistorySize[1].asULong() = height();
+    //CorePlugin::instance()->data.HistorySize[0].asULong() = width();
+    //CorePlugin::instance()->data.HistorySize[1].asULong() = height();
 }
 
 void HistoryWindow::toolbarChanged(QToolBar*)
 {
-    //saveToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
-    //saveToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
+    //saveToolbar(m_bar, CorePlugin::instance()->data.HistoryBar);
+    //saveToolbar(m_avatar_bar, CorePlugin::instance()->data.HistoryAvatarBar);
 }
 
 void HistoryWindow::fill()
@@ -446,7 +446,7 @@ const unsigned MAX_HISTORY = 10;
 
 void HistoryWindow::addHistory(const QString &str)
 {
-    QStringList l = CorePlugin::m_plugin->value("HistorySearch").toString().split(';');
+    QStringList l = CorePlugin::instance()->value("HistorySearch").toString().split(';');
     l.removeAll(str);
     l.prepend(str);
 
@@ -460,6 +460,6 @@ void HistoryWindow::addHistory(const QString &str)
             res += ';';
         res += quoteChars(str, ";");
     }
-    CorePlugin::m_plugin->setValue("HistorySearch", res);
+    CorePlugin::instance()->setValue("HistorySearch", res);
 }
 
