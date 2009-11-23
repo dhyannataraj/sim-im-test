@@ -286,7 +286,6 @@ protected:
 
 private:
     bool m_bIgnoreEvents;
-    static CorePlugin	*m_plugin;
 
     friend class MainWindow;
     friend class UserView;
