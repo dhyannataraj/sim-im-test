@@ -175,7 +175,7 @@ protected:
     QString m_Viewer;
 };
 
-class EXPORT CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class SIM_EXPORT CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

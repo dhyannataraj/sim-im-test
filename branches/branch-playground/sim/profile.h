@@ -10,7 +10,7 @@
 
 namespace SIM
 {
-	class Profile
+	class EXPORT Profile
 	{
 	public:
 		Profile(const QString& name = "");
