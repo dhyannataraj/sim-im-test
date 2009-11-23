@@ -350,9 +350,7 @@ static DataDef historyUserData[] =
 	{ NULL, DATA_UNKNOWN, 0, 0 }
 };
 
-#ifndef WIN32
-CorePlugin *CorePlugin::m_plugin = CorePlugin::instance();
-#endif
+CorePlugin* CorePlugin::m_plugin = 0;
 
 static QWidget *getInterfaceSetup(QWidget *parent, void *data)
 {
