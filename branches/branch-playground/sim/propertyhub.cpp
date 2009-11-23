@@ -8,6 +8,10 @@
 namespace SIM
 {
 
+PropertyHub::PropertyHub()
+{
+}
+
 PropertyHub::PropertyHub(const QString& ns) : m_namespace(ns)
 {
 }
@@ -45,7 +49,7 @@ bool PropertyHub::load()
 	QStringList keys = profile->allKeys();
 	foreach(const QString &key, keys)
 	{
-		if(key == "enabled")
+		if(key == "enabled") // FIXME hack
 			continue;
 		//log(L_DEBUG, "Loading property: %s : %s", key.toUtf8().data(), profile->value(key).toString().toUtf8().data());
 		this->setValue(key, profile->value(key));

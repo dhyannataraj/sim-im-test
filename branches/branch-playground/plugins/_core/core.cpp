@@ -350,7 +350,7 @@ static DataDef historyUserData[] =
 	{ NULL, DATA_UNKNOWN, 0, 0 }
 };
 
-CorePlugin* CorePlugin::m_plugin = 0;
+static CorePlugin* g_plugin = 0;
 
 static QWidget *getInterfaceSetup(QWidget *parent, void *data)
 {
@@ -426,7 +426,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
   , m_RegNew        (false)
   , m_bIgnoreEvents (false)
 {
-   m_plugin = this;
+   g_plugin = this;
 
     setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
 
@@ -1369,16 +1369,17 @@ bool CorePlugin::processEvent(Event *e)
 						if (contact->getIgnore())
 							clearUnread(contact->id());
 						break;
-					case EventContact::eOnline: {
-													CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-													if (data->OpenOnOnline.toBool()){
-														Message *msg = new Message(MessageGeneric);
-														msg->setContact(contact->id());
-														EventOpenMessage(msg).process();
-														delete msg; // wasn't here before event changes...
-													}
-													break;
-												}
+					case EventContact::eOnline:
+                        {
+                            CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
+                            if (data->OpenOnOnline.toBool()){
+                                Message *msg = new Message(MessageGeneric);
+                                msg->setContact(contact->id());
+                                EventOpenMessage(msg).process();
+                                delete msg; // wasn't here before event changes...
+                            }
+                            break;
+                        }
 					default:
 												break;
 				}
@@ -3935,7 +3936,7 @@ void HistoryThread::run()
 
 CorePlugin* CorePlugin::instance()
 {
-    return m_plugin;
+    return g_plugin;
 }
 
 // vim: set expandtab:

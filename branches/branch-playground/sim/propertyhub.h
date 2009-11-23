@@ -13,6 +13,7 @@ namespace SIM
 	class EXPORT PropertyHub
 	{
 	public:
+		PropertyHub();
 		PropertyHub(const QString& ns);
 		virtual ~PropertyHub();
 

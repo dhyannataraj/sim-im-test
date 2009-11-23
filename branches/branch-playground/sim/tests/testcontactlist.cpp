@@ -67,7 +67,7 @@ namespace testContactList
             case eEventContact:
             {
                 SIM::EventContact* ev = static_cast<EventContact*>(event);
-                if(ev->action() == SIM::EventContact::eAdded)
+                if(ev->action() == SIM::EventContact::eCreated)
                 {
                     m_contactAdded++;
                 }
