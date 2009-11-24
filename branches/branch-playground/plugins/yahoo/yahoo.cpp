@@ -18,7 +18,6 @@
 #include "yahoo.h"
 #include "yahooclient.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 using namespace SIM;
 
