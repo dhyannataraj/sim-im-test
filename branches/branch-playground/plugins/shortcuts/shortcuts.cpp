@@ -20,8 +20,6 @@
 #include "log.h"
 #include "cmddef.h"
 #include "core.h"
-#include "moc_core.cpp"
-#include "core_consts.h"
 
 #include "shortcuts.h"
 #include "shortcutcfg.h"
@@ -73,13 +71,13 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef shortcutsData[] =
-    {
-        { "Key", DATA_STRLIST, 1, 0 },
-        { "Global", DATA_STRLIST, 1, 0 },
-        { "Mouse", DATA_STRLIST, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
+//static DataDef shortcutsData[] =
+//    {
+//        { "Key", DATA_STRLIST, 1, 0 },
+//        { "Global", DATA_STRLIST, 1, 0 },
+//        { "Mouse", DATA_STRLIST, 1, 0 },
+//        { NULL, DATA_UNKNOWN, 0, 0 }
+//    };
 
 void GlobalKey::execute()
 {
@@ -482,7 +480,8 @@ GlobalKey::~GlobalKey()
 #endif  // WIN32
 
 ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("shortcuts")
+    : PropertyHub("shortcuts"),
+    Plugin(base)
 {
 #ifdef WIN32
     m_bInit = false;

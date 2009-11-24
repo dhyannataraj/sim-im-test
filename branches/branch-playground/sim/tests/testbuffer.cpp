@@ -6,7 +6,7 @@
 void TestBuffer::testCommonTypes()
 {
 	char c1 = 'a', c2 = 'b', c3 = 'c', c4 = 'd';
-	unsigned char d1 = 'e', d2 = 'f', d3 = 'g', d4 = 'h';
+//	unsigned char d1 = 'e', d2 = 'f', d3 = 'g', d4 = 'h';
 	Buffer buf(128);
 	buf << c1 << c2 << c3 << c4;
 	QVERIFY2(buf.writePos() == 4, "Unexpected 'char' size"); // should take 4 bytes

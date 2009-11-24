@@ -745,16 +745,16 @@ JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
 {
 }
 
-static unsigned get_number(QString &s, unsigned digits)
-{
-    if ((unsigned)s.length() < digits){
-        s = QString::null;
-        return 0;
-    }
-    QString p = s.left(digits);
-    s = s.mid(digits);
-    return p.toUInt();
-}
+//static unsigned get_number(QString &s, unsigned digits)
+//{
+//    if ((unsigned)s.length() < digits){
+//        s = QString::null;
+//        return 0;
+//    }
+//    QString p = s.left(digits);
+//    s = s.mid(digits);
+//    return p.toUInt();
+//}
 
 static QDateTime fromDelay(const QString &t)
 {

@@ -175,7 +175,16 @@ protected:
     QString m_Viewer;
 };
 
-class SIM_EXPORT CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+// Lets do this later whole in one, because at the moment it only breaks linking of all other plugins...
+#ifndef CORE_EXPORT
+#   ifdef CORE_EXPORTS
+#       define CORE_EXPORT Q_DECL_EXPORT
+#   else // CORE_EXPORTS
+#       define CORE_EXPORT Q_DECL_IMPORT
+#   endif // CORE_EXPORTS
+#endif // CORE_EXPORT
+
+class CORE_EXPORT CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -223,8 +232,8 @@ protected slots:
     void alertFinished();
     void focusDestroyed();
     void showMain();
-	void postInit();
-	void ignoreEvents(bool i);
+    void postInit();
+    void ignoreEvents(bool i);
 protected:
     virtual bool processEvent(SIM::Event*);
     virtual QByteArray getConfig();

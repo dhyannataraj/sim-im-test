@@ -75,15 +75,15 @@ public:
     Message *operator++();
     Message *operator--();
     Message *message();
-    HistoryFile		&file;
-    list<Message*>	msgs;
-    int				m_block;
-    Message			*m_msg;
-    bool			loadBlock(bool bUp);
-    QString			m_filter;
+    HistoryFile     &file;
+    list<Message*>  msgs;
+    int             m_block;
+    Message         *m_msg;
+    bool            loadBlock(bool bUp);
+    QString         m_filter;
 private:
-    unsigned		m_contact;
-    QTextCodec		*m_codec;
+    unsigned        m_contact;
+    QTextCodec      *m_codec;
     HistoryFileIterator(const HistoryFileIterator&);
     void operator = (const HistoryFileIterator&);
 };
@@ -152,9 +152,9 @@ Message *HistoryFile::load(unsigned id)
 HistoryFileIterator::HistoryFileIterator(HistoryFile &f, unsigned contact)
     : file(f)
     , m_block(0)
-    , m_codec(NULL)
     , m_msg(NULL)
     , m_contact(contact)
+    , m_codec(NULL)
 {
     
 }

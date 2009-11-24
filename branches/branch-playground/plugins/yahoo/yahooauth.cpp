@@ -45,14 +45,11 @@
 #include "socket/socket.h"
 #include "socket/clientsocket.h"
 
-#define OPENSSL_NO_SHA0 // we need the new one!
-#include <openssl/sha.h>
-#include <openssl/md5.h>
-
 #include <cstdio>
 #include <ctype.h>
 
 #include <QByteArray>
+#include <QCryptographicHash>
 
 extern "C"
 {
@@ -941,44 +938,44 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     const char *pass = password.data();
 
     unsigned char       result[16];
-    MD5state_st			ctx;
+    QCryptographicHash	ctx( QCryptographicHash::Md5 );
 
-    SHA_CTX				ctx1;
-    SHA_CTX				ctx2;
+    QCryptographicHash	ctx1( QCryptographicHash::Sha1 );
+    QCryptographicHash	ctx2( QCryptographicHash::Sha1 );
 
-    const char				*alphabet1			= "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
-    const char				*alphabet2			= "F0E1D2C3B4A59687abcdefghijklmnop";
+    const char		*alphabet1          = "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
+    const char		*alphabet2          = "F0E1D2C3B4A59687abcdefghijklmnop";
 
-    const char				*challenge_lookup	= "qzec2tb3um1olpar8whx4dfgijknsvy5";
-    const char				*operand_lookup		= "+|&%/*^-";
-    const char				*delimit_lookup		= ",;";
+    const char		*challenge_lookup   = "qzec2tb3um1olpar8whx4dfgijknsvy5";
+    const char		*operand_lookup     = "+|&%/*^-";
+    const char          *delimit_lookup     = ",;";
 
-    char				*password_hash		= (char *)malloc(25);
-    char				*crypt_hash		    = (char *)malloc(25);
-    char				*crypt_result		= NULL;
+    char                *password_hash      = (char *)malloc(25);
+    char                *crypt_hash         = (char *)malloc(25);
+    char                *crypt_result       = NULL;
 
-    char				pass_hash_xor1[64];
-    char				pass_hash_xor2[64];
-    char				crypt_hash_xor1[64];
-    char				crypt_hash_xor2[64];
-    char				resp_6[100];
-    char				resp_96[100];
+    char                pass_hash_xor1[64];
+    char                pass_hash_xor2[64];
+    char                crypt_hash_xor1[64];
+    char                crypt_hash_xor2[64];
+    char                resp_6[100];
+    char                resp_96[100];
 
-    unsigned char		digest1[20];
-    unsigned char		digest2[20];
-    unsigned char		comparison_src[20];
-    unsigned char		magic_key_char[4];
-    const unsigned char		*magic_ptr;
+    unsigned char       digest1[20];
+    unsigned char       digest2[20];
+    unsigned char       comparison_src[20];
+    unsigned char       magic_key_char[4];
+    const unsigned char *magic_ptr;
 
-    unsigned int		magic[64];
-    unsigned int		magic_work = 0;
-    unsigned int		magic_4 = 0;
+    unsigned int        magic[64];
+    unsigned int        magic_work = 0;
+    unsigned int        magic_4 = 0;
 
-    int					x;
-    int					y = 0;
-    int					cnt = 0;
-    int					magic_cnt = 0;
-    int					magic_len;
+    int                 x;
+    int                 y = 0;
+    int                 cnt = 0;
+    int                 magic_cnt = 0;
+    int                 magic_len;
 
     memset(password_hash, 0, 25);
     memset(crypt_hash, 0, 25);

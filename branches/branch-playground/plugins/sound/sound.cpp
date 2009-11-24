@@ -21,7 +21,6 @@
 #include "exec.h"
 #include "log.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "sound.h"
 #include "soundconfig.h"

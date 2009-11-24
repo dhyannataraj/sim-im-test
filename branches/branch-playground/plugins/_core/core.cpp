@@ -225,8 +225,8 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 */
 #endif
 
-static DataDef coreData[] =
-{
+//static DataDef coreData[] =
+//{
 //	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
 //	{ "", DATA_ULONG, 1, 0 },		// StatusTime
 //	{ "Invisible", DATA_BOOL, 1, 0 },
@@ -263,15 +263,15 @@ static DataDef coreData[] =
 //	{ "OwnColors", DATA_BOOL, 1, 0 },
 //	{ "UseSmiles", DATA_BOOL, 1, DATA(1) },
 //	{ "UseExtViewer", DATA_BOOL, 1, 0 },
-#ifdef WIN32
+//#ifdef WIN32
 //	{ "ExtViewer", DATA_STRING, 1, "notepad" },
-#else /*WIN32*/
-#ifdef USE_KDE
+//#else /*WIN32*/
+//#ifdef USE_KDE
 //	{ "ExtViewer", DATA_STRING, 1, "kate" },
-#else/*USE_KDE*/
+//#else/*USE_KDE*/
 //	{ "ExtViewer", DATA_STRING, 1, "gvim" },
-#endif/*USE_KDE*/
-#endif/*WIN32*/
+//#endif/*USE_KDE*/
+//#endif/*WIN32*/
 //	{ "CloseSend", DATA_BOOL, 1, 0 },
 //	{ "HistoryPage", DATA_ULONG, 1, DATA(100) },
 //	{ "HistoryDirection", DATA_BOOL, 1, 0 },
@@ -298,8 +298,8 @@ static DataDef coreData[] =
 //	{ "CfgGeometry", DATA_LONG, 5, DATA(0) },
 //	{ "ShowAvatarInHistory", DATA_BOOL, 1, DATA(1) },
 //	{ "ShowAvatarInContainer", DATA_BOOL, 1, DATA(1) },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
+//	{ NULL, DATA_UNKNOWN, 0, 0 }
+//};
 
 static DataDef coreUserData[] =
 {
@@ -407,23 +407,23 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
   , Plugin          (base)
   , EventReceiver   (HighPriority)
   , historyXSL      (NULL)
-  , m_alert         (NULL)
-  , m_translator    (NULL)
-  , m_statusWnd     (NULL)
-  , m_status	    (NULL)
-  , m_main          (NULL)
+  , m_bInit         (false)
   , m_cfg           (NULL)
-  , m_search	    (NULL)
-  , m_view          (NULL)
-  , m_manager	    (NULL)
   , m_focus         (NULL)
-  , m_lock          (NULL)
+  , m_view          (NULL)
+  , m_search	    (NULL)
+  , m_translator    (NULL)
+  , m_manager	    (NULL)
+  , m_status	    (NULL)
+  , m_statusWnd     (NULL)
   , m_nClients	    (0)
   , m_nClientsMenu  (0)
   , m_nResourceMenu (0)
-  , m_HistoryThread (NULL)
-  , m_bInit         (false)
+  , m_main          (NULL)
+  , m_alert         (NULL)
+  , m_lock          (NULL)
   , m_RegNew        (false)
+  , m_HistoryThread (NULL)
   , m_bIgnoreEvents (false)
 {
    g_plugin = this;

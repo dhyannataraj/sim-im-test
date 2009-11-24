@@ -32,8 +32,8 @@
 #include <QMessageBox>
 
 #ifdef WIN32
-#include <windows.h>
-#include <shlobj.h>
+//#include <windows.h>
+//#include <shlobj.h>
 #else
 #include <sys/stat.h>
 #include <unistd.h>
@@ -74,25 +74,6 @@ void simMessageOutput(QtMsgType, const char *msg)
 #else
 #define _VERSION	VERSION
 #endif
-
-#ifdef WIN32
-#ifdef _DEBUG
-
-class Debug
-{
-public:
-    Debug()		{}
-    ~Debug()	{} //causes crash on close in win32 by noragen
-};
-
-Debug d;
-
-#endif
-
-static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
-static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
-#endif
-
 
 int main(int argc, char *argv[])
 {

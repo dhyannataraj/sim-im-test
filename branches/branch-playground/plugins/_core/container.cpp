@@ -65,14 +65,14 @@ protected:
 };
 
 //FIXME: Obsolete?
-static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
-{
-    for(unsigned i = 0; i < count; i++)
-        dest[i] = src[i];
-}
+//static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
+//{
+//    for(unsigned i = 0; i < count; i++)
+//        dest[i] = src[i];
+//}
 
 ContainerStatus::ContainerStatus(QWidget *parent)
-        : QStatusBar(parent)
+    : QStatusBar(parent)
 {
     QSize s;
     {
@@ -108,17 +108,17 @@ static DataDef containerData[] =
 
 Container::Container(unsigned id, const char *cfg) 
     : QMainWindow()
-    , m_avatar_window(this)
-    , m_avatar_label(&m_avatar_window)
+    , m_bNoRead     (false)
     , m_bInit       (false)
     , m_bInSize     (false)
     , m_bStatusSize (false)
     , m_bBarChanged (false)
     , m_bReceived   (false)
     , m_bNoSwitch   (false)
-    , m_bNoRead     (false)
-    , m_wnds		(NULL)
+    , m_avatar_window(this)
+    , m_avatar_label(&m_avatar_window)
     , m_tabBar      (NULL)
+    , m_wnds        (NULL)
 {
     
 

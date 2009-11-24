@@ -153,8 +153,8 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
   : m_client( client )
   , m_pHttp( NULL )
   , m_bDone( true )
-  , m_bRedirect( true )
   , m_code( 0 )
+  , m_bRedirect( true )
   , m_state( None )
 {
 }

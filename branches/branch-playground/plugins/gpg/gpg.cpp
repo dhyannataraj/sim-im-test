@@ -102,7 +102,9 @@ static DataDef gpgUserData[] =
 GpgPlugin *GpgPlugin::plugin = NULL;
 
 GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
-        : Plugin(base), EventReceiver(HighestPriority - 0x100), PropertyHub("gpg")
+    : PropertyHub("gpg")
+    , Plugin(base)
+    , EventReceiver(HighestPriority - 0x100)
 {
     m_bMessage = false;
     m_passphraseDlg = NULL;

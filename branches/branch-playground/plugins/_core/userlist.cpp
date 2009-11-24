@@ -355,8 +355,8 @@ void UserListBase::drawUpdates()
     m_bDirty = false;
     updTimer->stop();
     ListViewItem *item;
-    int x = viewport()->x();
-    int y = viewport()->y();
+//    int x = viewport()->x();
+//    int y = viewport()->y();
     viewport()->setUpdatesEnabled(false);
     bool bChanged = false;
     list<unsigned long>::iterator it;

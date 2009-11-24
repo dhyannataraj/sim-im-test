@@ -145,7 +145,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
                 if (cmd->text.isEmpty())
                     continue;
                 cmdKey = QKeySequence::mnemonic(i18n(cmd->text));
-                if((cmdKey & ~Qt::UNICODE_ACCEL) == key)
+                if((cmdKey & ~Qt::UNICODE_ACCEL) == (unsigned int)key)
                 {
                     cmd->param = param;
                     EventCommandExec eCmd(cmd);

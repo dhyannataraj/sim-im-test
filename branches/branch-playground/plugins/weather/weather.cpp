@@ -92,21 +92,21 @@ QByteArray WeatherPlugin::getConfig()
 
 void WeatherPlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || !isDone() || property("ID").toString().isEmpty())
+    if (!getSocketFactory()->isActive() || !isDone() || value("ID").toString().isEmpty())
         return;
     QDateTime now = QDateTime::currentDateTime();
-    if ( now < QDateTime::fromTime_t(property("Time").toUInt()).addSecs(CHECK1_INTERVAL) )
+    if ( now < QDateTime::fromTime_t(value("Time").toUInt()).addSecs(CHECK1_INTERVAL) )
         return;
     m_bForecast = false;
-    if ( now >= QDateTime::fromTime_t(property("ForecastTime").toUInt()).addSecs(CHECK2_INTERVAL) )
+    if ( now >= QDateTime::fromTime_t(value("ForecastTime").toUInt()).addSecs(CHECK2_INTERVAL) )
         m_bForecast = true;
     QString url = "http://xoap.weather.com/weather/local/";
-    url += property("ID").toString();
+    url += value("ID").toString();
     url += "?cc=*&link=xoap&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
-    url += property("Units").toBool() ? "s" : "m";
-    if (m_bForecast && property("Forecast").toUInt()){
+    url += value("Units").toBool() ? "s" : "m";
+    if (m_bForecast && value("Forecast").toUInt()){
         url += "&dayf=";
-        url += QString::number(property("Forecast").toUInt());
+        url += QString::number(value("Forecast").toUInt());
     }
     fetch(url);
 }
@@ -120,9 +120,9 @@ bool WeatherPlugin::processEvent(Event *e)
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
-        if ((cmd->id == CmdWeather) && !property("ID").toString().isEmpty()){
+        if ((cmd->id == CmdWeather) && !value("ID").toString().isEmpty()){
             QString url = "http://www.weather.com/outlook/travel/local/";
-            url += property("ID").toString();
+            url += value("ID").toString();
             EventGoURL(url).process();
             return true;
         }
@@ -154,9 +154,9 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
         return false;
     }
     unsigned int now = QDateTime::currentDateTime().toTime_t();
-    setProperty("Time", now);
+    setValue("Time", now);
     if (m_bForecast)
-        setProperty("ForecastTime", now);
+        setValue("ForecastTime", now);
     updateButton();
     Event eUpdate(EventWeather);
     eUpdate.process();
@@ -218,7 +218,7 @@ bool WeatherPlugin::isDay()
 {
     int raise_h = 0, raise_m = 0;
     int set_h = 0, set_m = 0;
-    if (!parseTime(property("Sun_raise").toString(), raise_h, raise_m) || !parseTime(property("Sun_set").toString(), set_h, set_m))
+    if (!parseTime(value("Sun_raise").toString(), raise_h, raise_m) || !parseTime(value("Sun_set").toString(), set_h, set_m))
         return false;
     QDateTime now = QDateTime::currentDateTime().toLocalTime();
     if ((now.time().hour() > raise_h) && (now.time().hour() < set_h))
@@ -232,7 +232,7 @@ bool WeatherPlugin::isDay()
 
 void WeatherPlugin::showBar()
 {
-    if (m_bar || property("ID").toString().isEmpty())
+    if (m_bar || value("ID").toString().isEmpty())
         return;
  
     MainWindow *main= MainWindow::mainWindow();
@@ -254,12 +254,12 @@ void WeatherPlugin::showBar()
 
 void WeatherPlugin::updateButton()
 {
-    if ((property("Time").toUInt() == 0) || (m_bar == NULL))
+    if ((value("Time").toUInt() == 0) || (m_bar == NULL))
         return;
     Command cmd;
     cmd->id      = CmdWeather;
     cmd->text    = I18N_NOOP("Not connected");
-    cmd->icon    = "weather" + QString::number(property("Icon").toUInt());
+    cmd->icon    = "weather" + QString::number(value("Icon").toUInt());
     cmd->bar_id  = BarWeather;
     cmd->bar_grp = 0x1000;
     cmd->flags   = BTN_PICT | BTN_DIV;
@@ -270,19 +270,19 @@ void WeatherPlugin::updateButton()
     QString ftip = getForecastText();
     text = replace(text);
     tip  = replace(tip);
-    if (property("Forecast").toUInt())
+    if (value("Forecast").toUInt())
         tip = tip + "<td><h2>" + i18n("weather","Forecast") + ":</h2><table><tr><td>";
-    unsigned n = (property("Forecast").toUInt() + 1) / 2;
+    unsigned n = (value("Forecast").toUInt() + 1) / 2;
     if (n < 3)
-        n = property("Forecast").toUInt();
-    for (unsigned int iDay = 1; iDay <= property("Forecast").toUInt(); iDay++){
+        n = value("Forecast").toUInt();
+    for (unsigned int iDay = 1; iDay <= value("Forecast").toUInt(); iDay++){
         tip += forecastReplace(ftip,iDay);
         if (--n == 0){
             tip += "</td><td>";
-            n = (property("Forecast").toUInt() + 1) / 2;
+            n = (value("Forecast").toUInt() + 1) / 2;
         }
     }
-    if (property("Forecast").toUInt())
+    if (value("Forecast").toUInt())
         tip += "</td></tr></table></td>";
     tip += "</tr></table><br>\n";
     tip += "<i><h3>"+i18n("weather", "Weather data provided by weather.com&reg;") + "</h3></i>";
@@ -430,82 +430,82 @@ QString WeatherPlugin::replace(const QString &text)
     QDateTime dt;
     int h,m;
 
-    parseTime(property("Sun_set").toString(),h,m);
+    parseTime(value("Sun_set").toString(),h,m);
     tmp_time.setHMS(h,m,0,0);
     sun_set = tmp_time.toString(Qt::LocalDate);
     sun_set = sun_set.left(sun_set.length() - 3);
 
-    parseTime(property("Sun_raise").toString(),h,m);
+    parseTime(value("Sun_raise").toString(),h,m);
     tmp_time.setHMS(h,m,0,0);
     sun_raise = tmp_time.toString(Qt::LocalDate);
     sun_raise = sun_raise.left(sun_raise.length() - 3);
 
-    parseDateTime(property("Updated").toString(),dt);
+    parseDateTime(value("Updated").toString(),dt);
     updated = dt.toString(Qt::LocalDate);
     updated = updated.left(updated.length() - 3);
     /* double Expressions *before* single or better RegExp ! */
-    res = res.replace(QRegExp("\\%mp"), i18n("moonphase", property("MoonPhase").toString()));
-    res = res.replace(QRegExp("\\%mi"), QString::number(property("MoonIcon").toInt()));
-    res = res.replace(QRegExp("\\%pp"), QString::number(property("Precipitation").toInt()));
-    res = res.replace(QRegExp("\\%ut"), i18n("weather", property("UV_Description").toString()));
-    res = res.replace(QRegExp("\\%ui"), QString::number(property("UV_Intensity").toUInt()));
-    res = res.replace(QRegExp("\\%t"), QString::number((int)property("Temperature").toInt()) + QChar((unsigned short)176) + property("UT").toString());
-    res = res.replace(QRegExp("\\%f"), QString::number((int)property("FeelsLike").toInt()) + QChar((unsigned short)176) + property("UT").toString());
-    res = res.replace(QRegExp("\\%d"), QString::number((int)property("DewPoint").toInt()) + QChar((unsigned short)176) + property("UT").toString());
-    res = res.replace(QRegExp("\\%h"), QString::number(property("Humidity").toInt()) + "%");
-    res = res.replace(QRegExp("\\%w"), QString::number(property("Wind_speed").toInt()) + " " + i18n("weather",property("US").toString()));
-    res = res.replace(QRegExp("\\%x"), QString::number(property("Wind_speed").toInt() * 10 / 36) + " " + i18n("m/s"));
-    res = res.replace(QRegExp("\\%g"), property("WindGust").toInt() ? QString("(") + i18n("gust") + QString(" ") + QString::number(property("WindGust").toUInt()) + i18n("weather",property("US").toString()) + QString(")") : QString(""));
-    res = res.replace(QRegExp("\\%y"), property("WindGust").toInt() ? QString("(") + i18n("gust") + QString(" ") + QString::number(property("WindGust").toInt() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
-    res = res.replace(QRegExp("\\%p"), QString::number(property("Pressure").toInt()) + " " + i18n("weather", property("UP").toString()));
-    res = res.replace(QRegExp("\\%a"), QString::number(property("Pressure").toInt() * 75 / 100)); // deprecated!
-    res = res.replace(QRegExp("\\%q"), i18n("weather", property("PressureD").toString()));
-    res = res.replace(QRegExp("\\%l"), property("Location").toString());
-    res = res.replace(QRegExp("\\%b"), i18n("weather", property("Wind").toString()));
+    res = res.replace(QRegExp("\\%mp"), i18n("moonphase", value("MoonPhase").toString()));
+    res = res.replace(QRegExp("\\%mi"), QString::number(value("MoonIcon").toInt()));
+    res = res.replace(QRegExp("\\%pp"), QString::number(value("Precipitation").toInt()));
+    res = res.replace(QRegExp("\\%ut"), i18n("weather", value("UV_Description").toString()));
+    res = res.replace(QRegExp("\\%ui"), QString::number(value("UV_Intensity").toUInt()));
+    res = res.replace(QRegExp("\\%t"), QString::number((int)value("Temperature").toInt()) + QChar((unsigned short)176) + value("UT").toString());
+    res = res.replace(QRegExp("\\%f"), QString::number((int)value("FeelsLike").toInt()) + QChar((unsigned short)176) + value("UT").toString());
+    res = res.replace(QRegExp("\\%d"), QString::number((int)value("DewPoint").toInt()) + QChar((unsigned short)176) + value("UT").toString());
+    res = res.replace(QRegExp("\\%h"), QString::number(value("Humidity").toInt()) + "%");
+    res = res.replace(QRegExp("\\%w"), QString::number(value("Wind_speed").toInt()) + " " + i18n("weather",value("US").toString()));
+    res = res.replace(QRegExp("\\%x"), QString::number(value("Wind_speed").toInt() * 10 / 36) + " " + i18n("m/s"));
+    res = res.replace(QRegExp("\\%g"), value("WindGust").toInt() ? QString("(") + i18n("gust") + QString(" ") + QString::number(value("WindGust").toUInt()) + i18n("weather",value("US").toString()) + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%y"), value("WindGust").toInt() ? QString("(") + i18n("gust") + QString(" ") + QString::number(value("WindGust").toInt() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%p"), QString::number(value("Pressure").toInt()) + " " + i18n("weather", value("UP").toString()));
+    res = res.replace(QRegExp("\\%a"), QString::number(value("Pressure").toInt() * 75 / 100)); // deprecated!
+    res = res.replace(QRegExp("\\%q"), i18n("weather", value("PressureD").toString()));
+    res = res.replace(QRegExp("\\%l"), value("Location").toString());
+    res = res.replace(QRegExp("\\%b"), i18n("weather", value("Wind").toString()));
     res = res.replace(QRegExp("\\%u"), updated);
     res = res.replace(QRegExp("\\%r"), sun_raise);
     res = res.replace(QRegExp("\\%s"), sun_set);
-    res = res.replace(QRegExp("\\%c"), i18n_conditions(property("Conditions").toString()));
-    res = res.replace(QRegExp("\\%v"), i18n("weather", property("Visibility").toString()) + (property("Visibility").toUInt() ? ' ' + i18n("weather",property("UD").toString()) : QString()));
-    res = res.replace(QRegExp("\\%i"), QString::number(property("Icon").toUInt()));
-	res = res.replace(QRegExp("\\%o"), property("Obst").toString());
+    res = res.replace(QRegExp("\\%c"), i18n_conditions(value("Conditions").toString()));
+    res = res.replace(QRegExp("\\%v"), i18n("weather", value("Visibility").toString()) + (value("Visibility").toUInt() ? ' ' + i18n("weather",value("UD").toString()) : QString()));
+    res = res.replace(QRegExp("\\%i"), QString::number(value("Icon").toUInt()));
+        res = res.replace(QRegExp("\\%o"), value("Obst").toString());
     return res;
 }
 
 QString WeatherPlugin::forecastReplace(const QString &text, int iDay)
 {
     QString sDay = QString::number(iDay);
-    if (property("Day").toMap().value(sDay).toString().isEmpty())
+    if (value("Day").toMap().value(sDay).toString().isEmpty())
         return QString();
     QString res = text;
     QString temp;
-    int minT = property("MinT").toMap().value(sDay).toInt();
-    int maxT = property("MaxT").toMap().value(sDay).toInt();
+    int minT = value("MinT").toMap().value(sDay).toInt();
+    int maxT = value("MaxT").toMap().value(sDay).toInt();
     temp += QString::number(minT);
     temp += QChar((unsigned short)176);
-    temp += property("UT").toString();
-    if ((property("MaxT").toMap().value(sDay).toString() != QLatin1String("N/A")) && (maxT != -255)) {
+    temp += value("UT").toString();
+    if ((value("MaxT").toMap().value(sDay).toString() != QLatin1String("N/A")) && (maxT != -255)) {
         temp += '/';
         temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
-        temp += property("UT").toString();
+        temp += value("UT").toString();
     }
-    QString dd = property("Day").toMap().value(sDay).toString();
+    QString dd = value("Day").toMap().value(sDay).toString();
     QString mon = getToken(dd, ' ');
     QString day = dd;
     day += ". ";
     day += i18n(mon);
-    res = res.replace(QRegExp("\\%n"), property("DayIcon").toMap().value(sDay).toString());
+    res = res.replace(QRegExp("\\%n"), value("DayIcon").toMap().value(sDay).toString());
     res = res.replace(QRegExp("\\%t"), temp);
-    res = res.replace(QRegExp("\\%c"), i18n_conditions(property("DayConditions").toMap().value(sDay).toString()));
-    res = res.replace(QRegExp("\\%w"), i18n(property("WDay").toMap().value(sDay).toString()));
+    res = res.replace(QRegExp("\\%c"), i18n_conditions(value("DayConditions").toMap().value(sDay).toString()));
+    res = res.replace(QRegExp("\\%w"), i18n(value("WDay").toMap().value(sDay).toString()));
     res = res.replace(QRegExp("\\%d"), day);
     return res;
 }
 
 QString WeatherPlugin::getButtonText()
 {
-    QString str = property("Text").toString();
+    QString str = value("Text").toString();
     if (str.isEmpty())
         str = i18n("%t | %c");
     return str;
@@ -515,7 +515,7 @@ QString WeatherPlugin::getButtonText()
 
 QString WeatherPlugin::getTipText()
 {
-    QString str = property("Tip").toString();
+    QString str = value("Tip").toString();
     if (str.isEmpty())
         str =
         "<h2>"+i18n("weather","Current Weather")+":</h2><p>\n"
@@ -541,7 +541,7 @@ QString WeatherPlugin::getTipText()
 
 QString WeatherPlugin::getForecastText()
 {
-    QString str = property("ForecastTip").toString();
+    QString str = value("ForecastTip").toString();
     if (str.isEmpty())
         str = i18n("<nobr><h3>%d %w</h3></nobr><br>\n"
                    "<img height=\"" + QString::number( (int)(WIATHER_ICON_SIZE / 2) ) + "\" "
@@ -586,66 +586,66 @@ bool WeatherPlugin::parse(QDomDocument document)
 
 // Parsing head element
     QDomElement headElement = weatherElement.elementsByTagName("head").item(0).toElement();
-    setProperty("UT", GetSubElementText( headElement, "ut", "### Failed ###" ) );
+    setValue("UT", GetSubElementText( headElement, "ut", "### Failed ###" ) );
     QString sUp = GetSubElementText( headElement, "up", "### Failed ###" );
     if( sUp == "in" ) {
-        setProperty("UP", "inHg");
+        setValue("UP", "inHg");
     }
     else {
-        setProperty("UP", sUp);
+        setValue("UP", sUp);
     }
-    setProperty("US", GetSubElementText( headElement, "us", "### Failed ###" ) );
-    setProperty("UD", GetSubElementText( headElement, "ud", "### Failed ###" ) );
+    setValue("US", GetSubElementText( headElement, "us", "### Failed ###" ) );
+    setValue("UD", GetSubElementText( headElement, "ud", "### Failed ###" ) );
 
 // Parsing loc element
     QDomElement locElement = weatherElement.elementsByTagName("loc").item(0).toElement();
-    setProperty("Location", GetSubElementText( locElement, "dnam", "### Failed ###" ) );
-    setProperty("Sun_raise", GetSubElementText( locElement, "sunr", "### Failed ###" ) );
-    setProperty("Sun_set", GetSubElementText( locElement, "suns", "### Failed ###" ) );
+    setValue("Location", GetSubElementText( locElement, "dnam", "### Failed ###" ) );
+    setValue("Sun_raise", GetSubElementText( locElement, "sunr", "### Failed ###" ) );
+    setValue("Sun_set", GetSubElementText( locElement, "suns", "### Failed ###" ) );
 
 // Parsing cc element
     QDomElement ccElement = weatherElement.elementsByTagName("cc").item(0).toElement();
-    setProperty("Obst", GetSubElementText( ccElement, "obst", "### Failed ###" ) );
-    setProperty("Updated", GetSubElementText( ccElement, "lsup", "### Failed ###" ) );
-    setProperty("Temperature", (int)GetSubElementText( ccElement, "tmp", "-10000" ).toLong() );
-    setProperty("FeelsLike", (int)GetSubElementText( ccElement, "flik", "-10000" ).toLong() );
-    setProperty("Visibility", GetSubElementText( ccElement, "vis", "### Failed ###" ) );
-    setProperty("DewPoint", (int)GetSubElementText( ccElement, "dewp", "-10000" ).toLong() );
-    setProperty("Humidity", (int)GetSubElementText( ccElement, "hmid", "-10000" ).toLong() );
-    setProperty("Conditions", GetSubElementText( ccElement, "t", "### Failed ###" ) );
-    setProperty("Icon", (unsigned int)GetSubElementText( ccElement, "icon", "0" ).toLong() );
+    setValue("Obst", GetSubElementText( ccElement, "obst", "### Failed ###" ) );
+    setValue("Updated", GetSubElementText( ccElement, "lsup", "### Failed ###" ) );
+    setValue("Temperature", (int)GetSubElementText( ccElement, "tmp", "-10000" ).toLong() );
+    setValue("FeelsLike", (int)GetSubElementText( ccElement, "flik", "-10000" ).toLong() );
+    setValue("Visibility", GetSubElementText( ccElement, "vis", "### Failed ###" ) );
+    setValue("DewPoint", (int)GetSubElementText( ccElement, "dewp", "-10000" ).toLong() );
+    setValue("Humidity", (int)GetSubElementText( ccElement, "hmid", "-10000" ).toLong() );
+    setValue("Conditions", GetSubElementText( ccElement, "t", "### Failed ###" ) );
+    setValue("Icon", (unsigned int)GetSubElementText( ccElement, "icon", "0" ).toLong() );
     // Parsing cc/moon element
     {
         QDomElement subElement = ccElement.elementsByTagName("moon").item(0).toElement();
-        setProperty("MoonPhase", GetSubElementText( subElement, "t", "### Failed ###" ) );
-        setProperty("MoonIcon", (int)GetSubElementText( subElement, "icon", "0" ).toLong() );
+        setValue("MoonPhase", GetSubElementText( subElement, "t", "### Failed ###" ) );
+        setValue("MoonIcon", (int)GetSubElementText( subElement, "icon", "0" ).toLong() );
     }
     // Parsing cc/bar element
     {
         QDomElement subElement = ccElement.elementsByTagName("bar").item(0).toElement();
         float v = GetSubElementText( subElement, "r", "-10000" ).toFloat();
-        if ( QString(property("UP").toString()) == "mb" ){
+        if ( QString(value("UP").toString()) == "mb" ){
             v=v * 75 / 100;
-            setProperty("Pressure", v);
-            setProperty("UP", "mmHg");
+            setValue("Pressure", v);
+            setValue("UP", "mmHg");
         } else{
-            setProperty("Pressure", v);
+            setValue("Pressure", v);
         }
-        setProperty("PressureD", GetSubElementText( subElement, "d", "### Failed ###" ) );
+        setValue("PressureD", GetSubElementText( subElement, "d", "### Failed ###" ) );
     }
     // Parsing cc/wind element
     {
         QDomElement subElement = ccElement.elementsByTagName("wind").item(0).toElement();
-        setProperty("Wind", GetSubElementText( subElement, "t", "### Failed ###" ) );
-        setProperty("WindGust", (int)GetSubElementText( subElement, "gust", "-10000" ).toLong() );
-        setProperty("Wind_speed", (int)GetSubElementText( subElement, "s", "-10000" ).toLong() );
+        setValue("Wind", GetSubElementText( subElement, "t", "### Failed ###" ) );
+        setValue("WindGust", (int)GetSubElementText( subElement, "gust", "-10000" ).toLong() );
+        setValue("Wind_speed", (int)GetSubElementText( subElement, "s", "-10000" ).toLong() );
         // wind/d dropped for now !
     }
     // Parsing cc/uv element
     {
         QDomElement subElement = ccElement.elementsByTagName("uv").item(0).toElement();
-        setProperty("UV_Description", GetSubElementText( subElement, "t", "### Failed ###" ) );
-        setProperty("UV_Intensity", (int)GetSubElementText( subElement, "i", "-10000" ).toLong() );
+        setValue("UV_Description", GetSubElementText( subElement, "t", "### Failed ###" ) );
+        setValue("UV_Intensity", (int)GetSubElementText( subElement, "i", "-10000" ).toLong() );
     }
 
 // Parsing dayf element
@@ -654,33 +654,33 @@ bool WeatherPlugin::parse(QDomDocument document)
     for( int iDay = 0 ; iDay < list.count() ; iDay++ ) {
         QDomElement dayElement = list.item(iDay).toElement();
 //        dayElement.attribute("d").toLong();
-        QVariantMap day = property("Day").toMap();
+        QVariantMap day = value("Day").toMap();
         day.insert(QString::number(iDay), dayElement.attribute("dt"));
-        setProperty("Day", day);
+        setValue("Day", day);
 
-        QVariantMap wday = property("WDay").toMap();
+        QVariantMap wday = value("WDay").toMap();
         wday.insert(QString::number(iDay), dayElement.attribute("t"));
-        setProperty("WDay", wday);
+        setValue("WDay", wday);
 
-        QVariantMap mint = property("MinT").toMap();
+        QVariantMap mint = value("MinT").toMap();
         mint.insert(QString::number(iDay), GetSubElementText(dayElement, "low", "### Failed ###"));
-        setProperty("MinT", mint);
+        setValue("MinT", mint);
 
-        QVariantMap maxt = property("MaxT").toMap();
+        QVariantMap maxt = value("MaxT").toMap();
         maxt.insert(QString::number(iDay), GetSubElementText(dayElement, "hi", "### Failed ###"));
-        setProperty("MaxT", maxt);
+        setValue("MaxT", maxt);
 
         QDomNodeList listParts = dayElement.elementsByTagName("part");
         for( int iPart = 0 ; iPart < listParts.count() ; iPart++ ) {
             QDomElement partElement = listParts.item(iPart).toElement();
             if( partElement.attribute("p") == "d" ) {
-                QVariantMap dayc = property("DayConditions").toMap();
+                QVariantMap dayc = value("DayConditions").toMap();
                 dayc.insert(QString::number(iDay), GetSubElementText( partElement, "t", "### Failed ###" ));
-                setProperty("DayConditions", dayc);
+                setValue("DayConditions", dayc);
 
-                QVariantMap dayi = property("DayIcon").toMap();
+                QVariantMap dayi = value("DayIcon").toMap();
                 dayi.insert(QString::number(iDay), GetSubElementText(partElement, "icon", "na"));
-                setProperty("DayIcon", dayi);
+                setValue("DayIcon", dayi);
             }
         }
     }

@@ -606,37 +606,37 @@ public:
     void uploadBuddy(const ICQUserData *data);
     ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 
-	unsigned long getFullStatus();
+    unsigned long getFullStatus();
 
-	bool addSnacHandler(SnacHandler* handler);
-	void clearSnacHandlers();
+    bool addSnacHandler(SnacHandler* handler);
+    void clearSnacHandlers();
 
-	// ICBM:
-	void deleteFileMessage(MessageId const& cookie);
+    // ICBM:
+    void deleteFileMessage(MessageId const& cookie);
 
-	// SSI:
-	void ssiStartTransaction();
-	void ssiEndTransaction();
-	bool isSSITransaction(){return false;}
-	unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
-	unsigned short ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv);
-	unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
-	void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
-	unsigned short ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
-	unsigned short ssiRemoveFromGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
+    // SSI:
+    void ssiStartTransaction();
+    void ssiEndTransaction();
+    bool isSSITransaction(){return false;}
+    unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
+    unsigned short ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv);
+    unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
+    void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
+    unsigned short ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
+    unsigned short ssiRemoveFromGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
 
-	// Snac handlers accessors
-	SnacIcqService* snacService() { return m_snacService; }
-	SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
-	SnacIcqICBM* snacICBM() { return m_snacICBM; }
+    // Snac handlers accessors
+    SnacIcqService* snacService() { return m_snacService; }
+    SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
+    SnacIcqICBM* snacICBM() { return m_snacICBM; }
 protected slots:
     void ping();
     void retry(int n, void*);
-	void interfaceDown(QString);
-	void interfaceUp(QString);
+    void interfaceDown(QString);
+    void interfaceUp(QString);
 protected:
-	void generateCookie(MessageId& id);
+    void generateCookie(MessageId& id);
 
     virtual void setInvisible(bool bState);
     virtual void setStatus(unsigned status, bool bCommon);
@@ -768,19 +768,19 @@ protected:
     bool	 m_bReady;
     std::vector<RateInfo> m_rates;
     RATE_MAP			m_rate_grp;
-    void				setNewLevel(RateInfo &r);
+    void                        setNewLevel(RateInfo &r);
     unsigned			delayTime(unsigned snac);
     unsigned			delayTime(RateInfo &r);
     RateInfo			*rateInfo(unsigned snac);
     std::list<SIM::Message*>	m_processMsg;
     std::list<DirectSocket*>	m_sockets;
     std::list<SIM::Message*>	m_acceptMsg;
-	std::list<AIMFileTransfer*> m_filetransfers;
-	SnacIcqBuddy* m_snacBuddy;
-	SnacIcqService* m_snacService;
-	SnacIcqICBM* m_snacICBM;
-	mapSnacHandlers m_snacHandlers;
-	bool m_bconnectionLost;
+    std::list<AIMFileTransfer*> m_filetransfers;
+    SnacIcqBuddy* m_snacBuddy;
+    SnacIcqService* m_snacService;
+    SnacIcqICBM* m_snacICBM;
+    mapSnacHandlers m_snacHandlers;
+    bool m_bconnectionLost;
 
     friend class ListServerRequest;
     friend class FullInfoRequest;
@@ -794,14 +794,14 @@ protected:
     friend class SetBuddyRequest;
     friend class SSBISocket;
 
-	// This should be removed when refactoring is over
-	friend class SnacIcqBuddy;
-	friend class SnacIcqService;
-	friend class SnacIcqICBM;
+    // This should be removed when refactoring is over
+    friend class SnacIcqBuddy;
+    friend class SnacIcqService;
+    friend class SnacIcqICBM;
 
 private:
-	SIM::InterfaceChecker* m_ifChecker;
-	bool m_bBirthdayInfoDisplayed;
+    SIM::InterfaceChecker* m_ifChecker;
+    bool m_bBirthdayInfoDisplayed;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
@@ -857,7 +857,7 @@ public:
     unsigned short remotePort();
     unsigned long  Uin();
     ICQUserData    *m_data;
-	void setPort(unsigned short port) {m_port = port;}
+    void setPort(unsigned short port) {m_port = port;}
 protected slots:
     void timeout();
 protected:
@@ -877,7 +877,7 @@ protected:
     ICQClientSocket  *m_socket;
     ICQClient        *m_client;
     unsigned long m_ip;
-	friend class AIMFileTransfer;
+    friend class AIMFileTransfer;
 };
 
 struct SendDirectMsg

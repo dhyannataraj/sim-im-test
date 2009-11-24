@@ -20,7 +20,6 @@
 #include "speller.h"
 #include "spellhighlight.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include <QApplication>
 #include <QWidget>
@@ -70,8 +69,8 @@ EXPORT_PROC SIM::PluginInfo* GetPluginInfo()
 }
 
 SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
-    : Plugin( base )
-    , PropertyHub( "spell" )
+    : PropertyHub( "spell" )
+    , Plugin( base )
 {
     m_bActive = false;
     m_base = NULL;
@@ -107,12 +106,12 @@ void SpellPlugin::reset()
     if (m_base)
         delete m_base;
 #ifdef WIN32
-    m_base = new SpellerBase(property("Path").toString());
+    m_base = new SpellerBase(value("Path").toString());
 #else
     m_base = new SpellerBase(QString());
 #endif
     SpellerConfig cfg(*m_base);
-    QString ll = property("Lang").toString();
+    QString ll = value("Lang").toString();
     while (!ll.isEmpty()){
         QString l = SIM::getToken(ll, ';');
         cfg.setKey("lang", l);
@@ -211,6 +210,7 @@ bool SpellPlugin::event( QEvent *e ) {
         return true;
     }
     QObject::event( e );
+    return false;
 }
 
 void SpellPlugin::textEditFinished(QTextEdit *edit)

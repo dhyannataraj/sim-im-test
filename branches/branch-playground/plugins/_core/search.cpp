@@ -693,10 +693,10 @@ QString SearchViewItem::key(int column, bool ascending) const
 
 void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
 {
-    ListViewItem *item;
-	for (int i = 0; i < m_result->topLevelItemCount(); i++){
-		ListViewItem *next = static_cast<ListViewItem*>(m_result->topLevelItem(i));
-        if (item->text(COL_KEY) == values[1]) //Fixme: warning C4700: uninitialized local variable 'item' used
+    ListViewItem *item = NULL;
+    for (int i = 0; i < m_result->topLevelItemCount(); i++){
+        item = static_cast<ListViewItem*>(m_result->topLevelItem(i));
+        if (item->text(COL_KEY) == values[1])
             break;
     }
     if (item){

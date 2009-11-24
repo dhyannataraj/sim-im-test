@@ -155,7 +155,7 @@ public:
     ~MSNServerMessage();
     bool packet();
 protected:
-    QByteArray    m_msg;
+    QByteArray  m_msg;
     MSNClient  *m_client;
     unsigned    m_size;
 };

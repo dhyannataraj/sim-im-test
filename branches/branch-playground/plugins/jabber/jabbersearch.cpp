@@ -468,7 +468,7 @@ void JabberSearch::createLayout()
         }
         unsigned row = start;
         unsigned col = 0;
-        for (unsigned i = 0; i < m_widgets.size(); i++, row++){
+        for (int i = 0; i < m_widgets.size(); i++, row++){
             if (row >= nRows + start){
                 row  = 0;
                 col += 3;
@@ -555,11 +555,11 @@ void JIDJabberSearch::createLayout()
     lay->setSpacing(6);
     unsigned nAdv = 0;
     unsigned nMain = 0;
-    if (m_widgets.size() > MAX_MAIN){
+    if (m_widgets.size() > (int)MAX_MAIN){
         alay = new QGridLayout(m_adv->grpSearch);
         alay->setMargin(11);
         alay->setSpacing(6);
-        for (unsigned i = 0; i < m_widgets.size(); i++){
+        for (int i = 0; i < m_widgets.size(); i++){
             if (nMain > MAX_MAIN){
                 nAdv++;
                 continue;
@@ -581,7 +581,7 @@ void JIDJabberSearch::createLayout()
     unsigned row   = 0;
     unsigned col   = 0;
     nMain = 0;
-    for (unsigned i = 0; i < m_widgets.size(); i++){
+    for (int i = 0; i < m_widgets.size(); i++){
         bool bMain = false;
         if (alay){
             if (nMain < MAX_MAIN){

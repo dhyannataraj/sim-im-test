@@ -48,7 +48,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 
     }else{
         const QStringList l = m_plugin->property("Icons").toStringList();
-        for (int i = 0; i < m_plugin->property("NIcons").toUInt(); i++)
+        for (int i = 0; i < m_plugin->property("NIcons").toInt(); i++)
         {
             if(i >= l.size())
                 break;

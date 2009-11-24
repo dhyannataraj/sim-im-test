@@ -28,14 +28,8 @@
 #include <QObject>
 #include <QProcess>
 #include <QByteArray>
-#ifdef Q_WS_X11
-    #include "phonon/mediaobject.h"
-    #include "phonon/audiooutput.h"
-#endif
-#if defined( Q_WS_WIN ) || defined( Q_WS_MAC )
-    #include <Phonon/MediaObject>
-    #include <Phonon/AudioOutput>
-#endif
+#include "phonon/mediaobject.h"
+#include "phonon/audiooutput.h"
 
 struct SoundData
 {

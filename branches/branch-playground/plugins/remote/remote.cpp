@@ -39,7 +39,6 @@
 #include "remote.h"
 #include "remotecfg.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 using namespace std;
 using namespace SIM;
@@ -64,16 +63,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef remoteData[] =
-    {
-#ifdef WIN32
+//static DataDef remoteData[] =
+//    {
+//#ifdef WIN32
 //        { "Path", DATA_STRING, 1, "auto:" },
 //        { "EnableMenu", DATA_BOOL, 1, DATA(1) },
-#else
+//#else
 //        { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
-#endif
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
+//#endif
+//        { NULL, DATA_UNKNOWN, 0, 0 }
+//    };
 
 #ifdef WIN32
 
@@ -234,11 +233,15 @@ IPCLock::~IPCLock()
 
 #endif
 
-RemotePlugin::RemotePlugin() : Plugin(0), PropertyHub("remote")
+RemotePlugin::RemotePlugin()
+    : PropertyHub("remote"),
+    Plugin(0)
 {
 }
+
 RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("remote")
+    : PropertyHub("remote"),
+    Plugin(base)
 {
     bind();
 #ifdef WIN32

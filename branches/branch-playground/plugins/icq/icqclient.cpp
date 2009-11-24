@@ -209,19 +209,19 @@ static DataDef icqClientData[] =
     };
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
-: TCPClient(protocol, cfg, HighPriority - 1),
-        m_ifChecker				(NULL),
-        m_listener				(NULL),
-        m_listRequest			(NULL),
-        m_bBirthdayInfoDisplayed(false),
-        m_bVerifying			(false),
-        m_bReady				(false),
-        m_bRosters				(false),
-        m_bJoin					(false),
-        m_bBirthday				(false),
-        m_bconnectionLost		(false),
-        m_bFirstTry				(false),
-        m_bNoSend				(true)
+    : TCPClient(protocol, cfg, HighPriority - 1),
+    m_bVerifying			(false),
+    m_listener				(NULL),
+    m_listRequest			(NULL),
+    m_bRosters				(false),
+    m_bBirthday				(false),
+    m_bNoSend				(true),
+    m_bJoin                             (false),
+    m_bFirstTry				(false),
+    m_bReady				(false),
+    m_bconnectionLost                   (false),
+    m_ifChecker                         (NULL),
+    m_bBirthdayInfoDisplayed            (false)
 {
     m_bAIM = bAIM;
 
@@ -3084,7 +3084,7 @@ bool ICQClient::send(Message *msg, void *_data)
                 (msg->type() == MessageGeneric) &&
                 (data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
                 (get_ip(data->IP)) &&
-                (msg->getPlainText().length() >= MAX_TYPE2_MESSAGE_SIZE))
+                ((unsigned)msg->getPlainText().length() >= MAX_TYPE2_MESSAGE_SIZE))
             bCreateDirect = true;
         if ((getInvisible() && (data->VisibleId.toULong() == 0)) ||
                 (!getInvisible() && data->InvisibleId.toULong()))

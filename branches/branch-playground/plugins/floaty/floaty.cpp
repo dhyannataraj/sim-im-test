@@ -19,7 +19,6 @@
 #include "floatywnd.h"
 
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "contacts/contact.h"
 

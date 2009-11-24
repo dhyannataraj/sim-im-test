@@ -32,7 +32,7 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin) : QWidget(parent)
     setupUi(this);
     m_plugin = plugin;
 #ifdef WIN32
-    edtPath->setText(m_plugin->property("Path").toString());
+    edtPath->setText(m_plugin->value("Path").toString());
     edtPath->setFilter(i18n("ASpell(aspell.exe)"));
     m_find = NULL;
 #else
@@ -54,7 +54,7 @@ SpellConfig::~SpellConfig()
 void SpellConfig::apply()
 {
 #ifdef WIN32
-    m_plugin->setProperty("Path", edtPath->text());
+    m_plugin->setValue("Path", edtPath->text());
 #endif
     QString lang;
     for(int c = 0; c < lstLang->count(); c++)
@@ -66,7 +66,7 @@ void SpellConfig::apply()
             lang += ';';
         lang += item->text();
     }
-    m_plugin->setProperty("Lang", lang);
+    m_plugin->setValue("Lang", lang);
     m_plugin->reset();
 }
 
@@ -98,7 +98,7 @@ void SpellConfig::textChanged(const QString &str)
         while (!langs.isEmpty()){
             QString l = SIM::getToken(langs, ';');
             bool bCheck = false;
-            QString ll = m_plugin->property("Lang").toString();
+            QString ll = m_plugin->value("Lang").toString();
             while (!ll.isEmpty()){
                 QString lc = SIM::getToken(ll, ';');
                 if (l == lc){

@@ -22,7 +22,6 @@
 #include "log.h"
 #include "unquot.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "contacts/contact.h"
 

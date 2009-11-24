@@ -22,7 +22,6 @@
 #include "navcfg.h"
 #include "log.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "core_consts.h"
 #include "contacts/contact.h"

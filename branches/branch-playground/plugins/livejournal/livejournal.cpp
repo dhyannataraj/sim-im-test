@@ -30,7 +30,6 @@
 #include "log.h"
 #include "unquot.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"

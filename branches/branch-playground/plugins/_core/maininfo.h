@@ -23,13 +23,15 @@
 class ListViewItem;
 
 // Lets do this later whole in one, because at the moment it only breaks linking of all other plugins...
-#ifdef MAKE__CORE_LIB
-# define _CORE_EXPORTS Q_DECL_EXPORT
-#else
-# define _CORE_EXPORTS Q_DECL_IMPORT
-#endif
+#ifndef CORE_EXPORT
+#   ifdef CORE_EXPORTS
+#       define CORE_EXPORT Q_DECL_EXPORT
+#   else // CORE_EXPORTS
+#       define CORE_EXPORT Q_DECL_IMPORT
+#   endif // CORE_EXPORTS
+#endif // CORE_EXPORT
 
-class _CORE_EXPORTS MainInfo : public QWidget, public Ui::MainInfo, public SIM::EventReceiver
+class CORE_EXPORT MainInfo : public QWidget, public Ui::MainInfo, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

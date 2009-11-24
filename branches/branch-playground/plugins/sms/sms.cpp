@@ -20,7 +20,6 @@
 #include "serial.h"
 #include "gsm_ta.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "maininfo.h"
 #include "contacts/clientdataiterator.h"

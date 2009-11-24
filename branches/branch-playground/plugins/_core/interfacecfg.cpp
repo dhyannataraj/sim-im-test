@@ -333,13 +333,13 @@ void InterfaceConfig::apply()
             QString path = app_file("sim.exe");
             DWORD res = RegSetValueExW(subKey, value_name, 0, REG_SZ, (BYTE*)path.utf16(), (path.length() + 1) * 2);
             if (res != ERROR_SUCCESS)
-                log(L_WARN, "RegSetValue fail %u", res);
+                log(L_WARN, "RegSetValue fail %u", (unsigned int)res);
         }
         else
         {
             DWORD res = RegDeleteValueW(subKey, value_name);
             if (res!=ERROR_SUCCESS && res!=ERROR_FILE_NOT_FOUND)
-                log(L_WARN, "RegDeleteValue fail %u", res);
+                log(L_WARN, "RegDeleteValue fail %u", (unsigned int)res);
         }
     }
     RegCloseKey(subKey);

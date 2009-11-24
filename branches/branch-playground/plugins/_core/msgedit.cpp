@@ -1421,8 +1421,8 @@ void MsgEdit::colorsChanged()
 void MsgEdit::insertSmile(const QString &id)
 {
     QString img_src = QString("<img src=sim:icons/%1>").arg(id);
-    int para;
-    int index;
+//    int para;
+//    int index;
     QFont saveFont = m_edit->font();
     QColor saveColor = m_edit->textColor();
     // determine the current position of the cursor

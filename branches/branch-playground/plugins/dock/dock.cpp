@@ -18,10 +18,11 @@
 #include "dock.h"
 #include "dockcfg.h"
 #include "dockwnd.h"
-#include "core.h"
-#include "moc_core.cpp"
-
 #include "mainwin.h"
+#include "misc.h"
+#include "core_consts.h"
+#include "cmddef.h"
+#include "core.h"
 
 #include <QApplication>
 #include <QWidget>
@@ -150,7 +151,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
         case QEvent::Close:
             if (!m_bQuit){
                 QWidget *main = static_cast<QWidget*>(o);
-                setProperty("ShowMain", false);
+                setValue("ShowMain", false);
                 //setShowMain(false);
                 main->hide();
 				e->ignore();
@@ -195,7 +196,7 @@ bool DockPlugin::processEvent(Event *e)
         if (w->widget() == getMainWindow()){
             if (m_dock == NULL)
                 init();
-            if (!property("ShowMain").toBool())
+            if (!value("ShowMain").toBool())
                 return (void*)1;
         }
         break;
@@ -237,12 +238,12 @@ bool DockPlugin::processEvent(Event *e)
             if(!main)
                 return false;
             if (isMainShow()){
-                setProperty("ShowMain", false);
+                setValue("ShowMain", false);
                 main->hide();
             }else{
                 m_inactiveTime = QDateTime();
-                setProperty("ShowMain", true);
-                raiseWindow(main, property("Desktop").toUInt());
+                setValue("ShowMain", true);
+                raiseWindow(main, value("Desktop").toUInt());
             }
             return (void*)1;
         }
@@ -335,15 +336,15 @@ void DockPlugin::timer()
 {
     if (!isMainShow())  // already hidden
         return;
-    if (!property("AutoHide").toBool() || (m_inactiveTime.isNull()))  // no autohide
+    if (!value("AutoHide").toBool() || (m_inactiveTime.isNull()))  // no autohide
         return;
     if (m_main != getMainWindow()) {
         m_main = getMainWindow();
         m_main->installEventFilter(this);
     }
-    if (QDateTime::currentDateTime() > m_inactiveTime.addSecs(property("AutoHideInterval").toUInt())){
+    if (QDateTime::currentDateTime() > m_inactiveTime.addSecs(value("AutoHideInterval").toUInt())){
         if (m_main){
-            setProperty("ShowMain", false);
+            setValue("ShowMain", false);
             m_main->hide();
         }
     }

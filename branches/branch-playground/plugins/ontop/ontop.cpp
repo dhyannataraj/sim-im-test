@@ -63,16 +63,17 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-static DataDef onTopData[] =
-    {
+//static DataDef onTopData[] =
+//    {
 //        { "OnTop", DATA_BOOL, 1, DATA(1) },
 //        { "InTask", DATA_BOOL, 1, 0 },
 //        { "ContainerOnTop", DATA_BOOL, 1, 0 },
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
+//        { NULL, DATA_UNKNOWN, 0, 0 }
+//    };
 
 OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("ontop")
+    : PropertyHub("ontop"),
+    Plugin(base)
 {
 
     CmdOnTop = registerType();

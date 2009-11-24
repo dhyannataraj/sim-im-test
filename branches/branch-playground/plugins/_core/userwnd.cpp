@@ -48,11 +48,11 @@ static DataDef userWndData[] =
     };
 
 //FIXME: Obsolete?
-static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
-{
-    for(unsigned i = 0; i < count; i++)
-        dest[i] = src[i];
-}
+//static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
+//{
+//    for(unsigned i = 0; i < count; i++)
+//        dest[i] = src[i];
+//}
 
 UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Qt::Horizontal, NULL)

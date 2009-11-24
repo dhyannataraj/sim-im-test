@@ -80,15 +80,15 @@ QWidget *StylesPlugin::createConfigWindow(QWidget *parent)
 
 void StylesPlugin::setFonts()
 {
-    if (property("SystemFonts").toBool()){
+    if (value("SystemFonts").toBool()){
         if (m_saveBaseFont)
             QApplication::setFont(*m_saveBaseFont);
         if (m_saveMenuFont)
             QApplication::setFont(*m_saveMenuFont, "QMenu");
     }else{
         setupDefaultFonts();
-        QApplication::setFont(FontEdit::str2font(property("BaseFont").toString(), *m_saveBaseFont));
-        QApplication::setFont(FontEdit::str2font(property("MenuFont").toString(), *m_saveMenuFont), "QMenu");
+        QApplication::setFont(FontEdit::str2font(value("BaseFont").toString(), *m_saveBaseFont));
+        QApplication::setFont(FontEdit::str2font(value("MenuFont").toString(), *m_saveMenuFont), "QMenu");
     }
 }
 
@@ -104,23 +104,23 @@ void StylesPlugin::setupDefaultFonts()
 
 void StylesPlugin::setColors()
 {
-    if (property("SystemColors").toBool()){
+    if (value("SystemColors").toBool()){
         QApplication::setPalette(*m_savePalette);
     }else{
-        QApplication::setPalette(QPalette(QColor(property("BtnColor").toUInt()), QColor(property("BgColor").toUInt())));
+        QApplication::setPalette(QPalette(QColor(value("BtnColor").toUInt()), QColor(value("BgColor").toUInt())));
     }
 }
 
 void StylesPlugin::setStyles()
 {
-    QString sStyle = property("Style").toString();
+    QString sStyle = value("Style").toString();
     QStyle *style = QStyleFactory::create(sStyle);
     if (style){
         QApplication::setStyle(style);
-        if (!property("SystemColors").toBool())
+        if (!value("SystemColors").toBool())
             setColors();
     }else{
-        setProperty("Style", QString());
+        setValue("Style", QString());
     }
 }
 
@@ -130,9 +130,9 @@ bool StylesPlugin::processEvent(SIM::Event *e)
     {
         PropertyHub::load();
         setFonts();
-        if (property("SystemColors").toBool()){
-            setProperty("BtnColor", m_savePalette->color(QPalette::Active, QPalette::Button).rgb());
-            setProperty("BgColor", m_savePalette->color(QPalette::Active, QPalette::Background).rgb());
+        if (value("SystemColors").toBool()){
+            setValue("BtnColor", m_savePalette->color(QPalette::Active, QPalette::Button).rgb());
+            setValue("BgColor", m_savePalette->color(QPalette::Active, QPalette::Background).rgb());
         }
         setColors();
         setStyles();

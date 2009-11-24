@@ -383,7 +383,7 @@ bool SnacIcqICBM::sendThruServer(Message *msg, void *_data)
         if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
                 (data->Version.toULong() >= 8) &&
                 !data->bBadClient.toBool() &&
-                (msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
+                ((unsigned)msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
             s.flags  = SEND_TYPE2;
             s.msg    = msg;
             s.text   = msg->getPlainText();

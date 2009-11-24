@@ -34,8 +34,6 @@
 #include "icqclient.h"
 #include "icq.h"
 #include "core.h"
-
-
 #include "xml.h"
 #include "contacts/contact.h"
 

@@ -53,6 +53,8 @@ void DockWnd::trayAction(QSystemTrayIcon::ActivationReason reason)
             emit toggleWin();
 #endif
         return;
+    default:
+        return;
     }
 }
 

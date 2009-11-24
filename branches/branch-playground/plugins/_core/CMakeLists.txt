@@ -23,7 +23,7 @@ SET(_core_SRCS
         historycfg.cpp
         historywnd.cpp
         interfacecfg.cpp
-		logindlg.cpp
+        logindlg.cpp
         maininfo.cpp
         mainwin.cpp
         manager.cpp
@@ -63,7 +63,7 @@ SET(_core_SRCS
         userlist.cpp
         userview.cpp
         userviewcfg.cpp
-		userviewdelegate.cpp
+        userviewdelegate.cpp
         userwnd.cpp
 )
 
@@ -96,7 +96,7 @@ SET(_core_HDRS
         historycfg.h
         historywnd.h
         interfacecfg.h
-		logindlg.h
+        logindlg.h
         maininfo.h
         mainwin.h
         manager.h
@@ -129,7 +129,7 @@ SET(_core_HDRS
         userlist.h
         userview.h
         userviewcfg.h
-		userviewdelegate.h
+        userviewdelegate.h
         userwnd.h
 )
 
@@ -147,7 +147,7 @@ SET(_core_UICS
         fontconfigbase.ui
         historycfgbase.ui
         interfacecfgbase.ui
-		logindlgbase.ui
+        logindlgbase.ui
         maininfobase.ui
         managerbase.ui
         msgcfgbase.ui
@@ -185,7 +185,7 @@ ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
 ADD_JISP_ARCHIVE(qip-icons  qip-icons.jisp  _core_SRCS)
 ADD_JISP_ARCHIVE(lovenmoney lovenmoney.jisp _core_SRCS)
 ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
-ADD_JISP_ARCHIVE(msn	    msn.jisp        _core_SRCS)
+ADD_JISP_ARCHIVE(msn        msn.jisp        _core_SRCS)
 
 FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
 
@@ -195,7 +195,9 @@ IF(APPLE)
         CONFIGURE_FILE(${FILE} ${SIM_ICONS_DIR}/${NAME} COPYONLY)
     ENDFOREACH(FILE)
 ENDIF(APPLE)
-			
+
 INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
 
 SIM_ADD_PLUGIN(_core)
+
+SET_TARGET_PROPERTIES(_core PROPERTIES DEFINE_SYMBOL CORE_EXPORTS)

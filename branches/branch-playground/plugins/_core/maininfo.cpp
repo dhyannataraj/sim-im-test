@@ -495,8 +495,8 @@ void MainInfo::fillCurrentCombo()
     QString current = cmbCurrent->currentText();
     cmbCurrent->clear();
     cmbCurrent->insertItem(INT_MAX,"");
-    unsigned n = 1;
-    unsigned cur = 0;
+    int n = 1;
+    int cur = 0;
     for (n = 1; n < lstPhones->topLevelItemCount(); n++){
         ListViewItem* item = static_cast<ListViewItem*>(lstPhones->topLevelItem(n));
         QString phone = item->text(PHONE_NUMBER);

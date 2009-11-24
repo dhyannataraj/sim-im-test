@@ -27,8 +27,6 @@
 #include "simgui/ballonmsg.h"
 
 #include "core.h"
-#include "moc_core.cpp"
-#include "core_consts.h"
 
 #include "contacts/contact.h"
 
@@ -796,12 +794,12 @@ void JabberBrowser::changeMode()
 
 void JabberBrowser::changeMode(ListViewItem *item)
 {
-	loadItem(item);
-	for(int c = 0; c < item->childCount(); c++)
-	{
-		ListViewItem *i = static_cast<ListViewItem*>(item->child(c));
-		changeMode(item);
-	}
+    loadItem(item);
+    for(int c = 0; c < item->childCount(); c++)
+    {
+//        ListViewItem *i = static_cast<ListViewItem*>(item->child(c));
+        changeMode(item);
+    }
 }
 
 void JabberBrowser::dragStart()

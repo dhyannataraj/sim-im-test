@@ -35,14 +35,14 @@
 using namespace std;
 using namespace SIM;
 
-static bool cmp_protocol(Protocol *p1, Protocol *p2)
-{
-    const CommandDef *cmd1 = p1->description();
-    const CommandDef *cmd2 = p2->description();
-    QString s1 = i18n(cmd1->text);
-    QString s2 = i18n(cmd2->text);
-    return s1 < s2;
-}
+//static bool cmp_protocol(Protocol *p1, Protocol *p2)
+//{
+//    const CommandDef *cmd1 = p1->description();
+//    const CommandDef *cmd2 = p2->description();
+//    QString s1 = i18n(cmd1->text);
+//    QString s2 = i18n(cmd2->text);
+//    return s1 < s2;
+//}
 
 NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) : QWizard(parent)
 {

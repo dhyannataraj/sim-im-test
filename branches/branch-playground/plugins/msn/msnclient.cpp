@@ -26,7 +26,6 @@
 
 #include "log.h"
 #include "core.h"
-#include "moc_core.cpp"
 #include "core_events.h"
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
@@ -96,9 +95,9 @@ static DataDef msnClientData[] =
 
 MSNClient::MSNClient(Protocol *protocol, Buffer *cfg)
     : TCPClient   (protocol, cfg)
+    , m_bJoin     (false)
     , m_packetId  (1)
     , m_msg       (NULL)
-    , m_bJoin     (false)
     , m_bFirstTry (false)
 {
     load_data(msnClientData, &data, cfg);  
@@ -701,7 +700,9 @@ void MSNClient::getLine(const QByteArray &line)
         {
             m_msg = new MSNServerMessage(this, size);
             // only we post the message in log now.....
-            log(L_WARN, "Personal message: %s", m_msg);
+            // ToDo: restore this
+            // Error: m_msg is not a string
+            //log(L_WARN, "Personal message: %s", m_msg);
             //packet_ready();
         }
         return;

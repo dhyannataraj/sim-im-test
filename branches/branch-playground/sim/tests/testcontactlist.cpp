@@ -9,22 +9,27 @@ namespace testContactList
 
     QString TestClient::name()
     {
+        return QString();
     }
 
     QString TestClient::dataName(void*)
     {
+        return QString();
     }
 
     QWidget* TestClient::setupWnd()
     {
+        return NULL;
     }
 
     bool TestClient::isMyData(clientData*& data, Contact*& contact)
     {
+        return false;
     }
 
     bool TestClient::createData(clientData*& data, Contact* contact)
     {
+        return false;
     }
 
     void TestClient::contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons)
@@ -37,14 +42,17 @@ namespace testContactList
 
     bool TestClient::send(Message*, void *data)
     {
+        return false;
     }
 
     bool TestClient::canSend(unsigned type, void *data)
     {
+        return false;
     }
 
     QWidget* TestClient::searchWindow(QWidget *parent)
     {
+        return NULL;
     }
 
     Test::Test() : QObject(), SIM::EventReceiver()
@@ -76,6 +84,8 @@ namespace testContactList
             default:
             break;
         }
+
+        return false;
     }
 
 
@@ -108,7 +118,7 @@ namespace testContactList
     void Test::testGroupManipulation()
     {
         QCOMPARE(getContacts()->groupCount(), 1);
-        Group* zero = getContacts()->group(0);
+//        Group* zero = getContacts()->group(0);
 
         Group* group1 = getContacts()->group(12, true);
         QVERIFY(group1);

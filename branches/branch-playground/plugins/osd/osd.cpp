@@ -40,7 +40,6 @@
 #include "contacts/contact.h"
 
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "log.h"
 #include "icons.h"

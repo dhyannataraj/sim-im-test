@@ -195,8 +195,8 @@ void XslOutputParser::tag_end(const QString &tag)
 MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
         : TextShow      (parent, name)
         , m_id          (id)
-        , m_nSelection  (0)
         , m_popupPos    (QPoint(0, 0))
+        , m_nSelection  (0)
         , xsl           (NULL)
 {
     // Disable top and bottom margins for P tags. This will make sure
@@ -1069,7 +1069,6 @@ Message *MsgViewBase::currentMessage()
         cursor.select( QTextCursor::BlockUnderCursor );
         QTextDocumentFragment fragment( cursor );
         QString s = fragment.toHtml();
-        char *sss = s.toAscii().data();
         int n = s.indexOf(MSG_ANCHOR);
         if (n >= 0) {
             s = s.mid(n + strlen(MSG_ANCHOR));

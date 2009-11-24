@@ -161,9 +161,9 @@ void MouseConfig::buttonChanged(int)
 void MouseConfig::changed(bool)
 {
     QString res;
-    int n = cmbButton->currentIndex();
 // ToDo: Restore this
 /*
+    int n = cmbButton->currentIndex();
     if (n){
         if (chkAlt->isChecked())
             n |= Qt::AltButton;

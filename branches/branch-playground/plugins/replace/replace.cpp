@@ -49,7 +49,9 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 
 ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)
-        : Plugin(base), PropertyHub("replace"), EventReceiver()
+    : PropertyHub("replace"),
+    Plugin(base),
+    EventReceiver()
 {
     qApp->installEventFilter(this);
 }
@@ -107,8 +109,8 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
     if ((e->type() == QEvent::KeyPress) && o->inherits("MsgTextEdit")){
         QKeyEvent *ke = (QKeyEvent*)e;
         if ((ke->key() == Qt::Key_Enter) || (ke->key() == Qt::Key_Return) || (ke->key() == Qt::Key_Space)){
-            TextEdit *edit = (TextEdit*)o;
 /*
+            TextEdit *edit = (TextEdit*)o;
             int paraFrom, paraTo, indexFrom, indexTo;
             edit->getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
             if ((paraFrom == paraTo) && (indexFrom == indexTo)){

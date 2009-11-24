@@ -105,12 +105,15 @@ namespace testClientSocket
     TestTCPClient::TestTCPClient() : TCPClient(0, 0)
     {
     }
+
     QString TestTCPClient::getServer() const
     {
+        return QString();
     }
 
     unsigned short TestTCPClient::getPort() const
     {
+        return 0;
     }
 
     void TestTCPClient::setStatus(unsigned status)

@@ -40,9 +40,9 @@ StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         break;
     }
     lstStyle->addItems(QStyleFactory::keys());
-    if (!m_plugin->property("Style").toString().isEmpty()){
+    if (!m_plugin->value("Style").toString().isEmpty()){
         QList<QListWidgetItem *> items;
-        items = lstStyle->findItems(m_plugin->property("Style").toString(), Qt::MatchExactly);
+        items = lstStyle->findItems(m_plugin->value("Style").toString(), Qt::MatchExactly);
         if (items.count())
             lstStyle->setCurrentItem(items[0]);
     }
@@ -57,7 +57,7 @@ void StylesConfig::apply()
     font_cfg->apply();
     QListWidgetItem *item = lstStyle->currentItem();
     if (item) {
-        m_plugin->setProperty("Style", item->text());
+        m_plugin->setValue("Style", item->text());
         m_plugin->setStyles();
     }
 }

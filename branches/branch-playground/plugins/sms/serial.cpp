@@ -93,7 +93,7 @@ public:
 
 static DWORD __stdcall SerialThread(LPVOID lpParameter)
 {
-    log(L_DEBUG, "SerialThread: %X", GetCurrentThreadId());
+    log(L_DEBUG, "SerialThread: %X", (unsigned int)GetCurrentThreadId());
     SerialPortPrivate *p = (SerialPortPrivate*)lpParameter;
     DWORD timeout = INFINITE;
     for (;;){

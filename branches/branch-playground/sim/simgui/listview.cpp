@@ -460,7 +460,7 @@ ContactDragObject::~ContactDragObject()
 {
     ListView *view = static_cast<ListView*>(parent());
     if (view && view->m_pressedItem){
-        ListViewItem *item = view->m_pressedItem;
+        //ListViewItem *item = view->m_pressedItem;
         view->m_pressedItem = NULL;
         //view->update(view->model()->index(item->row(), item->column()));
         view->update();

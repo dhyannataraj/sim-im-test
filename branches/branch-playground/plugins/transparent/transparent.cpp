@@ -62,7 +62,8 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("transparent")
+    : PropertyHub("transparent"),
+    Plugin(base)
 {
     if (property("Transparency").toUInt() >100)
         setProperty("Transparency", 100);

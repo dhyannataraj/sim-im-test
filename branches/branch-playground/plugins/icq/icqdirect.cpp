@@ -2380,7 +2380,10 @@ void AIMFileTransfer::connect(unsigned long ip, unsigned short port)
 }
 
 
-AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), QObject(), m_connectTimer(this)
+AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client)
+    : QObject(),
+    AIMFileTransfer(msg, data, client),
+    m_connectTimer(this)
 {
 	QObject::connect(&m_connectTimer, SIGNAL(timeout()), this, SLOT(connect_timeout()));
 	m_totalBytes = 0;

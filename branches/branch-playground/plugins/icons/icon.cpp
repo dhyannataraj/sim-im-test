@@ -69,7 +69,7 @@ void IconsPlugin::setIcons(bool bForce)
         const QStringList l = property("Icons").toStringList();
         for (unsigned i = 0; i < property("NIcons").toUInt(); i++)
         {
-            if(i >= l.size())
+            if(i >= (unsigned)l.size())
                 break;
             getIcons()->addIconSet(l[i], false);
         }
@@ -92,6 +92,8 @@ bool IconsPlugin::processEvent(Event *e)
 			setIcons(false);
             break;
         }
+        default:
+            break;
     }
     return false;
 }

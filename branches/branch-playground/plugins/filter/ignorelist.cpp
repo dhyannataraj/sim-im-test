@@ -181,7 +181,7 @@ void IgnoreList::dragStart()
     ListViewItem *item = lstIgnore->currentItem();
     if (item == NULL)
         return;
-    Contact *contact = getContacts()->contact(item->text(3).toUInt());
+//    Contact *contact = getContacts()->contact(item->text(3).toUInt());
 //    if (contact)
 //        lstIgnore->startDrag(new ContactDragObject(lstIgnore, contact));
 }
