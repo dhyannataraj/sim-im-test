@@ -1,6 +1,7 @@
 # main cmake file for SIM-IM
 
 PROJECT(Sim-IM)
+SET(Sim-IM_VERSION 0.9.6)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
 SET(CMAKE_COLOR_MAKEFILE ON)
@@ -37,6 +38,7 @@ INCLUDE(DistTarget)
 INCLUDE(CheckCXXCompilerFlag)
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
+OPTION(ENABLE_TARGET_UPDATE_MESSAGES "Enables target that allows to extract i18n messages from the code, and update *.po files with them")
 
 # need 4.3 for some QHttp functionality
 SET(QT_MIN_VERSION 4.3.0)
@@ -64,19 +66,18 @@ INCLUDE(${QT_USE_FILE})
 
 # optional packages
 FIND_PACKAGE(ASPELL)
-IF(NOT WIN32)
-  FIND_PACKAGE(KDE4)
-ENDIF(NOT WIN32)
-IF(KDE4_FOUND)
-  OPTION(ENABLE_KDE4 "Enable KDE4 support" ON)
-  IF(ENABLE_KDE4)
-    ADD_DEFINITIONS(${KDE4_DEFINITIONS} -DUSE_KDE4)
-    INCLUDE_DIRECTORIES(${KDE4_INCLUDES})
-  ENDIF(ENABLE_KDE4)
-ENDIF(KDE4_FOUND)
 
 IF(NOT WIN32 AND NOT APPLE)
-    INCLUDE(FindX11)
+  FIND_PACKAGE(KDE4)
+  IF(KDE4_FOUND)
+    OPTION(ENABLE_KDE4 "Enable KDE4 support" ON)
+    IF(ENABLE_KDE4)
+      ADD_DEFINITIONS(${KDE4_DEFINITIONS} -DUSE_KDE4)
+      INCLUDE_DIRECTORIES(${KDE4_INCLUDES})
+    ENDIF(ENABLE_KDE4)
+  ENDIF(KDE4_FOUND)
+
+  INCLUDE(FindX11)
 ENDIF(NOT WIN32 AND NOT APPLE)
 
 # do config checks
@@ -159,7 +160,20 @@ else(APPLE)
     SET(SERVICES_INSTALL_DIR ${SHARE_INSTALL_PREFIX}/services)
 endif(APPLE)
 endif(WIN32)	
-	
+
+IF(ENABLE_TARGET_UPDATE_MESSAGES)
+ MESSAGE(STATUS "Enabling target update-messages")
+  INCLUDE(XGetText)
+ 
+  IF(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
+    MESSAGE(STATUS "Target update-messages successfuly enabled")
+  ELSE(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
+    MESSAGE(STATUS "Can't enable target update-messages: one or more componets are missing")
+    SET(ENABLE_TARGET_UPDATE_MESSAGES OFF)
+  ENDIF(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
+  
+ENDIF(ENABLE_TARGET_UPDATE_MESSAGES)
+
 # subdirectories
 ADD_SUBDIRECTORY(sim)
 SIM_FIND_PLUGINS(${Sim-IM_SOURCE_DIR}/plugins)
@@ -185,4 +199,56 @@ CONFIGURE_FILE(
 # uninstall target
 ADD_CUSTOM_TARGET(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
+
+########################################
+# update-messages target
+#######################################
+IF ( ENABLE_TARGET_UPDATE_MESSAGES )
+
+    ADD_CUSTOM_TARGET(update-messages)
+
+    SET(new_pot "${CMAKE_CURRENT_BINARY_DIR}/new_messages")
+    EMPTY_PO_FILE(${new_pot})
+
+    ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo Processing simlib
+    )
+    LIST(SORT sim_LIB_MESSAGE_SOURCES)
+    FOREACH(file ${sim_LIB_MESSAGE_SOURCES})
+        EXTRACT_MESSAGES("${Sim-IM_SOURCE_DIR}/sim/${file}" ${new_pot})
+    ENDFOREACH(file)
+
+#    LIST(SORT SIM_PLUGINS)
+#    FOREACH(plugin ${SIM_PLUGINS})
+#        ADD_CUSTOM_COMMAND(TARGET update-messages
+#            COMMAND echo Processing plugin ${plugin}
+#        )
+#        LIST(SORT ${plugin}_MESSAGE_SOURCES)
+#        FOREACH(file ${${plugin}_MESSAGE_SOURCES})
+#            EXTRACT_MESSAGES("${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}" ${new_pot})
+#        ENDFOREACH(file)
+#    ENDFOREACH(plugin)
+    
+      ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo Updating .po files
+        COMMAND mv ${CMAKE_SOURCE_DIR}/po/sim.pot ${CMAKE_SOURCE_DIR}/po/sim.pot.backup
+        COMMAND mv ${new_pot}.po ${CMAKE_SOURCE_DIR}/po/sim.pot
+      )
+    
+    FILE(GLOB po_files ${CMAKE_SOURCE_DIR}/po/*.po)
+    FOREACH(po_file ${po_files})
+      ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND mv ${po_file} ${po_file}.backup
+      )
+    ENDFOREACH(po_file)
+    
+    FOREACH(po_file ${po_files})
+      GET_FILENAME_COMPONENT(po_name ${po_file} NAME)
+      ADD_CUSTOM_COMMAND(TARGET update-messages
+        COMMAND echo ${po_name}
+        COMMAND ${MSGMERGE_EXECUTABLE} ${po_file}.backup ${CMAKE_SOURCE_DIR}/po/sim.pot >${po_file}
+      )
+    ENDFOREACH(po_file)
+ENDIF ( ENABLE_TARGET_UPDATE_MESSAGES )
 

@@ -56,7 +56,8 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
-        : Plugin(base), PropertyHub("weather")
+    : PropertyHub("weather")
+    , Plugin(base)
 {
     BarWeather = registerType();
     CmdWeather = registerType();

@@ -61,16 +61,16 @@ static QWidget *getSoundSetup(QWidget *parent, SIM::PropertyHub* data)
 }
 
 SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
-        : QObject(), PropertyHub("sound"), Plugin(base)
+    : QObject(), PropertyHub("sound"), Plugin(base)
 {
     soundPlugin = this;
     m_media = Phonon::createPlayer(Phonon::NotificationCategory);
 
-	CmdSoundDisable = 1000022; // FIXME
+    CmdSoundDisable = 1000022; // FIXME
 
-	Command cmd;
-	cmd->id       = 0;
-	cmd->flags    = COMMAND_CONTACT;
+    Command cmd;
+    cmd->id       = 0;
+    cmd->flags    = COMMAND_CONTACT;
     cmd->text	  = I18N_NOOP("&Sound");
     cmd->icon	  = "sound";
     cmd->icon_on  = QString();
@@ -92,7 +92,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 SoundPlugin::~SoundPlugin()
 {
     PropertyHub::save();
-	soundPlugin = NULL;
+    soundPlugin = NULL;
 }
 
 QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
@@ -113,12 +113,12 @@ bool SoundPlugin::processEvent(SIM::Event *e)
         case eEventPluginLoadConfig:
         {
             PropertyHub::load();
-			if(!value("StartUp").isValid())
-				setValue("StartUp", "sounds/startup.ogg");
-			if(!value("MessageSent").isValid())
-				setValue("MessageSent", "sounds/msgsent.ogg");
-			if(!value("FileDone").isValid())
-				setValue("FileDone", "sounds/filedone.ogg");
+            if(!value("StartUp").isValid())
+                setValue("StartUp", "sounds/startup.ogg");
+            if(!value("MessageSent").isValid())
+                setValue("MessageSent", "sounds/msgsent.ogg");
+            if(!value("FileDone").isValid())
+                setValue("FileDone", "sounds/filedone.ogg");
             break;
         }
 		case eEventContact:
@@ -129,8 +129,8 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             Contact *contact = ec->contact();
             bool disable = contact->userdata()->value("sound/Disable").toBool();
             QString alert = contact->userdata()->value("sound/Alert").toString();
-			if(alert.isEmpty())
-				alert = getContacts()->userdata()->value("sound/Alert").toString();
+            if(alert.isEmpty())
+                alert = getContacts()->userdata()->value("sound/Alert").toString();
             if (!alert.isEmpty() && !disable)
             {
                 EventPlaySound(alert).process();
@@ -168,16 +168,16 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             if(msg->type() == MessageStatus)
                 return false;
             Contact *contact = getContacts()->contact(msg->contact());
-			bool nosound, disable;
+            bool nosound, disable;
             if(contact)
             {
-				nosound = contact->userdata()->value("sound/NoSoundIfActive").toBool();
-				disable = contact->userdata()->value("sound/Disable").toBool();
+                nosound = contact->userdata()->value("sound/NoSoundIfActive").toBool();
+                disable = contact->userdata()->value("sound/Disable").toBool();
             }
             else
             {
-				nosound = getContacts()->userdata()->value("sound/NoSoundIfActive").toBool();
-				disable = getContacts()->userdata()->value("sound/Disable").toBool();
+                nosound = getContacts()->userdata()->value("sound/NoSoundIfActive").toBool();
+                disable = getContacts()->userdata()->value("sound/Disable").toBool();
             }
             if(!disable && nosound)
             {
@@ -207,13 +207,13 @@ bool SoundPlugin::processEvent(SIM::Event *e)
 
 void SoundPlugin::playSound(const QString& path)
 {
-	QString snd;
-	log(L_DEBUG, "Sound: %s", qPrintable(path));
-	QDir d(path);
-	if(d.isRelative())
-		snd = app_file(path);
-	else
-		snd = path;
+    QString snd;
+    log(L_DEBUG, "Sound: %s", qPrintable(path));
+    QDir d(path);
+    if(d.isRelative())
+        snd = app_file(path);
+    else
+        snd = path;
     m_media->setCurrentSource(Phonon::MediaSource(snd));
     Phonon::State state = m_media->state();
     if( state == Phonon::ErrorState ) {
@@ -226,36 +226,36 @@ void SoundPlugin::playSound(const QString& path)
 
 QString SoundPlugin::messageSound(unsigned type, unsigned long contact_id)
 {
-	SIM::PropertyHub* data = NULL;
-	if(!contact_id)
-	{
-		data = getContacts()->userdata();
-	}
-	else
-	{
-		Contact* c = getContacts()->contact(contact_id);
-		if(c)
-		{
-			data = c->userdata();
-			if(!data->value("sound/override").toBool())
-			{
-				Group* g = getContacts()->group(c->getGroup(), false);
-				if(g->userdata()->value("sound/override").toBool())
-					data = g->userdata();
-				else
-					data = getContacts()->userdata();
-			}
-		}
-	}
+    SIM::PropertyHub* data = NULL;
+    if(!contact_id)
+    {
+        data = getContacts()->userdata();
+    }
+    else
+    {
+        Contact* c = getContacts()->contact(contact_id);
+        if(c)
+        {
+            data = c->userdata();
+            if(!data->value("sound/override").toBool())
+            {
+                Group* g = getContacts()->group(c->getGroup(), false);
+                if(g->userdata()->value("sound/override").toBool())
+                    data = g->userdata();
+                else
+                    data = getContacts()->userdata();
+            }
+        }
+    }
     QString sound;
-	if(data)
-	{
-		sound = data->value("sound/Receive" + QString::number(type)).toString();
-	}
+    if(data)
+    {
+        sound = data->value("sound/Receive" + QString::number(type)).toString();
+    }
     if(sound == "(nosound)")
-	{
+    {
         return QString();
-	}
+    }
     return sound;
 }
 

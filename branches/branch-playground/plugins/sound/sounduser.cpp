@@ -120,7 +120,7 @@ void SoundUserConfig::apply(SIM::PropertyHub* data, bool override)
     }
     data->setValue("sound/NoSoundIfActive", chkActive->isChecked());
     data->setValue("sound/Disable", chkDisable->isChecked());
-	data->setValue("sound/override", override);
+    data->setValue("sound/override", override);
     Event e(m_plugin->EventSoundChanged);
     e.process();
 }

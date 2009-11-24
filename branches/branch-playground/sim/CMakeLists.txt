@@ -1,3 +1,5 @@
+PROJECT(sim)
+
 IF(NOT WIN32)
     ADD_SUBDIRECTORY(png)
 ENDIF(NOT WIN32)
@@ -7,6 +9,7 @@ ENDIF(NOT WIN32)
 ######################
 
 SET(sim_LIB_SRCS
+		aboutdata.cpp
 		buffer.cpp
 		builtinlogger.cpp
 		cfg.cpp
@@ -73,7 +76,10 @@ SET(sim_LIB_SRCS
 		simgui/textshow.cpp
 		simgui/toolbtn.cpp
 	)
+SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
+
 SET(sim_LIB_HDRS
+		aboutdata.h
 		buffer.h
 		builtinlogger.h
 		cfg.h
@@ -180,14 +186,6 @@ ADD_DEFINITIONS(-DNOUNCRYPT)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 TARGET_LINK_LIBRARIES(simlib)
-# openssl is optional
-IF(OPENSSL_FOUND)
-  INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
-  TARGET_LINK_LIBRARIES(simlib ${OPENSSL_LIBRARIES} ${OPENSSL_EAY_LIBRARIES})
-  IF(NOT WIN32)
-    TARGET_LINK_LIBRARIES(simlib crypto)
-  ENDIF(NOT WIN32)
-ENDIF(OPENSSL_FOUND)
 
 IF(ENABLE_KDE4)
   TARGET_LINK_LIBRARIES(simlib ${KDE4_KDECORE_LIBRARY} ${KDE4_KDEUI_LIBRARY} ${KDE4_KIO_LIBRARY})
@@ -225,7 +223,7 @@ SET(sim_tests_srcs
     tests/testclientsocket.cpp
     tests/testcontactlist.cpp
     tests/testprotocolmanager.cpp
-	tests/testpropertyhub.cpp
+    tests/testpropertyhub.cpp
 )
 
 
@@ -235,7 +233,7 @@ SET(sim_tests_hdrs
     tests/testclientsocket.h
     tests/testcontactlist.h
     tests/testprotocolmanager.h
-	tests/testpropertyhub.h
+    tests/testpropertyhub.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
@@ -301,4 +299,3 @@ if(WIN32)
   INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/ssleay32.dll DESTINATION ${BINDIR})
   INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/zlib1.dll    DESTINATION ${BINDIR})
 endif(WIN32)
-

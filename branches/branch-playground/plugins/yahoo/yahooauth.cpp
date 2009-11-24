@@ -45,11 +45,14 @@
 #include "socket/socket.h"
 #include "socket/clientsocket.h"
 
+#define OPENSSL_NO_SHA0 // we need the new one!
+#include <openssl/sha.h>
+#include <openssl/md5.h>
+
 #include <cstdio>
 #include <ctype.h>
 
 #include <QByteArray>
-#include <QCryptographicHash>
 
 extern "C"
 {
@@ -938,16 +941,16 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     const char *pass = password.data();
 
     unsigned char       result[16];
-    QCryptographicHash	ctx( QCryptographicHash::Md5 );
+    MD5state_st			ctx;
 
-    QCryptographicHash	ctx1( QCryptographicHash::Sha1 );
-    QCryptographicHash	ctx2( QCryptographicHash::Sha1 );
+    SHA_CTX				ctx1;
+    SHA_CTX				ctx2;
 
-    const char		*alphabet1          = "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
-    const char		*alphabet2          = "F0E1D2C3B4A59687abcdefghijklmnop";
+    const char          *alphabet1          = "FBZDWAGHrJTLMNOPpRSKUVEXYChImkwQ";
+    const char          *alphabet2          = "F0E1D2C3B4A59687abcdefghijklmnop";
 
-    const char		*challenge_lookup   = "qzec2tb3um1olpar8whx4dfgijknsvy5";
-    const char		*operand_lookup     = "+|&%/*^-";
+    const char          *challenge_lookup   = "qzec2tb3um1olpar8whx4dfgijknsvy5";
+    const char          *operand_lookup     = "+|&%/*^-";
     const char          *delimit_lookup     = ",;";
 
     char                *password_hash      = (char *)malloc(25);

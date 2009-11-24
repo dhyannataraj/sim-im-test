@@ -610,7 +610,7 @@ void History::add(Message *msg, const QString &type)
         data = (HistoryUserData*)(contact->getUserData(CorePlugin::instance()->history_data_id));
     if (data && data->CutSize.toBool()){
         QFileInfo fInfo(f_name);
-        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toULong() * 0x100000 + CUT_BLOCK)){
+        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toLong() * 0x100000 + CUT_BLOCK)){
             int pos = fInfo.size() - data->MaxSize.toULong() * 0x100000 + line.size();
             if (pos < 0)
                 pos = 0;
