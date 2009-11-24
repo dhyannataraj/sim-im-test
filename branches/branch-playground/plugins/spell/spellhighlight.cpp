@@ -21,7 +21,6 @@
 #include "spellhighlight.h"
 #include "spell.h"
 #include "msgedit.h"
-#include "core.h"
 
 #include <QTimer>
 #include <QByteArray>

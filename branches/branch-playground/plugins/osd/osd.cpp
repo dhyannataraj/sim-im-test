@@ -37,10 +37,14 @@
 #include <QDesktopWidget>
 
 #include "simgui/fontedit.h"
-#include "log.h"
-#include "core.h"
-#include "icons.h"
 #include "contacts/contact.h"
+
+#include "core.h"
+#include "moc_core.cpp"
+
+#include "log.h"
+#include "icons.h"
+
 
 #include "osd.h"
 #include "osdconfig.h"

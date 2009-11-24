@@ -17,7 +17,6 @@
 
 #include "icqconfig.h"
 #include "icq.h"
-#include "core.h"
 
 #include <QTimer>
 #include <QLineEdit>

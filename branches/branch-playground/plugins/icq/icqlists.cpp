@@ -17,7 +17,8 @@
 
 #include "icqclient.h"
 #include "icqmessage.h"
-#include "core.h"
+#include "core_events.h"
+
 #include "contacts/contact.h"
 #include "contacts/group.h"
 

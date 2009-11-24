@@ -26,6 +26,7 @@
 
 #include "log.h"
 #include "core.h"
+#include "moc_core.cpp"
 #include "core_events.h"
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"

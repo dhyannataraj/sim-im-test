@@ -25,8 +25,11 @@
 #include "simgui/toolbtn.h"
 #include "jidsearch.h"
 #include "simgui/ballonmsg.h"
+
 #include "core.h"
+#include "moc_core.cpp"
 #include "core_consts.h"
+
 #include "contacts/contact.h"
 
 #include <QPixmap>

@@ -39,6 +39,7 @@
 #include "remote.h"
 #include "remotecfg.h"
 #include "core.h"
+#include "moc_core.cpp"
 
 using namespace std;
 using namespace SIM;

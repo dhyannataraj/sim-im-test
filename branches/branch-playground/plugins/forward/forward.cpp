@@ -18,6 +18,8 @@
 #include "forward.h"
 #include "forwardcfg.h"
 #include "core.h"
+#include "moc_core.cpp"
+
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"

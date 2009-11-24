@@ -22,6 +22,7 @@
 #include "msgedit.h"
 #include "msgview.h"
 #include "userwnd.h"
+#include "moc_core.cpp"
 
 #include "filter.h"
 #include "filtercfg.h"

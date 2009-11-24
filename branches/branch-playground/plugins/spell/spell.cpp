@@ -20,6 +20,7 @@
 #include "speller.h"
 #include "spellhighlight.h"
 #include "core.h"
+#include "moc_core.cpp"
 
 #include <QApplication>
 #include <QWidget>

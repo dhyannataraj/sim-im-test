@@ -19,6 +19,8 @@
 #include "dockcfg.h"
 #include "dockwnd.h"
 #include "core.h"
+#include "moc_core.cpp"
+
 #include "mainwin.h"
 
 #include <QApplication>

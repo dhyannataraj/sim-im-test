@@ -20,6 +20,7 @@
 #include "log.h"
 #include "cmddef.h"
 #include "core.h"
+#include "moc_core.cpp"
 #include "core_consts.h"
 
 #include "shortcuts.h"

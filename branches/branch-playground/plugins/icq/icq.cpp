@@ -18,6 +18,8 @@
 #include "icq.h"
 #include "icqconfig.h"
 #include "core.h"
+#include "moc_core.cpp"
+
 #include "contacts/protocolmanager.h"
 
 using namespace SIM;
