@@ -18,7 +18,6 @@
 #include "update.h"
 #include "socket/socketfactory.h"
 #include "core.h"
-#include "moc_core.cpp"
 
 #include "simgui/ballonmsg.h"
 #include "aboutdata.h"
