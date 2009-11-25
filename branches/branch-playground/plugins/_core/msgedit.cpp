@@ -1147,13 +1147,14 @@ bool MsgEdit::processEvent(Event *e)
             m_edit->setCheckSpellingEnabled(cmd->flags & COMMAND_CHECKED);
             return false;
         }
-        if ((cmd->id == CmdSpell) && (cmd->param == this)){
+        else if ((cmd->id == CmdSpell) && (cmd->param == this)){
             m_edit->checkSpelling();
             return true;
         }
+        else
 #endif
 #endif
-        if ((cmd->id == CmdSmile) && (cmd->param == (TextEdit*)m_edit)){
+        if ((cmd->id == CmdSmile) && (cmd->param == this)){
             EventCommandWidget eWidget(cmd);
             eWidget.process();
             QToolButton *btnSmile = qobject_cast<QToolButton*>(eWidget.widget());
@@ -1166,7 +1167,7 @@ bool MsgEdit::processEvent(Event *e)
             }
             return true;
         }
-        if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
+        else if ((cmd->id == CmdTranslit) && (cmd->param == this)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id, true));
@@ -1174,11 +1175,11 @@ bool MsgEdit::processEvent(Event *e)
             }
             return true;
         }
-        if ((cmd->id == CmdMultiply) && (cmd->param == (TextEdit*)m_edit)){
+        else if ((cmd->id == CmdMultiply) && (cmd->param == this)){
             m_userWnd->showListView((cmd->flags & COMMAND_CHECKED) != 0);
             return true;
         }
-        if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == (TextEdit*)m_edit)){
+        else if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
             switch (cmd->id){
             case CmdMsgAnswer:{
                     Message *msg = new Message(MessageGeneric);
@@ -1192,7 +1193,7 @@ bool MsgEdit::processEvent(Event *e)
                 break;
             }
         }
-        if ((cmd->menu_id != MenuTextEdit) || (cmd->param != (TextEdit*)m_edit))
+        else if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
             return false;
         switch (cmd->id){
         case CmdUndo:

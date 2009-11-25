@@ -751,63 +751,63 @@ bool OSDPlugin::processEvent(Event *e)
         break;
     }
     case eEventMessageReceived:
-		{
-			EventMessage *em = static_cast<EventMessage*>(e);
-			Message *msg = em->msg();
-			Contact *contact = getContacts()->contact(msg->contact());
-			if (contact == NULL)
-				break;
-			OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
-			if (data == NULL)
-				break;
-			osd.contact = msg->contact();
-			PluginPtr coreplugin = getPluginManager()->plugin("_core");
-			CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data()); // FIXME
-			if (!core->unread.empty())
-				bHaveUnreadMessages=true;
-			if (msg->type() == MessageStatus) {
-				StatusMessage *smsg = (StatusMessage*)msg;
-				switch (smsg->getStatus()) {
-					case STATUS_AWAY:
-						osd.type = OSD_ALERTAWAY;
-						break;
-					case STATUS_NA:
-						osd.type = OSD_ALERTNA;
-						break;
-					case STATUS_DND:
-						osd.type = OSD_ALERTDND;
-						break;
-					case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
-						osd.type = OSD_ALERTOCCUPIED;
-						break;
-					case STATUS_FFC:
-						osd.type = OSD_ALERTFFC;
-						break;
-					case STATUS_OFFLINE:
-						osd.type = OSD_ALERTOFFLINE;
-						break;
-					case STATUS_ONLINE:
-						osd.type = OSD_NONE;
-						return false;
-					default:
-						log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
-						osd.type = OSD_NONE;
-						return false;
-				}
-				m_queue.push_back(osd);
-				processQueue();
-			}else{
-				osd.type    = OSD_MESSAGE;
-				if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
-					m_queue.push_front(osd);
-					m_timer->stop();    bTimerActive=false;
-					m_timer->start(100);bTimerActive=true; 
-				}else{
-					m_queue.push_back(osd);
-					processQueue();
-				}
-			}
-			break;
+    {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        Contact *contact = getContacts()->contact(msg->contact());
+        if (contact == NULL)
+            break;
+        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+        if (data == NULL)
+            break;
+        osd.contact = msg->contact();
+        PluginPtr coreplugin = getPluginManager()->plugin("_core");
+        CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data()); // FIXME
+        if (!core->unread.empty())
+            bHaveUnreadMessages=true;
+        if (msg->type() == MessageStatus) {
+            StatusMessage *smsg = (StatusMessage*)msg;
+            switch (smsg->getStatus()) {
+            case STATUS_AWAY:
+                osd.type = OSD_ALERTAWAY;
+                break;
+            case STATUS_NA:
+                osd.type = OSD_ALERTNA;
+                break;
+            case STATUS_DND:
+                osd.type = OSD_ALERTDND;
+                break;
+            case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
+                osd.type = OSD_ALERTOCCUPIED;
+                break;
+            case STATUS_FFC:
+                osd.type = OSD_ALERTFFC;
+                break;
+            case STATUS_OFFLINE:
+                osd.type = OSD_ALERTOFFLINE;
+                break;
+            case STATUS_ONLINE:
+                osd.type = OSD_NONE;
+                return false;
+            default:
+                log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
+                osd.type = OSD_NONE;
+                return false;
+            }
+            m_queue.push_back(osd);
+            processQueue();
+        }else{
+            osd.type    = OSD_MESSAGE;
+            if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
+                m_queue.push_front(osd);
+                m_timer->stop();    bTimerActive=false;
+                m_timer->start(100);bTimerActive=true;
+            }else{
+                m_queue.push_back(osd);
+                processQueue();
+            }
+        }
+        break;
     }
     case eEventMessageDeleted:
     case eEventMessageRead: {
@@ -820,7 +820,9 @@ bool OSDPlugin::processEvent(Event *e)
         if (data == NULL)
             break;
         osd.contact = msg->contact();
-	if (core->unread.empty())
+        PluginPtr coreplugin = getPluginManager()->plugin("_core");
+        CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data()); // FIXME
+        if (core->unread.empty())
 	    bHaveUnreadMessages=false;
         if (msg->type() == MessageStatus) {
             StatusMessage *smsg = (StatusMessage*)msg;

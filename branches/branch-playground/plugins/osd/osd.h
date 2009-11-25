@@ -78,7 +78,6 @@ struct OSDRequest
     OSDType		type;
 };
 
-class CorePlugin;
 class OSDPlugin;
 
 class OSDWidget : public QLabel
@@ -141,15 +140,14 @@ protected:
     virtual void run();
     void processQueue();
     void flashCapsLockLED(bool);
-    OSDRequest			m_request;
-    QList<OSDRequest> m_queue;
-    QSet<unsigned>    m_typing;
-    CorePlugin	*core;
-    OSDWidget		*m_osd;
-    QTimer		*m_timer;
+    OSDRequest          m_request;
+    QList<OSDRequest>   m_queue;
+    QSet<unsigned>      m_typing;
+    OSDWidget           *m_osd;
+    QTimer              *m_timer;
     bool bCapsState;
-    bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size()
-                              // see patch #2304 for more info.
+    bool bHaveUnreadMessages;   // Should use this flag in OSDPlugin::run instead of core->unread.size()
+                                // see patch #2304 for more info.
     bool bTimerActive;
 };
 
