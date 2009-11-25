@@ -7,7 +7,7 @@ MACRO(SIM_ADD_PLUGIN _name)
     SET(_uics ${${_name}_UICS})
     SET(_libs ${${_name}_LIBS})
 
-    SET(${${plugin}_MESSAGE_SOURCES}  ${_srcs} ${_uics} PARENT_SCOPE)
+    SET(${_name}_MESSAGE_SOURCES ${_srcs} ${_uics} PARENT_SCOPE)
 
     QT4_WRAP_CPP(_mocs ${_hdrs})
     QT4_WRAP_UI(_uis ${_uics})
@@ -71,7 +71,6 @@ MACRO(SIM_INCLUDE_PLUGINS)
             ELSE( ENABLE_TARGET_UPDATE_MESSAGES)
                 MESSAGE(STATUS "Skipping plugin " ${plugin})
             ENDIF( ENABLE_TARGET_UPDATE_MESSAGES )
-            
         ENDIF(ENABLE_PLUGIN_${uc_plugin})
     ENDFOREACH(plugin ${SIM_PLUGINS})
 ENDMACRO(SIM_INCLUDE_PLUGINS)

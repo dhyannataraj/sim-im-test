@@ -76,6 +76,7 @@ SET(sim_LIB_SRCS
 		simgui/textshow.cpp
 		simgui/toolbtn.cpp
 	)
+
 SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
 
 SET(sim_LIB_HDRS

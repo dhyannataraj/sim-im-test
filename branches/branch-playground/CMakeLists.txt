@@ -219,16 +219,18 @@ IF ( ENABLE_TARGET_UPDATE_MESSAGES )
         EXTRACT_MESSAGES("${Sim-IM_SOURCE_DIR}/sim/${file}" ${new_pot})
     ENDFOREACH(file)
 
-#    LIST(SORT SIM_PLUGINS)
-#    FOREACH(plugin ${SIM_PLUGINS})
-#        ADD_CUSTOM_COMMAND(TARGET update-messages
-#            COMMAND echo Processing plugin ${plugin}
-#        )
-#        LIST(SORT ${plugin}_MESSAGE_SOURCES)
-#        FOREACH(file ${${plugin}_MESSAGE_SOURCES})
-#            EXTRACT_MESSAGES("${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}" ${new_pot})
-#        ENDFOREACH(file)
-#    ENDFOREACH(plugin)
+    LIST(SORT SIM_PLUGINS)
+    FOREACH(plugin ${SIM_PLUGINS})
+        ADD_CUSTOM_COMMAND(TARGET update-messages
+            COMMAND echo Processing plugin ${plugin}
+        )
+        IF(${plugin}_MESSAGE_SOURCES)
+            LIST(SORT ${plugin}_MESSAGE_SOURCES)
+            FOREACH(file ${${plugin}_MESSAGE_SOURCES})
+                EXTRACT_MESSAGES("${Sim-IM_PLUGINS_SOURCE_DIR}/${plugin}/${file}" ${new_pot})
+            ENDFOREACH(file)
+        ENDIF(${plugin}_MESSAGE_SOURCES)
+    ENDFOREACH(plugin)
     
       ADD_CUSTOM_COMMAND(TARGET update-messages
         COMMAND echo Updating .po files
