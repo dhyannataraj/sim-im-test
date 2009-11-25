@@ -63,7 +63,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 
 {
 
-    const QStringList packets = property("LogPackets").toString().split(',');
+    const QStringList packets = value("LogPackets").toString().split(',');
     Q_FOREACH( const QString &v, packets)
         setLogType(v.toULong(), true);
 
@@ -81,14 +81,14 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     EventArg e("-m", I18N_NOOP("Show network monitor"));
-    if (e.process() || property("Show").toBool())
+    if (e.process() || value("Show").toBool())
         showMonitor();
 }
 
 NetmonitorPlugin::~NetmonitorPlugin()
 {
     saveState();
-    setProperty("Show", monitor != NULL);
+    setValue("Show", monitor != NULL);
     QString packets;
     QSetIterator<unsigned> it(m_packets);
     while (it.hasNext()) {
@@ -96,7 +96,7 @@ NetmonitorPlugin::~NetmonitorPlugin()
             packets += ',';
         packets += QString::number(it.next());
     }
-    setProperty("LogPackets", packets);
+    setValue("LogPackets", packets);
     PropertyHub::save();
     EventCommandRemove(CmdNetMonitor).process();
 

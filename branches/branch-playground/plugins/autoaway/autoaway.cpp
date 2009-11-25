@@ -305,9 +305,9 @@ void AutoAwayPlugin::timeout()
     }
     if (CorePlugin::instance()->getManualStatus() == newStatus)
         return;
-    CorePlugin::instance()->setProperty("StatusTime", (unsigned int)time(NULL)); //data.StatusTime.asULong() = time(NULL);
+    CorePlugin::instance()->setValue("StatusTime", (unsigned int)time(NULL)); //data.StatusTime.asULong() = time(NULL);
     //core->data.ManualStatus.asULong() = newStatus;
-    CorePlugin::instance()->setProperty("ManualStatus", (unsigned int)newStatus);
+    CorePlugin::instance()->setValue("ManualStatus", (unsigned int)newStatus);
     setRealManualStatus(oldStatus);
     EventClientStatus().process();
 }

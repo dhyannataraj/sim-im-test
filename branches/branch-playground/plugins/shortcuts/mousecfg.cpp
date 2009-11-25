@@ -69,7 +69,7 @@ void MouseConfig::apply()
 		QTreeWidgetItem* item = lstCmd->topLevelItem(i);
 		map.insert(item->text(2), item->text(1).toLatin1());
     }
-	m_plugin->setProperty("Mouse", map);
+        m_plugin->setValue("Mouse", map);
 }
 
 void MouseConfig::resizeEvent(QResizeEvent *e)
@@ -113,7 +113,7 @@ void MouseConfig::loadMenu(unsigned long id)
                 continue;
             title = title.remove('&');
             QTreeWidgetItem* it = new QTreeWidgetItem(lstCmd, QStringList(title));
-            it->setText(1, m_plugin->property("Mouse").toMap().value(QString::number(s->id)).toString());
+            it->setText(1, m_plugin->value("Mouse").toMap().value(QString::number(s->id)).toString());
             it->setText(2, QString::number(s->id));
             it->setText(3, QString::number(s->popup_id));
         }

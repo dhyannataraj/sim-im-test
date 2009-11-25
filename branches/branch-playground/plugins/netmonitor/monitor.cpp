@@ -150,7 +150,7 @@ void MonitorWindow::toggleType(QAction *a)
     case L_WARN:
     case L_ERROR:
     case L_PACKETS:
-        m_plugin->setProperty("LogLevel", m_plugin->property("LogLevel").toUInt() ^ id);
+        m_plugin->setValue("LogLevel", m_plugin->value("LogLevel").toUInt() ^ id);
         return;
     }
     m_plugin->setLogType(id, !m_plugin->isLogType(id));
@@ -196,7 +196,7 @@ void MonitorWindow::adjustLog()
     for (const level_def *d = levels; d->name; d++){
         QAction *a = m_menuLog->addAction(i18n(d->name));
         a->setCheckable(true);
-        a->setChecked((m_plugin->property("LogLevel").toUInt() & d->level) != 0);
+        a->setChecked((m_plugin->value("LogLevel").toUInt() & d->level) != 0);
         a->setData(d->level);
     }
 }
@@ -227,8 +227,8 @@ bool MonitorWindow::processEvent(Event *e)
 
     if (e->type() == eEventLog && !bPause &&
 			(
-			((l->packetID() == 0 && (l->logLevel() & m_plugin->property("LogLevel").toUInt())) ||     
-			( l->packetID()      && ((m_plugin->property("LogLevel").toUInt() & L_PACKETS) || m_plugin->isLogType(l->packetID()))))
+                        ((l->packetID() == 0 && (l->logLevel() & m_plugin->value("LogLevel").toUInt())) ||
+                        ( l->packetID()      && ((m_plugin->value("LogLevel").toUInt() & L_PACKETS) || m_plugin->isLogType(l->packetID()))))
 			)
 		)
 	{

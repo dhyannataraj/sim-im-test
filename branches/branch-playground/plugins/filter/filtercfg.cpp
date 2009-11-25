@@ -34,8 +34,8 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
 	setupUi(this);
 	if(bMain)
 	{
-		chkFromList->setChecked(m_plugin->property("FromList").toBool());
-		chkAuthFromList->setChecked(m_plugin->property("AuthFromList").toBool());
+                chkFromList->setChecked(m_plugin->value("FromList").toBool());
+                chkAuthFromList->setChecked(m_plugin->value("AuthFromList").toBool());
 		for (QObject *p = parent; p != NULL; p = p->parent()){
 			QTabWidget *tab = qobject_cast<QTabWidget*>(p);
 			if (!tab)
@@ -62,8 +62,8 @@ FilterConfig::~FilterConfig()
 
 void FilterConfig::apply()
 {
-    m_plugin->setProperty("FromList", chkFromList->isChecked());
-    m_plugin->setProperty("AuthFromList", chkAuthFromList->isChecked());
+    m_plugin->setValue("FromList", chkFromList->isChecked());
+    m_plugin->setValue("AuthFromList", chkAuthFromList->isChecked());
     apply(m_data);
 }
 

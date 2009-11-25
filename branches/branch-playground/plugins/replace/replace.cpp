@@ -118,8 +118,8 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
                 edit->getCursorPosition(&parag, &index);
                 _UnquoteParser p(edit->text(parag));
                 QString text = p.m_text.left(index);
-                for (unsigned i = 1; i <= property("Keys").toUInt(); i++){
-                    QString key = property("Key").toStringList().value(i);
+                for (unsigned i = 1; i <= value("Keys").toUInt(); i++){
+                    QString key = value("Key").toStringList().value(i);
                     if (key.length() > text.length())
                         continue;
                     if (key != text.mid(text.length() - key.length()))
@@ -127,7 +127,7 @@ bool ReplacePlugin::eventFilter(QObject *o, QEvent *e)
                     if ((key.length() < text.length()) && !text[(int)(text.length() - key.length() - 1)].isSpace())
                         continue;
                     edit->setSelection(parag, index - key.length(), parag, index, 0);
-                    edit->insert(property("Value").toStringList().value(i), false, false);
+                    edit->insert(value("Value").toStringList().value(i), false, false);
                     break;
                 }
             }

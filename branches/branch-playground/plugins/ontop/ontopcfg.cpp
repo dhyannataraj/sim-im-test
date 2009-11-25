@@ -24,14 +24,14 @@ OnTopCfg::OnTopCfg(QWidget *parent, OnTopPlugin *plugin) : QWidget(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
-    chkInTask->setChecked(m_plugin->property("InTask").toBool());
-    chkContainer->setChecked(m_plugin->property("ContainerOnTop").toBool());
+    chkInTask->setChecked(m_plugin->value("InTask").toBool());
+    chkContainer->setChecked(m_plugin->value("ContainerOnTop").toBool());
 }
 
 void OnTopCfg::apply()
 {
-    m_plugin->setProperty("InTask", chkInTask->isChecked());
-    m_plugin->setProperty("ContainerOnTop", chkContainer->isChecked());
+    m_plugin->setValue("InTask", chkInTask->isChecked());
+    m_plugin->setValue("ContainerOnTop", chkContainer->isChecked());
     m_plugin->setState();
 }
 

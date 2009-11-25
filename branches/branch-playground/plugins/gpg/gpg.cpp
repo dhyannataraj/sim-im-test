@@ -137,7 +137,7 @@ GpgPlugin::~GpgPlugin()
 QString GpgPlugin::GPG()
 {
 #ifdef WIN32
-    return property("GPG").toString();
+    return value("GPG").toString();
 #else
     return GPGpath;
 #endif
@@ -203,20 +203,20 @@ void GpgPlugin::decryptReady()
                 }
                 if (!it->key.isEmpty()){
                     unsigned i = 1;
-                    for (i = 1; i <= property("NPassphrases").toUInt(); i++){
-                        if (it->key == property("Keys").toStringList()[i])
+                    for (i = 1; i <= value("NPassphrases").toUInt(); i++){
+                        if (it->key == value("Keys").toStringList()[i])
                             break;
                     }
-                    if (i > property("NPassphrases").toUInt()){
-                        setProperty("NPassphrases", i);
-                        QStringList l = property("Keys").toStringList();
+                    if (i > value("NPassphrases").toUInt()){
+                        setValue("NPassphrases", i);
+                        QStringList l = value("Keys").toStringList();
                         l[i] = it->key;
-                        setProperty("Keys", l);
+                        setValue("Keys", l);
                     }
 
-                    QStringList list = property("Passphrases").toStringList();
+                    QStringList list = value("Passphrases").toStringList();
                     list[i] = it->passphrase;
-                    setProperty("Passphrases", list);
+                    setValue("Passphrases", list);
                     for (;;){
                         QList<DecryptMsg>::iterator itw;
                         bool bDecode = false;
@@ -259,9 +259,9 @@ void GpgPlugin::decryptReady()
                             return;
                         }
                         if (it->passphrase.isEmpty()){
-                            for (unsigned i = 1; i <= property("NPassphrases").toUInt(); i++){
-                                if (key == property("Keys").toStringList()[i]){
-                                    passphrase = property("Passphrases").toStringList()[i];
+                            for (unsigned i = 1; i <= value("NPassphrases").toUInt(); i++){
+                                if (key == value("Keys").toStringList()[i]){
+                                    passphrase = value("Passphrases").toStringList()[i];
                                     break;
                                 }
                             }
@@ -339,7 +339,7 @@ void GpgPlugin::importReady()
                     sl += "--no-tty";
                     sl += "--homedir";
                     sl += home;
-                    sl += property("PublicList").toString().split(' ');
+                    sl += value("PublicList").toString().split(' ');
 
                     QProcess *proc = new QProcess(this);
 
@@ -505,7 +505,7 @@ bool GpgPlugin::processEvent(Event *e)
                         sl += "--no-tty";
                         sl += "--homedir";
                         sl += home;
-                        sl += property("Encrypt").toString().split(' ');
+                        sl += value("Encrypt").toString().split(' ');
                         sl = sl.replaceInStrings(QRegExp("\\%plainfile\\%"), input);
                         sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), output);
                         sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), data->Key.str());
@@ -573,7 +573,7 @@ bool GpgPlugin::processEvent(Event *e)
                     sl += "--no-tty";
                     sl += "--homedir";
                     sl += home;
-                    sl += property("Import").toString().split(' ');
+                    sl += value("Import").toString().split(' ');
                     sl = sl.replaceInStrings(QRegExp("\\%keyfile\\%"), input);
 
                     QProcess *proc = new QProcess(this);
@@ -595,22 +595,22 @@ bool GpgPlugin::processEvent(Event *e)
 	{
 		PropertyHub::load();
 		// Defaults:
-		if(!property("Home").isValid())
-			setProperty("Home", "keys/");
-		if(!property("GenKey").isValid())
-			setProperty("GenKey", "--gen-key --batch");
-		if(!property("PublicList").isValid())
-			setProperty("PublicList", "--with-colon --list-public-keys");
-		if(!property("SecretList").isValid())
-			setProperty("SecretList", "--with-colon --list-secret-keys");
-		if(!property("Import").isValid())
-			setProperty("Import", "--import %keyfile%");
-		if(!property("Export").isValid())
-			setProperty("Export", "--batch --yes --armor --comment \"\" --no-version --export %userid%");
-		if(!property("Encrypt").isValid())
-			setProperty("Encrypt", "--charset utf8 --batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%");
-		if(!property("Decrypt").isValid())
-			setProperty("Decrypt", "--charset utf8 --yes --passphrase-fd 0 --status-fd 2 --output %plainfile% --decrypt %cipherfile%");
+                if(!value("Home").isValid())
+                        setValue("Home", "keys/");
+                if(!value("GenKey").isValid())
+                        setValue("GenKey", "--gen-key --batch");
+                if(!value("PublicList").isValid())
+                        setValue("PublicList", "--with-colon --list-public-keys");
+                if(!value("SecretList").isValid())
+                        setValue("SecretList", "--with-colon --list-secret-keys");
+                if(!value("Import").isValid())
+                        setValue("Import", "--import %keyfile%");
+                if(!value("Export").isValid())
+                        setValue("Export", "--batch --yes --armor --comment \"\" --no-version --export %userid%");
+                if(!value("Encrypt").isValid())
+                        setValue("Encrypt", "--charset utf8 --batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%");
+                if(!value("Decrypt").isValid())
+                        setValue("Decrypt", "--charset utf8 --yes --passphrase-fd 0 --status-fd 2 --output %plainfile% --decrypt %cipherfile%");
         break;
 	}
     default:
@@ -641,7 +641,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += property("Decrypt").toString().split(' ');
+    sl += value("Decrypt").toString().split(' ');
     sl = sl.replaceInStrings(QRegExp("\\%plainfile\\%"), output);
     sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), input);
 
@@ -724,9 +724,9 @@ QWidget *GpgPlugin::createConfigWindow(QWidget *parent)
 
 void GpgPlugin::reset()
 {
-    if (!GPG().isEmpty() && !property("Home").toString().isEmpty() && !property("Key").toString().isEmpty()){
+    if (!GPG().isEmpty() && !value("Home").toString().isEmpty() && !value("Key").toString().isEmpty()){
 #ifdef HAVE_CHMOD
-        chmod(QFile::encodeName(user_file(property("Home").toString())), 0700);
+        chmod(QFile::encodeName(user_file(value("Home").toString())), 0700);
 #endif
         registerMessage();
     }else{
@@ -736,7 +736,7 @@ void GpgPlugin::reset()
 
 QString GpgPlugin::getHomeDir()
 {
-    QString home = user_file(property("Home").toString());
+    QString home = user_file(value("Home").toString());
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
     return home;
@@ -868,14 +868,14 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
 
     QString gpg  = GpgPlugin::plugin->GPG();
     QString home = GpgPlugin::plugin->getHomeDir();
-    m_key = GpgPlugin::plugin->property("Key").toString();
+    m_key = GpgPlugin::plugin->value("Key").toString();
 
     QStringList sl;
     sl += GpgPlugin::plugin->GPG();
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += GpgPlugin::plugin->property("Export").toString().split(' ');
+    sl += GpgPlugin::plugin->value("Export").toString().split(' ');
     sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), m_key);
 
     m_process = new QProcess(this);

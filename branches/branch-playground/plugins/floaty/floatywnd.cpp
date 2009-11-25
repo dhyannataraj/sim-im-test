@@ -147,33 +147,33 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     pv.win      = this;
     pv.isStatic = false;
     pv.height   = h;
-    if (CorePlugin::instance()->property("UseSysColors").toBool()){
+    if (CorePlugin::instance()->value("UseSysColors").toBool()){
         p.setPen(palette().color(QPalette::Text));
     }else{
-        p.setPen(QColor(CorePlugin::instance()->property("ColorOnline").toUInt()));
+        p.setPen(QColor(CorePlugin::instance()->value("ColorOnline").toUInt()));
     }
     EventPaintView e(&pv);
     e.process();
 
-    if (CorePlugin::instance()->property("UseSysColors").toBool()){
+    if (CorePlugin::instance()->value("UseSysColors").toBool()){
         if (m_status != STATUS_ONLINE)
             p.setPen(palette().color(QPalette::Disabled, QPalette::Text));
     }else{
         switch (m_status){
         case STATUS_ONLINE:
-            p.setPen(CorePlugin::instance()->property("ColorOnline").toUInt());
+            p.setPen(CorePlugin::instance()->value("ColorOnline").toUInt());
             break;
         case STATUS_AWAY:
-            p.setPen(CorePlugin::instance()->property("ColorAway").toUInt());
+            p.setPen(CorePlugin::instance()->value("ColorAway").toUInt());
             break;
         case STATUS_NA:
-            p.setPen(CorePlugin::instance()->property("ColorNA").toUInt());
+            p.setPen(CorePlugin::instance()->value("ColorNA").toUInt());
             break;
         case STATUS_DND:
-            p.setPen(CorePlugin::instance()->property("ColorDND").toUInt());
+            p.setPen(CorePlugin::instance()->value("ColorDND").toUInt());
             break;
         default:
-            p.setPen(CorePlugin::instance()->property("ColorOffline").toUInt());
+            p.setPen(CorePlugin::instance()->value("ColorOffline").toUInt());
             break;
         }
     }
@@ -230,27 +230,27 @@ void FloatyWnd::setFont(QPainter *p)
 {
     QFont f(font());
     if (m_style & CONTACT_ITALIC){
-        if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_ITALIC)
+        if (CorePlugin::instance()->value("VisibleStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_UNDER)
+        if (CorePlugin::instance()->value("VisibleStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (CorePlugin::instance()->property("VisibleStyle").toUInt()  & STYLE_STRIKE)
+        if (CorePlugin::instance()->value("VisibleStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_style & CONTACT_UNDERLINE){
-        if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_ITALIC)
+        if (CorePlugin::instance()->value("AuthStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_UNDER)
+        if (CorePlugin::instance()->value("AuthStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (CorePlugin::instance()->property("AuthStyle").toUInt()  & STYLE_STRIKE)
+        if (CorePlugin::instance()->value("AuthStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_style & CONTACT_STRIKEOUT){
-        if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_ITALIC)
+        if (CorePlugin::instance()->value("InvisibleStyle").toUInt()  & STYLE_ITALIC)
             f.setItalic(true);
-        if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_UNDER)
+        if (CorePlugin::instance()->value("InvisibleStyle").toUInt()  & STYLE_UNDER)
             f.setUnderline(true);
-        if (CorePlugin::instance()->property("InvisibleStyle").toUInt()  & STYLE_STRIKE)
+        if (CorePlugin::instance()->value("InvisibleStyle").toUInt()  & STYLE_STRIKE)
             f.setStrikeOut(true);
     }
     if (m_blink & 1){
@@ -292,7 +292,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         }
         mousePos = QPoint();
     }else{
-        if ((e->pos() == initMousePos) && !CorePlugin::instance()->property("UseDblClick").toBool()){
+        if ((e->pos() == initMousePos) && !CorePlugin::instance()->value("UseDblClick").toBool()){
             EventDefaultAction(m_id).process();
         }
     }

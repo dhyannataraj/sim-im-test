@@ -48,7 +48,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
-    edtPicture->setText(plugin->property("Background").toString());
+    edtPicture->setText(plugin->value("Background").toString());
     edtPicture->setStartDir(SIM::app_file("pict/"));
     edtPicture->setTitle(i18n("Select background picture"));
     QList<QByteArray> formats = QImageReader::supportedImageFormats();
@@ -75,9 +75,9 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
     cmbPosition->insertItem(INT_MAX,i18n("Window - left bottom"));
     cmbPosition->insertItem(INT_MAX,i18n("Window - left center"));
     cmbPosition->insertItem(INT_MAX,i18n("Window - scale"));
-    cmbPosition->setCurrentIndex(plugin->property("Position").toUInt());
-    spnContact->setValue(plugin->property("MarginContact").toUInt());
-    spnGroup->setValue(plugin->property("MarginGroup").toUInt());
+    cmbPosition->setCurrentIndex(plugin->value("Position").toUInt());
+    spnContact->setValue(plugin->value("MarginContact").toUInt());
+    spnGroup->setValue(plugin->value("MarginGroup").toUInt());
     lblLink->setText(i18n("Get more skins"));
     lblLink->setUrl("http://addons.miranda-im.org/index.php?action=display&id=34");
 }
@@ -85,10 +85,10 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin) : QWidget(parent)
 void BkgndCfg::apply()
 {
     if (cmbPosition->currentIndex() >= 0)
-        m_plugin->setProperty("Position", cmbPosition->currentIndex());
-    m_plugin->setProperty("Background", edtPicture->text());
-    m_plugin->setProperty("MarginContact", (uint)spnContact->text().toULong());
-    m_plugin->setProperty("MarginGroup", (uint)spnGroup->text().toULong());
+        m_plugin->setValue("Position", cmbPosition->currentIndex());
+    m_plugin->setValue("Background", edtPicture->text());
+    m_plugin->setValue("MarginContact", (uint)spnContact->text().toULong());
+    m_plugin->setValue("MarginGroup", (uint)spnGroup->text().toULong());
     m_plugin->redraw();
 }
 

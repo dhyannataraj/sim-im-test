@@ -57,14 +57,14 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, SIM::PropertyHub* data, SoundP
 {
     setupUi(this);
 
-	setProperty("override", data->value("sound/override").toBool());
+    setProperty("override", data->value("sound/override").toBool());
 
     int row = 0;
     addRow(lstSound, row, Icon("SIM"), i18n("Online alert"), ONLINE_ALERT, data->value("sound/Alert").toString());
 
-	// Well, basically, this mess means that core plugin shouldn't keep messageTypes
-	PluginPtr coreplugin = getPluginManager()->plugin("_core");
-	CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data());
+    // Well, basically, this mess means that core plugin shouldn't keep messageTypes
+    PluginPtr coreplugin = getPluginManager()->plugin("_core");
+    CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data());
     CommandDef *cmd;
     CommandsMapIterator it(core->messageTypes);
     while((cmd = ++it) != NULL)

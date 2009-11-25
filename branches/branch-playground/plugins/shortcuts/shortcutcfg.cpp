@@ -83,7 +83,7 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
             title = title.remove('&');
             QString accel;
             int key = 0;
-            const QString cfg_accel = m_plugin->property("Key").toMap().value(QString::number(s->id)).toString();
+            const QString cfg_accel = m_plugin->value("Key").toMap().value(QString::number(s->id)).toString();
             if (!cfg_accel.isEmpty())
                 key = QKeySequence::fromString(cfg_accel);
             if ((key == 0) && !s->accel.isEmpty())
@@ -92,7 +92,7 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
                 accel = QKeySequence(key).toString();
             QString global;
             bool bGlobal = m_plugin->getOldGlobal(s);
-            const QString cfg_global = m_plugin->property("Global").toMap().value(QString::number(s->id)).toString();
+            const QString cfg_global = m_plugin->value("Global").toMap().value(QString::number(s->id)).toString();
             if (!cfg_global.isEmpty())
                 bGlobal = !bGlobal;
             if (bGlobal)
@@ -148,17 +148,17 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                 const QString cfg_key = m_plugin->getOldKey(s);
                 if (key == QKeySequence::fromString(cfg_key)){
 					QVariantMap map;
-					map = m_plugin->property("Key").toMap();
+                                        map = m_plugin->value("Key").toMap();
 					map.remove(QString::number(s->id));
-					m_plugin->setProperty("Key", map);
+                                        m_plugin->setValue("Key", map);
                 }else{
                     QString t = item->text(1);
                     if (t.isEmpty())
                         t = "-";
 					QVariantMap map;
-					map = m_plugin->property("Key").toMap();
+                                        map = m_plugin->value("Key").toMap();
 					map.insert(QString::number(s->id), t);
-					m_plugin->setProperty("Key", map);
+                                        m_plugin->setValue("Key", map);
                 }
                 bool bGlobal = !item->text(2).isEmpty();
                 bool bCfgGlobal = m_plugin->getOldGlobal(s);
@@ -168,14 +168,14 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                 }
                 if (bGlobal == bCfgGlobal){
 					QVariantMap map;
-					map = m_plugin->property("Global").toMap();
+                                        map = m_plugin->value("Global").toMap();
 					map.remove(QString::number(s->id));
-					m_plugin->setProperty("Global", map);
+                                        m_plugin->setValue("Global", map);
                 }else{
 					QVariantMap map;
-					map = m_plugin->property("Global").toMap();
+                                        map = m_plugin->value("Global").toMap();
 					map.insert(QString::number(s->id), bGlobal ? "1" : "-1");
-					m_plugin->setProperty("Global", map);
+                                        m_plugin->setValue("Global", map);
                 }
             }
         }

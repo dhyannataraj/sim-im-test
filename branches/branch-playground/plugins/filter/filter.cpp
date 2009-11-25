@@ -160,11 +160,11 @@ bool FilterPlugin::processEvent(Event *e)
         FilterUserData *data = NULL;
         // check if we accept only from users on the list
         if (((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
-			((property("FromList").toBool() &&
+                        ((value("FromList").toBool() &&
 			  msg->type() != MessageAuthRequest &&
 			  msg->type() != MessageAuthGranted &&
 			  msg->type() != MessageAuthRefused) ||
-		(property("AuthFromList").toBool() && msg->type() <= MessageContacts))) {
+                (value("AuthFromList").toBool() && msg->type() <= MessageContacts))) {
             delete msg;
             delete contact;
             return msg;

@@ -86,11 +86,11 @@ void GpgCfg::apply()
         QString k = cmbKey->currentText();
         key = getToken(k, ' ');
     }
-    m_plugin->setProperty("Key", key);
+    m_plugin->setValue("Key", key);
 #ifdef WIN32
-    m_plugin->setProperty("GPG", edtGPG->text());
+    m_plugin->setValue("GPG", edtGPG->text());
 #endif
-    m_plugin->setProperty("Home", edtHome->text());
+    m_plugin->setValue("Home", edtHome->text());
     m_adv->apply();
     m_plugin->reset();
 }
@@ -150,7 +150,7 @@ void GpgCfg::fillSecret(const QByteArray &ba)
                 getToken(line, ':');
                 getToken(line, ':');
                 QString sign = QString::fromLocal8Bit(getToken(line, ':'));
-                if (sign == m_plugin->property("Key").toString())
+                if (sign == m_plugin->value("Key").toString())
                     cur = n;
                 getToken(line, ':');
                 getToken(line, ':');
@@ -191,7 +191,7 @@ void GpgCfg::refresh()
     sl += "--no-tty";
     sl += "--homedir";
     sl += home;
-    sl += GpgPlugin::plugin->property("SecretList").toString().split(' ');
+    sl += GpgPlugin::plugin->value("SecretList").toString().split(' ');
 
     m_process = new QProcess(this);
 

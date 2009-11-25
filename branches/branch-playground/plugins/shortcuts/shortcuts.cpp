@@ -727,7 +727,7 @@ QString ShortcutsPlugin::buttonToString(unsigned n)
 void ShortcutsPlugin::applyKey(CommandDef *s)
 {
     if (s->popup_id){
-        QString cfg = property("Mouse").toMap().value(QString::number(s->id)).toString();
+        QString cfg = value("Mouse").toMap().value(QString::number(s->id)).toString();
         if (!cfg.isEmpty()){
             unsigned btn = stringToButton(cfg);
             if (mouseCmds.size() == 0)
@@ -736,7 +736,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
         }
         return;
     }
-	QString cfg = property("Key").toMap().value(QString::number(s->id)).toString();
+        QString cfg = value("Key").toMap().value(QString::number(s->id)).toString();
     if (!cfg.isEmpty()){
         oldKeys.insert(MAP_STR::value_type(s->id, s->accel));
         if (cfg != "-"){
@@ -745,7 +745,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
             s->accel = QString::null;
         }
     }
-	cfg = property("Global").toMap().value(QString::number(s->id)).toString();
+        cfg = value("Global").toMap().value(QString::number(s->id)).toString();
     if (!cfg.isEmpty()){
         oldGlobals.insert(MAP_BOOL::value_type(s->id, (s->flags & COMMAND_GLOBAL_ACCEL) != 0));
         if (cfg.startsWith("-")){

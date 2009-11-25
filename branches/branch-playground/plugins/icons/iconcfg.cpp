@@ -43,12 +43,12 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
     connect(lstIcon, SIGNAL(itemSelectionChanged()), this, SLOT(itemSelectionChanged()));
-    if (m_plugin->property("Default").toBool()){
+    if (m_plugin->value("Default").toBool()){
         lstIcon->addItem(QDir::toNativeSeparators("icons/smiles.jisp"));
 
     }else{
-        const QStringList l = m_plugin->property("Icons").toStringList();
-        for (int i = 0; i < m_plugin->property("NIcons").toInt(); i++)
+        const QStringList l = m_plugin->value("Icons").toStringList();
+        for (int i = 0; i < m_plugin->value("NIcons").toInt(); i++)
         {
             if(i >= l.size())
                 break;
@@ -60,12 +60,12 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 
 void IconCfg::apply()
 {
-    m_plugin->setProperty("Default", false);
+    m_plugin->setValue("Default", false);
     QStringList l;
     for (int i = 0; i < lstIcon->count(); i++)
         l.append(lstIcon->item(i)->text());
-    m_plugin->setProperty("Icons", l);
-    m_plugin->setProperty("NIcons", lstIcon->count());
+    m_plugin->setValue("Icons", l);
+    m_plugin->setValue("NIcons", lstIcon->count());
     m_plugin->setIcons(true);
 }
 

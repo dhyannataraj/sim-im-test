@@ -24,10 +24,10 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
     , m_plugin( plugin )
 {
     setupUi(this);
-    unsigned uCount = m_plugin->property("Keys").toUInt();
+    unsigned uCount = m_plugin->value("Keys").toUInt();
     for (unsigned i = 0; i < uCount; i++){
-        QString sKey = m_plugin->property("Key").toStringList().value(i);
-        QString sValue = m_plugin->property("Value").toStringList().value(i);
+        QString sKey = m_plugin->value("Key").toStringList().value(i);
+        QString sValue = m_plugin->value("Value").toStringList().value(i);
         if (!sKey.isEmpty()) {
             addString( sKey, sValue );
         }
@@ -53,9 +53,9 @@ void ReplaceCfg::apply()
             values.push_back(sValue);
         }
     }
-    m_plugin->setProperty("Key", keys);
-    m_plugin->setProperty("Value", values);
-    m_plugin->setProperty("Keys", keys.count());
+    m_plugin->setValue("Key", keys);
+    m_plugin->setValue("Value", values);
+    m_plugin->setValue("Keys", keys.count());
 }
 
 bool ReplaceCfg::string( int row, QString &sKey, QString &sValue ) {

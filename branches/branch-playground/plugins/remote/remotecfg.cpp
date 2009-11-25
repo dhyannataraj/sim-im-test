@@ -30,7 +30,7 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin) : QWidget(pare
 {
 	setupUi(this);
     m_plugin = plugin;
-    QString path = m_plugin->property("Path").toString();
+    QString path = m_plugin->value("Path").toString();
     edtPort->setValue(3000);
 #ifdef WIN32
     if (path.startsWith(TCP)){
@@ -61,7 +61,7 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin) : QWidget(pare
     connect(grpRemote, SIGNAL(clicked(int)), this, SLOT(selected(int)));
 #endif
 #ifdef WIN32
-    chkIE->setChecked(m_plugin->property("EnableMenu").toBool());
+    chkIE->setChecked(m_plugin->value("EnableMenu").toBool());
 #else
     chkIE->hide();
 #endif
@@ -77,7 +77,7 @@ void RemoteConfig::apply()
     }else{
         path  = "auto:";
     }
-    m_plugin->setProperty("EnableMenu", chkIE->isChecked());
+    m_plugin->setValue("EnableMenu", chkIE->isChecked());
 #else
     if (btnTCP->isChecked()){
         path  = TCP;
@@ -86,8 +86,8 @@ void RemoteConfig::apply()
         path  = edtPath->text();
     }
 #endif
-    if (path != m_plugin->property("Path").toString()){
-        m_plugin->setProperty("Path", path);
+    if (path != m_plugin->value("Path").toString()){
+        m_plugin->setValue("Path", path);
         m_plugin->bind();
     }
 }

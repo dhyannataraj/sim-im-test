@@ -359,7 +359,7 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
 
 NavigatePlugin::~NavigatePlugin()
 {
-	PropertyHub::save();
+    PropertyHub::save();
     EventCommandRemove(CmdMail).process();
     EventMenu(MenuMail, EventMenu::eRemove).process();
 
@@ -393,7 +393,7 @@ bool NavigatePlugin::processEvent(Event *e)
             return false;
 #ifdef WIN32
         bool bExec = false;
-        if (property("NewWindow").toBool()){
+        if (value("NewWindow").toBool()){
             QString key_name = proto + "\\Shell\\Open";
             RegEntry rp(HKEY_CLASSES_ROOT, key_name);
             QString prg    = rp.value("command");
@@ -469,14 +469,14 @@ bool NavigatePlugin::processEvent(Event *e)
         }
 #endif // USE_KDE
 #ifdef __OS2__
-		startBrowser( (proto == "mailto") ? property("Mailer") : property("Browser").toString(), url );
+                startBrowser( (proto == "mailto") ? value("Mailer") : value("Browser").toString(), url );
 #else
         QString param;
         if (proto == "mailto"){
-            param = property("Mailer").toString();
+            param = value("Mailer").toString();
             url = url.mid(proto.length() + 1);
         }else{
-            param = property("Browser").toString();
+            param = value("Browser").toString();
 			QUrl qurl(url);
 			QString encodedUrl = qurl.toString();
 			url = encodedUrl;

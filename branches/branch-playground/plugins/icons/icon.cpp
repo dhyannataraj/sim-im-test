@@ -60,14 +60,14 @@ IconsPlugin::~IconsPlugin()
 
 void IconsPlugin::setIcons(bool bForce)
 {
-    if (!bForce && property("Default").toBool())
+    if (!bForce && value("Default").toBool())
         return;
     getIcons()->removeIconSet(NULL);
-    if (property("Default").toBool()){
+    if (value("Default").toBool()){
         getIcons()->addIconSet("icons/smile.jisp", false);
     }else{
-        const QStringList l = property("Icons").toStringList();
-        for (unsigned i = 0; i < property("NIcons").toUInt(); i++)
+        const QStringList l = value("Icons").toStringList();
+        for (unsigned i = 0; i < value("NIcons").toUInt(); i++)
         {
             if(i >= (unsigned)l.size())
                 break;

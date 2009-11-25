@@ -24,13 +24,13 @@ GpgAdvanced::GpgAdvanced(QWidget *parent, GpgPlugin *plugin) : QWidget(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
-    edtGenKey->setText(m_plugin->property("GenKey").toString());
-    edtPublic->setText(m_plugin->property("PublicList").toString());
-    edtSecret->setText(m_plugin->property("SecretList").toString());
-    edtExport->setText(m_plugin->property("Export").toString());
-    edtImport->setText(m_plugin->property("Import").toString());
-    edtEncrypt->setText(m_plugin->property("Encrypt").toString());
-    edtDecrypt->setText(m_plugin->property("Decrypt").toString());
+    edtGenKey->setText(m_plugin->value("GenKey").toString());
+    edtPublic->setText(m_plugin->value("PublicList").toString());
+    edtSecret->setText(m_plugin->value("SecretList").toString());
+    edtExport->setText(m_plugin->value("Export").toString());
+    edtImport->setText(m_plugin->value("Import").toString());
+    edtEncrypt->setText(m_plugin->value("Encrypt").toString());
+    edtDecrypt->setText(m_plugin->value("Decrypt").toString());
 }
 
 GpgAdvanced::~GpgAdvanced()
@@ -39,13 +39,13 @@ GpgAdvanced::~GpgAdvanced()
 
 void GpgAdvanced::apply()
 {
-    m_plugin->setProperty("GenKey", edtGenKey->text());
-    m_plugin->setProperty("PublicList", edtPublic->text());
-    m_plugin->setProperty("SecretList", edtSecret->text());
-    m_plugin->setProperty("Export", edtExport->text());
-    m_plugin->setProperty("Import", edtImport->text());
-    m_plugin->setProperty("Encrypt", edtEncrypt->text());
-    m_plugin->setProperty("Decrypt", edtDecrypt->text());
+    m_plugin->setValue("GenKey", edtGenKey->text());
+    m_plugin->setValue("PublicList", edtPublic->text());
+    m_plugin->setValue("SecretList", edtSecret->text());
+    m_plugin->setValue("Export", edtExport->text());
+    m_plugin->setValue("Import", edtImport->text());
+    m_plugin->setValue("Encrypt", edtEncrypt->text());
+    m_plugin->setValue("Decrypt", edtDecrypt->text());
 }
 
 

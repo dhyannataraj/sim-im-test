@@ -80,7 +80,7 @@ bool BackgroundPlugin::processEvent(Event *e)
             int x = pv->pos.x();
             int y = pv->pos.y();
             bool bTiled = false;
-            unsigned pos = property("Position").toUInt();
+            unsigned pos = value("Position").toUInt();
             switch(pos){
             case ContactLeft:
                 h = pv->height;
@@ -114,7 +114,7 @@ bool BackgroundPlugin::processEvent(Event *e)
                 pv->isStatic = true;
             }
         }
-        pv->margin = pv->isGroup ? property("MarginGroup").toUInt() : property("MarginContact").toUInt();
+        pv->margin = pv->isGroup ? value("MarginGroup").toUInt() : value("MarginContact").toUInt();
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
@@ -128,9 +128,9 @@ void BackgroundPlugin::redraw()
 {
     bgImage = QImage();
     bgScale = QPixmap();
-    if (property("Background").toString().isEmpty())
+    if (value("Background").toString().isEmpty())
         return;
-    bgImage = QImage(property("Background").toString());
+    bgImage = QImage(value("Background").toString());
     EventRepaintView e;
     e.process();
 }

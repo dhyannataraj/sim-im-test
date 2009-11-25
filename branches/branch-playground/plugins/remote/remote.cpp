@@ -283,7 +283,7 @@ static char TCP[] = "tcp:";
 
 void RemotePlugin::bind()
 {
-    QString path = property("Path").toString();
+    QString path = value("Path").toString();
     if (path.startsWith(TCP)){
         unsigned short port = path.mid(strlen(TCP)).toUShort();
         ServerSocketNotify::bind(port, port, NULL);
@@ -605,7 +605,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
         }
     case CMD_CONTACTS:{
 #ifdef WIN32
-            if (property("EnableMenu").toBool()){
+            if (value("EnableMenu").toBool()){
 #endif
                 unsigned type = 0;
                 if (args.size())
@@ -628,13 +628,13 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     unsigned style = 0;
                     QString statusIcon;
                     unsigned status = contact->contactInfo(style, statusIcon);
-                    if ((status == STATUS_OFFLINE) && CorePlugin::instance()->property("ShowOnLine").toBool())
+                    if ((status == STATUS_OFFLINE) && CorePlugin::instance()->value("ShowOnLine").toBool())
                         continue;
-                    unsigned mode = CorePlugin::instance()->property("SortMode").toUInt();
+                    unsigned mode = CorePlugin::instance()->value("SortMode").toUInt();
                     ContactInfo info;
                     QString active;
                     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
-                    if (CorePlugin::instance()->property("GroupMode").toUInt()){
+                    if (CorePlugin::instance()->value("GroupMode").toUInt()){
                         unsigned index = 0xFFFFFFFF;
                         if (contact->getGroup()){
                             Group *grp = getContacts()->group(contact->getGroup());
@@ -665,7 +665,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     info.id    = contact->id();
                     info.icon  = statusIcon;
                     info.group = contact->getGroup();
-                    if (CorePlugin::instance()->property("GroupMode").toUInt()){
+                    if (CorePlugin::instance()->value("GroupMode").toUInt()){
                         info.group = contact->getGroup();
                         list<unsigned>::iterator it;
                         for (it = groups.begin(); it != groups.end(); ++it)
@@ -768,8 +768,8 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             if (CorePlugin::instance()->getManualStatus() == status)
                 return true;
             //core->data.ManualStatus.asULong()  = status;
-            CorePlugin::instance()->setProperty("ManualStatus", (unsigned int)status);
-            CorePlugin::instance()->setProperty("StatusTime", (unsigned int)time(NULL));
+            CorePlugin::instance()->setValue("ManualStatus", (unsigned int)status);
+            CorePlugin::instance()->setValue("StatusTime", (unsigned int)time(NULL));
             EventClientStatus().process();
             return true;
         }
@@ -795,14 +795,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_INVISIBLE:
         if (args.size()){
             bool bInvisible = isOn(args[0]);
-            if (CorePlugin::instance()->property("Invisible").toBool() != bInvisible){
-                CorePlugin::instance()->setProperty("Invisible", bInvisible);
+            if (CorePlugin::instance()->value("Invisible").toBool() != bInvisible){
+                CorePlugin::instance()->setValue("Invisible", bInvisible);
                 for (unsigned i = 0; i < getContacts()->nClients(); i++)
                     getContacts()->getClient(i)->setInvisible(bInvisible);
             }
         }else{
             out  = "INVISIBLE ";
-            out += CorePlugin::instance()->property("Invisible").toBool() ? "on" : "off";
+            out += CorePlugin::instance()->value("Invisible").toBool() ? "on" : "off";
         }
         return true;
     case CMD_MAINWND:
