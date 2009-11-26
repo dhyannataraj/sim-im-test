@@ -820,11 +820,11 @@ void ContactList::save()
                entries, this must be ...*/
             f.write("Name=\"NIL\"\n");
         }
-        line = grp->userData.save();
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        }
+//        line = grp->userData.save();
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        }
         line = grp->clientData.save();
         if (line.length()){
             line += '\n';
@@ -1033,7 +1033,7 @@ void ContactListPrivate::flush(Contact *c, Group *g, const QByteArray &section, 
     for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
         if (section != it->second.name)
             continue;
-        UserData *data = &userData;
+        UserData_old *data = &userData;
         if (c)
             data = &c->userData;
         if (g)

@@ -14,12 +14,12 @@ namespace SIM
         UserDataMap m_userData;
     };
 
-    UserData::UserData()
+    UserData_old::UserData_old()
     {
         d = new UserDataPrivate;
     }
 
-    UserData::~UserData()
+    UserData_old::~UserData_old()
     {
         UserDataMap::Iterator userDataIt;
         for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
@@ -31,7 +31,7 @@ namespace SIM
         delete d;
     }
 
-    void *UserData::getUserData(unsigned id, bool bCreate)
+    void *UserData_old::getUserData(unsigned id, bool bCreate)
     {
         UserDataMap::Iterator userDataIt = d->m_userData.find(id);
         if (userDataIt != d->m_userData.end())
@@ -53,7 +53,7 @@ namespace SIM
         return data;
     }
 
-    void UserData::freeUserData(unsigned id)
+    void UserData_old::freeUserData(unsigned id)
     {
         UserDataMap::Iterator userDataIt = d->m_userData.find(id);
         if (userDataIt != d->m_userData.end()) {
@@ -65,7 +65,7 @@ namespace SIM
         }
     }
 
-    QByteArray UserData::save() const
+    QByteArray UserData_old::save() const
     {
         QByteArray res;
         UserDataMap::Iterator userDataIt;
@@ -86,13 +86,63 @@ namespace SIM
         return res;
     }
 
-    void UserData::load(unsigned long id, const DataDef *def, Buffer *cfg)
+    void UserData_old::load(unsigned long id, const DataDef *def, Buffer *cfg)
     {
         void *d = getUserData(id, true);
         if (d == NULL)
             return;
         free_data(def, d);
         load_data(def, d, cfg);
+    }
+
+    UserData::UserData()
+    {
+    }
+
+    UserData::~UserData()
+    {
+    }
+
+    PropertyHubPtr UserData::getUserData(const QString& id)
+    {
+        DataMap::const_iterator it = m_data.find(id);
+        if(it != m_data.end())
+            return it.value();
+        return PropertyHubPtr();
+    }
+
+    PropertyHubPtr UserData::createUserData(const QString& id)
+    {
+        PropertyHubPtr hub = PropertyHubPtr(new PropertyHub());
+        m_data.insert(id, hub);
+        return hub;
+    }
+
+    void UserData::destroyUserData(const QString& id)
+    {
+        DataMap::iterator it = m_data.find(id);
+        if(it != m_data.end())
+            m_data.erase(it);
+    }
+
+    QByteArray UserData::serialize()
+    {
+        return QByteArray();
+    }
+
+    bool UserData::deserialize(const QByteArray& arr)
+    {
+        return false;
+    }
+
+    void UserData::setNamespace(const QString& ns)
+    {
+        m_namespace = ns;
+    }
+
+    QString UserData::getNamespace()
+    {
+        return m_namespace;
     }
 }
 

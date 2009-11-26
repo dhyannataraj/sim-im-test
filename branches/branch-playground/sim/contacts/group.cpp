@@ -58,6 +58,16 @@ namespace SIM
             return userData.getUserData(id, true);
         return getContacts()->getUserData(id);
     }
+
+    QString Group::getName()
+    {
+        return m_userdata->value("Name").toString();
+    }
+
+    void Group::setName(const QString& name)
+    {
+        m_userdata->setValue("Name", name);
+    }
 }
 
 // vim: set expandtab:

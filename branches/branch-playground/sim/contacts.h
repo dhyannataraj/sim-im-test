@@ -186,7 +186,7 @@ protected:
     class ContactListPrivate *p;
     friend class Contact;
     friend class Group;
-    friend class UserData;
+    friend class UserData_old;
     friend class GroupIterator;
     friend class GroupIteratorPrivate;
     friend class ContactIterator;

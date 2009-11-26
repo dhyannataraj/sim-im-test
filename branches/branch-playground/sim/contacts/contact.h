@@ -61,14 +61,14 @@ namespace SIM
         void setup();
         PropertyHub* userdata() const { return m_userdata; }
 
-        UserData& getUserData() { return userData; }
+        UserData_old& getUserData() { return userData; }
     protected:
         unsigned long m_id;
         friend class ContactList;
         friend class ContactListPrivate;
 
     private:
-        UserData userData;
+        UserData_old userData;
         PropertyHub* m_userdata;
     };
 

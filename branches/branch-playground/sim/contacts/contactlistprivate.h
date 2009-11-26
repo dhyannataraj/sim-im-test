@@ -26,7 +26,7 @@ namespace SIM
         void unregisterUserData(unsigned id);
         void flush(Contact *c, Group *g, const QByteArray &section, Buffer *cfg);
         void flush(Contact *c, Group *g);
-        UserData userData;
+        UserData_old userData;
         std::map<unsigned long, UserDataDef> userDataDef;
         Contact			*owner;
         std::map<unsigned long, Contact*>  contacts;

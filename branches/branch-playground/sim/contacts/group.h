@@ -20,11 +20,14 @@ namespace SIM
         Group(unsigned long id = 0, Buffer *cfg = NULL);
         virtual ~Group();
         unsigned long id() { return m_id; }
-        PROP_UTF8(Name)
+
+        QString getName();
+        void setName(const QString& name);
+
         void *getUserData(unsigned id, bool bCreate = false);
         ClientUserData clientData;
         PropertyHub* userdata() const { return m_userdata; }
-        UserData& getUserData() { return userData; }
+        UserData_old& getUserData() { return userData; }
 
     protected:
         unsigned long m_id;
@@ -32,7 +35,8 @@ namespace SIM
         friend class ContactListPrivate;
 
     private:
-        UserData userData;
+        QString m_name;
+        UserData_old userData;
         PropertyHub* m_userdata;
     };
 }

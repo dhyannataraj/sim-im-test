@@ -7,6 +7,7 @@
 #include "testprotocolmanager.h"
 #include "testcontactlist.h"
 #include "testpropertyhub.h"
+#include "testuserdata.h"
 
 int main(int argc, char** argv)
 {
@@ -16,6 +17,7 @@ int main(int argc, char** argv)
 	QTest::qExec(new testProtocolManager::Test());
 	QTest::qExec(new testPropertyHub::Test());
 	QTest::qExec(new testContactList::Test());
+	QTest::qExec(new testUserData::Test());
 	return 0;
 }
 
