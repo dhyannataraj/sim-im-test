@@ -761,8 +761,7 @@ bool OSDPlugin::processEvent(Event *e)
         if (data == NULL)
             break;
         osd.contact = msg->contact();
-        PluginPtr coreplugin = getPluginManager()->plugin("_core");
-        CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data()); // FIXME
+        CorePlugin* core = GET_CorePlugin();
         if (!core->unread.empty())
             bHaveUnreadMessages=true;
         if (msg->type() == MessageStatus) {
@@ -820,8 +819,7 @@ bool OSDPlugin::processEvent(Event *e)
         if (data == NULL)
             break;
         osd.contact = msg->contact();
-        PluginPtr coreplugin = getPluginManager()->plugin("_core");
-        CorePlugin* core = static_cast<CorePlugin*>(coreplugin.data()); // FIXME
+        CorePlugin* core = GET_CorePlugin();
         if (core->unread.empty())
 	    bHaveUnreadMessages=false;
         if (msg->type() == MessageStatus) {

@@ -17,6 +17,7 @@
 
 #include "simapi.h"
 #include "mainwin.h"
+#include "core.h"
 
 #include <QApplication>
 #include <QWidget>
@@ -203,7 +204,8 @@ QByteArray OnTopPlugin::getConfig()
 
 QWidget *OnTopPlugin::getMainWindow()
 {
-    return MainWindow::mainWindow();
+    CorePlugin *core = GET_CorePlugin();
+    return core->getMainWindow();
 }
 
 void OnTopPlugin::getState()

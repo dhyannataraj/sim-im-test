@@ -841,6 +841,7 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
 
 QWidget *ShortcutsPlugin::getMainWindow()
 {
-    return MainWindow::mainWindow();
+    CorePlugin *core = GET_CorePlugin();
+    return core->getMainWindow();
 }
 

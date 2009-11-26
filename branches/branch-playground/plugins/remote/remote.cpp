@@ -570,6 +570,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     }
     QWidget *w;
     unsigned n;
+    CorePlugin *core = GET_CorePlugin();
     switch (nCmd){
 #ifdef WIN32
     case CMD_ICON:{
@@ -628,13 +629,13 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     unsigned style = 0;
                     QString statusIcon;
                     unsigned status = contact->contactInfo(style, statusIcon);
-                    if ((status == STATUS_OFFLINE) && CorePlugin::instance()->value("ShowOnLine").toBool())
+                    if ((status == STATUS_OFFLINE) && core->value("ShowOnLine").toBool())
                         continue;
-                    unsigned mode = CorePlugin::instance()->value("SortMode").toUInt();
+                    unsigned mode = core->value("SortMode").toUInt();
                     ContactInfo info;
                     QString active;
                     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
-                    if (CorePlugin::instance()->value("GroupMode").toUInt()){
+                    if (core->value("GroupMode").toUInt()){
                         unsigned index = 0xFFFFFFFF;
                         if (contact->getGroup()){
                             Group *grp = getContacts()->group(contact->getGroup());
@@ -665,7 +666,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     info.id    = contact->id();
                     info.icon  = statusIcon;
                     info.group = contact->getGroup();
-                    if (CorePlugin::instance()->value("GroupMode").toUInt()){
+                    if (core->value("GroupMode").toUInt()){
                         info.group = contact->getGroup();
                         list<unsigned>::iterator it;
                         for (it = groups.begin(); it != groups.end(); ++it)
@@ -765,11 +766,11 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 if (client->getCommonStatus())
                     client->setStatus(status, true);
             }
-            if (CorePlugin::instance()->getManualStatus() == status)
+            if (core->getManualStatus() == status)
                 return true;
             //core->data.ManualStatus.asULong()  = status;
-            CorePlugin::instance()->setValue("ManualStatus", (unsigned int)status);
-            CorePlugin::instance()->setValue("StatusTime", (unsigned int)time(NULL));
+            core->setValue("ManualStatus", (unsigned int)status);
+            core->setValue("StatusTime", (unsigned int)time(NULL));
             EventClientStatus().process();
             return true;
         }
@@ -778,7 +779,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             if (client->getCommonStatus()){
                 const CommandDef *d = NULL;
                 for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
-                    if (d->id == CorePlugin::instance()->getManualStatus())
+                    if (d->id == core->getManualStatus())
                         break;
                 }
                 if (d){
@@ -795,14 +796,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_INVISIBLE:
         if (args.size()){
             bool bInvisible = isOn(args[0]);
-            if (CorePlugin::instance()->value("Invisible").toBool() != bInvisible){
-                CorePlugin::instance()->setValue("Invisible", bInvisible);
+            if (core->value("Invisible").toBool() != bInvisible){
+                core->setValue("Invisible", bInvisible);
                 for (unsigned i = 0; i < getContacts()->nClients(); i++)
                     getContacts()->getClient(i)->setInvisible(bInvisible);
             }
         }else{
             out  = "INVISIBLE ";
-            out += CorePlugin::instance()->value("Invisible").toBool() ? "on" : "off";
+            out += core->value("Invisible").toBool() ? "on" : "off";
         }
         return true;
     case CMD_MAINWND:
@@ -920,7 +921,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
         }
     case CMD_SHOW:{
             Command cmd;
-            if (CorePlugin::instance()->unread.size())
+            if (core->unread.size())
                 cmd->id = CmdUnread;
             else
                 return false;

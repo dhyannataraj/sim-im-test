@@ -78,7 +78,8 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
     if (!text.isEmpty()){
         m_edit->m_edit->setText(text);
         m_edit->m_edit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
-        if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::instance()->property("OwnColors").toBool()){
+        CorePlugin *core = GET_CorePlugin();
+        if ((msg->getBackground() != msg->getForeground()) && !core->property("OwnColors").toBool()){
             m_edit->m_edit->setBackground(msg->getBackground());
             m_edit->m_edit->setForeground(msg->getForeground(), true);
         }
@@ -183,7 +184,8 @@ void MsgJournal::send(const QString& msgText)
     msg->setTime(m_time);
     msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
     msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);
-    msg->setFont(CorePlugin::instance()->property("EditFont").toString());
+    CorePlugin *core = GET_CorePlugin();
+    msg->setFont(core->property("EditFont").toString());
     msg->setSubject(m_wnd->edtSubj->text());
     msg->setPrivate(m_wnd->cmbSecurity->currentIndex());
     msg->setMood(m_wnd->cmbMood->currentIndex());

@@ -17,7 +17,6 @@ SET(transparent_UICS
 )
 
 SET(transparent_LIBS
-        _core
         floaty
 )
 

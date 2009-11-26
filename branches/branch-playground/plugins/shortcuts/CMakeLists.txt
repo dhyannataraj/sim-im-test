@@ -19,9 +19,5 @@ SET(shortcuts_UICS
         shortcutcfgbase.ui
 )
 
-SET(shortcuts_LIBS
-  _core
-)
-
 SIM_ADD_PLUGIN(shortcuts)
 ENDIF(BUILD_DROPPED)

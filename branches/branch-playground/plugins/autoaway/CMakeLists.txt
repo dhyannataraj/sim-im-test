@@ -47,10 +47,6 @@ IF(COMPILE_PLUGIN)
             autoawaycfgbase.ui
     )
 
-    SET(autoaway_LIBS
-            _core
-    )
-
     IF(WIN32)
         SET(autoaway_SRCS
             ${autoaway_SRCS}

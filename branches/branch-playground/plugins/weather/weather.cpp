@@ -23,6 +23,7 @@
 #include "icons.h"
 #include "mainwin.h"
 #include "unquot.h"
+#include "core.h"
 
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
@@ -236,7 +237,8 @@ void WeatherPlugin::showBar()
     if (m_bar || value("ID").toString().isEmpty())
         return;
  
-    MainWindow *main= MainWindow::mainWindow();
+    CorePlugin *core = GET_CorePlugin();
+    MainWindow *main= core->getMainWindow();
     if (main == NULL)
             return;
     

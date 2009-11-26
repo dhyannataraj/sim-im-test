@@ -29,7 +29,7 @@ ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS} ${remote_mocs} ${remote_uis})
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-TARGET_LINK_LIBRARIES(remote simlib _core)
+TARGET_LINK_LIBRARIES(remote simlib)
 
 SET_TARGET_PROPERTIES(remote PROPERTIES PREFIX "")
 

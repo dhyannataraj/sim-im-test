@@ -21,6 +21,7 @@
 
 #include "log.h"
 #include "misc.h"
+#include "core.h"
 
 #include "transparent.h"
 #include "mainwin.h"
@@ -96,7 +97,8 @@ QByteArray TransparentPlugin::getConfig()
 
 QWidget *TransparentPlugin::getMainWindow()
 {
-    return MainWindow::mainWindow();
+    CorePlugin *core = GET_CorePlugin();
+    return core->getMainWindow();
 }
 
 QWidget *TransparentPlugin::createConfigWindow(QWidget *parent)

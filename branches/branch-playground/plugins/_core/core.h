@@ -175,16 +175,7 @@ protected:
     QString m_Viewer;
 };
 
-// Lets do this later whole in one, because at the moment it only breaks linking of all other plugins...
-#ifndef CORE_EXPORT
-#   ifdef CORE_EXPORTS
-#       define CORE_EXPORT Q_DECL_EXPORT
-#   else // CORE_EXPORTS
-#       define CORE_EXPORT Q_DECL_IMPORT
-#   endif // CORE_EXPORTS
-#endif // CORE_EXPORT
-
-class CORE_EXPORT CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -196,10 +187,7 @@ public:
     void setContainerMode(unsigned);
     void setRegNew(bool p_new) {m_RegNew=p_new;}
     bool getRegNew() const {return m_RegNew;}
-    void setICQUIN(QString p_uin) {m_ICQUIN=p_uin;}
-    QString getICQUIN() const {return m_ICQUIN;}
-    void setICQPassword(QString p_password) {m_ICQPassword=p_password;}
-    QString getICQPassword() const {return m_ICQPassword;}
+    MainWindow *getMainWindow() { return m_main; };
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -268,7 +256,7 @@ protected:
     void createMsgEditToolbar();
     void createTextEditToolbar();
     void createMenuMsgView();		// in msgview_menu.cpp
-	void createMenuTextEdit();		// in textedit_menu.cpp
+    void createMenuTextEdit();		// in textedit_menu.cpp
 
     bool                m_bInit;
     QStringList         m_profiles;
@@ -289,8 +277,6 @@ protected:
     BalloonMsg          *m_alert;
     FileLock            *m_lock;
     bool                m_RegNew;
-    QString             m_ICQUIN;
-    QString             m_ICQPassword;
     HistoryThread      *m_HistoryThread;
 
 private:
@@ -312,6 +298,8 @@ private:
     friend class HistoryWindow;
     friend class Tmpl;
 };
+
+#define GET_CorePlugin() { static_cast<CorePlugin*>(SIM::getPluginManager()->plugin("_core").data()) };
 
 #endif
 

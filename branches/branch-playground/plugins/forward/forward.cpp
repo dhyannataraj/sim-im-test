@@ -150,7 +150,8 @@ bool ForwardPlugin::processEvent(Event *e)
         ForwardUserData *data = (ForwardUserData*)(contact->getUserData(user_data_id));
         if ((data == NULL) || (data->Phone.str().isEmpty()))
             return false;
-        unsigned status = CorePlugin::instance()->getManualStatus();
+        CorePlugin *core = GET_CorePlugin();
+        unsigned status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
             unsigned flags = MESSAGE_NOHISTORY;

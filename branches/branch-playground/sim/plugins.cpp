@@ -599,8 +599,14 @@ namespace SIM
         if( plugin == NULL )
             return PluginPtr();
         info.plugin = plugin.toWeakRef();
-        info.title = info.info->title;
-        info.description = info.info->description;
+        if( NULL != info.info ) {
+            info.title = info.info->title;
+            info.description = info.info->description;
+            if (info.info->flags & PLUGIN_PROTOCOL)
+                info.protocolPlugin = true;
+            if (info.info->flags & PLUGIN_NODISABLE)
+                info.alwaysEnabled = true;
+        }
         plugin->setName(info.name);
         if (info.plugin == NULL) {
             return PluginPtr();
@@ -609,10 +615,6 @@ namespace SIM
             delete info.cfg;
             info.cfg = NULL;
         }
-        if (info.info->flags & PLUGIN_PROTOCOL)
-            info.protocolPlugin = true;
-        if (info.info->flags & PLUGIN_NODISABLE)
-            info.alwaysEnabled = true;
 
         EventPluginChanged e(info.name);
         e.process();

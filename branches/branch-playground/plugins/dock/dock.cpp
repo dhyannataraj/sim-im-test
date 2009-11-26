@@ -127,7 +127,7 @@ void DockPlugin::init()
 {
     if (m_dock)
         return;
-    m_main = getMainWindow();
+    m_main = this->getMainWindow();
     if (m_main == NULL)
         return;
     m_main->installEventFilter(this);
@@ -310,7 +310,8 @@ void DockPlugin::doubleClicked()
     if (m_popup)
         return;
 
-    if ( 0 == CorePlugin::instance()->unread.size() )
+    CorePlugin *core = GET_CorePlugin();
+    if ( 0 == core->unread.size() )
         return;
 
     Command cmd;
@@ -324,7 +325,8 @@ void DockPlugin::doubleClicked()
 
 QWidget *DockPlugin::getMainWindow()
 {
-    return MainWindow::mainWindow();
+    CorePlugin *core = GET_CorePlugin();
+    return core->getMainWindow();
 }
 
 QWidget *DockPlugin::createConfigWindow(QWidget *parent)
