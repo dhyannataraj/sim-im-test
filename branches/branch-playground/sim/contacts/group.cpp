@@ -49,14 +49,14 @@ namespace SIM
         delete m_userdata;
     }
 
-    void *Group::getUserData(unsigned id, bool bCreate)
+    void *Group::getUserData_old(unsigned id, bool bCreate)
     {
         void *res = userData.getUserData(id, bCreate);
         if (res)
             return res;
         if (bCreate)
             return userData.getUserData(id, true);
-        return getContacts()->getUserData(id);
+        return getContacts()->getUserData_old(id);
     }
 
     QString Group::getName()

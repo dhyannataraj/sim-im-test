@@ -53,7 +53,7 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         QTabWidget *tab = qobject_cast<QTabWidget*>(p);
         if (!tab)
             continue;
-        void *data = getContacts()->getUserData(plugin->user_data_id);
+        void *data = getContacts()->getUserData_old(plugin->user_data_id);
         m_iface = new OSDIface(tab, data, plugin);
         tab->addTab(m_iface, i18n("&Interface"));
         break;
@@ -69,7 +69,7 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
 
 void OSDConfig::apply()
 {
-    apply(getContacts()->getUserData(m_plugin->user_data_id));
+    apply(getContacts()->getUserData_old(m_plugin->user_data_id));
 }
 
 void OSDConfig::apply(void *d)

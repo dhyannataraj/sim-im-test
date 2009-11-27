@@ -123,7 +123,7 @@ void GroupItem::init(Group *grp)
     m_nContactsOnline = 0;
     setExpandable(true);
     //setSelectable(true);
-    ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::instance()->list_data_id, false));
+    ListUserData *data = (ListUserData*)(grp->getUserData_old(CorePlugin::instance()->list_data_id, false));
     if (data == NULL){
         setOpen(true);
     }else{
@@ -164,7 +164,7 @@ void GroupItem::setOpen(bool bOpen)
     //UserViewItemBase::setOpen(bOpen);
     Group *grp = getContacts()->group(m_id);
     if (grp){
-        ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::instance()->list_data_id, !bOpen));
+        ListUserData *data = (ListUserData*)(grp->getUserData_old(CorePlugin::instance()->list_data_id, !bOpen));
         if (data){
             if (m_bOffline){
                 data->OfflineOpen.asBool() = bOpen;
@@ -437,7 +437,7 @@ void UserListBase::drawUpdates()
         unsigned status = getUserStatus(contact, style, icons);
         unsigned unread = getUnread(contact->id());
         bool bShow = false;
-        ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::instance()->list_data_id));
+        ListUserData *data = (ListUserData*)(contact->getUserData_old(CorePlugin::instance()->list_data_id));
         if (data && data->ShowAlways.toBool())
             bShow = true;
         switch (m_groupMode){
@@ -737,7 +737,7 @@ void UserListBase::fill()
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
-            ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::instance()->list_data_id);
+            ListUserData *data = (ListUserData*)contact->getUserData_old(CorePlugin::instance()->list_data_id);
             if (data && data->ShowAlways.toBool())
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
@@ -774,7 +774,7 @@ void UserListBase::fill()
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
-            ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::instance()->list_data_id);
+            ListUserData *data = (ListUserData*)contact->getUserData_old(CorePlugin::instance()->list_data_id);
             if (data && data->ShowAlways.toBool())
                 bShow = true;
             if ((status <= STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
@@ -827,7 +827,7 @@ void UserListBase::fill()
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
-            ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::instance()->list_data_id);
+            ListUserData *data = (ListUserData*)contact->getUserData_old(CorePlugin::instance()->list_data_id);
             if (data && data->ShowAlways.toBool())
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)

@@ -5,6 +5,7 @@
 #include "userdata.h"
 #include "propertyhub.h"
 #include "clientuserdata.h"
+#include "misc.h"
 
 namespace SIM
 {
@@ -48,7 +49,7 @@ namespace SIM
         PROP_UTF8(Notes)
         PROP_ULONG(Flags)
         PROP_STR(Encoding)
-        void *getUserData(unsigned id, bool bCreate = false);
+        void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
         ClientUserData clientData;
         bool setFirstName(const QString &name, const QString &client);
         bool setLastName(const QString &name, const QString &client);
@@ -61,7 +62,7 @@ namespace SIM
         void setup();
         PropertyHub* userdata() const { return m_userdata; }
 
-        UserData_old& getUserData() { return userData; }
+        UserData_old& getUserData_old() { return userData; }
     protected:
         unsigned long m_id;
         friend class ContactList;

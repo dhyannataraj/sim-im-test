@@ -37,14 +37,14 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
 	SIM::PropertyHub* mapdata = NULL;
     if (m_contact)
     {
-        data = m_contact->getUserData(m_cmd->id);
-        if (m_contact->getUserData().getUserData(m_cmd->id, false))
+        data = m_contact->getUserData_old(m_cmd->id);
+        if (m_contact->getUserData_old().getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
         mapdata = m_contact->userdata();
     }
     else if (m_group) {
-        data = m_group->getUserData(m_cmd->id);
-        if (m_group->getUserData().getUserData(m_cmd->id, false))
+        data = m_group->getUserData_old(m_cmd->id);
+        if (m_group->getUserData_old().getUserData(m_cmd->id, false))
             chkOverride->setChecked(true);
         mapdata = m_group->userdata();
     }
@@ -107,11 +107,11 @@ void PrefConfig::apply()
             void *data = NULL;
             if (m_contact)
             {
-                data = m_contact->getUserData().getUserData(m_cmd->id, true);
+                data = m_contact->getUserData_old().getUserData(m_cmd->id, true);
             }
             else if (m_group)
             {
-                data = m_group->getUserData().getUserData(m_cmd->id, true);
+                data = m_group->getUserData_old().getUserData(m_cmd->id, true);
             }
             if (data)
                 emit apply(data);
@@ -120,11 +120,11 @@ void PrefConfig::apply()
         {
             if (m_contact)
             {
-                m_contact->getUserData().freeUserData(m_cmd->id);
+                m_contact->getUserData_old().freeUserData(m_cmd->id);
             }
             else if(m_group)
             {
-                m_group->getUserData().freeUserData(m_cmd->id);
+                m_group->getUserData_old().freeUserData(m_cmd->id);
             }
         }
     }

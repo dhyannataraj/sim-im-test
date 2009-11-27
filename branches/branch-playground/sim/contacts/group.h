@@ -6,6 +6,7 @@
 #include "userdata.h"
 #include "clientuserdata.h"
 #include "propertyhub.h"
+#include "misc.h"
 
 namespace SIM
 {
@@ -24,10 +25,10 @@ namespace SIM
         QString getName();
         void setName(const QString& name);
 
-        void *getUserData(unsigned id, bool bCreate = false);
+        void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
         ClientUserData clientData;
         PropertyHub* userdata() const { return m_userdata; }
-        UserData_old& getUserData() { return userData; }
+        UserData_old& getUserData_old() SIM_DEPRECATED { return userData; }
 
     protected:
         unsigned long m_id;

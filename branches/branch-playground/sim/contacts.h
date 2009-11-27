@@ -25,6 +25,7 @@
 #include "contacts/clientuserdata.h"
 #include "contacts/packettype.h"
 #include "contacts/protocol.h"
+#include "misc.h"
 #include "propertyhub.h"
 
 #include <map>
@@ -160,7 +161,7 @@ public:
 
         COPY_RESTRICTED(PacketIterator)
     };
-    void *getUserData(unsigned id);
+    void *getUserData_old(unsigned id) SIM_DEPRECATED;
     unsigned nClients();
     Client *getClient(unsigned n);
     void clearClients();

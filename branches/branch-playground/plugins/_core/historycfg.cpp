@@ -259,7 +259,7 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
     connect(chkSize, SIGNAL(toggled(bool)), this, SLOT(toggledSize(bool)));
     connect(chkExtViewer, SIGNAL(toggled(bool)), this, SLOT(toggledExtViewer(bool)));
-    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::instance()->history_data_id));
+    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->history_data_id));
     chkDays->setChecked(data->CutDays.toBool());
     chkSize->setChecked(data->CutSize.toBool());
     edtDays->setValue(data->Days.toULong());
@@ -350,7 +350,7 @@ void HistoryConfig::apply()
         EventHistoryConfig(0).process();
     }
     fillPreview();
-    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::instance()->history_data_id));
+    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->history_data_id));
     data->CutDays.asBool()  = chkDays->isChecked();
     data->CutSize.asBool()  = chkSize->isChecked();
     data->Days.asULong()    = edtDays->text().toULong();

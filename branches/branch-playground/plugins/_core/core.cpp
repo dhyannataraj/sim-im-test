@@ -829,7 +829,7 @@ void CorePlugin::initData()
 
 void CorePlugin::setAutoReplies()
 {
-	ARUserData *data = (ARUserData*)getContacts()->getUserData(ar_data_id);
+	ARUserData *data = (ARUserData*)getContacts()->getUserData_old(ar_data_id);
 	for (autoReply *a = autoReplies; a->text; a++)
     {
 		const QString &t = get_str(data->AutoReply, a->status);
@@ -1146,20 +1146,20 @@ bool CorePlugin::processEvent(Event *e)
 				ARUserData *ar;
 				QString tmpl;
 				if (r->contact){
-					ar = (ARUserData*)(r->contact->getUserData().getUserData(ar_data_id, false));
+					ar = (ARUserData*)(r->contact->getUserData_old().getUserData(ar_data_id, false));
 					if (ar)
 						tmpl = get_str(ar->AutoReply, r->status);
 					if (tmpl.isEmpty()){
 						ar = NULL;
 						Group *grp = getContacts()->group(r->contact->getGroup());
 						if (grp)
-							ar = (ARUserData*)(grp->getUserData().getUserData(ar_data_id, false));
+							ar = (ARUserData*)(grp->getUserData_old().getUserData(ar_data_id, false));
 						if (ar)
 							tmpl = get_str(ar->AutoReply, r->status);
 					}
 				}
 				if (tmpl.isEmpty()){
-					ar = (ARUserData*)(getContacts()->getUserData(ar_data_id));
+					ar = (ARUserData*)(getContacts()->getUserData_old(ar_data_id));
 					tmpl = get_str(ar->AutoReply, r->status);
 					if (tmpl.isEmpty())
 						tmpl = get_str(ar->AutoReply, STATUS_AWAY);
@@ -1174,7 +1174,7 @@ bool CorePlugin::processEvent(Event *e)
 			}
 		case eEventSaveState:
 			{
-				ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
+				ARUserData *ar = (ARUserData*)getContacts()->getUserData_old(ar_data_id);
 				for (autoReply *a = autoReplies; a->text; a++){
 					QString t = get_str(ar->AutoReply, a->status);
 					if (t == i18n(a->text))
@@ -1371,7 +1371,7 @@ bool CorePlugin::processEvent(Event *e)
 						break;
 					case EventContact::eOnline:
                         {
-                            CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
+                            CoreUserData *data = (CoreUserData*)(contact->getUserData_old(user_data_id));
                             if (data->OpenOnOnline.toBool()){
                                 Message *msg = new Message(MessageGeneric);
                                 msg->setContact(contact->id());
@@ -1420,11 +1420,11 @@ bool CorePlugin::processEvent(Event *e)
 					}
 					unsigned type = msg->baseType();
 					if (type == MessageStatus){
-						CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
+						CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
 						if ((data == NULL) || !data->LogStatus.toBool())
 							return false;
 					}else if (type == MessageFile){
-						CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
+						CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
 						if (data){
 							if (data->AcceptMode.toULong() == 1){
 								QString dir = data->IncomingPath.str();
@@ -1470,7 +1470,7 @@ bool CorePlugin::processEvent(Event *e)
 							EventContact(contact, EventContact::eChanged).process();
 						}
 						if (contact){
-							CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
+							CoreUserData *data = (CoreUserData*)(contact->getUserData_old(user_data_id));
 							if (data->OpenNewMessage.toULong()){
 								if (data->OpenNewMessage.toULong() == NEW_MSG_MINIMIZE)
 									msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
@@ -2719,7 +2719,7 @@ bool CorePlugin::processEvent(Event *e)
 				Message *msg = (Message*)(cmd->param);
 				if (cmd->id == CmdFileAccept){
 					Contact *contact = getContacts()->contact(msg->contact());
-					CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
+					CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
 					QString dir;
 					if (data)
 						dir = data->IncomingPath.str();
@@ -3747,7 +3747,7 @@ void CorePlugin::checkHistory()
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
-        HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
+        HistoryUserData *data = (HistoryUserData*)(contact->getUserData_old(history_data_id));
         if ((data == NULL) || !data->CutDays.toBool())
             continue;
         QDateTime now(QDateTime::currentDateTime());

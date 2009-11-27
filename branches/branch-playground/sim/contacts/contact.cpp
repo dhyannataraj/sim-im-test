@@ -54,7 +54,7 @@ namespace SIM
         return contactData;
     }
 
-    void *Contact::getUserData(unsigned id, bool bCreate)
+    void *Contact::getUserData_old(unsigned id, bool bCreate)
     {
         void *res = userData.getUserData(id, bCreate);
         if (res)
@@ -63,8 +63,8 @@ namespace SIM
             return userData.getUserData(id, true);
         Group *group = getContacts()->group(getGroup());
         if (group)
-            return group->getUserData(id, false);
-        return getContacts()->getUserData(id);
+            return group->getUserData_old(id, false);
+        return getContacts()->getUserData_old(id);
     }
 
     void Contact::setup()

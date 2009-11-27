@@ -843,7 +843,7 @@ bool MsgEdit::sendMessage(Message *msg)
 
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
-        TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id));
+        TranslitUserData *data = (TranslitUserData*)(contact->getUserData_old(CorePlugin::instance()->translit_data_id));
         if (data && data->Translit.toBool())
             msg->setFlags(msg->getFlags() | MESSAGE_TRANSLIT);
     }
@@ -1089,7 +1089,7 @@ bool MsgEdit::processEvent(Event *e)
         if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
-                TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id));
+                TranslitUserData *data = (TranslitUserData*)(contact->getUserData_old(CorePlugin::instance()->translit_data_id));
                 if (data){
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (data->Translit.toBool())
@@ -1170,7 +1170,7 @@ bool MsgEdit::processEvent(Event *e)
         else if ((cmd->id == CmdTranslit) && (cmd->param == this)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
-                TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::instance()->translit_data_id, true));
+                TranslitUserData *data = (TranslitUserData*)(contact->getUserData_old(CorePlugin::instance()->translit_data_id, true));
                 data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return true;

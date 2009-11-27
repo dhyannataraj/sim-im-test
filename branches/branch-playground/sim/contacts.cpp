@@ -1078,7 +1078,7 @@ void ContactList::clearClients()
     eClients.process();
 }
 
-void *ContactList::getUserData(unsigned id)
+void *ContactList::getUserData_old(unsigned id)
 {
     return p->userData.getUserData(id, true);
 }

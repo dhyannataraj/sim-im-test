@@ -22,7 +22,6 @@
 
 #include "simapi.h"
 
-#ifndef USE_KDE4
 #include <QPushButton>
 
 class EXPORT QColorButton : public QPushButton
@@ -50,11 +49,6 @@ private:
     QColor col;
     QPoint mPos;
 };
-
-#else
-#include <kcolorbutton.h>
-typedef KColorButton QColorButton;
-#endif
 
 #endif
 

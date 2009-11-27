@@ -43,6 +43,12 @@
         # define EXPORT_PROC extern "C" SIM_EXPORT
 #endif
 
+#if (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
+#define SIM_DEPRECATED  __attribute__((__deprecated__))
+#else
+#define SIM_DEPRECATED
+#endif /* __GNUC__ */
+
 # define DEPRECATED Q_DECL_DEPRECATED
 
 #ifndef COPY_RESTRICTED

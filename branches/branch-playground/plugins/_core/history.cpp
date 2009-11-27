@@ -607,7 +607,7 @@ void History::add(Message *msg, const QString &type)
     HistoryUserData *data = NULL;
     Contact *contact = getContacts()->contact(msg->contact());
     if (contact)
-        data = (HistoryUserData*)(contact->getUserData(CorePlugin::instance()->history_data_id));
+        data = (HistoryUserData*)(contact->getUserData_old(CorePlugin::instance()->history_data_id));
     if (data && data->CutSize.toBool()){
         QFileInfo fInfo(f_name);
         if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toLong() * 0x100000 + CUT_BLOCK)){

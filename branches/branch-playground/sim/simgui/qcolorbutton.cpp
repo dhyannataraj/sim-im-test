@@ -19,7 +19,6 @@
 */
 
 #include "qcolorbutton.h"
-#ifndef USE_KDE4
 
 #include <QPainter>
 #include <QApplication>
@@ -90,6 +89,4 @@ void QColorButton::chooseColor()
     if( c.isValid() )
         setColor( c );
 }
-
-#endif
 

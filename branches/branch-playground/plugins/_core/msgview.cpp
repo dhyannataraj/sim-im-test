@@ -1169,7 +1169,7 @@ bool MsgView::processEvent(Event *e)
             bAdd = false;
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
+                CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
                 if (data && data->LogStatus.asBool() != NEW_MSG_NOOPEN)
                     bAdd = true;
             }
@@ -1177,7 +1177,7 @@ bool MsgView::processEvent(Event *e)
         if (bAdd && (e->type() == eEventMessageReceived)){
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::instance()->user_data_id));
+                CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
                 if (data->OpenNewMessage.asULong() != NEW_MSG_NOOPEN)
                     bAdd = false;
             }

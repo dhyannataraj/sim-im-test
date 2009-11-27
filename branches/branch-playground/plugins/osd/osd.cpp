@@ -173,7 +173,7 @@ OSDPlugin::~OSDPlugin()
 
 QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 {
-    return new OSDConfig(parent, getContacts()->getUserData(user_data_id), this);
+    return new OSDConfig(parent, getContacts()->getUserData_old(user_data_id), this);
 }
 
 void OSDPlugin::timeout()
@@ -489,7 +489,7 @@ void OSDPlugin::processQueue()
             continue;
         QString text;
         OSDUserData *data = NULL;
-        data = (OSDUserData*)contact->getUserData(user_data_id);
+        data = (OSDUserData*)contact->getUserData_old(user_data_id);
 		uint ms = STATUS_ONLINE; //core->getManualStatus();
         switch (m_request.type){
         case OSD_ALERTONLINE:
@@ -721,7 +721,7 @@ bool OSDPlugin::processEvent(Event *e)
             break;
         }
         case EventContact::eStatus: {
-            OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+            OSDUserData *data = (OSDUserData*)(contact->getUserData_old(user_data_id));
             if (data){
                 unsigned style = 0;
                 QSet<QString> wrkIcons;
@@ -757,7 +757,7 @@ bool OSDPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
-        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+        OSDUserData *data = (OSDUserData*)(contact->getUserData_old(user_data_id));
         if (data == NULL)
             break;
         osd.contact = msg->contact();
@@ -815,7 +815,7 @@ bool OSDPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
-        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+        OSDUserData *data = (OSDUserData*)(contact->getUserData_old(user_data_id));
         if (data == NULL)
             break;
         osd.contact = msg->contact();
