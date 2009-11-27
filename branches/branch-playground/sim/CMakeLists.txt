@@ -9,7 +9,6 @@ ENDIF(NOT WIN32)
 ######################
 
 SET(sim_LIB_SRCS
-		aboutdata.cpp
 		buffer.cpp
 		builtinlogger.cpp
 		cfg.cpp
@@ -80,7 +79,6 @@ SET(sim_LIB_SRCS
 SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
 
 SET(sim_LIB_HDRS
-		aboutdata.h
 		buffer.h
 		builtinlogger.h
 		cfg.h
@@ -158,8 +156,8 @@ IF(ENABLE_KDE4)
 	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/kdesimapp.cpp)
 	SET(sim_LIB_HDRS ${sim_LIB_HDRS} simapp/kdesimapp.h)
 ELSE(ENABLE_KDE4)
-	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/simapp.cpp)
-	SET(sim_LIB_HDRS ${sim_LIB_HDRS} simapp/simapp.h)
+	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/simapp.cpp aboutdata.cpp)
+	SET(sim_LIB_HDRS ${sim_LIB_HDRS} simapp/simapp.h aboutdata.h)
 ENDIF(ENABLE_KDE4)
 
 # moc the sources

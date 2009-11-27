@@ -18,6 +18,7 @@
 #ifndef _POLLING_H
 #define _POLLING_H
 
+#include <list>
 #include "socket/socket.h"
 
 class HttpRequest;

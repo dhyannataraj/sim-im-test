@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QString>
 #include <map>
+#include <string>
 
 #include "simapi.h"
 

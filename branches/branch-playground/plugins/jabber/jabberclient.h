@@ -19,6 +19,7 @@
 #define _JABBERCLIENT_H
 
 #include <vector>
+#include <list>
 #include <QStack>
 #include <QByteArray>
 

@@ -35,6 +35,11 @@ namespace SIM
 				profiles.append(entry);
 			}
 		}
+		log(L_DEBUG, "Profiles are in: %s", qPrintable(m_rootPath));
+		foreach(const QString& s, profiles)
+		{
+			log(L_DEBUG, "Profile: %s", qPrintable(s));
+		}
 		return profiles;
 	}
 

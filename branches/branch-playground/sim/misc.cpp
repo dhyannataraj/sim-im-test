@@ -58,39 +58,13 @@
 #include <kglobal.h>
 #include <kwindowinfo.h>
 #include <kwindowsystem.h>
+#include <klocale.h>
 #endif
 
 #if !defined(WIN32) && !defined(Q_OS_MAC) && !defined(__OS2__)
 #include <X11/Xutil.h>
 #include <QX11Info>
 #endif
-
-
-#ifndef USE_KDE4
-
-QString i18n(const char *text)
-{
-    return QCoreApplication::translate("@default", text);
-}
-
-QString i18n(const char *comment, const char *text)
-{
-    if (!comment)
-        return i18n(text);
-    if (!text)
-        return QString();
-    QByteArray s;
-    s = "_: ";
-    s += comment;
-    s += '\n';
-    s += text;
-
-    QString sResult = i18n(s.constData());
-    if(sResult == s)
-        return text;
-    return sResult;
-}
-
 
 static bool bPluralInit = false;
 static int plural_form = -1;
@@ -130,11 +104,39 @@ static void initPlural()
         plural_form = 10;
 }
 
+
 void resetPlural()
 {
     bPluralInit = false;
     initPlural();
 }
+
+QString i18n(const char *comment, const char *text)
+{
+    if (!comment)
+        return i18n(text);
+    if (!text)
+        return QString();
+    QByteArray s;
+    s = "_: ";
+    s += comment;
+    s += '\n';
+    s += text;
+
+    QString sResult = i18n(s.constData());
+    if(sResult == s)
+        return text;
+    return sResult;
+}
+
+
+#ifndef USE_KDE4
+
+QString i18n(const char *text)
+{
+    return QCoreApplication::translate("@default", text);
+}
+
 
 QString put_n_in(const QString &orig, unsigned long n)
 {

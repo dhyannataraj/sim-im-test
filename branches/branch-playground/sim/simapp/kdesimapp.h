@@ -4,11 +4,14 @@
 
 #include <kuniqueapplication.h>
 #include <QSessionManager>
+#include <QApplication>
 
-class SimApp : public KUniqueApplication
+#include "simapi.h"
+
+class EXPORT SimApp : public QApplication
 {
 public:
-    SimApp(int argc, char** argv);
+    SimApp(int& argc, char** argv);
     virtual ~SimApp();
     int newInstance();
     void commitData(QSessionManager&);

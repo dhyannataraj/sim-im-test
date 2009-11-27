@@ -14,6 +14,8 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 #include <sys/stat.h>
 #endif
 
+#include <cstdlib>
+
 using namespace std;
 
 namespace SIM
@@ -29,6 +31,7 @@ namespace SIM
         }else{
             s += ".kde/";
         }
+        s.prepend(QDir::homePath() + QDir::separator());
         if (!s.endsWith("/"))
             s += '/';
         s += "share/apps/sim";

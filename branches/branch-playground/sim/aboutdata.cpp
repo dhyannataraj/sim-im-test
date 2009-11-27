@@ -19,7 +19,7 @@
 #include "misc.h"
 
 
-#ifndef USE_KDE
+#ifndef USE_KDE4
 
 #include <qglobal.h>
 #include <QFile>

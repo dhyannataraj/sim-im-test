@@ -1,10 +1,15 @@
 
+#include <QWidget>
 #include "kdesimapp.h"
+#include "log.h"
+#include "misc.h"
 
-SimApp::SimApp(int argc, char** argv) : KUniqueApplication()
+using namespace SIM;
+SimApp::SimApp(int& argc, char** argv) : QApplication(argc, argv)
 {
     firstInstance = true;
 }
+
 
 SimApp::~SimApp()
 {
@@ -18,24 +23,19 @@ int SimApp::newInstance()
     }
 	else
 	{
-        QWidgetList  *list = QApplication::topLevelWidgets();
-        QWidgetListIt it( *list );
-        QWidget *w;
-        while((w = it.current()) != 0 )
-		{
-            ++it;
-            if (w->inherits("MainWindow")){
-                raiseWindow(w);
-            }
-        }
-        delete list;
+//        QWidgetList list = QApplication::topLevelWidgets();
+//        foreach(QWidget* w, list)
+//		{
+//            if (w->inherits("MainWindow")){
+//                raiseWidget(w);
+//            }
+//        }
     }
     return 0;
 }
 
 void SimApp::commitData(QSessionManager&)
 {
-    save_state();
 }
 
 void SimApp::saveState(QSessionManager &sm)

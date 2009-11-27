@@ -59,7 +59,7 @@ namespace SIM
             if(!m_name.isEmpty())
             {
                 arr.append("<");
-                arr.append(m_name);
+                arr.append(m_name.toUtf8());
                 arr.append(">\n");
             }
 
@@ -76,7 +76,7 @@ namespace SIM
             if(!m_name.isEmpty())
             {
                 arr.append("</");
-                arr.append(m_name);
+                arr.append(m_name.toUtf8());
                 arr.append(">\n");
             }
 
@@ -90,13 +90,13 @@ namespace SIM
             {
                 arr.append("string");
                 arr.append("\">");
-                arr.append(v.toString());
+                arr.append(v.toString().toUtf8());
             }
             else if(v.type() == QVariant::Int || v.type() == QVariant::UInt)
             {
                 arr.append("int");
                 arr.append("\">");
-                arr.append(v.toString());
+                arr.append(v.toString().toUtf8());
             }
             else if(v.type() == QVariant::ByteArray)
             {
