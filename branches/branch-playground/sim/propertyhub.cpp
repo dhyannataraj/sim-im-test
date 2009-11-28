@@ -47,9 +47,22 @@ namespace SIM
             QDomElement element = root;
             foreach(const QString& entry, entries)
             {
-                QDomElement el = document.createElement("node");
-                el.setAttribute("name", entry);
-                element.appendChild(el);
+                QDomElement el;
+                QDomNodeList list = element.elementsByTagName("node");
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(list.at(i).toElement().attribute("name") == entry)
+                    {
+                        el = list.at(i).toElement();
+                        break;
+                    }
+                }
+                if(el.isNull())
+                {
+                    el = document.createElement("node");
+                    el.setAttribute("name", entry);
+                    element.appendChild(el);
+                }
                 element = el;
             }
             element.appendChild(serializeVariant(document, value(key)));
