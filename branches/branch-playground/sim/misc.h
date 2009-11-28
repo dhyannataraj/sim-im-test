@@ -42,6 +42,13 @@ class QIcon;
 	#include <klocale.h>
 #else
 
+	EXPORT void resetPlural();
+	EXPORT QString i18n(const char *text);
+    inline QString i18n(const QString &text)
+    { return i18n(qPrintable(text)); }
+	EXPORT QString i18n(const char *text, const char *comment);
+	EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
+
     inline QString i18n(const char *text, const QString &comment)
     { return i18n(text, qPrintable(comment)); }
 
@@ -56,12 +63,6 @@ class QIcon;
 	#endif
 #endif
 
-	EXPORT void resetPlural();
-	EXPORT QString i18n(const char *text);
-    inline QString i18n(const QString &text)
-    { return i18n(qPrintable(text)); }
-	EXPORT QString i18n(const char *text, const char *comment);
-	EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 
 
 namespace SIM {
