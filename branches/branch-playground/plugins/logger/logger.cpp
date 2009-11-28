@@ -68,6 +68,7 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
         : QObject()
 		, Plugin(base)
         , m_file(NULL)
+        , m_bFilter(false)
 {
 
     m_propertyHub = PropertyHub::create("logger");
@@ -78,7 +79,7 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
     Q_FOREACH (const QString &v, packets) {
         setLogType(v.toULong(), true);
     }
-    m_bFilter = false;
+    
     openFile();
 }
 

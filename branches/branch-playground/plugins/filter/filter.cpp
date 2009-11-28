@@ -23,6 +23,9 @@
 #include "msgview.h"
 #include "userwnd.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "filter.h"
 #include "filtercfg.h"
 #include "contacts/contact.h"
@@ -62,12 +65,12 @@ static QWidget *getFilterConfig(QWidget *parent, void *data)
 }
 
 FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
-  : PropertyHub("filter")
-  , Plugin(base)
+  : QObject(), Plugin(base)
   , EventReceiver(HighPriority - 1)
 {
     filterPlugin = this;
 
+    m_propertyHub = SIM::PropertyHub::create("filter");
     //load_data(filterData, &data, cfg);
     user_data_id = getContacts()->registerUserData(info.title, filterUserData);
 
@@ -117,8 +120,6 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
 
 FilterPlugin::~FilterPlugin()
 {
-	PropertyHub::save();
-
     EventCommandRemove(CmdIgnoreList).process();
     EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
@@ -148,7 +149,9 @@ bool FilterPlugin::processEvent(Event *e)
     }
     case eEventPluginLoadConfig:
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         break;
     }
     case eEventMessageReceived: {
@@ -409,3 +412,22 @@ void FilterPlugin::addToIgnore(void *p)
     }
 }
 
+void FilterPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr FilterPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant FilterPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void FilterPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

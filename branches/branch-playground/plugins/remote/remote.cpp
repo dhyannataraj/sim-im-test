@@ -32,6 +32,9 @@
 #include "icons.h"
 #include "log.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "socket/clientsocket.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"
@@ -234,15 +237,14 @@ IPCLock::~IPCLock()
 #endif
 
 RemotePlugin::RemotePlugin()
-    : PropertyHub("remote"),
-    Plugin(0)
+    : Plugin(NULL)
 {
 }
 
 RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
-    : PropertyHub("remote"),
-    Plugin(base)
+    : QObject(), Plugin(base)
 {
+    m_propertyHub = SIM::PropertyHub::create("remote");
     bind();
 #ifdef WIN32
     remote = this;
@@ -252,7 +254,6 @@ RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
 
 RemotePlugin::~RemotePlugin()
 {
-	PropertyHub::save();
 #ifdef WIN32
     delete ipc;
 #endif
@@ -262,7 +263,7 @@ RemotePlugin::~RemotePlugin()
 
 QByteArray RemotePlugin::getConfig()
 {
-    return QByteArray();
+    return QByteArray(); //Fixmeee
 }
 
 QWidget *RemotePlugin::createConfigWindow(QWidget *parent)
@@ -274,7 +275,9 @@ bool RemotePlugin::processEvent(Event* e)
 {
 	if(e->type() == eEventPluginLoadConfig)
 	{
-		PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
 	}
     return false;
 }
@@ -967,6 +970,26 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
         return true;
     }
     return false;
+}
+
+void RemotePlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr RemotePlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant RemotePlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void RemotePlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }
 
 static char Prompt[] = "\r\n>"; 

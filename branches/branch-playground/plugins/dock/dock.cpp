@@ -24,11 +24,15 @@
 #include "cmddef.h"
 #include "core.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include <QApplication>
 #include <QWidget>
 #include <QTimer>
 #include <QMenu>
 
+//Fixmee dock: port config to new system
 using namespace SIM;
 
 Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
@@ -51,11 +55,12 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 DockPlugin::DockPlugin(unsigned base, Buffer *config)
-  : PropertyHub("dock")
-  , Plugin(base)
-  , m_dock(NULL)
-  , m_popup(NULL)
+    : QObject(), Plugin(base)
+    , EventReceiver()
+    , m_dock(NULL)
+    , m_popup(NULL)
 {
+    m_propertyHub = SIM::PropertyHub::create("dock");
     DockMenu     = registerType();
     CmdTitle	 = registerType();
     CmdToggle    = registerType();
@@ -117,7 +122,6 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
 
 DockPlugin::~DockPlugin()
 {
-    PropertyHub::save();
     EventCommandRemove(CmdToggle).process();
     EventMenu(DockMenu, EventMenu::eRemove).process();
     delete m_dock;
@@ -141,17 +145,21 @@ void DockPlugin::init()
 
 bool DockPlugin::eventFilter(QObject *o, QEvent *e)
 {
-    if (o == m_popup){
-        if (e->type() == QEvent::Hide){
+    if (o == m_popup)
+    {
+        if (e->type() == QEvent::Hide)
+        {
             m_popup->removeEventFilter(this);
             m_popup = NULL;
         }
     }else{
-        switch (e->type()){
+        switch (e->type())
+        {
         case QEvent::Close:
-            if (!m_bQuit){
+            if (!m_bQuit)
+            {
                 QWidget *main = static_cast<QWidget*>(o);
-                setValue("ShowMain", false);
+                setValue("ShowMain", false); //Fixme
                 //setShowMain(false);
                 main->hide();
 				e->ignore();
@@ -257,7 +265,9 @@ bool DockPlugin::processEvent(Event *e)
     }
     case eEventPluginLoadConfig:
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         break;
     }
     default:
@@ -268,7 +278,7 @@ bool DockPlugin::processEvent(Event *e)
 
 QByteArray DockPlugin::getConfig()
 {
-    return QByteArray();
+    return QByteArray(); //Fixme
 }
 
 QMenu *DockPlugin::createMenu()
@@ -352,3 +362,22 @@ void DockPlugin::timer()
     }
 }
 
+void DockPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr DockPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant DockPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void DockPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

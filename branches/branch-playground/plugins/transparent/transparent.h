@@ -29,13 +29,17 @@
 class QWidget;
 class QTimer;
 
-class TransparentPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class TransparentPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     TransparentPlugin(unsigned, Buffer*);
     virtual ~TransparentPlugin();
     void	setState();
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 public Q_SLOTS:
     void tick();
     void tickMouse();
@@ -51,6 +55,8 @@ protected:
     QTimer   *timer;
     bool	 m_bHaveMouse;
     bool	 m_bActive;
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

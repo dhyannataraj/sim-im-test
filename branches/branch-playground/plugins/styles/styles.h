@@ -27,7 +27,7 @@ class QFont;
 class QStyle;
 class QPalette;
 
-class StylesPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class StylesPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     StylesPlugin(unsigned, Buffer*);
@@ -38,6 +38,10 @@ public:
     void setupDefaultFonts();
     void setColors();
     void setStyles();
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
     virtual bool processEvent(SIM::Event *e);
 
@@ -46,6 +50,8 @@ protected:
     QPalette	*m_savePalette;
     QStyle      *m_saveStyle;
     friend class FontConfig;
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

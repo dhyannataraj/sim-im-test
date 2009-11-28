@@ -24,6 +24,10 @@
 #include "simgui/fontedit.h"
 
 #include "misc.h"
+
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "styles.h"
 #include "stylescfg.h"
 
@@ -50,27 +54,24 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
-    : Plugin(base), PropertyHub("styles")
+    : QObject(), Plugin(base)
+    , m_saveBaseFont(NULL)
+    , m_saveMenuFont(NULL)
 {
-    m_saveBaseFont = NULL;
-    m_saveMenuFont = NULL;
+    m_propertyHub = SIM::PropertyHub::create("styles");
     m_savePalette = new QPalette(QApplication::palette());
 }
 
 StylesPlugin::~StylesPlugin()
 {
-    PropertyHub::save();
-    if (m_saveBaseFont)
-        delete m_saveBaseFont;
-    if (m_saveMenuFont)
-        delete m_saveMenuFont;
-    if (m_savePalette)
-        delete m_savePalette;
+    delete m_saveBaseFont;
+    delete m_saveMenuFont;
+    delete m_savePalette;
 }
 
 QByteArray StylesPlugin::getConfig()
 {
-    return QByteArray();
+    return QByteArray();//Fixme
 }
 
 QWidget *StylesPlugin::createConfigWindow(QWidget *parent)
@@ -128,7 +129,9 @@ bool StylesPlugin::processEvent(SIM::Event *e)
 {
     if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         setFonts();
         if (value("SystemColors").toBool()){
             setValue("BtnColor", m_savePalette->color(QPalette::Active, QPalette::Button).rgb());
@@ -138,4 +141,24 @@ bool StylesPlugin::processEvent(SIM::Event *e)
         setStyles();
     }
     return false;
+}
+
+void StylesPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr StylesPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant StylesPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void StylesPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }

@@ -21,6 +21,7 @@
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+#include "propertyhub.h"
 
 struct ForwardUserData
 {
@@ -29,15 +30,22 @@ struct ForwardUserData
     SIM::Data	Translit;
 };
 
-class ForwardPlugin : public SIM::Plugin, public SIM::EventReceiver
+class ForwardPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     ForwardPlugin(unsigned);
     virtual ~ForwardPlugin();
     unsigned long user_data_id;
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
-   virtual QWidget *createConfigWindow(QWidget *parent);
+    virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool processEvent(SIM::Event *e);
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

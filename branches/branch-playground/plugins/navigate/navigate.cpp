@@ -22,8 +22,11 @@
 #include "navcfg.h"
 #include "log.h"
 #include "core.h"
-
 #include "core_consts.h"
+
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "contacts/contact.h"
 
 #ifdef USE_KDE
@@ -320,8 +323,9 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 
 NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("navigate")
+        : QObject(), Plugin(base)
 {
+    m_propertyHub = SIM::PropertyHub::create("navigate");
     CmdMail = registerType();
     CmdMailList = registerType();
     MenuMail = registerType();
@@ -359,7 +363,6 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
 
 NavigatePlugin::~NavigatePlugin()
 {
-    PropertyHub::save();
     EventCommandRemove(CmdMail).process();
     EventMenu(MenuMail, EventMenu::eRemove).process();
 
@@ -580,7 +583,9 @@ bool NavigatePlugin::processEvent(Event *e)
     }
 	if(e->type() == eEventPluginLoadConfig)
 	{
-		PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
 		// TODO defaults
 	}
     return false;
@@ -588,10 +593,31 @@ bool NavigatePlugin::processEvent(Event *e)
 
 QByteArray NavigatePlugin::getConfig()
 {
-    return QByteArray();
+    return QByteArray();//Fixme
 }
 
 QWidget *NavigatePlugin::createConfigWindow(QWidget *parent)
 {
     return new NavCfg(parent, this);
+}
+
+
+void NavigatePlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr NavigatePlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant NavigatePlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void NavigatePlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }

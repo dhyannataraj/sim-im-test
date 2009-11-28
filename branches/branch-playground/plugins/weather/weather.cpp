@@ -29,6 +29,9 @@
 #include "socket/socketfactory.h"
 #include "simgui/toolbtn.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include <QDomDocument>
 #include <QTimer>
 
@@ -57,9 +60,10 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
-    : PropertyHub("weather")
-    , Plugin(base)
+    : Plugin (base)
+    , m_bar  ( NULL)
 {
+    m_propertyHub = SIM::PropertyHub::create("weather");
     BarWeather = registerType();
     CmdWeather = registerType();
     EventWeather = (SIM::SIMEvent)registerType();
@@ -74,13 +78,11 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     cmd->bar_grp = 0x1000;
     cmd->flags = BTN_PICT | BTN_DIV;
     EventCommandCreate(cmd).process();
-
-    m_bar = NULL;
+   
 }
 
 WeatherPlugin::~WeatherPlugin()
 {
-    PropertyHub::save();
     delete m_bar;
     EventCommandRemove(CmdWeather).process();
     EventToolbar(BarWeather, EventToolbar::eRemove).process();
@@ -119,7 +121,8 @@ bool WeatherPlugin::processEvent(Event *e)
         updateButton();
     if (e->type() == eEventInit)
         showBar();
-    if (e->type() == eEventCommandExec){
+    if (e->type() == eEventCommandExec)
+    {
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdWeather) && !value("ID").toString().isEmpty()){
@@ -129,10 +132,14 @@ bool WeatherPlugin::processEvent(Event *e)
             return true;
         }
     }
-    if(e->type() == eEventPluginLoadConfig){
-        PropertyHub::load();
+    if(e->type() == eEventPluginLoadConfig)
+    {
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         showBar();
-        if (m_bar) {
+        if (m_bar) 
+        {
             m_bar->setIconSize( QSize( 30, 30 ) );
             m_bar->show();
         }
@@ -240,7 +247,7 @@ void WeatherPlugin::showBar()
     CorePlugin *core = GET_CorePlugin();
     MainWindow *main= core->getMainWindow();
     if (main == NULL)
-            return;
+        return;
     
     EventToolbar e(BarWeather, main);
     e.process();
@@ -689,4 +696,24 @@ bool WeatherPlugin::parse(QDomDocument document)
     }
 
     return true;
+}
+
+void WeatherPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr WeatherPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant WeatherPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void WeatherPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }

@@ -27,6 +27,9 @@
 #include "contacts/contact.h"
 #include "contacts/client.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "gpg.h"
 #include "gpgcfg.h"
 #include "gpguser.h"
@@ -102,12 +105,12 @@ static DataDef gpgUserData[] =
 GpgPlugin *GpgPlugin::plugin = NULL;
 
 GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
-    : PropertyHub("gpg")
-    , Plugin(base)
-    , EventReceiver(HighestPriority - 0x100)
+    : QObject(), Plugin(base)
+    , EventReceiver(HighestPriority - 0x100) //??? Fixmee!!
+    , m_bMessage(false)
+    , m_passphraseDlg(NULL)
 {
-    m_bMessage = false;
-    m_passphraseDlg = NULL;
+    m_propertyHub = SIM::PropertyHub::create("gpg");
     user_data_id = getContacts()->registerUserData(info.title, gpgUserData);
     reset();
     plugin = this;
@@ -116,7 +119,6 @@ GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
 GpgPlugin::~GpgPlugin()
 {
     delete m_passphraseDlg;
-    PropertyHub::save();
     unregisterMessage();
     QList<DecryptMsg>::ConstIterator it;
     for (it = m_decrypt.constBegin(); it != m_decrypt.constEnd(); ++it){
@@ -593,7 +595,9 @@ bool GpgPlugin::processEvent(Event *e)
         }
 	case eEventPluginLoadConfig:
 	{
-		PropertyHub::load();
+	    PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+	    if(!hub.isNull())
+		    setPropertyHub(hub);
 		// Defaults:
                 if(!value("Home").isValid())
                         setValue("Home", "keys/");
@@ -849,6 +853,26 @@ void GpgPlugin::passphraseFinished()
     }
     m_passphraseDlg = NULL;
     askPassphrase();
+}
+
+void GpgPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr GpgPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant GpgPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void GpgPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }
 
 MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)

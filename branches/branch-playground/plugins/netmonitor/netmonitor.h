@@ -36,7 +36,7 @@ struct NetMonitorData
 
 class MonitorWindow;
 
-class NetmonitorPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class NetmonitorPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -47,9 +47,16 @@ public:
 //    PROP_BOOL(Show);
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
+        
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 protected slots:
     void finished();
     void realFinished();
+
 protected:
     virtual bool processEvent(SIM::Event *e);
     virtual QByteArray getConfig();
@@ -58,6 +65,9 @@ protected:
     unsigned long CmdNetMonitor;
     QSet<unsigned> m_packets;
     MonitorWindow *monitor;
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

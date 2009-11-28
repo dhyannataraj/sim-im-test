@@ -21,6 +21,9 @@
 #include "spellhighlight.h"
 #include "core.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include <QApplication>
 #include <QWidget>
 #include <QFile>
@@ -69,11 +72,13 @@ EXPORT_PROC SIM::PluginInfo* GetPluginInfo()
 }
 
 SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
-    : PropertyHub( "spell" )
-    , Plugin( base )
+  : QObject(), Plugin(base)
+  , EventReceiver()
+  , m_bActive (false)
+  , m_base (NULL)
 {
-    m_bActive = false;
-    m_base = NULL;
+    m_propertyHub = SIM::PropertyHub::create("replace");
+
     CmdSpell = registerType();
 
     SIM::Command cmd;
@@ -87,7 +92,6 @@ SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
 
 SpellPlugin::~SpellPlugin()
 {
-    PropertyHub::save();
     EventCommandRemove(CmdSpell).process();
     deactivate();
     while( !m_spellers.empty() ) {
@@ -165,8 +169,10 @@ QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
 bool SpellPlugin::processEvent(SIM::Event* e)
 {
     if(e->type() == eEventPluginLoadConfig)
-    {
-        PropertyHub::load();
+	{
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         reset();
     }
     return false;
@@ -303,3 +309,22 @@ QStringList SpellPlugin::suggestions(const QString &word)
     return res;
 }
 
+void SpellPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr SpellPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant SpellPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void SpellPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

@@ -29,7 +29,7 @@
 class DockWnd;
 class QMenu;
 
-class DockPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class DockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -63,6 +63,9 @@ protected:
     QDateTime m_inactiveTime;
     friend class DockCfg;
     friend class DockWnd;
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

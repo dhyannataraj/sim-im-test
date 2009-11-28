@@ -34,14 +34,20 @@ struct FilterUserData
 
 class QStringList;
 
-class FilterPlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class FilterPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     FilterPlugin(unsigned, Buffer *cfg);
     virtual ~FilterPlugin();
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 protected slots:
     void addToIgnore(void*);
+
 protected:
     unsigned long user_data_id;
     unsigned long CmdIgnoreList;
@@ -52,6 +58,10 @@ protected:
     virtual QByteArray getConfig();
     bool checkSpam(const QString &text, const QString &filter);
     void getWords(const QString &text, QStringList &words, bool bPattern);
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
+
 };
 
 #endif

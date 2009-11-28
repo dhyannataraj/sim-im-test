@@ -4,12 +4,16 @@
 
 namespace SIM
 {
-    Profile::Profile(const QString& name) : m_name(name)
+    Profile::Profile(const QString& name) 
+        : m_name(name)
+        , m_config(NULL)
     {
+
     }
 
-	Profile::Profile(const ConfigPtr& conf, const QString& name) : m_name(name),
-        m_config(conf)
+	Profile::Profile(const ConfigPtr& conf, const QString& name) 
+        : m_name(name)
+        , m_config(conf)
     {
     }
 
@@ -42,6 +46,9 @@ namespace SIM
 
     void Profile::enablePlugin(const QString& name)
     {
+        if (!this) 
+            return; //Fixmee! Where is my instance?
+
         if(m_config.isNull())
             return;
         QStringList list = enabledPlugins();

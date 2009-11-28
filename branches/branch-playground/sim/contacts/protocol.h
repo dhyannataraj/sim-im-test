@@ -14,7 +14,7 @@ namespace SIM
     class EXPORT Protocol
     {
     public:
-        Protocol(Plugin *plugin);
+        Protocol(Plugin *plugin=NULL);
         virtual ~Protocol();
         Plugin  *plugin() { return m_plugin; }
         virtual Client  *createClient(Buffer *cfg) = 0;

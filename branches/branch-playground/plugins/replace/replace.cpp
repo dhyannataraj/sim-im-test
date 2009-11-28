@@ -21,6 +21,9 @@
 #include "html.h"
 #include "misc.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include <QApplication>
 #include <QKeyEvent>
 
@@ -49,16 +52,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 
 ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)
-    : PropertyHub("replace"),
-    Plugin(base),
-    EventReceiver()
+  : QObject(), Plugin(base)
+  , EventReceiver()
 {
+    m_propertyHub = SIM::PropertyHub::create("replace");
     qApp->installEventFilter(this);
 }
 
 ReplacePlugin::~ReplacePlugin()
 {
-	PropertyHub::save();
+
 }
 
 QByteArray ReplacePlugin::getConfig()
@@ -141,8 +144,29 @@ bool ReplacePlugin::processEvent(SIM::Event *e)
 {
 	if(e->type() == eEventPluginLoadConfig)
 	{
-		PropertyHub::load();
+		PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
 	}
     return false;
 }
 
+void ReplacePlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr ReplacePlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant ReplacePlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void ReplacePlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

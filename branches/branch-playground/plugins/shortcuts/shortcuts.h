@@ -76,7 +76,7 @@ protected:
 #endif
 };
 
-class ShortcutsPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class ShortcutsPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -92,6 +92,11 @@ public:
     static QWidget *getMainWindow();
     static unsigned stringToButton(const QString &cfg);
     static QString buttonToString(unsigned button);
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual bool processEvent(SIM::Event *e);
@@ -108,6 +113,9 @@ protected:
     MAP_STR		oldKeys;
     MAP_BOOL	oldGlobals;
     MAP_CMDS	mouseCmds;
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

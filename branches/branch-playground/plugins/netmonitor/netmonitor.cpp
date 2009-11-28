@@ -21,6 +21,9 @@ email                : vovan@shutoff.ru
 #include "misc.h"
 #include "core_consts.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "netmonitor.h"
 #include "monitor.h"
 
@@ -58,16 +61,15 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 //};
 
 NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
-    : PropertyHub("netmonitor"),
-    Plugin(base)
-
+    : QObject(), Plugin(base)
+    , monitor(NULL)
 {
+    m_propertyHub = SIM::PropertyHub::create("netmonitor");
 
     const QStringList packets = value("LogPackets").toString().split(',');
     Q_FOREACH( const QString &v, packets)
         setLogType(v.toULong(), true);
-
-    monitor = NULL;
+    
     CmdNetMonitor = registerType();
 
     Command cmd;
@@ -97,7 +99,6 @@ NetmonitorPlugin::~NetmonitorPlugin()
         packets += QString::number(it.next());
     }
     setValue("LogPackets", packets);
-    PropertyHub::save();
     EventCommandRemove(CmdNetMonitor).process();
 
     delete monitor;
@@ -150,7 +151,9 @@ bool NetmonitorPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
     }
     return false;
 }
@@ -174,3 +177,22 @@ void NetmonitorPlugin::saveState()
     //saveGeometry(monitor, data.geometry);
 }
 
+void NetmonitorPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr NetmonitorPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant NetmonitorPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void NetmonitorPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

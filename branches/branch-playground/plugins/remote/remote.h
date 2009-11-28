@@ -38,7 +38,7 @@ const unsigned SLOT_OUT		= 2;
 
 #endif
 
-class RemotePlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
+class RemotePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
 {
     Q_OBJECT
 public:
@@ -47,6 +47,11 @@ public:
     ~RemotePlugin();
     void bind();
     std::list<ControlSocket*> m_sockets;
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 public slots:
     void command();
     bool command(const QString&, QString&, bool &bError);
@@ -62,6 +67,8 @@ protected:
     IPC		*ipc;
 #endif
 //    RemoteData data;
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 class ControlSocket : public SIM::ClientSocketNotify

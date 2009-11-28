@@ -56,7 +56,7 @@ struct KeyMsg
     SIM::Message   *msg;
 };
 
-class GpgPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
 	Q_OBJECT
 public:
@@ -69,6 +69,12 @@ public:
     QList<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
     QString getHomeDir();
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 protected slots:
     void decryptReady();
     void importReady();
@@ -90,6 +96,8 @@ protected:
     QList<DecryptMsg> m_public;
     QList<DecryptMsg> m_wait;
     class PassphraseDlg     *m_passphraseDlg;
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 class MsgEdit;

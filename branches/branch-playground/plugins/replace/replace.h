@@ -25,17 +25,25 @@
 #include "propertyhub.h"
 #include "event.h"
 
-class ReplacePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class ReplacePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     ReplacePlugin(unsigned, Buffer *cfg);
     virtual ~ReplacePlugin();
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 protected:
 	virtual bool processEvent(SIM::Event *e);
     virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     bool eventFilter(QObject *o, QEvent *e);
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

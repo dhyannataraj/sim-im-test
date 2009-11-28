@@ -27,11 +27,15 @@
 #include <QByteArray>
 
 
-class NavigatePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class NavigatePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     NavigatePlugin(unsigned, Buffer *name);
     virtual ~NavigatePlugin();
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
     virtual bool processEvent(SIM::Event *e);
     QString parseUrl(const QString &text);
@@ -42,6 +46,8 @@ protected:
     virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     friend class NavCfg;
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

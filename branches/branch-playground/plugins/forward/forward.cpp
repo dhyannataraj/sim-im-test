@@ -19,6 +19,9 @@
 #include "forwardcfg.h"
 #include "core.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"
@@ -62,8 +65,10 @@ static QWidget *getForwardSetup(QWidget *parent, void *data)
 }
 
 ForwardPlugin::ForwardPlugin(unsigned base)
-        : Plugin(base), EventReceiver(DefaultPriority - 1)
+    : QObject(), Plugin(base)
+    , EventReceiver(DefaultPriority - 1)
 {
+    m_propertyHub = SIM::PropertyHub::create("forward");
     forwardPlugin = this;
     user_data_id = getContacts()->registerUserData(info.title, forwardUserData);
     Command cmd;
@@ -179,4 +184,24 @@ bool ForwardPlugin::processEvent(Event *e)
 QWidget *ForwardPlugin::createConfigWindow(QWidget *parent)
 {
     return new ForwardConfig(parent, getContacts()->getUserData_old(user_data_id), this);
+}
+
+void ForwardPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr ForwardPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant ForwardPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void ForwardPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }

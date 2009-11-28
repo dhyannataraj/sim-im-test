@@ -34,11 +34,16 @@ const unsigned WindowBottom = 3;
 const unsigned WindowCenter = 4;
 const unsigned WindowScale  = 5;
 
-class BackgroundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class BackgroundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     BackgroundPlugin(unsigned, Buffer *name);
     virtual ~BackgroundPlugin();
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 protected:
     virtual bool processEvent(SIM::Event *e);
     virtual QByteArray getConfig();
@@ -49,6 +54,9 @@ protected:
     QPixmap &makeBackground(int w, int h);
     void redraw();
     friend class BkgndCfg;
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

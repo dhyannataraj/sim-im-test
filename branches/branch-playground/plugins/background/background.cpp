@@ -21,6 +21,9 @@
 #include "bkgndcfg.h"
 #include "log.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include <QFile>
 #include <QPixmap>
 #include <QByteArray>
@@ -49,19 +52,20 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 BackgroundPlugin::BackgroundPlugin(unsigned base, Buffer *config)
-        : Plugin(base), PropertyHub("background")
+    : QObject(), Plugin(base)
 {
+    m_propertyHub = SIM::PropertyHub::create("background");
     redraw();
 }
 
 BackgroundPlugin::~BackgroundPlugin()
 {
-    PropertyHub::save();
+    
 }
 
 QByteArray BackgroundPlugin::getConfig()
 {
-    return QByteArray();
+    return QByteArray(); //Fixme
 }
 
 QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
@@ -118,7 +122,9 @@ bool BackgroundPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         redraw();
     }
     return false;
@@ -148,4 +154,24 @@ QPixmap &BackgroundPlugin::makeBackground(int w, int h)
         }
     }
     return bgScale;
+}
+
+void BackgroundPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr BackgroundPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant BackgroundPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void BackgroundPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }

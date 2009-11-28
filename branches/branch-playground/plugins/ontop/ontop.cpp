@@ -19,6 +19,9 @@
 #include "mainwin.h"
 #include "core.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include <QApplication>
 #include <QWidget>
 #include <QByteArray>
@@ -73,9 +76,9 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 //    };
 
 OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
-    : PropertyHub("ontop"),
-    Plugin(base)
+    : QObject(), Plugin(base)
 {
+    m_propertyHub = SIM::PropertyHub::create("ontop");
 
     CmdOnTop = registerType();
 
@@ -100,7 +103,6 @@ OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
 
 OnTopPlugin::~OnTopPlugin()
 {
-    PropertyHub::save();
     EventCommandRemove(CmdOnTop).process();
 
     setValue("OnTop", false);
@@ -114,7 +116,9 @@ bool OnTopPlugin::processEvent(Event *e)
         setState();
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
         if(!value("OnTop").isValid())
             setValue("OnTop", true);
     }
@@ -318,5 +322,25 @@ bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
     }
 #endif
     return QObject::eventFilter(o, e);
+}
+
+void OnTopPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr OnTopPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant OnTopPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void OnTopPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }
 

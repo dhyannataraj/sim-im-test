@@ -19,6 +19,9 @@
 #include "misc.h"
 #include "log.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "icon.h"
 #include "iconcfg.h"
 
@@ -48,14 +51,15 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 IconsPlugin::IconsPlugin(unsigned base, Buffer *config)
-        : Plugin(base), EventReceiver(HighestPriority - 0x100), PropertyHub("icons")
+        : QObject(), Plugin(base), EventReceiver(HighestPriority - 0x100)
 {
+    m_propertyHub = SIM::PropertyHub::create("icon");
     setIcons(false);
 }
 
 IconsPlugin::~IconsPlugin()
 {
-    PropertyHub::save();
+
 }
 
 void IconsPlugin::setIcons(bool bForce)
@@ -88,7 +92,9 @@ bool IconsPlugin::processEvent(Event *e)
     {
         case eEventPluginLoadConfig:
         {
-            PropertyHub::load();
+            PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+		    if(!hub.isNull())
+			    setPropertyHub(hub);
 			setIcons(false);
             break;
         }
@@ -102,3 +108,22 @@ QWidget *IconsPlugin::createConfigWindow(QWidget *parent)
     return new IconCfg(parent, this);
 }
 
+void IconsPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr IconsPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant IconsPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void IconsPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

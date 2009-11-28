@@ -23,16 +23,23 @@
 #include "propertyhub.h"
 
 
-class IconsPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::PropertyHub
+class IconsPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     IconsPlugin(unsigned, Buffer*);
     virtual ~IconsPlugin();
     void setIcons(bool bForce);
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
     bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual QByteArray getConfig();
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

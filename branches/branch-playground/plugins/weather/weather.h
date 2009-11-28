@@ -32,7 +32,7 @@ namespace SIM
 class IconSet;
 }
 
-class WeatherPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver, public FetchClient
+class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient
 {
     Q_OBJECT
 public:
@@ -46,6 +46,11 @@ public:
     void hideBar();
     SIM::SIMEvent EventWeather;
     QToolBar *m_bar;
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected slots:
     void timeout();
     void barDestroyed();
@@ -70,6 +75,8 @@ protected:
         QString sSubElement,
         QString sDefault = QString()
     );
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

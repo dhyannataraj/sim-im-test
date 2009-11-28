@@ -61,12 +61,18 @@ struct OnTopData
 //    SIM::Data	ContainerOnTop;
 };
 
-class OnTopPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class OnTopPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     OnTopPlugin(unsigned, Buffer*);
     virtual ~OnTopPlugin();
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual bool processEvent(SIM::Event *e);
@@ -86,6 +92,9 @@ protected:
     HWND m_state;
 #endif
     friend class OnTopCfg;
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif

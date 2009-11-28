@@ -3733,8 +3733,8 @@ void CorePlugin::loadMenu()
         unsigned long menu_id = CmdClient + m_nClients;
         EventMenu(menu_id, EventMenu::eAdd).process();
         Client *client = getContacts()->getClient(m_nClients);
-        Protocol *protocol = client->protocol();
-        // FIXME
+        Protocol *protocol = client->protocol(); // FIXME there is no protocol, nirvana pointer :(
+        
         CommandDef *cmd = const_cast<CommandDef*>(protocol->statusList());
         if (cmd){
 	        Command c;

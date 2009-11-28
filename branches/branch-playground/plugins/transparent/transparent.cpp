@@ -27,6 +27,9 @@
 #include "mainwin.h"
 #include "transparentcfg.h"
 #include "../floaty/floatywnd.h" //Handle Floatings
+#include "profile.h"
+#include "profilemanager.h"
+
 
 #define SHOW_TIMEOUT	300
 #define HIDE_TIMEOUT	1000
@@ -63,16 +66,16 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
-    : PropertyHub("transparent"),
-    Plugin(base)
+    : QObject(), Plugin(base)
+    , timer (NULL) //Fixme? look below
+    , m_bHaveMouse (false)
+    , m_bActive    (false)
 {
+    m_propertyHub = SIM::PropertyHub::create("transparent");
     if (value("Transparency").toUInt() >100)
         setValue("Transparency", 100);
 
-    timer = NULL;
-    m_bHaveMouse = false;
-    m_bActive    = false;
-    QTimer *timer = new QTimer(this);
+    QTimer *timer = new QTimer(this); //Fixme? look above
     connect(timer, SIGNAL(timeout()), this, SLOT(tickMouse()));
     timer->start(1000);
     setState();
@@ -80,12 +83,12 @@ TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)
 
 TransparentPlugin::~TransparentPlugin()
 {
-    PropertyHub::save();
     delete timer;
 
     // reset opacity for all toplevel widgets
     QWidgetList list = QApplication::topLevelWidgets();
-    foreach(QWidget *w,list) {
+    foreach(QWidget *w,list) 
+    {
         w->setWindowOpacity(1.0);
     }
 }
@@ -246,8 +249,30 @@ bool TransparentPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
     }
     return false;
 }
 
+
+void TransparentPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr TransparentPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant TransparentPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void TransparentPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

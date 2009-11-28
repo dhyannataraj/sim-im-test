@@ -21,6 +21,9 @@
 #include "cmddef.h"
 #include "core.h"
 
+#include "profile.h"
+#include "profilemanager.h"
+
 #include "shortcuts.h"
 #include "shortcutcfg.h"
 #include "mainwin.h"
@@ -480,9 +483,9 @@ GlobalKey::~GlobalKey()
 #endif  // WIN32
 
 ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
-    : PropertyHub("shortcuts"),
-    Plugin(base)
+    : QObject(), Plugin(base)
 {
+    m_propertyHub = SIM::PropertyHub::create("shortcuts");
 #ifdef WIN32
     m_bInit = false;
     init();
@@ -496,7 +499,6 @@ ShortcutsPlugin::ShortcutsPlugin(unsigned base, Buffer *config)
 
 ShortcutsPlugin::~ShortcutsPlugin()
 {
-	PropertyHub::save();
 #ifdef WIN32
     QWidget *main = getMainWindow();
     if (main && oldProc){
@@ -516,7 +518,7 @@ ShortcutsPlugin::~ShortcutsPlugin()
 
 QByteArray ShortcutsPlugin::getConfig()
 {
-    return QByteArray();
+    return QByteArray();//Fixmee
 }
 
 QWidget *ShortcutsPlugin::createConfigWindow(QWidget *parent)
@@ -596,7 +598,9 @@ bool ShortcutsPlugin::processEvent(Event *e)
     }
 	if(e->type() == eEventPluginLoadConfig)
 	{
-		PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
 	}
     return false;
 }
@@ -845,3 +849,22 @@ QWidget *ShortcutsPlugin::getMainWindow()
     return core->getMainWindow();
 }
 
+void ShortcutsPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr ShortcutsPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant ShortcutsPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void ShortcutsPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
+}

@@ -36,7 +36,7 @@ class Speller;
 
 typedef QMap<SIM::my_string, bool> MAP_BOOL;
 
-class SpellPlugin : public QObject, virtual public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -51,6 +51,11 @@ public:
     void add(const QString &word);
     bool check(const QString &word);
     void ignore(const QString &word);
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 
 signals:
     void misspelling(const QString &word);
@@ -73,6 +78,9 @@ protected:
     QList<Speller*> m_spellers;
     QList<QObject*> m_listTempChilds;
     QStringList m_listIgnore;
+
+private:
+    SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif
