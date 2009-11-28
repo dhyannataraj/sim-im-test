@@ -113,7 +113,7 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::apply()
 {
-    ActionUserData *data = (ActionUserData*)(getContacts()->getUserData(m_plugin->action_data_id));
+    ActionUserData *data = (ActionUserData*)(getContacts()->getUserData_old(m_plugin->action_data_id));
     apply(data);
 }
 

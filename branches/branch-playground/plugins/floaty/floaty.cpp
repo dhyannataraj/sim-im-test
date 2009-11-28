@@ -93,7 +93,7 @@ bool FloatyPlugin::processEvent(Event *e)
             Contact *contact;
             ContactList::ContactIterator it;
             while ((contact = ++it) != NULL){
-                FloatyUserData *data = (FloatyUserData*)(contact->getUserData(user_data_id, false));
+                FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(user_data_id, false));
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
@@ -109,7 +109,7 @@ bool FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData(user_data_id, false));
+                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(user_data_id, false));
                     if (data){
                         cmd->text = I18N_NOOP("Floating off");
                         cmd->flags |= COMMAND_CHECKED;
@@ -128,12 +128,12 @@ bool FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData(user_data_id, false));
+                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(user_data_id, false));
                     if (data){
                         FloatyWnd *wnd = m_floaties.take(contact->id());
                         delete wnd;
                     }else{
-                        data = (FloatyUserData*)(contact->getUserData(user_data_id, true));
+                        data = (FloatyUserData*)(contact->getUserData_old(user_data_id, true));
                         QRect r = QApplication::desktop()->availableGeometry();
                         data->X.asLong() = r.x();
                         data->Y.asLong() = r.y();

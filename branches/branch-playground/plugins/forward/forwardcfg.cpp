@@ -56,6 +56,6 @@ void ForwardConfig::apply(void *_data)
 
 void ForwardConfig::apply()
 {
-    apply(getContacts()->getUserData(m_plugin->user_data_id));
+    apply(getContacts()->getUserData_old(m_plugin->user_data_id));
 }
 

@@ -287,7 +287,7 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         releaseMouse();
         Contact *contact = getContacts()->contact(m_id);
         if (contact){
-            FloatyUserData *data = (FloatyUserData*)(contact->getUserData(m_plugin->user_data_id, false));
+            FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(m_plugin->user_data_id, false));
             if (data){
                 data->X.asLong() = x();
                 data->Y.asLong() = y();

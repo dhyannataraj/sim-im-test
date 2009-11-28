@@ -178,7 +178,7 @@ bool FilterPlugin::processEvent(Event *e)
         }
 
         // get filter-data
-        data = (FilterUserData*)(contact->getUserData(user_data_id));
+        data = (FilterUserData*)(contact->getUserData_old(user_data_id));
 		if (data && !data->SpamList.str().isEmpty() && ((contact == NULL) || (contact->getFlags() & CONTACT_TEMPORARY) )) {
             if (checkSpam(msg->getPlainText(), data->SpamList.str())){
                 delete msg;
@@ -263,9 +263,9 @@ bool FilterPlugin::processEvent(Event *e)
             FilterUserData *data = NULL;
             Contact *contact = getContacts()->contact(id);
             if (contact){
-                data = (FilterUserData*)(contact->getUserData(user_data_id));
+                data = (FilterUserData*)(contact->getUserData_old(user_data_id));
             }else{
-                data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
+                data = (FilterUserData*)(getContacts()->getUserData_old(user_data_id));
             }
             QString s = data->SpamList.str();
             while (!text.isEmpty()){
@@ -308,7 +308,7 @@ bool FilterPlugin::processEvent(Event *e)
 
 QWidget *FilterPlugin::createConfigWindow(QWidget *parent)
 {
-    FilterUserData *data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
+    FilterUserData *data = (FilterUserData*)(getContacts()->getUserData_old(user_data_id));
     return new FilterConfig(parent, data, this, true);
 }
 

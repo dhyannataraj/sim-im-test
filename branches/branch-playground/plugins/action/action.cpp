@@ -102,7 +102,7 @@ ActionPlugin::~ActionPlugin()
 
 QWidget *ActionPlugin::createConfigWindow(QWidget *parent)
 {
-    ActionUserData *data = (ActionUserData*)(getContacts()->getUserData(action_data_id));
+    ActionUserData *data = (ActionUserData*)(getContacts()->getUserData_old(action_data_id));
     return new ActionConfig(parent, data, this);
 }
 
@@ -127,7 +127,7 @@ bool ActionPlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
                 return false;
-            ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
+            ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
             if ((data == NULL) || (data->NMenu.toULong() == 0))
                 return false;
             CommandDef *cmds = new CommandDef[data->NMenu.toULong() + 1];
@@ -174,7 +174,7 @@ bool ActionPlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
                 return false;
-            ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
+            ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
             if ((data == NULL) || (n >= data->NMenu.toULong()))
                 return false;
             QString str = get_str(data->Menu, n + 1);
@@ -196,7 +196,7 @@ bool ActionPlugin::processEvent(Event *e)
         Contact *contact = ec->contact();
         if (contact == NULL)
             return false;
-        ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
+        ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
         if ((data == NULL) || (data->OnLine.str().isEmpty()))
             return false;
         EventTemplate::TemplateExpand t;
@@ -213,7 +213,7 @@ bool ActionPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return false;
-        ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
+        ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
         if (data == NULL)
             return false;
         if (msg->type() == MessageStatus){

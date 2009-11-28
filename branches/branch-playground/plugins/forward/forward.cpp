@@ -94,13 +94,13 @@ bool ForwardPlugin::processEvent(Event *e)
             SMSMessage *sms = static_cast<SMSMessage*>(msg);
             QString phone = sms->getPhone();
             bool bMyPhone;
-            ForwardUserData *data = (ForwardUserData*)(getContacts()->getUserData(user_data_id));
+            ForwardUserData *data = (ForwardUserData*)(getContacts()->getUserData_old(user_data_id));
             bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
             if (!bMyPhone){
                 Group *grp;
                 ContactList::GroupIterator it;
                 while ((grp = ++it) != NULL){
-                    data = (ForwardUserData*)(grp->getUserData(user_data_id, false));
+                    data = (ForwardUserData*)(grp->getUserData_old(user_data_id, false));
                     if (data && !data->Phone.str().isEmpty()){
                         bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
@@ -111,7 +111,7 @@ bool ForwardPlugin::processEvent(Event *e)
                 Contact *contact;
                 ContactList::ContactIterator it;
                 while ((contact = ++it) != NULL){
-                    data = (ForwardUserData*)(contact->getUserData(user_data_id, false));
+                    data = (ForwardUserData*)(contact->getUserData_old(user_data_id, false));
                     if (data && !data->Phone.str().isEmpty()){
                         bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
@@ -147,7 +147,7 @@ bool ForwardPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return false;
-        ForwardUserData *data = (ForwardUserData*)(contact->getUserData(user_data_id));
+        ForwardUserData *data = (ForwardUserData*)(contact->getUserData_old(user_data_id));
         if ((data == NULL) || (data->Phone.str().isEmpty()))
             return false;
         CorePlugin *core = GET_CorePlugin();
@@ -178,5 +178,5 @@ bool ForwardPlugin::processEvent(Event *e)
 
 QWidget *ForwardPlugin::createConfigWindow(QWidget *parent)
 {
-    return new ForwardConfig(parent, getContacts()->getUserData(user_data_id), this);
+    return new ForwardConfig(parent, getContacts()->getUserData_old(user_data_id), this);
 }
