@@ -1,6 +1,7 @@
 
 #include <QStringList>
 #include <QBuffer>
+#include <QDomElement>
 #include <QXmlStreamReader>
 #include <stdio.h>
 #include "propertyhub.h"
@@ -116,6 +117,17 @@ namespace SIM
         QMap<QString, TreePtr> m_children;
     };
 
+    PropertyHubPtr PropertyHub::create()
+    {
+        return PropertyHubPtr(new PropertyHub());
+    }
+
+    PropertyHubPtr PropertyHub::create(const QString& ns)
+    {
+        return PropertyHubPtr(new PropertyHub(ns));
+    }
+
+
     PropertyHub::PropertyHub()
     {
     }
@@ -134,89 +146,90 @@ namespace SIM
         QStringList keys = m_data.keys();
         
         // Inititalize root tree
-        Tree::TreePtr root = Tree::TreePtr(new Tree(m_namespace));
+        QDomDocument document;
+        QDomElement root = document.createElement("root");
+        document.appendChild(root);
         foreach(const QString& key, keys)
         {
             QStringList entries = key.split('/');
-            Tree::TreePtr tree = root;
+            QDomElement element = root;
             foreach(const QString& entry, entries)
             {
-                if(tree->child(entry).isNull())
+                if(element.elementsByTagName(entry).size() == 0)
                 {
-                    tree->addChild(Tree::TreePtr(new Tree(entry, tree)));
+                    element.appendChild(document.createElement(entry));
                 }
-                tree = tree->child(entry);
+                element = element.firstChildElement(entry);
             }
-            tree->setValue(value(key));
+            element.appendChild(serializeVariant(document, value(key)));
         }
-
-        // call recursive tree serialization function
-        return root->serialize();
+        return document.toByteArray();
     }
 
     bool PropertyHub::deserialize(const QByteArray& arr)
     {
-        clear();
-        QXmlStreamReader xml(arr);
-        QStringList entries;
-        QString type;
-        bool nsElement = true;
-        bool valueElement = false;
-        while(!xml.atEnd())
+        return false;
+    }
+
+    QDomText PropertyHub::serializeString(QDomDocument& doc, const QString& string)
+    {
+        QDomText text = doc.createTextNode(string);
+        return text;
+    }
+    
+    QDomText PropertyHub::serializeInt(QDomDocument& doc, int val)
+    {
+        QDomText text = doc.createTextNode(QString::number(val));
+        return text;
+    }
+
+    QDomElement PropertyHub::serializeVariant(QDomDocument& doc, const QVariant& v)
+    {
+        QDomElement el = doc.createElement("value");
+        QDomText data;
+        if(v.type() == QVariant::String)
         {
-            xml.readNext();
-            if(xml.isStartElement())
-            {
-                if(!nsElement)
-                {
-                    if(!(xml.name() == "value" && xml.attributes().hasAttribute("type")))
-                    {
-                        entries.append(xml.name().toString());
-                    }
-                    else
-                    {
-                        valueElement = true;
-                        type = xml.attributes().value("type").toString();
-                    }
-                }
-                else
-                {
-                    if(xml.name() != m_namespace)
-                        return false;
-                    nsElement = false;
-                }
-            }
-            else if(xml.isCharacters())
-            {
-                if(xml.text().toString().trimmed().isEmpty())
-                    continue;
-                QString key = entries.join("/");
-                if(type == "string")
-                {
-                    setValue(key, xml.text().toString());
-                }
-                else if(type == "int")
-                {
-                    setValue(key, xml.text().toString().toInt());
-                }
-                else if(type == "bytearray")
-                {
-                    setValue(key, QByteArray::fromHex(xml.text().toString().toUtf8()));
-                }
-            }
-            else if(xml.isEndElement())
-            {
-                if(valueElement)
-                    valueElement = false;
-                else if(entries.size() > 0)
-                    entries.removeLast();
-            }
+            el.setAttribute("type", "string");
+            data = serializeString(doc, v.toString());
         }
-        if(xml.hasError())
+        else if(v.type() == QVariant::Int || v.type() == QVariant::UInt)
         {
-            return false;
+            el.setAttribute("type", "int");
+            data = serializeInt(doc, v.toInt());
         }
-        return true;
+//        else if(v.type() == QVariant::ByteArray)
+//        {
+//            QDomText* d = new QDomText();
+//            el.setAttribute("type", "bytearray");
+//            d->setData(QString(v.toByteArray().toHex()));
+//            data = d;
+//        }
+//        else if(v.type() == QVariant::StringList)
+//        {
+//            QDomElement* d = new QDomElement();
+//            d->setTagName("list");
+//            el.setAttribute("type", "stringlist");
+//            QStringList list = v.toStringList();
+//            foreach(const QString& s, list)
+//            {
+//                QDomElement stringelement;
+//                stringelement.setTagName("string");
+//                QDomText text;
+//                text.setData(s);
+//                stringelement.appendChild(text);
+//                d->appendChild(stringelement);
+//            }
+//            data = d;
+//        }
+        if(!data.isNull())
+        {
+            el.appendChild(data);
+        }
+        else
+        {
+            log(L_WARN, "Unable to serialize: %s", (v.typeName()));
+        }
+        return el;
     }
 
     void PropertyHub::clear()

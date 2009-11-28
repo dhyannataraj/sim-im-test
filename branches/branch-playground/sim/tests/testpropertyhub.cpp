@@ -1,4 +1,5 @@
 
+#include <QDomDocument>
 #include "testpropertyhub.h"
 
 namespace testPropertyHub
@@ -39,6 +40,37 @@ namespace testPropertyHub
         QCOMPARE(hub->allKeys().count(), 4);
         hub->clear();
         QCOMPARE(hub->allKeys().count(), 0);
+    }
+
+    void Test::testSerializationInner()
+    {
+        PropertyHubPtr hub = PropertyHub::create();
+        QDomDocument doc;
+        QDomNode stringnode = hub->serializeString(doc, "foo");
+        QVERIFY(stringnode.isText());
+        QCOMPARE(stringnode.toText().data(), QString("foo"));
+
+        QDomNode intnode = hub->serializeInt(doc, 23);
+        QVERIFY(intnode.isText());
+        QCOMPARE(intnode.toText().data(), QString("23"));
+
+        QDomElement el = hub->serializeVariant(doc, QVariant(42));
+        QVERIFY(!el.isNull());
+        QCOMPARE(el.nodeName(), QString("value"));
+        QCOMPARE(el.attribute("type"), QString("int"));
+
+        QDomNode value = el.firstChild();
+        QVERIFY(value.isText());
+        QCOMPARE(value.toText().data(), QString("42"));
+
+        el = hub->serializeVariant(doc, QVariant("bar"));
+        QVERIFY(!el.isNull());
+        QCOMPARE(el.nodeName(), QString("value"));
+        QCOMPARE(el.attribute("type"), QString("string"));
+
+        value = el.firstChild();
+        QVERIFY(value.isText());
+        QCOMPARE(value.toText().data(), QString("bar"));
     }
 
     void Test::testSerialization()

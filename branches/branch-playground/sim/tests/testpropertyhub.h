@@ -17,6 +17,7 @@ namespace testPropertyHub
         void cleanupTestCase();
 
         void testDataManipulation();
+        void testSerializationInner();
         void testSerialization();
     private:
     };

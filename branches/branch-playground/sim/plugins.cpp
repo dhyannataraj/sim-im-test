@@ -203,6 +203,7 @@ namespace SIM
 
             bool arePluginsInBuildDirectory(QStringList& pluginsList);
             bool findPluginsInDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList);
+            bool findPluginsInDirPlain(const QDir &dir, QStringList &pluginsList);
             bool initPluginList(const QStringList& pluginsList);
             QString getPluginName(pluginInfo &info);
 
@@ -318,7 +319,7 @@ namespace SIM
 
     bool PluginManagerPrivate::findPluginsInDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
     {
-        QString pluginsDir(appDir.absoluteFilePath("plugins"));
+        QString pluginsDir(appDir.absolutePath());
         log(L_DEBUG, "Searching for plugins in directory '%s'...", qPrintable(pluginsDir));
         int count = 0;
         // trunk/plugins/*
@@ -342,16 +343,34 @@ namespace SIM
         return count > 0;
     }
 
+    bool PluginManagerPrivate::findPluginsInDirPlain(const QDir &dir, QStringList &pluginsList)
+    {
+        log(L_DEBUG, "Searching for plugins in directory '%s'...", qPrintable(dir.absolutePath()));
+        int count = 0;
+        QStringList files = dir.entryList(QStringList(QString("*").append(LTDL_SHLIB_EXT)), QDir::Files | QDir::NoSymLinks);
+        foreach(const QString& file, files)
+        {
+            log(L_DEBUG, "Found '%s'...", qPrintable(file));
+            QString fullPath = dir.absolutePath() + QDir::separator() + file;
+            pluginsList.append(fullPath);
+            count++;
+        }
+        log(L_DEBUG, "%i plugins found.", count);
+        return count > 0;
+
+    }
+
     bool PluginManagerPrivate::arePluginsInBuildDirectory(QStringList& pluginsList)
     {
         QDir appDir(qApp->applicationDirPath());
         if(findPluginsInDir(appDir, ".", pluginsList)                    // cmake location is source dir itself
-                || findPluginsInDir(appDir.path() + "/..", ".", pluginsList)  // 
+                || findPluginsInDir(appDir.path() + "/../plugins", ".", pluginsList)  // 
                 || findPluginsInDir(appDir, ".libs", pluginsList)             // autotools location is .libs subdur
-                || findPluginsInDir(appDir.path() + "/..", ".libs", pluginsList) 
-                || findPluginsInDir(appDir.path() + "/..", "debug", pluginsList)   // msvc + cmake
-                || findPluginsInDir(appDir.path() + "/..", "release", pluginsList) // msvc + cmake
-                || findPluginsInDir(appDir.path() + "/..", "relwithdebinfo", pluginsList) // msvc + cmake
+                || findPluginsInDir(appDir.path() + "/../plugins", ".libs", pluginsList) 
+                || findPluginsInDir(appDir.path() + "/../plugins", "debug", pluginsList)   // msvc + cmake
+                || findPluginsInDir(appDir.path() + "/../plugins", "release", pluginsList) // msvc + cmake
+                || findPluginsInDir(appDir.path() + "/../plugins", "relwithdebinfo", pluginsList) // msvc + cmake
+                || findPluginsInDirPlain(appDir.path() + "/../lib", pluginsList)
           )
             return true;
         return false;

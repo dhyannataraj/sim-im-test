@@ -40,6 +40,12 @@ class QIcon;
 
 #ifdef USE_KDE4
 	#include <klocale.h>
+	EXPORT void resetPlural();
+	EXPORT QString i18n(const char *text);
+    inline QString i18n(const QString &text)
+    { return i18n(qPrintable(text)); }
+	EXPORT QString i18n(const char *text, const char *comment);
+	EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 #else
 
 	EXPORT void resetPlural();
