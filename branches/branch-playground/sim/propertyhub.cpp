@@ -47,11 +47,10 @@ namespace SIM
             QDomElement element = root;
             foreach(const QString& entry, entries)
             {
-                if(element.elementsByTagName(entry).size() == 0)
-                {
-                    element.appendChild(document.createElement(entry));
-                }
-                element = element.firstChildElement(entry);
+                QDomElement el = document.createElement("node");
+                el.setAttribute("name", entry);
+                element.appendChild(el);
+                element = el;
             }
             element.appendChild(serializeVariant(document, value(key)));
         }
@@ -81,10 +80,10 @@ namespace SIM
                 if(!deserializeValue(element, path))
                     return false;
             }
-            else
+            else if(element.tagName() == "node")
             {
                 QStringList newpath = path;
-                newpath.append(element.tagName());
+                newpath.append(element.attribute("name"));
                 if(!deserializeNode(element, newpath))
                     return false;
             }
@@ -98,23 +97,22 @@ namespace SIM
         if(node.attribute("type") == "int")
         {
             QDomText val = node.firstChild().toText();
-            if(val.isNull())
-                return false;
             setValue(path.join("/"), val.data().toInt());
         }
         else if(node.attribute("type") == "string")
         {
             QDomText val = node.firstChild().toText();
-            if(val.isNull())
-                return false;
             setValue(path.join("/"), val.data());
         }
         else if(node.attribute("type") == "bytearray")
         {
             QDomText val = node.firstChild().toText();
-            if(val.isNull())
-                return false;
             setValue(path.join("/"), QByteArray::fromHex(val.data().toAscii()));
+        }
+        else if(node.attribute("type") == "bool")
+        {
+            QDomText val = node.firstChild().toText();
+            setValue(path.join("/"), val.data() == "true");
         }
         else if(node.attribute("type") == "stringlist")
         {
@@ -136,6 +134,11 @@ namespace SIM
             setValue(path.join("/"), stringlist);
         }
         return true;
+    }
+
+    QDomText PropertyHub::serializeBool(QDomDocument& doc, bool val)
+    {
+        return doc.createTextNode(val ? "true" : "false");
     }
 
     QDomText PropertyHub::serializeString(QDomDocument& doc, const QString& string)
@@ -181,6 +184,11 @@ namespace SIM
             el.setAttribute("type", "int");
             data = serializeInt(doc, v.toInt());
         }
+        else if(v.type() == QVariant::Bool)
+        {
+            el.setAttribute("type", "bool");
+            data = serializeBool(doc, v.toBool());
+        }
         else if(v.type() == QVariant::ByteArray)
         {
             el.setAttribute("type", "bytearray");
@@ -205,44 +213,6 @@ namespace SIM
     void PropertyHub::clear()
     {
         m_data.clear();
-    }
-
-    bool PropertyHub::save()
-    {
-        //log(L_DEBUG, "PropertyHub::save()");
-        QList<QString> props = this->allKeys();
-        if(!ProfileManager::instance()->currentProfile())
-            return false;
-        ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
-        if(!profile)
-            return false;
-        profile->beginGroup(m_namespace);
-        foreach(const QString &prop, props)
-        {
-            //log(L_DEBUG, "Saving property: %s", prop.data());
-            profile->setValue(prop, this->value(prop));
-        }
-        profile->endGroup();
-        return true;
-    }
-
-    bool PropertyHub::load()
-    {
-        //log(L_DEBUG, "PropertyHub::load()");
-        ConfigPtr profile = ProfileManager::instance()->currentProfile()->config();
-        if(!profile)
-            return false;
-        profile->beginGroup(m_namespace);
-        QStringList keys = profile->allKeys();
-        foreach(const QString &key, keys)
-        {
-            if(key == "enabled") // FIXME hack
-                continue;
-            //log(L_DEBUG, "Loading property: %s : %s", key.toUtf8().data(), profile->value(key).toString().toUtf8().data());
-            this->setValue(key, profile->value(key));
-        }
-        profile->endGroup();
-        return true;
     }
 
     void PropertyHub::parseSection(const QString& string)

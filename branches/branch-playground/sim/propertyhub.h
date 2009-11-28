@@ -35,9 +35,6 @@ namespace SIM
         QString stringMapValue(const QString& mapname, int key);
         QList<QString> allKeys();
 
-        bool save();
-        bool load();
-
         QByteArray serialize();
         bool deserialize(const QByteArray& arr);
 
@@ -46,9 +43,11 @@ namespace SIM
         // This is to parse old
         void parseSection(const QString& string);
 
+        QString getNamespace() { return m_namespace; }
     protected:
         QDomElement serializeVariant(QDomDocument& doc, const QVariant& v);
         QDomText serializeString(QDomDocument& doc, const QString& string);
+        QDomText serializeBool(QDomDocument& doc, bool val);
         QDomText serializeInt(QDomDocument& doc, int val);
         QDomText serializeByteArray(QDomDocument& doc, const QByteArray& arr);
         QDomElement serializeStringList(QDomDocument& doc, const QStringList& list);

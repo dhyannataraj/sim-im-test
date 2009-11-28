@@ -403,7 +403,7 @@ static autoReply autoReplies[] =
 
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
   : QObject()
-  , PropertyHub     ("_core")
+  //, PropertyHub     ("_core")
   , Plugin          (base)
   , EventReceiver   (HighPriority)
   , historyXSL      (NULL)
@@ -425,6 +425,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
   , m_RegNew        (false)
   , m_HistoryThread (NULL)
   , m_bIgnoreEvents (false)
+  , m_propertyHub   (SIM::PropertyHub::create("_core"))
 {
    g_plugin = this;
 
@@ -827,6 +828,26 @@ void CorePlugin::initData()
     setAutoReplies();
 }
 
+void CorePlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+    m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr CorePlugin::propertyHub()
+{
+    return m_propertyHub;
+}
+
+QVariant CorePlugin::value(const QString& key)
+{
+    return m_propertyHub->value(key);
+}
+
+void CorePlugin::setValue(const QString& key, const QVariant& v)
+{
+    m_propertyHub->setValue(key, v);
+}
+
 void CorePlugin::setAutoReplies()
 {
 	ARUserData *data = (ARUserData*)getContacts()->getUserData_old(ar_data_id);
@@ -842,7 +863,8 @@ void CorePlugin::setAutoReplies()
 
 CorePlugin::~CorePlugin()
 {
-	PropertyHub::save();
+    prepareConfig();
+	//PropertyHub::save();
 	destroy();
 	delete m_lock;
 	delete m_cmds;
@@ -3101,7 +3123,10 @@ bool CorePlugin::init(bool bInit)
 		bRes = false;
 		bNew = true;
 	}
-	PropertyHub::load();
+
+    PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+    if(!hub.isNull())
+        setPropertyHub(hub);
 	// Defaults:
 	if(!value("ShowPanel").isValid())
 		setValue("ShowPanel", true); // Show status panel by default
@@ -3138,12 +3163,12 @@ bool CorePlugin::init(bool bInit)
 		NewProtocol pDlg(NULL,1,true);
 		pDlg.exec();
 	}
-	if (m_main)
-		return true;
+	if (!m_main)
+        m_main = new MainWindow(/*data.geometry*/);
 
 	loadUnread();
 
-    m_main = new MainWindow(/*data.geometry*/);
+    log(L_DEBUG, "geometry: %s", value("geometry").toByteArray().toHex().data());
     m_main->restoreGeometry(value("geometry").toByteArray());
     m_view = new UserView;
 
@@ -3259,6 +3284,68 @@ void CorePlugin::loadDir()
 		*/
 }
 
+void CorePlugin::prepareConfig()
+{
+	QString unread_str;
+	for(list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread)
+	{
+		msg_id &m = (*itUnread);
+		if (!unread_str.isEmpty())
+			unread_str += ';';
+		unread_str += QString::number(m.contact);
+		unread_str += ',';
+		unread_str += QString::number(m.id);
+		unread_str += ',';
+		unread_str += m.client;
+	}
+	setValue("Unread", unread_str);
+
+	unsigned editBgColor = value("EditBackground").toUInt();
+	unsigned editFgColor = value("EditForeground").toUInt();
+
+	QPalette pal = QApplication::palette();
+        if (((pal.color(QPalette::Base).rgb() & 0xFFFFFF) == value("EditBackground").toUInt()) &&
+            ((pal.color(QPalette::Text).rgb() & 0xFFFFFF) == value("EditForeground").toUInt()))
+	{
+		setValue("EditBackground", 0);
+		setValue("EditForeground", 0);
+	}
+
+	QString ef     = FontEdit::font2str(editFont, false);
+	QString def_ef = FontEdit::font2str(QApplication::font(), false);
+	setValue("EditFont", ef);
+	if ((ef == def_ef) || !value("EditSaveFont").toBool())
+		setValue("EditFont", QString());
+
+	//clearContainer();
+	QString containers;
+
+	QWidgetList list = QApplication::topLevelWidgets();
+	QWidget* w;
+	QVariantMap containerMap;
+    foreach(w,list)
+	{
+		if (w->inherits("Container"))
+		{
+			Container *c = static_cast<Container*>(w);
+            if (c->isReceived())
+                continue;
+			if (!containers.isEmpty())
+				containers += ',';
+			containers += QString::number(c->getId());
+			containerMap.insert(QString::number(c->getId()), c->getState());
+		}
+	}
+	setValue("Containers", containers);
+	if (m_main)
+	{
+		log(L_DEBUG, "Saving geometry");
+        setValue("geometry", m_main->saveGeometry());
+        setValue("toolbar_state", m_main->saveState());
+	}
+
+}
+
 static char BACKUP_SUFFIX[] = "~";
 QByteArray CorePlugin::getConfig()
 {
@@ -3315,7 +3402,6 @@ QByteArray CorePlugin::getConfig()
 	setValue("Containers", containers);
 	if (m_main)
 	{
-		//saveGeometry(m_main, data.geometry);
 		log(L_DEBUG, "Saving geometry");
         setValue("geometry", m_main->saveGeometry());
         setValue("toolbar_state", m_main->saveState());

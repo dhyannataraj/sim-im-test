@@ -27,6 +27,8 @@
 #include "sounduser.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"
+#include "profile.h"
+#include "profilemanager.h"
 
 using namespace std;
 using namespace SIM;
@@ -61,8 +63,9 @@ static QWidget *getSoundSetup(QWidget *parent, SIM::PropertyHub* data)
 }
 
 SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
-    : QObject(), PropertyHub("sound"), Plugin(base)
+    : QObject(), Plugin(base)
 {
+	m_propertyHub = SIM::PropertyHub::create("sound");
     soundPlugin = this;
     m_media = Phonon::createPlayer(Phonon::NotificationCategory);
 
@@ -91,7 +94,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 
 SoundPlugin::~SoundPlugin()
 {
-    PropertyHub::save();
+    //PropertyHub::save();
     soundPlugin = NULL;
 }
 
@@ -106,21 +109,22 @@ bool SoundPlugin::processEvent(SIM::Event *e)
     {
         case eEventLoginStart:
         {
-			log(L_DEBUG, "Startup sound: %s", qPrintable(value("StartUp").toString()));
             playSound(value("StartUp").toString());
             break;
         }
         case eEventPluginLoadConfig:
-        {
-            PropertyHub::load();
-            if(!value("StartUp").isValid())
-                setValue("StartUp", "sounds/startup.ogg");
-            if(!value("MessageSent").isValid())
-                setValue("MessageSent", "sounds/msgsent.ogg");
-            if(!value("FileDone").isValid())
-                setValue("FileDone", "sounds/filedone.ogg");
-            break;
-        }
+		{
+			PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+			if(!hub.isNull())
+				setPropertyHub(hub);
+			if(!value("StartUp").isValid())
+				setValue("StartUp", "sounds/startup.ogg");
+			if(!value("MessageSent").isValid())
+				setValue("MessageSent", "sounds/msgsent.ogg");
+			if(!value("FileDone").isValid())
+				setValue("FileDone", "sounds/filedone.ogg");
+			break;
+		}
 		case eEventContact:
         {
             EventContact *ec = static_cast<EventContact*>(e);
@@ -257,6 +261,26 @@ QString SoundPlugin::messageSound(unsigned type, unsigned long contact_id)
         return QString();
     }
     return sound;
+}
+
+void SoundPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+	m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr SoundPlugin::propertyHub()
+{
+	return m_propertyHub;
+}
+
+QVariant SoundPlugin::value(const QString& key)
+{
+	return m_propertyHub->value(key);
+}
+
+void SoundPlugin::setValue(const QString& key, const QVariant& v)
+{
+	m_propertyHub->setValue(key, v);
 }
 
 // vim : expandtab

@@ -60,116 +60,98 @@ namespace SIM
 {
 
 Config::Config(const QString& filename) : m_filename(filename),
-	m_changed(false)
+	m_roothub(PropertyHub::create()), m_changed(false)
 {
 }
 
 Config::~Config()
 {
-	if(m_changed)
-		save();
 }
 
-void Config::beginGroup(const QString& group)
+bool Config::addPropertyHub(PropertyHubPtr hub)
 {
-	m_group = group;
+	if(hub->getNamespace().isEmpty())
+		return false;
+	m_hubs.insert(hub->getNamespace(), hub);
+	return true;
 }
 
-void Config::endGroup()
+PropertyHubPtr Config::propertyHub(const QString& hubNamespace)
 {
-	m_group = QString::null;
+	PropertyHubMap::iterator it = m_hubs.find(hubNamespace);
+	if(it == m_hubs.end())
+		return PropertyHubPtr();
+	return it.value();
 }
 
-void Config::setValue(const QString& key, const QVariant& value)
+int Config::propertyHubCount()
 {
-	m_changed = true;
-	if(m_group.isNull())
-	{
-		m_data.insert(key, value);
-	}
-	else
-	{
-		if(key.contains('/'))
-			return;
-		m_data.insert(m_group + '/' + key, value);
-	}
+	return m_hubs.size();
 }
 
-QVariant Config::value(const QString& key)
+void Config::clearPropertyHubs()
 {
-	if(m_group.isNull())
-	{
-		return QVariant(m_data.value(key));
-	}
-	else
-	{
-		return QVariant(m_data.value(m_group + '/' + key));
-	}
+	m_hubs.clear();
 }
 
-QStringList Config::allKeys()
+PropertyHubPtr Config::rootPropertyHub()
 {
-	if(m_group.isNull())
-		return m_data.keys();
-
-	QStringList l;
-	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
-	{
-		if(it.key().startsWith(m_group))
-			l.append(it.key().section('/', 1, 1));
-	}
-	return l;
+	return m_roothub;
 }
 
-void Config::save()
+QByteArray Config::serialize()
 {
-	QFile f(m_filename);
-	f.open(QIODevice::WriteOnly);
-	for(QVariantMap::iterator it = m_data.begin(); it != m_data.end(); ++it)
+	QDomDocument doc;
+	QDomElement root = doc.createElement("config");
+	doc.appendChild(root);
+
+	QDomElement roothub = doc.createElement("propertyhub");
+	QByteArray arr = m_roothub->serialize();
+	QDomDocument childdoc;
+	childdoc.setContent(arr);
+	roothub.appendChild(childdoc);
+	root.appendChild(roothub);
+
+	foreach(PropertyHubPtr hub, m_hubs)
 	{
-        QString towrite;
-        if(it.value().type() == QVariant::ByteArray)
-        {
-            towrite = it.key() + "=QByteArray(" + it.value().toByteArray().toHex() + ")\n";
-        }
-        else if(it.value().toStringList().size() > 1)
-        {
-            towrite = it.key() + "=QStringList:" + it.value().toStringList().join(",") + '\n';
-        }
-        else
-        {
-            towrite = it.key() + '=' + it.value().toString() + '\n';
-        }
-		f.write(towrite.toUtf8());
+		QDomElement hubelement = doc.createElement("propertyhub");
+		hubelement.setAttribute("name", hub->getNamespace());
+		QByteArray arr = hub->serialize();
+		QDomDocument childdoc;
+		childdoc.setContent(arr);
+		hubelement.appendChild(childdoc);
+		root.appendChild(hubelement);
 	}
+	return doc.toByteArray();
 }
 
-void Config::load()
+bool Config::deserialize(const QByteArray& arr)
 {
-	QFile f(m_filename);
-	f.open(QIODevice::ReadOnly);
-	while(!f.atEnd())
+	QDomDocument doc;
+	if(!doc.setContent(arr))
+		return false;
+	QDomElement root = doc.elementsByTagName("config").at(0).toElement();
+	if(root.isNull())
+		return false;
+	QDomNodeList list = root.elementsByTagName("propertyhub");
+	for(int i = 0; i < list.size(); i++)
 	{
-		QStringList entry = QString(f.readLine()).split('=');
-		if(entry.size() < 2)
-			continue;
-        QString val = entry[1].trimmed();
-        if(val.startsWith("QByteArray(") && val.endsWith(')'))
-        {
-            int n = 11; // strlen("QByteArray(");
-            QString hex = val.mid(n, val.size() - n - 1);
-            setValue(entry[0], QByteArray::fromHex(hex.toUtf8()));
-
-        }
-        else if(val.startsWith("QStringList:"))
-        {
-            setValue(entry[0], val.mid(QString("QStringList:").length()).split(','));
-        }
-        else
-        {
-            setValue(entry[0], val);
-        }
+		QByteArray array;
+		QTextStream stream(&array);
+		QDomNode child = list.at(i);
+		QDomElement el = child.firstChildElement("root");
+		el.save(stream, 1);
+		QString hubname = child.toElement().attribute("name");
+		PropertyHubPtr hub;
+		if(hubname.isEmpty())
+			hub = m_roothub;
+		else
+			hub = PropertyHub::create(hubname);
+		if(!hub->deserialize(array))
+			return false;
+		addPropertyHub(hub);
 	}
+	return true;
 }
 
 void Config::mergeOldConfig(const QString& filename)
@@ -190,18 +172,20 @@ void Config::mergeOldConfig(const QString& filename)
             QStringList line = it->split('=');
             if(line.size() != 2)
                 continue;
+			PropertyHubPtr hub = propertyHub(ns);
+			if(hub.isNull())
+			{
+				hub = PropertyHub::create(ns);
+				addPropertyHub(hub);
+			}
 
             // Merge if only there's no setting in a new config:
-            if(!value(ns + '/' + line[0]).isValid())
+            if(!hub->value(line[0]).isValid())
             {
                 if(line[1].startsWith('"') && line[1].endsWith('"'))
-                {
-                    setValue(ns + '/' + line[0], line[1].mid(1, line[1].length() - 2));
-                }
+                    hub->setValue(line[0], line[1].mid(1, line[1].length() - 2));
                 else
-                {
-                    setValue(ns + '/' + line[0], line[1]);
-                }
+                    hub->setValue(line[0], line[1]);
             }
         }
     }

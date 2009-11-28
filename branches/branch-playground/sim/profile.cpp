@@ -36,33 +36,21 @@ namespace SIM
     {
         if(m_config.isNull())
             return QStringList();
-        QStringList keys = m_config->allKeys();
-        QStringList plugins;
-        foreach(QString s, keys)
-        {
-            if(s.endsWith("/enabled"))
-            {
-                bool val = m_config->value(s).toBool();
-                if(val)
-                {
-                    QString pluginName = s.left(s.indexOf('/'));
-                    if(!pluginName.isEmpty())
-                        plugins.append(pluginName);
-                }
-            }
-        }
-		return plugins;
+        QStringList list = m_config->rootPropertyHub()->value("EnabledPlugins").toStringList();
+        return list;
     }
 
     void Profile::enablePlugin(const QString& name)
     {
         if(m_config.isNull())
             return;
-        if(!enabledPlugins().contains(name))
+        QStringList list = enabledPlugins();
+        if(!list.contains(name))
         {
             log(L_DEBUG, "enablePlugin(%s)", qPrintable(name));
-            m_config->setValue(name + "/enabled", true);
+            list.append(name);
             addPlugin(name);
+            m_config->rootPropertyHub()->setValue("EnabledPlugins", list);
         }
     }
 
@@ -70,11 +58,13 @@ namespace SIM
     {
         if(m_config.isNull())
             return;
-        if(enabledPlugins().contains(name))
+        QStringList list = enabledPlugins();
+        if(list.contains(name))
         {
             log(L_DEBUG, "disablePlugin(%s)", qPrintable(name));
-            m_config->setValue(name + "/enabled", false);
+            list.removeOne(name);
             removePlugin(name);
+            m_config->rootPropertyHub()->setValue("EnabledPlugins", list);
         }
     }
 

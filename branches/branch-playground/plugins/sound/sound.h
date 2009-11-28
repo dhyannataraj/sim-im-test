@@ -51,7 +51,7 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -62,6 +62,10 @@ public:
 
     SIM::SIMEvent EventSoundChanged;
 
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
 	QString messageSound(unsigned type, unsigned long contact_id);
     virtual bool processEvent(SIM::Event *e);
@@ -72,6 +76,7 @@ protected:
 private:
 	Phonon::MediaObject* m_media;
 	unsigned long CmdSoundDisable;
+    SIM::PropertyHubPtr m_propertyHub;
 
 };
 

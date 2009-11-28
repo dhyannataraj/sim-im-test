@@ -678,7 +678,7 @@ namespace SIM
         pluginInfo *info = getInfo(name);
         if (info == NULL)
             return false;
-        bool disabled = !ProfileManager::instance()->currentProfile()->config()->value(info->name + "/enabled").toBool();
+        bool disabled = !ProfileManager::instance()->currentProfile()->enabledPlugins().contains(name);
         if (disabled)
         {
             if (info->plugin == NULL)

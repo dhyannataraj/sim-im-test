@@ -933,39 +933,39 @@ void ContactList::save_new()
 {
 	if(!ProfileManager::instance()->profilePath().isEmpty())
 	{
-		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
-		Config conf(filename);
-		PropertyHub* cldata = userdata();
-		QStringList clkeys = cldata->allKeys();
-		foreach(const QString& key, clkeys)
-		{
-			conf.setValue(key, cldata->value(key));
-		}
-
-        for(vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g)
-        {
-            PropertyHub* data = (*it_g)->userdata();
-			QStringList keys = data->allKeys();
-			foreach(const QString& key, keys)
-            {
-                conf.setValue("Group/" + QString::number((*it_g)->id()) + '/' + key, data->value(key));
-            }
-        }
-
-        for(map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c)
-        {
-            const Contact* contact = it_c->second;
-            if (contact->getFlags() & CONTACT_TEMPORARY)
-                continue;
-
-            PropertyHub* data = contact->userdata();
-			QStringList keys = data->allKeys();
-			foreach(const QString& key, keys)
-            {
-                conf.setValue("Contact/" + QString::number(contact->id()) + '/' + key, data->value(key));
-            }
-        }
-		conf.save();
+//		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
+//		Config conf(filename);
+//		PropertyHub* cldata = userdata();
+//		QStringList clkeys = cldata->allKeys();
+//		foreach(const QString& key, clkeys)
+//		{
+//			conf.setValue(key, cldata->value(key));
+//		}
+//
+//        for(vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g)
+//        {
+//            PropertyHub* data = (*it_g)->userdata();
+//			QStringList keys = data->allKeys();
+//			foreach(const QString& key, keys)
+//            {
+//                conf.setValue("Group/" + QString::number((*it_g)->id()) + '/' + key, data->value(key));
+//            }
+//        }
+//
+//        for(map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c)
+//        {
+//            const Contact* contact = it_c->second;
+//            if (contact->getFlags() & CONTACT_TEMPORARY)
+//                continue;
+//
+//            PropertyHub* data = contact->userdata();
+//			QStringList keys = data->allKeys();
+//			foreach(const QString& key, keys)
+//            {
+//                conf.setValue("Contact/" + QString::number(contact->id()) + '/' + key, data->value(key));
+//            }
+//        }
+		ProfileManager::instance()->sync();
 	}
 }
 
@@ -973,31 +973,31 @@ void ContactList::load_new()
 {
 	if(!ProfileManager::instance()->profilePath().isEmpty())
 	{
-		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
-		Config conf(filename);
-		conf.load();
-		foreach(QString s, conf.allKeys())
-		{
-            // FIXME this is quite slow
-            if(s.section('/', 0, 0) == "Contact")
-            {
-                unsigned long id = s.section('/', 1, 1).toULong();
-                Contact* c;
-                c = contact(id, !contactExists(id));
-                c->userdata()->setValue(s.section('/', 2), conf.value(s));
-            }
-            else if(s.section('/', 0, 0) == "Group")
-            {
-                unsigned long id = s.section('/', 1, 1).toULong();
-                Group* g;
-                g = group(id, !groupExists(id));
-                g->userdata()->setValue(s.section('/', 2), conf.value(s));
-            }
-            else
-            {
-                m_userData->setValue(s, conf.value(s));
-            }
-		}
+//		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
+//		Config conf(filename);
+//		conf.load_old();
+//		foreach(QString s, conf.allKeys())
+//		{
+//            // FIXME this is quite slow
+//            if(s.section('/', 0, 0) == "Contact")
+//            {
+//                unsigned long id = s.section('/', 1, 1).toULong();
+//                Contact* c;
+//                c = contact(id, !contactExists(id));
+//                c->userdata()->setValue(s.section('/', 2), conf.value(s));
+//            }
+//            else if(s.section('/', 0, 0) == "Group")
+//            {
+//                unsigned long id = s.section('/', 1, 1).toULong();
+//                Group* g;
+//                g = group(id, !groupExists(id));
+//                g->userdata()->setValue(s.section('/', 2), conf.value(s));
+//            }
+//            else
+//            {
+//                m_userData->setValue(s, conf.value(s));
+//            }
+//		}
 	}
 }
 

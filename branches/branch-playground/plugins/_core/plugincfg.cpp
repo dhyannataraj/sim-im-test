@@ -28,7 +28,8 @@ PluginCfg::PluginCfg(QWidget *parent, const QString& pluginname) : QWidget(paren
 {
 	setupUi(this);
     m_pluginName = pluginname;
-	if(ProfileManager::instance()->currentProfile()->enabledPlugins().contains(m_pluginName))
+	if(ProfileManager::instance()->currentProfile()->enabledPlugins().contains(m_pluginName) ||
+			getPluginManager()->isPluginAlwaysEnabled(m_pluginName))
 	{
 		PluginPtr plugin = getPluginManager()->plugin(pluginname);
         QWidget *w = plugin->createConfigWindow(addWnd);

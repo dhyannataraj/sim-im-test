@@ -4,6 +4,7 @@
 #include "testbuffer.h"
 #include "testsocketfactory.h"
 #include "testclientsocket.h"
+#include "testconfig.h"
 #include "testprotocolmanager.h"
 #include "testcontactlist.h"
 #include "testpropertyhub.h"
@@ -18,6 +19,7 @@ int main(int argc, char** argv)
 	QTest::qExec(new testPropertyHub::Test());
 	QTest::qExec(new testContactList::Test());
 	QTest::qExec(new testUserData::Test());
+	QTest::qExec(new testConfig::Test());
 	return 0;
 }
 

@@ -24,6 +24,7 @@
 #include <QVariant>
 #include <QSharedPointer>
 
+#include "propertyhub.h"
 #include "simapi.h"
 
 class QObject;
@@ -41,22 +42,23 @@ public:
 	Config(const QString& filename);
 	virtual ~Config();
 
-	void beginGroup(const QString& group);
-	void endGroup();
-
-	void setValue(const QString& key, const QVariant& value);
-	QVariant value(const QString& key);
-
-	QStringList allKeys();
-
-	void save();
-	void load();
-
     void mergeOldConfig(const QString& filename);
+
+	bool addPropertyHub(PropertyHubPtr hub);
+	PropertyHubPtr propertyHub(const QString& hubNamespace);
+	int propertyHubCount();
+	void clearPropertyHubs();
+	PropertyHubPtr rootPropertyHub();
+
+	QByteArray serialize();
+	bool deserialize(const QByteArray& arr);
 private:
+	typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
+	PropertyHubMap m_hubs;
 	QString m_group;
 	QVariantMap m_data;
 	QString m_filename;
+	PropertyHubPtr m_roothub;
 	bool m_changed;
 };
 

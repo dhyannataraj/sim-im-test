@@ -34,6 +34,8 @@ namespace SIM
 		bool newProfile(const QString& name);
 
 		void sync();
+
+		PropertyHubPtr getPropertyHub(const QString& name);
 	private:
 		QString m_rootPath;
 		ProfilePtr m_currentProfile;

@@ -218,6 +218,7 @@ ENDIF(APPLE)
 SET(sim_tests_srcs
     tests/test.cpp
     tests/testbuffer.cpp
+	tests/testconfig.cpp
     tests/testsocketfactory.cpp
     tests/testclientsocket.cpp
     tests/testcontactlist.cpp
@@ -229,6 +230,7 @@ SET(sim_tests_srcs
 
 SET(sim_tests_hdrs
     tests/testbuffer.h
+	tests/testconfig.h
     tests/testsocketfactory.h
     tests/testclientsocket.h
     tests/testcontactlist.h

@@ -214,6 +214,7 @@ void MainWindow::quit()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+	CorePlugin::instance()->prepareConfig();
     save_state();
     QMainWindow::closeEvent(e);
     qApp->quit();

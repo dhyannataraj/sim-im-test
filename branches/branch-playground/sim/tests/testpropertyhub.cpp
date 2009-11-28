@@ -136,6 +136,8 @@ namespace testPropertyHub
         hub->setValue("bar", "baz");
         hub->setValue("quux", abc);
         hub->setValue("quuux", list);
+        hub->setValue("bool_true", true);
+        hub->setValue("bool_false", false);
         hub->setStringMapValue("map", 12, "qux");
         QByteArray arr = hub->serialize();
         PropertyHubPtr anotherhub = PropertyHubPtr(new PropertyHub("root"));
@@ -148,6 +150,8 @@ namespace testPropertyHub
         QCOMPARE(anotherhub->value("quuux").toStringList().at(0), QString("alpha"));
         QCOMPARE(anotherhub->value("quuux").toStringList().at(1), QString("beta"));
         QCOMPARE(anotherhub->value("quuux").toStringList().at(2), QString("gamma"));
+        QCOMPARE(anotherhub->value("bool_true").toBool(), true);
+        QCOMPARE(anotherhub->value("bool_false").toBool(), false);
     }
 }
 

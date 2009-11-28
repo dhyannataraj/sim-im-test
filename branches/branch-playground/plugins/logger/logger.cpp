@@ -28,6 +28,8 @@
 
 #include "log.h"
 #include "misc.h"
+#include "profile.h"
+#include "profilemanager.h"
 
 #include "logger.h"
 #include "logconfig.h"
@@ -64,11 +66,11 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
         : QObject()
-		, PropertyHub("logger")
 		, Plugin(base)
         , m_file(NULL)
 {
 
+    m_propertyHub = PropertyHub::create("logger");
     EventArg e("-d:", I18N_NOOP("Set debug level"));
     if (e.process())
         setValue("LogLevel", e.value().toUInt());
@@ -83,7 +85,6 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
 LoggerPlugin::~LoggerPlugin()
 {
     delete m_file;
-    PropertyHub::save();
 }
 
 QByteArray LoggerPlugin::getConfig()
@@ -216,7 +217,32 @@ bool LoggerPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHub::load();
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        if(!hub.isNull())
+            setPropertyHub(hub);
     }
     return false;
 }
+
+void LoggerPlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+{
+    m_propertyHub = hub;
+}
+
+SIM::PropertyHubPtr LoggerPlugin::propertyHub()
+{
+    return m_propertyHub;
+}
+
+QVariant LoggerPlugin::value(const QString& key)
+{
+    return m_propertyHub->value(key);
+}
+
+void LoggerPlugin::setValue(const QString& key, const QVariant& v)
+{
+    m_propertyHub->setValue(key, v);
+}
+	
+// vim: set expandtab:
+

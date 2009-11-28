@@ -51,11 +51,24 @@ namespace SIM
 			return true;
 		// TODO lock
 		QString profile_conf = m_rootPath + QDir::separator() + name + QDir::separator() + "profile.conf";
+		QString profile_xml = m_rootPath + QDir::separator() + name + QDir::separator() + "profile.xml";
 		QString old_config = m_rootPath + QDir::separator() + name + QDir::separator() + "plugins.conf";
 		log(L_DEBUG, "Selecting profile:  %s", profile_conf.toUtf8().data());
 		ConfigPtr config = ConfigPtr(new Config(profile_conf));
-		config->load();
-            config->mergeOldConfig(old_config);
+		//config->load_old();
+		config->mergeOldConfig(old_config);
+		QFile f(profile_xml);
+		if(!f.open(QIODevice::ReadOnly))
+		{
+			log(L_WARN, "Unable to open: %s", qPrintable(profile_xml));
+			return false;
+		}
+		if(!config->deserialize(f.readAll()))
+		{
+			log(L_WARN, "Unable to deserialize: %s", qPrintable(profile_xml));
+			return false;
+		}
+		f.close();
 		m_currentProfile = ProfilePtr(new Profile(config, name));
 		m_currentProfile->loadPlugins();
 		return true;
@@ -95,7 +108,12 @@ namespace SIM
 	void ProfileManager::sync()
 	{
 		if(!m_currentProfile.isNull() && !m_currentProfile->config().isNull())
-			m_currentProfile->config()->save();
+		{
+			QFile f(m_rootPath + QDir::separator() + m_currentProfile->name() + QDir::separator() + "profile.xml");
+			f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+			f.write(m_currentProfile->config()->serialize());
+			f.close();
+		}
 	}
 
 	QString ProfileManager::currentProfileName()
@@ -103,6 +121,22 @@ namespace SIM
 		if(!m_currentProfile.isNull())
 			return m_currentProfile->name();
 		return QString::null;
+	}
+
+	PropertyHubPtr ProfileManager::getPropertyHub(const QString& name)
+	{
+		ProfilePtr curProfile = currentProfile();
+		if(curProfile.isNull())
+			return PropertyHubPtr();
+		if(curProfile->config().isNull())
+			return PropertyHubPtr();
+		PropertyHubPtr hub = curProfile->config()->propertyHub(name);
+		if(hub.isNull())
+		{
+			hub = PropertyHub::create(name);
+			curProfile->config()->addPropertyHub(hub);
+		}
+		return hub;
 	}
 }
 

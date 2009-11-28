@@ -175,14 +175,14 @@ protected:
     QString m_Viewer;
 };
 
-class CorePlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class CorePlugin : public QObject/*  , public SIM::PropertyHub*/, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     CorePlugin(unsigned, Buffer*);
     virtual ~CorePlugin();
     void setManualStatus(unsigned long status);
-    unsigned long getManualStatus() { return PropertyHub::value("ManualStatus").toUInt(); }
+    unsigned long getManualStatus() { return value("ManualStatus").toUInt(); }
     unsigned getContainerMode();
     void setContainerMode(unsigned);
     void setRegNew(bool p_new) {m_RegNew=p_new;}
@@ -208,6 +208,11 @@ public:
 
     XSL	*historyXSL;
     static CorePlugin* instance();
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 signals:
     void modeChanged(int);
 protected slots:
@@ -258,6 +263,8 @@ protected:
     void createMenuMsgView();		// in msgview_menu.cpp
     void createMenuTextEdit();		// in textedit_menu.cpp
 
+    void prepareConfig();
+
     bool                m_bInit;
     QStringList         m_profiles;
     QWidget             *m_cfg;
@@ -281,6 +288,7 @@ protected:
 
 private:
     bool m_bIgnoreEvents;
+    SIM::PropertyHubPtr m_propertyHub;
 
     friend class MainWindow;
     friend class UserView;

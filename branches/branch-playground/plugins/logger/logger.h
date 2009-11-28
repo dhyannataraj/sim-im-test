@@ -32,7 +32,7 @@ const unsigned short L_PACKETS = 0x08;
 
 class QFile;
 
-class LoggerPlugin : public QObject, public SIM::PropertyHub, public SIM::Plugin, public SIM::EventReceiver
+class LoggerPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -40,6 +40,11 @@ public:
     virtual ~LoggerPlugin();
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
+
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
 protected:
 //    bool eventFilter(QObject *o, QEvent *e);
     QSet<unsigned> m_packets;
@@ -50,6 +55,8 @@ protected:
     QFile *m_file;
     bool m_bFilter;
     friend class LogConfig;
+
+	SIM::PropertyHubPtr m_propertyHub;
 };
 
 #endif
