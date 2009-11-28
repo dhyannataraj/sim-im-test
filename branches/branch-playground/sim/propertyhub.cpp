@@ -1,8 +1,6 @@
 
 #include <QStringList>
-#include <QBuffer>
 #include <QDomElement>
-#include <QXmlStreamReader>
 #include <stdio.h>
 #include "propertyhub.h"
 #include "log.h"
@@ -11,112 +9,6 @@
 
 namespace SIM
 {
-    class Tree
-    {
-    public:
-        typedef QSharedPointer<Tree> TreePtr; 
-        Tree(const QString& name, TreePtr parent = TreePtr()) :
-            m_name(name)
-            , m_parent(parent)
-        {
-        }
-
-        void addChild(TreePtr tree)
-        {
-            m_children.insert(tree->name(), tree);
-        }
-
-        TreePtr child(const QString& childname)
-        {
-            QMap<QString, TreePtr>::iterator it = m_children.find(childname);
-            if(it == m_children.end())
-                return TreePtr();
-            return it.value();
-        }
-
-        QString name()
-        {
-            return m_name;
-        }
-
-        TreePtr parent()
-        {
-            return m_parent;
-        }
-
-        void setValue(const QVariant& value)
-        {
-            m_value = value;
-        }
-
-        QVariant value()
-        {
-            return m_value;
-        }
-
-        QByteArray serialize()
-        {
-            QByteArray arr;
-            if(!m_name.isEmpty())
-            {
-                arr.append("<");
-                arr.append(m_name.toUtf8());
-                arr.append(">\n");
-            }
-
-            if(m_value.isValid())
-            {
-                arr.append(serialize(m_value));
-            }
-
-            for(QMap<QString, TreePtr>::iterator it = m_children.begin(); it != m_children.end(); ++it)
-            {
-                arr.append(it.value()->serialize());
-            }
-
-            if(!m_name.isEmpty())
-            {
-                arr.append("</");
-                arr.append(m_name.toUtf8());
-                arr.append(">\n");
-            }
-
-            return arr;
-        }
-
-        QByteArray serialize(const QVariant& v)
-        {
-            QByteArray arr = "<value type=\"";
-            if(v.type() == QVariant::String)
-            {
-                arr.append("string");
-                arr.append("\">");
-                arr.append(v.toString().toUtf8());
-            }
-            else if(v.type() == QVariant::Int || v.type() == QVariant::UInt)
-            {
-                arr.append("int");
-                arr.append("\">");
-                arr.append(v.toString().toUtf8());
-            }
-            else if(v.type() == QVariant::ByteArray)
-            {
-                arr.append("bytearray");
-                arr.append("\">");
-                arr.append(v.toByteArray().toHex());
-            }
-            arr.append("</value>\n");
-            // TODO other types
-            return arr;
-        }
-
-    private:
-        QString m_name;
-        TreePtr m_parent;
-        QVariant m_value;
-        QMap<QString, TreePtr> m_children;
-    };
-
     PropertyHubPtr PropertyHub::create()
     {
         return PropertyHubPtr(new PropertyHub());
@@ -168,25 +60,117 @@ namespace SIM
 
     bool PropertyHub::deserialize(const QByteArray& arr)
     {
-        return false;
+        QDomDocument doc;
+        doc.setContent(arr);
+        QStringList path;
+        QDomElement root = doc.firstChildElement("root");
+        return deserializeNode(root, path);
+    }
+
+    bool PropertyHub::deserializeNode(QDomElement node, const QStringList& path)
+    {
+        QDomNodeList l = node.childNodes();
+        for(int i = 0; i < l.size(); i++)
+        {
+            const QDomNode& childnode = l.item(i);
+            if(!childnode.isElement())
+                continue;
+            QDomElement element = childnode.toElement();
+            if(element.tagName() == "value")
+            {
+                if(!deserializeValue(element, path))
+                    return false;
+            }
+            else
+            {
+                QStringList newpath = path;
+                newpath.append(element.tagName());
+                if(!deserializeNode(element, newpath))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    // TODO split this method
+    bool PropertyHub::deserializeValue(QDomElement node, const QStringList& path)
+    {
+        if(node.attribute("type") == "int")
+        {
+            QDomText val = node.firstChild().toText();
+            if(val.isNull())
+                return false;
+            setValue(path.join("/"), val.data().toInt());
+        }
+        else if(node.attribute("type") == "string")
+        {
+            QDomText val = node.firstChild().toText();
+            if(val.isNull())
+                return false;
+            setValue(path.join("/"), val.data());
+        }
+        else if(node.attribute("type") == "bytearray")
+        {
+            QDomText val = node.firstChild().toText();
+            if(val.isNull())
+                return false;
+            setValue(path.join("/"), QByteArray::fromHex(val.data().toAscii()));
+        }
+        else if(node.attribute("type") == "stringlist")
+        {
+            QStringList stringlist;
+            QDomElement el = node.firstChildElement("list");
+            if(el.isNull())
+                return false;
+            QDomNodeList list = el.childNodes();
+            for(int i = 0; i < list.size(); i++)
+            {
+                QDomNode child = list.at(i);
+                if(!child.isElement())
+                    continue;
+                QDomElement string = child.toElement();
+                if(string.tagName() != "string")
+                    return false;
+                stringlist.append(string.firstChild().toText().data());
+            }
+            setValue(path.join("/"), stringlist);
+        }
+        return true;
     }
 
     QDomText PropertyHub::serializeString(QDomDocument& doc, const QString& string)
     {
-        QDomText text = doc.createTextNode(string);
-        return text;
+        return doc.createTextNode(string);
     }
     
     QDomText PropertyHub::serializeInt(QDomDocument& doc, int val)
     {
-        QDomText text = doc.createTextNode(QString::number(val));
-        return text;
+        return doc.createTextNode(QString::number(val));
     }
+
+    QDomText PropertyHub::serializeByteArray(QDomDocument& doc, const QByteArray& arr)
+    {
+        return doc.createTextNode(QString(arr.toHex()));
+    }
+
+    QDomElement PropertyHub::serializeStringList(QDomDocument& doc, const QStringList& list)
+    {
+        QDomElement el = doc.createElement("list");
+        foreach(const QString& s, list)
+        {
+            QDomElement stringelement = doc.createElement("string");
+            QDomText text = doc.createTextNode(s);
+            stringelement.appendChild(text);
+            el.appendChild(stringelement);
+        }
+        return el;
+    }
+
 
     QDomElement PropertyHub::serializeVariant(QDomDocument& doc, const QVariant& v)
     {
         QDomElement el = doc.createElement("value");
-        QDomText data;
+        QDomNode data;
         if(v.type() == QVariant::String)
         {
             el.setAttribute("type", "string");
@@ -197,30 +181,16 @@ namespace SIM
             el.setAttribute("type", "int");
             data = serializeInt(doc, v.toInt());
         }
-//        else if(v.type() == QVariant::ByteArray)
-//        {
-//            QDomText* d = new QDomText();
-//            el.setAttribute("type", "bytearray");
-//            d->setData(QString(v.toByteArray().toHex()));
-//            data = d;
-//        }
-//        else if(v.type() == QVariant::StringList)
-//        {
-//            QDomElement* d = new QDomElement();
-//            d->setTagName("list");
-//            el.setAttribute("type", "stringlist");
-//            QStringList list = v.toStringList();
-//            foreach(const QString& s, list)
-//            {
-//                QDomElement stringelement;
-//                stringelement.setTagName("string");
-//                QDomText text;
-//                text.setData(s);
-//                stringelement.appendChild(text);
-//                d->appendChild(stringelement);
-//            }
-//            data = d;
-//        }
+        else if(v.type() == QVariant::ByteArray)
+        {
+            el.setAttribute("type", "bytearray");
+            data = serializeByteArray(doc, v.toByteArray());
+        }
+        else if(v.type() == QVariant::StringList)
+        {
+            el.setAttribute("type", "stringlist");
+            data = serializeStringList(doc, v.toStringList());
+        }
         if(!data.isNull())
         {
             el.appendChild(data);

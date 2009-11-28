@@ -42,13 +42,28 @@ namespace testPropertyHub
         QCOMPARE(hub->allKeys().count(), 0);
     }
 
-    void Test::testSerializationInner()
+    void Test::testSerializationInnerString()
     {
         PropertyHubPtr hub = PropertyHub::create();
         QDomDocument doc;
         QDomNode stringnode = hub->serializeString(doc, "foo");
         QVERIFY(stringnode.isText());
         QCOMPARE(stringnode.toText().data(), QString("foo"));
+        
+        QDomElement el = hub->serializeVariant(doc, QVariant("bar"));
+        QVERIFY(!el.isNull());
+        QCOMPARE(el.nodeName(), QString("value"));
+        QCOMPARE(el.attribute("type"), QString("string"));
+
+        QDomNode value = el.firstChild();
+        QVERIFY(value.isText());
+        QCOMPARE(value.toText().data(), QString("bar"));
+    }
+
+    void Test::testSerializationInnerInt()
+    {
+        PropertyHubPtr hub = PropertyHub::create();
+        QDomDocument doc;
 
         QDomNode intnode = hub->serializeInt(doc, 23);
         QVERIFY(intnode.isText());
@@ -62,22 +77,65 @@ namespace testPropertyHub
         QDomNode value = el.firstChild();
         QVERIFY(value.isText());
         QCOMPARE(value.toText().data(), QString("42"));
+    }
 
-        el = hub->serializeVariant(doc, QVariant("bar"));
+    void Test::testSerializationInnerByteArray()
+    {
+        QByteArray arr = "ABC";
+        PropertyHubPtr hub = PropertyHub::create();
+        QDomDocument doc;
+
+        QDomNode banode = hub->serializeByteArray(doc, arr);
+        QVERIFY(banode.isText());
+        QCOMPARE(banode.toText().data(), QString("414243"));
+
+        QDomElement el = hub->serializeVariant(doc, arr);
         QVERIFY(!el.isNull());
         QCOMPARE(el.nodeName(), QString("value"));
-        QCOMPARE(el.attribute("type"), QString("string"));
+        QCOMPARE(el.attribute("type"), QString("bytearray"));
 
-        value = el.firstChild();
+        QDomNode value = el.firstChild();
         QVERIFY(value.isText());
-        QCOMPARE(value.toText().data(), QString("bar"));
+        QCOMPARE(value.toText().data(), QString("414243"));
+    }
+
+    void Test::testSerializationInnerStringList()
+    {
+        QStringList list;
+        list.append("foo");
+        list.append("bar");
+        list.append("baz");
+
+        PropertyHubPtr hub = PropertyHub::create();
+        QDomDocument doc;
+
+        QDomNode slnode = hub->serializeStringList(doc, list);
+        QVERIFY(slnode.isElement());
+        QDomElement listelement = slnode.toElement();
+        QCOMPARE(listelement.tagName(), QString("list"));
+        QCOMPARE(listelement.elementsByTagName("string").size(), 3);
+        QVERIFY(listelement.elementsByTagName("string").at(0).toElement().firstChild().isText());
+        QCOMPARE(listelement.elementsByTagName("string").at(0).toElement().firstChild().toText().data(), QString("foo"));
+
+        QVERIFY(listelement.elementsByTagName("string").at(1).toElement().firstChild().isText());
+        QCOMPARE(listelement.elementsByTagName("string").at(1).toElement().firstChild().toText().data(), QString("bar"));
+        
+        QVERIFY(listelement.elementsByTagName("string").at(2).toElement().firstChild().isText());
+        QCOMPARE(listelement.elementsByTagName("string").at(2).toElement().firstChild().toText().data(), QString("baz"));
     }
 
     void Test::testSerialization()
     {
+        QByteArray abc = "ABC";
+        QStringList list;
+        list.append("alpha");
+        list.append("beta");
+        list.append("gamma");
         PropertyHubPtr hub = PropertyHubPtr(new PropertyHub("root"));
         hub->setValue("foo", 12);
         hub->setValue("bar", "baz");
+        hub->setValue("quux", abc);
+        hub->setValue("quuux", list);
         hub->setStringMapValue("map", 12, "qux");
         QByteArray arr = hub->serialize();
         PropertyHubPtr anotherhub = PropertyHubPtr(new PropertyHub("root"));
@@ -86,6 +144,10 @@ namespace testPropertyHub
         QCOMPARE(anotherhub->value("foo").toInt(), 12);
         QCOMPARE(anotherhub->value("bar").toString(), QString("baz"));
         QCOMPARE(anotherhub->stringMapValue("map", 12), QString("qux"));
+        QCOMPARE(anotherhub->value("quux").toByteArray(), abc);
+        QCOMPARE(anotherhub->value("quuux").toStringList().at(0), QString("alpha"));
+        QCOMPARE(anotherhub->value("quuux").toStringList().at(1), QString("beta"));
+        QCOMPARE(anotherhub->value("quuux").toStringList().at(2), QString("gamma"));
     }
 }
 

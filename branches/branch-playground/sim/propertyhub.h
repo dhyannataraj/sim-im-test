@@ -50,7 +50,11 @@ namespace SIM
         QDomElement serializeVariant(QDomDocument& doc, const QVariant& v);
         QDomText serializeString(QDomDocument& doc, const QString& string);
         QDomText serializeInt(QDomDocument& doc, int val);
+        QDomText serializeByteArray(QDomDocument& doc, const QByteArray& arr);
+        QDomElement serializeStringList(QDomDocument& doc, const QStringList& list);
 
+        bool deserializeNode(QDomElement node, const QStringList& path);
+        bool deserializeValue(QDomElement node, const QStringList& path);
     private:
         QString m_namespace;
         QVariantMap m_data;
