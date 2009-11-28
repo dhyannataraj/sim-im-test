@@ -419,13 +419,12 @@ extern DataDef groupData[];
 ContactList::ContactList()
 {
     p = new ContactListPrivate;
-	m_userData = new PropertyHub("ContactList");
+	m_userData = PropertyHub::create("ContactList");
 }
 
 ContactList::~ContactList()
 {
     delete p;
-	delete m_userData;
 }
 
 unsigned ContactList::registerUserData(const QString &name, const DataDef *def)
@@ -443,7 +442,7 @@ Contact *ContactList::owner()
     return p->owner;
 }
 
-PropertyHub* ContactList::userdata()
+PropertyHubPtr ContactList::userdata()
 {
 	return m_userData;
 }
@@ -820,11 +819,11 @@ void ContactList::save()
                entries, this must be ...*/
             f.write("Name=\"NIL\"\n");
         }
-//        line = grp->userData.save();
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        }
+        line = grp->userData.save();
+        if (line.length()){
+            line += '\n';
+            f.write(line);
+        }
         line = grp->clientData.save();
         if (line.length()){
             line += '\n';
@@ -894,6 +893,7 @@ void ContactList::load()
     }
     Buffer cfg = f.readAll();
 
+	f.close();
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
@@ -926,79 +926,122 @@ void ContactList::load()
         Client *client = getClient(i);
         client->contactsLoaded();
     }
+	load_old();
 	load_new();
+}
+
+void ContactList::load_old()
+{
+    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
+    QFile f(cfgName);
+    if (!f.open(QIODevice::ReadOnly)){
+        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
+        return;
+    }
+	PropertyHubPtr currenthub;
+	bool clientData = false;
+	QString clientName;
+	while(!f.atEnd())
+	{
+		QString line = f.readLine();
+		line = line.trimmed();
+		if(line.startsWith("[Group="))
+		{
+			int id = line.mid(7, line.length() - 8).toInt();
+			Group* gr = group(id, false);
+			currenthub = gr->userdata();
+			clientData = false;
+		}
+		else if(line.startsWith("[Contact="))
+		{
+			int id = line.mid(9, line.length() - 10).toInt();
+			Contact* c = contact(id, false);
+			currenthub = c->userdata();
+			clientData = false;
+		}
+		else if(line.startsWith("["))
+		{
+			clientData = true;
+			clientName = line.mid(1, line.length() - 2);
+		}
+		else
+		{
+			if(!currenthub.isNull())
+			{
+				QStringList keyval = line.split("=");
+				if(!clientData)
+					currenthub->setValue(keyval.at(0), keyval.at(1));
+				else
+					currenthub->setValue(clientName + "/" + keyval.at(0), keyval.at(1));
+			}
+		}
+	}
 }
 
 void ContactList::save_new()
 {
 	if(!ProfileManager::instance()->profilePath().isEmpty())
 	{
-//		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
-//		Config conf(filename);
-//		PropertyHub* cldata = userdata();
-//		QStringList clkeys = cldata->allKeys();
-//		foreach(const QString& key, clkeys)
-//		{
-//			conf.setValue(key, cldata->value(key));
-//		}
-//
-//        for(vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g)
-//        {
-//            PropertyHub* data = (*it_g)->userdata();
-//			QStringList keys = data->allKeys();
-//			foreach(const QString& key, keys)
-//            {
-//                conf.setValue("Group/" + QString::number((*it_g)->id()) + '/' + key, data->value(key));
-//            }
-//        }
-//
-//        for(map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c)
-//        {
-//            const Contact* contact = it_c->second;
-//            if (contact->getFlags() & CONTACT_TEMPORARY)
-//                continue;
-//
-//            PropertyHub* data = contact->userdata();
-//			QStringList keys = data->allKeys();
-//			foreach(const QString& key, keys)
-//            {
-//                conf.setValue("Contact/" + QString::number(contact->id()) + '/' + key, data->value(key));
-//            }
-//        }
+		QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
 		ProfileManager::instance()->sync();
+		QDomDocument doc;
+		QDomElement root = doc.createElement("contactlist");
+		QDomDocument groups = save_groups();
+		QDomDocument contacts = save_contacts();
+		root.appendChild(groups);
+		root.appendChild(contacts);
+		doc.appendChild(root);
+		QFile f(cfgName);
+		f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+		f.write(doc.toByteArray());
+		f.close();
 	}
+}
+
+QDomDocument ContactList::save_groups()
+{
+	QDomDocument doc;
+	QDomElement root = doc.createElement("groups");
+	doc.appendChild(root);
+	GroupIterator it;
+	Group* group = 0;
+	while((group = ++it))
+	{
+		QByteArray arr = group->userdata()->serialize();
+		QDomDocument childdoc;
+		if(!childdoc.setContent(arr))
+			continue;
+		QDomElement el = doc.createElement("group");
+		el.setAttribute("id", QString::number(group->id()));
+		el.appendChild(childdoc);
+		root.appendChild(el);
+	}
+	return doc;
+}
+
+QDomDocument ContactList::save_contacts()
+{
+	QDomDocument doc;
+	QDomElement root = doc.createElement("contacts");
+	doc.appendChild(root);
+	ContactIterator it;
+	Contact* c = 0;
+	while((c = ++it))
+	{
+		QByteArray arr = c->userdata()->serialize();
+		QDomDocument childdoc;
+		if(!childdoc.setContent(arr))
+			continue;
+		QDomElement el = doc.createElement("contact");
+		el.setAttribute("id", QString::number(c->id()));
+		el.appendChild(childdoc);
+		root.appendChild(el);
+	}
+	return doc;
 }
 
 void ContactList::load_new()
 {
-	if(!ProfileManager::instance()->profilePath().isEmpty())
-	{
-//		QString filename = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts_new.conf";
-//		Config conf(filename);
-//		conf.load_old();
-//		foreach(QString s, conf.allKeys())
-//		{
-//            // FIXME this is quite slow
-//            if(s.section('/', 0, 0) == "Contact")
-//            {
-//                unsigned long id = s.section('/', 1, 1).toULong();
-//                Contact* c;
-//                c = contact(id, !contactExists(id));
-//                c->userdata()->setValue(s.section('/', 2), conf.value(s));
-//            }
-//            else if(s.section('/', 0, 0) == "Group")
-//            {
-//                unsigned long id = s.section('/', 1, 1).toULong();
-//                Group* g;
-//                g = group(id, !groupExists(id));
-//                g->userdata()->setValue(s.section('/', 2), conf.value(s));
-//            }
-//            else
-//            {
-//                m_userData->setValue(s, conf.value(s));
-//            }
-//		}
-	}
 }
 
 void ContactListPrivate::flush(Contact *c, Group *g)

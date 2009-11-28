@@ -60,7 +60,7 @@ namespace SIM
         ContactData data;
         const DataDef *dataDef();
         void setup();
-        PropertyHub* userdata() const { return m_userdata; }
+        PropertyHubPtr userdata() const { return m_userdata; }
 
         UserData_old& getUserData_old() { return userData; }
     protected:
@@ -70,7 +70,7 @@ namespace SIM
 
     private:
         UserData_old userData;
-        PropertyHub* m_userdata;
+        PropertyHubPtr m_userdata;
     };
 
 }

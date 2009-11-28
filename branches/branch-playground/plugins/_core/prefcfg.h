@@ -30,7 +30,7 @@ public:
 
 signals:
     void apply(void*);
-    void apply(SIM::PropertyHub*, bool);
+    void apply(SIM::PropertyHubPtr, bool);
 
 public slots:
     void apply();

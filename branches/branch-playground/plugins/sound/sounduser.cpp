@@ -51,7 +51,7 @@ static void addRow(QTableWidget *lstSound, int row, const QIcon &icon, const QSt
     lstSound->setItem(row, 1, item);
 }
 
-SoundUserConfig::SoundUserConfig(QWidget *parent, SIM::PropertyHub* data, SoundPlugin *plugin)
+SoundUserConfig::SoundUserConfig(QWidget *parent, SIM::PropertyHubPtr data, SoundPlugin *plugin)
   : QWidget(parent)
   , m_plugin(plugin)
 {
@@ -101,7 +101,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, SIM::PropertyHub* data, SoundP
     lstSound->sortByColumn(0, Qt::AscendingOrder);
 }
 
-void SoundUserConfig::apply(SIM::PropertyHub* data, bool override)
+void SoundUserConfig::apply(SIM::PropertyHubPtr data, bool override)
 {
     for(int row = 0; row < lstSound->rowCount(); ++row)
     {

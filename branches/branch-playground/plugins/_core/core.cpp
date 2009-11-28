@@ -3307,8 +3307,8 @@ void CorePlugin::prepareConfig()
         if (((pal.color(QPalette::Base).rgb() & 0xFFFFFF) == value("EditBackground").toUInt()) &&
             ((pal.color(QPalette::Text).rgb() & 0xFFFFFF) == value("EditForeground").toUInt()))
 	{
-		setValue("EditBackground", 0);
-		setValue("EditForeground", 0);
+		setValue("EditBackground", 0xffffff);
+		setValue("EditForeground", 0xffffff);
 	}
 
 	QString ef     = FontEdit::font2str(editFont, false);

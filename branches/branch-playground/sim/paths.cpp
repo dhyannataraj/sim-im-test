@@ -93,7 +93,6 @@ namespace SIM
 #endif
         return QDir::convertSeparators(s);
     }
-
 }
 
 // vim: set expandtab:

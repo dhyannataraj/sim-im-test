@@ -218,6 +218,7 @@ namespace SIM
             QStringList cmds;
             QStringList descrs;
             PluginPtr m_core;
+            PluginPtr m_homedir;
 
             unsigned m_base;
             bool m_bLoaded;
@@ -446,6 +447,7 @@ namespace SIM
             m_bAbort = true;
             return false;
         }
+        m_homedir = plugin("__homedir");
         qSort(plugins.begin(), plugins.end(), cmp_plugin);
 
         scan();

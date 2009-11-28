@@ -113,6 +113,7 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
     }
 
     f_name = user_file(f_name);
+	log(L_DEBUG, "FNAME: %s", f_name.toUtf8().data());
     setFileName(f_name);
     QFileInfo fi(*this);
     if (!fi.exists()) {

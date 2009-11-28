@@ -806,7 +806,7 @@ protected:
 
 // CommandDef->param is getPreferencesWindow
 typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
-typedef QWidget* (*getPreferencesWindowContact)(QWidget *parent, PropertyHub* data);
+typedef QWidget* (*getPreferencesWindowContact)(QWidget *parent, PropertyHubPtr data);
 class EventAddPreferences : public Event
 {
 public:

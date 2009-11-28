@@ -315,7 +315,7 @@ void HistoryConfig::apply()
                 }
             }
         }else{
-            log(L_WARN, "Can't create %s", qPrintable(name));
+            log(L_WARN, "[1]Can't create %s", qPrintable(name));
         }
     }
     int cur = cmbStyle->currentIndex();

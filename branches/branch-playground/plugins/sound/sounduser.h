@@ -27,10 +27,10 @@ class SoundUserConfig : public QWidget, public Ui::SoundUserConfigBase
 {
     Q_OBJECT
 public:
-    SoundUserConfig(QWidget *parent, SIM::PropertyHub* data, SoundPlugin *plugin);
+    SoundUserConfig(QWidget *parent, SIM::PropertyHubPtr data, SoundPlugin *plugin);
 
 public slots:
-    void apply(SIM::PropertyHub* data, bool override);
+    void apply(SIM::PropertyHubPtr data, bool override);
     void toggled(bool);
 
 protected:

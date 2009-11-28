@@ -64,7 +64,7 @@ void SoundConfig::apply()
 {
     if(user_cfg)
 	{
-		SIM::PropertyHub* data = getContacts()->userdata();
+		SIM::PropertyHubPtr data = getContacts()->userdata();
 		user_cfg->apply(data, true);
     }
 	m_plugin->setValue("StartUp", edtStartup->text());

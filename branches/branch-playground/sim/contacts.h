@@ -32,6 +32,7 @@
 #include <QImage>
 #include <QString>
 #include <QSet>
+#include <QDomDocument>
 
 namespace SIM {
 
@@ -106,7 +107,7 @@ public:
     ContactList();
     virtual ~ContactList();
     Contact *owner();
-	PropertyHub* userdata();
+	PropertyHubPtr userdata();
     void clear();
     void load();
     void save();
@@ -178,11 +179,13 @@ public:
     static QTextCodec *getCodecByCodePage(const int iCP);
     static const ENCODING *getEncodings();
     const ENCODING *getEncoding(Contact *contact);
+
 protected:
-
     void save_new();
+    QDomDocument save_groups();
+    QDomDocument save_contacts();
     void load_new();
-
+    void load_old();
 
     class ContactListPrivate *p;
     friend class Contact;
@@ -205,7 +208,7 @@ protected:
     COPY_RESTRICTED(ContactList)
 
 private:
-	PropertyHub* m_userData;
+	PropertyHubPtr m_userData;
 };
 
 EXPORT void createContactList();

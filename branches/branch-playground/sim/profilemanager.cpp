@@ -69,6 +69,7 @@ namespace SIM
 			return false;
 		}
 		f.close();
+		QDir::setCurrent(m_rootPath + QDir::separator() + name);
 		m_currentProfile = ProfilePtr(new Profile(config, name));
 		m_currentProfile->loadPlugins();
 		return true;
