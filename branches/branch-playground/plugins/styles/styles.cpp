@@ -129,7 +129,7 @@ bool StylesPlugin::processEvent(SIM::Event *e)
 {
     if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("style");
         if(!hub.isNull())
             setPropertyHub(hub);
         setFonts();

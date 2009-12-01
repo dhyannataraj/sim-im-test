@@ -92,7 +92,7 @@ bool IconsPlugin::processEvent(Event *e)
     {
         case eEventPluginLoadConfig:
         {
-            PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+            PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("icon");
 		    if(!hub.isNull())
 			    setPropertyHub(hub);
 			setIcons(false);

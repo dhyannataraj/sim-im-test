@@ -249,7 +249,7 @@ bool TransparentPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("trnsparent");
         if(!hub.isNull())
             setPropertyHub(hub);
     }

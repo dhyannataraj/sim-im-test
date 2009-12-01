@@ -595,7 +595,7 @@ bool GpgPlugin::processEvent(Event *e)
         }
 	case eEventPluginLoadConfig:
 	{
-	    PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+            PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("gpg");
 	    if(!hub.isNull())
 		    setPropertyHub(hub);
 		// Defaults:

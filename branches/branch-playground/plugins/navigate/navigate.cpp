@@ -583,7 +583,7 @@ bool NavigatePlugin::processEvent(Event *e)
     }
 	if(e->type() == eEventPluginLoadConfig)
 	{
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("navigate");
         if(!hub.isNull())
             setPropertyHub(hub);
 		// TODO defaults

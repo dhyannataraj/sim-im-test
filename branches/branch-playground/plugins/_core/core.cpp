@@ -4025,5 +4025,10 @@ CorePlugin* CorePlugin::instance()
     return g_plugin;
 }
 
+unsigned long CorePlugin::getManualStatus()
+{
+    return value("ManualStatus").toUInt();
+}
+
 // vim: set expandtab:
 

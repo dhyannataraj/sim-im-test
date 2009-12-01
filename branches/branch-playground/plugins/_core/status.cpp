@@ -295,24 +295,24 @@ void CommonStatus::checkInvisible()
     bool bAllInvisible    = true;
     bool bAllNotInvisible = true;
     for (unsigned i = 0; i < getContacts()->nClients(); i++)
-	{
+    {
         Client *client = getContacts()->getClient(i);
-		if (!(client->protocol()->description()->flags & PROTOCOL_INVISIBLE))
-			continue;
+        if (!(client->protocol()->description()->flags & PROTOCOL_INVISIBLE))
+            continue;
 
-		if (client->getInvisible())
-			bAllNotInvisible = false;
-		else
-			bAllInvisible = false;
+        if (client->getInvisible())
+            bAllNotInvisible = false;
+        else
+            bAllInvisible = false;
     }
 
-	if (bAllNotInvisible && bAllInvisible)
-		return;
+    if (bAllNotInvisible && bAllInvisible)
+        return;
 
-	if (bAllInvisible)
-		CorePlugin::instance()->setValue("Invisible", true);
-	if (bAllNotInvisible)
-		CorePlugin::instance()->setValue("Invisible", false);
+    if (bAllInvisible)
+        CorePlugin::instance()->setValue("Invisible", true);
+    if (bAllNotInvisible)
+        CorePlugin::instance()->setValue("Invisible", false);
 }
 
 bool CommonStatus::processEvent(Event *e)

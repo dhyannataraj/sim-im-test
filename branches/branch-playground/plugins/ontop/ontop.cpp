@@ -116,7 +116,7 @@ bool OnTopPlugin::processEvent(Event *e)
         setState();
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("ontop");
         if(!hub.isNull())
             setPropertyHub(hub);
         if(!value("OnTop").isValid())

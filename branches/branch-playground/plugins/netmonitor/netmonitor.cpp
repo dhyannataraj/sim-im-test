@@ -151,7 +151,7 @@ bool NetmonitorPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("netmonitor");
         if(!hub.isNull())
             setPropertyHub(hub);
     }

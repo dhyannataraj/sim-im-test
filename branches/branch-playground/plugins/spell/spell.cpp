@@ -170,7 +170,7 @@ bool SpellPlugin::processEvent(SIM::Event* e)
 {
     if(e->type() == eEventPluginLoadConfig)
 	{
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("spell");
         if(!hub.isNull())
             setPropertyHub(hub);
         reset();

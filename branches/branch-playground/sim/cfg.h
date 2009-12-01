@@ -39,27 +39,27 @@ namespace SIM {
 class EXPORT Config
 {
 public:
-	Config(const QString& filename);
-	virtual ~Config();
+    Config(const QString& filename);
+    virtual ~Config();
 
-    void mergeOldConfig(const QString& filename);
+    bool mergeOldConfig(const QString& filename);
 
-	bool addPropertyHub(PropertyHubPtr hub);
-	PropertyHubPtr propertyHub(const QString& hubNamespace);
-	int propertyHubCount();
-	void clearPropertyHubs();
-	PropertyHubPtr rootPropertyHub();
+    bool addPropertyHub(PropertyHubPtr hub);
+    PropertyHubPtr propertyHub(const QString& hubNamespace);
+    int propertyHubCount();
+    void clearPropertyHubs();
+    PropertyHubPtr rootPropertyHub();
 
-	QByteArray serialize();
-	bool deserialize(const QByteArray& arr);
+    QByteArray serialize();
+    bool deserialize(const QByteArray& arr);
 private:
-	typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
-	PropertyHubMap m_hubs;
-	QString m_group;
-	QVariantMap m_data;
-	QString m_filename;
-	PropertyHubPtr m_roothub;
-	bool m_changed;
+    typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
+    PropertyHubMap m_hubs;
+    QString m_group;
+    QVariantMap m_data;
+    QString m_filename;
+    PropertyHubPtr m_roothub;
+    bool m_changed;
 };
 
 typedef QSharedPointer<Config> ConfigPtr;

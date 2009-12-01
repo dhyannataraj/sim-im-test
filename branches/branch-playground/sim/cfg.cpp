@@ -154,10 +154,11 @@ bool Config::deserialize(const QByteArray& arr)
 	return true;
 }
 
-void Config::mergeOldConfig(const QString& filename)
+bool Config::mergeOldConfig(const QString& filename)
 {
     QFile f(filename);
-    f.open(QIODevice::ReadOnly);
+    if( !f.open(QIODevice::ReadOnly) )
+        return false;
     log(L_DEBUG, "Merging old config: %s", qPrintable(filename));
     QString config = QString(f.readAll());
     QRegExp re("\\[([^\\]]+)\\]\n([^\\[]+)");
@@ -172,12 +173,12 @@ void Config::mergeOldConfig(const QString& filename)
             QStringList line = it->split('=');
             if(line.size() != 2)
                 continue;
-			PropertyHubPtr hub = propertyHub(ns);
-			if(hub.isNull())
-			{
-				hub = PropertyHub::create(ns);
-				addPropertyHub(hub);
-			}
+            PropertyHubPtr hub = propertyHub(ns);
+            if(hub.isNull())
+            {
+                    hub = PropertyHub::create(ns);
+                    addPropertyHub(hub);
+            }
 
             // Merge if only there's no setting in a new config:
             if(!hub->value(line[0]).isValid())
@@ -189,6 +190,8 @@ void Config::mergeOldConfig(const QString& filename)
             }
         }
     }
+    f.close();
+    return true;
 }
 
 EXPORT void save_state()

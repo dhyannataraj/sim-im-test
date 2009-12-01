@@ -149,7 +149,7 @@ bool FilterPlugin::processEvent(Event *e)
     }
     case eEventPluginLoadConfig:
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("filter");
         if(!hub.isNull())
             setPropertyHub(hub);
         break;

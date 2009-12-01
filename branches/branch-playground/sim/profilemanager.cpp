@@ -56,19 +56,20 @@ namespace SIM
 		log(L_DEBUG, "Selecting profile:  %s", profile_conf.toUtf8().data());
 		ConfigPtr config = ConfigPtr(new Config(profile_conf));
 		//config->load_old();
-		config->mergeOldConfig(old_config);
-		QFile f(profile_xml);
-		if(!f.open(QIODevice::ReadOnly))
-		{
-			log(L_WARN, "Unable to open: %s", qPrintable(profile_xml));
-			return false;
-		}
-		if(!config->deserialize(f.readAll()))
-		{
-			log(L_WARN, "Unable to deserialize: %s", qPrintable(profile_xml));
-			return false;
-		}
-		f.close();
+                QFile f(profile_xml);
+                if(f.open(QIODevice::ReadOnly))
+                {
+                    if(!config->deserialize(f.readAll()))
+                    {
+                            log(L_WARN, "Unable to deserialize: %s", qPrintable(profile_xml));
+                            return false;
+                    }
+                    f.close();
+                }
+                else {
+                    log(L_WARN, "Unable to open: %s", qPrintable(profile_xml));
+                    config->mergeOldConfig(old_config);
+                }
 		QDir::setCurrent(m_rootPath + QDir::separator() + name);
 		m_currentProfile = ProfilePtr(new Profile(config, name));
 		m_currentProfile->loadPlugins();

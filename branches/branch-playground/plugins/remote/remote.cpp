@@ -275,7 +275,7 @@ bool RemotePlugin::processEvent(Event* e)
 {
 	if(e->type() == eEventPluginLoadConfig)
 	{
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("remote");
         if(!hub.isNull())
             setPropertyHub(hub);
 	}

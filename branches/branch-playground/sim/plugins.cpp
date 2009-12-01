@@ -123,8 +123,8 @@ namespace SIM
 
     Plugin::Plugin(unsigned base)
         : m_current(base)
-          , m_base(base),
-          p(new PluginPrivate)
+        , m_base(base)
+        , p(new PluginPrivate)
     {
         p->setProtocolPlugin(false);
         p->setAlwaysEnabled(false);

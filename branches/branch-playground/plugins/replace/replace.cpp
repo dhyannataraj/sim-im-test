@@ -144,7 +144,7 @@ bool ReplacePlugin::processEvent(SIM::Event *e)
 {
 	if(e->type() == eEventPluginLoadConfig)
 	{
-		PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+                PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("replace");
         if(!hub.isNull())
             setPropertyHub(hub);
 	}

@@ -134,7 +134,7 @@ bool WeatherPlugin::processEvent(Event *e)
     }
     if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("weather");
         if(!hub.isNull())
             setPropertyHub(hub);
         showBar();

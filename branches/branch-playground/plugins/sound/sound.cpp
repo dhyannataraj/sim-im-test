@@ -113,7 +113,7 @@ bool SoundPlugin::processEvent(SIM::Event *e)
         }
         case eEventPluginLoadConfig:
 		{
-			PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+                        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("sound");
 			if(!hub.isNull())
 				setPropertyHub(hub);
 			if(!value("StartUp").isValid())

@@ -598,7 +598,7 @@ bool ShortcutsPlugin::processEvent(Event *e)
     }
 	if(e->type() == eEventPluginLoadConfig)
 	{
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("shortcut");
         if(!hub.isNull())
             setPropertyHub(hub);
 	}

@@ -49,8 +49,8 @@
 #include <openssl/sha.h>
 #include <openssl/md5.h>
 
-#include <cstdio>
-#include <ctype.h>
+//#include <cstdio>
+//#include <ctype.h>
 
 #include <QByteArray>
 

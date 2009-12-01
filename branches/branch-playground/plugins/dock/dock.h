@@ -64,6 +64,11 @@ protected:
     friend class DockCfg;
     friend class DockWnd;
 
+    void setPropertyHub(SIM::PropertyHubPtr hub);
+    SIM::PropertyHubPtr propertyHub();
+    QVariant value(const QString& key);
+    void setValue(const QString& key, const QVariant& v);
+
 private:
     SIM::PropertyHubPtr m_propertyHub;
 };

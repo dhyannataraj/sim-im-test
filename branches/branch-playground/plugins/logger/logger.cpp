@@ -218,7 +218,7 @@ bool LoggerPlugin::processEvent(Event *e)
     }
     else if(e->type() == eEventPluginLoadConfig)
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("logger");
         if(!hub.isNull())
             setPropertyHub(hub);
     }

@@ -265,7 +265,7 @@ bool DockPlugin::processEvent(Event *e)
     }
     case eEventPluginLoadConfig:
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("_core");
+        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("dock");
         if(!hub.isNull())
             setPropertyHub(hub);
         break;
