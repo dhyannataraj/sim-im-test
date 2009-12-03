@@ -127,7 +127,7 @@ void UpdatePlugin::testForUpdate(){
 		this->CHECK_INTERVAL=60*60*12; //checking every half day for an update, after first time
         //url = "http://sim-im.org/index.php?v=" + VERSION;
 #ifdef WIN32
-		versionurl = "http://www.sim.gosign.de/update.php?";
+		versionurl = "http://www.sim-icq.de/update.php?";
         versionurl += "os=1";
 #else
 #ifdef QT_MACOSX_VERSION
@@ -141,7 +141,7 @@ void UpdatePlugin::testForUpdate(){
 		versionurl += date;
 		versionurl.replace(' ',"%20");
 		#ifdef WIN32
-			location="http://www.sim.gosign.de";
+			location="http://www.sim-icq.de";
 		#endif 
 #else
         versionurl += "&release";
@@ -163,7 +163,7 @@ void UpdatePlugin::testForUpdate(){
                 versionurl += (char)c;
             }
         }*/
-		QUrl um(QString("http://www.sim.gosign.de/updatemsg.php"));
+		QUrl um(QString("http://www.sim-icq.de/updatemsg.php"));
 		httpmsg = new QHttp(this);
 		connect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
 		QBuffer *buffer_um = new QBuffer(bytes_um);
@@ -227,7 +227,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 				i18n("I can now DOWNLOAD the Update\navailable at: %1\nIN BACKROUND and install the update\nfor Sim-IM, automatically after finishing.\n\nWould like you to ALLOW to carry out THE UPDATE?").arg(location), 
 				QMessageBox::Yes,QMessageBox::No);
 			
-			address=QString("http://sim.gosign.de/setup.exe");
+			address=QString("http://www.sim-icq.de/setup.exe");
 				
 			if (msgret == QMessageBox::Yes) 
 				download_and_install();
@@ -298,7 +298,7 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	//remote=dremote->toString();
 	if (dlocal.daysTo(dremote)>0)
 	{
-		log(L_DEBUG, "Update::There is a new Version on www.sim.gosign.de");		
+		log(L_DEBUG, "Update::There is a new Version on www.sim-icq.de");		
 		return true;
 	}
 	else
