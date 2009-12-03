@@ -985,11 +985,14 @@ void ContactList::save_new()
 		QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
 		ProfileManager::instance()->sync();
 		QDomDocument doc;
+                doc.appendChild( doc.createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\"" ) );
 		QDomElement root = doc.createElement("contactlist");
-		QDomDocument groups = save_groups();
-		QDomDocument contacts = save_contacts();
-		root.appendChild(groups);
-		root.appendChild(contacts);
+                QDomElement groups = doc.createElement( "groups" );
+                if( save_groups( groups ) )
+                    root.appendChild( groups );
+                QDomElement contacts = doc.createElement( "contacts" );
+                if( save_contacts( contacts ) )
+                    root.appendChild( contacts );
 		doc.appendChild(root);
 		QFile f(cfgName);
 		f.open(QIODevice::WriteOnly | QIODevice::Truncate);
@@ -998,46 +1001,36 @@ void ContactList::save_new()
 	}
 }
 
-QDomDocument ContactList::save_groups()
+bool ContactList::save_groups( QDomElement element )
 {
-	QDomDocument doc;
-	QDomElement root = doc.createElement("groups");
-	doc.appendChild(root);
-	GroupIterator it;
-	Group* group = 0;
-	while((group = ++it))
-	{
-		QByteArray arr = group->userdata()->serialize();
-		QDomDocument childdoc;
-		if(!childdoc.setContent(arr))
-			continue;
-		QDomElement el = doc.createElement("group");
-		el.setAttribute("id", QString::number(group->id()));
-		el.appendChild(childdoc);
-		root.appendChild(el);
-	}
-	return doc;
+    if( p->groups.size() == 0 )
+        return false;
+
+    vector<Group*>::iterator it;
+    for( it = p->groups.begin(); it != p->groups.end(); ++it ) {
+        QDomElement group =  element.ownerDocument().createElement( "group" );
+        group.setAttribute( "id", QString::number( (*it)->id() ) );
+        if( (*it)->userdata()->serialize( group ) )
+            element.appendChild( group );
+    }
+
+    return true;
 }
 
-QDomDocument ContactList::save_contacts()
+bool ContactList::save_contacts( QDomElement element )
 {
-	QDomDocument doc;
-	QDomElement root = doc.createElement("contacts");
-	doc.appendChild(root);
-	ContactIterator it;
-	Contact* c = 0;
-	while((c = ++it))
-	{
-		QByteArray arr = c->userdata()->serialize();
-		QDomDocument childdoc;
-		if(!childdoc.setContent(arr))
-			continue;
-		QDomElement el = doc.createElement("contact");
-		el.setAttribute("id", QString::number(c->id()));
-		el.appendChild(childdoc);
-		root.appendChild(el);
-	}
-	return doc;
+    if( p->groups.size() == 0 )
+        return false;
+
+    map<unsigned long, Contact*>::iterator it;
+    for( it = p->contacts.begin(); it != p->contacts.end(); ++it ) {
+        QDomElement contact = element.ownerDocument().createElement( "contact" );
+        contact.setAttribute( "id", QString::number( it->first ) );
+        if( it->second->userdata()->serialize( contact ) )
+            element.appendChild( contact );
+    }
+
+    return true;
 }
 
 void ContactList::load_new()

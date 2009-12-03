@@ -56,29 +56,30 @@ namespace SIM
 
     typedef QSharedPointer<Plugin> PluginPtr;
 
-	class EXPORT PluginManager
-	{
-	public:
-		PluginManager(int argc, char **argv);
-		~PluginManager();
+    class EXPORT PluginManager
+    {
+    public:
+        PluginManager(int argc, char **argv);
+        ~PluginManager();
+
         bool initialize();
-		bool isLoaded();
+        bool isLoaded();
         PluginPtr plugin(const QString& pluginname);
         QStringList enumPlugins();
 
         QString pluginTitle(const QString& pluginname);
         QString pluginDescription(const QString& pluginname);
-        
+
         bool isPluginAlwaysEnabled(const QString& pluginname);
         bool isPluginProtocol(const QString& pluginname);
 
         PluginInfo* getPluginInfo(const QString& pluginname);
 
-	private:
-		class PluginManagerPrivate *p;
+    private:
+        class PluginManagerPrivate *p;
 
-		COPY_RESTRICTED(PluginManager)
-	};
+        COPY_RESTRICTED(PluginManager)
+    };
 
 	/* Plugin prototype */
 	typedef Plugin* createPlugin(unsigned base, bool bStart, Buffer *cfg);

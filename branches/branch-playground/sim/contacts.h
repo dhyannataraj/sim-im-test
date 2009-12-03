@@ -182,8 +182,8 @@ public:
 
 protected:
     void save_new();
-    QDomDocument save_groups();
-    QDomDocument save_contacts();
+    bool save_groups( QDomElement element );
+    bool save_contacts( QDomElement element );
     void load_new();
     void load_old();
 

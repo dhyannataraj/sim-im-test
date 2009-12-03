@@ -101,57 +101,51 @@ PropertyHubPtr Config::rootPropertyHub()
 
 QByteArray Config::serialize()
 {
-	QDomDocument doc;
-	QDomElement root = doc.createElement("config");
-	doc.appendChild(root);
+    QDomDocument doc;
+    doc.appendChild( doc.createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\"" ) );
+    QDomElement root = doc.createElement( "config" );
+    doc.appendChild(root);
 
-	QDomElement roothub = doc.createElement("propertyhub");
-	QByteArray arr = m_roothub->serialize();
-	QDomDocument childdoc;
-	childdoc.setContent(arr);
-	roothub.appendChild(childdoc);
-	root.appendChild(roothub);
+    QDomElement hubelement = doc.createElement( "propertyhub" );
+    if( m_roothub->serialize( hubelement ) )
+        root.appendChild( hubelement );
 
-	foreach(PropertyHubPtr hub, m_hubs)
-	{
-		QDomElement hubelement = doc.createElement("propertyhub");
-		hubelement.setAttribute("name", hub->getNamespace());
-		QByteArray arr = hub->serialize();
-		QDomDocument childdoc;
-		childdoc.setContent(arr);
-		hubelement.appendChild(childdoc);
-		root.appendChild(hubelement);
-	}
-	return doc.toByteArray();
+    foreach(PropertyHubPtr hub, m_hubs)
+    {
+        QDomElement hubelement = doc.createElement( "propertyhub" );
+        hubelement.setAttribute( "name", hub->getNamespace() );
+        if( hub->serialize( hubelement ) )
+            root.appendChild( hubelement );
+    }
+    return doc.toByteArray();
 }
 
 bool Config::deserialize(const QByteArray& arr)
 {
-	QDomDocument doc;
-	if(!doc.setContent(arr))
-		return false;
-	QDomElement root = doc.elementsByTagName("config").at(0).toElement();
-	if(root.isNull())
-		return false;
-	QDomNodeList list = root.elementsByTagName("propertyhub");
-	for(int i = 0; i < list.size(); i++)
-	{
-		QByteArray array;
-		QTextStream stream(&array);
-		QDomNode child = list.at(i);
-		QDomElement el = child.firstChildElement("root");
-		el.save(stream, 1);
-		QString hubname = child.toElement().attribute("name");
-		PropertyHubPtr hub;
-		if(hubname.isEmpty())
-			hub = m_roothub;
-		else
-			hub = PropertyHub::create(hubname);
-		if(!hub->deserialize(array))
-			return false;
-		addPropertyHub(hub);
-	}
-	return true;
+    QDomDocument doc;
+    if( !doc.setContent( arr ) )
+        return false;
+
+    QDomElement root = doc.elementsByTagName( "config" ).at(0).toElement();
+    if(root.isNull())
+        return false;
+
+    QDomNodeList list = root.elementsByTagName( "propertyhub" );
+    for( int i = 0 ; i < list.size() ; i++ ) {
+        QDomElement propertyhub = list.at(i).toElement();
+        if( !propertyhub.isNull() ) {
+            QString name = propertyhub.attribute( "name" );
+            PropertyHubPtr hub;
+            if( name.isEmpty() )
+                hub = m_roothub;
+            else
+                hub = PropertyHub::create( name );
+            if( !hub->deserialize( propertyhub ) )
+                return false;
+            addPropertyHub( hub );
+        }
+    }
+    return true;
 }
 
 bool Config::mergeOldConfig(const QString& filename)

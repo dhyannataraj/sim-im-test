@@ -17,9 +17,9 @@ namespace testPropertyHub
 
 namespace SIM
 {
-	class EXPORT PropertyHub;
-	typedef QSharedPointer<PropertyHub> PropertyHubPtr;
-	class EXPORT PropertyHub
+    class PropertyHub;
+    typedef QSharedPointer<PropertyHub> PropertyHubPtr;
+    class EXPORT PropertyHub
     {
     public:
         static PropertyHubPtr create();
@@ -35,8 +35,8 @@ namespace SIM
         QString stringMapValue(const QString& mapname, int key);
         QList<QString> allKeys();
 
-        QByteArray serialize();
-        bool deserialize(const QByteArray& arr);
+        bool serialize( QDomElement element );
+        bool deserialize( QDomElement element );
 
         void clear();
 
@@ -45,15 +45,18 @@ namespace SIM
 
         QString getNamespace() { return m_namespace; }
     protected:
-        QDomElement serializeVariant(QDomDocument& doc, const QVariant& v);
-        QDomText serializeString(QDomDocument& doc, const QString& string);
-        QDomText serializeBool(QDomDocument& doc, bool val);
-        QDomText serializeInt(QDomDocument& doc, int val);
-        QDomText serializeByteArray(QDomDocument& doc, const QByteArray& arr);
-        QDomElement serializeStringList(QDomDocument& doc, const QStringList& list);
+        bool serializeVariant( QDomElement element, const QVariant& v );
+        bool deserializeVariant( const QDomElement &element, QVariant &v );
 
-        bool deserializeNode(QDomElement node, const QStringList& path);
-        bool deserializeValue(QDomElement node, const QStringList& path);
+        bool serializeVariantMap( QDomElement element, const QVariantMap& map );
+        bool deserializeVariantMap( const QDomElement &element, QVariantMap &map );
+
+        bool serializeStringList( QDomElement element, const QStringList& list );
+        bool deserializeStringList( const QDomElement &element, QStringList &list );
+
+        bool serializeByteArray( QDomElement element, const QByteArray& array );
+        bool deserializeByteArray( const QDomElement &element, QByteArray &array );
+
     private:
         QString m_namespace;
         QVariantMap m_data;

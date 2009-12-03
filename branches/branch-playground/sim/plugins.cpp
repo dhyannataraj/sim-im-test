@@ -60,18 +60,18 @@ namespace SIM
     typedef QWeakPointer<Plugin> PluginWeakPtr;
 	struct pluginInfo
 	{
-		QString name;
-        QString title;
-        QString description;
-        bool alwaysEnabled;
-        bool protocolPlugin;
-		PluginWeakPtr plugin;
-		Buffer *cfg;           // configuration data
-		unsigned base;           // base for plugin types
-		QString filePath;
-		PluginInfo *info;
-		QLibrary *module;        // so or dll handle
-        friend class PluginManagerPrivate;
+            QString name;
+            QString title;
+            QString description;
+            bool alwaysEnabled;
+            bool protocolPlugin;
+            PluginWeakPtr plugin;
+            Buffer *cfg;           // configuration data
+            unsigned base;           // base for plugin types
+            QString filePath;
+            PluginInfo *info;
+            QLibrary *module;        // so or dll handle
+            friend class PluginManagerPrivate;
 	};
 
     class PluginPrivate
@@ -184,15 +184,17 @@ namespace SIM
             void usage(const QString &);
 
             void scan();
-            PluginPtr create(pluginInfo&);
+            PluginPtr create( pluginInfo& );
             PluginPtr createPlugin(pluginInfo&);
 
             void release(pluginInfo&, bool bFree = true);
             void release(const QString &name);
             void release_all();
 
-            void load(pluginInfo&);
-            void load(const QString &name);
+            bool load( pluginInfo * );
+            bool load( const QString &name );
+            bool unload( pluginInfo * );
+            bool unload( const QString &name );
 
             void saveState();
             PluginInfo *getPluginInfo(const QString &name);
@@ -218,7 +220,6 @@ namespace SIM
             QStringList cmds;
             QStringList descrs;
             PluginPtr m_core;
-            PluginPtr m_homedir;
 
             unsigned m_base;
             bool m_bLoaded;
@@ -232,19 +233,12 @@ namespace SIM
             friend class PluginManager;
     };
 
-    PluginPtr PluginManagerPrivate::plugin(const QString& pluginname)
-    {
-        collectGarbage(); // FIXME this should be in more appropriate location
-        int i = 0;
-        foreach(pluginInfo info, plugins)
-        {
-            if(info.name == pluginname)
-                break;
-            i++;
-        }
-        if(i >= plugins.size())
+    PluginPtr PluginManagerPrivate::plugin( const QString& pluginname ) {
+        pluginInfo *info = getInfo( pluginname );
+        if( NULL == info )
             return PluginPtr();
-        return create(plugins[i]);
+
+        return create( *info );
     }
 
     QStringList PluginManagerPrivate::enumPluginNames()
@@ -398,37 +392,36 @@ namespace SIM
 
     bool PluginManagerPrivate::initPluginList(const QStringList& pluginsList)
     {
-        for(QStringList::const_iterator it = pluginsList.begin(); it != pluginsList.end(); ++it)
-        {
-            QString f = QFileInfo(*it).fileName();
-            int p = f.lastIndexOf('.');
-            if (p > 0)
-                f = f.left(p);
+        foreach( QString path, pluginsList ) {
+            QString name = QFileInfo(path).baseName().toLower();
+            if( NULL != getInfo( name ) )
+                continue;
             pluginInfo info;
-            info.plugin = PluginPtr();
-#if defined( WIN32 ) || defined( __OS2__ )
-            info.name        = f.toLower();
-#else
-            info.name		 = f;
-#endif
-            info.filePath    = *it;
-            info.cfg		 = NULL;
-            info.module		 = NULL;
-            info.info		 = NULL;
-            info.base		 = 0;
-            info.alwaysEnabled = false;
+            info.plugin         = PluginPtr();
+            info.name           = name;
+            info.filePath       = path;
+            info.cfg            = NULL;
+            info.module         = NULL;
+            info.info           = NULL;
+            info.base           = 0;
+            info.alwaysEnabled  = false;
             info.protocolPlugin = false;
-            plugins.push_back(info);
-            log(L_DEBUG, "Found plugin %s", qPrintable(info.name));
-        }
-        return true;
-    }
 
-    void PluginManagerPrivate::scan()
-    {
-        for(int i = 0; i < plugins.count(); ++i) {
-            create(plugins[i]);
+            if( !load( &info ) )
+                continue;
+
+            info.alwaysEnabled = ( info.info->flags & PLUGIN_NODISABLE ) == PLUGIN_NODISABLE;
+            info.title = info.info->title;
+            info.description = info.info->description;
+            info.protocolPlugin = ( info.info->flags & PLUGIN_PROTOCOL ) == PLUGIN_PROTOCOL;
+            log( L_DEBUG, "Found plugin '%s' (%s)", qPrintable(info.name), qPrintable(info.filePath) );
+            if( !info.alwaysEnabled ) {
+                unload( &info );
+            }
+            plugins.push_back( info );
         }
+
+        return true;
     }
 
     bool PluginManagerPrivate::initialize()
@@ -439,22 +432,20 @@ namespace SIM
 
         QStringList pluginsList = enumPluginPaths();
         initPluginList(pluginsList);
+        qSort(plugins.begin(), plugins.end(), cmp_plugin);
 
         m_core = plugin("_core");
-        if (m_core.isNull())
-        {
+        if( m_core.isNull() ) {
             log(L_ERROR, "Fatal error: Core plugin failed to load. Aborting!");
             m_bAbort = true;
             return false;
         }
-        m_homedir = plugin("__homedir");
-        qSort(plugins.begin(), plugins.end(), cmp_plugin);
 
-        scan();
+        plugin("__homedir");
+
         EventInit eStart;
         eStart.process();
-        if(eStart.abortLoading())
-        {
+        if( eStart.abortLoading() ) {
             log(L_ERROR,"EventInit failed - aborting!");
             m_bAbort = true;
             return false;
@@ -553,58 +544,74 @@ namespace SIM
         }
     }
 
-    void PluginManagerPrivate::load(const QString &name)
-    {
-        pluginInfo *info = getInfo(name);
-        if (info)
-            load(*info);
+    bool PluginManagerPrivate::load( const QString &name ) {
+        return load( getInfo( name ) );
     }
 
-    void PluginManagerPrivate::load(pluginInfo &info)
-    {
-        if (info.module == NULL){
-            QString fullName = app_file(getPluginName(info));
-            info.module = new QLibrary(fullName);
-            if (info.module == NULL)
-                fprintf(stderr, "Can't load plugin %s\n", qPrintable(info.name));
+    bool PluginManagerPrivate::load( pluginInfo *info ) {
+        if( NULL == info )
+            return false;
 
-        }
-        if (info.module == NULL)
-            return;
-        if (info.info == NULL){
-            PluginInfo* (*getInfo)() = NULL;
-            getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
-            if (getInfo == NULL)
-            {
-                fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry (%s)\n", qPrintable(info.name), info.module->errorString().toUtf8().data());
-                release(info);
-                return;
+        if( NULL == info->module ) {
+            info->module = new QLibrary( info->filePath );
+            if( !info->module->load()  ) {
+                log( L_ERROR, "Can't load plugin %s\n", qPrintable( info->name ) );
+                unload( info );
+                return false;
             }
-            info.info = getInfo();
+        }
+
+        if( NULL == info->info ) {
+            PluginInfo* (*getInfo)() = NULL;
+            getInfo = (PluginInfo* (*)()) info->module->resolve("GetPluginInfo");
+            if( NULL == getInfo ) {
+                log( L_ERROR, "Plugin %s doesn't have the GetPluginInfo entry (%s)\n", qPrintable(info->name), qPrintable(info->module->errorString()) );
+                unload( info );
+                return false;
+            }
+            info->info = getInfo();
 #ifndef WIN32
 #ifdef USE_KDE
-            if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
-                fprintf(stderr, "Plugin %s is compiled without KDE support!\n", qPrintable(info.name));
-                release(info);
-                return;
+            if (!(info->info->flags & PLUGIN_KDE_COMPILE)){
+                log( L_ERROR, "Plugin %s is compiled without KDE support!\n", qPrintable(info->name));
+                unload( info );
+                return false;
             }
 #else
-            if (info.info->flags & PLUGIN_KDE_COMPILE){
-                fprintf(stderr, "Plugin %s is compiled with KDE support!\n", qPrintable(info.name));
-                release(info);
-                return;
+            if (info->info->flags & PLUGIN_KDE_COMPILE){
+                log( L_ERROR, "Plugin %s is compiled with KDE support!\n", qPrintable(info->name));
+                unload( info );
+                return false;
             }
 #endif
 #endif
         }
+
+        return true;
+    }
+
+    bool PluginManagerPrivate::unload( pluginInfo *info ) {
+        if( NULL == info )
+            return false;
+
+        if( NULL != info->module ) {
+            delete info->module;
+            info->module = NULL;
+        }
+        info->info = NULL;
+
+        return true;
+    }
+
+    bool PluginManagerPrivate::unload( const QString &name ) {
+        return unload( getInfo( name ) );
     }
 
     PluginPtr PluginManagerPrivate::create(pluginInfo &info)
     {
         if (!info.plugin.isNull())
             return info.plugin.toStrongRef();
-        load(info);
-        if (info.info == NULL)
+        if( !load( &info ) )
             return PluginPtr();
         return createPlugin(info);
     }
@@ -620,14 +627,6 @@ namespace SIM
         if( plugin == NULL )
             return PluginPtr();
         info.plugin = plugin.toWeakRef();
-        if( NULL != info.info ) {
-            info.title = info.info->title;
-            info.description = info.info->description;
-            if (info.info->flags & PLUGIN_PROTOCOL)
-                info.protocolPlugin = true;
-            if (info.info->flags & PLUGIN_NODISABLE)
-                info.alwaysEnabled = true;
-        }
         plugin->setName(info.name);
         if (info.plugin == NULL) {
             return PluginPtr();
@@ -651,19 +650,19 @@ namespace SIM
 
     void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
     {
-        if (info.plugin) {
+        if( info.plugin ) {
             info.plugin.clear();
             EventPluginChanged e(info.name);
             e.process();
         }
-        if (info.module) {
-            if (bFree)
-            {
-                log(L_DEBUG, "[2]Unload plugin %s", qPrintable(info.name));
+        if( NULL != info.module ) {
+            if( bFree ) {
+                log( L_DEBUG, "[2]Unload plugin %s", qPrintable(info.name) );
                 delete info.module;
+                info.module = NULL;
             }
-            info.module = NULL;
         }
+
         info.info = NULL;
     }
 
@@ -686,12 +685,12 @@ namespace SIM
             if (info->plugin == NULL)
                 return false;
             release(*info);
-            load(*info);
+            load( info );
             return true;
         }
         if (info->plugin)
             return false;
-        load(*info);
+        load( info );
         createPlugin(*info);
         return true;
     }
