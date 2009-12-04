@@ -17,8 +17,6 @@ namespace testPropertyHub
         void cleanupTestCase();
 
         void testDataManipulation();
-        void testSerializationInnerString();
-        void testSerializationInnerInt();
         void testSerializationInnerByteArray();
         void testSerializationInnerStringList();
         void testSerialization();

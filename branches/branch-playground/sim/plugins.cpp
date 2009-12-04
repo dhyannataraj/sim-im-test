@@ -301,7 +301,10 @@ namespace SIM
 #else
             QString pluginDir(PLUGIN_PATH);
 #endif
-            pluginsList = QDir(pluginDir).entryList( QStringList( QString("*") + LTDL_SHLIB_EXT ) );
+            QStringList pl = QDir(pluginDir).entryList( QStringList( QString("*") + LTDL_SHLIB_EXT ) );
+            foreach( QString name, pl ) {
+                pluginsList.append( pluginDir + QDir::separator() + name );
+            }
         }
         qSort(pluginsList);
         return pluginsList;

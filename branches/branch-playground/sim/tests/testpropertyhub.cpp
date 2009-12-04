@@ -42,72 +42,26 @@ namespace testPropertyHub
         QCOMPARE(hub->allKeys().count(), 0);
     }
 
-    void Test::testSerializationInnerString()
-    {
-/*
-        PropertyHubPtr hub = PropertyHub::create();
-        QDomDocument doc;
-        QDomNode stringnode = hub->serializeString(doc, "foo");
-        QVERIFY(stringnode.isText());
-        QCOMPARE(stringnode.toText().data(), QString("foo"));
-        
-        QDomElement el = hub->serializeVariant(doc, QVariant("bar"));
-        QVERIFY(!el.isNull());
-        QCOMPARE(el.nodeName(), QString("value"));
-        QCOMPARE(el.attribute("type"), QString("string"));
-
-        QDomNode value = el.firstChild();
-        QVERIFY(value.isText());
-        QCOMPARE(value.toText().data(), QString("bar"));
-*/
-    }
-
-    void Test::testSerializationInnerInt()
-    {
-/*
-        PropertyHubPtr hub = PropertyHub::create();
-        QDomDocument doc;
-
-        QDomNode intnode = hub->serializeInt(doc, 23);
-        QVERIFY(intnode.isText());
-        QCOMPARE(intnode.toText().data(), QString("23"));
-
-        QDomElement el = hub->serializeVariant(doc, QVariant(42));
-        QVERIFY(!el.isNull());
-        QCOMPARE(el.nodeName(), QString("value"));
-        QCOMPARE(el.attribute("type"), QString("int"));
-
-        QDomNode value = el.firstChild();
-        QVERIFY(value.isText());
-        QCOMPARE(value.toText().data(), QString("42"));
-*/
-    }
-
     void Test::testSerializationInnerByteArray()
     {
-/*
         QByteArray arr = "ABC";
         PropertyHubPtr hub = PropertyHub::create();
         QDomDocument doc;
+        QDomElement el = doc.createElement("root");
 
-        QDomNode banode = hub->serializeByteArray(doc, arr);
-        QVERIFY(banode.isText());
-        QCOMPARE(banode.toText().data(), QString("414243"));
+        QVERIFY(hub->serializeByteArray(el, arr));
+        QVERIFY(el.firstChild().isText());
+        QCOMPARE(el.firstChild().toText().data(), QString("QUJD"));
 
-        QDomElement el = hub->serializeVariant(doc, arr);
-        QVERIFY(!el.isNull());
-        QCOMPARE(el.nodeName(), QString("value"));
-        QCOMPARE(el.attribute("type"), QString("bytearray"));
-
+        el = doc.createElement("root");
+        QVERIFY(hub->serializeVariant(el, arr));
         QDomNode value = el.firstChild();
         QVERIFY(value.isText());
-        QCOMPARE(value.toText().data(), QString("414243"));
-*/
+        QCOMPARE(value.toText().data(), QString("QUJD"));
     }
 
     void Test::testSerializationInnerStringList()
     {
-/*
         QStringList list;
         list.append("foo");
         list.append("bar");
@@ -115,11 +69,10 @@ namespace testPropertyHub
 
         PropertyHubPtr hub = PropertyHub::create();
         QDomDocument doc;
+        QDomElement listelement = doc.createElement("list");
 
-        QDomNode slnode = hub->serializeStringList(doc, list);
-        QVERIFY(slnode.isElement());
-        QDomElement listelement = slnode.toElement();
-        QCOMPARE(listelement.tagName(), QString("list"));
+        QVERIFY(hub->serializeStringList(listelement, list));
+
         QCOMPARE(listelement.elementsByTagName("string").size(), 3);
         QVERIFY(listelement.elementsByTagName("string").at(0).toElement().firstChild().isText());
         QCOMPARE(listelement.elementsByTagName("string").at(0).toElement().firstChild().toText().data(), QString("foo"));
@@ -129,12 +82,10 @@ namespace testPropertyHub
         
         QVERIFY(listelement.elementsByTagName("string").at(2).toElement().firstChild().isText());
         QCOMPARE(listelement.elementsByTagName("string").at(2).toElement().firstChild().toText().data(), QString("baz"));
-*/
     }
 
     void Test::testSerialization()
     {
-/*
         QByteArray abc = "ABC";
         QStringList list;
         list.append("alpha");
@@ -148,9 +99,11 @@ namespace testPropertyHub
         hub->setValue("bool_true", true);
         hub->setValue("bool_false", false);
         hub->setStringMapValue("map", 12, "qux");
-        QByteArray arr = hub->serialize();
+        QDomDocument doc;
+        QDomElement el = doc.createElement("root");
+        QVERIFY(hub->serialize(el));
         PropertyHubPtr anotherhub = PropertyHubPtr(new PropertyHub("root"));
-        anotherhub->deserialize(arr);
+        QVERIFY(anotherhub->deserialize(el));
 
         QCOMPARE(anotherhub->value("foo").toInt(), 12);
         QCOMPARE(anotherhub->value("bar").toString(), QString("baz"));
@@ -161,7 +114,6 @@ namespace testPropertyHub
         QCOMPARE(anotherhub->value("quuux").toStringList().at(2), QString("gamma"));
         QCOMPARE(anotherhub->value("bool_true").toBool(), true);
         QCOMPARE(anotherhub->value("bool_false").toBool(), false);
-*/
     }
 }
 
