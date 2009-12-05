@@ -23,13 +23,16 @@
 #include <QByteArray>
 #include <QDateTime>
 
+
 #include <stdio.h>
 
+#include "clientmanager.h"
 #include "fetch.h"
 #include "html.h"
 #include "log.h"
 #include "unquot.h"
 #include "core.h"
+
 
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
@@ -250,9 +253,11 @@ LiveJournalProtocol::~LiveJournalProtocol()
 {
 }
 
-Client *LiveJournalProtocol::createClient(Buffer *cfg)
+ClientPtr LiveJournalProtocol::createClient(Buffer *cfg)
 {
-    return new LiveJournalClient(this, cfg);
+	ClientPtr lj = ClientPtr(new LiveJournalClient(this, cfg));
+	getClientManager()->addClient(lj);
+    return lj;
 }
 
 static CommandDef livejournal_descr =

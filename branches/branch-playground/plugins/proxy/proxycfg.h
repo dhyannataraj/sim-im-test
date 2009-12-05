@@ -18,6 +18,7 @@
 #ifndef _PROXYCFG_H
 #define _PROXYCFG_H
 
+#include "contacts/client.h"
 #include "proxy.h"
 #include "ui_proxycfgbase.h"
 

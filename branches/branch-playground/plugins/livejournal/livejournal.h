@@ -22,6 +22,8 @@
 #include "socket/socket.h"
 #include "socket/tcpclient.h"
 #include "fetch.h"
+#include "contacts/client.h"
+
 #include <QByteArray>
 
 const unsigned long JournalCmdBase			= 0x00070000;
@@ -88,7 +90,7 @@ class LiveJournalProtocol : public SIM::Protocol
 public:
     LiveJournalProtocol(SIM::Plugin *plugin);
     ~LiveJournalProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr	createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     const SIM::DataDef *userDataDef();

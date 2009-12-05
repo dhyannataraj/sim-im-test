@@ -24,6 +24,7 @@
 #include "maininfo.h"
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
+#include "clientmanager.h"
 
 #include <QTimer>
 #include <QApplication>
@@ -167,9 +168,11 @@ SMSProtocol::~SMSProtocol()
 {
 }
 
-Client *SMSProtocol::createClient(Buffer *cfg)
+ClientPtr SMSProtocol::createClient(Buffer *cfg)
 {
-    return new SMSClient(this, cfg);
+    ClientPtr sms = ClientPtr(new SMSClient(this, cfg));
+	getClientManager()->addClient(sms);
+    return sms;
 }
 
 static CommandDef sms_descr =

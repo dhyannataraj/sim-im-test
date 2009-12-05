@@ -18,6 +18,7 @@
 #ifndef _SMS_H
 #define _SMS_H
 
+#include "contacts/client.h"
 #include "log.h"
 #include "socket/socket.h"
 #include "socket/tcpclient.h"
@@ -50,7 +51,7 @@ class SMSProtocol : public SIM::Protocol
 public:
     SMSProtocol(SIM::Plugin *plugin);
     ~SMSProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr	createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     const SIM::DataDef *userDataDef();

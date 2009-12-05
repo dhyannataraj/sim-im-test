@@ -1305,7 +1305,7 @@ QByteArray ProxyPlugin::getConfig()
 
 QWidget *ProxyPlugin::createConfigWindow(QWidget *parent)
 {
-    return new ProxyConfig(parent, this, NULL, NULL);
+    return new ProxyConfig(parent, this, NULL, static_cast <ClientPtr> (NULL));
 }
 
 const DataDef *ProxyPlugin::proxyData = _proxyData;

@@ -14,11 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include "clientmanager.h"
 #include "misc.h"
 
 #include "msn.h"
 #include "msnclient.h"
+
 
 using namespace SIM;
 
@@ -51,9 +52,11 @@ MSNProtocol::~MSNProtocol()
 {
 }
 
-Client *MSNProtocol::createClient(Buffer *cfg)
+ClientPtr MSNProtocol::createClient(Buffer *cfg)
 {
-    return new MSNClient(this, cfg);
+	ClientPtr msn = ClientPtr(new MSNClient(this, cfg));
+	getClientManager()->addClient(msn);
+    return msn;
 }
 
 static CommandDef msn_descr =
