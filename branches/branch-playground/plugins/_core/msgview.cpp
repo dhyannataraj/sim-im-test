@@ -1177,7 +1177,7 @@ bool MsgView::processEvent(Event *e)
         if (bAdd && (e->type() == eEventMessageReceived)){
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-				SIM::PropertyHubPtr data = contact->getUserData("_core");
+				SIM::PropertyHubPtr data = contact->getUserData("_core", true);
                 if (data->value("OpenNewMessage").toUInt() != NEW_MSG_NOOPEN)
                     bAdd = false;
             }

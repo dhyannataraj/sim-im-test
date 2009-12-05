@@ -1353,7 +1353,7 @@ bool CorePlugin::processEvent(Event *e)
 						}
 						if (contact){
                             SIM::PropertyHubPtr data = contact->getUserData("_core");
-							if (data->value("OpenNewMessage").toUInt()){
+							if (!data.isNull() && data->value("OpenNewMessage").toUInt()){
 								if (data->value("OpenNewMessage").toUInt() == NEW_MSG_MINIMIZE)
 									msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
 								EventOpenMessage(msg).process();
