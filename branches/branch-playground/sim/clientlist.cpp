@@ -6,7 +6,7 @@
 namespace SIM
 {
     ClientList::ClientList() : QObject(),
-        std::vector<Client*>()
+        std::vector<ClientPtr>()
     {
     }
 
@@ -14,14 +14,14 @@ namespace SIM
     {
         emit ignoreEvents(true);
         for (ClientList::iterator it = begin(); it != end(); ++it)
-            delete *it;
+            (*it).clear();
         emit ignoreEvents(false);
     }
 
     void ClientList::addToContacts()
     {
         for (ClientList::iterator it = begin(); it != end(); ++it)
-            getContacts()->addClient(*it);
+            getContacts()->addClient(it->data());
         clear();
     }
 }

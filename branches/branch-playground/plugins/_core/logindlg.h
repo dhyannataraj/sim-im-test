@@ -34,10 +34,10 @@ class LoginDialog : public QDialog, public Ui::LoginDialogBase, public SIM::Even
 {
     Q_OBJECT
 public:
-    LoginDialog(bool bInit, SIM::Client *client, const QString &msg, const QString &loginProfile);
+    LoginDialog(bool bInit, SIM::ClientPtr client, const QString &msg, const QString &loginProfile);
     ~LoginDialog();
     bool isChanged() { return m_bProfileChanged; }
-    SIM::Client *client() { return m_client; }
+    SIM::ClientPtr client() { return m_client; }
 	QString profile() { return m_profile; }
 	bool isNewProfile() { return m_newProfile; }
     QString newProfileName() { return m_newProfileName; }
@@ -61,13 +61,13 @@ protected:
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();
-    void makeInputs(unsigned &row, SIM::Client *client);
+    void makeInputs(unsigned &row, SIM::ClientPtr client);
     void clearInputs();
     void fill();
     void startLogin();
     void stopLogin();
     void loadClients(const QString& profilename, SIM::ClientList&);
-    SIM::Client *loadClient(const QString &name, Buffer *cfg);
+    SIM::ClientPtr loadClient(const QString &name, Buffer *cfg);
 
 private:
     QString m_profile;
@@ -81,7 +81,7 @@ private:
     QList<QLineEdit*>	passwords;
     QList<LinkLabel*>	links;
     QList<QFrame*>	lines;
-    SIM::Client	   *m_client;
+    SIM::ClientPtr m_client;
     QString m_newProfileName;
     QList<SIM::PluginPtr> m_protocolPlugins;
 };

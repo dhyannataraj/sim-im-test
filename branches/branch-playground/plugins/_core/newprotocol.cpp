@@ -48,7 +48,6 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect) :
 {
     setupUi(this);
     m_setup  = NULL;
-    m_client = NULL;
     m_last   = NULL;
     m_bConnected = false;
     m_bConnect = false;
@@ -107,8 +106,6 @@ NewProtocol::~NewProtocol()
         delete m_connectWnd;
     if (m_setup)
         delete m_setup;
-    if (m_client)
-        delete m_client;
     
     // Protocol::plugin() returns raw Plugin pointer, we need smart
     SIM::ProfileManager::instance()->currentProfile()->enablePlugin(m_protocol->plugin()->name());
@@ -121,10 +118,6 @@ void NewProtocol::protocolChanged(int n)
         delete m_setup;
         m_setup = NULL;
     }
-    if (m_client){
-        delete m_client;
-        m_client = NULL;
-    }
     if ((n < 0) || (n >= (int)(m_protocols.size())))
         return;
     ProtocolPtr protocol = m_protocols[n];
@@ -136,8 +129,7 @@ void NewProtocol::protocolChanged(int n)
     m_setup->setParent(m_setupPage);
     m_setupLayout->addWidget(m_setup);
     if (m_setup == NULL){
-        delete m_client;
-        m_client = NULL;
+        m_client.clear();
         return;
     }
     connect(m_setup, SIGNAL(okEnabled(bool)), this, SLOT(okEnabled(bool)));
@@ -205,8 +197,8 @@ void NewProtocol::loginComplete()
     m_connectWnd->setConnecting(false);
 //    setNextEnabled(currentPage(), true);
 //    setFinishEnabled(m_connectWnd, true);
-    getContacts()->addClient(m_client);
-    m_client = NULL;
+    getContacts()->addClient(m_client.data());
+    m_client.clear();
 //    cancelButton()->hide();
 //    backButton()->hide();
     EventSaveState e;

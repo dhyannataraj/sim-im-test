@@ -1,5 +1,6 @@
 
 #include <map>
+#include <QTextStream>
 #include "contacts.h"
 #include "userdata.h"
 #include "contactlistprivate.h"
@@ -113,7 +114,7 @@ namespace SIM
 
     PropertyHubPtr UserData::createUserData(const QString& id)
     {
-        PropertyHubPtr hub = PropertyHubPtr(new PropertyHub());
+        PropertyHubPtr hub = PropertyHub::create(id);
         m_data.insert(id, hub);
         return hub;
     }
@@ -125,25 +126,47 @@ namespace SIM
             m_data.erase(it);
     }
 
-    QByteArray UserData::serialize()
+    bool UserData::serialize(QDomElement el)
     {
-        return QByteArray();
+        QDomElement root = el.ownerDocument().createElement("userdata");
+        el.appendChild(root);
+        foreach(PropertyHubPtr hub, m_data)
+        {
+            QDomElement hubelement = el.ownerDocument().createElement("propertyhub");
+            hubelement.setAttribute("name", hub->getNamespace());
+            hub->serialize(hubelement);
+            root.appendChild(hubelement);
+        }
+        return true;
     }
 
-    bool UserData::deserialize(const QByteArray& arr)
+    bool UserData::deserialize(QDomElement el)
     {
-        return false;
+        QDomElement root = el.elementsByTagName("userdata").at(0).toElement();
+        if(root.isNull())
+            return false;
+        QDomNodeList list = root.elementsByTagName("propertyhub");
+        for(int i = 0; i < list.size(); i++)
+        {
+            QByteArray array;
+            QTextStream stream(&array);
+            QDomNode child = list.at(i);
+            QDomElement el = child.firstChildElement("root");
+            el.save(stream, 1);
+            QString hubname = child.toElement().attribute("name");
+            PropertyHubPtr hub;
+            hub = createUserData(hubname);
+            if(!hub->deserialize(el))
+                return false;
+        }
+        return true;
     }
 
-    void UserData::setNamespace(const QString& ns)
+    UserDataPtr UserData::create()
     {
-        m_namespace = ns;
+        return UserDataPtr(new UserData());
     }
 
-    QString UserData::getNamespace()
-    {
-        return m_namespace;
-    }
 }
 
 // vim: set expandtab:

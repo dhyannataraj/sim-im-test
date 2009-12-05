@@ -2382,7 +2382,9 @@ bool CorePlugin::processEvent(Event *e)
 					}
 					if (codec == NULL)
 						return false;
-					if (contact->setEncoding(codec)){
+                    QString oldCodec = contact->getEncoding();
+					if (oldCodec != codec){
+                        contact->setEncoding(codec);
 						EventContact(contact, EventContact::eChanged).process();
 						EventHistoryConfig(contact->id()).process();
 					}
@@ -3070,7 +3072,7 @@ bool CorePlugin::init(bool bInit)
 			!settings.value("NoShow", false).toBool() ||
 		!settings.value("SavePasswd", false).toBool()))
 	{
-		LoginDialog dlg(bInit, NULL, "", bInit ? QString() : settings.value("Profile").toString());
+		LoginDialog dlg(bInit, ClientPtr(), "", bInit ? QString() : settings.value("Profile").toString());
 		if (dlg.exec() == 0)
 		{
 			return false;
@@ -3600,7 +3602,7 @@ void CorePlugin::loadClients(const QString& profilename, SIM::ClientList& client
 		if (section.isEmpty())
 			break;
 		QString s = section;	// ?
-		Client *client = loadClient(s, &cfg);
+		ClientPtr client = loadClient(s, &cfg);
 		if (client)
 			clients.push_back(client);
 	}
@@ -3611,24 +3613,24 @@ void CorePlugin::loadClients(SIM::ClientList &clients)
 	loadClients(ProfileManager::instance()->currentProfileName(), clients);
 }
 
-Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
+ClientPtr CorePlugin::loadClient(const QString &name, Buffer *cfg)
 {
 	if (name.isEmpty())
-		return NULL;
+		return ClientPtr();
 	QString clientName = name;
 	QString pluginName = getToken(clientName, '/');
     if (pluginName.isEmpty() || clientName.length() == 0)
-		return NULL;
+		return ClientPtr();
 	if(!getPluginManager()->isPluginProtocol(pluginName))
     {
         log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
-		return NULL;
+		return ClientPtr();
 	}
 	PluginPtr plugin = getPluginManager()->plugin(pluginName);
 	if(plugin.isNull())
     {
         log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
-		return NULL;
+		return ClientPtr();
 	}
 	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
 	ProtocolPtr protocol;
@@ -3637,7 +3639,7 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
         if (protocol->description()->text == clientName)
             return protocol->createClient(cfg);
     log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
-	return NULL;
+	return ClientPtr();
 }
 
 bool CorePlugin::adjustClientItem(unsigned id, CommandDef *cmd)

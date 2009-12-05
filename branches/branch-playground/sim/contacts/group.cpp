@@ -21,6 +21,7 @@ namespace SIM
         load_data(groupData, &data, cfg);
         m_userdata = PropertyHub::create("");
         m_userdata->setValue("id", (uint)id);
+        m_userData = UserData::create();
     }
 
     Group::~Group()

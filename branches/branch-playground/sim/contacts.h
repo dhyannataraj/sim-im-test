@@ -179,12 +179,15 @@ public:
     static QTextCodec *getCodecByCodePage(const int iCP);
     static const ENCODING *getEncodings();
     const ENCODING *getEncoding(Contact *contact);
+    UserDataPtr getUserData() { return m_userdata; }
 
 protected:
     void save_new();
     bool save_groups( QDomElement element );
     bool save_contacts( QDomElement element );
-    void load_new();
+    bool load_new();
+    bool load_groups(const QDomElement& groups);
+    bool load_contacts(const QDomElement& contacts);
     void load_old();
 
     class ContactListPrivate *p;
@@ -209,6 +212,7 @@ protected:
 
 private:
 	PropertyHubPtr m_userData;
+    UserDataPtr m_userdata;
 };
 
 EXPORT void createContactList();

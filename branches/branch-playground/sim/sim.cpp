@@ -20,6 +20,7 @@
 #include "log.h"
 #include "misc.h"
 #include "profilemanager.h"
+#include "clientmanager.h"
 #include "simfs.h"
 #include "paths.h"
 #include "socket/socketfactory.h"
@@ -105,6 +106,7 @@ int main(int argc, char *argv[])
     QApplication::addLibraryPath(sPluginPath);
     SIM::createSocketFactory();
     SIM::createContactList();
+    SIM::createClientManager();
     SIM::createProtocolManager();
     SIM::createPluginManager(argc, argv);
 
@@ -116,6 +118,7 @@ int main(int argc, char *argv[])
     
     SIM::destroyPluginManager();
     SIM::destroyProtocolManager();
+    SIM::destroyClientManager();
     SIM::destroyContactList();
     SIM::destroySocketFactory();
     return res;

@@ -3,6 +3,7 @@
 #include "testprotocolmanager.h"
 #include "contacts/protocol.h"
 #include "contacts.h"
+#include "contacts/client.h"
 
 namespace testProtocolManager
 {
@@ -17,9 +18,9 @@ namespace testProtocolManager
         {
         }
 
-        virtual Client  *createClient(Buffer *cfg)
+        virtual ClientPtr createClient(Buffer *cfg)
         {
-            return 0;
+            return ClientPtr();
         }
 
         virtual const CommandDef *description()

@@ -32,6 +32,7 @@
 #include "contacts/client.h"
 #include "socket/socket.h"
 #include "socket/socketfactory.h"
+#include "clientmanager.h"
 #include "simgui/ballonmsg.h"
 
 using namespace std;
@@ -372,7 +373,8 @@ bool CommonStatus::processEvent(Event *e)
                 QString msg;
                 if (!data.text.isEmpty())
                     msg = i18n(data.text).arg(data.args);
-                LoginDialog *loginDlg = new LoginDialog(false, data.client, msg, NULL);
+				ClientPtr client = SIM::getClientManager()->client(data.client->name());
+                LoginDialog *loginDlg = new LoginDialog(false, client, msg, NULL);
                 raiseWindow(loginDlg);
             }
 			else

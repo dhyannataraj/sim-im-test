@@ -6,6 +6,7 @@
 #include "cfg.h"
 #include "buffer.h"
 #include <QByteArray>
+#include <QSharedPointer>
 #include "propertyhub.h"
 
 namespace SIM
@@ -26,30 +27,31 @@ namespace SIM
         COPY_RESTRICTED(UserData_old)
     };
 
+    class EXPORT UserData;
+    typedef QSharedPointer<UserData> UserDataPtr;
     class EXPORT UserData
     {
         typedef QMap<QString, PropertyHubPtr> DataMap;
     public:
-        UserData();
         virtual ~UserData();
+        static UserDataPtr create();
 
         PropertyHubPtr getUserData(const QString& id); 
         PropertyHubPtr createUserData(const QString& id);
         void destroyUserData(const QString& id);
 
-        QByteArray serialize();
-        bool deserialize(const QByteArray& arr);
+        bool serialize(QDomElement element);
+        bool deserialize(QDomElement element);
 
-        // Those functions are hack for serialization/deserialization
-        // When we move to XML, they will become deprecated
-        void setNamespace(const QString& ns);
-        QString getNamespace();
+    protected:
+        UserData();
 
     private:
         DataMap m_data;
         QString m_namespace;
         COPY_RESTRICTED(UserData);
     };
+
 }
 
 #endif

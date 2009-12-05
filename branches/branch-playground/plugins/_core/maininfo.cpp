@@ -600,8 +600,10 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
             }
         }
     }
-    if (!contact->setEncoding(encoding))
+    QString oldEncoding = contact->getEncoding();
+    if (oldEncoding == encoding)
         return;
+    contact->setEncoding(encoding);
     if (SendContactChangedEvent){
         EventContact(contact, EventContact::eChanged).process();
     }

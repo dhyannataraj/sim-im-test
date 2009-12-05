@@ -18,6 +18,8 @@
 #include "icq.h"
 #include "icqconfig.h"
 #include "core.h"
+#include "log.h"
+#include "clientmanager.h"
 
 #include "contacts/protocolmanager.h"
 
@@ -52,9 +54,11 @@ ICQProtocol::~ICQProtocol()
 {
 }
 
-Client *ICQProtocol::createClient(Buffer *cfg)
+ClientPtr ICQProtocol::createClient(Buffer *cfg)
 {
-    return new ICQClient(this, cfg, false);
+	ClientPtr icq = ClientPtr(new ICQClient(this, cfg, false));
+	getClientManager()->addClient(icq);
+    return icq;
 }
 
 static CommandDef icq_descr =
@@ -208,9 +212,11 @@ AIMProtocol::~AIMProtocol()
 {
 }
 
-Client *AIMProtocol::createClient(Buffer *cfg)
+ClientPtr AIMProtocol::createClient(Buffer *cfg)
 {
-    return new ICQClient(this, cfg, true);
+	ClientPtr aim = ClientPtr(new ICQClient(this, cfg, true));
+	getClientManager()->addClient(aim);
+	return aim;
 }
 
 static CommandDef aim_descr =

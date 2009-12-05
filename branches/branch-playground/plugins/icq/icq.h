@@ -19,6 +19,7 @@
 #define _ICQ_H
 
 #include "contacts.h"
+#include "contacts/client.h"
 
 class CorePlugin;
 
@@ -42,7 +43,7 @@ class ICQProtocol : public SIM::Protocol
 public:
     ICQProtocol(SIM::Plugin *plugin);
     ~ICQProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     static const SIM::CommandDef *_statusList();
@@ -55,7 +56,7 @@ class AIMProtocol : public SIM::Protocol
 public:
     AIMProtocol(SIM::Plugin *plugin);
     ~AIMProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();

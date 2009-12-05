@@ -194,8 +194,8 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
             continue;
         }
 
-        if (getTag(tag, &(contact->data.Group), contact->dataDef(), res))
-            continue;
+//        if (getTag(tag, &(contact->getGroup()), contact->dataDef(), res))
+//            continue;
 
         clientData *data;
         ClientDataIterator itc(contact->clientData);

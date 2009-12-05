@@ -248,7 +248,7 @@ protected:
     void loadClients(const QString& profilename, SIM::ClientList&);
     void loadMenu();
     QString tsFile(const QString &lang);
-    SIM::Client *loadClient(const QString &name, Buffer *cfg);
+    SIM::ClientPtr loadClient(const QString &name, Buffer *cfg);
     bool adjustClientItem(unsigned id, SIM::CommandDef *cmd);
     void showPanel();
     void hideWindows();

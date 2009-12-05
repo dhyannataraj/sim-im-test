@@ -23,6 +23,7 @@
 #include "contacts.h"
 #include "plugins.h"
 #include "contacts/protocol.h"
+#include "contacts/client.h"
 
 #include "ui_newprotocolbase.h"
 
@@ -43,7 +44,7 @@ class NewProtocol
 public:
     NewProtocol(QWidget *parent,int default_protocol=0, bool bConnect=false);
     ~NewProtocol();
-    SIM::Client	*m_client;
+    SIM::ClientPtr m_client;
     bool	connected() { return m_bConnected; }
 signals:
     void apply();

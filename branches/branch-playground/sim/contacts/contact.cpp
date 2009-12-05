@@ -11,31 +11,16 @@ namespace SIM
 
     DataDef contactData[] =
     {
-        { "Group", DATA_ULONG, 1, 0 },
-        { "Name", DATA_UTF, 1, 0 },
-        { "Ignore", DATA_BOOL, 1, 0 },
-        { "LastActive", DATA_ULONG, 1, 0 },
-        { "EMails", DATA_UTF, 1, 0 },
-        { "Phones", DATA_UTF, 1, 0 },
-        { "PhoneStatus", DATA_ULONG, 1, 0 },
-        { "FirstName", DATA_UTF, 1, 0 },
-        { "LastName", DATA_UTF, 1, 0 },
-        { "Notes", DATA_UTF, 1, 0 },
-        { "Flags", DATA_ULONG, 1, 0 },
-#ifdef __OS2__        
-        { "Encoding", DATA_STRING, 1, getDefEncoding() },
-#else
-        { "Encoding", DATA_STRING, 1, 0 },
-#endif        
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
     Contact::Contact(unsigned long id, Buffer *cfg)
         : m_id(id)
     {
-        load_data(contactData, &data, cfg);
+        //load_data(contactData, &data, cfg);
         m_userdata = PropertyHub::create("");
         m_userdata->setValue("id", (uint)id);
+        m_userData = UserData::create();
     }
 
     Contact::~Contact()
@@ -44,7 +29,7 @@ namespace SIM
             EventContact e(this, EventContact::eDeleted);
             e.process();
         }
-        free_data(contactData, &data);
+        //free_data(contactData, &data);
         getContacts()->p->contacts.erase(m_id);
     }
 
@@ -107,15 +92,125 @@ namespace SIM
             it.client()->setupContact(this, data);
     }
 
-//    void Contact::setValue(const QString& key, const QVariant& val)
-//    {
-//        m_userdata.insert(key, val);
-//    }
-//
-//    QVariant Contact::value(const QString& key)
-//    {
-//        return m_userdata[key];
-//    }
+    int Contact::getGroup()
+    {
+        return userdata()->value("Group").toInt();
+    }
+
+    void Contact::setGroup(int g)
+    {
+        userdata()->setValue("Group", g);
+    }
+
+    QString Contact::getName()
+    {
+        return userdata()->value("Name").toString();
+    }
+
+    void Contact::setName(const QString& s)
+    {
+        userdata()->setValue(s, "Name");
+    }
+
+    bool Contact::getIgnore()
+    {
+        return userdata()->value("Ignore").toBool();
+    }
+
+    void Contact::setIgnore(bool i)
+    {
+        userdata()->setValue("Ignore", i);
+    }
+
+    int Contact::getLastActive()
+    {
+        return userdata()->value("LastActive").toInt();
+    }
+
+    void Contact::setLastActive(int la)
+    {
+        userdata()->setValue("LastActive", la);
+    }
+
+    QString Contact::getEMails()
+    {
+        return userdata()->value("EMails").toString();
+    }
+
+    void Contact::setEMails(const QString& e)
+    {
+        userdata()->setValue("EMails", e);
+    }
+
+    QString Contact::getPhones()
+    {
+        return userdata()->value("Phones").toString();
+    }
+
+    void Contact::setPhones(const QString& p)
+    {
+        userdata()->setValue("Phones", p);
+    }
+
+    int Contact::getPhoneStatus()
+    {
+        return userdata()->value("PhoneStatus").toInt();
+    }
+
+    void Contact::setPhoneStatus(int ps)
+    {
+        userdata()->setValue("PhoneStatus", ps);
+    }
+
+    QString Contact::getFirstName()
+    {
+        return userdata()->value("FirstName").toString();
+    }
+
+    void Contact::setFirstName(const QString& n)
+    {
+        userdata()->setValue("FirstName", n);
+    }
+
+    QString Contact::getLastName()
+    {
+        return userdata()->value("LastName").toString();
+    }
+
+    void Contact::setLastName(const QString& n)
+    {
+        userdata()->setValue("LastName", n);
+    }
+
+    QString Contact::getNotes()
+    {
+        return userdata()->value("Notes").toString();
+    }
+    
+    void Contact::setNotes(const QString& n)
+    {
+        userdata()->setValue("Notes", n);
+    }
+
+    int Contact::getFlags()
+    {
+        return userdata()->value("Flags").toInt();
+    }
+
+    void Contact::setFlags(int flags)
+    {
+        userdata()->setValue("Flags", flags);
+    }
+
+    QString Contact::getEncoding()
+    {
+        return userdata()->value("Encoding").toString();
+    }
+
+    void Contact::setEncoding(const QString& enc)
+    {
+        userdata()->setValue("Encoding", enc);
+    }
 }
 
 // vim: set expandtab:

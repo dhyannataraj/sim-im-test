@@ -13,6 +13,7 @@ SET(sim_LIB_SRCS
 		builtinlogger.cpp
 		cfg.cpp
 		clientlist.cpp
+		clientmanager.cpp
 		cmddef.cpp
 		contacts.cpp
 		country.cpp
@@ -83,6 +84,7 @@ SET(sim_LIB_HDRS
 		builtinlogger.h
 		cfg.h
 		clientlist.h
+		clientmanager.h
 		cmddef.h
 		contacts.h
 		country.h
@@ -219,6 +221,7 @@ SET(sim_tests_srcs
     tests/test.cpp
     tests/testbuffer.cpp
 	tests/testconfig.cpp
+	tests/testclientmanager.cpp
     tests/testsocketfactory.cpp
     tests/testclientsocket.cpp
     tests/testcontactlist.cpp
@@ -231,6 +234,7 @@ SET(sim_tests_srcs
 SET(sim_tests_hdrs
     tests/testbuffer.h
 	tests/testconfig.h
+	tests/testclientmanager.h
     tests/testsocketfactory.h
     tests/testclientsocket.h
     tests/testcontactlist.h

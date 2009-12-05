@@ -2,12 +2,14 @@
 #ifndef SIM_CLIENT_H
 #define SIM_CLIENT_H
 
+#include <QSharedPointer>
+#include "cfg.h"
+#include "contacts/contact.h"
 #include "simapi.h"
-
-#include "contacts/protocol.h"
 
 namespace SIM
 {
+    class EXPORT Protocol;
     struct clientData       // Base struct for all clientData
     {
         Data    Sign;       // Protocol ID, must be ICQ_SIGN, JABBER_SIGN etc
@@ -78,6 +80,8 @@ namespace SIM
         ClientData  data;
         Protocol    *m_protocol;
     };
+
+    typedef QSharedPointer<Client> ClientPtr;
 
 }
 

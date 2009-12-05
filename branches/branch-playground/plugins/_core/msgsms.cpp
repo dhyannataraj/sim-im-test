@@ -285,7 +285,9 @@ bool MsgSMS::processEvent(Event *e)
                         if (!newPhones.isEmpty())
                             phone += ';';
                         newPhones = phone + newPhones;
-                        if (contact->setPhones(newPhones)){
+						QString oldPhones = contact->getPhones();
+						contact->setPhones(newPhones);
+                        if (oldPhones != newPhones){
                             EventContact(contact, EventContact::eChanged).process();
                         }
                     }

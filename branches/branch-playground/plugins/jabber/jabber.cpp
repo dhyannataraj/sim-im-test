@@ -20,6 +20,7 @@
 #include "misc.h"
 #include "core_consts.h"
 #include "contacts/protocolmanager.h"
+#include "clientmanager.h"
 
 #include <QByteArray>
 
@@ -54,9 +55,11 @@ JabberProtocol::~JabberProtocol()
 {
 }
 
-Client *JabberProtocol::createClient(Buffer *cfg)
+ClientPtr JabberProtocol::createClient(Buffer *cfg)
 {
-    return new JabberClient(this, cfg);
+	ClientPtr jabber = ClientPtr(new JabberClient(this, cfg));
+	getClientManager()->addClient(jabber);
+	return jabber;
 }
 
 static CommandDef jabber_descr =

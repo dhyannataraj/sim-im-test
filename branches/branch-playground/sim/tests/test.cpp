@@ -3,6 +3,7 @@
 #include <QtTest/QtTest>
 #include "testbuffer.h"
 #include "testsocketfactory.h"
+#include "testclientmanager.h"
 #include "testclientsocket.h"
 #include "testconfig.h"
 #include "testprotocolmanager.h"
@@ -20,6 +21,7 @@ int main(int argc, char** argv)
 	QTest::qExec(new testContactList::Test());
 	QTest::qExec(new testUserData::Test());
 	QTest::qExec(new testConfig::Test());
+	QTest::qExec(new testClientManager::Test());
 	return 0;
 }
 

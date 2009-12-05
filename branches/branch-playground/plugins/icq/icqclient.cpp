@@ -991,7 +991,11 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
             if (alias)
             {
                 if (!alias->isEmpty())
-                    bChanged = contact->setName(*alias);
+				{
+					bChanged = contact->getName() != *alias;
+					if(bChanged)
+						contact->setName(*alias);
+				}
                 data->Alias.str() = *alias;
             }
             if (grp && contact->getGroup() != grp->id())
@@ -1033,7 +1037,11 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     if(alias)
 					{
                         if(!alias->isEmpty())
-                            bChanged = contact->setName(*alias);
+						{
+							bChanged = contact->getName() != *alias;
+							if(bChanged)
+								contact->setName(*alias);
+						}
                         data->Alias.str() = *alias;
                     }
                     if (grp && grp->id() != contact->getGroup())

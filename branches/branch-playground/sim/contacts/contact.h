@@ -9,22 +9,6 @@
 
 namespace SIM
 {
-    struct ContactData
-    {
-        Data            Group;      // Group ID
-        Data            Name;       // Contact Display Name (UTF-8)
-        Data            Ignore;     // In ignore list
-        Data            LastActive;
-        Data            EMails;
-        Data            Phones;
-        Data            PhoneStatus;
-        Data            FirstName;
-        Data            LastName;
-        Data            Notes;
-        Data            Flags;
-        Data            Encoding;
-    };
-
     const unsigned CONTACT_TEMP             = 0x0001;
     const unsigned CONTACT_DRAG             = 0x0002;
     const unsigned CONTACT_NOREMOVE_HISTORY = 0x1000;
@@ -37,18 +21,43 @@ namespace SIM
         Contact(unsigned long id = 0, Buffer *cfg = NULL);
         virtual ~Contact();
         unsigned long id() const { return m_id; }
-        PROP_ULONG(Group)
-        PROP_UTF8(Name)
-        PROP_BOOL(Ignore)
-        PROP_ULONG(LastActive)
-        PROP_UTF8(EMails)
-        PROP_UTF8(Phones)
-        PROP_ULONG(PhoneStatus)
-        PROP_UTF8(FirstName)
-        PROP_UTF8(LastName)
-        PROP_UTF8(Notes)
-        PROP_ULONG(Flags)
-        PROP_STR(Encoding)
+
+        int getGroup();
+        void setGroup(int g);
+
+        QString getName();
+        void setName(const QString& s);
+
+        bool getIgnore();
+        void setIgnore(bool i);
+
+        int getLastActive();
+        void setLastActive(int la);
+
+        QString getEMails();
+        void setEMails(const QString& e);
+
+        QString getPhones();
+        void setPhones(const QString& p);
+
+        int getPhoneStatus();
+        void setPhoneStatus(int ps);
+
+        QString getFirstName();
+        void setFirstName(const QString& n);
+
+        QString getLastName();
+        void setLastName(const QString& n);
+
+        QString getNotes();
+        void setNotes(const QString& n);
+
+        int getFlags();
+        void setFlags(int flags);
+
+        QString getEncoding();
+        void setEncoding(const QString& enc);
+
         void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
         ClientUserData clientData;
         bool setFirstName(const QString &name, const QString &client);
@@ -57,12 +66,12 @@ namespace SIM
         bool setPhones(const QString &phones, const QString &client);
         unsigned long contactInfo(unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
         QString tipText();
-        ContactData data;
         const DataDef *dataDef();
         void setup();
         PropertyHubPtr userdata() const { return m_userdata; }
 
         UserData_old& getUserData_old() { return userData; }
+        UserDataPtr getUserData() { return m_userData; }
     protected:
         unsigned long m_id;
         friend class ContactList;
@@ -70,6 +79,7 @@ namespace SIM
 
     private:
         UserData_old userData;
+        UserDataPtr m_userData; // FIXME this mess
         PropertyHubPtr m_userdata;
     };
 

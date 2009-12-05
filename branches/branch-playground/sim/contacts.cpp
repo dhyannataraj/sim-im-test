@@ -187,12 +187,20 @@ static QString addStrings (const QString &old_value, const QString &values,
 
 bool Contact::setEMails(const QString &mail, const QString &client)
 {
-    return setEMails(addStrings(getEMails(), mail, client));
+	QString oldemail = getEMails();
+	if(mail == oldemail)
+		return false;
+    setEMails(addStrings(getEMails(), mail, client));
+	return true;
 }
 
 bool Contact::setPhones(const QString &phone, const QString &client)
 {
-    return setPhones(addStrings(getPhones(), phone, client));
+	QString oldphones = getPhones();
+	if(phone == oldphones)
+		return false;
+    setPhones(addStrings(getPhones(), phone, client));
+	return true;
 }
 
 static QString packString(const QString &value, const QString &client)
@@ -224,12 +232,20 @@ static QString addString(const QString &oldValue, const QString &newValue, const
 
 bool Contact::setFirstName(const QString &name, const QString &client)
 {
-    return setFirstName(addString(getFirstName(), name, client));
+	QString firstName = getFirstName();
+	if(firstName == name)
+		return false;
+    setFirstName(addString(getFirstName(), name, client));
+	return true;
 }
 
 bool Contact::setLastName(const QString &name, const QString &client)
 {
-    return setLastName(addString(getLastName(), name, client));
+	QString lastName = getLastName();
+	if(lastName == name)
+		return false;
+    setLastName(addString(getLastName(), name, client));
+	return true;
 }
 
 static char tipDiv[] = "<br>__________<br>";
@@ -420,6 +436,7 @@ ContactList::ContactList()
 {
     p = new ContactListPrivate;
 	m_userData = PropertyHub::create("ContactList");
+    m_userdata = UserData::create();
 }
 
 ContactList::~ContactList()
@@ -782,99 +799,99 @@ extern DataDef contactData[];
 void ContactList::save()
 {
 	save_new();
-    QString cfgName = user_file(CONTACTS_CONF);
-    QFile f(cfgName + QString(BACKUP_SUFFIX)); // use backup file for this ...
-    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-        log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
-        return;
-    }
-    QByteArray line = p->userData.save();
-    if (line.length()){
-        line += '\n';
-        f.write(line);
-    }
-    line = save_data(contactData, &owner()->data);
-    if (line.length()){
-        QByteArray cfg  = "[";
-        cfg += OWNER;
-        cfg += "]\n";
-        line += '\n';
-        f.write(cfg);
-        f.write(line);
-    }
-    for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
-        Group *grp = *it_g;
-        line = "[";
-        line += GROUP;
-        line += QByteArray::number((quint32)grp->id());
-        line += "]\n";
-        f.write(line);
-        line = save_data(groupData, &grp->data);
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        } else {
-            /* Group has no name --> Not In List
-               since the load_data seems to have problems with totally empty
-               entries, this must be ...*/
-            f.write("Name=\"NIL\"\n");
-        }
-        line = grp->userData.save();
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        }
-        line = grp->clientData.save();
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        }
-    }
-    for (map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
-        const Contact *contact = it_c->second;
-        if (contact->getFlags() & CONTACT_TEMPORARY)
-            continue;
-        line = "[";
-        line += CONTACT;
-        line += QByteArray::number((quint32)contact->id());
-        line += "]\n";
-        f.write(line);
-        line = save_data(contactData, &contact->data);
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        }
-        line = contact->userData.save();
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        }
-        line = contact->clientData.save();
-        if (line.length()){
-            line += '\n';
-            f.write(line);
-        }
-    }
-    f.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on f.close
-    QFile::FileError status = f.error();
-    const QString errorMessage = f.errorString();
-    f.close();
-    if (status != QFile::NoError) {
-        log(L_ERROR, "IO error during writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
-        return;
-    }
-
-    // rename to normal file
-    QFileInfo fileInfo(f.fileName());
-    QString desiredFileName = fileInfo.fileName();
-    desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-//#if defined( WIN32 ) || defined( __OS2__ )
-    fileInfo.dir().remove(desiredFileName);
-//#endif
-    if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
-        return;
-    }
+//    QString cfgName = user_file(CONTACTS_CONF);
+//    QFile f(cfgName + QString(BACKUP_SUFFIX)); // use backup file for this ...
+//    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
+//        log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
+//        return;
+//    }
+//    QByteArray line = p->userData.save();
+//    if (line.length()){
+//        line += '\n';
+//        f.write(line);
+//    }
+//    line = save_data(contactData, &owner()->data);
+//    if (line.length()){
+//        QByteArray cfg  = "[";
+//        cfg += OWNER;
+//        cfg += "]\n";
+//        line += '\n';
+//        f.write(cfg);
+//        f.write(line);
+//    }
+//    for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
+//        Group *grp = *it_g;
+//        line = "[";
+//        line += GROUP;
+//        line += QByteArray::number((quint32)grp->id());
+//        line += "]\n";
+//        f.write(line);
+//        line = save_data(groupData, &grp->data);
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        } else {
+//            /* Group has no name --> Not In List
+//               since the load_data seems to have problems with totally empty
+//               entries, this must be ...*/
+//            f.write("Name=\"NIL\"\n");
+//        }
+//        line = grp->userData.save();
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        }
+//        line = grp->clientData.save();
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        }
+//    }
+//    for (map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
+//        const Contact *contact = it_c->second;
+//        if (contact->getFlags() & CONTACT_TEMPORARY)
+//            continue;
+//        line = "[";
+//        line += CONTACT;
+//        line += QByteArray::number((quint32)contact->id());
+//        line += "]\n";
+//        f.write(line);
+//        line = save_data(contactData, &contact->data);
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        }
+//        line = contact->userData.save();
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        }
+//        line = contact->clientData.save();
+//        if (line.length()){
+//            line += '\n';
+//            f.write(line);
+//        }
+//    }
+//    f.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on f.close
+//    QFile::FileError status = f.error();
+//    const QString errorMessage = f.errorString();
+//    f.close();
+//    if (status != QFile::NoError) {
+//        log(L_ERROR, "IO error during writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
+//        return;
+//    }
+//
+//    // rename to normal file
+//    QFileInfo fileInfo(f.fileName());
+//    QString desiredFileName = fileInfo.fileName();
+//    desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+////#if defined( WIN32 ) || defined( __OS2__ )
+//    fileInfo.dir().remove(desiredFileName);
+////#endif
+//    if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
+//        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
+//        return;
+//    }
 }
 
 void ContactList::clear()
@@ -939,8 +956,7 @@ void ContactList::load_old()
         return;
     }
 	PropertyHubPtr currenthub;
-	bool clientData = false;
-	QString clientName;
+    UserDataPtr currentUserData = getUserData();
 	while(!f.atEnd())
 	{
 		QString line = f.readLine();
@@ -950,29 +966,32 @@ void ContactList::load_old()
 			int id = line.mid(7, line.length() - 8).toInt();
 			Group* gr = group(id, false);
 			currenthub = gr->userdata();
-			clientData = false;
+            currentUserData = gr->getUserData();
 		}
 		else if(line.startsWith("[Contact="))
 		{
 			int id = line.mid(9, line.length() - 10).toInt();
 			Contact* c = contact(id, false);
 			currenthub = c->userdata();
-			clientData = false;
+            currentUserData = c->getUserData();
 		}
 		else if(line.startsWith("["))
 		{
-			clientData = true;
-			clientName = line.mid(1, line.length() - 2);
+			QString clientName = line.mid(1, line.length() - 2);
+            if(!currentUserData.isNull())
+                currenthub = currentUserData->createUserData(clientName);
 		}
 		else
 		{
 			if(!currenthub.isNull())
 			{
 				QStringList keyval = line.split("=");
-				if(!clientData)
-					currenthub->setValue(keyval.at(0), keyval.at(1));
-				else
-					currenthub->setValue(clientName + "/" + keyval.at(0), keyval.at(1));
+                QString val = keyval.at(1);
+                if(val.startsWith('"') && val.endsWith('"'))
+                    currenthub->setValue(keyval.at(0), val.mid(1, val.length() - 2));
+                else
+                    currenthub->setValue(keyval.at(0), val);
+                    
 			}
 		}
 	}
@@ -980,25 +999,28 @@ void ContactList::load_old()
 
 void ContactList::save_new()
 {
-	if(!ProfileManager::instance()->profilePath().isEmpty())
-	{
-		QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
-		ProfileManager::instance()->sync();
-		QDomDocument doc;
-                doc.appendChild( doc.createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\"" ) );
-		QDomElement root = doc.createElement("contactlist");
-                QDomElement groups = doc.createElement( "groups" );
-                if( save_groups( groups ) )
-                    root.appendChild( groups );
-                QDomElement contacts = doc.createElement( "contacts" );
-                if( save_contacts( contacts ) )
-                    root.appendChild( contacts );
-		doc.appendChild(root);
-		QFile f(cfgName);
-		f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-		f.write(doc.toByteArray());
-		f.close();
-	}
+    if(!ProfileManager::instance()->profilePath().isEmpty())
+    {
+        QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
+        ProfileManager::instance()->sync();
+        QDomDocument doc;
+        doc.appendChild( doc.createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\"" ) );
+        QDomElement root = doc.createElement("contactlist");
+        QDomElement global = doc.createElement("global");
+        getUserData()->serialize(global);
+        root.appendChild(global);
+        QDomElement groups = doc.createElement( "groups" );
+        if( save_groups( groups ) )
+            root.appendChild( groups );
+        QDomElement contacts = doc.createElement( "contacts" );
+        if( save_contacts( contacts ) )
+            root.appendChild( contacts );
+        doc.appendChild(root);
+        QFile f(cfgName);
+        f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        f.write(doc.toByteArray());
+        f.close();
+    }
 }
 
 bool ContactList::save_groups( QDomElement element )
@@ -1017,8 +1039,7 @@ bool ContactList::save_groups( QDomElement element )
     return true;
 }
 
-bool ContactList::save_contacts( QDomElement element )
-{
+bool ContactList::save_contacts( QDomElement element ) {
     if( p->groups.size() == 0 )
         return false;
 
@@ -1033,8 +1054,54 @@ bool ContactList::save_contacts( QDomElement element )
     return true;
 }
 
-void ContactList::load_new()
+bool ContactList::load_new()
 {
+    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
+    QFile f(cfgName);
+    f.open(QIODevice::ReadOnly);
+    QDomDocument doc;
+    doc.setContent(f.readAll());
+    QDomElement el = doc.elementsByTagName("global").at(0).toElement();
+    if(!getUserData()->deserialize(el))
+        return false;
+
+    QDomElement groups = doc.elementsByTagName("groups").at(0).toElement();
+    if(!load_groups(groups))
+        return false;
+
+    QDomElement contacts = doc.elementsByTagName("contacts").at(0).toElement();
+    if(!load_contacts(contacts))
+        return false;
+
+    return true;
+}
+
+bool ContactList::load_groups(const QDomElement& groups)
+{
+    QDomNodeList list = groups.elementsByTagName("group");
+    for(int i = 0; i < list.size(); i++)
+    {
+        QDomElement el = list.at(i).toElement();
+        int id = el.attribute("id").toInt();
+        Group* gr = group(id, id != 0);
+        if(!gr->userdata()->deserialize(el))
+            return false;
+    }
+    return true;
+}
+
+bool ContactList::load_contacts(const QDomElement& contacts)
+{
+    QDomNodeList list = contacts.elementsByTagName("contacts");
+    for(int i = 0; i < list.size(); i++)
+    {
+        QDomElement el = list.at(i).toElement();
+        int id = el.attribute("id").toInt();
+        Contact* c = contact(id, true);
+        if(!c->userdata()->deserialize(el))
+            return false;
+    }
+    return true;
 }
 
 void ContactListPrivate::flush(Contact *c, Group *g)
@@ -1052,19 +1119,19 @@ void ContactListPrivate::flush(Contact *c, Group *g, const QByteArray &section, 
 {
     if (cfg == NULL)
         return;
-    if (section.isEmpty()){
-        if (c){
-            free_data(contactData, &c->data);
-            load_data(contactData, &c->data, cfg);
-            return;
-        }
-        if (g){
-            free_data(groupData, &g->data);
-            load_data(groupData, &g->data, cfg);
-            return;
-        }
-        return;
-    }
+//    if (section.isEmpty()){
+//        if (c){
+//            free_data(contactData, &c->data);
+//            load_data(contactData, &c->data, cfg);
+//            return;
+//        }
+//        if (g){
+//            free_data(groupData, &g->data);
+//            load_data(groupData, &g->data, cfg);
+//            return;
+//        }
+//        return;
+//    }
     map<unsigned long, UserDataDef>::iterator it;
     for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
         if (section != it->second.name)
@@ -1413,4 +1480,6 @@ EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
         return female;
     return male;
 }
+
+// vim: set expandtab:
 

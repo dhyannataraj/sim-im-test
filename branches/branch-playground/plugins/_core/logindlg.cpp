@@ -43,7 +43,7 @@ email                : vovan@shutoff.ru
 
 using namespace SIM;
 
-LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const QString &loginProfile)
+LoginDialog::LoginDialog(bool bInit, ClientPtr client, const QString &text, const QString &loginProfile)
   : QDialog(NULL)
 {
 	setupUi(this);
@@ -340,7 +340,7 @@ static void rmDir(const QString &path)
 	d.rmdir(path);
 }
 
-void LoginDialog::makeInputs(unsigned &row, Client *client)
+void LoginDialog::makeInputs(unsigned &row, ClientPtr client)
 {
     QLabel *pict = new QLabel(groupBoxPasswords);
     pict->setPixmap(Pict(client->protocol()->description()->icon));
@@ -601,30 +601,30 @@ void LoginDialog::loadClients(const QString& profilename, SIM::ClientList& clien
 		if (section.isEmpty())
 			break;
 		QString s = section;	// ?
-		Client *client = loadClient(s, &cfg);
+		ClientPtr client = loadClient(s, &cfg);
 		if (client)
 			clients.push_back(client);
 	}
 }
 
-Client* LoginDialog::loadClient(const QString &name, Buffer *cfg)
+ClientPtr LoginDialog::loadClient(const QString &name, Buffer *cfg)
 {
 	if (name.isEmpty())
-		return NULL;
+		return ClientPtr();
 	QString clientName = name;
 	QString pluginName = getToken(clientName, '/');
     if (pluginName.isEmpty() || clientName.length() == 0)
-		return NULL;
+		return ClientPtr();
 	if(!getPluginManager()->isPluginProtocol(pluginName))
     {
         log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
-		return NULL;
+		return ClientPtr();
 	}
 	PluginPtr plugin = getPluginManager()->plugin(pluginName);
 	if(plugin.isNull())
     {
         log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
-		return NULL;
+		return ClientPtr();
 	}
 	m_protocolPlugins.append(plugin);
 	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
@@ -634,6 +634,6 @@ Client* LoginDialog::loadClient(const QString &name, Buffer *cfg)
         if (protocol->description()->text == clientName)
             return protocol->createClient(cfg);
     log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
-	return NULL;
+	return ClientPtr();
 }
 

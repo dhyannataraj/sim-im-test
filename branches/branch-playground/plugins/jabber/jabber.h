@@ -19,6 +19,7 @@
 #define _JABBER_H
 
 #include "contacts.h"
+#include "contacts/client.h"
 
 #include <QByteArray>
 
@@ -58,7 +59,7 @@ class JabberProtocol : public SIM::Protocol
 public:
     JabberProtocol(SIM::Plugin *plugin);
     ~JabberProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();
