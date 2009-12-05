@@ -409,22 +409,14 @@ EXPORT QString formatDateTime(QDateTime t)
 {
     if (t.isNull())
         return QString();
-#ifdef USE_KDE4
-    return KGlobal::locale()->formatDateTime(t);
-#else
     return t.toString();
-#endif
 }
 
 EXPORT QString formatDate(QDate t)
 {
     if (t.isNull())
         return QString();
-#ifdef USE_KDE4
-    return KGlobal::locale()->formatDate(t);
-#else
     return t.toString();
-#endif
 }
 
 EXPORT QString formatAddr(const Data &ip, unsigned port)
