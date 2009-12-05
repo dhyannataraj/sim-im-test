@@ -39,7 +39,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,_DEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_DEBUG,CMAKE_INTDIR=\&quot;Debug\&quot;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -55,7 +54,6 @@
 				AdditionalOptions=" /Zm1000 -wd4661"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				PreprocessorDefinitions="WIN32,_WINDOWS,_DEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_DEBUG,CMAKE_INTDIR=\&quot;Debug\&quot;"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -72,7 +70,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,_DEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_DEBUG,CMAKE_INTDIR=\&quot;Debug\&quot;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -80,7 +77,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /STACK:10000000 /machine:I386 /debug"
-				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib $(TargetDir)\sim.lib $(QTDIR)\lib\Qt3Supportd4.lib $(QTDIR)\lib\QtUiToolsd.lib $(QTDIR)\lib\phonond4.lib $(QTDIR)\lib\QtGuid4.lib imm32.lib winmm.lib $(QTDIR)\lib\QtTestd4.lib $(QTDIR)\lib\QtXmld4.lib $(QTDIR)\lib\QtSqld4.lib $(QTDIR)\lib\QtNetworkd4.lib $(QTDIR)\lib\QtCored4.lib ws2_32.lib C:\libraries\OpenSSL\lib\VC\ssleay32MDd.lib C:\libraries\OpenSSL\lib\VC\libeay32MDd.lib wsock32.lib wininet.lib C:\libraries\libxml2-2.6.24.win32\lib\libxml2.lib C:\libraries\libxslt-1.1.16.win32\lib\libxslt.lib C:\libraries\mysql\lib_release\zlib.lib C:\libraries\iconv-1.9.2.win32\lib\iconv.lib $(NOINHERIT)"
+				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib $(TargetDir)\sim.lib $(QTDIR)\lib\QtUiToolsd.lib $(QTDIR)\lib\phonond4.lib $(QTDIR)\lib\QtGuid4.lib imm32.lib winmm.lib $(QTDIR)\lib\QtTestd4.lib $(QTDIR)\lib\QtXmld4.lib $(QTDIR)\lib\QtSqld4.lib $(QTDIR)\lib\QtNetworkd4.lib $(QTDIR)\lib\QtCored4.lib ws2_32.lib C:\libraries\OpenSSL\lib\VC\ssleay32MDd.lib C:\libraries\OpenSSL\lib\VC\libeay32MDd.lib wsock32.lib wininet.lib C:\libraries\libxml2-2.6.24.win32\lib\libxml2.lib C:\libraries\libxslt-1.1.16.win32\lib\libxslt.lib C:\libraries\zlib-1.2.3.win32\lib\zlib.lib C:\libraries\iconv-1.9.2.win32\lib\iconv.lib $(NOINHERIT)"
 				OutputFile="$(SolutionDir)\Debug\test.exe"
 				Version="0.0"
 				LinkIncremental="2"
@@ -139,7 +136,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;Release\&quot;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -155,7 +151,6 @@
 				AdditionalOptions=" /Zm1000 -wd4661"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;Release\&quot;"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -170,7 +165,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;Release\&quot;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -178,7 +172,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /STACK:10000000 /machine:I386"
-				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib $(TargetDir)\sim.lib $(QTDIR)\lib\Qt3Support4.lib $(QTDIR)\lib\QtUiTools.lib $(QTDIR)\lib\phonon4.lib $(QTDIR)\lib\QtGui4.lib imm32.lib winmm.lib $(QTDIR)\lib\QtTest4.lib $(QTDIR)\lib\QtXml4.lib $(QTDIR)\lib\QtSql4.lib $(QTDIR)\lib\QtNetwork4.lib $(QTDIR)\lib\QtCore4.lib ws2_32.lib C:\libraries\OpenSSL\lib\VC\ssleay32MD.lib C:\libraries\OpenSSL\lib\VC\libeay32MD.lib wsock32.lib wininet.lib C:\libraries\libxml2-2.6.24.win32\lib\libxml2.lib C:\libraries\libxslt-1.1.16.win32\lib\libxslt.lib C:\libraries\mysql\lib_release\zlib.lib C:\libraries\iconv-1.9.2.win32\lib\iconv.lib $(NOINHERIT)"
+				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib $(TargetDir)\sim.lib $(QTDIR)\lib\QtUiTools.lib $(QTDIR)\lib\phonon4.lib $(QTDIR)\lib\QtGui4.lib imm32.lib winmm.lib $(QTDIR)\lib\QtTest4.lib $(QTDIR)\lib\QtXml4.lib $(QTDIR)\lib\QtSql4.lib $(QTDIR)\lib\QtNetwork4.lib $(QTDIR)\lib\QtCore4.lib ws2_32.lib C:\libraries\OpenSSL\lib\VC\ssleay32MD.lib C:\libraries\OpenSSL\lib\VC\libeay32MD.lib wsock32.lib wininet.lib C:\libraries\libxml2-2.6.24.win32\lib\libxml2.lib C:\libraries\libxslt-1.1.16.win32\lib\libxslt.lib C:\libraries\mysql\lib_release\zlib.lib C:\libraries\iconv-1.9.2.win32\lib\iconv.lib $(NOINHERIT)"
 				OutputFile="$(SolutionDir)\Release\test.exe"
 				Version="0.0"
 				LinkIncremental="1"
@@ -236,7 +230,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -252,7 +245,6 @@
 				AdditionalOptions=" /Zm1000 -wd4661"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -267,7 +259,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
 				AdditionalIncludeDirectories="$(QTDIR)\include;$(QTDIR)\include\Qt3Support;$(QTDIR)\include\QtUiTools;\usr\include\phonon;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtCore;$(SolutionDir);$(SolutionDir)\sim;$(SolutionDir)\plugins\_core;C:\libraries\OpenSSL\include;C:\libraries\libxml2-2.6.24.win32\include;C:\libraries\libxslt-1.1.16.win32\include;C:\libraries\iconv-1.9.2.win32\include;C:\libraries\zlib-1.2.3.win32\include;"
 			/>
 			<Tool
@@ -334,7 +325,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -350,7 +340,6 @@
 				AdditionalOptions=" /Zm1000 -wd4661"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -366,7 +355,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32,_WINDOWS,NDEBUG,QT_DLL,QT3_SUPPORT,QT_3SUPPORT_LIB,QT_UITOOLS_LIB,QT_PHONON_LIB,QT_GUI_LIB,QT_TEST_LIB,QT_XML_LIB,QT_NETWORK_LIB,QT_CORE_LIB,QT3_SUPPORT_WARNINGS,QT_DLL,HAVE_CONFIG_H,_CRT_SECURE_NO_DEPRECATE,_CRT_NONSTDC_NO_DEPRECATE,UNICODE,NOUNCRYPT,QT_NO_DEBUG,CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -416,6 +404,7 @@
 	<Files>
 		<Filter
 			Name="Source Files"
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
 				RelativePath=".\tests\test.cpp"
@@ -457,6 +446,17 @@
 					/>
 				</FileConfiguration>
 			</File>
+				RelativePath=".\tests\testclientmanager.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalOptions="/U HAVE_CONFIG_H"
+					/>
+				</FileConfiguration>
+			</File>			
 			<File
 				RelativePath=".\tests\testclientsocket.cpp"
 				>
@@ -477,6 +477,54 @@
 					/>
 				</FileConfiguration>
 			</File>
+ 			<File
+				RelativePath=".\tests\testconfig.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalOptions="/U HAVE_CONFIG_H"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testcontactlist.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalOptions="/U HAVE_CONFIG_H"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testpropertyhub.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalOptions="/U HAVE_CONFIG_H"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testprotocolmanager.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalOptions="/U HAVE_CONFIG_H"
+					/>
+				</FileConfiguration>
+			</File>			
 			<File
 				RelativePath=".\tests\testsocketfactory.cpp"
 				>
@@ -497,6 +545,18 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\tests\testuserdata.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalOptions="/U HAVE_CONFIG_H"
+					/>
+				</FileConfiguration>
+			</File>
 			<Filter
 				Name="generated"
 				>
@@ -504,8 +564,60 @@
 					RelativePath=".\tests\moc_testbuffer.cpp"
 					>
 				</File>
+ 				<File
+					RelativePath=".\tests\moc_testclientmanager.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalOptions="/U HAVE_CONFIG_H"
+						/>
+					</FileConfiguration>
+				</File>				
 				<File
 					RelativePath=".\tests\moc_testclientsocket.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalOptions="/U HAVE_CONFIG_H"
+						/>
+					</FileConfiguration>
+				</File>
+ 				<File
+					RelativePath=".\tests\moc_testconfig.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\tests\moc_testcontactlist.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalOptions="/U HAVE_CONFIG_H"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\tests\moc_testpropertyhub.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalOptions="/U HAVE_CONFIG_H"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\tests\moc_testprotocolmanager.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -528,10 +640,15 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath=".\tests\moc_testuserdata.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
 				RelativePath=".\tests\testbuffer.h"
@@ -558,7 +675,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\tests\testclientsocket.h"
+				RelativePath=".\tests\testclientmanager.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -577,6 +694,86 @@
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
 						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testclientsocket.h"
+				>
+ 				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+ 					Name="Release|Win32"
+ 					>
+ 					<Tool
+ 						Name="VCCustomBuildTool"
+ 						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+ 						Outputs="$(InputDir)moc_$(InputName).cpp"
+ 					/>
+ 				</FileConfiguration>
+ 			</File>
+			<File
+				RelativePath=".\tests\testconfig.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testcontactlist.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testpropertyhub.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testprotocolmanager.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -601,6 +798,20 @@
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
 						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testuserdata.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
