@@ -19,13 +19,14 @@
 #define _MSN_H
 
 #include "contacts.h"
+#include "contacts/client.h"
 
 class MSNProtocol : public SIM::Protocol
 {
 public:
     MSNProtocol(SIM::Plugin *plugin);
     ~MSNProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr	createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();

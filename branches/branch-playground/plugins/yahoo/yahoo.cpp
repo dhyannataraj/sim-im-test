@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "clientmanager.h"
 #include "yahoo.h"
 #include "yahooclient.h"
 #include "core.h"
@@ -68,9 +69,11 @@ YahooProtocol::~YahooProtocol()
 {
 }
 
-Client *YahooProtocol::createClient(Buffer *cfg)
+ClientPtr YahooProtocol::createClient(Buffer *cfg)
 {
-    return new YahooClient(this, cfg);
+	ClientPtr yahoo = ClientPtr(new YahooClient(this, cfg));
+	getClientManager()->addClient(yahoo);
+    return yahoo;
 }
 
 static CommandDef yahoo_descr =

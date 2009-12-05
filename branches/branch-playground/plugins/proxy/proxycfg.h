@@ -30,7 +30,7 @@ class ProxyConfig : public QWidget, public Ui::ProxyConfigBase, public SIM::Even
 {
     Q_OBJECT
 public:
-    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, SIM::Client *client);
+    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, SIM::ClientPtr client);
 public slots:
     void apply();
 protected slots:
@@ -43,7 +43,7 @@ protected:
     void fill(ProxyData*);
     void get(ProxyData*);
     std::vector<ProxyData> m_data;
-    SIM::Client *m_client;
+    SIM::ClientPtr m_client;
     ProxyPlugin *m_plugin;
     unsigned m_current;
 };

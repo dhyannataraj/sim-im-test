@@ -35,7 +35,7 @@
 
 using namespace SIM;
 
-ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
+ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, ClientPtr client)
   : QWidget(parent)
   , m_client(client)
   , m_plugin(plugin)

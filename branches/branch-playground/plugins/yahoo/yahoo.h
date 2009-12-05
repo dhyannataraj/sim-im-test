@@ -19,13 +19,14 @@
 #define _YAHOO_H
 
 #include "contacts.h"
+#include "contacts/client.h"
 
 class YahooProtocol : public SIM::Protocol
 {
 public:
     YahooProtocol(SIM::Plugin *plugin);
     ~YahooProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::ClientPtr	createClient(Buffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();

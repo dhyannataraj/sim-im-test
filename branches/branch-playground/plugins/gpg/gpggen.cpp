@@ -145,7 +145,7 @@ void GpgGen::accept()
     delete m_process;	// to be sure...
     m_process = new QProcess(this);
 
-    connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
+    connect(m_process, SIGNAL(finished()), this, SLOT(genKeyReady()));
 
     m_process->start(sl.join(" "));
 }
