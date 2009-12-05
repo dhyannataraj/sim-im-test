@@ -40,6 +40,8 @@ namespace SIM
         PropertyHubPtr createUserData(const QString& id);
         void destroyUserData(const QString& id);
 
+        PropertyHubPtr root();
+
         bool serialize(QDomElement element);
         bool deserialize(QDomElement element);
 
@@ -48,6 +50,7 @@ namespace SIM
 
     private:
         DataMap m_data;
+        PropertyHubPtr m_root;
         QString m_namespace;
         COPY_RESTRICTED(UserData);
     };

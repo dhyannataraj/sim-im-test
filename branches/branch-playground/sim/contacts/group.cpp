@@ -19,9 +19,8 @@ namespace SIM
     {
         m_id = id;
         load_data(groupData, &data, cfg);
-        m_userdata = PropertyHub::create("");
-        m_userdata->setValue("id", (uint)id);
         m_userData = UserData::create();
+        userdata()->setValue("id", (uint)id);
     }
 
     Group::~Group()
@@ -61,12 +60,12 @@ namespace SIM
 
     QString Group::getName()
     {
-        return m_userdata->value("Name").toString();
+        return userdata()->value("Name").toString();
     }
 
     void Group::setName(const QString& name)
     {
-        m_userdata->setValue("Name", name);
+        userdata()->setValue("Name", name);
     }
 }
 

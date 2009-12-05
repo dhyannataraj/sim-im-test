@@ -68,7 +68,7 @@ namespace SIM
         QString tipText();
         const DataDef *dataDef();
         void setup();
-        PropertyHubPtr userdata() const { return m_userdata; }
+        PropertyHubPtr userdata() const { return m_userData->root(); }
 
         UserData_old& getUserData_old() { return userData; }
         UserDataPtr getUserData() { return m_userData; }
@@ -80,7 +80,6 @@ namespace SIM
     private:
         UserData_old userData;
         UserDataPtr m_userData; // FIXME this mess
-        PropertyHubPtr m_userdata;
     };
 
 }

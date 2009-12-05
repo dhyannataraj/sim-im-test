@@ -107,7 +107,6 @@ public:
     ContactList();
     virtual ~ContactList();
     Contact *owner();
-	PropertyHubPtr userdata();
     void clear();
     void load();
     void save();
@@ -179,7 +178,8 @@ public:
     static QTextCodec *getCodecByCodePage(const int iCP);
     static const ENCODING *getEncodings();
     const ENCODING *getEncoding(Contact *contact);
-    UserDataPtr getUserData() { return m_userdata; }
+	PropertyHubPtr userdata() { return m_userData->root(); };
+    UserDataPtr getUserData() { return m_userData; }
 
 protected:
     void save_new();
@@ -211,8 +211,7 @@ protected:
     COPY_RESTRICTED(ContactList)
 
 private:
-	PropertyHubPtr m_userData;
-    UserDataPtr m_userdata;
+    UserDataPtr m_userData;
 };
 
 EXPORT void createContactList();

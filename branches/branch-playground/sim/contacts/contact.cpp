@@ -18,9 +18,8 @@ namespace SIM
         : m_id(id)
     {
         //load_data(contactData, &data, cfg);
-        m_userdata = PropertyHub::create("");
-        m_userdata->setValue("id", (uint)id);
         m_userData = UserData::create();
+        userdata()->setValue("id", (uint)id);
     }
 
     Contact::~Contact()

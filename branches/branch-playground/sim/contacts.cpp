@@ -435,8 +435,7 @@ extern DataDef groupData[];
 ContactList::ContactList()
 {
     p = new ContactListPrivate;
-	m_userData = PropertyHub::create("ContactList");
-    m_userdata = UserData::create();
+    m_userData = UserData::create();
 }
 
 ContactList::~ContactList()
@@ -457,11 +456,6 @@ void ContactList::unregisterUserData(unsigned id)
 Contact *ContactList::owner()
 {
     return p->owner;
-}
-
-PropertyHubPtr ContactList::userdata()
-{
-	return m_userData;
 }
 
 bool ContactList::groupExists(unsigned long id)
@@ -1032,7 +1026,7 @@ bool ContactList::save_groups( QDomElement element )
     for( it = p->groups.begin(); it != p->groups.end(); ++it ) {
         QDomElement group =  element.ownerDocument().createElement( "group" );
         group.setAttribute( "id", QString::number( (*it)->id() ) );
-        if( (*it)->userdata()->serialize( group ) )
+        if( (*it)->getUserData()->serialize( group ) )
             element.appendChild( group );
     }
 
@@ -1047,7 +1041,7 @@ bool ContactList::save_contacts( QDomElement element ) {
     for( it = p->contacts.begin(); it != p->contacts.end(); ++it ) {
         QDomElement contact = element.ownerDocument().createElement( "contact" );
         contact.setAttribute( "id", QString::number( it->first ) );
-        if( it->second->userdata()->serialize( contact ) )
+        if( it->second->getUserData()->serialize( contact ) )
             element.appendChild( contact );
     }
 
@@ -1084,7 +1078,7 @@ bool ContactList::load_groups(const QDomElement& groups)
         QDomElement el = list.at(i).toElement();
         int id = el.attribute("id").toInt();
         Group* gr = group(id, id != 0);
-        if(!gr->userdata()->deserialize(el))
+        if(!gr->getUserData()->deserialize(el))
             return false;
     }
     return true;
@@ -1098,7 +1092,7 @@ bool ContactList::load_contacts(const QDomElement& contacts)
         QDomElement el = list.at(i).toElement();
         int id = el.attribute("id").toInt();
         Contact* c = contact(id, true);
-        if(!c->userdata()->deserialize(el))
+        if(!c->getUserData()->deserialize(el))
             return false;
     }
     return true;

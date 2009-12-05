@@ -98,6 +98,7 @@ namespace SIM
 
     UserData::UserData()
     {
+        m_root = PropertyHub::create();
     }
 
     UserData::~UserData()
@@ -106,6 +107,8 @@ namespace SIM
 
     PropertyHubPtr UserData::getUserData(const QString& id)
     {
+        if(id.isEmpty())
+            return m_root;
         DataMap::const_iterator it = m_data.find(id);
         if(it != m_data.end())
             return it.value();
@@ -114,6 +117,8 @@ namespace SIM
 
     PropertyHubPtr UserData::createUserData(const QString& id)
     {
+        if(id.isEmpty())
+            return m_root;
         PropertyHubPtr hub = PropertyHub::create(id);
         m_data.insert(id, hub);
         return hub;
@@ -126,10 +131,18 @@ namespace SIM
             m_data.erase(it);
     }
 
+    PropertyHubPtr UserData::root()
+    {
+        return m_root;
+    }
+
     bool UserData::serialize(QDomElement el)
     {
         QDomElement root = el.ownerDocument().createElement("userdata");
         el.appendChild(root);
+        QDomElement roothub = el.ownerDocument().createElement("propertyhub");
+        m_root->serialize(roothub);
+        root.appendChild(roothub);
         foreach(PropertyHubPtr hub, m_data)
         {
             QDomElement hubelement = el.ownerDocument().createElement("propertyhub");
