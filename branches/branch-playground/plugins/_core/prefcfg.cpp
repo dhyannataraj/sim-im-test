@@ -33,19 +33,19 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
   , m_group(group)
 {
     setupUi(this);
-    void *data = NULL;
+	SIM::PropertyHubPtr data;
 	SIM::PropertyHubPtr mapdata;
     if (m_contact)
     {
-        data = m_contact->getUserData_old(m_cmd->id);
-        if (m_contact->getUserData_old().getUserData(m_cmd->id, false))
+        data = m_contact->getUserData(m_cmd->accel); // HACK !
+        if (m_contact->getUserData()->getUserData(m_cmd->accel))
             chkOverride->setChecked(true);
         mapdata = m_contact->userdata();
     }
     else if (m_group) {
-        data = m_group->getUserData_old(m_cmd->id);
-        if (m_group->getUserData_old().getUserData(m_cmd->id, false))
-            chkOverride->setChecked(true);
+//        data = m_group->getUserData_old(m_cmd->id);
+//        if (m_group->getUserData_old().getUserData(m_cmd->id, false))
+//            chkOverride->setChecked(true);
         mapdata = m_group->userdata();
     }
     QWidget *w = NULL;
@@ -54,9 +54,9 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
         w = ((getPreferencesWindowContact)(cmd->param))(addWnd, mapdata);
         chkOverride->setChecked(w->property("override").toBool());
 	}
-	else if(data)
+	else if(!data.isNull())
 	{
-        w = ((getPreferencesWindow)(cmd->param))(addWnd, data);
+        w = ((getPreferencesWindowContact)(cmd->param))(addWnd, data);
 	}
     if(w) {
         QVBoxLayout *lay = new QVBoxLayout(addWnd);

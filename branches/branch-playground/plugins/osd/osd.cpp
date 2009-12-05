@@ -134,7 +134,7 @@ static DataDef osdUserData[] =
 
 static OSDPlugin *osdPlugin = NULL;
 
-static QWidget *getOSDSetup(QWidget *parent, void *data)
+static QWidget *getOSDSetup(QWidget *parent, SIM::PropertyHubPtr data)
 {
     return new OSDConfig(parent, data, osdPlugin);
 }
@@ -154,6 +154,7 @@ OSDPlugin::OSDPlugin(unsigned base)
     cmd->text	 = I18N_NOOP("&OSD");
     cmd->icon	 = "alert";
     cmd->param	 = (void*)getOSDSetup;
+	cmd->accel = "OSD";
     EventAddPreferences(cmd).process();
 
     m_request.contact = 0;
@@ -173,7 +174,7 @@ OSDPlugin::~OSDPlugin()
 
 QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 {
-    return new OSDConfig(parent, getContacts()->getUserData_old(user_data_id), this);
+    return new OSDConfig(parent, getContacts()->getUserData("OSD"), this);
 }
 
 void OSDPlugin::timeout()
@@ -247,10 +248,9 @@ static const char * const close_h_xpm[] = {
             "+.++++.+",
             ".++++++."};
 
-void OSDWidget::showOSD(const QString &str, OSDUserData *data)
+void OSDWidget::showOSD(const QString &str, SIM::PropertyHubPtr data)
 {
-    currentData = *data;
-    m_bFading = data->Fading.toBool();
+    m_bFading = data->value("Fading").toBool();
     m_sText = str;
     if (isScreenSaverActive())
     {
@@ -258,10 +258,10 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         return;
     }
     m_text_y = 0;
-    m_bBackground = data->Background.toBool();
-    m_bShadow = data->Shadow.toBool();
+    m_bBackground = data->value("Background").toBool();
+    m_bShadow = data->value("Shadow").toBool();
 
-    setFont(FontEdit::str2font(data->Font.str(), baseFont));
+    setFont(FontEdit::str2font(data->value("Font").toString(), baseFont));
 
     //int SHADOW_OFFS = SHADOW_DEF;
 
@@ -488,12 +488,11 @@ void OSDPlugin::processQueue()
         if ((contact == NULL) || contact->getIgnore())
             continue;
         QString text;
-        OSDUserData *data = NULL;
-        data = (OSDUserData*)contact->getUserData_old(user_data_id);
+        SIM::PropertyHubPtr data = contact->getUserData("OSD");
 		uint ms = STATUS_ONLINE; //core->getManualStatus();
         switch (m_request.type){
         case OSD_ALERTONLINE:
-            if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertOnline").toBool()){
                 unsigned style = 0;
                 QString statusIcon;
                 if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
@@ -501,37 +500,37 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTAWAY:
-            if (data->EnableAlert.toBool() && data->EnableAlertAway.toBool()){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertAway").toBool()){
                 text = g_i18n("%1 is away", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTNA:
-            if (data->EnableAlert.toBool() && data->EnableAlertNA.toBool()){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertNA").toBool()){
                 text = g_i18n("%1 is not available", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTDND:
-            if (data->EnableAlert.toBool() && data->EnableAlertDND.toBool()){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertDND").toBool()){
                 text = g_i18n("%1 doesn't want to be disturbed", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOCCUPIED:
-            if (data->EnableAlert.toBool() && data->EnableAlertOccupied.toBool()){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertOccupied").toBool()){
                 text = g_i18n("%1 is occupied", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTFFC:
-            if (data->EnableAlert.toBool() && data->EnableAlertFFC.toBool()){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertFFC").toBool()){
                 text = g_i18n("%1 is free for chat", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && (ms-1) ){
+            if (data->value("EnableAlert").toBool() && data->value("EnableAlertOffline").toBool() && (ms-1) ){
                 text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
         case OSD_TYPING:
-            if (data->EnableTyping.toBool()){
+            if (data->value("EnableTyping").toBool()){
                 unsigned style = 0;
                 QSet<QString> wrkIcons;
                 QString statusIcon;
@@ -616,7 +615,8 @@ void OSDPlugin::processQueue()
                 connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
-            m_timer->start(data->Timeout.toULong() * 1000); bTimerActive=true; //Due to a fucking bug in QTimer::isActive()
+            m_timer->start(data->value("Timeout").toUInt() * 1000);
+			bTimerActive=true; //Due to a fucking bug in QTimer::isActive()
             return;
         }
     }
@@ -720,9 +720,10 @@ bool OSDPlugin::processEvent(Event *e)
             processQueue();
             break;
         }
-        case EventContact::eStatus: {
-            OSDUserData *data = (OSDUserData*)(contact->getUserData_old(user_data_id));
-            if (data){
+        case EventContact::eStatus:
+		{
+			SIM::PropertyHubPtr data = contact->getUserData("OSD");
+            if(!data.isNull()) {
                 unsigned style = 0;
                 QSet<QString> wrkIcons;
                 QString statusIcon;
@@ -757,8 +758,8 @@ bool OSDPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
-        OSDUserData *data = (OSDUserData*)(contact->getUserData_old(user_data_id));
-        if (data == NULL)
+		SIM::PropertyHubPtr data = contact->getUserData("OSD");
+        if(data.isNull())
             break;
         osd.contact = msg->contact();
         CorePlugin* core = GET_CorePlugin();
@@ -815,8 +816,8 @@ bool OSDPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
-        OSDUserData *data = (OSDUserData*)(contact->getUserData_old(user_data_id));
-        if (data == NULL)
+		SIM::PropertyHubPtr data = contact->getUserData("OSD");
+        if (data.isNull())
             break;
         osd.contact = msg->contact();
         CorePlugin* core = GET_CorePlugin();

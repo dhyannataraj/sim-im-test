@@ -26,6 +26,7 @@ namespace SIM
         void setName(const QString& name);
 
         void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
+        PropertyHubPtr getUserData(const QString& id, bool bCreate = false);
         ClientUserData clientData;
         PropertyHubPtr userdata() const { return m_userData->root(); }
         UserData_old& getUserData_old() SIM_DEPRECATED { return userData; }

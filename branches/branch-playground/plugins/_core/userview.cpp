@@ -212,13 +212,13 @@ bool UserView::processEvent(Event *e)
                         return true;
                     }
                     if (cmd->id == CmdShowAlways){
-                        ListUserData *data = (ListUserData*)(contact->getUserData_old(CorePlugin::instance()->list_data_id, true));
-                        if (data){
+                        SIM::PropertyHubPtr data = contact->getUserData("list", true);
+                        if (!data.isNull()){
                             bool bShow = false;
                             if (cmd->flags & COMMAND_CHECKED)
                                 bShow = true;
-                            if (data->ShowAlways.toBool() != bShow){
-                                data->ShowAlways.asBool() = bShow;
+                            if (data->value("ShowAlways").toBool() != bShow){
+                                data->setValue("ShowAlways", bShow);
                                 EventContact(contact, EventContact::eChanged).process();
                             }
                         }
@@ -421,9 +421,9 @@ bool UserView::processEvent(Event *e)
                 if (cmd->id == CmdShowAlways){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
-                        ListUserData *data = (ListUserData*)(contact->getUserData_old(CorePlugin::instance()->list_data_id, true));
+                        SIM::PropertyHubPtr data = contact->getUserData("list", true);
                         cmd->flags &= ~COMMAND_CHECKED;
-                        if (data && data->ShowAlways.toBool())
+                        if (!data.isNull() && data->value("ShowAlways").toBool())
                             cmd->flags |= COMMAND_CHECKED;
                         return true;
                     }

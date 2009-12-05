@@ -58,7 +58,8 @@ namespace SIM
         QString getEncoding();
         void setEncoding(const QString& enc);
 
-        void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
+        //void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
+        PropertyHubPtr getUserData(const QString& id, bool bCreate = false);
         ClientUserData clientData;
         bool setFirstName(const QString &name, const QString &client);
         bool setLastName(const QString &name, const QString &client);

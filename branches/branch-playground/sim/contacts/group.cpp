@@ -58,6 +58,16 @@ namespace SIM
         return getContacts()->getUserData_old(id);
     }
 
+    PropertyHubPtr Group::getUserData(const QString& id, bool bCreate)
+    {
+        PropertyHubPtr hub = m_userData->getUserData(id);
+        if(!hub.isNull())
+            return hub;
+        if(bCreate)
+            return m_userData->createUserData(id);
+        return getContacts()->getUserData(id);
+    }
+
     QString Group::getName()
     {
         return userdata()->value("Name").toString();

@@ -29,11 +29,10 @@
 
 using namespace SIM;
 
-OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent)
+OSDIface::OSDIface(QWidget *parent, SIM::PropertyHubPtr data, OSDPlugin *plugin) : QWidget(parent)
 {
     setupUi(this);
     m_plugin = plugin;
-    OSDUserData *data = (OSDUserData*)d;
 #ifndef WIN32
     chkFading->setChecked(false);
     chkFading->hide();
@@ -45,28 +44,28 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent
     cmbPos->addItem(i18n("Center-bottom"));
     cmbPos->addItem(i18n("Center-top"));
     cmbPos->addItem(i18n("Center"));
-    cmbPos->setCurrentIndex(data->Position.toULong());
+    cmbPos->setCurrentIndex(data->value("Position").toUInt());
     spnOffs->setMinimum(0);
     spnOffs->setMaximum(500);
-    spnOffs->setValue(data->Offset.toULong());
+    spnOffs->setValue(data->value("Offset").toUInt());
     spnTimeout->setMinimum(1);
     spnTimeout->setMaximum(60);
-    spnTimeout->setValue(data->Timeout.toULong());
-    btnColor->setColor(data->Color.toULong());
-    if (data->Font.str().isEmpty()){
+    spnTimeout->setValue(data->value("Timeout").toUInt());
+    btnColor->setColor(data->value("Color").toUInt());
+    if (data->value("Font").toString().isEmpty()){
         edtFont->setFont(FontEdit::font2str(plugin->getBaseFont(font()), false));
     }else{
-        edtFont->setFont(data->Font.str());
+        edtFont->setFont(data->value("Font").toString());
     }
-    chkShadow->setChecked(data->Shadow.toBool());
-    chkFading->setChecked(data->Fading.toBool());
-    if (data->Background.toBool()){
+    chkShadow->setChecked(data->value("Shadow").toBool());
+    chkFading->setChecked(data->value("Fading").toBool());
+    if (data->value("Background").toBool()){
         chkBackground->setChecked(true);
-        btnBgColor->setColor(data->BgColor.toULong());
+        btnBgColor->setColor(data->value("BgColor").toUInt());
     }else{
         chkBackground->setChecked(false);
     }
-    bgToggled(data->Background.toBool());
+    bgToggled(data->value("Background").toBool());
     connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(bgToggled(bool)));
     unsigned nScreens = screens();
     if (nScreens <= 1){
@@ -75,7 +74,7 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin) : QWidget(parent
     }else{
         for (unsigned i = 0; i < nScreens; i++)
             cmbScreen->addItem(QString::number(i));
-        unsigned curScreen = data->Screen.toULong();
+        unsigned curScreen = data->value("Screen").toUInt();
         if (curScreen >= nScreens)
             curScreen = 0;
         cmbScreen->setCurrentIndex(curScreen);
@@ -92,31 +91,30 @@ void OSDIface::bgToggled(bool bState)
     btnBgColor->setEnabled(false);
 }
 
-void OSDIface::apply(void *d)
+void OSDIface::apply(SIM::PropertyHubPtr data)
 {
-    OSDUserData *data = (OSDUserData*)d;
-    data->Position.asULong() = cmbPos->currentIndex();
-    data->Offset.asULong()   = spnOffs->text().toULong();
-    data->Timeout.asULong()  = spnTimeout->text().toULong();
-    data->Color.asULong()    = btnColor->color().rgb();
+    data->setValue("Position", cmbPos->currentIndex());
+    data->setValue("Offset", spnOffs->text().toUInt());
+    data->setValue("Timeout", spnTimeout->text().toUInt());
+    data->setValue("Color", btnColor->color().rgb());
     QString f = edtFont->getFont();
     QString base = FontEdit::font2str(m_plugin->getBaseFont(font()), false);
     if (f == base)
         f.clear();
-    data->Font.str() = f;
-    data->Shadow.asBool() = chkShadow->isChecked();
-    data->Fading.asBool() = chkFading->isChecked();
-    data->Background.asBool() = chkBackground->isChecked();
-    if (data->Background.toBool()){
-        data->BgColor.asULong() = btnBgColor->color().rgb();
+    data->setValue("Font", f);
+    data->setValue("Shadow", chkShadow->isChecked());
+    data->setValue("Fading", chkFading->isChecked());
+    data->setValue("Background", chkBackground->isChecked());
+    if (data->value("Background").toBool()){
+        data->setValue("BgColor", btnBgColor->color().rgb());
     }else{
-        data->BgColor.asULong() = 0;
+        data->setValue("BgColor", 0);
     }
     unsigned nScreens = screens();
     if (nScreens <= 1){
-        data->Screen.asULong() = 0;
+        data->setValue("Screen", 0);
     }else{
-        data->Screen.asULong() = cmbScreen->currentIndex();
+        data->setValue("Screen", cmbScreen->currentIndex());
     }
 }
 

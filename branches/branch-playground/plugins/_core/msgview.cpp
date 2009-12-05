@@ -1169,16 +1169,16 @@ bool MsgView::processEvent(Event *e)
             bAdd = false;
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
-                if (data && data->LogStatus.asBool() != NEW_MSG_NOOPEN)
+				SIM::PropertyHubPtr data = contact->getUserData("_core");
+                if (!data.isNull() && data->value("LogStatus").toBool() != NEW_MSG_NOOPEN)
                     bAdd = true;
             }
         }
         if (bAdd && (e->type() == eEventMessageReceived)){
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
-                if (data->OpenNewMessage.asULong() != NEW_MSG_NOOPEN)
+				SIM::PropertyHubPtr data = contact->getUserData("_core");
+                if (data->value("OpenNewMessage").toUInt() != NEW_MSG_NOOPEN)
                     bAdd = false;
             }
         }

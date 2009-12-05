@@ -74,7 +74,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
             cmbPhone->setText(t);
     }
     textChanged();
-    SMSUserData *data = (SMSUserData*)(contact->getUserData_old(CorePlugin::instance()->sms_data_id));
+	SIM::PropertyHubPtr data = contact->getUserData("SMS");
     if (contact->getFlags() & CONTACT_TEMP){
         m_panel = new SMSPanel(m_edit);
         m_edit->m_layout->insertWidget(0, m_panel);
@@ -83,16 +83,16 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     }
     if (m_edit->m_edit->toPlainText().isEmpty()){
         EventTemplate::TemplateExpand t;
-        if (!data->SMSSignatureBefore.str().isEmpty()){
-            t.tmpl = data->SMSSignatureBefore.str();
+        if (!data->value("SMSSignatureBefore").toString().isEmpty()){
+            t.tmpl = data->value("SMSSignatureBefore").toString();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
             EventTemplateExpand(&t).process();
         }else{
             m_bExpand = true;
-            if (!data->SMSSignatureAfter.str().isEmpty()){
-                t.tmpl = data->SMSSignatureAfter.str();
+            if (!data->value("SMSSignatureAfter").toString().isEmpty()){
+                t.tmpl = data->value("SMSSignatureAfter").toString();
                 t.contact = contact;
                 t.receiver = this;
                 t.param = NULL;
@@ -215,9 +215,9 @@ bool MsgSMS::processEvent(Event *e)
             m_bExpand = true;
             Contact *contact = getContacts()->contact(m_id);
             if (contact){
-                SMSUserData *data = (SMSUserData*)(contact->getUserData_old(CorePlugin::instance()->sms_data_id));
-                if (!data->SMSSignatureAfter.str().isEmpty()){
-                    t->tmpl = data->SMSSignatureAfter.str();
+				SIM::PropertyHubPtr data = contact->getUserData("SMS");
+                if (!data->value("SMSSignatureAfter").toString().isEmpty()){
+                    t->tmpl = data->value("SMSSignatureAfter").toString();
                     EventTemplateExpand(t).process();
                 }
             }

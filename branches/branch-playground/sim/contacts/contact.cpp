@@ -37,17 +37,30 @@ namespace SIM
         return contactData;
     }
 
-    void *Contact::getUserData_old(unsigned id, bool bCreate)
+//    void *Contact::getUserData_old(unsigned id, bool bCreate)
+//    {
+//        void *res = userData.getUserData(id, bCreate);
+//        if (res)
+//            return res;
+//        if (bCreate)
+//            return userData.getUserData(id, true);
+//        Group *group = getContacts()->group(getGroup());
+//        if (group)
+//            return group->getUserData_old(id, false);
+//        return getContacts()->getUserData_old(id);
+//    }
+
+    PropertyHubPtr Contact::getUserData(const QString& id, bool bCreate)
     {
-        void *res = userData.getUserData(id, bCreate);
-        if (res)
-            return res;
-        if (bCreate)
-            return userData.getUserData(id, true);
+        PropertyHubPtr hub = m_userData->getUserData(id);
+        if(!hub.isNull())
+            return hub;
+        if(bCreate)
+            return m_userData->createUserData(id);
         Group *group = getContacts()->group(getGroup());
         if (group)
-            return group->getUserData_old(id, false);
-        return getContacts()->getUserData_old(id);
+            return group->getUserData(id, false);
+        return getContacts()->getUserData(id);
     }
 
     void Contact::setup()

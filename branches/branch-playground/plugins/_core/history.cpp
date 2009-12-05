@@ -605,14 +605,14 @@ void History::add(Message *msg, const QString &type)
 
     f_name = user_file(f_name);
 
-    HistoryUserData *data = NULL;
     Contact *contact = getContacts()->contact(msg->contact());
+	SIM::PropertyHubPtr data;
     if (contact)
-        data = (HistoryUserData*)(contact->getUserData_old(CorePlugin::instance()->history_data_id));
-    if (data && data->CutSize.toBool()){
+         data = contact->getUserData("history");
+    if (!data.isNull() && data->value("CutSize").toBool()){
         QFileInfo fInfo(f_name);
-        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toLong() * 0x100000 + CUT_BLOCK)){
-            int pos = fInfo.size() - data->MaxSize.toULong() * 0x100000 + line.size();
+        if (fInfo.exists() && (fInfo.size() >= data->value("MaxSize").toInt() * 0x100000 + CUT_BLOCK)){
+            int pos = fInfo.size() - data->value("MaxSize").toUInt() * 0x100000 + line.size();
             if (pos < 0)
                 pos = 0;
             del(f_name, msg->contact(), pos, false);

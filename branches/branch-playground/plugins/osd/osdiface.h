@@ -19,6 +19,7 @@
 #define _OSDIFACE_H
 
 #include "ui_osdifacebase.h"
+#include "propertyhub.h"
 
 class OSDPlugin;
 
@@ -26,9 +27,9 @@ class OSDIface : public QWidget, public Ui::OSDIfaceBase
 {
     Q_OBJECT
 public:
-    OSDIface(QWidget *parent, void *data, OSDPlugin *plugin);
+    OSDIface(QWidget *parent, SIM::PropertyHubPtr data, OSDPlugin *plugin);
 public slots:
-    void apply(void *data);
+    void apply(SIM::PropertyHubPtr data);
 protected slots:
     void bgToggled(bool);
 protected:

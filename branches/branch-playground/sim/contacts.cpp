@@ -896,49 +896,49 @@ void ContactList::clear()
 void ContactList::load()
 {
     clear();
-    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
-    QFile f(cfgName);
-    if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
-        return;
-    }
-    Buffer cfg = f.readAll();
-
-	f.close();
-    Contact *c = NULL;
-    Group   *g = NULL;
-    for (;;){
-        QByteArray section = cfg.getSection();
-        if (section.isEmpty())
-            break;
-        if (section == OWNER){
-            p->flush(c, g);
-            c = owner();
-            g = NULL;
-            section.clear();
-        }else if (section.startsWith(GROUP)){
-            p->flush(c, g);
-            c = NULL;
-            unsigned long id = section.mid(strlen(GROUP)).toULong();
-            g = group(id, id != 0);
-            section.clear();
-        }else if (section.startsWith(CONTACT)){
-            p->flush(c, g);
-            g = NULL;
-            unsigned long id = section.mid(strlen(CONTACT)).toULong();
-            c = contact(id, true);
-            section.clear();
-        }
-        p->flush(c, g, section, &cfg);
-    }
-    p->flush(c, g);
-    // Notify the clients about the newly loaded contact list
+//    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
+//    QFile f(cfgName);
+//    if (!f.open(QIODevice::ReadOnly)){
+//        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
+//        return;
+//    }
+//    Buffer cfg = f.readAll();
+//
+//	f.close();
+//    Contact *c = NULL;
+//    Group   *g = NULL;
+//    for (;;){
+//        QByteArray section = cfg.getSection();
+//        if (section.isEmpty())
+//            break;
+//        if (section == OWNER){
+//            p->flush(c, g);
+//            c = owner();
+//            g = NULL;
+//            section.clear();
+//        }else if (section.startsWith(GROUP)){
+//            p->flush(c, g);
+//            c = NULL;
+//            unsigned long id = section.mid(strlen(GROUP)).toULong();
+//            g = group(id, id != 0);
+//            section.clear();
+//        }else if (section.startsWith(CONTACT)){
+//            p->flush(c, g);
+//            g = NULL;
+//            unsigned long id = section.mid(strlen(CONTACT)).toULong();
+//            c = contact(id, true);
+//            section.clear();
+//        }
+//        p->flush(c, g, section, &cfg);
+//    }
+//    p->flush(c, g);
+//    // Notify the clients about the newly loaded contact list
+	load_old();
+	load_new();
     for (unsigned i = 0; i < nClients(); i++){
         Client *client = getClient(i);
         client->contactsLoaded();
     }
-	load_old();
-	load_new();
 }
 
 void ContactList::load_old()
@@ -958,14 +958,14 @@ void ContactList::load_old()
 		if(line.startsWith("[Group="))
 		{
 			int id = line.mid(7, line.length() - 8).toInt();
-			Group* gr = group(id, false);
+			Group* gr = group(id, id != 0);
 			currenthub = gr->userdata();
             currentUserData = gr->getUserData();
 		}
 		else if(line.startsWith("[Contact="))
 		{
 			int id = line.mid(9, line.length() - 10).toInt();
-			Contact* c = contact(id, false);
+			Contact* c = contact(id, true);
 			currenthub = c->userdata();
             currentUserData = c->getUserData();
 		}
@@ -1175,9 +1175,14 @@ void ContactList::clearClients()
     eClients.process();
 }
 
-void *ContactList::getUserData_old(unsigned id)
+void* ContactList::getUserData_old(unsigned id)
 {
     return p->userData.getUserData(id, true);
+}
+
+PropertyHubPtr ContactList::getUserData(const QString& id)
+{
+    return m_userData->getUserData(id);
 }
 
 static QString stripPhone(const QString &phone)

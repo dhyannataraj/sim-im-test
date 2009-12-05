@@ -31,64 +31,62 @@
 
 using SIM::getContacts;
 
-OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
+OSDConfig::OSDConfig(QWidget *parent, SIM::PropertyHubPtr data, OSDPlugin *plugin)
   : QWidget(parent)
   , m_plugin(plugin)
 {
     setupUi(this);
-    OSDUserData *data = (OSDUserData*)d;
-    chkMessage->setChecked(data->EnableMessage.toBool());
-    chkMessageContent->setChecked(data->EnableMessageShowContent.toBool());
-    chkCapsLockFlash->setChecked(data->EnableCapsLockFlash.toBool());
-    chkStatus->setChecked(data->EnableAlert.toBool());
-    chkStatusOnline->setChecked(data->EnableAlertOnline.toBool());
-    chkStatusAway->setChecked(data->EnableAlertAway.toBool());
-    chkStatusNA->setChecked(data->EnableAlertNA.toBool());
-    chkStatusDND->setChecked(data->EnableAlertDND.toBool());
-    chkStatusOccupied->setChecked(data->EnableAlertOccupied.toBool());
-    chkStatusFFC->setChecked(data->EnableAlertFFC.toBool());
-    chkStatusOffline->setChecked(data->EnableAlertOffline.toBool());
-    chkTyping->setChecked(data->EnableTyping.toBool());
+    chkMessage->setChecked(data->value("EnableMessage").toBool());
+    chkMessageContent->setChecked(data->value("EnableMessageShowContent").toBool());
+    chkCapsLockFlash->setChecked(data->value("EnableCapsLockFlash").toBool());
+    chkStatus->setChecked(data->value("EnableAlert").toBool());
+    chkStatusOnline->setChecked(data->value("EnableAlertOnline").toBool());
+    chkStatusAway->setChecked(data->value("EnableAlertAway").toBool());
+    chkStatusNA->setChecked(data->value("EnableAlertNA").toBool());
+    chkStatusDND->setChecked(data->value("EnableAlertDND").toBool());
+    chkStatusOccupied->setChecked(data->value("EnableAlertOccupied").toBool());
+    chkStatusFFC->setChecked(data->value("EnableAlertFFC").toBool());
+    chkStatusOffline->setChecked(data->value("EnableAlertOffline").toBool());
+    chkTyping->setChecked(data->value("EnableTyping").toBool());
     for (QObject *p = parent; p != NULL; p = p->parent()){
         QTabWidget *tab = qobject_cast<QTabWidget*>(p);
         if (!tab)
             continue;
-        void *data = getContacts()->getUserData_old(plugin->user_data_id);
+		SIM::PropertyHubPtr data = getContacts()->getUserData("OSD");
         m_iface = new OSDIface(tab, data, plugin);
         tab->addTab(m_iface, i18n("&Interface"));
         break;
     }
-    edtLines->setValue(data->ContentLines.toULong());
+    edtLines->setValue(data->value("ContentLines").toUInt());
     connect(chkStatus, SIGNAL(toggled(bool)), this, SLOT(statusToggled(bool)));
     connect(chkMessage, SIGNAL(toggled(bool)), this, SLOT(showMessageToggled(bool)));
     connect(chkMessageContent, SIGNAL(toggled(bool)), this, SLOT(contentToggled(bool)));
     showMessageToggled(chkMessage->isChecked());
     contentToggled(chkMessageContent->isChecked());
-    statusToggled(data->EnableAlert.toBool());
+    statusToggled(data->value("EnableAlert").toBool());
 }
 
 void OSDConfig::apply()
 {
-    apply(getContacts()->getUserData_old(m_plugin->user_data_id));
+    apply(getContacts()->getUserData("OSD"));
 }
 
-void OSDConfig::apply(void *d)
+void OSDConfig::apply(SIM::PropertyHubPtr data)
 {
-    OSDUserData *data = (OSDUserData*)d;
-    data->EnableMessage.asBool()			= chkMessage->isChecked();
-    data->EnableMessageShowContent.asBool() = chkMessageContent->isChecked();
-    data->EnableCapsLockFlash.asBool()		= chkCapsLockFlash->isChecked();
-    data->EnableAlert.asBool()				= chkStatus->isChecked();
-    data->EnableAlertOnline.asBool()		= chkStatusOnline->isChecked();
-    data->EnableAlertAway.asBool()			= chkStatusAway->isChecked();
-    data->EnableAlertNA.asBool()			= chkStatusNA->isChecked();
-    data->EnableAlertDND.asBool()			= chkStatusDND->isChecked();
-    data->EnableAlertOccupied.asBool()		= chkStatusOccupied->isChecked();
-    data->EnableAlertFFC.asBool()			= chkStatusFFC->isChecked();
-    data->EnableAlertOffline.asBool()		= chkStatusOffline->isChecked();
-    data->EnableTyping.asBool()				= chkTyping->isChecked();
-    data->ContentLines.asULong()			= edtLines->text().toULong();
-    m_iface->apply(d);
+    data->setValue("EnableMessage", chkMessage->isChecked());
+    data->setValue("EnableMessageShowContent", chkMessageContent->isChecked());
+    data->setValue("EnableCapsLockFlash", chkCapsLockFlash->isChecked());
+    data->setValue("EnableAlert", chkStatus->isChecked());
+    data->setValue("EnableAlertOnline", chkStatusOnline->isChecked());
+    data->setValue("EnableAlertAway", chkStatusAway->isChecked());
+    data->setValue("EnableAlertNA", chkStatusNA->isChecked());
+    data->setValue("EnableAlertDND", chkStatusDND->isChecked());
+    data->setValue("EnableAlertOccupied", chkStatusOccupied->isChecked());
+    data->setValue("EnableAlertFFC", chkStatusFFC->isChecked());
+    data->setValue("EnableAlertOffline", chkStatusOffline->isChecked());
+    data->setValue("EnableTyping", chkTyping->isChecked());
+    data->setValue("ContentLines", (uint)edtLines->text().toULong());
+    m_iface->apply(data);
 }
 
 void OSDConfig::statusToggled(bool bState)

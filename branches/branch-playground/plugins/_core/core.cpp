@@ -157,149 +157,7 @@ void k_nl_load_domain (loaded_l10nfile *domain_file);
 void k_nl_unload_domain (loaded_domain *domain);
 char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
-/*
-   class SIMTranslator : public QTranslator
-   {
-   public:
-   SIMTranslator(QObject *parent, const QString &filename);
-   ~SIMTranslator();
-   virtual QTranslatorMessage findMessage(const char* context,
-   const char *sourceText,
-   const char* message) const;
-   void load ( const QString & filename);
-   protected:
-   QByteArray fName;
-   loaded_l10nfile domain;
-   };
-
-   SIMTranslator::SIMTranslator(QObject *parent, const QString & filename)
-   : QTranslator(parent, "simtranslator")
-   {
-   load(filename);
-   }
-
-   SIMTranslator::~SIMTranslator()
-   {
-   if (domain.data)
-   k_nl_unload_domain((struct loaded_domain *)domain.data);
-   }
-
-   void SIMTranslator::load(const QString &filename)
-   {
-   fName = QFile::encodeName(filename);
-   domain.filename = fName.data();
-   k_nl_load_domain(&domain);
-   }
-
-   QTranslatorMessage SIMTranslator::findMessage(const char* context,
-   const char *sourceText,
-   const char* message) const
-   {
-   QTranslatorMessage res;
-   char *text = NULL;
-   if ((sourceText == NULL) || (*sourceText == 0))
-   return res;
-   if (message && *message){
-   string s;
-   s = "_: ";
-   s += message;
-   s += '\n';
-   s += sourceText;
-   text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
-   }
-   if ((text == NULL) && context && *context && message && *message){
-   string s;
-   s = "_: ";
-   s += context;
-   s += '\n';
-   s += message;
-   text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
-   }
-   if (text == NULL)
-   text = k_nl_find_msg((struct loaded_l10nfile*)&domain, sourceText);
-   if (text)
-   res.setTranslation(QString::fromUtf8(text));
-   return res;
-   }
-
-*/
 #endif
-
-//static DataDef coreData[] =
-//{
-//	{ "ManualStatus", DATA_ULONG, 1, DATA(1) },
-//	{ "", DATA_ULONG, 1, 0 },		// StatusTime
-//	{ "Invisible", DATA_BOOL, 1, 0 },
-//	{ "Geometry", DATA_LONG, 5, DATA(-1) },
-//	{ "ToolBar", DATA_LONG, 7, 0 },
-//	{ "Buttons", DATA_STRLIST, 1, 0 },
-//	{ "Menues", DATA_STRLIST, 1, 0 },
-//	{ "GroupMode", DATA_ULONG, 1, DATA(1) },
-//	{ "UseDblClick", DATA_BOOL, 1, 0 },
-//	{ "UseSysColors", DATA_BOOL, 1, DATA(1) },
-//	{ "ColorOnline", DATA_ULONG, 1, 0 },
-//	{ "ColorOffline", DATA_ULONG, 1, 0 },
-//	{ "ColorAway", DATA_ULONG, 1, 0 },
-//	{ "ColorNA", DATA_ULONG, 1, 0 },
-//	{ "ColorDND", DATA_ULONG, 1, 0 },
-//	{ "ColorGroup", DATA_ULONG, 1, 0 },
-//	{ "GroupSeparator", DATA_BOOL, 1, DATA(1) },
-//	{ "Lang", DATA_STRING, 1, 0 },
-//	{ "ContainerMode", DATA_ULONG, 1, DATA(2) },
-//	{ "SendOnEnter", DATA_BOOL, 1, 0 },
-//	{ "ShowOwnerName", DATA_BOOL, 1, 0 },
-//	{ "ContainerGeometry", DATA_LONG, 5, DATA(-1) },
-//	{ "ContainerBar", DATA_LONG, 7, 0 },
-//	{ "ContainerStatusSize", DATA_ULONG, 1, 0 },
-//	{ "Containers", DATA_STRING, 1, 0 },
-//	{ "Container", DATA_STRLIST, 1, 0 },
-//	{ "CopyMessages", DATA_ULONG, 1, DATA(3) },
-//	{ "EditHeight", DATA_ULONG, 1, DATA(100) },
-//	{ "EditBar", DATA_LONG, 7, 0 },
-//	{ "EditForeground", DATA_ULONG, 1, DATA(0xffffff) },
-//	{ "EditBackground", DATA_ULONG, 1, DATA(0x000000) },
-//	{ "EditFont", DATA_STRING, 1, 0 },
-//	{ "EditSaveFont", DATA_BOOL, 1, 0 },
-//	{ "OwnColors", DATA_BOOL, 1, 0 },
-//	{ "UseSmiles", DATA_BOOL, 1, DATA(1) },
-//	{ "UseExtViewer", DATA_BOOL, 1, 0 },
-//#ifdef WIN32
-//	{ "ExtViewer", DATA_STRING, 1, "notepad" },
-//#else /*WIN32*/
-//#ifdef USE_KDE
-//	{ "ExtViewer", DATA_STRING, 1, "kate" },
-//#else/*USE_KDE*/
-//	{ "ExtViewer", DATA_STRING, 1, "gvim" },
-//#endif/*USE_KDE*/
-//#endif/*WIN32*/
-//	{ "CloseSend", DATA_BOOL, 1, 0 },
-//	{ "HistoryPage", DATA_ULONG, 1, DATA(100) },
-//	{ "HistoryDirection", DATA_BOOL, 1, 0 },
-//	{ "HistorySize", DATA_ULONG, 2, 0 },
-//	{ "HistoryBar", DATA_LONG, 7, 0 },
-//	{ "HistoryAvatarBar", DATA_LONG, 7, 0 },
-//	{ "HistorySearch", DATA_UTF, 1, 0 },
-//	{ "Unread", DATA_STRING, 1, 0 },
-//	{ "NoShowAutoReply", DATA_STRLIST, 1, 0 },
-//	{ "SortMode", DATA_ULONG, 1, DATA(0x00020301) },
-//	{ "CloseTransfer", DATA_BOOL, 1, 0 },
-//	{ "HistoryStyle", DATA_STRING, 1, "SIM" },
-//	{ "AuthStyle", DATA_ULONG, 1, DATA(1) },
-//	{ "VisibleStyle", DATA_ULONG, 1, DATA(2) },
-//	{ "InvisibleStyle", DATA_ULONG, 1, DATA(4) },
-//	{ "SmallGroupFont", DATA_BOOL, 1, DATA(1) },
-//	{ "ShowAllEncodings", DATA_BOOL, 1, 0 },
-//	{ "NoJoinAlert", DATA_BOOL, 1, 0 },
-//	{ "EnableSpell", DATA_BOOL, 1, 0 },
-//	{ "RemoveHistory", DATA_BOOL, 1, DATA(1) },
-//	{ "SearchGeometry", DATA_LONG, 5, DATA(0) },
-//	{ "SearchClient", DATA_STRING, 1, DATA(0) },
-//	{ "NoScroller", DATA_BOOL, 1, DATA(0) },
-//	{ "CfgGeometry", DATA_LONG, 5, DATA(0) },
-//	{ "ShowAvatarInHistory", DATA_BOOL, 1, DATA(1) },
-//	{ "ShowAvatarInContainer", DATA_BOOL, 1, DATA(1) },
-//	{ NULL, DATA_UNKNOWN, 0, 0 }
-//};
 
 static DataDef coreUserData[] =
 {
@@ -516,7 +374,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	cmd->bar_id		= 0;
 	cmd->id			= user_data_id;
 	cmd->text		= I18N_NOOP("&Messages");
-	cmd->accel		= QString::null;
+	cmd->accel		= "_core";
 	cmd->icon		= "message";
 	cmd->icon_on	= QString::null;
 	cmd->param		= (void*)getInterfaceSetup;
@@ -527,6 +385,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	cmd->icon		= "cell";
 	cmd->icon_on	= QString::null;
 	cmd->param		= (void*)getSMSSetup;
+    cmd->accel      = "SMS";
 	EventAddPreferences(cmd).process();
 
 	cmd->id			= history_data_id;
@@ -534,6 +393,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	cmd->icon		= "history";
 	cmd->icon_on	= QString::null;
 	cmd->param		= (void*)getHistorySetup;
+    cmd->accel      = "history";
 	EventAddPreferences(cmd).process();
 
 	cmd->id			= CmdGrpCreate;
@@ -1393,8 +1253,8 @@ bool CorePlugin::processEvent(Event *e)
 						break;
 					case EventContact::eOnline:
                         {
-                            CoreUserData *data = (CoreUserData*)(contact->getUserData_old(user_data_id));
-                            if (data->OpenOnOnline.toBool()){
+                            SIM::PropertyHubPtr data = contact->getUserData("_core");
+                            if (!data.isNull() && data->value("OpenOnOnline").toBool()){
                                 Message *msg = new Message(MessageGeneric);
                                 msg->setContact(contact->id());
                                 EventOpenMessage(msg).process();
@@ -1442,24 +1302,24 @@ bool CorePlugin::processEvent(Event *e)
 					}
 					unsigned type = msg->baseType();
 					if (type == MessageStatus){
-						CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
-						if ((data == NULL) || !data->LogStatus.toBool())
+                        SIM::PropertyHubPtr data = contact->getUserData("_core");
+						if ((data.isNull()) || !data->value("LogStatus").toBool())
 							return false;
 					}else if (type == MessageFile){
-						CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
-						if (data){
-							if (data->AcceptMode.toULong() == 1){
-								QString dir = data->IncomingPath.str();
+                        SIM::PropertyHubPtr data = contact->getUserData("_core");
+						if(!data.isNull()){
+							if (data->value("AcceptMode").toUInt() == 1){
+								QString dir = data->value("IncomingPath").toString();
 								if (!dir.isEmpty() && !dir.endsWith("/") && !dir.endsWith("\\"))
 									dir += '/';
 								dir = user_file(dir);
 								EventMessageAccept(msg, dir,
-										data->OverwriteFiles.toBool() ?
+										data->value("OverwriteFiles").toBool() ?
 										Replace : Ask).process();
 								return msg;
 							}
-							if (data->AcceptMode.toULong() == 2){
-								EventMessageDecline(msg, data->DeclineMessage.str()).process();
+							if (data->value("AcceptMode").toUInt() == 2){
+								EventMessageDecline(msg, data->value("DeclineMessage").toString()).process();
 								return msg;
 							}
 						}
@@ -1492,9 +1352,9 @@ bool CorePlugin::processEvent(Event *e)
 							EventContact(contact, EventContact::eChanged).process();
 						}
 						if (contact){
-							CoreUserData *data = (CoreUserData*)(contact->getUserData_old(user_data_id));
-							if (data->OpenNewMessage.toULong()){
-								if (data->OpenNewMessage.toULong() == NEW_MSG_MINIMIZE)
+                            SIM::PropertyHubPtr data = contact->getUserData("_core");
+							if (data->value("OpenNewMessage").toUInt()){
+								if (data->value("OpenNewMessage").toUInt() == NEW_MSG_MINIMIZE)
 									msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
 								EventOpenMessage(msg).process();
 							}
@@ -2743,10 +2603,10 @@ bool CorePlugin::processEvent(Event *e)
 				Message *msg = (Message*)(cmd->param);
 				if (cmd->id == CmdFileAccept){
 					Contact *contact = getContacts()->contact(msg->contact());
-					CoreUserData *data = (CoreUserData*)(contact->getUserData_old(CorePlugin::instance()->user_data_id));
+                    SIM::PropertyHubPtr data = contact->getUserData("_core");
 					QString dir;
-					if (data)
-						dir = data->IncomingPath.str();
+					if(!data.isNull())
+						dir = data->value("IncomingPath").toString();
 					if (!dir.isEmpty() && (!dir.endsWith("/")) && (!dir.endsWith("\\")))
 						dir += '/';
 					dir = user_file(dir);
@@ -3835,11 +3695,11 @@ void CorePlugin::checkHistory()
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
-        HistoryUserData *data = (HistoryUserData*)(contact->getUserData_old(history_data_id));
-        if ((data == NULL) || !data->CutDays.toBool())
+        SIM::PropertyHubPtr data = contact->getUserData("history");
+        if ((data.isNull()) || !data->value("CutDays").toBool())
             continue;
         QDateTime now(QDateTime::currentDateTime());
-        now = now.addSecs(-data->Days.toULong() * 24 * 60 * 60);
+        now = now.addSecs(-data->value("Days").toUInt() * 24 * 60 * 60);
         History::cut(NULL, contact->id(), now.toTime_t());
     }
     QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));

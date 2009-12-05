@@ -85,7 +85,7 @@ class OSDWidget : public QLabel
     Q_OBJECT
 public:
     OSDWidget(OSDPlugin* plugin);
-    void showOSD(const QString &text, OSDUserData *data);
+    void showOSD(const QString &text, SIM::PropertyHubPtr data);
 
     virtual QSize sizeHint () const;
 

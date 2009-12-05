@@ -437,8 +437,8 @@ void UserListBase::drawUpdates()
         unsigned status = getUserStatus(contact, style, icons);
         unsigned unread = getUnread(contact->id());
         bool bShow = false;
-        ListUserData *data = (ListUserData*)(contact->getUserData_old(CorePlugin::instance()->list_data_id));
-        if (data && data->ShowAlways.toBool())
+        SIM::PropertyHubPtr data = contact->getUserData("list");
+        if (!data.isNull() && data->value("ShowAlways").toBool())
             bShow = true;
         switch (m_groupMode){
         case 0:
@@ -737,8 +737,9 @@ void UserListBase::fill()
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
-            ListUserData *data = (ListUserData*)contact->getUserData_old(CorePlugin::instance()->list_data_id);
-            if (data && data->ShowAlways.toBool())
+
+            SIM::PropertyHubPtr data = contact->getUserData("list");
+            if (!data.isNull() && data->value("ShowAlways").toBool())
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;
@@ -774,8 +775,8 @@ void UserListBase::fill()
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
-            ListUserData *data = (ListUserData*)contact->getUserData_old(CorePlugin::instance()->list_data_id);
-            if (data && data->ShowAlways.toBool())
+            SIM::PropertyHubPtr data = contact->getUserData("list");
+            if (!data.isNull() && data->value("ShowAlways").toBool())
                 bShow = true;
             if ((status <= STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
                 continue;
@@ -827,8 +828,8 @@ void UserListBase::fill()
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
-            ListUserData *data = (ListUserData*)contact->getUserData_old(CorePlugin::instance()->list_data_id);
-            if (data && data->ShowAlways.toBool())
+            SIM::PropertyHubPtr data = contact->getUserData("list");
+            if (!data.isNull() && data->value("ShowAlways").toBool())
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;

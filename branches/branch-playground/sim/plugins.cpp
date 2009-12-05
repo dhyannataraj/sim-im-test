@@ -220,6 +220,7 @@ namespace SIM
             QStringList cmds;
             QStringList descrs;
             PluginPtr m_core;
+            PluginPtr m_homedir; // HACK
 
             unsigned m_base;
             bool m_bLoaded;
@@ -444,7 +445,7 @@ namespace SIM
             return false;
         }
 
-        plugin("__homedir");
+        m_homedir = plugin("__homedir");
 
         EventInit eStart;
         eStart.process();

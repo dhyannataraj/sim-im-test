@@ -843,8 +843,8 @@ bool MsgEdit::sendMessage(Message *msg)
 
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
-        TranslitUserData *data = (TranslitUserData*)(contact->getUserData_old(CorePlugin::instance()->translit_data_id));
-        if (data && data->Translit.toBool())
+		SIM::PropertyHubPtr data = contact->getUserData("translit");
+        if (!data.isNull() && data->value("Translit").toBool())
             msg->setFlags(msg->getFlags() | MESSAGE_TRANSLIT);
     }
 
@@ -1089,10 +1089,10 @@ bool MsgEdit::processEvent(Event *e)
         if ((cmd->param == (TextEdit*)m_edit) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
-                TranslitUserData *data = (TranslitUserData*)(contact->getUserData_old(CorePlugin::instance()->translit_data_id));
-                if (data){
+				SIM::PropertyHubPtr data = contact->getUserData("translit");
+                if(!data.isNull()) {
                     cmd->flags &= ~COMMAND_CHECKED;
-                    if (data->Translit.toBool())
+                    if (data->value("Translit").toBool())
                         cmd->flags |= COMMAND_CHECKED;
                     // FIXME: return true; missing here?
                 }
@@ -1170,8 +1170,8 @@ bool MsgEdit::processEvent(Event *e)
         else if ((cmd->id == CmdTranslit) && (cmd->param == this)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
-                TranslitUserData *data = (TranslitUserData*)(contact->getUserData_old(CorePlugin::instance()->translit_data_id, true));
-                data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
+				SIM::PropertyHubPtr data = contact->getUserData("translit", true);
+                data->setValue("Translit", ((cmd->flags & COMMAND_CHECKED) != 0));
             }
             return true;
         }

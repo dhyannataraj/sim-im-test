@@ -19,6 +19,7 @@
 #define _OSDCONFIG_H
 
 #include "ui_osdconfigbase.h"
+#include "propertyhub.h"
 
 class OSDPlugin;
 class OSDIface;
@@ -27,9 +28,9 @@ class OSDConfig : public QWidget, public Ui::OSDConfigBase
 {
     Q_OBJECT
 public:
-    OSDConfig(QWidget *parent, void *data, OSDPlugin *plugin);
+    OSDConfig(QWidget *parent, SIM::PropertyHubPtr data, OSDPlugin *plugin);
 public slots:
-    void apply(void *data);
+    void apply(SIM::PropertyHubPtr data);
     void apply();
     void statusToggled(bool);
     void showMessageToggled(bool);

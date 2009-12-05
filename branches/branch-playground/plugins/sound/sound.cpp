@@ -76,6 +76,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->flags    = COMMAND_CONTACT;
     cmd->text	  = I18N_NOOP("&Sound");
     cmd->icon	  = "sound";
+	cmd->accel    = "sound";
     cmd->icon_on  = QString();
     cmd->param	  = (void*)getSoundSetup;
     EventAddPreferences(cmd).process();
