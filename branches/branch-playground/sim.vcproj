@@ -289,6 +289,10 @@
 				RelativePath=".\sim\clientlist.cpp"
 				>
 			</File>
+				RelativePath=".\sim\clientmanager.cpp"
+				>
+			</File>
+			<File
 			<File
 				RelativePath="sim\cmddef.cpp"
 				>
@@ -771,6 +775,30 @@
 			</File>
 			<File
 				RelativePath=".\sim\clientlist.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\sim\clientmanager.h"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1522,10 +1550,6 @@
 		<Filter
 			Name="contacts"
 			>
-			<File
-				RelativePath=".\sim\contacts\protocolmanager.cpp"
-				>
-			</File>
 			<Filter
 				Name="Source Files"
 				Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -1566,6 +1590,10 @@
 					RelativePath=".\sim\contacts\protocol.cpp"
 					>
 				</File>
+					RelativePath=".\sim\contacts\protocolmanager.cpp"
+					>
+				</File>
+				<File
 				<File
 					RelativePath=".\sim\contacts\userdata.cpp"
 					>
