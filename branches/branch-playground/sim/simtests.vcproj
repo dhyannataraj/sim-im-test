@@ -446,6 +446,7 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
 				RelativePath=".\tests\testclientmanager.cpp"
 				>
 				<FileConfiguration
