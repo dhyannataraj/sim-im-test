@@ -65,7 +65,7 @@ ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, 
         lblClient->hide();
         cmbClient->hide();
         ProxyData data;
-        plugin->clientData(static_cast<TCPClient*>(m_client), data);
+        plugin->clientData(static_cast<TCPClient*>(m_client.data()), data);
         fill(&data);
     }else{
         fillClients();
@@ -86,7 +86,7 @@ void ProxyConfig::apply()
             return;
         }
         ProxyData d;
-        m_plugin->clientData(static_cast<TCPClient*>(m_client), d);
+        m_plugin->clientData(static_cast<TCPClient*>(m_client.data()), d);
         m_data.clear();
         if (d.Default.toBool()){
             d = nd;
