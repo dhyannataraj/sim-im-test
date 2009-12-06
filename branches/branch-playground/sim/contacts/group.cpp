@@ -48,16 +48,6 @@ namespace SIM
         }
     }
 
-    void *Group::getUserData_old(unsigned id, bool bCreate)
-    {
-        void *res = userData.getUserData(id, bCreate);
-        if (res)
-            return res;
-        if (bCreate)
-            return userData.getUserData(id, true);
-        return getContacts()->getUserData_old(id);
-    }
-
     PropertyHubPtr Group::getUserData(const QString& id, bool bCreate)
     {
         PropertyHubPtr hub = m_userData->getUserData(id);

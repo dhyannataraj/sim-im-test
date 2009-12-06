@@ -20,6 +20,7 @@
 #include "simgui/ballonmsg.h"
 #include "simgui/editfile.h"
 #include "contacts/contact.h"
+#include "contacts/group.h"
 
 #include <QTabWidget>
 #include <QCheckBox>
@@ -33,36 +34,37 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     m_contact = contact;
     setButtonsPict(this);
     tabAR->setTabText(tabAR->indexOf(tab), name);
-    ARUserData *ar;
+    SIM::PropertyHubPtr ar;
     QString text;
-    QString noShow = CorePlugin::instance()->value("NoShowAutoReply").toMap().value(QString::number(m_status)).toString();
+	SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
+    QString noShow = core->stringMapValue("NoShowAutoReply", m_status);
     if (m_contact){
         chkNoShow->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-        ar = (ARUserData*)(m_contact->getUserData_old().getUserData(CorePlugin::instance()->ar_data_id, false));
+        ar = m_contact->getUserData()->getUserData("AR");
         if (ar)
-            text = get_str(ar->AutoReply, m_status);
+            text = ar->stringMapValue("AutoReply", m_status);
         if (!text.isEmpty()){
             chkOverride->setChecked(true);
         }else{
-            ar = NULL;
+            ar.clear();
             Group *grp = getContacts()->group(m_contact->getGroup());
             if (grp)
-                ar = (ARUserData*)(m_contact->getUserData_old().getUserData(CorePlugin::instance()->ar_data_id, false));
-            if (ar)
-                text = get_str(ar->AutoReply, m_status);
+                ar = grp->getUserData()->getUserData("AR");
+            if (!ar.isNull())
+                text = ar->stringMapValue("AutoReply", m_status);
         }
         toggled(chkOverride->isChecked());
     }else{
         chkOverride->hide();
     }
     if (text.isEmpty()){
-        ar = (ARUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->ar_data_id));
+        ar = getContacts()->getUserData("AR");
         if (!noShow.isEmpty())
             chkNoShow->setChecked(true);
-        text = get_str(ar->AutoReply, m_status);
+        text = ar->stringMapValue("AutoReply", m_status);
         if (text.isEmpty())
-            text = get_str(ar->AutoReply, STATUS_AWAY);
+            text = ar->stringMapValue("AutoReply", STATUS_AWAY);
     }
     edtAutoReply->setText(text);
     EventTmplHelpList e;
@@ -75,19 +77,20 @@ void ARConfig::apply()
 {
     if (m_contact) {
         if (chkOverride->isChecked()) {
-            ARUserData *ar = (ARUserData*)(m_contact->getUserData_old().getUserData(CorePlugin::instance()->ar_data_id, true));
-            set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
+            SIM::PropertyHubPtr ar = m_contact->getUserData()->getUserData("AR");
+            if(ar.isNull())
+                ar = m_contact->getUserData()->createUserData("AR");
+            ar->setStringMapValue("AutoReply", m_status, edtAutoReply->toPlainText());
         } else {
-            ARUserData *ar = (ARUserData*)(m_contact->getUserData_old().getUserData(CorePlugin::instance()->ar_data_id, false));
-            if (ar)
-                set_str(&ar->AutoReply, m_status, QString::null);
+            SIM::PropertyHubPtr ar = m_contact->getUserData()->getUserData("AR");
+            if (!ar.isNull())
+                ar->setStringMapValue("AutoReply", m_status, QString::null);
         }
     } else {
-        ARUserData *ar = (ARUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->ar_data_id));
-        set_str(&ar->AutoReply, m_status, edtAutoReply->toPlainText());
-		QVariantMap map = CorePlugin::instance()->value("NoShowAutoReply").toMap();
-		map.insert(QString::number(m_status), chkNoShow->isChecked() ? "1" : "");
-        CorePlugin::instance()->setValue("NoShowAutoReply", map);
+        SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
+        ar->setStringMapValue("AutoReply", m_status, edtAutoReply->toPlainText());
+        SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
+        core->setStringMapValue("NoShowAutoReply", m_status, chkNoShow->isChecked() ? "1" : "");
     }
 }
 

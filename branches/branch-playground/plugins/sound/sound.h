@@ -31,21 +31,6 @@
 #include "phonon/mediaobject.h"
 #include "phonon/audiooutput.h"
 
-struct SoundData
-{
-    SIM::Data	Player;
-    SIM::Data	StartUp;
-    SIM::Data	FileDone;
-    SIM::Data	MessageSent;
-};
-
-struct SoundUserData
-{
-    SIM::Data	Alert;
-    SIM::Data	Receive;
-    SIM::Data	NoSoundIfActive;
-    SIM::Data	Disable;
-};
 
 class CorePlugin;
 class QTimer;

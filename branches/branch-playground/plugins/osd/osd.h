@@ -30,33 +30,7 @@
 #include <cfg.h>
 #include <event.h>
 #include <plugins.h>
-
-struct OSDUserData
-{
-    SIM::Data	EnableMessage;
-    SIM::Data	EnableMessageShowContent;
-    SIM::Data	EnableCapsLockFlash;
-    SIM::Data	ContentLines;
-    SIM::Data	EnableAlert;
-    SIM::Data	EnableAlertOnline;
-    SIM::Data	EnableAlertAway;
-    SIM::Data	EnableAlertNA;
-    SIM::Data	EnableAlertDND;
-    SIM::Data	EnableAlertOccupied;
-    SIM::Data	EnableAlertFFC;
-    SIM::Data	EnableAlertOffline;
-    SIM::Data	EnableTyping;
-    SIM::Data	Position;
-    SIM::Data	Offset;
-    SIM::Data	Color;
-    SIM::Data	Font;
-    SIM::Data	Timeout;
-    SIM::Data	Shadow;
-    SIM::Data	Fading;
-    SIM::Data	Background;
-    SIM::Data	BgColor;
-    SIM::Data	Screen;
-};
+#include <propertyhub.h>
 
 enum OSDType
 {
@@ -98,7 +72,8 @@ protected slots:
 public slots:
     void hide();
 
-protected:
+private:
+	SIM::PropertyHubPtr currentData;
     bool isScreenSaverActive();
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void mousePressEvent(QMouseEvent *event);
@@ -117,7 +92,6 @@ protected:
     QString m_sText;
     bool m_bFading;
     QRect m_Rect;
-    OSDUserData currentData;
     QImage m_imageButton;
     QRect m_rectButton;
 };

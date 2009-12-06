@@ -20,24 +20,18 @@
 
 #include <QCheckBox>
 
-SMSConfig::SMSConfig(QWidget *parent, void *_data) : QWidget(parent)
+SMSConfig::SMSConfig(QWidget *parent, SIM::PropertyHubPtr data) : QWidget(parent)
 {
 	setupUi(this);
-    SMSUserData *data = (SMSUserData*)(_data);
-    edtBefore->setPlainText(data->SMSSignatureBefore.str());
-    edtAfter->setPlainText(data->SMSSignatureAfter.str());
+    edtBefore->setPlainText(data->value("SMSSignatureBefore").toString());
+    edtAfter->setPlainText(data->value("SMSSignatureAfter").toString());
 }
 
-void SMSConfig::apply(void *_data)
+void SMSConfig::apply(SIM::PropertyHubPtr data)
 {
-    SMSUserData *data = (SMSUserData*)(_data);
-    data->SMSSignatureBefore.str() = edtBefore->toPlainText();
-    data->SMSSignatureAfter.str() = edtAfter->toPlainText();
+    data->setValue("SMSSignatureBefore", edtBefore->toPlainText());
+    data->setValue("SMSSignatureAfter", edtAfter->toPlainText());
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "smscfg.moc"
-#endif
-*/
+// vim: set expandtab:
 

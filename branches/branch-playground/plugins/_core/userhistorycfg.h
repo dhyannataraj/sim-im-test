@@ -19,20 +19,21 @@
 #define _USERHISTORYCFG_H
 
 
+#include "propertyhub.h"
 #include "ui_userhistorycfgbase.h"
 
 class UserHistoryCfg : public QWidget, public Ui::UserHistoryCfgBase
 {
     Q_OBJECT
 public:
-    UserHistoryCfg(QWidget *parent, void *data);
+    UserHistoryCfg(QWidget *parent, SIM::PropertyHubPtr data);
     ~UserHistoryCfg();
 public slots:
-    void apply(void *data);
+    void apply(SIM::PropertyHubPtr data);
     void toggledDays(bool);
     void toggledSize(bool);
 protected:
-    void *m_data;
+	SIM::PropertyHubPtr m_data;
 };
 
 #endif

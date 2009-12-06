@@ -29,7 +29,7 @@ public:
     PrefConfig(QWidget *parent, SIM::CommandDef *cmd, SIM::Contact *contact, SIM::Group *group);
 
 signals:
-    void apply(void*);
+    void apply(SIM::PropertyHubPtr);
     void apply(SIM::PropertyHubPtr, bool);
 
 public slots:

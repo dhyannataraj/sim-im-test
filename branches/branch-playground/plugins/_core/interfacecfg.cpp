@@ -95,10 +95,10 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
         tab->addTab(userview_cfg, i18n("Contact list"));
         history_cfg = new HistoryConfig(tab);
         tab->addTab(history_cfg, i18n("History"));
-        void *data = getContacts()->getUserData_old(CorePlugin::instance()->user_data_id);
+		SIM::PropertyHubPtr data = getContacts()->getUserData("_core");
         msg_cfg = new MessageConfig(tab, data);
         tab->addTab(msg_cfg, i18n("Messages"));
-        data = getContacts()->getUserData_old(CorePlugin::instance()->sms_data_id);
+        data = getContacts()->getUserData("SMS");
         sms_cfg = new SMSConfig(tab, data);
         tab->addTab(sms_cfg, i18n("SMS"));
         break;
@@ -271,9 +271,9 @@ void InterfaceConfig::apply()
 {
     userview_cfg->apply();
     history_cfg->apply();
-    void *data = getContacts()->getUserData_old(CorePlugin::instance()->user_data_id);
+	SIM::PropertyHubPtr data = getContacts()->getUserData("_core");
     msg_cfg->apply(data);
-    data = getContacts()->getUserData_old(CorePlugin::instance()->sms_data_id);
+    data = getContacts()->getUserData("SMS");
     sms_cfg->apply(data);
     CorePlugin::instance()->setValue("EditSaveFont", chkSaveFont->isChecked());
 #ifndef USE_KDE

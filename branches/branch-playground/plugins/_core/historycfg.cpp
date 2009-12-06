@@ -259,11 +259,11 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
     connect(chkSize, SIGNAL(toggled(bool)), this, SLOT(toggledSize(bool)));
     connect(chkExtViewer, SIGNAL(toggled(bool)), this, SLOT(toggledExtViewer(bool)));
-    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->history_data_id));
-    chkDays->setChecked(data->CutDays.toBool());
-    chkSize->setChecked(data->CutSize.toBool());
-    edtDays->setValue(data->Days.toULong());
-    edtSize->setValue(data->MaxSize.toULong());
+	SIM::PropertyHubPtr data = getContacts()->getUserData("history");
+    chkDays->setChecked(data->value("CutDays").toBool());
+    chkSize->setChecked(data->value("CutSize").toBool());
+    edtDays->setValue(data->value("Days").toUInt());
+    edtSize->setValue(data->value("MaxSize").toUInt());
     toggledDays(chkDays->isChecked());
     toggledSize(chkSize->isChecked());
     toggledExtViewer(chkExtViewer->isChecked());
@@ -350,11 +350,11 @@ void HistoryConfig::apply()
         EventHistoryConfig(0).process();
     }
     fillPreview();
-    HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->history_data_id));
-    data->CutDays.asBool()  = chkDays->isChecked();
-    data->CutSize.asBool()  = chkSize->isChecked();
-    data->Days.asULong()    = edtDays->text().toULong();
-    data->MaxSize.asULong() = edtSize->text().toULong();
+	SIM::PropertyHubPtr data = getContacts()->getUserData("history");
+    data->setValue("CutDays", chkDays->isChecked());
+    data->setValue("CutSize", chkSize->isChecked());
+    data->setValue("Days", edtDays->text().toUInt());
+    data->setValue("MaxSize", edtSize->text().toUInt());
 }
 
 void HistoryConfig::addStyles(const QString &dir, bool bCustom)

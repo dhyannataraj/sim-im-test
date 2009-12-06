@@ -18,6 +18,7 @@
 #ifndef _MSGCFG_H
 #define _MSGCFG_H
 
+#include "propertyhub.h"
 #include "ui_msgcfgbase.h"
 
 class FileConfig;
@@ -26,9 +27,9 @@ class MessageConfig : public QWidget, public Ui::MessageConfigBase
 {
     Q_OBJECT
 public:
-    MessageConfig(QWidget *parent, void *data);
+    MessageConfig(QWidget *parent, SIM::PropertyHubPtr data);
 public slots:
-    void apply(void*);
+    void apply(SIM::PropertyHubPtr);
 protected:
     FileConfig *m_file;
 };

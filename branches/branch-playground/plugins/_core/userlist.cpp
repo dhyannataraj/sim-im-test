@@ -123,14 +123,14 @@ void GroupItem::init(Group *grp)
     m_nContactsOnline = 0;
     setExpandable(true);
     //setSelectable(true);
-    ListUserData *data = (ListUserData*)(grp->getUserData_old(CorePlugin::instance()->list_data_id, false));
-    if (data == NULL){
+    SIM::PropertyHubPtr data = grp->getUserData("list");
+    if (data.isNull()){
         setOpen(true);
     }else{
         if (m_bOffline){
-            setOpen(data->OfflineOpen.toBool());
+            setOpen(data->value("OfflineOpen").toBool());
         }else{
-            setOpen(data->OnlineOpen.toBool());
+            setOpen(data->value("OnlineOpen").toBool());
         }
     }
     update(grp, true);
@@ -164,12 +164,12 @@ void GroupItem::setOpen(bool bOpen)
     //UserViewItemBase::setOpen(bOpen);
     Group *grp = getContacts()->group(m_id);
     if (grp){
-        ListUserData *data = (ListUserData*)(grp->getUserData_old(CorePlugin::instance()->list_data_id, !bOpen));
-        if (data){
+        SIM::PropertyHubPtr data = grp->getUserData("list", !bOpen);
+        if (!data.isNull()){
             if (m_bOffline){
-                data->OfflineOpen.asBool() = bOpen;
+                data->setValue("OfflineOpen", bOpen);
             }else{
-                data->OnlineOpen.asBool()  = bOpen;
+                data->setValue("OnlineOpen", bOpen);
             }
         }
     }

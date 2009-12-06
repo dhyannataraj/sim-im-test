@@ -24,7 +24,7 @@
 #include <QRadioButton>
 #include <QTabWidget>
 
-MessageConfig::MessageConfig(QWidget *parent, void *_data)
+MessageConfig::MessageConfig(QWidget *parent, SIM::PropertyHubPtr _data)
   : QWidget(parent)
 {
     setupUi(this);
@@ -39,10 +39,10 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
         break;
     }
 
-    CoreUserData *data = (CoreUserData*)_data;
-    chkOnline->setChecked(data->OpenOnOnline.toBool());
-    chkStatus->setChecked(data->LogStatus.toBool());
-    switch (data->OpenNewMessage.toULong()){
+	SIM::PropertyHubPtr data = _data;
+    chkOnline->setChecked(data->value("OpenOnOnline").toBool());
+    chkStatus->setChecked(data->value("LogStatus").toBool());
+    switch (data->value("OpenNewMessage").toUInt()){
     case NEW_MSG_NOOPEN:
         btnNoOpen->setChecked(true);
         break;
@@ -55,17 +55,17 @@ MessageConfig::MessageConfig(QWidget *parent, void *_data)
     }
 }
 
-void MessageConfig::apply(void *_data)
+void MessageConfig::apply(SIM::PropertyHubPtr _data)
 {
     if (m_file)
         m_file->apply(_data);
 
-    CoreUserData *data = (CoreUserData*)_data;
-    data->OpenOnOnline.asBool()    = chkOnline->isChecked();
-    data->LogStatus.asBool()       = chkStatus->isChecked();
-    data->OpenNewMessage.asULong() = NEW_MSG_NOOPEN;
+	SIM::PropertyHubPtr data = _data;
+    data->setValue("OpenOnOnline", chkOnline->isChecked());
+    data->setValue("LogStatus", chkStatus->isChecked());
+    data->setValue("OpenNewMessage", NEW_MSG_NOOPEN);
     if (btnMinimize->isChecked())
-        data->OpenNewMessage.asULong() = NEW_MSG_MINIMIZE;
+        data->setValue("OpenNewMessage", NEW_MSG_MINIMIZE);
     if (btnRaise->isChecked())
-        data->OpenNewMessage.asULong() = NEW_MSG_RAISE;
+        data->setValue("OpenNewMessage", NEW_MSG_RAISE);
 }

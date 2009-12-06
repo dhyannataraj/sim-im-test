@@ -18,6 +18,7 @@
 #ifndef _FILECFG_H
 #define _FILECFG_H
 
+#include "propertyhub.h"
 #include "ui_filecfgbase.h"
 
 class QCheckBox;
@@ -26,9 +27,9 @@ class FileConfig : public QWidget, public Ui::FileConfigBase
 {
     Q_OBJECT
 public:
-    FileConfig(QWidget *parent, void *data);
+    FileConfig(QWidget *parent, SIM::PropertyHubPtr data);
 public slots:
-    void apply(void*);
+    void apply(SIM::PropertyHubPtr);
 };
 
 #endif

@@ -58,7 +58,6 @@ namespace SIM
         QString getEncoding();
         void setEncoding(const QString& enc);
 
-        //void *getUserData_old(unsigned id, bool bCreate = false) SIM_DEPRECATED;
         PropertyHubPtr getUserData(const QString& id, bool bCreate = false);
         ClientUserData clientData;
         bool setFirstName(const QString &name, const QString &client);
@@ -71,7 +70,6 @@ namespace SIM
         void setup();
         PropertyHubPtr userdata() const { return m_userData->root(); }
 
-        UserData_old& getUserData_old() { return userData; }
         UserDataPtr getUserData() { return m_userData; }
     protected:
         unsigned long m_id;
@@ -79,7 +77,6 @@ namespace SIM
         friend class ContactListPrivate;
 
     private:
-        UserData_old userData;
         UserDataPtr m_userData; // FIXME this mess
     };
 

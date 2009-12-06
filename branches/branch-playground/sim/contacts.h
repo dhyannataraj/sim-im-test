@@ -161,7 +161,6 @@ public:
 
         COPY_RESTRICTED(PacketIterator)
     };
-    void *getUserData_old(unsigned id) SIM_DEPRECATED;
     PropertyHubPtr getUserData(const QString& id);
     unsigned nClients();
     Client *getClient(unsigned n);

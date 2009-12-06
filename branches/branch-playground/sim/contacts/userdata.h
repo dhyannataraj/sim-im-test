@@ -11,22 +11,6 @@
 
 namespace SIM
 {
-    class UserDataPrivate;
-    class EXPORT UserData_old
-    {
-    public:
-        UserData_old();
-        ~UserData_old();
-        QByteArray save() const;
-        void load(unsigned long id, const DataDef *def, Buffer *cfg);
-        void *getUserData(unsigned id, bool bCreate);
-        void freeUserData(unsigned id);
-    protected:
-        class UserDataPrivate *d;
-
-        COPY_RESTRICTED(UserData_old)
-    };
-
     class EXPORT UserData;
     typedef QSharedPointer<UserData> UserDataPtr;
     class EXPORT UserData

@@ -59,13 +59,13 @@ namespace SIM
 
     void ContactListPrivate::unregisterUserData(unsigned id)
     {
-        for (std::map<unsigned long, Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end(); ++it_c){
-            it_c->second->userData.freeUserData(id);
-        }
-        for (std::vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end(); ++it_g)
-            (*it_g)->userData.freeUserData(id);
-        userData.freeUserData(id);
-        userDataDef.erase(id);
+//        for (std::map<unsigned long, Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end(); ++it_c){
+//            it_c->second->userData.freeUserData(id);
+//        }
+//        for (std::vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end(); ++it_g)
+//            (*it_g)->userData.freeUserData(id);
+//        userData.freeUserData(id);
+//        userDataDef.erase(id);
     }
 
 }

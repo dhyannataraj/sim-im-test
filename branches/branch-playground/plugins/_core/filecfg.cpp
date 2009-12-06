@@ -25,14 +25,13 @@
 
 using namespace SIM;
 
-FileConfig::FileConfig(QWidget *parent, void *_data)
+FileConfig::FileConfig(QWidget *parent, SIM::PropertyHubPtr data)
   : QWidget(parent)
 {
     setupUi(this);
-    CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
-    edtPath->setText(user_file(data->IncomingPath.str()));
-    switch (data->AcceptMode.toULong()){
+    edtPath->setText(user_file(data->value("IncomingPath").toString()));
+    switch (data->value("AcceptMode").toUInt()){
     case 0:
         btnDialog->setChecked(true);
         break;
@@ -45,28 +44,30 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
         edtDecline->setEnabled(true);
         break;
     }
-    chkOverwrite->setChecked(data->OverwriteFiles.toBool());
-    edtDecline->setPlainText(data->DeclineMessage.str());
+    chkOverwrite->setChecked(data->value("OverwriteFiles").toBool());
+    edtDecline->setPlainText(data->value("DeclineMessage").toString());
 }
 
-void FileConfig::apply(void *_data)
+void FileConfig::apply(SIM::PropertyHubPtr data)
 {
-    CoreUserData *data = (CoreUserData*)_data;
     QString def;
     if (edtPath->text().isEmpty()) {
         def = "Incoming Files";
     } else {
         def = edtPath->text();
     }
-    data->IncomingPath.str() = def;
-    edtPath->setText(user_file(data->IncomingPath.str()));
-    data->AcceptMode.asULong() = 0;
+    data->setValue("IncomingPath", def);
+    edtPath->setText(user_file(data->value("IncomingPath").toString()));
+    data->setValue("AcceptMode", 0);
     if (btnAccept->isChecked()){
-        data->AcceptMode.asULong() = 1;
-        data->OverwriteFiles.asBool() = chkOverwrite->isChecked();
+        data->setValue("AcceptMode", 1);
+        data->setValue("OverwriteFiles", chkOverwrite->isChecked());
     }
     if (btnDecline->isChecked()){
-        data->AcceptMode.asULong() = 2;
-        data->DeclineMessage.str() = edtDecline->toPlainText();
+        data->setValue("AcceptMode", 2);
+        data->setValue("DeclineMessage", edtDecline->toPlainText());
     }
 }
+
+// vim: set expandtab:
+

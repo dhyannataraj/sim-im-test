@@ -1127,18 +1127,18 @@ void ContactListPrivate::flush(Contact *c, Group *g, const QByteArray &section, 
 //        }
 //        return;
 //    }
-    map<unsigned long, UserDataDef>::iterator it;
-    for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (section != it->second.name)
-            continue;
-        UserData_old *data = &userData;
-        if (c)
-            data = &c->userData;
-        if (g)
-            data = &g->userData;
-        data->load(it->second.id, it->second.def, cfg);
-        return;
-    }
+//    map<unsigned long, UserDataDef>::iterator it;
+//    for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
+//        if (section != it->second.name)
+//            continue;
+//        UserData_old *data = &userData;
+//        if (c)
+//            data = &c->userData;
+//        if (g)
+//            data = &g->userData;
+//        data->load(it->second.id, it->second.def, cfg);
+//        return;
+//    }
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         if (client->name() != section)
@@ -1176,14 +1176,12 @@ void ContactList::clearClients()
     eClients.process();
 }
 
-void* ContactList::getUserData_old(unsigned id)
-{
-    return p->userData.getUserData(id, true);
-}
-
 PropertyHubPtr ContactList::getUserData(const QString& id)
 {
-    return m_userData->getUserData(id);
+    PropertyHubPtr hub = m_userData->getUserData(id);
+    if(hub.isNull())
+        hub = m_userData->createUserData(id);
+    return hub;
 }
 
 static QString stripPhone(const QString &phone)

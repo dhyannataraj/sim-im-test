@@ -81,8 +81,8 @@ AutoReplyDialog::AutoReplyDialog(unsigned status) : QDialog(NULL)
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
     m_timer->start(1000);
-    ARUserData *ar = (ARUserData*)getContacts()->getUserData_old(CorePlugin::instance()->ar_data_id);
-    text = get_str(ar->AutoReply, m_status);
+	SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
+    text = ar->stringMapValue("AutoReply", m_status);
     edtAutoResponse->setText(text);
     connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
@@ -126,12 +126,11 @@ void AutoReplyDialog::timeout()
 
 void AutoReplyDialog::accept()
 {
-	QVariantMap map = CorePlugin::instance()->value("NoShowAutoReply").toMap();
-	map.insert(QString::number(m_status), chkNoShow->isChecked() ? "1" : "");
-	CorePlugin::instance()->setValue("NoShowAutoReply", map);
+	SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
+	core->setStringMapValue("NoShowAutoReply", m_status, chkNoShow->isChecked() ? "1" : "");
 
-    ARUserData *ar = (ARUserData*)(getContacts()->getUserData_old(CorePlugin::instance()->ar_data_id));
-    set_str(&ar->AutoReply, m_status, edtAutoResponse->toPlainText());
+	SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
+	ar->setStringMapValue("AutoReply", m_status, edtAutoResponse->toPlainText());
 	QDialog::accept();
 }
 

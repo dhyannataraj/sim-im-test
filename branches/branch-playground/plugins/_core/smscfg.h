@@ -18,15 +18,16 @@
 #ifndef _SMSCFG_H
 #define _SMSCFG_H
 
+#include "propertyhub.h"
 #include "ui_smscfgbase.h"
 
 class SMSConfig : public QWidget, public Ui::SMSConfig
 {
     Q_OBJECT
 public:
-    SMSConfig(QWidget *parent, void *data);
+    SMSConfig(QWidget *parent, SIM::PropertyHubPtr data);
 public slots:
-    void apply(void*);
+    void apply(SIM::PropertyHubPtr );
 };
 
 #endif

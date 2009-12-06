@@ -800,6 +800,7 @@ protected:
     friend class SnacIcqICBM;
 
 private:
+	SIM::PropertyHubPtr m_propertyHub;
     SIM::InterfaceChecker* m_ifChecker;
     bool m_bBirthdayInfoDisplayed;
 };

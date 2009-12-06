@@ -76,50 +76,6 @@ const unsigned NEW_MSG_NOOPEN	= 0;
 const unsigned NEW_MSG_MINIMIZE	= 1;
 const unsigned NEW_MSG_RAISE	= 2;
 
-struct CoreUserData
-{
-    SIM::Data	LogStatus;
-    SIM::Data	LogMessage;
-    SIM::Data	OpenNewMessage;
-    SIM::Data	OpenOnOnline;
-    SIM::Data	IncomingPath;
-    SIM::Data	AcceptMode;
-    SIM::Data	OverwriteFiles;
-    SIM::Data	DeclineMessage;
-};
-
-struct SMSUserData
-{
-    SIM::Data	SMSSignatureBefore;
-    SIM::Data	SMSSignatureAfter;
-};
-
-struct ARUserData
-{
-    SIM::Data	AutoReply;
-};
-
-struct ListUserData
-{
-    SIM::Data	OfflineOpen;
-    SIM::Data	OnlineOpen;
-    SIM::Data	ShowAlways;
-};
-
-struct TranslitUserData
-{
-    SIM::Data	Translit;
-};
-
-struct HistoryUserData
-{
-    SIM::Data	CutSize;
-    SIM::Data	MaxSize;
-    SIM::Data	CutDays;
-    SIM::Data	Days;
-};
-
-
 #include "core_events.h"
 
 const unsigned	MESSAGE_DEFAULT		= 0x0000;
@@ -197,13 +153,6 @@ public:
     void setRegNew(bool p_new) {m_RegNew=p_new;}
     bool getRegNew() const {return m_RegNew;}
     MainWindow *getMainWindow() { return m_main; };
-
-    unsigned user_data_id;
-    unsigned sms_data_id;
-    unsigned ar_data_id;
-    unsigned list_data_id;
-    unsigned translit_data_id;
-    unsigned history_data_id;
 
     SIM::CommandsMap	preferences;
     SIM::CommandsMap	messageTypes;

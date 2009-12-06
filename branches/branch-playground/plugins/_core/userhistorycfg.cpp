@@ -22,15 +22,14 @@
 #include <QSpinBox>
 #include <QLabel>
 
-UserHistoryCfg::UserHistoryCfg(QWidget *parent, void *d) : QWidget(parent)
+UserHistoryCfg::UserHistoryCfg(QWidget *parent, SIM::PropertyHubPtr data) : QWidget(parent)
         //: UserHistoryCfgBase(parent)
 {
 	setupUi(this);
-    HistoryUserData *data = (HistoryUserData*)d;
-    chkDays->setChecked(data->CutDays.toBool());
-    chkSize->setChecked(data->CutSize.toBool());
-    edtDays->setValue(data->Days.toULong());
-    edtSize->setValue(data->MaxSize.toULong());
+    chkDays->setChecked(data->value("CutDays").toBool());
+    chkSize->setChecked(data->value("CutSize").toBool());
+    edtDays->setValue(data->value("Days").toUInt());
+    edtSize->setValue(data->value("MaxSize").toUInt());
     toggledDays(chkDays->isChecked());
     toggledSize(chkSize->isChecked());
     connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
@@ -41,13 +40,12 @@ UserHistoryCfg::~UserHistoryCfg()
 {
 }
 
-void UserHistoryCfg::apply(void *d)
+void UserHistoryCfg::apply(SIM::PropertyHubPtr data)
 {
-    HistoryUserData *data = (HistoryUserData*)d;
-    data->CutDays.asBool()  = chkDays->isChecked();
-    data->CutSize.asBool()  = chkSize->isChecked();
-    data->Days.asULong()    = edtDays->text().toULong();
-    data->MaxSize.asULong() = edtSize->text().toULong();
+    data->setValue("CutDays", chkDays->isChecked());
+    data->setValue("CutSize", chkSize->isChecked());
+    data->setValue("Days", edtDays->text().toUInt());
+    data->setValue("MaxSize", edtSize->text().toUInt());
 }
 
 void UserHistoryCfg::toggledDays(bool bState)

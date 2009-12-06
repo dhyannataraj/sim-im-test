@@ -159,68 +159,19 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
 #endif
 
-static DataDef coreUserData[] =
-{
-	{ "LogStatus", DATA_BOOL, 1, 0 },
-	{ "LogMessage", DATA_BOOL, 1, DATA(1) },
-	{ "OpenNewMessage", DATA_ULONG, 1, DATA(1) },
-	{ "OpenOnOnline", DATA_BOOL, 1, 0 },
-	{ "IncomingPath", DATA_UTF, 1, "Incoming Files" },
-	{ "AcceptMode", DATA_ULONG, 1, 0 },
-	{ "OverwriteFiles", DATA_BOOL, 1, 0 },
-	{ "DeclineMessage", DATA_UTF, 1, 0 },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
-
-static DataDef smsUserData[] =
-{
-	{ "SMSSignatureBefore", DATA_UTF, 1, 0 },
-	{ "SMSSignatureAfter", DATA_UTF, 1, "\n&MyName;" },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
-
-static DataDef arUserData[] =
-{
-	{ "AutoReply", DATA_UTFLIST, 1, 0 },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
-
-static DataDef listUserData[] =
-{
-	{ "OfflineOpen", DATA_BOOL, 1, DATA(1) },
-	{ "OnlineOpen", DATA_BOOL, 1, DATA(1) },
-	{ "ShowAlways", DATA_BOOL, 1, 0 },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
-
-static DataDef translitUserData[] =
-{
-	{ "Translit", DATA_BOOL, 1, 0 },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
-
-static DataDef historyUserData[] =
-{
-	{ "CutSize", DATA_BOOL, 1, 0 },
-	{ "MaxSize", DATA_ULONG, 1, DATA(2) },
-	{ "CutDays", DATA_BOOL, 1, 0 },
-	{ "Days", DATA_ULONG, 1, DATA(90) },
-	{ NULL, DATA_UNKNOWN, 0, 0 }
-};
-
 static CorePlugin* g_plugin = 0;
 
-static QWidget *getInterfaceSetup(QWidget *parent, void *data)
+static QWidget *getInterfaceSetup(QWidget *parent, SIM::PropertyHubPtr data)
 {
 	return new MessageConfig(parent, data);
 }
 
-static QWidget *getSMSSetup(QWidget *parent, void *data)
+static QWidget *getSMSSetup(QWidget *parent, SIM::PropertyHubPtr data)
 {
 	return new SMSConfig(parent, data);
 }
 
-static QWidget *getHistorySetup(QWidget *parent, void *data)
+static QWidget *getHistorySetup(QWidget *parent, SIM::PropertyHubPtr data)
 {
 	return new UserHistoryCfg(parent, data);
 }
@@ -288,14 +239,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
    g_plugin = this;
 
     setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
-
-	user_data_id	 = getContacts()->registerUserData("core", coreUserData);
-	sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
-	ar_data_id		 = getContacts()->registerUserData("ar", arUserData);
-	list_data_id	 = getContacts()->registerUserData("list", listUserData);
-	translit_data_id = getContacts()->registerUserData("translit", translitUserData);
-	history_data_id  = getContacts()->registerUserData("history", historyUserData);
-
 
 	//loadDir();
 
@@ -372,7 +315,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	EventMenu(MenuContainer, EventMenu::eAdd).process();
 
 	cmd->bar_id		= 0;
-	cmd->id			= user_data_id;
+	cmd->id			= 0;
 	cmd->text		= I18N_NOOP("&Messages");
 	cmd->accel		= "_core";
 	cmd->icon		= "message";
@@ -380,7 +323,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	cmd->param		= (void*)getInterfaceSetup;
 	EventAddPreferences(cmd).process();
 
-	cmd->id			= sms_data_id;
+	cmd->id			= 0;
 	cmd->text		= I18N_NOOP("SMS");
 	cmd->icon		= "cell";
 	cmd->icon_on	= QString::null;
@@ -388,7 +331,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->accel      = "SMS";
 	EventAddPreferences(cmd).process();
 
-	cmd->id			= history_data_id;
+	cmd->id			= 0;
 	cmd->text		= I18N_NOOP("&History setup");
 	cmd->icon		= "history";
 	cmd->icon_on	= QString::null;
@@ -710,14 +653,14 @@ void CorePlugin::setValue(const QString& key, const QVariant& v)
 
 void CorePlugin::setAutoReplies()
 {
-	ARUserData *data = (ARUserData*)getContacts()->getUserData_old(ar_data_id);
+    SIM::PropertyHubPtr data = getContacts()->getUserData("AR");
 	for (autoReply *a = autoReplies; a->text; a++)
     {
-		const QString &t = get_str(data->AutoReply, a->status);
+		const QString &t = data->stringMapValue("AutoReply", a->status);
         if (!t.isEmpty())
             continue;
 
-        set_str(&data->AutoReply, a->status, i18n(a->text));
+        data->setStringMapValue("AutoReply", a->status, i18n(a->text));
 	}
 }
 
@@ -732,13 +675,6 @@ CorePlugin::~CorePlugin()
 	delete m_status;
 	delete historyXSL;
 	delete m_HistoryThread;
-
-	getContacts()->unregisterUserData(history_data_id);
-	getContacts()->unregisterUserData(translit_data_id);
-	getContacts()->unregisterUserData(list_data_id);
-	getContacts()->unregisterUserData(ar_data_id);
-	getContacts()->unregisterUserData(sms_data_id);
-	getContacts()->unregisterUserData(user_data_id);
 
 	removeTranslator();
 }
@@ -1025,26 +961,26 @@ bool CorePlugin::processEvent(Event *e)
 			{
 				EventARRequest *ear = static_cast<EventARRequest*>(e);
 				ARRequest *r = ear->request();
-				ARUserData *ar;
+                SIM::PropertyHubPtr ar;
 				QString tmpl;
 				if (r->contact){
-					ar = (ARUserData*)(r->contact->getUserData_old().getUserData(ar_data_id, false));
+                    ar = r->contact->getUserData()->getUserData("AR");
 					if (ar)
-						tmpl = get_str(ar->AutoReply, r->status);
+						tmpl = ar->stringMapValue("AutoReply", r->status);
 					if (tmpl.isEmpty()){
-						ar = NULL;
+						ar.clear();
 						Group *grp = getContacts()->group(r->contact->getGroup());
 						if (grp)
-							ar = (ARUserData*)(grp->getUserData_old().getUserData(ar_data_id, false));
+                            ar = r->contact->getUserData()->getUserData("AR");
 						if (ar)
-							tmpl = get_str(ar->AutoReply, r->status);
+                            tmpl = ar->stringMapValue("AutoReply", r->status);
 					}
 				}
 				if (tmpl.isEmpty()){
-					ar = (ARUserData*)(getContacts()->getUserData_old(ar_data_id));
-					tmpl = get_str(ar->AutoReply, r->status);
+					ar = getContacts()->getUserData("AR");
+					tmpl = ar->stringMapValue("AutoReply", r->status);
 					if (tmpl.isEmpty())
-						tmpl = get_str(ar->AutoReply, STATUS_AWAY);
+                        tmpl = ar->stringMapValue("AutoReply", STATUS_AWAY);
 				}
 				EventTemplate::TemplateExpand t;
 				t.contact	= r->contact;
@@ -1056,11 +992,11 @@ bool CorePlugin::processEvent(Event *e)
 			}
 		case eEventSaveState:
 			{
-				ARUserData *ar = (ARUserData*)getContacts()->getUserData_old(ar_data_id);
+                SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
 				for (autoReply *a = autoReplies; a->text; a++){
-					QString t = get_str(ar->AutoReply, a->status);
+					QString t = ar->stringMapValue("AutoReply", a->status);
 					if (t == i18n(a->text))
-						set_str(&ar->AutoReply, a->status, QString::null);
+                        ar->setStringMapValue("AutoReply", a->status, QString::null);
 				}
 				e->process(this);
 				setAutoReplies();
@@ -2582,7 +2518,7 @@ bool CorePlugin::processEvent(Event *e)
 					if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) ||
 								(client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
 							(client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
-						QString noShow = CorePlugin::instance()->value("NoShowAutoReply").toMap().value(QString::number(cmd->id)).toString();
+						QString noShow = propertyHub()->stringMapValue("NoShowAutoReply", cmd->id);
 						if (noShow.isEmpty()){
 							AutoReplyDialog dlg(cmd->id);
 							if (!dlg.exec())

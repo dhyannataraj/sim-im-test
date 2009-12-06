@@ -43,9 +43,6 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
         mapdata = m_contact->userdata();
     }
     else if (m_group) {
-//        data = m_group->getUserData_old(m_cmd->id);
-//        if (m_group->getUserData_old().getUserData(m_cmd->id, false))
-//            chkOverride->setChecked(true);
         mapdata = m_group->userdata();
     }
     QWidget *w = NULL;
@@ -68,7 +65,7 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
         }
         else
         {
-            connect(this, SIGNAL(apply(void*)), w, SLOT(apply(void*)));
+            connect(this, SIGNAL(apply(SIM::PropertyHubPtr)), w, SLOT(apply(SIM::PropertyHubPtr)));
         }
         if(addWnd)
             addWnd->setMinimumSize(w->minimumSizeHint());
@@ -104,14 +101,18 @@ void PrefConfig::apply()
     {
         if (chkOverride->isChecked())
         {
-            void *data = NULL;
+			SIM::PropertyHubPtr data;
             if (m_contact)
             {
-                data = m_contact->getUserData_old().getUserData(m_cmd->id, true);
+                data = m_contact->getUserData()->getUserData(m_cmd->accel);
+				if(data.isNull())
+					data = m_contact->getUserData()->createUserData(m_cmd->accel);
             }
             else if (m_group)
             {
-                data = m_group->getUserData_old().getUserData(m_cmd->id, true);
+                data = m_group->getUserData()->getUserData(m_cmd->accel);
+				if(data.isNull())
+					data = m_group->getUserData()->createUserData(m_cmd->accel);
             }
             if (data)
                 emit apply(data);
@@ -120,11 +121,11 @@ void PrefConfig::apply()
         {
             if (m_contact)
             {
-                m_contact->getUserData_old().freeUserData(m_cmd->id);
+                m_contact->getUserData()->destroyUserData(m_cmd->accel);
             }
             else if(m_group)
             {
-                m_group->getUserData_old().freeUserData(m_cmd->id);
+                m_group->getUserData()->destroyUserData(m_cmd->accel);
             }
         }
     }

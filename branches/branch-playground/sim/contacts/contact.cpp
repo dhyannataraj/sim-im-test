@@ -17,7 +17,6 @@ namespace SIM
     Contact::Contact(unsigned long id, Buffer *cfg)
         : m_id(id)
     {
-        //load_data(contactData, &data, cfg);
         m_userData = UserData::create();
         userdata()->setValue("id", (uint)id);
     }
@@ -28,7 +27,6 @@ namespace SIM
             EventContact e(this, EventContact::eDeleted);
             e.process();
         }
-        //free_data(contactData, &data);
         getContacts()->p->contacts.erase(m_id);
     }
 
@@ -36,19 +34,6 @@ namespace SIM
     {
         return contactData;
     }
-
-//    void *Contact::getUserData_old(unsigned id, bool bCreate)
-//    {
-//        void *res = userData.getUserData(id, bCreate);
-//        if (res)
-//            return res;
-//        if (bCreate)
-//            return userData.getUserData(id, true);
-//        Group *group = getContacts()->group(getGroup());
-//        if (group)
-//            return group->getUserData_old(id, false);
-//        return getContacts()->getUserData_old(id);
-//    }
 
     PropertyHubPtr Contact::getUserData(const QString& id, bool bCreate)
     {
