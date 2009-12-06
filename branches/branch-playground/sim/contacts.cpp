@@ -949,46 +949,47 @@ void ContactList::load_old()
         log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
         return;
     }
-	PropertyHubPtr currenthub;
+
+    PropertyHubPtr currenthub;
     UserDataPtr currentUserData = getUserData();
-	while(!f.atEnd())
-	{
-		QString line = f.readLine();
-		line = line.trimmed();
-		if(line.startsWith("[Group="))
-		{
-			int id = line.mid(7, line.length() - 8).toInt();
-			Group* gr = group(id, id != 0);
-			currenthub = gr->userdata();
+    while(!f.atEnd())
+    {
+        QString line = QString::fromLocal8Bit( f.readLine() );
+        line = line.trimmed();
+        if(line.startsWith("[Group="))
+        {
+            int id = line.mid(7, line.length() - 8).toInt();
+            Group* gr = group(id, id != 0);
+            currenthub = gr->userdata();
             currentUserData = gr->getUserData();
-		}
-		else if(line.startsWith("[Contact="))
-		{
-			int id = line.mid(9, line.length() - 10).toInt();
-			Contact* c = contact(id, true);
-			currenthub = c->userdata();
+        }
+        else if(line.startsWith("[Contact="))
+        {
+            int id = line.mid(9, line.length() - 10).toInt();
+            Contact* c = contact(id, true);
+            currenthub = c->userdata();
             currentUserData = c->getUserData();
-		}
-		else if(line.startsWith("["))
-		{
-			QString clientName = line.mid(1, line.length() - 2);
+        }
+        else if(line.startsWith("["))
+        {
+            QString clientName = line.mid(1, line.length() - 2);
             if(!currentUserData.isNull())
                 currenthub = currentUserData->createUserData(clientName);
-		}
-		else
-		{
-			if(!currenthub.isNull())
-			{
-				QStringList keyval = line.split("=");
+        }
+        else
+        {
+            if(!currenthub.isNull())
+            {
+                QStringList keyval = line.split("=");
                 QString val = keyval.at(1);
                 if(val.startsWith('"') && val.endsWith('"'))
                     currenthub->setValue(keyval.at(0), val.mid(1, val.length() - 2));
                 else
                     currenthub->setValue(keyval.at(0), val);
-                    
-			}
-		}
-	}
+
+            }
+        }
+    }
 }
 
 void ContactList::save_new()

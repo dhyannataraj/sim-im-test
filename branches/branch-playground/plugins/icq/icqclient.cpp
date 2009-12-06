@@ -998,7 +998,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
 				}
                 data->Alias.str() = *alias;
             }
-            if (grp && contact->getGroup() != grp->id())
+            if (grp && contact->getGroup() != (int)grp->id())
             {
                 contact->setGroup(grp->id());
                 bChanged = true;
@@ -1044,7 +1044,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
 						}
                         data->Alias.str() = *alias;
                     }
-                    if (grp && grp->id() != contact->getGroup())
+                    if (grp && (int)grp->id() != contact->getGroup())
                     {
                         contact->setGroup(grp->id());
                         bChanged = true;
@@ -2656,7 +2656,7 @@ bool ICQClient::processEvent(Event *e)
                 snacService()->sendPluginInfoUpdate(PLUGIN_PICTURE);
                 }
                 */
-                if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
+                if (getContacts()->owner()->getPhoneStatus() != (int)data.owner.FollowMe.toULong()){
                     data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
                     data.owner.PluginStatusTime.asULong() = now.toTime_t();
                     snacService()->sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());

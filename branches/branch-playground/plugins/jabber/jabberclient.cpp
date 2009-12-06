@@ -323,7 +323,7 @@ bool JabberClient::processEvent(Event *e)
             Contact *contact = NULL;
             QString resource;
             findContact(ac->addr, ac->nick, true, contact, resource);
-            if (contact && contact->getGroup() != ac->group){
+            if (contact && contact->getGroup() != (int)ac->group){
                 contact->setGroup(ac->group);
                 EventContact e(contact, EventContact::eChanged);
                 e.process();
@@ -439,7 +439,7 @@ bool JabberClient::processEvent(Event *e)
         ContactList::ContactIterator itc;
         Contact *contact;
         while ((contact = ++itc) != NULL){
-            if (contact->getGroup() != grp->id())
+            if (contact->getGroup() != (int)grp->id())
                 continue;
             ClientDataIterator it(contact->clientData, this);
             JabberUserData *data;

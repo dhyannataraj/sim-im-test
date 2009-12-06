@@ -2487,7 +2487,7 @@ bool CorePlugin::processEvent(Event *e)
 				}
 				if (cmd->menu_id == MenuPhoneState){
 					Contact *owner = getContacts()->owner();
-					if (owner->getPhoneStatus() != cmd->id - CmdPhoneNoShow){
+						if ((unsigned long)owner->getPhoneStatus() != cmd->id - CmdPhoneNoShow){
 						owner->setPhoneStatus(cmd->id - CmdPhoneNoShow);
 						EventContact(owner, EventContact::eChanged).process();
 					}
@@ -3162,8 +3162,8 @@ void CorePlugin::prepareConfig()
 	}
 	setValue("Unread", unread_str);
 
-	unsigned editBgColor = value("EditBackground").toUInt();
-	unsigned editFgColor = value("EditForeground").toUInt();
+//	unsigned editBgColor = value("EditBackground").toUInt();
+//	unsigned editFgColor = value("EditForeground").toUInt();
 
 	QPalette pal = QApplication::palette();
         if (((pal.color(QPalette::Base).rgb() & 0xFFFFFF) == value("EditBackground").toUInt()) &&

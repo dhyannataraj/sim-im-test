@@ -29,7 +29,7 @@ namespace SIM
             Contact *contact;
             ContactList::ContactIterator itc;
             while ((contact = ++itc) != NULL){
-                if (contact->getGroup() != id())
+                if (contact->getGroup() != (int)id())
                     continue;
                 contact->setGroup(0);
                 EventContact e(contact, EventContact::eChanged);

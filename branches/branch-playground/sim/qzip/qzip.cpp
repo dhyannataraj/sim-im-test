@@ -22,13 +22,8 @@
 
 #include<QStringList>
 #include<QFile>
-#pragma warning(disable:4131)
-#pragma warning(disable:4100)
-#pragma warning(disable:4245)
-	#include"unzip.h"
-#pragma warning(default:4131)
-#pragma warning(default:4100)
-#pragma warning(default:4245)
+
+#include"unzip.h"
 
 class UnZipPrivate
 {

@@ -520,7 +520,7 @@ void SnacIcqService::sendLogonStatus()
         m_client->data.owner.Picture.str() = m_client->getPicture();
         m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
     }
-    if (getContacts()->owner()->getPhoneStatus() != m_client->data.owner.FollowMe.toULong()){
+    if (getContacts()->owner()->getPhoneStatus() != (int)m_client->data.owner.FollowMe.toULong()){
         m_client->data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
         m_client->data.owner.PluginStatusTime.asULong() = now.toTime_t();
     }

@@ -209,7 +209,7 @@ void RostersRequest::element_end(const QString& el)
                     e.process();
                 }
             }
-            if (contact->getGroup() != grp){
+            if (contact->getGroup() != (int)grp){
                 if (grp == 0){
                     void *d = NULL;
                     ClientDataIterator it_d(contact->clientData);
@@ -706,7 +706,7 @@ void AddRequest::element_start(const QString& el, const QXmlAttributes& attrs)
             Contact *contact;
             QString resource;
             JabberUserData *data = m_client->findContact(m_jid, QString::null, true, contact, resource);
-            if (data && (contact->getGroup() != m_grp)){
+            if (data && (contact->getGroup() != (int)m_grp)){
                 contact->setGroup(m_grp);
                 EventContact e(contact, EventContact::eChanged);
                 e.process();

@@ -637,7 +637,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     unsigned mode = core->value("SortMode").toUInt();
                     ContactInfo info;
                     QString active;
-                    active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
+                    active.sprintf("%08lX", (long unsigned int)(0xFFFFFFFF - contact->getLastActive()));
                     if (core->value("GroupMode").toUInt()){
                         unsigned index = 0xFFFFFFFF;
                         if (contact->getGroup()){
@@ -673,7 +673,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                         info.group = contact->getGroup();
                         list<unsigned>::iterator it;
                         for (it = groups.begin(); it != groups.end(); ++it)
-                            if ((*it) == contact->getGroup())
+                            if ((*it) == (unsigned)contact->getGroup())
                                 break;
                         groups.push_back(contact->getGroup());
                     }

@@ -600,7 +600,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                         newGroup = grp->id();
                     bMy = true;
                 }
-                if (newGroup != contact->getGroup()){
+                if ((int)newGroup != contact->getGroup()){
                     if ((newGroup == 0) && bOther){
                         if (bMy)
                             addContactRequest(contact);

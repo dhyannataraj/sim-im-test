@@ -258,7 +258,7 @@ bool UserView::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
                     Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
-                    if (grp && (grp->id() != contact->getGroup())){
+                    if (grp && ((int)grp->id() != contact->getGroup())){
                         contact->setGroup(grp->id());
                         EventContact(contact, EventContact::eChanged).process();
                         return true;

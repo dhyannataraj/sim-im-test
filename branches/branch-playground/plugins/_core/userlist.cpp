@@ -245,7 +245,7 @@ bool ContactItem::update(Contact *contact, unsigned status, unsigned style, cons
     m_style  = style;
     m_status = status;
     QString active;
-    active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
+    active.sprintf("%08lX", (long unsigned int)(0xFFFFFFFF - contact->getLastActive()));
     m_sExtraIcons = icons;
     QString icon = getToken(m_sExtraIcons, ',');
     m_Icon = Icon(icon);
@@ -516,7 +516,7 @@ void UserListBase::drawUpdates()
             if (contactItem){
                 grpItem = static_cast<GroupItem*>(contactItem->parent());
                 if (((status <= STATUS_OFFLINE) && (unread == 0) && !bShow && m_bShowOnline) ||
-                        (contact->getGroup() != grpItem->id())){
+                        (contact->getGroup() != (int)grpItem->id())){
                     grpItem->m_nContacts--;
                     if (contactItem->m_bOnline)
                         grpItem->m_nContactsOnline--;
@@ -574,7 +574,7 @@ void UserListBase::drawUpdates()
             grpItem = NULL;
             if (contactItem){
                 grpItem = static_cast<GroupItem*>(contactItem->parent());
-                if ((status <= STATUS_OFFLINE) || (grpItem->id() != contact->getGroup())){
+                if ((status <= STATUS_OFFLINE) || ((int)grpItem->id() != contact->getGroup())){
                     grpItem->m_nContacts--;
                     addGroupForUpdate(grpItem->id());
                     deleteItem(contactItem);
@@ -590,7 +590,7 @@ void UserListBase::drawUpdates()
                 grpItem = NULL;
                 if (contactItem){
                     grpItem = static_cast<GroupItem*>(contactItem->parent());
-                    if ((status > STATUS_OFFLINE) || (grpItem->id() != contact->getGroup())){
+                    if ((status > STATUS_OFFLINE) || ((int)grpItem->id() != contact->getGroup())){
                         grpItem->m_nContacts--;
                         addGroupForUpdate(grpItem->id());
                         deleteItem(contactItem);
