@@ -99,15 +99,15 @@ bool ForwardPlugin::processEvent(Event *e)
             SMSMessage *sms = static_cast<SMSMessage*>(msg);
             QString phone = sms->getPhone();
             bool bMyPhone;
-            ForwardUserData *data = (ForwardUserData*)(getContacts()->getUserData_old(user_data_id));
-            bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
+            SIM::PropertyHubPtr data = getContacts()->getUserData("forward");
+            bMyPhone = ContactList::cmpPhone(phone, data->value("Phone").toString());
             if (!bMyPhone){
                 Group *grp;
                 ContactList::GroupIterator it;
                 while ((grp = ++it) != NULL){
-                    data = (ForwardUserData*)(grp->getUserData_old(user_data_id, false));
-                    if (data && !data->Phone.str().isEmpty()){
-                        bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
+                    data = grp->getUserData("forward", false);
+                    if (data && !data->value("Phone").toString().isEmpty()){
+                        bMyPhone = ContactList::cmpPhone(phone, data->value("Phone").toString());
                         break;
                     }
                 }
@@ -116,8 +116,9 @@ bool ForwardPlugin::processEvent(Event *e)
                 Contact *contact;
                 ContactList::ContactIterator it;
                 while ((contact = ++it) != NULL){
-                    data = (ForwardUserData*)(contact->getUserData_old(user_data_id, false));
-                    if (data && !data->Phone.str().isEmpty()){
+                    data = contact->getUserData("forward", false);
+                    if (data && !data->value("Phone").toString().isEmpty())
+                    {
                         bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
                     }

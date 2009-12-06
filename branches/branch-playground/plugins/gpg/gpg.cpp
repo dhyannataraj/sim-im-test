@@ -416,7 +416,7 @@ bool GpgPlugin::processEvent(Event *e)
                     if (contact == NULL)
                         return false;
                     SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
-                    if (data.isNull() || data->value("Key").toString().isEmpty())
+                    if (!data || data->value("Key").toString().isEmpty())
                         return false;
                     if (data->value("Use").toBool())
                         cmd->flags |= COMMAND_CHECKED;
@@ -433,7 +433,7 @@ bool GpgPlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return false;
                 SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
-                if (!data.isNull() && !data->value("Key").toString().isEmpty())
+                if (data && !data->value("Key").toString().isEmpty())
                     data->setValue("Use", (cmd->flags & COMMAND_CHECKED) != 0);
                 return true;
             }
@@ -470,7 +470,7 @@ bool GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
-                    if (!data.isNull() && !data->value("Key").toString().isEmpty() && data->value("Use").toBool()){
+                    if (data && !data->value("Key").toString().isEmpty() && data->value("Use").toBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -490,7 +490,7 @@ bool GpgPlugin::processEvent(Event *e)
                 if (contact)
                 {
                     SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
-                    if (!data.isNull() && !data->value("Key").toString().isEmpty() && data->value("Use").toBool()){
+                    if (data && !data->value("Key").toString().isEmpty() && data->value("Use").toBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)es->msg());
                         QString input = output + ".in";
@@ -596,26 +596,24 @@ bool GpgPlugin::processEvent(Event *e)
         }
 	case eEventPluginLoadConfig:
 	{
-            PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("gpg");
-	    if(!hub.isNull())
-		    setPropertyHub(hub);
-		// Defaults:
-                if(!value("Home").isValid())
-                        setValue("Home", "keys/");
-                if(!value("GenKey").isValid())
-                        setValue("GenKey", "--gen-key --batch");
-                if(!value("PublicList").isValid())
-                        setValue("PublicList", "--with-colon --list-public-keys");
-                if(!value("SecretList").isValid())
-                        setValue("SecretList", "--with-colon --list-secret-keys");
-                if(!value("Import").isValid())
-                        setValue("Import", "--import %keyfile%");
-                if(!value("Export").isValid())
-                        setValue("Export", "--batch --yes --armor --comment \"\" --no-version --export %userid%");
-                if(!value("Encrypt").isValid())
-                        setValue("Encrypt", "--charset utf8 --batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%");
-                if(!value("Decrypt").isValid())
-                        setValue("Decrypt", "--charset utf8 --yes --passphrase-fd 0 --status-fd 2 --output %plainfile% --decrypt %cipherfile%");
+        setPropertyHub(ProfileManager::instance()->getPropertyHub("gpg"));
+        // Defaults:
+        if(!value("Home").isValid())
+                setValue("Home", "keys/");
+        if(!value("GenKey").isValid())
+                setValue("GenKey", "--gen-key --batch");
+        if(!value("PublicList").isValid())
+                setValue("PublicList", "--with-colon --list-public-keys");
+        if(!value("SecretList").isValid())
+                setValue("SecretList", "--with-colon --list-secret-keys");
+        if(!value("Import").isValid())
+                setValue("Import", "--import %keyfile%");
+        if(!value("Export").isValid())
+                setValue("Export", "--batch --yes --armor --comment \"\" --no-version --export %userid%");
+        if(!value("Encrypt").isValid())
+                setValue("Encrypt", "--charset utf8 --batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%");
+        if(!value("Decrypt").isValid())
+                setValue("Decrypt", "--charset utf8 --yes --passphrase-fd 0 --status-fd 2 --output %plainfile% --decrypt %cipherfile%");
         break;
 	}
     default:

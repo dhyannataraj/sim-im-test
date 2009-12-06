@@ -93,12 +93,12 @@ bool FloatyPlugin::processEvent(Event *e)
             Contact *contact;
             ContactList::ContactIterator it;
             while ((contact = ++it) != NULL){
-                FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(user_data_id, false));
-                if (data == NULL)
+                SIM::PropertyHubPtr data = contact->getUserData("floaty", false);
+                if (!data)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
                 m_floaties.insert(contact->id(), wnd);
-                ((QWidget*)wnd)->move(data->X.toLong(), data->Y.toLong());
+                ((QWidget*)wnd)->move(data->value("X").toInt(), data->value("Y").toInt());
                 wnd->show();
             }
             break;
@@ -109,8 +109,9 @@ bool FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(user_data_id, false));
-                    if (data){
+                    SIM::PropertyHubPtr data = contact->getUserData("floaty", false);
+                    if (data)
+                    {
                         cmd->text = I18N_NOOP("Floating off");
                         cmd->flags |= COMMAND_CHECKED;
                     }else{
@@ -128,15 +129,18 @@ bool FloatyPlugin::processEvent(Event *e)
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
-                    FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(user_data_id, false));
-                    if (data){
+                    SIM::PropertyHubPtr data = contact->getUserData("floaty", false);
+                    if (data)
+                    {
                         FloatyWnd *wnd = m_floaties.take(contact->id());
                         delete wnd;
-                    }else{
-                        data = (FloatyUserData*)(contact->getUserData_old(user_data_id, true));
+                    }
+                    else
+                    {
+                        data = contact->getUserData("floaty", true);
                         QRect r = QApplication::desktop()->availableGeometry();
-                        data->X.asLong() = r.x();
-                        data->Y.asLong() = r.y();
+                        data->setValue("X", r.x());
+                        data->setValue("Y", r.y());
                         FloatyWnd *wnd = new FloatyWnd(this, (unsigned long)(cmd->param));
                         m_floaties.insert((unsigned long)(cmd->param), wnd);
                         ((QWidget*)wnd)->move(r.x(), r.y());

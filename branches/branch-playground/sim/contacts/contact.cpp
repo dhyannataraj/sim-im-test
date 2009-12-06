@@ -37,9 +37,9 @@ namespace SIM
 
     PropertyHubPtr Contact::getUserData(const QString& id, bool bCreate)
     {
-        PropertyHubPtr hub = m_userData->getUserData(id);
-        if(!hub.isNull())
-            return hub;
+        PropertyHubPtr data = m_userData->getUserData(id);
+        if(data)
+            return data;
         if(bCreate)
             return m_userData->createUserData(id);
         Group *group = getContacts()->group(getGroup());
