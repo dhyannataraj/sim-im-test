@@ -1372,7 +1372,8 @@ bool MSNClient::processEvent(Event *e)
 		{
             Contact *contact = NULL;
             findContact(ac->addr, ac->nick, contact);
-            if (contact && (contact->getGroup() != ac->group)){
+            if (contact && contact->getGroup() != ac->group)
+            {
                 contact->setGroup(ac->group);
                 EventContact e(contact, EventContact::eChanged);
                 e.process();

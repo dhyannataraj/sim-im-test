@@ -73,7 +73,7 @@ ActionPlugin::ActionPlugin(unsigned base)
 {
     plugin = this;
 
-    action_data_id = getContacts()->registerUserData(info.title, actionUserData);
+    //action_data_id = getContacts()->registerUserData(info.title, actionUserData);
     CmdAction = registerType();
 
     Command cmd;

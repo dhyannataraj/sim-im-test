@@ -19,6 +19,9 @@
 #define _ACTIONCFG_H
 
 #include "ui_actioncfgbase.h"
+#include "propertyhub.h"
+
+using namespace SIM;
 
 struct ActionUserData;
 class ActionPlugin;
@@ -32,7 +35,7 @@ public:
     virtual ~ActionConfig();
 public slots:
     void apply();
-    void apply(void*);
+    void apply(PropertyHubPtr);
     void help();
 protected:
     MenuConfig		*m_menu;

@@ -265,11 +265,8 @@ bool FilterPlugin::processEvent(Event *e)
             FilterUserData *data = NULL;
             Contact *contact = getContacts()->contact(id);
             if (contact){
-                data = contact->getUserData(user_data_id);
-            }else{
-                data = (FilterUserData*)(getContacts()->getUserData_old(user_data_id));
-            }
-            QString s = data->SpamList.str();
+                data = contact->getUserData("filter");
+            QString s = data->value("SpamList").toString();
             while (!text.isEmpty()){
                 QString line = getToken(text, '\n');
                 line = line.remove('\r');
@@ -287,13 +284,15 @@ bool FilterPlugin::processEvent(Event *e)
                     s += ' ';
                 s += line;
             }
-            data->SpamList.str() = s;
+            data->setValue("SpamList", s);
             return false;
         }
-        if (cmd->menu_id == MenuContactGroup){
-            if (cmd->id == CmdIgnoreList){
+        if (cmd->menu_id == MenuContactGroup)
+        {
+            if (cmd->id == CmdIgnoreList)
+            {
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
-                if (contact == NULL)
+                if (!contact)
                     return false;
                 contact->setIgnore((cmd->flags & COMMAND_CHECKED) == 0);
                 EventContact(contact, EventContact::eChanged).process();

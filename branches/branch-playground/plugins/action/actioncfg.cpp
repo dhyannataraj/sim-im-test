@@ -113,26 +113,25 @@ ActionConfig::~ActionConfig()
 
 void ActionConfig::apply()
 {
-    ActionUserData *data = (ActionUserData*)(getContacts()->getUserData_old(m_plugin->action_data_id));
+    PropertyHubPtr data = getContacts()->getUserData("action");
     apply(data);
 }
 
-void ActionConfig::apply(void *_data)
+void ActionConfig::apply(PropertyHubPtr data)
 {
-    ActionUserData *data = (ActionUserData*)_data;
+    //ActionUserData *data = (ActionUserData*)_data;
     if (m_menu)
         m_menu->apply(data);
     for (int row = 0; row < lstEvent->rowCount(); ++row){
         unsigned id = lstEvent->item(row, 0)->data(Qt::UserRole).toUInt();
         const QString text = lstEvent->item(row, 1)->data(Qt::EditRole).toString();
 
-        if (id == CONTACT_ONLINE){
-            data->OnLine.str() = text;
-        }else if (id == CONTACT_STATUS){
-            data->Status.str() = text;
-        }else{
-            set_str(&data->Message, id, text);
-        }
+        if (id == CONTACT_ONLINE)
+            data->setValue("OnLine", text);
+        else if (id == CONTACT_STATUS){
+            data->setValue("Status", text);
+        else
+            data->setStringMapValue("Message",id, s);
     }
 }
 
