@@ -63,9 +63,9 @@ static DataDef actionUserData[] =
 
 static ActionPlugin *plugin = NULL;
 
-static QWidget *getActionSetup(QWidget *parent, void *data)
+static QWidget *getActionSetup(QWidget *parent, PropertyHubPtr data)
 {
-    return new ActionConfig(parent, (ActionUserData*)data, plugin);
+    return new ActionConfig(parent, data, plugin);
 }
 
 ActionPlugin::ActionPlugin(unsigned base)
@@ -102,7 +102,7 @@ ActionPlugin::~ActionPlugin()
 
 QWidget *ActionPlugin::createConfigWindow(QWidget *parent)
 {
-    ActionUserData *data = (ActionUserData*)(getContacts()->getUserData_old(action_data_id));
+    SIM::PropertyHubPtr data = getContacts()->getUserData("action");
     return new ActionConfig(parent, data, this);
 }
 
@@ -127,27 +127,30 @@ bool ActionPlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
                 return false;
-            ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
-            if ((data == NULL) || (data->NMenu.toULong() == 0))
+            PropertyHubPtr data = contact->getUserData("action");
+            if (!data || data->value("NMenu").toInt() == 0)
                 return false;
-            CommandDef *cmds = new CommandDef[data->NMenu.toULong() + 1];
+            CommandDef *cmds = new CommandDef[data->value("NMenu").toInt() + 1];
             unsigned n = 0;
-            for (unsigned i = 0; i < data->NMenu.toULong(); i++){
-                QString str = get_str(data->Menu, i + 1);
+            for (int i = 0; i < data->value("NMenu").toInt(); i++){
+                QString str = data->stringMapValue("Menu", i +1);
                 QString item = getToken(str, ';');
                 int pos = item.indexOf("&IP;");
-                if (pos >= 0){
+                if (pos >= 0)
+                {
                     EventGetContactIP e(contact);
                     if (!e.process())
                         continue;
                 }
                 pos = item.indexOf("&Mail;");
-                if (pos >= 0){
+                if (pos >= 0)
+                {
                     if (contact->getEMails().isEmpty())
                         continue;
                 }
                 pos = item.indexOf("&Phone;");
-                if (pos >= 0){
+                if (pos >= 0)
+                {
                     if (contact->getPhones().isEmpty())
                         continue;
                 }
@@ -156,7 +159,8 @@ bool ActionPlugin::processEvent(Event *e)
                 cmds[n].text_wrk = item;
                 n++;
             }
-            if (n == 0){
+            if (n == 0)
+            {
                 delete[] cmds;
                 return false;
             }
@@ -172,12 +176,11 @@ bool ActionPlugin::processEvent(Event *e)
         if ((cmd->menu_id == MenuContact) && (cmd->id >= CmdAction)){
             unsigned n = cmd->id - CmdAction;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
-            if (contact == NULL)
+            PropertyHubPtr data = contact->getUserData("action");
+            if (!contact || !data  || n >=  data->value("NMenu").toLong())
                 return false;
-            ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
-            if ((data == NULL) || (n >= data->NMenu.toULong()))
-                return false;
-            QString str = get_str(data->Menu, n + 1);
+
+            QString str = data->stringMapValue("Menu", i +1);
             getToken(str, ';');
             EventTemplate::TemplateExpand t;
             t.tmpl     = str;

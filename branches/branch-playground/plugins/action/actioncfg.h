@@ -28,7 +28,7 @@ class ActionConfig : public QWidget, public Ui::ActionConfigBase
 {
     Q_OBJECT
 public:
-    ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin);
+    ActionConfig(QWidget *parent, SIM::PropertyHubPtr data, ActionPlugin *plugin);
     virtual ~ActionConfig();
 public slots:
     void apply();
@@ -37,7 +37,7 @@ public slots:
 protected:
     MenuConfig		*m_menu;
     void setEnabled (bool);
-    ActionUserData *m_data;
+    SIM::PropertyHubPtr m_data;
     ActionPlugin *m_plugin;
 };
 

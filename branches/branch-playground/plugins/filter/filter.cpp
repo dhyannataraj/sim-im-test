@@ -181,9 +181,9 @@ bool FilterPlugin::processEvent(Event *e)
         }
 
         // get filter-data
-        data = (FilterUserData*)(contact->getUserData_old(user_data_id));
-		if (data && !data->SpamList.str().isEmpty() && ((contact == NULL) || (contact->getFlags() & CONTACT_TEMPORARY) )) {
-            if (checkSpam(msg->getPlainText(), data->SpamList.str())){
+        data = contact->getUserData("filter");
+		if (data && !data->value("SpamList").toString().isEmpty() && (!contact || (contact->getFlags() & CONTACT_TEMPORARY) )) {
+            if (checkSpam(msg->getPlainText(), data->value("SpamList").toString())){
                 delete msg;
                 return true;
             }

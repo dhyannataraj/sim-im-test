@@ -59,7 +59,7 @@ static DataDef forwardUserData[] =
 
 static ForwardPlugin *forwardPlugin = NULL;
 
-static QWidget *getForwardSetup(QWidget *parent, void *data)
+static QWidget *getForwardSetup(QWidget *parent, PropertyHubPtr data)
 {
     return new ForwardConfig(parent, data, forwardPlugin);
 }
@@ -119,7 +119,7 @@ bool ForwardPlugin::processEvent(Event *e)
                     data = contact->getUserData("forward", false);
                     if (data && !data->value("Phone").toString().isEmpty())
                     {
-                        bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
+                        bMyPhone = ContactList::cmpPhone(phone, data->value("Phone").toString());
                         break;
                     }
                 }
@@ -153,20 +153,20 @@ bool ForwardPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return false;
-        ForwardUserData *data = (ForwardUserData*)(contact->getUserData_old(user_data_id));
-        if ((data == NULL) || (data->Phone.str().isEmpty()))
+        SIM::PropertyHubPtr data = contact->getUserData("forward");
+        if (!data || data->value("Key").toString().isEmpty())
             return false;
         CorePlugin *core = GET_CorePlugin();
         unsigned status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
             unsigned flags = MESSAGE_NOHISTORY;
-            if (data->Send1st.toBool())
+            if (data->value("Send1st").toBool())
                 flags |= MESSAGE_1ST_PART;
-            if (data->Translit.toBool())
+            if (data->value("Translit").toBool())
                 flags |= MESSAGE_TRANSLIT;
             SMSMessage *m = new SMSMessage;
-            m->setPhone(data->Phone.str());
+            m->setPhone(data->value("Phone").toString());
             m->setText(text);
             m->setFlags(flags);
             unsigned i;
@@ -184,7 +184,7 @@ bool ForwardPlugin::processEvent(Event *e)
 
 QWidget *ForwardPlugin::createConfigWindow(QWidget *parent)
 {
-    return new ForwardConfig(parent, getContacts()->getUserData_old(user_data_id), this);
+    return new ForwardConfig(parent, getContacts()->getUserData("forward"), this);
 }
 
 void ForwardPlugin::setPropertyHub(SIM::PropertyHubPtr hub)

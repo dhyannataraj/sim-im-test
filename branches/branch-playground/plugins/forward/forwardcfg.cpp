@@ -27,35 +27,36 @@
 
 using namespace SIM;
 
-ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin) : QWidget(parent)
+ForwardConfig::ForwardConfig(QWidget *parent, PropertyHubPtr data, ForwardPlugin *plugin) : QWidget(parent)
 {
 	setupUi(this);
     m_plugin = plugin;
-    ForwardUserData *data = (ForwardUserData*)_data;
-    chkFirst->setChecked(data->Send1st.toBool());
-    chkTranslit->setChecked(data->Translit.toBool());
+    //PropertyHubPtr data = (ForwardUserData*)_data;
+    chkFirst->   setChecked(data->value("Send1st")  .toBool());
+    chkTranslit->setChecked(data->value("Translit") .toBool());
     cmbPhone->setEditable(true);
     QString phones = getContacts()->owner()->getPhones();
-    while (!phones.isEmpty()){
+    while (!phones.isEmpty())
+    {
         QString item = getToken(phones, ';', false);
         QString number = getToken(item, ',');
         getToken(item, ',');
         if (item.toULong() == CELLULAR)
             cmbPhone->insertItem(INT_MAX,number);
     }
-    cmbPhone->lineEdit()->setText(data->Phone.str());
+    cmbPhone->lineEdit()->setText(data->value("Phone").toString());
 }
 
-void ForwardConfig::apply(void *_data)
+void ForwardConfig::apply(PropertyHubPtr data)
 {
-    ForwardUserData *data = (ForwardUserData*)_data;
-    data->Send1st.asBool() = chkFirst->isChecked();
-    data->Translit.asBool() = chkTranslit->isChecked();
-    data->Phone.str() = cmbPhone->lineEdit()->text();
+    //ForwardUserData *data = (ForwardUserData*)_data;
+    data->setValue("Send1st",   chkFirst->isChecked()       );
+    data->setValue("Translit",  chkTranslit->isChecked()    );
+    data->setValue("Phone",     cmbPhone->lineEdit()->text());
 }
 
 void ForwardConfig::apply()
 {
-    apply(getContacts()->getUserData_old(m_plugin->user_data_id));
+    apply(getContacts()->getUserData("forward"));
 }
 

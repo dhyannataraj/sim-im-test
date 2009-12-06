@@ -48,7 +48,7 @@ static void addRow(QTableWidget *lstEvent, int row, const QIcon &icon, const QSt
     lstEvent->setItem(row, 1, item);
 }
 
-ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin)
+ActionConfig::ActionConfig(QWidget *parent, SIM::PropertyHubPtr data, ActionPlugin *plugin)
   : QWidget(parent)
   , m_menu(NULL)
   , m_data(data)

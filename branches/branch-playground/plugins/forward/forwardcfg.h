@@ -19,16 +19,18 @@
 #define _FORWARDCFG_H
 
 #include "ui_forwardcfgbase.h"
+#include "propertyhub.h"
 
+using namespace SIM;
 class ForwardPlugin;
 
 class ForwardConfig : public QWidget, public Ui::ForwardConfigBase
 {
     Q_OBJECT
 public:
-    ForwardConfig(QWidget *parent, void *data, ForwardPlugin *plugin);
+    ForwardConfig(QWidget *parent, PropertyHubPtr data, ForwardPlugin *plugin);
 public slots:
-    void apply(void *data);
+    void apply(PropertyHubPtr data);
     void apply();
 protected:
     ForwardPlugin	*m_plugin;
