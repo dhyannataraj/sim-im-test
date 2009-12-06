@@ -1590,6 +1590,7 @@
 					RelativePath=".\sim\contacts\protocol.cpp"
 					>
 				</File>
+				<File
 					RelativePath=".\sim\contacts\protocolmanager.cpp"
 					>
 				</File>
