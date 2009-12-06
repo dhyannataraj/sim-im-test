@@ -289,10 +289,10 @@
 				RelativePath=".\sim\clientlist.cpp"
 				>
 			</File>
+			<File
 				RelativePath=".\sim\clientmanager.cpp"
 				>
 			</File>
-			<File
 			<File
 				RelativePath="sim\cmddef.cpp"
 				>
