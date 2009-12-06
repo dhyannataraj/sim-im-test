@@ -392,7 +392,7 @@ void MSNClient::processLST(const QString &mail, const QString &name, unsigned st
         bool bChanged = ((data->Flags.toULong() & MSN_FLAGS) != (data->sFlags.toULong() & MSN_FLAGS));
         if (getAutoAuth() && (data->Flags.toULong() & MSN_FORWARD) && ((data->Flags.toULong() & MSN_ACCEPT) == 0) && ((data->Flags.toULong() & MSN_BLOCKED) == 0))
             bChanged = true;
-        unsigned grp = 0;
+        int grp = 0;
         if (group)
             grp = group->id();
         if (grp != contact->getGroup())
@@ -1105,9 +1105,13 @@ void MSNClient::setupContact(Contact *contact, void *_data)
         int n = name.indexOf('@');
         if (n > 0)
             name = name.left(n);
-        bChanged |= contact->setName(name);
+        
+        QString oldName(contact->getName());
+        contact->setName(name);
+        bChanged |= (oldName != name );
     }
-    if (bChanged){
+    if (bChanged)
+    {
         EventContact e(contact, EventContact::eChanged);
         e.process();
     }

@@ -415,10 +415,10 @@ bool GpgPlugin::processEvent(Event *e)
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
                         return false;
-                    GpgUserData *data = (GpgUserData*)(contact->getUserData_old(user_data_id, false));
-                    if (!data || data->Key.str().isEmpty())
+                    SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
+                    if (data.isNull() || data->value("Key").toString().isEmpty())
                         return false;
-                    if (data->Use.toBool())
+                    if (data->value("Use").toBool())
                         cmd->flags |= COMMAND_CHECKED;
                     return true;
                 }
@@ -432,9 +432,9 @@ bool GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return false;
-                GpgUserData *data = (GpgUserData*)(contact->getUserData_old(user_data_id, false));
-                if (data && !data->Key.str().isEmpty())
-                    data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
+                SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
+                if (!data.isNull() && !data->value("Key").toString().isEmpty())
+                    data->setValue("Use", (cmd->flags & COMMAND_CHECKED) != 0);
                 return true;
             }
             return false;
@@ -469,8 +469,8 @@ bool GpgPlugin::processEvent(Event *e)
             if (msg->type() == MessageGeneric){
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
-                    GpgUserData *data = (GpgUserData*)(contact->getUserData_old(user_data_id, false));
-                    if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
+                    SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
+                    if (!data.isNull() && !data->value("Key").toString().isEmpty() && data->value("Use").toBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -487,9 +487,10 @@ bool GpgPlugin::processEvent(Event *e)
             if ((es->msg()->type() == MessageGeneric) &&
                 (es->msg()->getFlags() & MESSAGE_SECURE)){
                 Contact *contact = getContacts()->contact(es->msg()->contact());
-                if (contact){
-                    GpgUserData *data = (GpgUserData*)(contact->getUserData_old(user_data_id, false));
-                    if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
+                if (contact)
+                {
+                    SIM::PropertyHubPtr data = contact->getUserData("gpg", false);
+                    if (!data.isNull() && !data->value("Key").toString().isEmpty() && data->value("Use").toBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)es->msg());
                         QString input = output + ".in";
@@ -510,7 +511,7 @@ bool GpgPlugin::processEvent(Event *e)
                         sl += value("Encrypt").toString().split(' ');
                         sl = sl.replaceInStrings(QRegExp("\\%plainfile\\%"), input);
                         sl = sl.replaceInStrings(QRegExp("\\%cipherfile\\%"), output);
-                        sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), data->Key.str());
+                        sl = sl.replaceInStrings(QRegExp("\\%userid\\%"), data->value("Key").toString());
 
                         QProcess proc(this);
 
@@ -691,9 +692,10 @@ void GpgPlugin::publicReady()
                             pos = 0;
                         if (sign.mid(pos) == name.toLatin1()){
                             Contact *contact = getContacts()->contact(it->contact);
-                            if (contact){
-                                GpgUserData *data = (GpgUserData*)(contact->getUserData_old(user_data_id, true));
-                                data->Key.str() = sign;
+                            if (contact)
+                            {
+                                SIM::PropertyHubPtr data = contact->getUserData("gpg", true);
+                                data->setValue("Key", sign);
                             }
                             break;
                         }

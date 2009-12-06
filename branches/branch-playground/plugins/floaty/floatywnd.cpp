@@ -287,16 +287,20 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         releaseMouse();
         Contact *contact = getContacts()->contact(m_id);
         if (contact){
-            FloatyUserData *data = (FloatyUserData*)(contact->getUserData_old(m_plugin->user_data_id, false));
-            if (data){
-                data->X.asLong() = x();
-                data->Y.asLong() = y();
+            SIM::PropertyHubPtr data = contact->getUserData("floaty", false);
+            if(!data.isNull())
+            {
+                data->setValue("X", x());
+                data->setValue("Y", y());
             }
         }
         mousePos = QPoint();
-    }else{
+    }
+    else
+    {
         CorePlugin *core = GET_CorePlugin();
-        if ((e->pos() == initMousePos) && !core->value("UseDblClick").toBool()){
+        if ((e->pos() == initMousePos) && !core->value("UseDblClick").toBool())
+        {
             EventDefaultAction(m_id).process();
         }
     }
