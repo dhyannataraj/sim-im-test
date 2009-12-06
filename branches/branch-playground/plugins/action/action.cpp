@@ -177,10 +177,10 @@ bool ActionPlugin::processEvent(Event *e)
             unsigned n = cmd->id - CmdAction;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             PropertyHubPtr data = contact->getUserData("action");
-            if (!contact || !data  || n >=  data->value("NMenu").toLong())
+            if (!contact || !data  || n >=  data->value("NMenu").toLongLong())
                 return false;
 
-            QString str = data->stringMapValue("Menu", i +1);
+            QString str = data->stringMapValue("Menu", n +1);
             getToken(str, ';');
             EventTemplate::TemplateExpand t;
             t.tmpl     = str;
@@ -199,11 +199,11 @@ bool ActionPlugin::processEvent(Event *e)
         Contact *contact = ec->contact();
         if (contact == NULL)
             return false;
-        ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
-        if ((data == NULL) || (data->OnLine.str().isEmpty()))
+        PropertyHubPtr data = contact->getUserData("action");
+        if (!data || data->value("OnLine").toString().isEmpty())
             return false;
         EventTemplate::TemplateExpand t;
-        t.tmpl     = data->OnLine.str();
+        t.tmpl     = data->value("OnLine").toString();
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
@@ -216,21 +216,21 @@ bool ActionPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return false;
-        ActionUserData *data = (ActionUserData*)(contact->getUserData_old(action_data_id));
-        if (data == NULL)
+        PropertyHubPtr data = contact->getUserData("action");
+        if (!data)
             return false;
         if (msg->type() == MessageStatus){
-            if (data->Status.str().isEmpty())
+            if (data->value("Status").toString().isEmpty())
                 return false;
             EventTemplate::TemplateExpand t;
-            t.tmpl     = data->Status.str();
+            t.tmpl     = data->value("Status").toString();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
             EventTemplateExpand(&t).process();
             return false;
         }
-        QString cmd = get_str(data->Message, msg->baseType());
+        QString cmd = data->stringMapValue("Message",msg->baseType());
         if (cmd.isEmpty())
             return false;
         EventTemplate::TemplateExpand t;

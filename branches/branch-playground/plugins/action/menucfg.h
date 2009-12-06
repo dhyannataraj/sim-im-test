@@ -19,23 +19,25 @@
 #define _MENUCFG_H
 
 #include "ui_menucfgbase.h"
+#include "propertyhub.h"
 
-struct ActionUserData;
+using namespace SIM;
+struct ActionUserData; //RemoveMe?
 
 class MenuConfig : public QWidget, public Ui::MenuConfigBase
 {
     Q_OBJECT
 public:
-    MenuConfig(QWidget *parent, ActionUserData *data);
+    MenuConfig(QWidget *parent, PropertyHubPtr data);
     virtual ~MenuConfig();
 public Q_SLOTS:
-    void apply(void*);
+    void apply(PropertyHubPtr);
     void itemSelectionChanged();
     void add();
     void edit();
     void remove();
 protected:
-    ActionUserData *m_data;
+    PropertyHubPtr m_data;
 };
 
 #endif

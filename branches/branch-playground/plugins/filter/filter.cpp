@@ -160,7 +160,7 @@ bool FilterPlugin::processEvent(Event *e)
         if (!msg || (msg->type() == MessageStatus))
             return false;
         Contact *contact = getContacts()->contact(msg->contact());
-        FilterUserData *data = NULL;
+        PropertyHubPtr data = contact->getUserData("filter");
         // check if we accept only from users on the list
         if (((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
                         ((value("FromList").toBool() &&
@@ -181,7 +181,6 @@ bool FilterPlugin::processEvent(Event *e)
         }
 
         // get filter-data
-        data = contact->getUserData("filter");
 		if (data && !data->value("SpamList").toString().isEmpty() && (!contact || (contact->getFlags() & CONTACT_TEMPORARY) )) {
             if (checkSpam(msg->getPlainText(), data->value("SpamList").toString())){
                 delete msg;
@@ -266,7 +265,7 @@ bool FilterPlugin::processEvent(Event *e)
             FilterUserData *data = NULL;
             Contact *contact = getContacts()->contact(id);
             if (contact){
-                data = (FilterUserData*)(contact->getUserData_old(user_data_id));
+                data = contact->getUserData(user_data_id);
             }else{
                 data = (FilterUserData*)(getContacts()->getUserData_old(user_data_id));
             }

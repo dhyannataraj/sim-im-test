@@ -60,10 +60,10 @@ ActionConfig::ActionConfig(QWidget *parent, SIM::PropertyHubPtr data, ActionPlug
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 
     int row = 0;
-    addRow(lstEvent, row, Icon("SIM"), i18n("Contact online"), CONTACT_ONLINE, data->OnLine.str());
+    addRow(lstEvent, row, Icon("SIM"), i18n("Contact online"), CONTACT_ONLINE, data->value("OnLine").toString() );
 
     row++;
-    addRow(lstEvent, row, Icon("SIM"), i18n("Status changed"), CONTACT_STATUS, data->Status.str());
+    addRow(lstEvent, row, Icon("SIM"), i18n("Status changed"), CONTACT_STATUS, data->value("Status").toString() );
 
     CommandDef *cmd;
     CorePlugin *core = GET_CorePlugin();
@@ -86,7 +86,7 @@ ActionConfig::ActionConfig(QWidget *parent, SIM::PropertyHubPtr data, ActionPlug
         type = type.left(1).toUpper() + type.mid(1);
 
         row++;
-        addRow(lstEvent, row, Icon(cmd->icon), type, cmd->id, get_str(data->Message, cmd->id));
+        addRow(lstEvent, row, Icon(cmd->icon), type, cmd->id, data->stringMapValue("Message", cmd->id));
     }
     EventTmplHelpList e;
     e.process();

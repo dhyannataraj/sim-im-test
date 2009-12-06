@@ -33,6 +33,7 @@ namespace SIM
         QVariant value(const QString& key);
         void setStringMapValue(const QString& mapname, int key, const QString& value);
         QString stringMapValue(const QString& mapname, int key);
+        void clearStringMap(const QString& mapname);
         QList<QString> allKeys();
 
         bool serialize( QDomElement element );

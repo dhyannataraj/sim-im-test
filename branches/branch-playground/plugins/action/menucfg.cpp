@@ -27,7 +27,7 @@
 
 using namespace SIM;
 
-MenuConfig::MenuConfig(QWidget *parent, ActionUserData *data)
+MenuConfig::MenuConfig(QWidget *parent, PropertyHubPtr data)
   : QWidget(parent)
   , m_data(data)
 {
@@ -38,10 +38,10 @@ MenuConfig::MenuConfig(QWidget *parent, ActionUserData *data)
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(edit()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
 
-    for (unsigned row = 0; row < m_data->NMenu.toULong(); row++){
+    for (int row = 0; row < m_data->value("NMenu").toInt(); row++){
         lstMenu->setRowCount(row+1);
 
-        const QStringList sl = get_str(data->Menu, row + 1).split(';');
+        const QStringList sl = data->stringMapValue("Menu", row +1).split(';');
         if(sl.count() != 2)
             continue;
 
@@ -102,14 +102,15 @@ void MenuConfig::remove()
     lstMenu->removeRow(lstMenu->currentRow());
 }
 
-void MenuConfig::apply(void *_data)
+void MenuConfig::apply(PropertyHubPtr data)
 {
-    ActionUserData *data = (ActionUserData*)_data;
-    data->Menu.clear();
-    data->NMenu.asULong() = 0;
+    //ActionUserData *data = (ActionUserData*)_data;
+    data->clearStringMap("Menu")
+    data->setValue("NMenu", 0);
     for (int row = 0; row < lstMenu->rowCount(); ++row){
         QString s = lstMenu->item(row, 0)->text() + ";" + lstMenu->item(row, 1)->text();
-        set_str(&data->Menu, ++data->NMenu.asULong(), s);
+        data->setValue("NMenu", data->value("NMenu").toUInt() + 1);
+        data->setStringMapValue("Menu", data->value("NMenu").toUInt(), s);
     }
 }
 
