@@ -51,7 +51,7 @@ FilterConfig::FilterConfig(QWidget *parent, PropertyHubPtr data, FilterPlugin *p
 		chkAuthFromList->hide();
 		lblFilter->hide();
 	}
-        edtFilter->setPlainText(data->SpamList.str());
+    edtFilter->setPlainText(data->value("SpamList").toString());
 }
 
 FilterConfig::~FilterConfig()
@@ -67,9 +67,9 @@ void FilterConfig::apply()
     apply(m_data);
 }
 
-void FilterConfig::apply(void *_data)
+void FilterConfig::apply(PropertyHubPtr data)
 {
-    FilterUserData *data = (FilterUserData*)_data;
-    data->SpamList.str() = edtFilter->toPlainText();
+    //FilterUserData *data = (FilterUserData*)_data;
+    data->setValue("SpamList", edtFilter->toPlainText());
 }
 

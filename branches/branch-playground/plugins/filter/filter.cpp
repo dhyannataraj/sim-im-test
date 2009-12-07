@@ -59,9 +59,9 @@ static DataDef filterUserData[] =
 
 static FilterPlugin *filterPlugin = NULL;
 
-static QWidget *getFilterConfig(QWidget *parent, void *data)
+static QWidget *getFilterConfig(QWidget *parent, PropertyHubPtr data)
 {
-    return new FilterConfig(parent, (FilterUserData*)data, filterPlugin, false);
+    return new FilterConfig(parent, data, filterPlugin, false);
 }
 
 FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
