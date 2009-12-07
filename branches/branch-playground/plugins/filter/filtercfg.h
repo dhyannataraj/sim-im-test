@@ -19,6 +19,9 @@
 #define _FILTERCFG_H
 
 #include "ui_filtercfgbase.h"
+#include "propertyhub.h"
+
+using namespace SIM;
 
 struct FilterUserData;
 class FilterPlugin;
@@ -28,13 +31,13 @@ class FilterConfig : public QWidget, public Ui::FilterConfigBase
 {
     Q_OBJECT
 public:
-    FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain);
+    FilterConfig(QWidget *parent, PropertyHubPtr data, FilterPlugin *plugin, bool bMain);
     ~FilterConfig();
 public slots:
     void apply();
-    void apply(void *data);
+    void apply(PropertyHubPtr);
 protected:
-    FilterUserData			*m_data;
+    PropertyHubPtr			m_data;
     FilterPlugin			*m_plugin;
     IgnoreList				*m_ignore;
 };

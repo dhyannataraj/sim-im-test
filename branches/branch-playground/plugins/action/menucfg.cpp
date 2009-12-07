@@ -105,7 +105,7 @@ void MenuConfig::remove()
 void MenuConfig::apply(PropertyHubPtr data)
 {
     //ActionUserData *data = (ActionUserData*)_data;
-    data->clearStringMap("Menu")
+    data->clearStringMap("Menu");
     data->setValue("NMenu", 0);
     for (int row = 0; row < lstMenu->rowCount(); ++row){
         QString s = lstMenu->item(row, 0)->text() + ";" + lstMenu->item(row, 1)->text();

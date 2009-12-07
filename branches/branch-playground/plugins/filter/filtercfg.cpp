@@ -25,7 +25,7 @@
 #include <QTabWidget>
 #include <QLabel>
 
-FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *plugin, bool bMain)
+FilterConfig::FilterConfig(QWidget *parent, PropertyHubPtr data, FilterPlugin *plugin, bool bMain)
   : QWidget(parent)
   , m_data(data)
   , m_plugin(plugin)
@@ -34,8 +34,8 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
 	setupUi(this);
 	if(bMain)
 	{
-                chkFromList->setChecked(m_plugin->value("FromList").toBool());
-                chkAuthFromList->setChecked(m_plugin->value("AuthFromList").toBool());
+        chkFromList->setChecked(m_plugin->value("FromList").toBool());
+        chkAuthFromList->setChecked(m_plugin->value("AuthFromList").toBool());
 		for (QObject *p = parent; p != NULL; p = p->parent()){
 			QTabWidget *tab = qobject_cast<QTabWidget*>(p);
 			if (!tab)

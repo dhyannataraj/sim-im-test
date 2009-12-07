@@ -122,16 +122,18 @@ void ActionConfig::apply(PropertyHubPtr data)
     //ActionUserData *data = (ActionUserData*)_data;
     if (m_menu)
         m_menu->apply(data);
-    for (int row = 0; row < lstEvent->rowCount(); ++row){
+
+    for (int row = 0; row < lstEvent->rowCount(); ++row)
+    {
         unsigned id = lstEvent->item(row, 0)->data(Qt::UserRole).toUInt();
         const QString text = lstEvent->item(row, 1)->data(Qt::EditRole).toString();
 
         if (id == CONTACT_ONLINE)
             data->setValue("OnLine", text);
-        else if (id == CONTACT_STATUS){
+        else if (id == CONTACT_STATUS)
             data->setValue("Status", text);
         else
-            data->setStringMapValue("Message",id, s);
+            data->setStringMapValue("Message",id, text);
     }
 }
 

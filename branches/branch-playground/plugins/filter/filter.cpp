@@ -149,9 +149,7 @@ bool FilterPlugin::processEvent(Event *e)
     }
     case eEventPluginLoadConfig:
     {
-        PropertyHubPtr hub = ProfileManager::instance()->getPropertyHub("filter");
-        if(!hub.isNull())
-            setPropertyHub(hub);
+        setPropertyHub( ProfileManager::instance()->getPropertyHub("filter") );
         break;
     }
     case eEventMessageReceived: {
@@ -262,10 +260,10 @@ bool FilterPlugin::processEvent(Event *e)
                     id = medit->m_userWnd->id();
                 }
             }
-            FilterUserData *data = NULL;
+            
             Contact *contact = getContacts()->contact(id);
-            if (contact){
-                data = contact->getUserData("filter");
+            PropertyHubPtr data = contact->getUserData("filter");
+
             QString s = data->value("SpamList").toString();
             while (!text.isEmpty()){
                 QString line = getToken(text, '\n');
@@ -309,7 +307,7 @@ bool FilterPlugin::processEvent(Event *e)
 
 QWidget *FilterPlugin::createConfigWindow(QWidget *parent)
 {
-    FilterUserData *data = (FilterUserData*)(getContacts()->getUserData_old(user_data_id));
+    PropertyHubPtr data = getContacts()->getUserData("filter");
     return new FilterConfig(parent, data, this, true);
 }
 
