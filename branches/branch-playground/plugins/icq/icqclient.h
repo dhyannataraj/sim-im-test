@@ -165,7 +165,7 @@ const unsigned PING_TIMEOUT = 60;
 const unsigned RATE_PAUSE = 3;
 const unsigned RATE_LIMIT = 5;
 
-const unsigned short SEARCH_DONE = (unsigned short)(-1);
+const unsigned short SEARCH_DONE = USHRT_MAX;
 
 class AIMFileTransfer;
 class DirectClient;

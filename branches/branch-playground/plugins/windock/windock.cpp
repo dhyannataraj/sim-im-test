@@ -34,7 +34,7 @@
 using namespace std;
 using namespace SIM;
 
-const unsigned short ABE_FLOAT   = (unsigned short)(-1);
+const unsigned short ABE_FLOAT   = USHRT_MAX;
 
 static WinDockPlugin *dock = NULL;
 

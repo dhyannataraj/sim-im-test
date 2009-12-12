@@ -824,7 +824,7 @@ unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, 
                                  const QString &szKeyWords, bool bOnlineOnly)
 {
     if (getState() != Connected)
-        return (unsigned short)(-1);
+        return USHRT_MAX;
     serverRequest(ICQ_SRVxREQ_MORE);
     socket()->writeBuffer() << ICQ_SRVxREQ_WP_FULL;
 

@@ -1559,7 +1559,7 @@ void ICQClient::checkListRequest()
         return;
     if (QDateTime::currentDateTime() > (m_listRequest->getTime().addSecs(LIST_REQUEST_TIMEOUT))){
         log(L_WARN, "List request timeout");
-        m_listRequest->process(this, (unsigned short)(-1));
+        m_listRequest->process(this, USHRT_MAX);
         delete m_listRequest;
         m_listRequest = NULL;
         snacICBM()->processSendQueue();
