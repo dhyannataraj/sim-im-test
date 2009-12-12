@@ -73,12 +73,15 @@ UINT appBarMessage(DWORD dwMessage, UINT uEdge=ABE_FLOAT, LPARAM lParam=0, QRect
     abd.hWnd             = pMain->winId();
     abd.uCallbackMessage = WM_APPBAR;
     abd.uEdge            = uEdge;
-    if (rc){
+    if (rc)
+    {
         abd.rc.left = rc->left();
         abd.rc.top = rc->top();
         abd.rc.right = rc->right();
         abd.rc.bottom = rc->bottom();
-    }else{
+    }
+    else
+    {
         abd.rc.left = 0;
         abd.rc.top = 0;
         abd.rc.right = 0;
@@ -95,12 +98,15 @@ UINT appBarMessage(DWORD dwMessage, UINT uEdge=ABE_FLOAT, LPARAM lParam=0, QRect
 static unsigned short getEdge(RECT *rcWnd = NULL)
 {
     RECT rc;
-    if (rcWnd == NULL){
+    if (!rcWnd)
+    {
         GetWindowRect(pMain->winId(), &rc);
         rcWnd = &rc;
     }
-    if (rcWnd->left <= 0) return ABE_LEFT;
-    if (rcWnd->right >= GetSystemMetrics(SM_CXSCREEN)) return ABE_RIGHT;
+    if (rcWnd->left <= 0) 
+        return ABE_LEFT;
+    if (rcWnd->right >= GetSystemMetrics(SM_CXSCREEN)) 
+        return ABE_RIGHT;
     return ABE_FLOAT;
 }
 
@@ -111,9 +117,10 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
     rc.setCoords(0, rcWork.top, GetSystemMetrics(SM_CXSCREEN), rcWork.bottom);
     appBarMessage(ABM_QUERYPOS, state, FALSE, &rc);
     int w;
-    if (rcWnd){
+    if (rcWnd)
         w = rcWnd->right - rcWnd->left;
-    }else{
+    else
+    {
         GetWindowRect(pMain->winId(), &rcWork);
 #ifdef WIN32
         w = rcWork.right - rcWork.left-1;
@@ -121,7 +128,8 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
         w = rcWork.right - rcWork.left;
 #endif
     }
-    switch (state){
+    switch (state)
+    {
     case ABE_LEFT:
         rc.setRight(rc.left() + w);
         break;
@@ -146,14 +154,16 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
     QRect rcStart;
     rcStart.setCoords(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom);
 
-    if (bAnimate && fFullDragOn && (rcStart != rcEnd)) {
+    if (bAnimate && fFullDragOn && (rcStart != rcEnd)) 
+    {
         static_cast<MainWindow*>(pMain)->m_bNoResize = true;
         // Get our starting and ending time.
         DWORD dwTimeStart = GetTickCount();
         DWORD dwTimeEnd = dwTimeStart + SLIDE_INTERVAL;
         DWORD dwTime;
 
-        while ((dwTime = ::GetTickCount()) < dwTimeEnd) {
+        while ((dwTime = ::GetTickCount()) < dwTimeEnd) 
+        {
             int delta = (int)(dwTime - dwTimeStart);
             QRect rc = rcStart;
             rc.setLeft(rcStart.left() +
@@ -180,10 +190,14 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
 
 void setBarState(bool bAnimate = false)
 {
-    if ((dock->getState() == ABE_FLOAT) || !pMain->isVisible()){
+    if ((dock->getState() == ABE_FLOAT) || !pMain->isVisible())
+    {
         appBarMessage(ABM_SETPOS, ABE_FLOAT, FALSE);
-    }else{
-        if (dock->getAutoHide() && !appBarMessage(ABM_SETAUTOHIDEBAR, dock->getState(), TRUE, NULL)){
+    }
+    else
+    {
+        if (dock->getAutoHide() && !appBarMessage(ABM_SETAUTOHIDEBAR, dock->getState(), TRUE, NULL))
+        {
             dock->setAutoHide(false);
             QMessageBox::warning(NULL, i18n("Error"),
                                  i18n("There is already an auto hidden window on this edge.\nOnly one auto hidden window is allowed on each edge."),
@@ -191,40 +205,41 @@ void setBarState(bool bAnimate = false)
         }
         QRect rc;
         getBarRect(dock->getState(), rc);
-        if (dock->getAutoHide()){
+        if (dock->getAutoHide())
+        {
             QRect rcAutoHide = rc;
             int w = 4 * GetSystemMetrics(SM_CXBORDER);
-            if (dock->getState() == ABE_LEFT){
+            if (dock->getState() == ABE_LEFT)
                 rcAutoHide.setRight(rcAutoHide.left() + w);
-            }else{
+            else
                 rcAutoHide.setLeft(rcAutoHide.right() - w);
-            }
+
             appBarMessage(ABM_SETPOS, dock->getState(), FALSE, &rcAutoHide);
-            if (!bAutoHideVisible){
+            if (!bAutoHideVisible)
+            {
                 if (bOldVisible)
                     dock->setWidth(rc.width() - GetSystemMetrics(SM_CXBORDER) * 2);
                 MINMAXINFO mmInfo;
                 rc = rcAutoHide;
                 SendMessageA(pMain->winId(), WM_GETMINMAXINFO, 0, (LPARAM)&mmInfo);
-                if (dock->getState() == ABE_LEFT){
+                if (dock->getState() == ABE_LEFT)
                     rc.setLeft(rc.right() - mmInfo.ptMinTrackSize.x);
-                }else{
+                else
                     rc.setRight(rc.left() + mmInfo.ptMinTrackSize.x);
-                }
-            }else{
-                if (dock->getState() == ABE_LEFT){
-                    rc.setRight(rc.left() + dock->getWidth());
-                }else{
-                    rc.setLeft(rc.right() - dock->getWidth());
-                }
+                
             }
+            else if (dock->getState() == ABE_LEFT)
+                rc.setRight(rc.left() + dock->getWidth());
+            else
+                rc.setLeft(rc.right() - dock->getWidth());
             bOldVisible = bAutoHideVisible;
-        }else{
-            appBarMessage(ABM_SETPOS, dock->getState(), FALSE, &rc);
         }
+        else
+            appBarMessage(ABM_SETPOS, dock->getState(), FALSE, &rc);
         slideWindow(rc, bAnimate);
     }
-    if (pMain->isVisible()){
+    if (pMain->isVisible())
+    {
         EventOnTop(bFullScreen).process();
         if (!bFullScreen && (qApp->activeWindow() == pMain))
             appBarMessage(ABM_ACTIVATE);
@@ -234,8 +249,10 @@ void setBarState(bool bAnimate = false)
 LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT res;
-    if (msg == WM_APPBAR){
-        switch (wParam){
+    if (msg == WM_APPBAR)
+    {
+        switch (wParam)
+        {
         case ABN_FULLSCREENAPP:
             if ((lParam != 0) == bFullScreen)
                 break;
@@ -255,7 +272,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     RECT  rcWnd;
     QRect rc;
     unsigned oldState;
-    switch (msg){
+    switch (msg)
+    {
     case WM_DESTROY:
         res = oldProc(hWnd, msg, wParam, lParam);
         appBarMessage(ABM_REMOVE);
@@ -271,8 +289,10 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             QTimer::singleShot(0, dock, SLOT(slotSetState()));
         return res;
     case WM_ACTIVATE:
-        if (dock->getState() != ABE_FLOAT){
-            if ((wParam == WA_INACTIVE) && dock->getAutoHide() && bAutoHideVisible){
+        if (dock->getState() != ABE_FLOAT)
+        {
+            if ((wParam == WA_INACTIVE) && dock->getAutoHide() && bAutoHideVisible)
+            {
                 bAutoHideVisible = false;
                 setBarState();
                 dock->enableAutoHide(false);
@@ -281,7 +301,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_NCMOUSEMOVE:
-        if ((dock->getState() != ABE_FLOAT) && dock->getAutoHide() && !bAutoHideVisible){
+        if ((dock->getState() != ABE_FLOAT) && dock->getAutoHide() && !bAutoHideVisible)
+        {
             bAutoHideVisible = true;
             setBarState(true);
             dock->enableAutoHide(true);
@@ -290,7 +311,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_ENTERSIZEMOVE:
         bMoving = true;
         bSizing = true;
-        if (dock->getState() == ABE_FLOAT){
+        if (dock->getState() == ABE_FLOAT)
+        {
             bSizing = false;
             GetWindowRect(hWnd, &rcWnd);
             dock->setHeight(rcWnd.bottom - rcWnd.top);
@@ -301,7 +323,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         oldState = dock->getState();
         dock->setState(getEdge());
         GetWindowRect(hWnd, &rcWnd);
-        if ((dock->getState() == ABE_FLOAT) && (oldState != ABE_FLOAT)){
+        if ((dock->getState() == ABE_FLOAT) && (oldState != ABE_FLOAT))
+        {
             rcWnd.bottom = rcWnd.top + dock->getHeight();
             SetWindowPos(pMain->winId(), NULL,
                          rcWnd.left, rcWnd.top, rcWnd.right - rcWnd.left, rcWnd.bottom - rcWnd.top,
@@ -315,12 +338,16 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if (!bMoving) break;
         prc = (RECT*)lParam;
         type = getEdge(prc);
-        if (type == ABE_FLOAT){
-            if (bSizing){
+        if (type == ABE_FLOAT)
+        {
+            if (bSizing)
+            {
                 prc->bottom = prc->top + dock->getHeight();
                 bSizing = false;
             }
-        }else{
+        }
+        else
+        {
             getBarRect(type, rc, prc);
             prc->left = rc.left();
             prc->top = rc.top();
@@ -384,13 +411,13 @@ WinDockPlugin::~WinDockPlugin()
 void WinDockPlugin::uninit()
 {
     QWidget *main = getMainWindow();
-    if (main && oldProc){
+    if (main && oldProc)
+    {
         appBarMessage(ABM_REMOVE);
-        if (IsWindowUnicode(pMain->winId())){
+        if (IsWindowUnicode(pMain->winId()))
             SetWindowLongW(main->winId(), GWL_WNDPROC, (LONG)oldProc);
-        }else{
+        else
             SetWindowLongA(main->winId(), GWL_WNDPROC, (LONG)oldProc);
-        }
         oldProc = NULL;
     }
 }
@@ -401,29 +428,33 @@ bool WinDockPlugin::processEvent(Event *e)
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
-        if (cmd->id == CmdAutoHide){
+        if (cmd->id == CmdAutoHide)
+        {
             dock->setAutoHide((cmd->flags & COMMAND_CHECKED) != 0);
             bAutoHideVisible = true;
             setBarState();
             enableAutoHide(getAutoHide());
             return true;
         }
-    } else
-    if (e->type() == eEventCheckCommandState){
+    } 
+    else if (e->type() == eEventCheckCommandState)
+    {
         EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
-        if ((cmd->id == CmdAutoHide) && (dock->getState() != ABE_FLOAT)){
-            cmd->flags &= ~COMMAND_CHECKED;
+        if ((cmd->id == CmdAutoHide) && (dock->getState() != ABE_FLOAT))
+        {
+            cmd->flags &= ~COMMAND_CHECKED; //Strokes the bit
             if (dock->getAutoHide())
-                cmd->flags |= COMMAND_CHECKED;
+                cmd->flags |= COMMAND_CHECKED; //Sets the bit
             return true;
         }
-    } else
-    if ((e->type() == eEventInit) && !m_bInit)
+    } 
+    else if ((e->type() == eEventInit) && !m_bInit)
         init();
     if (e->type() == eEventInTaskManager){
         EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
-        if ((dock->getState() != ABE_FLOAT) && eitm->showInTaskmanager()){
+        if ((dock->getState() != ABE_FLOAT) && eitm->showInTaskmanager())
+        {
             EventInTaskManager(false).process();
             return true;
         }
@@ -436,12 +467,12 @@ void WinDockPlugin::init()
     if (m_bInit)
         return;
     pMain = getMainWindow();
-    if (pMain){
-        if (IsWindowUnicode(pMain->winId())){
+    if (pMain)
+    {
+        if (IsWindowUnicode(pMain->winId()))
             oldProc = (WNDPROC)SetWindowLongW(pMain->winId(), GWL_WNDPROC, (LONG)dockWndProc);
-        }else{
+        else
             oldProc = (WNDPROC)SetWindowLongA(pMain->winId(), GWL_WNDPROC, (LONG)dockWndProc);
-        }
         appBarMessage(ABM_NEW);
         m_bInit = true;
         setBarState();
@@ -465,8 +496,10 @@ void WinDockPlugin::slotAutoHide()
     GetWindowRect(pMain->winId(), &rc);
     rc.left  -= GetSystemMetrics(SM_CXDOUBLECLK) * 2;
     rc.right += GetSystemMetrics(SM_CXDOUBLECLK) * 2;
-    if ((x >= rc.left) && (x <= rc.right) && (y >= rc.top) && (y <= rc.bottom)) return;
-    if ((getState() != ABE_FLOAT) && getAutoHide() && bAutoHideVisible){
+    if (x >= rc.left && x <= rc.right && y >= rc.top && y <= rc.bottom) 
+        return;
+    if (getState() != ABE_FLOAT && getAutoHide() && bAutoHideVisible)
+    {
         bAutoHideVisible = false;
         setBarState(true);
         enableAutoHide(false);
@@ -475,11 +508,10 @@ void WinDockPlugin::slotAutoHide()
 
 void WinDockPlugin::enableAutoHide(bool bState)
 {
-    if (bState){
+    if (bState)
         m_autoHide->start(1000);
-    }else{
+    else
         m_autoHide->stop();
-    }
 }
 
 bool WinDockPlugin::eventFilter(QObject *o, QEvent *e)
