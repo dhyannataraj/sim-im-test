@@ -222,7 +222,7 @@ bool MsgSMS::processEvent(Event *e)
                 }
             }
         }
-        return(void*)1;
+        return true;
     }
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);

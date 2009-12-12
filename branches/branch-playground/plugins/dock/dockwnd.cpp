@@ -169,7 +169,7 @@ bool DockWnd::processEvent(Event *e)
             return false;
         foreach(BalloonItem item, m_queue ) {
             if (item.id == data.id)
-                return (void*)1;
+                return true;
         }
         QString arg = data.args;
 
@@ -182,7 +182,7 @@ bool DockWnd::processEvent(Event *e)
             item.text = item.text.arg(arg);
         if (!m_queue.empty()){
             m_queue.push_back(item);
-            return (void*)1;
+            return true;
         }
         item.title = "SIM";
         if (getContacts()->nClients() > 1){

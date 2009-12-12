@@ -27,6 +27,7 @@
 
 #include "windock.h"
 #include "ontop.h"
+#include "core.h"
 #include "core_consts.h"
 #include "mainwin.h"
 
@@ -528,10 +529,7 @@ QByteArray WinDockPlugin::getConfig()
 
 QWidget *WinDockPlugin::getMainWindow()
 {
-	QWidgetList list = QApplication::topLevelWidgets();
-    for (int i = 0; i < list.size(); ++i) 
-         if (MainWindow *w = dynamic_cast<MainWindow *>(list.at(i)))
-             return w;
-    return NULL;
+	CorePlugin *core = GET_CorePlugin();
+    return core->getMainWindow();
 }
 

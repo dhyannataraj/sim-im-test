@@ -32,7 +32,6 @@
 #include <QTimer>
 #include <QMenu>
 
-//Fixmee dock: port config to new system
 using namespace SIM;
 
 Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
@@ -131,8 +130,8 @@ void DockPlugin::init()
 {
     if (m_dock)
         return;
-    m_main = this->getMainWindow();
-    if (m_main == NULL)
+    m_main = getMainWindow();
+    if (!m_main)
         return;
     m_main->installEventFilter(this);
     m_dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
@@ -159,7 +158,7 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
             if (!m_bQuit)
             {
                 QWidget *main = static_cast<QWidget*>(o);
-                setValue("ShowMain", false); //Fixme
+                setValue("ShowMain", false); 
                 //setShowMain(false);
                 main->hide();
 				e->ignore();
@@ -189,7 +188,8 @@ bool DockPlugin::isMainShow()
 
 bool DockPlugin::processEvent(Event *e)
 {
-    switch (e->type()){
+    switch (e->type())
+    {
     case eEventInit:
         init();
         break;
@@ -199,65 +199,76 @@ bool DockPlugin::processEvent(Event *e)
             m_dock = NULL;
         }
         break;
-    case eEventRaiseWindow: {
+    case eEventRaiseWindow: 
+    {
         EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
         if (w->widget() == getMainWindow()){
-            if (m_dock == NULL)
+            if (!m_dock)
                 init();
             if (!value("ShowMain").toBool())
-                return (void*)1;
+                return true;
         }
         break;
     }
-    case eEventCommandCreate: {
+    case eEventCommandCreate: 
+    {
         EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
         CommandDef *def = ecc->cmd();
-        if (def->menu_id == MenuMain){
+        if (def->menu_id == MenuMain)
+        {
             CommandDef d = *def;
-            if (def->flags & COMMAND_IMPORTANT){
+            if (def->flags & COMMAND_IMPORTANT)
+            {
                 if (d.menu_grp == 0)
                     d.menu_grp = 0x1001;
-            }else{
-                d.menu_grp = 0;
             }
+            else
+                d.menu_grp = 0;
             d.menu_id = DockMenu;
             d.bar_id  = 0;
             EventCommandCreate(&d).process();
         }
         break;
     }
-    case eEventCheckCommandState: {
+    case eEventCheckCommandState: 
+    {
         EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *def = ecs->cmd();
-        if (def->id == CmdToggle){
+        if (def->id == CmdToggle)
+        {
             def->flags &= ~COMMAND_CHECKED;
             def->text = isMainShow() ?
                         I18N_NOOP("Hide main window") :
                         I18N_NOOP("Show main window");
-            return (void*)1;
+            return true;
         }
         break;
     }
-    case eEventCommandExec: {
+    case eEventCommandExec: 
+    {
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *def = ece->cmd();
-        if (def->id == CmdToggle){
+        if (def->id == CmdToggle)
+        {
             QWidget *main = getMainWindow();
             if(!main)
                 return false;
-            if (isMainShow()){
+            if (isMainShow())
+            {
                 setValue("ShowMain", false);
                 main->hide();
-            }else{
+            }
+            else
+            {
                 m_inactiveTime = QDateTime();
                 setValue("ShowMain", true);
                 raiseWindow(main, value("Desktop").toUInt());
             }
-            return (void*)1;
+            return true;
         }
         if (def->id == CmdCustomize){
             EventMenu(DockMenu, EventMenu::eCustomize).process();
-            return (void*)1;
+            return true;
         }
         if (def->id == CmdQuit)
             m_bQuit = true;
@@ -350,12 +361,12 @@ void DockPlugin::timer()
         return;
     if (!value("AutoHide").toBool() || (m_inactiveTime.isNull()))  // no autohide
         return;
-    if (m_main != getMainWindow()) {
-        m_main = getMainWindow();
-        m_main->installEventFilter(this);
-    }
+    m_main = getMainWindow();
+    m_main->installEventFilter(this);
+
     if (QDateTime::currentDateTime() > m_inactiveTime.addSecs(value("AutoHideInterval").toUInt())){
-        if (m_main){
+        if (m_main)
+        {
             setValue("ShowMain", false);
             m_main->hide();
         }

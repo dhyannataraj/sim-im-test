@@ -46,11 +46,8 @@ using namespace SIM;
 
 QWidget *UpdatePlugin::getMainWindow() //obsolete
 {
-	QWidgetList list = QApplication::topLevelWidgets();
-    for (int i = 0; i < list.size(); ++i) 
-         if (MainWindow *w = dynamic_cast<MainWindow *>(list.at(i)))
-             return w;
-    return NULL;
+	CorePlugin *core = GET_CorePlugin();
+    return core->getMainWindow();
 }
 
 

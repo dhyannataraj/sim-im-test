@@ -112,7 +112,7 @@ bool MsgUrl::processEvent(Event *e)
                 cmd->flags |= BTN_HIDE;
                 if (cmd->id == CmdUrlInput)
                     cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -121,12 +121,12 @@ bool MsgUrl::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     } else
