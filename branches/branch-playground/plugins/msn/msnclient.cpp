@@ -1849,11 +1849,13 @@ QString MSNClient::contactTip(void *_data)
             res += formatDateTime(data->StatusTime.toULong());
         }
     }
-    if (data->IP.ip()){
+    if (data->IP.ip())
+    {
         res += "<br>";
         res += formatAddr(data->IP, data->Port.toULong());
     }
-    if (data->RealIP.ip() && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+    if (data->RealIP.ip() && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP))))
+    {
         res += "<br>";
         res += formatAddr(data->RealIP, data->Port.toULong());
     }

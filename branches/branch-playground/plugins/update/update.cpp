@@ -44,7 +44,7 @@ using namespace SIM;
 
 
 
-QWidget *UpdatePlugin::getMainWindow()
+QWidget *UpdatePlugin::getMainWindow() //obsolete
 {
 	QWidgetList list = QApplication::topLevelWidgets();
     for (int i = 0; i < list.size(); ++i) 
@@ -204,8 +204,10 @@ void UpdatePlugin::Finished(int requestId, bool error){
 		QDate date=QDate::fromString(remoteVersion,Qt::LocalDate);
 		QString currentVersion = SIM::getAboutData()->version();
 		QString majorVersion = currentVersion.section(' ',0,2,QString::SectionDefault);
-		if (!isUpdateNeeded(currentVersion, remoteVersion)){ //If no Update is needed don't go further.
-			if(remoteVersion.right(4).compare("HTML")==0) {
+		if (!isUpdateNeeded(currentVersion, remoteVersion))
+        { //If no Update is needed don't go further.
+			if(remoteVersion.right(4).compare("HTML")==0) 
+            {
 				upToDate=false;
 				return;
 			}
@@ -276,7 +278,8 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	QString month("Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec");
 	QStringList ml = month.split(',', QString::SkipEmptyParts);
 	int i=0;
-	for ( QStringList::Iterator it = ml.begin() ; it != ml.end(); ++it, ++i ) {
+	for ( QStringList::Iterator it = ml.begin() ; it != ml.end(); ++it, ++i ) 
+    {
 		QString search(*it);
 		if (search.compare(local.section(' ',0,0, QString::SectionDefault))==0)
 			break;
@@ -288,7 +291,7 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	if (dremote.isNull())
 	{	
 		QMessageBox::critical( 0, i18n("Update Plugin: Error fetching the date of the current Update Setup."),
-							i18n("Please contact and inform me via noragen@gmx.net about this issue. //\\//oRaGen."));
+							i18n("Please contact and notify me via noragen@gmx.net about this issue. \n//\\//oRaGen."));
 		log(L_DEBUG, "Update::Error in parsing Version-String. Perhaps you forgot to set SVNTAG and SIMTAG - Environment-Vars");		
 	}
 
@@ -330,7 +333,10 @@ void UpdatePlugin::installFile(){
 	//Shutdown SIM here, because we are now ready to install:
 	isInstalling=true;
 	QCloseEvent *e = new QCloseEvent();
-	pMain=getMainWindow();
+	//pMain=getMainWindow(); //obsolete
+
+    pMain=GET_CorePlugin()->getMainWindow();
+    
 	(static_cast<MainWindow*>(pMain))->closeEvent(e); 
 
 #endif

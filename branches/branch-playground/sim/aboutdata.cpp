@@ -17,7 +17,9 @@
 
 #include "aboutdata.h"
 #include "misc.h"
+#include "log.h"
 
+using namespace SIM;
 
 #ifndef USE_KDE4
 
@@ -177,7 +179,11 @@ KAboutData::programName() const
 QString
 KAboutData::version() const
 {
-    return QString::fromLatin1(mVersion);
+    if (this)
+        return QString::fromLatin1(mVersion);
+    else
+        log(L_ERROR, "A Plugin requires About-Plugin to be loaded, but it isn't.");
+    return i18n("Error: About-Plugin is not loaded.");
 }
 
 QString

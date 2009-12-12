@@ -265,7 +265,7 @@ private:
     friend class Tmpl;
 };
 
-#define GET_CorePlugin() { static_cast<CorePlugin*>(SIM::getPluginManager()->plugin("_core").data()) };
+#define GET_CorePlugin() ( static_cast<CorePlugin*>(SIM::getPluginManager()->plugin("_core").data()) )
 
 #endif
 
