@@ -54,8 +54,8 @@ ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def) : QDialog(NULL)
 
     setWindowIcon(Icon("setup"));
     connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
-    connect(lstButtons, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
-    connect(lstActive, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(lstButtons, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
+    connect(lstActive, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addClick()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(removeClick()));
     connect(btnUp, SIGNAL(clicked()), this, SLOT(upClick()));
@@ -84,7 +84,8 @@ void ToolBarSetup::okClick()
 
 void ToolBarSetup::applyClick()
 {
-    if (bDirty){
+    if (bDirty)
+    {
         QByteArray config;
         vector<unsigned>::iterator it;
         for (it = active.begin(); it != active.end(); ++it){
@@ -143,9 +144,18 @@ void ToolBarSetup::addButton(QListWidget *lst, unsigned id)
 
 void ToolBarSetup::selectionChanged()
 {
-    btnAdd->setEnabled(lstButtons->currentItem() >= 0);
+	//orig
+    /*
+	btnAdd->setEnabled(lstButtons->currentItem() >= 0);
     btnRemove->setEnabled(lstActive->currentItem() >= 0);
     btnUp->setEnabled(lstActive->currentItem() > 0);
+    */
+
+	/* new*/
+    btnAdd->setEnabled(lstButtons->count() >= 0);
+    btnRemove->setEnabled(lstActive->count() >= 0);
+    btnUp->setEnabled(lstActive->currentRow() > 0);
+	
     btnDown->setEnabled((lstActive->currentRow() >= 0) &&
                         (lstActive->currentRow() < (int)(lstActive->count() - 1)));
 }
@@ -173,7 +183,8 @@ void ToolBarSetup::addClick()
     int i = lstButtons->currentRow();
     if (i < 0)
         return;
-    if (i == (int)(lstButtons->count() - 1)){
+    if (i == (int)(lstButtons->count() - 1))
+    {
         active.push_back(0);
         addButton(lstActive, 0);
         lstActive->setCurrentRow(lstActive->count() - 1);
@@ -217,6 +228,10 @@ void ToolBarSetup::upClick()
 {
     int i = lstActive->currentRow();
     if (i <= 0) return;
+
+    lstActive->insertItem ( i - 1, lstActive->takeItem ( i ) );
+    lstActive->setCurrentRow(i - 1);
+/*
     unsigned old = active[i - 1];
     active[i - 1] = active[i];
     active[i] = old;
@@ -228,7 +243,7 @@ void ToolBarSetup::upClick()
     item = new QListWidgetItem(s, lstActive);
     item->setIcon(icon);
     lstActive->insertItem(i - 1, item);
-    lstActive->setCurrentRow(i - 1);
+    lstActive->setCurrentRow(i - 1);*/
     bDirty = true;
 }
 
@@ -236,6 +251,10 @@ void ToolBarSetup::downClick()
 {
     int i = lstActive->currentRow();
     if ((i < 0) || (i >= (int)(lstActive->count() - 1))) return;
+    
+    lstActive->insertItem ( i + 1, lstActive->takeItem ( i ) );
+    lstActive->setCurrentRow(i + 1);
+/*
     unsigned old = active[i + 1];
     active[i + 1] = active[i];
     active[i] = old;
@@ -247,7 +266,7 @@ void ToolBarSetup::downClick()
     item = new QListWidgetItem(s, lstActive);
     item->setIcon(icon);
     lstActive->insertItem(i + 1, item);
-    lstActive->setCurrentRow(i + 1);
+    lstActive->setCurrentRow(i + 1);*/
     bDirty = true;
 }
 

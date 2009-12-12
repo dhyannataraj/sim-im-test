@@ -251,18 +251,22 @@ bool Commands::processEvent(Event *e)
 
 bool Commands::eventFilter(QObject *o, QEvent *e)
 {
-    if ((e->type() == QEvent::Show) && o->inherits("QMenu")){
+    if ((e->type() == QEvent::Show) && o->inherits("QMenu"))
+    {
         if (!o->inherits("CMenu")){
             QObject *parent = o->parent();
-            if (parent){
+            if (parent)
+            {
                 unsigned id = 0;
-                if (parent->inherits("MainWindow")){
+                if (parent->inherits("MainWindow"))
                     id = ToolBarMain;
-                }else if (parent->inherits("CToolBar")){
+                else if (parent->inherits("CToolBar"))
+                {
                     CToolBar *bar = static_cast<CToolBar*>(parent);
                     id = bar->m_def->id();
                 }
-                if (id){
+                if (id)
+                {
                     QMenu *popup = static_cast<QMenu*>(o);
                     popup->addAction(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
                     cur_id = id;
