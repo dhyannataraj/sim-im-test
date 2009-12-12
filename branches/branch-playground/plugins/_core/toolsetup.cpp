@@ -231,19 +231,11 @@ void ToolBarSetup::upClick()
 
     lstActive->insertItem ( i - 1, lstActive->takeItem ( i ) );
     lstActive->setCurrentRow(i - 1);
-/*
+
     unsigned old = active[i - 1];
     active[i - 1] = active[i];
     active[i] = old;
-    QString s = lstActive->item(i)->text();
-    QIcon icon = lstActive->item(i)->icon();
-    QListWidgetItem* item = lstActive->takeItem(i);
-    if(item)
-        delete item;
-    item = new QListWidgetItem(s, lstActive);
-    item->setIcon(icon);
-    lstActive->insertItem(i - 1, item);
-    lstActive->setCurrentRow(i - 1);*/
+
     bDirty = true;
 }
 
@@ -254,19 +246,11 @@ void ToolBarSetup::downClick()
     
     lstActive->insertItem ( i + 1, lstActive->takeItem ( i ) );
     lstActive->setCurrentRow(i + 1);
-/*
+
     unsigned old = active[i + 1];
     active[i + 1] = active[i];
     active[i] = old;
-    QString s = lstActive->item(i)->text();
-    QIcon icon = lstActive->item(i)->icon();
-    QListWidgetItem* item = lstActive->takeItem(i);
-    if(item)
-        delete item;
-    item = new QListWidgetItem(s, lstActive);
-    item->setIcon(icon);
-    lstActive->insertItem(i + 1, item);
-    lstActive->setCurrentRow(i + 1);*/
+
     bDirty = true;
 }
 
