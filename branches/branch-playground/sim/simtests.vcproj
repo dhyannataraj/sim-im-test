@@ -119,6 +119,7 @@
 			IntermediateDirectory="test.dir\Release"
 			ConfigurationType="1"
 			UseOfMFC="0"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
