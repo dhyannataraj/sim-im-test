@@ -724,6 +724,15 @@ void CToolBar::showPopup(QPoint p)
 {
     QMenu *popup = new QMenu(this);
     popup->popup(p);
+    QRect available_geom = QDesktopWidget().availableGeometry();
+
+    QPoint correction=p;
+    if (p.x()+popup->width()>available_geom.width())
+        correction.setX(available_geom.width()-popup->rect().width());
+    if (p.y()+popup->height()>available_geom.height())
+        correction.setY(available_geom.height()-popup->rect().height());
+    popup->move(correction);
+
 }
 
 QSizePolicy CToolBar::sizePolicy() const
