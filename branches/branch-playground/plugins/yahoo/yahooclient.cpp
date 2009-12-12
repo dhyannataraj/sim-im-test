@@ -881,7 +881,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         return;
     unsigned long state = 0;
     unsigned away  = 0;
-    unsigned idle  = 0;
+    int idle  = 0;
     if (_state)
         state = atol(_state);
     if (_away)

@@ -659,8 +659,9 @@ bool JabberBrowser::processEvent(Event *e)
                 adjustColumn(it);
                 return true;
             }
+            ListViewItem* i=NULL;
 			if (it->text(COL_JID) != item->jid){
-				ListViewItem* i;
+				
 				for(int c = 0; c < it->childCount(); c++)
 				{
 					i= static_cast<ListViewItem*>(it->child(0));

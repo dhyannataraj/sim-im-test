@@ -1482,7 +1482,7 @@ bool MSNClient::processEvent(Event *e)
                     bool bChanged = false;
                     if (contact->getIgnore() != ((data->Flags.toULong() & MSN_BLOCKED) != 0))
                         bChanged = true;
-                    if (contact->getGroup() != (data->Group.toULong()))
+                    if (contact->getGroup() != (int)(data->Group.toULong()))
                         bChanged = true;
                     if (contact->getName() != data->ScreenName.str())
                         bChanged = true;
@@ -1746,8 +1746,10 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
 {
     Contact *contact;
     MSNUserData *data = findContact(mail, contact);
-    if (data){
-        if (contact->getGroup() != grp){
+    if (data)
+    {
+        if (contact->getGroup() != (int)grp)
+        {
             contact->setGroup(grp);
             EventContact e(contact, EventContact::eChanged);
             e.process();
@@ -1755,7 +1757,7 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
         return false;
     }
     data = findContact(mail, name, contact);
-    if (data == NULL)
+    if (!data)
         return false;
     contact->setGroup(grp);
     EventContact e(contact, EventContact::eChanged);

@@ -760,7 +760,7 @@ bool SearchWPRequest::answer(ICQBuffer &b, unsigned short nSubType)
 unsigned short ICQClient::findByUin(unsigned long uin)
 {
     if (getState() != Connected)
-        return (unsigned short)~0U;
+        return USHRT_MAX;
     serverRequest(ICQ_SRVxREQ_MORE);
     socket()->writeBuffer()
     << ICQ_SRVxREQ_WP_UIN;
@@ -773,7 +773,7 @@ unsigned short ICQClient::findByUin(unsigned long uin)
 unsigned short ICQClient::findByMail(const QString &_mail)
 {
     if (getState() != Connected)
-        return (unsigned short)~0U;
+        return USHRT_MAX;
     const QByteArray mail = getContacts()->fromUnicode(NULL, _mail);
 
     serverRequest(ICQ_SRVxREQ_MORE);

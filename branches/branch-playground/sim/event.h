@@ -563,7 +563,7 @@ public:
         QString         proto;
         QString         addr;
         QString         nick;
-        unsigned        group;
+        int             group;
     };
 public:
     EventAddContact(AddContact *ac)
