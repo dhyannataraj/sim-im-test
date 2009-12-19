@@ -32,9 +32,6 @@ email                : vovan@shutoff.ru
 #include <QDesktopWidget>
 #include <QDir>
 #include <QInputDialog>
-#include <QLabel>
-#include <QLayout>
-#include <QLineEdit>
 #include <QMessageBox>
 #include <QPixmap>
 #include <QPushButton>
@@ -44,28 +41,35 @@ email                : vovan@shutoff.ru
 using namespace SIM;
 
 LoginDialog::LoginDialog(bool bInit, ClientPtr client, const QString &text, const QString &loginProfile)
-  : QDialog(NULL)
+	: QDialog(NULL)
+	, m_bInit(bInit)
+	, m_loginProfile(loginProfile)
+	, m_client(client)
+	, m_bProfileChanged(false)
+	, m_bLogin(false)
+	, m_newProfile(false)
+	, m_pict(NULL)
+	, m_vboxlayout(NULL)
+	, m_hboxlayout(NULL)
+	, m_txt(NULL)
+	, m_edt(NULL)
+	, m_line(NULL)
+	, m_lnkHelp(NULL)
 {
 	setupUi(this);
 	setObjectName("logindlg");
-        setModal(client ? false : true);
+    setModal(client ? false : true);
 	//setAttribute(Qt::WA_DeleteOnClose, true);
 	QSettings settings;
-	m_bInit  = bInit;
-	m_bProfileChanged = false;
 	m_profile = settings.value("Profile").toString();
-	m_client = client;
-	m_bLogin = false;
-	m_newProfile = false;
-	m_loginProfile = loginProfile;
+
 	if(m_loginProfile.isEmpty())
 		btnDelete->hide();
 	SET_WNDPROC("login")
 		setButtonsPict(this);
     lblMessage->setText(text);
-    if( text.isEmpty() ) {
+    if( text.isEmpty() ) 
         lblMessage->hide();
-    }
 	if (m_client)
 	{
 		setWindowTitle(windowTitle() + ' ' + client->name());
@@ -342,45 +346,46 @@ static void rmDir(const QString &path)
 
 void LoginDialog::makeInputs(unsigned &row, ClientPtr client)
 {
-    QLabel *pict = new QLabel(groupBoxPasswords);
-    pict->setPixmap(Pict(client->protocol()->description()->icon));
-    picts.push_back(pict);
-    QVBoxLayout *layout1 = new QVBoxLayout;
-    verticalLayout->addLayout(layout1);
-    QHBoxLayout *layout2 = new QHBoxLayout;
-    layout1->addLayout(layout2);
-    layout2->addWidget(pict);
-    pict->show();
+    m_pict = new QLabel(groupBoxPasswords);
+    m_pict->setPixmap(Pict(client->protocol()->description()->icon));
+    picts.push_back(m_pict);
 
-    QLabel *txt = new QLabel(groupBoxPasswords);
-    txt->setText(client->name());
-    txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
-    QLineEdit *edt = new QLineEdit(groupBoxPasswords);
-	edt->setText(client->getPassword());
-	edt->setEchoMode(QLineEdit::Password);
-	connect(edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
-	passwords.push_back(edt);
-	texts.push_back(txt);
-    layout2->addWidget(txt);
-    layout1->addWidget(edt);
-	txt->show();
-	edt->show();
+    m_vboxlayout = new QVBoxLayout;
+    verticalLayout->addLayout(m_vboxlayout);
+    m_hboxlayout = new QHBoxLayout;
+    m_vboxlayout->addLayout(m_hboxlayout);
+    m_hboxlayout->addWidget(m_pict);
+    m_pict->show();
+
+	m_txt = new QLabel(groupBoxPasswords);
+    m_txt->setText(client->name());
+    m_txt->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+    m_edt = new QLineEdit(groupBoxPasswords);
+	m_edt->setText(client->getPassword());
+	m_edt->setEchoMode(QLineEdit::Password);
+	connect(m_edt, SIGNAL(textChanged(const QString&)), this, SLOT(pswdChanged(const QString&)));
+	passwords.push_back(m_edt);
+	texts.push_back(m_txt);
+    m_hboxlayout->addWidget(m_txt);
+    m_vboxlayout->addWidget(m_edt);
+	m_txt->show();
+	m_edt->show();
 	QString helpUrl = client->protocol()->description()->accel;
 	if (!helpUrl.isEmpty())
 	{
-        LinkLabel *lnkHelp = new LinkLabel(groupBoxPasswords);
-        layout1->addWidget(lnkHelp);
-		lnkHelp->setText(i18n("Forgot password?"));
-		lnkHelp->setUrl(i18n(helpUrl));
-		lnkHelp->show();
-		links.push_back(lnkHelp);
+        m_lnkHelp = new LinkLabel(groupBoxPasswords);
+        m_vboxlayout->addWidget(m_lnkHelp);
+		m_lnkHelp->setText(i18n("Forgot password?"));
+		m_lnkHelp->setUrl(i18n(helpUrl));
+		m_lnkHelp->show();
+		links.push_back(m_lnkHelp);
 	}
 
-    QFrame *line = new QFrame(groupBoxPasswords);
-    line->setFrameShape(QFrame::HLine);
-    line->setFrameShadow(QFrame::Sunken);
-    layout1->addWidget(line);
-    lines.push_back(line);
+    m_line = new QFrame(groupBoxPasswords);
+    m_line->setFrameShape(QFrame::HLine);
+    m_line->setFrameShadow(QFrame::Sunken);
+    m_vboxlayout->addWidget(m_line);
+    lines.push_back(m_line);
 
 	row++;
 }

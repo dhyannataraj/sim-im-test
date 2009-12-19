@@ -59,19 +59,21 @@ public:
     void setTotalSteps(unsigned);
     void setProgress(unsigned);
 protected:
-    QProgressBar *m_bar;
+    QProgressBar	*m_bar;
+	QHBoxLayout		*m_lay;
+	QLabel			*m_label;
 };
 
 HistoryProgressBar::HistoryProgressBar(QWidget *parent)
         : QWidget(parent)
+		, m_lay(new QHBoxLayout(this))
+		, m_label	(new QLabel(i18n("Loading"), this))
+		, m_bar		(new QProgressBar(this))
 {
-    QHBoxLayout *lay = new QHBoxLayout(this);
-    lay->setSpacing(4);
-    lay->addSpacing(4);
-    QLabel *label = new QLabel(i18n("Loading"), this);
-    lay->addWidget(label);
-    m_bar = new QProgressBar(this);
-    lay->addWidget(m_bar);
+    m_lay->setSpacing(4);
+    m_lay->addSpacing(4);
+    m_lay->addWidget(m_label);
+    m_lay->addWidget(m_bar);
 }
 
 void HistoryProgressBar::setTotalSteps(unsigned n)
@@ -85,33 +87,37 @@ void HistoryProgressBar::setProgress(unsigned n)
 }
 
 HistoryWindow::HistoryWindow(unsigned long id)
+	: m_avatar_bar(NULL)
+	, m_id(id)
+	, m_view(new MsgViewBase(this, NULL, id))
+    , m_status(statusBar())
+    , m_progress(NULL)
+    , m_page(0)
+	, m_it(NULL)
+
 {
     m_history_page_count=CorePlugin::instance()->value("HistoryPage").toUInt();
-    m_avatar_bar=NULL;
 
     setAttribute(Qt::WA_DeleteOnClose, true);
-    m_id = id;
     setWindowIcon(Icon("history"));
     setName();
-    m_view = new MsgViewBase(this, NULL, id);
     setCentralWidget(m_view);
 
     setIconSize(QSize(16,16));
 
     EventToolbar eHistoryBar(ToolBarHistory, this);
     eHistoryBar.process();
-    m_bar = eHistoryBar.toolBar();
-    m_bar->setParam((void*)m_id);
+
+    m_bar=eHistoryBar.toolBar();
+    m_bar->setParam((void*)m_id); //UAAARGH turns my stomach, Fixme
+
     //restoreToolbar(m_bar, CorePlugin::instance()->data.HistoryBar);
     connect(m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
     addToolBar(m_bar);
-    m_status = statusBar();
-    m_progress = NULL;
-    m_page = 0;
 
     Command cmdHistory;
     cmdHistory->id	= CmdHistoryFind;
-    cmdHistory->param	= (void*)m_id;
+    cmdHistory->param	= (void*)m_id; //Fixme ...
     EventCommandWidget eHistoryWidget(cmdHistory);
     eHistoryWidget.process();
 
@@ -122,7 +128,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
         cmbFind->addItems(history);
         cmbFind->setText(QString());
     }
-    m_it = NULL;
+
     m_bDirection = CorePlugin::instance()->value("HistoryDirection").toBool();
     m_bar->checkState();
     m_bar->show();
@@ -184,8 +190,11 @@ HistoryWindow::HistoryWindow(unsigned long id)
 
 HistoryWindow::~HistoryWindow()
 {
-    if (m_it)
-        delete m_it;
+	delete m_avatar_bar;
+	delete m_it;
+	delete m_progress; //??
+	delete m_bar;  //??
+	delete m_view; //??
 }
 
 void HistoryWindow::setName()

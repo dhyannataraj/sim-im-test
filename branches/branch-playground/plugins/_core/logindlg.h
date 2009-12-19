@@ -18,13 +18,15 @@
 #ifndef _LOGINDLG_H
 #define _LOGINDLG_H
 
-
 #include "buffer.h"
 #include "clientlist.h"
 #include "contacts/client.h"
 #include "event.h"
 #include "plugins.h"
 #include "ui_logindlgbase.h"
+#include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
 
 class QLabel;
 class QLineEdit;
@@ -84,6 +86,13 @@ private:
     SIM::ClientPtr m_client;
     QString m_newProfileName;
     QList<SIM::PluginPtr> m_protocolPlugins;
+	QLabel *m_pict;
+	QVBoxLayout *m_vboxlayout;
+	QHBoxLayout *m_hboxlayout;
+	QLabel		*m_txt;
+	QLineEdit	*m_edt;
+	QFrame		*m_line;
+	LinkLabel	*m_lnkHelp;
 };
 
 #endif
