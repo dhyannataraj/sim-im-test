@@ -19,8 +19,9 @@
 #define _FONTEDIT_H
 
 #include "simapi.h"
-#include <QtGui/QFrame>
-#include <QtGui/QFont>
+#include <QFrame>
+#include <QFont>
+#include <QHBoxLayout>
 
 class QLabel;
 
