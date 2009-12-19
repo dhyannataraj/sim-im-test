@@ -21,7 +21,6 @@ namespace SIM
     {
         clear(true);
         delete m_owner;
-		delete m_notInList;
     }
 
     void ContactListPrivate::clear(bool bClearAll)
