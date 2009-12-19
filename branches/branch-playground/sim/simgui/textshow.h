@@ -30,6 +30,8 @@
 
 #include <QTextBrowser>
 #include <QFrame>
+#include <QGridLayout>
+
 #ifdef USE_KDE
 #include <ktextedit.h>
     #define QTextEdit KTextEdit
