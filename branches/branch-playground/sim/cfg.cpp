@@ -591,7 +591,8 @@ void init_data(const DataDef *d, Data *data)
                 // this breaks on non latin1 defaults!
                 const QStringList sl = QString(def->def_value).split(',');
                 Data::STRING_MAP sm;
-                for(int i = 0; i < sl.count(); i++) {
+                for(int i = 0; i < sl.count(); i++) 
+				{
                     sm.insert(i, sl[i]);
                 }
                 data->strMap() = sm;
@@ -734,11 +735,11 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         const QByteArray line = cfg->getLine();
         if (line.isEmpty())
             break;
-        int idx = line.indexOf('=');
-        if(idx == -1)
+        int l_idx = line.indexOf('=');
+        if(l_idx == -1)
             continue;
-        const QByteArray name = line.left( idx );
-        QByteArray val  = line.mid( idx + 1 );
+        const QByteArray name = line.left( l_idx );
+        QByteArray val  = line.mid( l_idx + 1 );
         if(name.isEmpty() || val.isEmpty())
             continue;
 
@@ -801,10 +802,10 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                         ld->str() = QString::fromLocal8Bit(v);
                 }
 
-                idx = val.indexOf(',');
-                if (idx == -1)
+                l_idx = val.indexOf(',');
+                if (l_idx == -1)
                     break;
-                val = val.mid(idx + 1);
+                val = val.mid(l_idx + 1);
             }
             break;
         }
@@ -1030,8 +1031,8 @@ EXPORT QByteArray save_data(const DataDef *def, const void *_data)
             case DATA_BINARY: {
                 for (unsigned i = 0; i < def->n_values; i++) {
                     const QByteArray &ba = ld->toBinary();
-                    for(unsigned i = 0; i < (unsigned)ba.size(); i++) {
-                        unsigned char c = ba.data()[i];
+                    for(unsigned j = 0; i < (unsigned)ba.size(); j++) {
+                        unsigned char c = ba.data()[j];
                         QString s;
                         s.sprintf("%02X", c);
                         value += s.toLatin1();    // ok here since they're only latin1 chars

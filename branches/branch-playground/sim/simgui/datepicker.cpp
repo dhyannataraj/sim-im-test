@@ -24,7 +24,6 @@
 #include <QDateEdit>
 #include <QDateTime>
 #include <QGridLayout>
-#include <QHBoxLayout>
 #include <QPushButton>
 
 class PickerPopup : public QFrame
@@ -36,9 +35,10 @@ public:
 
 DatePicker::DatePicker(QWidget *parent)
         : QWidget(parent)
+		, lay(new QHBoxLayout(this))
 {
     setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    //QHBoxLayout *lay = new QHBoxLayout(this);
     m_edit = new QDateEdit(this);
     lay->addWidget(m_edit);
     m_button = new QPushButton(this);

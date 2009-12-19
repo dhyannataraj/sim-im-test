@@ -20,7 +20,8 @@
 
 #include <QDialog>
 #include <QPushButton>
-
+#include <QFrame>
+#include <QVBoxLayout>
 #include "simapi.h"
 
 class QString;
@@ -56,6 +57,9 @@ protected:
     bool m_bYes;
     bool *m_bChecked;
     void *m_param;
+	QFrame *frm;
+	QVBoxLayout *vlay;
+	QHBoxLayout *lay;
 };
 
 class BalloonButton : public QPushButton

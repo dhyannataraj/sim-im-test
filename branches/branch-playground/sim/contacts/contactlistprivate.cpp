@@ -4,29 +4,29 @@
 
 #include "contactlistprivate.h"
 #include "contacts.h"
-#include "contact.h"
 #include "userdata.h"
-#include "group.h"
+
 
 namespace SIM
 {
     ContactListPrivate::ContactListPrivate()
+		: m_bNoRemove(false)
+		, m_notInList(new Group(0))
+		, m_owner(new Contact(0))
     {
-        Group *notInList = new Group(0);
-        owner = new Contact(0);
-        groups.push_back(notInList);
-        bNoRemove = false;
-    }
+        groups.push_back(m_notInList);
+	}
 
     ContactListPrivate::~ContactListPrivate()
     {
         clear(true);
-        delete owner;
+        delete m_owner;
+		delete m_notInList;
     }
 
     void ContactListPrivate::clear(bool bClearAll)
     {
-        bNoRemove = true;
+        m_bNoRemove = true;
         while (contacts.size() != 0)
             delete contacts.begin()->second;
 
@@ -39,7 +39,7 @@ namespace SIM
             delete group;
             it_g = groups.begin();
         }
-        bNoRemove = false;
+        m_bNoRemove = false;
     }
 
     unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef *def)

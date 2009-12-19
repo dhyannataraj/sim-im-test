@@ -40,6 +40,7 @@ protected slots:
 protected:
     QFont f;
     QLabel *lblFont;
+	QHBoxLayout *lay;
 };
 
 #endif

@@ -113,7 +113,7 @@ namespace SIM
             if ((*it) != this)
                 continue;
             p->clients.erase(it);
-            if (!getContacts()->p->bNoRemove){
+            if (!getContacts()->p->m_bNoRemove){
                 EventClientsChanged e;
                 e.process();
             }
@@ -125,7 +125,7 @@ namespace SIM
             if (grp->clientData.size() == 0)
                 continue;
             grp->clientData.freeClientData(this);
-            if (!getContacts()->p->bNoRemove){
+            if (!getContacts()->p->m_bNoRemove){
                 EventGroup e(grp, EventGroup::eChanged);
                 e.process();
             }
@@ -139,7 +139,7 @@ namespace SIM
                 continue;
             contact->clientData.freeClientData(this);
             if (contact->clientData.size()){
-                if (!getContacts()->p->bNoRemove){
+                if (!getContacts()->p->m_bNoRemove){
                     contact->setup();
                     EventContact e(contact, EventContact::eChanged);
                     e.process();

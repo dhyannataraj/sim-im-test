@@ -137,6 +137,7 @@ protected Q_SLOTS:
     void colorSelected(int);
 protected:
     QColor m_color;
+	QGridLayout *lay;
 };
 
 #endif

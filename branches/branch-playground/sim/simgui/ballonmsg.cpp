@@ -19,7 +19,7 @@
 
 #include <QApplication>
 #include <QBitmap>
-#include <QFrame>
+
 #include <QImage>
 #include <QCheckBox>
 #include <QLayout>
@@ -32,7 +32,7 @@
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QEvent>
-#include <QVBoxLayout>
+
 #include <QTextDocument>
 
 #include "misc.h"
@@ -51,27 +51,31 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
         : QDialog(parent,
                   (bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
                   | Qt::FramelessWindowHint | Qt::Tool)
+		, m_param(param)
+		, m_bAutoHide(bAutoHide)
+		, m_bYes(false)
+		, m_bChecked(bChecked)
+		, frm(new QFrame(this))
+		, vlay(new QVBoxLayout(frm))
+		, lay(new QHBoxLayout())
+		, m_check(NULL)
 {
     setModal(bModal);
     setAttribute(Qt::WA_DeleteOnClose);
-    m_param = param;
-    m_bAutoHide = bAutoHide;
-    m_bYes = false;
-    m_bChecked = bChecked;
     setPalette(QToolTip::palette());
 
     bool bTailDown = true;
-    QFrame *frm = new QFrame(this);
-    QVBoxLayout *vlay = new QVBoxLayout(frm);
+    //QFrame *frm = new QFrame(this);
+    //QVBoxLayout *vlay = new QVBoxLayout(frm);
     vlay->setMargin(0);
-    m_check = NULL;
+    
     if (!box_msg.isEmpty()){
         m_check = new QCheckBox(box_msg, frm);
         vlay->addWidget(m_check);
         if (m_bChecked)
             m_check->setChecked(*m_bChecked);
     }
-    QHBoxLayout *lay = new QHBoxLayout();
+    //QHBoxLayout *lay = new QHBoxLayout();
     vlay->addLayout(lay);
     lay->setSpacing(5);
     lay->addStretch();

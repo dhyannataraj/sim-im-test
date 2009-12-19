@@ -22,6 +22,7 @@
 
 #include <QDate>
 #include <QWidget>
+#include <QHBoxLayout>
 
 class QDateEdit;
 class QPushButton;
@@ -48,6 +49,7 @@ protected:
 	void setEnabled(bool);
 	QDateEdit	*m_edit;
 	QPushButton	*m_button;
+	QHBoxLayout *lay;
 };
 
 #endif

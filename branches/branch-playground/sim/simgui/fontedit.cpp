@@ -34,8 +34,9 @@
 
 FontEdit::FontEdit(QWidget *parent)
   : QFrame(parent)
+  , lay(new QHBoxLayout(this))
 {
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    //QHBoxLayout *lay = new QHBoxLayout(this);
     lblFont = new QLabel("...", this);
     lblFont->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     lay->addWidget(lblFont);

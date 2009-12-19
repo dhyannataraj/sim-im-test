@@ -25,7 +25,7 @@ namespace SIM
 
     Group::~Group()
     {
-        if (!getContacts()->p->bNoRemove){
+        if (!getContacts()->p->m_bNoRemove){
             Contact *contact;
             ContactList::ContactIterator itc;
             while ((contact = ++itc) != NULL){

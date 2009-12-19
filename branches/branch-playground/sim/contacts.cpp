@@ -455,7 +455,7 @@ void ContactList::unregisterUserData(unsigned id)
 
 Contact *ContactList::owner()
 {
-    return p->owner;
+    return p->m_owner;
 }
 
 bool ContactList::groupExists(unsigned long id)
@@ -1168,10 +1168,10 @@ Client *ContactList::getClient(unsigned n)
 
 void ContactList::clearClients()
 {
-    p->bNoRemove = true;
+    p->m_bNoRemove = true;
     while (!p->clients.empty())
         delete p->clients[0];
-    p->bNoRemove = false;
+    p->m_bNoRemove = false;
     EventClientsChanged eClients;
     eClients.process();
 }

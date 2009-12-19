@@ -28,7 +28,6 @@
 # include <QContextMenuEvent>
 # include <QKeyEvent>
 # include <QLabel>
-# include <QGridLayout>
 # include <QFrame>
 # include <QFocusEvent>
 # include <QMouseEvent>
@@ -533,12 +532,13 @@ static const int CUSTOM_COLOR	= 100;
 ColorPopup::ColorPopup(QWidget *popup, const QColor &color)
         : QFrame(popup, Qt::Popup)
         , m_color(color)
+		, lay(new QGridLayout(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setFrameShape(QFrame::StyledPanel);
     setFrameShadow(Sunken);
 
-    QGridLayout *lay = new QGridLayout(this);
+    //QGridLayout *lay = new QGridLayout(this);
     lay->setMargin(4);
     lay->setSpacing(2);
     for (unsigned i = 0; i < 4; i++){
@@ -557,27 +557,34 @@ ColorPopup::ColorPopup(QWidget *popup, const QColor &color)
 
 void ColorPopup::colorSelected(int id)
 {
-    if (id == CUSTOM_COLOR){
+    if (id == CUSTOM_COLOR)
+	{
         hide();
         QWidget *top = NULL;
         if (parent())
             top = static_cast<QWidget*>(parent())->topLevelWidget();
 #ifdef USE_KDE
         QColor c = m_color;
-        if (KColorDialog::getColor(c, top) != KColorDialog::Accepted){
+        if (KColorDialog::getColor(c, top) != KColorDialog::Accepted)
+		{
             close();
             return;
         }
 #else
         QColor c = QColorDialog::getColor(m_color, top);
-        if (!c.isValid()){
+        if (!c.isValid())
+		{
             close();
             return;
         }
 #endif
         Q_EMIT colorChanged(c);
-    }else{
-        Q_EMIT colorChanged(QColor(colors[id]));
+    }
+	else
+	{
+		QColor c;
+		c.setRgb(colors[id]&0xFF0000, colors[id]&0x00FF00,colors[id]&0x0000FF);
+		Q_EMIT colorChanged(c);
     }
     close();
 }

@@ -6,6 +6,8 @@
 #include <map>
 #include <vector>
 #include <list>
+#include "group.h"
+#include "contact.h"
 
 #include "contacts/packettype.h"
 #include "contacts/userdata.h"
@@ -27,13 +29,14 @@ namespace SIM
         void flush(Contact *c, Group *g, const QByteArray &section, Buffer *cfg);
         void flush(Contact *c, Group *g);
         std::map<unsigned long, UserDataDef> userDataDef;
-        Contact			*owner;
+        Contact			*m_owner;
         std::map<unsigned long, Contact*>  contacts;
         std::vector<Group*>  groups;
         std::vector<Client*> clients;
         QList<Protocol*>     protocols;
         PACKET_MAP           packets;
-        bool                 bNoRemove;
+        bool                 m_bNoRemove;
+		Group				*m_notInList;
     };
 }
 

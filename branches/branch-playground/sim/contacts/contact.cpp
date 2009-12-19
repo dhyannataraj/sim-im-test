@@ -23,7 +23,7 @@ namespace SIM
 
     Contact::~Contact()
     {
-        if (!getContacts()->p->bNoRemove){
+        if (!getContacts()->p->m_bNoRemove){
             EventContact e(this, EventContact::eDeleted);
             e.process();
         }
