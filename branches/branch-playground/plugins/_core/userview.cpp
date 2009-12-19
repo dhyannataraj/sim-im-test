@@ -24,7 +24,6 @@
 #include "simgui/ballonmsg.h"
 #include "simgui/linklabel.h"
 #include "container.h"
-#include "userwnd.h"
 #include "userviewdelegate.h"
 #include "history.h"
 #include "contacts/contact.h"
@@ -66,37 +65,40 @@ struct JoinContacts
 
 static JoinContacts joinContactsData;
 
-UserView::UserView() : UserListBase(NULL)
+UserView::UserView() 
+	: UserListBase(NULL)
+	, m_bBlink		(false)
+    , m_bUnreadBlink(false)
+	, m_blinkTimer	(new QTimer(this))
+	, m_unreadTimer (new QTimer(this))
+	, m_current		(NULL)
+	, mTipItem		(NULL) //Refactor: rename to m_TipItem
+	, m_dropContactId(0)
+    , m_dropItem	(NULL)
+    , m_searchItem	(NULL)
+	, m_edtGroup	(new IntLineEdit(viewport()))
+    , m_edtContact	(new IntLineEdit(viewport()))
+	, m_userWnd		(NULL)
 {
-    m_bBlink = false;
-    m_bUnreadBlink = false;
-    m_bShowOnline = CorePlugin::instance()->value("ShowOnLine").toBool();
-    m_bShowEmpty = CorePlugin::instance()->value("ShowEmptyGroup").toBool();
+	m_bShowOnline	=CorePlugin::instance()->value("ShowOnLine").toBool();
+    m_bShowEmpty	=CorePlugin::instance()->value("ShowEmptyGroup").toBool();
+	m_bShowOnline	=CorePlugin::instance()->value("ShowOnLine").toBool();
+    m_bShowEmpty	=CorePlugin::instance()->value("ShowEmptyGroup").toBool();
+
 
     setItemDelegate(new UserViewDelegate(this));
-
-    mTipItem = NULL;
-    m_current = NULL;
     setRootIsDecorated(false);
     setHeaderHidden(true);
     setAnimated(true);
-
     setIndentation(0);
-
     setVerticalScrollBarPolicy(CorePlugin::instance()->value("NoScroller").toBool() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    blinkTimer = new QTimer(this);
-    connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
-    unreadTimer = new QTimer(this);
-    connect(unreadTimer, SIGNAL(timeout()), this, SLOT(unreadBlink()));
+    
+    connect(m_blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
+    connect(m_unreadTimer, SIGNAL(timeout()), this, SLOT(unreadBlink()));
 
     topLevelWidget()->installEventFilter(this);
     viewport()->installEventFilter(this);
-
-    m_dropContactId = 0;
-    m_dropItem = NULL;
-    m_searchItem = NULL;
 
     setFrameStyle(QFrame::StyledPanel);
     setFrameShadow(QFrame::Sunken);
@@ -105,26 +107,24 @@ UserView::UserView() : UserListBase(NULL)
 
     setGroupMode(CorePlugin::instance()->value("GroupMode").toUInt(), true);
 
-    edtGroup = new IntLineEdit(viewport());
-    edtContact = new IntLineEdit(viewport());
-    edtGroup->hide();
-    edtContact->hide();
+    m_edtGroup->hide();
+    m_edtContact->hide();
     QFont font;
     int size = font.pixelSize();
-    if (size <= 0){
+    if (size <= 0)
+	{
         size = font.pointSize();
         font.setPointSize(size * 3 / 4);
-    }else{
-        font.setPixelSize(size * 3 / 4);
     }
+	else font.setPixelSize(size * 3 / 4);
     font.setBold(true);
-    edtGroup->setFont(font);
-    connect(edtGroup, SIGNAL(escape()), this, SLOT(editEscape()));
-    connect(edtGroup, SIGNAL(returnPressed()), this, SLOT(editGroupEnter()));
-    connect(edtGroup, SIGNAL(lostFocus()), this, SLOT(editGroupEnter()));
-    connect(edtContact, SIGNAL(escape()), this, SLOT(editEscape()));
-    connect(edtContact, SIGNAL(returnPressed()), this, SLOT(editContactEnter()));
-    connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
+    m_edtGroup->setFont(font);
+    connect(m_edtGroup,		SIGNAL(escape()),			this, SLOT(editEscape()));
+    connect(m_edtGroup,		SIGNAL(returnPressed()),	this, SLOT(editGroupEnter()));
+    connect(m_edtGroup,		SIGNAL(lostFocus()),		this, SLOT(editGroupEnter()));
+    connect(m_edtContact,	SIGNAL(escape()),			this, SLOT(editEscape()));
+    connect(m_edtContact,	SIGNAL(returnPressed()),	this, SLOT(editContactEnter()));
+    connect(m_edtContact,	SIGNAL(lostFocus()),		this, SLOT(editContactEnter()));
 
     setDragDropMode( QAbstractItemView::DragDrop );
     setDropIndicatorShown( true );
@@ -167,7 +167,7 @@ bool UserView::processEvent(Event *e)
             bc.count = BLINK_COUNT;
             blinks.push_back(bc);
             if (bStart)
-                blinkTimer->start(BLINK_TIMEOUT);
+                m_blinkTimer->start(BLINK_TIMEOUT);
             return false;
         }
         break;
@@ -290,23 +290,22 @@ bool UserView::processEvent(Event *e)
                     }
                     if (from && to && (from == to))
                         return true;
-                    UserWnd *userWnd = NULL;
                     if (from)
 					{
-                        userWnd = from->wnd(contact->id());
-                        from->removeUserWnd(userWnd);
-                        delete userWnd;
+                        m_userWnd = from->wnd(contact->id());
+                        from->removeUserWnd(m_userWnd);
+                        delete m_userWnd;
                     }
                     if (from->wnd(contact->id()) == NULL)
-                        userWnd = new UserWnd(contact->id(), NULL, true, true);
+                        m_userWnd = new UserWnd(contact->id(), NULL, true, true);
                     if (to == NULL)
                         to = new Container(max_id + 1);
                     to->init();
-                    to->addUserWnd(userWnd, true);
+                    to->addUserWnd(m_userWnd, true);
                     to->setNoSwitch(true);
                     raiseWindow(to);
                     to->setNoSwitch(false);
-                    delete userWnd;
+                    delete m_userWnd;
                 }
                 return true;
             }
@@ -634,12 +633,12 @@ void UserView::renameGroup()
         QString name = g->getName();
         QRect rc = visualItemRect(item);
         rc.setLeft(rc.left() + 18);
-        edtGroup->id = g->id();
-        edtGroup->setGeometry(rc);
-        edtGroup->setText(name.length() ? name : i18n("New group"));
-        edtGroup->setSelection(0, edtGroup->text().length());
-        edtGroup->show();
-        edtGroup->setFocus();
+        m_edtGroup->id = g->id();
+        m_edtGroup->setGeometry(rc);
+        m_edtGroup->setText(name.length() ? name : i18n("New group"));
+        m_edtGroup->setSelection(0, m_edtGroup->text().length());
+        m_edtGroup->show();
+        m_edtGroup->setFocus();
     }
 }
 
@@ -658,12 +657,12 @@ void UserView::renameContact()
         QString name = contact->getName();
         QRect rc = visualItemRect(item);
         rc.setLeft(rc.left() + 18);
-        edtContact->id = contact->id();
-        edtContact->setGeometry(rc);
-        edtContact->setText(name);
-        edtContact->setSelection(0, edtGroup->text().length());
-        edtContact->show();
-        edtContact->setFocus();
+        m_edtContact->id = contact->id();
+        m_edtContact->setGeometry(rc);
+        m_edtContact->setText(name);
+        m_edtContact->setSelection(0, m_edtContact->text().length());
+        m_edtContact->show();
+        m_edtContact->setFocus();
     }
 }
 
@@ -943,26 +942,26 @@ bool UserView::getMenu(ListViewItem *list_item, unsigned long &id, void* &param)
 
 void UserView::editEscape()
 {
-    edtGroup->hide();
-    edtContact->hide();
+    m_edtGroup->hide();
+    m_edtContact->hide();
 }
 
 void UserView::editGroupEnter()
 {
-    edtGroup->hide();
-    Group *g = getContacts()->group(edtGroup->id);
-    if (!(g && edtGroup->text().length())) return;
-    g->setName(edtGroup->text());
+    m_edtGroup->hide();
+    Group *g = getContacts()->group(m_edtGroup->id);
+    if (!(g && m_edtGroup->text().length())) return;
+    g->setName(m_edtGroup->text());
     EventGroup e(g, EventGroup::eChanged);
     e.process();
 }
 
 void UserView::editContactEnter()
 {
-    edtContact->hide();
-    Contact *c = getContacts()->contact(edtContact->id);
-    if (!(c && edtContact->text().length())) return;
-    c->setName(edtContact->text());
+    m_edtContact->hide();
+    Contact *c = getContacts()->contact(m_edtContact->id);
+    if (!(c && m_edtContact->text().length())) return;
+    c->setName(m_edtContact->text());
     EventContact(c, EventContact::eChanged).process();
 }
 
@@ -970,9 +969,9 @@ unsigned UserView::getUnread(unsigned contact_id)
 {
     for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
         if (it->contact == contact_id){
-            if (!unreadTimer->isActive()){
+            if (!m_unreadTimer->isActive()){
                 m_bUnreadBlink = true;
-                unreadTimer->start(BLINK_TIMEOUT);
+                m_unreadTimer->start(BLINK_TIMEOUT);
             }
             return it->type;
         }
@@ -1019,9 +1018,10 @@ void UserView::unreadBlink()
         blinks.push_back(it->contact);
     }
     list<ListViewItem*> grps;
-    if (blinks.empty()){
-        unreadTimer->stop();
-    }else{
+    if (blinks.empty())
+        m_unreadTimer->stop();
+    else
+	{
         for (itb = blinks.begin(); itb != blinks.end(); ++itb){
             ContactItem *contact = findContactItem((*itb), NULL);
             if (contact == NULL)
@@ -1074,7 +1074,7 @@ void UserView::blink()
         it = blinks.begin();
     }
     if (blinks.size() == 0)
-        blinkTimer->stop();
+        m_blinkTimer->stop();
 }
 
 void UserView::deleteItem(ListViewItem *item)
@@ -1371,18 +1371,20 @@ void UserView::search(ListViewItem *item, list<ListViewItem*> &items)
       void *data;
       Contact *contact = getContacts()->contact(static_cast<ContactItem*>(item)->id());
         ClientDataIterator it(contact->clientData);
-        while ((data = ++it) != NULL){
-          Client *client = contact->clientData.activeClient(data, it.client());
-          if (client == NULL)
-              continue;
-          QString contactName = client->contactName(data);
-          //log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
-          if (contactName.contains(m_search,Qt::CaseInsensitive)>0) {
-              //log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
-              item->parent()->setExpanded(true);
-              items.push_back(item);
-              break;
-          }
+        while ((data = ++it) != NULL)
+		{
+			Client *client = contact->clientData.activeClient(data, it.client());
+			if (client == NULL)
+				continue;
+			QString contactName = client->contactName(data);
+			//log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
+			if (contactName.contains(m_search,Qt::CaseInsensitive)>0) 
+			{
+				//log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
+				item->parent()->setExpanded(true);
+				items.push_back(item);
+				break;
+			}
         }
     }
 }
@@ -1394,13 +1396,17 @@ void UserView::dragScroll() //rewrite!?
     if ((pos.x() < 0) || (pos.x() > viewport()->width()))
         return;
     ListViewItem *item = NULL;
-    if (pos.y() < 0){
+    if (pos.y() < 0)
+	{
         pos = QPoint(pos.x(), -1);
         item = itemAt(pos);
-    }else if (pos.y() > viewport()->height()){
+    }
+	else if (pos.y() > viewport()->height())
+	{
         pos = QPoint(pos.x(), viewport()->height() - 1);
         item = itemAt(pos); //<== FIXME: crash, it does not return item, sometimes in QGList append() no mem allocation is possible :-/ ???
-        if (item){
+        if (item)
+		{
             pos = QPoint(pos.x(), viewport()->height() - 1 + item->height());
             item = itemAt(pos);
         }

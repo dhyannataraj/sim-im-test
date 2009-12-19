@@ -2379,7 +2379,7 @@ bool CorePlugin::processEvent(Event *e)
 						return true;
 					}
 					if (m_cfg == NULL){
-                    	m_cfg = new ConfigureDialog();
+						m_cfg = new ConfigDlg::ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
 
                         unsigned int cfgGeometryWidth = value("CfgGeometryWidth").toUInt();
@@ -2459,19 +2459,19 @@ bool CorePlugin::processEvent(Event *e)
 						return false;
 					Client *client = getContacts()->getClient(n);
 					if (m_cfg == NULL){
-                    	m_cfg = new ConfigureDialog();
+						m_cfg = new ConfigDlg::ConfigureDialog();
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
 					}
-					static_cast<ConfigureDialog*>(m_cfg)->raisePage(client);
+					static_cast<ConfigDlg::ConfigureDialog*>(m_cfg)->raisePage(client);
 					raiseWindow(m_cfg);
 					return true;
 				}
 				if (cmd->id == CmdPhoneBook){
 					if (m_cfg == NULL){
-						m_cfg = new ConfigureDialog;
+						m_cfg = new ConfigDlg::ConfigureDialog;
 						connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
 					}
-					static_cast<ConfigureDialog*>(m_cfg)->raisePhoneBook();
+					static_cast<ConfigDlg::ConfigureDialog*>(m_cfg)->raisePhoneBook();
 					raiseWindow(m_cfg);
 					return true;
 				}

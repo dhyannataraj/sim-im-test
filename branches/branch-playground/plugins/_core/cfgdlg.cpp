@@ -36,42 +36,15 @@
 #include <QByteArray>
 #include <QCloseEvent>
 
-namespace ConfigDlg
-{
 
-using namespace std;
-using namespace SIM;
 
-const unsigned CONFIG_ITEM  = 1;
-const unsigned PLUGIN_ITEM  = 2;
-const unsigned CLIENT_ITEM  = 3;
-const unsigned MAIN_ITEM    = 4;
-const unsigned AR_ITEM      = 5;
 
-class ConfigItem : public QTreeWidgetItem
-{
-public:
-    ConfigItem(QTreeWidgetItem *item, unsigned id);
-    ConfigItem(QTreeWidget *view, unsigned id);
-    ~ConfigItem();
-    void show();
-    void deleteWidget();
-    virtual void apply();
-    virtual unsigned type() { return CONFIG_ITEM; }
-    unsigned id() { return m_id; }
-    static unsigned curIndex;
-    bool raisePage(QWidget *w);
-    QWidget *widget() { return m_widget; }
-    QWidget *m_widget;
-protected:
-    unsigned m_id;
-    static unsigned defId;
-    void init(unsigned id);
-    virtual QWidget *getWidget(ConfigureDialog *dlg);
-};
 
-unsigned ConfigItem::defId = 0x10000;
-unsigned ConfigItem::curIndex;
+
+using namespace ConfigDlg;
+
+//unsigned ConfigItem::defId = 0x10000; //obsoleted?
+unsigned ConfigItem::curIndex;  
 
 ConfigItem::ConfigItem(QTreeWidget *view, unsigned id)
         : QTreeWidgetItem(view)
@@ -237,16 +210,6 @@ QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
     return res;
 }
 
-class ARItem : public ConfigItem
-{
-public:
-    ARItem(QTreeWidgetItem *view, const CommandDef *d);
-    virtual unsigned type() { return AR_ITEM; }
-private:
-    virtual QWidget *getWidget(ConfigureDialog *dlg);
-    unsigned m_status;
-};
-
 ARItem::ARItem(QTreeWidgetItem *item, const CommandDef *d)
         : ConfigItem(item, 0)
 {
@@ -288,15 +251,6 @@ QWidget *ARItem::getWidget(ConfigureDialog *dlg)
     return new ARConfig(dlg, m_status, text(0), NULL);
 }
 
-class MainInfoItem : public ConfigItem
-{
-public:
-    MainInfoItem(QTreeWidget *view, unsigned id);
-    unsigned type() { return MAIN_ITEM; }
-protected:
-    virtual QWidget *getWidget(ConfigureDialog *dlg);
-};
-
 MainInfoItem::MainInfoItem(QTreeWidget *view, unsigned id)
         : ConfigItem(view, id)
 {
@@ -309,14 +263,15 @@ QWidget *MainInfoItem::getWidget(ConfigureDialog *dlg)
     return new MainInfo(dlg, NULL);
 }
 
-}
 
 using namespace ConfigDlg;
 
-ConfigureDialog::ConfigureDialog() : QDialog(NULL)
+ConfigureDialog::ConfigureDialog() 
+	: QDialog(NULL)
+	, m_nUpdates(0)
+	, m_parentItem(NULL)
 {
     setupUi(this);
-    m_nUpdates = 0;
     setWindowIcon(Icon("configure"));
     setButtonsPict(this);
     setTitle();
@@ -356,34 +311,34 @@ void ConfigureDialog::fill(unsigned id)
     lstBox->clear();
     lstBox->sortItems(1, Qt::AscendingOrder);
 
-    ConfigItem *parentItem = new MainInfoItem(lstBox, 0);
+    m_parentItem = new MainInfoItem(lstBox, 0);
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
         CommandDef *cmds = client->configWindows();
         if (cmds){
-            parentItem = NULL;
+            m_parentItem = NULL;
             for (; !cmds->text.isEmpty(); cmds++){
-                if (parentItem){
-                    new ClientItem(parentItem, client, cmds);
+                if (m_parentItem){
+                    new ClientItem(m_parentItem, client, cmds);
                 }else{
-                    parentItem = new ClientItem(lstBox, client, cmds);
-                    parentItem->setExpanded(true);
+                    m_parentItem = new ClientItem(lstBox, client, cmds);
+                    m_parentItem->setExpanded(true);
                 }
             }
         }
     }
 
     unsigned long n;
-    parentItem = NULL;
+    m_parentItem = NULL;
     list<unsigned> st;
     for (n = 0; n < getContacts()->nClients(); n++){
         Protocol *protocol = getContacts()->getClient(n)->protocol();
         if ((protocol->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER)) == 0)
             continue;
-        if (parentItem == NULL){
-            parentItem = new ConfigItem(lstBox, 0);
-            parentItem->setText(0, i18n("Autoreply"));
-            parentItem->setExpanded(true);
+        if (m_parentItem == NULL){
+            m_parentItem = new ConfigItem(lstBox, 0);
+            m_parentItem->setText(0, i18n("Autoreply"));
+            m_parentItem->setExpanded(true);
         }
         for (const CommandDef *d = protocol->statusList(); !d->text.isEmpty(); d++){
             if (((protocol->description()->flags & PROTOCOL_AR_OFFLINE) == 0) &&
@@ -396,14 +351,14 @@ void ConfigureDialog::fill(unsigned id)
             if (it != st.end())
                 continue;
             st.push_back(d->id);
-            new ARItem(parentItem, d);
+            new ARItem(m_parentItem, d);
         }
     }
 
-    parentItem = new ConfigItem(lstBox, 0);
-    parentItem->setText(0, i18n("Plugins"));
-    parentItem->setIcon(0, Pict("run"));
-    parentItem->setExpanded(true);
+    m_parentItem = new ConfigItem(lstBox, 0);
+    m_parentItem->setText(0, i18n("Plugins"));
+    m_parentItem->setIcon(0, Pict("run"));
+    m_parentItem->setExpanded(true);
 
     QStringList plugins = getPluginManager()->enumPlugins();
     foreach(QString plugin, plugins)
@@ -412,7 +367,7 @@ void ConfigureDialog::fill(unsigned id)
         QString title = getPluginManager()->pluginTitle(plugin);
         if(title.isEmpty())
             continue;
-        new PluginItem(parentItem, plugin, title, n);
+        new PluginItem(m_parentItem, plugin, title, n);
     }
 
     QFontMetrics fm(lstBox->font());

@@ -19,6 +19,7 @@
 #define _USERVIEW_H
 
 #include "userlist.h"
+#include "userwnd.h"
 
 //#include <QEvent>
 //#include <QDragEnterEvent>
@@ -45,8 +46,8 @@ public:
     UserView();
     ~UserView();
     CorePlugin *m_plugin;
-    IntLineEdit *edtGroup;
-    IntLineEdit *edtContact;
+    IntLineEdit *m_edtGroup;
+    IntLineEdit *m_edtContact;
     ListViewItem *mTipItem;
     bool	 m_bUnreadBlink;
 public slots:
@@ -93,12 +94,13 @@ protected:
     ListViewItem *m_dropItem;
     ListViewItem *m_current;
     bool	 m_bBlink;
-    QTimer	 *blinkTimer;
-    QTimer	 *unreadTimer;
+    QTimer	 *m_blinkTimer;
+    QTimer	 *m_unreadTimer;
     QString	 m_search;
     bool	 m_bRemoveHistory;
     ListViewItem *m_searchItem;
     friend class UserViewDelegate;
+	UserWnd *m_userWnd;
 };
 
 #endif

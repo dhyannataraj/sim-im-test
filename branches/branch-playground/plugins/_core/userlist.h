@@ -104,7 +104,7 @@ public:
     unsigned m_unread;
     virtual QVariant data( int column, int role ) const;
 protected:
-    virtual QString key(int column, bool ascending) const;
+    virtual QString key(int column/*, bool ascending*/) const;
     void init(SIM::Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread);
     unsigned long m_id;
     unsigned m_style;
@@ -146,6 +146,7 @@ protected:
     QTimer *updTimer;
     friend class UserViewItemBase;
     bool m_bCheckable;
+	ContactItem *m_contactItem;
 };
 
 class UserList

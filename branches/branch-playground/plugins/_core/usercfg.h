@@ -52,6 +52,8 @@ protected:
     bool raisePage(unsigned id, QTreeWidgetItem*);
     void removeCommand(unsigned id);
     bool removeCommand(unsigned id, QTreeWidgetItem*);
+private:
+	QTreeWidgetItem		*m_parentItem;
 };
 
 #endif

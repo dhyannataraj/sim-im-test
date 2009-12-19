@@ -19,7 +19,7 @@
 #define _MSGSMS_H
 
 #include <QFrame>
-
+#include <QHBoxLayout>
 #include "event.h"
 
 class QCheckBox;
@@ -32,6 +32,8 @@ public:
     SMSPanel(QWidget *parent);
     ~SMSPanel();
     QCheckBox	*chkSave;
+private:
+	QHBoxLayout *lay;
 };
 
 class MsgSMS : public QObject, public SIM::EventReceiver

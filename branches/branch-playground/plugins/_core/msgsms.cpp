@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "msgsms.h"
-
 #include "msgedit.h"
 #include "userwnd.h"
 #include "core.h"
@@ -24,9 +23,7 @@
 #include "simgui/toolbtn.h"
 #include "simgui/textshow.h"
 
-
 #include <QCheckBox>
-#include <QHBoxLayout>
 
 using namespace SIM;
 
@@ -301,8 +298,8 @@ bool MsgSMS::processEvent(Event *e)
 
 SMSPanel::SMSPanel(QWidget *parent)
         : QFrame(parent)
+		, lay(new QHBoxLayout(this))
 {
-    QHBoxLayout *lay = new QHBoxLayout(this);
     chkSave = new QCheckBox(i18n("Save phone in contact list"), this);
     lay->addSpacing(7);
     lay->addWidget(chkSave);

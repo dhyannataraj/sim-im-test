@@ -62,27 +62,26 @@ unsigned ConfigItem::curIndex;
 
 ConfigItem::ConfigItem(QTreeWidget *view, bool bShowUpdate)
         : QTreeWidgetItem(view)
+		, m_bShowUpdate(bShowUpdate)
 {
-    m_bShowUpdate = bShowUpdate;
     init();
 }
 
 ConfigItem::ConfigItem(QTreeWidgetItem *item, bool bShowUpdate)
-        : QTreeWidgetItem(item)
+    : QTreeWidgetItem(item)
+	, m_widget(NULL)
+	, m_bShowUpdate(bShowUpdate)
 {
-    m_bShowUpdate = bShowUpdate;
     init();
 }
 
 ConfigItem::~ConfigItem()
 {
-    if (m_widget)
-        delete m_widget;
+	delete m_widget;
 }
 
 void ConfigItem::init()
 {
-    m_widget = NULL;
     QString key = QString::number(++curIndex);
     while (key.length() < 4)
         key = '0' + key;
@@ -96,7 +95,7 @@ void ConfigItem::show()
 		return;
     if(m_widget == NULL)
 	{
-        m_widget = getWidget(dlg);
+        m_widget = getWidget(dlg); //Fixme: Crash, second time: m_widget is 0xcccccc
         if (m_widget == NULL)
             return;
         m_id = dlg->wnd->addWidget(m_widget/*, id() ? id() : defId++*/);
@@ -217,13 +216,14 @@ protected:
 };
 
 ARItem::ARItem(QTreeWidgetItem *item, const CommandDef *def)
-        : ConfigItem(item, 0)
+	: ConfigItem(item, 0)
+	, m_status(def->id)
+
 {
     QString icon;
-
-    m_status = def->id;
+    
     setText(0, i18n(def->text));
-    switch (def->id){
+    switch (m_status){
     case STATUS_ONLINE: 
         icon="SIM_online";
         break;
@@ -269,16 +269,16 @@ static unsigned itemWidth(QTreeWidgetItem *item, QFontMetrics &fm)
 }
 
 UserConfig::UserConfig(Contact *contact, Group *group)
-  : QDialog(NULL)
+  : QDialog		(NULL)
+  , m_parentItem(NULL)
+  , m_contact	(contact)
+  , m_group		(group)
+  , m_nUpdates	(0)
 {
     setupUi(this);
     setObjectName("userconfig");
     setAttribute(Qt::WA_DeleteOnClose);
     setModal(false);
-    m_contact  = contact;
-    m_group    = group;
-    m_nUpdates = 0;
-
     SET_WNDPROC("configure")
     setWindowIcon(Icon(contact ? "info" : "configure"));
     setButtonsPict(this);
@@ -303,7 +303,8 @@ UserConfig::UserConfig(Contact *contact, Group *group)
 
 UserConfig::~UserConfig()
 {
-    if (m_contact && (m_contact->getFlags() & CONTACT_TEMPORARY)){
+    if (m_contact && (m_contact->getFlags() & CONTACT_TEMPORARY))
+	{
         Contact *contact = m_contact;
         m_contact = NULL;
         delete contact;
@@ -313,22 +314,24 @@ UserConfig::~UserConfig()
 void UserConfig::setTitle()
 {
     QString title;
-    if (m_contact){
-        if (m_contact->id()){
+    if (m_contact)
+	{
+        if (m_contact->id())
             title = i18n("User info '%1'") .arg(m_contact->getName());
-        }else{
+		else
             title = i18n("New contact");
-        }
-    }else{
+    }
+	else
+	{
         QString groupName;
-        if (m_group && m_group->id()){
+        if (m_group && m_group->id())
             groupName = m_group->getName();
-        }else{
+        else
             groupName = i18n("Not in list");
-        }
         title = i18n("Setting for group '%1'") .arg(groupName);
     }
-    if (m_nUpdates){
+    if (m_nUpdates)
+	{
         title += ' ';
         title += i18n("[Update info]");
     }
@@ -339,48 +342,55 @@ void UserConfig::fill()
 {
     ConfigItem::curIndex = 1;
     lstBox->clear();
-    QTreeWidgetItem *parentItem;
-    if (m_contact){
-        parentItem = new MainInfoItem(lstBox, CmdInfo);
+    if (m_contact)
+	{
+        m_parentItem = new MainInfoItem(lstBox, CmdInfo);
         ClientDataIterator it(m_contact->clientData);
-        void *data;
-        while ((data = ++it) != NULL){
+        void *data; //WUUUARH, Fixme
+        while ((data = ++it) != NULL)
+		{
             Client *client = m_contact->clientData.activeClient(data, it.client());
             if (client == NULL)
                 continue;
             CommandDef *cmds = client->infoWindows(m_contact, data);
-            if (cmds){
-                parentItem = NULL;
-                for (; !cmds->text.isEmpty(); cmds++){
-                    if (parentItem){
-                        new ClientItem(parentItem, it.client(), data, cmds);
-                    }else{
-                        parentItem = new ClientItem(lstBox, it.client(), data, cmds);
-                        parentItem->setExpanded(true);
+            if (cmds)
+			{
+                m_parentItem = NULL;
+                for (; !cmds->text.isEmpty(); cmds++)
+				{
+                    if (m_parentItem)
+                        new ClientItem(m_parentItem, it.client(), data, cmds);
+					else
+					{
+                        m_parentItem = new ClientItem(lstBox, it.client(), data, cmds);
+                        m_parentItem->setExpanded(true);
                     }
                 }
             }
         }
     }
 
-    parentItem = NULL;
+    m_parentItem = NULL;
     ClientUserData* data;
-    if (m_contact) {
+    if (m_contact) 
         data = &m_contact->clientData;
-    } else {
+	else 
         data = &m_group->clientData;
-    }
     ClientDataIterator it(*data);
     list<unsigned> st;
-    while (++it){
+	ARItem *tmp=NULL;
+    while (++it)
+	{
         if ((it.client()->protocol()->description()->flags & PROTOCOL_AR_USER) == 0)
             continue;
-        if (parentItem == NULL){
-            parentItem = new ConfigItem(lstBox, 0);
-            parentItem->setText(0, i18n("Autoreply"));
-            parentItem->setExpanded(true);
+        if (m_parentItem == NULL)
+		{
+            m_parentItem = new ConfigItem(lstBox, 0);
+            m_parentItem->setText(0, i18n("Autoreply"));
+            m_parentItem->setExpanded(true);
         }
-        for (const CommandDef *d = it.client()->protocol()->statusList(); !d->text.isEmpty(); d++){
+        for (const CommandDef *d = it.client()->protocol()->statusList(); !d->text.isEmpty(); d++)
+		{
             if ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE))
                 continue;
             list<unsigned>::iterator it;
@@ -390,20 +400,22 @@ void UserConfig::fill()
             if (it != st.end())
                 continue;
             st.push_back(d->id);
-            new ARItem(parentItem, d);
+            tmp=new ARItem(m_parentItem, d);
         }
     }
+	
+	delete tmp;
 
-    parentItem = new ConfigItem(lstBox, 0);
-    parentItem->setText(0, i18n("Settings"));
-    parentItem->setIcon(0, Pict("configure"));
-    parentItem->setExpanded(true);
+    m_parentItem = new ConfigItem(lstBox, 0);
+    m_parentItem->setText(0, i18n("Settings"));
+    m_parentItem->setIcon(0, Pict("configure"));
+    m_parentItem->setExpanded(true);
     CommandDef *cmd;
     CommandsMapIterator itc(CorePlugin::instance()->preferences);
     m_defaultPage = 0;
     while((cmd = ++itc) != NULL)
 	{
-        new PrefItem(parentItem, cmd);
+        new PrefItem(m_parentItem, cmd);
         if (m_defaultPage == 0)
             m_defaultPage = cmd->id;
     }
@@ -438,7 +450,8 @@ bool UserConfig::raiseDefaultPage()
 bool UserConfig::raisePage(unsigned id, QTreeWidgetItem *item)
 {
     unsigned item_id = static_cast<ConfigItem*>(item)->id();
-    if (item_id && ((item_id == id) || (id == 0))){
+    if (item_id && ((item_id == id) || (id == 0)))
+	{
         lstBox->setCurrentItem(item);
         return true;
     }
@@ -468,7 +481,8 @@ void UserConfig::itemSelected(QTreeWidgetItem *item, QTreeWidgetItem* /* previou
 bool UserConfig::processEvent(Event *e)
 {
     switch (e->type()){
-    case eEventGroup:{
+    case eEventGroup:
+	{
         EventGroup *ev = static_cast<EventGroup*>(e);
         Group *group = ev->group();
         switch(ev->action()) {
@@ -485,7 +499,8 @@ bool UserConfig::processEvent(Event *e)
         }
         break;
     }
-    case eEventContact: {
+    case eEventContact: 
+	{
         EventContact *ec = static_cast<EventContact*>(e);
         Contact *contact = ec->contact();
         if (contact != m_contact)
@@ -518,7 +533,8 @@ bool UserConfig::processEvent(Event *e)
         }
         break;
     }
-    case eEventCommandRemove: {
+    case eEventCommandRemove: 
+	{
         EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
         removeCommand(ecr->id());
         return false;
@@ -545,7 +561,8 @@ void UserConfig::removeCommand(unsigned id)
 
 bool UserConfig::removeCommand(unsigned id, QTreeWidgetItem *item)
 {
-    if (item->text(1).toUInt() == id){
+    if (item->text(1).toUInt() == id)
+	{
         delete item;
         return true;
     }
@@ -564,7 +581,8 @@ void UserConfig::updateInfo()
         return;
     ClientDataIterator it(m_contact->clientData);
     void *data;
-    while ((data = ++it) != NULL){
+    while ((data = ++it) != NULL)
+	{
         Client *client = m_contact->clientData.activeClient(data, it.client());
         if (client == NULL)
             continue;
@@ -577,12 +595,13 @@ void UserConfig::updateInfo()
 
 void UserConfig::showUpdate(bool bShow)
 {
-    if (bShow){
+    if (bShow)
+	{
         btnUpdate->show();
         btnUpdate->setEnabled(m_nUpdates == 0);
-    }else{
-        btnUpdate->hide();
     }
+	else btnUpdate->hide();
+
 }
 
 void UserConfig::accept()
