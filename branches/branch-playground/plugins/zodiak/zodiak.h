@@ -22,6 +22,7 @@
 #include "plugins.h"
 
 #include <QFrame>
+#include <QGridLayout>
 #include <QPaintEvent>
 #include <QEvent>
 #include <QList>
@@ -46,6 +47,8 @@ protected:
     DatePicker  *m_picker;
     void paintEvent(QPaintEvent *e);
     int	getSign(int day, int month);
+private:
+	QGridLayout *lay;
 };
 
 struct Picker

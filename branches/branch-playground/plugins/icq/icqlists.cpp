@@ -1083,13 +1083,11 @@ unsigned short ICQClient::getListId()
 
 TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
-    TlvList *tlv = new TlvList;
+    TlvList *tlv = new TlvList; //Fixme Leak, warning C6211: Leaking memory 'tlv' due to an exception. Consider using a local catch block to clean up memory: Lines: 1086, 1087, 1088
     QByteArray name = contact->getName().toUtf8();
     *tlv += new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if(data->WaitAuth.toBool())
-	{
 		*tlv += new Tlv(TLV_WAIT_AUTH, 0, NULL);
-	}
     QString cell = getUserCellular(contact);
     if (cell.length())
         *tlv += new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.toLatin1());
@@ -1135,13 +1133,9 @@ unsigned short ICQClient::ssiAddBuddy(QString& screen, unsigned short group_id, 
 	socket()->writeBuffer().pack(utfscreen.data(), utfscreen.length());
 	socket()->writeBuffer() << group_id << buddy_id << buddy_type;
 	if(!tlvs)
-	{
 		socket()->writeBuffer() << (unsigned short) 0x0000;
-	}
 	else
-	{
 		socket()->writeBuffer() << *tlvs;
-	}
 	sendPacket(true);
     return m_nMsgSequence;
 }
@@ -1155,13 +1149,9 @@ unsigned short ICQClient::ssiDeleteBuddy(QString& screen, unsigned short group_i
 	socket()->writeBuffer().pack(utfscreen.data(), utfscreen.length());
 	socket()->writeBuffer() << group_id << buddy_id << buddy_type;
 	if(!tlvs)
-	{
 		socket()->writeBuffer() << (unsigned short)0x0000;
-	}
 	else
-	{
 		socket()->writeBuffer() << *tlvs;
-	}
 	sendPacket(true);
     return m_nMsgSequence;
 }
@@ -1528,7 +1518,7 @@ unsigned ICQClient::processListRequest()
                  //   break;
                 }
 
-                TlvList *tlvList = new TlvList;
+                TlvList *tlvList = new TlvList; //Fixme Leak, warning C6211: Leaking memory 'tlvList' due to an exception. Consider using a local catch block to clean up memory: Lines: 1304, 1307, 1309, 1310, 1312, 1313, 1314, 1315, 1316, 1317, 1318, 1319, 1495, 1496, 1497, 1499, 1500, 1503, 1504, 1505, 1509, 1513, 1514, 1515, 1521, 1523, 1524, 1525, 1526, 1527
 
                 ba.resize(hash.size() + 2);
                 ba.data()[0] = 0x01;

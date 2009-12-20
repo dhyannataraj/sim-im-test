@@ -69,6 +69,9 @@ protected:
     QList<QWidget*>	m_widgets;
     QList<QWidget*>	m_labels;
     QList<QWidget*>	m_descs;
+private:
+	QVBoxLayout *m_vlay;
+	QGridLayout *m_lay;
 };
 
 class JIDAdvSearch;

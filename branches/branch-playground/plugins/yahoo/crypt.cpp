@@ -51,7 +51,7 @@ char *yahoo_crypt(const char *key, const char *salt)
 
     if (buflen < needed) {
         buflen = needed;
-        if ((buffer = (char*)realloc(buffer, buflen)) == NULL)
+        if ((buffer = (char*)realloc(buffer, buflen)) == NULL) //warning C6308: 'realloc' might return null pointer: assigning null pointer to 'char * `char * __cdecl yahoo_crypt(char const *,char const *)'::`2'::buffer', which is passed as an argument to 'realloc', will cause the original memory block to be leaked
             return NULL;
     }
 
@@ -124,12 +124,13 @@ char *yahoo_crypt(const char *key, const char *salt)
     /* Now we can construct the result string.  It consists of three
        parts.  */
 
-    strncpy(buffer, md5_salt_prefix, MAX (0, buflen));
-    cp = buffer + strlen(buffer);
+    strncpy(buffer, md5_salt_prefix, MAX (0, buflen)); //warning C6387: 'argument 1' might be '0': this does not adhere to the specification for the function 'strncpy': Line: 43
+    cp = buffer + strlen(buffer); //warning C6387: 'argument 1' might be '0': this does not adhere to the specification for the function 'strlen': Line: 43
+								  //warning C6053: Call to 'strncpy' might not zero-terminate string 'buffer': Line: 43
     buflen -= sizeof (md5_salt_prefix);
 
     strncpy(cp, salt, MIN ((size_t) buflen, salt_len));
-    cp = cp + strlen(cp);
+    cp = cp + strlen(cp);  //warning C6053: Call to 'strncpy' might not zero-terminate string 'cp': Line: 43
     buflen -= MIN ((size_t) buflen, salt_len);
 
     if (buflen > 0) {

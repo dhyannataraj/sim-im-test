@@ -24,7 +24,6 @@
 #include <QPainter>
 #include <QBoxLayout>
 #include <QPaintEvent>
-#include <QGridLayout>
 #include <QChildEvent>
 #include <QPixmap>
 #include <QLabel>
@@ -142,25 +141,28 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
 }
 
 ZodiakWnd::ZodiakWnd(DatePicker *parent)
-    : QFrame(parent)
+    : QFrame	(parent)
+	, lay		(new QGridLayout(this))
+	, m_picker	(parent)
+	, m_picture (new QLabel(this))
+	, m_name	(new QLabel(this))
+	, m_button	(new QPushButton(this))
 {
-    m_picker = parent;
     setLineWidth(0);
-    QGridLayout *lay = new QGridLayout(this);
     lay->setSpacing(2);
     lay->setMargin(4);
-    m_picture = new QLabel(this);
+   
     m_picture->setFixedSize(52, 52);
     m_picture->setFrameShadow(Sunken);
     m_picture->setLineWidth(1);
     lay->addWidget(m_picture, 0, 0, 1, 2);
-    m_name = new QLabel(this);
+    
     QFont f(font());
     f.setBold(true);
     m_name->setFont(f);
     m_name->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
     lay->addWidget(m_name, 0, 1);
-    m_button = new QPushButton(this);
+    
     m_button->setText(i18n("View horoscope"));
     lay->addWidget(m_button, 1, 1);
     changed();

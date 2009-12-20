@@ -78,6 +78,8 @@ const unsigned MAX_ELEMENTS = 8;
 
 JabberSearch::JabberSearch(QWidget *parent, const char *name)
         : QWizardPage(parent)
+		, m_vlay(NULL)
+		, m_lay(NULL)
 {
 }
 
@@ -86,12 +88,12 @@ void JabberSearch::init(QWidget *receiver, JabberClient *client, const QString &
     m_client    = client;
     m_jid       = jid;
     m_node      = node;
-    m_name	= name;
+    m_name		= name;
     m_receiver	= receiver;
     m_bXData	= false;
     m_bFirst	= true;
     m_bRegister = bRegister;
-    m_bDirty = false;
+    m_bDirty	= false;
 }
 
 struct defFlds
@@ -449,8 +451,8 @@ void JabberSearch::createLayout()
     unsigned start = 0;
     unsigned nCols = 0;
     unsigned nRows = 0;
-    QVBoxLayout *vlay = new QVBoxLayout(this);
-    QGridLayout *lay = new QGridLayout(this);
+    m_vlay = new QVBoxLayout(this);
+    m_lay = new QGridLayout(this);
     vlay->addLayout(lay);
     vlay->setMargin(11);
     lay->setSpacing(6);

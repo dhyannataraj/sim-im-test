@@ -670,7 +670,7 @@ QByteArray GsmTA::latin1ToGsm(const QByteArray &str)
 {
     QByteArray res;
     for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
-        unsigned char c = gsmTable.latin1ToGsmTable[*p];
+        unsigned char c = gsmTable.latin1ToGsmTable[*p]; //warning C6385: Invalid data: accessing 'gsmTable.latin1ToGsmTable', the readable size is '256' bytes, but '1001' bytes might be read: Lines: 671, 672, 673
         if (c == GSM_NOP)
             continue;
         res += (char)c;
