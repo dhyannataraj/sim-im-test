@@ -20,6 +20,8 @@
 
 #include <QPushButton>
 #include <QWizardPage>
+#include <QVBoxLayout>
+#include <QGridLayout>
 
 class JabberClient;
 struct JabberAgentInfo;
