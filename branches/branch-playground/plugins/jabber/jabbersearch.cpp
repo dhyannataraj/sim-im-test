@@ -453,55 +453,66 @@ void JabberSearch::createLayout()
     unsigned nRows = 0;
     m_vlay = new QVBoxLayout(this);
     m_lay = new QGridLayout(this);
-    vlay->addLayout(lay);
-    vlay->setMargin(11);
-    lay->setSpacing(6);
-    vlay->addStretch();
+    m_vlay->addLayout(m_lay);
+    m_vlay->setMargin(11);
+    m_lay->setSpacing(6);
+    m_vlay->addStretch();
     if (!m_widgets.empty()){
         nCols = (m_widgets.size() + MAX_ELEMENTS - 1) / MAX_ELEMENTS;
         nRows = (m_widgets.size() + nCols - 1) / nCols;
         start = 0;
-        if (!m_label.isEmpty()){
+        if (!m_label.isEmpty())
+		{
             QLabel *label = new QLabel(m_label, this);
             label->setWordWrap(true);
-            lay->addWidget(label, 0, 0, 1, nCols * 3 + 1);
+            m_lay->addWidget(label, 0, 0, 1, nCols * 3 + 1);
             m_label = QString::null;
             start = 1;
         }
         unsigned row = start;
         unsigned col = 0;
-        for (int i = 0; i < m_widgets.size(); i++, row++){
+        for (int i = 0; i < m_widgets.size(); i++, row++)
+		{
             if (row >= nRows + start){
                 row  = 0;
                 col += 3;
             }
-            if (m_labels[i]){
+            if (m_labels[i])
+			{
                 static_cast<QLabel*>(m_labels[i])->setAlignment( Qt::AlignVCenter | Qt::AlignRight);
-                lay->addWidget(m_labels[i], row, col);
-                if (m_descs[i]){
-                    lay->addWidget(m_widgets[i], row, col + 1, Qt::AlignVCenter);
-                    lay->addWidget(m_descs[i], row, col + 2, Qt::AlignVCenter);
+                m_lay->addWidget(m_labels[i], row, col);
+                if (m_descs[i])
+				{
+                    m_lay->addWidget(m_widgets[i], row, col + 1, Qt::AlignVCenter);
+                    m_lay->addWidget(m_descs[i], row, col + 2, Qt::AlignVCenter);
                     m_descs[i]->show();
-                }else{
-                    lay->addWidget(m_widgets[i], row, col + 1, 1, 1, Qt::AlignVCenter);
+                }
+				else
+				{
+                    m_lay->addWidget(m_widgets[i], row, col + 1, 1, 1, Qt::AlignVCenter);
                 }
                 m_labels[i]->show();
-            }else{
-                if (m_descs[i]){
-                    lay->addWidget(m_widgets[i], row, col, 1, 2, Qt::AlignVCenter);
-                    lay->addWidget(m_descs[i], row, col + 2, Qt::AlignBottom);
+            }
+			else
+			{
+                if (m_descs[i])
+				{
+                    m_lay->addWidget(m_widgets[i], row, col, 1, 2, Qt::AlignVCenter);
+                    m_lay->addWidget(m_descs[i], row, col + 2, Qt::AlignBottom);
                     m_descs[i]->show();
-                }else{
-                    lay->addWidget(m_widgets[i], row, col, 1, 3, Qt::AlignVCenter);
                 }
+				else
+                    m_lay->addWidget(m_widgets[i], row, col, 1, 3, Qt::AlignVCenter);
+
             }
             m_widgets[i]->show();
         }
     }
-    if (!m_instruction.isEmpty()){
+    if (!m_instruction.isEmpty())
+	{
         QLabel *label = new QLabel(m_instruction, this);
         label->setWordWrap(true);
-        lay->addWidget(label, nRows + start, 0, 1, nCols * 3 - 1);
+        m_lay->addWidget(label, nRows + start, 0, 1, nCols * 3 - 1);
         m_instruction = QString::null;
     }
 }
