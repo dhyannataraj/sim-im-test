@@ -401,6 +401,14 @@
     <!-- Licence: GNU/LGPL -->
     <!-- Do not think that empty transpanent png file will have any problems with licenses ;-) -->
   </icon>
+  
+  
+  
+  
+  
+  
+  
+  
 
   <icon name="floating">
     <object mime="image/png">floating.png</object>
@@ -531,8 +539,15 @@
   <icon name="onphone">
     <object mime="image/png">msn_onphone.png</object>
     <!-- Licence: GNU/LGPL -->
-    <!--  Author: Everaldo Coelho -->
-    <!--  Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/msn_phone.png -->
+    <!-- Author: Everaldo Coelho -->
+    <!-- Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/msn_phone.png -->
   </icon>
+  <icon name="alert">
+    <object mime="image/png">screen_alert.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author: Based on Everaldo Coelho display icon -->
+    <!-- Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/display.png -->
+  </icon>
+    
 
 </icondef>
