@@ -548,6 +548,21 @@
     <!-- Author: Based on Everaldo Coelho display icon -->
     <!-- Source: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/display.png -->
   </icon>
-    
+  <icon name="sound">
+  <object mime="image/png">sound.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdeartwork/IconThemes/kdeclassic/16x16/apps/kmix.png -->
+  </icon>
+  <icon name="nosound">
+  <object mime="image/png">nosound.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Sources:  http://websvn.kde.org/tags/KDE/3.5.9/kdeartwork/IconThemes/kdeclassic/16x16/apps/kmix.png -->
+    <!--           http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/delete_group.png -->
+  </icon>
+  <icon name="LiveJournal">
+    <object mime="image/png">livejournal.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source: http://semagic.cvs.sourceforge.net/viewvc/semagic/semagic/res/tray.ico?revision=1.1.1.1 -->
+  </icon>
 
 </icondef>
