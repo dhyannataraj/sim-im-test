@@ -564,5 +564,9 @@
     <!-- Licence: GNU/GPL -->
     <!-- Source: http://semagic.cvs.sourceforge.net/viewvc/semagic/semagic/res/tray.ico?revision=1.1.1.1 -->
   </icon>
-
+  <icon name="simcard">
+    <object mime="image/png">unknown_icon_7.png</object>
+    <!-- simcard icon is mentioned in sms plugin, but does not used according to the code -->
+    <!-- I can not test it to be sure, because sms plugin does not work properly in my linux -->
+  </icon>
 </icondef>
