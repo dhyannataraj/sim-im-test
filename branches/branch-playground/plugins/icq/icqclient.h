@@ -25,6 +25,7 @@
 #include <QDateTime>
 #include <QList>
 #include <QByteArray>
+#include <climits>
 
 #include "misc.h"
 #include "snac.h"

@@ -66,6 +66,7 @@ namespace SIM
         State   getState() const { return m_state; }
         virtual unsigned getStatus() const { return m_status; }
         virtual void contactsLoaded();
+        PropertyHubPtr properties() { return m_data; }
         PROP_ULONG(ManualStatus)
         PROP_BOOL(CommonStatus)
         PROP_UTF8(Password)
@@ -78,6 +79,7 @@ namespace SIM
         State m_state;
         unsigned m_status;
         ClientData  data;
+        PropertyHubPtr m_data;
         Protocol    *m_protocol;
     };
 

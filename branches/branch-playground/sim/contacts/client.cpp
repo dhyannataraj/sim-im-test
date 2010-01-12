@@ -25,6 +25,8 @@ namespace SIM
     {
         if(cfg)
             load_data(_clientData, &data, cfg);
+        
+        m_data = PropertyHub::create();
 
         // now uncrypt password somehow
         QString pswd = getPassword();

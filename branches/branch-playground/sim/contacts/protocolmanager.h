@@ -16,6 +16,7 @@ namespace SIM
 
         void addProtocol(ProtocolPtr protocol);
         ProtocolPtr protocol(int index);
+        ProtocolPtr protocol(const QString& name);
         int protocolCount();
         void removeProtocol(ProtocolPtr protocol);
 

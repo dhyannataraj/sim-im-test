@@ -43,6 +43,16 @@ namespace SIM
 
     }
 
+    ProtocolPtr ProtocolManager::protocol(const QString& name)
+    {
+        foreach(const ProtocolPtr& proto, m_protocols)
+        {
+            if(proto->description()->text == name)
+                return proto;
+        }
+        return ProtocolPtr();
+    }
+
     EXPORT ProtocolManager* getProtocolManager()
     {
         return gs_protocolManager;

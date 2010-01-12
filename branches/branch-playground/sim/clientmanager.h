@@ -18,7 +18,12 @@ namespace SIM
         void addClient(ClientPtr client);
         ClientPtr client(const QString& name);
 
+        void load();
+        void load_old();
+        void save();
+
     private:
+        ClientPtr createClient(const QString& name);
         typedef QMap<QString, ClientPtr> ClientMap;
         ClientMap m_clients;
     };

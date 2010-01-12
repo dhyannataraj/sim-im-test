@@ -106,9 +106,9 @@ int main(int argc, char *argv[])
     QApplication::addLibraryPath(sPluginPath);
     SIM::createSocketFactory();
     SIM::createContactList();
-    SIM::createClientManager();
     SIM::createProtocolManager();
     SIM::createPluginManager(argc, argv);
+    SIM::createClientManager();
 
     if(!getPluginManager()->initialize())
         return 1;
@@ -116,9 +116,9 @@ int main(int argc, char *argv[])
     if (SIM::getPluginManager()->isLoaded())
         res = app.exec();
     
+    SIM::destroyClientManager();
     SIM::destroyPluginManager();
     SIM::destroyProtocolManager();
-    SIM::destroyClientManager();
     SIM::destroyContactList();
     SIM::destroySocketFactory();
     return res;

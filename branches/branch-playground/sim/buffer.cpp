@@ -344,3 +344,6 @@ unsigned Buffer::unpack(QString &d, unsigned s)
     m_posRead += readn;
     return readn;
 }
+
+// vim: set expandtab:
+
