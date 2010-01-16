@@ -77,7 +77,7 @@ ConfigItem::ConfigItem(QTreeWidgetItem *item, bool bShowUpdate)
 
 ConfigItem::~ConfigItem()
 {
-	delete m_widget;
+	//delete m_widget;
 }
 
 void ConfigItem::init()
@@ -106,9 +106,9 @@ void ConfigItem::show()
     dlg->wnd->setCurrentWidget(m_widget);
 }
 
-QWidget *ConfigItem::getWidget(UserConfig*)
+QWidget *ConfigItem::getWidget(UserConfig *dlg)
 {
-    return NULL;
+    return dlg; //Fixme
 }
 
 class PrefItem : public ConfigItem

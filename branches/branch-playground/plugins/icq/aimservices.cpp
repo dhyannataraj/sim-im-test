@@ -25,13 +25,13 @@ using namespace std;
 using namespace SIM;
 
 ServiceSocket::ServiceSocket(ICQClient *client, unsigned short id)
-{
-    m_client = client;
-    m_id     = id;
-    m_client->m_snacService->addService(this);
-    m_socket = NULL;
+	: m_client( client )
+    , m_id    ( id)
+	, m_socket( NULL)
+    , m_bConnected( false)
 
-    m_bConnected = false;
+{
+    m_client->m_snacService->addService(this);
 }
 
 ServiceSocket::~ServiceSocket()
@@ -44,9 +44,10 @@ void ServiceSocket::connect(const char *addr, unsigned short port, const QByteAr
 {
     log(L_DEBUG, "%s: connect to %s:%d ", serviceSocketName(), addr, port);
     m_cookie = cookie;
-    if(m_socket != NULL){
-	m_socket->close();
-	delete m_socket;
+    if (m_socket != NULL)
+	{
+		m_socket->close();
+		delete m_socket;
     }    
     m_socket = new ICQClientSocket(this);
     m_socket->connect(addr, port, m_client);
@@ -79,7 +80,8 @@ void ServiceSocket::packet_ready()
 void ServiceSocket::packet(unsigned long size) //Fixme: Unsed Parameter size
 {
     EventLog::log_packet(m_socket->readBuffer(), false,ICQPlugin::icq_plugin->OscarPacket);
-    switch (m_nChannel){
+    switch (m_nChannel)
+	{
     case ICQ_CHNxNEW:
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer() << 0x00000001L;
@@ -91,7 +93,8 @@ void ServiceSocket::packet(unsigned long size) //Fixme: Unsed Parameter size
         unsigned short food, type;
         unsigned short flags, seq, cmd;
         m_socket->readBuffer() >> food >> type >> flags >> seq >> cmd;
-        if ((flags & 0x8000)) {	// some unknown data before real snac data
+		if (flags & 0x8000) 
+		{	// some unknown data before real snac data
             // just read the length and forget it ;-)
             unsigned short unknown_length = 0;
             m_socket->readBuffer() >> unknown_length;
@@ -99,7 +102,8 @@ void ServiceSocket::packet(unsigned long size) //Fixme: Unsed Parameter size
         }
         // now just take a look at the type because 0x0001 == error
         // in all foodgroups
-        if (type == 0x0001) {
+        if (type == 0x0001) 
+		{
             unsigned short err_code;
             m_socket->readBuffer() >> err_code;
             log(L_DEBUG,"%s: Error! foodgroup: %04X reason", serviceSocketName(), food);
@@ -157,7 +161,8 @@ SearchSocket::SearchSocket(ICQClient *client)
 
 static bool bLatin1(const QString &s)
 {
-    for (int i = 0; i < (int)(s.length()); i++){
+    for (int i = 0; i < (int)(s.length()); i++)
+	{
         if (s[i].unicode() > 0x7F)
             return false;
     }
@@ -167,11 +172,10 @@ static bool bLatin1(const QString &s)
 void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
     QByteArray str;
-    if (bLatin){
-        str = s.toLatin1();
-    }else{
-        str = s.toUtf8();
-    }
+	if (bLatin)
+		str = s.toLatin1();
+	else
+		str = s.toUtf8();
     m_socket->writeBuffer().tlv(n, str.data());
 }
 
@@ -184,14 +188,17 @@ void SearchSocket::process()
         bool bLatin;
         if (!it->count() == 0)
             continue;
-        if (!it->count() == 1){
+        if (!it->count() == 1)
+		{
             QStringList sl = (*it);
             QString mail = sl[0];
             bLatin = bLatin1(mail);
             m_socket->writeBuffer().tlv(0x1C, bLatin ? "us-ascii" : "utf8");
             m_socket->writeBuffer().tlv(0x0A, (unsigned short)1);
             addTlv(0x05, mail, bLatin);
-        }else{
+        }
+		else
+		{
             QStringList sl = (*it);
             bLatin = bLatin1(sl[0]) &&
                      bLatin1(sl[1]) &&
@@ -241,7 +248,8 @@ unsigned short SearchSocket::add(const QStringList &name)
 
 void SearchSocket::data(unsigned short food, unsigned short type, unsigned short seq)
 {
-    switch (food){
+    switch (food)
+	{
     case ICQ_SNACxFOOD_SERVICE:
         snac_service(type);
         break;
@@ -286,9 +294,10 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
     switch (type){
     case USER_DIRECTORY_RESULT:
         it = m_seq.find(seq);
-        if (it == m_seq.end()){
-            log(L_WARN, "Bad sequence in search answer");
-        }else{
+		if (it == m_seq.end())
+			log(L_WARN, "Bad sequence in search answer");
+        else
+		{
             unsigned short r;
             unsigned long nSearch;
             m_socket->readBuffer() >> r >> nSearch;
@@ -296,26 +305,31 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
             SearchResult res;
             res.id = (*it);
             res.client = m_client;
-            for (unsigned n = 0; n < nSearch; n++){
+            for (unsigned n = 0; n < nSearch; n++)
+			{
                 unsigned short nTlvs;
                 m_socket->readBuffer() >> nTlvs;
                 TlvList tlvs(m_socket->readBuffer(), nTlvs);
                 Tlv *tlv = tlvs(0x09);
-                if (tlv){
+                if (tlv)
+				{
                     load_data(ICQProtocol::icqUserData, &res.data, NULL);
                     res.data.Screen.str() = tlv->Data();    // utf8 ?
                     tlv = tlvs(0x01);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         res.data.FirstName.str() = str;
                     }
                     tlv = tlvs(0x02);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         res.data.LastName.str() = str;
                     }
                     tlv = tlvs(0x03);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         res.data.MiddleName.str() = str;
                     }
@@ -325,37 +339,44 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                         res.data.Address.str() = str;
                     }
                     tlv = tlvs(0x08);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         res.data.City.str() = str;
                     }
                     tlv = tlvs(0x0C);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         res.data.Nick.str() = str;
                     }
                     tlv = tlvs(0x07);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
                         res.data.State.str() = str;
                     }
                     tlv = tlvs(0x06);
-                    if (tlv){
+                    if (tlv)
+					{
                         QString country_text;
                         country_text = QString::fromLatin1(tlv->Data());
                         country_text = country_text.toLower();
-                        for (const ext_info *info = getCountryCodes(); info->szName; ++info){
-                            if (country_text == info->szName){
-                                res.data.Country.asULong() = info->nCode;
-                                break;
-                            }
-                        }
+						for (const ext_info *info = getCountryCodes(); info->szName; ++info)
+						{
+							if (country_text != info->szName)
+								continue;
+
+							res.data.Country.asULong() = info->nCode;
+							break;
+						}
                     }
                     EventSearch(&res).process();
                     free_data(ICQProtocol::icqUserData, &res.data);
                 }
             }
-            if (r != 6){
+            if (r != 6)
+			{
                 load_data(ICQProtocol::icqUserData, &res.data, NULL);
                 EventSearchDone(&res).process();
                 free_data(ICQProtocol::icqUserData, &res.data);
@@ -371,7 +392,8 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
 unsigned short ICQClient::aimEMailSearch(const QString &name)
 {
     SearchSocket *s = static_cast<SearchSocket*>(m_snacService->getService(USER_DIRECTORY_SERVICE));
-    if (s == NULL){
+    if (s == NULL)
+	{
         s = new SearchSocket(this);
         snacService()->requestService(s);
     }

@@ -60,16 +60,16 @@ ConfigItem::ConfigItem(QTreeWidgetItem *item, unsigned id)
 
 ConfigItem::~ConfigItem()
 {
-    deleteWidget();
+    //deleteWidget(); //obsolete?
 }
 
 
-void ConfigItem::deleteWidget()
+void ConfigItem::deleteWidget()//obsolete?
 {
-    if (m_widget){
+    /*if (m_widget){
         delete m_widget;
         m_widget = NULL;
-    }
+    }*/
 }
 
 void ConfigItem::init(unsigned id)
@@ -84,7 +84,8 @@ void ConfigItem::init(unsigned id)
 
 bool ConfigItem::raisePage(QWidget *w)
 {
-    if (m_widget == w){
+    if (m_widget == w)
+	{
         treeWidget()->setCurrentItem(this);
         return true;
     }
@@ -99,8 +100,9 @@ bool ConfigItem::raisePage(QWidget *w)
 
 void ConfigItem::show()
 {
-    ConfigureDialog *dlg = static_cast<ConfigureDialog*>(treeWidget()->topLevelWidget());
-    if (m_widget == NULL){
+	ConfigureDialog *dlg = static_cast<ConfigureDialog*>(treeWidget()->topLevelWidget());
+    if (m_widget == NULL)
+	{
         m_widget = getWidget(dlg);
         if (m_widget == NULL)
             return;
@@ -119,7 +121,7 @@ void ConfigItem::apply()
 
 QWidget *ConfigItem::getWidget(ConfigureDialog*)
 {
-    return NULL;
+	return NULL;
 }
 
 class PluginItem : public ConfigItem
