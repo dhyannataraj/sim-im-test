@@ -216,7 +216,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
   , Plugin          (base)
   , EventReceiver   (HighPriority)
   , historyXSL      (NULL)
-  , m_bInit         (false)
   , m_cfg           (NULL)
   , m_focus         (NULL)
   , m_view          (NULL)
@@ -225,15 +224,16 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
   , m_manager	    (NULL)
   , m_status	    (NULL)
   , m_statusWnd     (NULL)
-  , m_nClients	    (0)
-  , m_nClientsMenu  (0)
-  , m_nResourceMenu (0)
   , m_main          (NULL)
   , m_alert         (NULL)
   , m_lock          (NULL)
-  , m_RegNew        (false)
   , m_HistoryThread (NULL)
+  , m_bInit         (false)
+  , m_RegNew        (false)
   , m_bIgnoreEvents (false)
+  , m_nClients	    (0)
+  , m_nClientsMenu  (0)
+  , m_nResourceMenu (0)
   , m_propertyHub   (SIM::PropertyHub::create("_core"))
 {
    g_plugin = this;
@@ -274,346 +274,352 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	EventMenu(MenuContactGroup, EventMenu::eAdd).process();
 	EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
 
-	cmd->id			= CmdMsgQuote;
-	cmd->text		= I18N_NOOP("&Quote");
-	cmd->icon		= QString::null;
-	cmd->menu_id	= MenuMsgCommand;
-	cmd->menu_grp	= 0x1002;
+    createEventCmds();
+}
 
-	cmd->bar_id		= 0;
-	cmd->bar_grp	= 0;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+void CorePlugin::createEventCmds()
+{
+    Command cmd;
+    cmd->id			= CmdMsgQuote;
+    cmd->text		= I18N_NOOP("&Quote");
+    cmd->icon		= QString::null;
+    cmd->menu_id	= MenuMsgCommand;
+    cmd->menu_grp	= 0x1002;
 
-	cmd->id			= CmdMsgQuote + CmdReceived;
-	cmd->bar_id		= ToolBarMsgEdit; //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
-	cmd->bar_grp	= 0x1041;
-	cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->bar_id		= 0;
+    cmd->bar_grp	= 0;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdMsgForward;
-	cmd->text		= I18N_NOOP("&Forward");
-	cmd->menu_id	= MenuMsgCommand;
-	cmd->menu_grp	= 0x1003;
-	cmd->bar_id		= 0;
-	cmd->bar_grp	= 0;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdMsgQuote + CmdReceived;
+    cmd->bar_id		= ToolBarMsgEdit; //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
+    cmd->bar_grp	= 0x1041;
+    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdMsgForward + CmdReceived;
-	cmd->bar_id		= ToolBarMsgEdit;  //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
-	cmd->bar_grp	= 0x1042;
-	cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdMsgForward;
+    cmd->text		= I18N_NOOP("&Forward");
+    cmd->menu_id	= MenuMsgCommand;
+    cmd->menu_grp	= 0x1003;
+    cmd->bar_id		= 0;
+    cmd->bar_grp	= 0;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdMsgAnswer;
-	cmd->text		= I18N_NOOP("&Answer");
-	cmd->icon		= "mail_generic";
-	cmd->bar_grp	= 0x8000;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdMsgForward + CmdReceived;
+    cmd->bar_id		= ToolBarMsgEdit;  //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
+    cmd->bar_grp	= 0x1042;
+    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	EventMenu(MenuContainer, EventMenu::eAdd).process();
+    cmd->id			= CmdMsgAnswer;
+    cmd->text		= I18N_NOOP("&Answer");
+    cmd->icon		= "mail_generic";
+    cmd->bar_grp	= 0x8000;
+    EventCommandCreate(cmd).process();
 
-	cmd->bar_id		= 0;
-	cmd->id			= 0;
-	cmd->text		= I18N_NOOP("&Messages");
-	cmd->accel		= "_core";
-	cmd->icon		= "message";
-	cmd->icon_on	= QString::null;
-	cmd->param		= (void*)getInterfaceSetup;
-	EventAddPreferences(cmd).process();
+    EventMenu(MenuContainer, EventMenu::eAdd).process();
 
-	cmd->id			= 0;
-	cmd->text		= I18N_NOOP("SMS");
-	cmd->icon		= "cell";
-	cmd->icon_on	= QString::null;
-	cmd->param		= (void*)getSMSSetup;
+    cmd->bar_id		= 0;
+    cmd->id			= 0;
+    cmd->text		= I18N_NOOP("&Messages");
+    cmd->accel		= "_core";
+    cmd->icon		= "message";
+    cmd->icon_on	= QString::null;
+    cmd->param		= (void*)getInterfaceSetup;
+    EventAddPreferences(cmd).process();
+
+    cmd->id			= 0;
+    cmd->text		= I18N_NOOP("SMS");
+    cmd->icon		= "cell";
+    cmd->icon_on	= QString::null;
+    cmd->param		= (void*)getSMSSetup;
     cmd->accel      = "SMS";
-	EventAddPreferences(cmd).process();
+    EventAddPreferences(cmd).process();
 
-	cmd->id			= 0;
-	cmd->text		= I18N_NOOP("&History setup");
-	cmd->icon		= "history";
-	cmd->icon_on	= QString::null;
-	cmd->param		= (void*)getHistorySetup;
+    cmd->id			= 0;
+    cmd->text		= I18N_NOOP("&History setup");
+    cmd->icon		= "history";
+    cmd->icon_on	= QString::null;
+    cmd->param		= (void*)getHistorySetup;
     cmd->accel      = "history";
-	EventAddPreferences(cmd).process();
+    EventAddPreferences(cmd).process();
 
-	cmd->id			= CmdGrpCreate;
-	cmd->text		= I18N_NOOP("&Create group");
-	cmd->icon		= "grp_create";
-	cmd->icon_on	= QString::null;
-	cmd->menu_id	= MenuGroup;
-	cmd->menu_grp	= 0x4000;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdGrpCreate;
+    cmd->text		= I18N_NOOP("&Create group");
+    cmd->icon		= "grp_create";
+    cmd->icon_on	= QString::null;
+    cmd->menu_id	= MenuGroup;
+    cmd->menu_grp	= 0x4000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdGrpRename;
-	cmd->text		= I18N_NOOP("&Rename group");
-	cmd->icon		= "grp_rename";
-	cmd->accel		= "F2";
-	cmd->menu_grp	= 0x4001;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdGrpRename;
+    cmd->text		= I18N_NOOP("&Rename group");
+    cmd->icon		= "grp_rename";
+    cmd->accel		= "F2";
+    cmd->menu_grp	= 0x4001;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdGrpDelete;
-	cmd->text		= I18N_NOOP("&Delete group");
-	cmd->icon		= "remove";
-	cmd->accel		= "Del";
-	cmd->menu_grp	= 0x4002;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdGrpDelete;
+    cmd->text		= I18N_NOOP("&Delete group");
+    cmd->icon		= "remove";
+    cmd->accel		= "Del";
+    cmd->menu_grp	= 0x4002;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdGrpUp;
-	cmd->text		= I18N_NOOP("Up");
-	cmd->icon		= "1uparrow";
-	cmd->accel		= "Ctrl+Up";
-	cmd->menu_grp	= 0x6000;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdGrpUp;
+    cmd->text		= I18N_NOOP("Up");
+    cmd->icon		= "1uparrow";
+    cmd->accel		= "Ctrl+Up";
+    cmd->menu_grp	= 0x6000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdGrpDown;
-	cmd->text		= I18N_NOOP("Down");
-	cmd->icon		= "1downarrow";
-	cmd->accel		= "Ctrl+Down";
-	cmd->menu_grp	= 0x6001;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdGrpDown;
+    cmd->text		= I18N_NOOP("Down");
+    cmd->icon		= "1downarrow";
+    cmd->accel		= "Ctrl+Down";
+    cmd->menu_grp	= 0x6001;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdGrpTitle;
-	cmd->text		= "_";
-	cmd->icon		= "grp_on";
-	cmd->accel		= QString::null;
-	cmd->menu_grp	= 0x1000;
-	cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdGrpTitle;
+    cmd->text		= "_";
+    cmd->icon		= "grp_on";
+    cmd->accel		= QString::null;
+    cmd->menu_grp	= 0x1000;
+    cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdConfigure;
-	cmd->text		= I18N_NOOP("Setup");
-	cmd->icon		= "configure";
-	cmd->menu_grp	= 0xB000;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdConfigure;
+    cmd->text		= I18N_NOOP("Setup");
+    cmd->icon		= "configure";
+    cmd->menu_grp	= 0xB000;
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContactTitle;
-	cmd->text		= "_";
-	cmd->icon		= QString::null;
-	cmd->accel		= QString::null;
-	cmd->menu_id	= MenuContact;
-	cmd->menu_grp	= 0x1000;
-	cmd->popup_id	= 0;
-	cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContactTitle;
+    cmd->text		= "_";
+    cmd->icon		= QString::null;
+    cmd->accel		= QString::null;
+    cmd->menu_id	= MenuContact;
+    cmd->menu_grp	= 0x1000;
+    cmd->popup_id	= 0;
+    cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdUnread;
-	cmd->menu_grp	= 0x1000;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdUnread;
+    cmd->menu_grp	= 0x1000;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdSendMessage;
-	cmd->menu_grp	= 0x2000;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdSendMessage;
+    cmd->menu_grp	= 0x2000;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdClose;
-	cmd->text		= "&Close";
-	cmd->icon		= "exit";
-	cmd->menu_id	= MenuContact;
-	cmd->menu_grp	= 0xF000;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdClose;
+    cmd->text		= "&Close";
+    cmd->icon		= "exit";
+    cmd->menu_id	= MenuContact;
+    cmd->menu_grp	= 0xF000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContactGroup;
-	cmd->text		= I18N_NOOP("Group");
-	cmd->icon		= "grp_on";
-	cmd->menu_grp	= 0x8000;
-	cmd->popup_id	= MenuContactGroup;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContactGroup;
+    cmd->text		= I18N_NOOP("Group");
+    cmd->icon		= "grp_on";
+    cmd->menu_grp	= 0x8000;
+    cmd->popup_id	= MenuContactGroup;
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContactRename;
-	cmd->text		= I18N_NOOP("&Rename");
-	cmd->icon		= QString::null;
-	cmd->menu_grp	= 0x8001;
-	cmd->popup_id	= 0;
-	cmd->accel		= "F2";
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContactRename;
+    cmd->text		= I18N_NOOP("&Rename");
+    cmd->icon		= QString::null;
+    cmd->menu_grp	= 0x8001;
+    cmd->popup_id	= 0;
+    cmd->accel		= "F2";
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContactDelete;
-	cmd->text		= I18N_NOOP("&Delete");
-	cmd->icon		= "remove";
-	cmd->menu_grp	= 0x8002;
-	cmd->accel		= "Del";
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContactDelete;
+    cmd->text		= I18N_NOOP("&Delete");
+    cmd->icon		= "remove";
+    cmd->menu_grp	= 0x8002;
+    cmd->accel		= "Del";
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdShowAlways;
-	cmd->text		= I18N_NOOP("Show &always");
-	cmd->icon		= QString::null;
-	cmd->menu_grp	= 0x8003;
-	cmd->accel		= QString::null;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdShowAlways;
+    cmd->text		= I18N_NOOP("Show &always");
+    cmd->icon		= QString::null;
+    cmd->menu_grp	= 0x8003;
+    cmd->accel		= QString::null;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id         = CmdFetchAway;
-	cmd->text       = I18N_NOOP("&Fetch away message");
-	cmd->icon       = "message";
-	cmd->menu_grp   = 0x8020;
-	cmd->flags      = COMMAND_CHECK_STATE | BTN_HIDE;
-	EventCommandCreate(cmd).process();
+    cmd->id         = CmdFetchAway;
+    cmd->text       = I18N_NOOP("&Fetch away message");
+    cmd->icon       = "message";
+    cmd->menu_grp   = 0x8020;
+    cmd->flags      = COMMAND_CHECK_STATE | BTN_HIDE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdInfo;
-	cmd->text		= I18N_NOOP("User &info");
-	cmd->icon		= "info";
-	cmd->menu_grp	= 0x7010;
-	cmd->accel		= QString::null;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdInfo;
+    cmd->text		= I18N_NOOP("User &info");
+    cmd->icon		= "info";
+    cmd->menu_grp	= 0x7010;
+    cmd->accel		= QString::null;
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdHistory;
-	cmd->text		= I18N_NOOP("&History");
-	cmd->icon		= "history";
-	cmd->menu_grp	= 0x7020;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdHistory;
+    cmd->text		= I18N_NOOP("&History");
+    cmd->icon		= "history";
+    cmd->menu_grp	= 0x7020;
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdConfigure;
-	cmd->text		= I18N_NOOP("Setup");
-	cmd->icon		= "configure";
-	cmd->menu_grp	= 0x7020;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdConfigure;
+    cmd->text		= I18N_NOOP("Setup");
+    cmd->icon		= "configure";
+    cmd->menu_grp	= 0x7020;
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContainer;
-	cmd->text		= I18N_NOOP("To container");
-	cmd->icon		= QString::null;
-	cmd->popup_id	= MenuContainer;
-	cmd->menu_grp	= 0x8010;
-	cmd->accel		= QString::null;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContainer;
+    cmd->text		= I18N_NOOP("To container");
+    cmd->icon		= QString::null;
+    cmd->popup_id	= MenuContainer;
+    cmd->menu_grp	= 0x8010;
+    cmd->accel		= QString::null;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContainer;
-	cmd->text		= "_";
-	cmd->popup_id	= 0;
-	cmd->menu_id	= MenuContainer;
-	cmd->menu_grp	= 0x1000;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContainer;
+    cmd->text		= "_";
+    cmd->popup_id	= 0;
+    cmd->menu_id	= MenuContainer;
+    cmd->menu_grp	= 0x1000;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdContactGroup;
-	cmd->text		= "_";
-	cmd->icon		= QString::null;
-	cmd->accel		= QString::null;
-	cmd->menu_id	= MenuContactGroup;
-	cmd->menu_grp	= 0x2000;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdContactGroup;
+    cmd->text		= "_";
+    cmd->icon		= QString::null;
+    cmd->accel		= QString::null;
+    cmd->menu_id	= MenuContactGroup;
+    cmd->menu_grp	= 0x2000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdDeclineWithoutReason;
-	cmd->text		= I18N_NOOP("Decline file without reason");
-	cmd->icon		= QString::null;
-	cmd->menu_id	= MenuFileDecline;
-	cmd->menu_grp   = 0x1000;
-	cmd->flags		= COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdDeclineWithoutReason;
+    cmd->text		= I18N_NOOP("Decline file without reason");
+    cmd->icon		= QString::null;
+    cmd->menu_id	= MenuFileDecline;
+    cmd->menu_grp   = 0x1000;
+    cmd->flags		= COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdDeclineReasonBusy;
-	cmd->text		= I18N_NOOP("Sorry, I'm busy right now, and can not respond to your request");
-	cmd->menu_grp   = 0x1001;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdDeclineReasonBusy;
+    cmd->text		= I18N_NOOP("Sorry, I'm busy right now, and can not respond to your request");
+    cmd->menu_grp   = 0x1001;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdDeclineReasonLater;
-	cmd->text		= I18N_NOOP("Sorry, I'm busy right now, but I'll be able to respond to you later");
-	cmd->menu_grp   = 0x1002;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdDeclineReasonLater;
+    cmd->text		= I18N_NOOP("Sorry, I'm busy right now, but I'll be able to respond to you later");
+    cmd->menu_grp   = 0x1002;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdDeclineReasonInput;
-	cmd->text		= I18N_NOOP("Enter a decline reason");
-	cmd->menu_grp   = 0x1004;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdDeclineReasonInput;
+    cmd->text		= I18N_NOOP("Enter a decline reason");
+    cmd->menu_grp   = 0x1004;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdEditList;
-	cmd->text		= I18N_NOOP("&Edit");
-	cmd->icon		= "mail_generic";
-	cmd->menu_id	= MenuMailList;
-	cmd->menu_grp	= 0x1000;
-	cmd->flags		= COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdEditList;
+    cmd->text		= I18N_NOOP("&Edit");
+    cmd->icon		= "mail_generic";
+    cmd->menu_id	= MenuMailList;
+    cmd->menu_grp	= 0x1000;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdRemoveList;
-	cmd->text		= I18N_NOOP("&Delete");
-	cmd->icon		= "remove";
-	cmd->menu_grp	= 0x1001;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdRemoveList;
+    cmd->text		= I18N_NOOP("&Delete");
+    cmd->icon		= "remove";
+    cmd->menu_grp	= 0x1001;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdEditList;
-	cmd->text		= I18N_NOOP("&Edit");
-	cmd->icon		= "phone";
-	cmd->menu_id	= MenuPhoneList;
-	cmd->menu_grp	= 0x1000;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdEditList;
+    cmd->text		= I18N_NOOP("&Edit");
+    cmd->icon		= "phone";
+    cmd->menu_id	= MenuPhoneList;
+    cmd->menu_grp	= 0x1000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdRemoveList;
-	cmd->text		= I18N_NOOP("&Delete");
-	cmd->icon		= "remove";
-	cmd->menu_grp	= 0x1001;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdRemoveList;
+    cmd->text		= I18N_NOOP("&Delete");
+    cmd->icon		= "remove";
+    cmd->menu_grp	= 0x1001;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			= CmdStatusWnd;
-	cmd->text		= "_";
-	cmd->icon		= QString::null;
-	cmd->menu_id	= MenuStatusWnd;
-	EventCommandCreate(cmd).process();
+    cmd->id			= CmdStatusWnd;
+    cmd->text		= "_";
+    cmd->icon		= QString::null;
+    cmd->menu_id	= MenuStatusWnd;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdChangeEncoding;
-	cmd->text		 = "_";
-	cmd->menu_id	 = MenuEncoding;
-	cmd->menu_grp	 = 0x1000;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = "_";
+    cmd->menu_id	 = MenuEncoding;
+    cmd->menu_grp	 = 0x1000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdAllEncodings;
-	cmd->text		 = I18N_NOOP("&Show all encodings");
-	cmd->menu_id	 = MenuEncoding;
-	cmd->menu_grp	 = 0x8000;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdAllEncodings;
+    cmd->text		 = I18N_NOOP("&Show all encodings");
+    cmd->menu_id	 = MenuEncoding;
+    cmd->menu_grp	 = 0x8000;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdContactGroup;
-	cmd->text		 = I18N_NOOP("Add to &group");
-	cmd->icon		 = QString::null;
-	cmd->menu_id	 = MenuSearchItem;
-	cmd->menu_grp	 = 0x2000;
-	cmd->bar_id		 = 0;
-	cmd->bar_grp	 = 0;
-	cmd->popup_id	 = MenuSearchGroups;
-	cmd->flags		 = COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdContactGroup;
+    cmd->text		 = I18N_NOOP("Add to &group");
+    cmd->icon		 = QString::null;
+    cmd->menu_id	 = MenuSearchItem;
+    cmd->menu_grp	 = 0x2000;
+    cmd->bar_id		 = 0;
+    cmd->bar_grp	 = 0;
+    cmd->popup_id	 = MenuSearchGroups;
+    cmd->flags		 = COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdSearchOptions;
-	cmd->text		 = "_";
-	cmd->icon		 = QString::null;
-	cmd->menu_id	 = MenuSearchItem;
-	cmd->menu_grp	 = 0x3000;
-	cmd->popup_id	 = 0;
-	cmd->flags		 = COMMAND_CHECK_STATE;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdSearchOptions;
+    cmd->text		 = "_";
+    cmd->icon		 = QString::null;
+    cmd->menu_id	 = MenuSearchItem;
+    cmd->menu_grp	 = 0x3000;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdSearchInfo;
-	cmd->text		 = I18N_NOOP("&Info");
-	cmd->icon		 = "info";
-	cmd->menu_id	 = MenuSearchOptions;
-	cmd->menu_grp	 = 0x3000;
-	cmd->popup_id	 = 0;
-	cmd->flags		 = COMMAND_DEFAULT;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdSearchInfo;
+    cmd->text		 = I18N_NOOP("&Info");
+    cmd->icon		 = "info";
+    cmd->menu_id	 = MenuSearchOptions;
+    cmd->menu_grp	 = 0x3000;
+    cmd->popup_id	 = 0;
+    cmd->flags		 = COMMAND_DEFAULT;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdSearchMsg;
-	cmd->text		 = I18N_NOOP("Send &message");
-	cmd->icon		 = "message";
-	cmd->menu_id	 = MenuSearchOptions;
-	cmd->menu_grp	 = 0x3001;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdSearchMsg;
+    cmd->text		 = I18N_NOOP("Send &message");
+    cmd->icon		 = "message";
+    cmd->menu_id	 = MenuSearchOptions;
+    cmd->menu_grp	 = 0x3001;
+    EventCommandCreate(cmd).process();
 
-	cmd->id			 = CmdContactGroup;
-	cmd->text		 = "_";
-	cmd->flags		 = COMMAND_CHECK_STATE;
-	cmd->menu_id	 = MenuSearchGroups;
-	cmd->menu_grp	 = 0x1000;
-	EventCommandCreate(cmd).process();
+    cmd->id			 = CmdContactGroup;
+    cmd->text		 = "_";
+    cmd->flags		 = COMMAND_CHECK_STATE;
+    cmd->menu_id	 = MenuSearchGroups;
+    cmd->menu_grp	 = 0x1000;
+    EventCommandCreate(cmd).process();
 }
 
 void CorePlugin::initData()

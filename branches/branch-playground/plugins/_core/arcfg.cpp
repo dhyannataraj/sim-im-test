@@ -27,26 +27,29 @@
 
 using namespace SIM;
 
-ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact) : QWidget(p)
+ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact) 
+    : QWidget(p)
+    , m_status(status)
+    , m_contact(contact)
 {
 	setupUi(this);
-    m_status  = status;
-    m_contact = contact;
     setButtonsPict(this);
     tabAR->setTabText(tabAR->indexOf(tab), name);
     SIM::PropertyHubPtr ar;
     QString text;
 	SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
     QString noShow = core->stringMapValue("NoShowAutoReply", m_status);
-    if (m_contact){
+    if (m_contact)
+    {
         chkNoShow->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
         ar = m_contact->getUserData()->getUserData("AR");
         if (ar)
             text = ar->stringMapValue("AutoReply", m_status);
-        if (!text.isEmpty()){
+        if (!text.isEmpty())
             chkOverride->setChecked(true);
-        }else{
+        else
+        {
             ar.clear();
             Group *grp = getContacts()->group(m_contact->getGroup());
             if (grp)
@@ -55,10 +58,11 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
                 text = ar->stringMapValue("AutoReply", m_status);
         }
         toggled(chkOverride->isChecked());
-    }else{
-        chkOverride->hide();
     }
-    if (text.isEmpty()){
+    else
+        chkOverride->hide();
+    if (text.isEmpty())
+    {
         ar = getContacts()->getUserData("AR");
         if (!noShow.isEmpty())
             chkNoShow->setChecked(true);
@@ -75,25 +79,31 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
 
 void ARConfig::apply()
 {
-    if (m_contact) {
-        if (chkOverride->isChecked()) {
-            SIM::PropertyHubPtr ar = m_contact->getUserData()->getUserData("AR");
-            if(ar.isNull())
-                ar = m_contact->getUserData()->createUserData("AR");
-            ar->setStringMapValue("AutoReply", m_status, edtAutoReply->toPlainText());
-        } else {
-            SIM::PropertyHubPtr ar = m_contact->getUserData()->getUserData("AR");
-            if (!ar.isNull())
-                ar->setStringMapValue("AutoReply", m_status, QString::null);
-        }
-    } else {
-        SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
-        ar->setStringMapValue("AutoReply", m_status, edtAutoReply->toPlainText());
-        SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
-        core->setStringMapValue("NoShowAutoReply", m_status, chkNoShow->isChecked() ? "1" : "");
-    }
+    if (m_contact) 
+        applyForSpecialUser();
+    else
+        applyGlobal();
 }
 
+void ARConfig::applyForSpecialUser()
+{
+    SIM::PropertyHubPtr ar = m_contact->getUserData()->getUserData("AR");
+    if (chkOverride->isChecked())
+    {
+        if(ar.isNull())
+            ar = m_contact->getUserData()->createUserData("AR");
+        ar->setStringMapValue("AutoReply", m_status, edtAutoReply->toPlainText());
+    }
+    else if (!ar.isNull())
+        ar->setStringMapValue("AutoReply", m_status, QString::null);
+}
+void ARConfig::applyGlobal()
+{
+    SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
+    ar->setStringMapValue("AutoReply", m_status, edtAutoReply->toPlainText());
+    SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
+    core->setStringMapValue("NoShowAutoReply", m_status, chkNoShow->isChecked() ? "1" : "");
+}
 void ARConfig::toggled(bool bState)
 {
     edtAutoReply->setEnabled(bState);

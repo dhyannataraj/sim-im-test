@@ -34,6 +34,7 @@ protected slots:
 protected:
     void accept();
     void stopTimer();
+    bool loadIconAndIconText(unsigned status, QString &text, QString &icon);
     unsigned m_status;
     unsigned m_time;
     QTimer	*m_timer;

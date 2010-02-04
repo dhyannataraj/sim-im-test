@@ -29,11 +29,11 @@
 using namespace SIM;
 
 CMenu::CMenu(CommandsDef *def)
-        : QMenu(NULL)
+    : QMenu(NULL)
+    , m_def(def)
+    , m_param(NULL)
+    , m_bInit(false)
 {
-    m_def = def;
-    m_param = NULL;
-    m_bInit = false;
     connect(this, SIGNAL(aboutToShow()), this, SLOT(showMenu()));
     connect(this, SIGNAL(aboutToHide()), this, SLOT(hideMenu()));
     connect(this, SIGNAL(triggered(QAction*)), this, SLOT(menuActivated(QAction*)));

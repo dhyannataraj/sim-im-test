@@ -30,55 +30,20 @@
 
 using namespace SIM;
 
-AutoReplyDialog::AutoReplyDialog(unsigned status) : QDialog(NULL)
+AutoReplyDialog::AutoReplyDialog(unsigned status)
+    : QDialog(NULL)
+    , m_status(status)
+    , m_time(15)
+    , m_timer(new QTimer(this))
 {
 	setupUi(this);
-    m_status = status;
     SET_WNDPROC("mainwnd");
     QString text, icon;
-    for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        for (const CommandDef *d = getContacts()->getClient(i)->protocol()->statusList(); !d->text.isEmpty(); d++){
-            if (d->id == status){
-                text = d->text;
-                switch (d->id){
-                case STATUS_ONLINE: 
-                    icon="SIM_online";
-                    break;
-                case STATUS_AWAY:
-                    icon="SIM_away";
-                    break;
-                case STATUS_NA:
-                    icon="SIM_na";
-                    break;
-                case STATUS_DND:
-                    icon="SIM_dnd";
-                    break;
-		        case STATUS_OCCUPIED:
-                    icon="SIM_occupied";
-                    break;
-                case STATUS_FFC:
-                    icon="SIM_ffc";
-                    break;
-                case STATUS_OFFLINE:
-                    icon="SIM_offline";
-                    break;
-                default:
-                    icon=d->icon;
-                    break;
-                }
-                break;
-            }
-        }
-        if (!text.isEmpty())
-            break;
-    }
-    if (text.isEmpty())
+    if (!loadIconAndIconText(status, text, icon))
         return;
     setWindowTitle(i18n("Autoreply message") + ' ' + i18n(text));
     setWindowIcon(Icon(icon));
-    m_time = 15;
     lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
-    m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
     m_timer->start(1000);
 	SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
@@ -94,6 +59,53 @@ AutoReplyDialog::AutoReplyDialog(unsigned status) : QDialog(NULL)
 
 AutoReplyDialog::~AutoReplyDialog()
 {
+}
+
+bool AutoReplyDialog::loadIconAndIconText(unsigned status, QString &text, QString &icon)
+{
+    bool btextFound = true;
+    for (unsigned i = 0; i < getContacts()->nClients(); i++)
+    {
+        for (const CommandDef *d = getContacts()->getClient(i)->protocol()->statusList(); !d->text.isEmpty(); d++)
+        {
+            if (d->id == status)
+            {
+                text = d->text;
+                switch (d->id){
+                        case STATUS_ONLINE:
+                            icon="SIM_online";
+                            break;
+                        case STATUS_AWAY:
+                            icon="SIM_away";
+                            break;
+                        case STATUS_NA:
+                            icon="SIM_na";
+                            break;
+                        case STATUS_DND:
+                            icon="SIM_dnd";
+                            break;
+                        case STATUS_OCCUPIED:
+                            icon="SIM_occupied";
+                            break;
+                        case STATUS_FFC:
+                            icon="SIM_ffc";
+                            break;
+                        case STATUS_OFFLINE:
+                            icon="SIM_offline";
+                            break;
+                        default:
+                            icon=d->icon;
+                            break;
+                }
+                break;
+            }
+        }
+        if (!text.isEmpty())
+            break;
+    }
+    if (text.isEmpty())
+        return !btextFound;
+    return btextFound;
 }
 
 void AutoReplyDialog::textChanged()
@@ -117,7 +129,8 @@ void AutoReplyDialog::stopTimer()
 
 void AutoReplyDialog::timeout()
 {
-    if (--m_time <= 0){
+    if (--m_time <= 0)
+    {
         accept();
         return;
     }
@@ -143,9 +156,4 @@ void AutoReplyDialog::help()
     BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "autoreply.moc"
-#endif
-*/
 

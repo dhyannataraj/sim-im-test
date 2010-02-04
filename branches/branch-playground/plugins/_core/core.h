@@ -186,9 +186,11 @@ protected slots:
     void postInit();
     void ignoreEvents(bool i);
 protected:
+    
     virtual bool processEvent(SIM::Event*);
     virtual QByteArray getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
+    void createEventCmds();
     void showInfo(SIM::CommandDef *cmd);
     bool init(bool bFirst);
     void destroy();

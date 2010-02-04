@@ -30,6 +30,10 @@ public:
     ARConfig(QWidget *parent, unsigned status, const QString &name, SIM::Contact *contact);
 public slots:
     void apply();
+    void applyGlobal();
+
+    void applyForSpecialUser();
+
     void toggled(bool);
     void help();
 protected:
