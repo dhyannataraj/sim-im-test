@@ -388,18 +388,23 @@
     <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 32x32/apps/identity.png -->
     <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/compfile.png -->
   </icon>
-  
   <icon name="auth">
     <object mime="image/png">auth.png</object> 
     <!-- Licence: GNU/LGPL -->
     <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/filenew.png -->
     <!--          Filter icon form OpenOffice.org, do not know exact filename, I've taken it from screenshot-->
   </icon>
-  
   <icon name="empty">
     <object mime="image/png">empty.png</object>
     <!-- Licence: GNU/LGPL -->
     <!-- Do not think that empty transpanent png file will have any problems with licenses ;-) -->
+  </icon>
+  <icon name="translit">
+   <object mime="image/png">translit.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author:  Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
+    <!-- Sources: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/compfile.png -->
+
   </icon>
   
   
