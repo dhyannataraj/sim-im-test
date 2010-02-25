@@ -36,12 +36,13 @@ Commands::Commands()
 Commands::~Commands()
 {
     CMDS_MAP::iterator it;
-    for (it = bars.begin(); it != bars.end(); ++it){
+    for (it = bars.begin(); it != bars.end(); ++it)
         delete it->second;
-    }
+
     MENU_MAP::iterator itm;
-    for (itm = menus.begin(); itm != menus.end(); ++itm){
-        MenuDef &def = (*itm).second;
+    for (itm = menus.begin(); itm != menus.end(); ++itm)
+    {
+        MenuDef &def = itm->second;
         delete def.menu;
         delete def.def;
     }
@@ -68,12 +69,12 @@ void Commands::removeBar(unsigned id)
 
 void Commands::clear()
 {
-    for (MENU_MAP::iterator it = menus.begin(); it != menus.end(); ++it){
-        if (it->second.menu){
+    for (MENU_MAP::iterator it = menus.begin(); it != menus.end(); ++it)
+        if (it->second.menu)
+        {
             delete it->second.menu;
             it->second.menu = NULL;
         }
-    }
 }
 
 CommandsDef *Commands::createMenu(unsigned id)
@@ -116,7 +117,8 @@ CMenu *Commands::get(CommandDef *cmd)
     if (it == menus.end())
         return NULL;
     MenuDef &d = it->second;
-    if (d.menu && ((cmd->flags & COMMAND_NEW_POPUP) == 0)){
+    if (d.menu && (cmd->flags & COMMAND_NEW_POPUP) == 0)
+    {
         d.menu->setParam(cmd->param);
         return d.menu;
     }
@@ -124,8 +126,10 @@ CMenu *Commands::get(CommandDef *cmd)
     d.def->setConfig(CorePlugin::instance()->value(sName.toLatin1().data()));
     CMenu *menu = new CMenu(d.def);
     menu->setParam(cmd->param);
-    if ((cmd->flags & COMMAND_NEW_POPUP) == 0)
-        d.menu = menu;
+    if ((cmd->flags & COMMAND_NEW_POPUP) != 0)
+        return menu;
+
+    d.menu = menu;
     return menu;
 }
 
@@ -136,12 +140,15 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
     if (it == menus.end())
         return NULL;
     MenuDef &d = it->second;
-    if (key){
+    if (key)
+    {
         CommandsList list(*d.def, true);
         CommandDef *cmd;
-        while ((cmd = ++list) != NULL){
+        while ((cmd = ++list) != NULL)
+        {
             QKeySequence cmdKey;
-            if ((key & Qt::ALT) && ((key & ~Qt::MODIFIER_MASK) != Qt::Key_Alt)){
+            if (key & Qt::ALT && (key & ~Qt::MODIFIER_MASK) != Qt::Key_Alt)
+            {
                 if (cmd->text.isEmpty())
                     continue;
                 cmdKey = QKeySequence::mnemonic(i18n(cmd->text));
@@ -156,7 +163,8 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             if (cmd->accel.isEmpty())
                 continue;
             cmdKey = QKeySequence::fromString(i18n(cmd->accel));
-            if (cmdKey == Key){
+            if (cmdKey == Key)
+            {
                 cmd->param = param;
                 EventCommandExec eCmd(cmd);
                 if (eCmd.process())
@@ -166,7 +174,8 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         if (cmd == NULL)
             return NULL;
     }
-    if (d.menu){
+    if (d.menu)
+    {
         d.menu->setParam(param);
         return d.menu;
     }
@@ -212,7 +221,8 @@ bool Commands::processEvent(Event *e)
         case eEventMenu:
             {
                 EventMenu *em = static_cast<EventMenu*>(e);
-                switch(em->action()) {
+                switch(em->action()) 
+                {
                     case EventMenu::eAdd:
                         createMenu(em->id());
                         break;
@@ -249,29 +259,28 @@ bool Commands::processEvent(Event *e)
     return false;
 }
 
+QObject* Commands::getParent(QObject *o)
+{
+    return o->parent();
+}
+
 bool Commands::eventFilter(QObject *o, QEvent *e)
 {
-    if ((e->type() == QEvent::Show) && o->inherits("QMenu"))
+      if (e->type() == QEvent::Show && o->inherits("QMenu") && !o->inherits("CMenu") && getParent(o))
     {
-        if (!o->inherits("CMenu")){
-            QObject *parent = o->parent();
-            if (parent)
-            {
-                unsigned id = 0;
-                if (parent->inherits("MainWindow"))
-                    id = ToolBarMain;
-                else if (parent->inherits("CToolBar"))
-                {
-                    CToolBar *bar = static_cast<CToolBar*>(parent);
-                    id = bar->m_def->id();
-                }
-                if (id)
-                {
-                    QMenu *popup = static_cast<QMenu*>(o);
-                    popup->addAction(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
-                    cur_id = id;
-                }
-            }
+        unsigned id = 0;
+        if (getParent(o)->inherits("MainWindow"))
+            id = ToolBarMain;
+        else if (getParent(o)->inherits("CToolBar"))
+        {
+            CToolBar *bar = static_cast<CToolBar*>(getParent(o));
+            id = bar->m_def->id();
+        }
+        if (id)
+        {
+            QMenu *popup = static_cast<QMenu*>(o);
+            popup->addAction(i18n("Customize toolbar..."), this, SLOT(popupActivated()));
+            cur_id = id;
         }
     }
     return QObject::eventFilter(o, e);

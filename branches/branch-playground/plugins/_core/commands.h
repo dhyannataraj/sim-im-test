@@ -61,6 +61,7 @@ protected:
     CMenu *processMenu(unsigned id, void *param, int key);
     void customize(SIM::CommandsDef *def);
     void customizeMenu(unsigned long id);
+    QObject* getParent(QObject *o);
     unsigned cur_id;
     CMDS_MAP bars;
     MENU_MAP menus;

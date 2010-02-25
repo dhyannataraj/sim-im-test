@@ -62,8 +62,8 @@ protected:
 };
 
 FileTransferDlgNotify::FileTransferDlgNotify(FileTransferDlg *dlg)
+    :   m_dlg (dlg)
 {
-    m_dlg = dlg;
 }
 
 FileTransferDlgNotify::~FileTransferDlgNotify()
@@ -90,17 +90,20 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
 
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
     int n = m_name.lastIndexOf('/');
-    if (n >= 0){
+    if (n >= 0)
+    {
         QString path;
 		QString p(m_name.left(n));
 		m_fn = m_name.right(m_name.length()-n);
 		m_fn = m_fn.replace(QRegExp("/"), "");
 
-        while (!p.isEmpty()){
+        while (!p.isEmpty())
+        {
+            QString pp = getToken(p, '/');
             if (!path.isEmpty())
                 path += '/';
-            QString pp = getToken(p, '/');
-            if (pp == ".."){
+            if (pp == "..")
+            {
                 QString errMsg = i18n("Bad path: %1") .arg(m_name);
                 m_dlg->m_msg->setError(errMsg);
                 ft->setError();
@@ -108,19 +111,19 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             }
             path += pp;
             QDir dd(ft->dir() /* + '/' + path */);
-            if (!dd.exists()){
-                QDir d(ft->dir());
-                if (!d.mkdir(path)){
-                    QString errMsg = i18n("Can't create: %1") .arg(path);
-                    m_dlg->m_msg->setError(errMsg);
-                    ft->setError();
-                    return;
-                }
-            }
+            QDir d(ft->dir());
+            if (dd.exists() || d.mkdir(path))
+                continue;
+
+            QString errMsg = i18n("Can't create: %1") .arg(path);
+            m_dlg->m_msg->setError(errMsg);
+            ft->setError();
+            return;
         }
     }
     m_dlg->m_msg->addFile(m_name, size);
-    if (m_name.isEmpty() || (m_name[(int)(m_name.length() - 1)] == '/')){
+    if (m_name.isEmpty() || m_name[(int)(m_name.length() - 1)] == '/')
+    {
         ft->startReceive(0);
         return;
     }
@@ -136,44 +139,49 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
         delete ft->m_file;
     m_dlg->process();
     ft->m_file = new QFile(m_name);
-    if (ft->m_file->exists()){
-        switch (ft->overwrite()){
-        case Skip:
-            skip();
-            return;
-        case Replace:
-            if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Truncate)){
-                ft->startReceive(0);
-                return;
-            }
-            break;
-        case Resume:
-            if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Append)){
-                resume();
-                return;
-            }
-            break;
-        default:
-            if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Append)){
-                QStringList buttons;
-                QString forAll;
-                if (ft->files())
-                    forAll = i18n("For all files");
-                buttons.append(i18n("&Replace"));
-                buttons.append(i18n("&Skip"));
-                if (bCanResume && (ft->m_file->size() < size))
-                    buttons.append(i18n("Resu&me"));
-                m_dlg->m_ask = new BalloonMsg(NULL, quoteString(i18n("File %1 exists") .arg(shortName)),
-                                              buttons, m_dlg->lblState, NULL, false, true, 150, forAll);
-                QObject::connect(m_dlg->m_ask, SIGNAL(action(int, void*)), m_dlg, SLOT(action(int, void*)));
-                raiseWindow(m_dlg);
-                m_dlg->m_ask->show();
-                return;
-            }
-        }
-    }else{
-        if (ft->m_file->open(QIODevice::WriteOnly)){
+    if (!ft->m_file->exists())
+    {
+        if (ft->m_file->open(QIODevice::WriteOnly))
+        {
             ft->startReceive(0);
+            return;
+        }
+    }
+    else switch (ft->overwrite())
+    {
+    case Skip:
+        skip();
+        return;
+    case Replace:
+        if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Truncate))
+        {
+            ft->startReceive(0);
+            return;
+        }
+        break;
+    case Resume:
+        if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Append))
+        {
+            resume();
+            return;
+        }
+        break;
+    default:
+        if (ft->m_file->open(QIODevice::WriteOnly | QIODevice::Append))
+        {
+            QStringList buttons;
+            QString forAll;
+            if (ft->files())
+                forAll = i18n("For all files");
+            buttons.append(i18n("&Replace"));
+            buttons.append(i18n("&Skip"));
+            if (bCanResume && (ft->m_file->size() < size))
+                buttons.append(i18n("Resu&me"));
+            m_dlg->m_ask = new BalloonMsg(NULL, quoteString(i18n("File %1 exists") .arg(shortName)),
+                buttons, m_dlg->lblState, NULL, false, true, 150, forAll);
+            QObject::connect(m_dlg->m_ask, SIGNAL(action(int, void*)), m_dlg, SLOT(action(int, void*)));
+            raiseWindow(m_dlg);
+            m_dlg->m_ask->show();
             return;
         }
     }
@@ -201,7 +209,8 @@ void FileTransferDlgNotify::replace()
 void FileTransferDlgNotify::resume()
 {
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
-    if (ft->m_file->size() < m_size){
+    if (ft->m_file->size() < m_size)
+    {
         ft->m_file->seek(ft->m_file->size());
         ft->startReceive(ft->m_file->size());
         return;
@@ -212,24 +221,40 @@ void FileTransferDlgNotify::resume()
     return;
 }
 
-FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL)
+FileTransferDlg::FileTransferDlg(FileMessage *msg) 
+    : QDialog       (NULL)
+    , m_msg         (msg)
+    , m_bTransfer   (false)
+    , m_file        (0)
+    , m_transferTime(0)
+    , m_displayTime (0)
+    , m_speed       (0)
+    , m_nAverage    (0)
+    , m_files		(0)
+    , m_bytes		(0)
+    , m_fileSize	(0)
+    , m_totalBytes  (0)
+    , m_totalSize	(0)
+    , m_time        (0)
+    , m_timer       (new QTimer(this))
+    , m_state       (FileTransfer::Unknown)
+    , m_dir (msg->getFlags() & MESSAGE_RECEIVED ? m_msg->m_transfer->dir() : QString() )
 {
     setupUi(this);
-    m_msg = msg;
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowIcon(Icon("file"));
     setButtonsPict(this);
     QString name;
     Contact *contact = getContacts()->contact(m_msg->contact());
-    if (contact){
+    if (contact)
+    {
         name = contact->getName();
         name = getToken(name, '/');
     }
     setWindowTitle((msg->getFlags() & MESSAGE_RECEIVED) ?
-               i18n("Receive file from %1") .arg(name) :
-               i18n("Send file to %1") .arg(name));
-    if (msg->getFlags() & MESSAGE_RECEIVED)
-        m_dir = m_msg->m_transfer->dir();
+                   i18n("Receive file from %1") .arg(name) :
+                   i18n("Send file to %1") .arg(name));
+    
     disableWidget(edtTime);
     disableWidget(edtEstimated);
     disableWidget(edtSpeed);
@@ -238,23 +263,11 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg) : QDialog(NULL)
     msg->m_transfer->setNotify(new FileTransferDlgNotify(this));
     sldSpeed->setValue(m_msg->m_transfer->speed());
     connect(sldSpeed, SIGNAL(valueChanged(int)), this, SLOT(speedChanged(int)));
-    m_time  = 0;
-    m_timer = new QTimer(this);
+
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
     m_timer->start(1000);
     printTime();
-    m_bTransfer = false;
-    m_file = 0;
-    m_transferTime = 0;
-    m_displayTime  = 0;
-    m_speed     = 0;
-    m_nAverage  = 0;
-    m_files		= 0;
-    m_bytes		= 0;
-    m_fileSize	= 0;
-    m_totalBytes = 0;
-    m_totalSize	= 0;
-    m_state = FileTransfer::Unknown;
+
     connect(btnCancel, SIGNAL(clicked()), this, SLOT(close()));
     chkClose->setChecked(CorePlugin::instance()->value("CloseTransfer").toBool());
     connect(chkClose, SIGNAL(toggled(bool)), this, SLOT(closeToggled(bool)));
@@ -274,11 +287,13 @@ void FileTransferDlg::process()
 {
     if (m_msg->m_transfer == NULL)
         return;
-    if ((m_msg->m_transfer->state() != m_state) || (m_msg->m_transfer->file() != m_file)){
+    if (m_msg->m_transfer->state() != m_state || m_msg->m_transfer->file() != m_file)
+    {
         m_state = m_msg->m_transfer->state();
         m_file  = m_msg->m_transfer->file();
         QString status;
-        switch (m_state){
+        switch (m_state)
+        {
         case FileTransfer::Listen:
             status = i18n("Listen");
             break;
@@ -288,7 +303,8 @@ void FileTransferDlg::process()
         case FileTransfer::Negotiation:
             status = i18n("Negotiation");
             break;
-        case FileTransfer::Read:{
+        case FileTransfer::Read:
+            {
 				m_fn = m_msg->getDescription();
                 //const QString *n = it[m_file];
                 //if (n)
@@ -313,7 +329,8 @@ void FileTransferDlg::process()
         default:
             break;
         }
-        if (!m_fn.isEmpty()){
+        if (!m_fn.isEmpty())
+        {
             status += ' ';
             status += QDir::convertSeparators(m_fn);
             if (m_files > 1)
@@ -325,25 +342,28 @@ void FileTransferDlg::process()
         setBars();
     }
     calcSpeed(false);
-    if ((int)(m_msg->m_transfer->speed()) != sldSpeed->value())
+    if ((int)m_msg->m_transfer->speed() != sldSpeed->value())
         sldSpeed->setValue(m_msg->m_transfer->speed());
-    if (m_msg->m_transfer->files() != m_files){
-        m_files = m_msg->m_transfer->files();
-        if (m_files > 1){
-            if (!barFile->isVisible())
-                barFile->show();
-        }else{
-            if (barFile->isVisible())
-                barFile->hide();
-        }
+    
+    if (m_msg->m_transfer->files() == m_files)
+        return;
+
+    m_files = m_msg->m_transfer->files();
+    if (m_files <= 1)
+    {
+        if (barFile->isVisible())
+            barFile->hide();
     }
+    else if (!barFile->isVisible())
+        barFile->show();
 }
 
 void FileTransferDlg::transfer(bool bState)
 {
     bool bTransfer = m_bTransfer;
     m_bTransfer = bState;
-    if (bState && m_msg->m_transfer){
+    if (bState && m_msg->m_transfer)
+    {
         m_transferBytes = m_msg->m_transfer->transferBytes();
         m_transferTime  = time(NULL);
     }
@@ -356,7 +376,8 @@ void FileTransferDlg::notifyDestroyed()
     sldSpeed->hide();
     m_timer->stop();
     btnCancel->setText(i18n("&Close"));
-    if (m_state == FileTransfer::Done){
+    if (m_state == FileTransfer::Done)
+    {
         // EventSent shouldn't be processed here
 		// Protocol plugin should decide itself when to send it
         //EventSent(m_msg).process();
@@ -364,11 +385,10 @@ void FileTransferDlg::notifyDestroyed()
             close();
         return;
     }
-    if (!m_msg->getError().isEmpty()){
+    if (!m_msg->getError().isEmpty())
         lblState->setText(i18n(m_msg->getError()));
-    }else{
+    else
         lblState->setText(i18n("Transfer failed"));
-    }
 }
 
 void FileTransferDlg::speedChanged(int value)
@@ -389,29 +409,32 @@ void FileTransferDlg::setBars()
 {
     if (m_msg->m_transfer == NULL)
         return;
-    if ((m_totalBytes != m_msg->m_transfer->totalBytes()) ||
-            (m_totalSize != m_msg->m_transfer->totalSize())){
+    if (m_totalBytes != m_msg->m_transfer->totalBytes() 
+     || m_totalSize != m_msg->m_transfer->totalSize())
+    {
         m_totalBytes = m_msg->m_transfer->totalBytes();
         m_totalSize  = m_msg->m_transfer->totalSize();
         setProgress(barTotal, m_totalBytes, m_totalSize);
     }
-    if (m_files > 1){
-        if ((m_fileSize != m_msg->m_transfer->fileSize()) ||
-                (m_bytes != m_msg->m_transfer->bytes())){
-            m_fileSize = m_msg->m_transfer->fileSize();
-            m_bytes = m_msg->m_transfer->bytes();
-            setProgress(barFile, m_bytes, m_fileSize);
-        }
-    }
+    if (m_files <= 1 || 
+         m_fileSize == m_msg->m_transfer->fileSize() && 
+         m_bytes == m_msg->m_transfer->bytes() )
+        return;
+
+    m_fileSize = m_msg->m_transfer->fileSize();
+    m_bytes = m_msg->m_transfer->bytes();
+    setProgress(barFile, m_bytes, m_fileSize);
 }
 
 void FileTransferDlg::setProgress(QProgressBar *bar, unsigned bytes, unsigned size)
 {
-    while (size > 0x1000000){
+    while (size > 0x1000000)
+    {
         size  = size  >> 1;
         bytes = bytes >> 1;
     }
-    if (size == 0){
+    if (size == 0)
+    {
         bar->setValue(0);
         return;
     }
@@ -423,7 +446,7 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
     if (!m_bTransfer && !bTransfer)
         return;
     time_t now = time(NULL);
-    if (((unsigned)now == m_transferTime) && !bTransfer)
+    if ((unsigned)now == m_transferTime && !bTransfer)
         return;
     if (m_nAverage < MAX_AVERAGE)
         m_nAverage++;
@@ -435,34 +458,32 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
     m_displayTime   = now;
     unsigned n_speed = 0;
     double speed = m_speed;
-    if (speed >= 1024){
-        speed = speed / 1024;
-        n_speed++;
-    }
-    if (speed >= 1024){
+    if (speed >= 1024)
+    {
         speed = speed / 1024;
         n_speed++;
     }
     if (m_nAverage < SHOW_AVERAGE)
         return;
-    if (speed == 0){
+    if (speed == 0)
+    {
         edtEstimated->setText("");
         edtSpeed->setText(i18n("Stalled"));
         return;
     }
     QString speedText;
-    if (speed >= 100){
+    if (speed >= 100)
         speedText = QString::number((unsigned)speed);
-    }else{
+    else
         speedText = QString::number(speed, 'f', 3);
-    }
     speedText += ' ';
-    switch (n_speed){
-    case 2:
-        speedText += i18n("Mb/s");
-        break;
+    switch (n_speed)
+    {
     case 1:
         speedText += i18n("Kb/s");
+        break;
+    case 2:
+        speedText += i18n("Mb/s");
         break;
     default:
         speedText += i18n("B/s");
@@ -499,7 +520,8 @@ void FileTransferDlg::action(int nAct, void*)
 		return;
     FileTransferDlgNotify *notify = static_cast<FileTransferDlgNotify*>(m_msg->m_transfer->notify());
     FileTransfer *ft = m_msg->m_transfer;
-    switch (nAct){
+    switch (nAct)
+    {
     case 1:
         notify->skip();
         if (m_ask->isChecked())

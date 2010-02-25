@@ -211,49 +211,47 @@ static autoReply autoReplies[] =
 };
 
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
-  : QObject()
-  //, PropertyHub     ("_core")
-  , Plugin          (base)
-  , EventReceiver   (HighPriority)
-  , historyXSL      (NULL)
-  , m_cfg           (NULL)
-  , m_focus         (NULL)
-  , m_view          (NULL)
-  , m_search	    (NULL)
-  , m_translator    (NULL)
-  , m_manager	    (NULL)
-  , m_status	    (NULL)
-  , m_statusWnd     (NULL)
-  , m_main          (NULL)
-  , m_alert         (NULL)
-  , m_lock          (NULL)
-  , m_HistoryThread (NULL)
-  , m_bInit         (false)
-  , m_RegNew        (false)
-  , m_bIgnoreEvents (false)
-  , m_nClients	    (0)
-  , m_nClientsMenu  (0)
-  , m_nResourceMenu (0)
-  , m_propertyHub   (SIM::PropertyHub::create("_core"))
+    : QObject()
+    //, PropertyHub     ("_core")
+    , Plugin            (base)
+    , EventReceiver     (HighPriority)
+    , historyXSL        (NULL)
+    , m_cfg             (NULL)
+    , m_focus           (NULL)
+    , m_view            (NULL)
+    , m_search          (NULL)
+    , m_translator      (NULL)
+    , m_manager         (NULL)
+    , m_status          (NULL)
+    , m_statusWnd       (NULL)
+    , m_main            (NULL)
+    , m_alert           (NULL)
+    , m_lock            (NULL)
+    , m_HistoryThread   (NULL)
+    , m_bInit           (false)
+    , m_RegNew          (false)
+    , m_bIgnoreEvents   (false)
+    , m_nClients        (0)
+    , m_nClientsMenu    (0)
+    , m_nResourceMenu   (0)
+    , m_propertyHub     (SIM::PropertyHub::create("_core"))
+    , m_tmpl            (new Tmpl(this))
+    , m_cmds            (new Commands())
 {
-   g_plugin = this;
-
-    setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
+	g_plugin= this;
+	setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
 
 	//loadDir();
-
-	m_tmpl	= new Tmpl(this);
-	m_cmds	= new Commands;
 	boundTypes();
 
-	EventMenu(MenuFileDecline, EventMenu::eAdd).process();
-	EventMenu(MenuMailList, EventMenu::eAdd).process();
-	EventMenu(MenuPhoneList, EventMenu::eAdd).process();
-	EventMenu(MenuStatusWnd, EventMenu::eAdd).process();
-	EventMenu(MenuEncoding, EventMenu::eAdd).process();
-	EventMenu(MenuSearchItem, EventMenu::eAdd).process();
-	EventMenu(MenuSearchGroups, EventMenu::eAdd).process();
-	EventMenu(MenuSearchOptions, EventMenu::eAdd).process();
+	EventMenu(MenuFileDecline,      EventMenu::eAdd).process();
+	EventMenu(MenuMailList,         EventMenu::eAdd).process();
+	EventMenu(MenuPhoneList,        EventMenu::eAdd).process();
+	EventMenu(MenuStatusWnd,        EventMenu::eAdd).process();
+	EventMenu(MenuEncoding,         EventMenu::eAdd).process();
+	EventMenu(MenuSearchItem,       EventMenu::eAdd).process();
+	EventMenu(MenuSearchGroups,     EventMenu::eAdd).process();
+	EventMenu(MenuSearchOptions,    EventMenu::eAdd).process();
 
 	createMainToolbar();
 	createHistoryToolbar();
@@ -274,7 +272,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 	EventMenu(MenuContactGroup, EventMenu::eAdd).process();
 	EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
 
-    createEventCmds();
+	createEventCmds();
 }
 
 void CorePlugin::createEventCmds()
@@ -702,7 +700,8 @@ QString CorePlugin::tsFile(const QString &lang)
 	s += l;
 	s += "/LC_MESSAGES/sim.mo";
 	QFile f(s);
-	if (!f.exists()){
+	if (!f.exists())
+    {
 		QString l = lang;
 		int idx = l.indexOf('_');
 		if(idx != -1)
@@ -725,7 +724,8 @@ void CorePlugin::installTranslator()
 	QString lang = value("Lang").toString();
     if (lang == "-")
 		return;
-	if (lang.isEmpty()){
+	if (lang.isEmpty())
+    {
 #ifdef WIN32
 		char buff[256];
 		int res = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVLANGNAME, buff, sizeof(buff));
@@ -770,7 +770,8 @@ m_translator = new SIMTranslator(NULL, po);
 
 void CorePlugin::removeTranslator()
 {
-	if (m_translator){
+	if (m_translator)
+    {
 		qApp->removeTranslator(m_translator);
 		delete m_translator;
 		m_translator = NULL;
@@ -803,22 +804,31 @@ bool operator < (const msgIndex &a, const msgIndex &b)
 	return a.type < b.type;
 }
 
+
+Client* CorePlugin::getClient(unsigned i)
+{
+    return getContacts()->getClient(i);
+}
+
 typedef map<msgIndex, msgCount> MAP_COUNT;
 
 void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 {
 	clientData *data;
 	ClientDataIterator it(contact->clientData);
-	while ((data = ++it) != NULL){
+	while ((data = ++it) != NULL)
+    {
 		clientData *data1;
 		ClientDataIterator it1(contact->clientData);
 		bool bOK = true;
-		while ((data1 = ++it1) != NULL){
+		while ((data1 = ++it1) != NULL)
+        {
 			if (data1 == data)
 				break;
 			if (data->Sign.toULong() != data1->Sign.toULong())
 				continue;
-			if (it.client()->compareData(data, data1)){
+			if (it.client()->compareData(data, data1))
+            {
 				bOK = false;
 				break;
 			}
@@ -830,21 +840,18 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 		c.data   = data;
 		c.bNew   = false;
 		ways.push_back(c);
-		for (unsigned i = 0; i < getContacts()->nClients(); i++){
-			Client *client = getContacts()->getClient(i);
-			if (client == it.client())
-				continue;
-			Contact *clContact;
+		for (unsigned i = 0; i < getContacts()->nClients(); i++)
+        {
+            Contact *clContact;
 			clientData *data2 = data;
-			if (client->isMyData(data2, clContact)){
-				if ((clContact == contact)){
-					clientContact c;
-					c.client = client;
-					c.data   = data2;
-					c.bNew   = false;
-					ways.push_back(c);
-				}
-			}
+            if (getClient(i) == it.client() || !getClient(i)->isMyData(data2, clContact) || clContact != contact)
+                continue;
+
+            clientContact c;
+            c.client = getClient(i);
+            c.data   = data2;
+            c.bNew   = false;
+            ways.push_back(c);
 		}
 	}
 }
@@ -877,18 +884,18 @@ I18N_NOOP("female", "%1 wrote:" )
 
 bool CorePlugin::processEvent(Event *e)
 {
-	switch (e->type()){
+	switch (e->type())
+    {
 		case eEventIconChanged:
 			{
 				QStringList smiles;
 				getIcons()->getSmiles(smiles);
 				unsigned flags = 0;
 				QString smile_icon;
-				if (smiles.empty()){
-					flags = BTN_HIDE;
-				}else{
-					smile_icon = smiles.front();
-				}
+                if (smiles.empty())
+                    flags = BTN_HIDE;
+                else
+                    smile_icon = smiles.front();
 				Command cmd;
 				cmd->id			= CmdSmile;
 				cmd->text		= I18N_NOOP("I&nsert smile");
@@ -946,7 +953,8 @@ bool CorePlugin::processEvent(Event *e)
 			{
 				EventTmplHelp *eth = static_cast<EventTmplHelp*>(e);
 				QString str = eth->help();
-				for (const char **p = helpList; *p;){
+				for (const char **p = helpList; *p;)
+                {
 					str += *(p++);
 					str += " - ";
 					str += i18n(*(p++));
@@ -969,11 +977,13 @@ bool CorePlugin::processEvent(Event *e)
 				ARRequest *r = ear->request();
                 SIM::PropertyHubPtr ar;
 				QString tmpl;
-				if (r->contact){
+				if (r->contact)
+                {
                     ar = r->contact->getUserData()->getUserData("AR");
 					if (ar)
 						tmpl = ar->stringMapValue("AutoReply", r->status);
-					if (tmpl.isEmpty()){
+					if (tmpl.isEmpty())
+                    {
 						ar.clear();
 						Group *grp = getContacts()->group(r->contact->getGroup());
 						if (grp)
@@ -999,7 +1009,8 @@ bool CorePlugin::processEvent(Event *e)
 		case eEventSaveState:
 			{
                 SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
-				for (autoReply *a = autoReplies; a->text; a++){
+				for (autoReply *a = autoReplies; a->text; a++)
+                {
 					QString t = ar->stringMapValue("AutoReply", a->status);
 					if (t == i18n(a->text))
                         ar->setStringMapValue("AutoReply", a->status, QString::null);
@@ -3636,9 +3647,10 @@ void CorePlugin::checkHistory()
 {
     Contact *contact;
     ContactList::ContactIterator it;
-    while ((contact = ++it) != NULL){
+    while ((contact = ++it) != NULL)
+    {
         SIM::PropertyHubPtr data = contact->getUserData("history");
-        if ((data.isNull()) || !data->value("CutDays").toBool())
+        if (data.isNull() || !data->value("CutDays").toBool())
             continue;
         QDateTime now(QDateTime::currentDateTime());
         now = now.addSecs(-data->value("Days").toUInt() * 24 * 60 * 60);
@@ -3670,15 +3682,18 @@ void CorePlugin::focusDestroyed()
 
 bool CorePlugin::lockProfile(const QString &profile, bool bSend)
 {
-    if (profile.isEmpty()){
-        if (m_lock){
-            delete m_lock;
-            m_lock = NULL;
-        }
+    if (profile.isEmpty())
+    {
+        if (!m_lock)
+            return true;
+
+        delete m_lock;
+        m_lock = NULL;
         return true;
     }
     FileLock *lock = new FileLock(user_file(".lock"));
-    if (!lock->lock(bSend)){
+    if (!lock->lock(bSend))
+    {
         delete lock;
         return false;
     }
@@ -3690,7 +3705,8 @@ bool CorePlugin::lockProfile(const QString &profile, bool bSend)
 
 void CorePlugin::showMain()
 {
-    if (m_main){
+    if (m_main)
+    {
         m_main->show();
         raiseWindow(m_main);
     }
@@ -3705,7 +3721,8 @@ LockThread::LockThread(Qt::HANDLE _hEvent)
 
 void LockThread::run()
 {
-    for (;;){
+    for (;;)
+    {
         DWORD res = WaitForSingleObject(hEvent, INFINITE);
         if (res == WAIT_ABANDONED)
             break;
@@ -3763,7 +3780,8 @@ unsigned adler32(const char *buf, unsigned len)
 FileLock::~FileLock()
 {
 #ifdef WIN32
-    if (m_thread){
+    if (m_thread)
+    {
         CloseHandle(m_thread->hEvent);
         m_thread->wait(1000);
         m_thread->terminate();
@@ -3783,7 +3801,8 @@ bool FileLock::lock(bool bSend)
     const QByteArray s = fileName().toLocal8Bit();
     event += QString::number(adler32(s.data(), s.length()));
     Qt::HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.toLatin1());
-    if (hEvent){
+    if (hEvent)
+    {
         if (bSend)
             SetEvent(hEvent);
         CloseHandle(hEvent);
@@ -3797,7 +3816,8 @@ bool FileLock::lock(bool bSend)
 #else
     bool FileLock::lock(bool)
     {
-        if (!open(QIODevice::ReadWrite | QIODevice::Truncate)){
+        if (!open(QIODevice::ReadWrite | QIODevice::Truncate))
+        {
             log(L_WARN, "Can't create %s", qPrintable(fileName()));
             return false;
         }
@@ -3806,10 +3826,9 @@ bool FileLock::lock(bool bSend)
         fl.l_whence = SEEK_SET;
         fl.l_start  = 0;
         fl.l_len    = 1;
-        if (fcntl(handle(), F_SETLK, &fl) == -1){
+        if (fcntl(handle(), F_SETLK, &fl) == -1)
             //QFile::remove(name());
             return false;
-        }
         m_bLock = true;
 #endif
         return true;

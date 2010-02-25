@@ -209,6 +209,7 @@ protected:
     void initData();
     void loadUnread();
     void clearUnread(unsigned contact_id);
+    SIM::Client* getClient(unsigned i);
     void getWays(vector<clientContact> &ways, SIM::Contact *contact);
     QString typeName(const QString &name);
     void setAutoReplies();

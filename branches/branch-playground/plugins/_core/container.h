@@ -123,6 +123,7 @@ public:
     PROP_STRLIST(WndConfig);
     bool m_bNoRead;
     void init();
+	void setContainerGeometry();
 public slots:
     void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);

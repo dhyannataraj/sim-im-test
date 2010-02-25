@@ -31,7 +31,8 @@ FileConfig::FileConfig(QWidget *parent, SIM::PropertyHubPtr data)
     setupUi(this);
     edtPath->setDirMode(true);
     edtPath->setText(user_file(data->value("IncomingPath").toString()));
-    switch (data->value("AcceptMode").toUInt()){
+    switch (data->value("AcceptMode").toUInt())
+    {
     case 0:
         btnDialog->setChecked(true);
         break;
@@ -50,20 +51,17 @@ FileConfig::FileConfig(QWidget *parent, SIM::PropertyHubPtr data)
 
 void FileConfig::apply(SIM::PropertyHubPtr data)
 {
-    QString def;
-    if (edtPath->text().isEmpty()) {
-        def = "Incoming Files";
-    } else {
-        def = edtPath->text();
-    }
+    QString def = edtPath->text().isEmpty() ? "Incoming Files" : edtPath->text();
     data->setValue("IncomingPath", def);
     edtPath->setText(user_file(data->value("IncomingPath").toString()));
     data->setValue("AcceptMode", 0);
-    if (btnAccept->isChecked()){
+    if (btnAccept->isChecked())
+    {
         data->setValue("AcceptMode", 1);
         data->setValue("OverwriteFiles", chkOverwrite->isChecked());
     }
-    if (btnDecline->isChecked()){
+    if (btnDecline->isChecked())
+    {
         data->setValue("AcceptMode", 2);
         data->setValue("DeclineMessage", edtDecline->toPlainText());
     }

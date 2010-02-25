@@ -27,12 +27,12 @@
 using namespace SIM;
 
 EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bShowPublish)
-  : QDialog(parent)
+    : QDialog(parent)
 {
     setupUi(this);
     setObjectName("editmail");
     SET_WNDPROC("editmail")
-    setWindowIcon(Icon("mail_generic"));
+        setWindowIcon(Icon("mail_generic"));
     setButtonsPict(this);
     setWindowTitle(mail.isEmpty() ? i18n("Add mail address") : i18n("Edit mail address"));
     edtMail->setText(mail);
@@ -40,11 +40,12 @@ EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bSh
     textChanged(mail);
     edtMail->setFocus();
     publish = bPublish;
-    if (bShowPublish){
+    if (bShowPublish)
+    {
         chkPublish->setChecked(publish);
-    }else{
-        chkPublish->hide();
+        return;
     }
+    chkPublish->hide();
 }
 
 void EditMail::textChanged(const QString &text)

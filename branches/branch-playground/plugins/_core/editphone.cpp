@@ -35,7 +35,10 @@ extern ext_info phoneIcons[];
 extern const char *phoneTypeNames[];
 
 EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type, unsigned icon, bool bPublish, bool bShowPublish)
-                :QDialog(parent)
+    : QDialog(parent)
+    , m_ok      (false)
+    , m_phone   (new PhoneDetails(wndDetails, (icon == PAGER) ? QString()   : number    ) )
+    , m_pager   (new PagerDetails(wndDetails, (icon == PAGER) ? number      : QString() ) )
 {
     setObjectName("editphone");
     setupUi(this);
@@ -43,20 +46,17 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     setWindowIcon(Icon("phone"));
     setButtonsPict(this);
     setWindowTitle(number.isEmpty() ? i18n("Add phone number") : i18n("Edit phone number"));
-    m_ok = false;
-    m_phone = new PhoneDetails(wndDetails, (icon == PAGER) ? QString() : number);
-    m_pager = new PagerDetails(wndDetails, (icon == PAGER) ? number : QString());
     wndDetails->addWidget(m_phone);
     wndDetails->addWidget(m_pager);
     connect(m_phone, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     connect(m_pager, SIGNAL(numberChanged(const QString&, bool)), this, SLOT(numberChanged(const QString&, bool)));
     edtDetails->setReadOnly(true);
-    for (const ext_info *icons = phoneIcons; icons->szName; icons++){
+    for (const ext_info *icons = phoneIcons; icons->szName; icons++)
         cmbType->insertItem(INT_MAX,Icon(icons->szName),QString());
-    }
-    for (const char **names = phoneTypeNames; *names; names++){
+
+    for (const char **names = phoneTypeNames; *names; names++)
         cmbName->insertItem(INT_MAX,i18n(*names));
-    }
+
     cmbName->setEditable(true);
     cmbName->lineEdit()->setText(type);
     connect(cmbType, SIGNAL(activated(int)), this, SLOT(typeChanged(int)));
@@ -64,16 +64,16 @@ EditPhone::EditPhone(QWidget *parent, const QString &number, const QString &type
     cmbType->setCurrentIndex(icon);
     typeChanged(icon);
     publish = bPublish;
-    if (bShowPublish){
+    if (bShowPublish)
         chkPublish->setChecked(publish);
-    }else{
+    else
         chkPublish->hide();
-    }
 }
 
 void EditPhone::typeChanged(int)
 {
-    switch (cmbType->currentIndex()){
+    switch (cmbType->currentIndex())
+    {
     case 0:
         wndDetails->setCurrentWidget(m_phone);
         m_phone->setExtensionShow(true);
@@ -102,11 +102,11 @@ void EditPhone::numberChanged(const QString &number, bool isOK)
 void EditPhone::nameChanged(const QString &name)
 {
     unsigned i = 0;
-    for (const char **p = phoneTypeNames; *p; p++, i++){
+    for (const char **p = phoneTypeNames; *p; p++, i++)
         if (name == i18n(*p))
             break;
-    }
-    switch (i){
+    switch (i)
+    {
     case 0:
     case 2:
         cmbType->setCurrentIndex(0);
@@ -138,11 +138,13 @@ void EditPhone::accept()
 {
     number = edtDetails->text();
     type = cmbName->lineEdit()->text();
-    for (const char **names = phoneTypeNames; *names; names++){
-        if (type == i18n(*names)){
-            type = *names;
-            break;
-        }
+    for (const char **names = phoneTypeNames; *names; names++)
+    {
+        if (type != i18n(*names))
+            continue;
+
+        type = *names;
+        break;
     }
     icon = cmbType->currentIndex();
     publish = chkPublish->isChecked();

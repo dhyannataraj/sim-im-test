@@ -143,73 +143,74 @@ Container::Container(unsigned id, const char *cfg)
         load_data(containerData, &data, NULL);
 
 
-    bool bPos = true;
-    if (cfg == NULL)
-    {
-        setId(id);
-        //copyData(data.barState, CorePlugin::instance()->data.ContainerBar, 7);
-        //copyData(data.geometry, CorePlugin::instance()->data.ContainerGeometry, 5);
-        if((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1))
-        {
-            QWidget *desktop = QApplication::desktop();
-            data.geometry[WIDTH].asLong() = desktop->width() / 3;
-            data.geometry[HEIGHT].asLong() = desktop->height() / 3;
-        }
-        bPos = false;
-        if((data.geometry[TOP].toLong() != -1) || (data.geometry[LEFT].toLong() != -1))
-        {
-            bPos = true;
-            QWidgetList list = QApplication::topLevelWidgets();
-            for(int i = 0; i < 2; i++)
-            {
-                bool bOK = true;
-                QWidget *w;
-                foreach(w,list)
-                {
-                    if(w == this)
-                    {
-                            continue;
-                    }
-                    if(w->inherits("Container"))
-                    {
-                        int dw = w->pos().x() - data.geometry[LEFT].toLong();
-                        int dh = w->pos().y() - data.geometry[TOP].toLong();
-                        if (dw < 0)
-                                dw = -dw;
-                        if (dh < 0)
-                                dh = -dh;
-                        if ((dw < 3) && (dh < 3))
-                        {
-                            long nl = data.geometry[LEFT].toLong();
-                            long nt = data.geometry[TOP].toLong();
-                            nl += 21;
-                            nt += 20;
-                            QWidget *desktop = QApplication::desktop();
-                            if (nl + data.geometry[WIDTH].toLong() > desktop->width())
-                                    nl = 0;
-                            if (nt + data.geometry[WIDTH].toLong() > desktop->width())
-                                    nt = 0;
-                            if ((nl != data.geometry[LEFT].toLong()) && (nt != data.geometry[TOP].toLong())){
-                                    data.geometry[LEFT].asLong() = nl;
-                                    data.geometry[TOP].asLong()  = nt;
-                                    bOK = false;
-                            }
-                        }
-                    }
-                }
-                if (bOK)
-                    break;
-            }
-        }
-        setStatusSize(CorePlugin::instance()->value("ContainerStatusSize").toUInt());
-    }
-    /*
-    m_bInSize = true;
-    ::restoreGeometry(this, data.geometry, bPos, true);
-    m_bInSize = false;
-    */
+	if (cfg != NULL)
+		return;
+
+	setId(id);
+	setContainerGeometry();
 }
 
+void Container::setContainerGeometry()
+{
+	
+	//copyData(data.barState, CorePlugin::instance()->data.ContainerBar, 7);
+	//copyData(data.geometry, CorePlugin::instance()->data.ContainerGeometry, 5);
+	if(data.geometry[WIDTH].toLong() == -1 || data.geometry[HEIGHT].toLong() == -1)
+	{
+		QWidget *desktop = QApplication::desktop();
+		data.geometry[WIDTH].asLong() = desktop->width() / 3;
+		data.geometry[HEIGHT].asLong() = desktop->height() / 3;
+	}
+	if(data.geometry[TOP].toLong() != -1 || data.geometry[LEFT].toLong() != -1)
+	{
+		QWidgetList list = QApplication::topLevelWidgets();
+		for(int i = 0; i < 2; i++)
+		{
+			QWidget *w;
+			bool bOK = true;
+			foreach(w,list)
+			{
+				if(w == this)
+					continue;
+				if(w->inherits("Container"))
+				{
+					int dw = w->pos().x() - data.geometry[LEFT].toLong();
+					int dh = w->pos().y() - data.geometry[TOP].toLong();
+					if (dw < 0)
+						dw = -dw;
+					if (dh < 0)
+						dh = -dh;
+					if (dw < 3 && dh < 3)
+					{
+						long nl = data.geometry[LEFT].toLong();
+						long nt = data.geometry[TOP].toLong();
+						nl += 21;
+						nt += 20;
+						QWidget *desktop = QApplication::desktop();
+						if (nl + data.geometry[WIDTH].toLong() > desktop->width())
+							nl = 0;
+						if (nt + data.geometry[WIDTH].toLong() > desktop->width())
+							nt = 0;
+						if (nl != data.geometry[LEFT].toLong() && nt != data.geometry[TOP].toLong())
+						{
+							data.geometry[LEFT].asLong() = nl;
+							data.geometry[TOP].asLong()  = nt;
+							bOK = false;
+						}
+					}
+				}
+			}
+			if (bOK)
+				break;
+		}
+	}
+	setStatusSize(CorePlugin::instance()->value("ContainerStatusSize").toUInt());
+	/*
+	m_bInSize = true;
+	::restoreGeometry(this, data.geometry, bPos, true);
+	m_bInSize = false;
+	*/
+}
 Container::~Container()
 {
     if( NULL != m_tabBar )
@@ -263,14 +264,16 @@ void Container::init()
     m_childs.clear();
 
     QStringList windows = getWindows().split(',');
-    Q_FOREACH(const QString &win, windows) {
+    Q_FOREACH(const QString &win, windows) 
+	{
         unsigned long id = win.toULong();
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
         Buffer config;
         QString cfg = getWndConfig(id);
-        if (!cfg.isEmpty()){
+        if (!cfg.isEmpty())
+		{
             config << "[Title]\n" << (const char*)cfg.toLocal8Bit();
             config.setWritePos(0);
             config.getSection();
@@ -317,7 +320,8 @@ void Container::setupAccel()
     CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
-    while ((c = ++it) != NULL){
+    while ((c = ++it) != NULL)
+	{
         if (c->accel.isEmpty())
             continue;
         m_shortcuts.append(makeShortcut(QKeySequence::fromString(c->accel), ACCEL_MESSAGE + c->id));
