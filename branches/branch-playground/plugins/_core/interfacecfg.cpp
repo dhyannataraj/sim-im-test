@@ -81,7 +81,8 @@ static language langs[] =
     };
 #endif
 
-InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
+InterfaceConfig::InterfaceConfig(QWidget *parent)
+    : QWidget(parent)
 {
 	setupUi(this);
     connectControls();
@@ -108,14 +109,14 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     cmbLang->insertItem(INT_MAX,i18n("System"));
     cmbLang->addItems(getLangItems());
     int nCurrent = 0;
-    if(!cur.isEmpty()) {
+    if(!cur.isEmpty()) 
+    {
         const language *l;
         for (l = langs; l->code; l++)
             if (cur == l->code)
                 break;
-        if (l->code){
+        if (l->code)
             nCurrent = cmbLang->findText(i18n(l->name));
-        }
     }
     cmbLang->setCurrentIndex(nCurrent);
 #else
@@ -143,7 +144,8 @@ InterfaceConfig::InterfaceConfig(QWidget *parent) : QWidget(parent)
     QString copy2;
     QString copy1 = i18n("Copy %1 messages from history");
     int n = copy1.indexOf("%1");
-    if (n >= 0){
+    if (n >= 0)
+    {
         copy2 = copy1.mid(n + 2);
         copy1 = copy1.left(n);
     }
@@ -179,8 +181,10 @@ QStringList InterfaceConfig::getLangItems()
 {
     QStringList items;
     const language *l;
-    for (l = langs; l->code; l++){
-        if (strcmp(l->code, "-") == 0){
+    for (l = langs; l->code; l++)
+    {
+        if (strcmp(l->code, "-") == 0)
+        {
             items.append(i18n(l->name));
             continue;
         }

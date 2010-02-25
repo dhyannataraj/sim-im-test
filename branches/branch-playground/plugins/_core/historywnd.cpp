@@ -1,19 +1,19 @@
 /***************************************************************************
-                          historywnd.cpp  -  description
-                             -------------------
-    begin                : Sun Mar 17 2002
-    copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan@shutoff.ru
- ***************************************************************************/
+historywnd.cpp  -  description
+-------------------
+begin                : Sun Mar 17 2002
+copyright            : (C) 2002 by Vladimir Shutoff
+email                : vovan@shutoff.ru
+***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+***************************************************************************/
 
 #include "simapi.h"
 
@@ -60,15 +60,15 @@ public:
     void setProgress(unsigned);
 protected:
     QProgressBar	*m_bar;
-	QHBoxLayout		*m_lay;
-	QLabel			*m_label;
+    QHBoxLayout		*m_lay;
+    QLabel			*m_label;
 };
 
 HistoryProgressBar::HistoryProgressBar(QWidget *parent)
-        : QWidget(parent)
-		, m_lay(new QHBoxLayout(this))
-		, m_label	(new QLabel(i18n("Loading"), this))
-		, m_bar		(new QProgressBar(this))
+: QWidget(parent)
+, m_lay     (new QHBoxLayout(this))
+, m_label	(new QLabel(i18n("Loading"), this))
+, m_bar		(new QProgressBar(this))
 {
     m_lay->setSpacing(4);
     m_lay->addSpacing(4);
@@ -87,13 +87,13 @@ void HistoryProgressBar::setProgress(unsigned n)
 }
 
 HistoryWindow::HistoryWindow(unsigned long id)
-	: m_avatar_bar(NULL)
-	, m_id(id)
-	, m_view(new MsgViewBase(this, NULL, id))
-    , m_status(statusBar())
-    , m_progress(NULL)
-    , m_page(0)
-	, m_it(NULL)
+: m_avatar_bar(NULL)
+, m_id(id)
+, m_view(new MsgViewBase(this, NULL, id))
+, m_status(statusBar())
+, m_progress(NULL)
+, m_page(0)
+, m_it(NULL)
 
 {
     m_history_page_count=CorePlugin::instance()->value("HistoryPage").toUInt();
@@ -139,10 +139,10 @@ HistoryWindow::HistoryWindow(unsigned long id)
         QImage img;
         while(j < getContacts()->nClients())
         {
-           Client *client = getContacts()->getClient(j++);
-           img = client->userPicture(id);
-           if (!img.isNull())
-               break;
+            Client *client = getContacts()->getClient(j++);
+            img = client->userPicture(id);
+            if (!img.isNull())
+                break;
         }
 
         if(!img.isNull())
@@ -190,11 +190,11 @@ HistoryWindow::HistoryWindow(unsigned long id)
 
 HistoryWindow::~HistoryWindow()
 {
-	delete m_avatar_bar;
-	delete m_it;
-	delete m_progress; //??
-	delete m_bar;  //??
-	delete m_view; //??
+    delete m_avatar_bar;
+    delete m_it;
+    delete m_progress; //??
+    delete m_bar;  //??
+    delete m_view; //??
 }
 
 void HistoryWindow::setName()
@@ -209,41 +209,44 @@ void HistoryWindow::setName()
 bool HistoryWindow::processEvent(Event *e)
 {
     switch(e->type()) {
-    case eEventContact: {
+case eEventContact: 
+    {
         EventContact *ec = static_cast<EventContact*>(e);
         Contact *contact = ec->contact();
         if (contact->id() != m_id)
             break;
-        switch(ec->action()) {
-            case EventContact::eDeleted:
-                QTimer::singleShot(0, this, SLOT(close()));
-                break;
-            case EventContact::eChanged:
-                setName();
-                break;
-            default:
-                break;
+        switch(ec->action()) 
+        {
+        case EventContact::eDeleted:
+            QTimer::singleShot(0, this, SLOT(close()));
+            break;
+        case EventContact::eChanged:
+            setName();
+            break;
+        default:
+            break;
         }
         break;
     }
-    case eEventCheckCommandState: {
+case eEventCheckCommandState: 
+    {
         EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
-        if ((cmd->id == CmdHistoryDirection) && ((unsigned long)(cmd->param) == m_id))
+        if (cmd->id == CmdHistoryDirection && (unsigned long)(cmd->param) == m_id)
         {
             cmd->flags &= ~COMMAND_CHECKED;
             if (m_bDirection)
                 cmd->flags |= COMMAND_CHECKED;
             return true;
         }
-        if (((cmd->id == CmdDeleteMessage) || (cmd->id == CmdCutHistory)) &&
-                (cmd->param == m_view) && m_view->currentMessage()){
-            cmd->flags &= ~COMMAND_CHECKED;
-            return true;
-        }
-        return false;
+        if (cmd->id != CmdDeleteMessage && cmd->id != CmdCutHistory || cmd->param != m_view || !m_view->currentMessage())
+            return false;
+
+        cmd->flags &= ~COMMAND_CHECKED;
+        return true;
     }
-    case eEventCommandExec: {
+case eEventCommandExec: 
+    {
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((unsigned long)(cmd->param) != m_id)
@@ -282,17 +285,20 @@ bool HistoryWindow::processEvent(Event *e)
         if (cmd->id == CmdHistorySave)
         {
             QString str = QFileDialog::getSaveFileName(this, QString::null, QString::null, i18n("Textfile (*.txt)"));
-            if(!str.isEmpty()){
+            if(!str.isEmpty())
+            {
                 bool res = true;
-                if (QFile::exists(str)){
+                if (QFile::exists(str))
+                {
                     QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 
-                            QMessageBox::Warning,
-                            QMessageBox::Yes | QMessageBox::Default,
-                            QMessageBox::No,
-                            QMessageBox::Cancel | QMessageBox::Escape);
+                        QMessageBox::Warning,
+                        QMessageBox::Yes | QMessageBox::Default,
+                        QMessageBox::No,
+                        QMessageBox::Cancel | QMessageBox::Escape);
                     mb.setButtonText(QMessageBox::Yes, i18n("&Overwrite"));
                     mb.setButtonText(QMessageBox::No, i18n("&Append"));
-                    switch (mb.exec()){
+                    switch (mb.exec())
+                    {
                     case QMessageBox::Yes:
                         res = History::save(m_id, str, false);
                         break;
@@ -320,12 +326,11 @@ bool HistoryWindow::processEvent(Event *e)
                 EventCommandWidget eWidget(cmd);
                 eWidget.process();
                 CToolCombo *cmbFind = qobject_cast<CToolCombo*>(eWidget.widget());
-                if (cmbFind){
-                    QString text = cmbFind->lineEdit()->text();
-                    if (!text.isEmpty()){
-                        addHistory(text);
-                        m_filter = text;
-                    }
+                QString text = cmbFind->lineEdit()->text();
+                if (cmbFind && !text.isEmpty())
+                {
+                    addHistory(text);
+                    m_filter = text;
                 }
             }
             m_page = 0;
@@ -371,21 +376,13 @@ void HistoryWindow::fill()
     m_progress->show();
     m_nMessages = 0;
     if (m_bDirection)
-    {
         m_it->end();
-    }
     else
-    {
         m_it->begin();
-    }
     if (m_states.size())
-    {
         m_it->setState(m_states[m_page]);
-    }
     else
-    {
         m_states.push_back(m_it->state());
-    }
     m_view->setText(QString::null);
     QTimer::singleShot(0, this, SLOT(next()));
     Command cmd;
@@ -400,7 +397,7 @@ void HistoryWindow::fill()
 
 void HistoryWindow::next()
 {
-    if ( (m_it == NULL) )
+    if ( m_it == NULL )
         return;
 
     //Quickfix Noragen, Stop at 1000 Messages, if there are Problems with storing the size.
@@ -414,27 +411,20 @@ void HistoryWindow::next()
         QString state = m_it->state();
         Message *msg = NULL;
         if (m_bDirection)
-        {
             msg = --(*m_it);
-        }
         else
-        {
             msg = ++(*m_it);
-        }
 
-        if (++m_nMessages > m_history_page_count)
+        if (++m_nMessages > m_history_page_count && msg)
         {
-            if (msg)
-            {
-                Command cmd;
-                cmd->id		= CmdHistoryNext;
-                cmd->flags  = 0;
-                cmd->param	= (void*)m_id;
-                EventCommandDisabled(cmd).process();
-                msg = NULL;
-                if (m_page+1>=m_states.size())
-                   m_states.push_back(state);
-            }
+            Command cmd;
+            cmd->id		= CmdHistoryNext;
+            cmd->flags  = 0;
+            cmd->param	= (void*)m_id;
+            EventCommandDisabled(cmd).process();
+            msg = NULL;
+            if (m_page+1>=m_states.size())
+                m_states.push_back(state);
         }
 
         if (msg == NULL)

@@ -1,19 +1,19 @@
 /***************************************************************************
-                          historycfg.cpp  -  description
-                             -------------------
-    begin                : Sun Mar 17 2002
-    copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan@shutoff.ru
- ***************************************************************************/
+historycfg.cpp  -  description
+-------------------
+begin                : Sun Mar 17 2002
+copyright            : (C) 2002 by Vladimir Shutoff
+email                : vovan@shutoff.ru
+***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+***************************************************************************/
 
 #include "simapi.h"
 
@@ -73,22 +73,23 @@ using namespace SIM;
 class XmlHighlighter : public QSyntaxHighlighter
 {
 public:
-XmlHighlighter(QTextEdit *textEdit) : QSyntaxHighlighter(textEdit) {}
+    XmlHighlighter(QTextEdit *textEdit) : QSyntaxHighlighter(textEdit) {}
     virtual int highlightParagraph( const QString &text, int endStateOfLastPara ) ;
     void highlightBlock( const QString &text ) //FIXME whole Method!!!
     { 
-         QTextCharFormat myClassFormat;
-         myClassFormat.setFontWeight(QFont::Bold);
-         myClassFormat.setForeground(Qt::darkMagenta);
-         QString pattern = "\\bMy[A-Za-z]+\\b";
+        QTextCharFormat myClassFormat;
+        myClassFormat.setFontWeight(QFont::Bold);
+        myClassFormat.setForeground(Qt::darkMagenta);
+        QString pattern = "\\bMy[A-Za-z]+\\b";
 
-         QRegExp expression(pattern);
-         int index = text.indexOf(expression);
-         while (index >= 0) {
-             int length = expression.matchedLength();
-             setFormat(index, length, myClassFormat);
-             index = text.indexOf(expression, index + length);
-          }
+        QRegExp expression(pattern);
+        int index = text.indexOf(expression);
+        while (index >= 0) 
+        {
+            int length = expression.matchedLength();
+            setFormat(index, length, myClassFormat);
+            index = text.indexOf(expression, index + length);
+        }
     }
 };
 
@@ -110,41 +111,43 @@ const unsigned COLOR_XML_TAG	= 0x808080;
 int XmlHighlighter::highlightParagraph(const QString &s, int state)
 {
     int pos = 0;
-    for (; pos < (int)(s.length());){
+    for (; pos < (int)(s.length());)
+    {
         int n = pos;
         int n1;
         QColor c;
-        switch (state){
+        switch (state)
+        {
         case TEXT:
             n = s.indexOf('<', pos);
-            if (n == -1){
+            if (n == -1)
                 n = s.length();
-            }else{
+            else
+            {
                 state = TAG;
-                if (s.mid(n + 1, 2) == "--"){
+                if (s.mid(n + 1, 2) == "--")
                     state = COMMENT;
-                }else if (s.mid(n + 1, 4) == "?xml"){
+                else if (s.mid(n + 1, 4) == "?xml")
                     state = XML_TAG;
-                }else if (s.mid(n + 1, 4) == "xsl:"){
+                else if (s.mid(n + 1, 4) == "xsl:")
                     state = XSL_TAG;
-                }else if (s.mid(n + 1, 5) == "/xsl:"){
+                else if (s.mid(n + 1, 5) == "/xsl:")
                     state = XSL_TAG;
-                }
             }
             break;
         case COMMENT:
             n = s.indexOf("-->", pos);
-            if (n == -1){
+            if (n == -1)
                 n = s.length();
-            }else{
+            else
                 state = TEXT;
-            }
             c = QColor(COLOR_COMMENT);
             break;
         case TAG:
         case XSL_TAG:
         case XML_TAG:
-            switch (state){
+            switch (state)
+            {
             case XSL_TAG:
                 c = QColor(COLOR_XSL_TAG);
                 break;
@@ -156,11 +159,15 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
             }
             n = s.indexOf('>', pos);
             n1 = s.indexOf('\"', pos);
-            if ((n >= 0) && ((n < n1) || (n1 == -1))){
+            if (n >= 0 && (n < n1 || n1 == -1))
+            {
                 state = TEXT;
                 n++;
-            }else if ((n1 >= 0) && ((n1 < n) || (n == -1))){
-                switch (state){
+            }
+            else if (n1 >= 0 && (n1 < n || n == -1))
+            {
+                switch (state)
+                {
                 case XSL_TAG:
                     state = XSL_STRING;
                     break;
@@ -171,16 +178,17 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
                     state = STRING;
                 }
                 n = n1;
-            }else{
-                n = s.length();
             }
+            else n = s.length();
             break;
         case STRING:
         case XML_STRING:
         case XSL_STRING:
             n = s.indexOf('\"', pos + 1);
-            if (n >= 0){
-                switch (state){
+            if (n >= 0)
+            {
+                switch (state)
+                {
                 case XML_STRING:
                     state = XML_TAG;
                     break;
@@ -191,9 +199,9 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
                     state = TAG;
                 }
                 n++;
-            }else{
-                n = s.length();
             }
+            else
+                n = s.length();
             c = QColor(COLOR_STRING);
             break;
         }
@@ -205,24 +213,26 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
 }
 
 
-HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
+HistoryConfig::HistoryConfig(QWidget *parent)
+: QWidget   (parent)
+, m_cur     (-1)
+, m_bDirty  (false)
 {
-	setupUi(this);
+    setupUi(this);
     chkOwn->setChecked(CorePlugin::instance()->value("OwnColors").toBool());
     chkSmile->setChecked(CorePlugin::instance()->value("UseSmiles").toBool());
     chkExtViewer->setChecked(CorePlugin::instance()->value("UseExtViewer").toBool());
     edtExtViewer->setText(CorePlugin::instance()->value("ExtViewer").toString());
     chkAvatar->setChecked(CorePlugin::instance()->value("ShowAvatarInHistory").toBool());
-    m_cur = -1;
     cmbPage->setEditable(true);
-    m_bDirty = false;
     QLineEdit *edit = cmbPage->lineEdit();
     edit->setValidator(new QIntValidator(1, 10000, edit));
     edit->setText(QString::number(CorePlugin::instance()->value("HistoryPage").toUInt()));
     QString str1 = i18n("Show %1 messages per page");
     QString str2;
     int n = str1.indexOf("%1");
-    if (n >= 0){
+    if (n >= 0)
+    {
         str2 = str1.mid(n + 2);
         str1 = str1.left(n);
     }
@@ -259,7 +269,7 @@ HistoryConfig::HistoryConfig(QWidget *parent) : QWidget(parent)
     connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
     connect(chkSize, SIGNAL(toggled(bool)), this, SLOT(toggledSize(bool)));
     connect(chkExtViewer, SIGNAL(toggled(bool)), this, SLOT(toggledExtViewer(bool)));
-	SIM::PropertyHubPtr data = getContacts()->getUserData("history");
+    SIM::PropertyHubPtr data = getContacts()->getUserData("history");
     chkDays->setChecked(data->value("CutDays").toBool());
     chkSize->setChecked(data->value("CutSize").toBool());
     edtDays->setValue(data->value("Days").toUInt());
@@ -279,12 +289,11 @@ static char BACKUP_SUFFIX[] = "~";
 void HistoryConfig::apply()
 {
     bool bChanged = false;
-    if (tabStyle->currentWidget() == source){
-        int cur = cmbStyle->currentIndex();
-        if (m_bDirty && (cur >= 0))
-            m_styles[cur].text = unquoteText(edtStyle->toHtml());
-    }
-    for (unsigned i = 0; i < m_styles.size(); i++){
+    int idxStyle = cmbStyle->currentIndex();
+    if (tabStyle->currentWidget() == source && m_bDirty && idxStyle >= 0)
+        m_styles[idxStyle].text = unquoteText(edtStyle->toHtml());
+    for (unsigned i = 0; i < m_styles.size(); i++)
+    {
         if (m_styles[i].text.isEmpty() || !m_styles[i].bCustom)
             continue;
         if ((int)i == cmbStyle->currentIndex())
@@ -294,7 +303,8 @@ void HistoryConfig::apply()
         name += EXT;
         name = user_file(name);
         QFile f(QString(name).append(BACKUP_SUFFIX)); // use backup file for this ...
-        if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
+        if (f.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        {
             QString s;
             s = m_styles[i].text;
             f.write(s.toUtf8());
@@ -302,30 +312,32 @@ void HistoryConfig::apply()
             const QFile::FileError status = f.error();
             const QString errorMessage = f.errorString();
             f.close();
-            if (status != QFile::NoError) {
+            if (status != QFile::NoError)
+            {
                 log(L_ERROR, "IO error writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
-            } else {
-                // rename to normal file
-                QFileInfo fileInfo(f.fileName());
-                QString desiredFileName = fileInfo.fileName();
-                desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-                fileInfo.dir().remove(desiredFileName);
-                if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                    log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
-                }
+                continue;
             }
-        }else{
-            log(L_WARN, "[1]Can't create %s", qPrintable(name));
+            // rename to normal file
+            QFileInfo fileInfo(f.fileName());
+            QString desiredFileName = fileInfo.fileName();
+            desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
+            fileInfo.dir().remove(desiredFileName);
+            if (fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) 
+                continue;
+
+            log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
+            continue;
         }
+        log(L_WARN, "[1]Can't create %s", qPrintable(name));
     }
     int cur = cmbStyle->currentIndex();
     if ((cur >= 0) && m_styles.size() &&
-            (m_styles[cur].bChanged ||
-             (m_styles[cur].name != CorePlugin::instance()->value("HistoryStyle").toString()))){
-        CorePlugin::instance()->setValue("HistoryStyle", m_styles[cur].name);
-        bChanged = true;
-        delete CorePlugin::instance()->historyXSL;
-        CorePlugin::instance()->historyXSL = new XSL(m_styles[cur].name);
+        (m_styles[cur].bChanged ||
+        (m_styles[cur].name != CorePlugin::instance()->value("HistoryStyle").toString()))){
+            CorePlugin::instance()->setValue("HistoryStyle", m_styles[cur].name);
+            bChanged = true;
+            delete CorePlugin::instance()->historyXSL;
+            CorePlugin::instance()->historyXSL = new XSL(m_styles[cur].name);
     }
 
     if (chkOwn->isChecked() != CorePlugin::instance()->value("OwnColors").toBool()){
@@ -350,7 +362,7 @@ void HistoryConfig::apply()
         EventHistoryConfig(0).process();
     }
     fillPreview();
-	SIM::PropertyHubPtr data = getContacts()->getUserData("history");
+    SIM::PropertyHubPtr data = getContacts()->getUserData("history");
     data->setValue("CutDays", chkDays->isChecked());
     data->setValue("CutSize", chkSize->isChecked());
     data->setValue("Days", edtDays->text().toUInt());

@@ -170,7 +170,8 @@ void LoginDialog::accept()
 		m_profile = QString::null;
 		m_newProfile = true;
         m_newProfileName = e_newName->text();
-        if(!ProfileManager::instance()->newProfile(m_newProfileName)) {
+        if(!ProfileManager::instance()->newProfile(m_newProfileName)) 
+        {
             QMessageBox::information(NULL, i18n("Create Profile"), i18n("Error while creating a new profile"), QMessageBox::Ok);
             return;
         }
@@ -249,7 +250,8 @@ void LoginDialog::accept()
 
 void LoginDialog::reject()
 {
-	if (m_bLogin){
+	if (m_bLogin)
+    {
 		stopLogin();
 		return;
 	}
@@ -261,7 +263,8 @@ void LoginDialog::profileChanged(int)
 	if (m_client)
 		return;
     int n = cmbProfile->currentIndex();
-	if (n < 0){
+	if (n < 0)
+    {
 		clearInputs();
 		buttonOk->setEnabled(false);
 		btnDelete->setEnabled(false);
@@ -300,7 +303,8 @@ void LoginDialog::profileChanged(int)
         groupBoxPasswords->show();
 
 		unsigned row = 2;
-		for (unsigned i = 0; i < clients.size(); i++){
+		for (unsigned i = 0; i < clients.size(); i++)
+        {
 			if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
 				continue;
 			makeInputs(row, clients[i]);
@@ -326,7 +330,8 @@ static void rmDir(const QString &path)
 	QDir d(path);
 	QStringList l = d.entryList(QDir::Dirs);
 	QStringList::Iterator it;
-	for (it = l.begin(); it != l.end(); ++it){
+	for (it = l.begin(); it != l.end(); ++it)
+    {
 		if ((*it) == "." || (*it) == "..") continue;
 		QString p = path;
 		p += '/';
@@ -334,7 +339,8 @@ static void rmDir(const QString &path)
 		rmDir(p);
 	}
 	l = d.entryList();
-	for (it = l.begin(); it != l.end(); ++it){
+	for (it = l.begin(); it != l.end(); ++it)
+    {
 		if ((*it) == "." || (*it) == "..") continue;
 		QString p = path;
 		p += '/';
