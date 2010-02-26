@@ -37,6 +37,8 @@ namespace testProtocolManager
         {
             return 0;
         }
+        QStringList statuses() { return QStringList(); };
+        IMStatusPtr status(const QString& id) { return IMStatusPtr(); }
     };
 
     void Test::initTestCase()

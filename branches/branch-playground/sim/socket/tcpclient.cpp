@@ -22,6 +22,7 @@ namespace SIM
 		: Client(protocol, cfg)
 		  , EventReceiver(priority)
 		  , m_reconnect(RECONNECT_TIME)
+		  //, m_logonStatus(protocol->status("offline"))
 		  , m_logonStatus(STATUS_OFFLINE)
 		  , m_ip(0)
 		  , m_timer(new QTimer(this))
@@ -55,7 +56,7 @@ namespace SIM
 		m_loginTimer->stop();
 		if (m_reconnect == NO_RECONNECT){
 			m_timer->stop();
-			setStatus(STATUS_OFFLINE, getCommonStatus());
+			//setStatus(STATUS_OFFLINE, getCommonStatus());
 			setState(Error, err, code);
 			return false;
 		}
@@ -65,6 +66,7 @@ namespace SIM
 				if (reconnectTime < RECONNECT_IFINACTIVE)
 					reconnectTime = RECONNECT_IFINACTIVE;
 			}
+			//setClientStatus(protocol()->status("offline"));
 			setClientStatus(STATUS_OFFLINE);
 			setState((m_reconnect == NO_RECONNECT) ? Error : Connecting, err, code);
 			m_bWaitReconnect = true;
@@ -88,7 +90,12 @@ namespace SIM
 			setClientStatus(getManualStatus());
 	}
 
-	void TCPClient::setStatus(unsigned status, bool bCommon)
+    void TCPClient::changeStatus(const IMStatusPtr& status)
+    {
+        Client::changeStatus(status);
+    }
+
+	SIM_DEPRECATED void TCPClient::setStatus(unsigned status, bool bCommon)
 	{
 		setClientStatus(status);
 		Client::setStatus(status, bCommon);
@@ -106,7 +113,7 @@ namespace SIM
 	void TCPClient::loginTimeout()
 	{
 		m_loginTimer->stop();
-		if ((m_state != Connected) && socket())
+		if ((getState() != Connected) && socket())
 			socket()->error_state(I18N_NOOP("Login timeout"));
 	}
 
@@ -129,6 +136,36 @@ namespace SIM
 	{
 		return new ClientSocket(this, createSocket());
 	}
+
+//    void TCPClient::setClientStatus(const IMStatusPtr& status)
+//    {
+//		if (status->id() != "offline") {
+//			if (getState() == Connected) {
+//				changeStatus(status);
+//				return;
+//			}
+//			m_logonStatus = status;
+//			if ((getState() != Connecting) || m_bWaitReconnect){
+//				setState(Connecting, NULL);
+//				m_reconnect = RECONNECT_TIME;
+//				m_bWaitReconnect = false;
+//				setState(Connecting);
+//				socketConnect();
+//			}
+//			return;
+//		}
+//		m_bWaitReconnect = false;
+//		m_timer->stop();
+//		m_loginTimer->stop();
+//        changeStatus(status);
+//		setState(Offline);
+//		disconnected();
+//		if (socket()){
+//			socket()->close();
+//			delete socket();
+//			m_clientSocket = NULL;
+//		}
+//    }
 
 	void TCPClient::setClientStatus(unsigned status)
 	{

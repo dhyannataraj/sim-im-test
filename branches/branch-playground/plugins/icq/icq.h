@@ -20,6 +20,8 @@
 
 #include "contacts.h"
 #include "contacts/client.h"
+#include "contacts/imstatus.h"
+#include "icqstatus.h"
 
 class CorePlugin;
 
@@ -49,6 +51,13 @@ public:
     static const SIM::CommandDef *_statusList();
     virtual const SIM::DataDef *userDataDef();
     static const SIM::DataDef *icqUserData;
+	virtual QStringList statuses();
+	virtual SIM::IMStatusPtr status(const QString& id);
+
+private:
+	void initStatuses();
+	void addStatus(ICQStatusPtr status);
+	QMap<QString, ICQStatusPtr> m_statuses;
 };
 
 class AIMProtocol : public SIM::Protocol
@@ -61,6 +70,8 @@ public:
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();
     static const SIM::DataDef *icqUserData;
+	virtual QStringList statuses();
+	virtual SIM::IMStatusPtr status(const QString& id);
 };
 
 class ICQPlugin : public SIM::Plugin

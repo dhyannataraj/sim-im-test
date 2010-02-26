@@ -1836,7 +1836,7 @@ void SnacIcqICBM::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool
                             delete msg;
                             return;
                         }
-                        if(m_client->m_state == 1)
+                        if(m_client->getState() == 1)
 						{
                             msg->setError(I18N_NOOP("Message declined"));
                             EventMessageSent(msg).process();

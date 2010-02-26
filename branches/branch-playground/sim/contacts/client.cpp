@@ -21,7 +21,14 @@ namespace SIM
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-    Client::Client(Protocol *protocol, Buffer *cfg)
+    Client::Client(Protocol* protocol)
+    {
+        m_protocol = protocol;
+        m_status = STATUS_OFFLINE;
+        m_state  = Offline;
+    }
+
+    SIM_DEPRECATED Client::Client(Protocol *protocol, Buffer *cfg)
     {
         if(cfg)
             load_data(_clientData, &data, cfg);
@@ -49,7 +56,7 @@ namespace SIM
         m_state  = Offline;
     }
 
-    void Client::setStatus(unsigned status, bool bCommon)
+    SIM_DEPRECATED void Client::setStatus(unsigned status, bool bCommon)
     {
         setManualStatus(status);
         setCommonStatus(bCommon);
@@ -59,6 +66,26 @@ namespace SIM
     Client::~Client()
     {
         freeData();
+    }
+
+    void Client::changeStatus(const IMStatusPtr& status)
+    {
+        EventClientChanged(this).process();
+    }
+
+    IMStatusPtr Client::currentStatus()
+    {
+        return m_currentStatus;
+    }
+
+    void Client::setManualStatus(const IMStatusPtr& status)
+    {
+        m_manualStatus = status;
+    }
+
+    IMStatusPtr Client::manualStatus()
+    {
+        return m_manualStatus;
     }
 
     QString Client::resources(void*)

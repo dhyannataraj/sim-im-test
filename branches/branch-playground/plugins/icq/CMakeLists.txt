@@ -29,6 +29,7 @@ SET(icq_SRCS
         icqsecure.cpp
         icqservice.cpp
         icqssbi.cpp
+		icqstatus.cpp
         icqvarious.cpp
         interestsinfo.cpp
         moreinfo.cpp
@@ -64,6 +65,7 @@ SET(icq_HDRS
         icqsearch.h
         icqsecure.h
         icqssbi.h
+		icqstatus.h
         interestsinfo.h
         moreinfo.h
         pastinfo.h

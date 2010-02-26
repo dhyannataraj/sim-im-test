@@ -20,6 +20,8 @@
 
 #include "contacts.h"
 #include "contacts/client.h"
+#include "contacts/imstatus.h"
+#include "jabberstatus.h"
 
 #include <QByteArray>
 
@@ -63,6 +65,14 @@ public:
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();
+
+    virtual QStringList statuses();
+	virtual SIM::IMStatusPtr status(const QString& id);
+
+private:
+    void initStatuses();
+    void addStatus(JabberStatusPtr status);
+    QMap<QString, JabberStatusPtr> m_statuses;
 };
 
 struct JabberData
@@ -92,4 +102,6 @@ protected:
 };
 
 #endif
+
+// vim: set expandtab:
 

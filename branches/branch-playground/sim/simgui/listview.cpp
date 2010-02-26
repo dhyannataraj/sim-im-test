@@ -44,7 +44,7 @@ ListViewItem::ListViewItem() : QTreeWidgetItem(), m_open(true)
     setExpanded(true);
 }
 
-ListViewItem::ListViewItem(const QString& name) : QTreeWidgetItem()
+ListViewItem::ListViewItem(const QString& /* name */) : QTreeWidgetItem()
 {
     setExpanded(true);
 }
@@ -156,11 +156,11 @@ void ListView::setMenu(unsigned long menuId)
     m_menuId = menuId;
 }
 
-void ListView::setOpen(bool o)
+void ListView::setOpen(bool /* o */)
 {
 }
 
-void ListView::setOpen(ListViewItem* item, bool o)
+void ListView::setOpen(ListViewItem* /*item*/, bool/* o*/)
 {
 }
 
@@ -213,7 +213,7 @@ ListViewItem* ListView::currentItem()
     return static_cast<ListViewItem*>(QTreeWidget::currentItem());
 }
 
-void ListView::viewportMousePressEvent(QMouseEvent *e)
+void ListView::viewportMousePressEvent(QMouseEvent * /*e*/)
 {
     //QTreeWidget::viewportMousePressEvent(e);
 }
@@ -381,13 +381,13 @@ void ListView::adjustColumn()
     }
 }
 
-void ListView::startDrag()
+void ListView::startDrag(Qt::DropActions)
 {
     emit dragStart();
     startDrag(dragObject());
 }
 
-void ListView::startDrag(QMimeData *d)
+void ListView::startDrag(QMimeData * /*d*/)
 {
     /*
     if (d)

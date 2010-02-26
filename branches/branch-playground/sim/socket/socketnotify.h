@@ -14,7 +14,7 @@ namespace SIM
         virtual void read_ready() = 0;
         virtual void write_ready() = 0;
         virtual void error_state(const QString &err_text, unsigned code = 0) = 0;
-        virtual void resolve_ready(QHostAddress ip) {}
+        virtual void resolve_ready(QHostAddress /*ip*/) {}
 	};
 }
 

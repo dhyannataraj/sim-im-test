@@ -2745,9 +2745,5 @@ JabberUserData* JabberClient::toJabberUserData(SIM::clientData * data)
    return (JabberUserData*) data;
 }
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "jabberclient.moc"
-#endif
-*/
+// vim: set expandtab:
 

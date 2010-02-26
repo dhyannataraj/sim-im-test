@@ -48,6 +48,7 @@ SET(sim_LIB_SRCS
 		contacts/protocol.cpp
 		contacts/protocolmanager.cpp
 		contacts/client.cpp
+		contacts/imstatus.cpp
 		socket/socket.cpp
 		socket/serversocketnotify.cpp
 		socket/serversocket.cpp
@@ -122,6 +123,7 @@ SET(sim_LIB_HDRS
 		contacts/protocol.h
 		contacts/protocolmanager.h
 		contacts/client.h
+		contacts/imstatus.h
 		socket/socket.h
 		socket/socketnotify.h
 		socket/serversocketnotify.h

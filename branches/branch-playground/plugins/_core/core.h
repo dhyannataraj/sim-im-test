@@ -239,12 +239,12 @@ protected:
     unsigned            m_nClients;
     unsigned            m_nClientsMenu;
     unsigned            m_nResourceMenu;
-    Commands            *m_cmds;
     MainWindow          *m_main;
-    Tmpl                *m_tmpl;
     BalloonMsg          *m_alert;
     FileLock            *m_lock;
     bool                m_RegNew;
+    Tmpl                *m_tmpl;
+    Commands            *m_cmds;
     HistoryThread      *m_HistoryThread;
 
 private:

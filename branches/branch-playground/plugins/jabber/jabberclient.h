@@ -28,6 +28,7 @@
 #include "socket/socket.h"
 #include "socket/serversocketnotify.h"
 #include "socket/tcpclient.h"
+#include "jabberstatus.h"
 
 #include "jabberbuffer.h"
 
@@ -476,6 +477,8 @@ protected:
     friend class RostersRequest;
     friend class PresenceRequest;
     friend class JabberBrowser;
+
+private:
 };
 
 class JabberFileTransfer : public SIM::FileTransfer, public SIM::ClientSocketNotify, public SIM::ServerSocketNotify

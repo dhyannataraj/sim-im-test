@@ -21,6 +21,7 @@
 #include "core_consts.h"
 #include "contacts/protocolmanager.h"
 #include "clientmanager.h"
+#include "icons.h"
 
 #include <QByteArray>
 
@@ -53,6 +54,32 @@ JabberProtocol::JabberProtocol(Plugin *plugin)
 
 JabberProtocol::~JabberProtocol()
 {
+}
+
+void JabberProtocol::initStatuses()
+{
+    addStatus(JabberStatusPtr(new JabberStatus("online", "Online", "", Icon("Jabber_online"))));
+    addStatus(JabberStatusPtr(new JabberStatus("away", "Away", "", Icon("Jabber_away"))));
+    addStatus(JabberStatusPtr(new JabberStatus("n/a", "N/A", "", Icon("Jabber_na"))));
+    addStatus(JabberStatusPtr(new JabberStatus("dnd", "Do not disturb", "", Icon("Jabber_dnd"))));
+    addStatus(JabberStatusPtr(new JabberStatus("occupied", "Occupied", "", Icon("Jabber_occupied"))));
+    addStatus(JabberStatusPtr(new JabberStatus("free_for_chat", "Free for chat", "", Icon("Jabber_ffc"))));
+    addStatus(JabberStatusPtr(new JabberStatus("offline", "Offline", "", Icon("Jabber_offline"))));
+}
+
+void JabberProtocol::addStatus(JabberStatusPtr status)
+{
+    m_statuses.insert(status->id(), status);
+}
+
+QStringList JabberProtocol::statuses()
+{
+    return m_statuses.keys();
+}
+
+SIM::IMStatusPtr JabberProtocol::status(const QString& id)
+{
+    return m_statuses.value(id);
 }
 
 ClientPtr JabberProtocol::createClient(Buffer *cfg)
@@ -380,3 +407,6 @@ QByteArray JabberPlugin::getConfig()
 {
     return save_data(jabberData, &data);
 }
+
+// vim: set expandtab:
+

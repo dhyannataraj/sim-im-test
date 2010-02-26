@@ -20,6 +20,7 @@
 #include "core.h"
 #include "log.h"
 #include "clientmanager.h"
+#include "icons.h"
 
 #include "contacts/protocolmanager.h"
 
@@ -48,6 +49,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 ICQProtocol::ICQProtocol(Plugin *plugin)
         : Protocol(plugin)
 {
+	initStatuses();
 }
 
 ICQProtocol::~ICQProtocol()
@@ -59,6 +61,32 @@ ClientPtr ICQProtocol::createClient(Buffer *cfg)
 	ClientPtr icq = ClientPtr(new ICQClient(this, cfg, false));
 	getClientManager()->addClient(icq);
     return icq;
+}
+
+QStringList ICQProtocol::statuses()
+{
+	return m_statuses.keys();
+}
+
+void ICQProtocol::initStatuses()
+{
+	addStatus(ICQStatusPtr(new ICQStatus("online", "Online", "", Icon("ICQ_Online"))));
+	addStatus(ICQStatusPtr(new ICQStatus("away", "Away", "", Icon("ICQ_away"))));
+	addStatus(ICQStatusPtr(new ICQStatus("n/a", "N/A", "", Icon("ICQ_na"))));
+	addStatus(ICQStatusPtr(new ICQStatus("dnd", "Do not disturb", "", Icon("ICQ_dnd"))));
+	addStatus(ICQStatusPtr(new ICQStatus("occupied", "Occupied", "", Icon("ICQ_occupied"))));
+	addStatus(ICQStatusPtr(new ICQStatus("free_for_chat", "Free for chat", "", Icon("ICQ_ffc"))));
+	addStatus(ICQStatusPtr(new ICQStatus("offline", "Offline", "", Icon("ICQ_offline"))));
+}
+
+void ICQProtocol::addStatus(ICQStatusPtr status)
+{
+	m_statuses.insert(status->id(), status);
+}
+
+SIM::IMStatusPtr ICQProtocol::status(const QString& id)
+{
+	return m_statuses.value(id);
 }
 
 static CommandDef icq_descr =
@@ -210,6 +238,18 @@ AIMProtocol::AIMProtocol(Plugin *plugin)
 
 AIMProtocol::~AIMProtocol()
 {
+}
+
+QStringList AIMProtocol::statuses()
+{
+	// TODO
+	return QStringList();
+}
+
+SIM::IMStatusPtr AIMProtocol::status(const QString& id)
+{
+	// TODO
+	return SIM::IMStatusPtr();
 }
 
 ClientPtr AIMProtocol::createClient(Buffer *cfg)
@@ -385,3 +425,4 @@ ICQPlugin::~ICQPlugin()
     EventMenu(MenuSearchResult, EventMenu::eRemove).process();
     EventMenu(MenuIcqGroups, EventMenu::eRemove).process();
 }
+

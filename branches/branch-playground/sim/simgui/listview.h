@@ -84,10 +84,12 @@ signals:
     void dragStart();
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
+
 public slots:
     void adjustColumn();
-    virtual void startDrag();
+    virtual void startDrag(Qt::DropActions);
     void sizeChange(int,int,int);
+
 protected:
     virtual bool getMenu(ListViewItem *item, unsigned long &id, void *&param);
     virtual bool processEvent(SIM::Event *e);
