@@ -251,6 +251,37 @@ private:
     bool m_bIgnoreEvents;
     SIM::PropertyHubPtr m_propertyHub;
 
+    // Event handlers:
+    bool processEventIconChanged();
+    bool processEventJoinAlert();
+    bool processEventGroup(SIM::Event* e);
+    bool processEventDeleteMessage(SIM::Event* e);
+    bool processEventRewriteMessage(SIM::Event* e);
+    bool processEventTmplHelp(SIM::Event* e);
+    bool processEventTmplHelpList(SIM::Event* e);
+    bool processEventARRequest(SIM::Event* e);
+    bool processEventSaveState(SIM::Event* e);
+    bool processEventPluginChanged(SIM::Event* e);
+    bool processEventInit(SIM::Event* e);
+    bool processEventHomeDir(SIM::Event* e);
+    bool processEventGetProfile(SIM::Event* e);
+    bool processEventAddPreferences(SIM::Event* e);
+    bool processEventRemovePreferences(SIM::Event* e);
+    bool processEventClientChanged(SIM::Event* e);
+    bool processEventCreateMessageType(SIM::Event* e);
+    bool processEventRemoveMessageType(SIM::Event* e);
+    bool processEventContact(SIM::Event* e);
+    bool processEventMessageAcked(SIM::Event* e);
+    bool processEventMessageDeleted(SIM::Event* e);
+    bool processEventMessageReceived(SIM::Event* e);
+    bool processEventSent(SIM::Event* e);
+    bool processEventDefaultAction(SIM::Event* e);
+    bool processEventLoadMessage(SIM::Event* e);
+    bool processEventOpenMessage(SIM::Event* e);
+    bool processEventCheckCommandState(SIM::Event* e);
+    bool processEventCommandExec(SIM::Event* e);
+    bool processEventGoURL(SIM::Event* e);
+
     friend class MainWindow;
     friend class UserView;
     friend class UserConfig;
