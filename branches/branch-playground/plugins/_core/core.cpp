@@ -275,46 +275,39 @@ CorePlugin::CorePlugin(unsigned base, Buffer* /*config*/)
 	createEventCmds();
 }
 
+void CorePlugin::createCommand(int id, const QString& text, const QString& icon, int menu_id,
+        int menu_grp, int bar_id, int bar_grp, int flags)
+{
+    Command cmd;
+    cmd->id = id;
+    cmd->text = text;
+    cmd->icon = icon;
+    cmd->menu_id = menu_id;
+    cmd->menu_grp = menu_grp;
+    cmd->bar_id = bar_id;
+    cmd->bar_grp = bar_grp;
+    cmd->flags = flags;
+    EventCommandCreate(cmd).process();
+}
+
 void CorePlugin::createEventCmds()
 {
     Command cmd;
-    cmd->id			= CmdMsgQuote;
-    cmd->text		= I18N_NOOP("&Quote");
-    cmd->icon		= QString::null;
-    cmd->menu_id	= MenuMsgCommand;
-    cmd->menu_grp	= 0x1002;
+    createCommand(CmdMsgQuote, I18N_NOOP("&Quote"), QString::null, MenuMsgCommand, 0x1002,
+            0, 0, COMMAND_CHECK_STATE);
 
-    cmd->bar_id		= 0;
-    cmd->bar_grp	= 0;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
+    createCommand(CmdMsgQuote + CmdReceived, I18N_NOOP("&Quote"), QString::null, MenuMsgCommand, 0x1002,
+            ToolBarMsgEdit, 0x1041, COMMAND_CHECK_STATE | BTN_PICT);
 
-    cmd->id			= CmdMsgQuote + CmdReceived;
-    cmd->bar_id		= ToolBarMsgEdit; //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
-    cmd->bar_grp	= 0x1041;
-    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
+    createCommand(CmdMsgForward, I18N_NOOP("&Forward"), QString::null, MenuMsgCommand, 0x1003,
+            0, 0, COMMAND_CHECK_STATE);
 
-    cmd->id			= CmdMsgForward;
-    cmd->text		= I18N_NOOP("&Forward");
-    cmd->menu_id	= MenuMsgCommand;
-    cmd->menu_grp	= 0x1003;
-    cmd->bar_id		= 0;
-    cmd->bar_grp	= 0;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
+    createCommand(CmdMsgForward + CmdReceived, I18N_NOOP("&Forward"), QString::null, MenuMsgCommand, 0x1003,
+            ToolBarMsgEdit, 0x1042, COMMAND_CHECK_STATE | BTN_PICT);
 
-    cmd->id			= CmdMsgForward + CmdReceived;
-    cmd->bar_id		= ToolBarMsgEdit;  //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
-    cmd->bar_grp	= 0x1042;
-    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
+    createCommand(CmdMsgAnswer, I18N_NOOP("&Answer"), "mail_generic", MenuMsgCommand, 0x1003,
+            ToolBarMsgEdit, 0x8000, COMMAND_CHECK_STATE | BTN_PICT);
 
-    cmd->id			= CmdMsgAnswer;
-    cmd->text		= I18N_NOOP("&Answer");
-    cmd->icon		= "mail_generic";
-    cmd->bar_grp	= 0x8000;
-    EventCommandCreate(cmd).process();
 
     EventMenu(MenuContainer, EventMenu::eAdd).process();
 
@@ -1519,158 +1512,124 @@ bool CorePlugin::processEventOpenMessage(SIM::Event* e)
     return true;
 }
 
-bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
+bool CorePlugin::processCmdChangeEncoding(SIM::CommandDef* cmd)
 {
-    EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
-    CommandDef *cmd = ecs->cmd();
-    if (cmd->menu_id == MenuEncoding){
-        if (cmd->id == CmdChangeEncoding){
-            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
-            if (contact == NULL)
-                return false;
-            QTextCodec *codec = getContacts()->getCodec(contact);
-            unsigned nEncoding = 3;
-            QStringList main;
-            QStringList nomain;
-            QStringList::Iterator it;
-            const ENCODING *enc;
-            for (enc = getContacts()->getEncodings(); enc->language; enc++){
-                if (enc->bMain){
-                    main.append(i18n(enc->language) + " (" + enc->codec + ')');
-                    nEncoding++;
-                    continue;
-                }
-                if (!value("ShowAllEncodings").toBool())
-                    continue;
-                nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
-                nEncoding++;
-            }
-            CommandDef *cmds = new CommandDef[nEncoding];
-            cmd->param = cmds;
-            cmd->flags |= COMMAND_RECURSIVE;
-            nEncoding = 0;
-            cmds[nEncoding].id = 1;
-            cmds[nEncoding].text = I18N_NOOP("System");
-            if (!strcmp(codec->name(), "System"))
-                cmds[nEncoding].flags = COMMAND_CHECKED;
+    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+    if (contact == NULL)
+        return false;
+    QTextCodec *codec = getContacts()->getCodec(contact);
+    unsigned nEncoding = 3;
+    QStringList main;
+    QStringList nomain;
+    QStringList::Iterator it;
+    const ENCODING *enc;
+    for (enc = getContacts()->getEncodings(); enc->language; enc++){
+        if (enc->bMain){
+            main.append(i18n(enc->language) + " (" + enc->codec + ')');
             nEncoding++;
-            main.sort();
-            for (it = main.begin(); it != main.end(); ++it){
-                QString str = *it;
-                int n = str.indexOf('(');
-                str = str.mid(n + 1);
-                n = str.indexOf(')');
-                str = str.left(n);
-                if (str == codec->name())
-                    cmds[nEncoding].flags = COMMAND_CHECKED;
-                cmds[nEncoding].id = nEncoding + 1;
-                cmds[nEncoding].text = "_";
-                cmds[nEncoding].text_wrk = (*it);
-                nEncoding++;
-            }
-            if (!value("ShowAllEncodings").toBool())
-                return true;
-            cmds[nEncoding++].text = "_";
-            nomain.sort();
-            for (it = nomain.begin(); it != nomain.end(); ++it){
-                QString str = *it;
-                int n = str.indexOf('(');
-                str = str.mid(n + 1);
-                n = str.indexOf(')');
-                str = str.left(n);
-                if (str == codec->name())
-                    cmds[nEncoding].flags = COMMAND_CHECKED;
-                cmds[nEncoding].id = nEncoding;
-                cmds[nEncoding].text = "_";
-                cmds[nEncoding].text_wrk = (*it);
-                nEncoding++;
-            }
-            return true;
+            continue;
         }
-        if (cmd->id == CmdAllEncodings){
-            cmd->flags &= ~COMMAND_CHECKED;
-            if (value("ShowAllEncodings").toBool())
-                cmd->flags |= COMMAND_CHECKED;
-            return true;
-        }
+        if (!value("ShowAllEncodings").toBool())
+            continue;
+        nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
+        nEncoding++;
     }
-    if (cmd->id == CmdEnableSpell){
-        cmd->flags &= ~COMMAND_CHECKED;
-        if (value("EnableSpell").toBool())
-            cmd->flags |= COMMAND_CHECKED;
+    CommandDef *cmds = new CommandDef[nEncoding];
+    cmd->param = cmds;
+    cmd->flags |= COMMAND_RECURSIVE;
+    nEncoding = 0;
+    cmds[nEncoding].id = 1;
+    cmds[nEncoding].text = I18N_NOOP("System");
+    if (!strcmp(codec->name(), "System"))
+        cmds[nEncoding].flags = COMMAND_CHECKED;
+    nEncoding++;
+    main.sort();
+    for (it = main.begin(); it != main.end(); ++it){
+        QString str = *it;
+        int n = str.indexOf('(');
+        str = str.mid(n + 1);
+        n = str.indexOf(')');
+        str = str.left(n);
+        if (str == codec->name())
+            cmds[nEncoding].flags = COMMAND_CHECKED;
+        cmds[nEncoding].id = nEncoding + 1;
+        cmds[nEncoding].text = "_";
+        cmds[nEncoding].text_wrk = (*it);
+        nEncoding++;
+    }
+    if (!value("ShowAllEncodings").toBool())
         return true;
+    cmds[nEncoding++].text = "_";
+    nomain.sort();
+    for (it = nomain.begin(); it != nomain.end(); ++it){
+        QString str = *it;
+        int n = str.indexOf('(');
+        str = str.mid(n + 1);
+        n = str.indexOf(')');
+        str = str.left(n);
+        if (str == codec->name())
+            cmds[nEncoding].flags = COMMAND_CHECKED;
+        cmds[nEncoding].id = nEncoding;
+        cmds[nEncoding].text = "_";
+        cmds[nEncoding].text_wrk = (*it);
+        nEncoding++;
     }
-    if (cmd->id == CmdSendClose){
-        cmd->flags &= ~COMMAND_CHECKED;
-        if (value("CloseSend").toBool())
-            cmd->flags |= COMMAND_CHECKED;
+    return true;
+}
+
+bool CorePlugin::processCmdAllEncodings(SIM::CommandDef* cmd)
+{
+    cmd->flags &= ~COMMAND_CHECKED;
+    if (value("ShowAllEncodings").toBool())
+        cmd->flags |= COMMAND_CHECKED;
+    return true;
+}
+
+bool CorePlugin::processCmdEnableSpell(SIM::CommandDef* cmd)
+{
+    cmd->flags &= ~COMMAND_CHECKED;
+    if (value("EnableSpell").toBool())
+        cmd->flags |= COMMAND_CHECKED;
+    return true;
+}
+
+bool CorePlugin::processCmdSendClose(SIM::CommandDef* cmd)
+{
+    cmd->flags &= ~COMMAND_CHECKED;
+    if (value("CloseSend").toBool())
+        cmd->flags |= COMMAND_CHECKED;
+    return false;
+}
+
+bool CorePlugin::processCmdContactClients(SIM::CommandDef* cmd)
+{
+    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+    if (contact == NULL)
         return false;
-    }
-    if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)){
-        Message *msg = (Message*)(cmd->param);
-        if (msg->getFlags() & MESSAGE_TEMP)
-            return true;
-        return false;
-    }
-    if (cmd->id == CmdContactClients){
-        Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
-        if (contact == NULL)
+    vector<clientContact> ways;
+    getWays(ways, contact);
+    if (cmd->menu_id == MenuMessage){
+        unsigned n = ways.size();
+        if (n < 1)
             return false;
-        vector<clientContact> ways;
-        getWays(ways, contact);
-        if (cmd->menu_id == MenuMessage){
-            unsigned n = ways.size();
-            if (n < 1)
+        if (n == 1){
+            QString resources = ways[0].client->resources(ways[0].data);
+            if (resources.isEmpty())
                 return false;
-            if (n == 1){
-                QString resources = ways[0].client->resources(ways[0].data);
-                if (resources.isEmpty())
-                    return false;
-                QString wrk = resources;
-                unsigned n = 0;
-                while (!wrk.isEmpty()){
-                    getToken(wrk, ';');
-                    n++;
-                }
-                CommandDef *cmds = new CommandDef[n + 2];
-                cmds[0].text = "_";
-                n = 1;
-                while (!resources.isEmpty()){
-                    unsigned long id = CmdContactResource + n;
-                    if (n > m_nResourceMenu){
-                        m_nResourceMenu = n;
-                        EventMenu(id, EventMenu::eAdd).process();
-                        Command cmd;
-                        cmd->id			= CmdContactClients;
-                        cmd->text		= "_";
-                        cmd->menu_id	= id;
-                        cmd->menu_grp	= 0x1000;
-                        cmd->flags		= COMMAND_CHECK_STATE;
-                        EventCommandCreate(cmd).process();
-                    }
-                    cmds[n].id		 = id;
-                    cmds[n].text	 = "_";
-                    cmds[n].popup_id = id;
-                    QString res = getToken(resources, ';');
-                    cmds[n].icon     = (const char*)(getToken(res, ',').toULong());
-                    QString t = ways[0].client->contactName(ways[0].data);
-                    t += '/' + res;
-                    cmds[n].text_wrk = t;
-                    n++;
-                }
-                cmd->param = cmds;
-                cmd->flags |= COMMAND_RECURSIVE;
-                return true;
+            QString wrk = resources;
+            unsigned n = 0;
+            while (!wrk.isEmpty()){
+                getToken(wrk, ';');
+                n++;
             }
             CommandDef *cmds = new CommandDef[n + 2];
             cmds[0].text = "_";
             n = 1;
-            for (vector<clientContact>::iterator itw = ways.begin(); itw != ways.end(); ++itw, n++){
-                unsigned long id  = CmdContactClients + n;
-                if (n > m_nClientsMenu){
-                    m_nClientsMenu = n;
+            while (!resources.isEmpty()){
+                unsigned long id = CmdContactResource + n;
+                if (n > m_nResourceMenu){
+                    m_nResourceMenu = n;
                     EventMenu(id, EventMenu::eAdd).process();
-
                     Command cmd;
                     cmd->id			= CmdContactClients;
                     cmd->text		= "_";
@@ -1678,166 +1637,180 @@ bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
                     cmd->menu_grp	= 0x1000;
                     cmd->flags		= COMMAND_CHECK_STATE;
                     EventCommandCreate(cmd).process();
-
-                    cmd->id			= CmdSeparate;
-                    cmd->text		= I18N_NOOP("&Separate");
-                    cmd->menu_grp	= 0x2000;
-                    cmd->flags		= COMMAND_DEFAULT;
-                    EventCommandCreate(cmd).process();
                 }
                 cmds[n].id		 = id;
                 cmds[n].text	 = "_";
                 cmds[n].popup_id = id;
-                unsigned long status = STATUS_UNKNOWN;
-                unsigned style = 0;
-                QString statusIcon;
-                if (itw->bNew){
-                    void *data = itw->data;
-                    Client *client = contact->clientData.activeClient(data, itw->client);
-                    if (client == NULL){
-                        client = itw->client;
-                        data   = itw->data;
-                    }
-                    client->contactInfo(data, status, style, statusIcon);
-                }else{
-                    itw->client->contactInfo(itw->data, status, style, statusIcon);
-                }
-                cmds[n].icon = statusIcon;
-                QString t = itw->client->contactName(itw->data);
-                bool bFrom = false;
-                for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    Client *client = getContacts()->getClient(i);
-                    if (client == itw->client)
-                        continue;
-                    Contact *contact;
-                    clientData *data = itw->data;
-                    if (client->isMyData(data, contact)){
-                        bFrom = true;
-                        break;
-                    }
-                }
-                if (bFrom){
-                    t += ' ';
-                    t += i18n("from %1") .arg(itw->client->name());
-                }
+                QString res = getToken(resources, ';');
+                cmds[n].icon     = (const char*)(getToken(res, ',').toULong());
+                QString t = ways[0].client->contactName(ways[0].data);
+                t += '/' + res;
                 cmds[n].text_wrk = t;
+                n++;
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
             return true;
         }
-        if (cmd->menu_id > CmdContactResource){
-            unsigned nRes = cmd->menu_id - CmdContactResource - 1;
-            unsigned n;
-            for (n = 0; n < ways.size(); n++){
-                QString resources = ways[n].client->resources(ways[n].data);
-                while (!resources.isEmpty()){
-                    getToken(resources, ';');
-                    if (nRes-- == 0){
-                        clientContact &cc = ways[n];
-                        EventMenuGetDef eMenu(MenuMessage);
-                        eMenu.process();
-                        CommandsDef *cmdsMsg = eMenu.defs();
-                        unsigned nCmds = 0;
-                        {
-                            CommandsList it(*cmdsMsg, true);
-                            while (++it)
-                                nCmds++;
-                        }
-                        CommandDef *cmds = new CommandDef[nCmds];
-                        nCmds = 0;
+        CommandDef *cmds = new CommandDef[n + 2];
+        cmds[0].text = "_";
+        n = 1;
+        for (vector<clientContact>::iterator itw = ways.begin(); itw != ways.end(); ++itw, n++){
+            unsigned long id  = CmdContactClients + n;
+            if (n > m_nClientsMenu){
+                m_nClientsMenu = n;
+                EventMenu(id, EventMenu::eAdd).process();
 
-                        CommandsList it(*cmdsMsg, true);
-                        CommandDef *c;
-                        while ((c = ++it) != NULL){
-                            if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
-                                continue;
-                            if (!cc.client->canSend(c->id, cc.data)){
-                                EventCheckSend e(c->id, cc.client, cc.data);
-                                if (!e.process())
-                                    continue;
-                            }
-                            cmds[nCmds] = *c;
-                            cmds[nCmds].id      = c->id;
-                            cmds[nCmds].flags	= COMMAND_DEFAULT;
-                            cmds[nCmds].menu_id = cmd->menu_id;
-                            nCmds++;
-                        }
-                        cmd->param = cmds;
-                        cmd->flags |= COMMAND_RECURSIVE;
-                        return true;
-                    }
+                Command cmd;
+                cmd->id			= CmdContactClients;
+                cmd->text		= "_";
+                cmd->menu_id	= id;
+                cmd->menu_grp	= 0x1000;
+                cmd->flags		= COMMAND_CHECK_STATE;
+                EventCommandCreate(cmd).process();
+
+                cmd->id			= CmdSeparate;
+                cmd->text		= I18N_NOOP("&Separate");
+                cmd->menu_grp	= 0x2000;
+                cmd->flags		= COMMAND_DEFAULT;
+                EventCommandCreate(cmd).process();
+            }
+            cmds[n].id		 = id;
+            cmds[n].text	 = "_";
+            cmds[n].popup_id = id;
+            unsigned long status = STATUS_UNKNOWN;
+            unsigned style = 0;
+            QString statusIcon;
+            if (itw->bNew){
+                void *data = itw->data;
+                Client *client = contact->clientData.activeClient(data, itw->client);
+                if (client == NULL){
+                    client = itw->client;
+                    data   = itw->data;
+                }
+                client->contactInfo(data, status, style, statusIcon);
+            }else{
+                itw->client->contactInfo(itw->data, status, style, statusIcon);
+            }
+            cmds[n].icon = statusIcon;
+            QString t = itw->client->contactName(itw->data);
+            bool bFrom = false;
+            for (unsigned i = 0; i < getContacts()->nClients(); i++){
+                Client *client = getContacts()->getClient(i);
+                if (client == itw->client)
+                    continue;
+                Contact *contact;
+                clientData *data = itw->data;
+                if (client->isMyData(data, contact)){
+                    bFrom = true;
+                    break;
                 }
             }
-            return false;
+            if (bFrom){
+                t += ' ';
+                t += i18n("from %1") .arg(itw->client->name());
+            }
+            cmds[n].text_wrk = t;
         }
-        unsigned n = cmd->menu_id - CmdContactClients - 1;
-        if (n >= ways.size())
-            return false;
-        clientContact &cc = ways[n];
-
-        EventMenuGetDef eMenu(MenuMessage);
-        eMenu.process();
-        CommandsDef *cmdsMsg = eMenu.defs();
-        unsigned nCmds = 0;
-        {
-            CommandsList it(*cmdsMsg, true);
-            while (++it)
-                nCmds++;
-        }
-        QString resources = cc.client->resources(cc.data);
-        if (!resources.isEmpty()){
-            nCmds++;
+        cmd->param = cmds;
+        cmd->flags |= COMMAND_RECURSIVE;
+        return true;
+    }
+    if (cmd->menu_id > CmdContactResource){
+        unsigned nRes = cmd->menu_id - CmdContactResource - 1;
+        unsigned n;
+        for (n = 0; n < ways.size(); n++){
+            QString resources = ways[n].client->resources(ways[n].data);
             while (!resources.isEmpty()){
                 getToken(resources, ';');
-                nCmds++;
-            }
-        }
-
-        CommandDef *cmds = new CommandDef[nCmds];
-        nCmds = 0;
-
-        CommandsList it(*cmdsMsg, true);
-        CommandDef *c;
-        while ((c = ++it) != NULL){
-            if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
-                continue;
-            if (!cc.client->canSend(c->id, cc.data)){
-                EventCheckSend e(c->id, cc.client, cc.data);
-                if (!e.process())
-                    continue;
-            }
-            cmds[nCmds] = *c;
-            cmds[nCmds].id      = c->id;
-            cmds[nCmds].flags	= COMMAND_DEFAULT;
-            cmds[nCmds].menu_id = cmd->menu_id;
-            nCmds++;
-        }
-        resources = cc.client->resources(cc.data);
-        if (!resources.isEmpty()){
-            cmds[nCmds++].text = "_";
-            unsigned nRes = 1;
-            for (unsigned i = 0; i < n; i++){
-                QString resources = ways[i].client->resources(ways[i].data);
-                while (!resources.isEmpty()){
-                    getToken(resources, ';');
-                    unsigned long id = CmdContactResource + nRes;
-                    if (nRes > m_nResourceMenu){
-                        m_nResourceMenu = nRes;
-                        EventMenu(id, EventMenu::eAdd).process();
-                        Command cmd;
-                        cmd->id			= CmdContactClients;
-                        cmd->text		= "_";
-                        cmd->menu_id	= id;
-                        cmd->menu_grp	= 0x1000;
-                        cmd->flags		= COMMAND_CHECK_STATE;
-                        EventCommandCreate(cmd).process();
+                if (nRes-- == 0){
+                    clientContact &cc = ways[n];
+                    EventMenuGetDef eMenu(MenuMessage);
+                    eMenu.process();
+                    CommandsDef *cmdsMsg = eMenu.defs();
+                    unsigned nCmds = 0;
+                    {
+                        CommandsList it(*cmdsMsg, true);
+                        while (++it)
+                            nCmds++;
                     }
-                    nRes++;
+                    CommandDef *cmds = new CommandDef[nCmds];
+                    nCmds = 0;
+
+                    CommandsList it(*cmdsMsg, true);
+                    CommandDef *c;
+                    while ((c = ++it) != NULL){
+                        if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
+                            continue;
+                        if (!cc.client->canSend(c->id, cc.data)){
+                            EventCheckSend e(c->id, cc.client, cc.data);
+                            if (!e.process())
+                                continue;
+                        }
+                        cmds[nCmds] = *c;
+                        cmds[nCmds].id      = c->id;
+                        cmds[nCmds].flags	= COMMAND_DEFAULT;
+                        cmds[nCmds].menu_id = cmd->menu_id;
+                        nCmds++;
+                    }
+                    cmd->param = cmds;
+                    cmd->flags |= COMMAND_RECURSIVE;
+                    return true;
                 }
             }
-            QString resources = cc.client->resources(cc.data);
+        }
+        return false;
+    }
+    unsigned n = cmd->menu_id - CmdContactClients - 1;
+    if (n >= ways.size())
+        return false;
+    clientContact &cc = ways[n];
+
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
+    unsigned nCmds = 0;
+    {
+        CommandsList it(*cmdsMsg, true);
+        while (++it)
+            nCmds++;
+    }
+    QString resources = cc.client->resources(cc.data);
+    if (!resources.isEmpty()){
+        nCmds++;
+        while (!resources.isEmpty()){
+            getToken(resources, ';');
+            nCmds++;
+        }
+    }
+
+    CommandDef *cmds = new CommandDef[nCmds];
+    nCmds = 0;
+
+    CommandsList it(*cmdsMsg, true);
+    CommandDef *c;
+    while ((c = ++it) != NULL){
+        if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
+            continue;
+        if (!cc.client->canSend(c->id, cc.data)){
+            EventCheckSend e(c->id, cc.client, cc.data);
+            if (!e.process())
+                continue;
+        }
+        cmds[nCmds] = *c;
+        cmds[nCmds].id      = c->id;
+        cmds[nCmds].flags	= COMMAND_DEFAULT;
+        cmds[nCmds].menu_id = cmd->menu_id;
+        nCmds++;
+    }
+    resources = cc.client->resources(cc.data);
+    if (!resources.isEmpty()){
+        cmds[nCmds++].text = "_";
+        unsigned nRes = 1;
+        for (unsigned i = 0; i < n; i++){
+            QString resources = ways[i].client->resources(ways[i].data);
             while (!resources.isEmpty()){
+                getToken(resources, ';');
                 unsigned long id = CmdContactResource + nRes;
                 if (nRes > m_nResourceMenu){
                     m_nResourceMenu = nRes;
@@ -1850,107 +1823,321 @@ bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
                     cmd->flags		= COMMAND_CHECK_STATE;
                     EventCommandCreate(cmd).process();
                 }
-                cmds[nCmds].id		 = id;
-                cmds[nCmds].text	 = "_";
-                cmds[nCmds].popup_id = id;
-                QString res = getToken(resources, ';');
-                cmds[nCmds].icon     = (const char*)getToken(res, ',').toULong();
-                QString t = cc.client->contactName(ways[0].data);
-                t += '/' + res;
-                cmds[nCmds++].text_wrk = t;
                 nRes++;
             }
         }
+        QString resources = cc.client->resources(cc.data);
+        while (!resources.isEmpty()){
+            unsigned long id = CmdContactResource + nRes;
+            if (nRes > m_nResourceMenu){
+                m_nResourceMenu = nRes;
+                EventMenu(id, EventMenu::eAdd).process();
+                Command cmd;
+                cmd->id			= CmdContactClients;
+                cmd->text		= "_";
+                cmd->menu_id	= id;
+                cmd->menu_grp	= 0x1000;
+                cmd->flags		= COMMAND_CHECK_STATE;
+                EventCommandCreate(cmd).process();
+            }
+            cmds[nCmds].id		 = id;
+            cmds[nCmds].text	 = "_";
+            cmds[nCmds].popup_id = id;
+            QString res = getToken(resources, ';');
+            cmds[nCmds].icon     = (const char*)getToken(res, ',').toULong();
+            QString t = cc.client->contactName(ways[0].data);
+            t += '/' + res;
+            cmds[nCmds++].text_wrk = t;
+            nRes++;
+        }
+    }
+    cmd->param = cmds;
+    cmd->flags |= COMMAND_RECURSIVE;
+
+    return true;
+}
+
+bool CorePlugin::processMenuContainer(SIM::CommandDef* cmd)
+{
+    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+    if (contact){
+        unsigned nContainers = 1;
+        QWidgetList list = QApplication::topLevelWidgets();
+        QWidget * w;
+        foreach(w,list)
+        {
+            if (w->inherits("Container"))
+                nContainers++;
+        }
+        CommandDef *cmds = new CommandDef[nContainers + 1];
+        unsigned n = 0;
+        foreach(w,list)
+        {
+            if (w->inherits("Container")){
+                Container *c = static_cast<Container*>(w);
+                cmds[n] = *cmd;
+                cmds[n].icon = QString::null;
+                cmds[n].id = c->getId();
+                cmds[n].flags = COMMAND_DEFAULT;
+                cmds[n].text_wrk = c->name();
+                if (c->wnd(contact->id()))
+                    cmds[n].flags |= COMMAND_CHECKED;
+                n++;
+            }
+        }
+        cmds[n].icon = QString::null;
+        cmds[n].id = NEW_CONTAINER;
+        cmds[n].flags = COMMAND_DEFAULT;
+        cmds[n].text = I18N_NOOP("&New");
         cmd->param = cmds;
         cmd->flags |= COMMAND_RECURSIVE;
-
         return true;
     }
-    if (cmd->menu_id == MenuContainer){
-        Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
-        if (contact){
-            unsigned nContainers = 1;
-            QWidgetList list = QApplication::topLevelWidgets();
-            QWidget * w;
-            foreach(w,list)
-            {
-                if (w->inherits("Container"))
-                    nContainers++;
-            }
-            CommandDef *cmds = new CommandDef[nContainers + 1];
-            unsigned n = 0;
-            foreach(w,list)
-            {
-                if (w->inherits("Container")){
-                    Container *c = static_cast<Container*>(w);
-                    cmds[n] = *cmd;
-                    cmds[n].icon = QString::null;
-                    cmds[n].id = c->getId();
-                    cmds[n].flags = COMMAND_DEFAULT;
-                    cmds[n].text_wrk = c->name();
-                    if (c->wnd(contact->id()))
-                        cmds[n].flags |= COMMAND_CHECKED;
-                    n++;
-                }
-            }
-            cmds[n].icon = QString::null;
-            cmds[n].id = NEW_CONTAINER;
-            cmds[n].flags = COMMAND_DEFAULT;
-            cmds[n].text = I18N_NOOP("&New");
-            cmd->param = cmds;
-            cmd->flags |= COMMAND_RECURSIVE;
-            return true;
-        }
-    }
-    if (cmd->menu_id == MenuMessage){
-        cmd->flags &= ~COMMAND_CHECKED;
-        Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
-        if (contact){
-            vector<clientContact> ways;
-            getWays(ways, contact);
-            for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
-                if ((cmd->id == MessageSMS) && (it->client->protocol()->description()->flags & PROTOCOL_NOSMS))
-                    return false;
-                if (it->client->canSend(cmd->id, it->data)){
-                    return true;
-                }
-            }
-            if ((cmd->id == MessageSMS) && !ways.empty()){
-                vector<clientContact>::iterator it;
-                for (it = ways.begin(); it != ways.end(); ++it){
-                    if ((it->client->protocol()->description()->flags & PROTOCOL_NOSMS) == 0)
-                        break;
-                }
-                if (it == ways.end())
-                    return false;
-            }
-        }
-        for (unsigned i = 0; i < getContacts()->nClients(); i++){
-            if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
+    return false;
+}
+
+bool CorePlugin::processMenuMessage(SIM::CommandDef* cmd)
+{
+    cmd->flags &= ~COMMAND_CHECKED;
+    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+    if (contact){
+        vector<clientContact> ways;
+        getWays(ways, contact);
+        for (vector<clientContact>::iterator it = ways.begin(); it != ways.end(); ++it){
+            if ((cmd->id == MessageSMS) && (it->client->protocol()->description()->flags & PROTOCOL_NOSMS))
+                return false;
+            if (it->client->canSend(cmd->id, it->data)){
                 return true;
+            }
         }
-        return false;
+        if ((cmd->id == MessageSMS) && !ways.empty()){
+            vector<clientContact>::iterator it;
+            for (it = ways.begin(); it != ways.end(); ++it){
+                if ((it->client->protocol()->description()->flags & PROTOCOL_NOSMS) == 0)
+                    break;
+            }
+            if (it == ways.end())
+                return false;
+        }
     }
-    if (cmd->menu_id == MenuMsgCommand){
-        Message *msg = (Message*)(cmd->param);
-        switch (cmd->id){
-            case CmdMsgQuote:
-            case CmdMsgForward:
-                if ((msg->getFlags() & MESSAGE_RECEIVED) == 0)
-                    return false;
-                QString p = msg->presentation();
-                if (!p.isEmpty()){
-                    unsigned type = msg->baseType();
-                    switch (type){
-                        case MessageFile:
-                            return false;
-                    }
-                    cmd->flags &= ~COMMAND_CHECKED;
-                    return true;
+    for (unsigned i = 0; i < getContacts()->nClients(); i++){
+        if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
+            return true;
+    }
+    return false;
+}
+
+bool CorePlugin::processMenuMsgCommand(SIM::CommandDef* cmd)
+{
+    Message *msg = (Message*)(cmd->param);
+    switch (cmd->id){
+        case CmdMsgQuote:
+        case CmdMsgForward:
+            if ((msg->getFlags() & MESSAGE_RECEIVED) == 0)
+                return false;
+            QString p = msg->presentation();
+            if (!p.isEmpty()){
+                unsigned type = msg->baseType();
+                switch (type){
+                    case MessageFile:
+                        return false;
                 }
+                cmd->flags &= ~COMMAND_CHECKED;
+                return true;
+            }
+            break;
+    }
+    return false;
+}
+
+bool CorePlugin::processCmdPhoneLocation(SIM::CommandDef* cmd)
+{
+    unsigned n = 2;
+    QString phones = getContacts()->owner()->getPhones();
+    while (!phones.isEmpty()){
+        getToken(phones, ';');
+        n++;
+    }
+    CommandDef *cmds = new CommandDef[n];
+    n = 0;
+    cmds[n].id      = CmdPhoneLocation;
+    cmds[n].text    = I18N_NOOP("Not available");
+    cmds[n].menu_id = MenuPhoneLocation;
+    phones = getContacts()->owner()->getPhones();
+    bool bActive = false;
+    while (!phones.isEmpty()){
+        n++;
+        QString item = getToken(phones, ';', false);
+        item = getToken(item, '/', false);
+        QString number = getToken(item, ',');
+        getToken(item, ',');
+        unsigned long icon = getToken(item, ',').toULong();
+        cmds[n].id   = CmdPhoneLocation + n;
+        cmds[n].text = "_";
+        cmds[n].menu_id  = MenuPhoneLocation;
+        cmds[n].text_wrk = number;
+        if (!item.isEmpty()){
+            cmds[n].flags = COMMAND_CHECKED;
+            bActive = true;
+        }
+        switch (icon){
+            case PHONE:
+                cmds[n].icon = "phone";
+                break;
+            case FAX:
+                cmds[n].icon = "fax";
+                break;
+            case CELLULAR:
+                cmds[n].icon = "cell";
+                break;
+            case PAGER:
+                cmds[n].icon = "pager";
                 break;
         }
+    }
+    if (!bActive)
+        cmds[0].flags = COMMAND_CHECKED;
+    cmd->param = cmds;
+    cmd->flags |= COMMAND_RECURSIVE;
+    return true;
+}
+
+bool CorePlugin::processCmdUnread(SIM::CommandDef* cmd)
+{
+    unsigned long contact_id = 0;
+    if (cmd->menu_id == MenuContact)
+        contact_id = (unsigned long)cmd->param;
+    MAP_COUNT count;
+    MAP_COUNT::iterator itc;
+    CommandDef *def;
+    unsigned n = 0;
+    for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it, n++){
+        if (contact_id && (it->contact != contact_id))
+            continue;
+        msgIndex m;
+        m.contact = it->contact;
+        m.type    = it->type;
+        itc = count.find(m);
+        if (itc == count.end()){
+            msgCount c;
+            c.index = n;
+            c.count = 1;
+            count.insert(MAP_COUNT::value_type(m, c));
+        }else{
+            msgCount &c = (*itc).second;
+            c.index = n;
+            c.count++;
+        }
+    }
+    if (count.empty())
         return false;
+    CommandDef *cmds = new CommandDef[count.size() + 1];
+    n = 0;
+    for (itc = count.begin(); itc != count.end(); ++itc, n++){
+        cmds[n].id = CmdUnread + (*itc).second.index;
+        def = messageTypes.find((*itc).first.type);
+        if (def == NULL)
+            continue;
+        MessageDef *mdef = (MessageDef*)(def->param);
+        cmds[n].icon = def->icon;
+        QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
+        if(msg.isEmpty()) 
+        {
+            log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %lu",
+                    qPrintable(def->text), def->id);
+            int cnt = (*itc).second.count;
+            msg = QString("%1").arg(cnt);
+        }
+        if ((*itc).second.count == 1){
+            int n = msg.indexOf("1 ");
+            if (n == 0){
+                msg = msg.left(1).toUpper() + msg.mid(1);
+            }else{
+                msg = msg.left(n - 1);
+            }
+        }
+        if (contact_id == 0){
+            Contact *contact = getContacts()->contact((*itc).first.contact);
+            if (contact == NULL)
+                continue;
+            msg = i18n("%1 from %2")
+                .arg(msg)
+                .arg(contact->getName());
+        }
+        cmds[n].text_wrk = msg;
+        cmds[n].text = "_";
+    }
+    cmd->param = cmds;
+    cmd->flags |= COMMAND_RECURSIVE;
+    return true;
+}
+
+bool CorePlugin::processCmdSendSMS(SIM::CommandDef* cmd)
+{
+    cmd->flags &= COMMAND_CHECKED;
+    for (unsigned i = 0; i < getContacts()->nClients(); i++){
+        Client *client = getContacts()->getClient(i);
+        if (client->canSend(MessageSMS, NULL))
+            return true;
+    }
+    return false;
+}
+
+bool CorePlugin::processCmdShowPanel(SIM::CommandDef* cmd)
+{
+    cmd->flags &= ~COMMAND_CHECKED;
+    if (m_statusWnd)
+        cmd->flags |= COMMAND_CHECKED;
+    return true;
+}
+
+bool CorePlugin::processCmdCommonStatus(SIM::CommandDef* cmd)
+{
+    unsigned n = cmd->menu_id - CmdClient;
+    if (n >= getContacts()->nClients())
+        return false;
+    Client *client = getContacts()->getClient(n);
+    cmd->flags &= ~COMMAND_CHECKED;
+    if (client->getCommonStatus())
+        cmd->flags |= COMMAND_CHECKED;
+    return true;
+}
+
+bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
+{
+    EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
+    CommandDef *cmd = ecs->cmd();
+    if (cmd->menu_id == MenuEncoding){
+        if (cmd->id == CmdChangeEncoding) {
+            return processCmdChangeEncoding(cmd);
+        }
+        if (cmd->id == CmdAllEncodings) {
+            return processCmdAllEncodings(cmd);
+        }
+    }
+    if (cmd->id == CmdEnableSpell) {
+        return processCmdEnableSpell(cmd);
+    }
+    if (cmd->id == CmdSendClose) {
+        return processCmdSendClose(cmd);
+    }
+    if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)) {
+        Message *msg = (Message*)(cmd->param);
+        if (msg->getFlags() & MESSAGE_TEMP)
+            return true;
+        return false;
+    }
+    if (cmd->id == CmdContactClients) {
+        return processCmdContactClients(cmd);
+    }
+    if (cmd->menu_id == MenuContainer) {
+        return processMenuContainer(cmd);
+    }
+    if (cmd->menu_id == MenuMessage) {
+        return processMenuMessage(cmd);
+    }
+    if (cmd->menu_id == MenuMsgCommand){
+        return processMenuMsgCommand(cmd);
     }
     if (cmd->menu_id == MenuPhoneState){
         cmd->flags &= ~COMMAND_CHECKED;
@@ -1959,137 +2146,16 @@ bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
         return true;
     }
     if ((cmd->menu_id == MenuPhoneLocation) && (cmd->id == CmdPhoneLocation)){
-        unsigned n = 2;
-        QString phones = getContacts()->owner()->getPhones();
-        while (!phones.isEmpty()){
-            getToken(phones, ';');
-            n++;
-        }
-        CommandDef *cmds = new CommandDef[n];
-        n = 0;
-        cmds[n].id      = CmdPhoneLocation;
-        cmds[n].text    = I18N_NOOP("Not available");
-        cmds[n].menu_id = MenuPhoneLocation;
-        phones = getContacts()->owner()->getPhones();
-        bool bActive = false;
-        while (!phones.isEmpty()){
-            n++;
-            QString item = getToken(phones, ';', false);
-            item = getToken(item, '/', false);
-            QString number = getToken(item, ',');
-            getToken(item, ',');
-            unsigned long icon = getToken(item, ',').toULong();
-            cmds[n].id   = CmdPhoneLocation + n;
-            cmds[n].text = "_";
-            cmds[n].menu_id  = MenuPhoneLocation;
-            cmds[n].text_wrk = number;
-            if (!item.isEmpty()){
-                cmds[n].flags = COMMAND_CHECKED;
-                bActive = true;
-            }
-            switch (icon){
-                case PHONE:
-                    cmds[n].icon = "phone";
-                    break;
-                case FAX:
-                    cmds[n].icon = "fax";
-                    break;
-                case CELLULAR:
-                    cmds[n].icon = "cell";
-                    break;
-                case PAGER:
-                    cmds[n].icon = "pager";
-                    break;
-            }
-        }
-        if (!bActive)
-            cmds[0].flags = COMMAND_CHECKED;
-        cmd->param = cmds;
-        cmd->flags |= COMMAND_RECURSIVE;
-        return true;
+        return processCmdPhoneLocation(cmd);
     }
     if (cmd->id == CmdUnread){
-        unsigned long contact_id = 0;
-        if (cmd->menu_id == MenuContact)
-            contact_id = (unsigned long)cmd->param;
-        MAP_COUNT count;
-        MAP_COUNT::iterator itc;
-        CommandDef *def;
-        unsigned n = 0;
-        for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it, n++){
-            if (contact_id && (it->contact != contact_id))
-                continue;
-            msgIndex m;
-            m.contact = it->contact;
-            m.type    = it->type;
-            itc = count.find(m);
-            if (itc == count.end()){
-                msgCount c;
-                c.index = n;
-                c.count = 1;
-                count.insert(MAP_COUNT::value_type(m, c));
-            }else{
-                msgCount &c = (*itc).second;
-                c.index = n;
-                c.count++;
-            }
-        }
-        if (count.empty())
-            return false;
-        CommandDef *cmds = new CommandDef[count.size() + 1];
-        n = 0;
-        for (itc = count.begin(); itc != count.end(); ++itc, n++){
-            cmds[n].id = CmdUnread + (*itc).second.index;
-            def = messageTypes.find((*itc).first.type);
-            if (def == NULL)
-                continue;
-            MessageDef *mdef = (MessageDef*)(def->param);
-            cmds[n].icon = def->icon;
-            QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
-            if(msg.isEmpty()) 
-            {
-                log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %lu",
-                        qPrintable(def->text), def->id);
-                int cnt = (*itc).second.count;
-                msg = QString("%1").arg(cnt);
-            }
-            if ((*itc).second.count == 1){
-                int n = msg.indexOf("1 ");
-                if (n == 0){
-                    msg = msg.left(1).toUpper() + msg.mid(1);
-                }else{
-                    msg = msg.left(n - 1);
-                }
-            }
-            if (contact_id == 0){
-                Contact *contact = getContacts()->contact((*itc).first.contact);
-                if (contact == NULL)
-                    continue;
-                msg = i18n("%1 from %2")
-                    .arg(msg)
-                    .arg(contact->getName());
-            }
-            cmds[n].text_wrk = msg;
-            cmds[n].text = "_";
-        }
-        cmd->param = cmds;
-        cmd->flags |= COMMAND_RECURSIVE;
-        return true;
+        return processCmdUnread(cmd);
     }
     if (cmd->id == CmdSendSMS){
-        cmd->flags &= COMMAND_CHECKED;
-        for (unsigned i = 0; i < getContacts()->nClients(); i++){
-            Client *client = getContacts()->getClient(i);
-            if (client->canSend(MessageSMS, NULL))
-                return true;
-        }
-        return false;
+        return processCmdSendSMS(cmd);
     }
     if (cmd->id == CmdShowPanel){
-        cmd->flags &= ~COMMAND_CHECKED;
-        if (m_statusWnd)
-            cmd->flags |= COMMAND_CHECKED;
-        return true;
+        return processCmdShowPanel(cmd);
     }
     if ((cmd->id == CmdContainer) && (cmd->menu_id == MenuContact)){
         if (getContainerMode() && getContainerMode() != 3)
@@ -2097,14 +2163,7 @@ bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
         return false;
     }
     if (cmd->id == CmdCommonStatus){
-        unsigned n = cmd->menu_id - CmdClient;
-        if (n >= getContacts()->nClients())
-            return false;
-        Client *client = getContacts()->getClient(n);
-        cmd->flags &= ~COMMAND_CHECKED;
-        if (client->getCommonStatus())
-            cmd->flags |= COMMAND_CHECKED;
-        return true;
+        return processCmdCommonStatus(cmd);
     }
     if (cmd->id == CmdTitle) {
         if (cmd->param && adjustClientItem(cmd->menu_id, cmd))

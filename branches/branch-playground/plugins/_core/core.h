@@ -282,6 +282,24 @@ private:
     bool processEventCommandExec(SIM::Event* e);
     bool processEventGoURL(SIM::Event* e);
 
+    bool processCmdChangeEncoding(SIM::CommandDef* cmd);
+    bool processCmdAllEncodings(SIM::CommandDef* cmd);
+    bool processCmdEnableSpell(SIM::CommandDef* cmd);
+    bool processCmdSendClose(SIM::CommandDef* cmd);
+    bool processCmdContactClients(SIM::CommandDef* cmd);
+
+    bool processMenuContainer(SIM::CommandDef* cmd);
+    bool processMenuMessage(SIM::CommandDef* cmd);
+    bool processMenuMsgCommand(SIM::CommandDef* cmd);
+    bool processCmdPhoneLocation(SIM::CommandDef* cmd);
+    bool processCmdUnread(SIM::CommandDef* cmd);
+    bool processCmdSendSMS(SIM::CommandDef* cmd);
+    bool processCmdShowPanel(SIM::CommandDef* cmd);
+    bool processCmdCommonStatus(SIM::CommandDef* cmd);
+
+    void createCommand(int id, const QString& text, const QString& icon, int menu_id,
+            int menu_grp, int bar_id, int bar_grp, int flags);
+
     friend class MainWindow;
     friend class UserView;
     friend class UserConfig;
