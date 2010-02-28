@@ -140,7 +140,7 @@ protected:
 #   endif // CORE_EXPORTS
 #endif // CORE_EXPORT
 
-class CORE_EXPORT CorePlugin : public QObject/*  , public SIM::PropertyHub*/, public SIM::Plugin, public SIM::EventReceiver
+class CORE_EXPORT CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -171,6 +171,9 @@ public:
     SIM::PropertyHubPtr propertyHub();
     QVariant value(const QString& key);
     void setValue(const QString& key, const QVariant& v);
+
+    void changeClientStatus(SIM::Client* client, const SIM::IMStatusPtr& status);
+
 signals:
     void modeChanged(int);
 protected slots:

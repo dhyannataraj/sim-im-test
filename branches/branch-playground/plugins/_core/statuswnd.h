@@ -38,16 +38,24 @@ class StatusLabel : public QLabel
     Q_OBJECT
 public:
     StatusLabel(QWidget *parent, SIM::Client *client, unsigned id);
+
 protected slots:
     void timeout();
+
 protected:
     void mousePressEvent(QMouseEvent *e);
+
+private:
     void setPict();
-    QTimer			*m_timer;
+    void fillStatusMenu(QMenu& menu);
+    void startBlinkTimer();
+    void stopBlinkTimer();
+    QTimer			*m_blinkTimer;
     SIM::Client		*m_client;
     unsigned		m_id;
     bool			m_bBlink;
     friend class StatusFrame;
+
 };
 
 class StatusFrame : public QFrame, public SIM::EventReceiver

@@ -559,6 +559,14 @@ void SnacIcqService::setInvisible()
         m_client->sendInvisible(true);
 }
 
+void SnacIcqService::sendStatus(unsigned long statuscode)
+{
+    snac(ICQ_SNACxSRV_SETxSTATUS);
+    m_client->socket()->writeBuffer().tlv(0x0006, statuscode);
+    m_client->sendPacket(true);
+    sendIdleTime();
+}
+
 void SnacIcqService::sendStatus()
 {
 	log(L_DEBUG, "SnacIcqService::sendStatus");

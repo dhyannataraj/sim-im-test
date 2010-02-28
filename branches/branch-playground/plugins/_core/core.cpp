@@ -843,6 +843,19 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
 	}
 }
 
+void CorePlugin::changeClientStatus(SIM::Client* client, const SIM::IMStatusPtr& status)
+{
+    if (status->hasText()) {
+        bool noShow = propertyHub()->value("NoShowAutoReply" + status->id()).toBool();
+        if (!noShow) {
+            AutoReplyDialog dlg(status);
+            if (!dlg.exec())
+                return;
+        }
+    }
+    client->changeStatus(status);
+}
+
 static const char *helpList[] =
 {
 	"&IP;",
@@ -969,13 +982,11 @@ bool CorePlugin::processEventARRequest(SIM::Event* e)
     ARRequest *r = ear->request();
     SIM::PropertyHubPtr ar;
     QString tmpl;
-    if (r->contact)
-    {
+    if (r->contact) {
         ar = r->contact->getUserData()->getUserData("AR");
         if (ar)
             tmpl = ar->stringMapValue("AutoReply", r->status);
-        if (tmpl.isEmpty())
-        {
+        if (tmpl.isEmpty()) {
             ar.clear();
             Group *grp = getContacts()->group(r->contact->getGroup());
             if (grp)
@@ -984,7 +995,7 @@ bool CorePlugin::processEventARRequest(SIM::Event* e)
                 tmpl = ar->stringMapValue("AutoReply", r->status);
         }
     }
-    if (tmpl.isEmpty()){
+    if (tmpl.isEmpty()) {
         ar = getContacts()->getUserData("AR");
         tmpl = ar->stringMapValue("AutoReply", r->status);
         if (tmpl.isEmpty())
@@ -2413,7 +2424,7 @@ bool CorePlugin::processExecCmdSeparate(SIM::CommandDef* cmd)
     return true;
 }
 
-bool CorePlugin::processExecCmdSendSMS(SIM::CommandDef* cmd)
+bool CorePlugin::processExecCmdSendSMS(SIM::CommandDef* /*cmd*/)
 {
     Contact *contact = getContacts()->contact(0, true);
     contact->setFlags(CONTACT_TEMP);
@@ -2488,7 +2499,7 @@ bool CorePlugin::processExecCmdConfigure(SIM::CommandDef* cmd)
     return true;
 }
 
-bool CorePlugin::processExecCmdSearch(SIM::CommandDef* cmd)
+bool CorePlugin::processExecCmdSearch(SIM::CommandDef* /*cmd*/)
 {
     if (m_search == NULL){
         m_search = new SearchDialog;
@@ -2557,7 +2568,7 @@ bool CorePlugin::processExecCmdSetup(SIM::CommandDef* cmd)
     return true;
 }
 
-bool CorePlugin::processExecCmdPhoneBook(SIM::CommandDef* cmd)
+bool CorePlugin::processExecCmdPhoneBook(SIM::CommandDef* /*cmd*/)
 {
     if (m_cfg == NULL){
         m_cfg = new ConfigDlg::ConfigureDialog;

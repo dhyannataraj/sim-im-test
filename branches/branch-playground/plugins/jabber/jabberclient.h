@@ -404,6 +404,8 @@ public:
     // reimplement socket() to get correct Buffer
     virtual JabberClientSocket *socket() { return static_cast<JabberClientSocket*>(TCPClient::socket()); }
     virtual JabberClientSocket *createClientSocket() { return new JabberClientSocket(this, createSocket()); }
+
+    virtual void changeStatus(const SIM::IMStatusPtr& status);
     
     JabberUserData* toJabberUserData(SIM::clientData *); // More safely type conversion from generic SIM::clientData into JabberUserData
 protected slots:

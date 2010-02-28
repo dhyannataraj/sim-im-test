@@ -1,9 +1,10 @@
 
 #include "icqstatus.h"
 
-ICQStatus::ICQStatus(const QString& id, const QString& name, const QString& defaultText, const QIcon& icon) : IMStatus(),
+ICQStatus::ICQStatus(const QString& id, const QString& name, bool hasText, const QString& defaultText, const QIcon& icon) : IMStatus(),
     m_id(id),
     m_name(name),
+    m_hasText(hasText),
     m_text(defaultText),
     m_icon(icon)
 {
@@ -23,6 +24,11 @@ QString ICQStatus::name() const
     return m_name;
 }
 
+void ICQStatus::setText(const QString& t)
+{
+    m_text = t;
+}
+
 QString ICQStatus::text() const
 {
     return m_text;
@@ -38,9 +44,19 @@ QStringList ICQStatus::substatuses()
     return QStringList();
 }
 
-SIM::IMStatus const* ICQStatus::substatus(const QString& id)
+SIM::IMStatusPtr ICQStatus::substatus(const QString& id)
 {
-    return 0;
+    return SIM::IMStatusPtr();
+}
+
+SIM::IMStatusPtr ICQStatus::clone()
+{
+    return SIM::IMStatusPtr(new ICQStatus(m_id, m_name, m_hasText, m_text, m_icon));
+}
+
+bool ICQStatus::hasText() const
+{
+    return m_hasText;
 }
 
 // vim: set expandtab:

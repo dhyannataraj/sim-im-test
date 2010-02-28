@@ -44,7 +44,7 @@ namespace SIM
         virtual Socket *createSocket();
         virtual ClientSocket *createClientSocket();
         void setClientStatus(unsigned status);
-        //void setClientStatus(const IMStatusPtr& status);
+        void setClientStatus(const IMStatusPtr& status);
         unsigned m_logonStatus;
         unsigned m_ip;
         QTimer *m_timer;

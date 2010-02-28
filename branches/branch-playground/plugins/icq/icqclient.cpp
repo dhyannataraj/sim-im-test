@@ -568,6 +568,49 @@ void ICQClient::setStatus(unsigned status, bool bCommon)
     TCPClient::setStatus(status, bCommon);
 }
 
+void ICQClient::changeStatus(const SIM::IMStatusPtr& status)
+{
+    if (status->id() == "offline")
+    {
+        flap(ICQ_CHNxCLOSE);
+        return;
+    }
+    if (m_bAIM)
+    {
+        if (status->id() == "online")
+        {
+            IMStatusPtr newstatus = protocol()->status("away");
+            // TODO obtain AR
+
+            /*
+            ar_request req;
+            req.bDirect = true;
+            arRequests.push_back(req);
+
+            ARRequest ar;
+            ar.contact  = NULL;
+            ar.param    = &arRequests.back();
+            ar.receiver = this;
+            ar.status   = status;
+            EventARRequest(&ar).process();
+            EventClientChanged(this).process();
+            */
+        }
+        else if (m_status != STATUS_ONLINE)
+        {
+            setAwayMessage();
+        }
+    }
+    else
+    {
+        if (status->id() == currentStatus()->id())
+            return;
+
+        snacService()->sendStatus(fullStatus(status));
+    }
+    TCPClient::changeStatus(status);
+}
+
 void ICQClient::setStatus(unsigned status)
 {
     if (status == STATUS_OFFLINE)
@@ -582,6 +625,10 @@ void ICQClient::setStatus(unsigned status)
             m_status = STATUS_AWAY;
 
             ar_request req;
+            req.type = 0;
+            req.flags = 0;
+            req.ack = 0;
+            req.id1 = req.id2 = 0;
             req.bDirect = true;
             arRequests.push_back(req);
 
@@ -622,6 +669,7 @@ void ICQClient::setInvisible(bool bState)
 
 void ICQClient::disconnected()
 {
+    TCPClient::changeStatus(protocol()->status("offline"));
     m_rates.clear();
     m_rate_grp.clear();
     snacICBM()->getSendTimer()->stop();
@@ -903,6 +951,41 @@ unsigned long ICQClient::getFullStatus()
 	return fullStatus(m_status);
 }
 
+unsigned long ICQClient::fullStatus(const SIM::IMStatusPtr& status)
+{
+    unsigned long code = 0;
+    if(status->id() == "online")
+        code = ICQ_STATUS_ONLINE;
+    else if(status->id() == "away")
+        code = ICQ_STATUS_AWAY;
+    else if(status->id() == "n/a")
+        code = ICQ_STATUS_AWAY | ICQ_STATUS_NA;
+    else if(status->id() == "occupied")
+        code = ICQ_STATUS_AWAY | ICQ_STATUS_OCCUPIED;
+    else if(status->id() == "dnd")
+        code = ICQ_STATUS_AWAY | ICQ_STATUS_DND | ICQ_STATUS_OCCUPIED;
+    else if(status->id() == "free_for_chat")
+        code = ICQ_STATUS_FFC;
+
+    if(data.owner.WebAware.toBool())
+        code |= ICQ_STATUS_FxWEBxPRESENCE;
+    if (getHideIP())
+        code |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
+    else if (getDirectMode() == 1)
+        code |= ICQ_STATUS_FxDIRECTxLISTED;
+    else if (getDirectMode() == 2)
+        code |= ICQ_STATUS_FxDIRECTxAUTH;
+
+    if (m_bBirthday)
+        code |= ICQ_STATUS_FxBIRTHDAY;
+    if (getInvisible())
+    {
+        code |= ICQ_STATUS_FxPRIVATE | ICQ_STATUS_FxHIDExIP;
+        code &= ~(ICQ_STATUS_FxDIRECTxLISTED | ICQ_STATUS_FxDIRECTxAUTH);
+    }
+    return code;
+}
+
 unsigned long ICQClient::fullStatus(unsigned s)
 {
     unsigned long status = 0;
@@ -985,7 +1068,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
         ClientDataIterator it(contact->clientData, this);
         while ((data = toICQUserData(++it)) != NULL)
         {
-            if (uin && data->Uin.toULong() != uin || uin == 0 && s != data->Screen.str())
+            if (uin && data->Uin.toULong() != uin || (uin == 0 && s != data->Screen.str()))
                 continue;
             bool bChanged = false;
             if (alias)
@@ -1027,7 +1110,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                 ClientDataIterator it(contact->clientData, c);
                 while ((data = toICQUserData(++it)) != NULL)
                 {
-                    if (uin && data->Uin.toULong() != uin || uin == 0 && s != data->Screen.str())
+                    if (uin && data->Uin.toULong() != uin || (uin == 0 && s != data->Screen.str()))
                         continue;
                     data = toICQUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                     data->Uin.asULong() = uin;
@@ -1260,7 +1343,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     }
     if (icons)
     {
-        if (iconStatus != STATUS_ONLINE && iconStatus != STATUS_OFFLINE && client_status & ICQ_STATUS_FxPRIVATE || data->bInvisible.toBool())
+        if ((iconStatus != STATUS_ONLINE && iconStatus != STATUS_OFFLINE && client_status & ICQ_STATUS_FxPRIVATE) || data->bInvisible.toBool())
             addIcon(icons, "ICQ_invisible", statusIcon);
 		if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) {
 			QDate today=QDate::currentDate();

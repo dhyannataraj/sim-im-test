@@ -59,13 +59,13 @@ JabberProtocol::~JabberProtocol()
 
 void JabberProtocol::initStatuses()
 {
-    addStatus(JabberStatusPtr(new JabberStatus("online", "Online", "", Icon("Jabber_online"))));
-    addStatus(JabberStatusPtr(new JabberStatus("away", "Away", "", Icon("Jabber_away"))));
-    addStatus(JabberStatusPtr(new JabberStatus("n/a", "N/A", "", Icon("Jabber_na"))));
-    addStatus(JabberStatusPtr(new JabberStatus("dnd", "Do not disturb", "", Icon("Jabber_dnd"))));
-    addStatus(JabberStatusPtr(new JabberStatus("occupied", "Occupied", "", Icon("Jabber_occupied"))));
-    addStatus(JabberStatusPtr(new JabberStatus("free_for_chat", "Free for chat", "", Icon("Jabber_ffc"))));
-    addStatus(JabberStatusPtr(new JabberStatus("offline", "Offline", "", Icon("Jabber_offline"))));
+    addStatus(JabberStatusPtr(new JabberStatus("online", "Online", true, "", Icon("Jabber_online"), QString::null, QString::null)));
+    addStatus(JabberStatusPtr(new JabberStatus("away", "Away", true, "", Icon("Jabber_away"), "away", QString::null)));
+    addStatus(JabberStatusPtr(new JabberStatus("n/a", "N/A", true, "", Icon("Jabber_na"), "xa", QString::null)));
+    addStatus(JabberStatusPtr(new JabberStatus("dnd", "Do not disturb", true, "", Icon("Jabber_dnd"), "dnd", QString::null)));
+    addStatus(JabberStatusPtr(new JabberStatus("occupied", "Occupied", true, "", Icon("Jabber_occupied"), "occupied", QString::null)));
+    addStatus(JabberStatusPtr(new JabberStatus("free_for_chat", "Free for chat", true, "", Icon("Jabber_ffc"), "chat", QString::null)));
+    addStatus(JabberStatusPtr(new JabberStatus("offline", "Offline", true, "", Icon("Jabber_offline"), QString::null, "unavailable")));
 }
 
 void JabberProtocol::addStatus(JabberStatusPtr status)

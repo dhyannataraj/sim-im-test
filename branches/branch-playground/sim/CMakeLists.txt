@@ -32,6 +32,7 @@ SET(sim_LIB_SRCS
 		sax.cpp
 		simfs.cpp
 		translit.cpp
+		templateengine.cpp
 		unquot.cpp
 		xsl.cpp
 		qzip/ioapi.c
@@ -49,6 +50,7 @@ SET(sim_LIB_SRCS
 		contacts/protocolmanager.cpp
 		contacts/client.cpp
 		contacts/imstatus.cpp
+		contacts/invalidstatus.cpp
 		socket/socket.cpp
 		socket/serversocketnotify.cpp
 		socket/serversocket.cpp
@@ -106,6 +108,7 @@ SET(sim_LIB_HDRS
 		simfs.h
 		singleton.h
 		translit.h
+		templateengine.h
 		unquot.h
 		xsl.h
 		qzip/ioapi.h
@@ -124,6 +127,7 @@ SET(sim_LIB_HDRS
 		contacts/protocolmanager.h
 		contacts/client.h
 		contacts/imstatus.h
+		contacts/invalidstatus.h
 		socket/socket.h
 		socket/socketnotify.h
 		socket/serversocketnotify.h

@@ -75,13 +75,13 @@ QStringList ICQProtocol::statuses()
 void ICQProtocol::initStatuses()
 {
     m_statuses.clear();
-    addStatus(ICQStatusPtr(new ICQStatus("online", "Online", "", Icon("ICQ_online"))));
-	addStatus(ICQStatusPtr(new ICQStatus("away", "Away", "", Icon("ICQ_away"))));
-	addStatus(ICQStatusPtr(new ICQStatus("n/a", "N/A", "", Icon("ICQ_na"))));
-	addStatus(ICQStatusPtr(new ICQStatus("dnd", "Do not disturb", "", Icon("ICQ_dnd"))));
-	addStatus(ICQStatusPtr(new ICQStatus("occupied", "Occupied", "", Icon("ICQ_occupied"))));
-	addStatus(ICQStatusPtr(new ICQStatus("free_for_chat", "Free for chat", "", Icon("ICQ_ffc"))));
-	addStatus(ICQStatusPtr(new ICQStatus("offline", "Offline", "", Icon("ICQ_offline"))));
+    addStatus(ICQStatusPtr(new ICQStatus("online", "Online", true, "", Icon("ICQ_online"))));
+    addStatus(ICQStatusPtr(new ICQStatus("away", "Away", true, "", Icon("ICQ_away"))));
+    addStatus(ICQStatusPtr(new ICQStatus("n/a", "N/A", true, "", Icon("ICQ_na"))));
+    addStatus(ICQStatusPtr(new ICQStatus("dnd", "Do not disturb", true, "", Icon("ICQ_dnd"))));
+	addStatus(ICQStatusPtr(new ICQStatus("occupied", "Occupied", true, "", Icon("ICQ_occupied"))));
+	addStatus(ICQStatusPtr(new ICQStatus("free_for_chat", "Free for chat", true, "", Icon("ICQ_ffc"))));
+    addStatus(ICQStatusPtr(new ICQStatus("offline", "Offline", true, "", Icon("ICQ_offline"))));
 }
 
 void ICQProtocol::addStatus(ICQStatusPtr status)

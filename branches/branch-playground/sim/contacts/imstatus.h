@@ -9,21 +9,25 @@
 
 namespace SIM
 {
-	class EXPORT IMStatus
-	{
-	public:
-		IMStatus();
-		virtual ~IMStatus();
-
-		virtual QString id() const = 0;
-        virtual QString name() const = 0;
-		virtual QString text() const = 0;
-		virtual QIcon icon() const = 0;
-        virtual QStringList substatuses() = 0;
-        virtual IMStatus const* substatus(const QString& id) = 0;
-	};
-
+    class EXPORT IMStatus;
     typedef QSharedPointer<IMStatus> IMStatusPtr;
+    class EXPORT IMStatus
+    {
+    public:
+        IMStatus();
+        virtual ~IMStatus();
+
+        virtual QString id() const = 0;
+        virtual QString name() const = 0;
+        virtual bool hasText() const = 0;
+        virtual void setText(const QString& t) = 0;
+        virtual QString text() const = 0;
+        virtual QIcon icon() const = 0;
+
+        virtual QStringList substatuses() = 0;
+        virtual IMStatusPtr substatus(const QString& id) = 0;
+        virtual IMStatusPtr clone() = 0;
+    };
 }
 
 #endif

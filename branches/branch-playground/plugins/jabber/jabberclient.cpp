@@ -176,6 +176,8 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg) : TCPClient(pr
         data.owner.Resource.str() = resource.simplified();
     }
 
+    TCPClient::changeStatus(this->protocol()->status("offline"));
+
     QString listRequests = getListRequest();
     while (!listRequests.isEmpty()){
         QString item = getToken(listRequests, ';', false);
@@ -198,7 +200,8 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg) : TCPClient(pr
 
 JabberClient::~JabberClient()
 {
-    TCPClient::setStatus(STATUS_OFFLINE, false);
+    TCPClient::changeStatus(this->protocol()->status("offline"));
+    //TCPClient::setStatus(STATUS_OFFLINE, false);
     free_data(jabberClientData, &data);
     freeData();
 }
@@ -535,6 +538,70 @@ bool JabberClient::processEvent(Event *e)
     return false;
 }
 
+void JabberClient::changeStatus(const SIM::IMStatusPtr& status)
+{
+    QDateTime now = QDateTime::currentDateTime();
+    data.owner.StatusTime.asULong() = now.toTime_t();
+    if (currentStatus()->id() == "offline")
+        data.owner.OnlineTime.asULong() = now.toTime_t();
+    TCPClient::changeStatus(status);
+    QSharedPointer<JabberStatus> jabberstatus = status.dynamicCast<JabberStatus>();
+    socket()->writeBuffer().packetStart();
+    QString priority = QString::number(getPriority());
+    QString show = jabberstatus->show();
+    QString type = jabberstatus->type();
+
+    if (getInvisible()) {
+        type = "invisible";
+    }
+    socket()->writeBuffer() << "<presence";
+    if (!type.isEmpty())
+        socket()->writeBuffer() << " type=\'" << type << "\'";
+    socket()->writeBuffer() << ">\n";
+    if (!show.isEmpty())
+        socket()->writeBuffer() << "<show>" << show << "</show>\n";
+    if (!status->text().isEmpty())
+        socket()->writeBuffer() << "<status>" << status->text() << "</status>\n";
+    if (!priority.isEmpty())
+        socket()->writeBuffer() << "<priority>" << priority << "</priority>\n";
+    socket()->writeBuffer() << "</presence>";
+    sendPacket();
+    EventClientChanged(this).process();
+    if (status->id() == "offline") {
+        if (socket()){
+            socket()->writeBuffer().packetStart();
+            socket()->writeBuffer()
+                    << "</stream:stream>\n";
+            sendPacket();
+        }
+        // TODO
+        /*
+        Contact *contact;
+        ContactList::ContactIterator it;
+        QDateTime now(QDateTime::currentDateTime());
+        data.owner.StatusTime.asULong() = now.toTime_t();
+        while ((contact = ++it) != NULL) {
+            JabberUserData *data;
+            ClientDataIterator it(contact->clientData, this);
+            while ((data = toJabberUserData(++it)) != NULL){
+                if (data->Status.toULong() == STATUS_OFFLINE)
+                    continue;
+                data->StatusTime.asULong() = now.toTime_t();
+                setOffline(data);
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data));
+                m->setFlags(MESSAGE_RECEIVED);
+                m->setStatus(STATUS_OFFLINE);
+                EventMessageReceived e(m);
+                if(!e.process())
+                    delete m;
+            }
+        }
+        */
+    }
+}
+
 void JabberClient::setStatus(unsigned status)
 {
     if (getInvisible() && (status != STATUS_OFFLINE))
@@ -556,7 +623,7 @@ void JabberClient::setStatus(unsigned status)
 
 void JabberClient::setStatus(unsigned status, const QString &ar)
 {
-    if (status  != m_status){
+    if (status  != m_status) {
         QDateTime now = QDateTime::currentDateTime();
         data.owner.StatusTime.asULong() = now.toTime_t();
         if (m_status == STATUS_OFFLINE)

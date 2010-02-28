@@ -6,6 +6,7 @@
 #include "group.h"
 #include "misc.h"
 #include "contacts/contact.h"
+#include "contacts/invalidstatus.h"
 
 namespace SIM
 {
@@ -26,6 +27,7 @@ namespace SIM
         m_protocol = protocol;
         m_status = STATUS_OFFLINE;
         m_state  = Offline;
+        m_currentStatus = IMStatusPtr(new InvalidStatus());
     }
 
     SIM_DEPRECATED Client::Client(Protocol *protocol, Buffer *cfg)
@@ -33,6 +35,7 @@ namespace SIM
         if(cfg)
             load_data(_clientData, &data, cfg);
         
+        m_currentStatus = IMStatusPtr(new InvalidStatus());
         m_data = PropertyHub::create();
 
         // now uncrypt password somehow
@@ -68,8 +71,9 @@ namespace SIM
         freeData();
     }
 
-    void Client::changeStatus(const IMStatusPtr& /*status*/)
+    void Client::changeStatus(const IMStatusPtr& status)
     {
+        m_currentStatus = status;
         EventClientChanged(this).process();
     }
 

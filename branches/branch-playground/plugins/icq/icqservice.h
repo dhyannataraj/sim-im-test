@@ -25,6 +25,7 @@ public:
 	void sendClientReady();
 	void sendLogonStatus();
 	void setInvisible();
+    void sendStatus(unsigned long statuscode);
 	void sendStatus();
 	void sendUpdate();
 	void sendPluginInfoUpdate(unsigned plugin_id);

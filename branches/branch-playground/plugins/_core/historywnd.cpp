@@ -66,9 +66,9 @@ protected:
 
 HistoryProgressBar::HistoryProgressBar(QWidget *parent)
 : QWidget(parent)
+, m_bar		(new QProgressBar(this))
 , m_lay     (new QHBoxLayout(this))
 , m_label	(new QLabel(i18n("Loading"), this))
-, m_bar		(new QProgressBar(this))
 {
     m_lay->setSpacing(4);
     m_lay->addSpacing(4);
@@ -87,13 +87,13 @@ void HistoryProgressBar::setProgress(unsigned n)
 }
 
 HistoryWindow::HistoryWindow(unsigned long id)
-: m_avatar_bar(NULL)
-, m_id(id)
+: m_status(statusBar())
 , m_view(new MsgViewBase(this, NULL, id))
-, m_status(statusBar())
+, m_avatar_bar(NULL)
 , m_progress(NULL)
-, m_page(0)
 , m_it(NULL)
+, m_id(id)
+, m_page(0)
 
 {
     m_history_page_count=CorePlugin::instance()->value("HistoryPage").toUInt();

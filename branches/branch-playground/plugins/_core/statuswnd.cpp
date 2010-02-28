@@ -50,81 +50,66 @@ StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
     m_client = client;
     m_bBlink = false;
     m_id = id;
-    m_timer = NULL;
+    m_blinkTimer = NULL;
     setPict();
+}
+
+void StatusLabel::startBlinkTimer()
+{
+    if (m_blinkTimer == NULL) {
+        m_blinkTimer = new QTimer(this);
+        connect(m_blinkTimer, SIGNAL(timeout()), this, SLOT(timeout()));
+        m_blinkTimer->start(1000);
+        m_bBlink = false;
+    }
+}
+
+void StatusLabel::stopBlinkTimer()
+{
+    if (m_blinkTimer) {
+        delete m_blinkTimer;
+        m_blinkTimer = NULL;
+    }
 }
 
 void StatusLabel::setPict()
 {
-    QString icon;
+    QIcon icon;
     QString text;
-    if (m_client->getState() == Client::Connecting){
-        if (getSocketFactory()->isActive()){
-            if (m_timer == NULL){
-                m_timer = new QTimer(this);
-                connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
-                m_timer->start(1000);
-                m_bBlink = false;
-            }
-            Protocol *protocol = m_client->protocol();
+    if (m_client->getState() == Client::Connecting) {
+        if (getSocketFactory()->isActive()) {
+            IMStatusPtr status;
+            startBlinkTimer();
             text = I18N_NOOP("Connecting");
-            unsigned status;
-            if (m_bBlink){
-                icon = "online";
-                status = m_client->getManualStatus();
-            }else{
-                icon = "offline";
-                status = STATUS_OFFLINE;
-            }
-            if (protocol){
-                for (const CommandDef *cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
-                    if (cmd->id == status){
-                        icon = cmd->icon;
-                        break;
-                    }
+            if(m_client->protocol()) {
+                if (m_bBlink) {
+                    status = m_client->currentStatus();
+                } else {
+                    status = m_client->protocol()->status("offline");
                 }
+                icon = status->icon();
+            } else {
+                icon = m_bBlink ? Icon("online") : Icon("offline");
             }
-        }else{
-            if (m_timer){
-                delete m_timer;
-                m_timer = NULL;
-            }
-
-            Protocol *protocol = m_client->protocol();
-            const CommandDef *cmd = protocol->description();
-            icon = cmd->icon;
-            int n = icon.indexOf('_');
-            if (n > 0)
-                icon = icon.left(n);
-            icon += "_inactive";
+        } else {
+            stopBlinkTimer();
+            // TODO retreive appropriate icon
+            icon = Icon("inactive");
             text = I18N_NOOP("Inactive");
         }
     }
     else
     {
-        if (m_timer)
-        {
-            delete m_timer;
-            m_timer = NULL;
-        }
-        if (m_client->getState() == Client::Error){
-            icon = "error";
+        stopBlinkTimer();
+        if (m_client->getState() == Client::Error) {
+            icon = Icon("error");
             text = I18N_NOOP("Error");
-        }else{
-            Protocol *protocol = m_client->protocol();
-            const CommandDef *cmd = protocol->description();
-            icon = cmd->icon;
-            text = cmd->text;
-            for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
-                if (cmd->id == m_client->getStatus()){
-                    icon = cmd->icon;
-                    text = cmd->text;
-                    break;
-                }
-            }
+        } else {
+            icon = m_client->currentStatus()->icon();
+            text = m_client->currentStatus()->name();
         }
     }
-    QPixmap p = Pict(icon);
+    QPixmap p = icon.pixmap(size());
     setPixmap(p);
     QString tip = CorePlugin::instance()->clientName(m_client);
     tip += '\n';
@@ -140,21 +125,35 @@ void StatusLabel::timeout()
     setPict();
 }
 
+void StatusLabel::fillStatusMenu(QMenu& menu)
+{
+    menu.clear();
+    menu.setTitle(m_client->name());
+    QStringList statusNames = m_client->protocol()->statuses();
+    foreach(const QString& statusId, statusNames) {
+        IMStatusPtr status = m_client->protocol()->status(statusId);
+        QAction* action = menu.addAction(status->icon(), status->name());
+        action->setProperty("status_id", status->id());
+    }
+}
+
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
     if(me->button() == Qt::RightButton)
     {
-        QMenu statusMenu(m_client->name());
-        QStringList statusNames = m_client->protocol()->statuses();
-        log(L_DEBUG, "Client: %016x, name: %s", m_client, qPrintable(m_client->name()));
-        foreach(const QString& statusId, statusNames) {
-            IMStatusPtr status = m_client->protocol()->status(statusId);
-            QAction* action = statusMenu.addAction(status->icon(), status->name());
-            log(L_DEBUG, "Adding status: %s", qPrintable(status->name()));
-            action->setProperty("status_id", status->id());
-        }
+        QMenu statusMenu;
+        fillStatusMenu(statusMenu);
         if(!statusMenu.isEmpty()) {
-            statusMenu.exec(CToolButton::popupPos(this, &statusMenu));
+            QAction* action = statusMenu.exec(CToolButton::popupPos(this, &statusMenu));
+            if(action) {
+                IMStatusPtr status = m_client->protocol()->status(action->property("status_id").toString());
+                if(!status)
+                {
+                    log(L_WARN, "Invalid status requested: %s (%s)", qPrintable(action->property("status_id").toString()), qPrintable(m_client->name()));
+                    return;
+                }
+                CorePlugin::instance()->changeClientStatus(m_client, status);
+            }
         }
     }
 }

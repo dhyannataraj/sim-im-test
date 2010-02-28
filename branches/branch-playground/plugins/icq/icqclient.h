@@ -608,6 +608,8 @@ public:
     void uploadBuddy(const ICQUserData *data);
     ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 
+    virtual void changeStatus(const SIM::IMStatusPtr& status);
+
     unsigned long getFullStatus();
 
     bool addSnacHandler(SnacHandler* handler);
@@ -632,6 +634,7 @@ public:
     SnacIcqService* snacService() { return m_snacService; }
     SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
     SnacIcqICBM* snacICBM() { return m_snacICBM; }
+
 protected slots:
     void ping();
     void retry(int n, void*);
@@ -689,6 +692,7 @@ protected:
     void removeFullInfoRequest(unsigned long uin);
     class SSBISocket *getSSBISocket();
     unsigned long fullStatus(unsigned status);
+    unsigned long fullStatus(const SIM::IMStatusPtr& status);
     QByteArray cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();

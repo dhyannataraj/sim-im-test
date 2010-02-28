@@ -57,8 +57,50 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     edtAutoResponse->setHelpList(e.helpList());
 }
 
+AutoReplyDialog::AutoReplyDialog(const SIM::IMStatusPtr& status)
+    : QDialog(NULL)
+    , m_time(15)
+    , m_timer(new QTimer(this))
+    , m_imstatus(status)
+{
+    setupUi(this);
+    initIconMap();
+    QString text = status->text();
+    QIcon icon = Icon(statusIcon(status));
+    setWindowTitle(i18n("Autoreply message") + ' ' + i18n(text));
+    setWindowIcon(icon);
+    lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    m_timer->start(1000);
+    SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
+    text = ar->value("AutoReply" + m_imstatus->id()).toString();
+    edtAutoResponse->setText(text);
+    connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
+    connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
+    connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
+    EventTmplHelpList e;
+    e.process();
+    edtAutoResponse->setHelpList(e.helpList());
+}
+
 AutoReplyDialog::~AutoReplyDialog()
 {
+}
+
+void AutoReplyDialog::initIconMap()
+{
+    m_iconmap.insert("online", "SIM_online");
+    m_iconmap.insert("away", "SIM_away");
+    m_iconmap.insert("n/a", "SIM_na");
+    m_iconmap.insert("dnd", "SIM_dnd");
+    m_iconmap.insert("occupied", "SIM_occupied");
+    m_iconmap.insert("free_for_chat", "SIM_ffc");
+    m_iconmap.insert("offline", "SIM_offline");
+}
+
+QString AutoReplyDialog::statusIcon(const SIM::IMStatusPtr& status)
+{
+    return m_iconmap.value(status->id());
 }
 
 bool AutoReplyDialog::loadIconAndIconText(unsigned status, QString &text, QString &icon)
@@ -141,9 +183,12 @@ void AutoReplyDialog::accept()
 {
 	SIM::PropertyHubPtr core = CorePlugin::instance()->propertyHub();
 	core->setStringMapValue("NoShowAutoReply", m_status, chkNoShow->isChecked() ? "1" : "");
+    core->setValue("NoShowAutoReply" + m_imstatus->id(), chkNoShow->isChecked());
 
 	SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
 	ar->setStringMapValue("AutoReply", m_status, edtAutoResponse->toPlainText());
+    core->setValue("AutoReply" + m_imstatus->id(), edtAutoResponse->toPlainText());
+    m_imstatus->setText(edtAutoResponse->toPlainText());
 	QDialog::accept();
 }
 
