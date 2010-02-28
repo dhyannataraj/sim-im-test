@@ -56,6 +56,7 @@ public:
     ~TextShow();
 public slots:
     virtual void setSource(const QString &url);
+    virtual void setSource(const QUrl &url);
     const QColor &background() const;
     const QColor &foreground() const;
     void setForeground(const QColor&);

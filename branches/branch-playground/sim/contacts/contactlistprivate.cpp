@@ -10,9 +10,9 @@
 namespace SIM
 {
     ContactListPrivate::ContactListPrivate()
-		: m_bNoRemove(false)
+        :m_owner(new Contact(0))
+        , m_bNoRemove(false)
 		, m_notInList(new Group(0))
-		, m_owner(new Contact(0))
     {
         groups.push_back(m_notInList);
 	}
@@ -56,7 +56,7 @@ namespace SIM
         return id;
     }
 
-    void ContactListPrivate::unregisterUserData(unsigned id)
+    void ContactListPrivate::unregisterUserData(unsigned /*id*/)
     {
 //        for (std::map<unsigned long, Contact*>::iterator it_c = contacts.begin(); it_c != contacts.end(); ++it_c){
 //            it_c->second->userData.freeUserData(id);

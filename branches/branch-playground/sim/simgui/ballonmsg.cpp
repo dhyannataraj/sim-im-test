@@ -51,14 +51,14 @@ BalloonMsg::BalloonMsg(void *param, const QString &text, QStringList &btn, QWidg
         : QDialog(parent,
                   (bAutoHide ? Qt::Popup : Qt::Window | Qt::WindowStaysOnTopHint)
                   | Qt::FramelessWindowHint | Qt::Tool)
-		, m_param(param)
+        , m_check(NULL)
 		, m_bAutoHide(bAutoHide)
-		, m_bYes(false)
-		, m_bChecked(bChecked)
+        , m_bYes(false)
+        , m_bChecked(bChecked)
+        , m_param(param)
 		, frm(new QFrame(this))
 		, vlay(new QVBoxLayout(frm))
 		, lay(new QHBoxLayout())
-		, m_check(NULL)
 {
     setModal(bModal);
     setAttribute(Qt::WA_DeleteOnClose);

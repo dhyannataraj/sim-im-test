@@ -434,6 +434,11 @@ void TextShow::setURL(const QUrl &url)
     setSource(url.toString());
 }
 
+void TextShow::setSource(const QUrl &url)
+{
+    setSource(url.toString());
+}
+
 void TextShow::setSource(const QString &name)
 {
 #ifndef QT_NO_CURSOR

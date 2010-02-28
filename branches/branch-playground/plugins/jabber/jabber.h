@@ -72,7 +72,7 @@ public:
 private:
     void initStatuses();
     void addStatus(JabberStatusPtr status);
-    QMap<QString, JabberStatusPtr> m_statuses;
+    QList<JabberStatusPtr> m_statuses;
 };
 
 struct JabberData

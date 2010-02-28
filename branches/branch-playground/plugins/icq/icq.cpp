@@ -65,12 +65,17 @@ ClientPtr ICQProtocol::createClient(Buffer *cfg)
 
 QStringList ICQProtocol::statuses()
 {
-	return m_statuses.keys();
+    QStringList list;
+    foreach(const ICQStatusPtr& status, m_statuses) {
+        list.append(status->id());
+    }
+    return list;
 }
 
 void ICQProtocol::initStatuses()
 {
-	addStatus(ICQStatusPtr(new ICQStatus("online", "Online", "", Icon("ICQ_Online"))));
+    m_statuses.clear();
+    addStatus(ICQStatusPtr(new ICQStatus("online", "Online", "", Icon("ICQ_online"))));
 	addStatus(ICQStatusPtr(new ICQStatus("away", "Away", "", Icon("ICQ_away"))));
 	addStatus(ICQStatusPtr(new ICQStatus("n/a", "N/A", "", Icon("ICQ_na"))));
 	addStatus(ICQStatusPtr(new ICQStatus("dnd", "Do not disturb", "", Icon("ICQ_dnd"))));
@@ -81,12 +86,18 @@ void ICQProtocol::initStatuses()
 
 void ICQProtocol::addStatus(ICQStatusPtr status)
 {
-	m_statuses.insert(status->id(), status);
+    m_statuses.append(status);
 }
 
 SIM::IMStatusPtr ICQProtocol::status(const QString& id)
 {
-	return m_statuses.value(id);
+    foreach(const ICQStatusPtr& status, m_statuses) {
+        if(status->id() == id) {
+            return status;
+        }
+    }
+
+    return SIM::IMStatusPtr();
 }
 
 static CommandDef icq_descr =
@@ -246,7 +257,7 @@ QStringList AIMProtocol::statuses()
 	return QStringList();
 }
 
-SIM::IMStatusPtr AIMProtocol::status(const QString& id)
+SIM::IMStatusPtr AIMProtocol::status(const QString& /*id*/)
 {
 	// TODO
 	return SIM::IMStatusPtr();

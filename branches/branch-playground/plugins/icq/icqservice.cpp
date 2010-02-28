@@ -70,7 +70,7 @@ SnacIcqService::~SnacIcqService()
 {
 }
 
-bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned short seq) //seq unused
+bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned short /*seq*/) //seq unused
 {
 	switch (subtype)
 	{

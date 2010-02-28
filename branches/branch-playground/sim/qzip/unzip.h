@@ -46,7 +46,7 @@
 #pragma warning(disable:4131)
 #pragma warning(disable:4100)
 #pragma warning(disable:4245)
-#endif // WIN32
+#endif
 
 #ifndef _unz_H
 #define _unz_H

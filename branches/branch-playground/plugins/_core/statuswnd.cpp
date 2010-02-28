@@ -144,13 +144,17 @@ void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
     if(me->button() == Qt::RightButton)
     {
-        EventMenuProcess eMenu(m_id, (void *)winId());
-        eMenu.process();
-        QMenu *popup = eMenu.menu();
-        if(popup)
-        {
-            QPoint pos = CToolButton::popupPos(this, popup);
-            popup->popup(pos);
+        QMenu statusMenu(m_client->name());
+        QStringList statusNames = m_client->protocol()->statuses();
+        log(L_DEBUG, "Client: %016x, name: %s", m_client, qPrintable(m_client->name()));
+        foreach(const QString& statusId, statusNames) {
+            IMStatusPtr status = m_client->protocol()->status(statusId);
+            QAction* action = statusMenu.addAction(status->icon(), status->name());
+            log(L_DEBUG, "Adding status: %s", qPrintable(status->name()));
+            action->setProperty("status_id", status->id());
+        }
+        if(!statusMenu.isEmpty()) {
+            statusMenu.exec(CToolButton::popupPos(this, &statusMenu));
         }
     }
 }
@@ -192,7 +196,8 @@ bool StatusFrame::processEvent(Event *e)
         }
         break;
     }
-    case eEventCheckCommandState: {
+    case eEventCheckCommandState:
+        {
         EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){

@@ -95,7 +95,7 @@ QString CookieCash::GetCookie( QString domain ){
     return cookie;
 }
 
-QString CookieCash::GetHeader( QString domain ) {
+QString CookieCash::GetHeader( QString /* domain */) {
     QString cookie = GetCookie( "pda.vkontakte.ru" );
     if( !cookie.isEmpty() ) {
         cookie = QString("Cookie: ") + cookie + QString( "\r\n" );
@@ -289,16 +289,16 @@ QString get_user_agent()
     return user_agent;
 }
 
-const char *FetchClient::read_data(char *buf, unsigned &size){ return NULL; }
-bool     FetchClient::write_data(const char *buf, unsigned size){ return false; }
+const char *FetchClient::read_data(char * /*buf */, unsigned& /*size*/){ return NULL; }
+bool     FetchClient::write_data(const char */*buf*/, unsigned /*size*/){ return false; }
 
-void FetchClientPrivate::authenticationRequired ( const QString & hostname, quint16 port, QAuthenticator * authenticator ) {
+void FetchClientPrivate::authenticationRequired ( const QString & /*hostname*/, quint16 /*port*/, QAuthenticator * /*authenticator*/ ) {
 }
 
-void FetchClientPrivate::dataReadProgress ( int done, int total ) {
+void FetchClientPrivate::dataReadProgress ( int /*done*/, int /*total*/ ) {
 }
 
-void FetchClientPrivate::dataSendProgress( int done, int total ) {
+void FetchClientPrivate::dataSendProgress( int/* done*/, int /*total*/ ) {
 }
 
 void FetchClientPrivate::done(bool error ) {
@@ -347,25 +347,25 @@ void FetchClientPrivate::done(bool error ) {
     m_bDone = true;
 }
 
-void FetchClientPrivate::proxyAuthenticationRequired( const QNetworkProxy & proxy, QAuthenticator * authenticator ) {
+void FetchClientPrivate::proxyAuthenticationRequired( const QNetworkProxy & /*proxy*/, QAuthenticator * /*authenticator*/ ) {
 }
 
-void FetchClientPrivate::readyRead( const QHttpResponseHeader &resp ) {
+void FetchClientPrivate::readyRead( const QHttpResponseHeader &/*resp*/ ) {
 }
 
-void FetchClientPrivate::requestFinished( int id, bool error ) {
+void FetchClientPrivate::requestFinished( int /*id*/, bool /*error*/ ) {
 }
 
-void FetchClientPrivate::requestStarted( int id ) {
+void FetchClientPrivate::requestStarted( int /*id */) {
 }
 
 void FetchClientPrivate::responseHeaderReceived( const QHttpResponseHeader & resp ) {
     m_Response = resp;
 }
 
-void FetchClientPrivate::sslErrors( const QList<QSslError> & errors ) {
+void FetchClientPrivate::sslErrors( const QList<QSslError> & /*errors*/ ) {
 }
 
-void FetchClientPrivate::stateChanged( int state ) {
+void FetchClientPrivate::stateChanged( int /*state*/ ) {
 }
 

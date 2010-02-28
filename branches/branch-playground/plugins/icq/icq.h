@@ -57,7 +57,7 @@ public:
 private:
 	void initStatuses();
 	void addStatus(ICQStatusPtr status);
-	QMap<QString, ICQStatusPtr> m_statuses;
+    QList<ICQStatusPtr> m_statuses;
 };
 
 class AIMProtocol : public SIM::Protocol

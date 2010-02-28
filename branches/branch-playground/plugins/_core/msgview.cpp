@@ -525,6 +525,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     return res;
 }
 
+void MsgViewBase::setSource(const QUrl& url)
+{
+    setSource(url.toString());
+}
+
 void MsgViewBase::setSource(const QString &url)
 {
     QString proto;
@@ -552,7 +557,7 @@ void MsgViewBase::setSource(const QString &url)
 // <hack>
 // We have to use this function since Qt has no tag to set background color per-paragraph
 // from within HTML. See matching hack in MsgViewBase::messageText.
-void MsgViewBase::setBackground(unsigned n)
+void MsgViewBase::setBackground(unsigned /*n*/)
 {
 /*
     QColor bgcolor;
@@ -611,7 +616,7 @@ void MsgViewBase::setBackground(unsigned n)
 }
 // </hack>
 
-void MsgViewBase::addMessage(Message *msg, bool bUnread, bool bSync)
+void MsgViewBase::addMessage(Message *msg, bool bUnread, bool /*bSync*/)
 {
     unsigned n = document()->blockCount();
     if (n > 0)

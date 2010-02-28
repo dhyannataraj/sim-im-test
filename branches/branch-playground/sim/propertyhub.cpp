@@ -248,7 +248,7 @@ namespace SIM
         return value(QString("%1/val%2").arg(mapname).arg(key)).toString();
     }
 
-    void PropertyHub::clearStringMap(const QString& mapname)
+    void PropertyHub::clearStringMap(const QString& /*mapname*/)
     {
        //trallala ;) Implement me
     }

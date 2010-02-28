@@ -68,7 +68,7 @@ namespace SIM
         freeData();
     }
 
-    void Client::changeStatus(const IMStatusPtr& status)
+    void Client::changeStatus(const IMStatusPtr& /*status*/)
     {
         EventClientChanged(this).process();
     }

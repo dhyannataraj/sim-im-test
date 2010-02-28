@@ -91,11 +91,11 @@ namespace SIM
 		return m_rootPath + QDir::separator() + m_currentProfile->name();
 	}
 
-	void ProfileManager::removeProfile(const QString& name)
+    void ProfileManager::removeProfile(const QString& /*name*/)
 	{
 		// TODO
 	}
-	void ProfileManager::renameProfile(const QString& oldname, const QString& newname)
+    void ProfileManager::renameProfile(const QString& /*oldname*/, const QString& /*newname*/)
 	{
 		// TODO
 	}

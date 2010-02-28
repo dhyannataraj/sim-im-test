@@ -282,23 +282,40 @@ private:
     bool processEventCommandExec(SIM::Event* e);
     bool processEventGoURL(SIM::Event* e);
 
-    bool processCmdChangeEncoding(SIM::CommandDef* cmd);
-    bool processCmdAllEncodings(SIM::CommandDef* cmd);
-    bool processCmdEnableSpell(SIM::CommandDef* cmd);
-    bool processCmdSendClose(SIM::CommandDef* cmd);
-    bool processCmdContactClients(SIM::CommandDef* cmd);
+    bool processCheckCmdChangeEncoding(SIM::CommandDef* cmd);
+    bool processCheckCmdAllEncodings(SIM::CommandDef* cmd);
+    bool processCheckCmdEnableSpell(SIM::CommandDef* cmd);
+    bool processCheckCmdSendClose(SIM::CommandDef* cmd);
+    bool processCheckCmdContactClients(SIM::CommandDef* cmd);
+    bool processCheckMenuContainer(SIM::CommandDef* cmd);
+    bool processCheckMenuMessage(SIM::CommandDef* cmd);
+    bool processCheckMenuMsgCommand(SIM::CommandDef* cmd);
+    bool processCheckCmdPhoneLocation(SIM::CommandDef* cmd);
+    bool processCheckCmdUnread(SIM::CommandDef* cmd);
+    bool processCheckCmdSendSMS(SIM::CommandDef* cmd);
+    bool processCheckCmdShowPanel(SIM::CommandDef* cmd);
+    bool processCheckCmdCommonStatus(SIM::CommandDef* cmd);
 
-    bool processMenuContainer(SIM::CommandDef* cmd);
-    bool processMenuMessage(SIM::CommandDef* cmd);
-    bool processMenuMsgCommand(SIM::CommandDef* cmd);
-    bool processCmdPhoneLocation(SIM::CommandDef* cmd);
-    bool processCmdUnread(SIM::CommandDef* cmd);
-    bool processCmdSendSMS(SIM::CommandDef* cmd);
-    bool processCmdShowPanel(SIM::CommandDef* cmd);
-    bool processCmdCommonStatus(SIM::CommandDef* cmd);
+    bool processExecMenuEncoding(SIM::CommandDef* cmd);
+    bool processExecMenuMessage(SIM::CommandDef* cmd);
+    bool processExecMenuMsgCommand(SIM::CommandDef* cmd);
+    bool processExecCmdGrantAuth(SIM::CommandDef* cmd);
+    bool processExecCmdRefuseAuth(SIM::CommandDef* cmd);
+    bool processExecCmdSeparate(SIM::CommandDef* cmd);
+    bool processExecCmdSendSMS(SIM::CommandDef* cmd);
+    bool processExecCmdHistory(SIM::CommandDef* cmd);
+    bool processExecCmdConfigure(SIM::CommandDef* cmd);
+    bool processExecCmdSearch(SIM::CommandDef* cmd);
+    bool processExecMenuPhoneState(SIM::CommandDef* cmd);
+    bool processExecMenuPhoneLocation(SIM::CommandDef* cmd);
+    bool processExecCmdSetup(SIM::CommandDef* cmd);
+    bool processExecCmdPhoneBook(SIM::CommandDef* cmd);
+    bool processExecCmdCommonStatus(SIM::CommandDef* cmd);
+
+    bool processStatusChange(int clientnum, SIM::CommandDef* cmd);
 
     void createCommand(int id, const QString& text, const QString& icon, int menu_id,
-            int menu_grp, int bar_id, int bar_grp, int flags);
+            int menu_grp, int bar_id, int bar_grp, int flags, const QString& accel);
 
     friend class MainWindow;
     friend class UserView;

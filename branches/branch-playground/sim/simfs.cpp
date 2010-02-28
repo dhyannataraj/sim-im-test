@@ -12,7 +12,7 @@ SimFileEngine::SimFileEngine( const QString &fileName )
 SimFileEngine::~SimFileEngine() {
 }
 
-SimFileEngine::Iterator *SimFileEngine::beginEntryList( QDir::Filters filters, const QStringList & filterNames ) {
+SimFileEngine::Iterator *SimFileEngine::beginEntryList( QDir::Filters /*filters*/, const QStringList & /*filterNames*/ ) {
     return NULL;
 }
 
@@ -25,27 +25,27 @@ bool SimFileEngine::close() {
     return true;
 }
 
-bool SimFileEngine::copy( const QString & newName ) {
+bool SimFileEngine::copy( const QString & /*newName*/ ) {
     return false;
 }
 
-QStringList SimFileEngine::entryList( QDir::Filters filters, const QStringList & filterNames ) const {
+QStringList SimFileEngine::entryList( QDir::Filters /*filters*/, const QStringList & /*filterNames*/ ) const {
     return QStringList();
 }
 
-bool SimFileEngine::extension( Extension extension, const ExtensionOption * option /* = 0 */, ExtensionReturn * output /* = 0 */ ) {
+bool SimFileEngine::extension( Extension /*extension*/, const ExtensionOption * /*option*/ /* = 0 */, ExtensionReturn * /*output*/ /* = 0 */ ) {
     return false;
 }
 
-SimFileEngine::FileFlags SimFileEngine::fileFlags( FileFlags type /* = FileInfoAll */ ) const {
+SimFileEngine::FileFlags SimFileEngine::fileFlags( FileFlags /*type*/ /* = FileInfoAll */ ) const {
     return 0;
 }
 
-QString SimFileEngine::fileName( FileName file ) const {
+QString SimFileEngine::fileName( FileName /*file*/ ) const {
     return "sim:" + m_fileName;
 }
 
-QDateTime SimFileEngine::fileTime( FileTime time ) const {
+QDateTime SimFileEngine::fileTime( FileTime /*time*/ ) const {
     return QDateTime();
 }
 
@@ -65,11 +65,11 @@ bool SimFileEngine::isSequential() const {
     return false;
 }
 
-bool SimFileEngine::link( const QString & newName ) {
+bool SimFileEngine::link( const QString & /*newName*/ ) {
     return false;
 }
 
-bool SimFileEngine::mkdir( const QString & dirName, bool createParentDirectories ) const {
+bool SimFileEngine::mkdir( const QString & /*dirName*/, bool /*createParentDirectories*/ ) const {
     return false;
 }
 
@@ -95,11 +95,11 @@ bool SimFileEngine::open( QIODevice::OpenMode mode ) {
     return false;
 }
 
-QString SimFileEngine::owner( FileOwner owner ) const {
+QString SimFileEngine::owner( FileOwner /*owner*/ ) const {
     return QString();
 }
 
-uint SimFileEngine::ownerId( FileOwner owner ) const {
+uint SimFileEngine::ownerId( FileOwner /*owner*/ ) const {
     return 0;
 }
 
@@ -111,7 +111,7 @@ qint64 SimFileEngine::read( char * data, qint64 maxlen ) {
     return m_buffer.read( data, maxlen );
 }
 
-qint64 SimFileEngine::readLine( char * data, qint64 maxlen ) {
+qint64 SimFileEngine::readLine( char * /*data*/, qint64 /*maxlen*/ ) {
     return 0; // ToDo: realize
 }
 
@@ -119,11 +119,11 @@ bool SimFileEngine::remove() {
     return false;
 }
 
-bool SimFileEngine::rename( const QString & newName ) {
+bool SimFileEngine::rename( const QString & /*newName*/ ) {
     return false;
 }
 
-bool SimFileEngine::rmdir( const QString & dirName, bool recurseParentDirectories ) const {
+bool SimFileEngine::rmdir( const QString & /*dirName*/, bool /*recurseParentDirectories*/ ) const {
     return false;
 }
 
@@ -131,14 +131,14 @@ bool SimFileEngine::seek( qint64 offset ) {
     return m_buffer.seek( offset );
 }
 
-void SimFileEngine::setFileName( const QString &file ) {
+void SimFileEngine::setFileName( const QString &/*file*/ ) {
 }
 
-bool SimFileEngine::setPermissions( uint perms ) {
+bool SimFileEngine::setPermissions( uint /*perms*/ ) {
     return false;
 }
 
-bool SimFileEngine::setSize( qint64 size ) {
+bool SimFileEngine::setSize( qint64 /*size*/ ) {
     return false;
 }
 
@@ -146,11 +146,11 @@ qint64 SimFileEngine::size() const {
     return m_data.size();
 }
 
-bool SimFileEngine::supportsExtension( Extension extension ) const {
+bool SimFileEngine::supportsExtension( Extension /*extension*/ ) const {
     return false;
 }
 
-qint64 SimFileEngine::write( const char * data, qint64 len ) {
+qint64 SimFileEngine::write( const char * /*data*/, qint64 /*len*/ ) {
     return 0;
 }
 

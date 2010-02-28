@@ -57,20 +57,21 @@ public:
     unsigned	m_id;
     SIM::Message *currentMessage();
 protected slots:
-    void		update();
+    void update();
 protected:
     virtual bool        processEvent(SIM::Event*);
     virtual void        contextMenuEvent( QContextMenuEvent *event );
-    void		setBackground(unsigned start);
-    void		setSource(const QString&);
-    void		setColors();
-    void		reload();
+    void setBackground(unsigned start);
+    void setSource(const QString&);
+    void setSource(const QUrl&);
+    void setColors();
+    void reload();
     unsigned    messageId(const QString&, QString &client);
-    QString		messageText(SIM::Message *msg, bool bUnread);
-    QPoint		m_popupPos;
-    QString		m_selectStr;
-    unsigned	m_nSelection;
-    XSL			*xsl;
+    QString messageText(SIM::Message *msg, bool bUnread);
+    QPoint m_popupPos;
+    QString m_selectStr;
+    unsigned m_nSelection;
+    XSL *xsl;
     vector<CutHistory>	m_cut;
     list<Msg_Id>		m_updated;
 };

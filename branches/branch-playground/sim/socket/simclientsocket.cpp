@@ -134,7 +134,7 @@ namespace SIM
         sock->connectToHost( host, port );
     }
 
-    void SIMClientSocket::resolveReady(const QHostAddress &addr, const QString &_host)
+    void SIMClientSocket::resolveReady(const QHostAddress &/*addr*/, const QString &/*_host*/)
     {
     }
 
@@ -313,16 +313,16 @@ namespace SIM
         notify->connect_ready();
     }
 
-    void SIMClientSocket::sslEncryptedBytesWritten( qint64 written ) {
+    void SIMClientSocket::sslEncryptedBytesWritten( qint64 /*written*/ ) {
     }
 
-    void SIMClientSocket::sslModeChanged( QSslSocket::SslMode mode ) {
+    void SIMClientSocket::sslModeChanged( QSslSocket::SslMode /*mode*/ ) {
     }
 
-    void SIMClientSocket::sslPeerVerifyError( const QSslError & error ) {
+    void SIMClientSocket::sslPeerVerifyError( const QSslError & /*error*/ ) {
     }
 
-    void SIMClientSocket::sslErrors( const QList<QSslError> & errors ) {
+    void SIMClientSocket::sslErrors( const QList<QSslError> & /*errors*/ ) {
     }
 }
 

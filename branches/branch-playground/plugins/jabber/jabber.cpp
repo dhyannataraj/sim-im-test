@@ -50,6 +50,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 JabberProtocol::JabberProtocol(Plugin *plugin)
         : Protocol(plugin)
 {
+    initStatuses();
 }
 
 JabberProtocol::~JabberProtocol()
@@ -69,17 +70,27 @@ void JabberProtocol::initStatuses()
 
 void JabberProtocol::addStatus(JabberStatusPtr status)
 {
-    m_statuses.insert(status->id(), status);
+    m_statuses.append(status);
 }
 
 QStringList JabberProtocol::statuses()
 {
-    return m_statuses.keys();
+    QStringList list;
+    foreach(const JabberStatusPtr& status, m_statuses) {
+        list.append(status->id());
+    }
+    return list;
 }
 
 SIM::IMStatusPtr JabberProtocol::status(const QString& id)
 {
-    return m_statuses.value(id);
+    foreach(const JabberStatusPtr& status, m_statuses) {
+        if(status->id() == id) {
+            return status;
+        }
+    }
+
+    return SIM::IMStatusPtr();
 }
 
 ClientPtr JabberProtocol::createClient(Buffer *cfg)

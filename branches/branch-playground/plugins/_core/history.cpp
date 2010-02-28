@@ -101,8 +101,8 @@ static Message *createMessage(unsigned id, const char *type, Buffer *cfg)
 }
 
 HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
-    : m_contact (contact)
-    , m_name    (file_name)
+    : m_name    (file_name)
+    , m_contact (contact)
 {
     QString f_name = HISTORY_PATH;
     f_name += file_name.isEmpty() ? QString::number(contact) : file_name;
@@ -303,8 +303,8 @@ bool HistoryFileIterator::loadBlock(bool bUp)
         }
         QByteArray type = config.getSection(!bUp && (m_block != 0));
         if (type.isEmpty() || 
-                config.writePos() == (unsigned)config.size() && 
-                file.pos() < file.size()
+                ((config.writePos() == (unsigned)config.size()) &&
+                (file.pos() < file.size()))
            )
             continue;
         unsigned id = m_block;
@@ -315,10 +315,10 @@ bool HistoryFileIterator::loadBlock(bool bUp)
         for (;;)
         {
             type = config.getSection();
-            if (!bUp && id + config.writePos() > blockEnd || 
+            if ((!bUp) && (id + config.writePos() > blockEnd) ||
                 type.isEmpty() || 
-                    config.writePos() == (unsigned)config.size() && 
-                    file.pos() < file.size())
+                    (((config.writePos() == (unsigned)config.size()) &&
+                    (file.pos() < file.size()))))
                 break;
             createMessage(id + config.startSection(), type, &config);
             pos = config.writePos();
@@ -370,10 +370,10 @@ History::~History()
 }
 
 HistoryIterator::HistoryIterator(unsigned contact_id)
-        : m_history (contact_id)
-        , m_bUp     (false)
+        : m_bUp     (false)
         , m_bDown   (false)
         , m_temp_id (0)
+        , m_history (contact_id)
         , m_it      (NULL)
 {
     for (list<HistoryFile*>::iterator it = m_history.files.begin(); it != m_history.files.end(); ++it)
@@ -467,7 +467,7 @@ Message *HistoryIterator::operator ++()
     {
         Message *m = (**it).message();
         if (m == NULL ||
-            msg != NULL && msg->getTime() <= m->getTime())
+            (msg != NULL && msg->getTime() <= m->getTime()))
             continue;
 
         msg = m;
@@ -550,7 +550,7 @@ Message *HistoryIterator::operator --()
     {
         Message *m = (**it).message();
         if (m == NULL || 
-            msg != NULL && msg->getTime() > m->getTime())
+            (msg != NULL && msg->getTime() > m->getTime()))
             continue;
         msg = m;
         m_it = *it;
