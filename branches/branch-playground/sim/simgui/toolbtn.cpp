@@ -340,7 +340,7 @@ void CToolPictButton::setState()
     repaint();
 }
 
-void CToolPictButton::paintEvent(QPaintEvent*e)
+void CToolPictButton::paintEvent(QPaintEvent * /*e*/)
 {
     QStyleOptionToolButton opt;
     initStyleOption( &opt );

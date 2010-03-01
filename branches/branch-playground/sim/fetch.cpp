@@ -290,7 +290,7 @@ QString get_user_agent()
 }
 
 const char *FetchClient::read_data(char * /*buf */, unsigned& /*size*/){ return NULL; }
-bool     FetchClient::write_data(const char */*buf*/, unsigned /*size*/){ return false; }
+bool     FetchClient::write_data(const char * /*buf*/, unsigned /*size*/){ return false; }
 
 void FetchClientPrivate::authenticationRequired ( const QString & /*hostname*/, quint16 /*port*/, QAuthenticator * /*authenticator*/ ) {
 }

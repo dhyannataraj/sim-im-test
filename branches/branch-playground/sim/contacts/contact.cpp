@@ -14,7 +14,7 @@ namespace SIM
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-    Contact::Contact(unsigned long id, Buffer */*cfg*/)
+    Contact::Contact(unsigned long id, Buffer * /*cfg*/)
         : m_id(id)
     {
         m_userData = UserData::create();
