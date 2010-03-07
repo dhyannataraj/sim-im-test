@@ -75,11 +75,11 @@ namespace testClientSocket
         QWidget *setupWnd() {return 0;}
         bool isMyData(SIM::clientData*&, SIM::Contact*&) {return false;}
         bool createData(SIM::clientData*&, SIM::Contact*) { return false;}
-        void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL) {}
-        void setupContact(SIM::Contact*, void *data){}
-        bool send(SIM::Message*, void *data){return false;}
-        bool canSend(unsigned type, void *data){return false;}
-        QWidget *searchWindow(QWidget *parent){return 0;}
+		void contactInfo(void * /*clientData*/, unsigned long& /*status*/, unsigned& /*style*/, QString& /*statusIcon*/, QSet<QString>* /*icons*/ = NULL) {}
+		void setupContact(SIM::Contact*, void* /*data*/){}
+		bool send(SIM::Message*, void* /*data*/){return false;}
+		bool canSend(unsigned /*type*/, void* /*data*/){return false;}
+		QWidget *searchWindow(QWidget* /*parent*/){return 0;}
         virtual void packet_ready() {}
 
     protected:

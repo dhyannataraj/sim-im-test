@@ -32,14 +32,12 @@ SET(sim_LIB_SRCS
 		sax.cpp
 		simfs.cpp
 		translit.cpp
-		templateengine.cpp
 		unquot.cpp
 		xsl.cpp
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
 		contacts/userdata.cpp
-		contacts/contactlistprivate.cpp
 		contacts/clientuserdata.cpp
 		contacts/clientuserdataprivate.cpp
 		contacts/clientdataiterator.cpp
@@ -50,7 +48,6 @@ SET(sim_LIB_SRCS
 		contacts/protocolmanager.cpp
 		contacts/client.cpp
 		contacts/imstatus.cpp
-		contacts/invalidstatus.cpp
 		socket/socket.cpp
 		socket/serversocketnotify.cpp
 		socket/serversocket.cpp
@@ -108,7 +105,6 @@ SET(sim_LIB_HDRS
 		simfs.h
 		singleton.h
 		translit.h
-		templateengine.h
 		unquot.h
 		xsl.h
 		qzip/ioapi.h
@@ -116,7 +112,6 @@ SET(sim_LIB_HDRS
 		qzip/unzip.h
 		fetchclientprivate.h
 		contacts/userdata.h
-		contacts/contactlistprivate.h
 		contacts/clientuserdata.h
 		contacts/clientuserdataprivate.h
 		contacts/clientdataiterator.h
@@ -127,7 +122,6 @@ SET(sim_LIB_HDRS
 		contacts/protocolmanager.h
 		contacts/client.h
 		contacts/imstatus.h
-		contacts/invalidstatus.h
 		socket/socket.h
 		socket/socketnotify.h
 		socket/serversocketnotify.h
@@ -226,27 +220,29 @@ ENDIF(APPLE)
 SET(sim_tests_srcs
     tests/test.cpp
     tests/testbuffer.cpp
-	tests/testconfig.cpp
-	tests/testclientmanager.cpp
+    tests/testconfig.cpp
+    tests/testclientmanager.cpp
     tests/testsocketfactory.cpp
     tests/testclientsocket.cpp
     tests/testcontactlist.cpp
+    tests/testcontact.cpp
     tests/testprotocolmanager.cpp
     tests/testpropertyhub.cpp
-	tests/testuserdata.cpp
+    tests/testuserdata.cpp
 )
 
 
 SET(sim_tests_hdrs
     tests/testbuffer.h
-	tests/testconfig.h
-	tests/testclientmanager.h
+    tests/testconfig.h
+    tests/testclientmanager.h
     tests/testsocketfactory.h
     tests/testclientsocket.h
     tests/testcontactlist.h
+    tests/testcontact.h
     tests/testprotocolmanager.h
     tests/testpropertyhub.h
-	tests/testuserdata.h
+    tests/testuserdata.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})

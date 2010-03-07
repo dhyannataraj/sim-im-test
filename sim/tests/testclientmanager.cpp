@@ -25,35 +25,35 @@ namespace testClientManager
         return NULL;
     }
 
-    bool TestClient::isMyData(clientData*& data, Contact*& contact)
+	bool TestClient::isMyData(clientData*& /*data*/, Contact*& /*contact*/)
     {
         return false;
     }
 
-    bool TestClient::createData(clientData*& data, Contact* contact)
+	bool TestClient::createData(clientData*& /*data*/, Contact* /*contact*/)
     {
         return false;
     }
 
-    void TestClient::contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons)
+	void TestClient::contactInfo(void* /*clientData*/, unsigned long& /*status*/, unsigned& /*style*/, QString& /*statusIcon*/, QSet<QString>* /*icons*/)
     {
     }
 
-    void TestClient::setupContact(Contact*, void *data)
+	void TestClient::setupContact(Contact*, void* /*data*/)
     {
     }
 
-    bool TestClient::send(Message*, void *data)
-    {
-        return false;
-    }
-
-    bool TestClient::canSend(unsigned type, void *data)
+	bool TestClient::send(Message*, void* /*data*/)
     {
         return false;
     }
 
-    QWidget* TestClient::searchWindow(QWidget *parent)
+	bool TestClient::canSend(unsigned /*type*/, void* /*data*/)
+    {
+        return false;
+    }
+
+	QWidget* TestClient::searchWindow(QWidget* /*parent*/)
     {
         return NULL;
     }

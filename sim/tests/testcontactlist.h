@@ -41,6 +41,7 @@ namespace testContactList
         void testClientManipulation();
         void testGroupManipulation();
         void testGroupIterator();
+        void testPacketTypeManipulation();
         void testContactManipulation();
         
     private:

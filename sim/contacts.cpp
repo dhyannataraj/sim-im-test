@@ -34,7 +34,6 @@ email                : vovan@shutoff.ru
 #include "profilemanager.h"
 
 #include "contacts.h"
-#include "contacts/contactlistprivate.h"
 #include "contacts/clientuserdataprivate.h"
 #include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
@@ -47,7 +46,6 @@ email                : vovan@shutoff.ru
 
 namespace SIM
 {
-
 using namespace std;
 
 #ifdef __OS2__    
@@ -115,7 +113,7 @@ static void add_str (STR_LIST & m, const QString & value, QString client)
     }
 }
 
-static QString addStrings (const QString &old_value, const QString &values,
+QString addStrings (const QString &old_value, const QString &values,
                            const QString &client)
 {
     STR_LIST    str_list;
@@ -185,24 +183,6 @@ static QString addStrings (const QString &old_value, const QString &values,
     return res;
 }
 
-bool Contact::setEMails(const QString &mail, const QString &client)
-{
-	QString oldemail = getEMails();
-	if(mail == oldemail)
-		return false;
-    setEMails(addStrings(getEMails(), mail, client));
-	return true;
-}
-
-bool Contact::setPhones(const QString &phone, const QString &client)
-{
-	QString oldphones = getPhones();
-	if(phone == oldphones)
-		return false;
-    setPhones(addStrings(getPhones(), phone, client));
-	return true;
-}
-
 static QString packString(const QString &value, const QString &client)
 {
     QString res = quoteChars(value, "/");
@@ -215,7 +195,7 @@ static QString packString(const QString &value, const QString &client)
     return res;
 }
 
-static QString addString(const QString &oldValue, const QString &newValue, const QString &client)
+QString addString(const QString &oldValue, const QString &newValue, const QString &client)
 {
     QString res;
     if (oldValue.length() == 0){
@@ -230,203 +210,78 @@ static QString addString(const QString &oldValue, const QString &newValue, const
     return oldValue;
 }
 
-bool Contact::setFirstName(const QString &name, const QString &client)
+typedef std::map<unsigned, PacketType*>	PACKET_MAP;
+class ContactListPrivate
 {
-	QString firstName = getFirstName();
-	if(firstName == name)
-		return false;
-    setFirstName(addString(getFirstName(), name, client));
-	return true;
-}
-
-bool Contact::setLastName(const QString &name, const QString &client)
-{
-	QString lastName = getLastName();
-	if(lastName == name)
-		return false;
-    setLastName(addString(getLastName(), name, client));
-	return true;
-}
-
-static char tipDiv[] = "<br>__________<br>";
-
-QString Contact::tipText()
-{
-    QString tip;
-    tip += "<b>";
-    tip += quoteString(getName());
-    tip += "</b>";
-    QString firstName = getFirstName();
-    firstName = getToken(firstName, '/');
-    firstName = quoteString(firstName);
-    QString lastName = getLastName();
-    lastName = getToken(lastName, '/');
-    lastName = quoteString(lastName);
-    if (firstName.length() || lastName.length()){
-        tip += "<br>";
-        if (firstName.length()){
-            tip += firstName;
-            tip += ' ';
-        }
-        tip += lastName;
-    }
-    bool bFirst = true;
-    QString mails = getEMails();
-    while (mails.length()){
-        QString mail = getToken(mails, ';', false);
-        mail = getToken(mail, '/');
-        if (bFirst){
-            tip += "<br>";
-            bFirst = false;
-        }else{
-            tip += ", ";
-        }
-        tip += quoteString(mail);
-    }
-    void *data;
-    ClientDataIterator it(clientData);
-    while ((data = ++it) != NULL){
-        Client *client = clientData.activeClient(data, it.client());
-        if (client == NULL)
-            continue;
-        QString str = client->contactTip(data);
-        if (str.length()){
-            tip += tipDiv;
-            tip += str;
-        }
-    }
-    bFirst = true;
-    QString phones = getPhones();
-    while (phones.length()){
-        if (bFirst){
-            tip += tipDiv;
-            bFirst = false;
-        }else{
-            tip += "<br>";
-        }
-        QString phone_item = getToken(phones, ';', false);
-        phone_item = getToken(phone_item, '/', false);
-        QString phone = getToken(phone_item, ',');
-        getToken(phone_item, ',');
-        unsigned phone_type = phone_item.toULong();
-        QString icon;
-        switch (phone_type){
-        case PHONE:
-            icon = "phone";
-            break;
-        case FAX:
-            icon = "fax";
-            break;
-        case CELLULAR:
-            icon = "cell";
-            break;
-        case PAGER:
-            icon = "pager";
-            break;
-        }
-        if (icon.length()){
-            tip += "<img src=\"sim:icons/";
-            tip += icon;
-            tip += "\">";
-        }
-        tip += ' ';
-        tip += quoteString(phone);
-    }
-    return tip;
-}
-
-struct sortClientData
-{
-    void		*data;
-    Client		*client;
-    unsigned	nClient;
+public:
+    ContactListPrivate();
+    ~ContactListPrivate();
+    void clear(bool bClearAll);
+    unsigned registerUserData(const QString &name, const DataDef *def);
+    void unregisterUserData(unsigned id);
+    void flush(Contact *c, Group *g, const QByteArray &section, Buffer *cfg);
+    void flush(Contact *c, Group *g);
+    std::map<unsigned long, UserDataDef> userDataDef;
+    Contact			*m_owner;
+    std::map<unsigned long, Contact*>  contacts;
+    std::vector<Group*>  groups;
+    std::vector<Client*> clients;
+    QList<Protocol*>     protocols;
+    PACKET_MAP           packets;
+    bool                 m_bNoRemove;
+    Group				*m_notInList;
 };
 
-static bool cmp_sd(sortClientData p1, sortClientData p2)
+ContactListPrivate::ContactListPrivate()
+    :m_owner(new Contact(0))
+    , m_bNoRemove(false)
+    , m_notInList(new Group(0))
 {
-    if (((clientData*)(p1.data))->LastSend.asULong() > ((clientData*)(p2.data))->LastSend.asULong())
-        return true;
-    if (((clientData*)(p1.data))->LastSend.asULong() < ((clientData*)(p2.data))->LastSend.asULong())
-        return false;
-    return p1.nClient < p2.nClient;
+    groups.push_back(m_notInList);
 }
 
-unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QSet<QString> *icons)
+ContactListPrivate::~ContactListPrivate()
 {
-    style = 0;
-    statusIcon.clear();
-    if (icons)
-        icons->clear();
-    unsigned long status = STATUS_UNKNOWN;
-    void *data;
-    ClientDataIterator it(clientData, NULL);
-    vector<sortClientData> d;
-    while ((data = ++it) != NULL){
-        sortClientData sd;
-        sd.data    = data;
-        sd.client  = it.client();
-        sd.nClient = 0;
-        for (unsigned i = 0; i < getContacts()->nClients(); i++){
-            if (getContacts()->getClient(i) == sd.client){
-                sd.nClient = i;
-                break;
-            }
-        }
-        d.push_back(sd);
-    }
-    sort(d.begin(), d.end(), cmp_sd);
-    for (unsigned i = 0; i < d.size(); i++){
-        void *data = d[i].data;
-        Client *client = clientData.activeClient(data, d[i].client);
-        if (client == NULL)
+    clear(true);
+    delete m_owner;
+}
+
+void ContactListPrivate::clear(bool bClearAll)
+{
+    m_bNoRemove = true;
+    while (contacts.size() != 0)
+        delete contacts.begin()->second;
+
+    for (std::vector<Group*>::iterator it_g = groups.begin(); it_g != groups.end();){
+        Group *group = *it_g;
+        if (!bClearAll && (group->id() == 0)){
+            ++it_g;
             continue;
-        client->contactInfo(data, status, style, statusIcon, icons);
-    }
-    QString phones = getPhones();
-    bool bCell  = false;
-    bool bPager = false;
-    while (phones.length()){
-        QString phoneItem = getToken(phones, ';', false);
-        phoneItem = getToken(phoneItem, '/', false);
-        getToken(phoneItem, ',');
-        getToken(phoneItem, ',');
-        unsigned n = phoneItem.toULong();
-        if (n == CELLULAR)
-            bCell = true;
-        if (n == PAGER)
-            bPager = true;
-    }
-    if (bCell){
-        if(!statusIcon.isEmpty()){
-            if(icons){
-                icons->insert("cell");
-            }
-        }else{
-            statusIcon = "cell";
         }
+        delete group;
+        it_g = groups.begin();
     }
-    if(bPager){
-        if(!statusIcon.isEmpty()){
-            if(icons){
-                icons->insert("pager");
-            }
-        }else{
-            statusIcon = "pager";
-        }
+    m_bNoRemove = false;
+}
+
+unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef *def)
+{
+    unsigned id = 0x1000;   // must be unique...
+    for (std::map<unsigned long, UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
+        if (id <= it->first)
+            id = it->first + 1;
     }
-    if (status == STATUS_UNKNOWN){
-        if (statusIcon.isEmpty()){
-            QString mails = getEMails();
-            if (!mails.isEmpty())
-                statusIcon = "mail_generic";
-        }
-        if (statusIcon.isEmpty())
-            statusIcon = "nonim";
-        return STATUS_UNKNOWN;
-    }
-    if (statusIcon.isEmpty())
-        statusIcon = "empty";
-    return status;
+    UserDataDef d;
+    d.id = id;
+    d.name = name;
+    d.def = def;
+    userDataDef.insert(std::pair<unsigned long, UserDataDef>(id, d));
+    return id;
+}
+
+void ContactListPrivate::unregisterUserData(unsigned /*id*/)
+{
+
 }
 
 
@@ -967,7 +822,7 @@ void ContactList::load_old()
         {
             int id = line.mid(9, line.length() - 10).toInt();
             Contact* c = contact(id, true);
-            currenthub = c->userdata();
+            currenthub = c->getUserData()->root();
             currentUserData = c->getUserData();
         }
         else if(line.startsWith("["))
@@ -1461,6 +1316,61 @@ QByteArray ContactList::fromUnicode(Contact *contact, const QString &str)
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
     return getCodec(contact)->fromUnicode(s);
+}
+
+void ContactList::removeGroup(unsigned long id)
+{
+    Group* gr = group(id, false);
+    if(!gr)
+        return;
+    if(!p->m_bNoRemove){
+        Contact *contact;
+        ContactList::ContactIterator itc;
+        while ((contact = ++itc) != NULL){
+            if (contact->getGroup() != (int)id)
+                continue;
+            contact->setGroup(0);
+            EventContact e(contact, EventContact::eChanged);
+            e.process();
+        }
+        EventGroup e(gr, EventGroup::eDeleted);
+        e.process();
+    }
+    std::vector<Group*> &groups = p->groups;
+    for (std::vector<Group*>::iterator it = groups.begin(); it != groups.end(); ++it) {
+        if ((*it) == gr) {
+            groups.erase(it);
+            break;
+        }
+    }
+}
+
+void ContactList::removeClient(Client* cl)
+{
+    for(std::vector<Client*>::iterator it = p->clients.begin(); it != p->clients.end(); ++it)
+    {
+        if ((*it) != cl)
+            continue;
+        p->clients.erase(it);
+        if (!getContacts()->p->m_bNoRemove)
+        {
+            EventClientsChanged e;
+            e.process();
+        }
+        break;
+    }
+}
+
+void ContactList::removeContact(unsigned long id)
+{
+    if (!p->m_bNoRemove) {
+        Contact* c = contact(id, false);
+        if(c) {
+            EventContact e(c, EventContact::eDeleted);
+            e.process();
+        }
+    }
+    p->contacts.erase(id);
 }
 
 }   // namespace sim

@@ -118,7 +118,7 @@ namespace testContactList
     void Test::testGroupManipulation()
     {
         QCOMPARE(getContacts()->groupCount(), 1);
-//        Group* zero = getContacts()->group(0);
+        Group* zero = getContacts()->group(0);
 
         Group* group1 = getContacts()->group(12, true);
         QVERIFY(group1);
@@ -157,6 +157,9 @@ namespace testContactList
         QCOMPARE(getContacts()->groupIndex(23), 2);
         QCOMPARE(getContacts()->groupIndex(34), 1);
 
+        getContacts()->removeGroup(12);
+        QCOMPARE(getContacts()->groupCount(), 3);
+
         getContacts()->clear();
         QCOMPARE(getContacts()->groupCount(), 1);
     }
@@ -183,8 +186,41 @@ namespace testContactList
         QCOMPARE(group, null);
     }
 
+    void Test::testPacketTypeManipulation()
+    {
+        getContacts()->addPacketType(1, "alpha", true);
+        getContacts()->addPacketType(2, "beta", false);
+        getContacts()->addPacketType(3, "gamma", true);
+
+        QCOMPARE(getContacts()->getPacketType(42), (void*)NULL);
+
+        PacketType* type = 0;
+        SIM::ContactList::PacketIterator it;
+        type = ++it;
+        QCOMPARE(type->id(), (unsigned int)1);
+        QCOMPARE(type->name(), QString("alpha"));
+        type = ++it;
+        QCOMPARE(type->id(), (unsigned int)2);
+        QCOMPARE(type->name(), QString("beta"));
+        type = ++it;
+        QCOMPARE(type->id(), (unsigned int)3);
+        QCOMPARE(type->name(), QString("gamma"));
+        type = ++it;
+        QCOMPARE(type, (void*)NULL);
+    }
+
     void Test::testContactManipulation()
     {
+        Contact* c = getContacts()->contact(2, true);
+        c->addPhone("0-0-0");
+        c->addPhone("1-2-3");
+
+        Contact* c2 = getContacts()->contact(3, true);
+        c->addPhone("42");
+        c->addPhone("666");
+
+        QCOMPARE(getContacts()->contactByPhone("1-2-3")->id(), c->id());
+        QCOMPARE(getContacts()->contactByPhone("666")->id(), c2->id());
     }
 }
 

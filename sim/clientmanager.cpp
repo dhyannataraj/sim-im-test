@@ -72,6 +72,8 @@ namespace SIM
 
     void ClientManager::save()
     {
+        if(!ProfileManager::instance())
+            return;
         QDomDocument doc;
         QDomElement root = doc.createElement("clients");
         doc.appendChild(root);

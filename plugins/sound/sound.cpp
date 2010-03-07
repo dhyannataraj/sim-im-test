@@ -131,10 +131,10 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             if(ec->action() != EventContact::eOnline)
                 break;
             Contact *contact = ec->contact();
-            bool disable = contact->userdata()->value("sound/Disable").toBool();
-            QString alert = contact->userdata()->value("sound/Alert").toString();
+            bool disable = contact->getUserData()->root()->value("sound/Disable").toBool();
+            QString alert = contact->getUserData()->root()->value("sound/Alert").toString();
             if(alert.isEmpty())
-                alert = getContacts()->userdata()->value("sound/Alert").toString();
+                alert = getContacts()->getUserData()->root()->value("sound/Alert").toString();
             if (!alert.isEmpty() && !disable)
             {
                 EventPlaySound(alert).process();
@@ -175,13 +175,13 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             bool nosound, disable;
             if(contact)
             {
-                nosound = contact->userdata()->value("sound/NoSoundIfActive").toBool();
-                disable = contact->userdata()->value("sound/Disable").toBool();
+                nosound = contact->getUserData()->root()->value("sound/NoSoundIfActive").toBool();
+                disable = contact->getUserData()->root()->value("sound/Disable").toBool();
             }
             else
             {
-                nosound = getContacts()->userdata()->value("sound/NoSoundIfActive").toBool();
-                disable = getContacts()->userdata()->value("sound/Disable").toBool();
+                nosound = getContacts()->getUserData()->root()->value("sound/NoSoundIfActive").toBool();
+                disable = getContacts()->getUserData()->root()->value("sound/Disable").toBool();
             }
             if(!disable && nosound)
             {
@@ -240,7 +240,7 @@ QString SoundPlugin::messageSound(unsigned type, unsigned long contact_id)
         Contact* c = getContacts()->contact(contact_id);
         if(c)
         {
-            data = c->userdata();
+            data = c->getUserData()->root();
             if(!data->value("sound/override").toBool())
             {
                 Group* g = getContacts()->group(c->getGroup(), false);

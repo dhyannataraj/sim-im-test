@@ -2,6 +2,7 @@
 #ifndef SIM_CONTACT_H
 #define SIM_CONTACT_H
 
+#include <QSharedPointer>
 #include "userdata.h"
 #include "propertyhub.h"
 #include "clientuserdata.h"
@@ -40,6 +41,9 @@ namespace SIM
         QString getPhones();
         void setPhones(const QString& p);
 
+        void addPhone(const QString& p);
+//        QStringList getPhones();
+
         int getPhoneStatus();
         void setPhoneStatus(int ps);
 
@@ -68,7 +72,6 @@ namespace SIM
         QString tipText();
         const DataDef *dataDef();
         void setup();
-        PropertyHubPtr userdata() const { return m_userData->root(); }
 
         UserDataPtr getUserData() { return m_userData; }
     protected:
@@ -77,8 +80,9 @@ namespace SIM
         friend class ContactListPrivate;
 
     private:
-        UserDataPtr m_userData; // FIXME this mess
+        UserDataPtr m_userData;
     };
+    typedef QSharedPointer<Contact> ContactPtr;
 
 }
 

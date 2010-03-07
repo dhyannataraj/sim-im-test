@@ -2,11 +2,9 @@
 #include <vector>
 #include <list>
 #include "client.h"
-#include "contactlistprivate.h"
 #include "group.h"
 #include "misc.h"
 #include "contacts/contact.h"
-#include "contacts/invalidstatus.h"
 using namespace std;
 
 namespace SIM
@@ -36,10 +34,10 @@ namespace SIM
         if(cfg)
             load_data(_clientData, &data, cfg);
         
-        m_currentStatus = IMStatusPtr(new InvalidStatus());
+        m_currentStatus = IMStatusPtr(/*new InvalidStatus()*/);
         m_data = PropertyHub::create();
 
-        now uncrypt password somehow
+        //now uncrypt password somehow
         QString pswd = getPassword();
         if (pswd.length() && (pswd[0] == '$')) 
         {
@@ -145,19 +143,7 @@ namespace SIM
 
     void Client::freeData()
     {
-        ContactListPrivate *p = getContacts()->p;
-        for (std::vector<Client*>::iterator it = p->clients.begin(); it != p->clients.end(); ++it)
-        {
-            if ((*it) != this)
-                continue;
-            p->clients.erase(it);
-            if (!getContacts()->p->m_bNoRemove)
-            {
-                EventClientsChanged e;
-                e.process();
-            }
-            break;
-        }
+        getContacts()->removeClient(this);
         Group *grp;
         ContactList::GroupIterator itg;
         while ((grp = ++itg) != NULL)
@@ -165,16 +151,10 @@ namespace SIM
             if (grp->clientData.size() == 0)
                 continue;
             grp->clientData.freeClientData(this);
-            if (!getContacts()->p->m_bNoRemove)
-            {
-                EventGroup e(grp, EventGroup::eChanged);
-                e.process();
-            }
         }
 
         Contact *contact;
         ContactList::ContactIterator itc;
-        list<Contact*> forRemove;
         while ((contact = ++itc) != NULL)
         {
             if (contact->clientData.size() == 0)
@@ -182,21 +162,8 @@ namespace SIM
             contact->clientData.freeClientData(this);
             if (contact->clientData.size())
             {
-                if (!getContacts()->p->m_bNoRemove)
-                {
-                    contact->setup();
-                    EventContact e(contact, EventContact::eChanged);
-                    e.process();
-                }
-                continue;
+                getContacts()->removeContact(contact->id());
             }
-            forRemove.push_back(contact);
-        }
-        std::list<Contact*>::iterator itr;
-        for (itr = forRemove.begin(); itr != forRemove.end(); ++itr)
-        {
-            Contact *contact = *itr;
-            delete contact;
         }
         free_data(_clientData, &data);
     }

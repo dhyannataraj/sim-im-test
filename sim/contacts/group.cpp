@@ -5,7 +5,6 @@
 
 #include "contacts.h"
 #include "contact.h"
-#include "contactlistprivate.h"
 
 namespace SIM
 {
@@ -25,27 +24,22 @@ namespace SIM
 
     Group::~Group()
     {
-        if (!getContacts()->p->m_bNoRemove){
-            Contact *contact;
-            ContactList::ContactIterator itc;
-            while ((contact = ++itc) != NULL){
-                if (contact->getGroup() != (int)id())
-                    continue;
-                contact->setGroup(0);
-                EventContact e(contact, EventContact::eChanged);
-                e.process();
-            }
-            EventGroup e(this, EventGroup::eDeleted);
-            e.process();
-        }
+//        if (!getContacts()->p->m_bNoRemove){
+//            Contact *contact;
+//            ContactList::ContactIterator itc;
+//            while ((contact = ++itc) != NULL){
+//                if (contact->getGroup() != (int)id())
+//                    continue;
+//                contact->setGroup(0);
+//                EventContact e(contact, EventContact::eChanged);
+//                e.process();
+//            }
+//            EventGroup e(this, EventGroup::eDeleted);
+//            e.process();
+//        }
+        getContacts()->removeGroup(id());
         free_data(groupData, &data);
-        std::vector<Group*> &groups = getContacts()->p->groups;
-        for (std::vector<Group*>::iterator it = groups.begin(); it != groups.end(); ++it){
-            if ((*it) == this){
-                groups.erase(it);
-                break;
-            }
-        }
+
     }
 
     PropertyHubPtr Group::getUserData(const QString& id, bool bCreate)
