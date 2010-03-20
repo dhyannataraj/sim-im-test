@@ -404,7 +404,22 @@
     <!-- Licence: GNU/LGPL -->
     <!-- Author:  Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
     <!-- Sources: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/compfile.png -->
-
+  </icon>
+  <icon name="bgcolor">
+    <object mime="image/png">bg_color.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author:  Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
+    <!--  Sources: -->
+    <!--           http://www.icon-king.com/files/nuvola-1.0.tar.gz 16x16/actions/colorize.png -->
+    <!--           http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/color_fill.png -->
+  </icon>
+  <icon name="fgcolor">
+    <object mime="image/png">fg_color.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author:  Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
+    <!--  Sources: -->
+    <!--           http://www.icon-king.com/files/nuvola-1.0.tar.gz 16x16/actions/colorize.png -->
+    <!--           http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/apps/fonts.png -->
   </icon>
   
   
