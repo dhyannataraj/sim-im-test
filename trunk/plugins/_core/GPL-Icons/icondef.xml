@@ -429,6 +429,27 @@
     <!--          http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/edit_group.png -->
     <!--          http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/filenew.png -->
   </icon>
+  
+  <icon name="text_bold">
+    <object mime="image/png">text_bold.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-text_bold.png -->
+  </icon>
+  <icon name="text_italic">
+    <object mime="image/png">text_italic.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-text_italic.png-->
+  </icon>
+  <icon name="text_under">
+    <object mime="image/png">text_under.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-text_under.png-->
+  </icon>
+  <icon name="text_strike">
+    <object mime="image/png">text_strike.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-text_strike.png-->
+  </icon>
 
   
   
