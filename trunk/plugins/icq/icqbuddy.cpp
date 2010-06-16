@@ -212,17 +212,19 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 						info.unpack((char*)shortcap, sizeof(shortcap));
 						for (unsigned i = 0;; i++)
 						{
+							if (!memcmp(m_client->capabilities[i],
+								"\x00\x00\x00\x00", 4)) {
+								log(L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(),
+									makeCapStr(shortcap, sizeof(shortcap)).latin1());
+ 								break;
+							}
+							// we don't go through all caps, only the starting with 0x09
+                            if (*m_client->capabilities[i] != '\x09')
+								continue;
 							if(!memcmp(&m_client->capabilities[i][2], shortcap, sizeof(shortcap)))
 							{
-								m_client->setCap(data, (cap_id_t)i);
-								break;
-							}
-							// we don't go through all caps, only the first ones starting with 0x09
-							if (*m_client->capabilities[i] != '\x09')
-							{
-								log(L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(),
-										makeCapStr(shortcap, sizeof(shortcap)).latin1());
-								break;
+    	                            m_client->setCap(data, (cap_id_t)i);
+									break;
 							}
 						}
 					}
@@ -247,12 +249,12 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 							if (i == CAP_SIMOLD)
 								size--;
 
-							if (*m_client->capabilities[i] == 0)
+							if (!memcmp(m_client->capabilities[i], "\x00\x00\x00\x00", 4)) 
 							{
 								log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
 								break;
 							}
-							if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
+							if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE) || (i == CAP_QIP2010))
 								size -= 4;
 							if ((i == CAP_ANDRQ))
 								size -= 7;

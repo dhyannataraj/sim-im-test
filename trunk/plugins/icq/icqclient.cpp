@@ -682,31 +682,33 @@ void ICQClient::disconnected()
 	}
 }
 
-const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
-I18N_NOOP("Invalid SNAC header"),
-I18N_NOOP("Server rate limit exceeded"),
-I18N_NOOP("Client rate limit exceeded"),
-I18N_NOOP("Recipient is not logged in"),
-I18N_NOOP("Requested service unavailable"),
-I18N_NOOP("Requested service not defined"),
-I18N_NOOP("We sent an obsolete SNAC"),
-I18N_NOOP("Not supported by server"),
-I18N_NOOP("Not supported by client"),
-I18N_NOOP("Refused by client"),
-I18N_NOOP("Reply too big"),
-I18N_NOOP("Responses lost"),
-I18N_NOOP("Request denied"),
-I18N_NOOP("Incorrect SNAC format"),
-I18N_NOOP("Insufficient rights"),
-I18N_NOOP("Recipient blocked"),
-I18N_NOOP("Sender too evil"),
-I18N_NOOP("Receiver too evil"),
-I18N_NOOP("User temporarily unavailable"),
-I18N_NOOP("No match"),
-I18N_NOOP("List overflow"),
-I18N_NOOP("Request ambiguous"),
-I18N_NOOP("Server queue full"),
-I18N_NOOP("Not while on AOL")};
+const char *icq_error_codes[] = {
+    I18N_NOOP("Unknown error"),
+    I18N_NOOP("Invalid SNAC header"),
+    I18N_NOOP("Server rate limit exceeded"),
+    I18N_NOOP("Client rate limit exceeded"),
+    I18N_NOOP("Recipient is not logged in"),
+    I18N_NOOP("Requested service unavailable"),
+    I18N_NOOP("Requested service not defined"),
+    I18N_NOOP("We sent an obsolete SNAC"),
+    I18N_NOOP("Not supported by server"),
+    I18N_NOOP("Not supported by client"),
+    I18N_NOOP("Refused by client"),
+    I18N_NOOP("Reply too big"),
+    I18N_NOOP("Responses lost"),
+    I18N_NOOP("Request denied"),
+    I18N_NOOP("Incorrect SNAC format"),
+    I18N_NOOP("Insufficient rights"),
+    I18N_NOOP("Recipient blocked"),
+    I18N_NOOP("Sender too evil"),
+    I18N_NOOP("Receiver too evil"),
+    I18N_NOOP("User temporarily unavailable"),
+    I18N_NOOP("No match"),
+    I18N_NOOP("List overflow"),
+    I18N_NOOP("Request ambiguous"),
+    I18N_NOOP("Server queue full"),
+    I18N_NOOP("Not while on AOL")
+};
 
 const char* ICQClient::error_message(unsigned short error)
 {
@@ -1695,7 +1697,8 @@ QString ICQClient::clientName(ICQUserData *data)
         break;
     }
 
-    if (hasCap(data, CAP_MIRANDA)) {
+    if (hasCap(data, CAP_MIRANDA)) 
+    {
         QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0x7F;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
@@ -1707,11 +1710,30 @@ QString ICQClient::clientName(ICQUserData *data)
             r += " (alpha)";
         return res + r;
     }
-    if (hasCap(data, CAP_QIP)) {
-        res += "QIP 2005a";
-        return res;
+    if (hasCap(data, CAP_QIP)) 
+    {
+        QString r;
+        r.sprintf("QIP 2005a %lu%lu%lu%lu",
+            (data->InfoUpdateTime.toULong() >> 24) & 0xFF,
+            (data->InfoUpdateTime.toULong() >> 16) & 0xFF,
+            (data->InfoUpdateTime.toULong() >>  8) & 0xFF,
+            (data->InfoUpdateTime.toULong() >>  0) & 0xFF);
+        return res + r;
     }
-    if (hasCap(data, CAP_JIMM)) {
+    if (hasCap(data, CAP_INFIUM)) 
+    {
+        QString r;
+        r.sprintf("QIP Infium %lu", data->InfoUpdateTime.toULong());
+        return res + r;
+    }
+    if (hasCap(data, CAP_QIP2010)) 
+    {
+        QString r;
+        r.sprintf("QIP 2010 %lu", data->InfoUpdateTime.toULong());
+        return res + r;
+    }
+    if (hasCap(data, CAP_JIMM)) 
+    {
         QString r;
         unsigned maj = (data->Build.toULong() >> 24) & 0xFF;
         unsigned min = (data->Build.toULong() >> 16) & 0xFF;
@@ -1722,29 +1744,52 @@ QString ICQClient::clientName(ICQUserData *data)
             r.sprintf("Jimm %d.%d", maj, min);
         return res + r;
     }
-    if (hasCap(data, CAP_ICQ51)) {
-        res += "ICQ 5.1";
+    if (9 == data->Version.toULong()) 
+    {
+        if (hasCap(data, CAP_ICQ51)) 
+        {	// CAP_TZERS
+            if (   hasCap(data, CAP_LITE_NEW) 
+                && hasCap(data, CAP_HOST_STATUS_TEXT_AWARE) 
+                && hasCap(data, CAP_AIM_LIVE_VIDEO) 
+                && hasCap(data, CAP_AIM_LIVE_AUDIO) ) 
+                res += "ICQ 7"; 
+            else if (   hasCap(data, CAP_HTMLMSGS)
+                     && hasCap(data, CAP_AIM_LIVE_VIDEO) 
+                     && hasCap(data, CAP_AIM_LIVE_AUDIO) ) 
+                res += "ICQ 6"; 
+            else 
+                res += "ICQ 5.1";
+        }
+        else if (   hasCap(data, CAP_ICQ5_1) 
+                 && hasCap(data, CAP_ICQ5_3) 
+                 && hasCap(data, CAP_ICQ5_4) ) 
+            res += "ICQ 5.0";
+        if (hasCap(data, CAP_ABV))
+            res += " Abv";
+        else if (hasCap(data, CAP_NETVIGATOR))
+            res += " Netvigator";
+        else if (hasCap(data, CAP_RAMBLER))
+            res += " Rambler";
+
         return res;
     }
-    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4)) {
-        res += "ICQ 5.0";
-        return res;
-    }
-    if (hasCap(data, CAP_ICQ5_1)) {
+    if (hasCap(data, CAP_ICQ5_1)) 
         log( L_DEBUG, "CAP_ICQ5_1 without all others" );
-    }
-    if (hasCap(data, CAP_ICQ5_3)) {
+
+    if (hasCap(data, CAP_ICQ5_3)) 
         log( L_DEBUG, "CAP_ICQ5_3 without all others" );
-    }
-    if (hasCap(data, CAP_ICQ5_4)) {
+
+    if (hasCap(data, CAP_ICQ5_4)) 
         log( L_DEBUG, "CAP_ICQ5_4 without all others" );
-    }
-    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN)) {
+
+    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN)) 
+    {
         res += "Trillian";
         return res;
     }
 
-    if (hasCap(data, CAP_SIMOLD)) {
+    if (hasCap(data, CAP_SIMOLD)) 
+    {
         QString r;
         unsigned hiVersion = (data->Build.toULong() >> 6) - 1;
         unsigned loVersion = data->Build.toULong() & 0x1F;
@@ -1752,19 +1797,19 @@ QString ICQClient::clientName(ICQUserData *data)
         return res + r;
     }
 
-    if (hasCap(data, CAP_SIM)) {
+    if (hasCap(data, CAP_SIM)) 
+    {
         QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >> 8) & 0xFF;
         unsigned ver4 = data->Build.toULong() & 0x0F;
-        if (ver4){
+        if (ver4)
             r.sprintf("SIM %u.%u.%u.%u", ver1, ver2, ver3, ver4);
-        }else if (ver3){
+        else if (ver3)
             r.sprintf("SIM %u.%u.%u", ver1, ver2, ver3);
-        }else{
+        else
             r.sprintf("SIM %u.%u", ver1, ver2);
-        }
         res += r;
 		if (data->Build.toULong() & 0x80)
             res += "/win32";
@@ -1774,7 +1819,8 @@ QString ICQClient::clientName(ICQUserData *data)
         return res;
     }
 
-    if (hasCap(data, CAP_LICQ)) {
+    if (hasCap(data, CAP_LICQ)) 
+    {
         QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
@@ -1786,7 +1832,8 @@ QString ICQClient::clientName(ICQUserData *data)
             res += "/SSL";
         return res;
     }
-    if (hasCap(data, CAP_KOPETE)) {
+    if (hasCap(data, CAP_KOPETE)) 
+    {
         // last 4 bytes determine version
         // NOTE change with each Kopete Release!
         // first number, major version
@@ -1802,11 +1849,13 @@ QString ICQClient::clientName(ICQUserData *data)
         res += r;
         return res;
     }
-    if (hasCap(data, CAP_XTRAZ)){
+    if (hasCap(data, CAP_XTRAZ))
+    {
         res += "ICQ 4.0 Lite";
         return res;
     }
-    if (hasCap(data, CAP_MACICQ)){
+    if (hasCap(data, CAP_MACICQ))
+    {
         res += "ICQ for Mac";
         return res;
     }
@@ -1815,22 +1864,24 @@ QString ICQClient::clientName(ICQUserData *data)
         hasCap(data, CAP_AIM_IMIMAGE) &&
         hasCap(data, CAP_AIM_BUDDYCON) &&
         hasCap(data, CAP_UTF) &&
-        hasCap(data, CAP_AIM_CHAT)){
+        hasCap(data, CAP_AIM_CHAT))
+    {
         res += "gaim 2.0";
         return res;
     }
-    if (hasCap(data, CAP_AIM_CHAT)){
+    if (hasCap(data, CAP_AIM_CHAT))
+    {
         res += "AIM";
         return res;
     }
-    if ((data->InfoUpdateTime.toULong() & 0xFF7F0000L) == 0x7D000000L){
+    if ((data->InfoUpdateTime.toULong() & 0xFF7F0000L) == 0x7D000000L)
+    {
         QString r;
         unsigned ver = data->InfoUpdateTime.toULong() & 0xFFFF;
-        if (ver % 10){
+        if (ver % 10)
             r.sprintf("Licq %u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
-        }else{
+        else
             r.sprintf("Licq %u.%u", ver / 1000, (ver / 10) % 100);
-        }
         res += r;
         if (data->InfoUpdateTime.toULong() & 0x00800000L)
             res += "/SSL";
@@ -1838,7 +1889,8 @@ QString ICQClient::clientName(ICQUserData *data)
     }
 
 
-    if (hasCap(data, CAP_TYPING)) {
+    if (hasCap(data, CAP_TYPING)) 
+    {
         switch (data->Version.toULong()){
         case 10:
             res += "ICQ 2003b";
