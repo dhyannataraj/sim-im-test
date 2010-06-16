@@ -1782,25 +1782,18 @@ QString ICQClient::clientName(ICQUserData *data)
         {	
             if (   hasCap(data, CAP_LITE_NEW) 
                 && hasCap(data, CAP_HOST_STATUS_TEXT_AWARE) 
-                && hasCap(data, CAP_AIM_LIVE_VIDEO) 
-                && hasCap(data, CAP_AIM_LIVE_AUDIO) )
+                && hasCap(data, CAP_AIM_LIVE_VIDEO)
+                && hasCap(data, CAP_AIM_LIVE_AUDIO)) 
             {
                 res += "ICQ 7";
                 return res;
             }
-            else if (   hasCap(data, CAP_HTMLMSGS)
-                     && hasCap(data, CAP_AIM_LIVE_VIDEO) 
-                     && hasCap(data, CAP_AIM_LIVE_AUDIO) ) 
-            {
-                res += "ICQ 6";
-                return res;
-            }
             else 
             {
-                res += "ICQ 5.1";
+                res += hasCap(data, CAP_HTMLMSGS) && hasCap(data, CAP_AIM_LIVE_VIDEO) && hasCap(data, CAP_AIM_LIVE_AUDIO) ? "ICQ 6" : "ICQ 5.1";
                 return res;
             }
-        }
+        } 
         else if (   hasCap(data, CAP_ICQ5_1) 
                  && hasCap(data, CAP_ICQ5_3) 
                  && hasCap(data, CAP_ICQ5_4) )
