@@ -212,8 +212,8 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 						info.unpack((char*)shortcap, sizeof(shortcap));
 						for (unsigned i = 0;; i++)
 						{
-							if (!memcmp(m_client->capabilities[i],
-								"\x00\x00\x00\x00", 4)) {
+							if (!memcmp(m_client->capabilities[i],"\x00\x00\x00\x00", 4)) 
+                            {
 								log(L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(),
 									makeCapStr(shortcap, sizeof(shortcap)).latin1());
  								break;
