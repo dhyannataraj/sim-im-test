@@ -358,19 +358,19 @@ bool SnacIcqICBM::sendThruServer(Message *msg, void *_data)
             processSendQueue();
             return true;
         }
-        if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
-                (client()->getSendFormat() <= 1) &&
-                client()->hasCap(data, CAP_UTF) &&
-                ((msg->getFlags() & MESSAGE_SECURE) == 0) &&
-                (data->Version.toULong() >= 8) && !data->bBadClient.toBool()){
-            s.flags  = SEND_UTF;
-            s.msg    = msg;
-            s.text   = client()->addCRLF(msg->getPlainText());
-            s.screen = client()->screen(data);
-            sendFgQueue.push_back(s);
-            processSendQueue();
-            return true;
-        }
+        //if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
+        //        (client()->getSendFormat() <= 1) &&
+        //        client()->hasCap(data, CAP_UTF) &&
+        //        ((msg->getFlags() & MESSAGE_SECURE) == 0) &&
+        //        (data->Version.toULong() >= 8) && !data->bBadClient.toBool()){
+        //    s.flags  = SEND_UTF;
+        //    s.msg    = msg;
+        //    s.text   = client()->addCRLF(msg->getPlainText());
+        //    s.screen = client()->screen(data);
+        //    sendFgQueue.push_back(s);
+        //    processSendQueue();
+        //    return true;
+        //}
         if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
                 (data->Version.toULong() >= 8) &&
                 !data->bBadClient.toBool() &&
