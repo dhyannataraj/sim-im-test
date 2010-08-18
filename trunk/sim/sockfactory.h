@@ -157,7 +157,6 @@ private:
     bool m_timeout;
 	unsigned long m_addr;
 	QString m_host;
-	QTimer* m_timer;
 };
 
 
