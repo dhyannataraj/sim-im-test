@@ -166,7 +166,6 @@ StdResolver::StdResolver(QObject* parent, const QString& host) : QObject(parent)
 
 StdResolver::~StdResolver()
 {
-	delete m_timer;
 }
 
 unsigned long StdResolver::addr()
