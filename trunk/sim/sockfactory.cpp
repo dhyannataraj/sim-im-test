@@ -162,10 +162,23 @@ StdResolver::StdResolver(QObject* parent, const QString& host) : QObject(parent)
 {
 	log(L_DEBUG, "StdResolver::StdResolver()");
 	this->start();
+#ifdef WIN32
+    if (!parent)
+    {
+        log(L_ERROR, "StdResolver::StdResolver(): damaged parent -- aborting...");
+        return;
+    }
+	m_timer = new QTimer(this);
+	QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+	m_timer->start(2000);
+#endif
 }
 
 StdResolver::~StdResolver()
 {
+#ifdef WIN32
+	delete m_timer;
+#endif
 }
 
 unsigned long StdResolver::addr()
@@ -183,7 +196,6 @@ void StdResolver::run()
 	struct hostent* server_entry = gethostbyname(m_host.utf8().data());
 	if(server_entry == NULL)
 	{
-		timeout();
 		log(L_WARN, "gethostbyname failed");
 		return;
 	} 
