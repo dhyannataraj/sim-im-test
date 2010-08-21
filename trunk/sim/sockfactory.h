@@ -157,7 +157,9 @@ private:
     bool m_timeout;
 	unsigned long m_addr;
 	QString m_host;
+#ifdef WIN32
 	QTimer* m_timer;
+#endif
 };
 
 
