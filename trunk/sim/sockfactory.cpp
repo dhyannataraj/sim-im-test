@@ -46,7 +46,7 @@
 
 #ifndef WIN32
 // name resolving
-#include <netdb.h> 
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <qdns.h>
 #else
@@ -65,7 +65,7 @@ namespace SIM
 using namespace std;
 
 SIMSockets::SIMSockets(QObject *parent)
- : SocketFactory(parent) 
+ : SocketFactory(parent)
 {
 }
 
@@ -135,7 +135,7 @@ unsigned long SIMResolver::addr()
     if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
         log( L_WARN, "gethostbyname failed\n" );
         return htonl(dns->addresses().first().ip4Addr());
-    } 
+    }
     return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
 }
 
@@ -196,9 +196,10 @@ void StdResolver::run()
 	struct hostent* server_entry = gethostbyname(m_host.utf8().data());
 	if(server_entry == NULL)
 	{
+		timeout();
 		log(L_WARN, "gethostbyname failed");
 		return;
-	} 
+	}
 	m_addr = inet_addr(inet_ntoa(*(struct in_addr*)server_entry->h_addr_list[0]));
 	m_done = true;
     QTimer::singleShot(0, parent(), SLOT(resultsReady()));
@@ -363,7 +364,7 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
 {
     port = _port;
     host = _host;
-    if (host.isNull()) 
+    if (host.isNull())
         host=""; // Avoid crashing when _host is NULL
 #ifdef WIN32
     bool bState;
@@ -469,7 +470,7 @@ void SIMClientSocket::checkInterface()
 	bool iffound = false;
 	for(int i = 0; i < ifc.ifc_len/sizeof(struct ifreq); i++)
 	{
-		ifrp = ibuf + i; 
+		ifrp = ibuf + i;
 		strncpy(ifr.ifr_name, ifrp->ifr_name, sizeof(ifr.ifr_name));
 
 		if  (
