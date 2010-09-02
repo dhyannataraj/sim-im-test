@@ -33,13 +33,20 @@ Plugin *createJabberPlugin(unsigned base, bool, Buffer *cfg)
     return plugin;
 }
 
+Plugin *createJabberPluginObject()
+{
+    Plugin *plugin = new JabberPlugin(0, 0);
+    return plugin;
+}
+
 static PluginInfo info =
     {
         NULL,
         NULL,
         VERSION,
         createJabberPlugin,
-        PLUGIN_PROTOCOL
+        PLUGIN_PROTOCOL,
+        createJabberPluginObject
     };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
@@ -100,15 +107,15 @@ IMContact* JabberProtocol::createIMContact(const QSharedPointer<SIM::Client>& cl
 
 ClientPtr JabberProtocol::createClient(Buffer *cfg)
 {
-	ClientPtr jabber = ClientPtr(new JabberClient(this, cfg));
-	getClientManager()->addClient(jabber);
-	return jabber;
+    ClientPtr jabber = ClientPtr(new JabberClient(this, cfg));
+    //getClientManager()->addClient(jabber);
+    return jabber;
 }
 
 SIM::ClientPtr JabberProtocol::createClient(const QString& name)
 {
     ClientPtr jabber = ClientPtr(new JabberClient(this, name));
-    getClientManager()->addClient(jabber);
+    //getClientManager()->addClient(jabber);
     return jabber;
 }
 

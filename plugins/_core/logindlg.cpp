@@ -19,7 +19,7 @@ email                : vovan@shutoff.ru
 #include "contacts/protocolmanager.h"
 #include "clientmanager.h"
 #include "core.h"
-#include "icons.h"
+#include "imagestorage/imagestorage.h"
 #include "log.h"
 #include "profilemanager.h"
 #include "simgui/ballonmsg.h"
@@ -74,7 +74,7 @@ LoginDialog::LoginDialog(bool bInit, ClientPtr client, const QString &text, cons
 	if (m_client)
 	{
 		setWindowTitle(windowTitle() + ' ' + client->name());
-		setWindowIcon(Icon(m_client->protocol()->description()->icon));
+        setWindowIcon(getImageStorage()->icon(m_client->protocol()->description()->icon));
 		chkSave->hide();
 		chkNoShow->hide();
 		btnDelete->hide();
@@ -85,7 +85,7 @@ LoginDialog::LoginDialog(bool bInit, ClientPtr client, const QString &text, cons
 	else
 	{
 		setWindowTitle(i18n("Select profile"));
-		setWindowIcon(Icon("SIM"));
+        setWindowIcon(getImageStorage()->icon("SIM"));
 	}
 	for(int i = 0; i < cmbProfile->count(); i++)
 	{
@@ -354,7 +354,7 @@ static void rmDir(const QString &path)
 void LoginDialog::makeInputs(unsigned &row, ClientPtr client)
 {
     m_pict = new QLabel(groupBoxPasswords);
-    m_pict->setPixmap(Pict(client->protocol()->description()->icon));
+    m_pict->setPixmap(getImageStorage()->pixmap(client->protocol()->description()->icon));
     picts.push_back(m_pict);
 
     m_vboxlayout = new QVBoxLayout;
@@ -603,53 +603,4 @@ void LoginDialog::loadClients(const QString& profilename, SIM::ClientList& clien
     foreach(const QString& clname, SIM::getClientManager()->clientList()) {
         clients.push_back(SIM::getClientManager()->client(clname));
     }
-//	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
-//	QFile f(cfgName);
-//	if (!f.open(QIODevice::ReadOnly))
-//    {
-//        log(L_ERROR, "[1]Can't open %s", qPrintable(cfgName));
-//		return;
-//	}
-//	Buffer cfg = f.readAll();
-//	for (;;)
-//    {
-//		QByteArray section = cfg.getSection();
-//		if (section.isEmpty())
-//			break;
-//		QString s = section;	// ?
-//		ClientPtr client = loadClient(s, &cfg);
-//		if (client)
-//			clients.push_back(client);
-//	}
 }
-
-ClientPtr LoginDialog::loadClient(const QString &name, Buffer *cfg)
-{
-	if (name.isEmpty())
-		return ClientPtr();
-	QString clientName = name;
-	QString pluginName = getToken(clientName, '/');
-    if (pluginName.isEmpty() || clientName.length() == 0)
-		return ClientPtr();
-	if(!getPluginManager()->isPluginProtocol(pluginName))
-    {
-        log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
-		return ClientPtr();
-	}
-	PluginPtr plugin = getPluginManager()->plugin(pluginName);
-	if(plugin.isNull())
-    {
-        log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
-		return ClientPtr();
-	}
-	m_protocolPlugins.append(plugin);
-	ProfileManager::instance()->currentProfile()->enablePlugin(pluginName);
-	ProtocolPtr protocol;
-	ProtocolIterator it;
-    while ((protocol = ++it) != NULL)
-        if (protocol->description()->text == clientName)
-            return protocol->createClient(cfg);
-    log(L_DEBUG, "Protocol %s not found", qPrintable(clientName));
-	return ClientPtr();
-}
-

@@ -20,9 +20,12 @@
 #include "icons.h"
 #include "mainwin.h"
 #include "core.h"
-#include "userview.h"
+#include "roster/userview.h"
 #include "contacts/contact.h"
 #include "simgui/toolbtn.h"
+#include "events/eventhub.h"
+#include "commands/commandhub.h"
+#include "commands/uicommand.h"
 
 #include <QApplication>
 #include <QPixmap>
@@ -34,16 +37,13 @@
 
 using namespace SIM;
 
-MainWindow *MainWindow::s_mainWindow = NULL;
-
 MainWindow::MainWindow()
     : QMainWindow(NULL, Qt::Window)
     , EventReceiver(LowestPriority)
 {
+    log(L_DEBUG, "MainWindow::MainWindow()");
     setObjectName("mainwnd");
     setAttribute(Qt::WA_AlwaysShowToolTips);
-    Q_ASSERT(s_mainWindow == NULL);
-    s_mainWindow = this;
     h_lay	 = NULL;
     m_bNoResize = false;
 
@@ -51,9 +51,7 @@ MainWindow::MainWindow()
     setWindowIcon(Icon(m_icon));
     setTitle();
 
-//    setIconSize(QSize(16,16));
-
-    m_bar = NULL;
+    m_bar = new QToolBar("Main toolbar");
 
     main = new QWidget(this);
     setCentralWidget(main);
@@ -64,16 +62,20 @@ MainWindow::MainWindow()
     QStatusBar *status = statusBar();
     status->show();
     status->installEventFilter(this);
+
+	m_view = new UserView;
+	m_view->init();
+
+	getEventHub()->getEvent("init")->connectTo(this, SLOT(eventInit()));
 }
 
 MainWindow::MainWindow(Geometry &geometry)
     : QMainWindow(NULL, Qt::Window)
     , EventReceiver(LowestPriority)
 {
+    log(L_DEBUG, "MainWindow::MainWindow()");
     setObjectName("mainwnd");
     setAttribute(Qt::WA_AlwaysShowToolTips);
-    Q_ASSERT(s_mainWindow == NULL);
-    s_mainWindow = this;
     h_lay	 = NULL;
     m_bNoResize = false;
 
@@ -81,9 +83,7 @@ MainWindow::MainWindow(Geometry &geometry)
     setWindowIcon(Icon(m_icon));
     setTitle();
 
-//    setIconSize(QSize(16,16));
-
-    m_bar = NULL;
+     m_bar = new QToolBar("Main toolbar");
 
     main = new QWidget(this);
     setCentralWidget(main);
@@ -105,16 +105,17 @@ MainWindow::MainWindow(Geometry &geometry)
         geometry[TOP].asLong() = 5;
     }
     ::restoreGeometry(this, geometry, true, true);
+
+	m_view = new UserView;
+	m_view->init();
+
+    getEventHub()->getEvent("init")->connectTo(this, SLOT(eventInit()));
 }
 
 MainWindow::~MainWindow()
 {
-    s_mainWindow = NULL;
-}
-
-MainWindow *MainWindow::mainWindow()
-{
-    return s_mainWindow;
+	delete m_view;
+    delete m_bar;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -143,6 +144,24 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     return QMainWindow::eventFilter(o, e);
 }
 
+void MainWindow::populateMainToolbar()
+{
+    QStringList cmds = getCommandHub()->commandsForTag("main_toolbar");
+    foreach(const QString& cmdId, cmds) {
+        UiCommandPtr cmd = getCommandHub()->command(cmdId);
+        m_bar->addAction(cmd.data());
+    }
+}
+
+void MainWindow::eventInit()
+{
+    log(L_DEBUG, "MainWindow::eventInit()");
+    setTitle();
+    populateMainToolbar();
+    this->addToolBar(m_bar);
+    raiseWindow(this);
+}
+
 bool MainWindow::processEvent(Event *e)
 {
 	switch(e->type()){
@@ -151,20 +170,6 @@ bool MainWindow::processEvent(Event *e)
 				EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
 				m_icon = smi->icon();
 				setWindowIcon(Icon(m_icon));
-				break;
-			}
-		case eEventInit:
-			{
-				setTitle();
-				EventToolbar e(ToolBarMain, this);
-				e.process();
-				m_bar = e.toolBar();
-                m_bar->setObjectName("MainToolbar");
-				this->addToolBar(m_bar);
-//				m_bar->setMaximumHeight(30);
-//				m_bar->setMinimumHeight(30); // FIXME
-				//restoreToolbar(m_bar, CorePlugin::instance()->data.toolBarState);
-				raiseWindow(this);
 				break;
 			}
 		case eEventCommandExec:
@@ -259,8 +264,7 @@ void MainWindow::setTitle()
 void MainWindow::focusInEvent(QFocusEvent *e)
 {
     QMainWindow::focusInEvent(e);
-    if (CorePlugin::instance()->m_view)
-        CorePlugin::instance()->m_view->setFocus();
+	m_view->setFocus();
 }
 
 

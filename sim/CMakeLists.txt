@@ -15,12 +15,23 @@ SET(sim_LIB_SRCS
 		clientlist.cpp
 		clientmanager.cpp
 		cmddef.cpp
+        commands/commandhub.cpp
+        commands/uicommand.cpp
 		contacts.cpp
 		country.cpp
-		event.cpp
+        event.cpp
+        events/eventdata.cpp
+        events/eventhub.cpp
+        events/nulleventdata.cpp
+        events/standardevent.cpp
+        events/ievent.cpp
+        events/logevent.cpp
 		exec.cpp
 		fetch.cpp
 		icons.cpp
+        imagestorage/imagestorage.cpp
+        imagestorage/iconset.cpp
+        imagestorage/jispiconset.cpp
 		log.cpp
 		message.cpp
 		misc.cpp
@@ -85,12 +96,23 @@ SET(sim_LIB_HDRS
 		clientlist.h
 		clientmanager.h
 		cmddef.h
+        commands/commandhub.h
+        commands/uicommand.h
 		contacts.h
 		country.h
 		event.h
+        events/eventdata.h
+        events/eventhub.h
+        events/nulleventdata.h
+        events/standardevent.h
+        events/ievent.h
+        events/logevent.h
 		exec.h
 		fetch.h
 		icons.h
+        imagestorage/imagestorage.h
+        imagestorage/iconset.h
+        imagestorage/jispiconset.h
 		log.h
 		message.h
 		misc.h
@@ -227,6 +249,7 @@ SET(sim_tests_srcs
     tests/testprotocolmanager.cpp
     tests/testpropertyhub.cpp
     tests/testuserdata.cpp
+    tests/testeventhub.cpp
     tests/mockclient.cpp
     tests/mockprotocol.cpp
 )
@@ -243,6 +266,7 @@ SET(sim_tests_hdrs
     tests/testprotocolmanager.h
     tests/testpropertyhub.h
     tests/testuserdata.h
+    tests/testeventhub.h
     tests/mockclient.h
     tests/mockprotocol.h
 )

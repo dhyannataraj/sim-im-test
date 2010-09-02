@@ -38,6 +38,8 @@ class QResizeEvent;
 class QSizeGrip;
 class QVBoxLayout;
 
+class UserView;
+
 class MainWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
@@ -45,12 +47,12 @@ public:
     MainWindow();
     MainWindow(SIM::Geometry&);
     ~MainWindow();
-    static MainWindow *mainWindow();
     bool m_bNoResize;
     void closeEvent(QCloseEvent *e);
 protected:
     QWidget *main;
-    CToolBar *m_bar;
+    //CToolBar *m_bar;
+    QToolBar* m_bar;
     QVBoxLayout *lay;
     QHBoxLayout *h_lay;
     void focusInEvent(QFocusEvent*);
@@ -64,7 +66,13 @@ protected:
     list<QWidget*> statusWidgets;
     QString	m_icon;
     friend class CorePlugin;
-    static MainWindow *s_mainWindow;
+
+private:
+    void populateMainToolbar();
+	UserView* m_view;
+
+private slots:
+    void eventInit();
 };
 
 #endif

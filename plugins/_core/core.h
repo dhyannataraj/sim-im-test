@@ -35,6 +35,7 @@
 #include "core_consts.h"
 #include "clientlist.h"
 #include "simapi.h"
+#include "containermanager.h"
 
 using namespace std;
 
@@ -174,6 +175,8 @@ public:
 
     void changeClientStatus(SIM::Client* client, const SIM::IMStatusPtr& status);
 
+    ContainerManager* containerManager() const;
+
 signals:
     void modeChanged(int);
 protected slots:
@@ -189,6 +192,8 @@ protected slots:
     void postInit();
     void ignoreEvents(bool i);
 protected:
+
+    void subscribeToEvents();
     
     virtual bool processEvent(SIM::Event*);
     virtual QByteArray getConfig();
@@ -219,6 +224,7 @@ protected:
     bool lockProfile(const QString &profile, bool bSend = false);
 
     void createMainToolbar();
+    void createGroupModeMenu();
     bool updateMainToolbar(unsigned long commandID);
     void createHistoryToolbar();
     void createContainerToolbar();
@@ -227,13 +233,14 @@ protected:
     void createMenuMsgView();		// in msgview_menu.cpp
     void createMenuTextEdit();		// in textedit_menu.cpp
 
+    void startLogin();
+
     void prepareConfig();
 
     bool                m_bInit;
     QStringList         m_profiles;
     QWidget             *m_cfg;
     QWidget             *m_focus;
-    UserView            *m_view;
     SearchDialog        *m_search;
     QTranslator         *m_translator;
     ConnectionManager   *m_manager;
@@ -250,9 +257,14 @@ protected:
     Commands            *m_cmds;
     HistoryThread      *m_HistoryThread;
 
+private slots:
+    void eventInit();
+    void eventQuit();
+
 private:
     bool m_bIgnoreEvents;
     SIM::PropertyHubPtr m_propertyHub;
+    ContainerManager* m_containerManager;
 
     // Event handlers:
     bool processEventIconChanged();
@@ -265,7 +277,6 @@ private:
     bool processEventARRequest(SIM::Event* e);
     bool processEventSaveState(SIM::Event* e);
     bool processEventPluginChanged(SIM::Event* e);
-    bool processEventInit(SIM::Event* e);
     bool processEventHomeDir(SIM::Event* e);
     bool processEventGetProfile(SIM::Event* e);
     bool processEventAddPreferences(SIM::Event* e);
@@ -338,6 +349,8 @@ private:
 };
 
 #define GET_CorePlugin() ( static_cast<CorePlugin*>(SIM::getPluginManager()->plugin("_core").data()) )
+
+CorePlugin* getCorePlugin();
 
 #endif
 

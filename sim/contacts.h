@@ -112,6 +112,7 @@ public:
     Contact* contact(unsigned long id = 0, bool isNew = false);
     bool contactExists(unsigned long id);
     void removeContact(unsigned long id);
+    QList<Contact*> contactsInGroup(Group* gr);
 
     bool groupExists(unsigned long id);
     Group* group(unsigned long id = 0, bool isNew = false);
@@ -120,6 +121,7 @@ public:
     int  groupIndex(unsigned long id);
     int  groupCount();
     bool moveGroup(unsigned long id, bool bUp);
+    QList<Group*> allGroups();
 
     bool moveClient(Client* client, bool bUp);
     class EXPORT GroupIterator
@@ -184,8 +186,7 @@ public:
     static QTextCodec *getCodecByCodePage(const int iCP);
     static const ENCODING *getEncodings();
     const ENCODING *getEncoding(Contact *contact);
-    PropertyHubPtr userdata() { return m_userData->root(); };
-    UserDataPtr getUserData() { return m_userData; }
+    PropertyHubPtr userdata() { return m_userData->root(); }
 
 protected:
     void save_new();
@@ -196,7 +197,7 @@ protected:
     bool load_owner(const QDomElement& owner);
     bool load_groups(const QDomElement& groups);
     bool load_contacts(const QDomElement& contacts);
-    void load_old();
+    bool load_old();
 
     class ContactListPrivate *p;
     friend class Contact;
@@ -219,6 +220,7 @@ protected:
     COPY_RESTRICTED(ContactList)
 
 private:
+    UserDataPtr getUserData() { return m_userData; }
     UserDataPtr m_userData;
 };
 

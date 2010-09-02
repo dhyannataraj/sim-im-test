@@ -59,11 +59,12 @@ email                : vovan@shutoff.ru
 #include "contacts/client.h"
 #include "contacts/protocolmanager.h"
 #include "contacts/imcontact.h"
+#include "events/eventhub.h"
 // _core
 #include "core.h"
 #include "cfgdlg.h"
 #include "mainwin.h"
-#include "userview.h"
+#include "roster/userview.h"
 #include "commands.h"
 #include "usercfg.h"
 #include "interfacecfg.h"
@@ -89,6 +90,7 @@ email                : vovan@shutoff.ru
 #include "declinedlg.h"
 #include "userhistorycfg.h"
 #include "profilemanager.h"
+#include "clientmanager.h"
 
 using namespace std;
 using namespace SIM;
@@ -126,13 +128,21 @@ Plugin *createCorePlugin(unsigned base, bool, Buffer *config)
 	return plugin;
 }
 
+Plugin *createCorePluginObject()
+{
+    Plugin *plugin = new CorePlugin(0, 0);
+    return plugin;
+}
+
+
 static PluginInfo info =
 {
-	I18N_NOOP("Interface"),
-	I18N_NOOP("System interface"),
-	VERSION,
-	createCorePlugin,
-	PLUGIN_DEFAULT | PLUGIN_NODISABLE | PLUGIN_RELOAD
+    I18N_NOOP("Interface"),
+    I18N_NOOP("System interface"),
+    VERSION,
+    createCorePlugin,
+    PLUGIN_DEFAULT | PLUGIN_NODISABLE | PLUGIN_RELOAD,
+    createCorePluginObject
 };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
@@ -160,6 +170,11 @@ char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 #endif
 
 static CorePlugin* g_plugin = 0;
+
+CorePlugin* getCorePlugin()
+{
+    return g_plugin;
+}
 
 static QWidget *getInterfaceSetup(QWidget *parent, SIM::PropertyHubPtr data)
 {
@@ -212,14 +227,12 @@ static autoReply autoReplies[] =
 
 CorePlugin::CorePlugin(unsigned base, Buffer* /*config*/)
     : QObject()
-    //, PropertyHub     ("_core")
     , Plugin            (base)
     , EventReceiver     (HighPriority)
     , historyXSL        (NULL)
     , m_bInit           (false)
     , m_cfg             (NULL)
     , m_focus           (NULL)
-    , m_view            (NULL)
     , m_search          (NULL)
     , m_translator      (NULL)
     , m_manager         (NULL)
@@ -228,7 +241,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer* /*config*/)
     , m_nClients        (0)
     , m_nClientsMenu    (0)
     , m_nResourceMenu   (0)
-    , m_main            (NULL)
     , m_alert           (NULL)
     , m_lock            (NULL)
     , m_RegNew          (false)
@@ -238,10 +250,10 @@ CorePlugin::CorePlugin(unsigned base, Buffer* /*config*/)
     , m_bIgnoreEvents   (false)
     , m_propertyHub     (SIM::PropertyHub::create("_core"))
 {
-	g_plugin= this;
+    g_plugin = this;
 	setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
+    m_containerManager = new ContainerManager(this);
 
-	//loadDir();
 	boundTypes();
 
 	EventMenu(MenuFileDecline,      EventMenu::eAdd).process();
@@ -262,7 +274,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer* /*config*/)
 	createMenuTextEdit();
 
 	MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
-	// because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, witch are
+    // because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, which are
 	// created by createContainerToolbar and createMsgEditToolbar
 	// If menu or toolbar were not created, items can't be added, and will be just missing
 	Command cmd;
@@ -273,6 +285,21 @@ CorePlugin::CorePlugin(unsigned base, Buffer* /*config*/)
 	EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
 
 	createEventCmds();
+    subscribeToEvents();
+
+    m_main = new MainWindow();
+}
+
+void CorePlugin::subscribeToEvents()
+{
+    getEventHub()->getEvent("init")->connectTo(this, SLOT(eventInit()));
+    getEventHub()->getEvent("quit")->connectTo(this, SLOT(eventQuit()));
+}
+
+void CorePlugin::eventQuit()
+{
+    destroy();
+    m_cmds->clear();
 }
 
 void CorePlugin::createCommand(int id, const QString& text, const QString& icon, int menu_id,
@@ -289,6 +316,11 @@ void CorePlugin::createCommand(int id, const QString& text, const QString& icon,
     cmd->flags = flags;
     cmd->accel = accel;
     EventCommandCreate(cmd).process();
+}
+
+ContainerManager* CorePlugin::containerManager() const
+{
+    return m_containerManager;
 }
 
 void CorePlugin::createEventCmds()
@@ -666,6 +698,8 @@ CorePlugin::~CorePlugin()
 	delete m_status;
 	delete historyXSL;
 	delete m_HistoryThread;
+    delete m_containerManager;
+    delete m_main;
 
 	removeTranslator();
 }
@@ -1039,16 +1073,15 @@ bool CorePlugin::processEventPluginChanged(SIM::Event* e)
     return false;
 }
 
-bool CorePlugin::processEventInit(SIM::Event* e)
+void CorePlugin::eventInit()
 {
-    EventInit *i = static_cast<EventInit*>(e);
+    log(L_DEBUG, "CorePlugin::eventInit");
     if (!m_bInit && !init(true)) {
-        i->setAbortLoading();
-        return true;
+        getEventHub()->triggerEvent("init_abort");
+        return;
     }
     QTimer::singleShot(0, this, SLOT(checkHistory()));
     QTimer::singleShot(0, this, SLOT(postInit()));
-    return false;
 }
 
 bool CorePlugin::processEventHomeDir(SIM::Event* e)
@@ -1387,101 +1420,61 @@ bool CorePlugin::processEventOpenMessage(SIM::Event* e)
     if (contact == NULL)
         return false;
     UserWnd		*userWnd	= NULL;
-    Container	*container	= NULL;
-    QWidgetList list = QApplication::topLevelWidgets();
-    QWidget * w;
+    ContainerPtr container;
     bool bNew = false;
-    log(L_DEBUG, "contactID: %ld", contact->id());
-    foreach (w,list)
+    for(int i = 0; i < containerManager()->containerCount(); i++)
     {
-        if (w->inherits("Container"))
+        container = containerManager()->container(i);
+        if(containerManager()->containerMode() == ContainerManager::cmSimpleMode)
         {
-            log(L_DEBUG, "ContainerFound");
-            container =  static_cast<Container*>(w);
-            if(getContainerMode() == 0)
+            if(container->isReceived() != ((msg->getFlags() & MESSAGE_RECEIVED) != 0))
             {
-                log(L_DEBUG, "Mode0");
-                if(container->isReceived() != ((msg->getFlags() & MESSAGE_RECEIVED) != 0))
-                {
-                    container = NULL;
-                    continue;
-                }
+                container.clear();
+                continue;
             }
-            userWnd = container->wnd(contact->id());
-            if (userWnd)
-            {
-                log(L_DEBUG, "found");
-                break;
-            }
-            container = NULL;
         }
+        userWnd = container->wnd(contact->id());
+        if (userWnd)
+            break;
+        container.clear();
     }
+
     if(userWnd == NULL)
     {
-        log(L_DEBUG, "notfound");
         if (contact->getFlags() & CONTACT_TEMP)
         {
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
             EventContact(contact, EventContact::eChanged).process();
         }
         userWnd = new UserWnd(contact->id(), NULL, msg->getFlags() & MESSAGE_RECEIVED, msg->getFlags() & MESSAGE_RECEIVED);
-        if(getContainerMode() == 3)
+        if(containerManager()->containerMode() == ContainerManager::cmOneContainer)
         {
-            QWidgetList list = QApplication::topLevelWidgets();
-            QWidget * w;
-            foreach (w,list)
+            if(containerManager()->containerCount() == 0)
             {
-                if (w->inherits("Container")){
-                    container =  static_cast<Container*>(w);
-                    break;
-                }
-            }
-            if (container == NULL){
-                container = new Container(1);
+                container = containerManager()->makeContainer(1);
+                containerManager()->addContainer(container);
                 bNew = true;
             }
+            else
+                container = containerManager()->container(0);
         }
-        else if (getContainerMode() == 2)
+        else if (containerManager()->containerMode() == ContainerManager::cmGroupContainers)
         {
             unsigned id = contact->getGroup() + CONTAINER_GRP;
-            QWidgetList list = QApplication::topLevelWidgets();
-            QWidget * w;
-            foreach (w,list)
+            container = containerManager()->containerById(id);
+            if(!container)
             {
-                if(w->inherits("Container"))
-                {
-                    container =  static_cast<Container*>(w);
-                    if (container->getId() == id)
-                        break;
-                    container = NULL;
-                }
-            }
-            if(container == NULL)
-            {
-                container = new Container(id);
+                container = containerManager()->makeContainer(id);
+                containerManager()->addContainer(container);
                 bNew = true;
             }
         }
         else
         {
-            unsigned max_id = 0;
-            QWidgetList list = QApplication::topLevelWidgets();
-            QWidget * w;
-            foreach (w,list)
-            {
-                if (w->inherits("Container"))
-                {
-                    container =  static_cast<Container*>(w);
-                    if(!(container->getId() & CONTAINER_GRP))
-                    {
-                        if(max_id < container->getId())
-                            max_id = container->getId();
-                    }
-                }
-            }
-            container = new Container(max_id + 1);
+            container = containerManager()->makeContainer(contact->id());
+            containerManager()->addContainer(container);
             bNew = true;
-            if (getContainerMode() == 0)
+            if (containerManager()->containerMode() == ContainerManager::cmSimpleMode)
                 container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
         }
         container->addUserWnd(userWnd, (msg->getFlags() & MESSAGE_NORAISE) == 0);
@@ -1508,7 +1501,7 @@ bool CorePlugin::processEventOpenMessage(SIM::Event* e)
     }else{
         container->init();
         container->show();
-        raiseWindow(container);
+        raiseWindow(container.data());
     }
     container->setNoSwitch(false);
     if (m_focus)
@@ -2926,14 +2919,6 @@ bool CorePlugin::processEvent(Event *e)
 		case eEventPluginChanged:
                 return processEventPluginChanged(e);
 
-		case eEventInit:
-                return processEventInit(e);
-
-		case eEventQuit:
-			destroy();
-			m_cmds->clear();
-			return false;
-
 		case eEventHomeDir:
             return processEventHomeDir(e);
 
@@ -3103,14 +3088,15 @@ void CorePlugin::selectProfile()
 	EventSaveState e;
 	e.process();
 	bool changed = init(false);
-	if (changed){
-		EventInit e2;
-		e2.process();
-	}
+//	if (changed){
+//		EventInit e2;
+//		e2.process();
+//	}
 }
 
 bool CorePlugin::init(bool bInit)
 {
+    log(L_DEBUG, "CorePlugin::init");
 	m_bInit = bInit;
 	bool bLoaded = false;
 	bool bRes = true;
@@ -3173,6 +3159,7 @@ bool CorePlugin::init(bool bInit)
 		profile = settings.value("Profile").toString();
 		ProfileManager::instance()->selectProfile(profile);
         changeProfile(profile);
+        startLogin();
 		//bLoaded = true;
 	}
 	if(newProfile)
@@ -3244,28 +3231,28 @@ bool CorePlugin::init(bool bInit)
 		NewProtocol pDlg(NULL,1,true);
 		pDlg.exec();
 	}
-	if (!m_main)
-        m_main = new MainWindow(/*data.geometry*/);
 
 	loadUnread();
+    containerManager()->init();
 
     log(L_DEBUG, "geometry: %s", value("geometry").toByteArray().toHex().data());
     m_main->restoreGeometry(value("geometry").toByteArray());
-    m_view = new UserView;
+
+    m_main->show();
 
     EventLoginStart e;
     e.process();
 
-	if (!bNew)
+    if (!bNew)
     {
-		QString containers = value("Containers").toString();
-		QVariantMap containerMap = value("Container").toMap();
-		while (!containers.isEmpty())
+        QString containers = value("Containers").toString();
+        QVariantMap containerMap = value("Container").toMap();
+        while (!containers.isEmpty())
         {
-			Container *c = new Container(0, containerMap.value(getToken(containers, ',')).toString().toUtf8().constData());
-			c->init();
-		}
-	}
+            Container *c = new Container(0, containerMap.value(getToken(containers, ',')).toString().toUtf8().constData());
+            c->init();
+        }
+    }
 	//clearContainer();
 	setValue("Containers", QString());
 	setValue("Container", QVariantMap());
@@ -3281,56 +3268,61 @@ bool CorePlugin::init(bool bInit)
 	return bRes || bNew;
 }
 
+void CorePlugin::startLogin()
+{
+    ClientList clients;
+    SIM::getClientManager()->load();
+    foreach(const QString& clname, SIM::getClientManager()->clientList()) {
+        clients.push_back(SIM::getClientManager()->client(clname));
+    }
+    clients.addToContacts();
+    getContacts()->load();
+
+    for (unsigned i = 0; i < clients.size(); i++)
+    {
+        Client *client = getContacts()->getClient(i);
+        unsigned status = client->getStatus();
+        if (status == STATUS_OFFLINE)
+            status = STATUS_ONLINE;
+        client->setStatus(status, client->getCommonStatus());
+    }
+}
+
 void CorePlugin::destroy()
 {
-	QWidgetList l = QApplication::topLevelWidgets();
+    QWidgetList l = QApplication::topLevelWidgets();
     QWidget *w;
-	list<QWidget*> forRemove;
+    list<QWidget*> forRemove;
     foreach(w,l)
-	{
-		if (w->inherits("Container") ||
-				w->inherits("HistoryWindow") ||
-				w->inherits("UserConfig"))
-			forRemove.push_back(w);
-	}
-	for(list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
-		delete *itr;
+    {
+        if (w->inherits("Container") ||
+            w->inherits("HistoryWindow") ||
+            w->inherits("UserConfig"))
+            forRemove.push_back(w);
+    }
+    for(list<QWidget*>::iterator itr = forRemove.begin(); itr != forRemove.end(); ++itr)
+        delete *itr;
 
-	if (m_statusWnd)
+    if (m_statusWnd)
     {
-		delete m_statusWnd;
-		m_statusWnd = NULL;
-	}
-	if (m_view)
+        delete m_statusWnd;
+        m_statusWnd = NULL;
+    }
+    if (m_cfg)
     {
-		delete m_view;
-		m_view = NULL;
-	}
-	if (m_cfg)
+        delete m_cfg;
+        m_cfg = NULL;
+    }
+    if (m_search)
     {
-		delete m_cfg;
-		m_cfg = NULL;
-	}
-	if (m_main)
+        delete m_search;
+        m_search = NULL;
+    }
+    if (m_manager)
     {
-		delete m_main;
-		m_main = NULL;
-	}
-	if (m_view)
-    {
-		delete m_view;
-		m_view = NULL;
-	}
-	if (m_search)
-    {
-		delete m_search;
-		m_search = NULL;
-	}
-	if (m_manager)
-{
-		delete m_manager;
-		m_manager = NULL;
-	}
+        delete m_manager;
+        m_manager = NULL;
+    }
 }
 
 static char CLIENTS_CONF[] = "clients.conf";
@@ -3892,12 +3884,12 @@ void CorePlugin::showPanel()
 
 unsigned CorePlugin::getContainerMode()
 {
-    return value("ContainerMode").toUInt(); //data.ContainerMode.toULong();
+    return m_containerManager->containerMode();
 }
 
 void CorePlugin::setContainerMode(unsigned value)
 {
-    setValue("ContainerMode", value);
+    m_containerManager->setContainerMode((ContainerManager::ContainerMode)value);
     emit modeChanged(value);
 }
 

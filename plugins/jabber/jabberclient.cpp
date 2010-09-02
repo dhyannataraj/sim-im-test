@@ -122,14 +122,50 @@ DataDef jabberUserData[] =
     };
 
 JabberUserData::JabberUserData(const ClientPtr& cl) : IMContact(),
-    m_client(cl)
+    m_client(cl),
+    m_statusTime(0),
+    m_onlineTime(0),
+    m_subscribe(0),
+    m_nResources(0)
 {
 
 }
 
 void JabberUserData::serialize(QDomElement& element)
 {
-
+    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
+    hub->setValue("LastSend", (unsigned int)getLastSend());
+    hub->setValue("ID", getId());
+    hub->setValue("Node", getNode());
+    hub->setValue("Resource", getResource());
+    hub->setValue("FirstName", getFirstName());
+    hub->setValue("Nick", getNick());
+    hub->setValue("Desc", getDesc());
+    hub->setValue("BirthDay", getBirthday());
+    hub->setValue("Url", getUrl());
+    hub->setValue("OrgName", getOrgName());
+    hub->setValue("OrgUnit", getOrgUnit());
+    hub->setValue("Role", getRole());
+    hub->setValue("Title", getTitle());
+    hub->setValue("Street", getStreet());
+    hub->setValue("ExtAddr", getExtAddr());
+    hub->setValue("City", getCity());
+    hub->setValue("Region", getRegion());
+    hub->setValue("PCode", getPCode());
+    hub->setValue("Role", getRole());
+    hub->setValue("Country", getCountry());
+    hub->setValue("EMail", getEmail());
+    hub->setValue("Phone", getPhone());
+    hub->setValue("StatusTime", (unsigned int)getStatusTime());
+    hub->setValue("OnlineTime", (unsigned int)getOnlineTime());
+    hub->setValue("Subscribe", (unsigned int)getSubscribe());
+    hub->setValue("Group", getGroup());
+    hub->setValue("PhotoWidth", (unsigned int)getPhotoWidth());
+    hub->setValue("PhotoHeight", (unsigned int)getPhotoHeight());
+    hub->setValue("LogoWidth", (unsigned int)getLogoWidth());
+    hub->setValue("LogoHeight", (unsigned int)getLogoHeight());
+    hub->setValue("AutoReply", getAutoReply());
+    hub->serialize(element);
 }
 
 void JabberUserData::deserialize(QDomElement& element)
@@ -144,18 +180,19 @@ QByteArray JabberUserData::serialize()
 
 void JabberUserData::deserializeLine(const QString& key, const QString& value)
 {
-	QString val = value;
-	if(val.startsWith('\"') && val.endsWith('\"'))
-		val = val.mid(1, val.length() - 2);
-	if(key == "LastSend") {
+
+    QString val = value;
+    if(val.startsWith('\"') && val.endsWith('\"'))
+        val = val.mid(1, val.length() - 2);
+    if(key == "LastSend") {
         setLastSend(val.toULong());
-	}
-	else if(key == "ID") {
+    }
+    else if(key == "ID") {
         setId(val);
-	}
-	else if(key == "Node") {
+    }
+    else if(key == "Node") {
         setNode(val);
-	}
+    }
     else if(key == "Resource") {
         setResource(val);
     }
@@ -330,6 +367,7 @@ void JabberClientData::deserializeLine(const QString& key, const QString& value)
     QString val = value;
     if(val.startsWith('\"') && val.endsWith('\"'))
         val = val.mid(1, val.length() - 2);
+    log(L_DEBUG, "JabberClientData::deserializeLine(%s, %s)", qPrintable(key), qPrintable(value));
     if(val == "Server") {
         setServer(key);
     }
@@ -403,9 +441,8 @@ unsigned long JabberClientData::getSign()
 }
 
 JabberClient::JabberClient(JabberProtocol* protocol, const QString& name): TCPClient(protocol, NULL),
-    data(SIM::ClientPtr(0))
+    data(SIM::ClientPtr(0)), m_name(name)
 {
-    //load_data(jabberClientData, &data, cfg);
     QString jid = data.owner.getId();
     //log(L_DEBUG, "JID: %s", jid.toUtf8().data());
 
@@ -535,6 +572,71 @@ bool JabberClient::compareData(void *d1, void *d2)
     JabberUserData *data1 = toJabberUserData((SIM::IMContact*)d1); // FIXME unsafe type conversion
     JabberUserData *data2 = toJabberUserData((SIM::IMContact*)d2); // FIXME unsafe type conversion
     return (data1->getId().toLower() == data2->getId().toLower());
+}
+
+bool JabberClient::serialize(QDomElement& element)
+{
+    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
+    hub->setValue("Server", getServer());
+    hub->setValue("Port", getPort());
+    hub->setValue("UseSSL", getUseSSL());
+    hub->setValue("UsePlain", getUsePlain());
+    hub->setValue("UseVHost", getUseVHost());
+    hub->setValue("Priority", (unsigned int)getPriority());
+    hub->setValue("ListRequest", getListRequest());
+    hub->setValue("VHost", getVHost());
+    hub->setValue("Typing", getTyping());
+    hub->setValue("RichText", getRichText());
+    hub->setValue("UseVersion", getUseVersion());
+    hub->setValue("ProtocolIcons", getProtocolIcons());
+    hub->setValue("MinPort", (unsigned int)getMinPort());
+    hub->setValue("MaxPort", (unsigned int)getMaxPort());
+    hub->setValue("Photo", getPhoto());
+    hub->setValue("Logo", getLogo());
+    hub->setValue("AutoSubscribe", getAutoSubscribe());
+    hub->setValue("AutoAccept", getAutoAccept());
+    hub->setValue("UseHTTP", getUseHTTP());
+    hub->setValue("URL", getURL());
+    hub->setValue("InfoUpdated", getInfoUpdated());
+    hub->serialize(element);
+    return Client::serialize(element);
+}
+
+bool JabberClient::deserialize(QDomElement& element)
+{
+    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
+    if(!hub->deserialize(element))
+        return false;
+    setServer(hub->value("Server").toString());
+    setPort(hub->value("Port").toUInt());
+    setUseSSL(hub->value("UseSSL").toBool());
+    setUsePlain(hub->value("UsePlain").toBool());
+    setUseVHost(hub->value("UseVHost").toBool());
+    setPriority(hub->value("Priority").toUInt());
+    setListRequest(hub->value("ListRequest").toString());
+    setVHost(hub->value("VHost").toString());
+    setTyping(hub->value("Typing").toBool());
+    setRichText(hub->value("RichText").toBool());
+    setUseVersion(hub->value("UseVersion").toBool());
+    setProtocolIcons(hub->value("ProtocolIcons").toBool());
+    setMinPort(hub->value("MinPort").toUInt());
+    setMaxPort(hub->value("MaxPort").toUInt());
+    setPhoto(hub->value("Photo").toString());
+    setLogo(hub->value("Logo").toString());
+    setAutoSubscribe(hub->value("AutoSubscribe").toBool());
+    setAutoAccept(hub->value("AutoAccept").toBool());
+    setUseHTTP(hub->value("UseHTTP").toBool());
+    setURL(hub->value("URL").toString());
+    setInfoUpdated(hub->value("InfoUpdated").toBool());
+    Client::deserialize(element);
+    return true;
+}
+
+bool JabberClient::deserialize(Buffer* cfg)
+{
+    data.deserialize(cfg);
+    Client::deserialize(cfg);
+    return true;
 }
 
 void JabberClient::setID(const QString &id)
@@ -783,9 +885,13 @@ QByteArray JabberClient::getConfig()
 
 QString JabberClient::name()
 {
-    QString res = "Jabber.";
-    res += data.owner.getId();
-    return res;
+    if(m_name.isEmpty())
+    {
+        QString res = "Jabber.";
+        res += data.owner.getId();
+        return res;
+    }
+    return m_name;
 }
 
 QWidget	*JabberClient::setupWnd()
@@ -1083,7 +1189,6 @@ void JabberClient::changeStatus(const SIM::IMStatusPtr& status)
     data.owner.setStatusTime(now.toTime_t());
     if (currentStatus()->id() == "offline")
         data.owner.setOnlineTime(now.toTime_t());
-    TCPClient::changeStatus(status);
     QSharedPointer<JabberStatus> jabberstatus = status.dynamicCast<JabberStatus>();
     socket()->writeBuffer().packetStart();
     QString priority = QString::number(getPriority());
@@ -1138,6 +1243,7 @@ void JabberClient::changeStatus(const SIM::IMStatusPtr& status)
         }
         */
     }
+    TCPClient::changeStatus(status);
 }
 
 void JabberClient::setStatus(unsigned status)

@@ -23,9 +23,6 @@ namespace SIM
 
     SIM_DEPRECATED Client::Client(Protocol *protocol, Buffer *cfg)
     {
-//        if(cfg)
-//            load_data(_clientData, &data, cfg);
-        
         m_currentStatus = IMStatusPtr(/*new InvalidStatus()*/);
         m_data = PropertyHub::create();
 
@@ -203,7 +200,7 @@ namespace SIM
         PropertyHubPtr hub = PropertyHub::create();
         hub->setValue("ManualStatus", (unsigned int)getManualStatus());
         hub->setValue("CommonStatus", getCommonStatus());
-        hub->setValue("Password", getPassword());
+        hub->setValue("Password", cryptPassword(getPassword()));
         hub->setValue("SavePassword", getSavePassword());
         hub->setValue("PreviousPassword", getPreviousPassword());
         hub->setValue("LastSend", m_lastSend);
@@ -231,7 +228,7 @@ namespace SIM
         QString val = value;
         if(val.startsWith('\"') && val.endsWith('\"'))
             val = val.mid(1, val.length() - 2);
-        log(L_DEBUG, "Client::deserializeLine(): %s=%s", qPrintable(key), qPrintable(val));
+        //log(L_DEBUG, "Client::deserializeLine(): %s=%s", qPrintable(key), qPrintable(val));
         if(key == "ManualStatus") {
             setManualStatus(val.toUInt());
         }

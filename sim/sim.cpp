@@ -25,6 +25,11 @@
 #include "paths.h"
 #include "socket/socketfactory.h"
 #include "contacts/protocolmanager.h"
+#include "events/eventhub.h"
+#include "events/standardevent.h"
+#include "events/logevent.h"
+#include "commands/commandhub.h"
+#include "imagestorage/imagestorage.h"
 
 #include <QDir>
 
@@ -76,6 +81,14 @@ void simMessageOutput(QtMsgType, const char *msg)
 #define _VERSION	VERSION
 #endif
 
+void registerEvents()
+{
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("init"));
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("init_abort"));
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("quit"));
+    SIM::getEventHub()->registerEvent(SIM::LogEvent::create());
+}
+
 int main(int argc, char *argv[])
 {
     SimFileEngineHandler simfs;
@@ -97,6 +110,7 @@ int main(int argc, char *argv[])
     if (!KUniqueApplication::start())
         exit(-1);
 #endif
+
     SimApp app(argc, argv);
 #ifdef Q_OS_MAC
     QString sPluginPath = app.applicationDirPath() + "/../";
@@ -104,11 +118,17 @@ int main(int argc, char *argv[])
     QString sPluginPath = app.applicationDirPath() + "/plugins";
 #endif
     QApplication::addLibraryPath(sPluginPath);
+
+    SIM::createEventHub();
+    registerEvents();
+    SIM::createImageStorage();
+    SIM::createCommandHub();
     SIM::createSocketFactory();
     SIM::createContactList();
     SIM::createProtocolManager();
     SIM::createPluginManager(argc, argv);
     SIM::createClientManager();
+
 
     if(!getPluginManager()->initialize())
         return 1;
@@ -121,6 +141,9 @@ int main(int argc, char *argv[])
     SIM::destroyProtocolManager();
     SIM::destroyContactList();
     SIM::destroySocketFactory();
+    SIM::destroyCommandHub();
+    SIM::destroyImageStorage();
+    SIM::destroyEventHub();
     return res;
 }
 

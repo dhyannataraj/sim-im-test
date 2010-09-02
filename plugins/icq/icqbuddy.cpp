@@ -85,6 +85,7 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 		{
 			Contact *contact;
 			QString screen = buf->unpackScreen();
+            log(L_DEBUG, "Buddy offline: %s", qPrintable(screen));
 			ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
 			if(!data)
 				break;
@@ -110,8 +111,9 @@ bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf, unsigned shor
 		}
     case ICQ_SNACxBDY_USERONLINE:
 		{
-			Contact *contact;
-			QString screen = buf->unpackScreen();
+            Contact *contact;
+            QString screen = buf->unpackScreen();
+            log(L_DEBUG, "Buddy online: %s", qPrintable(screen));
 			ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
 			if(data)
 			{
@@ -570,30 +572,30 @@ void ICQClient::buddyRequest()
 
 void ICQClient::sendContactList()
 {
-    buddies.clear();
-    Contact *contact;
-    ContactList::ContactIterator it;
-    while ((contact = ++it) != NULL){
-        ClientDataIterator it_data = contact->clientDataIterator(this);
-        ICQUserData *data;
-        while ((data = toICQUserData(++it_data)) != NULL){
-            if (data->getIgnoreId() == 0)
-                buddies.push_back(screen(data));
-        }
-    }
-    if (buddies.empty())
-        return;
-    snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-    it.reset();
-    while ((contact = ++it) != NULL){
-        ClientDataIterator it_data = contact->clientDataIterator(this);
-        ICQUserData *data;
-        while ((data = toICQUserData(++it_data)) != NULL){
-            if (data->getIgnoreId() == 0)
-                socket()->writeBuffer().packScreen(screen(data));
-        }
-    }
-    sendPacket(true);
+	//buddies.clear();
+//    Contact *contact;
+//    ContactList::ContactIterator it;
+//    while ((contact = ++it) != NULL){
+//        ClientDataIterator it_data = contact->clientDataIterator(this);
+//        ICQUserData *data;
+//        while ((data = toICQUserData(++it_data)) != NULL){
+//            if (data->getIgnoreId() == 0)
+//                buddies.push_back(screen(data));
+//        }
+//    }
+//    if (buddies.empty())
+//        return;
+//    snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
+//    it.reset();
+//    while ((contact = ++it) != NULL){
+//        ClientDataIterator it_data = contact->clientDataIterator(this);
+//        ICQUserData *data;
+//        while ((data = toICQUserData(++it_data)) != NULL){
+//            if (data->getIgnoreId() == 0)
+//                socket()->writeBuffer().packScreen(screen(data));
+//        }
+//    }
+//    sendPacket(true);
 }
 
 void SnacIcqBuddy::addBuddy(Contact *contact)

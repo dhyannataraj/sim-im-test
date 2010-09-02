@@ -371,20 +371,20 @@ void ContactList::addContact(Contact *contact)
 Group *ContactList::group(unsigned long id, bool isNew)
 {
     vector<Group*>::iterator it;
-    if (id || !isNew){
-        for (it = p->groups.begin(); it != p->groups.end(); ++it){
+    if (id || !isNew)
+    {
+        for (it = p->groups.begin(); it != p->groups.end(); ++it) //Search group with given id and return group obj
+        {
             if ((*it)->id() == id)
                 return (*it);
         }
     }
-    if (!isNew)
+    if (!isNew) 
         return NULL;
-    if (id == 0){
-        for (it = p->groups.begin(); it != p->groups.end(); ++it){
+    if (id == 0) //calculate new group id and create a new group
+        for (it = p->groups.begin(); it != p->groups.end(); ++it)
             if (id <= (*it)->id())
                 id = (*it)->id() + 1;
-        }
-    }
     Group *res = new Group(id);
     p->groups.push_back(res);
     EventGroup e(res, EventGroup::eAdded);
@@ -394,10 +394,9 @@ Group *ContactList::group(unsigned long id, bool isNew)
 
 int ContactList::groupIndex(unsigned long id)
 {
-    for (unsigned i = 0; i < p->groups.size(); i++){
+    for (unsigned i = 0; i < p->groups.size(); i++)
         if (p->groups[i]->id() == id)
             return i;
-    }
     return -1;
 }
 
@@ -410,9 +409,10 @@ bool ContactList::moveGroup(unsigned long id, bool bUp)
 {
     if (id == 0)
         return false;
-    for (unsigned i = 1; i < p->groups.size(); i++){
-        if (p->groups[i]->id() == id){
-            if (!bUp && (i == p->groups.size() - 1))
+    for (unsigned i = 1; i < p->groups.size(); i++)
+        if (p->groups[i]->id() == id)
+        {
+            if (!bUp && i == p->groups.size() - 1)
                 return false;
             if (bUp) i--;
             if (i == 0)
@@ -426,7 +426,6 @@ bool ContactList::moveGroup(unsigned long id, bool bUp)
             e2.process();
             return true;
         }
-    }
     return false;
 }
 
@@ -445,7 +444,8 @@ GroupIteratorPrivate::GroupIteratorPrivate()
 
 Group *GroupIteratorPrivate::operator++()
 {
-    if (it != getContacts()->p->groups.end()){
+    if (it != getContacts()->p->groups.end())
+    {
         Group *res = (*it);
         ++it;
         return res;
@@ -627,99 +627,6 @@ extern DataDef contactData[];
 void ContactList::save()
 {
 	save_new();
-//    QString cfgName = user_file(CONTACTS_CONF);
-//    QFile f(cfgName + QString(BACKUP_SUFFIX)); // use backup file for this ...
-//    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)){
-//        log(L_ERROR, "Can't create %s", qPrintable(f.fileName()));
-//        return;
-//    }
-//    QByteArray line = p->userData.save();
-//    if (line.length()){
-//        line += '\n';
-//        f.write(line);
-//    }
-//    line = save_data(contactData, &owner()->data);
-//    if (line.length()){
-//        QByteArray cfg  = "[";
-//        cfg += OWNER;
-//        cfg += "]\n";
-//        line += '\n';
-//        f.write(cfg);
-//        f.write(line);
-//    }
-//    for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
-//        Group *grp = *it_g;
-//        line = "[";
-//        line += GROUP;
-//        line += QByteArray::number((quint32)grp->id());
-//        line += "]\n";
-//        f.write(line);
-//        line = save_data(groupData, &grp->data);
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        } else {
-//            /* Group has no name --> Not In List
-//               since the load_data seems to have problems with totally empty
-//               entries, this must be ...*/
-//            f.write("Name=\"NIL\"\n");
-//        }
-//        line = grp->userData.save();
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        }
-//        line = grp->clientData.save();
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        }
-//    }
-//    for (map<unsigned long, Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
-//        const Contact *contact = it_c->second;
-//        if (contact->getFlags() & CONTACT_TEMPORARY)
-//            continue;
-//        line = "[";
-//        line += CONTACT;
-//        line += QByteArray::number((quint32)contact->id());
-//        line += "]\n";
-//        f.write(line);
-//        line = save_data(contactData, &contact->data);
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        }
-//        line = contact->userData.save();
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        }
-//        line = contact->clientData.save();
-//        if (line.length()){
-//            line += '\n';
-//            f.write(line);
-//        }
-//    }
-//    f.flush();  // Make sure that file is fully written and we will not get "Disk Full" error on f.close
-//    QFile::FileError status = f.error();
-//    const QString errorMessage = f.errorString();
-//    f.close();
-//    if (status != QFile::NoError) {
-//        log(L_ERROR, "IO error during writing to file %s : %s", qPrintable(f.fileName()), qPrintable(errorMessage));
-//        return;
-//    }
-//
-//    // rename to normal file
-//    QFileInfo fileInfo(f.fileName());
-//    QString desiredFileName = fileInfo.fileName();
-//    desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-////#if defined( WIN32 ) || defined( __OS2__ )
-//    fileInfo.dir().remove(desiredFileName);
-////#endif
-//    if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-//        log(L_ERROR, "Can't rename file %s to %s", qPrintable(fileInfo.fileName()), qPrintable(desiredFileName));
-//        return;
-//    }
 }
 
 void ContactList::clear()
@@ -730,58 +637,26 @@ void ContactList::clear()
 void ContactList::load()
 {
     clear();
-//    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
-//    QFile f(cfgName);
-//    if (!f.open(QIODevice::ReadOnly)){
-//        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
-//        return;
-//    }
-//    Buffer cfg = f.readAll();
-//
-//	f.close();
-//    Contact *c = NULL;
-//    Group   *g = NULL;
-//    for (;;){
-//        QByteArray section = cfg.getSection();
-//        if (section.isEmpty())
-//            break;
-//        if (section == OWNER){
-//            p->flush(c, g);
-//            c = owner();
-//            g = NULL;
-//            section.clear();
-//        }else if (section.startsWith(GROUP)){
-//            p->flush(c, g);
-//            c = NULL;
-//            unsigned long id = section.mid(strlen(GROUP)).toULong();
-//            g = group(id, id != 0);
-//            section.clear();
-//        }else if (section.startsWith(CONTACT)){
-//            p->flush(c, g);
-//            g = NULL;
-//            unsigned long id = section.mid(strlen(CONTACT)).toULong();
-//            c = contact(id, true);
-//            section.clear();
-//        }
-//        p->flush(c, g, section, &cfg);
-//    }
-//    p->flush(c, g);
-//    // Notify the clients about the newly loaded contact list
-	load_old();
-	load_new();
+    if(!load_new())
+    {
+        if(!load_old())
+        {
+            log(L_ERROR, "Unable to load contacts");
+        }
+    }
     for (unsigned i = 0; i < nClients(); i++){
         Client *client = getClient(i);
         client->contactsLoaded();
     }
 }
 
-void ContactList::load_old()
+bool ContactList::load_old()
 {
     QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
     QFile f(cfgName);
     if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
-        return;
+        return false;
     }
 
     PropertyHubPtr currenthub;
@@ -860,6 +735,7 @@ void ContactList::load_old()
             }
         }
     }
+    return true;
 }
 
 void ContactList::save_new()
@@ -935,15 +811,6 @@ bool ContactList::save_contacts( QDomElement element ) {
         QDomElement contact = element.ownerDocument().createElement("contact");
         contact.setAttribute("id", QString::number(it->first));
         it->second->serialize(contact);
-//        it->second->getUserData()->serialize(contact);
-//        QStringList clients = it->second->clientNames();
-//        foreach(const QString& clname, clients) {
-//            IMContact* imc = it->second->getData(clname);
-//            QDomElement clientElement = element.ownerDocument().createElement("clientdata");
-//            clientElement.setAttribute("clientname", imc->client()->name());
-//            imc->serialize(clientElement);
-//            contact.appendChild(clientElement);
-//        }
         element.appendChild(contact);
     }
 
@@ -954,7 +821,8 @@ bool ContactList::load_new()
 {
     QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
     QFile f(cfgName);
-    f.open(QIODevice::ReadOnly);
+    if(!f.open(QIODevice::ReadOnly))
+        return false;
     QDomDocument doc;
     doc.setContent(f.readAll());
     QDomElement el = doc.elementsByTagName("global").at(0).toElement();
@@ -962,7 +830,7 @@ bool ContactList::load_new()
         return false;
 
     QDomElement owner = doc.elementsByTagName("owner").at(0).toElement();
-    load_owner(owner);
+    this->load_owner(owner);
 
     QDomElement groups = doc.elementsByTagName("groups").at(0).toElement();
     if(!load_groups(groups))
@@ -977,10 +845,10 @@ bool ContactList::load_new()
     return true;
 }
 
-bool ContactList::load_owner(const QDomElement& owner)
+bool ContactList::load_owner(const QDomElement& o)
 {
-    this->owner()->deserialize(owner);
-    QDomNodeList list = owner.elementsByTagName("clientdata");
+    this->owner()->deserialize(o);
+    QDomNodeList list = o.elementsByTagName("clientdata");
     for(int i = 0; i < list.size(); i++) {
         QDomElement el = list.at(i).toElement();
         ClientPtr client = getClientManager()->client(el.attribute("clientname"));
@@ -1450,6 +1318,27 @@ void ContactList::removeContact(unsigned long id)
         }
     }
     p->contacts.erase(id);
+}
+
+QList<Group*> ContactList::allGroups()
+{
+    QList<Group*> groupList;
+    for(std::vector<Group*>::iterator it = p->groups.begin(); it != p->groups.end(); ++it)
+    {
+        groupList.append(*it);
+    }
+    return groupList;
+}
+
+QList<Contact*> ContactList::contactsInGroup(Group* gr)
+{
+    QList<Contact*> contactList;
+    for(std::map<unsigned long, Contact*>::iterator it = p->contacts.begin(); it != p->contacts.end(); ++it)
+    {
+        if((*it).second->getGroup() == gr->id())
+            contactList.append((*it).second);
+    }
+    return contactList;
 }
 
 }   // namespace sim

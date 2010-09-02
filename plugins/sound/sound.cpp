@@ -41,13 +41,19 @@ Plugin *createSoundPlugin(unsigned base, bool bFirst, Buffer *config)
     return new SoundPlugin(base, bFirst, config);
 }
 
+Plugin *createSoundPluginObject()
+{
+    return new SoundPlugin(0, 0, 0);
+}
+
 static PluginInfo info =
     {
         I18N_NOOP("Sound"),
         I18N_NOOP("Plugin provides sounds on any events"),
         VERSION,
         createSoundPlugin,
-        PLUGIN_DEFAULT
+        PLUGIN_DEFAULT,
+        createSoundPluginObject
     };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
@@ -134,7 +140,7 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             bool disable = contact->getUserData()->root()->value("sound/Disable").toBool();
             QString alert = contact->getUserData()->root()->value("sound/Alert").toString();
             if(alert.isEmpty())
-                alert = getContacts()->getUserData()->root()->value("sound/Alert").toString();
+                alert = getContacts()->userdata()->value("sound/Alert").toString();
             if (!alert.isEmpty() && !disable)
             {
                 EventPlaySound(alert).process();
@@ -180,8 +186,8 @@ bool SoundPlugin::processEvent(SIM::Event *e)
             }
             else
             {
-                nosound = getContacts()->getUserData()->root()->value("sound/NoSoundIfActive").toBool();
-                disable = getContacts()->getUserData()->root()->value("sound/Disable").toBool();
+                nosound = getContacts()->userdata()->value("sound/NoSoundIfActive").toBool();
+                disable = getContacts()->userdata()->value("sound/Disable").toBool();
             }
             if(!disable && nosound)
             {
