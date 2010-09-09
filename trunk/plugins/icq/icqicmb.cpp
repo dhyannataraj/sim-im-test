@@ -358,6 +358,7 @@ bool SnacIcqICBM::sendThruServer(Message *msg, void *_data)
             processSendQueue();
             return true;
         }
+        /* following Block is commented out because it avoids to send online-messages to icq7.x */
         //if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
         //        (client()->getSendFormat() <= 1) &&
         //        client()->hasCap(data, CAP_UTF) &&
@@ -505,7 +506,7 @@ void SnacIcqICBM::sendFile(TlvList& tlv, unsigned long primary_ip, unsigned long
 	{
 		log(L_DEBUG, "ft == NULL");
 		// Incoming file
-		if(info == NULL) 
+		if(info == NULL)
 		{
 			// This is baaad
 			log(L_WARN, "No info tlv in send file");
@@ -634,7 +635,7 @@ void SnacIcqICBM::sendFile(TlvList& tlv, unsigned long primary_ip, unsigned long
 		}
 		return;
 	}
-	if(info == NULL && afm) 
+	if(info == NULL && afm)
 	{
 		afm->setPort(port);
 		return;
@@ -768,7 +769,7 @@ void SnacIcqICBM::accept(Message *msg, const QString &dir, OverwriteMode overwri
                 break;
             }
         case MessageFile:
-			{	
+			{
                 AIMFileTransfer *ft = new AIMIncomingFileTransfer(static_cast<FileMessage*>(msg), data, client());
 				AIMFileMessage* fmsg = static_cast<AIMFileMessage*>(msg);
 				fmsg->m_transfer = ft;
@@ -1014,7 +1015,7 @@ bool SnacIcqICBM::process(unsigned short subtype, ICQBuffer* buf, unsigned short
     case ICQ_SNACxMSG_MTN:{
             buf->incReadPos(10);
             QString screen = buf->unpackScreen();
-            unsigned short type; //Fixme!!! Local declaration of 'type' hides declaration of the same name in outer scope: Function parameter "type" 
+            unsigned short type; //Fixme!!! Local declaration of 'type' hides declaration of the same name in outer scope: Function parameter "type"
             *buf >> type;
             bool bType = (type > 1);
             Contact *contact;
