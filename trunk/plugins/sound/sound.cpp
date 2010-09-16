@@ -500,14 +500,27 @@ void SoundPlugin::run()
 #endif
 #ifdef USE_KDE
 	if (bDone) {
-		qDebug("\nThreaded mit USE_KDE davor");
-		bDone=false;
-		KAudioPlayer::play(m_snd);
-		qDebug("\nThreaded mit USE_KDE danach");
-		m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-		m_current = QString::null;
-		bDone=true;
-		return;
+		if (getUseArts()) {
+			qDebug("\nThreaded mit USE_KDE davor");
+			bDone=false;
+			KAudioPlayer::play(m_snd);
+			qDebug("\nThreaded mit USE_KDE danach");
+			m_checkTimer->start(WAIT_SOUND_TIMEOUT);
+			m_current = QString::null;
+			bDone=true;
+			return;
+		}
+		else {
+			if((!m_process) && (!getPlayer().isEmpty()) && (!m_snd.isEmpty()))
+			{
+				m_process = new QProcess(this);
+				m_process->addArgument(getPlayer());
+				m_process->addArgument(m_snd);
+				m_process->start();
+				connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
+				return;
+			}
+		}
 	}
 #endif
 }
