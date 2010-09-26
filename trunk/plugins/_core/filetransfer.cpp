@@ -293,6 +293,15 @@ void FileTransferDlg::process()
                 //const QString *n = it[m_file];
                 //if (n)
                 //    m_fn = *n;
+
+                //This is a quickfix for doubled filename, plz fix in getDescription instead
+                /*int half=(int) m_fn.length()/2;
+
+                log(L_DEBUG, m_fn.left(half).stripWhiteSpace());
+                log(L_DEBUG, m_fn.right(half).stripWhiteSpace());
+                if (m_fn.left(half).stripWhiteSpace()==m_fn.right(half).stripWhiteSpace())
+                    m_fn=m_fn.left(half).stripWhiteSpace();*/
+
 				status = i18n(QString("Receiving file: %1").arg(m_fn));
                 break;
             }
@@ -315,7 +324,7 @@ void FileTransferDlg::process()
         }
         if (!m_fn.isEmpty()){
             status += ' ';
-            status += QDir::convertSeparators(m_fn);
+            //status += QDir::convertSeparators(m_fn);
             if (m_files > 1)
                 status += QString(" %1/%2")
                           .arg(m_file + 1)
