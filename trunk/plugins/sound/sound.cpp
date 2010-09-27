@@ -199,7 +199,7 @@ bool SoundPlugin::processEvent(SIM::Event *e)
         return false;
     }
     switch (e->type()) {
-	case eEventLoginStart:
+	case eEventInit:
 	{
 		playSound(getStartUp());
 		break;
