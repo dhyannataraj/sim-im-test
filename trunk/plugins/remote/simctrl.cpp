@@ -219,6 +219,7 @@ Processor *createTCPProcessor(const char *addr_str)
 
 #ifdef WIN32
 
+#define _ATL_DLL
 #include <ole2.h>
 #include <atlbase.h>
 extern CComModule _Module;

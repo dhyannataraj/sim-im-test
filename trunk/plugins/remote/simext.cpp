@@ -4,7 +4,7 @@
 // Note: Proxy/Stub Information
 //      To build a separate proxy/stub DLL,
 //      run nmake -f simextps.mk in the project directory.
-
+#define _ATL_DLL
 #include <atlbase.h>
 extern CComModule _Module;
 #include <atlcom.h>

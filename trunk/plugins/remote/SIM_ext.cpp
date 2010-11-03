@@ -1,4 +1,5 @@
 // SIM_ext.cpp : Implementation of CSIM_ext
+#define _ATL_DLL
 #include <atlbase.h>
 extern CComModule _Module;
 #include <atlcom.h>
