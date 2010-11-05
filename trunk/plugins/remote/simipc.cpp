@@ -24,6 +24,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
     CComBSTR in("FILE ");
     in.Append(cmdLine);
     CComBSTR out;
+	out.Empty();
     ProcessStr(in, &out);
     return 0;
 }

@@ -45,26 +45,25 @@ CSIM_ext::CSIM_ext()
 	if (ProcessStr != NULL)
 		return;
 
-	WCHAR name[512];
+	const int l_size = 512;
+	WCHAR name[l_size];
 	GetModuleFileName(hInstance, name, sizeof(name));
 
-	char* namestr=(char *)malloc( 512 );
+	char* namestr=(char *)malloc( l_size );
 	size_t   i;
-	wcstombs_s(&i, namestr, (size_t)512, name, (size_t)512 );
+	wcstombs_s(&i, namestr, (size_t)l_size, name, (size_t) l_size );
 
 	char *r = strrchr(namestr, '\\'); //These three lines, what for???
 	r = r ? r + 1 : namestr;
 	strcpy(r, "simremote.dll");
 
 	WCHAR *l_libraryPath;
-	int size=512;
-	l_libraryPath = new WCHAR[size];
-	if(!l_libraryPath)
-	{
-		delete [] l_libraryPath;
-	}
 
-	MultiByteToWideChar (CP_ACP, 0, namestr, -1, l_libraryPath, size );
+	l_libraryPath = new WCHAR[l_size];
+	if(!l_libraryPath)
+		delete [] l_libraryPath;
+
+	MultiByteToWideChar (CP_ACP, 0, namestr, -1, l_libraryPath, l_size );
 
 	HINSTANCE hLib = LoadLibrary(l_libraryPath);
 	//(DWORD&)ProcessStr = (DWORD)GetProcAddress(hLib, "ProcessStr"); //originalcode. ProcessStr is 0 after this line, why and whats wrong here??
@@ -129,52 +128,51 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                     bSubMenu = true;
                 }
                 unsigned old_grp = (unsigned)(-1);
-                while (!r.empty()){
+                while (!r.empty())
+				{
                     line = getToken(r, '\n');
                     if (line.empty())
                         continue;
                     unsigned id  = atol(getToken(line, ' ').c_str());
                     unsigned grp = atol(getToken(line, ' ').c_str());
                     string icon  = getToken(line, ' ');
-					if (line.empty())
+					if (line.empty() || grp == old_grp)
 						continue;
-
-					if (hMain){
-						if (grp == old_grp)
-							continue;
-
-						old_grp = grp;
-						if (bSubMenu){
-							char *res = NULL;
-							hSub = CreatePopupMenu();
-							char *grp = "Group";
-							char cmd[64];
-							sprintf(cmd, "GROUP %u", old_grp);
-							CComBSTR in(cmd);
-							CComBSTR out;
-							if (ProcessStr && ProcessStr(in, &out)){
-								size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
-								char *res = new char[size + 1];
-								size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), res, size, NULL, NULL);
-								res[size] = 0;
-								if (res[0] != '>')
-									continue;
-
-								grp = res + 1;
-							}
-
-							wchar_t *grpLPCWSTR      = (wchar_t *)malloc( sizeof( wchar_t ));
-							wcstombs( grp, grpLPCWSTR,  size + 1 );
-							AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grpLPCWSTR);
-							if (res)
-								delete[] res;
-						}else{
-							AppendMenu(hSub, MF_SEPARATOR, 0, NULL);
-						}
-					}else{
+					old_grp = grp;
+					if (!hMain)
+					{
 						hMain = CreatePopupMenu();
 						hSub  = hMain;
 					}
+					else if (bSubMenu)
+					{
+						char *res = NULL;
+						hSub = CreatePopupMenu();
+						char *grp = "Group";
+						char cmd[64];
+						sprintf(cmd, "GROUP %u", old_grp);
+						CComBSTR in(cmd);
+						CComBSTR out;
+						out.Empty();
+						if (ProcessStr && (*ProcessStr)(in, &out))
+						{
+							size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
+							char *res = new char[size + 1];
+							size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), res, size, NULL, NULL);
+							res[size] = 0;
+							if (res[0] != '>')
+								continue;
+
+							grp = res + 1;
+						}
+
+						wchar_t *grpLPCWSTR      = (wchar_t *)malloc( sizeof( wchar_t ));
+						wcstombs( grp, grpLPCWSTR,  size + 1 );
+						AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grpLPCWSTR);
+						if (res)
+							delete[] res;
+					}
+					else AppendMenu(hSub, MF_SEPARATOR, 0, NULL);
 					ItemInfo info;
 					info.text  = line.c_str();
 					info.icon  = createIcon(icon.c_str());
@@ -189,8 +187,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
             }
             delete[] res;
             if (hMain != NULL)
-                InsertMenu(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION,
-                           (UINT)hMain, L"Send to SIM contact");
+				InsertMenu(hmenu, indexMenu++, MF_POPUP | MF_BYPOSITION, (UINT)hMain, L"Send to SIM contact");
         }
         return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, cmd_id - idCmdFirst);
     }
@@ -231,12 +228,13 @@ HICON CSIM_ext::createIcon(const char *name)
 {
     ICON_MAP::iterator it = m_icons.find(name);
     if (it != m_icons.end())
-        return (*it).second;
+        return it->second;
     string cmd = "ICON ";
     cmd += name;
     CComBSTR in(cmd.c_str());
     CComBSTR out;
-    if (!ProcessStr || !ProcessStr(in, &out))
+	out.Empty();
+	if (!ProcessStr || !(*ProcessStr)(in, &out))
         return NULL;
     size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
     char *res = new char[size + 1];
@@ -279,11 +277,7 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
         DROPFILES *files = (DROPFILES*)drop_files;
         drop_files += files->pFiles;
         CComBSTR in("SENDFILE \"");
-        if (files->fWide){
-            in += CComBSTR(drop_files);
-        }else{
-            in += drop_files;
-        }
+		in += files->fWide ? CComBSTR(drop_files) : drop_files;
         in += "\" ";
         ItemInfo info = getItemInfo(LOWORD(lpici->lpVerb) + CmdBase);
         char b[12];
@@ -291,11 +285,13 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
         in += b;
         GlobalUnlock(stgmedium.hGlobal);
         CComBSTR out;
-        if (ProcessStr)
-            ProcessStr(in, &out);
+		out.Empty();
+		if (ProcessStr)
+			(*ProcessStr)(in, &out);
     }
     GlobalFree(stgmedium.hGlobal);
-    if (lpData){
+    if (lpData)
+	{
         lpData->Release();
         lpData = NULL;
     }
@@ -346,7 +342,7 @@ ItemInfo CSIM_ext::getItemInfo(unsigned id)
 {
     ITEM_MAP::iterator it = m_items.find(id);
     if (it != m_items.end())
-        return (*it).second;
+        return it->second;
     ItemInfo info;
     info.icon = NULL;
     return info;
@@ -383,9 +379,8 @@ void CSIM_ext::DrawMenuItem(LPDRAWITEMSTRUCT lpdis)
             bgColor = COLOR_HIGHLIGHT;
             crText = SetTextColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
             crBack = SetBkColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHT));
-        }else{
-            bgColor = COLOR_MENU;
         }
+		else bgColor = COLOR_MENU;
         FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(bgColor));
         ICONINFO icon_info;
         GetIconInfo(info.icon, &icon_info);
