@@ -9,7 +9,10 @@ extern CComModule _Module;
 
 using namespace std;
 
-static bool (*ProcessStr)(BSTR in_str, BSTR *out_str) = NULL;
+typedef bool (*ProcessStr_t)(BSTR in_str, BSTR *out_str);
+ProcessStr_t ProcessStr;
+
+
 
 static string getToken(string &from, char c)
 {
@@ -27,11 +30,7 @@ static string getToken(string &from, char c)
         }
         res += from[i];
     }
-    if (i < from.length()){
-        from = from.substr(i + 1);
-    }else{
-        from = "";
-    }
+	from = i < from.length() ? from.substr(i + 1) : "";
     return res;
 }
 
@@ -43,30 +42,39 @@ HINSTANCE CSIM_ext::hInstance;
 CSIM_ext::CSIM_ext()
 {
     lpData = NULL;
-    if (ProcessStr == NULL){
-        WCHAR name[512];
-        GetModuleFileName(hInstance, name, sizeof(name));
-		
-		char* namestr=(char *)malloc( 512 );
-		size_t   i;
-		wcstombs_s(&i, namestr, (size_t)512, name, (size_t)512 );
+	if (ProcessStr != NULL)
+		return;
 
-        char *r = strrchr(namestr, '\\');
-        if (r){
-            r++;
-        }else{
-            r = namestr;
-        }
-        strcpy(r, "simremote.dll");
-        HINSTANCE hLib = LoadLibrary(name);
-        (DWORD&)ProcessStr = (DWORD)GetProcAddress(hLib, "ProcessStr");
-    }
+	WCHAR name[512];
+	GetModuleFileName(hInstance, name, sizeof(name));
+
+	char* namestr=(char *)malloc( 512 );
+	size_t   i;
+	wcstombs_s(&i, namestr, (size_t)512, name, (size_t)512 );
+
+	char *r = strrchr(namestr, '\\'); //These three lines, what for???
+	r = r ? r + 1 : namestr;
+	strcpy(r, "simremote.dll");
+
+	WCHAR *l_libraryPath;
+	int size=512;
+	l_libraryPath = new WCHAR[size];
+	if(!l_libraryPath)
+	{
+		delete [] l_libraryPath;
+	}
+
+	MultiByteToWideChar (CP_ACP, 0, namestr, -1, l_libraryPath, size );
+
+	HINSTANCE hLib = LoadLibrary(l_libraryPath);
+	//(DWORD&)ProcessStr = (DWORD)GetProcAddress(hLib, "ProcessStr"); //originalcode. ProcessStr is 0 after this line, why and whats wrong here??
+	(ProcessStr_t&)ProcessStr = (ProcessStr_t)GetProcAddress(hLib, "ProcessStr");
 }
 
 CSIM_ext::~CSIM_ext()
 {
     for (ICON_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it)
-        DestroyIcon((*it).second);
+        DestroyIcon(it->second);
     if (lpData)
         lpData->Release();
 }
@@ -96,23 +104,27 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
         //char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
         GlobalUnlock(stgmedium.hGlobal);
 
-        CComBSTR in("CONTACTS 3");
+        CComBSTR in(L"CONTACTS 3");
         CComBSTR out;
+		out.Empty();
         unsigned cmd_id = idCmdFirst;
-        if (ProcessStr && ProcessStr(in, &out)){
+
+        if (ProcessStr && (*ProcessStr)(in, &out))
+		{
             HMENU hMain = NULL;
             HMENU hSub  = NULL;
             size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
             char *res = new char[size + 1];
             size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), res, size, NULL, NULL);
             res[size] = 0;
-            if (res[0] == '>'){
+            if (res[0] == '>')
+			{
                 string r = res + 1;
                 string line = getToken(r, '\n');
                 unsigned nContacts = atol(getToken(line, ' ').c_str());
                 unsigned nGroups   = atol(line.c_str());
                 bool bSubMenu = false;
-                if ((nContacts > 20) && (nGroups > 1)){
+				if (nContacts > 20 && nGroups > 1){
                     hMain = CreatePopupMenu();
                     bSubMenu = true;
                 }

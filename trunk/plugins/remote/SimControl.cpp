@@ -132,7 +132,7 @@ bool IPC::process(const BSTR &in_str, BSTR *out_str)
     }
     SetEvent(hEventIn);
     for (;;){
-        WaitForSingleObject(hEventOut, INFINITE);
+        WaitForSingleObject(hEventOut, INFINITE); //stucks here, and never comes back???...
         IPCLock lock(this);
         if (s[i] == SLOT_IN)
             continue;
