@@ -142,10 +142,13 @@ void IPC::run()
 {
     for (;;){
         ResetEvent(hEventIn);
-        WaitForSingleObject(hEventIn, INFINITE);
+        WaitForSingleObject(hEventIn, INFINITE); //Ok, too.
+		//MsgWaitForMultipleObjects(1, &hEventIn, FALSE, INFINITE, QS_POSTMESSAGE|QS_SENDMESSAGE );
         if (bExit)
             break;
-        QTimer::singleShot(0, remote, SLOT(command()));
+        //QTimer::singleShot(0, remote, SLOT(command())); //this is obviously wrong
+
+		remote->command(); //so it is right.
     }
 }
 
@@ -541,10 +544,13 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     unsigned nCmd = 0;
     const cmdDef *c;
 	for (c = cmds; c->cmd; c++, nCmd++)
+	{
 		if (QString(cmd) == QString(c->cmd))
             break;
-	
-    if (c->cmd == NULL){
+	}
+
+    if (c->cmd == NULL)
+	{
         out = "Unknown command ";
         out += cmd;
         return false;
@@ -668,13 +674,13 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += "\n";
                 for (vector<ContactInfo>::iterator itl = contacts.begin(); itl != contacts.end(); ++itl){
                     out += "\n";
-                    out += QString::number((*itl).id);
+                    out += QString::number(itl->id);
                     out += " ";
-                    out += QString::number((*itl).group);
+                    out += QString::number(itl->group);
                     out += " ";
-                    out += (*itl).icon;
+                    out += itl->icon;
                     out += " ";
-                    out += (*itl).name;
+                    out += itl->name;
                 }
 #ifdef WIN32
             }

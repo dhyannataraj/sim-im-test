@@ -36,8 +36,8 @@
 struct ItemInfo
 {
     std::string		text;
-    HICON		icon;
-    unsigned	id;
+    HICON			icon;
+    unsigned		id;
 };
 
 typedef std::map<std::string, HICON>	ICON_MAP;

@@ -132,12 +132,19 @@ bool IPC::process(const BSTR &in_str, BSTR *out_str)
     }
     SetEvent(hEventIn);
     for (;;){
-        WaitForSingleObject(hEventOut, INFINITE); //stucks here, and never comes back???...
+        WaitForSingleObject(hEventOut, INFINITE); //this is ok.
+		//MsgWaitForMultipleObjects(1, &hEventOut, FALSE, INFINITE, QS_POSTMESSAGE|QS_SENDMESSAGE );
         IPCLock lock(this);
         if (s[i] == SLOT_IN)
             continue;
         if (s[i] == SLOT_OUT){
-            CComBSTR res((int)mem);
+			QString out("");
+			unsigned short *p;
+			for (p = mem; *p; p++)
+				out += QChar(*p);
+			//size = out.length();
+			CComBSTR res(out.ascii());
+            /*CComBSTR res((int)mem);*/
             *out_str = res.Copy();
         }
         UnmapViewOfFile(mem);

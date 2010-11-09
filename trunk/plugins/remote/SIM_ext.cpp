@@ -5,6 +5,7 @@ extern CComModule _Module;
 #include <atlcom.h>
 #include "Simext.h"
 #include "SIM_ext.h"
+#include "misc.h"
 #include <stdio.h>
 
 using namespace std;
@@ -108,7 +109,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
 		out.Empty();
         unsigned cmd_id = idCmdFirst;
 
-        if (ProcessStr && (*ProcessStr)(in, &out))
+        if ( ProcessStr && (ProcessStr)(in, &out))
 		{
             HMENU hMain = NULL;
             HMENU hSub  = NULL;
@@ -136,7 +137,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                     unsigned id  = atol(getToken(line, ' ').c_str());
                     unsigned grp = atol(getToken(line, ' ').c_str());
                     string icon  = getToken(line, ' ');
-					if (line.empty() || grp == old_grp)
+					if (line.empty() /* || grp == old_grp */)
 						continue;
 					old_grp = grp;
 					if (!hMain)
@@ -154,7 +155,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
 						CComBSTR in(cmd);
 						CComBSTR out;
 						out.Empty();
-						if (ProcessStr && (*ProcessStr)(in, &out))
+						if (ProcessStr && (ProcessStr)(in, &out))
 						{
 							size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
 							char *res = new char[size + 1];
@@ -186,6 +187,15 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                 }
             }
             delete[] res;
+			const int l_size = 512;
+			char * namestr =  I18N_NOOP("Send to SIM contact");
+			WCHAR *l_ContextMenuEntryRoot;
+			
+			l_ContextMenuEntryRoot = new WCHAR[l_size];
+			if(!l_ContextMenuEntryRoot)
+				delete [] l_ContextMenuEntryRoot;
+
+			MultiByteToWideChar (CP_ACP, 0, namestr, -1, l_ContextMenuEntryRoot, l_size );
             if (hMain != NULL)
 				InsertMenu(hmenu, indexMenu++, MF_POPUP | MF_BYPOSITION, (UINT)hMain, L"Send to SIM contact");
         }
@@ -234,7 +244,7 @@ HICON CSIM_ext::createIcon(const char *name)
     CComBSTR in(cmd.c_str());
     CComBSTR out;
 	out.Empty();
-	if (!ProcessStr || !(*ProcessStr)(in, &out))
+	if (!ProcessStr || !(ProcessStr)(in, &out))
         return NULL;
     size_t size = WideCharToMultiByte(CP_ACP, 0, out, wcslen(out), 0, 0, NULL, NULL);
     char *res = new char[size + 1];
@@ -262,6 +272,7 @@ HICON CSIM_ext::createIcon(const char *name)
 
 HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
 {
+
     if (lpData == NULL)
         return S_OK;
     STGMEDIUM stgmedium = { TYMED_HGLOBAL, NULL };
@@ -271,13 +282,32 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
                             -1,
                             TYMED_HGLOBAL
                           };
+	HDROP     hdrop;
+	unsigned int      uNumFiles;
+
     HRESULT hr = lpData->GetData(&formatetc, &stgmedium);
-	if ((HRESULT)hr >= 0){
-        char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
-        DROPFILES *files = (DROPFILES*)drop_files;
-        drop_files += files->pFiles;
+	if (SUCCEEDED(hr)){
+
+		const int l_size = 512;
+		WCHAR szFile[l_size];
+        //char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
+		//DROPFILES *dfiles = (DROPFILES*)drop_files;
+		//drop_files += files->pFiles;
+		QString files("");
+		hdrop = (HDROP) GlobalLock ( stgmedium.hGlobal );
+		uNumFiles = DragQueryFile ( hdrop, 0xFFFFFFFF, NULL, 0 );
+		for ( unsigned int uFile = 0; uFile < uNumFiles; uFile++ )
+		{
+			if ( 0 == DragQueryFile ( hdrop, uFile, szFile, MAX_PATH ) )
+				continue;
+			files.append(QString("%1").arg((char*)szFile));//.arg(QString("\n"))) ;
+		}
+
+       
+        
         CComBSTR in("SENDFILE \"");
-		in += files->fWide ? CComBSTR(drop_files) : drop_files;
+		//in += dfiles->fWide ? CComBSTR(files.ascii()) : files.ascii();
+		in += szFile;
         in += "\" ";
         ItemInfo info = getItemInfo(LOWORD(lpici->lpVerb) + CmdBase);
         char b[12];
@@ -287,7 +317,7 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
         CComBSTR out;
 		out.Empty();
 		if (ProcessStr)
-			(*ProcessStr)(in, &out);
+			(ProcessStr)(in, &out);
     }
     GlobalFree(stgmedium.hGlobal);
     if (lpData)
