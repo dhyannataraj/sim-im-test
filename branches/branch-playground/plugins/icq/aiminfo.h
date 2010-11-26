@@ -20,9 +20,10 @@
 
 #include "ui_aiminfobase.h"
 #include "event.h"
+#include "contacts/client.h"
 
 class ICQClient;
-struct ICQUserData;
+class ICQUserData;
 
 class AIMInfo : public QWidget, public Ui::AIMInfo, public SIM::EventReceiver
 {
@@ -32,7 +33,9 @@ public:
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 protected:
+    void updateData(ICQUserData* data);
     virtual bool processEvent(SIM::Event *e);
     void fill();
     ICQUserData *m_data;

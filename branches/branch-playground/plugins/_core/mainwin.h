@@ -21,10 +21,10 @@
 #include <list>
 #include "simapi.h"
 #include "event.h"
-
-#include "cfg.h"
+#include "simgui/toolbar.h"
 
 #include <QMainWindow>
+#include <QList>
 
 using namespace std;
 
@@ -38,33 +38,47 @@ class QResizeEvent;
 class QSizeGrip;
 class QVBoxLayout;
 
-class MainWindow : public QMainWindow, public SIM::EventReceiver
+class CorePlugin;
+class UserView;
+
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow();
-    MainWindow(SIM::Geometry&);
+    MainWindow(CorePlugin* core);
     ~MainWindow();
-    static MainWindow *mainWindow();
-    bool m_bNoResize;
-    void closeEvent(QCloseEvent *e);
+
+    UserView* userview() const;
+    void init();
+
 protected:
-    QWidget *main;
-    CToolBar *m_bar;
-    QVBoxLayout *lay;
-    QHBoxLayout *h_lay;
-    void focusInEvent(QFocusEvent*);
-    virtual bool processEvent(SIM::Event*);
-    void setTitle();
-    void resizeEvent(QResizeEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
-    void quit();
-    void addWidget(QWidget*, bool bDown);
-    void addStatus(QWidget *w, bool);
-    list<QWidget*> statusWidgets;
-    QString	m_icon;
-    friend class CorePlugin;
-    static MainWindow *s_mainWindow;
+    void resizeEvent(QResizeEvent *e);
+
+
+//    void focusInEvent(QFocusEvent*);
+//    void quit();
+
+    void refreshStatusWidgets();
+
+//    QString	m_icon;
+
+//    virtual void closeEvent(QCloseEvent *e);
+
+private:
+    void updateTitle();
+    void addWidget(QWidget* widget);
+
+    void populateMainToolbar();
+    void loadDefaultCommandList();
+
+    UserView* m_view;
+    SIM::ToolBar* m_bar;
+    QVBoxLayout* m_layout;
+    QWidget* m_centralWidget;
+    QList<QWidget*> m_statusWidgets;
+    CorePlugin* m_core;
+    bool m_noresize;
 };
 
 #endif

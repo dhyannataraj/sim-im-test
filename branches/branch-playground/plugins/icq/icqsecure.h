@@ -19,12 +19,13 @@
 #define _ICQSECURE_H
 
 #include "cfg.h"
+#include "contacts/client.h"
 
 #include "simgui/listview.h"
 #include "ui_icqsecurebase.h"
 
 class ICQClient;
-struct ICQUserData;
+class ICQUserData;
 
 class ICQSecure : public QWidget, public Ui::Secure, public SIM::EventReceiver
 {
@@ -34,14 +35,17 @@ public:
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
     void hideIpToggled(bool);
-    void deleteVisibleItem(ListViewItem *item);
-    void deleteInvisibleItem(ListViewItem *item);
+    void deleteVisibleItem(QTreeWidgetItem *item);
+    void deleteInvisibleItem(QTreeWidgetItem *item);
 protected:
+    void updateData(ICQUserData* data);
     virtual bool processEvent(SIM::Event *e);
     void fill();
-    void setListView(ListView*);
-    void fillListView(ListView *lst, SIM::Data ICQUserData::* field);
+    void setListView(QTreeWidget*);
+    void fillListView(QTreeWidget *lst, SIM::Data ICQUserData::* field);
+    void fillListView(QTreeWidget *lst, int v);
     ICQClient	*m_client;
 };
 

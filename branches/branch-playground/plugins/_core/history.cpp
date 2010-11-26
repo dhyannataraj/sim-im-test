@@ -28,7 +28,6 @@ email                : vovan@shutoff.ru
 #include "simapi.h"
 #include "buffer.h"
 #include "log.h"
-#include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
 
@@ -347,7 +346,7 @@ History::History(unsigned id)
     else
         delete f;
     void *data;
-    ClientDataIterator it(contact->clientData);
+    ClientDataIterator it = contact->clientDataIterator();
     QStringList fnames;
     while ((data = ++it) != NULL)
     {
@@ -864,7 +863,7 @@ void History::remove(Contact *contact)
     f.remove();
 
     void *data;
-    ClientDataIterator it(contact->clientData);
+    ClientDataIterator it = contact->clientDataIterator();
     while ((data = ++it) != NULL)
     {
         name = it.client()->dataName(data);

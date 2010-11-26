@@ -65,7 +65,7 @@ bool PastInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     } else
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
@@ -124,7 +124,7 @@ void PastInfo::fill()
     if (data == NULL)
         data = &m_client->data.owner;
     unsigned i = 0;
-    QString str = data->Backgrounds.str();
+    QString str = data->getBackgrounds();
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -159,7 +159,7 @@ void PastInfo::fill()
         }
     }
     i = 0;
-    str = data->Affilations.str();
+    str = data->getAffilations();
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -265,12 +265,8 @@ void PastInfo::cmbAfChanged(int)
     }
 }
 
-
-void PastInfo::apply(Client *client, void *_data)
+void PastInfo::updateData(ICQUserData* data)
 {
-    if (client != m_client)
-        return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString bg[3];
     bg[0] = getInfo(cmbBg1, edtBg1, pasts);
     bg[1] = getInfo(cmbBg2, edtBg2, pasts);
@@ -283,7 +279,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ';';
         res += bg[i];
     }
-    data->Backgrounds.str() = res;
+    data->setBackgrounds(res);
     res = QString::null;
     QString af[3];
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
@@ -296,7 +292,22 @@ void PastInfo::apply(Client *client, void *_data)
             res += ';';
         res += af[i];
     }
-    data->Affilations.str() = res;
+    data->setAffilations(res);
+}
+
+void PastInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
+void PastInfo::apply(Client *client, void *_data)
+{
+    if (client != m_client)
+        return;
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+    updateData(data);
 }
 
 QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)

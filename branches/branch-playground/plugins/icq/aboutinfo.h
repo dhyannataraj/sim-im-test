@@ -23,7 +23,7 @@
 #include "ui_aboutinfobase.h"
 
 class ICQClient;
-struct ICQUserData;
+class ICQUserData;
 
 class AboutInfo : public QWidget, public Ui::aboutInfo, public SIM::EventReceiver
 {
@@ -33,6 +33,7 @@ public:
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 protected:
     virtual bool processEvent(SIM::Event *e);
     void fill();

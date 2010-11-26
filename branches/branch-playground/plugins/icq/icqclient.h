@@ -25,30 +25,30 @@
 #include <QDateTime>
 #include <QList>
 #include <QByteArray>
+#include <QTcpSocket>
 #include <climits>
 
 #include "misc.h"
 #include "snac.h"
-#include "icqbuddy.h"
-#include "icqservice.h"
-#include "icqicmb.h"
+#include "icqstatus.h"
+#include "icq_defines.h"
+#include "oscarsocket.h"
+//#include "icqbuddy.h"
+//#include "icqservice.h"
+//#include "icqicmb.h"
+#include "authorizationsnachandler.h"
 
-#include "socket/socket.h"
-#include "socket/serversocketnotify.h"
-#include "socket/clientsocket.h"
-#include "socket/tcpclient.h"
-#include "socket/interfacechecker.h"
-#include "socket/sslclient.h"
-#include "contacts/clientdataiterator.h"
 #include "icq.h"
 #include "icqbuffer.h"
+#include "icqcontact.h"
+#include "oscarsocket.h"
+#include "contacts/imcontact.h"
+
 
 const unsigned ICQ_SIGN			= 0x0001;
 
 const unsigned MESSAGE_DIRECT    = 0x0100;
 
-//const unsigned STATUS_INVISIBLE	  = 2;     //took over to contacts.h
-//const unsigned STATUS_OCCUPIED    = 100;  //took over to contacts.h
 
 const unsigned char ICQ_TCP_VERSION = 0x09;
 
@@ -169,154 +169,161 @@ const unsigned RATE_LIMIT = 5;
 
 const unsigned short SEARCH_DONE = USHRT_MAX;
 
+const unsigned short TLV_CONTENT          = 0x2711;
+const unsigned short TLV_EXTENDED_CONTENT = 0x2712;
+
 class AIMFileTransfer;
 class DirectClient;
 
-struct ICQUserData : public SIM::clientData
-{
-	SIM::Data        Alias;
-	SIM::Data        Cellular;
-	SIM::Data		Status;
-	SIM::Data		Class;
-	SIM::Data		StatusTime;
-	SIM::Data		OnlineTime;
-	SIM::Data		WarningLevel;
-	SIM::Data        IP;
-	SIM::Data        RealIP;
-	SIM::Data		Port;
-	SIM::Data		DCcookie;
-	SIM::Data		Caps;
-	SIM::Data		Caps2;
-	SIM::Data        AutoReply;
-	SIM::Data		Uin;
-	SIM::Data        Screen;
-	SIM::Data		IcqID;
-	SIM::Data		bChecked;
-	SIM::Data		GrpId;
-	SIM::Data		IgnoreId;
-	SIM::Data		VisibleId;
-	SIM::Data		ContactVisibleId;
-	SIM::Data		InvisibleId;
-	SIM::Data		ContactInvisibleId;
-	SIM::Data		WaitAuth;
-	SIM::Data		WantAuth;
-	SIM::Data		WebAware;
-	SIM::Data		InfoUpdateTime;
-	SIM::Data		PluginInfoTime;
-	SIM::Data		PluginStatusTime;
-	SIM::Data		InfoFetchTime;
-	SIM::Data		PluginInfoFetchTime;
-	SIM::Data		PluginStatusFetchTime;
-	SIM::Data		Mode;
-	SIM::Data		Version;
-	SIM::Data		Build;
-	SIM::Data        Nick;
-	SIM::Data        FirstName;
-	SIM::Data        LastName;
-	SIM::Data		MiddleName;
-	SIM::Data		Maiden;
-	SIM::Data        EMail;
-	SIM::Data		HiddenEMail;
-	SIM::Data        City;
-	SIM::Data        State;
-	SIM::Data        HomePhone;
-	SIM::Data        HomeFax;
-	SIM::Data        Address;
-	SIM::Data        PrivateCellular;
-	SIM::Data        Zip;
-	SIM::Data		Country;
-	SIM::Data		TimeZone;
-	SIM::Data		Age;
-	SIM::Data		Gender;
-	SIM::Data        Homepage;
-	SIM::Data		BirthYear;
-	SIM::Data		BirthMonth;
-	SIM::Data		BirthDay;
-	SIM::Data		Language;
-	SIM::Data        EMails;
-	SIM::Data        WorkCity;
-	SIM::Data        WorkState;
-	SIM::Data        WorkPhone;
-	SIM::Data        WorkFax;
-	SIM::Data        WorkAddress;
-	SIM::Data        WorkZip;
-	SIM::Data		WorkCountry;
-	SIM::Data        WorkName;
-	SIM::Data        WorkDepartment;
-	SIM::Data        WorkPosition;
-	SIM::Data		Occupation;
-	SIM::Data        WorkHomepage;
-	SIM::Data        About;
-	SIM::Data        Interests;
-	SIM::Data        Backgrounds;
-	SIM::Data        Affilations;
-	SIM::Data		FollowMe;
-	SIM::Data		SharedFiles;
-	SIM::Data		ICQPhone;
-	SIM::Data        Picture;
-	SIM::Data		PictureWidth;
-	SIM::Data		PictureHeight;
-	SIM::Data        PhoneBook;
-	SIM::Data		ProfileFetch;
-	SIM::Data		bTyping;
-	SIM::Data		bBadClient;
-	SIM::Data		Direct;
-	SIM::Data		DirectPluginInfo;
-	SIM::Data		DirectPluginStatus;
-	SIM::Data		bNoDirect;
-	SIM::Data		bInvisible;
-	SIM::Data       buddyRosterID;
-	SIM::Data       buddyID;
-	SIM::Data       buddyHash;
-	SIM::Data		unknown2;
-	SIM::Data		unknown4;
-	SIM::Data		unknown5;
-};
+class ICQClient;
 
-struct ICQClientData
+class ICQClientData
 {
-    SIM::Data        Server;
-    SIM::Data		Port;
-    SIM::Data		ContactsTime;
-    SIM::Data		ContactsLength;
-    SIM::Data		ContactsInvisible;
-    SIM::Data		HideIP;
-    SIM::Data		IgnoreAuth;
-    SIM::Data		UseMD5;
-    SIM::Data		DirectMode;
-    SIM::Data		IdleTime;
-    SIM::Data        ListRequests;
-    SIM::Data        Picture;
-    SIM::Data		RandomChatGroup;
-    SIM::Data		RandomChatGroupCurrent;
-    SIM::Data		SendFormat;
-    SIM::Data		DisablePlugins;
-    SIM::Data		DisableAutoUpdate;
-    SIM::Data		DisableAutoReplyUpdate;
-    SIM::Data		DisableTypingNotification;
-//    Data		AutoCheckInvisible;
-//    Data		CheckInvisibleInterval;
-    SIM::Data		AcceptInDND;
-    SIM::Data		AcceptInOccupied;
-    SIM::Data		MinPort;
-    SIM::Data		MaxPort;
-    SIM::Data		WarnAnonimously;
-    SIM::Data		AckMode;
-    SIM::Data		UseHTTP;
-    SIM::Data		AutoHTTP;
-    SIM::Data		KeepAlive;
-	SIM::Data		MediaSense;
-    ICQUserData	owner;
+public:
+
+    ICQClientData(ICQClient* client);
+    virtual QByteArray serialize();
+    virtual void deserialize(Buffer* cfg);
+
+    virtual void serialize(QDomElement& /*element*/) {}
+    virtual void deserialize(QDomElement& /*element*/) {}
+
+    virtual SIM::ClientWeakPtr client() { Q_ASSERT_X(false, "ICQClientData::client", "Shouldn't be called"); return SIM::ClientWeakPtr(); }
+
+    virtual unsigned long getSign();
+
+    QString getServer() const { return m_server; }
+    void setServer(const QString& server) { m_server = server; }
+
+    unsigned long getPort() const { return m_port; }
+    void setPort(unsigned long port) { m_port = port; }
+
+    unsigned long getContactsTime() const { return m_contactsTime; }
+    void setContactsTime(unsigned long ct) { m_contactsTime = ct; }
+
+    unsigned long getContactsLength() const { return m_contactsLength; }
+    void setContactsLength(unsigned long cl) { m_contactsLength = cl; }
+
+    unsigned long getContactsInvisible() const { return m_contactsInvisible; }
+    void setContactsInvisible(unsigned long ci) { m_contactsInvisible = ci; }
+
+    bool getHideIP() const { return m_hideIp; }
+    void setHideIP(bool hideip) { m_hideIp = hideip; }
+
+    bool getIgnoreAuth() const { return m_ignoreAuth; }
+    void setIgnoreAuth(bool ignoreAuth) { m_ignoreAuth = ignoreAuth; }
+
+    bool getUseMD5() const { return m_useMd5; }
+    void setUseMD5(bool useMd5) { m_useMd5 = useMd5; }
+
+    unsigned long getDirectMode() const { return m_directMode; }
+    void setDirectMode(unsigned long mode) { m_directMode = mode; }
+
+    unsigned long getIdleTime() const { return m_idleTime; }
+    void setIdleTime(unsigned long time) { m_idleTime = time; }
+
+    QString getListRequests() const { return m_listRequests; }
+    void setListRequests(const QString& listrequests) { m_listRequests = listrequests; }
+
+    QString getPicture() const { return m_picture; }
+    void setPicture(const QString& pic) { m_picture = pic; }
+
+    unsigned long getRandomChatGroup() const { return m_randomChatGroup; }
+    void setRandomChatGroup(unsigned long group) { m_randomChatGroup = group; }
+
+    unsigned long getRandomChatGroupCurrent() const { return m_randomChatGroupCurrent; }
+    void setRandomChatGroupCurrent(unsigned long group) { m_randomChatGroupCurrent = group; }
+
+    unsigned long getSendFormat() const { return m_sendFormat; }
+    void setSendFormat(unsigned long format) { m_sendFormat = format; }
+
+    bool getDisablePlugins() const { return m_disablePlugins; }
+    void setDisablePlugins(bool p) { m_disablePlugins = p; }
+
+    bool getDisableAutoUpdate() const { return m_disableAutoUpdate; }
+    void setDisableAutoUpdate(bool b) { m_disableAutoUpdate = b; }
+
+    bool getDisableAutoReplyUpdate() const { return m_disableAutoReplyUpdate; }
+    void setDisableAutoReplyUpdate(bool b) { m_disableAutoReplyUpdate = b; }
+
+    bool getDisableTypingNotification() const { return m_disableTypingNotification; }
+    void setDisableTypingNotification(bool b) { m_disableTypingNotification = b; }
+
+    bool getAcceptInDND() const { return m_acceptInDnd; }
+    void setAcceptInDND(bool b) {m_acceptInDnd = b; }
+
+    bool getAcceptInOccupied() const { return m_acceptInOccupied; }
+    void setAcceptInOccupied(bool b) {m_acceptInOccupied = b; }
+
+    unsigned long getMinPort() const { return m_minPort; }
+    void setMinPort(unsigned long port) { m_minPort = port; }
+
+    unsigned long getMaxPort() const { return m_maxPort; }
+    void setMaxPort(unsigned long port) { m_maxPort = port; }
+
+    bool getWarnAnonymously() const { return m_warnAnonymously; }
+    void setWarnAnonymously(bool b) { m_warnAnonymously = b; }
+
+    unsigned long getAckMode() const { return m_ackMode; }
+    void setAckMode(unsigned long ackmode) { m_ackMode = ackmode; }
+
+    bool getUseHttp() const { return m_useHttp; }
+    void setUseHttp(bool b) { m_useHttp = b; }
+
+    bool getAutoHttp() const { return m_autoHttp; }
+    void setAutoHttp(bool b) { m_autoHttp = b; }
+
+    bool getKeepAlive() const { return m_keepAlive; }
+    void setKeepAlive(bool b) { m_keepAlive = b; }
+
+    bool getMediaSense() const { return m_mediaSense; }
+    void setMediaSense(bool b) { m_mediaSense = b; }
+
+    ICQContact owner;
+
+    virtual void deserializeLine(const QString& key, const QString& value);
+public:
+
+    QString m_server;
+    unsigned long m_port;
+    unsigned long m_contactsTime;
+    unsigned long m_contactsLength;
+    unsigned long m_contactsInvisible;
+    bool m_hideIp;
+    bool m_ignoreAuth;
+    bool m_useMd5;
+    unsigned long m_directMode;
+    unsigned long m_idleTime;
+    QString m_listRequests;
+    QString m_picture;
+    unsigned long m_randomChatGroup;
+    unsigned long m_randomChatGroupCurrent;
+    unsigned long m_sendFormat;
+    bool m_disablePlugins;
+    bool m_disableAutoUpdate;
+    bool m_disableAutoReplyUpdate;
+    bool m_disableTypingNotification;
+    bool m_acceptInDnd;
+    bool m_acceptInOccupied;
+    unsigned long m_minPort;
+    unsigned long m_maxPort;
+    bool m_warnAnonymously;
+    unsigned long m_ackMode;
+    bool m_useHttp;
+    bool m_autoHttp;
+    bool m_keepAlive;
+    bool m_mediaSense;
 };
 
 class ICQClient;
 
-struct SearchResult
-{
-    ICQUserData       data;
-    unsigned short    id;
-    ICQClient         *client;
-};
+//struct SearchResult
+//{
+//    SearchResult() : data(SIM::ClientPtr(0)) {};
+//    ICQUserData       data;
+//    unsigned short    id;
+//    ICQClient         *client;
+//};
 
 class QTimer;
 
@@ -366,7 +373,17 @@ enum cap_id_t {
     CAP_ICQ51,                  // 0x00000080
     CAP_JIMM,                   // 0x00000100
     CAP_ICQJP,                  // 0x00000200
-    CAP_NULL,                   // 0x00000400
+    CAP_HTMLMSGS,               // 0x00000400
+    CAP_INFIUM,                 // 0x00000800
+    CAP_ABV,                    // 0x00001000
+    CAP_NETVIGATOR,             // 0x00002000
+    CAP_RAMBLER,                // 0x00004000
+    CAP_LITE_NEW,               // 0x00008000
+    CAP_HOST_STATUS_TEXT_AWARE, // 0x00010000
+    CAP_AIM_LIVE_VIDEO,         // 0x00020000
+    CAP_AIM_LIVE_AUDIO,         // 0x00040000
+    CAP_QIP2010,                // 0x00080000
+    CAP_NULL                    // 0x00000400
 };
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
@@ -397,35 +414,35 @@ const unsigned LIST_GROUP_CHANGED   = 2;
 const unsigned LIST_GROUP_DELETED   = 3;
 const unsigned LIST_BUDDY_CHECKSUM  = 4;
 
-class ListRequest
-{
-public:
-    ListRequest()
-        : type(0), icq_id(0), grp_id(0), visible_id(0), invisible_id(0), ignore_id(0),
-          icqUserData(NULL) {}
+//class ListRequest
+//{
+//public:
+//    ListRequest()
+//        : type(0), icq_id(0), grp_id(0), visible_id(0), invisible_id(0), ignore_id(0),
+//          icqUserData(NULL) {}
 
-public:
-    unsigned          type;
-    QString           screen;
-    unsigned short    icq_id;
-    unsigned short    grp_id;
-    unsigned short    visible_id;
-    unsigned short    invisible_id;
-    unsigned short    ignore_id;
-    const ICQUserData *icqUserData;
-};
+//public:
+//    unsigned          type;
+//    QString           screen;
+//    unsigned short    icq_id;
+//    unsigned short    grp_id;
+//    unsigned short    visible_id;
+//    unsigned short    invisible_id;
+//    unsigned short    ignore_id;
+//    //const ICQUserData *icqUserData;
+//};
 
-class ICQListener : public SIM::ServerSocketNotify
-{
-public:
-    ICQListener(ICQClient *client);
-    ~ICQListener();
-protected:
-    virtual bool accept(SIM::Socket *s, unsigned long ip);
-    virtual void bind_ready(unsigned short port);
-    virtual bool error(const QString &err);
-    ICQClient  *m_client;
-};
+//class ICQListener : public SIM::ServerSocketNotify
+//{
+//public:
+//    ICQListener(ICQClient *client);
+//    ~ICQListener();
+//protected:
+//    virtual bool accept(SIM::Socket *s, unsigned long ip);
+//    virtual void bind_ready(unsigned short port);
+//    virtual bool error(const QString &err);
+//    ICQClient  *m_client;
+//};
 
 class DirectSocket;
 class ServerRequest;
@@ -442,17 +459,17 @@ const unsigned SEND_HTML_PLAIN	= 0x0007;
 const unsigned SEND_MASK		= 0x000F;
 const unsigned SEND_1STPART		= 0x0010;
 
-struct ar_request
-{
-    unsigned short    type;
-    unsigned short    flags;
-    unsigned short    ack;
-    MessageId         id;
-    unsigned short    id1;
-    unsigned short    id2;
-    QString           screen;
-    bool              bDirect;
-};
+//struct ar_request
+//{
+//    unsigned short    type;
+//    unsigned short    flags;
+//    unsigned short    ack;
+//    MessageId         id;
+//    unsigned short    id1;
+//    unsigned short    id2;
+//    QString           screen;
+//    bool              bDirect;
+//};
 
 typedef std::map<unsigned short, QString> INFO_REQ_MAP;
 
@@ -460,41 +477,6 @@ class DirectSocket;
 class ServiceSocket;
 class ICQClientSocket;
 
-class OscarSocket
-{
-public:
-    OscarSocket();
-    virtual ~OscarSocket(){};
-
-    void snac(unsigned short food, unsigned short type, bool msgId=false, bool bType=true);
-    void sendPacket(bool bSend = true);
-protected:
-    virtual ICQClientSocket *socket() = 0;
-    virtual void packet(unsigned long size) = 0;
-    void flap(char channel);
-    void connect_ready();
-    void packet_ready();
-    bool m_bHeader;
-    char m_nChannel;
-    unsigned short m_nFlapSequence;
-    unsigned short m_nMsgSequence;
-};
-
-struct alias_group
-{
-    QString     alias;
-    unsigned    grp;
-};
-
-struct RateInfo
-{
-    Buffer				delayed;
-    QDateTime			m_lastSend;
-    unsigned			m_curLevel;
-    unsigned			m_maxLevel;
-    unsigned			m_minLevel;
-    unsigned			m_winSize;
-};
 
 struct InfoRequest
 {
@@ -503,484 +485,594 @@ struct InfoRequest
     unsigned	start_time;
 };
 
-typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
+//typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
-typedef std::map<unsigned short, SnacHandler*> mapSnacHandlers;
+typedef QMap<unsigned short, SnacHandler*> mapSnacHandlers;
 
-class ICQClient : public SIM::TCPClient, public OscarSocket
+class ICQ_EXPORT ICQClient : public QObject, public SIM::Client
 {
     Q_OBJECT
 public:
-    ICQClient(SIM::Protocol*, Buffer *cfg, bool bAIM);
-    ~ICQClient();
-    virtual QString     name();
-    virtual QString getScreen();
-    virtual QString     dataName(void*);
-    virtual QWidget    *setupWnd();
-    virtual QByteArray  getConfig();
-    virtual void contactsLoaded();
+    ICQClient(SIM::Protocol*, const QString& name, bool bAIM);
+    virtual ~ICQClient();
+	virtual QString retrievePasswordLink();
+    virtual QString name();
+
+    SIM::IMContactPtr createIMContact();
+    SIM::IMGroupPtr createIMGroup();
+
+    virtual QWidget* createSetupWidget(const QString& id, QWidget* parent);
+    virtual void destroySetupWidget();
+    virtual QStringList availableSetupWidgets() const;
+
+    virtual QWidget* createStatusWidget();
+
+    virtual SIM::IMStatusPtr currentStatus();
+    virtual void changeStatus(const SIM::IMStatusPtr& status);
+    virtual SIM::IMStatusPtr savedStatus();
+
+    SIM::IMContactPtr ownerContact();
+    void setOwnerContact(SIM::IMContactPtr contact);
+
+    QWidget* createSearchWidow(QWidget *parent);
+    QList<SIM::IMGroupPtr> groups();
+    QList<SIM::IMContactPtr> contacts();
+
+    virtual bool serialize(QDomElement& element);
+    virtual bool deserialize(QDomElement& element);
+    virtual bool deserialize(Buffer* cfg);
+
     void setUin(unsigned long);
     void setScreen(const QString &);
     unsigned long getUin();
+
     QString getServer() const;
     void setServer(const QString &);
-    PROP_USHORT(Port);
-    PROP_ULONG(ContactsTime);
-    PROP_USHORT(ContactsLength);
-    PROP_USHORT(ContactsInvisible);
-    PROP_BOOL(HideIP);
-    PROP_BOOL(IgnoreAuth);
-    PROP_BOOL(UseMD5);
-    PROP_ULONG(DirectMode);
-    PROP_ULONG(IdleTime);
-    PROP_STR(ListRequests);
-    PROP_UTF8(Picture);
-    PROP_USHORT(RandomChatGroup);
-    PROP_ULONG(RandomChatGroupCurrent);
-    PROP_ULONG(SendFormat);
-    PROP_BOOL(DisablePlugins);
-    PROP_BOOL(DisableAutoUpdate);
-    PROP_BOOL(DisableAutoReplyUpdate);
-    PROP_BOOL(DisableTypingNotification);
-    PROP_BOOL(AcceptInDND);
-    PROP_BOOL(AcceptInOccupied);
-    PROP_USHORT(MinPort);
-    PROP_USHORT(MaxPort);
-    PROP_BOOL(WarnAnonimously);
-    PROP_USHORT(AckMode);
-    PROP_BOOL(UseHTTP);
-    PROP_BOOL(AutoHTTP);
-    PROP_BOOL(KeepAlive);
-	PROP_BOOL(MediaSense);
-    ICQClientData   data;
+
+    unsigned short getPort() const;
+    void setPort(unsigned short port);
+
+    unsigned long getContactsTime() const;
+    void setContactsTime(unsigned long contactsTime);
+
+    unsigned short getContactsLength() const;
+    void setContactsLength(unsigned short contactsLength);
+
+    unsigned short getContactsInvisible() const;
+    void setContactsInvisible(unsigned short contactsInvisible);
+
+    bool getHideIP() const;
+    void setHideIP(bool hideip);
+
+    bool getIgnoreAuth() const;
+    void setIgnoreAuth(bool ignoreAuth);
+
+    bool getUseMD5() const;
+    void setUseMD5(bool usemd5);
+
+    unsigned long getDirectMode();
+    void setDirectMode(unsigned long mode);
+
+    unsigned long getIdleTime() const;
+    void setIdleTime(unsigned long time);
+
+    QString getListRequests() const;
+    void setListRequests(const QString& listrequests);
+
+    QString getPicture() const;
+    void setPicture(const QString& pic);
+
+    unsigned long getRandomChatGroup() const;
+    void setRandomChatGroup(unsigned long group);
+
+    unsigned long getRandomChatGroupCurrent() const;
+    void setRandomChatGroupCurrent(unsigned long group);
+
+    unsigned long getSendFormat() const;
+    void setSendFormat(unsigned long format);
+
+    bool getDisablePlugins() const;
+    void setDisablePlugins(bool b);
+
+    bool getDisableAutoUpdate() const;
+    void setDisableAutoUpdate(bool b);
+
+    bool getDisableAutoReplyUpdate() const;
+    void setDisableAutoReplyUpdate(bool b);
+
+    bool getDisableTypingNotification() const;
+    void setDisableTypingNotification(bool b);
+
+    bool getAcceptInDND() const;
+    void setAcceptInDND(bool b);
+
+    bool getAcceptInOccupied() const;
+    void setAcceptInOccupied(bool b);
+
+    unsigned long getMinPort() const;
+    void setMinPort(unsigned long port);
+
+    unsigned long getMaxPort() const;
+    void setMaxPort(unsigned long port);
+
+    bool getWarnAnonymously() const;
+    void setWarnAnonymously(bool b);
+
+    unsigned long getAckMode() const;
+    void setAckMode(unsigned long mode);
+
+    bool getUseHTTP() const;
+    void setUseHTTP(bool b);
+
+    bool getAutoHTTP() const;
+    void setAutoHTTP(bool b);
+
+    bool getKeepAlive() const;
+    void setKeepAlive(bool b);
+
+    bool getMediaSense() const;
+    void setMediaSense(bool b);
+
+    ICQClientData* clientPersistentData;
+
+    void initDefaultStates();
+    ICQStatusPtr getDefaultStatus(const QString& id);
+
+    void setOscarSocket(OscarSocket* socket);
+    OscarSocket* oscarSocket() const;
+
+    SnacHandler* snacHandler(int type);
+
     // reimplement socket() to get correct Buffer
-    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
-    virtual ICQClientSocket *createClientSocket() { return new ICQClientSocket(this, createSocket()); }
-    // icq functions
-    unsigned short findByUin(unsigned long uin);
-    unsigned short findByMail(const QString &mail);
-    unsigned short findWP(const QString &first, const QString &last, const QString &nick,
-                          const QString &email, char age, char nGender,
-                          unsigned short nLanguage, const QString &city, const QString &szState,
-                          unsigned short nCountryCode,
-                          const QString &cCoName, const QString &szCoDept, const QString &szCoPos,
-                          unsigned short nOccupation,
-                          unsigned short nPast, const QString &szPast,
-                          unsigned short nInterests, const QString &szInterests,
-                          unsigned short nAffiliation, const QString &szAffiliation,
-                          unsigned short nHomePoge, const QString &szHomePage,
-                          const QString &sKeyWord, bool bOnlineOnly);
-    SIM::Contact *getContact(ICQUserData*);
-    ICQUserData *findContact(unsigned long uin,     const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
-    ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
-    ICQUserData *findGroup(unsigned id, const QString *name, SIM::Group *&group);
-    void addFullInfoRequest(unsigned long uin);
-    ListRequest *findContactListRequest(const QString &screen);
-    ListRequest *findGroupListRequest(unsigned short id);
-    void removeListRequest(ListRequest *lr);
-    virtual void setupContact(SIM::Contact*, void *data);
-    QString clientName(ICQUserData*);
-    void changePassword(const QString &new_pswd);
-    void searchChat(unsigned short);
-    void randomChatInfo(unsigned long uin);
-    unsigned short aimEMailSearch(const QString &name);
-    unsigned short aimInfoSearch(const QString &first, const QString &last, const QString &middle,
-                                 const QString &maiden, const QString &country, const QString &street,
-                                 const QString &city, const QString &nick, const QString &zip,
-                                 const QString &state);
-    SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          const QByteArray &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
-    void sendPacket(bool bSend);
-    bool messageReceived(SIM::Message*, const QString &screen);
-    static bool parseRTF(const QByteArray &str, SIM::Contact *contact, QString &result);
-    static QString pictureFile(const ICQUserData *data);
-    virtual QImage userPicture(unsigned id);
-    QImage userPicture(ICQUserData *d);
-    static const capability *capabilities;
-    static const plugin *plugins;
-    static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
-    static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
-    static QString screen(const ICQUserData*);
-    static unsigned long warnLevel(unsigned long);
-    static unsigned clearTags(QString &text);
-    bool m_bAIM;
-    static QString addCRLF(const QString &str);
-    void uploadBuddy(const ICQUserData *data);
-    ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
+//    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
+//    virtual ICQClientSocket *createClientSocket() { return new ICQClientSocket(this, createSocket()); }
+//    // icq functions
+//    unsigned short findByUin(unsigned long uin);
+//    unsigned short findByMail(const QString &mail);
+//    unsigned short findWP(const QString &first, const QString &last, const QString &nick,
+//                          const QString &email, char age, char nGender,
+//                          unsigned short nLanguage, const QString &city, const QString &szState,
+//                          unsigned short nCountryCode,
+//                          const QString &cCoName, const QString &szCoDept, const QString &szCoPos,
+//                          unsigned short nOccupation,
+//                          unsigned short nPast, const QString &szPast,
+//                          unsigned short nInterests, const QString &szInterests,
+//                          unsigned short nAffiliation, const QString &szAffiliation,
+//                          unsigned short nHomePoge, const QString &szHomePage,
+//                          const QString &sKeyWord, bool bOnlineOnly);
+//    SIM::Contact *getContact(ICQUserData*);
+//    ICQUserData *findContact(unsigned long uin,     const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+//    ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+//    ICQUserData *findGroup(unsigned id, const QString *name, SIM::Group *&group);
+//    void addFullInfoRequest(unsigned long uin);
+//    ListRequest *findContactListRequest(const QString &screen);
+//    ListRequest *findGroupListRequest(unsigned short id);
+//    void removeListRequest(ListRequest *lr);
+//    virtual void setupContact(SIM::Contact*, void *data);
+//    QString clientName(ICQUserData*);
+//    void changePassword(const QString &new_pswd);
+//    void searchChat(unsigned short);
+//    void randomChatInfo(unsigned long uin);
+//    unsigned short aimEMailSearch(const QString &name);
+//    unsigned short aimInfoSearch(const QString &first, const QString &last, const QString &middle,
+//                                 const QString &maiden, const QString &country, const QString &street,
+//                                 const QString &city, const QString &nick, const QString &zip,
+//                                 const QString &state);
+//    SIM::Message *parseMessage(unsigned short type, const QString &screen,
+//                          const QByteArray &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
+//    void sendPacket(bool bSend);
+//    bool messageReceived(SIM::Message*, const QString &screen);
+//    static bool parseRTF(const QByteArray &str, SIM::Contact *contact, QString &result);
+//    static QString pictureFile(const ICQUserData *data);
+//    virtual QImage userPicture(unsigned id);
+//    QImage userPicture(ICQUserData *d);
+//    static const capability *capabilities;
+//    static const plugin *plugins;
+//    static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
+//    static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
+//    static QString screen(const ICQUserData*);
+//    static unsigned long warnLevel(unsigned long);
+//    static unsigned clearTags(QString &text);
+	bool m_bAIM;
+//    static QString addCRLF(const QString &str);
+//    void uploadBuddy(const ICQUserData *data);
+//    ICQUserData * toICQUserData(SIM::IMContact*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 
-    virtual void changeStatus(const SIM::IMStatusPtr& status);
+//    unsigned long getFullStatus();
 
-    unsigned long getFullStatus();
+//    bool addSnacHandler(SnacHandler* handler);
+//    void clearSnacHandlers();
 
-    bool addSnacHandler(SnacHandler* handler);
-    void clearSnacHandlers();
+//    // ICBM:
+//    void deleteFileMessage(MessageId const& cookie);
 
-    // ICBM:
-    void deleteFileMessage(MessageId const& cookie);
+//    // SSI:
+//    void ssiStartTransaction();
+//    void ssiEndTransaction();
+//    bool isSSITransaction(){return false;}
+//    unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
+//    unsigned short ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv);
+//    unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
+//    void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
+//    unsigned short ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
+//    unsigned short ssiRemoveFromGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
+//    TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
 
-    // SSI:
-    void ssiStartTransaction();
-    void ssiEndTransaction();
-    bool isSSITransaction(){return false;}
-    unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
-    unsigned short ssiModifyBuddy(const QString& name, unsigned short grp_id, unsigned short usr_id, unsigned short subCmd, TlvList* tlv);
-    unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
-    void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
-    unsigned short ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
-    unsigned short ssiRemoveFromGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
-    TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
-
-    // Snac handlers accessors
-    SnacIcqService* snacService() { return m_snacService; }
-    SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
-    SnacIcqICBM* snacICBM() { return m_snacICBM; }
+//    // Snac handlers accessors
+//    SnacIcqService* snacService() { return m_snacService; }
+//    SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
+//    SnacIcqICBM* snacICBM() { return m_snacICBM; }
 
 protected slots:
-    void ping();
-    void retry(int n, void*);
-    void interfaceDown(QString);
-    void interfaceUp(QString);
+    void oscarSocketConnected();
+    void oscarSocketPacket(int channel, const QByteArray& data);
+//    void ping();
+//    void retry(int n, void*);
+//    void interfaceDown(QString);
+//    void interfaceUp(QString);
+signals:
+    void setStatusWidgetsBlinking(bool b);
+
 protected:
-    void generateCookie(MessageId& id);
+//    void generateCookie(MessageId& id);
 
-    virtual void setInvisible(bool bState);
-    virtual void setStatus(unsigned status, bool bCommon);
-    virtual void setStatus(unsigned status);
-    virtual void disconnected();
-    virtual bool processEvent(SIM::Event *e);
-    virtual bool compareData(void*, void*);
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
-    virtual bool send(SIM::Message*, void*);
-    virtual bool canSend(unsigned type, void*);
-    virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
-    virtual bool createData(SIM::clientData*&, SIM::Contact*);
-    virtual QString contactTip(void *_data);
-    virtual SIM::CommandDef *infoWindows(SIM::Contact *contact, void *_data);
-    virtual QWidget *infoWindow(QWidget *parent, SIM::Contact *contact, void *_data, unsigned id);
-    virtual SIM::CommandDef *configWindows();
-    virtual QWidget *configWindow(QWidget *parent, unsigned id);
-    virtual QWidget *searchWindow(QWidget *parent);
-    virtual void updateInfo(SIM::Contact *contact, void *_data);
-    virtual void setClientInfo(void *data);
-    virtual SIM::Socket  *createSocket();
-    virtual QString contactName(void *clientData);
-    QString dataName(const QString &screen);
-    QByteArray  m_cookie;
-    virtual void packet(unsigned long size);
-    void snac_location(unsigned short, unsigned short);
-    void snac_bos(unsigned short, unsigned short);
-    void snac_ping(unsigned short, unsigned short);
-    void snac_lists(unsigned short, unsigned short);
-    void snac_various(unsigned short, unsigned short);
-    void snac_login(unsigned short, unsigned short);
-    void parseRosterItem(unsigned short type, const QString &str,unsigned short grp_id,
-                         unsigned short id, TlvList *inf, bool &bIgnoreTime);
-    void chn_login();
-    void chn_close();
-    void listsRequest();
-    void locationRequest();
-    void buddyRequest();
-    void bosRequest();
-    void addCapability(ICQBuffer &cap, cap_id_t id);   // helper for sendCapability()
-    void sendCapability(const QString &msg=QString::null);
-    void sendMessageRequest();
-    void serverRequest(unsigned short cmd, unsigned short seq=0);
-    void sendServerRequest();
-    void sendInvisible(bool bState);
-    void sendContactList();
-    void setOffline(ICQUserData*);
-    void removeFullInfoRequest(unsigned long uin);
-    class SSBISocket *getSSBISocket();
-    unsigned long fullStatus(unsigned status);
-    unsigned long fullStatus(const SIM::IMStatusPtr& status);
+//    virtual void setInvisible(bool bState);
+//    virtual void setStatus(unsigned status, bool bCommon);
+//    virtual void setStatus(unsigned status);
+//    virtual void disconnected();
+//    virtual bool processEvent(SIM::Event *e);
+//    virtual bool compareData(void*, void*);
+//    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QSet<QString> *icons = NULL);
+//    virtual bool send(SIM::Message*, void*);
+//    virtual bool canSend(unsigned type, void*);
+//    virtual bool isMyData(SIM::IMContact*&, SIM::Contact*&);
+//    virtual bool createData(SIM::IMContact*&, SIM::Contact*);
+//    virtual QString contactTip(void *_data);
+//    virtual SIM::CommandDef *infoWindows(SIM::Contact *contact, void *_data);
+//    virtual QWidget *infoWindow(QWidget *parent, SIM::Contact *contact, void *_data, unsigned id);
+//    virtual SIM::CommandDef *configWindows();
+//    virtual QWidget *configWindow(QWidget *parent, unsigned id);
+//    virtual QWidget *searchWindow(QWidget *parent);
+//    virtual void updateInfo(SIM::Contact *contact, void *_data);
+//    virtual void setClientInfo(SIM::IMContact* data);
+//    virtual SIM::Socket  *createSocket();
+//    virtual QString contactName(void *clientData);
+//    QString dataName(const QString &screen);
+//    virtual void packet(unsigned long size);
+//    void snac_location(unsigned short, unsigned short);
+//    void snac_bos(unsigned short, unsigned short);
+//    void snac_ping(unsigned short, unsigned short);
+//    void snac_lists(unsigned short, unsigned short);
+//    void snac_various(unsigned short, unsigned short);
+//    void snac_login(unsigned short, unsigned short);
+//    void parseRosterItem(unsigned short type, const QString &str,unsigned short grp_id,
+//                         unsigned short id, TlvList *inf, bool &bIgnoreTime);
+    void chn_login(const QByteArray& data);
+    void chn_close(const QByteArray& data);
+//    void listsRequest();
+//    void locationRequest();
+//    void buddyRequest();
+//    void bosRequest();
+//    void addCapability(ICQBuffer &cap, cap_id_t id);   // helper for sendCapability()
+//    void sendCapability(const QString &msg=QString::null);
+//    void sendMessageRequest();
+//    void serverRequest(unsigned short cmd, unsigned short seq=0);
+//    void sendServerRequest();
+//    void sendInvisible(bool bState);
+//    void sendContactList();
+//    void setOffline(ICQUserData*);
+//    void removeFullInfoRequest(unsigned long uin);
+//    class SSBISocket *getSSBISocket();
+//    unsigned long fullStatus(unsigned status);
+//    unsigned long fullStatus(const SIM::IMStatusPtr& status);
     QByteArray cryptPassword();
-    virtual void connect_ready();
-    virtual void packet_ready();
-    const char* error_message(unsigned short error);
-    bool m_bVerifying;
-    ICQListener			*m_listener;
-    QTimer *m_processTimer;
-    unsigned short m_sendSmsId;
-    unsigned short m_offlineMessagesRequestId;
-    ListServerRequest *m_listRequest;
-    bool m_bRosters;
-    bool m_bBirthday;
-    bool m_bNoSend;
-    std::list<ServerRequest*> varRequests;
-    std::list<InfoRequest>	infoRequests;
-    QStringList         	buddies;
-    std::list<ListRequest>	listRequests;
-    std::list<ar_request>	arRequests;
-    void addGroupRequest(SIM::Group *group);
-    void addContactRequest(SIM::Contact *contact);
-    void checkListRequest();
-    void checkInfoRequest();
-    ServerRequest *findServerRequest(unsigned short id);
-    void clearServerRequests();
-    void clearListServerRequest();
-    void clearSMSQueue();
-    unsigned processListRequest();
-    unsigned processSMSQueue();
-    unsigned processInfoRequest();
-    static bool hasCap(const ICQUserData *data, cap_id_t fcap);
-    static void setCap(ICQUserData *data, cap_id_t fcap);
-    bool isSupportPlugins(ICQUserData *data);
-    QString trimPhone(const QString &phone);
-    unsigned short getListId();
-    unsigned short sendRoster(unsigned short cmd, const QString &name,
-                              unsigned short grp_id,  unsigned short usr_id,
-                              unsigned short subCmd=0, TlvList *tlv = NULL);
-    void sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId);
-    bool isContactRenamed(ICQUserData *data, SIM::Contact *contact);
-    QString getUserCellular(SIM::Contact *contact);
-    void setMainInfo(ICQUserData *d);
-    void setAIMInfo(ICQUserData *data);
-    void setProfile(ICQUserData *data);
-    bool isOwnData(const QString &screen);
-    void packInfoList(const QString &str);
-    QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    QByteArray createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
-    QString removeImages(const QString &text, bool icqSmiles);
-    bool sendAuthRequest(SIM::Message *msg, void *data);
-    bool sendAuthGranted(SIM::Message *msg, void *data);
-    bool sendAuthRefused(SIM::Message *msg, void *data);
-    void parseAdvancedMessage(const QString &screen, ICQBuffer &msg, bool needAck, MessageId id);
-    void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
-    void setChatGroup();
-    SIM::Message *parseExtendedMessage(const QString &screen, ICQBuffer &packet, MessageId &id, unsigned cookie);
-    void parsePluginPacket(ICQBuffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
-    void pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &b);
-    void packMessage(ICQBuffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
-    void packExtendedMessage(SIM::Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data);
-    void fetchProfile(ICQUserData *data);
-    void fetchAwayMessage(ICQUserData *data);
-    void fetchProfiles();
-    void setAwayMessage(const QString &msg = QString::null);
-    void encodeString(const QString &text, const QString &type, unsigned short charsetTlv, unsigned short infoTlv);
-    void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
-    bool processMsg();
-    void packTlv(unsigned short tlv, unsigned short code, const QString &keywords);
-    void packTlv(unsigned short tlv, const QString &_data);
-    void packTlv(unsigned short tlv, unsigned short data);
-    void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
-    void requestBuddy(const ICQUserData *data);
-    ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);
-    INFO_REQ_MAP m_info_req;
-    unsigned short msgStatus();
-    unsigned short m_advCounter;
-    bool     m_bJoin;
-    bool	 m_bFirstTry;
-    bool	 m_bHTTP;
-    bool	 m_bReady;
-    std::vector<RateInfo> m_rates;
-    RATE_MAP			m_rate_grp;
-    void                        setNewLevel(RateInfo &r);
-    unsigned			delayTime(unsigned snac);
-    unsigned			delayTime(RateInfo &r);
-    RateInfo			*rateInfo(unsigned snac);
-    std::list<SIM::Message*>	m_processMsg;
-    std::list<DirectSocket*>	m_sockets;
-    std::list<SIM::Message*>	m_acceptMsg;
-    std::list<AIMFileTransfer*> m_filetransfers;
-    SnacIcqBuddy* m_snacBuddy;
-    SnacIcqService* m_snacService;
-    SnacIcqICBM* m_snacICBM;
-    mapSnacHandlers m_snacHandlers;
-    bool m_bconnectionLost;
+//    virtual void connect_ready();
+//    virtual void packet_ready();
+//    const char* error_message(unsigned short error);
+//    bool m_bVerifying;
+//    ICQListener			*m_listener;
+//    QTimer *m_processTimer;
+//    unsigned short m_sendSmsId;
+//    unsigned short m_offlineMessagesRequestId;
+//    ListServerRequest *m_listRequest;
+//    bool m_bRosters;
+//    bool m_bBirthday;
+//    bool m_bNoSend;
+//    std::list<ServerRequest*> varRequests;
+//    std::list<InfoRequest>	infoRequests;
+//    QStringList         	buddies;
+//    std::list<ListRequest>	listRequests;
+//    std::list<ar_request>	arRequests;
+//    void addGroupRequest(SIM::Group *group);
+//    void addContactRequest(SIM::Contact *contact);
+//    void checkListRequest();
+//    void checkInfoRequest();
+//    ServerRequest *findServerRequest(unsigned short id);
+//    void clearServerRequests();
+//    void clearListServerRequest();
+//    void clearSMSQueue();
+//    unsigned processListRequest();
+//    unsigned processSMSQueue();
+//    unsigned processInfoRequest();
+//    static bool hasCap(const ICQUserData *data, cap_id_t fcap);
+//    static void setCap(ICQUserData *data, cap_id_t fcap);
+//    bool isSupportPlugins(ICQUserData *data);
+//    QString trimPhone(const QString &phone);
+//    unsigned short getListId();
+//    unsigned short sendRoster(unsigned short cmd, const QString &name,
+//                              unsigned short grp_id,  unsigned short usr_id,
+//                              unsigned short subCmd=0, TlvList *tlv = NULL);
+//    void sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId);
+//    bool isContactRenamed(ICQUserData *data, SIM::Contact *contact);
+//    QString getUserCellular(SIM::Contact *contact);
+//    void setMainInfo(ICQUserData *d);
+//    void setAIMInfo(ICQUserData *data);
+//    void setProfile(ICQUserData *data);
+//    bool isOwnData(const QString &screen);
+//    void packInfoList(const QString &str);
+//    QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
+//    QByteArray createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+//    QString removeImages(const QString &text, bool icqSmiles);
+//    bool sendAuthRequest(SIM::Message *msg, void *data);
+//    bool sendAuthGranted(SIM::Message *msg, void *data);
+//    bool sendAuthRefused(SIM::Message *msg, void *data);
+//    void parseAdvancedMessage(const QString &screen, ICQBuffer &msg, bool needAck, MessageId id);
+//    void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
+//    void setChatGroup();
+//    SIM::Message *parseExtendedMessage(const QString &screen, ICQBuffer &packet, MessageId &id, unsigned cookie);
+//    void parsePluginPacket(ICQBuffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
+//    void pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &b);
+//    void packMessage(ICQBuffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
+//    void packExtendedMessage(SIM::Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data);
+//    void fetchProfile(ICQUserData *data);
+//    void fetchAwayMessage(ICQUserData *data);
+//    void fetchProfiles();
+//    void setAwayMessage(const QString &msg = QString::null);
+//    void encodeString(const QString &text, const QString &type, unsigned short charsetTlv, unsigned short infoTlv);
+//    void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
+//    bool processMsg();
+//    void packTlv(unsigned short tlv, unsigned short code, const QString &keywords);
+//    void packTlv(unsigned short tlv, const QString &_data);
+//    void packTlv(unsigned short tlv, unsigned short data);
+//    void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
+//    void requestBuddy(const ICQUserData *data);
+//    ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);
+//    INFO_REQ_MAP m_info_req;
+//    unsigned short msgStatus();
+//    unsigned short m_advCounter;
+//    bool     m_bJoin;
+//    bool	 m_bFirstTry;
+//    bool	 m_bHTTP;
+//    bool	 m_bReady;
+//    std::vector<RateInfo> m_rates;
+//    RATE_MAP			m_rate_grp;
+//    void                        setNewLevel(RateInfo &r);
+//    unsigned			delayTime(unsigned snac);
+//    unsigned			delayTime(RateInfo &r);
+//    RateInfo			*rateInfo(unsigned snac);
+//    std::list<SIM::Message*>	m_processMsg;
+//    std::list<DirectSocket*>	m_sockets;
+//    std::list<SIM::Message*>	m_acceptMsg;
+//    std::list<AIMFileTransfer*> m_filetransfers;
+//    SnacIcqBuddy* m_snacBuddy;
+//    SnacIcqService* m_snacService;
+//    SnacIcqICBM* m_snacICBM;
+//    bool m_bconnectionLost;
 
-    friend class ListServerRequest;
-    friend class FullInfoRequest;
-    friend class SMSRequest;
-    friend class ServiceSocket;
-    friend class DirectSocket;
-    friend class DirectClient;
-    friend class ICQListener;
-    friend class AIMFileTransfer;
-    friend class ICQFileTransfer;
-    friend class SetBuddyRequest;
-    friend class SSBISocket;
+//    friend class ListServerRequest;
+//    friend class FullInfoRequest;
+//    friend class SMSRequest;
+//    friend class ServiceSocket;
+//    friend class DirectSocket;
+//    friend class DirectClient;
+//    friend class ICQListener;
+//    friend class AIMFileTransfer;
+//    friend class ICQFileTransfer;
+//    friend class SetBuddyRequest;
+//    friend class SSBISocket;
 
-    // This should be removed when refactoring is over
-    friend class SnacIcqBuddy;
-    friend class SnacIcqService;
-    friend class SnacIcqICBM;
+//    // This should be removed when refactoring is over
+//    friend class SnacIcqBuddy;
+//    friend class SnacIcqService;
+//    friend class SnacIcqICBM;
 
 private:
-	SIM::PropertyHubPtr m_propertyHub;
-    SIM::InterfaceChecker* m_ifChecker;
-    bool m_bBirthdayInfoDisplayed;
-};
+    void initialize(bool bAIM);
+    void initSnacHandlers();
 
-class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
-{
-public:
-    ServiceSocket(ICQClient*, unsigned short id);
-    ~ServiceSocket();
-    unsigned short id() const { return m_id; }
-    void connect(const char *addr, unsigned short port, const QByteArray &cookie);
-    virtual bool error_state(const QString &err, unsigned code = 0);
-    bool connected() const { return m_bConnected; }
-    void close();
-protected:
-    virtual const char *serviceSocketName() = 0;
-    virtual void connect_ready();
-    virtual void packet_ready();
-    virtual ICQClientSocket *socket() { return m_socket; }
-    virtual void packet(unsigned long size);
-    virtual void data(unsigned short food, unsigned short type, unsigned short seq) = 0;
-    unsigned short m_id;
-    QByteArray  m_cookie;
-    bool    m_bConnected;
-    ICQClientSocket *m_socket;
-    ICQClient *m_client;
-};
-
-class DirectSocket : public QObject, public SIM::ClientSocketNotify
-{
-    Q_OBJECT
-public:
-    enum SocketState{
-        NotConnected,
-        ConnectIP1,
-        ConnectIP2,
-        ConnectFail,
-        WaitInit,
-        WaitAck,
-        WaitReverse,
-        ReverseConnect,
-        Logged
-    };
-    DirectSocket(SIM::Socket *s, ICQClient*, unsigned long ip);
-    DirectSocket(ICQUserData *data, ICQClient *client);
-    ~DirectSocket();
-    virtual void packet_ready();
-    SocketState m_state;
-    void connect();
-    void reverseConnect(unsigned long ip, unsigned short port);
-    void acceptReverse(SIM::Socket *s);
-    virtual bool   error_state(const QString &err, unsigned code = 0);
-    virtual void   connect_ready();
-    unsigned short localPort();
-    unsigned short remotePort();
-    unsigned long  Uin();
-    ICQUserData    *m_data;
-    void setPort(unsigned short port) {m_port = port;}
-protected slots:
-    void timeout();
-protected:
-    virtual void login_timeout();
-    virtual void processPacket() = 0;
-    void init();
-    void sendInit();
-    void sendInitAck();
-    void removeFromClient();
-    bool             m_bIncoming;
-    unsigned short   m_nSequence;
-    unsigned short   m_port;
-    unsigned short	 m_localPort;
-    char             m_version;
-    bool			 m_bHeader;
-    unsigned long    m_nSessionId;
-    ICQClientSocket  *m_socket;
-    ICQClient        *m_client;
-    unsigned long m_ip;
-    friend class AIMFileTransfer;
-};
-
-struct SendDirectMsg
-{
-    SIM::Message        *msg;
-    unsigned            type;
-    unsigned short      seq;
-    unsigned short      icq_type;
-};
-
-class DirectClient : public DirectSocket
-{
-public:
-    DirectClient(SIM::Socket *s, ICQClient *client, unsigned long ip);
-    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
-    ~DirectClient();
-    bool sendMessage(SIM::Message*);
-    void acceptMessage(SIM::Message*);
-    void declineMessage(SIM::Message*, const QString &reason);
-    bool cancelMessage(SIM::Message*);
-    void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags,
-                 const char *message=NULL, unsigned short status=ICQ_TCPxACK_ACCEPT, SIM::Message *m=NULL);
-    bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
-    bool isSecure();
-    void addPluginInfoRequest(unsigned plugin_index);
-protected:
-    enum State{
-        None,
-        WaitLogin,
-        WaitInit2,
-        Logged,
-        SSLconnect
-    };
-    State       m_state;
-    unsigned    m_channel;
-    void processPacket();
-    void connect_ready();
-    virtual bool error_state(const QString &err, unsigned code);
-    void sendInit2();
-    void startPacket(unsigned short cms, unsigned short seq);
-    void sendPacket();
-    void processMsgQueue();
-    bool copyQueue(DirectClient *to);
-    QList<SendDirectMsg> m_queue;
-    QString name();
+    SIM::PropertyHubPtr m_propertyHub;
+    QList<ICQStatusPtr> m_defaultStates;
     QString m_name;
-    void secureConnect();
-    void secureListen();
-    void secureStop(bool bShutdown);
-    SIM::SSLClient *m_ssl;
-};
+    ICQStatusPtr m_currentStatus;
+    OscarSocket* m_oscarSocket;
 
-class ICQFileTransfer : public SIM::FileTransfer, public DirectSocket, public SIM::ServerSocketNotify
-{
-public:
-    ICQFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client);
-    ~ICQFileTransfer();
-    void connect(unsigned short port);
-    void listen();
-    void setSocket(ICQClientSocket *socket);
-    virtual void processPacket();
-protected:
     enum State
     {
-        None,
-        WaitLogin,
-        WaitInit,
-        InitSend,
-        InitReceive,
-        Send,
-        Receive,
-        Wait,
-        WaitReverse,
-        WaitReverseLogin,
-        Listen
+        sOffline,
+        sConnecting,
+        sConnected
     };
+
     State m_state;
 
-    virtual void connect_ready();
-    virtual bool error_state(const QString &err, unsigned code);
-    virtual void write_ready();
-    virtual void setSpeed(unsigned speed);
-    virtual void startReceive(unsigned pos);
-    virtual void bind_ready(unsigned short port);
-    virtual bool accept(SIM::Socket *s, unsigned long ip);
-    virtual bool error(const QString &err);
-    virtual void login_timeout();
+    AuthorizationSnacHandler* m_authSnac;
+    mapSnacHandlers m_snacHandlers;
 
-    void sendInit();
-    void startPacket(char cmd);
-    void sendPacket(bool dump=true);
-    void sendFileInfo();
-    void initReceive(char cmd);
+    friend class AuthorizationSnacHandler;
 
-    friend class ICQClient;
+    //bool m_bBirthdayInfoDisplayed;
 };
+
+//class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
+//{
+//public:
+//    ServiceSocket(ICQClient*, unsigned short id);
+//    ~ServiceSocket();
+//    unsigned short id() const { return m_id; }
+//    void connect(const char *addr, unsigned short port, const QByteArray &cookie);
+//    virtual bool error_state(const QString &err, unsigned code = 0);
+//    bool connected() const { return m_bConnected; }
+//    void close();
+//protected:
+//    virtual const char *serviceSocketName() = 0;
+//    virtual void connect_ready();
+//    virtual void packet_ready();
+//    virtual ICQClientSocket *socket() { return m_socket; }
+//    virtual void packet(unsigned long size);
+//    virtual void data(unsigned short food, unsigned short type, unsigned short seq) = 0;
+//    unsigned short m_id;
+//    QByteArray  m_cookie;
+//    bool    m_bConnected;
+//    ICQClientSocket *m_socket;
+//    ICQClient *m_client;
+//};
+
+//class DirectSocket : public QObject, public SIM::ClientSocketNotify
+//{
+//    Q_OBJECT
+//public:
+//    enum SocketState{
+//        NotConnected,
+//        ConnectIP1,
+//        ConnectIP2,
+//        ConnectFail,
+//        WaitInit,
+//        WaitAck,
+//        WaitReverse,
+//        ReverseConnect,
+//        Logged
+//    };
+//    DirectSocket(SIM::Socket *s, ICQClient*, unsigned long ip);
+//    DirectSocket(ICQUserData *data, ICQClient *client);
+//    ~DirectSocket();
+//    virtual void packet_ready();
+//    SocketState m_state;
+//    void connect();
+//    void reverseConnect(unsigned long ip, unsigned short port);
+//    void acceptReverse(SIM::Socket *s);
+//    virtual bool   error_state(const QString &err, unsigned code = 0);
+//    virtual void   connect_ready();
+//    unsigned short localPort();
+//    unsigned short remotePort();
+//    unsigned long  Uin();
+//    ICQUserData    *m_data;
+//    void setPort(unsigned short port) {m_port = port;}
+//protected slots:
+//    void timeout();
+//protected:
+//    virtual void login_timeout();
+//    virtual void processPacket() = 0;
+//    void init();
+//    void sendInit();
+//    void sendInitAck();
+//    void removeFromClient();
+//    bool             m_bIncoming;
+//    unsigned short   m_nSequence;
+//    unsigned short   m_port;
+//    unsigned short	 m_localPort;
+//    char             m_version;
+//    bool			 m_bHeader;
+//    unsigned long    m_nSessionId;
+//    ICQClientSocket  *m_socket;
+//    ICQClient        *m_client;
+//    unsigned long m_ip;
+//    friend class AIMFileTransfer;
+//};
+
+//struct SendDirectMsg
+//{
+//    SIM::Message        *msg;
+//    unsigned            type;
+//    unsigned short      seq;
+//    unsigned short      icq_type;
+//};
+
+//class DirectClient : public DirectSocket
+//{
+//public:
+//    DirectClient(SIM::Socket *s, ICQClient *client, unsigned long ip);
+//    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
+//    ~DirectClient();
+//    bool sendMessage(SIM::Message*);
+//    void acceptMessage(SIM::Message*);
+//    void declineMessage(SIM::Message*, const QString &reason);
+//    bool cancelMessage(SIM::Message*);
+//    void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags,
+//                 const char *message=NULL, unsigned short status=ICQ_TCPxACK_ACCEPT, SIM::Message *m=NULL);
+//    bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
+//    bool isSecure();
+//    void addPluginInfoRequest(unsigned plugin_index);
+//protected:
+//    enum State{
+//        None,
+//        WaitLogin,
+//        WaitInit2,
+//        Logged,
+//        SSLconnect
+//    };
+//    State       m_state;
+//    unsigned    m_channel;
+//    void processPacket();
+//    void connect_ready();
+//    virtual bool error_state(const QString &err, unsigned code);
+//    void sendInit2();
+//    void startPacket(unsigned short cms, unsigned short seq);
+//    void sendPacket();
+//    void processMsgQueue();
+//    bool copyQueue(DirectClient *to);
+//    QList<SendDirectMsg> m_queue;
+//    QString name();
+//    QString m_name;
+//    void secureConnect();
+//    void secureListen();
+//    void secureStop(bool bShutdown);
+//    SIM::SSLClient *m_ssl;
+//};
+
+//class ICQFileTransfer : public SIM::FileTransfer, public DirectSocket, public SIM::ServerSocketNotify
+//{
+//public:
+//    ICQFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client);
+//    ~ICQFileTransfer();
+//    void connect(unsigned short port);
+//    void listen();
+//    void setSocket(ICQClientSocket *socket);
+//    virtual void processPacket();
+//protected:
+//    enum State
+//    {
+//        None,
+//        WaitLogin,
+//        WaitInit,
+//        InitSend,
+//        InitReceive,
+//        Send,
+//        Receive,
+//        Wait,
+//        WaitReverse,
+//        WaitReverseLogin,
+//        Listen
+//    };
+//    State m_state;
+
+//    virtual void connect_ready();
+//    virtual bool error_state(const QString &err, unsigned code);
+//    virtual void write_ready();
+//    virtual void setSpeed(unsigned speed);
+//    virtual void startReceive(unsigned pos);
+//    virtual void bind_ready(unsigned short port);
+//    virtual bool accept(SIM::Socket *s, unsigned long ip);
+//    virtual bool error(const QString &err);
+//    virtual void login_timeout();
+
+//    void sendInit();
+//    void startPacket(char cmd);
+//    void sendPacket(bool dump=true);
+//    void sendFileInfo();
+//    void initReceive(char cmd);
+
+//    friend class ICQClient;
+//};
 
 #endif
 

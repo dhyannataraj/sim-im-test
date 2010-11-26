@@ -21,7 +21,6 @@
 #include "html.h"
 #include "unquot.h"
 #include "xsl.h"
-#include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
 
@@ -385,7 +384,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
             contactName = contact->getName();
             if (contactName.isEmpty()){
                 Client *client = NULL;
-                ClientDataIterator it(contact->clientData);
+                ClientDataIterator it = contact->clientDataIterator();
                 void *data;
                 while ((data = ++it) != NULL){
                     if (it.client()->dataName(data) == msg->client()){

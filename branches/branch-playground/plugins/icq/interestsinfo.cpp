@@ -52,11 +52,8 @@ void InterestsInfo::apply()
 {
 }
 
-void InterestsInfo::apply(Client *client, void *_data)
+void InterestsInfo::updateData(ICQUserData* data)
 {
-    if (client != m_client)
-        return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString info[4];
     info[0] = getInfo(cmbBg1, edtBg1);
     info[1] = getInfo(cmbBg2, edtBg2);
@@ -70,7 +67,22 @@ void InterestsInfo::apply(Client *client, void *_data)
             res += ';';
         res += info[i];
     }
-    data->Interests.str() = res;
+    data->setInterests(res);
+}
+
+void InterestsInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
+void InterestsInfo::apply(Client *client, void *_data)
+{
+    if (client != m_client)
+        return;
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+    updateData(data);
 }
 
 bool InterestsInfo::processEvent(Event *e)
@@ -80,7 +92,7 @@ bool InterestsInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     }
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
@@ -154,7 +166,7 @@ void InterestsInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     unsigned i = 0;
-    QString str = data->Interests.str();
+    QString str = data->getInterests();
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');

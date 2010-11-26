@@ -306,7 +306,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 				else
 				{
 					ICQUserData* data = &m_client->data.owner;
-					data->buddyHash.setBinary(hash);
+                    data->setBuddyHash(hash);
 					/*
 					   m_client->sendCapability(QString::null);
 					   m_client->requestBuddy(data);
@@ -324,7 +324,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 					buf->incReadPos(n);
 					screen = buf->unpackScreen();
 				}
-				if (screen.toULong() != m_client->data.owner.Uin.toULong()){
+                if (screen.toULong() != m_client->data.owner.getUin()){
                     log(L_WARN, "Not my name info (%s)", qPrintable(screen));
 					break;
 				}
@@ -332,7 +332,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 				TlvList tlv(*buf);
 				Tlv *tlvIP = tlv(0x000A);
 				if (tlvIP)
-					set_ip(&m_client->data.owner.IP, htonl((uint32_t)(*tlvIP)));
+                    m_client->data.owner.setIP(htonl((uint32_t)(*tlvIP)));
 				break;
 			}
 		case ICQ_SNACxSRV_SERVICExRESP:
@@ -384,7 +384,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf, unsigned sh
 				unsigned short level;
 				buf->unpack(level);
 				QString from = buf->unpackScreen();
-				m_client->data.owner.WarningLevel.asULong() = level;
+				m_client->data.owner.setWarningLevel(level);
 				if (from.isEmpty())
 					from = i18n("anonymous");
 				EventNotification::ClientNotificationData d;
@@ -504,25 +504,25 @@ void SnacIcqService::sendLogonStatus()
     m_client->sendContactList();
 
     QDateTime now(QDateTime::currentDateTime());
-    if (m_client->data.owner.PluginInfoTime.toULong() == 0)
-        m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
-    if (m_client->data.owner.PluginStatusTime.toULong() == 0)
-        m_client->data.owner.PluginStatusTime.asULong() = now.toTime_t();
-    if (m_client->data.owner.InfoUpdateTime.toULong() == 0)
-        m_client->data.owner.InfoUpdateTime.asULong() = now.toTime_t();
-    m_client->data.owner.OnlineTime.asULong() = now.toTime_t();
-    if (getContacts()->owner()->getPhones() != m_client->data.owner.PhoneBook.str())
+    if (m_client->data.owner.getPluginInfoTime() == 0)
+        m_client->data.owner.setPluginInfoTime(now.toTime_t());
+    if (m_client->data.owner.getPluginStatusTime() == 0)
+        m_client->data.owner.setPluginStatusTime(now.toTime_t());
+    if (m_client->data.owner.getInfoUpdateTime() == 0)
+        m_client->data.owner.setInfoUpdateTime(now.toTime_t());
+	m_client->data.owner.setOnlineTime(now.toTime_t());
+    if (getContacts()->owner()->getPhones() != m_client->data.owner.getPhoneBook())
 	{
-        m_client->data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
-        m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
+        m_client->data.owner.setPhoneBook(getContacts()->owner()->getPhones());
+        m_client->data.owner.setPluginInfoTime(now.toTime_t());
     }
-    if (m_client->getPicture() != m_client->data.owner.Picture.str()){
-        m_client->data.owner.Picture.str() = m_client->getPicture();
-        m_client->data.owner.PluginInfoTime.asULong() = now.toTime_t();
+    if (m_client->getPicture() != m_client->data.owner.getPicture()){
+        m_client->data.owner.setPicture(m_client->getPicture());
+        m_client->data.owner.setPluginInfoTime(now.toTime_t());
     }
-    if (getContacts()->owner()->getPhoneStatus() != (int)m_client->data.owner.FollowMe.toULong()){
-        m_client->data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
-        m_client->data.owner.PluginStatusTime.asULong() = now.toTime_t();
+    if (getContacts()->owner()->getPhoneStatus() != (int)m_client->data.owner.getFollowMe()){
+        m_client->data.owner.setFollowMe(getContacts()->owner()->getPhoneStatus());
+        m_client->data.owner.setPluginStatusTime(now.toTime_t());
     }
 
     ICQBuffer directInfo(25);
@@ -586,12 +586,12 @@ void SnacIcqService::sendPluginInfoUpdate(unsigned plugin_id)
     m_client->socket()->writeBuffer().tlv(0x000C, directInfo);
     ICQBuffer b;
     b << (char)2;
-    b.pack(m_client->data.owner.PluginInfoTime.toULong());
+    b.pack(m_client->data.owner.getPluginInfoTime());
     b.pack((unsigned short)2);
     b.pack((unsigned short)1);
     b.pack((unsigned short)2);
     b.pack((char*)m_client->plugins[plugin_id], sizeof(plugin));
-    b.pack(m_client->data.owner.PluginInfoTime.toULong());
+    b.pack(m_client->data.owner.getPluginInfoTime());
     b << (char)0;
     m_client->socket()->writeBuffer().tlv(0x0011, b);
     m_client->socket()->writeBuffer().tlv(0x0012, (unsigned short)0);
@@ -608,14 +608,14 @@ void SnacIcqService::sendPluginStatusUpdate(unsigned plugin_id, unsigned long st
     m_client->socket()->writeBuffer().tlv(0x000C, directInfo);
     ICQBuffer b;
     b << (char)3;
-    b.pack(m_client->data.owner.PluginStatusTime.toULong());
+    b.pack(m_client->data.owner.getPluginStatusTime());
     b.pack((unsigned short)0);
     b.pack((unsigned short)1);
     b.pack((unsigned short)1);
     b.pack((char*)m_client->plugins[plugin_id], sizeof(plugin));
     b << (char)1;
     b.pack(status);
-    b.pack(m_client->data.owner.PluginStatusTime.toULong());
+    b.pack(m_client->data.owner.getPluginStatusTime());
     b.pack((unsigned short)0);
     b.pack((unsigned short)0);
     b.pack((unsigned short)1);
@@ -630,7 +630,7 @@ void SnacIcqService::sendUpdate()
         return;
     if (--m_nUpdates)
         return;
-    m_client->data.owner.InfoUpdateTime.asULong() = QDateTime::currentDateTime().toTime_t();
+    m_client->data.owner.setInfoUpdateTime(QDateTime::currentDateTime().toTime_t());
     snac(ICQ_SNACxSRV_SETxSTATUS);
     m_client->socket()->writeBuffer().tlv(0x0006, m_client->getFullStatus());
     ICQBuffer directInfo(25);
@@ -641,7 +641,7 @@ void SnacIcqService::sendUpdate()
 
 void SnacIcqService::fillDirectInfo(ICQBuffer &directInfo)
 {
-    set_ip(&m_client->data.owner.RealIP, m_client->socket()->localHost());
+    m_client->data.owner.setRealIP(m_client->socket()->localHost());
 	/*
     if (m_client->getHideIP()){
         directInfo
@@ -676,7 +676,7 @@ void SnacIcqService::fillDirectInfo(ICQBuffer &directInfo)
 	<< (char)0x00//mode
     << (char)0x00
     << (char)ICQ_TCP_VERSION
-    << m_client->data.owner.DCcookie.toULong()
+    << m_client->data.owner.getDCcookie()
 	<< 0x00000000L
 	<< 0x00000000L
 	<< 0x00000000L
@@ -688,9 +688,9 @@ void SnacIcqService::fillDirectInfo(ICQBuffer &directInfo)
     directInfo
     << 0x00000050L
     << 0x00000003L
-    << m_client->data.owner.InfoUpdateTime.toULong()
-    << m_client->data.owner.PluginInfoTime.toULong()
-    << m_client->data.owner.PluginStatusTime.toULong()
+    << m_client->data.owner.getInfoUpdateTime()
+    << m_client->data.owner.getPluginInfoTime()
+    << m_client->data.owner.getPluginStatusTime()
     << (unsigned short) 0x0000;
 	*/
 }

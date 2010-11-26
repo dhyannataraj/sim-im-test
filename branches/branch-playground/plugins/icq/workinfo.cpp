@@ -62,7 +62,7 @@ bool WorkInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     } else
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
@@ -113,16 +113,16 @@ void WorkInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL)
         data = &m_client->data.owner;
-    edtAddress->setPlainText(data->WorkAddress.str());
-    edtCity->setText(data->WorkCity.str());
-    edtState->setText(data->WorkState.str());
-    edtZip->setText(data->WorkZip.str());
-    initCombo(cmbCountry, data->WorkCountry.toULong(), getCountries());
-    initCombo(cmbOccupation, data->Occupation.toULong(), occupations);
-    edtName->setText(data->WorkName.str());
-    edtDept->setText(data->WorkDepartment.str());
-    edtPosition->setText(data->WorkPosition.str());
-    edtSite->setText(data->WorkHomepage.str());
+    edtAddress->setPlainText(data->getWorkAddress());
+    edtCity->setText(data->getWorkCity());
+    edtState->setText(data->getWorkState());
+    edtZip->setText(data->getWorkZip());
+    initCombo(cmbCountry, data->getWorkCountry(), getCountries());
+    initCombo(cmbOccupation, data->getOccupation(), occupations);
+    edtName->setText(data->getWorkName());
+    edtDept->setText(data->getWorkDepartment());
+    edtPosition->setText(data->getWorkPosition());
+    edtSite->setText(data->getWorkHomepage());
     urlChanged(edtSite->text());
 }
 
@@ -140,20 +140,32 @@ void WorkInfo::urlChanged(const QString &text)
     btnSite->setEnabled(!text.isEmpty());
 }
 
+void WorkInfo::updateData(ICQUserData* data)
+{
+    data->setWorkAddress(edtAddress->toPlainText());
+    data->setWorkCity(edtCity->text());
+    data->setWorkState(edtState->text());
+    data->setWorkZip(edtZip->text());
+    data->setWorkCountry(getComboValue(cmbCountry, getCountries()));
+    data->setOccupation(getComboValue(cmbOccupation, occupations));
+    data->setWorkName(edtName->text());
+    data->setWorkDepartment(edtDept->text());
+    data->setWorkPosition(edtPosition->text());
+    data->setWorkHomepage(edtSite->text());
+}
+
+void WorkInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
 void WorkInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
-    data->WorkAddress.str()     = edtAddress->toPlainText();
-    data->WorkCity.str()        = edtCity->text();
-    data->WorkState.str()       = edtState->text();
-    data->WorkZip.str()         = edtZip->text();
-    data->WorkCountry.asULong() = getComboValue(cmbCountry, getCountries());
-    data->Occupation.asULong()  = getComboValue(cmbOccupation, occupations);
-    data->WorkName.str()        = edtName->text();
-    data->WorkDepartment.str()  = edtDept->text();
-    data->WorkPosition.str()    = edtPosition->text();
-    data->WorkHomepage.str()    = edtSite->text();
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+    updateData(data);
 }
 

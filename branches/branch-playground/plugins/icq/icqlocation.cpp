@@ -59,6 +59,17 @@ static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data, Conta
     return data.setStr(getContacts()->toUnicode(c, info));
 }
 
+static bool extractInfo(TlvList &tlvs, unsigned short id, QString& data, Contact *c = NULL)
+{
+    const char *info = NULL;
+    Tlv *tlv = tlvs(id);
+    if (tlv)
+        info = *tlv;
+    QString old = data;
+    data = getContacts()->toUnicode(c, info);
+    return old != data;
+}
+
 QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 {
     if (tlvInfo == NULL)
@@ -136,8 +147,10 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                     info = info.mid(6);
                 if (info.endsWith("</HTML>", Qt::CaseInsensitive))
                     info = info.left(info.length() - 7);
-                if (data->About.setStr(info)){
-                    data->ProfileFetch.asBool() = true;
+                QString about = data->getAbout();
+                if (about != info){
+                    data->setAbout(info);
+                    data->setProfileFetch(true);
                     if (contact){
                         EventContact(contact, EventContact::eChanged).process();
                     }else{
@@ -150,7 +163,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             Tlv *tlvAway = tlvs(0x04);
             if (tlvAway){
                 QString info = convert(tlvAway, tlvs, 0x03);
-                data->AutoReply.str() = info;
+                data->setAutoReply(info);
                 EventClientChanged(this).process();
             }
         }
@@ -167,15 +180,42 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             socket()->readBuffer().incReadPos(4);
             TlvList tlvs(socket()->readBuffer());
             Contact *c = getContact(data);
-            bChanged |= extractInfo(tlvs, 0x01, data->FirstName, c);
-            bChanged |= extractInfo(tlvs, 0x02, data->LastName, c);
-            bChanged |= extractInfo(tlvs, 0x03, data->MiddleName, c);
-            bChanged |= extractInfo(tlvs, 0x04, data->Maiden, c);
-            bChanged |= extractInfo(tlvs, 0x07, data->State, c);
-            bChanged |= extractInfo(tlvs, 0x08, data->City, c);
-            bChanged |= extractInfo(tlvs, 0x0C, data->Nick, c);
-            bChanged |= extractInfo(tlvs, 0x0D, data->Zip, c);
-            bChanged |= extractInfo(tlvs, 0x21, data->Address, c);
+
+            QString firstname = data->getFirstName();
+            bChanged |= extractInfo(tlvs, 0x01, firstname, c);
+            data->setFirstName(firstname);
+
+            QString lastname = data->getLastName();
+            bChanged |= extractInfo(tlvs, 0x02, lastname, c);
+            data->setLastName(lastname);
+
+			QString middlename = data->getMiddleName();
+			bChanged |= extractInfo(tlvs, 0x03, middlename, c);
+            data->setMiddleName(middlename);
+
+            QString maiden = data->getMaiden();
+            bChanged |= extractInfo(tlvs, 0x04, maiden, c);
+            data->setMaiden(maiden);
+
+            QString state = data->getState();
+            bChanged |= extractInfo(tlvs, 0x07, state, c);
+            data->setState(state);
+
+            QString city = data->getCity();
+            bChanged |= extractInfo(tlvs, 0x08, city, c);
+            data->setCity(city);
+
+            QString nick = data->getNick();
+            bChanged |= extractInfo(tlvs, 0x0C, nick, c);
+            data->setNick(nick);
+
+            QString zip = data->getZip();
+            bChanged |= extractInfo(tlvs, 0x0D, zip, c);
+            data->setZip(zip);
+
+            QString address = data->getAddress();
+            bChanged |= extractInfo(tlvs, 0x21, address, c);
+            data->setAddress(address);
             Tlv *tlvCountry = tlvs(0x06);
             if (tlvCountry){
                 const char *code = *tlvCountry;
@@ -187,11 +227,11 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                     }
                 }
             }
-            if (country != data->Country.toULong()){
-                data->Country.asULong() = country;
+            if (country != data->getCountry()){
+                data->setCountry(country);
                 bChanged = true;
             }
-            data->ProfileFetch.asBool() = true;
+            data->setProfileFetch(true);
             if (bChanged){
                 if (contact){
                     EventContact e(contact, EventContact::eChanged);
@@ -324,7 +364,7 @@ const capability arrCapabilities[] =
         // CAP_ICQ5_4
         { 0xb9, 0x97, 0x08, 0xb5, 0x3a, 0x92, 0x42, 0x02,
           0xb0, 0x69, 0xf1, 0xe7, 0x57, 0xbb, 0x2e, 0x17 },
-        // CAP_ICQ51
+        // CAP_ICQ51, CAP_TZERS
         { 0xb2, 0xec, 0x8f, 0x16, 0x7c, 0x6f, 0x45, 0x1b,
           0xbd, 0x79, 0xdc, 0x58, 0x49, 0x78, 0x88, 0xb9 },
         // CAP_JIMM
@@ -332,6 +372,33 @@ const capability arrCapabilities[] =
           0, 0, 0, 0, 0, 0, 0, 0 },
 	//CAP_ICQJP
 	{'i', 'c', 'q', 'p', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        // CAP_HTMLMSGS
+        { 0x01, 0x38, 0xca, 0x7b, 0x76, 0x9a, 0x49, 0x15,
+          0x88, 0xf2, 0x13, 0xfc, 0x00, 0x97, 0x9e, 0xa8 },
+        // CAP_INFIUM
+        { 0x7C, 0x73, 0x75, 0x02, 0xC3, 0xBE, 0x4F, 0x3E,
+          0xA6, 0x9F, 0x01, 0x53, 0x13, 0x43, 0x1E, 0x1A },
+        // CAP_ABV
+        { 0x00, 0xE7, 0xE0, 0xDF, 0xA9, 0xD0, 0x4F, 0xe1,
+          0x91, 0x62, 0xC8, 0x90, 0x9A, 0x13, 0x2A, 0x1B },
+        // CAP_NETVIGATOR
+        { 0x4C, 0x6B, 0x90, 0xA3, 0x3D, 0x2D, 0x48, 0x0E,
+          0x89, 0xD6, 0x2E, 0x4B, 0x2C, 0x10, 0xD9, 0x9F },
+        // CAP_RAMBLER
+        { 0x7E, 0x11, 0xB7, 0x78, 0xA3, 0x53, 0x49, 0x26,
+          0xA8, 0x02, 0x44, 0x73, 0x52, 0x08, 0xC4, 0x2A },
+        // CAP_LITE_NEW
+        { 0xC8, 0x95, 0x3A, 0x9F, 0x21, 0xF1, 0x4F, 0xAA,
+          0xB0, 0xB2, 0x6D, 0xE6, 0x63, 0xAB, 0xF5, 0xB7 },
+        // CAP_HOST_STATUS_TEXT_AWARE
+        { cap_aim, 0x01, 0x0A, cap_mid, cap_id },
+        // CAP_AIM_LIVE_VIDEO
+        { cap_aim, 0x01, 0x01, cap_mid, cap_id },
+        // CAP_AIM_LIVE_AUDIO
+        { cap_aim, 0x01, 0x04, cap_mid, cap_id },
+        // CAP_QIP2010
+        { 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f, 0x0a, 0x03,
+          0x0b, 0x04, 0x01, 0x53, 0x00, 0x00, 0x00, 0x00 },
  /*/*
         // from Gaim:
         // CAP_AIM_HIPTOP
@@ -517,9 +584,9 @@ void ICQClient::sendCapability(const QString &away_msg)
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){
-        if (data.owner.ProfileFetch.toBool()){
+        if (data.owner.getProfileFetch()){
             QString profile;
-            profile = QString("<HTML>") + data.owner.About.str() + "</HTML>";
+            profile = QString("<HTML>") + data.owner.getAbout() + "</HTML>";
             encodeString(profile, "text/aolrtf", 1, 2);
         }
         if (!away_msg.isNull())
@@ -552,20 +619,20 @@ void ICQClient::fetchProfile(ICQUserData *data)
     socket()->writeBuffer().packScreen(screen(data));
     sendPacket(false);
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
-    data->ProfileFetch.setBool(true);
+    data->setProfileFetch(true);
 }
 
 void ICQClient::fetchProfiles()
 {
-    if (!data.owner.ProfileFetch.toBool())
+    if (!data.owner.getProfileFetch())
         fetchProfile(&data.owner);
     Contact *contact;
     ContactList::ContactIterator itc;
     while ((contact = ++itc) != NULL){
         ICQUserData *data;
-        ClientDataIterator itd(contact->clientData, this);
+        ClientDataIterator itd = contact->clientDataIterator(this);
         while ((data = toICQUserData(++itd)) != NULL){
-            if (data->Uin.toULong() || data->ProfileFetch.toBool())
+            if (data->getUin() || data->getProfileFetch())
                 continue;
             fetchProfile(data);
         }
@@ -588,17 +655,17 @@ void ICQClient::setAIMInfo(ICQUserData *data)
 {
     if (getState() != Connected)
         return;
-    bool bWide = isWide(data->FirstName) ||
-                 isWide(data->LastName) ||
-                 isWide(data->MiddleName) ||
-                 isWide(data->Maiden) ||
-                 isWide(data->Nick) ||
-                 isWide(data->Zip) ||
-                 isWide(data->Address) ||
-                 isWide(data->City);
+    bool bWide = isWide(data->getFirstName()) ||
+                 isWide(data->getLastName()) ||
+				 isWide(data->getMiddleName()) ||
+                 isWide(data->getMaiden()) ||
+                 isWide(data->getNick()) ||
+                 isWide(data->getZip()) ||
+                 isWide(data->getAddress()) ||
+                 isWide(data->getCity());
     QString country;
     for (const ext_info *e = getCountryCodes(); e->szName; e++){
-        if (e->nCode == data->Country.toULong()){
+        if (e->nCode == data->getCountry()){
             country = e->szName;
             break;
         }
@@ -607,36 +674,36 @@ void ICQClient::setAIMInfo(ICQUserData *data)
     QString encoding = bWide ? "unicode-2-0" : "us-ascii";
     socket()->writeBuffer().tlv(0x1C, encoding.toUtf8().data());
     socket()->writeBuffer().tlv(0x0A, (unsigned short)0x01);
-    encodeString(data->FirstName.str(), 0x01, bWide);
-    encodeString(data->LastName.str(), 0x02, bWide);
-    encodeString(data->MiddleName.str(), 0x03, bWide);
-    encodeString(data->Maiden.str(), 0x04, bWide);
+    encodeString(data->getFirstName(), 0x01, bWide);
+    encodeString(data->getLastName(), 0x02, bWide);
+	encodeString(data->getMiddleName(), 0x03, bWide);
+    encodeString(data->getMaiden(), 0x04, bWide);
     encodeString(country, 0x06, bWide);
-    encodeString(data->Address.str(), 0x07, bWide);
-    encodeString(data->City.str(), 0x08, bWide);
-    encodeString(data->Nick.str(), 0x0C, bWide);
-    encodeString(data->Zip.str(), 0x0D, bWide);
-    encodeString(data->State.str(), 0x21, bWide);
+    encodeString(data->getAddress(), 0x07, bWide);
+    encodeString(data->getCity(), 0x08, bWide);
+    encodeString(data->getNick(), 0x0C, bWide);
+    encodeString(data->getZip(), 0x0D, bWide);
+    encodeString(data->getState(), 0x21, bWide);
     sendPacket(false);
 
     ICQUserData *ownerData = &this->data.owner;
-    ownerData->FirstName.str() = data->FirstName.str();
-    ownerData->LastName.str() = data->LastName.str();
-    ownerData->MiddleName.str() = data->MiddleName.str();
-    ownerData->Maiden.str() = data->Maiden.str();
-    ownerData->Address.str() = data->Address.str();
-    ownerData->City.str() = data->City.str();
-    ownerData->Nick.str() = data->Nick.str();
-    ownerData->Zip.str() = data->Zip.str();
-    ownerData->State.str() = data->State.str();
-    ownerData->Country.asULong() = data->Country.toULong();
+    ownerData->setFirstName(data->getFirstName());
+    ownerData->setLastName(data->getLastName());
+	ownerData->setMiddleName(data->getMiddleName());
+    ownerData->setMaiden(data->getMaiden());
+    ownerData->setAddress(data->getAddress());
+    ownerData->setCity(data->getCity());
+    ownerData->setNick(data->getNick());
+    ownerData->setZip(data->getZip());
+    ownerData->setState(data->getState());
+    ownerData->setCountry(data->getCountry());
 }
 
 void ICQClient::setProfile(ICQUserData *data)
 {
     snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     QString profile;
-    profile = QString("<HTML>") + data->About.str() + "</HTML>";
+    profile = QString("<HTML>") + data->getAbout() + "</HTML>";
     encodeString(profile, "text/aolrtf", 1, 2);
     sendPacket(false);
 }

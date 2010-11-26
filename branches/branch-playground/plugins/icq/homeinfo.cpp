@@ -49,16 +49,28 @@ void HomeInfo::apply()
 {
 }
 
+void HomeInfo::updateData(ICQUserData* data)
+{
+    data->setAddress(edtAddress->toPlainText());
+    data->setCity(edtCity->text());
+    data->setState(edtState->text());
+    data->setZip(edtZip->text());
+    data->setCountry(getComboValue(cmbCountry, getCountries()));
+}
+
+void HomeInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
 void HomeInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
-    data->Address.str() = edtAddress->toPlainText();
-    data->City.str()    = edtCity->text();
-    data->State.str()   = edtState->text();
-    data->Zip.str()     = edtZip->text();
-    data->Country.asULong() = getComboValue(cmbCountry, getCountries());
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+    updateData(data);
 }
 
 bool HomeInfo::processEvent(Event *e)
@@ -68,7 +80,7 @@ bool HomeInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     } else
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
@@ -110,12 +122,12 @@ void HomeInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL)
         data = &m_client->data.owner;
-    edtAddress->setPlainText(data->Address.str());
-    edtCity->setText(data->City.str());
-    edtState->setText(data->State.str());
-    edtZip->setText(data->Zip.str());
-    initCombo(cmbCountry, data->Country.toULong(), getCountries());
-    initTZCombo(cmbZone, data->TimeZone.toULong());
+    edtAddress->setPlainText(data->getAddress());
+    edtCity->setText(data->getCity());
+    edtState->setText(data->getState());
+    edtZip->setText(data->getZip());
+    initCombo(cmbCountry, data->getCountry(), getCountries());
+    initTZCombo(cmbZone, data->getTimeZone());
 }
 
 void HomeInfo::goUrl()

@@ -21,12 +21,13 @@
 #include "msgedit.h"
 #include "msgview.h"
 #include "simgui/toolbtn.h"
-#include "userlist.h"
 #include "core.h"
 #include "container.h"
 #include "history.h"
 #include "contacts/contact.h"
+#include "contacts/group.h"
 #include "contacts/client.h"
+#include "icons.h"
 
 #include <QToolBar>
 #include <QApplication>
@@ -56,30 +57,30 @@ static DataDef userWndData[] =
 
 UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Qt::Horizontal, NULL)
+        , m_id (id)
+        , m_bResize (false) 
+        , m_bClosed (false) 
+        , m_bTyping (false) 
+        , m_targetContactList(0)
+        , m_view (NULL)
 {
     load_data(userWndData, &data, cfg);
-    m_id = id;
-    m_bResize = false;
-    m_bClosed = false;
-    m_bTyping = false;
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-
     m_splitter = new QSplitter(Qt::Vertical, this);
-    m_list = NULL;
-    m_view = NULL;
+
     /* Fixme Todin
     if (cfg == NULL)
         copyData(data.editBar, CorePlugin::instance()->data.EditBar, 7);
     */
 
-    m_bBarChanged = true;
+    m_bBarChanged = true; //Obsololete?
     if (CorePlugin::instance()->getContainerMode())
         bReceived = false;
     addWidget(m_splitter);
     m_edit = new MsgEdit(m_splitter, this);
     setFocusProxy(m_edit);
     restoreToolbar(m_edit->m_bar, data.editBar);
-    m_bBarChanged = false;
+    m_bBarChanged = false; //Obsololete?
     m_splitter->addWidget(m_edit);
 
     connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
@@ -87,17 +88,14 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
     connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
 
-    if (!bAdjust && getMessageType() == 0)
+    if ((!bAdjust && getMessageType() == 0) || (m_edit->adjustType()))
         return;
 
-    if (!m_edit->adjustType())
-    {
-        unsigned type = getMessageType();
-        Message *msg = new Message(MessageGeneric);
-        setMessage(msg);
-        delete msg;
-        setMessageType(type);
-    }
+    unsigned type = getMessageType();
+    Message *msg = new Message(MessageGeneric);
+    setMessage(msg);
+    delete msg;
+    setMessageType(type);
 }
 
 UserWnd::~UserWnd()
@@ -105,10 +103,11 @@ UserWnd::~UserWnd()
     emit closed(this);
     free_data(userWndData, &data);
     Contact *contact = getContacts()->contact(id());
-    if (contact && (contact->getFlags() & CONTACT_TEMPORARY)){
-        m_id = 0;
-        delete contact;
-    }
+    if (!(contact && (contact->getFlags() & CONTACT_TEMPORARY)))
+        return;
+
+    m_id = 0;
+    delete contact;
 }
 
 QByteArray UserWnd::getConfig()
@@ -136,7 +135,8 @@ QString UserWnd::getLongName()
         return QString::null;
     void *data;
     Client *client = m_edit->client(data, false, true, id());
-    if (client && data){
+    if (client && data)
+    {
         res += ' ';
         res += client->contactName(data);
         if (!m_edit->m_resource.isEmpty())
@@ -145,24 +145,24 @@ QString UserWnd::getLongName()
             res += m_edit->m_resource;
         }
         bool bFrom = false;
-        for (unsigned i = 0; i < getContacts()->nClients(); i++){
+        for (unsigned i = 0; i < getContacts()->nClients(); i++)
+        {
             Client *pClient = getContacts()->getClient(i);
-            if (pClient == client)
-                continue;
             Contact *contact;
-            clientData *data1 = (clientData*)data;
-            if (pClient->isMyData(data1, contact)){
-                bFrom = true;
-                break;
-            }
+            IMContact *data1 = (IMContact*)data;
+            if (pClient == client || !pClient->isMyData(data1, contact))
+                continue;
+
+            bFrom = true;
+            break;
         }
-        if (bFrom){
+        if (bFrom)
+        {
             res += ' ';
-            if (m_edit->m_bReceived){
-                res += i18n("to %1") .arg(client->name());
-            }else{
-                res += i18n("from %1") .arg(client->name());
-            }
+            if (m_edit->m_bReceived)
+                res += i18n("to %1").arg(client->name());
+            else
+                res += i18n("from %1").arg(client->name());
         }
     }
     return res;
@@ -171,7 +171,8 @@ QString UserWnd::getLongName()
 QString UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
-    if(!contact) {
+    if(!contact) 
+    {
         log(L_ERROR, "Contact %lu not found!", m_id);
         return QString::null;
     }
@@ -180,11 +181,10 @@ QString UserWnd::getIcon()
     QString statusIcon;
     void *data;
     Client *client = m_edit->client(data, false, true, id());
-    if (client){
+    if (client)
         client->contactInfo(data, status, style, statusIcon);
-    }else{
+    else
         contact->contactInfo(style, statusIcon);
-    }
     return statusIcon;
 }
 
@@ -200,7 +200,8 @@ void UserWnd::modeChanged()
         int editHeight = getEditHeight();
         if (editHeight == 0)
             editHeight = CorePlugin::instance()->value("EditHeight").toInt(); //getEditHeight();
-        if (editHeight){
+        if (editHeight)
+        {
             QList<int> s;
             s.append(1);
             s.append(editHeight);
@@ -211,7 +212,8 @@ void UserWnd::modeChanged()
     }
     else
     {
-        if (m_view){
+        if (m_view)
+        {
             delete m_view;
             m_view = NULL;
         }
@@ -220,7 +222,8 @@ void UserWnd::modeChanged()
 
 void UserWnd::editHeightChanged(int h)
 {
-    if (!m_bResize && CorePlugin::instance()->getContainerMode()){
+    if (!m_bResize && CorePlugin::instance()->getContainerMode())
+    {
         setEditHeight(h);
         CorePlugin::instance()->setValue("EditHeight", h);
     }
@@ -263,9 +266,7 @@ void UserWnd::setMessage(Message *msg)
         container->contactChanged(getContacts()->contact(m_id));
     }
 
-    if ((m_view == NULL) || (msg->id() == 0))
-        return;
-    if (m_view->findMessage(msg))
+    if (m_view == NULL || msg->id() == 0 || m_view->findMessage(msg))
         return;
     m_view->addMessage(msg);
 }
@@ -280,34 +281,54 @@ void UserWnd::showListView(bool bShow)
 {
     if(bShow)
     {
-        if (m_list == NULL)
+        if(!m_targetContactList)
         {
-            m_list = new UserList(this);
-            setStretchFactor(indexOf(m_list), 1);
-            connect(m_list, SIGNAL(selectChanged()), this, SLOT(selectChanged()));
-
-            if(topLevelWidget()->inherits("Container"))
-            {
-                Container *c = qobject_cast<Container*>(topLevelWidget());
-                list<UserWnd*> wnd = c->windows();
-                for (list<UserWnd*>::iterator it = wnd.begin(); it != wnd.end(); ++it)
-                    m_list->select((*it)->id());
-            }
+            m_targetContactList = new QTreeWidget(this);
+            m_targetContactList->setHeaderHidden(true);
+            setStretchFactor(indexOf(m_targetContactList), 1);
+            connect(m_targetContactList, SIGNAL(itemSelectionChanged()), this, SLOT(selectChanged()));
+            fillContactList(m_targetContactList);
+            m_targetContactList->show();
         }
-        m_list->show();
-        emit multiplyChanged();
         return;
     }
-    if (m_list == NULL)
+    if(m_targetContactList == NULL)
         return;
-    delete m_list;
-    m_list = NULL;
-    emit multiplyChanged();
+    delete m_targetContactList;
+    m_targetContactList = NULL;
 }
 
 void UserWnd::selectChanged()
 {
     emit multiplyChanged();
+}
+
+void UserWnd::fillContactList(QTreeWidget* tree)
+{
+    QList<Group*> groups = getContacts()->allGroups();
+    QTreeWidgetItem* groupItem = 0;
+    foreach(Group* g, groups)
+    {
+        QList<Contact*> contacts = getContacts()->contactsInGroup(g);
+        if(contacts.size() == 0)
+            continue;
+        groupItem = new QTreeWidgetItem(m_targetContactList);
+        groupItem->setText(0, g->getName());
+        foreach(Contact* c, contacts)
+        {
+            QTreeWidgetItem* it = new QTreeWidgetItem(groupItem);
+            it->setText(0, c->getName());
+            QString statusIcon;
+            QSet<QString> wrkIcons;
+            unsigned style;
+            c->contactInfo(style, statusIcon, &wrkIcons);
+            it->setIcon(0, Icon(statusIcon));
+            it->setFlags(it->flags() | Qt::ItemIsUserCheckable);
+            it->setCheckState(0, c->id() == m_id ? Qt::Checked : Qt::Unchecked);
+            it->setData(0, ContactIdRole, (unsigned int)c->id());
+        }
+        groupItem->setExpanded(true);
+    }
 }
 
 void UserWnd::closeEvent(QCloseEvent *e)
@@ -330,7 +351,8 @@ void UserWnd::markAsRead()
         }
         Message *msg = History::load(it->id, it->client, it->contact);
         CorePlugin::instance()->unread.erase(it);
-        if (msg){
+        if (msg)
+        {
             EventMessageRead(msg).process();
             delete msg;
         }
@@ -338,3 +360,30 @@ void UserWnd::markAsRead()
     }
 }
 
+unsigned long UserWnd::id() const
+{
+    return m_id;
+}
+
+bool UserWnd::isMultisendActive() const
+{
+    return m_targetContactList != NULL;
+}
+
+QList<int> UserWnd::multisendContacts() const
+{
+    QList<int> list;
+    if(!m_targetContactList)
+        return list;
+    for(int i = 0; i < m_targetContactList->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem* groupitem = m_targetContactList->topLevelItem(i);
+        for(int j = 0; j < groupitem->childCount(); j++)
+        {
+            QTreeWidgetItem* contactitem = groupitem->child(j);
+            if(contactitem->checkState(0) == Qt::Checked)
+                list.append(contactitem->data(0, ContactIdRole).toInt());
+        }
+    }
+    return list;
+}

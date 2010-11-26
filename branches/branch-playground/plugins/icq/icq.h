@@ -23,62 +23,56 @@
 #include "contacts/imstatus.h"
 #include "icqstatus.h"
 
-class CorePlugin;
+//class CorePlugin;
 
-const unsigned IcqCmdBase	= 0x00040000;
+//const unsigned IcqCmdBase	= 0x00040000;
 
-#include "icq_events.h"
+//#include "icq_events.h"
 
-const unsigned long CmdVisibleList		= IcqCmdBase;
-const unsigned long CmdInvisibleList    = IcqCmdBase + 1;
-const unsigned long CmdGroups			= IcqCmdBase + 2;
-const unsigned long CmdIcqSendMessage	= IcqCmdBase + 5;
-const unsigned long CmdShowWarning		= IcqCmdBase + 6;
-const unsigned long CmdPasswordFail		= IcqCmdBase + 7;
-const unsigned long CmdPasswordSuccess	= IcqCmdBase + 8;
+//const unsigned long CmdVisibleList		= IcqCmdBase;
+//const unsigned long CmdInvisibleList    = IcqCmdBase + 1;
+//const unsigned long CmdGroups			= IcqCmdBase + 2;
+//const unsigned long CmdIcqSendMessage	= IcqCmdBase + 5;
+//const unsigned long CmdShowWarning		= IcqCmdBase + 6;
+//const unsigned long CmdPasswordFail		= IcqCmdBase + 7;
+//const unsigned long CmdPasswordSuccess	= IcqCmdBase + 8;
 
-const unsigned long MenuSearchResult	= IcqCmdBase;
-const unsigned long MenuIcqGroups		= IcqCmdBase + 2;
+//const unsigned long MenuSearchResult	= IcqCmdBase;
+//const unsigned long MenuIcqGroups		= IcqCmdBase + 2;
 
 class ICQProtocol : public SIM::Protocol
 {
 public:
     ICQProtocol(SIM::Plugin *plugin);
     ~ICQProtocol();
-    SIM::ClientPtr createClient(Buffer *cfg);
-    const SIM::CommandDef *description();
-    const SIM::CommandDef *statusList();
-    static const SIM::CommandDef *_statusList();
-    virtual const SIM::DataDef *userDataDef();
-    static const SIM::DataDef *icqUserData;
-	virtual QStringList statuses();
-	virtual SIM::IMStatusPtr status(const QString& id);
+    virtual QString name();
+    virtual QString iconId();
+    virtual SIM::ClientPtr createClient(const QString& name);
 
 private:
 	void initStatuses();
 	void addStatus(ICQStatusPtr status);
-    QList<ICQStatusPtr> m_statuses;
+    QList<ICQStatusPtr> m_states;
 };
 
-class AIMProtocol : public SIM::Protocol
-{
-public:
-    AIMProtocol(SIM::Plugin *plugin);
-    ~AIMProtocol();
-    SIM::ClientPtr createClient(Buffer *cfg);
-    const SIM::CommandDef *description();
-    const SIM::CommandDef *statusList();
-    virtual const SIM::DataDef *userDataDef();
-    static const SIM::DataDef *icqUserData;
-	virtual QStringList statuses();
-	virtual SIM::IMStatusPtr status(const QString& id);
-};
+//class AIMProtocol : public SIM::Protocol
+//{
+//public:
+//    AIMProtocol(SIM::Plugin *plugin);
+//    ~AIMProtocol();
+//    virtual SIM::ClientPtr createClient(Buffer *cfg);
+//    virtual SIM::ClientPtr createClient(const QString& name);
+//    virtual SIM::IMContact* createIMContact(const QSharedPointer<SIM::Client>& client);
+//    virtual QStringList states();
+//    virtual SIM::IMStatusPtr status(const QString& id);
+//};
 
 class ICQPlugin : public SIM::Plugin
 {
 public:
-    ICQPlugin(unsigned base);
+    ICQPlugin();
     virtual ~ICQPlugin();
+
     unsigned OscarPacket;
     unsigned ICQDirectPacket;
     unsigned AIMDirectPacket;
@@ -87,6 +81,7 @@ public:
     SIM::ProtocolPtr m_icq;
     SIM::ProtocolPtr m_aim;
     static ICQPlugin  *icq_plugin;
+
     void registerMessages();
     void unregisterMessages();
 };

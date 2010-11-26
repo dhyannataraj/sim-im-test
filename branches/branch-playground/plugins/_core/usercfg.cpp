@@ -22,8 +22,8 @@
 #include "core.h"
 #include "arcfg.h"
 #include "log.h"
-#include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
+#include "contacts/imcontact.h"
 #include "contacts/group.h"
 #include "contacts/client.h"
 
@@ -62,6 +62,7 @@ unsigned ConfigItem::curIndex;
 
 ConfigItem::ConfigItem(QTreeWidget *view, bool bShowUpdate)
         : QTreeWidgetItem(view)
+        , m_widget(NULL)
 		, m_bShowUpdate(bShowUpdate)
 {
     init();
@@ -98,7 +99,8 @@ void ConfigItem::show()
         m_widget = getWidget(dlg); //Fixme: Crash, second time: m_widget is 0xcccccc
         if (m_widget == NULL)
             return;
-        m_id = dlg->wnd->addWidget(m_widget/*, id() ? id() : defId++*/);
+        if(dlg->wnd->indexOf(m_widget) < 0)
+            m_id = dlg->wnd->addWidget(m_widget/*, id() ? id() : defId++*/);
         dlg->wnd->setMinimumSize(dlg->wnd->sizeHint());
         QObject::connect(dlg, SIGNAL(applyChanges()), m_widget, SLOT(apply()));
     }
@@ -108,7 +110,7 @@ void ConfigItem::show()
 
 QWidget *ConfigItem::getWidget(UserConfig *dlg)
 {
-    return dlg; //Fixme
+    return 0;
 }
 
 class PrefItem : public ConfigItem
@@ -180,7 +182,7 @@ void ClientItem::init(CommandDef *cmd)
 QWidget *ClientItem::getWidget(UserConfig *dlg)
 {
     void *data = m_data;
-    Client *client = dlg->m_contact->clientData.activeClient(data, m_client);
+    Client *client = dlg->m_contact->activeClient(data, m_client);
     if (client == NULL)
         return NULL;
     return client->infoWindow(dlg, dlg->m_contact, data, m_cmd->id);
@@ -345,11 +347,11 @@ void UserConfig::fill()
     if (m_contact)
 	{
         m_parentItem = new MainInfoItem(lstBox, CmdInfo);
-        ClientDataIterator it(m_contact->clientData);
+        ClientDataIterator it = m_contact->clientDataIterator();
         void *data; //WUUUARH, Fixme
         while ((data = ++it) != NULL)
 		{
-            Client *client = m_contact->clientData.activeClient(data, it.client());
+            Client *client = m_contact->activeClient(data, it.client());
             if (client == NULL)
                 continue;
             CommandDef *cmds = client->infoWindows(m_contact, data);
@@ -372,11 +374,12 @@ void UserConfig::fill()
 
     m_parentItem = NULL;
     ClientUserData* data;
+    ClientDataIterator it;
     if (m_contact) 
-        data = &m_contact->clientData;
+        it = m_contact->clientDataIterator();
 	else 
-        data = &m_group->clientData;
-    ClientDataIterator it(*data);
+        it = m_group->clientDataIterator();
+    //ClientDataIterator it(*data);
     list<unsigned> st;
 	ARItem *tmp=NULL;
     while (++it)
@@ -406,7 +409,7 @@ void UserConfig::fill()
 	
 	delete tmp;
 
-    m_parentItem = new ConfigItem(lstBox, 0);
+    m_parentItem = new ConfigItem(lstBox, false);
     m_parentItem->setText(0, i18n("Settings"));
     m_parentItem->setIcon(0, Pict("configure"));
     m_parentItem->setExpanded(true);
@@ -579,11 +582,11 @@ void UserConfig::updateInfo()
 {
     if (m_nUpdates || (m_contact == NULL))
         return;
-    ClientDataIterator it(m_contact->clientData);
+    ClientDataIterator it = m_contact->clientDataIterator();
     void *data;
     while ((data = ++it) != NULL)
 	{
-        Client *client = m_contact->clientData.activeClient(data, it.client());
+        Client *client = m_contact->activeClient(data, it.client());
         if (client == NULL)
             continue;
         m_nUpdates++;

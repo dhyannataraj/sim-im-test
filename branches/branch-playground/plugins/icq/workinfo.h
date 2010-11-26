@@ -20,9 +20,10 @@
 
 #include "ui_workinfobase.h"
 #include "event.h"
+#include "contacts/client.h"
 
 class ICQClient;
-struct ICQUserData;
+class ICQUserData;
 
 class WorkInfo : public QWidget, public Ui::WorkInfo, public SIM::EventReceiver
 {
@@ -32,9 +33,11 @@ public:
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
     void goUrl();
     void urlChanged(const QString&);
 protected:
+    void updateData(ICQUserData* data);
     virtual bool processEvent(SIM::Event *e);
     void fill();
     ICQUserData *m_data;

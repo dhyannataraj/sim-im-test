@@ -24,7 +24,7 @@
 #include "ui_homeinfobase.h"
 
 class ICQClient;
-struct ICQUserData;
+class ICQUserData;
 
 class HomeInfo : public QWidget, public Ui::HomeInfo, public SIM::EventReceiver
 {
@@ -34,8 +34,10 @@ public:
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
     void goUrl();
 protected:
+    void updateData(ICQUserData* data);
     virtual bool processEvent(SIM::Event *e);
     void fill();
     ICQUserData *m_data;

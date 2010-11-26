@@ -18,8 +18,8 @@
 #include <time.h>
 
 #include "log.h"
-#include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
+#include "contacts/imcontact.h"
 #include "contacts/client.h"
 
 #include "core.h"
@@ -162,7 +162,7 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
             struct in_addr addr;
             e.process();
             if (e.ip())
-                addr.s_addr = e.ip()->ip();
+                addr.s_addr = e.ip();
             else
                 addr.s_addr = 0;
             res += inet_ntoa(addr);
@@ -197,13 +197,13 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
 //        if (getTag(tag, &(contact->getGroup()), contact->dataDef(), res))
 //            continue;
 
-        clientData *data;
-        ClientDataIterator itc(contact->clientData);
-        while ((data = ++itc) != NULL){
-            if (getTag(tag, &(data->Sign), itc.client()->protocol()->userDataDef(), res))
-                break;
-        }
-        if (data)
+        IMContact *data;
+//        ClientDataIterator itc = contact->clientDataIterator();
+//        while ((data = ++itc) != NULL){
+//            if (getTag(tag, &(data->Sign), itc.client()->protocol()->userDataDef(), res))
+//                break;
+//        }
+//        if (data)
             continue;
 
 //        UserDataDef *def;

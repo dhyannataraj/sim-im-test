@@ -65,21 +65,33 @@ void AIMInfo::apply()
         data = &m_client->data.owner;
 }
 
+void AIMInfo::updateData(ICQUserData* data)
+{
+    data->setFirstName(edtFirst->text());
+    data->setLastName(edtLast->text());
+    data->setMiddleName(edtMiddle->text());
+    data->setMaiden(edtMaiden->text());
+    data->setNick(edtNick->text());
+    data->setAddress(edtStreet->text());
+    data->setCity(edtCity->text());
+    data->setState(edtState->text());
+    data->setZip(edtZip->text());
+    data->setCountry(getComboValue(cmbCountry, getCountries()));
+}
+
+void AIMInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if(client.data() != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
 void AIMInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
-    data->FirstName.str()   = edtFirst->text();
-    data->LastName.str()    = edtLast->text();
-    data->MiddleName.str()  = edtMiddle->text();
-    data->Maiden.str()      = edtMaiden->text();
-    data->Nick.str()        = edtNick->text();
-    data->Address.str()     = edtStreet->text();
-    data->City.str()        = edtCity->text();
-    data->State.str()       = edtState->text();
-    data->Zip.str()         = edtZip->text();
-    data->Country.asULong() = getComboValue(cmbCountry, getCountries());
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+    updateData(data);
 }
 
 bool AIMInfo::processEvent(Event *e)
@@ -89,7 +101,7 @@ bool AIMInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     } else
     if ((e->type() == eEventMessageReceived) && m_data){
@@ -113,17 +125,17 @@ void AIMInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
 
-    edtScreen->setText(data->Screen.str());
-    edtFirst->setText(data->FirstName.str());
-    edtLast->setText(data->LastName.str());
-    edtMiddle->setText(data->MiddleName.str());
-    edtMaiden->setText(data->Maiden.str());
-    edtNick->setText(data->Nick.str());
-    edtStreet->setText(data->Address.str());
-    edtCity->setText(data->City.str());
-    edtState->setText(data->State.str());
-    edtZip->setText(data->Zip.str());
-    initCombo(cmbCountry, data->Country.toULong(), getCountries());
+    edtScreen->setText(data->getScreen());
+    edtFirst->setText(data->getFirstName());
+    edtLast->setText(data->getLastName());
+	edtMiddle->setText(data->getMiddleName());
+    edtMaiden->setText(data->getMaiden());
+    edtNick->setText(data->getNick());
+    edtStreet->setText(data->getAddress());
+    edtCity->setText(data->getCity());
+    edtState->setText(data->getState());
+    edtZip->setText(data->getZip());
+    initCombo(cmbCountry, data->getCountry(), getCountries());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {
@@ -141,10 +153,10 @@ void AIMInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        switch (m_data->Status.toULong()){
+        switch (m_data->getStatus()){
         case STATUS_ONLINE:
         case STATUS_OFFLINE:
-            status = m_data->Status.toULong();
+            status = m_data->getStatus();
             break;
         default:
             status = STATUS_AWAY;
@@ -152,8 +164,8 @@ void AIMInfo::fill()
     }else{
         status = m_client->getStatus();
     }
-    if (m_data && !m_data->AutoReply.str().isEmpty()){
-        edtAutoReply->setPlainText(m_data->AutoReply.str());
+    if (m_data && !m_data->getAutoReply().isEmpty()){
+        edtAutoReply->setPlainText(m_data->getAutoReply());
     }else{
         edtAutoReply->hide();
     }
@@ -176,12 +188,12 @@ void AIMInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ':');
-        edtOnline->setText(formatDateTime(QDateTime::fromTime_t(data->StatusTime.toULong())));
+        edtOnline->setText(formatDateTime(QDateTime::fromTime_t(data->getStatusTime())));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime.toULong()){
-            edtOnline->setText(formatDateTime(QDateTime::fromTime_t(data->OnlineTime.toULong())));
+		if (data->getOnlineTime()){
+			edtOnline->setText(formatDateTime(QDateTime::fromTime_t(data->getOnlineTime())));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -191,17 +203,17 @@ void AIMInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(QDateTime::fromTime_t(data->StatusTime.toULong())));
+            edtNA->setText(formatDateTime(QDateTime::fromTime_t(data->getStatusTime())));
         }
     }
-    if (data->IP.ip()){
-        edtExtIP->setText(formatAddr(data->IP, data->Port.toULong()));
+    if (data->getIP()){
+        edtExtIP->setText(formatAddr(data->getIP(), data->getPort()));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
-    if (data->RealIP.ip() && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->RealIP, data->Port.toULong()));
+    if (data->getRealIP() && ((data->getIP() == 0) || ((data->getIP()) != (data->getRealIP())))){
+        edtIntIP->setText(formatAddr(data->getRealIP(), data->getPort()));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();

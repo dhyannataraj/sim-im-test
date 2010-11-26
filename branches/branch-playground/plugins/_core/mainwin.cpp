@@ -17,12 +17,16 @@
 
 #include "simapi.h"
 
-#include "icons.h"
 #include "mainwin.h"
 #include "core.h"
-#include "userview.h"
+#include "roster/userview.h"
 #include "contacts/contact.h"
-#include "simgui/toolbtn.h"
+#include "contacts/contactlist.h"
+#include "events/eventhub.h"
+#include "commands/commandhub.h"
+#include "commands/uicommand.h"
+#include "imagestorage/imagestorage.h"
+#include "clientmanager.h"
 
 #include <QApplication>
 #include <QPixmap>
@@ -31,236 +35,226 @@
 #include <QSizeGrip>
 #include <QStatusBar>
 #include <QDesktopWidget>
+#include "profilemanager.h"
+
+#include "log.h"
 
 using namespace SIM;
 
-MainWindow *MainWindow::s_mainWindow = NULL;
-
-MainWindow::MainWindow()
+MainWindow::MainWindow(CorePlugin* core)
     : QMainWindow(NULL, Qt::Window)
-    , EventReceiver(LowestPriority)
+    , m_core(core)
+    , m_noresize(false)
 {
-    setObjectName("mainwnd");
+    log(L_DEBUG, "MainWindow::MainWindow()");
     setAttribute(Qt::WA_AlwaysShowToolTips);
-    Q_ASSERT(s_mainWindow == NULL);
-    s_mainWindow = this;
-    h_lay	 = NULL;
-    m_bNoResize = false;
 
-    m_icon = "SIM";
-    setWindowIcon(Icon(m_icon));
-    setTitle();
+    setWindowIcon(getImageStorage()->icon("SIM"));
+    updateTitle();
 
-//    setIconSize(QSize(16,16));
+    m_bar = new SIM::ToolBar("Main toolbar", this);
+    addToolBar(m_bar);
 
-    m_bar = NULL;
+    m_centralWidget = new QWidget(this);
+    setCentralWidget(m_centralWidget);
+    m_layout = new QVBoxLayout(m_centralWidget);
+    m_layout->setMargin(0);
 
-    main = new QWidget(this);
-    setCentralWidget(main);
+    statusBar()->show();
+    statusBar()->setSizeGripEnabled(false);
+    statusBar()->installEventFilter(this);
 
-    lay = new QVBoxLayout(main);
-    lay->setMargin(0);
+    m_view = new UserView(core);
+    m_view->init();
+    addWidget(m_view);
 
-    QStatusBar *status = statusBar();
-    status->show();
-    status->installEventFilter(this);
-}
-
-MainWindow::MainWindow(Geometry &geometry)
-    : QMainWindow(NULL, Qt::Window)
-    , EventReceiver(LowestPriority)
-{
-    setObjectName("mainwnd");
-    setAttribute(Qt::WA_AlwaysShowToolTips);
-    Q_ASSERT(s_mainWindow == NULL);
-    s_mainWindow = this;
-    h_lay	 = NULL;
-    m_bNoResize = false;
-
-    m_icon = "SIM";
-    setWindowIcon(Icon(m_icon));
-    setTitle();
-
-//    setIconSize(QSize(16,16));
-
-    m_bar = NULL;
-
-    main = new QWidget(this);
-    setCentralWidget(main);
-
-    lay = new QVBoxLayout(main);
-    lay->setMargin(0);
-
-    QStatusBar *status = statusBar();
-    status->show();
-    status->installEventFilter(this);
-    
-    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1))
-    {
-        geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
-        geometry[WIDTH].asLong()  = geometry[HEIGHT].toLong() / 3;
-    }
-    if ((geometry[LEFT].toLong() == -1) && (geometry[TOP].toLong() == -1)){
-        geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
-        geometry[TOP].asLong() = 5;
-    }
-    ::restoreGeometry(this, geometry, true, true);
 }
 
 MainWindow::~MainWindow()
 {
-    s_mainWindow = NULL;
-}
-
-MainWindow *MainWindow::mainWindow()
-{
-    return s_mainWindow;
+    delete m_view;
+    delete m_bar;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (m_bNoResize)
+    if (m_noresize)
         return;
     QMainWindow::resizeEvent(e);
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::ChildRemoved){
-        QChildEvent *ce = static_cast<QChildEvent*>(e);
-        std::list<QWidget*>::iterator it;
-        for (it = statusWidgets.begin(); it != statusWidgets.end(); ++it){
-            if (*it == ce->child()){
-                statusWidgets.erase(it);
-                break;
-            }
-        }
-        if(statusWidgets.size() == 0)
-        {
-            statusBar()->hide();
-        }
-    }
+//    if (e->type() == QEvent::ChildRemoved){
+//        QChildEvent *ce = static_cast<QChildEvent*>(e);
+//        std::list<QWidget*>::iterator it;
+//        for (it = statusWidgets.begin(); it != statusWidgets.end(); ++it){
+//            if (*it == ce->child()){
+//                statusWidgets.erase(it);
+//                break;
+//            }
+//        }
+//        if(statusWidgets.size() == 0)
+//        {
+//            statusBar()->hide();
+//        }
+//    }
     return QMainWindow::eventFilter(o, e);
 }
 
-bool MainWindow::processEvent(Event *e)
+void MainWindow::loadDefaultCommandList()
 {
-	switch(e->type()){
-		case eEventSetMainIcon:
-			{
-				EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
-				m_icon = smi->icon();
-				setWindowIcon(Icon(m_icon));
-				break;
-			}
-		case eEventInit:
-			{
-				setTitle();
-				EventToolbar e(ToolBarMain, this);
-				e.process();
-				m_bar = e.toolBar();
-                m_bar->setObjectName("MainToolbar");
-				this->addToolBar(m_bar);
-//				m_bar->setMaximumHeight(30);
-//				m_bar->setMinimumHeight(30); // FIXME
-				//restoreToolbar(m_bar, CorePlugin::instance()->data.toolBarState);
-				raiseWindow(this);
-				break;
-			}
-		case eEventCommandExec:
-			{
-				EventCommandExec *ece = static_cast<EventCommandExec*>(e);
-				CommandDef *cmd = ece->cmd();
-				if (cmd->id == CmdQuit)
-					quit();
-				break;
-			}
-		case eEventAddWidget:
-			{
-				EventAddWidget *aw = static_cast<EventAddWidget*>(e);
-				switch(aw->place()) {
-					case EventAddWidget::eMainWindow:
-						addWidget(aw->widget(), aw->down());
-						break;
-					case EventAddWidget::eStatusWindow:
-						addStatus(aw->widget(), aw->down());
-						break;
-					default:
-						return false;
-				}
-				return true;
-			}
-		case eEventIconChanged:
-			setWindowIcon(Icon(m_icon));
-			break;
-		case eEventContact:
-			{
-				EventContact *ec = static_cast<EventContact*>(e);
-				Contact *contact = ec->contact();
-				if (contact == getContacts()->owner())
-					setTitle();
-				break;
-			}
-		default:
-			break;
-	}
-	return false;
+    log(L_DEBUG, "loadDefaultCommandList");
+    m_bar->addUiCommand(getCommandHub()->command("show_offline"));
+    m_bar->addUiCommand(getCommandHub()->command("groupmode_menu"));
+    m_bar->addSeparator();
+    m_bar->addUiCommand(getCommandHub()->command("common_status"));
+    m_bar->addSeparator();
+    m_bar->addUiCommand(getCommandHub()->command("main_menu"));
 }
 
-void MainWindow::quit()
+void MainWindow::populateMainToolbar()
 {
-    close();
-}
-
-void MainWindow::closeEvent(QCloseEvent *e)
-{
-	CorePlugin::instance()->prepareConfig();
-    save_state();
-    QMainWindow::closeEvent(e);
-    qApp->quit();
-}
-
-void MainWindow::addWidget(QWidget *w, bool bDown)
-{
-    w->setParent(main);
-    w->move(QPoint());
-    if (bDown){
-        lay->addWidget(w);
-    }else{
-        lay->insertWidget(0, w);
+    QStringList actions = m_core->propertyHub()->value("mainwindow_toolbar_actions").toStringList();
+    if(actions.isEmpty()) {
+        loadDefaultCommandList();
     }
-    if (isVisible())
+    else {
+        m_bar->loadCommandList(actions);
+    }
+}
+
+void MainWindow::init()
+{
+    log(L_DEBUG, "MainWindow::init()");
+    updateTitle();
+    populateMainToolbar();
+    refreshStatusWidgets();
+}
+
+//bool MainWindow::processEvent(Event *e)
+//{
+//	switch(e->type()){
+//		case eEventSetMainIcon:
+//			{
+//				EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+//				m_icon = smi->icon();
+//				setWindowIcon(Icon(m_icon));
+//				break;
+//			}
+//		case eEventCommandExec:
+//			{
+//				EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+//				CommandDef *cmd = ece->cmd();
+//				if (cmd->id == CmdQuit)
+//					quit();
+//				break;
+//			}
+//		case eEventAddWidget:
+//			{
+//				EventAddWidget *aw = static_cast<EventAddWidget*>(e);
+//				switch(aw->place()) {
+//					case EventAddWidget::eMainWindow:
+//						addWidget(aw->widget(), aw->down());
+//						break;
+//					case EventAddWidget::eStatusWindow:
+//						addStatus(aw->widget(), aw->down());
+//						break;
+//					default:
+//						return false;
+//				}
+//				return true;
+//			}
+//		case eEventIconChanged:
+//			setWindowIcon(Icon(m_icon));
+//			break;
+//		case eEventContact:
+//			{
+//				EventContact *ec = static_cast<EventContact*>(e);
+//				Contact *contact = ec->contact();
+//				if (contact == getContacts()->owner())
+//					setTitle();
+//				break;
+//			}
+//		default:
+//			break;
+//	}
+//	return false;
+//}
+
+//void MainWindow::quit()
+//{
+//    close();
+//}
+
+//void MainWindow::closeEvent(QCloseEvent *e)
+//{
+//	CorePlugin::instance()->prepareConfig();
+//    save_state();
+//    m_core->propertyHub()->setValue("mainwindow_toolbar_actions", m_bar->saveCommandList());
+//    QMainWindow::closeEvent(e);
+//    qApp->quit();
+//}
+
+void MainWindow::addWidget(QWidget *w)
+{
+    w->setParent(m_centralWidget);
+    w->move(QPoint());
+    m_layout->addWidget(w);
+    if(isVisible())
         w->show();
 }
 
-void MainWindow::addStatus(QWidget *w, bool)
+void MainWindow::refreshStatusWidgets()
 {
-    QStatusBar *status = statusBar();
-    w->setParent(status);
-    w->move(QPoint());
-    statusWidgets.push_back(w);
-    status->addWidget(w, true);
-    w->show();
-    status->setSizeGripEnabled(true);
-    status->show();
+    qDeleteAll(m_statusWidgets);
+    m_statusWidgets.clear();
+    QList<ClientPtr> clients = getClientManager()->allClients();
+    foreach(const ClientPtr& client, clients)
+    {
+        QWidget* statusWidget = client->createStatusWidget();
+        if(statusWidget)
+        {
+            m_statusWidgets.append(statusWidget);
+            statusWidget->setParent(statusBar());
+            statusBar()->addWidget(statusWidget);
+            statusWidget->show();
+        }
+    }
 }
 
-void MainWindow::setTitle()
+//void MainWindow::addStatus(QWidget *w, bool)
+//{
+//    QStatusBar *status = statusBar();
+//    w->setParent(status);
+//    w->move(QPoint());
+//    statusWidgets.push_back(w);
+//    status->addWidget(w, true);
+//    w->show();
+//    status->setSizeGripEnabled(true);
+//    status->show();
+//}
+
+void MainWindow::updateTitle()
 {
     QString title;
-    Contact *owner = getContacts()->owner();
+    ContactPtr owner = getContactList()->ownerContact();
     if (owner)
-        title = owner->getName();
+        title = owner->name();
     if (title.isEmpty())
         title = "SIM";
     setWindowTitle(title);
 }
 
-void MainWindow::focusInEvent(QFocusEvent *e)
+//void MainWindow::focusInEvent(QFocusEvent *e)
+//{
+//    QMainWindow::focusInEvent(e);
+//    m_view->setFocus();
+//}
+
+UserView* MainWindow::userview() const
 {
-    QMainWindow::focusInEvent(e);
-    if (CorePlugin::instance()->m_view)
-        CorePlugin::instance()->m_view->setFocus();
+    return m_view;
 }
 
 

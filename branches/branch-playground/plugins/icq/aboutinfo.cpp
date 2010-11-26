@@ -37,12 +37,20 @@ void AboutInfo::apply()
 {
 }
 
+void AboutInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if(client.data() != m_client)
+        return;
+    ICQUserData *data = m_client->toICQUserData(contact);
+    data->setAbout(edtAbout->toPlainText());
+}
+
 void AboutInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
-    data->About.str() = edtAbout->toPlainText();
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+    data->setAbout(edtAbout->toPlainText());
 }
 
 bool AboutInfo::processEvent(Event *e)
@@ -52,7 +60,7 @@ bool AboutInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     }
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
@@ -67,15 +75,15 @@ void AboutInfo::fill()
 {
     ICQUserData *data = m_data;
     if(data == NULL) data = &m_client->data.owner;
-    if(data->Uin.toULong())
+    if(data->getUin())
 	{
 //        edtAbout->setTextFormat(Qt::PlainText);
-        edtAbout->setText(data->About.str());
+        edtAbout->setText(data->getAbout());
     }
 	else
 	{
 //        edtAbout->setTextFormat(Qt::RichText);
-        edtAbout->setText(data->About.str());
+        edtAbout->setText(data->getAbout());
         //if (m_data == NULL)
             //edtAbout->showBar();
     }

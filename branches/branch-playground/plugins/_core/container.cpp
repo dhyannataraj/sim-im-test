@@ -55,15 +55,6 @@ using namespace SIM;
 
 const unsigned ACCEL_MESSAGE = 0x1000;
 
-
-class Splitter : public QSplitter
-{
-public:
-    Splitter(QWidget *p) : QSplitter(Qt::Vertical, p) {}
-protected:
-    virtual QSizePolicy sizePolicy() const;
-};
-
 //FIXME: Obsolete?
 //static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
 //{
@@ -89,14 +80,9 @@ void ContainerStatus::resizeEvent(QResizeEvent *e)
     emit sizeChanged(width());
 }
 
-QSizePolicy Splitter::sizePolicy() const
-{
-    return QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-}
-
 static DataDef containerData[] =
     {
-        { "Id"          , DATA_ULONG,   1, 0 },
+//        { "Id"          , DATA_ULONG,   1, 0 },
         { "Windows"     , DATA_STRING,  1, 0 },
         { "ActiveWindow", DATA_ULONG,   1, 0 },
         { "Geometry"    , DATA_LONG,    5, 0 },
@@ -119,9 +105,7 @@ Container::Container(unsigned id, const char *cfg)
     , m_avatar_label(&m_avatar_window)
     , m_tabBar      (NULL)
     , m_wnds        (NULL)
-{
-    
-
+{    
     m_avatar_window.setWidget(&m_avatar_label);
     //m_avatar_window.setOrientation(Qt::Vertical);
     m_avatar_window.setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -226,6 +210,11 @@ Container::~Container()
     free_data(containerData, &data);
 }
 
+void Container::closeEvent(QCloseEvent* e)
+{
+    CorePlugin::instance()->containerManager()->removeContainerById(getId());
+}
+
 void Container::init()
 {
     if (m_bInit)
@@ -241,7 +230,7 @@ void Container::init()
     m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     lay->addWidget(m_wnds);
 
-    m_tabSplitter = new Splitter(frm);
+    m_tabSplitter = new QSplitter(Qt::Vertical, frm);
     m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     m_tabBar = new UserTabBar(m_tabSplitter);
     m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
@@ -255,7 +244,7 @@ void Container::init()
     //connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
     connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));
     setupAccel();
-    showBar();
+    showBar(); //Fixme, generates wrong data-type-MSGboxes 
 	setStatusBar(m_status);
 
     for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it)
@@ -263,29 +252,13 @@ void Container::init()
 
     m_childs.clear();
 
-    QStringList windows = getWindows().split(',');
-    Q_FOREACH(const QString &win, windows) 
-	{
-        unsigned long id = win.toULong();
-        Contact *contact = getContacts()->contact(id);
-        if (contact == NULL)
-            continue;
-        Buffer config;
-        QString cfg = getWndConfig(id);
-        if (!cfg.isEmpty())
-		{
-            config << "[Title]\n" << (const char*)cfg.toLocal8Bit();
-            config.setWritePos(0);
-            config.getSection();
-        }
-        addUserWnd(new UserWnd(id, &config, false, true), true);
-    }
+    loadState(); //Fixme, generates wrong data-type-MSGboxes
 
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));
-    setWindows(QString::null);
-    clearWndConfig();
-    m_tabBar->raiseTab(getActiveWindow());
+    //setWindows(QString()); //Fixme, Crash
+  
+    //m_tabBar->raiseTab(getActiveWindow()); //Fixme, Crash
     show();
 }
 
@@ -328,6 +301,27 @@ void Container::setupAccel()
     }
 }
 
+void Container::loadState()
+{
+    QStringList windows = getWindows().split(',');
+    Q_FOREACH(const QString &win, windows)
+    {
+        unsigned long id = win.toULong();
+        Contact *contact = getContacts()->contact(id);
+        if (contact == NULL)
+            continue;
+        Buffer config;
+        QString cfg = getWndConfig(id);
+        if (!cfg.isEmpty())
+        {
+            config << "[Title]\n" << (const char*)cfg.toLocal8Bit();
+            config.setWritePos(0);
+            config.getSection();
+        }
+        addUserWnd(new UserWnd(id, &config, false, true), true);
+    }
+}
+
 void Container::setNoSwitch(bool bState)
 {
     m_bNoSwitch = bState;
@@ -336,6 +330,16 @@ void Container::setNoSwitch(bool bState)
 list<UserWnd*> Container::windows()
 {
     return m_tabBar->windows();
+}
+
+void Container::setId(int id)
+{
+    m_id = id;
+}
+
+int Container::getId() const
+{
+    return m_id;
 }
 
 QByteArray Container::getState()
@@ -471,7 +475,7 @@ void Container::showBar()
     e.process();
     m_bar = e.toolBar();
     m_bBarChanged = true;
-    restoreToolbar(m_bar, data.barState);
+    restoreToolbar(m_bar, data.barState); //Fixme generates wrong data-type msg-boxes
     m_bar->show();
 	addToolBar(m_bar);
     m_bBarChanged = false;
@@ -783,9 +787,6 @@ bool Container::processEvent(Event *e)
 				contactChanged(ecc->contact());
 				break;
 			}
-		case eEventInit:
-			init();
-			break;
 		case eEventCommandExec:
 			{
 				EventCommandExec *ece = static_cast<EventCommandExec*>(e);

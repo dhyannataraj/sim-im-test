@@ -83,21 +83,30 @@ void ICQPicture::apply()
 {
 }
 
-void ICQPicture::apply(Client *client, void *_data)
+void ICQPicture::updateData(ICQUserData* data)
 {
-    if (client != m_client)
-        return;
     QString pict = edtPict->text();
-    log(L_DEBUG, "Pict: %s", qPrintable(pict));
     m_client->setPicture(pict);
-    m_client->data.owner.Picture.setStr(pict);
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     if (lblPict->pixmap() == NULL)
         pict.clear();
     if(pict != m_client->getPicture())
     {
-        data->PluginInfoTime.asULong() = time(NULL);
+        data->setPluginInfoTime(time(NULL));
     }
+}
+
+void ICQPicture::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
+void ICQPicture::apply(Client *client, void *_data)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData((SIM::IMContact*)_data));
 }
 
 bool ICQPicture::processEvent(Event *e)
@@ -107,7 +116,7 @@ bool ICQPicture::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill();
     }
     return false;

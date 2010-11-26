@@ -35,7 +35,7 @@ struct ClientStatus
 {
     unsigned long	status;
     unsigned		client;
-    SIM::clientData	*data;
+    SIM::IMContact	*data;
 };
 
 class MsgTextEdit : public TextEdit
@@ -106,7 +106,7 @@ protected:
     bool        m_bTyping;
     QString     m_typingClient;
     bool send();
-    QList< unsigned int > multiply;
+    QList<int> m_multiply;
     SIM::CommandDef m_cmd;
     SIM::Message   *m_msg;
     EventMessageRetry::MsgSend m_retry;

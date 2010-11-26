@@ -26,12 +26,13 @@ class ICQConfig : public QWidget, public Ui::ICQConfigBase
     Q_OBJECT
 public:
     ICQConfig(QWidget *parent, ICQClient *client, bool bConfig);
-    CorePlugin *core;
+    //CorePlugin *core;
 signals:
     void okEnabled(bool);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 protected slots:
     void changed();
     void changed(const QString&);

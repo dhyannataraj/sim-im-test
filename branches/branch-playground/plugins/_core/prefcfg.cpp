@@ -40,10 +40,10 @@ PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group
         data = m_contact->getUserData(m_cmd->accel); // HACK !
         if (m_contact->getUserData()->getUserData(m_cmd->accel))
             chkOverride->setChecked(true);
-        mapdata = m_contact->userdata();
+        mapdata = m_contact->getUserData()->root();
     }
     else if (m_group) {
-        mapdata = m_group->userdata();
+        mapdata = m_group->getUserData()->root();
     }
     QWidget *w = NULL;
 	if(cmd->flags & COMMAND_CONTACT)
@@ -86,12 +86,12 @@ void PrefConfig::apply()
         if (m_contact)
         {
             log(L_DEBUG, "Contact");
-            data = m_contact->userdata();
+            data = m_contact->getUserData()->root();
         }
         else if (m_group)
         {
             log(L_DEBUG, "Group");
-            data = m_group->userdata();
+            data = m_group->getUserData()->root();
         }
         log(L_DEBUG, "NULL Contact");
         if (data)

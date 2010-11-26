@@ -51,7 +51,7 @@ bool JabberWorkInfo::processEvent(Event *e)
         if(ec->action() != EventContact::eChanged)
             return false;
         Contact *contact = ec->contact();
-        if (contact->clientData.have(m_data))
+        if (contact->have(m_data))
             fill(m_data);
     } else
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
@@ -62,7 +62,7 @@ bool JabberWorkInfo::processEvent(Event *e)
     if (m_data && (e->type() == eEventVCard)){
         EventVCard *evc = static_cast<EventVCard*>(e);
         JabberUserData *data = evc->data();
-        if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
+        if (m_data->getId() == data->getId() && m_data->getNode() == data->getNode())
             fill(data);
     }
     return false;
@@ -71,26 +71,20 @@ bool JabberWorkInfo::processEvent(Event *e)
 void JabberWorkInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtCompany->setText(data->OrgName.str());
-    edtDepartment->setText(data->OrgUnit.str());
-    edtTitle->setText(data->Title.str());
-    edtRole->setText(data->Role.str());
+    edtCompany->setText(data->getOrgName());
+    edtDepartment->setText(data->getOrgUnit());
+    edtTitle->setText(data->getTitle());
+    edtRole->setText(data->getRole());
 }
 
 void JabberWorkInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    data->OrgName.str() = edtCompany->text();
-    data->OrgUnit.str() = edtDepartment->text();
-    data->Title.str()   = edtTitle->text();
-    data->Role.str()    = edtRole->text();
+    JabberUserData *data = m_client->toJabberUserData((SIM::IMContact*)_data); // FIXME unsafe type conversion
+    data->setOrgName(edtCompany->text());
+    data->setOrgUnit(edtDepartment->text());
+    data->setTitle(edtTitle->text());
+    data->setRole(edtRole->text());
 }
-
-/*
-#ifndef NO_MOC_INCLUDES
-#include "jabberworkinfo.moc"
-#endif
-*/
 

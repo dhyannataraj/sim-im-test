@@ -35,32 +35,32 @@ ICQSecure::ICQSecure(QWidget *parent, ICQClient *client) : QWidget(parent)
     setListView(lstVisible);
     setListView(lstInvisible);
     fill();
-    connect(lstVisible, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteVisibleItem(ListViewItem*)));
-    connect(lstInvisible, SIGNAL(deleteItem(ListViewItem*)), this, SLOT(deleteInvisibleItem(ListViewItem*)));
+    connect(lstVisible, SIGNAL(deleteItem(QTreeWidgetItem*)), this, SLOT(deleteVisibleItem(QTreeWidgetItem*)));
+    connect(lstInvisible, SIGNAL(deleteItem(QTreeWidgetItem*)), this, SLOT(deleteInvisibleItem(QTreeWidgetItem*)));
 }
 
-void ICQSecure::deleteVisibleItem(ListViewItem *item)
+void ICQSecure::deleteVisibleItem(QTreeWidgetItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
         ICQUserData *data;
-        ClientDataIterator it(contact->clientData);
+        ClientDataIterator it = contact->clientDataIterator();
         while ((data = m_client->toICQUserData(++it)) != NULL){
-            data->VisibleId.asULong() = 0;
+            data->setVisibleId(0);
             EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
         }
     }
 }
 
-void ICQSecure::deleteInvisibleItem(ListViewItem *item)
+void ICQSecure::deleteInvisibleItem(QTreeWidgetItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(4).toUInt());
     if (contact) {
         ICQUserData *data;
-        ClientDataIterator it(contact->clientData);
+        ClientDataIterator it = contact->clientDataIterator();
         while ((data = m_client->toICQUserData(++it)) != NULL){
-            data->InvisibleId.asULong() = 0;
+            data->setInvisibleId(0);
             EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
         }
@@ -89,19 +89,31 @@ void ICQSecure::apply()
     m_client->setUseMD5(chkUseMD5->isChecked());
 }
 
+void ICQSecure::updateData(ICQUserData* data)
+{
+    data->setWaitAuth(chkAuth->isChecked());
+    data->setWebAware(chkWeb->isChecked());
+}
+
+void ICQSecure::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+{
+    if (client != m_client)
+        return;
+    updateData(m_client->toICQUserData(contact));
+}
+
 void ICQSecure::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
-    data->WaitAuth.asBool() = chkAuth->isChecked();
-    data->WebAware.asBool() = chkWeb->isChecked();
+    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data); // FIXME unsafe type conversion
+    updateData(data);
 }
 
 void ICQSecure::fill()
 {
-    chkAuth->setChecked(m_client->data.owner.WaitAuth.toBool());
-    chkWeb->setChecked(m_client->data.owner.WebAware.toBool());
+    chkAuth->setChecked(m_client->data.owner.getWaitAuth());
+    chkWeb->setChecked(m_client->data.owner.getWebAware());
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     chkUseMD5->setChecked(m_client->getUseMD5());
@@ -121,8 +133,8 @@ void ICQSecure::fill()
 			break;
 
 	}
-    fillListView(lstVisible, &ICQUserData::VisibleId);
-    fillListView(lstInvisible, &ICQUserData::InvisibleId);
+    fillListView(lstVisible, 1);
+    fillListView(lstInvisible, 2);
     hideIpToggled(m_client->getHideIP());
 }
 
@@ -137,31 +149,32 @@ bool ICQSecure::processEvent(Event *e)
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
             return false;
-        fillListView(lstVisible, &ICQUserData::VisibleId);
-        fillListView(lstInvisible, &ICQUserData::InvisibleId);
+        fillListView(lstVisible, 1);
+        fillListView(lstInvisible, 2);
     }
     return false;
 }
 
-void ICQSecure::setListView(ListView *lst)
+void ICQSecure::setListView(QTreeWidget *lst)
 {
-    //lst->setSorting(0);
-    lst->addColumn(i18n("UIN"));
-    lst->addColumn(i18n("Nick"));
-    lst->addColumn(i18n("Name"));
-    lst->addColumn(i18n("EMail"));
-    //lst->setColumnAlignment(0, Qt::AlignRight);
-    lst->setExpandingColumn(3);
+    lst->setColumnCount(4);
+    QStringList columns;
+
+    columns.append(i18n("UIN"));
+    columns.append(i18n("Nick"));
+    columns.append(i18n("Name"));
+    columns.append(i18n("EMail"));
+    lst->setHeaderLabels(columns);
 }
 
-void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
+void ICQSecure::fillListView(QTreeWidget *lst, SIM::Data ICQUserData::* field)
 {
     lst->clear();
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         ICQUserData *data;
-        ClientDataIterator it(contact->clientData, m_client);
+        ClientDataIterator it = contact->clientDataIterator(m_client);
         while ((data = m_client->toICQUserData(++it)) != NULL){
             if ((data->*field).toULong()){
                 QString firstName = contact->getFirstName();
@@ -182,8 +195,8 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
                         mails += ", ";
                     mails += mailItem;
                 }
-                ListViewItem *item = new ListViewItem(lst);
-                item->setText(0,QString::number(data->Uin.toULong()));
+                QTreeWidgetItem *item = new QTreeWidgetItem(lst);
+                item->setText(0,QString::number(data->getUin()));
                 item->setText(1,contact->getName());
                 item->setText(2,firstName);
                 item->setText(3,mails);
@@ -192,7 +205,65 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
                 unsigned style  = 0;
                 QString statusIcon;
                 ((Client*)m_client)->contactInfo(data, status, style, statusIcon);
-                item->setPixmap(0, Pict(statusIcon));
+                item->setIcon(0, Pict(statusIcon));
+            }
+        }
+    }
+}
+
+void ICQSecure::fillListView(QTreeWidget *lst, int v)
+{
+    lst->clear();
+    Contact *contact;
+    ContactList::ContactIterator it;
+    while ((contact = ++it) != NULL){
+        ICQUserData *data;
+        ClientDataIterator it = contact->clientDataIterator(m_client);
+        while ((data = m_client->toICQUserData(++it)) != NULL){
+            unsigned long val = 0;
+            switch(v)
+            {
+            case 0:
+                val = data->getIgnoreId();
+                break;
+            case 1:
+                val = data->getVisibleId();
+                break;
+            case 2:
+                val = data->getInvisibleId();
+                break;
+            }
+
+            if (val){
+                QString firstName = contact->getFirstName();
+                QString lastName  = contact->getLastName();
+                firstName = getToken(firstName, '/');
+                lastName = getToken(lastName, '/');
+                if (!lastName.isEmpty()){
+                    if (!firstName.isEmpty())
+                        firstName += ' ';
+                    firstName += lastName;
+                }
+                QString mails;
+                QString emails = contact->getEMails();
+                while (emails.length()){
+                    QString mailItem = getToken(emails, ';', false);
+                    mailItem = getToken(mailItem, '/');
+                    if (!mails.isEmpty())
+                        mails += ", ";
+                    mails += mailItem;
+                }
+                QTreeWidgetItem *item = new QTreeWidgetItem(lst);
+                item->setText(0,QString::number(data->getUin()));
+                item->setText(1,contact->getName());
+                item->setText(2,firstName);
+                item->setText(3,mails);
+                item->setText(4,QString::number(contact->id()));
+                unsigned long status = STATUS_UNKNOWN;
+                unsigned style  = 0;
+                QString statusIcon;
+                ((Client*)m_client)->contactInfo(data, status, style, statusIcon);
+                item->setIcon(0, Pict(statusIcon));
             }
         }
     }

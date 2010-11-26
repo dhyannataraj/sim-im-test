@@ -18,8 +18,8 @@
 #include "msgedit.h"
 
 #include "simapi.h"
-#include "contacts/clientdataiterator.h"
 #include "contacts/contact.h"
+#include "contacts/imcontact.h"
 #include "contacts/client.h"
 
 #include "userwnd.h"
@@ -33,11 +33,11 @@
 #include "simgui/listview.h"
 #include "msgfile.h"
 #include "msgauth.h"
-#include "userlist.h"
 #include "simgui/ballonmsg.h"
 #include "container.h"
 #include "icons.h"
 #include "history.h"
+
 
 #include <algorithm>
 #include <QVBoxLayout>
@@ -349,7 +349,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
         for (i = 0; i < cs.size(); i++){
             for (unsigned n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
-                clientData *d = cs[i].data;
+                IMContact *d = cs[i].data;
                 Contact *c;
                 if (!client->isMyData(d, c))
                     continue;
@@ -372,7 +372,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
     if (contact == NULL)
         return NULL;
     void *d;
-    ClientDataIterator it(contact->clientData);
+    ClientDataIterator it = contact->clientDataIterator();
     while ((d = ++it) != NULL){
         if (it.client()->dataName(d) == m_client){
             data = d;
@@ -498,18 +498,19 @@ static Message *createContacts(Buffer *cfg)
 
 static QObject *generateContacts(MsgEdit *p, Message *msg)
 {
-    return new MsgContacts(p, msg);
+    return new MsgContacts(p, msg, getContacts());
 }
 
 static Message *dropContacts(QMimeSource *src)
 {
-    if (ContactDragObject::canDecode(src)){
-        Contact *contact = ContactDragObject::decode(src);
-        ContactsMessage *msg = new ContactsMessage;
-        QString name = contact->getName();
-        msg->setContacts(QString("sim:") + QString::number(contact->id()) + ',' + getToken(name, '/'));
-        return msg;
-    }
+    // FIXME
+//    if (ContactDragObject::canDecode(src)){
+//        Contact *contact = ContactDragObject::decode(src);
+//        ContactsMessage *msg = new ContactsMessage;
+//        QString name = contact->getName();
+//        msg->setContacts(QString("sim:") + QString::number(contact->id()) + ',' + getToken(name, '/'));
+//        return msg;
+//    }
     return NULL;
 }
 
@@ -786,9 +787,9 @@ static bool cmp_status(ClientStatus s1, ClientStatus s2)
         return true;
     if (s1.status < s2.status)
         return false;
-    if (s1.data->LastSend.toULong() > s2.data->LastSend.toULong())
+    if (s1.data->getLastSend() > s2.data->getLastSend())
         return true;
-    if (s1.data->LastSend.toULong() < s2.data->LastSend.toULong())
+    if (s1.data->getLastSend() < s2.data->getLastSend())
         return false;
     return s1.client < s2.client;
 }
@@ -797,8 +798,8 @@ void MsgEdit::getWays(vector<ClientStatus> &cs, Contact *contact)
 {
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);
-        ClientDataIterator it(contact->clientData, client);
-        clientData *data;
+        ClientDataIterator it = contact->clientDataIterator(client);
+        IMContact *data;
         while ((data = ++it) != NULL){
             unsigned long status = STATUS_UNKNOWN;
             unsigned style = 0;
@@ -851,16 +852,16 @@ bool MsgEdit::sendMessage(Message *msg)
     msg->setFlags(msg->getFlags() | m_flags);
     m_flags = 0;
 
-    if (m_userWnd->m_list){
-        if( !m_userWnd->m_list->isHaveSelected() )
+    if (m_userWnd->isMultisendActive()) {
+        m_multiply = m_userWnd->multisendContacts();
+        if(m_multiply.size() == 0)
             return false;
-        multiply = m_userWnd->m_list->selected();
-        msg->setContact( multiply.first() );
-        multiply.pop_front();
+        msg->setContact(m_multiply.first());
+        m_multiply.pop_front();
         msg->setClient(NULL);
-        if( multiply.count() > 0 )
+        if( m_multiply.count() > 0 )
             msg->setFlags(msg->getFlags() | MESSAGE_MULTIPLY);
-    }else if (!m_resource.isEmpty()){
+    } else if (!m_resource.isEmpty()) {
         void *data = NULL;
         Client *c = client(data, true, false, msg->contact(), true);
         if (c){
@@ -913,7 +914,7 @@ bool MsgEdit::send()
                 }
             }
         }else{
-            ClientDataIterator it(contact->clientData);
+            ClientDataIterator it = contact->clientDataIterator();
             while ((data = ++it) != NULL){
                 if (it.client()->dataName(data) == client_str){
                     if (it.client()->send(m_msg, data))
@@ -925,7 +926,7 @@ bool MsgEdit::send()
     }
     if (bSent){
         if (data){
-            ((clientData*)data)->LastSend.asULong() = QDateTime::currentDateTime().toTime_t();
+            ((IMContact*)data)->setLastSend(QDateTime::currentDateTime().toTime_t());
         }
     }else{
         if (m_msg){
@@ -949,7 +950,7 @@ bool MsgEdit::send()
 
 void MsgEdit::stopSend(bool bCheck)
 {
-    if (m_userWnd->m_list){
+    if (m_userWnd->isMultisendActive()){
         Command cmd;
         m_userWnd->showListView(false);
         cmd->id			= CmdMultiply;
@@ -960,7 +961,7 @@ void MsgEdit::stopSend(bool bCheck)
         cmd->param		= this;
         EventCommandChange(cmd).process();
     }
-    multiply.clear();
+    m_multiply.clear();
     Command cmd;
     cmd->id		    = CmdSend;
     cmd->text	    = I18N_NOOP("&Send");
@@ -1007,7 +1008,7 @@ bool MsgEdit::adjustType()
         return true;
     Command cmd;
     cmd->menu_id = MenuMessage;
-    cmd->param = (void*)(m_userWnd->m_id);
+    cmd->param = (void*)(m_userWnd->id());
     cmd->id = m_userWnd->getMessageType();
     if (m_userWnd->getMessageType() != m_type) {
         if(EventCheckCommandState(cmd).process()) {
@@ -1028,7 +1029,7 @@ bool MsgEdit::adjustType()
     while ((c = ++itc) != NULL){
         if (c->id == CmdContactClients)
             continue;
-        c->param = (void*)(m_userWnd->m_id);
+        c->param = (void*)(m_userWnd->id());
         if (!EventCheckCommandState(c).process())
             continue;
         if (setType(c->id)){
@@ -1045,7 +1046,7 @@ bool MsgEdit::processEvent(Event *e)
     switch (e->type()) {
     case eEventContact: {
         EventContact *ec = static_cast<EventContact*>(e);
-        if (ec->contact()->id() != m_userWnd->m_id)
+        if (ec->contact()->id() != m_userWnd->id())
             break;
         adjustType();
         break;
@@ -1258,7 +1259,7 @@ bool MsgEdit::processEvent(Event *e)
                     contact->setLastActive(QDateTime::currentDateTime().toTime_t());
                     EventContact(contact, EventContact::eStatus).process();
                 }
-                if (!multiply.empty() ){
+                if (!m_multiply.empty() ){
                     CommandDef *def = CorePlugin::instance()->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
@@ -1268,11 +1269,11 @@ bool MsgEdit::processEvent(Event *e)
                         config.setWritePos(0);
                         config.getSection();
                         m_msg = (mdef->create)(&config);
-                        m_msg->setContact( multiply.first() );
-                        multiply.pop_front();
+                        m_msg->setContact( m_multiply.first() );
+                        m_multiply.pop_front();
                         m_msg->setClient(NULL);
                         m_msg->setFlags(m_msg->getFlags() | MESSAGE_MULTIPLY);
-                        if( multiply.empty() )
+                        if( m_multiply.empty() )
                             m_msg->setFlags(m_msg->getFlags() | MESSAGE_LAST);
                         send();
                         return false;
@@ -1319,7 +1320,7 @@ void MsgEdit::setEmptyMessage()
     CommandsList itc(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++itc) != NULL){
-        c->param = (void*)(m_userWnd->m_id);
+        c->param = (void*)(m_userWnd->id());
         if (EventCheckCommandState(c).process()){
             Message *msg;
             CommandDef *def = CorePlugin::instance()->messageTypes.find(c->id);
@@ -1329,7 +1330,7 @@ void MsgEdit::setEmptyMessage()
             if (mdef->create == NULL)
                 continue;
             msg = mdef->create(NULL);
-            msg->setContact(m_userWnd->m_id);
+            msg->setContact(m_userWnd->id());
             if (mdef->flags & MESSAGE_SILENT)
                 continue;
             msg->setFlags(MESSAGE_NORAISE);
@@ -1358,7 +1359,7 @@ void MsgEdit::typingStart()
 {
     typingStop();
     void *data = NULL;
-    Client *cl = client(data, false, false, m_userWnd->id(), m_userWnd->m_list == NULL);
+    Client *cl = client(data, false, false, m_userWnd->id(), !m_userWnd->isMultisendActive());
     if (cl == NULL)
         return;
     Message *msg = new Message(MessageTypingStart);
@@ -1373,11 +1374,11 @@ void MsgEdit::typingStop()
 {
     if (m_typingClient.isEmpty())
         return;
-    Contact *contact = getContacts()->contact(m_userWnd->m_id);
+    Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact == NULL)
         return;
-    ClientDataIterator it(contact->clientData);
-    clientData *data;
+    ClientDataIterator it = contact->clientDataIterator();
+    IMContact *data;
     while ((data = ++it) != NULL){
         if (it.client()->dataName(data) == m_typingClient){
             Message *msg = new Message(MessageTypingStop);
