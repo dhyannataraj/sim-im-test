@@ -31,13 +31,15 @@
 #include <QVector>
 #include <memory>
 
-#include "socket/simsockets.h"
-#include "fetch.h"
 #include "exec.h"
 #include "misc.h"
-#include "xsl.h"
 #include "builtinlogger.h"
 #include "profilemanager.h"
+#include "events/eventhub.h"
+#include "events/ievent.h"
+#include "log.h"
+#include "paths.h"
+#include "contacts/contactlist.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -66,8 +68,6 @@ namespace SIM
             bool alwaysEnabled;
             bool protocolPlugin;
             PluginWeakPtr plugin;
-            Buffer *cfg;           // configuration data
-            unsigned base;           // base for plugin types
             QString filePath;
             PluginInfo *info;
             QLibrary *module;        // so or dll handle
@@ -121,10 +121,7 @@ namespace SIM
         bool m_alwaysEnabled;
     };
 
-    Plugin::Plugin(unsigned base)
-        : m_current(base)
-        , m_base(base)
-        , p(new PluginPrivate)
+    Plugin::Plugin() : p(new PluginPrivate)
     {
         p->setProtocolPlugin(false);
         p->setAlwaysEnabled(false);
@@ -134,16 +131,6 @@ namespace SIM
     {
         log(L_DEBUG, "Plugin::~Plugin(%s)", qPrintable(name()));
         delete p;
-    }
-
-    unsigned Plugin::registerType()
-    {
-        return m_current++;
-    }
-
-    void Plugin::boundTypes()
-    {
-        m_current = (m_current | 0x3F) + 1;
     }
 
     void Plugin::setName(const QString& name)
@@ -161,12 +148,11 @@ namespace SIM
         return getPluginManager()->getPluginInfo(name());
     }
 
-    class PluginManagerPrivate : public EventReceiver
+    class PluginManagerPrivate
     {
         public:
             PluginManagerPrivate(int argc, char **argv);
             ~PluginManagerPrivate();
-
 
             bool initialize();
             QStringList enumPluginPaths();
@@ -177,10 +163,9 @@ namespace SIM
             bool isPluginAlwaysEnabled(const QString& pluginname);
             bool isPluginProtocol(const QString& pluginname);
 
-        protected:
-            virtual bool processEvent(Event *e);
+            void abortInit();
 
-            bool findParam(EventArg *a);
+        protected:
             void usage(const QString &);
 
             void scan();
@@ -221,6 +206,7 @@ namespace SIM
             QStringList descrs;
             PluginPtr m_core;
             PluginPtr m_homedir; // HACK
+            PluginPtr m_logger;
 
             unsigned m_base;
             bool m_bLoaded;
@@ -269,7 +255,10 @@ namespace SIM
 
     bool PluginManagerPrivate::isPluginProtocol(const QString& pluginname)
     {
-        return getInfo(pluginname)->protocolPlugin;
+        if (getInfo(pluginname))
+            return getInfo(pluginname)->protocolPlugin; 
+        else 
+            return false;
     }
 
     PluginInfo* PluginManagerPrivate::getPluginInfo(const QString &name)
@@ -287,6 +276,11 @@ namespace SIM
             }
         }
     }
+
+    void PluginManagerPrivate::abortInit()
+    {
+        m_bAbort = true;
+    }
     
     QStringList PluginManagerPrivate::enumPluginPaths()
     {
@@ -298,7 +292,7 @@ namespace SIM
         else
         {
 #if defined( WIN32 ) || defined( __OS2__ )
-            QString pluginDir(app_file("plugins"));
+			QString pluginDir(PathManager::appFile(QString("plugins")));
 #else
             QString pluginDir(PLUGIN_PATH);
 #endif
@@ -404,10 +398,8 @@ namespace SIM
             info.plugin         = PluginPtr();
             info.name           = name;
             info.filePath       = path;
-            info.cfg            = NULL;
             info.module         = NULL;
             info.info           = NULL;
-            info.base           = 0;
             info.alwaysEnabled  = false;
             info.protocolPlugin = false;
 
@@ -446,10 +438,11 @@ namespace SIM
         }
 
         m_homedir = plugin("__homedir");
+        m_logger = plugin("logger");
 
-        EventInit eStart;
-        eStart.process();
-        if( eStart.abortLoading() ) {
+        log(L_DEBUG, "PluginManagerPrivate::initialize()");
+        getEventHub()->triggerEvent("init");
+        if(m_bAbort) {
             log(L_ERROR,"EventInit failed - aborting!");
             m_bAbort = true;
             return false;
@@ -458,7 +451,7 @@ namespace SIM
     }
 
     PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
-        : EventReceiver(LowPriority), m_bPluginsInBuildDir(false)
+        : m_bPluginsInBuildDir(false)
     {
         m_bAbort = false;
         unsigned logLevel = L_ERROR | L_WARN;
@@ -487,38 +480,6 @@ namespace SIM
         release_all();
         delete m_exec;
         setLogEnable(false);
-        XSL::cleanup();
-    }
-
-    bool PluginManagerPrivate::processEvent(Event *e)
-    {
-        switch (e->type()){
-            case eEventArg:
-                {
-                    EventArg *a = static_cast<EventArg*>(e);
-                    return findParam(a);
-                }
-            case eEventSaveState:
-                saveState();
-                break;
-            case eEventGetArgs:
-                {
-                    EventGetArgs *ga = static_cast<EventGetArgs*>(e);
-                    ga->setArgs(qApp->argc(), qApp->argv());
-                    return true;
-                }
-#ifndef WIN32
-            case eEventExec:
-                {
-                    EventExec *exec = static_cast<EventExec*>(e);
-                    exec->setPid(execute(exec->cmd(), exec->args()));
-                    return true;
-                }
-#endif
-            default:
-                break;
-        }
-        return false;
     }
 
     pluginInfo *PluginManagerPrivate::getInfo(const QString &name)
@@ -541,10 +502,6 @@ namespace SIM
         {
             pluginInfo &info = plugins[n];
             release(info);
-            if (info.cfg) {
-                delete info.cfg;
-                info.cfg = NULL;
-            }
         }
     }
 
@@ -623,11 +580,8 @@ namespace SIM
     PluginPtr PluginManagerPrivate::createPlugin(pluginInfo &info)
     {
         log(L_DEBUG, "[1]Load plugin %s", qPrintable(info.name));
-        if (info.base == 0){
-            m_base += 0x1000;
-            info.base = m_base;
-        }
-        PluginPtr plugin = PluginPtr(info.info->create(info.base, m_bInInit, info.cfg));
+
+        PluginPtr plugin = PluginPtr(info.info->createObject());
         if( plugin == NULL )
             return PluginPtr();
         info.plugin = plugin.toWeakRef();
@@ -635,13 +589,7 @@ namespace SIM
         if (info.plugin == NULL) {
             return PluginPtr();
         }
-        if (info.cfg){
-            delete info.cfg;
-            info.cfg = NULL;
-        }
 
-        EventPluginChanged e(info.name);
-        e.process();
         return plugin;
     }
 
@@ -656,8 +604,6 @@ namespace SIM
     {
         if( info.plugin ) {
             info.plugin.clear();
-            EventPluginChanged e(info.name);
-            e.process();
         }
         if( NULL != info.module ) {
             if( bFree ) {
@@ -710,53 +656,11 @@ namespace SIM
 
         if (m_bAbort)
             return;
-        getContacts()->save();
+        //getContactList()->save();
         ProfileManager::instance()->sync();
     }
 
     const unsigned long NO_PLUGIN = (unsigned long)(-1);
-
-    bool PluginManagerPrivate::findParam(EventArg *a)
-    {
-        bool bRet = false;
-        if (!a->desc().isEmpty()){
-            cmds.push_back(a->arg());
-            descrs.push_back(a->desc());
-        }
-        QString value = QString::null;
-        if (a->arg().endsWith(":")){
-            unsigned size = a->arg().length();
-            QString arg = a->arg().left(size - 1);
-            for (QStringList::iterator it = args.begin(); it != args.end(); ++it){
-                if (!(*it).startsWith(arg))
-                    continue;
-                value = (*it).mid(size);
-                if (value.length()){
-                    *it = QString::null;
-                    bRet = true;
-                    break;
-                }
-                ++it;
-                if (it != args.end()){
-                    value = (*it);
-                    *it = QString::null;
-                    --it;
-                    *it = QString::null;
-                }
-                bRet = true;
-                break;
-            }
-        }else{
-            int idx = args.indexOf(a->arg());
-            if(idx >= 0) {
-                value = args[idx];
-                args[idx].clear();
-                bRet = true;
-            }
-        }
-        a->setValue(value);
-        return bRet;
-    }
 
     void PluginManagerPrivate::usage(const QString &err)
     {
@@ -823,7 +727,7 @@ namespace SIM
 
     PluginManager::PluginManager(int argc, char **argv)
     {
-        EventReceiver::initList();
+        getEventHub()->getEvent("init_abort")->connectTo(this, SLOT(eventInitAbort()));
         p = new PluginManagerPrivate(argc, argv);
     }
 
@@ -836,10 +740,8 @@ namespace SIM
 
     PluginManager::~PluginManager()
     {
-        EventQuit().process();
+        getEventHub()->triggerEvent("quit");
         delete p;
-        EventReceiver::destroyList();
-        deleteResolver();
         ProfileManager::instance()->sync();
     }
 
@@ -881,6 +783,11 @@ namespace SIM
     PluginInfo* PluginManager::getPluginInfo(const QString& pluginname)
     {
         return p->getPluginInfo(pluginname);
+    }
+
+    void PluginManager::eventInitAbort()
+    {
+        p->abortInit();
     }
 
     static PluginManager* g_pluginManager = 0;

@@ -17,7 +17,6 @@
 
 #include "event.h"
 #include "log.h"
-#include "icons.h"
 #include "misc.h"
 
 #ifdef WIN32
@@ -312,25 +311,25 @@ void setWndProc(QWidget *w)
 
 void setWndClass(QWidget *w, const char *name)
 {
-    Display *dsp = QX11Info::display();
-    WId win = w->winId();
-
-    XClassHint classhint;
-    classhint.res_name  = (char*)"sim";
-    classhint.res_class = (char*)name;
-    XSetClassHint(dsp, win, &classhint);
-
-    XWMHints *hints;  
-    hints = XGetWMHints(dsp, win);  
-    hints->window_group = win;  
-    hints->flags = WindowGroupHint;  
-    XSetWMHints(dsp, win, hints);  
-    XFree( hints );
-
-    const char *argv[2];
-    argv[0] = name;
-    argv[1] = NULL;
-    XSetCommand(dsp, win, (char**)argv, 1);
+//    Display *dsp = QX11Info::display();
+//    WId win = w->winId();
+//
+//    XClassHint classhint;
+//    classhint.res_name  = (char*)"sim";
+//    classhint.res_class = (char*)name;
+//    XSetClassHint(dsp, win, &classhint);
+//
+//    XWMHints *hints;
+//    hints = XGetWMHints(dsp, win);
+//    hints->window_group = win;
+//    hints->flags = WindowGroupHint;
+//    XSetWMHints(dsp, win, hints);
+//    XFree( hints );
+//
+//    const char *argv[2];
+//    argv[0] = name;
+//    argv[1] = NULL;
+//    XSetCommand(dsp, win, (char**)argv, 1);
 }
 
 #else
@@ -341,69 +340,6 @@ void setWndClass(QWidget*, const char*)
 
 #endif
 #endif
-
-bool raiseWindow(QWidget *w, unsigned desk)
-{
-    Q_UNUSED(desk)
-
-    EventRaiseWindow e(w);
-    if (e.process())
-        return false;
-#ifdef USE_KDE4
-    /* info.currentDesktop is 0 when iconified :(
-    also onAllDesktops is 0 when Objekt isn't
-    shown already */
-    KWindowInfo info = KWindowSystem::windowInfo(w->winId(),
-                         NET::WMDesktop|NET::CurrentDesktop);
-    if ((!info.onAllDesktops()) || (desk == 0)) {
-        if (desk == 0)
-            desk = KWindowSystem::currentDesktop();
-        KWindowSystem::setOnDesktop(w->winId(), desk);
-    }
-#endif
-#ifdef WIN32
-    DWORD dwProcID = GetWindowThreadProcessId(GetForegroundWindow(),NULL);
-    if(dwProcID != GetCurrentThreadId())
-        AttachThreadInput(dwProcID, GetCurrentThreadId(), TRUE);
-#endif
-    w->show();
-    if (w->isMinimized()) {
-        if (w->isMaximized())
-            w->showMaximized();
-        else
-            w->showNormal();
-    }
-    w->raise();
-#ifdef WIN32
-    SetForegroundWindow(w->winId());
-    SetFocus(w->winId());
-    if(dwProcID != GetCurrentThreadId())
-        AttachThreadInput(dwProcID, GetCurrentThreadId(), FALSE);
-#endif
-    return true;
-}
-
-void setButtonsPict(QWidget *w)
-{
-    QList<QPushButton*> l = w->findChildren<QPushButton*>();
-    foreach( QPushButton *obj, l ) {
-		QPushButton *btn = static_cast<QPushButton*>(obj);
-        if (!btn->icon().isNull()) continue;
-		const QString &text = btn->text();
-		const char *icon = NULL;
-		if ((text == i18n("&OK")) || (text == i18n("&Yes")) ||
-				(text == i18n("&Apply")) || (text == i18n("&Register"))){
-			icon = "button_ok";
-		}else if ((text == i18n("&Cancel")) || (text == i18n("Close")) || (text == i18n("&Close")) ||
-				(text == i18n("&No"))){
-			icon = "button_cancel";
-		}else if (text == i18n("&Help")){
-			icon = "help";
-		}
-		if (icon == NULL) continue;
-                btn->setIcon(Icon(icon));
-	}
-}
 
 EXPORT QString formatDateTime(QDateTime t)
 {
@@ -419,25 +355,25 @@ EXPORT QString formatDate(QDate t)
     return t.toString();
 }
 
-EXPORT QString formatAddr(const Data &ip, unsigned port)
+EXPORT QString formatAddr(unsigned long ip, unsigned port)
 {
     QString res;
-    if (ip.ip() == NULL) {
+    if (ip == 0) {
         log( L_ERROR, "formatAddr() with invalid data" );
         return res;
     }
     struct in_addr inaddr;
-    inaddr.s_addr = get_ip(ip);
+    inaddr.s_addr = ip;
     res += inet_ntoa(inaddr);
     if (port){
         res += ':';
         res += QString::number(port);
     }
-    QString host = get_host(ip);
-    if (!host.isEmpty()){
-        res += ' ';
-        res += host;
-    }
+//    QString host = get_host(ip);
+//    if (!host.isEmpty()){
+//        res += ' ';
+//        res += host;
+//    }
     return res;
 }
 

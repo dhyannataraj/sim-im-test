@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="sim-tests"
 	ProjectGUID="{22C2914A-3CB0-4034-AD83-74A4CA5913F3}"
 	RootNamespace="simtests"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -86,6 +87,8 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)\$(ConfigurationName)\test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(SolutionDir)\$(ConfigurationName)\test.lib"
 			/>
 			<Tool
@@ -107,9 +110,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -118,8 +118,8 @@
 			OutputDirectory="Release"
 			IntermediateDirectory="test.dir\Release"
 			ConfigurationType="1"
-			UseOfMFC="0"
 			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
+			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -181,6 +181,8 @@
 				GenerateManifest="true"
 				ProgramDatabaseFile="$(SolutionDir)\$(ConfigurationName)\test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(SolutionDir)\$(ConfigurationName)\test.lib"
 			/>
 			<Tool
@@ -200,9 +202,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -276,6 +275,8 @@
 				GenerateManifest="true"
 				ProgramDatabaseFile="$(SolutionDir)\MinSizeRel\test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(SolutionDir)\MinSizeRel\test.lib"
 			/>
 			<Tool
@@ -295,9 +296,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -372,6 +370,8 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)/RelWithDebInfo/test.pdb"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(SolutionDir)\RelWithDebInfo\test.lib"
 			/>
 			<Tool
@@ -391,9 +391,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -458,28 +455,12 @@
 						AdditionalOptions="/U HAVE_CONFIG_H"
 					/>
 				</FileConfiguration>
-			</File>			
-			<File
-				RelativePath=".\tests\testclientsocket.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalOptions="/U HAVE_CONFIG_H"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalOptions="/U HAVE_CONFIG_H"
-					/>
-				</FileConfiguration>
 			</File>
- 			<File
+			<File
+				RelativePath=".\tests\testcommandhub.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\tests\testconfig.cpp"
 				>
 				<FileConfiguration
@@ -504,6 +485,18 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\tests\testeventhub.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\testgroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\testmessagepipe.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\tests\testpropertyhub.cpp"
 				>
 				<FileConfiguration
@@ -526,7 +519,7 @@
 						AdditionalOptions="/U HAVE_CONFIG_H"
 					/>
 				</FileConfiguration>
-			</File>			
+			</File>
 			<File
 				RelativePath=".\tests\testsocketfactory.cpp"
 				>
@@ -548,6 +541,22 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\tests\teststandardcontactlist.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\teststandardtoolbaractionfactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\testtoolbar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\testuicommand.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\tests\testuserdata.cpp"
 				>
 				<FileConfiguration
@@ -566,7 +575,7 @@
 					RelativePath=".\tests\moc_testbuffer.cpp"
 					>
 				</File>
- 				<File
+				<File
 					RelativePath=".\tests\moc_testclientmanager.cpp"
 					>
 					<FileConfiguration
@@ -577,7 +586,7 @@
 							AdditionalOptions="/U HAVE_CONFIG_H"
 						/>
 					</FileConfiguration>
-				</File>				
+				</File>
 				<File
 					RelativePath=".\tests\moc_testclientsocket.cpp"
 					>
@@ -590,7 +599,7 @@
 						/>
 					</FileConfiguration>
 				</File>
- 				<File
+				<File
 					RelativePath=".\tests\moc_testconfig.cpp"
 					>
 				</File>
@@ -653,77 +662,9 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\tests\testbuffer.h"
+				RelativePath=".\tests\gtest-qt.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\tests\testclientmanager.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\tests\testclientsocket.h"
-				>
- 				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
- 					Name="Release|Win32"
- 					>
- 					<Tool
- 						Name="VCCustomBuildTool"
- 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
- 						Outputs="$(InputDir)moc_$(InputName).cpp"
- 					/>
- 				</FileConfiguration>
- 			</File>
 			<File
 				RelativePath=".\tests\testconfig.h"
 				>
@@ -743,6 +684,50 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testeventhub.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -789,7 +774,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -799,10 +784,14 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\tests\testuicommand.h"
+				>
 			</File>
 			<File
 				RelativePath=".\tests\testuserdata.h"
@@ -818,6 +807,74 @@
 					/>
 				</FileConfiguration>
 			</File>
+		</Filter>
+		<Filter
+			Name="stubs"
+			>
+			<File
+				RelativePath=".\tests\stubs\stubclient.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\stubs\stubimagestorage.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\stubs\stubimcontact.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tests\stubs\stubimgroup.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="mocks"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\tests\mocks\mockasyncsocket.cpp"
+					>
+				</File>
+				<Filter
+					Name="generated"
+					>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\tests\mocks\mockasyncsocket.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tests\mocks\mockclient.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tests\mocks\mockclientmanager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tests\mocks\mockcontactlist.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tests\mocks\mockimcontact.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tests\mocks\mockimstatus.h"
+					>
+				</File>
+				<Filter
+					Name="generated"
+					>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

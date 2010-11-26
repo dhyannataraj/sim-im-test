@@ -31,33 +31,29 @@ namespace SIM
 {
     struct PluginInfo;
 
-	class EXPORT Plugin
-	{
-	public:
-		Plugin(unsigned base);
-		virtual ~Plugin();
-		virtual QWidget *createConfigWindow(QWidget* /* *parent */ ) { return NULL; }
-		virtual QByteArray getConfig() { return QByteArray(); }
-		unsigned registerType();
-		void boundTypes();
+    class EXPORT Plugin
+    {
+    public:
+        Plugin();
+        virtual ~Plugin();
+        virtual QWidget *createConfigWindow(QWidget* /* *parent */ ) { return NULL; }
+        virtual QByteArray getConfig() { return QByteArray(); }
 
         void setName(const QString& n);
         QString name();
 
         PluginInfo* getInfo();
 
-	protected:
-		unsigned m_current;
-		unsigned m_base;
 
     private:
         class PluginPrivate* p;
-	};
+    };
 
     typedef QSharedPointer<Plugin> PluginPtr;
 
-    class EXPORT PluginManager
+    class EXPORT PluginManager : public QObject
     {
+        Q_OBJECT
     public:
         PluginManager(int argc, char **argv);
         ~PluginManager();
@@ -75,14 +71,18 @@ namespace SIM
 
         PluginInfo* getPluginInfo(const QString& pluginname);
 
+    private slots:
+        void eventInitAbort();
+
     private:
         class PluginManagerPrivate *p;
 
         COPY_RESTRICTED(PluginManager)
     };
 
-	/* Plugin prototype */
-	typedef Plugin* createPlugin(unsigned base, bool bStart, Buffer *cfg);
+    /* Plugin prototype */
+    typedef Plugin* createPlugin(unsigned base, bool bStart, Buffer *cfg);
+    typedef Plugin* (*createPluginObject)();
 
 	const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
 #ifdef USE_KDE
@@ -97,14 +97,14 @@ namespace SIM
 	const unsigned PLUGIN_NODISABLE      = 0x0010;
 	const unsigned PLUGIN_RELOAD         = 0x0020;
 
-	struct PluginInfo           // Information in plugin
-	{
-		const char      *title;         // User title
-		const char      *description;   // Description
-		const char      *version;       // Version
-		createPlugin    *create;        // create proc
-		unsigned        flags;          // plugin flags
-	};
+    struct PluginInfo           // Information in plugin
+    {
+        const char      *title;         // User title
+        const char      *description;   // Description
+        const char      *version;       // Version
+        unsigned        flags;          // plugin flags
+        createPluginObject createObject;
+    };
 
 	SIM_EXPORT PluginInfo *GetPluginInfo();
 

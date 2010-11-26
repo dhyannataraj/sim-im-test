@@ -1,212 +1,247 @@
 
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
 #include "contact.h"
 #include "contacts.h"
-#include "clientdataiterator.h"
-#include "contactlistprivate.h"
 #include "group.h"
 #include "client.h"
+#include "log.h"
+#include "contacts/imcontact.h"
+#include "clientmanager.h"
 
 namespace SIM
 {
-
-    DataDef contactData[] =
-    {
-        { NULL, DATA_UNKNOWN, 0, 0 }
-    };
-
-    Contact::Contact(unsigned long id, Buffer * /*cfg*/)
+    Contact::Contact(int id)
         : m_id(id)
     {
         m_userData = UserData::create();
-        userdata()->setValue("id", (uint)id);
+        m_flags.resize(flMaxFlag);
     }
 
     Contact::~Contact()
     {
-        if (!getContacts()->p->m_bNoRemove){
-            EventContact e(this, EventContact::eDeleted);
-            e.process();
-        }
-        getContacts()->p->contacts.erase(m_id);
     }
 
-    const DataDef *Contact::dataDef()
+    int Contact::groupId() const
     {
-        return contactData;
+        return m_groupId;
     }
 
-    PropertyHubPtr Contact::getUserData(const QString& id, bool bCreate)
+    void Contact::setGroupId(int g)
     {
-        PropertyHubPtr data = m_userData->getUserData(id);
-        if(data)
-            return data;
-        if(bCreate)
-            return m_userData->createUserData(id);
-        Group *group = getContacts()->group(getGroup());
-        if (group)
-            return group->getUserData(id, false);
-        return getContacts()->getUserData(id);
+        m_groupId = g;
     }
 
-    void Contact::setup()
+    bool Contact::flag(Flag fl) const
     {
-        QString str = getFirstName();
-        getToken(str, '/');
-        if (str != "-")
-            setFirstName(QString());
-        str = getLastName();
-        getToken(str, '/');
-        if(!str.contains('-'))
-            setLastName(QString());
-        QString res;
-        str = getEMails();
-        while (!str.isEmpty()){
-            QString item = getToken(str, ';', false);
-            QString value = getToken(item, '/', false);
-            if (item != "-")
-                continue;
-            if (!res.isEmpty())
-                res += ';';
-            res += value;
-            res += "/-";
-        }
-        setEMails(res);
-        str = getPhones();
-        while (!str.isEmpty()){
-            QString item = getToken(str, ';', false);
-            QString value = getToken(item, '/', false);
-            if (item != "-")
-                continue;
-            if (!res.isEmpty())
-                res += ';';
-            res += value;
-            res += "/-";
-        }
-        setPhones(res);
-        ClientDataIterator it(clientData);
-        void *data;
-        while ((data = ++it) != NULL)
-            it.client()->setupContact(this, data);
+        return m_flags.at(fl);
     }
 
-    int Contact::getGroup()
+    void Contact::setFlag(Flag fl, bool value)
     {
-        return userdata()->value("Group").toInt();
+        m_flags.setBit(fl, value);
     }
 
-    void Contact::setGroup(int g)
+    QString Contact::name() const
     {
-        userdata()->setValue("Group", g);
-    }
-
-    QString Contact::getName()
-    {
-        return userdata()->value("Name").toString();
+        return m_name;
     }
 
     void Contact::setName(const QString& s)
     {
-        userdata()->setValue(s, "Name");
+        m_name = s;
     }
 
-    bool Contact::getIgnore()
+    time_t Contact::lastActive() const
     {
-        return userdata()->value("Ignore").toBool();
+        return m_lastActive;
     }
 
-    void Contact::setIgnore(bool i)
+    void Contact::setLastActive(time_t la)
     {
-        userdata()->setValue("Ignore", i);
+        m_lastActive = la;
     }
 
-    int Contact::getLastActive()
+    QString Contact::notes() const
     {
-        return userdata()->value("LastActive").toInt();
+        return m_notes;
     }
 
-    void Contact::setLastActive(int la)
-    {
-        userdata()->setValue("LastActive", la);
-    }
-
-    QString Contact::getEMails()
-    {
-        return userdata()->value("EMails").toString();
-    }
-
-    void Contact::setEMails(const QString& e)
-    {
-        userdata()->setValue("EMails", e);
-    }
-
-    QString Contact::getPhones()
-    {
-        return userdata()->value("Phones").toString();
-    }
-
-    void Contact::setPhones(const QString& p)
-    {
-        userdata()->setValue("Phones", p);
-    }
-
-    int Contact::getPhoneStatus()
-    {
-        return userdata()->value("PhoneStatus").toInt();
-    }
-
-    void Contact::setPhoneStatus(int ps)
-    {
-        userdata()->setValue("PhoneStatus", ps);
-    }
-
-    QString Contact::getFirstName()
-    {
-        return userdata()->value("FirstName").toString();
-    }
-
-    void Contact::setFirstName(const QString& n)
-    {
-        userdata()->setValue("FirstName", n);
-    }
-
-    QString Contact::getLastName()
-    {
-        return userdata()->value("LastName").toString();
-    }
-
-    void Contact::setLastName(const QString& n)
-    {
-        userdata()->setValue("LastName", n);
-    }
-
-    QString Contact::getNotes()
-    {
-        return userdata()->value("Notes").toString();
-    }
-    
     void Contact::setNotes(const QString& n)
     {
-        userdata()->setValue("Notes", n);
+        m_notes = n;
     }
 
-    int Contact::getFlags()
+    void Contact::addClientContact(const IMContactPtr& contact)
     {
-        return userdata()->value("Flags").toInt();
+        m_imContacts.append(contact);
     }
 
-    void Contact::setFlags(int flags)
+    IMContactPtr Contact::clientContact(const QString& clientId) const
     {
-        userdata()->setValue("Flags", flags);
+        foreach(const IMContactPtr& contact, m_imContacts)
+        {
+            Client* client = contact->client();
+            if(!client)
+                continue;
+            if(client->name() == clientId)
+                return contact;
+        }
+        return IMContactPtr();
     }
 
-    QString Contact::getEncoding()
+    IMContactPtr Contact::clientContact(int num) const
     {
-        return userdata()->value("Encoding").toString();
+        if((num < 0) || (num >= clientContactCount()))
+            return IMContactPtr();
+        return m_imContacts.at(num);
     }
 
-    void Contact::setEncoding(const QString& enc)
+    QStringList Contact::clientContactNames() const
     {
-        userdata()->setValue("Encoding", enc);
+        QStringList result;
+        foreach(const IMContactPtr& contact, m_imContacts)
+        {
+            Client* client = contact->client();
+            if(!client)
+                continue;
+            result.append(client->name());
+        }
+        return result;
+    }
+
+    int Contact::clientContactCount() const
+    {
+        return m_imContacts.size();
+    }
+
+    bool Contact::isOnline() const
+    {
+        if(m_imContacts.size() == 0)
+            return false;
+        foreach(const IMContactPtr& contact, m_imContacts)
+        {
+            IMStatusPtr status = contact->status();
+            if(!status)
+                continue;
+            if(status->flag(IMStatus::flOffline))
+                return false;
+        }
+        return true;
+    }
+
+    bool Contact::hasUnreadMessages()
+    {
+        foreach(const IMContactPtr& contact, m_imContacts)
+        {
+            if(contact->hasUnreadMessages())
+                return true;
+        }
+        return false;
+    }
+
+    void Contact::join(const ContactPtr& /*contact*/)
+    {
+
+    }
+
+    QString Contact::toolTipText()
+    {
+        return QString("IMPLEMENT ME!!! Contact::toolTipText()");
+    }
+
+    bool Contact::serializeMainInfo(QDomElement& element)
+    {
+        PropertyHubPtr hub = PropertyHub::create();
+        hub->setValue("Group", groupId());
+        hub->setValue("Name", name());
+        hub->setValue("Ignore", flag(flIgnore));
+        hub->setValue("Temporary", flag(flTemporary));
+        hub->setValue("LastActive", (qlonglong)lastActive());
+        hub->setValue("Notes", notes());
+        return hub->serialize(element);
+    }
+
+    bool Contact::deserializeMainInfo(const QDomElement& element)
+    {
+        PropertyHubPtr hub = PropertyHub::create();
+        if(!hub->deserialize(element))
+            return false;
+        setGroupId(hub->value("Group").toInt());
+        setName(hub->value("Name").toString());
+        setFlag(flIgnore, hub->value("Ignore").toBool());
+        setFlag(flTemporary, hub->value("Temporary").toBool());
+        setLastActive(hub->value("LastActive").toLongLong());
+        setNotes(hub->value("Notes").toString());
+        return true;
+    }
+
+    bool Contact::serialize(QDomElement& element)
+    {
+        userdata()->serialize(element);
+        QStringList clients = clientContactNames();
+        QDomElement maininfo = element.ownerDocument().createElement("main");
+        serializeMainInfo(maininfo);
+        element.appendChild(maininfo);
+        foreach(const QString& clname, clients) {
+            IMContactPtr imc = clientContact(clname);
+            QDomElement clientElement = element.ownerDocument().createElement("clientdata");
+            Client* client = imc->client();
+            clientElement.setAttribute("clientname", client->name());
+            imc->serialize(clientElement);
+            element.appendChild(clientElement);
+        }
+        return true;
+    }
+
+    bool Contact::deserialize(const QDomElement& element)
+    {
+        userdata()->deserialize(element);
+        QDomElement main = element.elementsByTagName("main").at(0).toElement();
+        if(!main.isNull())
+        {
+            deserializeMainInfo(main);
+        }
+        QDomNodeList cldatalist = element.elementsByTagName("clientdata");
+        for(int j = 0; j < cldatalist.size(); j++) {
+            QDomElement clientElement = cldatalist.at(j).toElement();
+            ClientPtr client = getClientManager()->client(clientElement.attribute("clientname"));
+            if(!client)
+                continue;
+            IMContactPtr imc = clientContact(client->name());
+            if(!imc)
+                imc = client->createIMContact();
+            imc->deserialize(clientElement);
+        }
+        return true;
+    }
+
+    bool Contact::deserialize(const QString& data)
+    {
+        QStringList list = data.split('\n');
+        foreach(const QString& s, list)
+        {
+            QStringList keyval = s.split('=');
+            if(keyval.size() != 2)
+                continue;
+            if(keyval.at(1).startsWith('\"') && keyval.at(1).endsWith('\"'))
+                deserializeLine(keyval.at(0), keyval.at(1).mid(1, keyval.at(1).size() - 2));
+            else
+                deserializeLine(keyval.at(0), keyval.at(1));
+        }
+        return true;
+    }
+
+    bool Contact::deserializeLine(const QString& key, const QString& value)
+    {
+        if(key == "Ignore")
+            setFlag(flIgnore, value == "true");
+        else if(key == "Name")
+            setName(value);
+        else if(key == "Group")
+            setGroupId(value.toUInt());
+        return true;
     }
 }
 

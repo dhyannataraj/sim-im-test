@@ -12,23 +12,19 @@ namespace SIM
     class EXPORT ClientManager
     {
     public:
-        ClientManager();
-        virtual ~ClientManager();
+        virtual ~ClientManager() {}
 
-        void addClient(ClientPtr client);
-        ClientPtr client(const QString& name);
+        virtual void addClient(ClientPtr client) = 0;
+        virtual ClientPtr client(const QString& name) = 0;
+        virtual QList<ClientPtr> allClients() const = 0;
+        virtual QStringList clientList() = 0;
 
-        void load();
-        void load_old();
-        void save();
-
-    private:
-        ClientPtr createClient(const QString& name);
-        typedef QMap<QString, ClientPtr> ClientMap;
-        ClientMap m_clients;
+        virtual bool load() = 0;
+        virtual bool save() = 0;
     };
 
     EXPORT ClientManager* getClientManager();
+    void EXPORT setClientManager(ClientManager* manager);
     void EXPORT createClientManager();
     void EXPORT destroyClientManager();
 }

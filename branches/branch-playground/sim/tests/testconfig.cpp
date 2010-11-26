@@ -57,7 +57,6 @@ namespace testConfig
 		ConfigPtr config = ConfigPtr(new Config("nonexistant"));
 		bool success = config->deserialize(m_config);
 		QVERIFY(success);
-		QCOMPARE(config->propertyHubCount(), 3);
 		PropertyHubPtr alpha = config->propertyHub("alpha");
 		PropertyHubPtr beta = config->propertyHub("beta");
 		PropertyHubPtr gamma = config->propertyHub("gamma");
@@ -83,6 +82,16 @@ namespace testConfig
 		QCOMPARE(config->rootPropertyHub()->value("test1").toBool(), true);
 		QCOMPARE(config->rootPropertyHub()->value("test2").toInt(), 444);
 	}
+
+    void Test::init()
+    {
+
+    }
+
+    void Test::cleanup()
+    {
+
+    }
 }
 
 // vim: set expandtab:

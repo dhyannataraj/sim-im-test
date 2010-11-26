@@ -23,6 +23,11 @@ namespace testProtocolManager
             return ClientPtr();
         }
 
+        virtual ClientPtr createClient(const QString& name)
+        {
+            return ClientPtr();
+        }
+
         virtual const CommandDef *description()
         {
             return 0;
@@ -37,8 +42,14 @@ namespace testProtocolManager
         {
             return 0;
         }
-        QStringList statuses() { return QStringList(); };
+        virtual IMContact* createIMContact(const QSharedPointer<Client>& client)
+        {
+            return 0;
+        }
+
+        QStringList states() { return QStringList(); }
         IMStatusPtr status(const QString& id) { return IMStatusPtr(); }
+		virtual SIM::IMStatusInfo* statusInfo(const QString&) {}
     };
 
     void Test::initTestCase()

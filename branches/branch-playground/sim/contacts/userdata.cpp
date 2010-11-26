@@ -75,8 +75,8 @@ namespace SIM
         QDomNodeList list = root.elementsByTagName("propertyhub");
         for(int i = 0; i < list.size(); i++)
         {
-            QByteArray array;
-            QTextStream stream(&array);
+            QByteArray tmp_array;
+            QTextStream stream(&tmp_array);
             QDomNode child = list.at(i);
             QDomElement el = child.firstChildElement("root");
             el.save(stream, 1);
@@ -92,6 +92,11 @@ namespace SIM
     UserDataPtr UserData::create()
     {
         return UserDataPtr(new UserData());
+    }
+
+    QStringList UserData::userDataIds() const
+    {
+        return m_data.keys();
     }
 
 }

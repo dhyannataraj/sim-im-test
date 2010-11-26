@@ -4,6 +4,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QSharedPointer>
 
 #include "simapi.h"
 #include "buffer.h"
@@ -12,7 +13,7 @@ namespace SIM
 {
     class Client;
     class ClientUserDataPrivate;
-    struct clientData;
+    class IMContact;
     class EXPORT ClientUserData
     {
     public:
@@ -20,23 +21,42 @@ namespace SIM
         ~ClientUserData();
         QByteArray save() const;
         void load(Client *client, Buffer *cfg);
-        void *getData(Client *client);
-        bool have(void*);
-        void *createData(Client *client);
-        void freeData(void*);
-        void freeClientData(Client *client);
+
+        void addData(IMContact* data);
+        IMContact* createData(Client *client);
+        IMContact* getData(Client *client);
+        IMContact* getData(const QString& clientName);
+        QStringList clientNames();
+        bool have(IMContact*);
         void sort();
         void join(ClientUserData &data);
-        void join(clientData *cData, ClientUserData &data);
+        void join(IMContact *cData, ClientUserData &data);
         unsigned size();
         Client *activeClient(void *&data, Client *client);
-        QString property(const char *name);
+        void freeData(SIM::IMContact*);
+        void freeClientData(Client *client);
 
     protected:
         class ClientUserDataPrivate *p;
         friend class ClientDataIterator;
 
         COPY_RESTRICTED(ClientUserData)
+    };
+
+    class ClientDataIteratorPrivate;
+
+    class EXPORT ClientDataIterator
+    {
+    public:
+        ClientDataIterator();
+        ClientDataIterator(ClientUserData &data, Client *client=NULL);
+        ~ClientDataIterator();
+        IMContact *operator ++();
+        Client *client();
+        void reset();
+    protected:
+        ClientDataIteratorPrivate* p;
+
     };
 }
 

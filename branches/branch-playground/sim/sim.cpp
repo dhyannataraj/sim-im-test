@@ -23,8 +23,15 @@
 #include "clientmanager.h"
 #include "simfs.h"
 #include "paths.h"
-#include "socket/socketfactory.h"
 #include "contacts/protocolmanager.h"
+#include "events/eventhub.h"
+#include "events/standardevent.h"
+#include "events/logevent.h"
+#include "commands/commandhub.h"
+#include "imagestorage/imagestorage.h"
+#include "contacts/contactlist.h"
+#include "builtinlogger.h"
+#include "log.h"
 
 #include <QDir>
 
@@ -76,6 +83,29 @@ void simMessageOutput(QtMsgType, const char *msg)
 #define _VERSION	VERSION
 #endif
 
+void registerEvents()
+{
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("init"));
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("init_abort"));
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("quit"));
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("load_config"));
+    SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("save_config"));
+}
+
+static BuiltinLogger* gs_logger = 0;
+void initLogging()
+{
+    gs_logger = new BuiltinLogger(L_ERROR | L_WARN | L_DEBUG);
+    SIM::getEventHub()->registerEvent(SIM::LogEvent::create());
+    SIM::getEventHub()->getEvent("log")->connectTo(gs_logger, SLOT(logEvent(QString,int)));
+}
+
+void destroyLogging()
+{
+    delete gs_logger;
+    gs_logger = 0;
+}
+
 int main(int argc, char *argv[])
 {
     SimFileEngineHandler simfs;
@@ -97,6 +127,7 @@ int main(int argc, char *argv[])
     if (!KUniqueApplication::start())
         exit(-1);
 #endif
+
     SimApp app(argc, argv);
 #ifdef Q_OS_MAC
     QString sPluginPath = app.applicationDirPath() + "/../";
@@ -104,11 +135,17 @@ int main(int argc, char *argv[])
     QString sPluginPath = app.applicationDirPath() + "/plugins";
 #endif
     QApplication::addLibraryPath(sPluginPath);
-    SIM::createSocketFactory();
+
+    SIM::createEventHub();
+    registerEvents();
+    initLogging();
+    SIM::createImageStorage();
+    SIM::createCommandHub();
     SIM::createContactList();
     SIM::createProtocolManager();
     SIM::createPluginManager(argc, argv);
     SIM::createClientManager();
+
 
     if(!getPluginManager()->initialize())
         return 1;
@@ -120,7 +157,10 @@ int main(int argc, char *argv[])
     SIM::destroyPluginManager();
     SIM::destroyProtocolManager();
     SIM::destroyContactList();
-    SIM::destroySocketFactory();
+    SIM::destroyCommandHub();
+    SIM::destroyImageStorage();
+    destroyLogging();
+    SIM::destroyEventHub();
     return res;
 }
 

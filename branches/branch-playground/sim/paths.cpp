@@ -84,7 +84,7 @@ namespace SIM
         if (!defPath.isEmpty()){
             s = defPath;
         }else{
-            s = app_file("");
+            //s = appFile(""); //Fixme, what is meant here? QString appFile or PathManager::appFile(const QString &) ???
         }
 #endif
         QDir().mkpath(s);
@@ -92,6 +92,63 @@ namespace SIM
         chmod(QFile::encodeName(s), 0700);
 #endif
         return QDir::convertSeparators(s);
+    }
+
+    QString PathManager::appFile(const QString& filename)
+    {
+        QString appFile_name;
+        QString fname = filename;
+    #if defined( WIN32 ) || defined( __OS2__ )
+        if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
+            return filename;
+    #ifdef __OS2__
+        CHAR buff[MAX_PATH];
+        PPIB pib;
+        PTIB tib;
+        DosGetInfoBlocks(&tib, &pib);
+        DosQueryModuleName(pib->pib_hmte, sizeof(buff), buff);
+    #else
+        WCHAR buff[MAX_PATH];
+        GetModuleFileNameW(NULL, buff, MAX_PATH);
+    #endif
+    #ifdef __OS2__
+        QString b = buff;
+    #else
+        QString b = QString::fromUtf16((unsigned short*)buff);
+    #endif
+        int idx = b.lastIndexOf('\\');
+        if(idx != -1)
+            b = b.left(idx+1);
+        appFile_name = b;
+        if (!appFile_name.endsWith('\\') && !appFile_name.endsWith('/'))
+            appFile_name += '\\';
+    #else
+        if (fname[0] == '/')
+            return filename;
+    #ifdef USE_KDE
+        if (qApp){
+            QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
+            for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
+                QFile fi(*it + f);
+                if (fi.exists()){
+                    appFile_name = QDir::convertSeparators(fi.name());
+                    return appFile_name;
+                }
+            }
+        }
+    #endif
+    #if !defined( __OS2__ ) && !defined( Q_OS_MAC )
+        appFile_name = PREFIX "/share/apps/sim/";
+    #endif
+
+    #ifdef Q_OS_MAC
+        appFile_name = QApplication::applicationDirPath();
+        appFile_name += "/../Resources/";
+    #endif
+
+    #endif
+        appFile_name += filename;
+        return QDir::convertSeparators(appFile_name);
     }
 }
 

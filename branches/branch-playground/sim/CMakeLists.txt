@@ -12,72 +12,69 @@ SET(sim_LIB_SRCS
 		buffer.cpp
 		builtinlogger.cpp
 		cfg.cpp
-		clientlist.cpp
 		clientmanager.cpp
-		cmddef.cpp
-		contacts.cpp
+        standardclientmanager.cpp
+        commands/commandhub.cpp
+        commands/commandset.cpp
+        commands/uicommand.cpp
 		country.cpp
-		event.cpp
+        events/eventdata.cpp
+        events/eventhub.cpp
+        events/nulleventdata.cpp
+        events/standardevent.cpp
+        events/ievent.cpp
+        events/logevent.cpp
 		exec.cpp
-		fetch.cpp
-		icons.cpp
+        imagestorage/imagestorage.cpp
+        imagestorage/standardimagestorage.cpp
+        imagestorage/iconset.cpp
+        imagestorage/jispiconset.cpp
 		log.cpp
-		message.cpp
+        messaging/message.cpp
+        messaging/genericmessage.cpp
+        messaging/messagepipe.cpp
+        messaging/standardmessagepipe.cpp
+        messaging/messageprocessor.cpp
 		misc.cpp
 		paths.cpp
 		plugins.cpp
 		profile.cpp
 		profilemanager.cpp
 		propertyhub.cpp
-		sax.cpp
 		simfs.cpp
 		translit.cpp
-		templateengine.cpp
-		unquot.cpp
-		xsl.cpp
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
 		contacts/userdata.cpp
-		contacts/contactlistprivate.cpp
-		contacts/clientuserdata.cpp
-		contacts/clientuserdataprivate.cpp
-		contacts/clientdataiterator.cpp
 		contacts/packettype.cpp
 		contacts/contact.cpp
+        contacts/contactlist.cpp
+        contacts/standardcontactlist.cpp
 		contacts/group.cpp
 		contacts/protocol.cpp
 		contacts/protocolmanager.cpp
 		contacts/client.cpp
 		contacts/imstatus.cpp
-		contacts/invalidstatus.cpp
-		socket/socket.cpp
-		socket/serversocketnotify.cpp
-		socket/serversocket.cpp
-		socket/socketfactory.cpp
-		socket/clientsocket.cpp
-		socket/tcpclient.cpp
-		socket/interfacechecker.cpp
-		socket/sslclient.cpp
-		socket/simclientsocket.cpp
-		socket/simserversocket.cpp
-		socket/simsockets.cpp
-		socket/ip.cpp
-		socket/ipresolver.cpp
+        contacts/imcontact.cpp
+        contacts/imgroup.cpp
 
-		simgui/ballonmsg.cpp
-		simgui/datepicker.cpp
-		simgui/editfile.cpp
-		simgui/fontedit.cpp
-		simgui/intedit.cpp
+        network/asyncsocket.cpp
+        network/tcpasyncsocket.cpp
+
+        simgui/ballonmsg.cpp
 		simgui/linklabel.cpp
-		simgui/listview.cpp
 		simgui/preview.cpp
 		simgui/qchildwidget.cpp
 		simgui/qcolorbutton.cpp
 		simgui/qkeybutton.cpp
-		simgui/textshow.cpp
-		simgui/toolbtn.cpp
+        simgui/toolbarbutton.cpp
+        simgui/toolbarcombobox.cpp
+        simgui/toolbar.cpp
+        simgui/toolbaractionfactory.cpp
+        simgui/standardtoolbaractionfactory.cpp
+        simgui/statuswidget.cpp
+        simgui/toolitem.cpp
 	)
 
 SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
@@ -86,75 +83,71 @@ SET(sim_LIB_HDRS
 		buffer.h
 		builtinlogger.h
 		cfg.h
-		clientlist.h
 		clientmanager.h
-		cmddef.h
-		contacts.h
+        standardclientmanager.h
+        commands/commandhub.h
+        commands/commandset.h
+        commands/uicommand.h
 		country.h
-		event.h
+        events/eventdata.h
+        events/eventhub.h
+        events/nulleventdata.h
+        events/standardevent.h
+        events/ievent.h
+        events/logevent.h
 		exec.h
-		fetch.h
-		icons.h
+        imagestorage/imagestorage.h
+        imagestorage/standardimagestorage.h
+        imagestorage/iconset.h
+        imagestorage/jispiconset.h
 		log.h
-		message.h
+        messaging/message.h
+        messaging/genericmessage.h
+        messaging/messagepipe.h
+        messaging/standardmessagepipe.h
+        messaging/messageprocessor.h
 		misc.h
 		paths.h
 		plugins.h
 		profile.h
 		profilemanager.h
 		propertyhub.h
-		sax.h
 		simapi.h
 		simfs.h
 		singleton.h
 		translit.h
-		templateengine.h
-		unquot.h
-		xsl.h
 		qzip/ioapi.h
 		qzip/qzip.h
 		qzip/unzip.h
-		fetchclientprivate.h
 		contacts/userdata.h
-		contacts/contactlistprivate.h
-		contacts/clientuserdata.h
-		contacts/clientuserdataprivate.h
-		contacts/clientdataiterator.h
 		contacts/packettype.h
 		contacts/contact.h
+        contacts/contactlist.h
+        contacts/standardcontactlist.h
 		contacts/group.h
 		contacts/protocol.h
 		contacts/protocolmanager.h
 		contacts/client.h
 		contacts/imstatus.h
-		contacts/invalidstatus.h
-		socket/socket.h
-		socket/socketnotify.h
-		socket/serversocketnotify.h
-		socket/serversocket.h
-		socket/socketfactory.h
-		socket/clientsocket.h
-		socket/tcpclient.h
-		socket/interfacechecker.h
-		socket/sslclient.h
-		socket/simclientsocket.h
-		socket/simserversocket.h
-		socket/simsockets.h
-		socket/ip.h
-		socket/ipresolver.h
+        contacts/imcontact.h
+        contacts/imgroup.h
+
+        network/asyncsocket.h
+        network/tcpasyncsocket.h
+
 		simgui/ballonmsg.h
-		simgui/datepicker.h
-		simgui/editfile.h
-		simgui/fontedit.h
-		simgui/intedit.h
 		simgui/linklabel.h
-		simgui/listview.h
 		simgui/preview.h
 		simgui/qchildwidget.h
 		simgui/qcolorbutton.h
 		simgui/qkeybutton.h
-		simgui/textshow.h
-		simgui/toolbtn.h
+        simgui/toolbarbutton.h
+        simgui/toolbarcombobox.h
+        simgui/toolbar.h
+        simgui/toolbaractionfactory.h
+        simgui/standardtoolbaractionfactory.h
+        simgui/statuswidget.h
+        simgui/toolitem.h
 	)
 
 #SET(sim_ui
@@ -174,7 +167,7 @@ QT4_WRAP_UI(sim_ui_headers ${sim_ui})
 SOURCE_GROUP(MOC-Files FILES ${MOC_SRCS})
 
 # don't forget flex
-ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
+#ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
 
 # our target
 ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS} ${MOC_SRCS} ${sim_ui_headers})
@@ -226,33 +219,37 @@ ENDIF(APPLE)
 SET(sim_tests_srcs
     tests/test.cpp
     tests/testbuffer.cpp
-	tests/testconfig.cpp
-	tests/testclientmanager.cpp
-    tests/testsocketfactory.cpp
-    tests/testclientsocket.cpp
-    tests/testcontactlist.cpp
-    tests/testprotocolmanager.cpp
-    tests/testpropertyhub.cpp
-	tests/testuserdata.cpp
+    tests/testclientmanager.cpp
+    tests/testcommandhub.cpp
+    tests/testcommandset.cpp
+    tests/testuicommand.cpp
+    tests/testtoolbar.cpp
+    tests/teststandardtoolbaractionfactory.cpp
+    tests/testcontact.cpp
+    tests/testgroup.cpp
+    tests/testmessagepipe.cpp
+    tests/teststandardcontactlist.cpp
 )
 
 
 SET(sim_tests_hdrs
-    tests/testbuffer.h
-	tests/testconfig.h
-	tests/testclientmanager.h
-    tests/testsocketfactory.h
-    tests/testclientsocket.h
-    tests/testcontactlist.h
-    tests/testprotocolmanager.h
-    tests/testpropertyhub.h
-	tests/testuserdata.h
+    tests/mocks/mockclient.h
+    tests/mockprotocol.h
+    tests/stubs/stubclient.h
+    tests/stubs/stubimagestorage.h
+    tests/stubs/stubimcontact.h
+    tests/stubs/stubimgroup.h
+    tests/mocks/mockcontactlist.h
+    tests/mocks/mockimcontact.h
+    tests/mocks/mockasyncsocket.h
+    tests/testuicommand.h
+    tests/gtest-qt.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
 
 ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
-TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
+TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers} gtest gmock)
 
 ##################
 # sim executable #

@@ -14,6 +14,13 @@ namespace SIM
     class EXPORT IMStatus
     {
     public:
+        enum Flag
+        {
+            flOffline = 0,
+            flInvisible,
+            flMaxFlag
+        };
+
         IMStatus();
         virtual ~IMStatus();
 
@@ -22,10 +29,12 @@ namespace SIM
         virtual bool hasText() const = 0;
         virtual void setText(const QString& t) = 0;
         virtual QString text() const = 0;
-        virtual QIcon icon() const = 0;
+        virtual QPixmap icon() const = 0;
 
-        virtual QStringList substatuses() = 0;
-        virtual IMStatusPtr substatus(const QString& id) = 0;
+        virtual bool flag(Flag fl) const = 0;
+        virtual void setFlag(Flag fl, bool val) = 0;
+
+
         virtual IMStatusPtr clone() = 0;
     };
 }
