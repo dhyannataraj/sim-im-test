@@ -428,7 +428,9 @@ bool ICQClient::deserialize(Buffer* cfg)
 void ICQClient::initSnacHandlers()
 {
     m_authSnac = new AuthorizationSnacHandler(this);
+    m_serviceSnac = new ServiceSnacHandler(this);
     m_snacHandlers.insert(m_authSnac->getType(), m_authSnac);
+    m_snacHandlers.insert(m_serviceSnac->getType(), m_serviceSnac);
 }
 
 SIM::IMStatusPtr ICQClient::currentStatus()
@@ -438,7 +440,6 @@ SIM::IMStatusPtr ICQClient::currentStatus()
 
 void ICQClient::changeStatus(const SIM::IMStatusPtr& status)
 {
-    log(L_DEBUG, "changestatus: %d/%d", m_state, status->flag(SIM::IMStatus::flOffline));
     if((m_state == sOffline) && !status->flag(SIM::IMStatus::flOffline))
     {
         emit setStatusWidgetsBlinking(true);
@@ -1299,6 +1300,11 @@ const char *icq_error_codes[] = {I18N_NOOP("Unknown error"),
 //    OscarSocket::packet_ready();
 //}
 
+bool ICQClient::isAim() const
+{
+    return m_bAIM;
+}
+
 SnacHandler* ICQClient::snacHandler(int type)
 {
     return m_snacHandlers.value(type);
@@ -1309,10 +1315,8 @@ void ICQClient::oscarSocketPacket(int channel, const QByteArray& data)
     //ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
     //EventLog::log_packet(socket()->readBuffer(), false, plugin->OscarPacket);
 
-    if (channel == ICQ_CHNxNEW)
-        chn_login(data);
-    else if (channel == ICQ_CHNxCLOSE)
-        chn_close(data);
+    if((channel == ICQ_CHNxNEW) || (channel == ICQ_CHNxCLOSE))
+        m_authSnac->handleLoginAndCloseChannels(channel, data);
     else if (channel == ICQ_CHNxDATA)
     {
         ByteArrayParser parser(data);
@@ -1422,29 +1426,6 @@ void ICQClient::oscarSocketPacket(int channel, const QByteArray& data)
 //    m_processTimer->stop();
 //    m_processTimer->start(delay);
 //}
-
-QByteArray ICQClient::cryptPassword()
-{
-    unsigned char xor_table[] =
-        {
-            0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
-            0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
-        };
-    QByteArray pswd = password().toAscii();
-    char buf[8];
-    int len=0;
-    for (int j = 0; j < 8; j++)
-    {
-        char c = pswd[j];
-        if (c == 0)
-            break;
-        c = (char)(c ^ xor_table[j]);
-        buf[j] = c;
-        len++;
-    }
-    QByteArray res( buf,len );
-    return res;
-}
 
 //unsigned long ICQClient::getFullStatus()
 //{
