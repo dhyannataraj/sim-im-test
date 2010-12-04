@@ -42,11 +42,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;&quot;$(SolutionDir)plugins\icq&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)$(ConfigurationName)\plugins\icq.lib"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)$(ConfigurationName)\plugins\icq.lib C:\libraries\gmock-1.5.0\msvc\Debug\gmock.lib C:\libraries\gtest-1.5.0\msvc\gtest-md\Debug\gtestd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -93,6 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(TargetDir)plugins\icq.* $(TargetDir)"
 			/>
 		</Configuration>
 		<Configuration
@@ -121,9 +122,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../include;&quot;$(SolutionDir)plugins\icq&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -171,15 +172,18 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(TargetDir)plugins\icq.* $(TargetDir)"
 			/>
 		</Configuration>
 	</Configurations>
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{34681F0D-CE45-415D-B5F2-5C662DFE3BD5}"
+			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{E4EF614B-30DF-4954-8C53-580A0BF6B589}"
+			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock_main.vcproj"
 		/>
 	</References>
 	<Files>
@@ -226,6 +230,10 @@
 			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\testoscarsocket.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\plugins\icq\tests\testservicesnachandler.cpp"
 				>
 			</File>
 			<File
