@@ -294,14 +294,6 @@ void FileTransferDlg::process()
                 //if (n)
                 //    m_fn = *n;
 
-                //This is a quickfix for doubled filename, plz fix in getDescription instead
-                /*int half=(int) m_fn.length()/2;
-
-                log(L_DEBUG, m_fn.left(half).stripWhiteSpace());
-                log(L_DEBUG, m_fn.right(half).stripWhiteSpace());
-                if (m_fn.left(half).stripWhiteSpace()==m_fn.right(half).stripWhiteSpace())
-                    m_fn=m_fn.left(half).stripWhiteSpace();*/
-
 				status = i18n(QString("Receiving file: %1").arg(m_fn));
                 break;
             }
@@ -313,6 +305,7 @@ void FileTransferDlg::process()
             status = i18n(QString("Transfer done: %1").arg(m_fn));
             edtEstimated->setText("0:00:00");
             if (!m_dir.isEmpty())
+				log(L_DEBUG, QString("m_dir: ") + m_dir);
                 btnGo->show();
             break;
         case FileTransfer::Error:

@@ -196,7 +196,7 @@ void StdResolver::run()
 	struct hostent* server_entry = gethostbyname(m_host.utf8().data());
 	if(server_entry == NULL)
 	{
-		timeout();
+		timeout();  //Fix me: crash here 
 		log(L_WARN, "gethostbyname failed");
 		return;
 	}
@@ -209,7 +209,7 @@ void StdResolver::timeout()
 {
 	m_timeout = true;
 	m_done = true;
-    QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+    QTimer::singleShot(0, parent(), SLOT(resultsReady())); //Fixme: Crash here
 }
 
 bool StdResolver::isDone()

@@ -412,7 +412,7 @@ bool NavigatePlugin::processEvent(Event *e)
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
-            QString key_name = proto + "\\Shell\\Open";
+            /*QString key_name = proto + "\\Shell\\Open";
             RegEntry rp(HKEY_CLASSES_ROOT, key_name);
             QString prg    = rp.value("command");
             QString action = rp.value("ddeexec");
@@ -450,7 +450,18 @@ bool NavigatePlugin::processEvent(Event *e)
                 DDEconversation conv(server, topic);
                 if (conv.Execute(action))
                     bExec = true;
-            }
+            }*/
+			if (proto=="file") 
+			{
+				QString l_url(url.right(url.length()-strlen("file:")));
+				int len = strlen(l_url.ascii())+1;
+				wchar_t *path = new wchar_t[len];
+				memset(path,0,len);
+				MultiByteToWideChar(  CP_ACP, NULL,l_url.ascii(), -1, path,len );
+				ShellExecute( NULL, NULL, path, NULL, NULL, SW_SHOWNORMAL);
+				bExec = true;
+			}
+
         }
         if (!bExec){
             if (proto == "file")
