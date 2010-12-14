@@ -402,58 +402,24 @@ bool NavigatePlugin::processEvent(Event *e)
         if (n < 0)
             return false;
         proto = url.left(n);
-        if ((proto != "http") &&
+        if (	(proto != "http") &&
                 (proto != "https") &&
                 (proto != "ftp") &&
                 (proto != "file") &&
                 (proto != "mailto") &&
                 (proto != "file"))
             return false;
+		log(L_DEBUG, proto);
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
-            /*QString key_name = proto + "\\Shell\\Open";
-            RegEntry rp(HKEY_CLASSES_ROOT, key_name);
-            QString prg    = rp.value("command");
-            QString action = rp.value("ddeexec");
-            QString topic  = rp.value("ddeexec\\Topic");
-            QString server = rp.value("ddeexec\\Application");
-
-			int pos = action.find("%l");
-			if (!action.isEmpty() && pos >= 0)
-                    action = action.left(pos) + url + action.mid(pos + 2);
-
-			//prg=prg.replace("\%l","\%1");
-			if (proto=="file") {
-				pos = prg.find("%l");
-				if (pos >= 0)
-					prg = prg.left(pos) + url + prg.mid(pos + 2);
-			}
-			else
-				prg = QString(prg).arg(url);
-
-			if (!prg.isEmpty()){
-                STARTUPINFO si;
-                PROCESS_INFORMATION pi;
-                ZeroMemory(&si, sizeof(si));
-                si.cb = sizeof(si);
-                ZeroMemory(&pi, sizeof(pi));
-                if (CreateProcess(NULL, (LPWSTR)prg.ucs2(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
-                    WaitForInputIdle(pi.hProcess, INFINITE);
-                    CloseHandle(pi.hProcess);
-                    CloseHandle(pi.hThread);
-                    bExec = true;
-                }
-            }
-            if(!bExec) {
-                DDEbase b;
-                DDEconversation conv(server, topic);
-                if (conv.Execute(action))
-                    bExec = true;
-            }*/
-			if (proto=="file") 
+			if (proto=="file" || proto=="http" || proto=="https") 
 			{
-				QString l_url(url.right(url.length()-strlen("file:")));
+                QString l_url;
+                if (proto=="file")
+				    l_url = url.right(url.length()-strlen("file:"));
+                else
+                    l_url = url;
 				int len = strlen(l_url.ascii())+1;
 				wchar_t *path = new wchar_t[len];
 				memset(path,0,len);
@@ -463,17 +429,51 @@ bool NavigatePlugin::processEvent(Event *e)
 			}
 
         }
-        if (!bExec){
-            if (proto == "file")
-                url = url.mid(5);
-			//ShellExecuteA(NULL, NULL, url.data(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
-			QProcess openPathInExplorer;
-			QString path(url);
-			//path.replace("%20", " ");
-			openPathInExplorer.addArgument("explorer");
-			openPathInExplorer.addArgument(path);
-			if (openPathInExplorer.start()) qDebug(i18n("Explorer started for Path"));
-			else qDebug(i18n("ERR: Explorer started for Path FAILED!"));	
+        if (!bExec && (proto == "file" || proto=="http" || proto=="https"))
+        {
+            QString l_url;
+            if (proto=="file")
+            {
+			    l_url = url.right(url.length()-strlen("file:"));
+                int len = strlen(l_url.ascii())+1;
+		        wchar_t *path = new wchar_t[len];
+		        memset(path,0,len);
+		        MultiByteToWideChar(  CP_ACP, NULL,l_url.ascii(), -1, path,len );
+		        ShellExecute( NULL, NULL, path, NULL, NULL, SW_SHOWNORMAL);
+                bExec = true; 
+            }
+            else
+            {
+		        /*l_url = url;
+                int len = strlen(l_url)+1;
+		        wchar_t *path = new wchar_t[len];
+		        memset(path,0,len);
+		        MultiByteToWideChar(  CP_ACP, NULL,l_url.ascii(), -1, path,len );*/
+
+                STARTUPINFOW siStartupInfo;
+                PROCESS_INFORMATION piProcessInfo;
+                memset(&siStartupInfo, 0, sizeof(siStartupInfo));
+                memset(&piProcessInfo, 0, sizeof(piProcessInfo));
+                siStartupInfo.cb = sizeof(siStartupInfo); 
+                
+                QString key_name ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\IEXPLORE.EXE");
+                RegEntry rp(HKEY_LOCAL_MACHINE, key_name);
+                QString ie    = rp.value("");
+                
+                QString l_cmdline = ie + QString(" %1").arg(url.ascii());
+
+                int len = l_cmdline.length()+1;
+                wchar_t *cmdline = new wchar_t[len];
+		        memset(cmdline,0,len);
+		        MultiByteToWideChar(  CP_ACP, NULL,l_cmdline.ascii(), -1, cmdline,len );
+
+                if (CreateProcess(NULL, cmdline, NULL, NULL, FALSE, 0, NULL, NULL, &siStartupInfo, &piProcessInfo)){
+                    WaitForInputIdle(piProcessInfo.hProcess, INFINITE);
+                    CloseHandle(piProcessInfo.hProcess);
+                    CloseHandle(piProcessInfo.hThread);
+                    bExec = true;
+                }
+            }
         }
 #else
 #ifdef USE_KDE
