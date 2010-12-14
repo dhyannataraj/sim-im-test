@@ -406,14 +406,13 @@ bool NavigatePlugin::processEvent(Event *e)
                 (proto != "https") &&
                 (proto != "ftp") &&
                 (proto != "file") &&
-                (proto != "mailto") &&
-                (proto != "file"))
+                (proto != "mailto"))
             return false;
 		log(L_DEBUG, proto);
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
-			if (proto=="file" || proto=="http" || proto=="https") 
+			if (proto=="file" || proto=="http" || proto=="https" || proto=="mailto" || proto=="ftp" ) 
 			{
                 QString l_url;
                 if (proto=="file")
@@ -429,7 +428,7 @@ bool NavigatePlugin::processEvent(Event *e)
 			}
 
         }
-        if (!bExec && (proto == "file" || proto=="http" || proto=="https"))
+        if (!bExec && (proto == "file" || proto=="http" || proto=="https" || proto=="mailto" || proto=="ftp" ))
         {
             QString l_url;
             if (proto=="file")
