@@ -444,12 +444,6 @@ bool NavigatePlugin::processEvent(Event *e)
             }
             else
             {
-		        /*l_url = url;
-                int len = strlen(l_url)+1;
-		        wchar_t *path = new wchar_t[len];
-		        memset(path,0,len);
-		        MultiByteToWideChar(  CP_ACP, NULL,l_url.ascii(), -1, path,len );*/
-
                 STARTUPINFOW siStartupInfo;
                 PROCESS_INFORMATION piProcessInfo;
                 memset(&siStartupInfo, 0, sizeof(siStartupInfo));
