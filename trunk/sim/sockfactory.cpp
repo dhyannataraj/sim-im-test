@@ -71,8 +71,6 @@ SIMSockets::SIMSockets(QObject *parent)
 
 SIMSockets::~SIMSockets()
 {
-    __asm int 3;
-    log(L_WARN,QString("SIMSockets::AUTSCH"));
 }
 
 void SIMSockets::checkState()
