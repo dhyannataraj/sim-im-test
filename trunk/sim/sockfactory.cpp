@@ -71,6 +71,8 @@ SIMSockets::SIMSockets(QObject *parent)
 
 SIMSockets::~SIMSockets()
 {
+    __asm int 3;
+    log(L_WARN,QString("SIMSockets::AUTSCH"));
 }
 
 void SIMSockets::checkState()
@@ -158,19 +160,22 @@ bool SIMResolver::isTimeout()
 
 StdResolver::StdResolver(QObject* parent, const QString& host) : QObject(parent), QThread(), m_done(false),
 	m_timeout(false), m_addr(0),
-	m_host(host)
+	m_host(host),
+    m_parent(parent)
 {
 	log(L_DEBUG, "StdResolver::StdResolver()");
-	this->start();
 #ifdef WIN32
-    if (!parent)
+    if (!parent || ! ( dynamic_cast <SIMSockets*> (m_parent)))
     {
         log(L_ERROR, "StdResolver::StdResolver(): damaged parent -- aborting...");
         return;
     }
+    this->start();
 	m_timer = new QTimer(this);
 	QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 	m_timer->start(2000);
+#else
+    this->start();
 #endif
 }
 
@@ -202,14 +207,17 @@ void StdResolver::run()
 	}
 	m_addr = inet_addr(inet_ntoa(*(struct in_addr*)server_entry->h_addr_list[0]));
 	m_done = true;
-    QTimer::singleShot(0, parent(), SLOT(resultsReady()));
+    
+    if (( dynamic_cast <SIMSockets*> (m_parent)))
+        QTimer::singleShot(0, parent(), SLOT(resultsReady())); ////Fixme: Crash here, parent is a corrupted pointer
 }
 
 void StdResolver::timeout()
 {
 	m_timeout = true;
 	m_done = true;
-    QTimer::singleShot(0, parent(), SLOT(resultsReady())); //Fixme: Crash here
+    if (( dynamic_cast <SIMSockets*> ( m_parent)))
+        QTimer::singleShot(0, parent(), SLOT(resultsReady())); //Fixme: Crash here
 }
 
 bool StdResolver::isDone()
