@@ -475,7 +475,7 @@ DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channe
 
 DirectClient::~DirectClient()
 {
-    error_state(QString::null, 0);
+    error_state("", 0);
     switch (m_channel){
     case PLUGIN_NULL:
         if (m_data && (m_data->Direct.object() == this))
@@ -1683,7 +1683,7 @@ void ICQFileTransfer::processPacket()
                     FileTransfer::m_state = FileTransfer::Done;
                     if (m_notify)
                         m_notify->process();
-                    m_socket->error_state(QString::null);
+                    m_socket->error_state("");
                     return;
                 }
                 m_state = InitReceive;
@@ -2427,7 +2427,11 @@ AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 
 bool AIMIncomingFileTransfer::error_state(const QString &err, unsigned code)
 {
-	log(L_DEBUG, "AIMFileTransfer::error_state: %s, %d", err.utf8().data(), code);
+    log(L_DEBUG, "AIMFileTransfer::error_state: %s, %d", err.utf8().data(), code);
+    if (err==QString("Connection closed") ||
+        err==QString("Socket Error")
+        )
+        return true;
 	if(m_stage == 1)
 	{
 		// Well, this is hack, but, i think, it is not so ugly as it seems :)
@@ -2887,7 +2891,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 					m_socket->close();
 					if (m_notify)
 						m_notify->process();
-					m_socket->error_state(QString::null);
+					m_socket->error_state("");
 					return;
 				}
 				if(this_oft.type != OFT_answer)
@@ -2929,7 +2933,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 					{
 						FileTransfer::m_state = FileTransfer::Done;
 						m_socket->close();
-						m_socket->error_state(QString::null);
+						m_socket->error_state("");
 						EventSent(m_msg).process();
 						if(m_notify)
 						{
