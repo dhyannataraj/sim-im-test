@@ -450,9 +450,60 @@
     <!-- Licence: GNU/GPL -->
     <!-- Source: http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-text_strike.png-->
   </icon>
-
-  
-  
+  <icon name="cancel">
+    <object mime="image/png">cancel.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/agt_stop.png -->
+  </icon>
+  <icon name="filter">
+    <object mime="image/png">filter.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-filter.png-->
+  </icon>
+  <icon name="history">
+    <object mime="image/png">history.png</object>
+    <!-- Licence: COMPLETELY FREE  -->
+    <!-- Source:  http://websvn.kde.org/*checkout*/tags/KDE/4.6.0/kdeartwork/IconThemes/kdeclassic/16x16/actions/history.png-->
+  </icon>
+  <icon name="editcut">
+    <object mime="image/png">editcut.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-editcut.png -->
+  </icon>
+  <icon name="editcopy">
+    <object mime="image/png">editcopy.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-editcopy.png -->
+  </icon>
+  <icon name="editpaste">
+    <object mime="image/png">editpaste.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-editpaste.png -->
+  </icon>
+  <icon name="undo">
+    <object mime="image/png">undo.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-undo.png -->
+  </icon>
+  <icon name="redo">
+    <object mime="image/png">redo.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-redo.png -->
+  </icon>
+  <icon name="typing">
+    <object mime="image/png">writing.png</object>
+    <!-- Licence:  GNU/LGPL -->
+    <!-- Author:   Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
+    <!-- Sources:  http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/comment.png -->
+    <!--           http://git.gnome.org/browse/gimp/tree/themes/Default/images/tools/stock-tool-pencil-16.png?id=GIMP_2_6_11-->
+  </icon>
+  <icon name="fileclose">
+    <object mime="image/png">close_after_send.png</object>
+    <!-- Licence:  GNU/LGPL -->
+    <!-- Author:   Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
+    <!-- Sources:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-view_remove.png  -->
+    <!--           ftp://ftp.kde.org/pub/kde/stable/4.6.0/src/oxygen-icons-4.6.0.tar.bz2 /oxygen-icons-4.6.0/16x16/actions/document-close.png -->
+  </icon>
   
   
   
