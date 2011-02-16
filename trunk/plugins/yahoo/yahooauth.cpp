@@ -929,7 +929,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         socket()->error_state("Bad auth packet");
         return;
     }
-    if (atol(method) != 1){
+    if (atol(method) != 2){
         socket()->error_state("Unknown auth method");
         return;
     }
@@ -1367,9 +1367,29 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         sprintf(byte, "%c", delimit_lookup[lookup]);
         strcat(resp_96, byte);
     }
+    
+    /* Yahoo Protocol version 16:
+    http://www.carbonize.co.uk/ymsg16.html
+        We now send packet type 54 to our server with the following fields:
+
+          1   - username
+          0   - username
+          277 - The Y cookie not including the Y= part
+          278 - The T cookie not including the T= part
+          307 - Our hash created using the Y64 function
+          244 - Rekkanoryo says this is internal build number. I just use 2097087
+          2   - username
+          2   - Not sure why we use 2 again but this one just contains the character 1
+          98  - Country but best just use us
+          135 - Messenger version number. Currently I use 9.0.0.1389
+    */
+
+ //This what we still send in protocol version 12:
+    addParam(1, sn);
     addParam(0, sn);
+    
     addParam(6, resp_6);
     addParam(96, resp_96);
-    addParam(1, sn);
+    
     sendPacket(YAHOO_SERVICE_AUTHRESP);
 }
