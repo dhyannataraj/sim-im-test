@@ -1384,12 +1384,22 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
           135 - Messenger version number. Currently I use 9.0.0.1389
     */
 
- //This what we still send in protocol version 12:
+ //This what we still send in protocol version 12: 1,0,6,96
     addParam(1, sn);
     addParam(0, sn);
-    
-    addParam(6, resp_6);
-    addParam(96, resp_96);
+    addParam(2, sn);
+    addParam(2, "1\0");
+    //addParam(6, resp_6);
+    //addParam(96, resp_96);
+    addParam(277, resp_6);
+    addParam(278, resp_96);
+    addParam(307, (const char *)digest2);
+    addParam(98, "us\0");
+    addParam(192, "-1\0");
+    addParam(148, "360\0");
+    addParam(244, "2097087\0");
+    addParam(135, "9.0.0.1389\0"); //Yahoo Version
+
     
     sendPacket(YAHOO_SERVICE_AUTHRESP);
 }
