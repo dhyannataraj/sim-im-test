@@ -228,11 +228,11 @@
     <object mime="image/png">mail_generic.png</object>
     <!-- Licence: GNU/GPL -->
     <!-- Origin: http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr16-action-mail_generic.png?rev=518495-->
-  </icon>  
+  </icon>
   <icon name="info">
     <object mime="image/png">info.png</object>
     <!-- Licence: GNU/GPL -->
-    <!-- Origin:http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr16-action-mail_generic.png?rev=518495 -->
+    <!-- Origin:  http://websvn.kde.org/*checkout*/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-info.png -->
   </icon>
   <icon name="text">
     <object mime="image/png">fonts.png</object>
@@ -504,12 +504,53 @@
     <!-- Sources:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-view_remove.png  -->
     <!--           ftp://ftp.kde.org/pub/kde/stable/4.6.0/src/oxygen-icons-4.6.0.tar.bz2 /oxygen-icons-4.6.0/16x16/actions/document-close.png -->
   </icon>
-  
-  
-  
-  
-  
-
+  <icon name="encrypted">
+    <object mime="image/png">encrypted.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-encrypted.png -->
+  </icon>
+  <icon name="listmsg">
+    <object mime="image/png">listmsg.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:   http://www.icon-king.com/files/nuvola-1.0.tar.gz 16x16/actions/message.png -->
+  </icon>
+  <icon name="urgentmsg">
+    <object mime="image/png">urgentmsg.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://shaplov.ru/files/crystal-clear-icons/crystal_project_2007-06-25_17:54:40.tar.gz  16x16/actions/agt_update_critical.png -->
+  </icon>
+  <icon name="help">
+    <object mime="image/png">help.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-help.png -->
+  </icon>
+  <icon name="chat">
+    <object mime="image/png">chat.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Sources: http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/irc_online.png.png -->
+  </icon>
+  <icon name="encoding">
+    <object mime="image/png">encoding.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-charset.png -->
+  </icon>
+  <icon name="add">
+    <object mime="image/png">add.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-add.png -->
+  </icon>
+  <icon name="new">
+    <object mime="image/png">new.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Source:  http://websvn.kde.org/tags/KDE/3.5.9/kdelibs/pics/crystalsvg/cr16-action-filenew.png -->
+  </icon>
+  <icon name="ignorelist">
+    <object mime="image/png">ignoreuser.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author:   Swami Dhyan Nataraj (Nikolay Shaplov) N@shaplov.ru -->
+    <!-- Sources:  http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/add_user.png  -->
+    <!--           http://shaplov.ru/files/crystal-clear-icons/CrystalClear_2006-10-28_01:14:48.tar.gz 16x16/actions/yahoo_busy.png -->
+  </icon>
   <icon name="floating">
     <object mime="image/png">floating.png</object>
     <!-- Licence: GNU/LGPL -->
