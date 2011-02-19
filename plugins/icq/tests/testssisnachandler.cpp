@@ -196,6 +196,15 @@ namespace
         ASSERT_EQ(MaxIgnore, handler->maxIgnore());
     }
 
+    TEST_F(TestSsiSnacHandler, rightsPacket_ready)
+    {
+        QSignalSpy spy(handler, SIGNAL(ready()));
+        handler->process(SsiSnacHandler::SnacSsiRightsInfo, makeRightsInfoPacket(), 0, 0);
+
+        ASSERT_EQ(1, spy.count());
+        ASSERT_TRUE(handler->isReady());
+    }
+
     TEST_F(TestSsiSnacHandler, ssiListParsing_contactEntry)
     {
         bool success = handler->process(SsiSnacHandler::SnacSsiContactList, makeContactListPacketWithContactEntry(), 0, 0);
@@ -284,4 +293,5 @@ namespace
         ASSERT_TRUE(success);
 
     }
+
 }

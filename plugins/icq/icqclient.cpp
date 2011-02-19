@@ -441,14 +441,19 @@ void ICQClient::initSnacHandlers()
     connect(m_serviceSnac, SIGNAL(initiateLoginStep2()), this, SLOT(loginStep2()));
 
     m_ssiSnac = new SsiSnacHandler(this);
+    connect(m_ssiSnac, SIGNAL(ready()), this, SLOT(snacReady()));
 
     m_locationSnac = new LocationSnacHandler(this);
+    connect(m_locationSnac, SIGNAL(ready()), this, SLOT(snacReady()));
 
     m_buddySnac = new BuddySnacHandler(this);
+    connect(m_buddySnac, SIGNAL(ready()), this, SLOT(snacReady()));
 
     m_privacySnac = new PrivacySnacHandler(this);
+    connect(m_privacySnac, SIGNAL(ready()), this, SLOT(snacReady()));
 
     m_icbmSnac = new IcbmSnacHandler(this);
+    connect(m_icbmSnac, SIGNAL(ready()), this, SLOT(snacReady()));
 
     m_snacHandlers.insert(m_authSnac->getType(), m_authSnac);
     m_snacHandlers.insert(m_serviceSnac->getType(), m_serviceSnac);
@@ -1418,6 +1423,24 @@ void ICQClient::loginStep2()
     m_buddySnac->requestRights();
     m_privacySnac->requestRights();
     m_icbmSnac->requestParametersInfo();
+}
+
+void ICQClient::snacReady()
+{
+    if(m_locationSnac->isReady() &&
+       m_buddySnac->isReady() &&
+       m_icbmSnac->isReady() &&
+       m_privacySnac->isReady() &&
+       m_ssiSnac->isReady())
+    {
+        loginStep3();
+    }
+}
+
+void ICQClient::loginStep3()
+{
+    m_serviceSnac->sendLoginStatus();
+    m_serviceSnac->sendClientReady();
 }
 
 //void OscarSocket::flap(char channel)

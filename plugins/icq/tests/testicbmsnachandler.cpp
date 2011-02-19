@@ -1,4 +1,6 @@
 
+#include <QSignalSpy>
+
 #include "gtest/gtest.h"
 #include "signalspy.h"
 #include "qt-gtest.h"
@@ -63,5 +65,15 @@ namespace
 
         bool success = handler->process(IcbmSnacHandler::SnacIcbmParametersInfo, makeParametersInfoPacket(), 0, 0);
         ASSERT_TRUE(success);
+    }
+
+    TEST_F(TestIcbmSnacHandler, parametersPacket_ready)
+    {
+        QSignalSpy spy(handler, SIGNAL(ready()));
+        bool success = handler->process(IcbmSnacHandler::SnacIcbmParametersInfo, makeParametersInfoPacket(), 0, 0);
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+        ASSERT_TRUE(handler->isReady());
     }
 }

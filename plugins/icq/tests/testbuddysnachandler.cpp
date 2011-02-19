@@ -1,4 +1,5 @@
 
+#include <QSignalSpy>
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
@@ -75,6 +76,15 @@ namespace
             return builder.getArray();
         }
 
+        QByteArray makeRightsPacket()
+        {
+            TlvList list;
+            list.append(Tlv::fromUint16(BuddySnacHandler::TlvMaxContacts, 1000));
+            list.append(Tlv::fromUint16(BuddySnacHandler::TlvMaxWatchers, 3000));
+            list.append(Tlv::fromUint16(BuddySnacHandler::TlvMaxOnlineNotifications, 512));
+            return list.toByteArray();
+        }
+
         SIM::ContactPtr metaContact;
         ICQClient* client;
         NiceMock<MockObjects::MockOscarSocket>* socket;
@@ -100,5 +110,15 @@ namespace
 
         ASSERT_EQ(1, spy.intSlotCalls);
         ASSERT_EQ(MetaContactId, spy.intarg);
+    }
+
+    TEST_F(TestBuddySnacHandler, rightsPacket_ready)
+    {
+        QSignalSpy spy(handler, SIGNAL(ready()));
+        bool success = handler->process(BuddySnacHandler::SnacBuddyRights, makeRightsPacket(), 0, 0);
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+        ASSERT_TRUE(handler->isReady());
     }
 }

@@ -13,6 +13,7 @@ namespace
     using namespace SIM;
     using namespace MockObjects;
     using ::testing::_;
+    using ::testing::NiceMock;
     using ::testing::InSequence;
     class TestIcqClient : public ::testing::Test
     {
@@ -25,6 +26,24 @@ namespace
         virtual void TearDown()
         {
             delete client;
+        }
+
+        void forceAllSnacsReady()
+        {
+            LocationSnacHandler* location = static_cast<LocationSnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_LOCATION));
+            location->forceReady();
+
+            BuddySnacHandler* buddy = static_cast<BuddySnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_BUDDY));
+            buddy->forceReady();
+
+            IcbmSnacHandler* icbm = static_cast<IcbmSnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_MESSAGE));
+            icbm->forceReady();
+
+            PrivacySnacHandler* privacy = static_cast<PrivacySnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_BOS));
+            privacy->forceReady();
+
+            SsiSnacHandler* ssi = static_cast<SsiSnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_LISTS));
+            ssi->forceReady();
         }
 
         ICQClient* client;
@@ -71,4 +90,16 @@ namespace
 
         client->changeStatus(client->getDefaultStatus("online"));
     }
+
+    TEST_F(TestIcqClient, allSnacsReady_sendsSetStatus_sendsReady)
+    {
+        NiceMock<MockOscarSocket>* oscarSocket = new NiceMock<MockObjects::MockOscarSocket>();
+        client->setOscarSocket(oscarSocket);
+
+        EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceSetStatus, _, _));
+        EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceReady, _, _));
+
+        forceAllSnacsReady();
+    }
+
 }

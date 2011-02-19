@@ -8,6 +8,7 @@
 
 class ICQ_EXPORT SsiSnacHandler : public SnacHandler
 {
+    Q_OBJECT
 public:
     SsiSnacHandler(ICQClient* client);
 
@@ -24,6 +25,9 @@ public:
     int maxBitmasks() const;
     int maxPresenceInfoFields() const;
     int maxIgnore() const;
+
+    void forceReady();
+    bool isReady() const;
 
     static const int TlvIdMaximumItems = 0x0004;
 
@@ -62,6 +66,9 @@ public:
     static const int TlvUnknown4 = 0x015c;
     static const int TlvUnknown5 = 0x015d;
 
+signals:
+    void ready();
+
 private:
     bool parseRightsInfo(const QByteArray& data);
     bool parseContactList(const QByteArray& data);
@@ -76,6 +83,8 @@ private:
     int m_maxBitmasks;
     int m_maxPresenceInfoFields;
     int m_maxIgnore;
+
+    bool m_ready;
 };
 
 #endif // SSISNACHANDLER_H

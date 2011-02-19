@@ -6,7 +6,8 @@
 using SIM::log;
 using SIM::L_WARN;
 
-IcbmSnacHandler::IcbmSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_MESSAGE)
+IcbmSnacHandler::IcbmSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_MESSAGE),
+    m_ready(false)
 {
 }
 
@@ -25,6 +26,10 @@ bool IcbmSnacHandler::process(unsigned short subtype, const QByteArray& data, in
             m_maxSnacSize = 0x1f40;
             m_maxSenderWarnLevel = 0x30e7;
             m_maxReceiverWarnLevel = 0x30e7;
+
+            m_ready = true;
+            emit ready();
+
             return sendNewParametersInfo();
         }
         break;
@@ -47,6 +52,17 @@ void IcbmSnacHandler::requestParametersInfo()
 int IcbmSnacHandler::minMessageInterval() const
 {
     return m_minMessageInterval;
+}
+
+void IcbmSnacHandler::forceReady()
+{
+    m_ready = true;
+    emit ready();
+}
+
+bool IcbmSnacHandler::isReady() const
+{
+    return m_ready;
 }
 
 bool IcbmSnacHandler::processParametersInfo(const QByteArray& arr)

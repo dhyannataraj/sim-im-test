@@ -103,7 +103,7 @@ SET(icq_HDRS
         rateinfo.h
         servicesnachandler.h
         standardoscarsocket.h
-        ssisnachandler.cpp
+        ssisnachandler.h
 #        interestsinfo.h
 #        moreinfo.h
 #        pastinfo.h
@@ -174,6 +174,7 @@ SET(icq_test_sources
     tests/testbuddysnachandler.cpp
     tests/testicbmsnachandler.cpp
     tests/testlocationsnachandler.cpp
+    tests/testprivacysnachandler.cpp
     tests/testssisnachandler.cpp
     tests/testloginsequencestep2.cpp
     tests/testtlv.cpp

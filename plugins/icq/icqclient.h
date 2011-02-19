@@ -725,6 +725,7 @@ protected slots:
     void oscarSocketConnected();
     void oscarSocketPacket(int channel, const QByteArray& data);
     void loginStep2();
+    void snacReady();
 //    void ping();
 //    void retry(int n, void*);
 //    void interfaceDown(QString);
@@ -733,6 +734,7 @@ signals:
     void setStatusWidgetsBlinking(bool b);
 
 protected:
+    void loginStep3();
 //    void generateCookie(MessageId& id);
 
 //    virtual void setInvisible(bool bState);

@@ -151,6 +151,65 @@ bool ServiceSnacHandler::requestSelfInfo()
     return true;
 }
 
+void ServiceSnacHandler::sendLoginStatus()
+{
+    OscarSocket* socket = client()->oscarSocket();
+    Q_ASSERT(socket);
+    m_loginSince = QDateTime::currentDateTime();
+
+    ICQStatusPtr status = client()->currentStatus().dynamicCast<ICQStatus>();
+
+    TlvList list;
+    list.append(Tlv::fromUint32(TlvOnlineStatus, status->icqId()));
+
+    socket->snac(getType(), SnacServiceSetStatus, 0, list.toByteArray());
+}
+
+void ServiceSnacHandler::sendClientReady()
+{
+    OscarSocket* socket = client()->oscarSocket();
+    Q_ASSERT(socket);
+
+    ByteArrayBuilder builder;
+    builder.appendWord(0x0001);
+    builder.appendWord(0x0004);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0013);
+    builder.appendWord(0x0004);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0002);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0003);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0015);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0004);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0006);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x0009);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    builder.appendWord(0x000b);
+    builder.appendWord(0x0001);
+    builder.appendDword(0x0110164f);
+
+    socket->snac(getType(), SnacServiceReady, 0, builder.getArray());
+}
+
 RateInfoPtr ServiceSnacHandler::rateInfo(int group) const
 {
     foreach(const RateInfoPtr& info, m_rateInfoList)

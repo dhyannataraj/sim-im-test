@@ -19,7 +19,8 @@ SsiSnacHandler::SsiSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNAC
     m_maxInvisibleContacts(0),
     m_maxBitmasks(0),
     m_maxPresenceInfoFields(0),
-    m_maxIgnore(0)
+    m_maxIgnore(0),
+    m_ready(false)
 {
 }
 
@@ -82,6 +83,12 @@ bool SsiSnacHandler::parseRightsInfo(const QByteArray& data)
     m_maxPresenceInfoFields = parser.readWord();
     parser.readBytes(8 * 2); // Skip 8 words
     m_maxIgnore = parser.readWord();
+
+    if(!m_ready)
+    {
+        m_ready = true;
+        emit ready();
+    }
 
     // The rest of data is unknown fields
     return true;
@@ -251,4 +258,16 @@ int SsiSnacHandler::maxPresenceInfoFields() const
 int SsiSnacHandler::maxIgnore() const
 {
     return m_maxIgnore;
+}
+
+void SsiSnacHandler::forceReady()
+{
+    m_ready = true;
+    emit ready();
+}
+
+
+bool SsiSnacHandler::isReady() const
+{
+    return m_ready;
 }

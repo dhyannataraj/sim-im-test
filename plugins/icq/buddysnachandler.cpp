@@ -8,7 +8,8 @@ using SIM::log;
 using SIM::L_DEBUG;
 using SIM::L_WARN;
 
-BuddySnacHandler::BuddySnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_BUDDY)
+BuddySnacHandler::BuddySnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_BUDDY),
+    m_ready(false)
 {
 }
 
@@ -18,6 +19,12 @@ bool BuddySnacHandler::process(unsigned short subtype, const QByteArray& data, i
     {
     case SnacBuddyUserOnline:
         return processUserOnline(data);
+        break;
+    case SnacBuddyRights:
+        {
+            m_ready = true;
+            emit ready();
+        }
         break;
     default:
         log(L_WARN, "Unknown buddy snac subtype: %04x", subtype);
@@ -33,6 +40,17 @@ void BuddySnacHandler::requestRights()
     Q_ASSERT(socket);
 
     socket->snac(getType(), SnacBuddyRightsRequest, 0, QByteArray());
+}
+
+void BuddySnacHandler::forceReady()
+{
+    m_ready = true;
+    emit ready();
+}
+
+bool BuddySnacHandler::isReady()
+{
+    return m_ready;
 }
 
 bool BuddySnacHandler::processUserOnline(const QByteArray& data)

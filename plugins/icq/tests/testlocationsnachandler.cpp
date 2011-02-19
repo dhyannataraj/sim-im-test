@@ -1,4 +1,6 @@
 
+#include <QSignalSpy>
+
 #include "gtest/gtest.h"
 
 #include "signalspy.h"
@@ -60,6 +62,16 @@ namespace
         EXPECT_CALL(*socket, snac(ICQ_SNACxFOOD_LOCATION, LocationSnacHandler::SnacSetUserInfo, _, _)).Times(1);
         bool success = handler->process(LocationSnacHandler::SnacLocationRightsInfo, makeRightsInfoPacket(), 0, 0);
         ASSERT_TRUE(success);
+    }
+
+    TEST_F(TestLocationSnacHandler, rightsPacket_ready)
+    {
+        QSignalSpy spy(handler, SIGNAL(ready()));
+        bool success = handler->process(LocationSnacHandler::SnacLocationRightsInfo, makeRightsInfoPacket(), 0, 0);
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+        ASSERT_TRUE(handler->isReady());
     }
 
 }

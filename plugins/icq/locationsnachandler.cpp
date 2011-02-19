@@ -6,7 +6,7 @@ using SIM::log;
 using SIM::L_WARN;
 
 LocationSnacHandler::LocationSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_LOCATION),
-    m_maxCapabilities(0)
+    m_maxCapabilities(0), m_ready(false)
 {
 }
 
@@ -43,6 +43,17 @@ int LocationSnacHandler::maxCapabilities() const
     return m_maxCapabilities;
 }
 
+void LocationSnacHandler::forceReady()
+{
+    m_ready = true;
+    emit ready();
+}
+
+bool LocationSnacHandler::isReady() const
+{
+    return m_ready;
+}
+
 bool LocationSnacHandler::parseRightsInfo(const QByteArray& arr)
 {
     TlvList list = TlvList::fromByteArray(arr);
@@ -73,6 +84,9 @@ bool LocationSnacHandler::sendUserInfo()
     list.append(Tlv(TlvClientCapabilities, caps));
 
     socket->snac(getType(), SnacSetUserInfo, 0, list.toByteArray());
+
+    m_ready = true;
+    emit ready();
 
     return true;
 }
