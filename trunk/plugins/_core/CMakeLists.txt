@@ -155,13 +155,13 @@ SET(_core_UICS_COMMON arcfgbase.ui
                       userviewcfgbase.ui )
 
 
-IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/GPL-Icons/icondef.xml)
-    ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_NON_SRC_TARGETS)
+IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CrystalClear-Icons/icondef.xml)
+    ADD_JISP_ARCHIVE(CrystalClear-Icons  CrystalClear.jisp  _core_NON_SRC_TARGETS)
 ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/GPL-Icons/icondef.xml)
 
-IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
-    ADD_JISP_ARCHIVE(jisp  sim.jisp  _core_NON_SRC_TARGETS non-free)
-ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+#IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+#    ADD_JISP_ARCHIVE(jisp  sim.jisp  _core_NON_SRC_TARGETS non-free)
+#ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 
 FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
 INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
