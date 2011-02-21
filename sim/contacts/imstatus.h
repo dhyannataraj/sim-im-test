@@ -18,6 +18,7 @@ namespace SIM
         {
             flOffline = 0,
             flInvisible,
+            flAway,
             flMaxFlag
         };
 

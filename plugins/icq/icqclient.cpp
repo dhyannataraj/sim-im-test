@@ -950,6 +950,26 @@ void ICQClient::initDefaultStates()
     status->setIcqId(ICQ_STATUS_OFFLINE);
     m_defaultStates.append(ICQStatusPtr(status));
 
+    status = new ICQStatus("away", "Away", true, QString(), getImageStorage()->pixmap("ICQ_away"));
+    status->setFlag(IMStatus::flAway, true);
+    status->setIcqId(ICQ_STATUS_AWAY);
+    m_defaultStates.append(ICQStatusPtr(status));
+
+    status = new ICQStatus("n/a", "N/A", true, QString(), getImageStorage()->pixmap("ICQ_na"));
+    status->setFlag(IMStatus::flAway, true);
+    status->setIcqId(ICQ_STATUS_NA);
+    m_defaultStates.append(ICQStatusPtr(status));
+
+    status = new ICQStatus("dnd", "Do not disturb", true, QString(), getImageStorage()->pixmap("ICQ_dnd"));
+    status->setFlag(IMStatus::flAway, true);
+    status->setIcqId(ICQ_STATUS_DND);
+    m_defaultStates.append(ICQStatusPtr(status));
+
+    status = new ICQStatus("occupied", "Occupied", true, QString(), getImageStorage()->pixmap("ICQ_occupied"));
+    status->setFlag(IMStatus::flAway, true);
+    status->setIcqId(ICQ_STATUS_OCCUPIED);
+    m_defaultStates.append(ICQStatusPtr(status));
+
     status = new ICQStatus("online", "Online", false, QString(), getImageStorage()->pixmap("ICQ_online"));
     status->setIcqId(ICQ_STATUS_ONLINE);
     status->setFlag(IMStatus::flOffline, false);

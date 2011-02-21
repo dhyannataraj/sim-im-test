@@ -9,7 +9,7 @@ ContainerManager::ContainerManager(CorePlugin* parent) :
 
 ContainerPtr ContainerManager::makeContainer(int id)
 {
-    return ContainerPtr(new Container(id, 0));
+    return ContainerPtr(new Container(id));
 }
 
 bool ContainerManager::init()

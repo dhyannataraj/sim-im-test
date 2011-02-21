@@ -22,10 +22,12 @@ namespace
         ICQStatus status("offline", "Offline", false, QString(), QPixmap());
         status.setFlag(SIM::IMStatus::flOffline, true);
         status.setFlag(SIM::IMStatus::flInvisible, true);
+        status.setFlag(SIM::IMStatus::flAway, true);
 
         SIM::IMStatusPtr cloned = status.clone();
 
         ASSERT_TRUE(cloned->flag(SIM::IMStatus::flOffline));
         ASSERT_TRUE(cloned->flag(SIM::IMStatus::flInvisible));
+        ASSERT_TRUE(cloned->flag(SIM::IMStatus::flAway));
     }
 }

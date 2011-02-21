@@ -1,4 +1,5 @@
 #include "contactevent.h"
+#include "log.h"
 
 namespace SIM
 {

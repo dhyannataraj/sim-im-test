@@ -18,9 +18,10 @@
 #ifndef _CONTAINER_H
 #define _CONTAINER_H
 
-#include "cfg.h"
-#include "event.h"
-#include "message.h"
+//#include "cfg.h"
+//#include "event.h"
+//#include "message.h"
+#include "contacts/contact.h"
 
 #include <QMainWindow>
 #include <QDockWidget>
@@ -52,16 +53,16 @@ class QWidgetStack;
 class CorePlugin;
 class Container;
 
-struct ContainerData
-{
-    SIM::Data	Id;
-    SIM::Data	Windows;
-    SIM::Data	ActiveWindow;
-    SIM::Data	geometry[5];
-    SIM::Data	barState[7];
-    SIM::Data	StatusSize;
-    SIM::Data	WndConfig;
-};
+//struct ContainerData
+//{
+//    SIM::Data	Id;
+//    SIM::Data	Windows;
+//    SIM::Data	ActiveWindow;
+//    SIM::Data	geometry[5];
+//    SIM::Data	barState[7];
+//    SIM::Data	StatusSize;
+//    SIM::Data	WndConfig;
+//};
 
 class ContainerStatus : public QStatusBar
 {
@@ -99,13 +100,13 @@ protected:
     UserWnd* wndForTab(int tab);
 };
 
-class Container : public QMainWindow, public SIM::EventReceiver
+class Container : public QMainWindow
 {
     Q_OBJECT
 public:
 	static const int WndType = QVariant::UserType + 1;
 
-    Container(unsigned id, const char *cfg = NULL);
+    Container(unsigned id);
     ~Container();
     QString name();
     UserWnd *wnd(unsigned id);
@@ -116,17 +117,16 @@ public:
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
     void setNoSwitch(bool bState);
     void setMessageType(unsigned id);
-    void contactChanged(SIM::Contact *contact);
+    void contactChanged(const SIM::ContactPtr& contact);
     void setId(int id);
     int getId() const;
     //PROP_ULONG(Id);
-    PROP_STR(Windows);
-    PROP_ULONG(ActiveWindow);
-    PROP_ULONG(StatusSize);
-    PROP_STRLIST(WndConfig);
+    //PROP_STR(Windows);
+    //PROP_ULONG(ActiveWindow);
+    //PROP_ULONG(StatusSize);
+    //PROP_STRLIST(WndConfig);
     bool m_bNoRead;
     void init();
-	void setContainerGeometry();
 public slots:
     void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);
@@ -144,21 +144,21 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
-    virtual bool processEvent(SIM::Event*);
+    //virtual bool processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent* e);
     void showBar();
     void setupAccel();
     QShortcut* makeShortcut(unsigned int key, unsigned int id);
     void loadState();
 
-    ContainerData       data;
+    //ContainerData       data;
     bool                m_bInit;
     bool                m_bInSize;
     bool                m_bStatusSize;
     bool                m_bBarChanged;
     bool                m_bReceived;
     bool                m_bNoSwitch;
-    CToolBar            *m_bar;
+    //ToolBar            *m_bar;
     QDockWidget         m_avatar_window;
     QLabel              m_avatar_label;
     QSplitter           *m_tabSplitter;

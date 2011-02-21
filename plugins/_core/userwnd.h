@@ -18,8 +18,9 @@
 #ifndef _USERWND_H
 #define _USERWND_H
 
-#include "cfg.h"
-#include "message.h"
+//#include "cfg.h"
+//#include "message.h"
+#include "messaging/message.h"
 
 #include <QSplitter>
 #include <QByteArray>
@@ -31,12 +32,12 @@ class MsgView;
 class CorePlugin;
 class QToolBar;
 
-struct UserWndData
-{
-    SIM::Data	EditHeight;
-    SIM::Data	editBar[7];
-    SIM::Data	MessageType;
-};
+//struct UserWndData
+//{
+//    SIM::Data	EditHeight;
+//    SIM::Data	editBar[7];
+//    SIM::Data	MessageType;
+//};
 
 class UserWnd : public QSplitter
 {
@@ -50,14 +51,14 @@ public:
     QString getLongName();
     QString getIcon();
     unsigned type();
-    void setMessage(SIM::Message*);
+    void setMessage(const SIM::MessagePtr& msg);
     void setStatus(const QString&);
     void showListView(bool bShow);
     QString status() { return m_status; }
     void markAsRead();
     bool isClosed() { return m_bClosed; }
     bool m_bTyping;
-    PROP_ULONG(MessageType);
+//    PROP_ULONG(MessageType);
 
     bool isMultisendActive() const;
     QList<int> multisendContacts() const;
@@ -71,7 +72,7 @@ protected slots:
     void toolbarChanged(bool);
     void selectChanged();
 protected:
-    PROP_ULONG(EditHeight);
+//    PROP_ULONG(EditHeight);
     void closeEvent(QCloseEvent*);
     void fillContactList(QTreeWidget* tree);
 
@@ -85,7 +86,7 @@ protected:
     unsigned long	m_id;
     QTreeWidget* m_targetContactList;
     static const int ContactIdRole = Qt::UserRole + 1;
-    UserWndData	data;
+    //UserWndData	data;
 };
 
 #endif

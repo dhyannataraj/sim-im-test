@@ -58,7 +58,6 @@ void TcpAsyncSocket::slot_disconnected()
 
 void TcpAsyncSocket::slot_readyRead()
 {
-    log(L_DEBUG, "slot_readyRead");
     emit readyRead();
 }
 

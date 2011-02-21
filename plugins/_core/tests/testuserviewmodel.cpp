@@ -183,7 +183,6 @@ namespace
         QSignalSpy spy(&model, SIGNAL(dataChanged(QModelIndex, QModelIndex)));
 
         QModelIndex index = createContactIndex(model, 0, false);
-        SIM::getEventHub()->getEvent("contact_change_status")->connectTo(&model, SLOT(contactStatusChanged(int)));
 
         SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(ContactId));
 

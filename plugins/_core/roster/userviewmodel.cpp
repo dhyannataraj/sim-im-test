@@ -1,13 +1,20 @@
 #include "userviewmodel.h"
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
-#include <cstdio>
+#include "log.h"
+#include "events/eventhub.h"
+#include "events/contactevent.h"
+
+using SIM::log;
+using SIM::L_DEBUG;
 
 UserViewModel::UserViewModel(SIM::ContactList* contactList, QObject *parent) :
         QAbstractItemModel(parent), m_contactList(contactList), m_contactsCacheValid(false)
 {
     m_onlineItemsParent = createIndex(OnlineRow, 0, 0);
     m_offlineItemsParent = createIndex(OfflineRow, 0, 0);
+
+    SIM::getEventHub()->getEvent("contact_change_status")->connectTo(this, SLOT(contactStatusChanged(int)));
 }
 
 UserViewModel::~UserViewModel()
@@ -75,7 +82,10 @@ QVariant UserViewModel::contactData(const QModelIndex& index, int role) const
         {
             if(contact->clientContactCount() == 0)
                 return SIM::getImageStorage()->pixmap("nonim");
-            return contact->clientContact(0)->status()->icon();
+            SIM::IMContactPtr imcontact = contact->clientContact(0);
+            if(!imcontact)
+                return SIM::getImageStorage()->pixmap("nonim");
+            return imcontact->status()->icon();
         }
     }
     return QVariant();
@@ -166,28 +176,22 @@ void UserViewModel::fillCaches() const
 
 void UserViewModel::contactStatusChanged(int contactId)
 {
-    if(!m_contactsCacheValid)
-        fillCaches();
+    Q_UNUSED(contactId);
+    // TODO proper QModelIndex removal and addition
+    beginResetModel();
+    fillCaches();
+    endResetModel();
+}
 
+int UserViewModel::positionIn(const QList<int> list, int value)
+{
     int i = 0;
-    for(QList<int>::iterator it = m_onlineContacts.begin(); it != m_onlineContacts.end(); ++it, i++)
+    for(QList<int>::const_iterator it = list.begin(); it != list.end(); ++it, i++)
     {
-        if(*it == contactId)
+        if(*it == value)
         {
-            QModelIndex index = this->index(i, 0, m_onlineItemsParent);
-            emit dataChanged(index, index);
-            return;
+            return i;
         }
     }
-
-    i = 0;
-    for(QList<int>::iterator it = m_offlineContacts.begin(); it != m_offlineContacts.end(); ++it, i++)
-    {
-        if(*it == contactId)
-        {
-            QModelIndex index = this->index(i, 0, m_offlineItemsParent);
-            emit dataChanged(index, index);
-            return;
-        }
-    }
+    return -1;
 }

@@ -39,6 +39,7 @@ public slots:
 private:
     QVariant contactData(const QModelIndex& index, int role = Qt::DisplayRole) const;
     void fillCaches() const;
+    int positionIn(const QList<int> list, int value);
 
     SIM::ContactList* m_contactList;
     QModelIndex m_onlineItemsParent;

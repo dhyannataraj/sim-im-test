@@ -21,7 +21,8 @@
 #include <vector>
 #include <list>
 
-#include "simgui/textshow.h"
+#include <QTextEdit>
+//#include "simgui/textshow.h"
 #include <QMenu>
 
 class CorePlugin;
@@ -43,37 +44,37 @@ struct Msg_Id
     QString     client;
 };
 
-class MsgViewBase : public TextShow, public SIM::EventReceiver
+class MsgViewBase : public QTextEdit //, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     MsgViewBase(QWidget *parent, const char *name="", unsigned id=(unsigned)(-1));
     ~MsgViewBase();
-    void		addMessage(SIM::Message *msg, bool bUnread=false, bool bSync=true);
-    bool		findMessage(SIM::Message *msg);
-    void		setSelect(const QString &str);
-    void		setXSL(XSL*);
-    static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
-    unsigned	m_id;
-    SIM::Message *currentMessage();
+//    void		addMessage(SIM::Message *msg, bool bUnread=false, bool bSync=true);
+//    bool		findMessage(SIM::Message *msg);
+//    void		setSelect(const QString &str);
+//    void		setXSL(XSL*);
+//    static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
+//    unsigned	m_id;
+//    SIM::Message *currentMessage();
 protected slots:
-    void update();
+    //void update();
 protected:
-    virtual bool        processEvent(SIM::Event*);
-    virtual void        contextMenuEvent( QContextMenuEvent *event );
-    void setBackground(unsigned start);
-    void setSource(const QString&);
-    void setSource(const QUrl&);
-    void setColors();
-    void reload();
-    unsigned    messageId(const QString&, QString &client);
-    QString messageText(SIM::Message *msg, bool bUnread);
-    QPoint m_popupPos;
-    QString m_selectStr;
-    unsigned m_nSelection;
-    XSL *xsl;
-    vector<CutHistory>	m_cut;
-    list<Msg_Id>		m_updated;
+//    virtual bool        processEvent(SIM::Event*);
+//    virtual void        contextMenuEvent( QContextMenuEvent *event );
+//    void setBackground(unsigned start);
+//    void setSource(const QString&);
+//    void setSource(const QUrl&);
+//    void setColors();
+//    void reload();
+//    unsigned    messageId(const QString&, QString &client);
+//    QString messageText(SIM::Message *msg, bool bUnread);
+//    QPoint m_popupPos;
+//    QString m_selectStr;
+//    unsigned m_nSelection;
+//    XSL *xsl;
+//    vector<CutHistory>	m_cut;
+//    list<Msg_Id>		m_updated;
 };
 
 class MsgView : public MsgViewBase
@@ -83,9 +84,9 @@ public:
     MsgView(QWidget *parent, unsigned id);
     ~MsgView();
 protected slots:
-    void		init();
+    //void		init();
 protected:
-    virtual bool processEvent(SIM::Event*);
+    //virtual bool processEvent(SIM::Event*);
 };
 
 #endif

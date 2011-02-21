@@ -12,8 +12,8 @@ SET(_core_SRCS
 #        commands.cpp
 #        connectionsettings.cpp
 #        connectwnd.cpp
-#        containermanager.cpp
-#        container.cpp
+        containermanager.cpp
+        container.cpp
         core.cpp
         commonstatus.cpp
 #        declinedlg.cpp
@@ -32,13 +32,13 @@ SET(_core_SRCS
 #        msgauth.cpp
 #        msgcfg.cpp
 #        msgcontacts.cpp
-#        msgedit.cpp
+        msgedit.cpp
 #        msgfile.cpp
 #        msggen.cpp
 #        msgrecv.cpp
 #        msgsms.cpp
 #        msgurl.cpp
-#        msgview.cpp
+        msgview.cpp
 #        msgview_menu.cpp
 #        newprotocol.cpp
 #        nonim.cpp
@@ -64,7 +64,7 @@ SET(_core_SRCS
 #        userhistorycfg.cpp
 #        userlist.cpp
 #        userviewcfg.cpp
-#        userwnd.cpp
+        userwnd.cpp
         roster/userview.cpp
         roster/userviewmodel.cpp
 #        roster/userviewdelegate.cpp
@@ -86,8 +86,8 @@ SET(_core_HDRS
 #        commands.h
 #        connectionsettings.h
 #        connectwnd.h
-#        containermanager.h
-#        container.h
+        containermanager.h
+        container.h
         core.h
         core_api.h
         commonstatus.h
@@ -109,13 +109,13 @@ SET(_core_HDRS
 #        msgauth.h
 #        msgcfg.h
 #        msgcontacts.h
-#        msgedit.h
+        msgedit.h
 #        msgfile.h
 #        msggen.h
 #        msgrecv.h
 #        msgsms.h
 #        msgurl.h
-#        msgview.h
+        msgview.h
 #        newprotocol.h
 #        nonim.h
 #        pagerdetails.h
@@ -134,7 +134,7 @@ SET(_core_HDRS
 #        userhistorycfg.h
 #        userlist.h
 #        userviewcfg.h
-#        userwnd.h
+        userwnd.h
         roster/userview.h
         roster/userviewmodel.h
 #        roster/userviewdelegate.h
