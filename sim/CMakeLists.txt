@@ -44,6 +44,7 @@ SET(sim_LIB_SRCS
 		propertyhub.cpp
 		simfs.cpp
 		translit.cpp
+        xsl.cpp
 		qzip/ioapi.c
 		qzip/qzip.cpp
 		qzip/unzip.c
@@ -118,6 +119,7 @@ SET(sim_LIB_HDRS
 		simfs.h
 		singleton.h
 		translit.h
+        xsl.h
 		qzip/ioapi.h
 		qzip/qzip.h
 		qzip/unzip.h

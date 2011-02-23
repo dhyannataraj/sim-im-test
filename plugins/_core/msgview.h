@@ -22,7 +22,6 @@
 #include <list>
 
 #include <QTextEdit>
-//#include "simgui/textshow.h"
 #include <QMenu>
 
 class CorePlugin;

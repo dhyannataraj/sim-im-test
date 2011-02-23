@@ -150,6 +150,11 @@ namespace SIM
         appFile_name += filename;
         return QDir::convertSeparators(appFile_name);
     }
+
+    QString PathManager::userFile(const QString& filename)
+    {
+        return configRoot() + QDir::separator() + filename;
+    }
 }
 
 // vim: set expandtab:
