@@ -315,6 +315,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
             m_recvProcessor = NULL;
         }
         if (m_processor){
+	    m_userWnd->setStatus(QString::null);
             delete m_processor;
             m_processor = NULL;
         }
