@@ -165,8 +165,8 @@ void TextEdit::slotColorChanged(const QColor &c)
         setColor(curFG);
         return;
     }
-    if (c != curFG)
-        setForeground(c, false);
+//    if (c != curFG)  // We should not do this in order not to change color of text that are in the selection area
+//        setForeground(c, false);
 }
 
 void TextEdit::bgColorChanged(QColor c)
@@ -350,8 +350,10 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     curFG = c;
     if (bDef)
         defFG = c;
-    if (!hasSelectedText())
+//    if (!hasSelectedText())
         setColor(c);
+/*
+  // This staff seems to be a part of syntaxis higlighter, that keeps the red color. Now we will hightlight in another way and will not need this
     int r = c.red();
     if (r){
         r--;
@@ -361,6 +363,7 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.green(), c.blue()));
     setPalette(pal);
+*/ 
 }
 
 const QColor &TextEdit::foreground() const
