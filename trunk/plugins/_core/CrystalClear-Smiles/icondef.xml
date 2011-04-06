@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<icondef>
+  <meta>
+    <name>CristalClear Smiles</name>
+    <version>0.9.5</version>
+    <description>CristalClear smile set from KDE 3.5.9</description>
+    <author>KDE Artists; packed by Nikolay Shaplov</author>
+    <creation>2010-03-13</creation>
+    <!-- All the icons came from svn://anonsvn.kde.org/home/kde/tags/KDE/3.5.9/kdelibs/pics/emoticons -->
+  </meta>
+  
+  <icon>
+    <text>:-)</text>
+    <text>:)</text>
+    <text>:o)</text>
+    <object mime="image/png">smile.png</object>
+  </icon>
+  <icon>
+    <text>;-)</text>
+    <text>;)</text>
+    <object mime="image/png">wink.png</object>
+  </icon>
+  <icon>
+    <text>:-(</text>
+    <text>:(</text>
+    <object mime="image/png">unhappy.png</object>
+  </icon>
+  <icon>
+    <text>:D</text>
+    <text>:-D</text>
+    <object mime="image/png">teeth.png</object>
+  </icon>
+  <icon>
+    <text>:)))))</text>
+    <text>:))))</text>
+    <text>:)))</text>
+    <text>:))</text>
+    <text>:-)))))</text>
+    <text>:-))))</text>
+    <text>:-)))</text>
+    <text>:-))</text>
+    <text>:lol:</text>
+    <object mime="image/png">biggrin.png</object>
+  </icon>
+  <icon>
+    <text>:P</text>
+    <text>:-P</text>
+    <text>:-p</text>
+    <text>:p</text>
+    <object mime="image/png">tongue.png</object>
+  </icon>
+  <icon>
+    <text>B-)</text>
+    <text>B)</text>
+    <text>8-)</text>
+    <text>8)</text>
+    <text>(H)</text>
+    <text>(h)</text>
+    <object mime="image/png">shade.png</object>
+  </icon>
+  <icon>
+    <text>:-@</text>
+    <text>:@</text>
+    <text>&gt;:-(</text>
+    <text>&gt;:(</text>
+    <object mime="image/png">angry.png</object>
+  </icon>
+  <icon>
+    <text>:S</text>
+    <text>:s</text>
+    <text>:-S</text>
+    <text>:-s</text>
+    <object mime="image/png">confused.png</object>
+  </icon>
+  <icon>
+    <text>:-$</text>
+    <text>:$</text>
+    <object mime="image/png">embarassed.png</object>
+  </icon>
+  <icon>
+    <text>:(</text>
+    <text>:-(</text>
+    <object mime="image/png">sad.png</object>
+  </icon>
+  <icon>
+    <text>:'-(</text>
+    <text>:'(</text>
+    <text>;-(</text>
+    <text>;(</text>
+    <object mime="image/png">cry.png</object>
+  </icon>
+  <icon>
+    <text>:-!</text>
+    <text>:!</text>
+    <text>:-|</text>
+    <text>:|</text>
+    <object mime="image/png">foot_in_mouth.png</object>
+  </icon>
+  <icon>
+    <text>|-)</text>
+    <object mime="image/png">sleep.png</object>
+  </icon>
+  <icon>
+    <text>O:-)</text>
+    <text>O:)</text>
+    <object mime="image/png">innocent.png</object>
+  </icon>
+  <icon>
+    <text>:-?</text>
+    <text>:?</text>
+    <object mime="image/png">undecided.png</object>
+  </icon>
+  <icon>
+    <text>(L)</text>
+    <text>(l)</text>
+    <text>(&lt;3)</text>
+    <object mime="image/png">love.png</object>
+  </icon>
+  <icon>
+    <text>(U)</text>
+    <text>(u)</text>
+    <object mime="image/png">unlove.png</object>
+  </icon>
+  <icon>
+    <text>:-O</text>
+    <text>:O</text>
+    <text>:-o</text>
+    <text>:o</text>
+    <object mime="image/png">omg.png</object>
+  </icon>
+  <icon>
+    <text>:-[</text>
+    <text>:[</text>
+    <object mime="image/png">bat.png</object>
+  </icon>
+  <icon>
+    <text>(B)</text>
+    <text>(b)</text>
+    <object mime="image/png">beer.png</object>
+  </icon>
+  <icon>
+    <text>(^)</text>
+    <object mime="image/png">cake.png</object>
+  </icon>
+  <icon>
+    <text>(P)</text>
+    <text>(p)</text>
+    <object mime="image/png">camera.png</object>
+  </icon>
+  <icon>
+    <text>(@)</text>
+    <object mime="image/png">cat.png</object>
+  </icon>
+  <icon>
+    <text>(O)</text>
+    <text>(o)</text>
+    <object mime="image/png">clock.png</object>
+  </icon>
+  <icon>
+    <text>(D)</text>
+    <text>(d)</text>
+    <object mime="image/png">cocktail.png</object>
+  </icon>
+  <icon>
+    <text>(C)</text>
+    <text>(c)</text>
+    <object mime="image/png">cup.png</object>
+  </icon>
+  <icon>
+    <text>(&amp;)</text>
+    <object mime="image/png">dog.png</object>
+  </icon>
+  <icon>
+    <text>(E)</text>
+    <text>(e)</text>
+    <object mime="image/png">email.png</object>
+  </icon>
+  <icon>
+    <text>(~)</text>
+    <object mime="image/png">film.png</object>
+  </icon>
+  <icon>
+    <text>:-{}</text>
+    <text>:-*</text>
+    <text>:{}</text>
+    <text>(K)</text>
+    <text>(k)</text>
+    <text>:-X</text>
+    <text>:X</text>
+    <text>:-x</text>
+    <text>:x</text>
+    <object mime="image/png">kiss.png</object>
+  </icon>
+  <icon>
+    <text>(I)</text>
+    <text>(i)</text>
+    <object mime="image/png">lightbulb.png</object>
+  </icon>
+  <icon>
+    <text>(8)</text>
+    <object mime="image/png">note.png</object>
+  </icon>
+  <icon>
+    <text>(T)</text>
+    <text>(t)</text>
+    <object mime="image/png">phone.png</object>
+  </icon>
+  <icon>
+    <text>(G)</text>
+    <text>(g)</text>
+    <object mime="image/png">present.png</object>
+  </icon>
+  <icon>
+    <text>(F)</text>
+    <text>(f)</text>
+    <object mime="image/png">rose.png</object>
+  </icon>
+  <icon>
+    <text>(W)</text>
+    <text>(w)</text>
+    <object mime="image/png">wilted_rose.png</object>
+  </icon>
+
+  <icon>
+    <text>(*)</text>
+    <object mime="image/png">star.png</object>
+  </icon>
+  <icon>
+    <text>(N)</text>
+    <text>(n)</text>
+    <object mime="image/png">thumbs_down.png</object>
+  </icon>
+  <icon>
+    <text>(Y)</text>
+    <text>(y)</text>
+    <object mime="image/png">thumbs_up.png</object>
+  </icon>
+
+
+
+  
+  
+  <icon>
+    <object mime="image/png">.png</object>
+  </icon>
+
+</icondef>

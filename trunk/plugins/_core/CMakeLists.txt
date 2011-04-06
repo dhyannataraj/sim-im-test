@@ -157,7 +157,11 @@ SET(_core_UICS_COMMON arcfgbase.ui
 
 IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CrystalClear-Icons/icondef.xml)
     ADD_JISP_ARCHIVE(CrystalClear-Icons  CrystalClear.jisp  _core_NON_SRC_TARGETS)
-ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/GPL-Icons/icondef.xml)
+ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CrystalClear-Icons/icondef.xml)
+
+IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CrystalClear-Smiles/icondef.xml)
+    ADD_JISP_ARCHIVE(CrystalClear-Smiles  CrystalClearSmiles.jisp  _core_NON_SRC_TARGETS)
+ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CrystalClear-Smiles/icondef.xml)
 
 #IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 #    ADD_JISP_ARCHIVE(jisp  sim.jisp  _core_NON_SRC_TARGETS non-free)
