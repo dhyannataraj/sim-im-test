@@ -77,6 +77,7 @@ public:
     void setParam(void*);
     void setFont(const QFont&);
     bool isEmpty();
+    bool isInDragAndDrop();
     QPoint m_popupPos;
 signals:
     void ctrlEnterPressed();
@@ -97,6 +98,7 @@ protected:
     virtual void focusOutEvent(QFocusEvent *e);
     void keyPressEvent(QKeyEvent *e);
     QPopupMenu *createPopupMenu(const QPoint& pos);
+    void contentsDropEvent( QDropEvent *e );
     void *m_param;
     bool m_bBold;
     bool m_bItalic;
@@ -109,6 +111,7 @@ protected:
     bool m_bSelected;
     bool m_bNoSelected;
     bool m_bInClick;
+    bool m_bInDragAndDrop; // Says that we are in the middle of Drag and Drop event processing
 };
 
 class QToolBar;

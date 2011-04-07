@@ -77,6 +77,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bNoSelected = false;
     m_bInClick = false;
     m_bChanged = false;
+    m_bInDragAndDrop = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -147,6 +148,10 @@ bool TextEdit::isEmpty()
         return t.isEmpty() || (t == " ");
     }
     return false;
+}
+bool TextEdit::isInDragAndDrop()
+{
+  return m_bInDragAndDrop;
 }
 
 void TextEdit::setParam(void *param)
@@ -387,6 +392,17 @@ void TextEdit::setTextFormat(QTextEdit::TextFormat format)
     QString t = unquoteText(text());
     QTextEdit::setTextFormat(format);
     setText(t);
+}
+
+void TextEdit::contentsDropEvent( QDropEvent *e )
+{
+  // If while processing textChanged signal we change cursor position
+  // then application would be crashing when drag-n-droping text insde the textarea
+  // So we will need a way to check if we are in the middle drag-n-drop process or not
+
+  m_bInDragAndDrop = true;
+  QTextEdit::contentsDropEvent(e);
+  m_bInDragAndDrop = false;
 }
 
 TextShow::TextShow(QWidget *p, const char *name)
