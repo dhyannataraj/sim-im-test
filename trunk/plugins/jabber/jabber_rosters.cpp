@@ -1148,7 +1148,6 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
                 QString version = get_os_version();
                 req->text_tag("os", version);
                 req->send();
-                m_client->m_requests.push_back(req);
             }
     }
     if (el == "url")
