@@ -219,6 +219,15 @@ void SpellPlugin::check(const QString &word)
     emit misspelling(word);
 }
 
+int SpellPlugin::checkWord(const QString &word)
+{
+    for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
+        if ((*it)->check(word.utf8()) == 1)
+            return 1;
+    }
+    return 0;
+}
+
 void SpellPlugin::add(const QString &word)
 {
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){

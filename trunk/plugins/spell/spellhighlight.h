@@ -43,6 +43,7 @@ protected slots:
     void slotConfigChanged();
     void reformat();
     void restore();
+    void textChanged();
 protected:
     MAP_BOOL m_words;
     int m_paragraph;
@@ -51,6 +52,8 @@ protected:
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
     virtual bool processEvent(SIM::Event *e);
+    void rehighlight();
+    void removeHlight(int stand_alone = 1);
     void flush();
     void flushText();
     int m_pos;
@@ -58,6 +61,7 @@ protected:
     int m_parag;
     int m_start_word;
     int m_curStart;
+    bool m_isInRehighlight;
     bool m_bError;
     bool m_bDirty;
     bool m_bCheck;

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qtimer.h>
+#include <qregexp.h>
 
 #include "log.h"
 #include "textshow.h"
@@ -37,6 +38,8 @@ SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
     m_plugin = plugin;
     m_bCheck = false;
     m_bDisable = false;
+    m_isInRehighlight = false;
+    QObject::connect(edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
 }
 
 SpellHighlighter::~SpellHighlighter()
@@ -45,6 +48,7 @@ SpellHighlighter::~SpellHighlighter()
 
 int SpellHighlighter::highlightParagraph(const QString&, int state)
 {
+return state;
     m_bDirty = false;
     if (state == -2)
         state = 0;
@@ -65,6 +69,221 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     m_curText = QString::null;
     return state + 1;
 }
+
+void SpellHighlighter::textChanged()
+{
+  rehighlight();
+}
+
+void SpellHighlighter::removeHlight(int stand_alone)
+// removes all misspel highlilighting from text, puts it back to edit field
+// QEdit will merge spans with similuar stiles by itself.
+// stand_alone == 0 when it is called as a part of rehighlight;
+// == 1 when it is called separately, and should avoid onchange infinite loop by itself
+{
+  if (!stand_alone || ( stand_alone && ! m_isInRehighlight))
+  {
+    if (stand_alone) m_isInRehighlight = 1;
+    QString txt = textEdit()->text();
+
+    QString new_txt = "";
+    QString tag = QString::null;
+    for(int i=0;i<txt.length();i++)
+    {
+      if (tag) tag+=txt[i];
+      if (txt[i] == '<')
+      {
+        tag = txt[i];
+      }
+      if (! tag) new_txt += txt[i];
+      if (tag && txt[i] == '>')
+      {
+        if (tag.find(QRegExp("^\\<span\\ style=\""),0)==0)
+        {
+//          SIM::log(SIM::L_DEBUG, "styletag: %s\n",tag.data());
+          QString s = tag;
+          s.replace(QRegExp("^\\<span\\ style=\"(.*)\">"),"\\1");
+          QStringList items = QStringList::split(";",s);
+          for ( QStringList::Iterator it = items.begin(); it != items.end(); ++it )
+          {
+            QString style_item = *it;
+            if (style_item.find(QRegExp("^font\\-family\\:sim-im-misspelled\\|"))>-1)
+            {
+//              SIM::log(SIM::L_DEBUG, "found: %s\n",style_item.data());
+              style_item.replace(QRegExp("^font\\-family\\:sim-im-misspelled\\|(.*)$"),"\\1");
+              style_item.replace("|",";");
+              tag= "<span style =\""+ style_item+"\">";
+            }
+          }
+        }
+        new_txt +=tag;
+        tag=QString::null;
+      }
+    }
+//    SIM::log(SIM::L_DEBUG, "cleaned text: %s",new_txt.data());
+
+    int para;
+    int index;
+    if (txt != new_txt)
+    {
+    textEdit()->getCursorPosition ( &para, &index );
+    textEdit()->setText(new_txt);
+    textEdit()->setCursorPosition ( para, index );
+    }
+    if (stand_alone) m_isInRehighlight = 0;
+  }
+}
+
+void SpellHighlighter::rehighlight()
+{
+  
+  /* Higlighting misspelled words. The main idea: we scans the text for words,
+     remembering the stile with which each word (or spacer) were written, if we
+     need to mark word as misspelled, we hide current word's style into font defintition
+     after "sim-im-misspelled" keyword, replacing ';' with '|' and then sets word's color 
+     as red. When we needs to remove misspelled highlightin, we just restore original style 
+     form font-family stile definition.
+     
+     These makes misspelled words shown in red color with default font. This is the best thing
+     we can do without rewriting QTextEdit.
+  */
+  if ((! m_isInRehighlight) && (! static_cast<TextEdit*>(textEdit())->isInDragAndDrop()))
+  {
+//    SIM::log(SIM::L_DEBUG, "SpellHighlighter::rehighlight()");
+
+    m_isInRehighlight = true;
+    removeHlight(0);
+    
+    QString txt = textEdit()->text();
+
+    QString new_txt = "";
+    QString tag = QString::null;
+    QString word = QString::null;
+    QString spacer = QString::null;  // both spases and puntuations
+    QString amp_seq = QString::null; // we are specialty treating ampersant sequences because otherwice '&amp;' will be treated as
+                                     // [punct][word][punt] and thus splitted apart with formatting tags
+    
+    QString current_style=QString::null;
+    QString current_misspelled_style="font-family:sim-im-misspelled|;color:red";
+
+
+    for(int i=0;i<txt.length();i++)
+    {
+      bool close_tag = false;
+      bool close_word = false;
+      bool close_spacer = false;
+      bool close_amp_seq = false;
+      
+      if (tag)
+      {
+        tag+=txt[i];
+        if (txt[i] == '>') close_tag=true;
+      }
+      
+      if (txt[i] == '<')
+      {
+        if (word) close_word=true;
+        if (spacer) close_spacer=true;
+        if (amp_seq) close_amp_seq=true;
+        tag = txt[i];
+      }
+      if (amp_seq)
+      {
+        amp_seq +=txt[i];
+        if (txt[i]==';') close_amp_seq =true;
+      }
+      if (!tag && txt[i] == '&')
+      {
+        if (word) close_word=true;
+        if (spacer) close_spacer=true;
+        amp_seq = "&";
+      }
+      if ((!tag) && (!amp_seq) && (txt[i].isSpace() || txt[i].isPunct()))
+      {
+        spacer+=txt[i];
+        if (word) close_word=true;
+      }
+      if ((!tag) && (!amp_seq) && !txt[i].isSpace() && !txt[i].isPunct())
+      {
+        word+=txt[i];
+        if (spacer) close_spacer=true;
+      }
+
+      if (close_amp_seq)
+      {
+        if (! current_style.isEmpty())
+          new_txt+="<span style=\""+current_style+"\">"+amp_seq+"</span>";
+        else
+           new_txt+=amp_seq;
+        amp_seq = QString::null;
+      }
+      if (close_spacer)
+      {
+        if (! current_style.isEmpty())
+          new_txt+="<span style=\""+current_style+"\">"+spacer+"</span>";
+        else
+           new_txt+=spacer;
+        spacer =QString::null;
+      }
+      if (close_word)
+      {
+        if (! current_misspelled_style.isEmpty())
+          if (m_plugin->checkWord(word))
+            new_txt+="<span style=\""+current_style+"\">"+word+"</span>";
+          else
+            new_txt+="<span style=\""+current_misspelled_style+"\">"+word+"</span>";
+        else
+          new_txt+=word;
+        word =QString::null;
+      }
+      if (close_tag)
+      {
+        if (tag.find(QRegExp("<span "),0)>-1)
+        {
+          current_style = tag;
+          current_style.replace(QRegExp("^\\<span\\ style=\"(.*)\">"),"\\1");
+
+          current_misspelled_style = current_style;
+          current_misspelled_style.replace(";","|");
+          current_misspelled_style = "font-family:sim-im-misspelled|"+current_misspelled_style+";color:red";
+          
+          QStringList items = QStringList::split(";",current_style);
+          for ( QStringList::Iterator it = items.begin(); it != items.end(); ++it )
+          {
+            QString item = *it;
+            if ( (item.find(QRegExp("^font\\-family\\:")) ==-1) &&
+                 (item.find(QRegExp("^color\\:")) ==-1) )
+            {
+              current_misspelled_style+=";"+item;
+            }
+          }
+          tag=QString::null;
+        }
+        if (tag.find(QRegExp("</span>"),0)>-1)
+        {
+          current_style= QString::null;
+          current_misspelled_style="font-family:sim-im-misspelled|;color:red";
+          tag=QString::null;
+        }
+        new_txt+=tag;
+        tag=QString::null;
+      }
+    }
+    // remembering cursor position, changing text, and then returning cursor to it's original position.
+//    SIM::log(SIM::L_DEBUG, "new_text: %s",new_txt.data());
+
+    int para;
+    int index;
+    textEdit()->getCursorPosition ( &para, &index );
+    textEdit()->setText(new_txt);
+    textEdit()->setCursorPosition ( para, index );
+    
+    m_isInRehighlight = false;
+  }
+  
+}
+
+
 
 void SpellHighlighter::text(const QString &text)
 {

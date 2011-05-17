@@ -60,6 +60,7 @@ public:
     unsigned CmdSpell;
     QStringList suggestions(const QString &word);
     void add(const QString &word);
+    int checkWord(const QString &word);
     MAP_BOOL m_ignore;
 signals:
     void misspelling(const QString &word);
