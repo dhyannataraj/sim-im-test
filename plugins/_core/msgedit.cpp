@@ -263,7 +263,7 @@ void MsgEdit::send()
     if(html.isEmpty())
         return;
 
-    emit messageSendRequest(html);
+    emit messageSendRequested(html);
 }
 
 void MsgEdit::textChanged()

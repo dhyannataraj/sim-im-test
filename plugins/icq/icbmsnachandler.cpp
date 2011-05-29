@@ -111,11 +111,14 @@ QByteArray IcbmSnacHandler::makeMessageTlv(const SIM::MessagePtr& message)
 {
     ByteArrayBuilder builder;
     builder.appendWord(0x0501); // Features signature
-    builder.appendByte(0x01); // Features length
+    builder.appendWord(0x01); // Features length
     builder.appendByte(0x01); // Features
     builder.appendWord(0x0101); // Message info signature
+
     QByteArray messageText = message->toPlainText().toUtf8(); // FIXME ? encoding
-    builder.appendWord(8 + messageText.length());
+    builder.appendWord(4 + messageText.length());
+    builder.appendWord(0x0000); // Encoding set
+    builder.appendWord(0xffff); // Encoding subset
     builder.appendBytes(messageText);
     return builder.getArray();
 }

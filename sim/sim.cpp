@@ -32,6 +32,8 @@
 #include "contacts/contactlist.h"
 #include "builtinlogger.h"
 #include "log.h"
+#include "messaging/messageoutpipe.h"
+#include "messaging/messagepipe.h"
 
 #include <QDir>
 
@@ -139,6 +141,8 @@ int main(int argc, char *argv[])
     SIM::createEventHub();
     registerEvents();
     initLogging();
+    SIM::createMessagePipe();
+    SIM::createOutMessagePipe();
     SIM::createImageStorage();
     SIM::createCommandHub();
     SIM::createContactList();
@@ -159,6 +163,8 @@ int main(int argc, char *argv[])
     SIM::destroyContactList();
     SIM::destroyCommandHub();
     SIM::destroyImageStorage();
+    SIM::destroyOutMessagePipe();
+    SIM::destroyMessagePipe();
     destroyLogging();
     SIM::destroyEventHub();
     return res;

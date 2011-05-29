@@ -77,7 +77,7 @@ public:
 //    bool        adjustType();
 //    QString     m_resource;
 signals:
-    void messageSendRequest(const QString& message);
+    void messageSendRequested(const QString& message);
 //    void heightChanged(int);
 //    void init();
 //    void finished();

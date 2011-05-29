@@ -52,6 +52,7 @@
 #include <QRegExp>
 #include <QDesktopWidget>
 #include <QByteArray>
+#include <QRect>
 
 #ifdef USE_KDE4
 #include <kglobal.h>

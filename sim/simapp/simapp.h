@@ -16,6 +16,7 @@ public:
     ~SimApp();
 
 protected:
+    void registerMetaTypes();
     void commitData(QSessionManager&);
     void saveState(QSessionManager&);
 };

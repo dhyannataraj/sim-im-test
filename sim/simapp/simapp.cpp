@@ -3,11 +3,12 @@
 #include "cfg.h"
 #include "log.h"
 #include "misc.h"
+#include "messaging/message.h"
 
 SimApp::SimApp(int &argc, char **argv)
       : QApplication(argc, argv)
 {
-
+    registerMetaTypes();
 }
 SimApp::~SimApp()
 {
@@ -24,6 +25,10 @@ void SimApp::saveState(QSessionManager &sm)
     QApplication::saveState(sm);
 }
 
+void SimApp::registerMetaTypes()
+{
+    qRegisterMetaType<SIM::MessagePtr>("MessagePtr");
+}
 
 // vim: set expandtab:
 

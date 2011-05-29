@@ -265,7 +265,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
         setWindowTitle(wnd->getLongName());
     }
     connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
-    connect(wnd, SIGNAL(messageSendRequested(MessagePtr)), this, SLOT(messageSendRequested(MessagePtr)));
+    connect(wnd, SIGNAL(messageSendRequested(SIM::MessagePtr)), this, SLOT(messageSendRequested(SIM::MessagePtr)));
 //    connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
     m_wnds->addWidget(wnd);
     m_tabSplitter->addWidget(m_wnds);

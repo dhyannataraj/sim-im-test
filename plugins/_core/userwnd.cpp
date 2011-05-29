@@ -58,7 +58,7 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
 
 //    connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
     connect(CorePlugin::instance(), SIGNAL(containerModeChanged()), this, SLOT(modeChanged()));
-    connect(m_ui->msgEdit, SIGNAL(messageSendRequest(QString)), this, SLOT(slot_messageSendRequested(QString)));
+    connect(m_ui->msgEdit, SIGNAL(messageSendRequested(QString)), this, SLOT(slot_messageSendRequested(QString)));
 //    connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
     refreshTargetList();

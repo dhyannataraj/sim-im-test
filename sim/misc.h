@@ -24,6 +24,7 @@
 
 #include <QColor>
 #include <QDateTime>
+#include <QRect>
 
 class KAboutData;
 class QComboBox;
