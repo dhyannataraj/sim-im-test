@@ -55,7 +55,6 @@ protected:
     bool eventFilter(QObject *o, QEvent *e);
     void resizeEvent(QResizeEvent *e);
 
-
 //    void focusInEvent(QFocusEvent*);
 //    void quit();
 
@@ -64,6 +63,9 @@ protected:
 //    QString	m_icon;
 
 //    virtual void closeEvent(QCloseEvent *e);
+
+private slots:
+    void contactChatRequested(int contactId);
 
 private:
     void updateTitle();

@@ -27,6 +27,7 @@
 #include "commands/uicommand.h"
 #include "imagestorage/imagestorage.h"
 #include "clientmanager.h"
+#include "userwnd.h"
 
 #include <QApplication>
 #include <QPixmap>
@@ -66,6 +67,7 @@ MainWindow::MainWindow(CorePlugin* core)
 
     m_view = new UserView(core);
     m_view->init();
+    connect(m_view, SIGNAL(contactChatRequested(int)), this, SLOT(contactChatRequested(int)));
     addWidget(m_view);
 
 }
@@ -255,6 +257,24 @@ void MainWindow::updateTitle()
 UserView* MainWindow::userview() const
 {
     return m_view;
+}
+
+void MainWindow::contactChatRequested(int contactId)
+{
+    log(L_DEBUG, "contactChatRequested: %d", contactId);
+    ContainerManager* manager = m_core->containerManager();
+    ContainerPtr container = manager->containerById(0);
+    if(!container)
+    {
+        container = manager->makeContainer(0);
+        manager->addContainer(container);
+    }
+    UserWnd* userwnd = container->wnd(contactId);
+    if(!userwnd)
+    {
+        userwnd = new UserWnd(contactId, false, false);
+        container->addUserWnd(userwnd, true);
+    }
 }
 
 

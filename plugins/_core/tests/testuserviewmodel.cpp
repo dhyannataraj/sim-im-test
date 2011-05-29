@@ -182,12 +182,8 @@ namespace
         UserViewModel model(contactList);
         QSignalSpy spy(&model, SIGNAL(dataChanged(QModelIndex, QModelIndex)));
 
-        QModelIndex index = createContactIndex(model, 0, false);
-
         SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(ContactId));
 
         ASSERT_EQ(1, spy.count());
-        QModelIndex result = qvariant_cast<QModelIndex>(spy.at(0).at(0));
-        ASSERT_TRUE(result == index);
     }
 }

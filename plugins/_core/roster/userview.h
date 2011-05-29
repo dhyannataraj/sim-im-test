@@ -56,6 +56,10 @@ public:
 //    IntLineEdit *m_edtContact;
 //    QTreeWidgetItem *mTipItem;
 //    bool	 m_bUnreadBlink;
+
+signals:
+    void contactChatRequested(int contactId);
+
 //public slots:
 //    void editGroupEnter();
 //    void editContactEnter();
@@ -69,17 +73,16 @@ public:
 //    void blink();
 //    void unreadBlink();
 //    void doDrop();
-//    void doClick();
 //    void dragScroll();
-//protected:
+
+protected:
+    void mouseReleaseEvent(QMouseEvent *e);
 //    virtual unsigned getUnread(unsigned contact_id);
 //    virtual bool getMenu(QTreeWidgetItem *item, unsigned long &id, void* &param);
 //    virtual bool processEvent(SIM::Event*);
 //    bool eventFilter(QObject *obj, QEvent *e);
 //    void setGroupMode(unsigned mode, bool bFirst=false);
 //    void keyPressEvent(QKeyEvent *e);
-//    void mousePressEvent(QMouseEvent *e);
-//    void mouseReleaseEvent(QMouseEvent *e);
 //    void mouseDoubleClickEvent(QMouseEvent *e);
 //    void dragEnterEvent(QDragEnterEvent *e);
 //    virtual void dragMoveEvent(QDragMoveEvent *e);
@@ -107,8 +110,12 @@ public:
 //    QTreeWidgetItem *m_searchItem;
 //    friend class UserViewDelegate;
 //	UserWnd *m_userWnd;
+
 private:
+    void doClick();
+
     CorePlugin *m_plugin;
+    QModelIndex m_currentIndex;
     bool m_showOffline;
     GroupMode m_groupMode;
 };

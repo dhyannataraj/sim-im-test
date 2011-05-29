@@ -749,28 +749,22 @@ UserView::GroupMode UserView::groupMode() const
 //    return res;
 //}
 
-//void UserView::mousePressEvent(QMouseEvent *e)
-//{
-//    stopSearch();
-//    UserListBase::mousePressEvent(e);
-//}
-
 //void UserView::focusOutEvent(QFocusEvent *e)
 //{
 //    stopSearch();
 //    UserListBase::focusOutEvent(e);
 //}
 
-//void UserView::mouseReleaseEvent(QMouseEvent *e)
-//{
-//    QTreeWidgetItem *item = m_pressedItem;
-//    UserListBase::mouseReleaseEvent(e);
-//    if (!item || CorePlugin::instance()->value("UseDblClick").toBool())
-//        return;
+void UserView::mouseReleaseEvent(QMouseEvent *e)
+{
+    QModelIndex index = indexAt(e->pos());
+    QTreeView::mouseReleaseEvent(e);
+    if (!index.isValid() || m_plugin->propertyHub()->value("UseDblClick").toBool())
+        return;
 
-//    m_current = item;
-//    QTimer::singleShot(0, this, SLOT(doClick()));
-//}
+    m_currentIndex = index;
+    doClick();
+}
 
 //void UserView::mouseDoubleClickEvent(QMouseEvent *e)
 //{
@@ -779,19 +773,17 @@ UserView::GroupMode UserView::groupMode() const
 //    QTimer::singleShot(0, this, SLOT(doClick()));
 //}
 
-//void UserView::doClick()
-//{
-//    if (m_current == NULL)
-//        return;
-//    if (!CorePlugin::instance()->value("UseDblClick").toBool())
-//        m_current->setExpanded(!m_current->isExpanded());
-//    if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM)
-//    {
-//        ContactItem *item = static_cast<ContactItem*>(m_current);
-//        EventDefaultAction(item->id()).process();
-//    }
-//    m_current = NULL;
-//}
+void UserView::doClick()
+{
+    if (!m_currentIndex.isValid())
+        return;
+    if(m_currentIndex.data(UserViewModel::ItemType).toInt() == UserViewModel::itContact)
+    {
+        int id = m_currentIndex.data(UserViewModel::ContactId).toInt();
+        emit contactChatRequested(id);
+    }
+    m_currentIndex = QModelIndex();
+}
 
 //void UserView::keyPressEvent(QKeyEvent *e)
 //{

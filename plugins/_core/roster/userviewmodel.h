@@ -22,11 +22,19 @@ public:
     static const int OnlineRow = 0;
     static const int OfflineRow = 1;
 
-    enum ContactItemRole
+    enum ItemRole
     {
-        ContactId = Qt::UserRole + 1,
+        ItemType = Qt::UserRole + 1,
+        ContactId,
         ContactName,
         CurrentStatusIcon
+    };
+
+    enum ItemType
+    {
+        itContact,
+        itGroup,
+        itStatusGroup
     };
 
 signals:

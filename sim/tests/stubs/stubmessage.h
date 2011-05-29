@@ -1,0 +1,53 @@
+#ifndef STUBMESSAGE_H
+#define STUBMESSAGE_H
+
+#include "messaging/message.h"
+
+namespace StubObjects
+{
+    class StubMessage : public SIM::Message
+    {
+    public:
+        virtual SIM::Client* client()
+        {
+            return 0;
+        }
+
+        virtual SIM::IMContactWeakPtr contact() const
+        {
+            return SIM::IMContactWeakPtr();
+        }
+
+        virtual QIcon icon()
+        {
+            return QIcon();
+        }
+
+        virtual QDateTime timestamp()
+        {
+            return QDateTime();
+        }
+
+        virtual QString toXml()
+        {
+            return QString::null;
+        }
+
+        virtual QString toPlainText()
+        {
+            return QString::null;
+        }
+
+        virtual QString originatingClientId() const
+        {
+            return QString::null;
+        }
+
+        virtual QStringList choices()
+        {
+            return QStringList();
+        }
+    };
+}
+
+#endif // STUBMESSAGE_H

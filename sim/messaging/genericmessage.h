@@ -6,10 +6,10 @@
 
 namespace SIM {
 
-class GenericMessage : public Message
+class EXPORT GenericMessage : public Message
 {
 public:
-    GenericMessage(const IMContactPtr& contact);
+    GenericMessage(const IMContactPtr& contact, const QString& htmlText);
     virtual ~GenericMessage();
 
     virtual Client* client();
@@ -17,7 +17,7 @@ public:
 
     virtual QIcon icon();
     virtual QDateTime timestamp();
-    virtual QString toHtml();
+    virtual QString toXml();
     virtual QString toPlainText();
     virtual QString originatingClientId() const;
     virtual QStringList choices();

@@ -641,6 +641,8 @@ public:
 
     bool isAim() const;
 
+    bool sendMessage(const SIM::MessagePtr& message);
+
     // reimplement socket() to get correct Buffer
 //    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
 //    virtual ICQClientSocket *createClientSocket() { return new ICQClientSocket(this, createSocket()); }
@@ -735,6 +737,7 @@ signals:
 
 protected:
     void loginStep3();
+
 //    void generateCookie(MessageId& id);
 
 //    virtual void setInvisible(bool bState);

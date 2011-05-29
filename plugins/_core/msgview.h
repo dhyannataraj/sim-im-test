@@ -43,19 +43,19 @@ struct Msg_Id
     QString     client;
 };
 
-class MsgViewBase : public QTextEdit //, public SIM::EventReceiver
+class MsgView : public QTextEdit
 {
     Q_OBJECT
 public:
-    MsgViewBase(QWidget *parent, const char *name="", unsigned id=(unsigned)(-1));
-    ~MsgViewBase();
+    MsgView(QWidget *parent, int id = -1);
+    ~MsgView();
 //    void		addMessage(SIM::Message *msg, bool bUnread=false, bool bSync=true);
 //    bool		findMessage(SIM::Message *msg);
 //    void		setSelect(const QString &str);
-//    void		setXSL(XSL*);
+    void setXSL(XSL* xsl);
 //    static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
-//    unsigned	m_id;
 //    SIM::Message *currentMessage();
+    int id() const;
 protected slots:
     //void update();
 protected:
@@ -64,29 +64,19 @@ protected:
 //    void setBackground(unsigned start);
 //    void setSource(const QString&);
 //    void setSource(const QUrl&);
-//    void setColors();
 //    void reload();
 //    unsigned    messageId(const QString&, QString &client);
 //    QString messageText(SIM::Message *msg, bool bUnread);
 //    QPoint m_popupPos;
 //    QString m_selectStr;
 //    unsigned m_nSelection;
-//    XSL *xsl;
 //    vector<CutHistory>	m_cut;
 //    list<Msg_Id>		m_updated;
+private:
+     int m_id;
+     XSL* m_xsl;
 };
 
-class MsgView : public MsgViewBase
-{
-    Q_OBJECT
-public:
-    MsgView(QWidget *parent, unsigned id);
-    ~MsgView();
-protected slots:
-    //void		init();
-protected:
-    //virtual bool processEvent(SIM::Event*);
-};
 
 #endif
 

@@ -505,7 +505,7 @@ QString ICQContact::name() const
 
 bool ICQContact::sendMessage(const SIM::MessagePtr& message)
 {
-    return true;
+    return m_client->sendMessage(message);
 }
 
 bool ICQContact::hasUnreadMessages()
@@ -556,7 +556,7 @@ void ICQContact::setScreen(const QString& screen)
     bool ok;
     unsigned long uin = screen.toULong(&ok);
     if(ok)
-        m_uin = ok;
+        m_uin = uin;
 }
 
 void ICQContact::setMetaContact(SIM::Contact* c)

@@ -138,12 +138,12 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 //#endif
 
-//static CorePlugin* g_plugin = 0;
+static CorePlugin* g_plugin = 0;
 
-//CorePlugin* getCorePlugin()
-//{
-//    return g_plugin;
-//}
+CorePlugin* getCorePlugin()
+{
+    return g_plugin;
+}
 
 //static QWidget *getInterfaceSetup(QWidget *parent, SIM::PropertyHubPtr data)
 //{
@@ -217,9 +217,9 @@ CorePlugin::CorePlugin() : QObject()
 //    , m_bIgnoreEvents   (false)
     , m_propertyHub(SIM::PropertyHub::create("_core"))
 {
-//    g_plugin = this;
+    g_plugin = this;
 //	setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
-//    m_containerManager = new ContainerManager(this);
+    m_containerManager = new ContainerManager(this);
 
 //	boundTypes();
 
@@ -341,10 +341,10 @@ void CorePlugin::createMainMenuCommand()
 //    EventCommandCreate(cmd).process();
 //}
 
-//ContainerManager* CorePlugin::containerManager() const
-//{
-//    return m_containerManager;
-//}
+ContainerManager* CorePlugin::containerManager() const
+{
+    return m_containerManager;
+}
 
 //void CorePlugin::createEventCmds()
 //{
@@ -4063,10 +4063,10 @@ bool CorePlugin::init()
 //    m_ex->start(m_Viewer, QStringList(str));
 //}
 
-//CorePlugin* CorePlugin::instance()
-//{
-//    return g_plugin;
-//}
+CorePlugin* CorePlugin::instance()
+{
+    return g_plugin;
+}
 
 //unsigned long CorePlugin::getManualStatus()
 //{

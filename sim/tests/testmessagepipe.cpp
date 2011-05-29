@@ -27,7 +27,7 @@ namespace
         IMContactWeakPtr contact() const { return IMContactWeakPtr(); }
         QIcon icon() { return QIcon(); }
         QDateTime timestamp() { return QDateTime(); }
-        QString toHtml() { return QString(); }
+        QString toXml() { return QString(); }
         QString toPlainText() { return QString(); }
         QString originatingClientId() const { return QString(); }
         QStringList choices() { return QStringList(); }

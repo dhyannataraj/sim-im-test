@@ -41,6 +41,8 @@ QVariant UserViewModel::data(const QModelIndex& index, int role) const
             else
                 return I18N_NOOP("Offline");
         }
+        else if(role == ItemType)
+            return itStatusGroup;
     }
     else
     {
@@ -72,10 +74,16 @@ QVariant UserViewModel::contactData(const QModelIndex& index, int role) const
 
     switch(role)
     {
+    case ItemType:
+        return itContact;
     case ContactName:
     case Qt::DisplayRole:
         {
             return contact->name();
+        }
+    case ContactId:
+        {
+            return contact->id();
         }
     case CurrentStatusIcon:
     case Qt::DecorationRole:
@@ -180,6 +188,7 @@ void UserViewModel::contactStatusChanged(int contactId)
     // TODO proper QModelIndex removal and addition
     beginResetModel();
     fillCaches();
+    emit dataChanged(index(OnlineRow, 0), index(OfflineRow, 0));
     endResetModel();
 }
 

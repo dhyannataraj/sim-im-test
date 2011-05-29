@@ -13,6 +13,7 @@ SET(_core_SRCS
 #        connectionsettings.cpp
 #        connectwnd.cpp
         containermanager.cpp
+        containercontroller.cpp
         container.cpp
         core.cpp
         commonstatus.cpp
@@ -87,6 +88,7 @@ SET(_core_HDRS
 #        connectionsettings.h
 #        connectwnd.h
         containermanager.h
+        containercontroller.h
         container.h
         core.h
         core_api.h
@@ -170,6 +172,7 @@ SET(_core_UICS
 #        toolsetupbase.ui
 #        userhistorycfgbase.ui
 #        userviewcfgbase.ui
+        userwnd.ui
 )
 
 SET(core_test_sources
@@ -177,6 +180,7 @@ SET(core_test_sources
         tests/testcoreplugin.cpp
         tests/testcommonstatus.cpp
         tests/testuserviewmodel.cpp
+        tests/testcontainercontroller.cpp
 )
 
 ADD_EXECUTABLE(test_core ${core_test_sources})

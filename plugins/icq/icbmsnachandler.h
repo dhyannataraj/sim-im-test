@@ -3,6 +3,7 @@
 
 #include "snac.h"
 #include "icq_defines.h"
+#include "messaging/message.h"
 
 class ICQ_EXPORT IcbmSnacHandler : public SnacHandler
 {
@@ -20,15 +21,25 @@ public:
     void forceReady();
     bool isReady() const;
 
+    bool sendMessage(const SIM::MessagePtr& message);
+
     static const int SnacIcbmSetParameters = 0x02;
     static const int SnacIcbmParametersInfoRequest = 0x04;
     static const int SnacIcbmParametersInfo = 0x05;
+    static const int SnacIcbmSendMessage = 0x06;
+
+    static const int TlvMessage = 0x0002;
+    static const int TlvServerAck = 0x0003;
+    static const int TlvSendOffline = 0x0006;
 
 signals:
     void ready();
 
 private:
     bool processParametersInfo(const QByteArray& arr);
+    QByteArray makeSendPlainTextPacket(const SIM::MessagePtr& message);
+    QByteArray generateCookie();
+    QByteArray makeMessageTlv(const SIM::MessagePtr& message);
 
     int m_channel;
     int m_messageFlags;
@@ -36,6 +47,8 @@ private:
     int m_maxSenderWarnLevel;
     int m_maxReceiverWarnLevel;
     int m_minMessageInterval;
+
+    quint64 m_currentCookie;
 
     bool m_ready;
 };

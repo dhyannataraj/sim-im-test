@@ -26,6 +26,7 @@
 #include "imagestorage/imagestorage.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
+#include "contacts/contactlist.h"
 #include "simgui/toolbar.h"
 
 #include <QSplitter>
@@ -55,43 +56,6 @@ using namespace SIM;
 
 const unsigned ACCEL_MESSAGE = 0x1000;
 
-//FIXME: Obsolete?
-//static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
-//{
-//    for(unsigned i = 0; i < count; i++)
-//        dest[i] = src[i];
-//}
-
-ContainerStatus::ContainerStatus(QWidget *parent)
-    : QStatusBar(parent)
-{
-    QSize s;
-    {
-        QProgressBar p(this);
-        addWidget(&p);
-        s = minimumSizeHint();
-    }
-    setMinimumSize(QSize(0, s.height()));
-}
-
-void ContainerStatus::resizeEvent(QResizeEvent *e)
-{
-    QStatusBar::resizeEvent(e);
-    emit sizeChanged(width());
-}
-
-//static DataDef containerData[] =
-//    {
-////        { "Id"          , DATA_ULONG,   1, 0 },
-//        { "Windows"     , DATA_STRING,  1, 0 },
-//        { "ActiveWindow", DATA_ULONG,   1, 0 },
-//        { "Geometry"    , DATA_LONG,    5, 0 },
-//        { "BarState"    , DATA_LONG,    7, 0 },
-//        { "StatusSize"  , DATA_ULONG,   1, 0 },
-//        { "WndConfig"   , DATA_STRLIST, 1, 0 },
-//        { NULL          , DATA_UNKNOWN, 0, 0 }
-//    };
-
 Container::Container(unsigned id)
     : QMainWindow()
     , m_bNoRead     (false)
@@ -101,22 +65,19 @@ Container::Container(unsigned id)
     , m_bBarChanged (false)
     , m_bReceived   (false)
     , m_bNoSwitch   (false)
-    , m_avatar_window(this)
-    , m_avatar_label(&m_avatar_window)
-    , m_tabBar      (NULL)
-    , m_wnds        (NULL)
-{    
-//    m_avatar_window.setWidget(&m_avatar_label);
-//    //m_avatar_window.setOrientation(Qt::Vertical);
-//    m_avatar_window.setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-//    m_avatar_window.setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
-//    addDockWidget(Qt::LeftDockWidgetArea, &m_avatar_window);
-//    setAttribute(Qt::WA_DeleteOnClose, true);
+{
+    m_controller = new ContainerController(this, id);
+    m_avatar_window = new QDockWidget(this);
+    m_avatar_label = new QLabel(m_avatar_window);
+    m_avatar_window->setWidget(m_avatar_label);
+    m_avatar_window->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    m_avatar_window->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    addDockWidget(Qt::LeftDockWidgetArea, m_avatar_window);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 
-//    setIconSize(QSize(16,16));
+    setIconSize(QSize(16,16));
 
-//	setId(id);
-//	setContainerGeometry();
+    init();
 }
 
 Container::~Container()
@@ -128,47 +89,46 @@ Container::~Container()
         for (it = wnds.begin(); it != wnds.end(); ++it)
             disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     }
-    list<UserWnd*>::iterator it;
-    for (it = m_childs.begin(); it != m_childs.end(); ++it)
-        delete (*it);
+    qDeleteAll(m_children);
 }
 
 void Container::closeEvent(QCloseEvent* e)
 {
-    //CorePlugin::instance()->containerManager()->removeContainerById(getId());
+    CorePlugin::instance()->containerManager()->removeContainerById(id());
 }
 
 void Container::init()
 {
-//    if (m_bInit)
-//        return;
+    if(m_bInit)
+        return;
 
-//    frm = new QFrame(this);
-//    setCentralWidget(frm);
+    m_frame = new QFrame(this);
+    setCentralWidget(m_frame);
 
-//    QObject::connect(CorePlugin::instance(), SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    QObject::connect(CorePlugin::instance(), SIGNAL(containerModeChanged()), this, SLOT(modeChanged()));
 
-//    lay = new QVBoxLayout(frm);
-//    m_wnds = new QStackedWidget(frm);
-//    m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-//    lay->addWidget(m_wnds);
+    m_layout = new QVBoxLayout(m_frame);
+    m_wnds = new QStackedWidget(m_frame);
+    m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    m_layout->addWidget(m_wnds);
 
-//    m_tabSplitter = new QSplitter(Qt::Vertical, frm);
-//    m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-//    m_tabBar = new UserTabBar(m_tabSplitter);
-//    m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
-//    m_tabBar->hide();
+    m_tabSplitter = new QSplitter(Qt::Vertical, m_frame);
+    m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+    m_tabBar = new UserTabBar(m_tabSplitter);
+    m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
+    m_tabBar->hide();
 
 //    m_bInit = true;
 
-//    m_status = new ContainerStatus(m_tabSplitter);
-//    lay->addWidget(m_tabSplitter);
+    m_status = new QStatusBar(this);
+    setStatusBar(m_status);
+
+    m_layout->addWidget(m_tabSplitter);
 //    connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
 //    //connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
 //    connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));
 //    setupAccel();
 //    showBar();
-//	setStatusBar(m_status);
 
 //    for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it)
 //        addUserWnd((*it), false);
@@ -181,7 +141,7 @@ void Container::init()
 //        QTimer::singleShot(0, this, SLOT(close()));
   
 //    //m_tabBar->raiseTab(getActiveWindow()); //Fixme, Crash
-//    show();
+    show();
 }
 
 QShortcut* Container::makeShortcut(unsigned int key, unsigned int id)
@@ -254,14 +214,10 @@ list<UserWnd*> Container::windows()
     return m_tabBar->windows();
 }
 
-void Container::setId(int id)
-{
-    m_id = id;
-}
 
-int Container::getId() const
+int Container::id() const
 {
-    return m_id;
+    return m_controller->id();
 }
 
 QByteArray Container::getState()
@@ -302,41 +258,35 @@ Q_DECLARE_METATYPE( UserWnd* )
 
 void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 {
-//    if(m_wnds == NULL)
-//	{
-//        m_childs.push_back(wnd);
-//        if(m_childs.size() == 1)
-//		{
-//            setWindowIcon(Icon(wnd->getIcon()));
-//            setWindowTitle(wnd->getLongName());
-//        }
-//        return;
-//    }
-//    connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
+    m_children.push_back(wnd);
+    if(m_children.size() == 1)
+    {
+        setWindowIcon(getImageStorage()->icon(wnd->getIcon()));
+        setWindowTitle(wnd->getLongName());
+    }
+    connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
+    connect(wnd, SIGNAL(messageSendRequested(MessagePtr)), this, SLOT(messageSendRequested(MessagePtr)));
 //    connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
-//    m_wnds->addWidget(wnd);
-////    m_tabSplitter->addWidget(m_wnds);
-//    bool bHighlight = false;
-////    for(list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it)
-////	{
-////        if(it->contact == wnd->id())
-////		{
-////            bHighlight = true;
-////            break;
-////        }
-////    }
+    m_wnds->addWidget(wnd);
+    m_tabSplitter->addWidget(m_wnds);
 
-//    int tab = m_tabBar->addTab(Icon(wnd->getIcon()),wnd->getName());
-//    m_tabBar->setTabData(tab,QVariant::fromValue(wnd));
-//    if (bRaise)
-//        m_tabBar->setCurrentIndex(tab);
-//    else
-//        m_tabBar->repaint();
-//    contactSelected(0);
+    // TODO highlight if contact has unread messages
+
+    int tab = m_tabBar->addTab(getImageStorage()->icon(wnd->getIcon()), wnd->getName());
+    m_tabBar->setTabData(tab, QVariant::fromValue(wnd));
+    if (bRaise)
+        m_tabBar->setCurrentIndex(tab);
+    else
+        m_tabBar->repaint();
+
+    contactSelected(wnd->id());
+
+
 //    if ((m_tabBar->count() > 1) && !m_tabBar->isVisible())
-//	{
+//    {
 //        m_tabBar->show();
-//        if (getStatusSize()){
+//        if (getStatusSize())
+//        {
 //            QList<int> s;
 //            s.append(1);
 //            s.append(getStatusSize());
@@ -372,7 +322,7 @@ void Container::removeUserWnd(UserWnd *wnd)
 UserWnd *Container::wnd(unsigned id)
 {
     if (m_tabBar == NULL){
-        for (list<UserWnd*>::iterator it = m_childs.begin(); it != m_childs.end(); ++it){
+        for (QList<UserWnd*>::iterator it = m_children.begin(); it != m_children.end(); ++it){
             if ((*it)->id() == id)
                 return (*it);
         }
@@ -385,9 +335,9 @@ UserWnd *Container::wnd()
 {
     if(m_tabBar == NULL)
 	{
-        if (m_childs.empty())
+        if (m_children.empty())
             return NULL;
-        return m_childs.front();
+        return m_children.front();
     }
     return m_tabBar->currentWnd();
 }
@@ -406,7 +356,7 @@ void Container::showBar()
     //m_avatar_window.area()->moveDockWindow(&m_avatar_window, 0);
 }
 
-void Container::contactSelected(int)
+void Container::contactSelected(int contactId)
 {
 //    UserWnd *userWnd = m_tabBar ? m_tabBar->currentWnd() : 0;
 //    if (userWnd == NULL)
@@ -859,6 +809,11 @@ void Container::setReadMode()
     //m_bNoRead = false;
 }
 
+void Container::messageSendRequested(const MessagePtr& message)
+{
+    m_controller->sendMessage(message);
+}
+
 UserTabBar::UserTabBar(QWidget *parent) : QTabBar(parent)
 {
     //setShape(QTabBar::TriangularSouth);
@@ -1038,13 +993,14 @@ void UserTabBar::layoutTabs()
     //QTabBar::layoutTabs();
 }
 
-UserWnd* UserTabBar::wndForTab(int tab) {
-  QVariant v = tabData(tab);
-  if(!v.isValid())
-    return NULL;
-  if(!v.canConvert<UserWnd*>())
-    return NULL;
+UserWnd* UserTabBar::wndForTab(int tab)
+{
+    QVariant v = tabData(tab);
+    if(!v.isValid())
+        return NULL;
+    if(!v.canConvert<UserWnd*>())
+        return NULL;
 
-  return v.value<UserWnd*>();
+    return v.value<UserWnd*>();
 }
 

@@ -52,7 +52,7 @@ public:
 
     virtual QIcon icon() = 0;
     virtual QDateTime timestamp() = 0;
-    virtual QString toHtml() = 0;
+    virtual QString toXml() = 0;
     virtual QString toPlainText() = 0;
     virtual QString originatingClientId() const = 0;
     virtual QStringList choices() = 0;

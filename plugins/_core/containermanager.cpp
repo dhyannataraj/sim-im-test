@@ -38,7 +38,7 @@ ContainerPtr ContainerManager::container(int index)
 ContainerPtr ContainerManager::containerById(int id)
 {
     foreach(const ContainerPtr& c, m_containers) {
-        if(c->getId() == id)
+        if(c->id() == id)
             return c;
     }
     return ContainerPtr();
@@ -55,7 +55,7 @@ void ContainerManager::removeContainerById(int id)
 {
     int index = 0;
     foreach(const ContainerPtr& c, m_containers) {
-        if(c->getId() == id) {
+        if(c->id() == id) {
             m_containers.removeAt(index);
             return;
         }

@@ -28,6 +28,8 @@ namespace MockObjects
         MOCK_METHOD1(createSearchWidow, QWidget*(QWidget *parent));
         MOCK_METHOD0(groups, QList<SIM::IMGroupPtr>());
         MOCK_METHOD0(contacts, QList<SIM::IMContactPtr>());
+        MOCK_METHOD0(retrievePasswordLink, QString());
+        MOCK_METHOD0(createStatusWidget, QWidget*());
     };
 
     typedef QSharedPointer<MockClient> MockClientPtr;

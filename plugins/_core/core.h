@@ -33,6 +33,7 @@
 #include "simapi.h"
 #include "mainwin.h"
 #include "core_api.h"
+#include "containermanager.h"
 
 using namespace std;
 
@@ -156,7 +157,7 @@ public:
 //    QString clientName(SIM::Client *client);
 
 //    XSL	*historyXSL;
-//    static CorePlugin* instance();
+    static CorePlugin* instance();
 
 //    void setPropertyHub(SIM::PropertyHubPtr hub);
     SIM::PropertyHubPtr propertyHub();
@@ -165,7 +166,7 @@ public:
 
 //    void changeClientStatus(SIM::Client* client, const SIM::IMStatusPtr& status);
 
-//    ContainerManager* containerManager() const;
+    ContainerManager* containerManager() const;
     bool init();
 
 //signals:
@@ -256,7 +257,7 @@ private:
     MainWindow* m_main;
     CommonStatus* m_commonStatus;
 //    bool m_bIgnoreEvents;
-//    ContainerManager* m_containerManager;
+    ContainerManager* m_containerManager;
 
 //    // Event handlers:
 //    bool processEventIconChanged();

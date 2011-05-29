@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserWnd</class>
+ <widget class="QWidget" name="UserWnd">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>665</width>
+    <height>558</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>UserWnd</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="MsgView" name="msgView" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+        <widget class="MsgEdit" name="msgEdit" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QComboBox" name="cb_target"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MsgEdit</class>
+   <extends>QWidget</extends>
+   <header>msgedit.h</header>
+   <container>1</container>
+   <slots>
+    <signal>messageSendRequested(QString)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>MsgView</class>
+   <extends>QWidget</extends>
+   <header>msgview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>msgEdit</sender>
+   <signal>messageSendRequested(QString)</signal>
+   <receiver>UserWnd</receiver>
+   <slot>messageSendRequested(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>21</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>messageSendRequested(QString)</slot>
+ </slots>
+</ui>

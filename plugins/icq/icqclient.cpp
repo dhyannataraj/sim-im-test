@@ -1463,6 +1463,16 @@ void ICQClient::loginStep3()
     m_serviceSnac->sendClientReady();
 }
 
+bool ICQClient::sendMessage(const SIM::MessagePtr& message)
+{
+    if(message->originatingClientId() != name())
+    {
+        log(L_WARN, "ICQClient::sendMessage(): Invalid message client id");
+        return false;
+    }
+    return m_icbmSnac->sendMessage(message);
+}
+
 //void OscarSocket::flap(char channel)
 //{
 //    socket()->writeBuffer().packetStart();

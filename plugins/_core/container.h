@@ -22,6 +22,7 @@
 //#include "event.h"
 //#include "message.h"
 #include "contacts/contact.h"
+#include "containercontroller.h"
 
 #include <QMainWindow>
 #include <QDockWidget>
@@ -64,16 +65,6 @@ class Container;
 //    SIM::Data	WndConfig;
 //};
 
-class ContainerStatus : public QStatusBar
-{
-    Q_OBJECT
-public:
-    ContainerStatus(QWidget *parent);
-signals:
-    void sizeChanged(int);
-protected:
-    void resizeEvent(QResizeEvent*);
-};
 
 class UserTabBar : public QTabBar
 {
@@ -91,8 +82,10 @@ public:
     void setCurrent(unsigned i);
     unsigned current();
     bool isHighlighted(int  /*UserWnd *wnd*/);
+
 public slots:
     void slotRepaint();
+
 protected:
     virtual void layoutTabs();
     virtual void mousePressEvent(QMouseEvent *e);
@@ -118,20 +111,15 @@ public:
     void setNoSwitch(bool bState);
     void setMessageType(unsigned id);
     void contactChanged(const SIM::ContactPtr& contact);
-    void setId(int id);
-    int getId() const;
-    //PROP_ULONG(Id);
-    //PROP_STR(Windows);
-    //PROP_ULONG(ActiveWindow);
-    //PROP_ULONG(StatusSize);
-    //PROP_STRLIST(WndConfig);
+    int id() const;
+
     bool m_bNoRead;
-    void init();
+
 public slots:
     void addUserWnd(UserWnd*, bool bRaise);
     void removeUserWnd(UserWnd*);
     void raiseUserWnd(int /*UserWnd**/);
-    void contactSelected(int);
+    void contactSelected(int contactId);
     void toolbarChanged(QToolBar*);
     void statusChanged(int);
     void accelActivated();
@@ -140,7 +128,12 @@ public slots:
     void wndClosed();
     void flash();
     void setReadMode();
+
+protected slots:
+    void messageSendRequested(const SIM::MessagePtr& message);
+
 protected:
+    void init();
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
@@ -151,7 +144,6 @@ protected:
     QShortcut* makeShortcut(unsigned int key, unsigned int id);
     void loadState();
 
-    //ContainerData       data;
     bool                m_bInit;
     bool                m_bInSize;
     bool                m_bStatusSize;
@@ -159,17 +151,18 @@ protected:
     bool                m_bReceived;
     bool                m_bNoSwitch;
     //ToolBar            *m_bar;
-    QDockWidget         m_avatar_window;
-    QLabel              m_avatar_label;
-    QSplitter           *m_tabSplitter;
-    UserTabBar          *m_tabBar;
-    ContainerStatus     *m_status;
-    QStackedWidget      *m_wnds;
-    QList<QShortcut*>   m_shortcuts;
-    std::list<UserWnd*> m_childs;
-    QFrame *frm;
-    QVBoxLayout *lay;
+    QDockWidget*         m_avatar_window;
+    QLabel*              m_avatar_label;
+    QSplitter* m_tabSplitter;
+    UserTabBar* m_tabBar;
+    QStatusBar* m_status;
+    QStackedWidget* m_wnds;
+    QList<QShortcut*> m_shortcuts;
+    QList <UserWnd*> m_children;
+    QFrame *m_frame;
+    QVBoxLayout* m_layout;
     int m_id;
+    ContainerController* m_controller;
 };
 
 typedef QSharedPointer<Container> ContainerPtr;

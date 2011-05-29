@@ -11,6 +11,9 @@ public:
     ICQStatusConverter(ICQClient* client);
 
     ICQStatusPtr makeStatus(unsigned int icqStatusId);
+
+    static const int StatusMask = 0xff;
+    static const int StatusInvisible = 0x0100;
 private:
     ICQClient* m_client;
 };

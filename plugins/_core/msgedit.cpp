@@ -21,6 +21,7 @@
 #include "contacts/contact.h"
 #include "contacts/imcontact.h"
 #include "contacts/client.h"
+#include "imagestorage/imagestorage.h"
 
 #include "userwnd.h"
 
@@ -131,9 +132,8 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     //TextEdit::contentsDragMoveEvent(e); //FIXME
 }
 
-MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
+MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
 {
-//    m_userWnd	= userWnd;
 //    m_msg		= NULL;
 //    m_bTyping	= false;
 //    m_type		= NO_TYPE;
@@ -146,17 +146,17 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
 
 //    connect(CorePlugin::instance(), SIGNAL(modeChanged()), this, SLOT(modeChanged()));
 
-//    m_layout = new QVBoxLayout(this);
-//    m_layout->setMargin(0);
+    m_layout = new QVBoxLayout(this);
+    m_layout->setMargin(0);
 
-//    m_edit = new MsgTextEdit(this, this);
+    m_edit = new QTextEdit(this);
 //    m_edit->setBackground(QColor(CorePlugin::instance()->value("EditBackground").toUInt() & 0xFFFFFF));
 //    m_edit->setBackground(QColor(255, 255, 255));
 //    m_edit->setForeground(QColor(CorePlugin::instance()->value("EditForeground").toUInt() & 0xFFFFFF), true);
 //    m_edit->setFont(CorePlugin::instance()->editFont);
 //    m_edit->setCtrlMode(!CorePlugin::instance()->value("SendOnEnter").toBool());
 //    m_edit->setParam(this);
-//    setFocusProxy(m_edit);
+    setFocusProxy(m_edit);
 
 //    connect(m_edit, SIGNAL(lostFocus()), this, SLOT(editLostFocus()));
 //    connect(m_edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
@@ -168,13 +168,11 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd) : QFrame(parent)
 //    QFontMetrics fm(m_edit->font());
 //    m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
 
-//    EventToolbar e(ToolBarMsgEdit, NULL);
-//    e.process();
-//    m_bar = e.toolBar();
-//    m_bar->setParam(this);
-
-//    m_layout->addWidget(m_bar);
-//    m_layout->addWidget(m_edit);
+    m_bar = createToolBar();
+    m_layout->addWidget(m_bar);
+    m_layout->addWidget(m_edit);
+    connect(m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
+    textChanged();
 
 //    if (CorePlugin::instance()->getContainerMode() == 0)
 //        showCloseSend(false);
@@ -187,6 +185,99 @@ MsgEdit::~MsgEdit()
 //    if (m_retry.msg)
 //        delete m_retry.msg;
 //    emit finished();
+}
+
+void MsgEdit::setUserWnd(UserWnd* wnd)
+{
+    m_userWnd = wnd;
+}
+
+QString MsgEdit::messageHtml() const
+{
+    return m_edit->toHtml();
+}
+
+QToolBar* MsgEdit::createToolBar()
+{
+    QToolBar* bar = new QToolBar(this);
+    bar->addAction(getImageStorage()->icon("bgcolor"), I18N_NOOP("Back&ground color"), this, SLOT(chooseBackgroundColor()));
+    bar->addAction(getImageStorage()->icon("fgcolor"), I18N_NOOP("Fo&reground color"), this, SLOT(chooseForegroundColor()));
+
+    QAction* bold = bar->addAction(getImageStorage()->icon("text_bold"), I18N_NOOP("&Bold"), this, SLOT(setBold(bool)));
+    bold->setCheckable(true);
+
+    QAction* italic = bar->addAction(getImageStorage()->icon("text_italic"), I18N_NOOP("&Italic"), this, SLOT(setItalic(bool)));
+    italic->setCheckable(true);
+
+    QAction* underline = bar->addAction(getImageStorage()->icon("text_under"), I18N_NOOP("&Underline"), this, SLOT(setUnderline(bool)));
+    underline->setCheckable(true);
+
+    bar->addAction(getImageStorage()->icon("text"), I18N_NOOP("Select f&ont"), this, SLOT(chooseFont()));
+
+    bar->addSeparator();
+
+    QAction* closeAfterSend = bar->addAction(getImageStorage()->icon("fileclose"), I18N_NOOP("C&lose after send"), this, SLOT(setCloseOnSend(bool)));
+    closeAfterSend->setCheckable(true);
+
+    m_sendAction = bar->addAction(getImageStorage()->icon("mail_generic"), I18N_NOOP("&Send"), this, SLOT(send()));
+
+    return bar;
+}
+
+void MsgEdit::chooseBackgroundColor()
+{
+
+}
+
+void MsgEdit::chooseForegroundColor()
+{
+
+}
+
+void MsgEdit::setBold(bool b)
+{
+}
+
+void MsgEdit::setItalic(bool b)
+{
+
+}
+
+void MsgEdit::setUnderline(bool b)
+{
+
+}
+
+void MsgEdit::chooseFont()
+{
+}
+
+void MsgEdit::setCloseOnSend(bool b)
+{
+
+}
+
+void MsgEdit::send()
+{
+    QString html = m_edit->document()->toHtml();
+    if(html.isEmpty())
+        return;
+
+    emit messageSendRequest(html);
+}
+
+void MsgEdit::textChanged()
+{
+    if(m_edit->toPlainText().isEmpty() &&
+            m_sendAction->isEnabled())
+    {
+        m_sendAction->setEnabled(false);
+    }
+    else if(!m_edit->toPlainText().isEmpty() &&
+            !m_sendAction->isEnabled())
+    {
+        m_sendAction->setEnabled(true);
+    }
 }
 
 //void MsgEdit::editFinished()
@@ -971,6 +1062,12 @@ MsgEdit::~MsgEdit()
 //{
 //    showCloseSend(CorePlugin::instance()->getContainerMode() != 0);
 //    m_edit->setCtrlMode(CorePlugin::instance()->value("SendOnEnter").toBool());
+//}
+
+//void MsgEdit::setColors()
+//{
+//    QTextEdit::setBackground(CorePlugin::instance()->propertyHub()->value("EditBackground").toUInt());
+//    QTextEdit::setForeground(CorePlugin::instance()->propertyHub()->value("EditForeground").toUInt());
 //}
 
 //bool MsgEdit::setType(unsigned type)

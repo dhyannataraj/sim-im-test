@@ -8,9 +8,14 @@
 
 namespace MockObjects
 {
+    class MockIMContact;
+    typedef QSharedPointer<MockIMContact> MockIMContactPtr;
+    typedef QSharedPointer<testing::NiceMock<MockIMContact> > NiceMockIMContactPtr;
+
     class MockIMContact : public SIM::IMContact
     {
     public:
+        static MockIMContactPtr create() { return MockIMContactPtr(new MockIMContact()); }
         MOCK_METHOD0(client, SIM::Client*());
         MOCK_CONST_METHOD0(status, SIM::IMStatusPtr());
         MOCK_CONST_METHOD0(name, QString());
@@ -24,8 +29,6 @@ namespace MockObjects
         MOCK_METHOD1(deserialize, void(QDomElement& element));
         MOCK_METHOD1(deserialize, bool(const QString&));
     };
-    typedef QSharedPointer<MockIMContact> MockIMContactPtr;
-    typedef QSharedPointer<testing::NiceMock<MockIMContact> > NiceMockIMContactPtr;
 }
 
 #endif // MOCKIMCONTACT_H

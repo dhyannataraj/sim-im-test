@@ -17,10 +17,8 @@
 
 #include "simapi.h"
 
-//#include "icons.h"
-//#include "html.h"
-//#include "unquot.h"
-//#include "xsl.h"
+#include "imagestorage/imagestorage.h"
+#include "xsl.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
 
@@ -39,8 +37,8 @@
 using namespace std;
 using namespace SIM;
 
-static char MSG_ANCHOR[] = "<a name=\"m://";
-static char MSG_BEGIN[]  = "<a name=\"b\"/>";
+//static char MSG_ANCHOR[] = "<a name=\"m://";
+//static char MSG_BEGIN[]  = "<a name=\"b\"/>";
 
 //class ViewParser : public HTMLParser
 //{
@@ -73,151 +71,40 @@ static char MSG_BEGIN[]  = "<a name=\"b\"/>";
 //    virtual void tag_end(const QString &tag);
 //};
 
-///*
-//   This parser is run on the output of the 'history XSL'.
-//   The text which the XSL process output should generally be HTML,
-//   but may contain the following special tags:
- 
-//    <prepend>...</prepend>
-//    Strips the PREPEND tags and prepends their contents to the beginning
-//    of the next paragraph. Useful to make sure chat prefixes are prepended
-//    to the first paragraph of a multi-paragraph message (instead of residing
-//    on a new paragraph).
-//*/
 
-//class XslOutputParser : public HTMLParser
-//{
-//public:
-//    XslOutputParser();
-//    QString parse(const QString &str);
-
-//protected:
-//    virtual void text(const QString &text);
-//    virtual void tag_start(const QString &tag, const list<QString> &options);
-//    virtual void tag_end(const QString &tag);
-
-//protected:
-//    QString res;
-//    bool m_bInPrepend;
-//    QString m_sPrepend;
-//};
-
-//XslOutputParser::XslOutputParser()
-//        : m_bInPrepend(false)
-//{
-//}
-
-//QString XslOutputParser::parse(const QString &str)
-//{
-//    res = QString::null;
-//    HTMLParser::parse(str);
-//    if (!m_sPrepend.isEmpty())
-//        res = m_sPrepend + res;
-//    return res;
-//}
-
-//void XslOutputParser::text(const QString& text)
-//{
-//    if (m_bInPrepend)
-//        m_sPrepend += quoteString(text);
-//    else
-//        res += quoteString(text);
-//}
-
-//void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
-//{
-//    QString ltag = tag.toLower();
-
-//    if (ltag == "prepend")
-//    {
-//        m_bInPrepend = true;
-//        return;
-//    }
-
-//    QString tagText;
-//    tagText += '<';
-//    tagText += tag;
-//    for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
-//        QString name = *it;
-//        ++it;
-//        QString value = *it;
-//        tagText += ' ';
-//        tagText += name;
-//        if (!value.isEmpty()){
-//            tagText += "=\"";
-//            tagText += value;
-//            tagText += '\"';
-//        }
-//    }
-//    tagText += '>';
-
-//    if (m_bInPrepend)
-//    {
-//        m_sPrepend += tagText;
-//    }
-//    else
-//    {
-//        res += tagText;
-
-//        // It's time to prepend whatever we've got in m_sPrepend
-//        // to the start of a paragraph.
-//        if ((ltag == "p") && !m_sPrepend.isEmpty())
-//        {
-//            res += m_sPrepend;
-//            m_sPrepend = QString::null;
-//        }
-//    }
-//}
-
-//void XslOutputParser::tag_end(const QString &tag)
-//{
-//    QString ltag = tag.toLower();
-
-//    if (ltag == "prepend")
-//    {
-//        m_bInPrepend = false;
-//        return;
-//    }
-
-//    QString tagText;
-//    tagText += "</";
-//    tagText += tag;
-//    tagText += '>';
-
-//    if (m_bInPrepend)
-//        m_sPrepend += tagText;
-//    else
-//        res += tagText;
-//}
-
-MsgViewBase::MsgViewBase(QWidget *parent, const char *name, unsigned id)
-//        : m_id          (id)
+MsgView::MsgView(QWidget *parent, int id) : QTextEdit(parent),
+        m_id(id),
+        m_xsl(0)
 //        , m_popupPos    (QPoint(0, 0))
 //        , m_nSelection  (0)
-//        , xsl           (NULL)
 {
     // Disable top and bottom margins for P tags. This will make sure
     // paragraphs have no more spacing than regular lines, thus matching
     // RTF's defaut look for paragraphs.
     document()->setDefaultStyleSheet("p { margin-top: 0; margin-bottom: 0; }");
 
-    //setColors();
     //setFont(CorePlugin::instance()->editFont);
-    //setContextMenuPolicy( Qt::DefaultContextMenu );
+    setContextMenuPolicy(Qt::DefaultContextMenu);
+    setReadOnly(true);
 }
 
-MsgViewBase::~MsgViewBase()
+MsgView::~MsgView()
 {
-//    if (xsl)
-//        delete xsl;
+    if(m_xsl)
+        delete m_xsl;
 }
 
-//void MsgViewBase::setXSL(XSL *n_xsl)
-//{
-//    if (xsl)
-//        delete xsl;
-//    xsl = n_xsl;
-//}
+int MsgView::id() const
+{
+    return m_id;
+}
+
+void MsgView::setXSL(XSL* n_xsl)
+{
+    if(m_xsl)
+        delete m_xsl;
+    m_xsl = n_xsl;
+}
 
 //void MsgViewBase::setSelect(const QString &str)
 //{
@@ -645,12 +532,6 @@ MsgViewBase::~MsgViewBase()
 //    }
 
 //    return false;
-//}
-
-//void MsgViewBase::setColors()
-//{
-//    TextShow::setBackground(CorePlugin::instance()->value("EditBackground").toUInt());
-//    TextShow::setForeground(CorePlugin::instance()->value("EditForeground").toUInt());
 //}
 
 //unsigned MsgViewBase::messageId(const QString &_s, QString &client)
@@ -1101,9 +982,9 @@ MsgViewBase::~MsgViewBase()
 //    delete pMenu;
 //}
 
-MsgView::MsgView(QWidget *parent, unsigned id)
-        : MsgViewBase(parent, NULL, id)
-{
+//MsgView::MsgView(QWidget *parent, unsigned id)
+//        : MsgViewBase(parent, NULL, id)
+//{
 //    int nCopy = CorePlugin::instance()->value("CopyMessages").toUInt();
 //    unsigned nUnread = 0;
 //    for (list<msg_id>::iterator it = CorePlugin::instance()->unread.begin(); it != CorePlugin::instance()->unread.end(); ++it){
@@ -1142,11 +1023,11 @@ MsgView::MsgView(QWidget *parent, unsigned id)
 //        sbar->setValue( sbar->maximum() );
 //    }
 //    QTimer::singleShot(0, this, SLOT(init()));
-}
+//}
 
-MsgView::~MsgView()
-{
-}
+//MsgView::~MsgView()
+//{
+//}
 
 //void MsgView::init()
 //{

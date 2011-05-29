@@ -26,7 +26,9 @@
 #include "contacts/contact.h"
 #include "contacts/group.h"
 #include "contacts/client.h"
+#include "contacts/contactlist.h"
 #include "imagestorage/imagestorage.h"
+#include "messaging/genericmessage.h"
 
 #include <QToolBar>
 #include <QApplication>
@@ -39,53 +41,27 @@
 using namespace std;
 using namespace SIM;
 
-//static DataDef userWndData[] =
-//    {
-//        { "EditHeight", DATA_ULONG, 1, 0 },
-//        { "EditBar", DATA_LONG, 7, 0 },
-//        { "MessageType", DATA_ULONG, 1, 0 },
-//        { NULL, DATA_UNKNOWN, 0, 0 }
-//    };
-
-//FIXME: Obsolete?
-//static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
-//{
-//    for(unsigned i = 0; i < count; i++)
-//        dest[i] = src[i];
-//}
-
-UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
-        : QSplitter(Qt::Horizontal, NULL)
+UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
+        : m_ui(new Ui::UserWnd)
         , m_id (id)
         , m_bResize (false) 
         , m_bClosed (false) 
         , m_bTyping (false) 
         , m_targetContactList(0)
-        , m_view (NULL)
 {
-    //load_data(userWndData, &data, cfg);
-    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    m_splitter = new QSplitter(Qt::Vertical, this);
+    m_ui->setupUi(this);
 
-    /* Fixme Todin
-    if (cfg == NULL)
-        copyData(data.editBar, CorePlugin::instance()->data.EditBar, 7);
-    */
-
-    //m_bBarChanged = true; //Obsololete?
 //    if (CorePlugin::instance()->getContainerMode())
 //        bReceived = false;
-//    addWidget(m_splitter);
-//    m_edit = new MsgEdit(m_splitter, this);
-//    setFocusProxy(m_edit);
-//    restoreToolbar(m_edit->m_bar, data.editBar);
-//    m_bBarChanged = false; //Obsololete?
-//    m_splitter->addWidget(m_edit);
+
+    setFocusProxy(m_ui->msgEdit);
 
 //    connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
-//    connect(CorePlugin::instance(), SIGNAL(modeChanged()), this, SLOT(modeChanged()));
+    connect(CorePlugin::instance(), SIGNAL(containerModeChanged()), this, SLOT(modeChanged()));
+    connect(m_ui->msgEdit, SIGNAL(messageSendRequest(QString)), this, SLOT(slot_messageSendRequested(QString)));
 //    connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
-//    modeChanged();
+    modeChanged();
+    refreshTargetList();
 
 //    if ((!bAdjust && getMessageType() == 0) || (m_edit->adjustType()))
 //        return;
@@ -116,9 +92,8 @@ QByteArray UserWnd::getConfig()
 
 QString UserWnd::getName()
 {
-//    ContactPtr contact = getContacts()->contact(m_id);
-//    return contact ? contact->getName() : QString::null;
-    return QString();
+    ContactPtr contact = getContactList()->contact(m_id);
+    return contact ? contact->name() : QString::null;
 }
 
 QString UserWnd::getLongName()
@@ -191,13 +166,6 @@ QString UserWnd::getIcon()
 
 void UserWnd::modeChanged()
 {
-//    if (CorePlugin::instance()->getContainerMode())
-//    {
-//        if (m_view == NULL)
-//            m_view = new MsgView(m_splitter, m_id);
-//        m_splitter->insertWidget(0, m_view);
-//        m_splitter->setStretchFactor(0, 0);
-//        m_view->show();
 //        int editHeight = getEditHeight();
 //        if (editHeight == 0)
 //            editHeight = CorePlugin::instance()->value("EditHeight").toInt(); //getEditHeight();
@@ -210,15 +178,7 @@ void UserWnd::modeChanged()
 //            m_splitter->setSizes(s);
 //            m_bResize = false;
 //        }
-//    }
-//    else
-//    {
-//        if (m_view)
-//        {
-//            delete m_view;
-//            m_view = NULL;
-//        }
-//    }
+
 }
 
 void UserWnd::editHeightChanged(int h)
@@ -303,6 +263,40 @@ void UserWnd::showListView(bool bShow)
 void UserWnd::selectChanged()
 {
     emit multiplyChanged();
+}
+
+void UserWnd::slot_messageSendRequested(const QString& messageText)
+{
+    ContactPtr contact = getContactList()->contact(id());
+    if(!contact)
+    {
+        log(L_WARN, "UserWnd::slot_messageSendRequested : !contact : %d", id());
+        return;
+    }
+    IMContactPtr imcontact = contact->clientContact(m_ui->cb_target->currentIndex());
+    if(!imcontact)
+    {
+        log(L_WARN, "UserWnd::slot_messageSendRequested : !imcontact : %d", id());
+        return;
+    }
+    SIM::MessagePtr message = SIM::MessagePtr(new SIM::GenericMessage(imcontact, messageText));
+    emit messageSendRequested(message);
+}
+
+void UserWnd::refreshTargetList()
+{
+    m_ui->cb_target->clear();
+    ContactPtr contact = getContactList()->contact(id());
+    if(!contact)
+    {
+        log(L_WARN, "UserWnd::refreshTargetList : !contact : %d", id());
+        return;
+    }
+    for(int i = 0; i < contact->clientContactCount(); i++)
+    {
+        IMContactPtr imcontact = contact->clientContact(i);
+        m_ui->cb_target->addItem(imcontact->status()->icon(), imcontact->name());
+    }
 }
 
 void UserWnd::fillContactList(QTreeWidget* tree)

@@ -2,12 +2,13 @@
 #include "icqclient.h"
 #include "bytearraybuilder.h"
 #include "log.h"
+#include "messaging/message.h"
 
 using SIM::log;
 using SIM::L_WARN;
 
 IcbmSnacHandler::IcbmSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_MESSAGE),
-    m_ready(false)
+    m_ready(false), m_currentCookie(0)
 {
 }
 
@@ -65,6 +66,60 @@ bool IcbmSnacHandler::isReady() const
     return m_ready;
 }
 
+bool IcbmSnacHandler::sendMessage(const SIM::MessagePtr& message)
+{
+    ICQContactPtr contact = message->contact().toStrongRef().dynamicCast<ICQContact>();
+    if(!contact)
+    {
+        log(L_WARN, "IcbmSnacHandler::sendMessage(): Unable to cast IMContact");
+        return false;
+    }
+
+    OscarSocket* socket = m_client->oscarSocket();
+    Q_ASSERT(socket);
+
+    QByteArray packet = makeSendPlainTextPacket(message);
+
+    socket->snac(getType(), SnacIcbmSendMessage, 0, packet);
+    return true;
+}
+
+QByteArray IcbmSnacHandler::makeSendPlainTextPacket(const SIM::MessagePtr& message)
+{
+    ICQContactPtr contact = message->contact().toStrongRef().dynamicCast<ICQContact>();
+    // FIXME check
+    Q_ASSERT(contact);
+    ByteArrayBuilder builder;
+    QByteArray cookie = generateCookie();
+    builder.appendBytes(cookie);
+    builder.appendWord(0x0001); // FIXME hardcoded const
+
+    QByteArray contactId = contact->getScreen().toUtf8();
+    builder.appendByte(contactId.length());
+    builder.appendBytes(contactId);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(TlvMessage, makeMessageTlv(message)));
+    tlvs.append(Tlv(TlvServerAck, QByteArray()));
+    tlvs.append(Tlv(TlvSendOffline, QByteArray()));
+
+    builder.appendBytes(tlvs.toByteArray());
+    return builder.getArray();
+}
+
+QByteArray IcbmSnacHandler::makeMessageTlv(const SIM::MessagePtr& message)
+{
+    ByteArrayBuilder builder;
+    builder.appendWord(0x0501); // Features signature
+    builder.appendByte(0x01); // Features length
+    builder.appendByte(0x01); // Features
+    builder.appendWord(0x0101); // Message info signature
+    QByteArray messageText = message->toPlainText().toUtf8(); // FIXME ? encoding
+    builder.appendWord(8 + messageText.length());
+    builder.appendBytes(messageText);
+    return builder.getArray();
+}
+
 bool IcbmSnacHandler::processParametersInfo(const QByteArray& arr)
 {
     ByteArrayParser parser(arr);
@@ -94,4 +149,11 @@ bool IcbmSnacHandler::sendNewParametersInfo()
 
     socket->snac(getType(), SnacIcbmSetParameters, 0, builder.getArray());
     return true;
+}
+
+QByteArray IcbmSnacHandler::generateCookie()
+{
+    QByteArray cookie((char*)&m_currentCookie, sizeof(m_currentCookie));
+    m_currentCookie++;
+    return cookie;
 }

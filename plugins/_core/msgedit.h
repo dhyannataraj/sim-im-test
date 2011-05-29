@@ -58,13 +58,14 @@ class MsgEdit : public QFrame //, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgEdit(QWidget *parent, UserWnd *userWnd);
+    MsgEdit(QWidget *parent);
     ~MsgEdit();
+
+    void setUserWnd(UserWnd* wnd);
+    QString messageHtml() const;
 //    CToolBar    *m_bar;
 //    bool        setMessage(SIM::Message *msg, bool bSetFocus);
-//    UserWnd     *m_userWnd;
-//    TextEdit	*m_edit;
-//    QVBoxLayout	*m_layout;
+//
 //    bool        sendMessage(SIM::Message *msg);
 //    static void setupMessages();
 //    void        getWays(std::vector<ClientStatus> &cs, SIM::Contact *contact);
@@ -75,7 +76,8 @@ public:
 //    unsigned	type() { return m_type; }
 //    bool        adjustType();
 //    QString     m_resource;
-//signals:
+signals:
+    void messageSendRequest(const QString& message);
 //    void heightChanged(int);
 //    void init();
 //    void finished();
@@ -113,6 +115,27 @@ public:
 //    SIM::Message   *m_msg;
 //    EventMessageRetry::MsgSend m_retry;
 //    QString         m_client;
+
+private slots:
+    void chooseBackgroundColor();
+    void chooseForegroundColor();
+    void chooseFont();
+    void setBold(bool b);
+    void setItalic(bool b);
+    void setUnderline(bool b);
+    void setCloseOnSend(bool b);
+    void send();
+
+    void textChanged();
+private:
+    QToolBar* createToolBar();
+
+    QToolBar* m_bar;
+    QTextEdit *m_edit;
+    UserWnd* m_userWnd;
+    QVBoxLayout *m_layout;
+
+    QAction* m_sendAction;
 };
 
 //class SmileLabel : public QLabel

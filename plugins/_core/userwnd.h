@@ -21,6 +21,7 @@
 //#include "cfg.h"
 //#include "message.h"
 #include "messaging/message.h"
+#include "ui_userwnd.h"
 
 #include <QSplitter>
 #include <QByteArray>
@@ -32,18 +33,11 @@ class MsgView;
 class CorePlugin;
 class QToolBar;
 
-//struct UserWndData
-//{
-//    SIM::Data	EditHeight;
-//    SIM::Data	editBar[7];
-//    SIM::Data	MessageType;
-//};
-
-class UserWnd : public QSplitter
+class UserWnd : public QWidget
 {
     Q_OBJECT
 public:
-    UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
+    UserWnd(unsigned long id, bool bReceived, bool bAdjust);
     ~UserWnd();
     QByteArray getConfig();
     unsigned long id() const;
@@ -58,35 +52,38 @@ public:
     void markAsRead();
     bool isClosed() { return m_bClosed; }
     bool m_bTyping;
-//    PROP_ULONG(MessageType);
 
     bool isMultisendActive() const;
     QList<int> multisendContacts() const;
+
 signals:
     void closed(UserWnd*);
     void statusChanged(UserWnd*);
     void multiplyChanged();
+    void messageSendRequested(const SIM::MessagePtr& message);
+
 protected slots:
     void modeChanged();
     void editHeightChanged(int);
     void toolbarChanged(bool);
     void selectChanged();
+
+    void refreshTargetList();
+
+    void slot_messageSendRequested(const QString& messageText);
+
 protected:
-//    PROP_ULONG(EditHeight);
     void closeEvent(QCloseEvent*);
     void fillContactList(QTreeWidget* tree);
 
-    MsgView		*m_view;
-    MsgEdit		*m_edit;
-    QSplitter           *m_splitter;
-    QString		m_status;
-    bool		m_bResize;
-    bool		m_bClosed;
-    bool		m_bBarChanged;
-    unsigned long	m_id;
+    QString m_status;
+    bool m_bResize;
+    bool m_bClosed;
+    bool m_bBarChanged;
+    unsigned long m_id;
     QTreeWidget* m_targetContactList;
     static const int ContactIdRole = Qt::UserRole + 1;
-    //UserWndData	data;
+    Ui::UserWnd* m_ui;
 };
 
 #endif

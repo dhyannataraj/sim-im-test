@@ -31,4 +31,12 @@ namespace
         ASSERT_TRUE(status);
         ASSERT_EQ("online", status->id());
     }
+
+    TEST_F(TestICQStatusConverter, convertsInvisible)
+    {
+        ICQStatusPtr status = converter->makeStatus(0x00000100);
+        ASSERT_TRUE(status);
+        ASSERT_EQ("online", status->id());
+        ASSERT_TRUE(status->flag(SIM::IMStatus::flInvisible));
+    }
 }

@@ -36,6 +36,8 @@ SET(sim_LIB_SRCS
         messaging/messagepipe.cpp
         messaging/standardmessagepipe.cpp
         messaging/messageprocessor.cpp
+        messaging/messageoutpipe.cpp
+        messaging/standardmessageoutpipe.cpp
 		misc.cpp
 		paths.cpp
 		plugins.cpp
@@ -109,6 +111,8 @@ SET(sim_LIB_HDRS
         messaging/messagepipe.h
         messaging/standardmessagepipe.h
         messaging/messageprocessor.h
+        messaging/messageoutpipe.h
+        messaging/standardmessageoutpipe.h
 		misc.h
 		paths.h
 		plugins.h
@@ -233,6 +237,7 @@ SET(sim_tests_srcs
     tests/testgroup.cpp
     tests/testmessagepipe.cpp
     tests/teststandardcontactlist.cpp
+    tests/teststandardmessageoutpipe.cpp
 )
 
 
@@ -242,9 +247,11 @@ SET(sim_tests_hdrs
     tests/stubs/stubimagestorage.h
     tests/stubs/stubimcontact.h
     tests/stubs/stubimgroup.h
+    tests/stubs/stubmessage.h
     tests/mocks/mockcontactlist.h
     tests/mocks/mockimcontact.h
     tests/mocks/mockasyncsocket.h
+    tests/mocks/mockmessageoutpipe.h
     tests/testuicommand.h
     tests/gtest-qt.h
 )
