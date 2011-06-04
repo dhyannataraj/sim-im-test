@@ -631,11 +631,11 @@ Icons::Icons()
     QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
     if (oldDefaultFactory)
         QMimeSourceFactory::addFactory( oldDefaultFactory );
-    addIconSet("icons/CrystalClear.jisp", true);  // FIXME: This should be configured from cmake
+    addIconSet("icons/sim.jisp", true);
     d->defSets.append(new WrkIconSet);
-    addIconSet("icons/CrystalClearSmiles.jsp", false);
-//    addIconSet("icons/icqlite.jisp", false);
-//    addIconSet("icons/additional.jisp", false);
+    addIconSet("icons/smiles.jisp", false);
+    addIconSet("icons/icqlite.jisp", false);
+    addIconSet("icons/additional.jisp", false);	
 }
 
 Icons::~Icons()
