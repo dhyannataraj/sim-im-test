@@ -203,7 +203,6 @@ void UpdatePlugin::Finished(int requestId, bool error){
 	
     if (Request==requestId) {
 		QString remoteVersion(bytes);
-		QDate date=QDate::fromString(remoteVersion,Qt::LocalDate);
 		QString currentVersion = SIM::getAboutData()->version();
 		QString majorVersion = currentVersion.section(' ',0,2,QString::SectionDefault);
 		if (!isUpdateNeeded(currentVersion, remoteVersion)){ //If no Update is needed don't go further.
@@ -273,7 +272,7 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	local	= local.replace("  "," ");
 	
 	local   = local.section (' ',2,5,QString::SectionDefault);
-	remote  = remote.section(' ',4,4,QString::SectionDefault);
+	remote  = remote.section(' ',3,4,QString::SectionDefault);
 	
 	QString month("Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec");
 	QStringList ml=QStringList::split(',', month);
