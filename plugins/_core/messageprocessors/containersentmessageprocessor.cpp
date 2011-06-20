@@ -1,5 +1,5 @@
 #include "containersentmessageprocessor.h"
-#include "containercontroller.h"
+#include "container/containercontroller.h"
 
 ContainerSentMessageProcessor::ContainerSentMessageProcessor(ContainerController* controller) : m_controller(controller)
 {

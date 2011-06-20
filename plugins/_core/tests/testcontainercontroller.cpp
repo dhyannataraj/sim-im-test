@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "containercontroller.h"
+#include "container/containercontroller.h"
 #include "tests/mocks/mockmessagepipe.h"
 #include "tests/stubs/stubmessage.h"
 #include "messaging/messagepipe.h"

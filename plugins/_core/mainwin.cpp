@@ -27,7 +27,7 @@
 #include "commands/uicommand.h"
 #include "imagestorage/imagestorage.h"
 #include "clientmanager.h"
-#include "userwnd.h"
+#include "container/userwnd.h"
 
 #include <QApplication>
 #include <QPixmap>

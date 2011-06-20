@@ -8,7 +8,7 @@ class UserWnd;
 class UserWndController
 {
 public:
-    virtual ~UserWndController();
+    virtual ~UserWndController() {}
 
     virtual void setUserWnd(UserWnd* wnd) = 0;
     virtual UserWnd* userWnd() const = 0;

@@ -12,12 +12,12 @@ SET(_core_SRCS
 #        commands.cpp
 #        connectionsettings.cpp
 #        connectwnd.cpp
-        containermanager.cpp
-        containercontroller.cpp
-        container.cpp
+        container/containermanager.cpp
+        container/containercontroller.cpp
+        container/container.cpp
         core.cpp
         commonstatus.cpp
-        icontainer.cpp
+        container/icontainer.cpp
 #        declinedlg.cpp
 #        editmail.cpp
 #        editphone.cpp
@@ -66,9 +66,9 @@ SET(_core_SRCS
 #        userhistorycfg.cpp
 #        userlist.cpp
 #        userviewcfg.cpp
-        standarduserwndcontroller.cpp
-        userwndcontroller.cpp
-        userwnd.cpp
+        container/standarduserwndcontroller.cpp
+        container/userwndcontroller.cpp
+        container/userwnd.cpp
         roster/userview.cpp
         roster/userviewmodel.cpp
 #        roster/userviewdelegate.cpp
@@ -91,13 +91,13 @@ SET(_core_HDRS
 #        commands.h
 #        connectionsettings.h
 #        connectwnd.h
-        containermanager.h
-        containercontroller.h
-        container.h
+        container/containermanager.h
+        container/containercontroller.h
+        container/container.h
         core.h
         core_api.h
         commonstatus.h
-        icontainer.h
+        container/icontainer.h
 #        core_consts.h
 #        core_events.h
 #        declinedlg.h
@@ -141,9 +141,9 @@ SET(_core_HDRS
 #        userhistorycfg.h
 #        userlist.h
 #        userviewcfg.h
-        standarduserwndcontroller.h
-        userwndcontroller.h
-        userwnd.h
+        container/standarduserwndcontroller.h
+        container/userwndcontroller.h
+        container/userwnd.h
         roster/userview.h
         roster/userviewmodel.h
 #        roster/userviewdelegate.h
@@ -180,7 +180,7 @@ SET(_core_UICS
 #        toolsetupbase.ui
 #        userhistorycfgbase.ui
 #        userviewcfgbase.ui
-        userwnd.ui
+        container/userwnd.ui
 )
 
 SET(core_test_sources

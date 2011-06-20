@@ -23,7 +23,7 @@
 #include "contacts/client.h"
 #include "imagestorage/imagestorage.h"
 
-#include "userwnd.h"
+#include "container/userwnd.h"
 
 #include "log.h"
 #include "container.h"
