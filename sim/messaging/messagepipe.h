@@ -26,6 +26,12 @@ EXPORT void destroyMessagePipe();
 EXPORT void setMessagePipe(MessagePipe* pipe);
 EXPORT MessagePipe* getMessagePipe();
 
+EXPORT void createOutMessagePipe();
+EXPORT void destroyOutMessagePipe();
+
+EXPORT void setOutMessagePipe(MessagePipe* pipe);
+EXPORT MessagePipe* getOutMessagePipe();
+
 
 } // namespace SIM
 

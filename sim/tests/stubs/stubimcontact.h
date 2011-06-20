@@ -15,6 +15,11 @@ public:
         return m_client;
     }
 
+    virtual SIM::IMContactId id() const
+    {
+        return SIM::IMContactId();
+    }
+
     virtual SIM::IMStatusPtr status() const
     {
         return SIM::IMStatusPtr();

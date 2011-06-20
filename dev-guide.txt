@@ -1,0 +1,80 @@
+
+= General guidelines =
+
+All new code (except GUI) should be covered with tests.
+
+= Deprecation state of all modules =
+
+= Simlib =
+
+General description.
+
+== Singletons ==
+Most of the services are provided as singletons. Singletons initialized and deinitialized in sim.cpp:main().
+In future, we should get rid of singletons.
+
+=== EventHub ===
+An event delivery facility. It is based on qt signals/slots. An object can subscribe one of his slots for
+given event, and if anyone triggers this event, the slot will be called.
+
+==== Events framework ====
+In order to trigger event one should call EventHub::triggerEvent(event_name, event_parameters (optional)), where
+event_name - String id of the event to trigger
+event_parameters - QSharedPointer to subclass of appropriate EventData. Each registered event has it's own EventData subclass.
+
+In order to create a new event one should:
+1) Create an EventData subclass with static method "create" which takes all parameters that should be passed to the event
+listener and returns a QSharedPointer to the newly created instance of this subclass.
+
+2) Create an IEvent subclass, define a signal, which will be emitted on event trigger, with arbitrary signature and
+override "connectTo" and "triggered" methods to match the signature of the signal. (See sim/events/logevent.{h,cpp})
+
+3) Register event using EventHub::registerEvent.
+
+To subscribe on event one should:
+1) Obtain a pointer to IEvent subclass using EventHub::getEvent
+
+2) Call "connectTo" method of this subclass to connect the "eventTriggered" signal of this subclass to needed slot.
+
+=== MessagePipe ===
+
+=== MessageOutPipe ===
+
+=== ImageStorage ===
+
+=== CommandHub ===
+
+=== ContactList ===
+
+=== ProtocolManager ===
+
+=== PluginManager ===
+
+=== ClientManager ===
+
+=== HistoryStorage ===
+
+=== ProfileManager ===
+
+== Contact/Group framework ==
+
+== Networking framework ==
+
+
+= Core plugin =
+
+General description
+
+== UI ==
+
+=== Roster ===
+
+=== Container ===
+
+
+= Icq plugin =
+
+General description
+
+== Things to change ==
+

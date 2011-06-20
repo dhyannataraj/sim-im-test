@@ -17,7 +17,10 @@ namespace MockObjects
         static MockMessagePtr create() { return MockMessagePtr(new MockMessage()); }
 
         MOCK_METHOD0(client, SIM::Client*());
-        MOCK_CONST_METHOD0(contact, SIM::IMContactWeakPtr());
+        MOCK_CONST_METHOD0(targetContact, SIM::IMContactWeakPtr());
+        MOCK_CONST_METHOD0(sourceContact, SIM::IMContactWeakPtr());
+        MOCK_CONST_METHOD0(targetContactName, QString());
+        MOCK_CONST_METHOD0(sourceContactName, QString());
 
         MOCK_METHOD0(icon, QIcon());
         MOCK_METHOD0(timestamp, QDateTime());

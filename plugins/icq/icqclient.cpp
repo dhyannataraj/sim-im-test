@@ -83,9 +83,8 @@ static const char icq_server[] = "login.icq.com";
 
 ICQClientData::ICQClientData(ICQClient* client)
     : m_port(5190)
-    , owner(client)
 {
-
+    owner = ICQContactPtr(new ICQContact(client));
 }
 
 QByteArray ICQClientData::serialize()
@@ -148,10 +147,10 @@ void ICQClientData::deserializeLine(const QString& key, const QString& value)
     }
     if(key == "Uin") {
         setUin(val);
-        owner.setUin(val.toULong());
+        owner->setUin(val.toULong());
     }
 	if(key == "Password") {
-		owner.client()->setCryptedPassword(val);
+        owner->client()->setCryptedPassword(val);
     }
     if(key == "ServerPort") {
         setPort(val.toULong());
@@ -249,7 +248,7 @@ void ICQClientData::deserializeLine(const QString& key, const QString& value)
         setMediaSense(val == "true");
         return;
     }
-    owner.deserializeLine(key, value);
+    owner->deserializeLine(key, value);
 }
 
 unsigned long ICQClientData::getSign()
@@ -634,7 +633,7 @@ QString ICQClient::getPicture() const
 void ICQClient::setPicture(const QString& pic)
 {
     clientPersistentData->setPicture(pic);
-    clientPersistentData->owner.setPicture(pic);
+    clientPersistentData->owner->setPicture(pic);
 }
 
 unsigned long ICQClient::getRandomChatGroup() const
@@ -878,9 +877,9 @@ QString ICQClient::name()
 	if(!m_name.isEmpty())
         return m_name;
 	if (m_bAIM) 
-		m_name = "AIM." + clientPersistentData->owner.getScreen();
+        m_name = "AIM." + clientPersistentData->owner->getScreen();
 	else
-		m_name = "ICQ." + QString::number(clientPersistentData->owner.getUin());
+        m_name = "ICQ." + QString::number(clientPersistentData->owner->getUin());
 	
     return m_name;
 }
@@ -920,13 +919,8 @@ QWidget* ICQClient::createStatusWidget()
 
 SIM::IMContactPtr ICQClient::ownerContact()
 {
-	return SIM::IMContactPtr();
+    return clientPersistentData->owner;
 }
-
-void ICQClient::setOwnerContact(SIM::IMContactPtr contact)
-{
-}
-
 
 QWidget* ICQClient::createSearchWidow(QWidget *parent)
 {
@@ -1022,17 +1016,17 @@ void ICQClient::setPort(unsigned short port)
 
 void ICQClient::setUin(unsigned long uin)
 {
-    clientPersistentData->owner.setUin(uin);
+    clientPersistentData->owner->setUin(uin);
 }
 
 void ICQClient::setScreen(const QString &screen)
 {
-    clientPersistentData->owner.setScreen(screen);
+    clientPersistentData->owner->setScreen(screen);
 }
 
 unsigned long ICQClient::getUin()
 {
-    return clientPersistentData->owner.getUin();
+    return clientPersistentData->owner->getUin();
 }
 
 void ICQClient::setOscarSocket(OscarSocket* socket)

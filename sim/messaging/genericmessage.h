@@ -9,11 +9,16 @@ namespace SIM {
 class EXPORT GenericMessage : public Message
 {
 public:
-    GenericMessage(const IMContactPtr& contact, const QString& htmlText);
+    GenericMessage(const IMContactPtr& from, const IMContactPtr& to, const QString& htmlText);
+    GenericMessage(const QString& fromName, const QString& toName, const QString& clientId, const QString& htmlText);
     virtual ~GenericMessage();
 
     virtual Client* client();
-    virtual IMContactWeakPtr contact() const;
+    virtual IMContactWeakPtr targetContact() const;
+    virtual IMContactWeakPtr sourceContact() const;
+
+    virtual QString targetContactName() const;
+    virtual QString sourceContactName() const;
 
     virtual QIcon icon();
     virtual QDateTime timestamp();
@@ -26,7 +31,10 @@ public:
 
 private:
     Client* m_client;
-    IMContactWeakPtr m_contact;
+    IMContactWeakPtr m_targetContact;
+    IMContactWeakPtr m_sourceContact;
+    QString m_targetContactName;
+    QString m_sourceContactName;
     QString m_originatingClientId;
     QString m_text;
 };

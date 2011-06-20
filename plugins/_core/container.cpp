@@ -256,14 +256,8 @@ QString Container::name()
 
 Q_DECLARE_METATYPE( UserWnd* )
 
-void Container::addUserWnd(UserWnd *wnd, bool bRaise)
+void Container::addUserWnd(UserWnd *wnd)
 {
-    m_children.push_back(wnd);
-    if(m_children.size() == 1)
-    {
-        setWindowIcon(getImageStorage()->icon(wnd->getIcon()));
-        setWindowTitle(wnd->getLongName());
-    }
     connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     connect(wnd, SIGNAL(messageSendRequested(SIM::MessagePtr)), this, SLOT(messageSendRequested(SIM::MessagePtr)));
 //    connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
@@ -274,10 +268,7 @@ void Container::addUserWnd(UserWnd *wnd, bool bRaise)
 
     int tab = m_tabBar->addTab(getImageStorage()->icon(wnd->getIcon()), wnd->getName());
     m_tabBar->setTabData(tab, QVariant::fromValue(wnd));
-    if (bRaise)
-        m_tabBar->setCurrentIndex(tab);
-    else
-        m_tabBar->repaint();
+    m_tabBar->repaint();
 
     contactSelected(wnd->id());
 
@@ -306,12 +297,13 @@ void Container::raiseUserWnd(int id/*UserWnd *wnd*/)
     contactSelected(0);
 }
 
-void Container::removeUserWnd(UserWnd *wnd)
+void Container::removeUserWnd(int wndId)
 {
-    disconnect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
-    disconnect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
-    m_wnds->removeWidget(wnd);
-    m_tabBar->removeTab(wnd->id());
+    UserWnd* userwnd = wnd(wndId);
+    disconnect(userwnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
+    disconnect(userwnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
+    m_wnds->removeWidget(userwnd);
+    m_tabBar->removeTab(wndId);
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));
     if (m_tabBar->count() == 1)
@@ -331,16 +323,6 @@ UserWnd *Container::wnd(unsigned id)
     return m_tabBar->wnd(id);
 }
 
-UserWnd *Container::wnd()
-{
-    if(m_tabBar == NULL)
-	{
-        if (m_children.empty())
-            return NULL;
-        return m_children.front();
-    }
-    return m_tabBar->currentWnd();
-}
 
 void Container::showBar()
 {

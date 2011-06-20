@@ -291,7 +291,7 @@ public:
     bool getMediaSense() const { return m_mediaSense; }
     void setMediaSense(bool b) { m_mediaSense = b; }
 
-    ICQContact owner;
+    ICQContactPtr owner;
 
     virtual void deserializeLine(const QString& key, const QString& value);
 public:
@@ -524,7 +524,6 @@ public:
     virtual SIM::IMStatusPtr savedStatus();
 
     SIM::IMContactPtr ownerContact();
-    void setOwnerContact(SIM::IMContactPtr contact);
 
     QWidget* createSearchWidow(QWidget *parent);
     QList<SIM::IMGroupPtr> groups();

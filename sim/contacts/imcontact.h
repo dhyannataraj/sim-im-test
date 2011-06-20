@@ -5,6 +5,7 @@
 #include <QDomElement>
 #include "simapi.h"
 #include "contacts/imstatus.h"
+#include "contacts/imcontactid.h"
 #include "messaging/message.h"
 
 namespace SIM
@@ -24,6 +25,7 @@ namespace SIM
         virtual IMStatusPtr status() const = 0;
 
         virtual QString name() const = 0;
+        virtual IMContactId id() const = 0;
 
         virtual bool sendMessage(const MessagePtr& message) = 0;
         virtual bool hasUnreadMessages() = 0;

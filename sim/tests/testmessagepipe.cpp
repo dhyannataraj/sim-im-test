@@ -5,6 +5,7 @@
 #include "messaging/messageprocessor.h"
 #include "messaging/message.h"
 #include "mocks/mockcontactlist.h"
+#include "mocks/mockmessageprocessor.h"
 
 namespace
 {
@@ -13,18 +14,15 @@ namespace
     using ::testing::Return;
     using ::testing::InSequence;
     using ::testing::DefaultValue;
-    class MockMessageProcessor : public MessageProcessor
-    {
-    public:
-        MOCK_CONST_METHOD0(id, QString());
-        MOCK_METHOD1(process, MessageProcessor::ProcessResult(const MessagePtr& message));
-    };
 
     class StubMessage : public Message
     {
     public:
         Client* client() { return 0; }
-        IMContactWeakPtr contact() const { return IMContactWeakPtr(); }
+        virtual IMContactWeakPtr targetContact() const { return IMContactWeakPtr(); }
+        virtual IMContactWeakPtr sourceContact() const { return IMContactWeakPtr(); }
+        virtual QString targetContactName() const { return QString(); }
+        virtual QString sourceContactName() const { return QString(); }
         QIcon icon() { return QIcon(); }
         QDateTime timestamp() { return QDateTime(); }
         QString toXml() { return QString(); }
@@ -53,7 +51,7 @@ namespace
 
     TEST_F(TestMessagePipe, pushMessage_CallsProcessors)
     {
-        MockMessageProcessor* processor = new MockMessageProcessor();
+        MockObjects::MockMessageProcessor* processor = new MockObjects::MockMessageProcessor();
         MessagePtr msg = MessagePtr(new StubMessage());
         EXPECT_CALL(*processor, process(_)).WillOnce(Return(MessageProcessor::Success));
         pipe->addMessageProcessor(processor);
@@ -64,7 +62,7 @@ namespace
     {
         MockObjects::MockContactList cl;
         pipe->setContactList(&cl);
-        MockMessageProcessor* processor = new MockMessageProcessor();
+        MockObjects::MockMessageProcessor* processor = new MockObjects::MockMessageProcessor();
         MessagePtr msg = MessagePtr(new StubMessage());
         EXPECT_CALL(*processor, process(_)).WillOnce(Return(MessageProcessor::Block));
         EXPECT_CALL(cl, incomingMessage(_)).Times(0);
@@ -74,8 +72,8 @@ namespace
 
     TEST_F(TestMessagePipe, addMessageProcessor_PreservesOrder)
     {
-        MockMessageProcessor* processor1 = new MockMessageProcessor();
-        MockMessageProcessor* processor2 = new MockMessageProcessor();
+        MockObjects::MockMessageProcessor* processor1 = new MockObjects::MockMessageProcessor();
+        MockObjects::MockMessageProcessor* processor2 = new MockObjects::MockMessageProcessor();
         MessagePtr msg = MessagePtr(new StubMessage());
 
         DefaultValue<MessageProcessor::ProcessResult>::Set(MessageProcessor::Block);

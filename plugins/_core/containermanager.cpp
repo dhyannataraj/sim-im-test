@@ -1,6 +1,11 @@
 #include "containermanager.h"
 #include "core.h"
 #include "profilemanager.h"
+#include "log.h"
+#include "userwnd.h"
+
+using SIM::log;
+using SIM::L_DEBUG;
 
 ContainerManager::ContainerManager(CorePlugin* parent) :
     QObject(parent), m_core(parent)
@@ -60,6 +65,25 @@ void ContainerManager::removeContainerById(int id)
             return;
         }
         index++;
+    }
+}
+
+void ContainerManager::contactChatRequested(int contactId)
+{
+    log(L_DEBUG, "contactChatRequested: %d", contactId);
+
+    ContainerPtr container = containerById(0);
+    if(!container)
+    {
+        container = makeContainer(0);
+        addContainer(container);
+    }
+
+    UserWnd* userwnd = container->wnd(contactId);
+    if(!userwnd)
+    {
+        userwnd = new UserWnd(contactId, false, false);
+        container->addUserWnd(userwnd);
     }
 }
 

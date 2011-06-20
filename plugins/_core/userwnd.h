@@ -18,8 +18,6 @@
 #ifndef _USERWND_H
 #define _USERWND_H
 
-//#include "cfg.h"
-//#include "message.h"
 #include "messaging/message.h"
 #include "ui_userwnd.h"
 
@@ -39,13 +37,15 @@ class UserWnd : public QWidget
 public:
     UserWnd(unsigned long id, bool bReceived, bool bAdjust);
     ~UserWnd();
-    QByteArray getConfig();
+
+    void addMessageToView(const SIM::MessagePtr& message);
+    int messagesInViewArea() const;
+
     unsigned long id() const;
     QString getName();
     QString getLongName();
     QString getIcon();
     unsigned type();
-    void setMessage(const SIM::MessagePtr& msg);
     void setStatus(const QString&);
     void showListView(bool bShow);
     QString status() { return m_status; }
@@ -74,7 +74,10 @@ protected slots:
 
 protected:
     void closeEvent(QCloseEvent*);
+
+private:
     void fillContactList(QTreeWidget* tree);
+    void updateStyleSheet();
 
     QString m_status;
     bool m_bResize;

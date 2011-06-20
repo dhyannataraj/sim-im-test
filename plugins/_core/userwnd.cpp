@@ -30,6 +30,8 @@
 #include "imagestorage/imagestorage.h"
 #include "messaging/genericmessage.h"
 
+#include "xsl.h"
+
 #include <QToolBar>
 #include <QApplication>
 #include <QTimer>
@@ -51,6 +53,8 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
 {
     m_ui->setupUi(this);
 
+    updateStyleSheet();
+
 //    if (CorePlugin::instance()->getContainerMode())
 //        bReceived = false;
 
@@ -63,20 +67,11 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
     modeChanged();
     refreshTargetList();
 
-//    if ((!bAdjust && getMessageType() == 0) || (m_edit->adjustType()))
-//        return;
-
-//    unsigned type = getMessageType();
-//    Message *msg = new Message(MessageGeneric);
-//    setMessage(msg);
-//    delete msg;
-//    setMessageType(type);
 }
 
 UserWnd::~UserWnd()
 {
     emit closed(this);
-    //free_data(userWndData, &data);
 //    Contact *contact = getContacts()->contact(id());
 //    if (!(contact && (contact->getFlags() & CONTACT_TEMPORARY)))
 //        return;
@@ -85,9 +80,14 @@ UserWnd::~UserWnd()
     //delete contact;
 }
 
-QByteArray UserWnd::getConfig()
+void UserWnd::addMessageToView(const MessagePtr& message)
 {
-    return QByteArray(); //save_data(userWndData, &data);
+    m_ui->msgView->addMessage(message);
+}
+
+int UserWnd::messagesInViewArea() const
+{
+    return m_ui->msgView->messageCount();
 }
 
 QString UserWnd::getName()
@@ -204,34 +204,6 @@ unsigned UserWnd::type()
     return 0;
 }
 
-void UserWnd::setMessage(const SIM::MessagePtr& msg)
-{
-//    bool bSetFocus = false;
-
-//    Container *container = NULL;
-//    if (topLevelWidget() && topLevelWidget()->inherits("Container"))
-//	{
-//        container = static_cast<Container*>(topLevelWidget());
-//        if (container->wnd() == this)
-//            bSetFocus = true;
-//    }
-//    if (!m_edit->setMessage(msg, bSetFocus))
-//	{
-//        // if this does not work as expected, we have to go back
-//        // to EventOpenMessage with Message** :(
-//        *msg = Message(MessageGeneric);
-//        m_edit->setMessage(msg, bSetFocus);
-//    }
-//    if (container)
-//	{
-//        container->setMessageType(msg->baseType());
-//        container->contactChanged(getContacts()->contact(m_id));
-//    }
-
-//    if (m_view == NULL || msg->id() == 0 || m_view->findMessage(msg))
-//        return;
-//    m_view->addMessage(msg);
-}
 
 void UserWnd::setStatus(const QString &status)
 {
@@ -279,7 +251,8 @@ void UserWnd::slot_messageSendRequested(const QString& messageText)
         log(L_WARN, "UserWnd::slot_messageSendRequested : !imcontact : %d", id());
         return;
     }
-    SIM::MessagePtr message = SIM::MessagePtr(new SIM::GenericMessage(imcontact, messageText));
+    IMContactPtr originator = imcontact->client()->ownerContact();
+    SIM::MessagePtr message = SIM::MessagePtr(new SIM::GenericMessage(originator, imcontact, messageText));
     emit messageSendRequested(message);
 }
 
@@ -382,4 +355,11 @@ QList<int> UserWnd::multisendContacts() const
 //        }
 //    }
     return list;
+}
+
+void UserWnd::updateStyleSheet()
+{
+    // TODO selection
+    XSL* xsl = new XSL("SIM");
+    m_ui->msgView->setXSL(xsl);
 }

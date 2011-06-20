@@ -19,6 +19,7 @@ public:
     ICQContact(ICQClient* client);
 
     virtual QString name() const;
+    virtual SIM::IMContactId id() const;
 
     void setMetaContact(SIM::Contact* c);
     int metaContactId() const;

@@ -17,6 +17,7 @@ namespace MockObjects
     public:
         static MockIMContactPtr create() { return MockIMContactPtr(new MockIMContact()); }
         MOCK_METHOD0(client, SIM::Client*());
+        MOCK_CONST_METHOD0(id, SIM::IMContactId());
         MOCK_CONST_METHOD0(status, SIM::IMStatusPtr());
         MOCK_CONST_METHOD0(name, QString());
         MOCK_METHOD1(sendMessage, bool(const SIM::MessagePtr& message));

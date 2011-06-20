@@ -261,20 +261,8 @@ UserView* MainWindow::userview() const
 
 void MainWindow::contactChatRequested(int contactId)
 {
-    log(L_DEBUG, "contactChatRequested: %d", contactId);
     ContainerManager* manager = m_core->containerManager();
-    ContainerPtr container = manager->containerById(0);
-    if(!container)
-    {
-        container = manager->makeContainer(0);
-        manager->addContainer(container);
-    }
-    UserWnd* userwnd = container->wnd(contactId);
-    if(!userwnd)
-    {
-        userwnd = new UserWnd(contactId, false, false);
-        container->addUserWnd(userwnd, true);
-    }
+    manager->contactChatRequested(contactId);
 }
 
 

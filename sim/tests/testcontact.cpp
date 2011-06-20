@@ -36,7 +36,7 @@ namespace
 
         MessagePtr createGenericMessage(const IMContactPtr& contact)
         {
-            return MessagePtr(new GenericMessage(contact, ""));
+            return MessagePtr(new GenericMessage(IMContactPtr(), contact, ""));
         }
 
         void fillContactData(Contact& c)

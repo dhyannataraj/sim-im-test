@@ -38,6 +38,8 @@ SET(sim_LIB_SRCS
         messaging/messageprocessor.cpp
         messaging/messageoutpipe.cpp
         messaging/standardmessageoutpipe.cpp
+        history/historystorage.cpp
+        history/sqlitehistorystorage.cpp
 		misc.cpp
 		paths.cpp
 		plugins.cpp
@@ -61,6 +63,7 @@ SET(sim_LIB_SRCS
 		contacts/client.cpp
 		contacts/imstatus.cpp
         contacts/imcontact.cpp
+        contacts/imcontactid.cpp
         contacts/imgroup.cpp
 
         network/asyncsocket.cpp
@@ -79,6 +82,8 @@ SET(sim_LIB_SRCS
         simgui/standardtoolbaractionfactory.cpp
         simgui/statuswidget.cpp
         simgui/toolitem.cpp
+
+        ../sqlite/sqlite3.c
 	)
 
 SET(sim_LIB_MESSAGE_SOURCES  ${sim_LIB_SRCS} PARENT_SCOPE)
@@ -113,6 +118,8 @@ SET(sim_LIB_HDRS
         messaging/messageprocessor.h
         messaging/messageoutpipe.h
         messaging/standardmessageoutpipe.h
+        history/historystorage.h
+        history/sqlitehistorystorage.h
 		misc.h
 		paths.h
 		plugins.h
@@ -138,6 +145,7 @@ SET(sim_LIB_HDRS
 		contacts/client.h
 		contacts/imstatus.h
         contacts/imcontact.h
+        contacts/imcontactid.h
         contacts/imgroup.h
 
         network/asyncsocket.h
@@ -156,10 +164,10 @@ SET(sim_LIB_HDRS
         simgui/standardtoolbaractionfactory.h
         simgui/statuswidget.h
         simgui/toolitem.h
-	)
 
-#SET(sim_ui
-#	simgui/logindlgbase.ui)
+        ../sqlite/sqlite3.h
+    )
+
 
 IF(ENABLE_KDE4)
 	SET(sim_LIB_SRCS ${sim_LIB_SRCS} simapp/kdesimapp.cpp)
@@ -194,6 +202,10 @@ ADD_DEFINITIONS(-DNOUNCRYPT)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 TARGET_LINK_LIBRARIES(simlib)
+
+if(NOT WIN32)
+    TARGET_LINK_LIBRARIES(simlib pthread dl)
+endif(NOT WIN32)
 
 IF(ENABLE_KDE4)
   TARGET_LINK_LIBRARIES(simlib ${KDE4_KDECORE_LIBRARY} ${KDE4_KDEUI_LIBRARY} ${KDE4_KIO_LIBRARY})
@@ -238,6 +250,7 @@ SET(sim_tests_srcs
     tests/testmessagepipe.cpp
     tests/teststandardcontactlist.cpp
     tests/teststandardmessageoutpipe.cpp
+    tests/testimcontactid.cpp
 )
 
 
@@ -252,6 +265,7 @@ SET(sim_tests_hdrs
     tests/mocks/mockimcontact.h
     tests/mocks/mockasyncsocket.h
     tests/mocks/mockmessageoutpipe.h
+    tests/mocks/mockmessageprocessor.h
     tests/testuicommand.h
     tests/gtest-qt.h
 )

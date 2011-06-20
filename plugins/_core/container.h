@@ -23,6 +23,7 @@
 //#include "message.h"
 #include "contacts/contact.h"
 #include "containercontroller.h"
+#include "icontainer.h"
 
 #include <QMainWindow>
 #include <QDockWidget>
@@ -93,7 +94,7 @@ protected:
     UserWnd* wndForTab(int tab);
 };
 
-class Container : public QMainWindow
+class Container : public QMainWindow, public IContainer
 {
     Q_OBJECT
 public:
@@ -103,7 +104,6 @@ public:
     ~Container();
     QString name();
     UserWnd *wnd(unsigned id);
-    UserWnd *wnd();
     std::list<UserWnd*> windows();
     QByteArray getState();
     bool isReceived() { return m_bReceived; }
@@ -116,9 +116,9 @@ public:
     bool m_bNoRead;
 
 public slots:
-    void addUserWnd(UserWnd*, bool bRaise);
-    void removeUserWnd(UserWnd*);
-    void raiseUserWnd(int /*UserWnd**/);
+	void addUserWnd(UserWnd*);
+    void removeUserWnd(int wndId);
+    void raiseUserWnd(int wndId);
     void contactSelected(int contactId);
     void toolbarChanged(QToolBar*);
     void statusChanged(int);

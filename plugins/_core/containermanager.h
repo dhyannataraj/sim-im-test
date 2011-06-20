@@ -23,6 +23,8 @@ public:
     void removeContainer(int index);
     void removeContainerById(int id);
 
+    void contactChatRequested(int contactId);
+
     enum ContainerMode
     {
         cmSimpleMode = 0,

@@ -13,9 +13,24 @@ namespace StubObjects
             return 0;
         }
 
-        virtual SIM::IMContactWeakPtr contact() const
+        virtual SIM::IMContactWeakPtr targetContact() const
         {
             return SIM::IMContactWeakPtr();
+        }
+
+        virtual SIM::IMContactWeakPtr sourceContact() const
+        {
+            return SIM::IMContactWeakPtr();
+        }
+
+        virtual QString targetContactName() const
+        {
+            return QString();
+        }
+
+        virtual QString sourceContactName() const
+        {
+            return QString();
         }
 
         virtual QIcon icon()

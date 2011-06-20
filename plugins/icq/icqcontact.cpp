@@ -503,6 +503,11 @@ QString ICQContact::name() const
     return getNick();
 }
 
+IMContactId ICQContact::id() const
+{
+    return IMContactId();
+}
+
 bool ICQContact::sendMessage(const SIM::MessagePtr& message)
 {
     return m_client->sendMessage(message);

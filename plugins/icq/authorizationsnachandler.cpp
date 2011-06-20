@@ -64,7 +64,7 @@ bool AuthorizationSnacHandler::handleAuthKeyResponse(const QByteArray& data)
 
     ByteArrayParser parser(data);
     log(L_DEBUG, "Sending MD5 key");
-    if(!client()->clientPersistentData->owner.getScreen().isEmpty() || !client()->clientPersistentData->getUin().isEmpty()) {
+    if(!client()->clientPersistentData->owner->getScreen().isEmpty() || !client()->clientPersistentData->getUin().isEmpty()) {
         int keylength = parser.readWord();
         QByteArray md5_key = parser.readBytes(keylength);
 
@@ -257,7 +257,7 @@ bool AuthorizationSnacHandler::handleNewConnection(const QByteArray& data)
         client()->oscarSocket()->flap(OscarSocket::FlapChannelNewConnection, builder.getArray());
         return true;
     }
-    if (!client()->clientPersistentData->owner.getScreen().isEmpty() || client()->getUseMD5()){
+    if (!client()->clientPersistentData->owner->getScreen().isEmpty() || client()->getUseMD5()){
         log(L_DEBUG, "Requesting MD5 salt");
         ByteArrayBuilder builder;
         builder.appendDword(1);

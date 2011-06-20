@@ -146,6 +146,11 @@ QString JabberContact::name() const
     return getNick();
 }
 
+SIM::IMContactId JabberContact::id() const
+{
+    return SIM::IMContactId();
+}
+
 bool JabberContact::sendMessage(const SIM::MessagePtr& message)
 {
     return true;

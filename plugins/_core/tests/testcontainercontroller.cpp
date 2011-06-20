@@ -3,9 +3,9 @@
 #include <gmock/gmock.h>
 
 #include "containercontroller.h"
-#include "tests/mocks/mockmessageoutpipe.h"
+#include "tests/mocks/mockmessagepipe.h"
 #include "tests/stubs/stubmessage.h"
-#include "messaging/messageoutpipe.h"
+#include "messaging/messagepipe.h"
 
 
 namespace
@@ -16,7 +16,7 @@ namespace
     public:
         virtual void SetUp()
         {
-            pipe = new MockObjects::MockMessageOutPipe();
+            pipe = new MockObjects::MockMessagePipe();
             SIM::setOutMessagePipe(pipe);
 
             controller = new ContainerController(0, ControllerId);
@@ -30,7 +30,7 @@ namespace
         }
 
         ContainerController* controller;
-        MockObjects::MockMessageOutPipe* pipe;
+        MockObjects::MockMessagePipe* pipe;
     };
 
     TEST_F(TestContainerController, id_returnsCorrectId)
@@ -43,5 +43,10 @@ namespace
         SIM::MessagePtr msg = SIM::MessagePtr(new StubObjects::StubMessage());
         EXPECT_CALL(*pipe, pushMessage(msg)).Times(1);
         controller->sendMessage(msg);
+    }
+
+    TEST_F(TestContainerController, sendMessage_addsMessageToView)
+    {
+
     }
 }

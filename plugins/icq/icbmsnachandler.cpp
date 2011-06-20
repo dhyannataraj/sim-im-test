@@ -68,7 +68,7 @@ bool IcbmSnacHandler::isReady() const
 
 bool IcbmSnacHandler::sendMessage(const SIM::MessagePtr& message)
 {
-    ICQContactPtr contact = message->contact().toStrongRef().dynamicCast<ICQContact>();
+    ICQContactPtr contact = message->targetContact().toStrongRef().dynamicCast<ICQContact>();
     if(!contact)
     {
         log(L_WARN, "IcbmSnacHandler::sendMessage(): Unable to cast IMContact");
@@ -86,7 +86,7 @@ bool IcbmSnacHandler::sendMessage(const SIM::MessagePtr& message)
 
 QByteArray IcbmSnacHandler::makeSendPlainTextPacket(const SIM::MessagePtr& message)
 {
-    ICQContactPtr contact = message->contact().toStrongRef().dynamicCast<ICQContact>();
+    ICQContactPtr contact = message->targetContact().toStrongRef().dynamicCast<ICQContact>();
     // FIXME check
     Q_ASSERT(contact);
     ByteArrayBuilder builder;

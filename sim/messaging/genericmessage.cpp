@@ -5,14 +5,25 @@
 
 namespace SIM {
 
-GenericMessage::GenericMessage(const IMContactPtr& contact, const QString& htmlText)
+GenericMessage::GenericMessage(const IMContactPtr& from, const IMContactPtr& to, const QString& htmlText)
 {
-    m_contact = contact.toWeakRef();
-    m_client = contact->client();
+    m_targetContact = to.toWeakRef();
+    m_sourceContact = from.toWeakRef();
+    m_targetContactName = to->name();
+    m_sourceContactName = from->name();
+    m_client = to->client();
     if(m_client)
     {
         m_originatingClientId = m_client->name();
     }
+    m_text = htmlText;
+}
+
+GenericMessage::GenericMessage(const QString& fromName, const QString& toName, const QString& clientId, const QString& htmlText)
+{
+    m_sourceContactName = fromName;
+    m_targetContactName = toName;
+    m_originatingClientId = clientId;
     m_text = htmlText;
 }
 
@@ -30,9 +41,24 @@ Client* GenericMessage::client()
     return m_client;
 }
 
-IMContactWeakPtr GenericMessage::contact() const
+IMContactWeakPtr GenericMessage::targetContact() const
 {
-    return m_contact;
+    return m_targetContact;
+}
+
+IMContactWeakPtr GenericMessage::sourceContact() const
+{
+    return m_sourceContact;
+}
+
+QString GenericMessage::targetContactName() const
+{
+    return m_targetContactName;
+}
+
+QString GenericMessage::sourceContactName() const
+{
+    return m_sourceContactName;
 }
 
 QDateTime GenericMessage::timestamp()

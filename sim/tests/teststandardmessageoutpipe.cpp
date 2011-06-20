@@ -35,7 +35,7 @@ namespace
     {
         MockObjects::MockMessagePtr message = MockObjects::MockMessage::create();
         SIM::IMContactWeakPtr weakContactPtr = contact.toWeakRef();
-        EXPECT_CALL(*message.data(), contact()).WillRepeatedly(Return(contact));
+        EXPECT_CALL(*message.data(), targetContact()).WillRepeatedly(Return(contact));
         EXPECT_CALL(*contact.data(), sendMessage(_)).Times(1);
 
         pipe->pushMessage(message);

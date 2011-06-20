@@ -17,6 +17,7 @@ SET(_core_SRCS
         container.cpp
         core.cpp
         commonstatus.cpp
+        icontainer.cpp
 #        declinedlg.cpp
 #        editmail.cpp
 #        editphone.cpp
@@ -65,10 +66,13 @@ SET(_core_SRCS
 #        userhistorycfg.cpp
 #        userlist.cpp
 #        userviewcfg.cpp
+        standarduserwndcontroller.cpp
+        userwndcontroller.cpp
         userwnd.cpp
         roster/userview.cpp
         roster/userviewmodel.cpp
 #        roster/userviewdelegate.cpp
+        messageprocessors/containersentmessageprocessor.cpp
 )
 
 # is this really needed?
@@ -93,6 +97,7 @@ SET(_core_HDRS
         core.h
         core_api.h
         commonstatus.h
+        icontainer.h
 #        core_consts.h
 #        core_events.h
 #        declinedlg.h
@@ -136,10 +141,13 @@ SET(_core_HDRS
 #        userhistorycfg.h
 #        userlist.h
 #        userviewcfg.h
+        standarduserwndcontroller.h
+        userwndcontroller.h
         userwnd.h
         roster/userview.h
         roster/userviewmodel.h
 #        roster/userviewdelegate.h
+        messageprocessors/containersentmessageprocessor.cpp
 )
 
 SET(_core_UICS

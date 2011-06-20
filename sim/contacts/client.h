@@ -35,7 +35,6 @@ namespace SIM
         virtual IMStatusPtr savedStatus() = 0;
 
         virtual IMContactPtr ownerContact() = 0;
-        virtual void setOwnerContact(IMContactPtr contact) = 0;
 
         virtual bool serialize(QDomElement& element) = 0;
         virtual bool deserialize(QDomElement& element) = 0;

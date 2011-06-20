@@ -72,7 +72,7 @@ namespace
 
         SIM::MessagePtr makeTestMessage()
         {
-            return SIM::MessagePtr(new SIM::GenericMessage(contact, TestMessage));
+            return SIM::MessagePtr(new SIM::GenericMessage(client->ownerContact(), contact, TestMessage));
         }
 
         ICQClient* client;

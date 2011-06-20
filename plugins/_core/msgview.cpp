@@ -94,6 +94,16 @@ MsgView::~MsgView()
         delete m_xsl;
 }
 
+void MsgView::addMessage(const SIM::MessagePtr& message)
+{
+    m_messages.append(message);
+}
+
+int MsgView::messageCount() const
+{
+    return m_messages.count();
+}
+
 int MsgView::id() const
 {
     return m_id;
@@ -1335,9 +1345,44 @@ static const char *def_smiles[] =
 //    return parser.parse(text);
 //}
 
-/*
-#ifndef NO_MOC_INCLUDES
-#include "msgview.moc"
-#endif
-*/
+void MsgView::refreshContent()
+{
+    QString content;
+    content.append(makeHeader());
+    content.append(printAllMessages());
+    content.append(makeFooter());
 
+}
+
+QString MsgView::makeHeader()
+{
+    return QString("<?xml version=\"1.0\"?>\n<messages>\n");
+}
+
+QString MsgView::printAllMessages()
+{
+    QString result;
+    foreach(const MessagePtr& message, m_messages)
+    {
+        result.append(printMessage(message));
+    }
+    return result;
+}
+
+QString MsgView::makeFooter()
+{
+    return QString("</messages>");
+}
+
+QString MsgView::printMessage(const MessagePtr& message)
+{
+    IMContactPtr source = message->sourceContact().toStrongRef();
+    IMContactPtr target = message->targetContact().toStrongRef();
+    // TODO verify pointers
+
+    QString result;
+    result.append(" <message>\n");
+    //result.append("  <source_contact>").append();
+    result.append(" </message>\n");
+    return result;
+}

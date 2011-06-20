@@ -48,7 +48,11 @@ public:
     virtual ~Message() {}
 
     virtual Client* client() = 0;
-    virtual IMContactWeakPtr contact() const = 0;
+    virtual IMContactWeakPtr targetContact() const = 0;
+    virtual IMContactWeakPtr sourceContact() const = 0;
+
+    virtual QString targetContactName() const = 0;
+    virtual QString sourceContactName() const = 0;
 
     virtual QIcon icon() = 0;
     virtual QDateTime timestamp() = 0;

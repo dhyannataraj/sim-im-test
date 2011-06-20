@@ -23,6 +23,7 @@ public:
 
     virtual SIM::IMStatusPtr status() const;
     virtual QString name() const;
+    virtual SIM::IMContactId id() const;
 
     virtual bool sendMessage(const SIM::MessagePtr& message);
     virtual bool hasUnreadMessages();

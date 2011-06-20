@@ -24,6 +24,8 @@
 #include <QTextEdit>
 #include <QMenu>
 
+#include "messaging/message.h"
+
 class CorePlugin;
 class XSL;
 
@@ -49,6 +51,9 @@ class MsgView : public QTextEdit
 public:
     MsgView(QWidget *parent, int id = -1);
     ~MsgView();
+
+    void addMessage(const SIM::MessagePtr& message);
+    int messageCount() const;
 //    void		addMessage(SIM::Message *msg, bool bUnread=false, bool bSync=true);
 //    bool		findMessage(SIM::Message *msg);
 //    void		setSelect(const QString &str);
@@ -73,8 +78,15 @@ protected:
 //    vector<CutHistory>	m_cut;
 //    list<Msg_Id>		m_updated;
 private:
-     int m_id;
-     XSL* m_xsl;
+    void refreshContent();
+    QString makeHeader();
+    QString printAllMessages();
+    QString makeFooter();
+    QString printMessage(const SIM::MessagePtr& message);
+
+    QList<SIM::MessagePtr> m_messages;
+    int m_id;
+    XSL* m_xsl;
 };
 
 
