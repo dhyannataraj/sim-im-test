@@ -95,6 +95,7 @@ protected:
     UserWnd* wndForTab(int tab);
 };
 
+class ContainerController;
 class Container : public QMainWindow, public IContainer
 {
     Q_OBJECT
@@ -102,7 +103,7 @@ public:
 	static const int WndType = QVariant::UserType + 1;
 
     Container(unsigned id);
-    ~Container();
+    virtual ~Container();
     QString name();
     IUserWnd *wnd(unsigned id);
     std::list<UserWnd*> windows();
@@ -113,6 +114,8 @@ public:
     void setMessageType(unsigned id);
     void contactChanged(const SIM::ContactPtr& contact);
     int id() const;
+
+    virtual void setController(ContainerController* controller);
 
     bool m_bNoRead;
 

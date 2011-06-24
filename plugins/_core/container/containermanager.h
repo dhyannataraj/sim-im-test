@@ -13,17 +13,7 @@ class ContainerManager : public QObject
 public:
     explicit ContainerManager(CorePlugin* parent);
 
-    ContainerPtr makeContainer(int id);
-
     bool init();
-
-    void addContainer(const ContainerPtr& cont);
-    int containerCount();
-    ContainerPtr container(int index);
-    ContainerPtr containerById(int id);
-    void removeContainer(int index);
-    void removeContainerById(int id);
-
     void contactChatRequested(int contactId);
 
     enum ContainerMode
@@ -42,7 +32,15 @@ signals:
 public slots:
 
 private:
-    QList<ContainerPtr> m_containers;
+    ContainerControllerPtr makeContainerController(int id);
+    void addContainer(const ContainerControllerPtr& cont);
+    int containerCount();
+    ContainerControllerPtr containerController(int index);
+    ContainerControllerPtr containerControllerById(int id);
+    void removeContainer(int index);
+    void removeContainerById(int id);
+
+    QList<ContainerControllerPtr> m_containers;
     ContainerMode m_containerMode;
     CorePlugin* m_core;
 };

@@ -2,9 +2,10 @@
 #define ICONTAINER_H
 
 #include <QString>
+#include <QSharedPointer>
 
 class IUserWnd;
-
+class ContainerController;
 class IContainer
 {
 public:
@@ -15,6 +16,10 @@ public:
     virtual void addUserWnd(IUserWnd* wnd) = 0;
     virtual void removeUserWnd(int wndId) = 0;
     virtual void raiseUserWnd(int wndId) = 0;
+
+    virtual void setController(ContainerController* controller) = 0;
 };
+
+typedef QSharedPointer<IContainer> IContainerPtr;
 
 #endif // ICONTAINER_H

@@ -13,7 +13,7 @@ public:
     virtual void addMessageToView(const SIM::MessagePtr& message) = 0;
     virtual int messagesInViewArea() const = 0;
 
-    virtual unsigned long id() const = 0;
+    virtual int id() const = 0;
     virtual QString getName() = 0;
 };
 

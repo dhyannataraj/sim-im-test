@@ -1,18 +1,17 @@
 #include "containercontroller.h"
 #include "standarduserwndcontroller.h"
 #include "messaging/messagepipe.h"
-#include "icontainer.h"
+#include "container.h"
 #include "userwnd.h"
 
-ContainerController::ContainerController(IContainer* view, int id) : m_view(view),
-    m_id(id)
+ContainerController::ContainerController(int id) : m_id(id)
 {
-    m_sentMessage = new ContainerSentMessageProcessor(this);
+    m_view = IContainerPtr(new Container(id));
+    m_view->setController(this);
 }
 
 ContainerController::~ContainerController()
 {
-    delete m_sentMessage;
 }
 
 int ContainerController::id() const
@@ -25,12 +24,10 @@ void ContainerController::sendMessage(const SIM::MessagePtr& msg)
     SIM::getOutMessagePipe()->pushMessage(msg);
 }
 
-void ContainerController::addUserWnd(UserWnd* wnd)
+void ContainerController::addUserWnd(int contactId)
 {
     UserWndControllerPtr controller = createUserWndController();
-    controller->setUserWnd(wnd);
     m_controllers.append(controller);
-    m_view->addUserWnd(wnd);
 }
 
 UserWnd* ContainerController::userWndById(int id)

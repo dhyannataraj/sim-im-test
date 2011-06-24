@@ -12,9 +12,9 @@ ContainerManager::ContainerManager(CorePlugin* parent) :
 {
 }
 
-ContainerPtr ContainerManager::makeContainer(int id)
+ContainerControllerPtr ContainerManager::makeContainerController(int id)
 {
-    return ContainerPtr(new Container(id));
+    return ContainerControllerPtr(new ContainerController(id));
 }
 
 bool ContainerManager::init()
@@ -23,8 +23,7 @@ bool ContainerManager::init()
     return true;
 }
 
-
-void ContainerManager::addContainer(const ContainerPtr& cont)
+void ContainerManager::addContainer(const ContainerControllerPtr& cont)
 {
     m_containers.append(cont);
 }
@@ -34,19 +33,19 @@ int ContainerManager::containerCount()
     return m_containers.count();
 }
 
-ContainerPtr ContainerManager::container(int index)
+ContainerControllerPtr ContainerManager::containerController(int index)
 {
-    // Check boundaries ?
+    // FIXME Check boundaries ?
     return m_containers.at(index);
 }
 
-ContainerPtr ContainerManager::containerById(int id)
+ContainerControllerPtr ContainerManager::containerControllerById(int id)
 {
-    foreach(const ContainerPtr& c, m_containers) {
+    foreach(const ContainerControllerPtr& c, m_containers) {
         if(c->id() == id)
             return c;
     }
-    return ContainerPtr();
+    return ContainerControllerPtr();
 }
 
 void ContainerManager::removeContainer(int index)
@@ -59,7 +58,7 @@ void ContainerManager::removeContainer(int index)
 void ContainerManager::removeContainerById(int id)
 {
     int index = 0;
-    foreach(const ContainerPtr& c, m_containers) {
+    foreach(const ContainerControllerPtr& c, m_containers) {
         if(c->id() == id) {
             m_containers.removeAt(index);
             return;
@@ -72,18 +71,17 @@ void ContainerManager::contactChatRequested(int contactId)
 {
     log(L_DEBUG, "contactChatRequested: %d", contactId);
 
-    ContainerPtr container = containerById(0);
+    ContainerControllerPtr container = containerControllerById(0);
     if(!container)
     {
-        container = makeContainer(0);
+        container = makeContainerController(0);
         addContainer(container);
     }
 
-    IUserWnd* userwnd = container->wnd(contactId);
+    IUserWnd* userwnd = container->userWndById(contactId);
     if(!userwnd)
     {
-        userwnd = new UserWnd(contactId, false, false);
-        container->addUserWnd(userwnd);
+        container->addUserWnd(contactId);
     }
 }
 

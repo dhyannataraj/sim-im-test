@@ -329,7 +329,7 @@ void UserWnd::markAsRead()
 //    }
 }
 
-unsigned long UserWnd::id() const
+int UserWnd::id() const
 {
     return m_id;
 }

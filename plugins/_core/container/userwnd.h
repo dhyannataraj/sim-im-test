@@ -40,12 +40,12 @@ class CORE_EXPORT UserWnd : public IUserWnd
     Q_OBJECT
 public:
     UserWnd(unsigned long id, bool bReceived, bool bAdjust);
-    ~UserWnd();
+    virtual ~UserWnd();
 
     void addMessageToView(const SIM::MessagePtr& message);
     int messagesInViewArea() const;
 
-    unsigned long id() const;
+    int id() const;
     QString getName();
     QString getLongName();
     QString getIcon();

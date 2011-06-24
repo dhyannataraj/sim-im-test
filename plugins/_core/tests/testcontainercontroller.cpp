@@ -21,7 +21,7 @@ namespace
     class ContainerController : public ::ContainerController
     {
     public:
-         ContainerController(IContainer* view, int id) : ::ContainerController(view, id) {}
+         ContainerController(int id) : ::ContainerController(id) {}
     protected:
         virtual UserWndControllerPtr createUserWndController()
         {
@@ -41,7 +41,7 @@ namespace
 
             SIM::createContactList();
 
-            controller = new ContainerController(0, ControllerId);
+            controller = new ContainerController(ControllerId);
         }
 
         virtual void TearDown()
@@ -80,14 +80,5 @@ namespace
 
     TEST_F(TestContainerController, sendMessage_addsMessageToView)
     {
-        MockObjects::MockMessagePtr msg = MockObjects::MockMessagePtr(new MockObjects::MockMessage());
-        ON_CALL(*msg.data(), sourceContact()).WillByDefault(Return(imcontact));
-        createContact();
-        UserWnd* wnd = new UserWnd(ContactId, false, false);
-        controller->addUserWnd(wnd);
-        EXPECT_CALL(*controller->userWndController(ContactId).dynamicCast<MockObjects::MockUserWndController>().data(),
-                    addMessageToView(_));
-
-        controller->sendMessage(msg);
     }
 }

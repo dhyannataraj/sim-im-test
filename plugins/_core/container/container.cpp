@@ -66,7 +66,6 @@ Container::Container(unsigned id)
     , m_bReceived   (false)
     , m_bNoSwitch   (false)
 {
-    m_controller = new ContainerController(this, id);
     m_avatar_window = new QDockWidget(this);
     m_avatar_label = new QLabel(m_avatar_window);
     m_avatar_window->setWidget(m_avatar_label);
@@ -94,7 +93,7 @@ Container::~Container()
 
 void Container::closeEvent(QCloseEvent* e)
 {
-    CorePlugin::instance()->containerManager()->removeContainerById(id());
+    //CorePlugin::instance()->containerManager()->removeContainerById(id());
 }
 
 void Container::init()
@@ -218,6 +217,11 @@ list<UserWnd*> Container::windows()
 int Container::id() const
 {
     return m_controller->id();
+}
+
+void Container::setController(ContainerController* controller)
+{
+    m_controller = controller;
 }
 
 QByteArray Container::getState()
