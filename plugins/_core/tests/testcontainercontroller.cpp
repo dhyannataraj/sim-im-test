@@ -6,11 +6,31 @@
 #include "tests/mocks/mockmessagepipe.h"
 #include "tests/stubs/stubmessage.h"
 #include "messaging/messagepipe.h"
+#include "mocks/mockuserwndcontroller.h"
+#include "tests/mocks/mockmessage.h"
+#include "container/userwnd.h"
+#include "container/userwndcontroller.h"
+#include "tests/mocks/mockimcontact.h"
 
+#include "contacts/contactlist.h"
 
 namespace
 {
+    using ::testing::Return;
+    using ::testing::_;
+    class ContainerController : public ::ContainerController
+    {
+    public:
+         ContainerController(IContainer* view, int id) : ::ContainerController(view, id) {}
+    protected:
+        virtual UserWndControllerPtr createUserWndController()
+        {
+            return UserWndControllerPtr(new MockObjects::MockUserWndController());
+        }
+    };
+
     static const int ControllerId = 12;
+    static const int ContactId = 23;
     class TestContainerController : public ::testing::Test
     {
     public:
@@ -19,16 +39,29 @@ namespace
             pipe = new MockObjects::MockMessagePipe();
             SIM::setOutMessagePipe(pipe);
 
+            SIM::createContactList();
+
             controller = new ContainerController(0, ControllerId);
         }
 
         virtual void TearDown()
         {
             delete controller;
+
+            SIM::destroyContactList();
+
             delete pipe;
             SIM::setOutMessagePipe(0);
         }
 
+        void createContact()
+        {
+            SIM::ContactPtr contact = SIM::getContactList()->createContact(ContactId);
+            imcontact = MockObjects::MockIMContact::create();
+            ON_CALL(*imcontact.data(), id()).WillByDefault(Return(SIM::IMContactId("client/contact", ContactId)));
+        }
+
+        MockObjects::MockIMContactPtr imcontact;
         ContainerController* controller;
         MockObjects::MockMessagePipe* pipe;
     };
@@ -47,6 +80,14 @@ namespace
 
     TEST_F(TestContainerController, sendMessage_addsMessageToView)
     {
+        MockObjects::MockMessagePtr msg = MockObjects::MockMessagePtr(new MockObjects::MockMessage());
+        ON_CALL(*msg.data(), sourceContact()).WillByDefault(Return(imcontact));
+        createContact();
+        UserWnd* wnd = new UserWnd(ContactId, false, false);
+        controller->addUserWnd(wnd);
+        EXPECT_CALL(*controller->userWndController(ContactId).dynamicCast<MockObjects::MockUserWndController>().data(),
+                    addMessageToView(_));
 
+        controller->sendMessage(msg);
     }
 }

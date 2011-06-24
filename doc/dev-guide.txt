@@ -37,26 +37,45 @@ To subscribe on event one should:
 2) Call "connectTo" method of this subclass to connect the "eventTriggered" signal of this subclass to needed slot.
 
 === MessagePipe ===
+Every input message goes through input message pipe. Pipe processes input message using all registered MessageProcessors.
+MessageProcessor defines 'process()' method which returns either MessageProcessor::Success or MessageProcessor::Block.
+This return value determines, should the processing continue. An example of MessageProcessor would be spam-filter
+which will return MessageProcessor::Block on spam messages.  
 
 === MessageOutPipe ===
+Similar to MessagePipe, except the direction.
 
 === ImageStorage ===
+This subsystem provides means to retrieve images by string id from registered IconSets.
+ImageStorage doesn't do loading images, it is being done by IconSet.
 
 === CommandHub ===
+Probably should be heavily reworked.
 
 === ContactList ===
+A metacontact(Contact) storage.
 
 === ProtocolManager ===
+Provides a storage for Protocol objects. Every protocol plugin should register its Protocol object in ProtocolManager.
+There should be only one Protocol for every IM-protocol.
 
 === PluginManager ===
+Plugin loading/unloading facility. Needs rework.
 
 === ClientManager ===
+Client object represents protocol client. ClientManager is the managing facility for Clients.
 
 === HistoryStorage ===
 
 === ProfileManager ===
+Profile is the set of clients, contacts, plugin and contact settings. ProfileManager manages Profile objects.
 
 == Contact/Group framework ==
+Contact represents metacontact, i.e. various IM contacts belonging to the same person.
+Group represents metagroup.
+IMContact represents a concrete IM contact which has associated id (ICQ123456, jabber_id@jabber.com, etc)
+Contact may contain several IMContacts.
+We should understand also how to handle things like jabber resources. Previous SIM approach was unacceptable.
 
 == Networking framework ==
 

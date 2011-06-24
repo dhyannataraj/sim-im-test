@@ -69,6 +69,7 @@ SET(_core_SRCS
         container/standarduserwndcontroller.cpp
         container/userwndcontroller.cpp
         container/userwnd.cpp
+        container/iuserwnd.cpp
         roster/userview.cpp
         roster/userviewmodel.cpp
 #        roster/userviewdelegate.cpp
@@ -144,6 +145,7 @@ SET(_core_HDRS
         container/standarduserwndcontroller.h
         container/userwndcontroller.h
         container/userwnd.h
+        container/iuserwnd.h
         roster/userview.h
         roster/userviewmodel.h
 #        roster/userviewdelegate.h

@@ -256,9 +256,9 @@ QString Container::name()
 
 Q_DECLARE_METATYPE( UserWnd* )
 
-void Container::addUserWnd(UserWnd *wnd)
+void Container::addUserWnd(IUserWnd *wnd)
 {
-    connect(wnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
+    connect(wnd, SIGNAL(closed(IUserWnd*)), this, SLOT(removeUserWnd(IUserWnd*)));
     connect(wnd, SIGNAL(messageSendRequested(SIM::MessagePtr)), this, SLOT(messageSendRequested(SIM::MessagePtr)));
 //    connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
     m_wnds->addWidget(wnd);
@@ -266,9 +266,9 @@ void Container::addUserWnd(UserWnd *wnd)
 
     // TODO highlight if contact has unread messages
 
-    int tab = m_tabBar->addTab(getImageStorage()->icon(wnd->getIcon()), wnd->getName());
-    m_tabBar->setTabData(tab, QVariant::fromValue(wnd));
-    m_tabBar->repaint();
+    //int tab = m_tabBar->addTab(getImageStorage()->icon(wnd->getIcon()), wnd->getName());
+    //m_tabBar->setTabData(tab, QVariant::fromValue(wnd));
+    //m_tabBar->repaint();
 
     contactSelected(wnd->id());
 
@@ -299,9 +299,9 @@ void Container::raiseUserWnd(int id/*UserWnd *wnd*/)
 
 void Container::removeUserWnd(int wndId)
 {
-    UserWnd* userwnd = wnd(wndId);
-    disconnect(userwnd, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
-    disconnect(userwnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
+    IUserWnd* userwnd = wnd(wndId);
+    disconnect(userwnd, SIGNAL(closed(IUserWnd*)), this, SLOT(removeUserWnd(IUserWnd*)));
+    disconnect(userwnd, SIGNAL(statusChanged(IUserWnd*)), this, SLOT(statusChanged(IUserWnd*)));
     m_wnds->removeWidget(userwnd);
     m_tabBar->removeTab(wndId);
     if (m_tabBar->count() == 0)
@@ -311,10 +311,10 @@ void Container::removeUserWnd(int wndId)
     contactSelected(0);
 }
 
-UserWnd *Container::wnd(unsigned id)
+IUserWnd *Container::wnd(unsigned id)
 {
     if (m_tabBar == NULL){
-        for (QList<UserWnd*>::iterator it = m_children.begin(); it != m_children.end(); ++it){
+        for (QList<IUserWnd*>::iterator it = m_children.begin(); it != m_children.end(); ++it){
             if ((*it)->id() == id)
                 return (*it);
         }

@@ -24,6 +24,7 @@
 #include "contacts/contact.h"
 #include "containercontroller.h"
 #include "icontainer.h"
+#include "iuserwnd.h"
 
 #include <QMainWindow>
 #include <QDockWidget>
@@ -103,7 +104,7 @@ public:
     Container(unsigned id);
     ~Container();
     QString name();
-    UserWnd *wnd(unsigned id);
+    IUserWnd *wnd(unsigned id);
     std::list<UserWnd*> windows();
     QByteArray getState();
     bool isReceived() { return m_bReceived; }
@@ -116,7 +117,7 @@ public:
     bool m_bNoRead;
 
 public slots:
-	void addUserWnd(UserWnd*);
+    void addUserWnd(IUserWnd*);
     void removeUserWnd(int wndId);
     void raiseUserWnd(int wndId);
     void contactSelected(int contactId);
@@ -158,7 +159,7 @@ protected:
     QStatusBar* m_status;
     QStackedWidget* m_wnds;
     QList<QShortcut*> m_shortcuts;
-    QList <UserWnd*> m_children;
+    QList<IUserWnd*> m_children;
     QFrame *m_frame;
     QVBoxLayout* m_layout;
     int m_id;

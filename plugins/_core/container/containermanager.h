@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include "container.h"
+#include "containercontroller.h"
 
 class CorePlugin;
 class ContainerManager : public QObject

@@ -26,12 +26,16 @@
 #include <QCloseEvent>
 #include <QTreeWidget>
 
+#include "iuserwnd.h"
+
+#include "core_api.h"
+
 class MsgEdit;
 class MsgView;
 class CorePlugin;
 class QToolBar;
 
-class UserWnd : public QWidget
+class CORE_EXPORT UserWnd : public IUserWnd
 {
     Q_OBJECT
 public:

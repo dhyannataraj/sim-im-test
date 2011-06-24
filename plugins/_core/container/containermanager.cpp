@@ -79,7 +79,7 @@ void ContainerManager::contactChatRequested(int contactId)
         addContainer(container);
     }
 
-    UserWnd* userwnd = container->wnd(contactId);
+    IUserWnd* userwnd = container->wnd(contactId);
     if(!userwnd)
     {
         userwnd = new UserWnd(contactId, false, false);

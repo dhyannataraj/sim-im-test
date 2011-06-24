@@ -20,10 +20,14 @@ public:
     void sendMessage(const SIM::MessagePtr& msg);
     void addUserWnd(UserWnd* wnd);
     UserWnd* userWndById(int id);
+    UserWndControllerPtr userWndController(int id);
 
 signals:
 
 public slots:
+
+protected:
+    virtual UserWndControllerPtr createUserWndController();
 
 private:
     QList<UserWndControllerPtr> m_controllers;
