@@ -4,14 +4,16 @@
 #include <QSharedPointer>
 #include "messaging/message.h"
 
-class UserWnd;
+class IUserWnd;
 class UserWndController
 {
 public:
     virtual ~UserWndController() {}
 
-    virtual void setUserWnd(UserWnd* wnd) = 0;
-    virtual UserWnd* userWnd() const = 0;
+    virtual int id() const = 0;
+
+    virtual void setUserWnd(IUserWnd* wnd) = 0;
+    virtual IUserWnd* userWnd() const = 0;
 
     virtual void addMessageToView(const SIM::MessagePtr& message) = 0;
     virtual int messagesCount() const = 0;

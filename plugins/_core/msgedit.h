@@ -59,7 +59,7 @@ class MsgEdit : public QFrame //, public SIM::EventReceiver
     Q_OBJECT
 public:
     MsgEdit(QWidget *parent);
-    ~MsgEdit();
+    virtual ~MsgEdit();
 
     void setUserWnd(UserWnd* wnd);
     QString messageHtml() const;

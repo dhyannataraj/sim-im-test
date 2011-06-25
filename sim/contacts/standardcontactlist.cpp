@@ -349,6 +349,7 @@ bool StandardContactList::load_old_dispatch(ParserState& state)
                 if(!client)
                     return false;
                 IMContactPtr imcontact = client->createIMContact();
+                imcontact->setParentContactId(state.contactId);
                 imcontact->deserialize(state.data);
                 c->addClientContact(imcontact);
                 if(c->name().isEmpty())

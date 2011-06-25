@@ -503,9 +503,19 @@ QString ICQContact::name() const
     return getNick();
 }
 
+void ICQContact::setParentContactId(int contactId)
+{
+    m_contactId = contactId;
+}
+
+int ICQContact::parentContactId() const
+{
+    return m_contactId;
+}
+
 IMContactId ICQContact::id() const
 {
-    return IMContactId();
+    return IMContactId(m_client->name() + "/" + getScreen(), m_contactId);
 }
 
 bool ICQContact::sendMessage(const SIM::MessagePtr& message)

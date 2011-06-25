@@ -253,6 +253,10 @@ void UserWnd::slot_messageSendRequested(const QString& messageText)
     }
     IMContactPtr originator = imcontact->client()->ownerContact();
     SIM::MessagePtr message = SIM::MessagePtr(new SIM::GenericMessage(originator, imcontact, messageText));
+
+    // TODO should be customizable, whether it should be added there or only after server delivery ACK
+    addMessageToView(message);
+
     emit messageSendRequested(message);
 }
 

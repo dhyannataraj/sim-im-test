@@ -25,6 +25,8 @@ namespace SIM
         virtual IMStatusPtr status() const = 0;
 
         virtual QString name() const = 0;
+        virtual void setParentContactId(int contactId) = 0;
+        virtual int parentContactId() const = 0;
         virtual IMContactId id() const = 0;
 
         virtual bool sendMessage(const MessagePtr& message) = 0;

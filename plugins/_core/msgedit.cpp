@@ -26,9 +26,7 @@
 #include "container/userwnd.h"
 
 #include "log.h"
-#include "container.h"
-
-
+#include "container/container.h"
 
 #include <algorithm>
 #include <QVBoxLayout>
@@ -259,11 +257,11 @@ void MsgEdit::setCloseOnSend(bool b)
 
 void MsgEdit::send()
 {
-    QString html = m_edit->document()->toHtml();
-    if(html.isEmpty())
+    QString text = m_edit->document()->toPlainText();
+    if(text.isEmpty())
         return;
 
-    emit messageSendRequested(html);
+    emit messageSendRequested(text);
 }
 
 void MsgEdit::textChanged()

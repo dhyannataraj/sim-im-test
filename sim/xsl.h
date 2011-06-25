@@ -18,7 +18,7 @@
 #ifndef _XSL_H
 #define _XSL_H
 
-#include <qstring.h>
+#include <QString>
 
 #include "simapi.h"
 

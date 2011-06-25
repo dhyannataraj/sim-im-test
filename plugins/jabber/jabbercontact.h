@@ -23,6 +23,8 @@ public:
 
     virtual SIM::IMStatusPtr status() const;
     virtual QString name() const;
+    virtual void setParentContactId(int contactId);
+    virtual int parentContactId() const;
     virtual SIM::IMContactId id() const;
 
     virtual bool sendMessage(const SIM::MessagePtr& message);
@@ -244,6 +246,8 @@ public:
 
     JabberClient* m_client;
     JabberStatusPtr m_jabberStatus;
+
+    int m_contactId;
 };
 
 typedef QSharedPointer<JabberContact> JabberContactPtr;

@@ -1,16 +1,32 @@
 #include "standarduserwndcontroller.h"
 #include "userwnd.h"
 
-StandardUserWndController::StandardUserWndController()
+StandardUserWndController::StandardUserWndController(int contactId) : m_id(contactId)
 {
+    m_userWnd = createUserWnd(contactId);
 }
 
-void StandardUserWndController::setUserWnd(UserWnd* wnd)
+StandardUserWndController::~StandardUserWndController()
 {
+    if(m_userWnd)
+        delete m_userWnd;
+}
+
+int StandardUserWndController::id() const
+{
+    return m_id;
+}
+
+void StandardUserWndController::setUserWnd(IUserWnd* wnd)
+{
+    if(m_userWnd == wnd)
+        return;
+    if(m_userWnd)
+        delete m_userWnd;
     m_userWnd = wnd;
 }
 
-UserWnd* StandardUserWndController::userWnd() const
+IUserWnd* StandardUserWndController::userWnd() const
 {
     return m_userWnd;
 }
@@ -23,4 +39,9 @@ void StandardUserWndController::addMessageToView(const SIM::MessagePtr& message)
 int StandardUserWndController::messagesCount() const
 {
     return m_userWnd->messagesInViewArea();
+}
+
+IUserWnd* StandardUserWndController::createUserWnd(int id)
+{
+    return new UserWnd(id, false, false);
 }

@@ -26,15 +26,16 @@ void ContainerController::sendMessage(const SIM::MessagePtr& msg)
 
 void ContainerController::addUserWnd(int contactId)
 {
-    UserWndControllerPtr controller = createUserWndController();
+    UserWndControllerPtr controller = createUserWndController(contactId);
     m_controllers.append(controller);
+    m_view->addUserWnd(controller->userWnd());
 }
 
-UserWnd* ContainerController::userWndById(int id)
+IUserWnd* ContainerController::userWndById(int id)
 {
     foreach(const UserWndControllerPtr& controller, m_controllers)
     {
-        UserWnd* thisWnd = controller->userWnd();
+        IUserWnd* thisWnd = controller->userWnd();
         if(thisWnd->id() == id)
             return thisWnd;
     }
@@ -45,14 +46,14 @@ UserWndControllerPtr ContainerController::userWndController(int id)
 {
     foreach(const UserWndControllerPtr& controller, m_controllers)
     {
-        UserWnd* thisWnd = controller->userWnd();
+        IUserWnd* thisWnd = controller->userWnd();
         if(thisWnd->id() == id)
             return controller;
     }
     return UserWndControllerPtr();
 }
 
-UserWndControllerPtr ContainerController::createUserWndController()
+UserWndControllerPtr ContainerController::createUserWndController(int id)
 {
-    return UserWndControllerPtr(new StandardUserWndController());
+    return UserWndControllerPtr(new StandardUserWndController(id));
 }

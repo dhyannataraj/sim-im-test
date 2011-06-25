@@ -15,6 +15,16 @@ public:
         return m_client;
     }
 
+    virtual void setParentContactId(int contactId)
+    {
+        Q_UNUSED(contactId);
+    }
+
+    virtual int parentContactId() const
+    {
+        return 0;
+    }
+
     virtual SIM::IMContactId id() const
     {
         return SIM::IMContactId();

@@ -146,6 +146,16 @@ QString JabberContact::name() const
     return getNick();
 }
 
+void JabberContact::setParentContactId(int contactId)
+{
+    m_contactId = contactId;
+}
+
+int JabberContact::parentContactId() const
+{
+    return m_contactId;
+}
+
 SIM::IMContactId JabberContact::id() const
 {
     return SIM::IMContactId();

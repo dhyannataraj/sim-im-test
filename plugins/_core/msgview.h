@@ -50,7 +50,7 @@ class MsgView : public QTextEdit
     Q_OBJECT
 public:
     MsgView(QWidget *parent, int id = -1);
-    ~MsgView();
+    virtual ~MsgView();
 
     void addMessage(const SIM::MessagePtr& message);
     int messageCount() const;
@@ -87,6 +87,8 @@ private:
     QList<SIM::MessagePtr> m_messages;
     int m_id;
     XSL* m_xsl;
+
+    QString m_xml;
 };
 
 

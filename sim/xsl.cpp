@@ -68,9 +68,11 @@ XSL::XSL(const QString &name)
 {
     QString fname = STYLES + name + EXT;
     QFile f(PathManager::userFile(fname));
+    log(L_DEBUG, "XSL: opening: %s", qPrintable(PathManager::userFile(fname)));
     bool bOK = true;
     if (f.size() == 0 || !f.open(QIODevice::ReadOnly)){
         f.setFileName(PathManager::appFile(fname));
+        log(L_DEBUG, "XSL: opening: %s", qPrintable(PathManager::appFile(fname)));
         if (f.size() == 0 || !f.open(QIODevice::ReadOnly)){
             log(L_WARN, "Can't open / empty file %s", qPrintable(f.fileName()));
             bOK = false;
@@ -102,7 +104,7 @@ QString XSL::process(const QString &my_xml)
        &nbsp; is predefined in HTML but not in XML
        ... use Unicode numerical entity instead: &#160;*/
     my_xsl = my_xml;
-    return my_xsl.replace("&nbsp;", QString("&#160;"));
+    my_xsl.replace("&nbsp;", QString("&#160;"));
 
     xmlDocPtr doc = xmlParseMemory(my_xsl.toUtf8(), my_xsl.toUtf8().length());
     if (doc == NULL){
@@ -126,7 +128,7 @@ QString XSL::process(const QString &my_xml)
     xmlFreeDoc(res);
 
     QString result = QString::fromUtf8((char*)(buf->buffer->content));
-    xmlOutputBufferClose(buf);;
+    xmlOutputBufferClose(buf);
 
     return result;
 }

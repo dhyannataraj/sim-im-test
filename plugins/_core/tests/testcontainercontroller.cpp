@@ -18,19 +18,32 @@ namespace
 {
     using ::testing::Return;
     using ::testing::_;
+
+    static const int ControllerId = 12;
+    static const int ContactId = 23;
+
     class ContainerController : public ::ContainerController
     {
     public:
          ContainerController(int id) : ::ContainerController(id) {}
+         virtual ~ContainerController() {}
+
+         MockObjects::MockUserWndControllerPtr lastCreatedUserWnd()
+         {
+             return m_lastUserWnd;
+         }
     protected:
         virtual UserWndControllerPtr createUserWndController()
         {
-            return UserWndControllerPtr(new MockObjects::MockUserWndController());
+            m_lastUserWnd = MockObjects::MockUserWndControllerPtr(new MockObjects::MockUserWndController());
+            ON_CALL(*m_lastUserWnd.data(), id()).WillByDefault(Return(ContactId));
+            return m_lastUserWnd;
         }
+
+    private:
+        MockObjects::MockUserWndControllerPtr m_lastUserWnd;
     };
 
-    static const int ControllerId = 12;
-    static const int ContactId = 23;
     class TestContainerController : public ::testing::Test
     {
     public:
@@ -76,9 +89,5 @@ namespace
         SIM::MessagePtr msg = SIM::MessagePtr(new StubObjects::StubMessage());
         EXPECT_CALL(*pipe, pushMessage(msg)).Times(1);
         controller->sendMessage(msg);
-    }
-
-    TEST_F(TestContainerController, sendMessage_addsMessageToView)
-    {
     }
 }

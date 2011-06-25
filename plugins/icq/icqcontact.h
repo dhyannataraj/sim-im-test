@@ -19,6 +19,8 @@ public:
     ICQContact(ICQClient* client);
 
     virtual QString name() const;
+    virtual void setParentContactId(int contactId);
+    virtual int parentContactId() const;
     virtual SIM::IMContactId id() const;
 
     void setMetaContact(SIM::Contact* c);
@@ -430,6 +432,8 @@ private:
     ICQClient* m_client;
     ICQStatusPtr m_icqstatus;
     SIM::Contact* m_metaContact;
+
+    int m_contactId;
 };
 
 typedef QSharedPointer<ICQContact> ICQContactPtr;

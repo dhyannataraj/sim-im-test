@@ -9,6 +9,7 @@ class ContainerController;
 class IContainer
 {
 public:
+    virtual ~IContainer() {}
     virtual QString name() = 0;
     virtual IUserWnd *wnd(unsigned wndId) = 0;
     virtual int id() const = 0;
