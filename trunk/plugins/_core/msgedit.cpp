@@ -557,23 +557,25 @@ static QObject* generateFile(MsgEdit *w, Message *msg)
 
 Message *dropFile(QMimeSource *src)
 {
-    if (QUriDrag::canDecode(src)){
-        QStringList files;
-        if (QUriDrag::decodeLocalFiles(src, files) && files.count()){
-            QString fileName;
-            for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
-                if (!fileName.isEmpty())
-                    fileName += ',';
-                fileName += '\"';
-                fileName += *it;
-                fileName += '\"';
-            }
-            FileMessage *m = new FileMessage;
-            m->setFile(fileName);
-            return m;
-        }
+    QStringList files;
+    if (  !QUriDrag::canDecode(src) 
+       || !QUriDrag::decodeLocalFiles(src, files) 
+       || !files.count())
+        return NULL;
+
+    QString fileName;
+    for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
+        if (!fileName.isEmpty())
+            fileName += ',';
+        fileName += '\"';
+        fileName += *it;
+        fileName += '\"';
     }
-    return NULL;
+    if (fileName.compare(QString("\"/h\""))==0) //Dirty fix for dragging firefox URL's to SIM - Online contacts...
+        return NULL;
+    FileMessage *m = new FileMessage;
+    m->setFile(fileName);
+    return m;
 }
 
 #if 0
