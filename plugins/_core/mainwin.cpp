@@ -261,7 +261,7 @@ UserView* MainWindow::userview() const
 
 void MainWindow::contactChatRequested(int contactId)
 {
-    ContainerManager* manager = m_core->containerManager();
+    IContainerManager* manager = m_core->containerManager();
     manager->contactChatRequested(contactId);
 }
 

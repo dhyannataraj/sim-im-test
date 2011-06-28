@@ -33,7 +33,7 @@
 #include "simapi.h"
 #include "mainwin.h"
 #include "core_api.h"
-#include "container/containermanager.h"
+#include "container/icontainermanager.h"
 
 using namespace std;
 
@@ -166,7 +166,7 @@ public:
 
 //    void changeClientStatus(SIM::Client* client, const SIM::IMStatusPtr& status);
 
-    ContainerManager* containerManager() const;
+    IContainerManager* containerManager() const;
     bool init();
 
 //signals:
@@ -257,7 +257,7 @@ private:
     MainWindow* m_main;
     CommonStatus* m_commonStatus;
 //    bool m_bIgnoreEvents;
-    ContainerManager* m_containerManager;
+    IContainerManager* m_containerManager;
 
 //    // Event handlers:
 //    bool processEventIconChanged();

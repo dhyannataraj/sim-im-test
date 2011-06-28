@@ -13,8 +13,10 @@ SET(_core_SRCS
 #        connectionsettings.cpp
 #        connectwnd.cpp
         container/containermanager.cpp
+        container/icontainermanager.cpp
         container/containercontroller.cpp
         container/container.cpp
+        container/sendmessageprocessor.cpp
         core.cpp
         commonstatus.cpp
         container/icontainer.cpp
@@ -93,8 +95,10 @@ SET(_core_HDRS
 #        connectionsettings.h
 #        connectwnd.h
         container/containermanager.h
+        container/icontainermanager.h
         container/containercontroller.h
         container/container.h
+        container/sendmessageprocessor.h
         core.h
         core_api.h
         commonstatus.h
@@ -191,6 +195,7 @@ SET(core_test_sources
         tests/testcommonstatus.cpp
         tests/testuserviewmodel.cpp
         tests/testcontainercontroller.cpp
+        tests/testsendmessageprocessor.cpp
 )
 
 ADD_EXECUTABLE(test_core ${core_test_sources})

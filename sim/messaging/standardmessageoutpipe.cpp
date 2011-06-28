@@ -15,6 +15,11 @@ namespace SIM
 
     void StandardMessageOutPipe::pushMessage(const MessagePtr& message)
     {
+        foreach(MessageProcessor* processor, m_processors)
+        {
+            if(processor->process(message) == MessageProcessor::Block)
+                return;
+        }
         IMContactPtr contact = message->targetContact().toStrongRef();
         if(!contact)
             return;

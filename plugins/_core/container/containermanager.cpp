@@ -8,7 +8,7 @@ using SIM::log;
 using SIM::L_DEBUG;
 
 ContainerManager::ContainerManager(CorePlugin* parent) :
-    QObject(parent), m_core(parent)
+    m_core(parent)
 {
 }
 
@@ -53,6 +53,10 @@ void ContainerManager::removeContainer(int index)
     if((index < 0) || (index >= containerCount()))
         return;
     m_containers.removeAt(index);
+}
+
+void ContainerManager::messageSent(const SIM::MessagePtr & msg)
+{
 }
 
 void ContainerManager::removeContainerById(int id)

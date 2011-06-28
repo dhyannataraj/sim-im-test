@@ -42,6 +42,8 @@ email                : vovan@shutoff.ru
 #include <QByteArray>
 #include <QDateTime>
 
+#include "config.h"
+
 // simlib
 
 #include "simgui/ballonmsg.h"
@@ -61,6 +63,7 @@ email                : vovan@shutoff.ru
 #include "roster/userview.h"
 #include "profileselectdialog.h"
 #include "commonstatus.h"
+#include "container/containermanager.h"
 
 using namespace std;
 using namespace SIM;
@@ -341,7 +344,7 @@ void CorePlugin::createMainMenuCommand()
 //    EventCommandCreate(cmd).process();
 //}
 
-ContainerManager* CorePlugin::containerManager() const
+IContainerManager* CorePlugin::containerManager() const
 {
     return m_containerManager;
 }

@@ -4,28 +4,23 @@
 #include <QObject>
 #include <QList>
 #include "container.h"
+#include "icontainermanager.h"
 #include "containercontroller.h"
 
 class CorePlugin;
-class ContainerManager : public QObject
+class ContainerManager : public QObject, public IContainerManager
 {
     Q_OBJECT
 public:
     explicit ContainerManager(CorePlugin* parent);
 
-    bool init();
-    void contactChatRequested(int contactId);
+    virtual bool init();
+    virtual void contactChatRequested(int contactId);
 
-    enum ContainerMode
-    {
-        cmSimpleMode = 0,
-        cmContactContainers = 1,
-        cmGroupContainers = 2,
-        cmOneContainer = 3
-    };
+    virtual void messageSent(const SIM::MessagePtr& msg);
 
-    ContainerMode containerMode() const;
-    void setContainerMode(ContainerMode mode);
+    virtual ContainerMode containerMode() const;
+    virtual void setContainerMode(ContainerMode mode);
 
 signals:
 

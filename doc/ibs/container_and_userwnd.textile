@@ -1,0 +1,55 @@
+h1. Container/UserWnd framework internal behaviour specification
+
+h2. S1. Container/UserWnd creation
+
+*Trigger1*: user clicks an item in roster
+*Trigger2*: incoming message
+
+*Precondition*: needed container isn't created yet
+
+*Precondition for Trigger2*: setting 'OpenChatOnIncomingMessage' == true
+
+*Main flow*:
+1. ContainerManager receives new contact chat request (contactId)
+2. ContainerManager checks that no UserWnd is created with given contactId.
+3. ContainerManager creates ContainerController
+4. ContainerController creates Controller
+5. ContainerManager orders ContainerController to create new UserWnd with userWndId := contactId
+6. ContainerController creates UserWndController with Id := contactId
+7. UserWndController creates UserWnd
+8. ContainerController orders Controller to add created UserWnd
+9. If 'NewControllerPolicy' == 'Raise', ContainerManager orders ContainerController->Container->UserWnd to become active widget.
+10. If *Trigger2* then add incoming message to UserWnd
+
+*Exceptions*:
+2a. If UserWnd with given contactId already exists
+ 2a.1. ContainerManager orders ContainerController->Container->UserWnd to become active
+
+
+h2. S2. Incoming message handling
+
+*Trigger*: ContainerManager is notified about incoming message from contactId
+
+*Main flow*:
+1. ContainerManager searches for UserWnd[id == contactId]
+1a. Search success
+ 1a.1. ContainerManager adds message to UserWnd
+1b. Search failure AND 'OpenChatOnIncomingMessage' == false
+ 1b.1. ContainerManager sets Contact[id == contactId].hasUnreadMessages := true
+ 
+*Notes*:
+If 1b. ... 'OpenChatOnIncomingMessage' == true then *S1*
+
+
+h2. S3. Outcoming message handling
+
+*Trigger*: User decides to send message
+
+*Main flow*:
+1. UserWnd creates Message and passes it to UserWndController->ContainerController
+2. ContainerController pushes Message to MessageOutPipe
+3. ContainerManager receives request to processMessage (from MessageOutPipe) # Responsiblity?
+4. ContainerManager adds message to UserWnd
+
+
+
