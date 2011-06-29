@@ -470,36 +470,37 @@ void SoundPlugin::run()
     }
     bDone=true;
     return;
-#endif
-if (!bDone || m_process || getPlayer().isEmpty() || m_snd.isEmpty())
-    return;
-
-#if !defined( WIN32 ) && !defined( __OS2__ ) && !defined( USE_KDE )
-    m_process = new QProcess(this);
-    m_process->addArgument(getPlayer());
-    m_process->addArgument(m_snd);
-    m_process->start();
-    connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
-    return;
-#endif
-#ifdef USE_KDE
-    if (getUseArts()) 
-    {
-        qDebug("\nThreaded mit USE_KDE davor");
-        bDone=false;
-        KAudioPlayer::play(m_snd);
-        qDebug("\nThreaded mit USE_KDE danach");
-        m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-        m_current = QString::null;
-        bDone=true;
+#else
+    if (!bDone || m_process || getPlayer().isEmpty() || m_snd.isEmpty())
         return;
-    }
-    m_process = new QProcess(this);
-    m_process->addArgument(getPlayer());
-    m_process->addArgument(m_snd);
-    m_process->start();
-    connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
-    return;
+
+    #if !defined( WIN32 ) && !defined( __OS2__ ) && !defined( USE_KDE )
+        m_process = new QProcess(this);
+        m_process->addArgument(getPlayer());
+        m_process->addArgument(m_snd);
+        m_process->start();
+        connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
+        return;
+    #endif
+    #ifdef USE_KDE
+        if (getUseArts()) 
+        {
+            qDebug("\nThreaded mit USE_KDE davor");
+            bDone=false;
+            KAudioPlayer::play(m_snd);
+            qDebug("\nThreaded mit USE_KDE danach");
+            m_checkTimer->start(WAIT_SOUND_TIMEOUT);
+            m_current = QString::null;
+            bDone=true;
+            return;
+        }
+        m_process = new QProcess(this);
+        m_process->addArgument(getPlayer());
+        m_process->addArgument(m_snd);
+        m_process->start();
+        connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
+        return;
+    #endif
 #endif
 }
 

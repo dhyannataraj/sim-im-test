@@ -63,7 +63,7 @@ void JabberFileTransfer::listen()
         for (;;){
             if (!openFile()){
                 if (FileTransfer::m_state == FileTransfer::Done)
-                    m_socket->error_state(QString::null);
+                    m_socket->error_state("");
                 return;
             }
             if (!isDirectory())
@@ -160,7 +160,7 @@ void JabberFileTransfer::packet_ready()
     }
     if (m_state == Receive){
         if (m_file == NULL){
-            m_socket->error_state(QString::null, 0);
+            m_socket->error_state("", 0);
             return;
         }
         unsigned size = m_socket->readBuffer().size() - m_socket->readBuffer().readPos();
@@ -178,7 +178,7 @@ void JabberFileTransfer::packet_ready()
                     m_notify->transfer(false);
                     m_notify->process();
                 }
-                m_socket->error_state(QString::null);
+                m_socket->error_state("");
             }
             if (m_notify)
                 m_notify->process();
@@ -233,7 +233,7 @@ void JabberFileTransfer::write_ready()
             if (!openFile()){
                 m_state = None;
                 if (FileTransfer::m_state == FileTransfer::Done)
-                    m_socket->error_state(QString::null);
+                    m_socket->error_state("");
                 break;
             }
             if (isDirectory())

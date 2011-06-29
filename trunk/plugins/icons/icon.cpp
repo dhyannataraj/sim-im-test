@@ -70,7 +70,7 @@ void IconsPlugin::setIcons(bool bForce)
         return;
     getIcons()->removeIconSet(NULL);
     if (getDefault()){
-        getIcons()->addIconSet("icons/smile.jisp", false);
+        getIcons()->addIconSet("icons/smiles.jisp", false);
     }else{
         for (unsigned i = 1; i <= getNIcons(); i++)
             getIcons()->addIconSet(getIcon(i), false);
