@@ -19,7 +19,7 @@ SendMessageProcessor::~SendMessageProcessor()
 
 QString SendMessageProcessor::id() const
 {
-    return "send-message-listener";
+    return "core-send";
 }
 
 SIM::MessageProcessor::ProcessResult SendMessageProcessor::process(const SIM::MessagePtr& message)

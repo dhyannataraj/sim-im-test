@@ -1,5 +1,9 @@
 #include "standarduserwndcontroller.h"
 #include "userwnd.h"
+#include "log.h"
+
+using SIM::log;
+using SIM::L_DEBUG;
 
 StandardUserWndController::StandardUserWndController(int contactId) : m_id(contactId)
 {
@@ -33,6 +37,7 @@ IUserWnd* StandardUserWndController::userWnd() const
 
 void StandardUserWndController::addMessageToView(const SIM::MessagePtr& message)
 {
+    log(L_DEBUG, "StandardUserWndController::addMessageToView");
     m_userWnd->addMessageToView(message);
 }
 

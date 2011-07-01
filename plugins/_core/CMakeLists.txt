@@ -17,6 +17,7 @@ SET(_core_SRCS
         container/containercontroller.cpp
         container/container.cpp
         container/sendmessageprocessor.cpp
+        container/receivemessageprocessor.cpp
         core.cpp
         commonstatus.cpp
         container/icontainer.cpp
@@ -99,6 +100,7 @@ SET(_core_HDRS
         container/containercontroller.h
         container/container.h
         container/sendmessageprocessor.h
+        container/receivemessageprocessor.h
         core.h
         core_api.h
         commonstatus.h
@@ -196,6 +198,7 @@ SET(core_test_sources
         tests/testuserviewmodel.cpp
         tests/testcontainercontroller.cpp
         tests/testsendmessageprocessor.cpp
+        tests/testreceivemessageprocessor.cpp
 )
 
 ADD_EXECUTABLE(test_core ${core_test_sources})

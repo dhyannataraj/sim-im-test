@@ -20,6 +20,7 @@ namespace MockObjects
         MOCK_METHOD0(init, bool());
         MOCK_METHOD1(contactChatRequested, void(int contactId));
         MOCK_METHOD1(messageSent, void(const SIM::MessagePtr& msg));
+        MOCK_METHOD1(messageReceived, void(const SIM::MessagePtr& msg));
         MOCK_CONST_METHOD0(containerMode, ContainerMode());
         MOCK_METHOD1(setContainerMode, void(ContainerMode mode));
     };

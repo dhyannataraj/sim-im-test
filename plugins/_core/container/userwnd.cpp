@@ -251,11 +251,9 @@ void UserWnd::slot_messageSendRequested(const QString& messageText)
         log(L_WARN, "UserWnd::slot_messageSendRequested : !imcontact : %d", id());
         return;
     }
+    log(L_DEBUG, "imcontact parent: %d", imcontact->parentContactId());
     IMContactPtr originator = imcontact->client()->ownerContact();
     SIM::MessagePtr message = SIM::MessagePtr(new SIM::GenericMessage(originator, imcontact, messageText));
-
-    // TODO should be customizable, whether it should be added there or only after server delivery ACK
-    addMessageToView(message);
 
     emit messageSendRequested(message);
 }

@@ -11,6 +11,9 @@
 #include "messaging/genericmessage.h"
 #include "contacts/imcontact.h"
 #include "tests/mocks/mockimcontact.h"
+#include "tests/mocks/mockmessagepipe.h"
+#include "messaging/messagepipe.h"
+#include "tests/matchers/messagematchers.h"
 
 namespace
 {
@@ -19,7 +22,7 @@ namespace
     using ::testing::Return;
     using ::testing::Truly;
     static const int MinMessageInterval = 1000;
-    static const QString TargetContact = "32167";
+    static const QString ContactName = "32167";
     static const QString TestMessage = "1234";
 
     class TestIcbmSnacHandler : public ::testing::Test
@@ -31,7 +34,8 @@ namespace
             client = new ICQClient(0, "ICQ.123456", false);
             client->setOscarSocket(socket);
             contact = ICQContactPtr(new ICQContact(client));
-            contact->setScreen(TargetContact);
+            contact->setScreen(ContactName);
+            client->contactList()->addContact(contact);
 
             handler = static_cast<IcbmSnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_MESSAGE));
             ASSERT_TRUE(handler);
@@ -40,6 +44,7 @@ namespace
         virtual void TearDown()
         {
             delete client;
+            SIM::setMessagePipe(0);
         }
 
         QByteArray makeParametersInfoPacket()
@@ -58,14 +63,14 @@ namespace
         {
             ByteArrayBuilder builder;
             builder.appendWord(0x0501); // Features signature
-            builder.appendByte(0x01); // Features length
+            builder.appendWord(0x01); // Features length
             builder.appendByte(0x01); // Features
             builder.appendWord(0x0101); // Block info
-            builder.appendByte(0x04 + messageText.length()); // Block info length
+            builder.appendWord(0x04 + messageText.length()); // Block info length
             builder.appendWord(0x0000);
             builder.appendWord(0xffff);
-            QByteArray arr = messageText.toAscii();
-            arr.chop(1);
+            QByteArray arr = messageText.toUtf8();
+//            arr.chop(1);
             builder.appendBytes(arr);
             return builder.getArray();
         }
@@ -73,6 +78,28 @@ namespace
         SIM::MessagePtr makeTestMessage()
         {
             return SIM::MessagePtr(new SIM::GenericMessage(client->ownerContact(), contact, TestMessage));
+        }
+
+        QByteArray makeIncomingMessagePacket()
+        {
+            ByteArrayBuilder builder;
+            builder.appendDword(0x12345678);
+            builder.appendDword(0x87654321);
+            builder.appendWord(0x0001);
+            builder.appendByte(ContactName.length());
+            QByteArray arr = ContactName.toAscii();
+            builder.appendBytes(arr);
+            builder.appendWord(0); // Warning level`
+
+            TlvList list;
+            list.append(Tlv::fromUint16(IcbmSnacHandler::TlvUserClass, 0x0050));
+            list.append(Tlv::fromUint32(IcbmSnacHandler::TlvOnlineStatus, 0x10020000));
+            list.append(Tlv(IcbmSnacHandler::TlvMessage, makeMessageBlock(TestMessage)));
+
+            builder.appendWord(list.size());
+            builder.appendBytes(list.toByteArray());
+
+            return builder.getArray();
         }
 
         ICQClient* client;
@@ -97,7 +124,7 @@ namespace
         // Check target contact id
         int idlen = parser.readByte();
         QByteArray targetContactId = parser.readBytes(idlen);
-        if(targetContactId != TargetContact.toAscii())
+        if(targetContactId != ContactName.toAscii())
             return false;
 
         if(parser.atEnd())
@@ -146,5 +173,23 @@ namespace
     {
         EXPECT_CALL(*socket, snac(ICQ_SNACxFOOD_MESSAGE, IcbmSnacHandler::SnacIcbmSendMessage, _, Truly(isValidMessagePacketForContact))).Times(1);
         handler->sendMessage(makeTestMessage());
+    }
+
+    TEST_F(TestIcbmSnacHandler, incomingMessage_pushesToPipe)
+    {
+        MockObjects::MockMessagePipe* pipe = new MockObjects::MockMessagePipe();
+        SIM::setMessagePipe(pipe);
+        EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageTextMatcher(TestMessage))));
+
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(), 0, 0);
+    }
+
+    TEST_F(TestIcbmSnacHandler, incomingMessage_sourceContact)
+    {
+        MockObjects::MockMessagePipe* pipe = new MockObjects::MockMessagePipe();
+        SIM::setMessagePipe(pipe);
+        EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageSourceContactMatcher(contact))));
+
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(), 0, 0);
     }
 }

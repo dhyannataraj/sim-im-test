@@ -3,8 +3,11 @@
 #include "bytearraybuilder.h"
 #include "log.h"
 #include "messaging/message.h"
+#include "messaging/messagepipe.h"
+#include "messaging/genericmessage.h"
 
 using SIM::log;
+using SIM::L_DEBUG;
 using SIM::L_WARN;
 
 IcbmSnacHandler::IcbmSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_MESSAGE),
@@ -32,6 +35,11 @@ bool IcbmSnacHandler::process(unsigned short subtype, const QByteArray& data, in
             emit ready();
 
             return sendNewParametersInfo();
+        }
+        break;
+    case SnacIcbmIncomingMessage:
+        {
+            return handleIncomingMessage(data);
         }
         break;
     default:
@@ -159,4 +167,55 @@ QByteArray IcbmSnacHandler::generateCookie()
     QByteArray cookie((char*)&m_currentCookie, sizeof(m_currentCookie));
     m_currentCookie++;
     return cookie;
+}
+
+bool IcbmSnacHandler::handleIncomingMessage(const QByteArray& data)
+{
+    ByteArrayParser parser(data);
+    parser.readBytes(8); // Skip cookie
+    parser.readWord(); // Channel
+
+    int nameLength = parser.readByte();
+    QByteArray name = parser.readBytes(nameLength);
+
+    parser.readWord(); // Warning level
+    parser.readWord(); // tlv count
+    TlvList list = TlvList::fromByteArray(parser.readAll());
+
+    QByteArray messageBlockData = list.firstTlv(TlvMessage).data();
+    QString message = parseMessageBlock(messageBlockData);
+
+    ICQContactList* contactList = m_client->contactList();
+
+    ICQContactPtr sourceContact = contactList->contactByScreen(name);
+    if(!sourceContact)
+        return false;
+
+    log(L_DEBUG, "handleIncomingMessage: %s/%x", name.data(), sourceContact.data());
+
+    SIM::MessagePtr msg = SIM::MessagePtr(new SIM::GenericMessage(sourceContact, m_client->ownerContact(), message));
+    SIM::getMessagePipe()->pushMessage(msg);
+    return true;
+}
+
+QString IcbmSnacHandler::parseMessageBlock(const QByteArray& block)
+{
+    ByteArrayParser parser(block);
+    while(!parser.atEnd())
+    {
+        int id = parser.readWord();
+        int length = parser.readWord();
+        if(id != MessageBlockInfo)
+        {
+            parser.readBytes(length);
+        }
+        else
+        {
+            parser.readWord(); // Charset
+            parser.readWord(); // Subcharset
+            QByteArray msgText = parser.readBytes(length - 4); // -4 for charset & subcharset fields
+            return QString::fromUtf8(msgText.data(), msgText.size());
+        }
+    }
+    return QString();
 }

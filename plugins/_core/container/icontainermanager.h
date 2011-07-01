@@ -20,6 +20,7 @@ public:
     virtual void contactChatRequested(int contactId) = 0;
 
     virtual void messageSent(const SIM::MessagePtr& msg) = 0;
+    virtual void messageReceived(const SIM::MessagePtr& msg) = 0;
 
     enum ContainerMode
     {

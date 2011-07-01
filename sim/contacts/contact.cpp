@@ -75,6 +75,7 @@ namespace SIM
 
     void Contact::addClientContact(const IMContactPtr& contact)
     {
+        contact->setParentContactId(this->id());
         m_imContacts.append(contact);
     }
 

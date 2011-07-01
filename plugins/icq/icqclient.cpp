@@ -887,7 +887,6 @@ QString ICQClient::name()
 SIM::IMContactPtr ICQClient::createIMContact()
 {
     ICQContactPtr contact = ICQContactPtr(new ICQContact(this));
-    //m_contactList->addContact(contact);
     return contact;
 }
 
