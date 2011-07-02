@@ -76,7 +76,6 @@ SET(_core_SRCS
         roster/userview.cpp
         roster/userviewmodel.cpp
 #        roster/userviewdelegate.cpp
-        messageprocessors/containersentmessageprocessor.cpp
 )
 
 # is this really needed?
@@ -155,7 +154,6 @@ SET(_core_HDRS
         roster/userview.h
         roster/userviewmodel.h
 #        roster/userviewdelegate.h
-        messageprocessors/containersentmessageprocessor.cpp
 )
 
 SET(_core_UICS

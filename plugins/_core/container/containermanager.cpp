@@ -10,6 +10,7 @@ using SIM::L_DEBUG;
 using SIM::L_ERROR;
 
 ContainerManager::ContainerManager(CorePlugin* parent) :
+    m_containerControllerId(0),
     m_core(parent)
 {
     m_sendProcessor = new SendMessageProcessor(this);
@@ -25,9 +26,11 @@ ContainerManager::~ContainerManager()
     delete m_sendProcessor;
 }
 
-ContainerControllerPtr ContainerManager::makeContainerController(int id)
+ContainerControllerPtr ContainerManager::makeContainerController()
 {
-    return ContainerControllerPtr(new ContainerController(id));
+    ContainerController* controller = new ContainerController(m_containerControllerId++);
+    connect(controller, SIGNAL(closed(int)), this, SLOT(containerClosed(int)));
+    return ContainerControllerPtr(controller);
 }
 
 bool ContainerManager::init()
@@ -77,15 +80,11 @@ void ContainerManager::messageSent(const SIM::MessagePtr& msg)
         return;
     }
 
-    log(L_DEBUG, "ContainerManager::messageSent: %d/%d", m_containers.size(), contact->parentContactId());
-    foreach(const ContainerControllerPtr& c, m_containers)
+    log(L_DEBUG, "ContainerManager::messageSent");
+    UserWndControllerPtr userwnd = findUserWnd(contact->parentContactId());
+    if(userwnd)
     {
-        UserWndControllerPtr userwnd = c->userWndController(contact->parentContactId());
-        log(L_DEBUG, "%d/%d", userwnd->id(), contact->parentContactId());
-        if(userwnd)
-        {
-            userwnd->addMessageToView(msg);
-        }
+        userwnd->addMessageToView(msg);
     }
 }
 
@@ -98,17 +97,22 @@ void ContainerManager::messageReceived(const SIM::MessagePtr& msg)
         return;
     }
 
-    log(L_ERROR, "ContainerManager::messageReceived");
-
-    foreach(const ContainerControllerPtr& c, m_containers)
+    log(L_DEBUG, "ContainerManager::messageReceived");
+    UserWndControllerPtr userwnd = findUserWnd(contact->parentContactId());
+    if(!userwnd)
     {
-        UserWndControllerPtr userwnd = c->userWndController(contact->parentContactId());
-        if(userwnd)
+        log(L_DEBUG, "ContainerManager::messageReceived, creating container");
+        ContainerControllerPtr container = containerControllerById(0);
+        if(!container)
         {
-            log(L_ERROR, "ContainerManager::messageReceived userwnd found");
-            userwnd->addMessageToView(msg);
+            container = makeContainerController();
+            addContainer(container);
         }
+
+        container->addUserWnd(contact->parentContactId());
+        userwnd = container->userWndController(contact->parentContactId());
     }
+    userwnd->addMessageToView(msg);
 }
 
 void ContainerManager::removeContainerById(int id)
@@ -123,6 +127,19 @@ void ContainerManager::removeContainerById(int id)
     }
 }
 
+UserWndControllerPtr ContainerManager::findUserWnd(int id)
+{
+    foreach(const ContainerControllerPtr& c, m_containers)
+    {
+        UserWndControllerPtr userwnd = c->userWndController(id);
+        if(userwnd)
+        {
+            return userwnd;
+        }
+    }
+    return UserWndControllerPtr();
+}
+
 void ContainerManager::contactChatRequested(int contactId)
 {
     log(L_DEBUG, "contactChatRequested: %d", contactId);
@@ -130,7 +147,7 @@ void ContainerManager::contactChatRequested(int contactId)
     ContainerControllerPtr container = containerControllerById(0);
     if(!container)
     {
-        container = makeContainerController(0);
+        container = makeContainerController();
         addContainer(container);
     }
 
@@ -149,4 +166,10 @@ ContainerManager::ContainerMode ContainerManager::containerMode() const
 void ContainerManager::setContainerMode(ContainerManager::ContainerMode mode)
 {
     m_containerMode = mode;
+}
+
+void ContainerManager::containerClosed(int id)
+{
+    log(L_DEBUG, "ContainerManager::containerClosed: %d", id);
+    removeContainerById(id);
 }

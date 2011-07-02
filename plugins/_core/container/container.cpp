@@ -88,11 +88,12 @@ Container::~Container()
         for (it = wnds.begin(); it != wnds.end(); ++it)
             disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
     }
-    qDeleteAll(m_children);
+    //qDeleteAll(m_children);
 }
 
 void Container::closeEvent(QCloseEvent* e)
 {
+    emit closed();
     //CorePlugin::instance()->containerManager()->removeContainerById(id());
 }
 
@@ -262,7 +263,6 @@ Q_DECLARE_METATYPE( UserWnd* )
 
 void Container::addUserWnd(IUserWnd *wnd)
 {
-    connect(wnd, SIGNAL(closed(IUserWnd*)), this, SLOT(removeUserWnd(IUserWnd*)));
     connect(wnd, SIGNAL(messageSendRequested(SIM::MessagePtr)), this, SLOT(messageSendRequested(SIM::MessagePtr)));
 //    connect(wnd, SIGNAL(statusChanged(UserWnd*)), this, SLOT(statusChanged(UserWnd*)));
     m_wnds->addWidget(wnd);
@@ -315,7 +315,7 @@ void Container::removeUserWnd(int wndId)
     contactSelected(0);
 }
 
-IUserWnd *Container::wnd(unsigned id)
+IUserWnd *Container::wnd(int id)
 {
     if (m_tabBar == NULL){
         for (QList<IUserWnd*>::iterator it = m_children.begin(); it != m_children.end(); ++it){

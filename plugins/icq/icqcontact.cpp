@@ -67,6 +67,12 @@ void ICQContact::deserializeLine(const QString& key, const QString& value)
     if(key == "Alias") {
         setAlias(val);
     }
+    else if(key == "Uin") {
+        setUin(val.toLong(0, 10));
+    }
+    else if(key == "Screen") {
+        setScreen(val);
+    }
     else if(key == "Cellular") {
         setCellular(val);
     }

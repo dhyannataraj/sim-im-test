@@ -6,8 +6,10 @@
 
 ContainerController::ContainerController(int id) : m_id(id)
 {
-    m_view = IContainerPtr(new Container(id));
+    Container* container = new Container(id);
+    m_view = IContainerPtr(container);
     m_view->setController(this);
+    connect(container, SIGNAL(closed()), this, SLOT(containerClosed()));
 }
 
 ContainerController::~ContainerController()
@@ -51,6 +53,11 @@ UserWndControllerPtr ContainerController::userWndController(int id)
             return controller;
     }
     return UserWndControllerPtr();
+}
+
+void ContainerController::containerClosed()
+{
+    emit closed(id());
 }
 
 UserWndControllerPtr ContainerController::createUserWndController(int id)

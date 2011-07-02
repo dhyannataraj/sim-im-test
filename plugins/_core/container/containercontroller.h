@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include "messaging/message.h"
-#include "messageprocessors/containersentmessageprocessor.h"
 #include "userwndcontroller.h"
 #include "core_api.h"
 #include "icontainer.h"
@@ -23,8 +22,10 @@ public:
     UserWndControllerPtr userWndController(int id);
 
 signals:
+    void closed(int id);
 
 public slots:
+    void containerClosed();
 
 protected:
     virtual UserWndControllerPtr createUserWndController(int id);

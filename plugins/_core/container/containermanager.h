@@ -29,9 +29,10 @@ public:
 signals:
 
 public slots:
+    void containerClosed(int id);
 
 private:
-    ContainerControllerPtr makeContainerController(int id);
+    ContainerControllerPtr makeContainerController();
     void addContainer(const ContainerControllerPtr& cont);
     int containerCount();
     ContainerControllerPtr containerController(int index);
@@ -39,10 +40,13 @@ private:
     void removeContainer(int index);
     void removeContainerById(int id);
 
+    UserWndControllerPtr findUserWnd(int id);
+
     SendMessageProcessor* m_sendProcessor;
     ReceiveMessageProcessor* m_receiveProcessor;
 
     QList<ContainerControllerPtr> m_containers;
+    int m_containerControllerId;
     ContainerMode m_containerMode;
     CorePlugin* m_core;
 };

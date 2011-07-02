@@ -1,4 +1,8 @@
- #include "icqcontactlist.h"
+#include "icqcontactlist.h"
+#include "log.h"
+
+using SIM::log;
+using SIM::L_DEBUG;
 
 ICQContactList::ICQContactList(ICQClient* client) : m_client(client)
 {
@@ -18,6 +22,7 @@ ICQContactPtr ICQContactList::contactByScreen(const QString& screen)
 {
     for(QMap<int, ICQContactPtr>::iterator it = m_contacts.begin(); it != m_contacts.end(); ++it)
     {
+        //log(L_DEBUG, "%s/%s", qPrintable(it.value()->getScreen()), qPrintable(screen));
         if(it.value()->getScreen() == screen)
             return it.value();
     }

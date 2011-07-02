@@ -105,7 +105,7 @@ public:
     Container(unsigned id);
     virtual ~Container();
     QString name();
-    IUserWnd *wnd(unsigned id);
+    IUserWnd *wnd(int id);
     std::list<UserWnd*> windows();
     QByteArray getState();
     bool isReceived() { return m_bReceived; }
@@ -118,6 +118,9 @@ public:
     virtual void setController(ContainerController* controller);
 
     bool m_bNoRead;
+
+signals:
+    void closed();
 
 public slots:
     void addUserWnd(IUserWnd*);

@@ -9,8 +9,7 @@ namespace SIM
 #if defined(WIN32) || defined(QT_VISIBILITY_AVAILABLE)
     template <> EXPORT ProfileManager* Singleton<ProfileManager>::m_instance = 0;
 #endif
-    ProfileManager::ProfileManager(const QString& rootpath) : Singleton<ProfileManager>(),
-    m_rootPath(rootpath)
+    ProfileManager::ProfileManager(const QString& rootpath) : Singleton<ProfileManager>(), m_rootPath(rootpath)
     {
     }
 
@@ -22,7 +21,7 @@ namespace SIM
     {
         QStringList profiles;
         QDir dir(m_rootPath);
-        dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
+        dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
         QStringList list = dir.entryList();
         for(QStringList::iterator it = list.begin(); it != list.end(); ++it)
         {

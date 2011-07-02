@@ -145,7 +145,7 @@ bool SsiSnacHandler::parseEntryContact(int contactId, const QString& contactName
 
     log(L_DEBUG, "User %s [%s] id %u - group %u", qPrintable(contactName), qPrintable(alias), contactId, groupId);
 
-    ICQContactPtr contact = contactList->contact(contactId);
+    ICQContactPtr contact = contactList->contactByScreen(contactName);
     if(!contact)
     {
         contact = client()->createIMContact().dynamicCast<ICQContact>(); // FIXME

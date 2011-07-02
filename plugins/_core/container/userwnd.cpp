@@ -60,24 +60,14 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
 
     setFocusProxy(m_ui->msgEdit);
 
-//    connect(m_edit->m_bar, SIGNAL(movableChanged(bool)), this, SLOT(toolbarChanged(bool)));
     connect(CorePlugin::instance(), SIGNAL(containerModeChanged()), this, SLOT(modeChanged()));
     connect(m_ui->msgEdit, SIGNAL(messageSendRequested(QString)), this, SLOT(slot_messageSendRequested(QString)));
-//    connect(m_edit, SIGNAL(heightChanged(int)), this, SLOT(editHeightChanged(int)));
     modeChanged();
     refreshTargetList();
-
 }
 
 UserWnd::~UserWnd()
 {
-    emit closed(this);
-//    Contact *contact = getContacts()->contact(id());
-//    if (!(contact && (contact->getFlags() & CONTACT_TEMPORARY)))
-//        return;
-
-    //m_id = 0;
-    //delete contact;
 }
 
 void UserWnd::addMessageToView(const MessagePtr& message)
