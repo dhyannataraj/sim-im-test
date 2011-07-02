@@ -890,6 +890,14 @@ SIM::IMContactPtr ICQClient::createIMContact()
     return contact;
 }
 
+void ICQClient::addIMContact(const SIM::IMContactPtr& contact)
+{
+    ICQContactPtr c = contact.dynamicCast<ICQContact>();
+    if(!c)
+        return;
+    contactList()->addContact(c);
+}
+
 SIM::IMGroupPtr ICQClient::createIMGroup()
 {
     return SIM::IMGroupPtr(new ICQGroup(this));

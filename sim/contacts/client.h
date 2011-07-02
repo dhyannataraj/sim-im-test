@@ -22,6 +22,7 @@ namespace SIM
         Protocol *protocol() const { return m_protocol; }
 
         virtual IMContactPtr createIMContact() = 0;
+        virtual void addIMContact(const IMContactPtr& contact) = 0;
         virtual IMGroupPtr createIMGroup() = 0;
 
         virtual QWidget* createSetupWidget(const QString& id, QWidget* parent) = 0;

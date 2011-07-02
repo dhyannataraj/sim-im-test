@@ -197,6 +197,7 @@ SET(core_test_sources
         tests/testcontainercontroller.cpp
         tests/testsendmessageprocessor.cpp
         tests/testreceivemessageprocessor.cpp
+        tests/gtest-qt.cpp
 )
 
 ADD_EXECUTABLE(test_core ${core_test_sources})

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="QtTypes">
+    <packagedElement xmi:type="uml:Class" xmi:id="_f1424KSYEeCk-dTXlHQOmw" name="QImage"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_BGJ9sKSZEeCk-dTXlHQOmw" name="QIcon"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_B1ODIKSZEeCk-dTXlHQOmw" name="QPixmap"/>
+  </packagedElement>
+</uml:Model>

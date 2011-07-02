@@ -30,6 +30,8 @@ SET(sim_LIB_SRCS
         imagestorage/standardimagestorage.cpp
         imagestorage/iconset.cpp
         imagestorage/jispiconset.cpp
+        imagestorage/avatarstorage.cpp
+        imagestorage/standardavatarstorage.cpp
 		log.cpp
         messaging/message.cpp
         messaging/genericmessage.cpp
@@ -110,6 +112,8 @@ SET(sim_LIB_HDRS
         imagestorage/standardimagestorage.h
         imagestorage/iconset.h
         imagestorage/jispiconset.h
+        imagestorage/avatarstorage.h
+        imagestorage/standardavatarstorage.h
 		log.h
         messaging/message.h
         messaging/genericmessage.h
@@ -237,6 +241,7 @@ ENDIF(APPLE)
 
 # unit tests
 SET(sim_tests_srcs
+	tests/gtest-qt.cpp
     tests/test.cpp
     tests/testbuffer.cpp
     tests/testclientmanager.cpp
@@ -251,6 +256,7 @@ SET(sim_tests_srcs
     tests/teststandardcontactlist.cpp
     tests/teststandardmessageoutpipe.cpp
     tests/testimcontactid.cpp
+    tests/teststandardavatarstorage.cpp
 )
 
 

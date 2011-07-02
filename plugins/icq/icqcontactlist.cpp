@@ -10,23 +10,23 @@ ICQContactList::ICQContactList(ICQClient* client) : m_client(client)
 
 void ICQContactList::addContact(const ICQContactPtr& contact)
 {
-    m_contacts.insert(contact->getIcqID(), contact);
+    log(L_DEBUG, "ICQContactList::addContact(%s)", qPrintable(contact->getScreen()));
+    m_contacts.insert(contact->getScreen(), contact);
 }
 
 ICQContactPtr ICQContactList::contact(int icqContactId)
 {
-    return m_contacts.value(icqContactId);
+    for(QMap<QString, ICQContactPtr>::iterator it = m_contacts.begin(); it != m_contacts.end(); ++it)
+    {
+        if(it.value()->getIcqID() == (unsigned)icqContactId)
+            return it.value();
+    }
+    return ICQContactPtr();
 }
 
 ICQContactPtr ICQContactList::contactByScreen(const QString& screen)
 {
-    for(QMap<int, ICQContactPtr>::iterator it = m_contacts.begin(); it != m_contacts.end(); ++it)
-    {
-        //log(L_DEBUG, "%s/%s", qPrintable(it.value()->getScreen()), qPrintable(screen));
-        if(it.value()->getScreen() == screen)
-            return it.value();
-    }
-    return ICQContactPtr();
+    return m_contacts.value(screen);
 }
 
 int ICQContactList::contactCount() const

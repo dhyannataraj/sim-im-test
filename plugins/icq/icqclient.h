@@ -510,8 +510,9 @@ public:
 	virtual QString retrievePasswordLink();
     virtual QString name();
 
-    SIM::IMContactPtr createIMContact();
-    SIM::IMGroupPtr createIMGroup();
+    virtual SIM::IMContactPtr createIMContact();
+    virtual void addIMContact(const SIM::IMContactPtr& contact);
+    virtual SIM::IMGroupPtr createIMGroup();
 
     virtual QWidget* createSetupWidget(const QString& id, QWidget* parent);
     virtual void destroySetupWidget();

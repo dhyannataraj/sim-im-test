@@ -402,6 +402,11 @@ IMContactPtr JabberClient::createIMContact()
     return IMContactPtr(new JabberContact(this));
 }
 
+void JabberClient::addIMContact(const SIM::IMContactPtr& contact)
+{
+
+}
+
 IMGroupPtr JabberClient::createIMGroup()
 {
     return IMGroupPtr(new JabberGroup(this));

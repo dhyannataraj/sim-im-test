@@ -354,6 +354,7 @@ bool StandardContactList::load_old_dispatch(ParserState& state)
                 c->addClientContact(imcontact);
                 if(c->name().isEmpty())
                     c->setName(imcontact->name());
+                client->addIMContact(imcontact);
             }
             else if(!state.dataname.isEmpty())
             {

@@ -22,6 +22,11 @@ namespace StubObjects
             return SIM::IMContactPtr();
         }
 
+        virtual void addIMContact(const SIM::IMContactPtr& contact)
+        {
+
+        }
+
         virtual SIM::IMGroupPtr createIMGroup()
         {
             return SIM::IMGroupPtr();

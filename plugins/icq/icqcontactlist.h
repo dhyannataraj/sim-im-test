@@ -25,7 +25,7 @@ public:
 
 private:
     ICQClient* m_client;
-    QMap<int, ICQContactPtr> m_contacts;
+    QMap<QString, ICQContactPtr> m_contacts;
     QMap<int, ICQGroupPtr> m_groups;
 };
 

@@ -14,6 +14,9 @@
     <elementImport xmi:id="_dxWS4p8fEeC4lJmEoQaQrw">
       <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
     </elementImport>
+    <elementImport xmi:id="_IiOjIKSYEeCk-dTXlHQOmw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EByteArray"/>
+    </elementImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simlib">
       <packagedElement xmi:type="uml:Class" xmi:id="_vXx0gJ8TEeC4lJmEoQaQrw" name="GenericMessage" clientDependency="_mA2E4J8UEeC4lJmEoQaQrw">
         <interfaceRealization xmi:id="_mA2E4J8UEeC4lJmEoQaQrw" name="InterfaceRealization1" supplier="_iw2TwJ8UEeC4lJmEoQaQrw" client="_vXx0gJ8TEeC4lJmEoQaQrw" contract="_iw2TwJ8UEeC4lJmEoQaQrw"/>
@@ -101,6 +104,39 @@
           </ownedParameter>
         </ownedOperation>
       </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_hfyCUKSXEeCk-dTXlHQOmw" name="AvatarStorage">
+        <ownedOperation xmi:id="_ioXbAKSXEeCk-dTXlHQOmw" name="addAvatar" isAbstract="true">
+          <ownedParameter xmi:id="_OMNDYKSYEeCk-dTXlHQOmw" name="contactId" type="_kfbqUKSXEeCk-dTXlHQOmw"/>
+          <ownedParameter xmi:id="_Egb7IKS4EeCINrXOV8lByA" name="avatar">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_f1424KSYEeCk-dTXlHQOmw"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_INQLIKS4EeCINrXOV8lByA" name="type">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_XC27AKSYEeCk-dTXlHQOmw" name="getAvatar" isAbstract="true">
+          <ownedParameter xmi:id="_X95m8KSYEeCk-dTXlHQOmw" name="contactId" type="_kfbqUKSXEeCk-dTXlHQOmw"/>
+          <ownedParameter xmi:id="_Zfjm8KSYEeCk-dTXlHQOmw" name="return" direction="return">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_f1424KSYEeCk-dTXlHQOmw"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_LyqyoKS4EeCINrXOV8lByA" name="type">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_kfbqUKSXEeCk-dTXlHQOmw" name="IMContactId"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_wewtoKSYEeCk-dTXlHQOmw" name="IconSet">
+        <ownedOperation xmi:id="_49RLAKSYEeCk-dTXlHQOmw" name="hasIcon" isAbstract="true">
+          <ownedParameter xmi:id="_5zqAcKSYEeCk-dTXlHQOmw" name="return" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_EuD4gKSZEeCk-dTXlHQOmw" name="image" isAbstract="true">
+          <ownedParameter xmi:id="_FU-ukKSZEeCk-dTXlHQOmw" name="return" direction="return">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_f1424KSYEeCk-dTXlHQOmw"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_k2Q2MJ8WEeC4lJmEoQaQrw">
       <ownedBehavior xmi:type="uml:Interaction" xmi:id="_k2Q2MZ8WEeC4lJmEoQaQrw">
@@ -181,11 +217,49 @@
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_SkiMcJ8wEeC4lJmEoQaQrw">
       <ownedBehavior xmi:type="uml:Interaction" xmi:id="_SkiMcZ8wEeC4lJmEoQaQrw"/>
     </packagedElement>
+    <packagedElement xmi:type="uml:Collaboration" xmi:id="_CYbv0KSXEeCk-dTXlHQOmw">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_CYbv0aSXEeCk-dTXlHQOmw">
+        <ownedAttribute xmi:id="_aQSVwKSXEeCk-dTXlHQOmw" name="Property1" type="_yZwQYJ8WEeC4lJmEoQaQrw"/>
+        <ownedAttribute xmi:id="_VRUPcKSZEeCk-dTXlHQOmw" name="Property2" type="_hfyCUKSXEeCk-dTXlHQOmw"/>
+        <ownedConnector xmi:id="_aQUK8KSXEeCk-dTXlHQOmw" name="Connector1">
+          <end xmi:id="_aQUyAKSXEeCk-dTXlHQOmw" role="_aQSVwKSXEeCk-dTXlHQOmw"/>
+          <end xmi:id="_VRUPcaSZEeCk-dTXlHQOmw" role="_VRUPcKSZEeCk-dTXlHQOmw"/>
+        </ownedConnector>
+        <lifeline xmi:id="_YxsQ0KSXEeCk-dTXlHQOmw" name="" represents="_aQSVwKSXEeCk-dTXlHQOmw" coveredBy="_b58bMKSXEeCk-dTXlHQOmw _WvOX4KSZEeCk-dTXlHQOmw _b5u_0KSXEeCk-dTXlHQOmw"/>
+        <lifeline xmi:id="_UA6XgKSZEeCk-dTXlHQOmw" name="" represents="_VRUPcKSZEeCk-dTXlHQOmw" coveredBy="_WvO-8KSZEeCk-dTXlHQOmw _r1iDRKSZEeCk-dTXlHQOmw _WvL7oKSZEeCk-dTXlHQOmw"/>
+        <lifeline xmi:id="_qg4kgKSZEeCk-dTXlHQOmw" name="EventHub" coveredBy="_r1iqUKSZEeCk-dTXlHQOmw _r1g1IKSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_r1iDRKSZEeCk-dTXlHQOmw" name="MessageOccurrenceSpecification4" covered="_UA6XgKSZEeCk-dTXlHQOmw" event="_r1iqUaSZEeCk-dTXlHQOmw" message="_r1jRYKSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_r1iqUKSZEeCk-dTXlHQOmw" name="MessageOccurrenceSpecification5" covered="_qg4kgKSZEeCk-dTXlHQOmw" event="_r1iqUaSZEeCk-dTXlHQOmw" message="_r1jRYKSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_WvOX4KSZEeCk-dTXlHQOmw" name="MessageOccurrenceSpecification2" covered="_YxsQ0KSXEeCk-dTXlHQOmw" event="_WvO-8aSZEeCk-dTXlHQOmw" message="_WvPmAKSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_WvO-8KSZEeCk-dTXlHQOmw" name="MessageOccurrenceSpecification3" covered="_UA6XgKSZEeCk-dTXlHQOmw" event="_WvO-8aSZEeCk-dTXlHQOmw" message="_WvPmAKSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_b58bMKSXEeCk-dTXlHQOmw" name="MessageOccurrenceSpecification1" covered="_YxsQ0KSXEeCk-dTXlHQOmw" event="_b58bMaSXEeCk-dTXlHQOmw" message="_b59pUKSXEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_b5u_0KSXEeCk-dTXlHQOmw" name="BehaviorExecutionSpecification1" covered="_YxsQ0KSXEeCk-dTXlHQOmw" start="_b58bMKSXEeCk-dTXlHQOmw" finish="_WvOX4KSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_WvL7oKSZEeCk-dTXlHQOmw" name="BehaviorExecutionSpecification2" covered="_UA6XgKSZEeCk-dTXlHQOmw" start="_WvO-8KSZEeCk-dTXlHQOmw" finish="_r1iDRKSZEeCk-dTXlHQOmw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_r1g1IKSZEeCk-dTXlHQOmw" name="BehaviorExecutionSpecification3" covered="_qg4kgKSZEeCk-dTXlHQOmw" start="_r1iqUKSZEeCk-dTXlHQOmw" finish="_r1iqUKSZEeCk-dTXlHQOmw"/>
+        <message xmi:id="_b59pUKSXEeCk-dTXlHQOmw" name="avatarUpdate" receiveEvent="_b58bMKSXEeCk-dTXlHQOmw"/>
+        <message xmi:id="_WvPmAKSZEeCk-dTXlHQOmw" name="addAvatar" receiveEvent="_WvO-8KSZEeCk-dTXlHQOmw" sendEvent="_WvOX4KSZEeCk-dTXlHQOmw">
+          <argument xmi:type="uml:InstanceValue" xmi:id="_lJC9IKSZEeCk-dTXlHQOmw" name="contactId" type="_kfbqUKSXEeCk-dTXlHQOmw"/>
+          <argument xmi:type="uml:LiteralString" xmi:id="_lJBH8KSZEeCk-dTXlHQOmw" name="avatar" value="avatar">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EByteArray"/>
+          </argument>
+        </message>
+        <message xmi:id="_r1jRYKSZEeCk-dTXlHQOmw" name="contactChanged(contactId.parentContactId())" receiveEvent="_r1iqUKSZEeCk-dTXlHQOmw" sendEvent="_r1iDRKSZEeCk-dTXlHQOmw"/>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_b58bMaSXEeCk-dTXlHQOmw" name="CallEvent8"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_WvO-8aSZEeCk-dTXlHQOmw" name="CallEvent9" operation="_ioXbAKSXEeCk-dTXlHQOmw"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_r1iqUaSZEeCk-dTXlHQOmw" name="CallEvent10"/>
     <profileApplication xmi:id="_a0m3IJ8uEeC4lJmEoQaQrw">
       <eAnnotations xmi:id="_a0woIJ8uEeC4lJmEoQaQrw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="../Stereotype.uml#_ZgiN8Z5vEeCNFaQWOx8HOg"/>
       </eAnnotations>
       <appliedProfile href="../Stereotype.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_JM7tAKSYEeCk-dTXlHQOmw">
+      <eAnnotations xmi:id="_JNOA4KSYEeCk-dTXlHQOmw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Ecore.profile.uml#_z1OFcHjqEdy8S4Cr8Rc_NA"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UML_PROFILES/Ecore.profile.uml#_0"/>
     </profileApplication>
   </uml:Model>
   <Stereotype:slot xmi:id="_bvOsUJ8uEeC4lJmEoQaQrw" base_Operation="_S8Qa0J8uEeC4lJmEoQaQrw"/>

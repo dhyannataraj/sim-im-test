@@ -74,6 +74,19 @@ QIcon JispIconSet::icon(const QString& iconId)
     return QIcon(pixmap(iconId));
 }
 
+QImage JispIconSet::image(const QString& iconId)
+{
+    QByteArray arr;
+    if (!m_uz.readFile(m_images.value(iconId), &arr) && !m_uz.readFile(QFileInfo(m_uz.name()).baseName() + '/' + m_images.value(iconId), &arr))
+    {
+        printf("no pixmap: %s/%s\n", qPrintable(iconId), qPrintable(m_images.value(iconId)));
+        return QImage();
+    }
+    QImage img;
+    img.loadFromData(arr);
+    return img;
+}
+
 QPixmap JispIconSet::pixmap(const QString& iconId)
 {
     //printf("JispIconSet::pixmap()\n");

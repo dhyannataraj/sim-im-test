@@ -261,6 +261,8 @@ void MsgEdit::send()
     if(text.isEmpty())
         return;
 
+    m_edit->clear();
+
     emit messageSendRequested(text);
 }
 

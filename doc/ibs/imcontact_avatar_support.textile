@@ -1,0 +1,16 @@
+h1. IMContact & Client avatar support use cases
+
+h2. Update avatar
+
+*Trigger*: Client receives an update for contact avatar
+
+*Main flow*:
+1. Client looks up current avatar in AvatarStorage
+2. Client replaces current avatar
+3. AvatarStorage emits 'contactChanged' event
+
+*Exceptions*:
+
+2a. If avatar is not found, Client creates new avatar in AvatarStorage
+
+h2. Set new avatar (override)

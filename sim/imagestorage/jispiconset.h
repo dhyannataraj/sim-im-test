@@ -18,6 +18,7 @@ public:
     virtual QString name() const;
     virtual bool hasIcon(const QString& iconId);
     virtual QIcon icon(const QString& iconId);
+    virtual QImage image(const QString& iconId);
     virtual QPixmap pixmap(const QString& iconId);
     virtual QString parseSmiles(const QString& input);
 

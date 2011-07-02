@@ -360,6 +360,7 @@ public:
     virtual QString name();
 	virtual QString retrievePasswordLink();
     virtual SIM::IMContactPtr createIMContact();
+    virtual void addIMContact(const SIM::IMContactPtr& contact);
     virtual SIM::IMGroupPtr createIMGroup();
 
     virtual QWidget* createSetupWidget(const QString& id, QWidget* parent);
