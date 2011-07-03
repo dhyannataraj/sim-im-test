@@ -274,6 +274,7 @@ SET(sim_tests_hdrs
     tests/mocks/mockasyncsocket.h
     tests/mocks/mockmessageoutpipe.h
     tests/mocks/mockmessageprocessor.h
+    tests/mocks/mockprofilemanager.h
     tests/testuicommand.h
     tests/gtest-qt.h
 )
