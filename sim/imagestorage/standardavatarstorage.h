@@ -8,6 +8,8 @@
 #ifndef STANDARDAVATARSTORAGE_H_
 #define STANDARDAVATARSTORAGE_H_
 
+#include <QList>
+
 #include "avatarstorage.h"
 #include "misc.h"
 
@@ -20,8 +22,8 @@ public:
     StandardAvatarStorage();
     virtual ~StandardAvatarStorage();
 
-    virtual void addAvatar(const IMContactId& contactId, const QImage& image, const QString& type = "");
-    virtual QImage getAvatar(const IMContactId& contactId, const QString& type = "");
+    virtual void addAvatar(const IMContactId& contactId, const QImage& image, const QString& type = QString());
+    virtual QImage getAvatar(const IMContactId& contactId, const QString& type = QString());
 
     virtual QString id() const;
     virtual bool hasIcon(const QString& iconId);
@@ -35,7 +37,8 @@ protected:
     virtual QImage loadImage(const QString& path);
 
 private:
-    QString makeFilename(const IMContactId& id);
+    struct StandardAvatarStoragePimpl* d;
+    QString makeFilename(const IMContactId& id, const QString& type = QString());
 };
 
 } /* namespace SIM */
