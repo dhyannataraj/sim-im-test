@@ -71,7 +71,7 @@ ProfileSelectDialog::~ProfileSelectDialog()
 
 void ProfileSelectDialog::updateProfilesList()
 {
-    QStringList profiles = ProfileManager::instance()->enumProfiles();
+    QStringList profiles = getProfileManager()->enumProfiles();
     m_ui->cmbProfile->addItems(profiles);
 
     for(int i = 0; i < m_ui->cmbProfile->count(); i++)
@@ -121,7 +121,7 @@ void ProfileSelectDialog::profileChanged(int index)
         m_ui->labelNew->hide();
         m_ui->e_newName->hide();
         clearInputs();
-        ProfileManager::instance()->selectProfile(m_ui->cmbProfile->currentText());
+        getProfileManager()->selectProfile(m_ui->cmbProfile->currentText());
         getClientManager()->load();
         QStringList clients = getClientManager()->clientList();
 		
@@ -227,7 +227,7 @@ void ProfileSelectDialog::profileDelete()
         return;
 
     QString curProfile = m_ui->cmbProfile->currentText();
-    ProfileManager::instance()->removeProfile(curProfile);
+    getProfileManager()->removeProfile(curProfile);
     clearInputs();
     m_ui->btnDelete->setEnabled(false);
     updateProfilesList();
@@ -244,11 +244,11 @@ void ProfileSelectDialog::profileRename()
                                      QLineEdit::Normal, name, &ok);
         if(!ok)
             return;
-        if(ProfileManager::instance()->profileExists(name)) {
+        if(getProfileManager()->profileExists(name)) {
             QMessageBox::information(this, i18n("Rename Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
             continue;
         }
-        else if(!ProfileManager::instance()->renameProfile(old_name, name)) {
+        else if(!getProfileManager()->renameProfile(old_name, name)) {
             QMessageBox::information(this, i18n("Rename Profile"), i18n("Unable to rename the profile.  Please do not use any special characters."), QMessageBox::Ok);
             continue;
         }
@@ -263,5 +263,5 @@ void ProfileSelectDialog::newNameChanged(const QString &text)
         m_ui->buttonOk->setEnabled(false);
         return;
     }
-    m_ui->buttonOk->setEnabled(!ProfileManager::instance()->profileExists(text));
+    m_ui->buttonOk->setEnabled(!getProfileManager()->profileExists(text));
 }

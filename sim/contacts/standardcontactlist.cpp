@@ -33,10 +33,10 @@ bool StandardContactList::load()
 
 bool StandardContactList::save()
 {
-    if(!ProfileManager::instance()->profilePath().isEmpty())
+    if(!getProfileManager()->profilePath().isEmpty())
     {
-        QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
-        ProfileManager::instance()->sync();
+        QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "contacts.xml";
+        getProfileManager()->sync();
         QDomDocument doc;
         doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
         QDomElement root = doc.createElement("contactlist");
@@ -222,7 +222,7 @@ bool StandardContactList::save_contacts(QDomElement element)
 
 bool StandardContactList::load_new()
 {
-    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.xml";
+    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "contacts.xml";
     QFile f(cfgName);
     if(!f.open(QIODevice::ReadOnly))
         return false;
@@ -285,7 +285,7 @@ bool StandardContactList::load_contacts(const QDomElement& contacts)
 
 bool StandardContactList::load_old()
 {
-    QString cfgName = ProfileManager::instance()->profilePath() + QDir::separator() + "contacts.conf";
+    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "contacts.conf";
     QFile f(cfgName);
     if (!f.open(QIODevice::ReadOnly)){
         log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));

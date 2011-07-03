@@ -47,6 +47,7 @@ SET(sim_LIB_SRCS
 		plugins.cpp
 		profile.cpp
 		profilemanager.cpp
+		standardprofilemanager.cpp
 		propertyhub.cpp
 		simfs.cpp
 		translit.cpp
@@ -129,6 +130,7 @@ SET(sim_LIB_HDRS
 		plugins.h
 		profile.h
 		profilemanager.h
+		standardprofilemanager.h
 		propertyhub.h
 		simapi.h
 		simfs.h

@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
     int res = 1;
 	QCoreApplication::setOrganizationDomain("sim-im.org");
 	QCoreApplication::setApplicationName("Sim-IM");
-    new SIM::ProfileManager(SIM::PathManager::configRoot());
+	SIM::createProfileManager(SIM::PathManager::configRoot());
     qInstallMsgHandler(simMessageOutput);
 
 #ifdef USE_KDE

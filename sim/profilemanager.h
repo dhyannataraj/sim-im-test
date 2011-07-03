@@ -10,37 +10,38 @@
 
 namespace SIM
 {
-    class EXPORT ProfileManager : public Singleton<ProfileManager>
+    class EXPORT ProfileManager
     {
     public:
-        ProfileManager(const QString& rootpath);
         virtual ~ProfileManager();
 
-        QStringList enumProfiles();
+        virtual QStringList enumProfiles() = 0;
 
-        bool selectProfile(const QString& name);
-        bool profileExists(const QString& name) const;
+        virtual bool selectProfile(const QString& name) = 0;
+        virtual bool profileExists(const QString& name) const = 0;
 
-        ProfilePtr currentProfile();
-        QString currentProfileName();
+        virtual ProfilePtr currentProfile() = 0;
+        virtual QString currentProfileName() = 0;
 
-        QString profilePath();
+        virtual QString profilePath() = 0;
 
-        QString rootPath() const { return m_rootPath; }
+        virtual QString rootPath() const = 0;
 
-        bool removeProfile(const QString& name);
+        virtual bool removeProfile(const QString& name) = 0;
 
-        bool renameProfile(const QString& oldname, const QString& newname);
+        virtual bool renameProfile(const QString& oldname, const QString& newname) = 0;
 
-        bool newProfile(const QString& name);
+        virtual bool newProfile(const QString& name) = 0;
 
-        void sync();
+        virtual void sync() = 0;
 
-        PropertyHubPtr getPropertyHub(const QString& name);
-    private:
-        QString m_rootPath;
-        ProfilePtr m_currentProfile;
+        virtual PropertyHubPtr getPropertyHub(const QString& name) = 0;
     };
+
+    void EXPORT createProfileManager(const QString& rootpath);
+    void EXPORT destroyProfileManager();
+    EXPORT ProfileManager* getProfileManager();
+    void EXPORT setProfileManager(ProfileManager* manager);
 }
 
 #endif

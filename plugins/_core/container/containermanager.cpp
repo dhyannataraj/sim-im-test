@@ -35,7 +35,7 @@ ContainerControllerPtr ContainerManager::makeContainerController()
 
 bool ContainerManager::init()
 {
-    setContainerMode((ContainerMode)SIM::ProfileManager::instance()->getPropertyHub("_core")->value("ContainerMode").toUInt());
+    setContainerMode((ContainerMode)SIM::getProfileManager()->getPropertyHub("_core")->value("ContainerMode").toUInt());
     return true;
 }
 

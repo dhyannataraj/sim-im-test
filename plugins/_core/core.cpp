@@ -3168,7 +3168,7 @@ bool CorePlugin::init()
 
     log(L_DEBUG, "Profile selected: %s", qPrintable(profile));
 
-    m_propertyHub = ProfileManager::instance()->getPropertyHub("_core");
+    m_propertyHub = getProfileManager()->getPropertyHub("_core");
     if(!m_propertyHub)
         return false;
 
