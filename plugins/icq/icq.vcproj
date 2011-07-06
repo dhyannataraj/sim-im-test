@@ -359,6 +359,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\moc_buddysnachandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\moc_icbmsnachandler.cpp"
+					>
+				</File>
+				<File
 					RelativePath="moc_icqclient.cpp"
 					>
 					<FileConfiguration
@@ -393,7 +401,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\moc_locationsnachandler.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\moc_oscarsocket.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\moc_privacysnachandler.cpp"
 					>
 				</File>
 				<File
@@ -402,6 +418,10 @@
 				</File>
 				<File
 					RelativePath=".\moc_snac.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\moc_ssisnachandler.cpp"
 					>
 				</File>
 				<File
@@ -445,6 +465,26 @@
 			<File
 				RelativePath=".\buddysnachandler.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\bytearraybuilder.h"
@@ -465,6 +505,26 @@
 			<File
 				RelativePath=".\icbmsnachandler.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="icq.h"
@@ -609,6 +669,26 @@
 			<File
 				RelativePath=".\locationsnachandler.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\oscarsocket.h"
@@ -637,6 +717,26 @@
 			<File
 				RelativePath=".\privacysnachandler.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\rateinfo.h"
@@ -693,6 +793,26 @@
 			<File
 				RelativePath=".\ssisnachandler.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\standardoscarsocket.h"
