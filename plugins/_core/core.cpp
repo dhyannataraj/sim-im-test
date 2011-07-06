@@ -42,7 +42,7 @@ email                : vovan@shutoff.ru
 #include <QByteArray>
 #include <QDateTime>
 
-#include "config.h"
+//#include "config.h"
 
 // simlib
 
@@ -95,7 +95,7 @@ using namespace SIM;
 //#endif
 //};
 
-Plugin *createCorePlugin(unsigned /*base*/, bool, Buffer */*config*/)
+Plugin *createCorePlugin(unsigned /*base*/, bool, Buffer * /*config*/)
 {
     Plugin *plugin = new CorePlugin();
     return plugin;

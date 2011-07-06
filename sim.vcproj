@@ -475,6 +475,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sim\standardprofilemanager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="sim\translit.cpp"
 				>
 				<FileConfiguration
@@ -517,6 +521,10 @@
 						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\sim\xsl.cpp"
+				>
 			</File>
 			<Filter
 				Name="generated"
@@ -781,11 +789,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sim\standardprofilemanager.h"
+				>
+			</File>
+			<File
 				RelativePath="sim\translit.h"
 				>
 			</File>
 			<File
 				RelativePath=".\sim\qzip\unzip.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\xsl.h"
 				>
 			</File>
 		</Filter>
@@ -817,11 +833,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\sim\messaging\messageoutpipe.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\messaging\messagepipe.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\sim\messaging\messageprocessor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\messaging\standardmessageoutpipe.cpp"
 					>
 				</File>
 				<File
@@ -869,11 +893,19 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\sim\messaging\messageoutpipe.h"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\messaging\messagepipe.h"
 					>
 				</File>
 				<File
 					RelativePath=".\sim\messaging\messageprocessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\messaging\standardmessageoutpipe.h"
 					>
 				</File>
 				<File
@@ -911,6 +943,10 @@
 				</File>
 				<File
 					RelativePath=".\sim\contacts\imcontact.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\imcontactid.cpp"
 					>
 				</File>
 				<File
@@ -973,6 +1009,10 @@
 				</File>
 				<File
 					RelativePath=".\sim\contacts\imcontact.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\contacts\imcontactid.h"
 					>
 				</File>
 				<File
@@ -1561,6 +1601,10 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\sim\events\contactevent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\events\eventdata.cpp"
 					>
 				</File>
@@ -1588,6 +1632,10 @@
 					Name="generated"
 					>
 					<File
+						RelativePath=".\sim\events\moc_contactevent.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\sim\events\moc_eventhub.cpp"
 						>
 					</File>
@@ -1608,6 +1656,30 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\sim\events\contactevent.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
 				<File
 					RelativePath=".\sim\events\eventdata.h"
 					>
@@ -1809,6 +1881,10 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\sim\imagestorage\avatarstorage.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\imagestorage\iconset.cpp"
 					>
 				</File>
@@ -1818,6 +1894,10 @@
 				</File>
 				<File
 					RelativePath=".\sim\imagestorage\jispiconset.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\imagestorage\standardavatarstorage.cpp"
 					>
 				</File>
 				<File
@@ -1836,6 +1916,10 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\sim\imagestorage\avatarstorage.h"
+					>
+				</File>
 				<File
 					RelativePath=".\sim\imagestorage\iconset.h"
 					>
@@ -1866,6 +1950,10 @@
 				</File>
 				<File
 					RelativePath=".\sim\imagestorage\jispiconset.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\imagestorage\standardavatarstorage.h"
 					>
 				</File>
 				<File
@@ -1948,6 +2036,66 @@
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="generated"
+					>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="history"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\sim\history\historystorage.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\history\sqlitehistorystorage.cpp"
+					>
+				</File>
+				<Filter
+					Name="generated"
+					>
+					<File
+						RelativePath=".\sim\history\moc_sqlitehistorystorage.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\sim\history\historystorage.h"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\history\sqlitehistorystorage.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>

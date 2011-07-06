@@ -232,6 +232,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\clientcapabilitiesregistry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\clientcapability.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\icbmsnachandler.cpp"
 				>
 			</File>
@@ -284,11 +292,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\icqcontactlist.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\icqgroup.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\icqstatus.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\icqstatusconverter.cpp"
 				>
 			</File>
 			<File
@@ -439,6 +455,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\clientcapabilitiesregistry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\clientcapability.h"
+				>
+			</File>
+			<File
 				RelativePath=".\icbmsnachandler.h"
 				>
 			</File>
@@ -523,6 +547,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\icqcontactlist.h"
+				>
+			</File>
+			<File
 				RelativePath=".\icqgroup.h"
 				>
 			</File>
@@ -549,6 +577,10 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\icqstatusconverter.h"
+				>
 			</File>
 			<File
 				RelativePath=".\icqstatuswidget.h"
@@ -619,7 +651,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -629,7 +661,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>

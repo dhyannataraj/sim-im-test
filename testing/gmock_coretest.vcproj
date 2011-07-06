@@ -173,11 +173,9 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{34681F0D-CE45-415D-B5F2-5C662DFE3BD5}"
-			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{E4EF614B-30DF-4954-8C53-580A0BF6B589}"
-			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock_main.vcproj"
 		/>
 	</References>
 	<Files>
@@ -186,6 +184,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\plugins\_core\tests\gtest-qt.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\plugins\_core\tests\test.cpp"
 				>
@@ -213,6 +215,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\plugins\_core\tests\testcontainercontroller.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\_core\tests\testcoreplugin.cpp"
 				>
 				<FileConfiguration
@@ -235,6 +241,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\plugins\_core\tests\testreceivemessageprocessor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\plugins\_core\tests\testsendmessageprocessor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\_core\tests\testuserviewmodel.cpp"
 				>
 			</File>
@@ -244,6 +258,22 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\plugins\_core\tests\gtest-qt.h"
+				>
+			</File>
+			<Filter
+				Name="mocks"
+				>
+				<File
+					RelativePath="..\plugins\_core\tests\mocks\mockcontainermanager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\plugins\_core\tests\mocks\mockuserwndcontroller.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

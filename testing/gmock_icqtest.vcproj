@@ -179,11 +179,9 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{34681F0D-CE45-415D-B5F2-5C662DFE3BD5}"
-			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{E4EF614B-30DF-4954-8C53-580A0BF6B589}"
-			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock_main.vcproj"
 		/>
 	</References>
 	<Files>
@@ -197,11 +195,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\signalspy.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\test.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\testauthorizationsnachandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\plugins\icq\tests\testbuddysnachandler.cpp"
 				>
 			</File>
 			<File
@@ -213,6 +219,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\testicbmsnachandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\testicqclient.cpp"
 				>
 			</File>
@@ -221,11 +231,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\testicqgroup.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\testicqstatus.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\testicqstatusconverter.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\testicqstatuswidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\plugins\icq\tests\testlocationsnachandler.cpp"
 				>
 			</File>
 			<File
@@ -234,6 +256,10 @@
 			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\testoscarsocket.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\plugins\icq\tests\testprivacysnachandler.cpp"
 				>
 			</File>
 			<File
@@ -264,6 +290,10 @@
 			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\qt-gtest.h"
+				>
+			</File>
+			<File
+				RelativePath="..\plugins\icq\tests\signalspy.h"
 				>
 			</File>
 			<File
