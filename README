@@ -43,6 +43,6 @@ instead of
 	#define USE_AUDIERE 
 
 	to the sound.h
-	You will need to include libaudiere.la and audiere.h to the makefiles for building sound.
+	You will need to include libaudiere.(la|lib) and audiere.h to the makefiles for building sound.
 	audiere.so is the library needed at runtime.
 qt-soundsystem should be used...
