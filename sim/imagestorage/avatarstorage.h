@@ -12,6 +12,8 @@
 #include "contacts/imcontactid.h"
 #include "iconset.h"
 
+#include "misc.h"
+
 namespace SIM
 {
 
@@ -23,6 +25,11 @@ public:
     virtual void addAvatar(const IMContactId& contactId, const QImage& image, const QString& type = "") = 0;
     virtual QImage getAvatar(const IMContactId& contactId, const QString& type = "") = 0;
 };
+
+void EXPORT createAvatarStorage();
+void EXPORT destroyAvatarStorage();
+EXPORT AvatarStorage* getAvatarStorage();
+void EXPORT setAvatarStorage(AvatarStorage* storage);
 
 } /* namespace SIM */
 #endif /* AVATARSTORAGE_H_ */

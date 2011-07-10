@@ -3,18 +3,22 @@
 #include "log.h"
 #include "events/eventhub.h"
 #include "events/contactevent.h"
+#include "requests/icqrequestmanager.h"
+#include "requests/buddysnac/buddysnacrightsrequest.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
 using SIM::L_WARN;
 
-BuddySnacHandler::BuddySnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_BUDDY),
+BuddySnacHandler::BuddySnacHandler(ICQClient* client) : SnacHandler(client, SnacId),
     m_ready(false)
 {
 }
 
 bool BuddySnacHandler::process(unsigned short subtype, const QByteArray& data, int flags, unsigned int requestId)
 {
+    Q_UNUSED(flags);
+    Q_UNUSED(requestId);
     switch(subtype)
     {
     case SnacBuddyUserOnline:
@@ -36,10 +40,10 @@ bool BuddySnacHandler::process(unsigned short subtype, const QByteArray& data, i
 
 void BuddySnacHandler::requestRights()
 {
-    OscarSocket* socket = client()->oscarSocket();
-    Q_ASSERT(socket);
+    ICQRequestManager* manager = client()->requestManager();
+    Q_ASSERT(manager);
 
-    socket->snac(getType(), SnacBuddyRightsRequest, 0, QByteArray());
+    manager->enqueue(BuddySnacRightsRequest::create(client()));
 }
 
 void BuddySnacHandler::forceReady()

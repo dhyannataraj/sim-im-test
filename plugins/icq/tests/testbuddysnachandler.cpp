@@ -8,6 +8,7 @@
 #include "icqclient.h"
 #include "oscarsocket.h"
 #include "buddysnachandler.h"
+#include "requests/buddysnac/buddysnacrightsrequest.h"
 #include "mocks/mockoscarsocket.h"
 #include "icqstatus.h"
 #include "events/eventhub.h"
@@ -18,6 +19,7 @@
 namespace
 {
     using ::testing::NiceMock;
+    using ::testing::_;
 
     static const QByteArray ContactTextUin("123456789", 9);
     static const int ContactUin = 123456789;
@@ -120,5 +122,20 @@ namespace
 
         ASSERT_EQ(1, spy.count());
         ASSERT_TRUE(handler->isReady());
+    }
+
+    TEST_F(TestBuddySnacHandler, requestRights_sendsSnac)
+    {
+        EXPECT_CALL(*socket, snac(handler->getType(), BuddySnacHandler::SnacBuddyRightsRequest, _, _));
+
+        handler->requestRights();
+    }
+
+    TEST_F(TestBuddySnacHandler, Request_requestRights)
+    {
+        ICQRequestPtr rq = BuddySnacRightsRequest::create(client);
+        EXPECT_CALL(*socket, snac(handler->getType(), BuddySnacHandler::SnacBuddyRightsRequest, _, _));
+
+        rq->perform();
     }
 }

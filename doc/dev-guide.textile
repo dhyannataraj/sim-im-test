@@ -1,23 +1,24 @@
 
-= General guidelines =
+h1. General guidelines
 
 All new code (except GUI) should be covered with tests.
 
-= Deprecation state of all modules =
+h1. Simlib 
 
-= Simlib =
+h2. General description.
 
-General description.
+h3. Singletons
 
-== Singletons ==
 Most of the services are provided as singletons. Singletons initialized and deinitialized in sim.cpp:main().
 In future, we should get rid of singletons.
 
-=== EventHub ===
+h4. EventHub
+
 An event delivery facility. It is based on qt signals/slots. An object can subscribe one of his slots for
 given event, and if anyone triggers this event, the slot will be called.
 
-==== Events framework ====
+h4. Events framework
+
 In order to trigger event one should call EventHub::triggerEvent(event_name, event_parameters (optional)), where
 event_name - String id of the event to trigger
 event_parameters - QSharedPointer to subclass of appropriate EventData. Each registered event has it's own EventData subclass.
@@ -36,64 +37,81 @@ To subscribe on event one should:
 
 2) Call "connectTo" method of this subclass to connect the "eventTriggered" signal of this subclass to needed slot.
 
-=== MessagePipe ===
+h4. MessagePipe
+
 Every input message goes through input message pipe. Pipe processes input message using all registered MessageProcessors.
 MessageProcessor defines 'process()' method which returns either MessageProcessor::Success or MessageProcessor::Block.
 This return value determines, should the processing continue. An example of MessageProcessor would be spam-filter
 which will return MessageProcessor::Block on spam messages.  
 
-=== MessageOutPipe ===
-Similar to MessagePipe, except the direction.
+h4. MessageOutPipe
 
-=== ImageStorage ===
+Similar to MessagePipe, except that it's for outgoing messages.
+
+h4. ImageStorage
+
 This subsystem provides means to retrieve images by string id from registered IconSets.
 ImageStorage doesn't do loading images, it is being done by IconSet.
 
-=== CommandHub ===
+h4. CommandHub
+
 Probably should be heavily reworked.
 
-=== ContactList ===
+h4. ContactList
+
 A metacontact(Contact) storage.
 
-=== ProtocolManager ===
+h4. ProtocolManager
+
 Provides a storage for Protocol objects. Every protocol plugin should register its Protocol object in ProtocolManager.
 There should be only one Protocol for every IM-protocol.
 
-=== PluginManager ===
+h4. PluginManager
+
 Plugin loading/unloading facility. Needs rework.
 
-=== ClientManager ===
+h4. ClientManager
+
 Client object represents protocol client. ClientManager is the managing facility for Clients.
 
-=== HistoryStorage ===
+h4. HistoryStorage
 
-=== ProfileManager ===
+h4. ProfileManager
+
 Profile is the set of clients, contacts, plugin and contact settings. ProfileManager manages Profile objects.
 
-== Contact/Group framework ==
+h3. Contact/Group framework
+
 Contact represents metacontact, i.e. various IM contacts belonging to the same person.
 Group represents metagroup.
 IMContact represents a concrete IM contact which has associated id (ICQ123456, jabber_id@jabber.com, etc)
 Contact may contain several IMContacts.
 We should understand also how to handle things like jabber resources. Previous SIM approach was unacceptable.
 
-== Networking framework ==
+h3. Networking framework
+
+h1. Core plugin
+
+h2. General description
+
+h3. UI
+
+h3. Roster
+
+h3. Container
 
 
-= Core plugin =
+h1. Icq plugin
 
-General description
+h2. General description
 
-== UI ==
+h3. ICQRequestManager
 
-=== Roster ===
+All icq-requests to server should be performed using ICQRequestManager. Therefore, for each request type there should be ICQRequest subclass.
+The reasons for introducing ICQRequestManager are following:
 
-=== Container ===
-
-
-= Icq plugin =
-
-General description
+# Reduction of coupling between SnacHandlers.
+# Request frequency regulation. ICQRequestManager should send requests according to rate limit settings.
 
 == Things to change ==
 

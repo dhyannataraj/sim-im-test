@@ -11,6 +11,7 @@ SET(icq_SRCS
 #        encodingdlg.cpp
 #        homeinfo.cpp
         authorizationsnachandler.cpp
+        bartsnachandler.cpp
         buddysnachandler.cpp
         bytearraybuilder.cpp
         bytearrayparser.cpp
@@ -62,6 +63,10 @@ SET(icq_SRCS
         tlvlist.cpp
         clientcapability.cpp
         clientcapabilitiesregistry.cpp
+        requests/icqrequest.cpp
+        requests/icqrequestmanager.cpp
+        requests/standardicqrequestmanager.cpp
+        requests/buddysnac/buddysnacrightsrequest.cpp
 )
 
 SET(icq_HDRS
@@ -73,6 +78,7 @@ SET(icq_HDRS
 #        encodingdlg.h
 #        homeinfo.h
         authorizationsnachandler.h
+        bartsnachandler.h
         buddysnachandler.h
         bytearraybuilder.h
         bytearrayparser.h
@@ -118,6 +124,10 @@ SET(icq_HDRS
         tlvlist.h
         clientcapability.h
         clientcapabilitiesregistry.h
+        requests/icqrequest.h
+        requests/icqrequestmanager.h
+        requests/standardicqrequestmanager.h
+        requests/buddysnac/buddysnacrightsrequest.h
 )
 
 SET(icq_UICS
@@ -176,10 +186,12 @@ SET(icq_test_sources
     tests/testlocationsnachandler.cpp
     tests/testprivacysnachandler.cpp
     tests/testssisnachandler.cpp
+    tests/testbartsnachandler.cpp
     tests/testloginsequencestep2.cpp
     tests/testtlv.cpp
     tests/testtlvlist.cpp
     tests/testicqstatusconverter.cpp
+    tests/teststandardicqrequestmanager.cpp
     tests/signalspy.cpp
 )
 

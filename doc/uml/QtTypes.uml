@@ -4,5 +4,7 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_f1424KSYEeCk-dTXlHQOmw" name="QImage"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_BGJ9sKSZEeCk-dTXlHQOmw" name="QIcon"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_B1ODIKSZEeCk-dTXlHQOmw" name="QPixmap"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="__np7AKlcEeCTw506fIx6FQ" name="QByteArray"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_2rqa8KldEeCTw506fIx6FQ" name="QString"/>
   </packagedElement>
 </uml:Model>

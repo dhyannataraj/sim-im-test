@@ -33,9 +33,6 @@
 #include "icqstatus.h"
 #include "icq_defines.h"
 #include "oscarsocket.h"
-//#include "icqbuddy.h"
-//#include "icqservice.h"
-//#include "icqicmb.h"
 #include "authorizationsnachandler.h"
 #include "servicesnachandler.h"
 #include "ssisnachandler.h"
@@ -43,9 +40,11 @@
 #include "buddysnachandler.h"
 #include "privacysnachandler.h"
 #include "icbmsnachandler.h"
+#include "bartsnachandler.h"
 #include "icqcontactlist.h"
 #include "icqstatusconverter.h"
 #include "clientcapabilitiesregistry.h"
+#include "requests/icqrequestmanager.h"
 
 #include "icq.h"
 #include "icqbuffer.h"
@@ -633,6 +632,8 @@ public:
     void setOscarSocket(OscarSocket* socket);
     OscarSocket* oscarSocket() const;
 
+    ICQRequestManager* requestManager() const;
+
     SnacHandler* snacHandler(int type);
 
     ICQContactList* contactList() const;
@@ -923,187 +924,18 @@ private:
     BuddySnacHandler* m_buddySnac;
     PrivacySnacHandler* m_privacySnac;
     IcbmSnacHandler* m_icbmSnac;
+    BartSnacHandler* m_bartSnac;
     mapSnacHandlers m_snacHandlers;
 
     ICQContactList* m_contactList;
     ICQStatusConverter* m_statusConverter;
     ClientCapabilitiesRegistry* m_clientCapabilitiesRegistry;
+    ICQRequestManager* m_requestManager;
 
     //friend class AuthorizationSnacHandler;
 
     //bool m_bBirthdayInfoDisplayed;
 };
-
-//class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
-//{
-//public:
-//    ServiceSocket(ICQClient*, unsigned short id);
-//    ~ServiceSocket();
-//    unsigned short id() const { return m_id; }
-//    void connect(const char *addr, unsigned short port, const QByteArray &cookie);
-//    virtual bool error_state(const QString &err, unsigned code = 0);
-//    bool connected() const { return m_bConnected; }
-//    void close();
-//protected:
-//    virtual const char *serviceSocketName() = 0;
-//    virtual void connect_ready();
-//    virtual void packet_ready();
-//    virtual ICQClientSocket *socket() { return m_socket; }
-//    virtual void packet(unsigned long size);
-//    virtual void data(unsigned short food, unsigned short type, unsigned short seq) = 0;
-//    unsigned short m_id;
-//    QByteArray  m_cookie;
-//    bool    m_bConnected;
-//    ICQClientSocket *m_socket;
-//    ICQClient *m_client;
-//};
-
-//class DirectSocket : public QObject, public SIM::ClientSocketNotify
-//{
-//    Q_OBJECT
-//public:
-//    enum SocketState{
-//        NotConnected,
-//        ConnectIP1,
-//        ConnectIP2,
-//        ConnectFail,
-//        WaitInit,
-//        WaitAck,
-//        WaitReverse,
-//        ReverseConnect,
-//        Logged
-//    };
-//    DirectSocket(SIM::Socket *s, ICQClient*, unsigned long ip);
-//    DirectSocket(ICQUserData *data, ICQClient *client);
-//    ~DirectSocket();
-//    virtual void packet_ready();
-//    SocketState m_state;
-//    void connect();
-//    void reverseConnect(unsigned long ip, unsigned short port);
-//    void acceptReverse(SIM::Socket *s);
-//    virtual bool   error_state(const QString &err, unsigned code = 0);
-//    virtual void   connect_ready();
-//    unsigned short localPort();
-//    unsigned short remotePort();
-//    unsigned long  Uin();
-//    ICQUserData    *m_data;
-//    void setPort(unsigned short port) {m_port = port;}
-//protected slots:
-//    void timeout();
-//protected:
-//    virtual void login_timeout();
-//    virtual void processPacket() = 0;
-//    void init();
-//    void sendInit();
-//    void sendInitAck();
-//    void removeFromClient();
-//    bool             m_bIncoming;
-//    unsigned short   m_nSequence;
-//    unsigned short   m_port;
-//    unsigned short	 m_localPort;
-//    char             m_version;
-//    bool			 m_bHeader;
-//    unsigned long    m_nSessionId;
-//    ICQClientSocket  *m_socket;
-//    ICQClient        *m_client;
-//    unsigned long m_ip;
-//    friend class AIMFileTransfer;
-//};
-
-//struct SendDirectMsg
-//{
-//    SIM::Message        *msg;
-//    unsigned            type;
-//    unsigned short      seq;
-//    unsigned short      icq_type;
-//};
-
-//class DirectClient : public DirectSocket
-//{
-//public:
-//    DirectClient(SIM::Socket *s, ICQClient *client, unsigned long ip);
-//    DirectClient(ICQUserData *data, ICQClient *client, unsigned channel = PLUGIN_NULL);
-//    ~DirectClient();
-//    bool sendMessage(SIM::Message*);
-//    void acceptMessage(SIM::Message*);
-//    void declineMessage(SIM::Message*, const QString &reason);
-//    bool cancelMessage(SIM::Message*);
-//    void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags,
-//                 const char *message=NULL, unsigned short status=ICQ_TCPxACK_ACCEPT, SIM::Message *m=NULL);
-//    bool isLogged() { return (m_state != None) && (m_state != WaitInit2); }
-//    bool isSecure();
-//    void addPluginInfoRequest(unsigned plugin_index);
-//protected:
-//    enum State{
-//        None,
-//        WaitLogin,
-//        WaitInit2,
-//        Logged,
-//        SSLconnect
-//    };
-//    State       m_state;
-//    unsigned    m_channel;
-//    void processPacket();
-//    void connect_ready();
-//    virtual bool error_state(const QString &err, unsigned code);
-//    void sendInit2();
-//    void startPacket(unsigned short cms, unsigned short seq);
-//    void sendPacket();
-//    void processMsgQueue();
-//    bool copyQueue(DirectClient *to);
-//    QList<SendDirectMsg> m_queue;
-//    QString name();
-//    QString m_name;
-//    void secureConnect();
-//    void secureListen();
-//    void secureStop(bool bShutdown);
-//    SIM::SSLClient *m_ssl;
-//};
-
-//class ICQFileTransfer : public SIM::FileTransfer, public DirectSocket, public SIM::ServerSocketNotify
-//{
-//public:
-//    ICQFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client);
-//    ~ICQFileTransfer();
-//    void connect(unsigned short port);
-//    void listen();
-//    void setSocket(ICQClientSocket *socket);
-//    virtual void processPacket();
-//protected:
-//    enum State
-//    {
-//        None,
-//        WaitLogin,
-//        WaitInit,
-//        InitSend,
-//        InitReceive,
-//        Send,
-//        Receive,
-//        Wait,
-//        WaitReverse,
-//        WaitReverseLogin,
-//        Listen
-//    };
-//    State m_state;
-
-//    virtual void connect_ready();
-//    virtual bool error_state(const QString &err, unsigned code);
-//    virtual void write_ready();
-//    virtual void setSpeed(unsigned speed);
-//    virtual void startReceive(unsigned pos);
-//    virtual void bind_ready(unsigned short port);
-//    virtual bool accept(SIM::Socket *s, unsigned long ip);
-//    virtual bool error(const QString &err);
-//    virtual void login_timeout();
-
-//    void sendInit();
-//    void startPacket(char cmd);
-//    void sendPacket(bool dump=true);
-//    void sendFileInfo();
-//    void initReceive(char cmd);
-
-//    friend class ICQClient;
-//};
 
 #endif
 

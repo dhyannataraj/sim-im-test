@@ -46,6 +46,7 @@
 #include "authorizationsnachandler.h"
 #include "bytearraybuilder.h"
 #include "bytearrayparser.h"
+#include "requests/standardicqrequestmanager.h"
 
 //#include "aimconfig.h"
 //#include "icqinfo.h"
@@ -262,6 +263,7 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     initialize(bAIM);
     clientPersistentData = new ICQClientData(this);
     m_oscarSocket = new StandardOscarSocket(this);
+    m_requestManager = new StandardICQRequestManager(this);
     m_contactList = new ICQContactList(this);
     m_statusConverter = new ICQStatusConverter(this);
     m_clientCapabilitiesRegistry = new ClientCapabilitiesRegistry();
@@ -454,6 +456,8 @@ void ICQClient::initSnacHandlers()
     m_icbmSnac = new IcbmSnacHandler(this);
     connect(m_icbmSnac, SIGNAL(ready()), this, SLOT(snacReady()));
 
+    m_bartSnac = new BartSnacHandler(this);
+
     m_snacHandlers.insert(m_authSnac->getType(), m_authSnac);
     m_snacHandlers.insert(m_serviceSnac->getType(), m_serviceSnac);
     m_snacHandlers.insert(m_ssiSnac->getType(), m_ssiSnac);
@@ -461,6 +465,7 @@ void ICQClient::initSnacHandlers()
     m_snacHandlers.insert(m_buddySnac->getType(), m_buddySnac);
     m_snacHandlers.insert(m_privacySnac->getType(), m_privacySnac);
     m_snacHandlers.insert(m_icbmSnac->getType(), m_icbmSnac);
+    m_snacHandlers.insert(m_bartSnac->getType(), m_bartSnac);
 }
 
 SIM::IMStatusPtr ICQClient::currentStatus()
@@ -1052,6 +1057,11 @@ OscarSocket* ICQClient::oscarSocket() const
 void ICQClient::oscarSocketConnected()
 {
     log(L_DEBUG, "Connected, waiting for server to initiate login sequence");
+}
+
+ICQRequestManager* ICQClient::requestManager() const
+{
+    return m_requestManager;
 }
 
 //void ICQClient::generateCookie(MessageId& id)

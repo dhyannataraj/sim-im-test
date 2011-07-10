@@ -11,6 +11,8 @@
 #include "standardavatarstorage.h"
 #include "profilemanager.h"
 
+#include "imagestorage.h"
+
 namespace SIM
 {
 
@@ -42,6 +44,8 @@ public:
     }
 };
 
+static const QString AvatarScheme = "avatar://";
+
 StandardAvatarStorage::StandardAvatarStorage()
 {
     d = new StandardAvatarStoragePimpl();
@@ -59,12 +63,10 @@ void StandardAvatarStorage::addAvatar(const IMContactId& contactId, const QImage
 
 QImage StandardAvatarStorage::getAvatar(const IMContactId& contactId, const QString& type)
 {
-    QString cacheEntryId = contactId.toString() + type;
-    if(d->hasImage(cacheEntryId))
-        return d->get(cacheEntryId);
-    QImage image = loadImage(makeFilename(contactId, type));
-    d->insert(cacheEntryId, image);
-    return image;
+    QImage img = getFile(makeUri(contactId, type));
+    if(img.isNull())
+        return getImageStorage()->image("defavatar");
+    return img;
 }
 
 QString StandardAvatarStorage::id() const
@@ -74,48 +76,75 @@ QString StandardAvatarStorage::id() const
 
 bool StandardAvatarStorage::hasIcon(const QString& iconId)
 {
-    return false;
+    if(!iconId.startsWith(AvatarScheme))
+        return false;
+    return true;
 }
 
 QIcon StandardAvatarStorage::icon(const QString& iconId)
 {
-    return QIcon();
+    return QIcon(pixmap(iconId));
 }
 
 QImage StandardAvatarStorage::image(const QString& iconId)
 {
-    return QImage();
+    if(!iconId.startsWith(AvatarScheme))
+        return QImage();
+    QString id = iconId;
+    id.remove(0, AvatarScheme.length());
+
+    QImage img = getFile(id);
+    if(img.isNull())
+        return getImageStorage()->image("defavatar");
+    return img;
 }
 
 QPixmap StandardAvatarStorage::pixmap(const QString& iconId)
 {
-    return QPixmap();
+    return QPixmap::fromImage(image(iconId));
 }
 
-QString StandardAvatarStorage::parseSmiles(const QString& input)
-{
-    return QString();
-}
 
 bool StandardAvatarStorage::saveImage(const QString& path, const QImage& image)
 {
-    return true;
+    return image.save(path);
 }
 
 QImage StandardAvatarStorage::loadImage(const QString& path)
 {
-    return QImage();
+    QImage img;
+    img.load(path);
+    return img;
+}
+
+QImage StandardAvatarStorage::getFile(const QString& id)
+{
+    QString cacheEntryId = id;
+    if(d->hasImage(cacheEntryId))
+        return d->get(cacheEntryId);
+    QImage image = loadImage(basePath() + id);
+    d->insert(cacheEntryId, image);
+    return image;
 }
 
 QString StandardAvatarStorage::makeFilename(const IMContactId& id, const QString& type)
 {
-    QString basePath = getProfileManager()->profilePath() + QDir::separator() + "pictures" + QDir::separator();
+    return basePath() + makeUri(id, type);
+}
+
+QString StandardAvatarStorage::makeUri(const IMContactId& id, const QString& type)
+{
     QString str = id.toString();
     str.replace('/', '.');
     str = str.toLower();
     if(!type.isEmpty())
         str.prepend(type + '.');
-    return basePath + str;
+    return str;
+}
+
+QString StandardAvatarStorage::basePath() const
+{
+    return getProfileManager()->profilePath() + QDir::separator() + "pictures" + QDir::separator();
 }
 
 } /* namespace SIM */

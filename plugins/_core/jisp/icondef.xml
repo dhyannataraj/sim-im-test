@@ -360,4 +360,7 @@
   <icon name="simcard">
 	<object mime="image/png">simcard.png</object>
   </icon>
+  <icon name="defavatar">
+	<object mime="image/png">defavatar.png</object>
+  </icon>
 </icondef>

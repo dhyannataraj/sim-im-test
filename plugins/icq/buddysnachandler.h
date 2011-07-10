@@ -17,6 +17,8 @@ public:
     void forceReady();
     bool isReady();
 
+    static const int SnacId = 0x03;
+
     static const int SnacBuddyRightsRequest = 0x02;
     static const int SnacBuddyRights = 0x03;
     static const int SnacBuddyUserOnline = 0x0b;

@@ -65,5 +65,39 @@
         </semanticModel>
       </contained>
     </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="__naDYKlcEeCTw506fIx6FQ" position="491,67" size="100,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__naDYalcEeCTw506fIx6FQ" presentation="default">
+        <element href="QtTypes.uml#__np7AKlcEeCTw506fIx6FQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="__naDYqlcEeCTw506fIx6FQ">
+        <property xmi:id="__naDY6lcEeCTw506fIx6FQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__naDZKlcEeCTw506fIx6FQ" presentation="default">
+          <element href="QtTypes.uml#__np7AKlcEeCTw506fIx6FQ"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="__naDZalcEeCTw506fIx6FQ">
+        <property xmi:id="__naDZqlcEeCTw506fIx6FQ" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__naDZ6lcEeCTw506fIx6FQ" presentation="default">
+          <element href="QtTypes.uml#__np7AKlcEeCTw506fIx6FQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_2rpz4KldEeCTw506fIx6FQ" position="225,246" size="100,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2rpz4aldEeCTw506fIx6FQ" presentation="default">
+        <element href="QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_2rpz4qldEeCTw506fIx6FQ">
+        <property xmi:id="_2rpz46ldEeCTw506fIx6FQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2rpz5KldEeCTw506fIx6FQ" presentation="default">
+          <element href="QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_2rpz5aldEeCTw506fIx6FQ">
+        <property xmi:id="_2rpz5qldEeCTw506fIx6FQ" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2rpz56ldEeCTw506fIx6FQ" presentation="default">
+          <element href="QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
   </diagrams>
 </diagrams:Diagrams>

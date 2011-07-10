@@ -30,7 +30,6 @@ public:
     virtual QIcon icon(const QString& iconId);
     virtual QImage image(const QString& iconId);
     virtual QPixmap pixmap(const QString& iconId);
-    virtual QString parseSmiles(const QString& input);
 
 protected:
     virtual bool saveImage(const QString& path, const QImage& image);
@@ -38,7 +37,12 @@ protected:
 
 private:
     struct StandardAvatarStoragePimpl* d;
+
+    QImage getFile(const QString& id);
+
     QString makeFilename(const IMContactId& id, const QString& type = QString());
+    QString makeUri(const IMContactId& id, const QString& type = QString());
+    QString basePath() const;
 };
 
 } /* namespace SIM */

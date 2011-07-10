@@ -18,13 +18,11 @@
 #ifndef _CONTAINER_H
 #define _CONTAINER_H
 
-//#include "cfg.h"
-//#include "event.h"
-//#include "message.h"
 #include "contacts/contact.h"
 #include "containercontroller.h"
 #include "icontainer.h"
 #include "iuserwnd.h"
+#include "avatarbar.h"
 
 #include <QMainWindow>
 #include <QDockWidget>
@@ -105,7 +103,6 @@ public:
     Container(unsigned id);
     virtual ~Container();
     QString name();
-    IUserWnd *wnd(int id);
     std::list<UserWnd*> windows();
     QByteArray getState();
     bool isReceived() { return m_bReceived; }
@@ -144,12 +141,12 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
-    //virtual bool processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent* e);
     void showBar();
     void setupAccel();
     QShortcut* makeShortcut(unsigned int key, unsigned int id);
     void loadState();
+    IUserWnd *wnd(int id);
 
     bool                m_bInit;
     bool                m_bInSize;
@@ -159,7 +156,7 @@ protected:
     bool                m_bNoSwitch;
     //ToolBar            *m_bar;
     QDockWidget*         m_avatar_window;
-    QLabel*              m_avatar_label;
+    AvatarBar* m_avatarBar;
     QSplitter* m_tabSplitter;
     UserTabBar* m_tabBar;
     QStatusBar* m_status;

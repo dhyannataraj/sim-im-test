@@ -118,4 +118,21 @@ namespace
         EXPECT_EQ(1, storage->loadImageCalls);
     }
 
+    TEST_F(TestStandardAvatarStorage, image_loadsAvatar)
+    {
+        SIM::IMContactId contactId(TestContactId, 12);
+        storage->image("avatar://" + TargetFilename);
+
+        EXPECT_EQ(1, storage->loadImageCalls);
+        ASSERT_EQ(picturesBasePath() + TargetFilename, storage->path);
+    }
+
+    TEST_F(TestStandardAvatarStorage, image_loadsAvatar_withType)
+    {
+        SIM::IMContactId contactId(TestContactId, 12);
+        storage->image("avatar://photo." + TargetFilename);
+
+        EXPECT_EQ(1, storage->loadImageCalls);
+        ASSERT_EQ(picturesBasePath() + "photo." + TargetFilename, storage->path);
+    }
 }

@@ -18,6 +18,7 @@ SET(_core_SRCS
         container/container.cpp
         container/sendmessageprocessor.cpp
         container/receivemessageprocessor.cpp
+        container/avatarbar.cpp
         core.cpp
         commonstatus.cpp
         container/icontainer.cpp
@@ -100,6 +101,7 @@ SET(_core_HDRS
         container/container.h
         container/sendmessageprocessor.h
         container/receivemessageprocessor.h
+        container/avatarbar.h
         core.h
         core_api.h
         commonstatus.h

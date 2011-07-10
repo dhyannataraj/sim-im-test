@@ -18,8 +18,6 @@ namespace SIM
         bool addIconSet(IconSet* set);
         bool removeIconset(const QString& id);
 
-        QString parseSmiles(const QString& input);
-
     private:
         QList<IconSet*> m_sets;
     };

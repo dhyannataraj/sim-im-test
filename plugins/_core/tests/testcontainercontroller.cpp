@@ -33,7 +33,7 @@ namespace
              return m_lastUserWnd;
          }
     protected:
-        virtual UserWndControllerPtr createUserWndController()
+        virtual UserWndControllerPtr createUserWndController(int)
         {
             m_lastUserWnd = MockObjects::MockUserWndControllerPtr(new MockObjects::MockUserWndController());
             ON_CALL(*m_lastUserWnd.data(), id()).WillByDefault(Return(ContactId));

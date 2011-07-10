@@ -126,13 +126,4 @@ namespace SIM
         return false;
     }
 
-    QString StandardImageStorage::parseSmiles(const QString& input)
-    {
-        QString result = input;
-        foreach(IconSet* set, m_sets) {
-            result = set->parseSmiles(result);
-        }
-        return result;
-    }
-
 }

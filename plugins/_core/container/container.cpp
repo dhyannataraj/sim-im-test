@@ -24,6 +24,7 @@
 #include "core.h"
 #include "buffer.h"
 #include "imagestorage/imagestorage.h"
+#include "imagestorage/avatarstorage.h"
 #include "contacts/contact.h"
 #include "contacts/client.h"
 #include "contacts/contactlist.h"
@@ -67,8 +68,8 @@ Container::Container(unsigned id)
     , m_bNoSwitch   (false)
 {
     m_avatar_window = new QDockWidget(this);
-    m_avatar_label = new QLabel(m_avatar_window);
-    m_avatar_window->setWidget(m_avatar_label);
+    m_avatarBar = new AvatarBar(m_avatar_window);
+    m_avatar_window->setWidget(m_avatarBar);
     m_avatar_window->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     m_avatar_window->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     addDockWidget(Qt::LeftDockWidgetArea, m_avatar_window);
@@ -344,6 +345,15 @@ void Container::showBar()
 
 void Container::contactSelected(int contactId)
 {
+    ContactPtr contact = getContactList()->contact(contactId);
+    if(!contact)
+        return;
+    IMContactPtr imcontact = contact->clientContact(0); // TODO: it should depend on selected client
+    if(!imcontact)
+        return;
+    m_avatarBar->setTargetContactImage(getAvatarStorage()->getAvatar(imcontact->id()));
+    m_avatarBar->setSourceContactImage(getAvatarStorage()->image("avatar://default"));
+
 //    UserWnd *userWnd = m_tabBar ? m_tabBar->currentWnd() : 0;
 //    if (userWnd == NULL)
 //        return;

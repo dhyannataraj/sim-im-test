@@ -34,6 +34,7 @@
 #include "log.h"
 #include "messaging/messageoutpipe.h"
 #include "messaging/messagepipe.h"
+#include "imagestorage/avatarstorage.h"
 
 #include <QDir>
 
@@ -144,6 +145,7 @@ int main(int argc, char *argv[])
     SIM::createMessagePipe();
     SIM::createOutMessagePipe();
     SIM::createImageStorage();
+    SIM::createAvatarStorage();
     SIM::createCommandHub();
     SIM::createContactList();
     SIM::createProtocolManager();
@@ -162,11 +164,13 @@ int main(int argc, char *argv[])
     SIM::destroyProtocolManager();
     SIM::destroyContactList();
     SIM::destroyCommandHub();
+    SIM::destroyAvatarStorage();
     SIM::destroyImageStorage();
     SIM::destroyOutMessagePipe();
     SIM::destroyMessagePipe();
     destroyLogging();
     SIM::destroyEventHub();
+    SIM::destroyProfileManager();
     return res;
 }
 
