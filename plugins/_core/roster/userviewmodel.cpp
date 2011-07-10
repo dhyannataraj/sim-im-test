@@ -8,6 +8,10 @@
 using SIM::log;
 using SIM::L_DEBUG;
 
+const int UserViewModel::OnlineRow = 0;
+const int UserViewModel::OfflineRow = 1;
+
+
 UserViewModel::UserViewModel(SIM::ContactList* contactList, QObject *parent) :
         QAbstractItemModel(parent), m_contactList(contactList), m_contactsCacheValid(false)
 {

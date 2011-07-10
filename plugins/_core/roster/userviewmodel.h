@@ -19,8 +19,8 @@ public:
     virtual QModelIndex parent(const QModelIndex& index) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
-    static const int OnlineRow = 0;
-    static const int OfflineRow = 1;
+    static const int OnlineRow;
+    static const int OfflineRow;
 
     enum ItemRole
     {

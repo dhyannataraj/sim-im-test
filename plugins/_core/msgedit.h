@@ -21,7 +21,7 @@
 #include "core.h"
 #include <QTextEdit>
 //#include "simgui/textshow.h"
-#include "event.h"
+//#include "event.h"
 
 #include <QMenu>
 
