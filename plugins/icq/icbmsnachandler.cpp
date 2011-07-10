@@ -5,12 +5,15 @@
 #include "messaging/message.h"
 #include "messaging/messagepipe.h"
 #include "messaging/genericmessage.h"
+#include "requests/icqrequestmanager.h"
+#include "requests/icbmsnac/icbmsnacparametersrequest.h"
+#include "requests/icbmsnac/icbmsnacsendparametersrequest.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
 using SIM::L_WARN;
 
-IcbmSnacHandler::IcbmSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_MESSAGE),
+IcbmSnacHandler::IcbmSnacHandler(ICQClient* client) : SnacHandler(client, SnacId),
     m_ready(false), m_currentCookie(0)
 {
 }
@@ -52,10 +55,10 @@ bool IcbmSnacHandler::process(unsigned short subtype, const QByteArray& data, in
 
 void IcbmSnacHandler::requestParametersInfo()
 {
-    OscarSocket* socket = client()->oscarSocket();
-    Q_ASSERT(socket);
+    ICQRequestManager* manager = client()->requestManager();
+    Q_ASSERT(manager);
 
-    socket->snac(getType(), SnacIcbmParametersInfoRequest, 0, QByteArray());
+    manager->enqueue(IcbmSnacParametersRequest::create(client()));
 }
 
 int IcbmSnacHandler::minMessageInterval() const
@@ -146,19 +149,16 @@ bool IcbmSnacHandler::processParametersInfo(const QByteArray& arr)
 
 bool IcbmSnacHandler::sendNewParametersInfo()
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
+    IcbmSnacSendParametersRequest::IcbmParameters params;
+    params.messageFlags = m_messageFlags;
+    params.maxSnacSize = m_maxSnacSize;
+    params.maxSenderWarnLevel = m_maxSenderWarnLevel;
+    params.maxReceiverWarnLevel = m_maxReceiverWarnLevel;
+    params.minMessageInterval = m_minMessageInterval;
+    ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client(), m_channel, params);
 
-    ByteArrayBuilder builder;
-
-    builder.appendWord(m_channel);
-    builder.appendDword(m_messageFlags);
-    builder.appendWord(m_maxSnacSize);
-    builder.appendWord(m_maxSenderWarnLevel);
-    builder.appendWord(m_maxReceiverWarnLevel);
-    builder.appendByte(m_minMessageInterval);
-
-    socket->snac(getType(), SnacIcbmSetParameters, 0, builder.getArray());
+    ICQRequestManager* manager = client()->requestManager();
+    manager->enqueue(rq);
     return true;
 }
 

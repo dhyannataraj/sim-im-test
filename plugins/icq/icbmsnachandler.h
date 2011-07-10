@@ -18,6 +18,8 @@ public:
     bool isReady() const;
     bool sendMessage(const SIM::MessagePtr & message);
 
+    static const int SnacId = 0x04;
+
     static const int SnacIcbmSetParameters = 0x02;
     static const int SnacIcbmParametersInfoRequest = 0x04;
     static const int SnacIcbmParametersInfo = 0x05;

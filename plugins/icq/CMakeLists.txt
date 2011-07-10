@@ -66,7 +66,10 @@ SET(icq_SRCS
         requests/icqrequest.cpp
         requests/icqrequestmanager.cpp
         requests/standardicqrequestmanager.cpp
+  
         requests/buddysnac/buddysnacrightsrequest.cpp
+        requests/icbmsnac/icbmsnacparametersrequest.cpp
+        requests/icbmsnac/icbmsnacsendparametersrequest.cpp
 )
 
 SET(icq_HDRS
@@ -128,6 +131,7 @@ SET(icq_HDRS
         requests/icqrequestmanager.h
         requests/standardicqrequestmanager.h
         requests/buddysnac/buddysnacrightsrequest.h
+        requests/icbmsnac/icbmsnacsendparametersrequest.h
 )
 
 SET(icq_UICS
