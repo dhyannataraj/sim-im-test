@@ -43,7 +43,8 @@ OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 OPTION(ENABLE_TARGET_UPDATE_MESSAGES "Enables target that allows to extract i18n messages from the code, and update *.po files with them")
 
 # need 4.3 for some QHttp functionality
-SET(QT_MIN_VERSION 4.3.0)
+# Disabled for cmake 2.8.5 - doesn't work properly
+# SET(QT_MIN_VERSION "4.3.0")
 FIND_PACKAGE(Qt4 REQUIRED)
 IF(NOT QT_FOUND)
     MESSAGE(FATAL_ERROR "Could not find Qt4 - cannot compile Sim-IM here")

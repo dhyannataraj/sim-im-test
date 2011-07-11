@@ -9,7 +9,7 @@
 #include "../../icqclient.h"
 #include "../../oscarsocket.h"
 
-ICQRequestPtr IcbmSnacSendParametersRequest::create(ICQClient* client, int channel, const IcbmParameters& newParameters)
+ICQRequestPtr IcbmSnacSendParametersRequest::create(ICQClient* client, int channel, const IcbmSnacHandler::IcbmParameters& newParameters)
 {
     IcbmSnacSendParametersRequest* request = new IcbmSnacSendParametersRequest(client);
     request->m_channel = channel;

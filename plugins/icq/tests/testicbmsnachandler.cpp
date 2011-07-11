@@ -49,9 +49,9 @@ namespace
             SIM::setMessagePipe(0);
         }
 
-        IcbmSnacSendParametersRequest::IcbmParameters makeDefaultIcbmParameters()
+        IcbmSnacHandler::IcbmParameters makeDefaultIcbmParameters()
         {
-            IcbmSnacSendParametersRequest::IcbmParameters params;
+            IcbmSnacHandler::IcbmParameters params;
             params.messageFlags = 0x03;
             params.maxSnacSize = 0x200;
             params.maxSenderWarnLevel = 0x384;
@@ -60,7 +60,7 @@ namespace
             return params;
         }
 
-        QByteArray makeParametersInfoPacket(int channel, const IcbmSnacSendParametersRequest::IcbmParameters& params)
+        QByteArray makeParametersInfoPacket(int channel, const IcbmSnacHandler::IcbmParameters& params)
         {
             ByteArrayBuilder builder;
             builder.appendWord(channel);
@@ -150,18 +150,18 @@ namespace
 
     TEST_F(TestIcbmSnacHandler, parametersPacket_processing)
     {
-        IcbmSnacSendParametersRequest::IcbmParameters params = makeDefaultIcbmParameters();
+        IcbmSnacHandler::IcbmParameters params = makeDefaultIcbmParameters();
         bool success = handler->process(IcbmSnacHandler::SnacIcbmParametersInfo, makeParametersInfoPacket(4, params), 0, 0);
         ASSERT_TRUE(success);
 
-        ASSERT_EQ(MinMessageInterval, handler->minMessageInterval());
+        ASSERT_EQ(params.minMessageInterval, handler->minMessageInterval());
     }
 
     TEST_F(TestIcbmSnacHandler, parametersPacket_sendNewParameters)
     {
         EXPECT_CALL(*socket, snac(ICQ_SNACxFOOD_MESSAGE, IcbmSnacHandler::SnacIcbmSetParameters, _, _)).Times(1);
 
-        IcbmSnacSendParametersRequest::IcbmParameters params = makeDefaultIcbmParameters();
+        IcbmSnacHandler::IcbmParameters params = makeDefaultIcbmParameters();
         bool success = handler->process(IcbmSnacHandler::SnacIcbmParametersInfo, makeParametersInfoPacket(4, params), 0, 0);
         ASSERT_TRUE(success);
     }
@@ -169,7 +169,7 @@ namespace
     TEST_F(TestIcbmSnacHandler, parametersPacket_ready)
     {
         QSignalSpy spy(handler, SIGNAL(ready()));
-        IcbmSnacSendParametersRequest::IcbmParameters params = makeDefaultIcbmParameters();
+        IcbmSnacHandler::IcbmParameters params = makeDefaultIcbmParameters();
         bool success = handler->process(IcbmSnacHandler::SnacIcbmParametersInfo, makeParametersInfoPacket(4, params), 0, 0);
         ASSERT_TRUE(success);
 
@@ -224,7 +224,7 @@ namespace
 
     TEST_F(TestIcbmSnacHandler, Request_sendNewParameters)
     {
-        IcbmSnacSendParametersRequest::IcbmParameters params = makeDefaultIcbmParameters();
+        IcbmSnacHandler::IcbmParameters params = makeDefaultIcbmParameters();
         ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client, 0, params);
         EXPECT_CALL(*socket, snac(IcbmSnacHandler::SnacId, IcbmSnacHandler::SnacIcbmSetParameters, _, _));
 
@@ -233,7 +233,7 @@ namespace
 
     TEST_F(TestIcbmSnacHandler, Request_sendNewParameters_packetStructure)
     {
-        IcbmSnacSendParametersRequest::IcbmParameters params = makeDefaultIcbmParameters();
+        IcbmSnacHandler::IcbmParameters params = makeDefaultIcbmParameters();
         ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client, 0, params);
         EXPECT_CALL(*socket, snac(IcbmSnacHandler::SnacId, IcbmSnacHandler::SnacIcbmSetParameters, _, makeParametersInfoPacket(0, params)));
 

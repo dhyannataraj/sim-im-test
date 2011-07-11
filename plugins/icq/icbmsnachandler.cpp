@@ -8,6 +8,7 @@
 #include "requests/icqrequestmanager.h"
 #include "requests/icbmsnac/icbmsnacparametersrequest.h"
 #include "requests/icbmsnac/icbmsnacsendparametersrequest.h"
+#include "requests/icbmsnac/icbmsnacsendmessagerequest.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
@@ -29,10 +30,10 @@ bool IcbmSnacHandler::process(unsigned short subtype, const QByteArray& data, in
             if(!processParametersInfo(data))
                 return false;
             m_channel = 0;
-            m_messageFlags = 0x0b;
-            m_maxSnacSize = 0x1f40;
-            m_maxSenderWarnLevel = 0x30e7;
-            m_maxReceiverWarnLevel = 0x30e7;
+            m_params.messageFlags = 0x0b;
+            m_params.maxSnacSize = 0x1f40;
+            m_params.maxSenderWarnLevel = 0x30e7;
+            m_params.maxReceiverWarnLevel = 0x30e7;
 
             m_ready = true;
             emit ready();
@@ -63,7 +64,7 @@ void IcbmSnacHandler::requestParametersInfo()
 
 int IcbmSnacHandler::minMessageInterval() const
 {
-    return m_minMessageInterval;
+    return m_params.minMessageInterval;
 }
 
 void IcbmSnacHandler::forceReady()
@@ -79,83 +80,30 @@ bool IcbmSnacHandler::isReady() const
 
 bool IcbmSnacHandler::sendMessage(const SIM::MessagePtr& message)
 {
-    ICQContactPtr contact = message->targetContact().toStrongRef().dynamicCast<ICQContact>();
-    if(!contact)
-    {
-        log(L_WARN, "IcbmSnacHandler::sendMessage(): Unable to cast IMContact");
-        return false;
-    }
+    ICQRequestPtr rq = IcbmSnacSendMessageRequest::create(client(), message);
 
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
-
-    QByteArray packet = makeSendPlainTextPacket(message);
-
-    socket->snac(getType(), SnacIcbmSendMessage, 0, packet);
+    ICQRequestManager* manager = client()->requestManager();
+    Q_ASSERT(manager);
+    manager->enqueue(rq);
     return true;
-}
-
-QByteArray IcbmSnacHandler::makeSendPlainTextPacket(const SIM::MessagePtr& message)
-{
-    ICQContactPtr contact = message->targetContact().toStrongRef().dynamicCast<ICQContact>();
-    // FIXME check
-    Q_ASSERT(contact);
-    ByteArrayBuilder builder;
-    QByteArray cookie = generateCookie();
-    builder.appendBytes(cookie);
-    builder.appendWord(0x0001); // FIXME hardcoded const
-
-    QByteArray contactId = contact->getScreen().toUtf8();
-    builder.appendByte(contactId.length());
-    builder.appendBytes(contactId);
-
-    TlvList tlvs;
-    tlvs.append(Tlv(TlvMessage, makeMessageTlv(message)));
-    tlvs.append(Tlv(TlvServerAck, QByteArray()));
-    tlvs.append(Tlv(TlvSendOffline, QByteArray()));
-
-    builder.appendBytes(tlvs.toByteArray());
-    return builder.getArray();
-}
-
-QByteArray IcbmSnacHandler::makeMessageTlv(const SIM::MessagePtr& message)
-{
-    ByteArrayBuilder builder;
-    builder.appendWord(0x0501); // Features signature
-    builder.appendWord(0x01); // Features length
-    builder.appendByte(0x01); // Features
-    builder.appendWord(0x0101); // Message info signature
-
-    QByteArray messageText = message->toPlainText().toUtf8(); // FIXME ? encoding
-    builder.appendWord(4 + messageText.length());
-    builder.appendWord(0x0000); // Encoding set
-    builder.appendWord(0xffff); // Encoding subset
-    builder.appendBytes(messageText);
-    return builder.getArray();
 }
 
 bool IcbmSnacHandler::processParametersInfo(const QByteArray& arr)
 {
     ByteArrayParser parser(arr);
     m_channel = parser.readWord();
-    m_messageFlags = parser.readDword();
-    m_maxSnacSize = parser.readWord();
-    m_maxSenderWarnLevel = parser.readWord();
-    m_maxReceiverWarnLevel = parser.readWord();
-    m_minMessageInterval = parser.readDword();
+    m_params.messageFlags = parser.readDword();
+    m_params.maxSnacSize = parser.readWord();
+    m_params.maxSenderWarnLevel = parser.readWord();
+    m_params.maxReceiverWarnLevel = parser.readWord();
+    m_params.minMessageInterval = parser.readDword();
 
     return true;
 }
 
 bool IcbmSnacHandler::sendNewParametersInfo()
 {
-    IcbmSnacSendParametersRequest::IcbmParameters params;
-    params.messageFlags = m_messageFlags;
-    params.maxSnacSize = m_maxSnacSize;
-    params.maxSenderWarnLevel = m_maxSenderWarnLevel;
-    params.maxReceiverWarnLevel = m_maxReceiverWarnLevel;
-    params.minMessageInterval = m_minMessageInterval;
-    ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client(), m_channel, params);
+    ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client(), m_channel, m_params);
 
     ICQRequestManager* manager = client()->requestManager();
     manager->enqueue(rq);

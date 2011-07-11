@@ -9,6 +9,15 @@ class ICQ_EXPORT IcbmSnacHandler : public SnacHandler
 {
     Q_OBJECT
 public:
+    struct IcbmParameters
+    {
+        unsigned int messageFlags;
+        int maxSnacSize;
+        int maxSenderWarnLevel;
+        int maxReceiverWarnLevel;
+        int minMessageInterval;
+    };
+
     IcbmSnacHandler(ICQClient *client);
     virtual bool process(unsigned short  subtype, const QByteArray & data, int flags, unsigned int requestId);
     void requestParametersInfo();
@@ -39,20 +48,17 @@ signals:
 
 private:
     bool processParametersInfo(const QByteArray & arr);
-    QByteArray makeSendPlainTextPacket(const SIM::MessagePtr & message);
+
     QByteArray generateCookie();
-    QByteArray makeMessageTlv(const SIM::MessagePtr & message);
+
     bool handleIncomingMessage(const QByteArray & data);
     QString parseMessageBlock(const QByteArray & block);
 
     int m_channel;
-    int m_messageFlags;
-    int m_maxSnacSize;
-    int m_maxSenderWarnLevel;
-    int m_maxReceiverWarnLevel;
-    int m_minMessageInterval;
-    quint64 m_currentCookie;
+    IcbmParameters m_params;
+
     bool m_ready;
+    quint64 m_currentCookie;
 };
 
 #endif // ICBMSNACHANDLER_H
