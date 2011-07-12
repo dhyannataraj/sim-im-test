@@ -38,7 +38,7 @@ QImage AvatarBar::targetContactImage() const
 
 QSize AvatarBar::sizeHint() const
 {
-    int maxWidth = max(m_sourceImage.width(), m_targetImage.width());
+    int maxWidth = std::max(m_sourceImage.width(), m_targetImage.width());
     int totalHeight = m_sourceImage.height() + m_targetImage.height();
     return QSize(maxWidth, totalHeight);
 }

@@ -15,6 +15,7 @@ class ICQClient;
 class ICQ_EXPORT IcbmSnacSendParametersRequest : public ICQRequest
 {
 public:
+
     static ICQRequestPtr create(ICQClient* client, int channel, const IcbmSnacHandler::IcbmParameters& newParameters);
     virtual ~IcbmSnacSendParametersRequest();
 
