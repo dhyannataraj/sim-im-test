@@ -21,6 +21,7 @@ public:
     void forceReady();
     bool isReady() const;
 
+    static const int SnacId = 0x02;
     static const int SnacLocationRightsRequest = 0x0002;
     static const int SnacLocationRightsInfo = 0x0003;
     static const int SnacSetUserInfo = 0x0004;

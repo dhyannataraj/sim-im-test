@@ -1,6 +1,8 @@
 #include "locationsnachandler.h"
 #include "icqclient.h"
 #include "log.h"
+#include "requests/locationsnac/locationsnacrightsrequest.h"
+#include "requests/locationsnac/locationsnacsetuserinforequest.h"
 
 using SIM::log;
 using SIM::L_WARN;
@@ -32,10 +34,11 @@ bool LocationSnacHandler::process(unsigned short subtype, const QByteArray& data
 
 void LocationSnacHandler::requestRights()
 {
-    OscarSocket* socket = client()->oscarSocket();
-    Q_ASSERT(socket);
+    ICQRequestPtr rq = LocationSnacRightsRequest::create(client());
 
-    socket->snac(getType(), SnacLocationRightsRequest, 0, QByteArray());
+    ICQRequestManager* manager = client()->requestManager();
+    Q_ASSERT(manager);
+    manager->enqueue(rq);
 }
 
 int LocationSnacHandler::maxCapabilities() const
@@ -65,8 +68,8 @@ bool LocationSnacHandler::parseRightsInfo(const QByteArray& arr)
 
 bool LocationSnacHandler::sendUserInfo()
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
+    ICQRequestManager* manager = client()->requestManager();
+    Q_ASSERT(manager);
 
     ClientCapabilitiesRegistry* registry = m_client->clientCapabilitiesRegistry();
     Q_ASSERT(registry);
@@ -80,10 +83,7 @@ bool LocationSnacHandler::sendUserInfo()
     caps.append(registry->capabilityByName("relay")->guid());
     caps.append(registry->capabilityByName("utf")->guid());
 
-    TlvList list;
-    list.append(Tlv(TlvClientCapabilities, caps));
-
-    socket->snac(getType(), SnacSetUserInfo, 0, list.toByteArray());
+    manager->enqueue(LocationSnacSetUserInfoRequest::create(client(), caps));
 
     m_ready = true;
     emit ready();

@@ -9,6 +9,7 @@
 #include "locationsnachandler.h"
 #include "oscarsocket.h"
 #include "mocks/mockoscarsocket.h"
+#include "requests/locationsnac/locationsnacsetuserinforequest.h"
 
 namespace
 {
@@ -49,6 +50,13 @@ namespace
         LocationSnacHandler* handler;
     };
 
+    TEST_F(TestLocationSnacHandler, requestRights_sendsSnac)
+    {
+        EXPECT_CALL(*socket, snac(LocationSnacHandler::SnacId, LocationSnacHandler::SnacLocationRightsRequest, _, _));
+
+        handler->requestRights();
+    }
+
     TEST_F(TestLocationSnacHandler, rightsPacket_processing)
     {
         bool success = handler->process(LocationSnacHandler::SnacLocationRightsInfo, makeRightsInfoPacket(), 0, 0);
@@ -74,4 +82,11 @@ namespace
         ASSERT_TRUE(handler->isReady());
     }
 
+    TEST_F(TestLocationSnacHandler, Request_setUserInfo_sendsSnac)
+    {
+        EXPECT_CALL(*socket, snac(LocationSnacHandler::SnacId, LocationSnacHandler::SnacSetUserInfo, _, _));
+        ICQRequestPtr rq = LocationSnacSetUserInfoRequest::create(client, QByteArray());
+
+        rq->perform();
+    }
 }
