@@ -5,8 +5,8 @@
  */
 
 #include "locationsnacsetuserinforequest.h"
-#include "icqclient.h"
-#include "tlvlist.h"
+#include "../../icqclient.h"
+#include "../../tlvlist.h"
 
 ICQRequestPtr LocationSnacSetUserInfoRequest::create(ICQClient* client, const QByteArray& caps)
 {

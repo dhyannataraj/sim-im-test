@@ -4,11 +4,11 @@
  *  Created on: Jul 11, 2011
  */
 
-#include "icqclient.h"
-#include "tlvlist.h"
+#include "../../icqclient.h"
+#include "../../tlvlist.h"
 #include "icbmsnacsendmessagerequest.h"
 #include "log.h"
-#include "bytearraybuilder.h"
+#include "../../bytearraybuilder.h"
 
 using SIM::log;
 using SIM::L_WARN;

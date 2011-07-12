@@ -7,7 +7,7 @@
 #ifndef ICBMSNACSENDMESSAGEREQUEST_H_
 #define ICBMSNACSENDMESSAGEREQUEST_H_
 
-#include "requests/icqrequest.h"
+#include "../icqrequest.h"
 #include "messaging/message.h"
 
 class ICQClient;

@@ -7,7 +7,7 @@
 #ifndef SNACLOCATIONRIGHTSREQUEST_H_
 #define SNACLOCATIONRIGHTSREQUEST_H_
 
-#include "requests/icqrequest.h"
+#include "../icqrequest.h"
 
 class ICQClient;
 class LocationSnacRightsRequest : public ICQRequest

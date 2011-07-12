@@ -5,8 +5,8 @@
  */
 
 #include "locationsnacrightsrequest.h"
-#include "icqclient.h"
-#include "locationsnachandler.h"
+#include "../../icqclient.h"
+#include "../../locationsnachandler.h"
 
 ICQRequestPtr LocationSnacRightsRequest::create(ICQClient* client)
 {

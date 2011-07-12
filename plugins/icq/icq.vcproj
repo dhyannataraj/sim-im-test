@@ -227,10 +227,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\requests\buddysnac\buddysnacrightsrequest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\bytearraybuilder.cpp"
 				>
 			</File>
@@ -248,10 +244,6 @@
 			</File>
 			<File
 				RelativePath=".\icbmsnachandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\requests\icbmsnac\icbmsnacparametersrequest.cpp"
 				>
 			</File>
 			<File
@@ -315,14 +307,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\requests\icqrequest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\requests\icqrequestmanager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\icqstatus.cpp"
 				>
 			</File>
@@ -360,10 +344,6 @@
 			</File>
 			<File
 				RelativePath=".\ssisnachandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\requests\standardicqrequestmanager.cpp"
 				>
 			</File>
 			<File
@@ -518,10 +498,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\requests\buddysnac\buddysnacrightsrequest.h"
-				>
-			</File>
-			<File
 				RelativePath=".\bytearraybuilder.h"
 				>
 			</File>
@@ -560,10 +536,6 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\requests\icbmsnac\icbmsnacparametersrequest.h"
-				>
 			</File>
 			<File
 				RelativePath=".\requests\icbmsnac\icbmsnacsendparametersrequest.h"
@@ -655,14 +627,6 @@
 			</File>
 			<File
 				RelativePath=".\icqgroup.h"
-				>
-			</File>
-			<File
-				RelativePath=".\requests\icqrequest.h"
-				>
-			</File>
-			<File
-				RelativePath=".\requests\icqrequestmanager.h"
 				>
 			</File>
 			<File
@@ -864,10 +828,6 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\requests\standardicqrequestmanager.h"
-				>
 			</File>
 			<File
 				RelativePath=".\standardoscarsocket.h"
@@ -1089,6 +1049,118 @@
 				RelativePath="workinfobase.ui"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="requests"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\requests\icqrequest.h"
+					>
+				</File>
+				<File
+					RelativePath=".\requests\icqrequestmanager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\requests\standardicqrequestmanager.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\requests\icqrequest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\requests\icqrequestmanager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\requests\standardicqrequestmanager.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="buddysnac"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\requests\buddysnac\buddysnacrightsrequest.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\requests\buddysnac\buddysnacrightsrequest.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="icmbsnac"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\requests\icbmsnac\icbmsnacparametersrequest.h"
+						>
+					</File>
+					<File
+						RelativePath=".\requests\icbmsnac\icbmsnacsendmessagerequest.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\requests\icbmsnac\icbmsnacparametersrequest.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\requests\icbmsnac\icbmsnacsendmessagerequest.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="locationssnac"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\requests\locationsnac\locationsnacrightsrequest.h"
+						>
+					</File>
+					<File
+						RelativePath=".\requests\locationsnac\locationsnacsetuserinforequest.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\requests\locationsnac\locationsnacrightsrequest.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\requests\locationsnac\locationsnacsetuserinforequest.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -7,8 +7,8 @@
 #ifndef LOCATIONSNACSETUSERINFOREQUEST_H_
 #define LOCATIONSNACSETUSERINFOREQUEST_H_
 
-#include "requests/icqrequest.h"
-#include "icq_defines.h"
+#include "../icqrequest.h"
+#include "../../icq_defines.h"
 
 class ICQClient;
 class ICQ_EXPORT LocationSnacSetUserInfoRequest : public ICQRequest

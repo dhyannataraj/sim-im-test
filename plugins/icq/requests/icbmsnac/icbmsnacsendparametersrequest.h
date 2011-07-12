@@ -9,7 +9,7 @@
 
 #include "../icqrequest.h"
 #include "../../icq_defines.h"
-#include "icbmsnachandler.h"
+#include "../../icbmsnachandler.h"
 
 class ICQClient;
 class ICQ_EXPORT IcbmSnacSendParametersRequest : public ICQRequest
