@@ -5,7 +5,7 @@
  */
 
 #include "standardicqrequestmanager.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 
 StandardICQRequestManager::StandardICQRequestManager(ICQClient* client) : m_client(client)
 {

@@ -7,8 +7,8 @@
 #ifndef ICBMSNACSENDPARAMETERSREQUEST_H_
 #define ICBMSNACSENDPARAMETERSREQUEST_H_
 
-#include "requests/icqrequest.h"
-#include "icq_defines.h"
+#include "../icqrequest.h"
+#include "../../icq_defines.h"
 
 class ICQClient;
 class ICQ_EXPORT IcbmSnacSendParametersRequest: public ICQRequest

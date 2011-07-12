@@ -6,9 +6,9 @@
  */
 
 #include "buddysnacrightsrequest.h"
-#include "buddysnachandler.h"
-#include "oscarsocket.h"
-#include "icqclient.h"
+#include "../../buddysnachandler.h"
+#include "../../oscarsocket.h"
+#include "../../icqclient.h"
 
 ICQRequestPtr BuddySnacRightsRequest::create(ICQClient* client)
 {

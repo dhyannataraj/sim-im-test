@@ -9,8 +9,8 @@
 #define BUDDYSNACRIGHTSREQUEST_H_
 
 #include <QSharedPointer>
-#include "icq_defines.h"
-#include "requests/icqrequest.h"
+#include "../../icq_defines.h"
+#include "../icqrequest.h"
 
 
 class ICQClient;

@@ -81,7 +81,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/LTCG"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
@@ -220,7 +219,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\bartsnachandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\buddysnachandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\buddysnac\buddysnacrightsrequest.cpp"
 				>
 			</File>
 			<File
@@ -241,6 +248,14 @@
 			</File>
 			<File
 				RelativePath=".\icbmsnachandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\icbmsnac\icbmsnacparametersrequest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\icbmsnac\icbmsnacsendparametersrequest.cpp"
 				>
 			</File>
 			<File
@@ -300,6 +315,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\requests\icqrequest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\icqrequestmanager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\icqstatus.cpp"
 				>
 			</File>
@@ -337,6 +360,10 @@
 			</File>
 			<File
 				RelativePath=".\ssisnachandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\standardicqrequestmanager.cpp"
 				>
 			</File>
 			<File
@@ -446,6 +473,34 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\bartsnachandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\buddysnachandler.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
 						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
@@ -463,28 +518,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\buddysnachandler.h"
+				RelativePath=".\requests\buddysnac\buddysnacrightsrequest.h"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\bytearraybuilder.h"
@@ -511,7 +546,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -521,10 +556,18 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\requests\icbmsnac\icbmsnacparametersrequest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\icbmsnac\icbmsnacsendparametersrequest.h"
+				>
 			</File>
 			<File
 				RelativePath="icq.h"
@@ -615,6 +658,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\requests\icqrequest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\requests\icqrequestmanager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\icqstatus.h"
 				>
 				<FileConfiguration
@@ -622,9 +673,9 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						Outputs=""
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -632,9 +683,9 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
-						Outputs="$(InputDir)moc_$(InputName).cpp"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						Outputs=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -675,7 +726,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -685,7 +736,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -723,7 +774,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -733,7 +784,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -799,7 +850,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -809,10 +860,14 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\requests\standardicqrequestmanager.h"
+				>
 			</File>
 			<File
 				RelativePath=".\standardoscarsocket.h"

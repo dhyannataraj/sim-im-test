@@ -87,7 +87,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/LTCG"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
@@ -389,7 +388,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -399,7 +398,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -413,7 +412,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -423,7 +422,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -2019,6 +2018,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\container\avatarbar.h"
+					>
+				</File>
+				<File
 					RelativePath=".\container\container.h"
 					>
 					<FileConfiguration
@@ -2027,7 +2030,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2037,7 +2040,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2051,7 +2054,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2061,7 +2064,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2075,7 +2078,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2085,7 +2088,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2107,7 +2110,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2117,7 +2120,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2143,7 +2146,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2153,7 +2156,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -2166,6 +2169,10 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\container\avatarbar.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\container\container.cpp"
 					>

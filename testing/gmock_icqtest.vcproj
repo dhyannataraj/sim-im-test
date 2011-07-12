@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\testbartsnachandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\testbuddysnachandler.cpp"
 				>
 			</File>
@@ -271,6 +275,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\teststandardicqrequestmanager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\testtlv.cpp"
 				>
 			</File>
@@ -284,10 +292,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\plugins\icq\tests\mocks\mockoscarsocket.h"
-				>
-			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\qt-gtest.h"
 				>
@@ -328,6 +332,18 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<Filter
+				Name="mocks"
+				>
+				<File
+					RelativePath="..\plugins\icq\tests\mocks\mockicqrequest.h"
+					>
+				</File>
+				<File
+					RelativePath="..\plugins\icq\tests\mocks\mockoscarsocket.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="generated"

@@ -5,9 +5,9 @@
  */
 
 #include "icbmsnacsendparametersrequest.h"
-#include "bytearraybuilder.h"
-#include "icqclient.h"
-#include "oscarsocket.h"
+#include "../../bytearraybuilder.h"
+#include "../../icqclient.h"
+#include "../../oscarsocket.h"
 
 ICQRequestPtr IcbmSnacSendParametersRequest::create(ICQClient* client, int channel, const IcbmParameters& newParameters)
 {

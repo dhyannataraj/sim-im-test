@@ -5,8 +5,8 @@
  */
 
 #include "icbmsnacparametersrequest.h"
-#include "icqclient.h"
-#include "oscarsocket.h"
+#include "../../icqclient.h"
+#include "../../oscarsocket.h"
 
 ICQRequestPtr IcbmSnacParametersRequest::create(ICQClient* client)
 {

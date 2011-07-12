@@ -8,7 +8,7 @@
 #define STANDARDICQREQUESTMANAGER_H_
 
 #include "icqrequestmanager.h"
-#include "icq_defines.h"
+#include "../icq_defines.h"
 
 class ICQClient;
 class ICQ_EXPORT StandardICQRequestManager : public ICQRequestManager

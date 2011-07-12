@@ -26,7 +26,7 @@ bool BartSnacHandler::process(unsigned short subtype, const QByteArray & data, i
     default:
         return false;
     }
-    return true;
+    return true; //Fixme unreachable
 }
 
 void BartSnacHandler::requestAvatar(const QString& screen, const QByteArray& hash)

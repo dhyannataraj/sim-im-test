@@ -9,7 +9,7 @@
 #define ICQREQUEST_H_
 
 #include <QSharedPointer>
-#include "icq_defines.h"
+#include "../icq_defines.h"
 
 class ICQ_EXPORT ICQRequest
 {
