@@ -5,9 +5,9 @@
  */
 
 #include "bartsnacavatarrequest.h"
-#include "icqclient.h"
-#include "bartsnachandler.h"
-#include "bytearraybuilder.h"
+#include "../../icqclient.h"
+#include "../../bartsnachandler.h"
+#include "../../bytearraybuilder.h"
 
 ICQRequestPtr BartSnacAvatarRequest::create(ICQClient* client, const QString& screen, const QByteArray& avatarHash)
 {

@@ -9,6 +9,9 @@
 #define AVATARBAR_H_
 
 #include <QWidget>
+#include <algorithm>
+
+using namespace std;
 
 class AvatarBar: public QWidget
 {

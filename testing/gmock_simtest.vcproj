@@ -298,6 +298,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\sim\tests\mocks\mockavatarstorage.h"
+					>
+				</File>
+				<File
 					RelativePath="..\sim\tests\mocks\mockclient.h"
 					>
 				</File>

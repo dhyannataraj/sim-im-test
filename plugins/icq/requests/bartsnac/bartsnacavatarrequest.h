@@ -7,7 +7,7 @@
 #ifndef BARTSNACAVATARREQUEST_H_
 #define BARTSNACAVATARREQUEST_H_
 
-#include "requests/icqrequest.h"
+#include "../icqrequest.h"
 
 class ICQClient;
 class BartSnacAvatarRequest : public ICQRequest
