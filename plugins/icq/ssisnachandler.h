@@ -84,7 +84,8 @@ private:
     int m_maxPresenceInfoFields;
     int m_maxIgnore;
 
-    bool m_ready;
+    bool m_hasRights;
+    bool m_contactListSyncDone;
 };
 
 #endif // SSISNACHANDLER_H

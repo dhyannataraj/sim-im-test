@@ -25,12 +25,19 @@ namespace
     static const int ContactUin = 123456789;
     static const int ContactId = 42;
     static const int MetaContactId = 21;
+    static QByteArray ContactAvatarHash;
 
     class TestBuddySnacHandler : public ::testing::Test
     {
     public:
+        static void SetUpTestCase()
+        {
+            ContactAvatarHash = QByteArray(0x11, 16);
+        }
+
         virtual void SetUp()
         {
+            SIM::createContactList();
             socket = new NiceMock<MockObjects::MockOscarSocket>();
             client = new ICQClient(0, "ICQ.123456", false);
             client->setOscarSocket(socket);
@@ -39,7 +46,7 @@ namespace
             SIM::getContactList()->addContact(metaContact);
 
             ICQContactList* list = client->contactList();
-            ICQContactPtr contact = client->createIMContact().dynamicCast<ICQContact>();
+            contact = client->createIMContact().dynamicCast<ICQContact>();
             contact->setIcqID(ContactId);
             contact->setUin(ContactUin);
             list->addContact(contact);
@@ -54,6 +61,7 @@ namespace
         virtual void TearDown()
         {
             SIM::getContactList()->removeContact(MetaContactId);
+            SIM::destroyContactList();
             delete client;
         }
 
@@ -71,11 +79,22 @@ namespace
             list.append(Tlv::fromUint32(BuddySnacHandler::TlvOnlineSince, 0)); // Yeah, online since 1 Jan 1970
             list.append(Tlv::fromUint32(BuddySnacHandler::TlvOnlineStatus, status->icqId()));
             list.append(Tlv::fromUint32(BuddySnacHandler::TlvUserIp, 0));
+            list.append(makeAvatarTlv());
 
             builder.appendWord(list.tlvCount());
             builder.appendBytes(list.toByteArray());
 
             return builder.getArray();
+        }
+
+        Tlv makeAvatarTlv()
+        {
+            ByteArrayBuilder builder;
+            builder.appendWord(0x0001);
+            builder.appendByte(0x01);
+            builder.appendByte(ContactAvatarHash.length());
+            builder.appendBytes(ContactAvatarHash);
+            return Tlv(BuddySnacHandler::TlvAvatar, builder.getArray());
         }
 
         QByteArray makeRightsPacket()
@@ -91,6 +110,7 @@ namespace
         ICQClient* client;
         NiceMock<MockObjects::MockOscarSocket>* socket;
         BuddySnacHandler* handler;
+        ICQContactPtr contact;
     };
 
     TEST_F(TestBuddySnacHandler, onlineNotificationProcessing)
@@ -129,6 +149,24 @@ namespace
         EXPECT_CALL(*socket, snac(handler->getType(), BuddySnacHandler::SnacBuddyRightsRequest, _, _));
 
         handler->requestRights();
+    }
+
+    // Disabled, because of server disconnects
+    TEST_F(TestBuddySnacHandler, DISABLED_contactOnlineWithNewAvatarHash_requestsAvatar)
+    {
+        EXPECT_CALL(*socket, snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, _, _));
+
+        bool success = handler->process(BuddySnacHandler::SnacBuddyUserOnline, makeOnlineBuddyPacket(), 0, 0);
+        EXPECT_TRUE(success);
+    }
+
+    TEST_F(TestBuddySnacHandler, DISABLED_contactOnlineWithOldAvatarHash_doesntRequestAvatar)
+    {
+        contact->setAvatarHash(ContactAvatarHash);
+        EXPECT_CALL(*socket, snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, _, _)).Times(0);
+
+        bool success = handler->process(BuddySnacHandler::SnacBuddyUserOnline, makeOnlineBuddyPacket(), 0, 0);
+        EXPECT_TRUE(success);
     }
 
     TEST_F(TestBuddySnacHandler, Request_requestRights)

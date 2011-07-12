@@ -21,11 +21,13 @@ public:
 
     void requestAvatar(const QString& screen, const QByteArray& hash);
 
+    static const int SnacId = 0x10;
+
     static const int SnacRequestAvatar = 0x04;
     static const int SnacResponseAvatar = 0x05;
 
 private:
-    QByteArray makeRequestAvatarPacket(const QString& screen, const QByteArray& hash);
+
     bool parseAvatarPacket(const QByteArray& arr);
 };
 

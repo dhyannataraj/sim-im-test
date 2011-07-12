@@ -8,6 +8,7 @@
 #include "bartsnachandler.h"
 #include "icqclient.h"
 #include "bytearraybuilder.h"
+#include "requests/bartsnac/bartsnacavatarrequest.h"
 
 BartSnacHandler::BartSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_SSI)
 {
@@ -24,28 +25,17 @@ bool BartSnacHandler::process(unsigned short subtype, const QByteArray & data, i
     case SnacResponseAvatar:
         return parseAvatarPacket(data);
     default:
-        return false;
+        break;
     }
-    return true; //Fixme unreachable
+    return true;
 }
 
 void BartSnacHandler::requestAvatar(const QString& screen, const QByteArray& hash)
 {
-    client()->oscarSocket()->snac(getType(), SnacRequestAvatar,
-            0, makeRequestAvatarPacket(screen, hash));
-}
+    ICQRequestManager* manager = client()->requestManager();
+    Q_ASSERT(manager);
 
-QByteArray BartSnacHandler::makeRequestAvatarPacket(const QString& screen, const QByteArray& hash)
-{
-    ByteArrayBuilder builder;
-    builder.appendByte(screen.length());
-    builder.appendBytes(screen.toAscii());
-    builder.appendByte(0x01);
-    builder.appendWord(0x0001);
-    builder.appendByte(0x01);
-    builder.appendByte(hash.length());
-    builder.appendBytes(hash);
-    return builder.getArray();
+    manager->enqueue(BartSnacAvatarRequest::create(client(), screen, hash));
 }
 
 bool BartSnacHandler::parseAvatarPacket(const QByteArray& arr)

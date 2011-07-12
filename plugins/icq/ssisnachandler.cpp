@@ -20,7 +20,8 @@ SsiSnacHandler::SsiSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNAC
     m_maxBitmasks(0),
     m_maxPresenceInfoFields(0),
     m_maxIgnore(0),
-    m_ready(false)
+    m_hasRights(false),
+    m_contactListSyncDone(false)
 {
 }
 
@@ -84,11 +85,9 @@ bool SsiSnacHandler::parseRightsInfo(const QByteArray& data)
     parser.readBytes(8 * 2); // Skip 8 words
     m_maxIgnore = parser.readWord();
 
-    if(!m_ready)
-    {
-        m_ready = true;
+    m_hasRights = true;
+    if(isReady())
         emit ready();
-    }
 
     // The rest of data is unknown fields
     return true;
@@ -105,7 +104,13 @@ bool SsiSnacHandler::parseContactList(const QByteArray& data)
             return false;
     }
     SIM::getEventHub()->triggerEvent("contact_list_updated");
-    activate();
+    if(!m_contactListSyncDone)
+    {
+        activate();
+        m_contactListSyncDone = true;
+        if(isReady())
+            emit ready();
+    }
     return true;
 }
 
@@ -130,6 +135,7 @@ bool SsiSnacHandler::parseContactListEntry(ByteArrayParser& parser)
         return parseEntryGroup(groupId, QString::fromUtf8(entryName.data(), entryName.length()), list);
     default:
         log(L_DEBUG, "Unknown item type in SSI list: %04x", entryType);
+        break;
     }
     return true;
 }
@@ -262,12 +268,13 @@ int SsiSnacHandler::maxIgnore() const
 
 void SsiSnacHandler::forceReady()
 {
-    m_ready = true;
+    m_contactListSyncDone = true;
+    m_hasRights = true;
     emit ready();
 }
 
 
 bool SsiSnacHandler::isReady() const
 {
-    return m_ready;
+    return (m_hasRights && m_contactListSyncDone);
 }

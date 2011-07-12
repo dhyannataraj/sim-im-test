@@ -5,6 +5,7 @@
 #include "events/contactevent.h"
 #include "requests/icqrequestmanager.h"
 #include "requests/buddysnac/buddysnacrightsrequest.h"
+#include "requests/bartsnac/bartsnacavatarrequest.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
@@ -57,11 +58,48 @@ bool BuddySnacHandler::isReady()
     return m_ready;
 }
 
+void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& contact)
+{
+    QString screen = contact->getScreen();
+    ICQStatusConverter* converter = m_client->statusConverter();
+    Tlv statusTlv = list.firstTlv(TlvOnlineStatus);
+    if(statusTlv.isValid())
+    {
+        log(L_DEBUG, "Buddy online[%s] status: %08x", qPrintable(screen), statusTlv.toUint32());
+        ICQStatusPtr newStatus = converter->makeStatus(statusTlv.toUint32());
+        if(contact)
+        {
+            contact->setIcqStatus(newStatus);
+            log(L_DEBUG, "metaContactId: %08x", contact->metaContactId());
+            SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
+        }
+    }
+
+//    Tlv avatarTlv = list.firstTlv(TlvAvatar);
+//    if(avatarTlv.isValid())
+//    {
+//        parseAvatarTlv(avatarTlv, contact);
+//    }
+}
+
+void BuddySnacHandler::parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr& contact)
+{
+    ByteArrayParser parser(avatarTlv.data());
+    parser.readWord(); // Unknown bytes
+    parser.readByte(); // Unknown bytes
+    int hashLength = parser.readByte();
+    QByteArray hash = parser.readBytes(hashLength);
+
+    if(hash == contact->getAvatarHash())
+        return;
+
+    ICQRequestManager* manager = client()->requestManager();
+    manager->enqueue(BartSnacAvatarRequest::create(client(), contact->getScreen(), hash));
+}
+
 bool BuddySnacHandler::processUserOnline(const QByteArray& data)
 {
     ICQContactList* contactList = m_client->contactList();
-    ICQStatusConverter* converter = m_client->statusConverter();
-    Q_ASSERT(contactList);
 
     ByteArrayParser parser(data);
     int screenLength = parser.readByte();
@@ -75,19 +113,7 @@ bool BuddySnacHandler::processUserOnline(const QByteArray& data)
     Q_UNUSED(tlvCount);
 
     TlvList list = TlvList::fromByteArray(parser.readAll());
-
-    Tlv statusTlv = list.firstTlv(TlvOnlineStatus);
-    if(statusTlv.isValid())
-    {
-        log(L_DEBUG, "Buddy online[%s] status: %08x", qPrintable(screen), statusTlv.toUint32());
-        ICQStatusPtr newStatus = converter->makeStatus(statusTlv.toUint32());
-        if(contact)
-        {
-            contact->setIcqStatus(newStatus);
-            log(L_DEBUG, "metaContactId: %08x", contact->metaContactId());
-            SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
-        }
-    }
+    parseBuddyTlvs(list, contact);
 
     return true;
 }
