@@ -39,6 +39,7 @@ private:
     void parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr& contact);
 
     bool m_ready;
+    int m_cnt;
 };
 
 #endif // BUDDYSNACHANDLER_H

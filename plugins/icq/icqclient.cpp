@@ -1410,39 +1410,20 @@ void ICQClient::oscarSocketPacket(int channel, const QByteArray& data)
         int flags = parser.readWord();
         unsigned int requestId = parser.readDword();
         log(L_DEBUG, "Snac: %04x, subtype: %04x", food, type);
-//        if (food == ICQ_SNACxFOOD_LOCATION)
-//            snac_location(type, seq);
-//        else if (food == ICQ_SNACxFOOD_BOS)
-//            snac_bos(type, seq);
-//        else if (food == ICQ_SNACxFOOD_PING)
-//            snac_ping(type, seq);
-//        else if (food == ICQ_SNACxFOOD_LISTS)
-//            snac_lists(type, seq);
-//        else if (food == ICQ_SNACxFOOD_VARIOUS)
-//            snac_various(type, seq);
-//        else if (food == ICQ_SNACxFOOD_LOGIN)
-//            snac_login(type, seq);
-//        else
+
+        mapSnacHandlers::iterator it = m_snacHandlers.find(food);
+        if (it != m_snacHandlers.end())
         {
-            mapSnacHandlers::iterator it = m_snacHandlers.find(food);
-            if (it == m_snacHandlers.end())
-                log(L_WARN, "Unknown foodgroup %04X", food);
-            else
-            {
-//                ICQBuffer b;
-//                b.resize(size - unknown_length);
-//                b.setReadPos(0);
-//                b.setWritePos(size - unknown_length);
-                QByteArray snacData = parser.readAll();
-                it.value()->process(type, snacData, flags, requestId);
-            }
+            QByteArray snacData = parser.readAll();
+            it.value()->process(type, snacData, flags, requestId);
         }
+
+        else
+            log(L_WARN, "Unknown foodgroup %04X", food);
+
     }
     else
         log(L_ERROR, "Unknown channel %u", channel & 0xFF);
-//    socket()->readBuffer().init(6);
-//    socket()->readBuffer().packetStart();
-//    m_bHeader = true;
 }
 
 void ICQClient::loginStep2()

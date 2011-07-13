@@ -10,6 +10,7 @@
 
 #include "snac.h"
 #include "icq_defines.h"
+#include "oscarsocket.h"
 
 class ICQ_EXPORT BartSnacHandler : public SnacHandler
 {
@@ -21,14 +22,18 @@ public:
 
     void requestAvatar(const QString& screen, const QByteArray& hash);
 
+    void requestBartService();
+    void setOscarSocket(OscarSocket* socket);
+
     static const int SnacId = 0x10;
 
     static const int SnacRequestAvatar = 0x04;
     static const int SnacResponseAvatar = 0x05;
 
 private:
-
     bool parseAvatarPacket(const QByteArray& arr);
+
+    OscarSocket* m_socket;
 };
 
 #endif /* BARTSNACHANDLER_H_ */

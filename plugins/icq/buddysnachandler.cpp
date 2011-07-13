@@ -12,7 +12,7 @@ using SIM::L_DEBUG;
 using SIM::L_WARN;
 
 BuddySnacHandler::BuddySnacHandler(ICQClient* client) : SnacHandler(client, SnacId),
-    m_ready(false)
+    m_ready(false), m_cnt(0)
 {
 }
 
@@ -75,11 +75,11 @@ void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& 
         }
     }
 
-//    Tlv avatarTlv = list.firstTlv(TlvAvatar);
-//    if(avatarTlv.isValid())
-//    {
-//        parseAvatarTlv(avatarTlv, contact);
-//    }
+    Tlv avatarTlv = list.firstTlv(TlvAvatar);
+    if(avatarTlv.isValid())
+    {
+        parseAvatarTlv(avatarTlv, contact);
+    }
 }
 
 void BuddySnacHandler::parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr& contact)
@@ -104,9 +104,15 @@ bool BuddySnacHandler::processUserOnline(const QByteArray& data)
     ByteArrayParser parser(data);
     int screenLength = parser.readByte();
     QByteArray screenRaw = parser.readBytes(screenLength);
-    QString screen(screenRaw); // TODO test it
+    QString screen(screenRaw);
 
     ICQContactPtr contact = contactList->contactByScreen(screen);
+    if(!contact)
+    {
+        // TODO check if it's in ignore list
+        log(L_WARN, "Contact not in contact list: %s", qPrintable(screen));
+        return false;
+    }
 
     parser.readWord(); // Read Warning level and discard it
     int tlvCount = parser.readWord();

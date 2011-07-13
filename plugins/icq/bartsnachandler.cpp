@@ -9,13 +9,16 @@
 #include "icqclient.h"
 #include "bytearraybuilder.h"
 #include "requests/bartsnac/bartsnacavatarrequest.h"
+#include "standardoscarsocket.h"
 
 BartSnacHandler::BartSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_SSI)
 {
+    m_socket = new StandardOscarSocket();
 }
 
 BartSnacHandler::~BartSnacHandler()
 {
+    delete m_socket;
 }
 
 bool BartSnacHandler::process(unsigned short subtype, const QByteArray & data, int flags, unsigned int requestId)
@@ -36,6 +39,18 @@ void BartSnacHandler::requestAvatar(const QString& screen, const QByteArray& has
     Q_ASSERT(manager);
 
     manager->enqueue(BartSnacAvatarRequest::create(client(), screen, hash));
+}
+
+void BartSnacHandler::requestBartService()
+{
+
+}
+
+void BartSnacHandler::setOscarSocket(OscarSocket* socket)
+{
+    if(m_socket)
+        delete m_socket;
+    m_socket = socket;
 }
 
 bool BartSnacHandler::parseAvatarPacket(const QByteArray& arr)
