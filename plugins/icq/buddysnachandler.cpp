@@ -75,11 +75,12 @@ void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& 
         }
     }
 
-    Tlv avatarTlv = list.firstTlv(TlvAvatar);
-    if(avatarTlv.isValid())
-    {
-        parseAvatarTlv(avatarTlv, contact);
-    }
+    // FIXME commented out because of server disconnect
+//    Tlv avatarTlv = list.firstTlv(TlvAvatar);
+//    if(avatarTlv.isValid())
+//    {
+//        parseAvatarTlv(avatarTlv, contact);
+//    }
 }
 
 void BuddySnacHandler::parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr& contact)
