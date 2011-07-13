@@ -6,7 +6,7 @@
 	ProjectGUID="{8BBCEA02-4F54-461C-9287-BCF3AD0A2DF0}"
 	RootNamespace="gmock_test"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="0"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -23,6 +23,7 @@
 			ConfigurationType="1"
 			InheritedPropertySheets=".\gmock_config.vsprops;$(SolutionDir)sim\win32\sim-default.vsprops"
 			CharacterSet="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -44,12 +45,13 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)sim\simgui&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4561"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -62,8 +64,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib C:\libraries\gmock-1.5.0\msvc\Debug\gmock.lib C:\libraries\gtest-1.5.0\msvc\gtest-md\Debug\gtestd.lib"
+				AdditionalOptions="/FORCE:MULTIPLE /ENTRY:mainCRTStartup"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)$(ConfigurationName)\gmock.lib $(SolutionDir)$(ConfigurationName)\gtestd.lib"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -177,6 +181,10 @@
 			ReferencedProjectIdentifier="{C152FFE3-3C84-4957-BDCC-63334E6FFA9E}"
 			RelativePathToProject=".\sim.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{C8F6C172-56F2-4E76-B5FA-C3B423B31BE7}"
+			RelativePathToProject=".\testing\gtest.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -184,6 +192,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\sim\tests\gtest-qt.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\sim\tests\test.cpp"
 				>
@@ -194,10 +206,6 @@
 			</File>
 			<File
 				RelativePath="..\sim\tests\testclientmanager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\sim\tests\testcommandhub.cpp"
 				>
 			</File>
 			<File
@@ -262,6 +270,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\sim\tests\gtest-qt.h"
+				>
+			</File>
 			<File
 				RelativePath="..\sim\tests\teststandardmessageoutpipe.h"
 				>

@@ -23,6 +23,7 @@
 			ConfigurationType="1"
 			InheritedPropertySheets=".\gmock_config.vsprops;$(SolutionDir)sim\win32\sim-default.vsprops"
 			CharacterSet="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -44,8 +45,8 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -63,10 +64,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)$(ConfigurationName)\plugins\icq.lib C:\libraries\gmock-1.5.0\msvc\Debug\gmock.lib C:\libraries\gtest-1.5.0\msvc\gtest-md\Debug\gtestd.lib"
+				AdditionalOptions="/FORCE:MULTIPLE /ENTRY:mainCRTStartup"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)$(ConfigurationName)\plugins\icq.lib $(SolutionDir)$(ConfigurationName)\gmock.lib $(SolutionDir)$(ConfigurationName)\gtestd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
+				AssemblyDebug="1"
 				SubSystem="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -299,6 +302,26 @@
 			<File
 				RelativePath="..\plugins\icq\tests\signalspy.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\testauthorizationsnachandler.h"
@@ -348,6 +371,10 @@
 		<Filter
 			Name="generated"
 			>
+			<File
+				RelativePath="..\plugins\icq\tests\moc_signalspy.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\plugins\icq\tests\moc_testoscarsocket.cpp"
 				>

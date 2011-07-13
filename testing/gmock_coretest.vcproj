@@ -63,7 +63,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				AdditionalOptions="/FORCE:MULTIPLE /ENTRY:mainCRTStartup"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)$(ConfigurationName)\gmock.lib $(SolutionDir)$(ConfigurationName)\gtestd.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
