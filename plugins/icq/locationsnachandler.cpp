@@ -5,6 +5,7 @@
 #include "requests/locationsnac/locationsnacsetuserinforequest.h"
 
 using SIM::log;
+using SIM::L_DEBUG;
 using SIM::L_WARN;
 
 LocationSnacHandler::LocationSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_LOCATION),
@@ -86,6 +87,7 @@ bool LocationSnacHandler::sendUserInfo()
     manager->enqueue(LocationSnacSetUserInfoRequest::create(client(), caps));
 
     m_ready = true;
+    log(L_DEBUG, "Location snac ready");
     emit ready();
 
     return true;

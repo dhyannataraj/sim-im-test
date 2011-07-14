@@ -214,7 +214,7 @@ void BartSnacHandler::sendCapabilities()
     builder.appendWord(SnacId);
     builder.appendWord(0x01);
     builder.appendWord(ServiceSnacHandler::SnacId);
-    builder.appendByte(0x03);
+    builder.appendWord(0x03);
     m_socket->snac(ServiceSnacHandler::SnacId, ServiceSnacHandler::SnacServiceCapabilities, 0, builder.getArray());
 }
 

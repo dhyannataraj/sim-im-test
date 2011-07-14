@@ -1465,6 +1465,7 @@ void ICQClient::snacReady()
 
 void ICQClient::loginStep3()
 {
+    log(L_DEBUG, "Login, step3");
     m_serviceSnac->sendLoginStatus();
     m_serviceSnac->sendClientReady();
     m_bartSnac->requestBartService();

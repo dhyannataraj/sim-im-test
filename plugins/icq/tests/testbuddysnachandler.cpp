@@ -154,18 +154,25 @@ namespace
     }
 
     // Disabled, because of server disconnects
-    TEST_F(TestBuddySnacHandler, DISABLED_contactOnlineWithNewAvatarHash_requestsAvatar)
+    TEST_F(TestBuddySnacHandler, contactOnlineWithNewAvatarHash_requestsAvatar)
     {
-        EXPECT_CALL(*socket, snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, _, _));
+        NiceMock<MockObjects::MockOscarSocket>* bartSocket = new NiceMock<MockObjects::MockOscarSocket>();
+        ON_CALL(*bartSocket, isConnected()).WillByDefault(Return(true));
+        client->bartSnacHandler()->setOscarSocket(bartSocket);
+        EXPECT_CALL(*bartSocket, snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, _, _));
 
         bool success = handler->process(BuddySnacHandler::SnacBuddyUserOnline, makeOnlineBuddyPacket(), 0, 0);
         EXPECT_TRUE(success);
     }
 
-    TEST_F(TestBuddySnacHandler, DISABLED_contactOnlineWithOldAvatarHash_doesntRequestAvatar)
+    TEST_F(TestBuddySnacHandler, contactOnlineWithOldAvatarHash_doesntRequestAvatar)
     {
+        NiceMock<MockObjects::MockOscarSocket>* bartSocket = new NiceMock<MockObjects::MockOscarSocket>();
+        ON_CALL(*bartSocket, isConnected()).WillByDefault(Return(true));
+        client->bartSnacHandler()->setOscarSocket(bartSocket);
+
         contact->setAvatarHash(ContactAvatarHash);
-        EXPECT_CALL(*socket, snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, _, _)).Times(0);
+        EXPECT_CALL(*bartSocket, snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, _, _)).Times(0);
 
         bool success = handler->process(BuddySnacHandler::SnacBuddyUserOnline, makeOnlineBuddyPacket(), 0, 0);
         EXPECT_TRUE(success);

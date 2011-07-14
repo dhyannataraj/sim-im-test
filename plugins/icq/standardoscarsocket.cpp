@@ -41,7 +41,7 @@ void StandardOscarSocket::disconnectFromHost()
 
 bool StandardOscarSocket::isConnected()
 {
-    return false;
+    return m_socket->isConnected();
 }
 
 void StandardOscarSocket::flap(int channel, const QByteArray& data)

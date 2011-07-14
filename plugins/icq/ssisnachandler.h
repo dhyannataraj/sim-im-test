@@ -71,7 +71,7 @@ signals:
 
 private:
     bool parseRightsInfo(const QByteArray& data);
-    bool parseContactList(const QByteArray& data);
+    bool parseContactList(const QByteArray& data, bool lastPacket);
     bool parseContactListEntry(ByteArrayParser& parser);
     bool parseEntryContact(int contactId, const QString& contactName, int groupId, const TlvList& list);
     bool parseEntryGroup(int groupId, const QString& groupName, const TlvList& list);

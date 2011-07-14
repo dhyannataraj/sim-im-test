@@ -2,6 +2,7 @@
 #include "icqclient.h"
 
 using SIM::log;
+using SIM::L_DEBUG;
 using SIM::L_WARN;
 
 PrivacySnacHandler::PrivacySnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_BOS),
@@ -36,6 +37,7 @@ void PrivacySnacHandler::requestRights()
 void PrivacySnacHandler::forceReady()
 {
     m_ready = true;
+    log(L_DEBUG, "Privacy snac ready");
     emit ready();
 }
 

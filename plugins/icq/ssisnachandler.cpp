@@ -34,7 +34,7 @@ bool SsiSnacHandler::process(unsigned short subtype, const QByteArray& data, int
     case SnacSsiRightsInfo:
         return parseRightsInfo(data);
     case SnacSsiContactList:
-        return parseContactList(data);
+        return parseContactList(data, (flags & 0x0001) == 0); // FIXME hardcoded const
     }
 
     return false;
@@ -87,14 +87,18 @@ bool SsiSnacHandler::parseRightsInfo(const QByteArray& data)
 
     m_hasRights = true;
     if(isReady())
+    {
+        log(L_DEBUG, "SSI snac ready");
         emit ready();
+    }
 
     // The rest of data is unknown fields
     return true;
 }
 
-bool SsiSnacHandler::parseContactList(const QByteArray& data)
+bool SsiSnacHandler::parseContactList(const QByteArray& data, bool lastPacket)
 {
+    log(L_DEBUG, "SsiSnacHandler::parseContactList");
     ByteArrayParser parser(data);
     int version = parser.readByte();
     int objects = parser.readWord();
@@ -104,12 +108,18 @@ bool SsiSnacHandler::parseContactList(const QByteArray& data)
             return false;
     }
     SIM::getEventHub()->triggerEvent("contact_list_updated");
+    if(!lastPacket)
+        return true;
+
     if(!m_contactListSyncDone)
     {
         activate();
         m_contactListSyncDone = true;
         if(isReady())
+        {
+            log(L_DEBUG, "SSI snac ready");
             emit ready();
+        }
     }
     return true;
 }

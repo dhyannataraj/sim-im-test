@@ -36,6 +36,7 @@ bool IcbmSnacHandler::process(unsigned short subtype, const QByteArray& data, in
             m_params.maxReceiverWarnLevel = 0x30e7;
 
             m_ready = true;
+            log(L_DEBUG, "ICBM snac ready");
             emit ready();
 
             return sendNewParametersInfo();

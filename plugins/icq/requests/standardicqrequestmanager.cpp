@@ -7,6 +7,10 @@
 #include "standardicqrequestmanager.h"
 #include "../icqclient.h"
 #include "oscarsocket.h"
+#include "log.h"
+
+using SIM::log;
+using SIM::L_DEBUG;
 
 StandardICQRequestManager::StandardICQRequestManager()
 {
@@ -26,6 +30,7 @@ void StandardICQRequestManager::enqueue(const ICQRequestPtr& request)
     }
     else
     {
+        log(L_DEBUG, "StandardICQRequestManager::enqueue unconnected socket");
         m_requests.enqueue(request);
     }
 }

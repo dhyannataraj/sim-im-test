@@ -27,6 +27,7 @@ bool BuddySnacHandler::process(unsigned short subtype, const QByteArray& data, i
         break;
     case SnacBuddyRights:
         {
+            log(L_DEBUG, "Buddy snac ready");
             m_ready = true;
             emit ready();
         }
@@ -76,11 +77,11 @@ void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& 
     }
 
     // FIXME commented out because of server disconnect
-//    Tlv avatarTlv = list.firstTlv(TlvAvatar);
-//    if(avatarTlv.isValid())
-//    {
-//        parseAvatarTlv(avatarTlv, contact);
-//    }
+    Tlv avatarTlv = list.firstTlv(TlvAvatar);
+    if(avatarTlv.isValid())
+    {
+        parseAvatarTlv(avatarTlv, contact);
+    }
 }
 
 void BuddySnacHandler::parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr& contact)
@@ -94,8 +95,7 @@ void BuddySnacHandler::parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr&
     if(hash == contact->getAvatarHash())
         return;
 
-    ICQRequestManager* manager = client()->requestManager();
-    manager->enqueue(BartSnacAvatarRequest::create(client(), contact->getScreen(), hash));
+    client()->bartSnacHandler()->requestAvatar(contact->getScreen(), hash);
 }
 
 bool BuddySnacHandler::processUserOnline(const QByteArray& data)
