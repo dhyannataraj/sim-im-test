@@ -1183,6 +1183,26 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="servicesnac"
+				>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\requests\servicesnac\servicesnacservicerequest.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\requests\servicesnac\servicesnacservicerequest.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -363,6 +363,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\plugins\icq\tests\mocks\mockicqrequestmanager.h"
+					>
+				</File>
+				<File
 					RelativePath="..\plugins\icq\tests\mocks\mockoscarsocket.h"
 					>
 				</File>
