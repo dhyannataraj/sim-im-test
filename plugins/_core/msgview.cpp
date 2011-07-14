@@ -1357,6 +1357,11 @@ void MsgView::refreshContent()
 
     QString transformed = m_xsl->process(content);
     setHtml(transformed);
+
+    QScrollBar *sbar = verticalScrollBar();
+    if( sbar ) 
+       sbar->setValue( sbar->maximum() );
+    
 }
 
 QString MsgView::makeHeader()
