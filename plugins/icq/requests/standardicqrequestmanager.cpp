@@ -6,7 +6,7 @@
 
 #include "standardicqrequestmanager.h"
 #include "../icqclient.h"
-#include "oscarsocket.h"
+#include "../oscarsocket.h"
 #include "log.h"
 
 using SIM::log;

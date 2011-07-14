@@ -5,8 +5,8 @@
  */
 
 #include "servicesnacservicerequest.h"
-#include "icqclient.h"
-#include "bytearraybuilder.h"
+#include "../../icqclient.h"
+#include "../../bytearraybuilder.h"
 
 ICQRequestPtr ServiceSnacServiceRequest::create(ICQClient* client, int serviceId)
 {

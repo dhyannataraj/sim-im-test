@@ -7,8 +7,8 @@
 #ifndef SERVICESNACSERVICEREQUEST_H_
 #define SERVICESNACSERVICEREQUEST_H_
 
-#include "requests/icqrequest.h"
-#include "icq_defines.h"
+#include "../icqrequest.h"
+#include "../../icq_defines.h"
 
 class ICQClient;
 class ICQ_EXPORT ServiceSnacServiceRequest : public ICQRequest
