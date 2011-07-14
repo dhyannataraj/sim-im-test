@@ -259,6 +259,7 @@ SET(sim_tests_srcs
     tests/teststandardmessageoutpipe.cpp
     tests/testimcontactid.cpp
     tests/teststandardavatarstorage.cpp
+    tests/teststandardprofilemanager.cpp
 )
 
 

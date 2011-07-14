@@ -12,6 +12,7 @@
 #include "contacts/imcontactid.h"
 #include "imagestorage/standardavatarstorage.h"
 #include "mocks/mockprofilemanager.h"
+#include "stubs/stubimagestorage.h"
 #include "gtest-qt.h"
 
 namespace
@@ -56,7 +57,9 @@ namespace
         virtual void SetUp()
         {
             profileManager = new NiceMock<MockObjects::MockProfileManager>();
+            imagestorage  = new StubObjects::StubImageStorage();
             SIM::setProfileManager(profileManager);
+            SIM::setImageStorage(imagestorage);
             ON_CALL(*profileManager, profilePath()).WillByDefault(Return(ProfileBasePath));
             storage = new StandardAvatarStorage();
         }
@@ -65,6 +68,7 @@ namespace
         {
             delete storage;
             SIM::setProfileManager(0);
+            SIM::destroyImageStorage();
         }
 
         QString picturesBasePath()
@@ -74,6 +78,7 @@ namespace
 
         NiceMock<MockObjects::MockProfileManager>* profileManager;
         StandardAvatarStorage* storage;
+        StubObjects::StubImageStorage *imagestorage;
     };
 
     TEST_F(TestStandardAvatarStorage, addAvatar_savesFile)
