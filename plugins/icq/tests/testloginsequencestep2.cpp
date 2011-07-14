@@ -7,6 +7,7 @@ namespace
 {
     using ::testing::_;
     using ::testing::AnyNumber;
+    using ::testing::Return;
     class TestLoginSequenceStep2 : public ::testing::Test
     {
     protected:
@@ -16,6 +17,7 @@ namespace
             socket = new MockObjects::MockOscarSocket();
             client = new ICQClient(0, "ICQ.123456", false);
             client->setOscarSocket(socket);
+            ON_CALL(*socket, isConnected()).WillByDefault(Return(true));
         }
 
         virtual void TearDown()

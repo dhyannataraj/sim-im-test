@@ -21,6 +21,11 @@ namespace MockObjects
             m_write.open(QIODevice::WriteOnly);
         }
 
+        virtual bool isConnected()
+        {
+            return true;
+        }
+
         virtual qint64 read(char* data, qint64 maxSize)
         {
             return m_read.read(data, maxSize);

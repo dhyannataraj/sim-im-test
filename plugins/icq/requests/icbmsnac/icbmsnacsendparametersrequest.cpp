@@ -26,11 +26,8 @@ IcbmSnacSendParametersRequest::~IcbmSnacSendParametersRequest()
 {
 }
 
-void IcbmSnacSendParametersRequest::perform()
+void IcbmSnacSendParametersRequest::perform(OscarSocket* socket)
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
-
     ByteArrayBuilder builder;
 
     builder.appendWord(m_channel);

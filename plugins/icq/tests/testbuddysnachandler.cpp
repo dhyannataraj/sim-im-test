@@ -20,6 +20,7 @@ namespace
 {
     using ::testing::NiceMock;
     using ::testing::_;
+    using ::testing::Return;
 
     static const QByteArray ContactTextUin("123456789", 9);
     static const int ContactUin = 123456789;
@@ -39,6 +40,7 @@ namespace
         {
             SIM::createContactList();
             socket = new NiceMock<MockObjects::MockOscarSocket>();
+            ON_CALL(*socket, isConnected()).WillByDefault(Return(true));
             client = new ICQClient(0, "ICQ.123456", false);
             client->setOscarSocket(socket);
 
@@ -174,6 +176,6 @@ namespace
         ICQRequestPtr rq = BuddySnacRightsRequest::create(client);
         EXPECT_CALL(*socket, snac(handler->getType(), BuddySnacHandler::SnacBuddyRightsRequest, _, _));
 
-        rq->perform();
+        rq->perform(socket);
     }
 }

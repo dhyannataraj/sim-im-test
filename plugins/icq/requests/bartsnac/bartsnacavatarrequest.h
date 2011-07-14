@@ -8,6 +8,7 @@
 #define BARTSNACAVATARREQUEST_H_
 
 #include "../icqrequest.h"
+#include "requests/icqrequestmanager.h"
 
 class ICQClient;
 class BartSnacAvatarRequest : public ICQRequest
@@ -16,7 +17,7 @@ public:
     static ICQRequestPtr create(ICQClient* client, const QString& screen, const QByteArray& avatarHash);
     virtual ~BartSnacAvatarRequest();
 
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     BartSnacAvatarRequest(ICQClient* client, const QString& screen, const QByteArray& avatarHash);

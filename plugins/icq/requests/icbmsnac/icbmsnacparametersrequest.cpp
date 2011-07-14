@@ -21,11 +21,8 @@ IcbmSnacParametersRequest::~IcbmSnacParametersRequest()
 {
 }
 
-void IcbmSnacParametersRequest::perform()
+void IcbmSnacParametersRequest::perform(OscarSocket* socket)
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
-
     socket->snac(IcbmSnacHandler::SnacId, IcbmSnacHandler::SnacIcbmParametersInfoRequest, 0, QByteArray());
 }
 

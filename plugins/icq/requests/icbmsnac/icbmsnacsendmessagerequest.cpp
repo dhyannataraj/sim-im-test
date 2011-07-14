@@ -26,7 +26,7 @@ IcbmSnacSendMessageRequest::~IcbmSnacSendMessageRequest()
 {
 }
 
-void IcbmSnacSendMessageRequest::perform()
+void IcbmSnacSendMessageRequest::perform(OscarSocket* socket)
 {
     ICQContactPtr contact = m_message->targetContact().toStrongRef().dynamicCast<ICQContact>();
     if(!contact)
@@ -34,9 +34,6 @@ void IcbmSnacSendMessageRequest::perform()
         log(L_WARN, "IcbmSnacHandler::sendMessage(): Unable to cast IMContact");
         return; // TODO signal error
     }
-
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
 
     QByteArray packet = makeSendPlainTextPacket(m_message);
 

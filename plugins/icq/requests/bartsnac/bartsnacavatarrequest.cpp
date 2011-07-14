@@ -23,10 +23,9 @@ BartSnacAvatarRequest::~BartSnacAvatarRequest()
 {
 }
 
-void BartSnacAvatarRequest::perform()
+void BartSnacAvatarRequest::perform(OscarSocket* socket)
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
+    //OscarSocket* socket = m_client->bartSnacHandler()->oscarSocket();
 
     socket->snac(BartSnacHandler::SnacId, BartSnacHandler::SnacRequestAvatar, 0, makeRequestAvatarPacket(m_screen, m_hash));
 }

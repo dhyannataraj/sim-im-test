@@ -16,7 +16,7 @@ public:
     static ICQRequestPtr create(ICQClient* client);
     virtual ~LocationSnacRightsRequest();
 
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     LocationSnacRightsRequest(ICQClient* client);

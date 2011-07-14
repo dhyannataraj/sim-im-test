@@ -11,12 +11,13 @@
 #include <QSharedPointer>
 #include "../icq_defines.h"
 
+class OscarSocket;
 class ICQ_EXPORT ICQRequest
 {
 public:
     virtual ~ICQRequest() {}
 
-    virtual void perform() = 0;
+    virtual void perform(OscarSocket* socket) = 0;
 };
 
 typedef QSharedPointer<ICQRequest> ICQRequestPtr;

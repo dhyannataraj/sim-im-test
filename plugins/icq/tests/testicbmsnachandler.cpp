@@ -33,6 +33,7 @@ namespace
         virtual void SetUp()
         {
             socket = new NiceMock<MockObjects::MockOscarSocket>();
+            ON_CALL(*socket, isConnected()).WillByDefault(Return(true));
             client = new ICQClient(0, "ICQ.123456", false);
             client->setOscarSocket(socket);
             contact = ICQContactPtr(new ICQContact(client));
@@ -219,7 +220,7 @@ namespace
         ICQRequestPtr rq = IcbmSnacParametersRequest::create(client);
         EXPECT_CALL(*socket, snac(IcbmSnacHandler::SnacId, IcbmSnacHandler::SnacIcbmParametersInfoRequest, _, _));
 
-        rq->perform();
+        rq->perform(socket);
     }
 
     TEST_F(TestIcbmSnacHandler, Request_sendNewParameters)
@@ -228,7 +229,7 @@ namespace
         ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client, 0, params);
         EXPECT_CALL(*socket, snac(IcbmSnacHandler::SnacId, IcbmSnacHandler::SnacIcbmSetParameters, _, _));
 
-        rq->perform();
+        rq->perform(socket);
     }
 
     TEST_F(TestIcbmSnacHandler, Request_sendNewParameters_packetStructure)
@@ -237,6 +238,6 @@ namespace
         ICQRequestPtr rq = IcbmSnacSendParametersRequest::create(client, 0, params);
         EXPECT_CALL(*socket, snac(IcbmSnacHandler::SnacId, IcbmSnacHandler::SnacIcbmSetParameters, _, makeParametersInfoPacket(0, params)));
 
-        rq->perform();
+        rq->perform(socket);
     }
 }

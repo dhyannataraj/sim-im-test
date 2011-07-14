@@ -15,6 +15,7 @@ namespace
     using ::testing::_;
     using ::testing::NiceMock;
     using ::testing::InSequence;
+    using ::testing::AnyNumber;
     class TestIcqClient : public ::testing::Test
     {
     protected:
@@ -91,13 +92,16 @@ namespace
         client->changeStatus(client->getDefaultStatus("online"));
     }
 
-    TEST_F(TestIcqClient, allSnacsReady_sendsSetStatus_sendsReady)
+    TEST_F(TestIcqClient, allSnacsReady_sendsSetStatus_sendsReady_requestsSerivces)
     {
         NiceMock<MockOscarSocket>* oscarSocket = new NiceMock<MockObjects::MockOscarSocket>();
         client->setOscarSocket(oscarSocket);
 
-        EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceSetStatus, _, _));
-        EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceReady, _, _));
+        {
+            EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceSetStatus, _, _));
+            EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceReady, _, _));
+            EXPECT_CALL(*oscarSocket, snac(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceRequestService, _, _)).Times(AnyNumber());
+        }
 
         forceAllSnacsReady();
     }

@@ -632,9 +632,11 @@ public:
     void setOscarSocket(OscarSocket* socket);
     OscarSocket* oscarSocket() const;
 
+    void setRequestManager(ICQRequestManager* manager);
     ICQRequestManager* requestManager() const;
 
     SnacHandler* snacHandler(int type);
+    BartSnacHandler* bartSnacHandler() const;
 
     ICQContactList* contactList() const;
     ICQStatusConverter* statusConverter() const;
@@ -729,6 +731,7 @@ protected slots:
     void oscarSocketPacket(int channel, const QByteArray& data);
     void loginStep2();
     void snacReady();
+    void serviceAvailable(int serviceId, const QString& address, const QByteArray& authCookie);
 //    void ping();
 //    void retry(int n, void*);
 //    void interfaceDown(QString);

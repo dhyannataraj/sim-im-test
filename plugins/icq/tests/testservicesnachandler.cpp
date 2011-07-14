@@ -1,14 +1,21 @@
 #include <gtest/gtest.h>
+#include <QSignalSpy>
 #include "mocks/mockoscarsocket.h"
 #include "icqclient.h"
 #include "servicesnachandler.h"
 #include "rateinfo.h"
+#include "requests/servicesnac/servicesnacservicerequest.h"
 
 namespace
 {
     using ::testing::_;
     using ::testing::AnyNumber;
     using ::testing::NiceMock;
+
+    static const int TestServiceId = 0x10;
+    static const QString ServiceAddress = "192.168.1.1:5190";
+    static const QByteArray ServiceCookie = QByteArray(16, 0x12);
+
     class TestServiceSnacHandler : public ::testing::Test
     {
     protected:
@@ -78,6 +85,17 @@ namespace
             return QByteArray("\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05", 10);
         }
 
+        QByteArray makeServiceResponsePacket()
+        {
+            TlvList tlvs;
+
+            tlvs.append(Tlv::fromUint16(ServiceSnacHandler::TlvServiceId, TestServiceId));
+            tlvs.append(Tlv(ServiceSnacHandler::TlvServiceAddress, ServiceAddress.toAscii()));
+            tlvs.append(Tlv(ServiceSnacHandler::TlvAuthCookie, ServiceCookie));
+
+            return tlvs.toByteArray();
+        }
+
         ICQClient* client;
         NiceMock<MockObjects::MockOscarSocket>* socket;
         ServiceSnacHandler* handler;
@@ -114,5 +132,22 @@ namespace
         RateInfoPtr info = handler->rateInfo(1);
         ASSERT_TRUE(info);
         ASSERT_TRUE(info->hasSnac(0x0001, 0x0002));
+    }
+
+    TEST_F(TestServiceSnacHandler, incomingServerPacket_emitsSignal)
+    {
+        QSignalSpy spy(handler, SIGNAL(serviceAvailable(int,QString,QByteArray)));
+
+        handler->process(ServiceSnacHandler::SnacServiceAvailable, makeServiceResponsePacket(), 0, 0);
+
+        ASSERT_EQ(1, spy.count());
+    }
+
+    TEST_F(TestServiceSnacHandler, Request_serviceRequest_sendsSnac)
+    {
+        EXPECT_CALL(*socket, snac(ServiceSnacHandler::SnacId, ServiceSnacHandler::SnacServiceRequestService, _, _));
+
+        ICQRequestPtr rq = ServiceSnacServiceRequest::create(client, 0x10);
+        rq->perform(socket);
     }
 }

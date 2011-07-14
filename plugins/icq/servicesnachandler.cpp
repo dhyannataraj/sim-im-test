@@ -6,6 +6,7 @@
 
 using SIM::log;
 using SIM::L_DEBUG;
+using SIM::L_WARN;
 using SIM::L_ERROR;
 
 ServiceSnacHandler::ServiceSnacHandler(ICQClient* client) : SnacHandler(client, ICQ_SNACxFOOD_SERVICE)
@@ -14,10 +15,22 @@ ServiceSnacHandler::ServiceSnacHandler(ICQClient* client) : SnacHandler(client, 
 
 bool ServiceSnacHandler::process(unsigned short subtype, const QByteArray& data, int flags, unsigned int requestId)
 {
+    // TODO move to ICQClient
+    QByteArray realData = data;
+    if(flags & 0x8000) // FIXME hardcoded
+    {
+        ByteArrayParser parser(data);
+        int length = parser.readWord();
+        parser.readBytes(length);
+        realData = parser.readAll();
+    }
     switch(subtype)
     {
     case SnacServiceServerReady:
-        return sendServices(data);
+        return sendServices(realData);
+
+    case SnacServiceAvailable:
+        return handleServiceResponse(realData);
 
     case SnacServiceCapabilitiesAck:
         return requestRateInfo();
@@ -95,6 +108,42 @@ bool ServiceSnacHandler::parseRateInfo(const QByteArray& data)
     }
 
     socket->snac(getType(), SnacServiceRateInfoAck, 0, builder.getArray());
+    return true;
+}
+
+bool ServiceSnacHandler::handleServiceResponse(const QByteArray& data)
+{
+    log(L_DEBUG, "ServiceSnacHandler::handleServiceResponse: %s", data.toHex().data());
+    TlvList tlvs = TlvList::fromByteArray(data);
+
+    Tlv serviceIdTlv = tlvs.firstTlv(TlvServiceId);
+    if(!serviceIdTlv.isValid())
+    {
+        log(L_WARN, "ServiceSnacHandler::handleServiceResponse: No service Tlv");
+        return false;
+    }
+    int serviceId = serviceIdTlv.toUint16();
+
+    Tlv serviceAddressTlv = tlvs.firstTlv(TlvServiceAddress);
+    if(!serviceAddressTlv.isValid())
+    {
+        log(L_WARN, "ServiceSnacHandler::handleServiceResponse: No address Tlv");
+        return false;
+    }
+    QString serviceAddress = QString(serviceAddressTlv.data());
+
+    Tlv authCookieTlv = tlvs.firstTlv(TlvAuthCookie);
+    if(!authCookieTlv.isValid())
+    {
+        log(L_WARN, "ServiceSnacHandler::handleServiceResponse: No cookie Tlv");
+        return false;
+    }
+    QByteArray authCookie = authCookieTlv.data();
+
+    log(L_DEBUG, "ServiceSnacHandler::handleServiceResponse emit");
+
+    emit serviceAvailable(serviceId, serviceAddress, authCookie);
+
     return true;
 }
 

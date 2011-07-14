@@ -15,6 +15,8 @@ namespace SIM
         virtual void connectToHost(const QString& host, int port) = 0;
         virtual void disconnectFromHost() = 0;
 
+        virtual bool isConnected() = 0;
+
         virtual qint64 read(char* data, qint64 maxSize) = 0;
         virtual QByteArray read(qint64 maxSize) = 0;
 

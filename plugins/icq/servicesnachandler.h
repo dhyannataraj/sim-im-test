@@ -23,8 +23,12 @@ public:
 
     RateInfoPtr rateInfo(int group) const;
 
+    static const int SnacId = 0x01;
+
     static const int SnacServiceReady = 0x0002;
     static const int SnacServiceServerReady = 0x0003;
+    static const int SnacServiceRequestService = 0x0004;
+    static const int SnacServiceAvailable = 0x0005;
     static const int SnacServiceRateInfoRequest = 0x0006;
     static const int SnacServiceRateInfo = 0x0007;
     static const int SnacServiceRateInfoAck = 0x0008;
@@ -35,13 +39,19 @@ public:
 
     static const int TlvOnlineStatus = 0x0006;
 
+    static const int TlvServiceId = 0x0d;
+    static const int TlvServiceAddress = 0x05;
+    static const int TlvAuthCookie = 0x06;
+
 signals:
     void initiateLoginStep2();
+    void serviceAvailable(int serviceId, const QString& address, const QByteArray& cookie);
 
 private:
     bool sendServices(const QByteArray& data);
     bool requestRateInfo();
     bool parseRateInfo(const QByteArray& data);
+    bool handleServiceResponse(const QByteArray& data);
     RateInfoPtr readNextRateInfoClass(ByteArrayParser& parser);
     int readNextRateInfoGroup(ByteArrayParser& parser);
 

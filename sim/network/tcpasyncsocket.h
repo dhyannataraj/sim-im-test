@@ -17,6 +17,8 @@ public:
     virtual void connectToHost(const QString& host, int port);
     virtual void disconnectFromHost();
 
+    virtual bool isConnected();
+
     virtual qint64 read(char* data, qint64 maxSize);
     virtual QByteArray read(qint64 maxSize);
 

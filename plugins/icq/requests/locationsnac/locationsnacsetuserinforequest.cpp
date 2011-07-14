@@ -21,11 +21,8 @@ LocationSnacSetUserInfoRequest::~LocationSnacSetUserInfoRequest()
 {
 }
 
-void LocationSnacSetUserInfoRequest::perform()
+void LocationSnacSetUserInfoRequest::perform(OscarSocket* socket)
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
-
     TlvList list;
     list.append(Tlv(LocationSnacHandler::TlvClientCapabilities, m_caps));
 

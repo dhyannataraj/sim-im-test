@@ -16,7 +16,7 @@ class ICQ_EXPORT LocationSnacSetUserInfoRequest : public ICQRequest
 public:
     static ICQRequestPtr create(ICQClient* client, const QByteArray& caps);
     virtual ~LocationSnacSetUserInfoRequest();
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     LocationSnacSetUserInfoRequest(ICQClient* client, const QByteArray& caps);

@@ -20,7 +20,7 @@ public:
     static ICQRequestPtr create(ICQClient* client);
     virtual ~BuddySnacRightsRequest();
 
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     BuddySnacRightsRequest(ICQClient* client);

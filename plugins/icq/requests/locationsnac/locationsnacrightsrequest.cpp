@@ -21,10 +21,7 @@ LocationSnacRightsRequest::~LocationSnacRightsRequest()
 {
 }
 
-void LocationSnacRightsRequest::perform()
+void LocationSnacRightsRequest::perform(OscarSocket* socket)
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
-
     socket->snac(LocationSnacHandler::SnacId, LocationSnacHandler::SnacLocationRightsRequest, 0, QByteArray());
 }

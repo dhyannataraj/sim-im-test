@@ -14,6 +14,8 @@ public:
     virtual void connectToHost(const QString& host, int port) = 0;
     virtual void disconnectFromHost() = 0;
 
+    virtual bool isConnected() = 0;
+
     virtual void flap(int channel, const QByteArray& data) = 0;
     virtual void snac(int type, int subtype, int requestId, const QByteArray& data) = 0;
 

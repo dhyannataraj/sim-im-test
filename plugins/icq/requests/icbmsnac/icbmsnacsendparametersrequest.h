@@ -19,7 +19,7 @@ public:
     static ICQRequestPtr create(ICQClient* client, int channel, const IcbmSnacHandler::IcbmParameters& newParameters);
     virtual ~IcbmSnacSendParametersRequest();
 
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     IcbmSnacSendParametersRequest(ICQClient* client);

@@ -23,11 +23,8 @@ BuddySnacRightsRequest::~BuddySnacRightsRequest()
 {
 }
 
-void BuddySnacRightsRequest::perform()
+void BuddySnacRightsRequest::perform(OscarSocket* socket)
 {
-    OscarSocket* socket = m_client->oscarSocket();
-    Q_ASSERT(socket);
-
     socket->snac(BuddySnacHandler::SnacId, BuddySnacHandler::SnacBuddyRightsRequest, 0, QByteArray());
 }
 

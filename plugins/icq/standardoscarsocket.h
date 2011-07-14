@@ -10,8 +10,11 @@ class ICQ_EXPORT StandardOscarSocket : public OscarSocket
 public:
     StandardOscarSocket(QObject *parent = 0);
     virtual ~StandardOscarSocket();
-    void connectToHost(const QString& host, int port);
-    void disconnectFromHost();
+
+    virtual void connectToHost(const QString& host, int port);
+    virtual void disconnectFromHost();
+
+    virtual bool isConnected();
 
     // takes ownership of socket
     void setSocket(SIM::AsyncSocket* socket);

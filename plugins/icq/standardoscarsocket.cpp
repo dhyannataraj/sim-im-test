@@ -39,6 +39,11 @@ void StandardOscarSocket::disconnectFromHost()
     m_socket->disconnectFromHost();
 }
 
+bool StandardOscarSocket::isConnected()
+{
+    return false;
+}
+
 void StandardOscarSocket::flap(int channel, const QByteArray& data)
 {
     QByteArray arr = makeFlapPacket(channel, data.length());
@@ -129,3 +134,4 @@ void StandardOscarSocket::slot_connected()
 {
     emit connected();
 }
+

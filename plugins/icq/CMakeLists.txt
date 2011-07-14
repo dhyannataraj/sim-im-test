@@ -73,6 +73,7 @@ SET(icq_SRCS
         requests/icbmsnac/icbmsnacsendmessagerequest.cpp
         requests/locationsnac/locationsnacrightsrequest.cpp
         requests/locationsnac/locationsnacsetuserinforequest.cpp
+        requests/servicesnac/servicesnacservicerequest.cpp
 )
 
 SET(icq_HDRS
@@ -139,6 +140,7 @@ SET(icq_HDRS
         requests/icbmsnac/icbmsnacsendmessagerequest.h
         requests/locationsnac/locationsnacrightsrequest.h
         requests/locationsnac/locationsnacsetuserinforequest.h
+        requests/servicesnac/servicesnacservicerequest.h
 )
 
 SET(icq_UICS

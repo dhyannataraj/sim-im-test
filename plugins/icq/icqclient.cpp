@@ -263,7 +263,8 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     initialize(bAIM);
     clientPersistentData = new ICQClientData(this);
     m_oscarSocket = new StandardOscarSocket(this);
-    m_requestManager = new StandardICQRequestManager(this);
+    m_requestManager = new StandardICQRequestManager();
+    m_requestManager->setOscarSocket(m_oscarSocket);
     m_contactList = new ICQContactList(this);
     m_statusConverter = new ICQStatusConverter(this);
     m_clientCapabilitiesRegistry = new ClientCapabilitiesRegistry();
@@ -440,6 +441,7 @@ void ICQClient::initSnacHandlers()
 
     m_serviceSnac = new ServiceSnacHandler(this);
     connect(m_serviceSnac, SIGNAL(initiateLoginStep2()), this, SLOT(loginStep2()));
+    connect(m_serviceSnac, SIGNAL(serviceAvailable(int,QString,QByteArray)), this, SLOT(serviceAvailable(int,QString,QByteArray)));
 
     m_ssiSnac = new SsiSnacHandler(this);
     connect(m_ssiSnac, SIGNAL(ready()), this, SLOT(snacReady()));
@@ -1047,6 +1049,8 @@ void ICQClient::setOscarSocket(OscarSocket* socket)
         delete m_oscarSocket;
     m_oscarSocket = socket;
     connect(m_oscarSocket, SIGNAL(packet(int,QByteArray)), this, SLOT(oscarSocketPacket(int,QByteArray)));
+    connect(m_oscarSocket, SIGNAL(connected()), this, SLOT(oscarSocketConnected()));
+    m_requestManager->setOscarSocket(m_oscarSocket);
 }
 
 OscarSocket* ICQClient::oscarSocket() const
@@ -1057,6 +1061,11 @@ OscarSocket* ICQClient::oscarSocket() const
 void ICQClient::oscarSocketConnected()
 {
     log(L_DEBUG, "Connected, waiting for server to initiate login sequence");
+}
+
+void ICQClient::setRequestManager(ICQRequestManager* manager)
+{
+    m_requestManager = manager;
 }
 
 ICQRequestManager* ICQClient::requestManager() const
@@ -1380,6 +1389,11 @@ SnacHandler* ICQClient::snacHandler(int type)
     return m_snacHandlers.value(type);
 }
 
+BartSnacHandler* ICQClient::bartSnacHandler() const
+{
+    return m_bartSnac;
+}
+
 ICQContactList* ICQClient::contactList() const
 {
     return m_contactList;
@@ -1453,6 +1467,14 @@ void ICQClient::loginStep3()
 {
     m_serviceSnac->sendLoginStatus();
     m_serviceSnac->sendClientReady();
+    m_bartSnac->requestBartService();
+}
+
+void ICQClient::serviceAvailable(int serviceId, const QString& address, const QByteArray& authCookie)
+{
+    log(L_DEBUG, "ICQClient::serviceAvailable: %08x", serviceId);
+    if(serviceId == m_bartSnac->getType())
+        m_bartSnac->bartServiceAvailable(address, authCookie);
 }
 
 bool ICQClient::sendMessage(const SIM::MessagePtr& message)

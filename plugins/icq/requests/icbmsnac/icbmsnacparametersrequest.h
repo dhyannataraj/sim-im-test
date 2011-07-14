@@ -17,7 +17,7 @@ public:
     static ICQRequestPtr create(ICQClient* client);
     virtual ~IcbmSnacParametersRequest();
 
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     IcbmSnacParametersRequest(ICQClient* client);

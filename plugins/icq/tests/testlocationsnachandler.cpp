@@ -15,6 +15,7 @@ namespace
 {
     using ::testing::NiceMock;
     using ::testing::_;
+    using ::testing::Return;
 
     static const int MaxProfileLength = 0x1000;
     static const int MaxCapabilities = 0x0012;
@@ -30,6 +31,8 @@ namespace
 
             handler = static_cast<LocationSnacHandler*>(client->snacHandler(ICQ_SNACxFOOD_LOCATION));
             ASSERT_TRUE(handler);
+
+            ON_CALL(*socket, isConnected()).WillByDefault(Return(true));
         }
 
         virtual void TearDown()
@@ -87,6 +90,6 @@ namespace
         EXPECT_CALL(*socket, snac(LocationSnacHandler::SnacId, LocationSnacHandler::SnacSetUserInfo, _, _));
         ICQRequestPtr rq = LocationSnacSetUserInfoRequest::create(client, QByteArray());
 
-        rq->perform();
+        rq->perform(socket);
     }
 }

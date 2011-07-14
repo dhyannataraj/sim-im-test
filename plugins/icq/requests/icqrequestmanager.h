@@ -10,11 +10,14 @@
 
 #include "icqrequest.h"
 
+class OscarSocket;
 class ICQRequestManager
 {
 public:
     virtual ~ICQRequestManager();
 
+    virtual void setOscarSocket(OscarSocket* socket) = 0;
+    virtual void clearQueue() = 0;
     virtual void enqueue(const ICQRequestPtr& request) = 0;
 };
 

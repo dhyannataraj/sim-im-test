@@ -10,6 +10,7 @@
 #include "gmock/gmock.h"
 #include "requests/icqrequest.h"
 #include <QSharedPointer>
+#include "oscarsocket.h"
 
 namespace MockObjects
 {
@@ -19,7 +20,8 @@ namespace MockObjects
     {
     public:
         virtual ~MockICQRequest() {}
-        MOCK_METHOD0(perform, void());
+
+        MOCK_METHOD1(perform, void(OscarSocket* socket));
 
         static MockICQRequestPtr create() { return MockICQRequestPtr(new MockICQRequest()); }
     };

@@ -21,6 +21,11 @@ void TcpAsyncSocket::disconnectFromHost()
     m_socket.disconnectFromHost();
 }
 
+bool TcpAsyncSocket::isConnected()
+{
+    return m_socket.state() == QAbstractSocket::ConnectedState;
+}
+
 qint64 TcpAsyncSocket::read(char* data, qint64 maxSize)
 {
     return m_socket.read(data, maxSize);

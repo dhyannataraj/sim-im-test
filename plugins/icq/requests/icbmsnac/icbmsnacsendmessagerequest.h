@@ -16,7 +16,7 @@ class IcbmSnacSendMessageRequest : public ICQRequest
 public:
     static ICQRequestPtr create(ICQClient* client, const SIM::MessagePtr& msg);
     virtual ~IcbmSnacSendMessageRequest();
-    virtual void perform();
+    virtual void perform(OscarSocket* socket);
 
 private:
     IcbmSnacSendMessageRequest(ICQClient* client, const SIM::MessagePtr& msg);
