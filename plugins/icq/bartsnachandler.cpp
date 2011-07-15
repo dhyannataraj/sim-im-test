@@ -13,6 +13,7 @@
 #include "requests/servicesnac/servicesnacservicerequest.h"
 #include "standardoscarsocket.h"
 #include "log.h"
+#include "imagestorage/avatarstorage.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
@@ -113,7 +114,7 @@ bool BartSnacHandler::parseAvatarPacket(const QByteArray& arr)
     ICQContactPtr contact = client()->contactList()->contactByScreen(QString(screen));
     if(!contact)
         return false;
-    contact->setAvatar(image);
+    SIM::getAvatarStorage()->addAvatar(contact->id(), image);
 
     return true;
 }

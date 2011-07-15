@@ -10,6 +10,7 @@
 
 #include "standardavatarstorage.h"
 #include "profilemanager.h"
+#include "log.h"
 
 #include "imagestorage.h"
 
@@ -58,6 +59,7 @@ StandardAvatarStorage::~StandardAvatarStorage()
 
 void StandardAvatarStorage::addAvatar(const IMContactId& contactId, const QImage& image, const QString& type)
 {
+    log(L_DEBUG, "StandardAvatarStorage::addAvatar(%s)", qPrintable(contactId.toString()));
     saveImage(makeFilename(contactId, type), image);
 }
 
@@ -107,6 +109,7 @@ QPixmap StandardAvatarStorage::pixmap(const QString& iconId)
 
 bool StandardAvatarStorage::saveImage(const QString& path, const QImage& image)
 {
+    log(L_DEBUG, "StandardAvatarStorage::saveImage(%s)", qPrintable(path));
     return image.save(path);
 }
 
@@ -129,7 +132,7 @@ QImage StandardAvatarStorage::getFile(const QString& id)
 
 QString StandardAvatarStorage::makeFilename(const IMContactId& id, const QString& type)
 {
-    return basePath() + makeUri(id, type);
+    return basePath() + makeUri(id, type) + ".png";
 }
 
 QString StandardAvatarStorage::makeUri(const IMContactId& id, const QString& type)

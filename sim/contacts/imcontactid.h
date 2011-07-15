@@ -18,6 +18,8 @@ namespace SIM
         QString clientSpecificId() const;
         bool isValid() const;
 
+        bool operator==(const IMContactId& id) const;
+
     private:
         bool m_valid;
         int m_parentContactId;

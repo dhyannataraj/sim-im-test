@@ -13,6 +13,8 @@
 #include "gmock/gmock.h"
 
 #include "mocks/mockoscarsocket.h"
+#include "tests/mocks/mockavatarstorage.h"
+#include "imagestorage/imagestorage.h"
 #include "mocks/mockicqrequestmanager.h"
 #include "icqclient.h"
 
@@ -54,10 +56,14 @@ namespace
             bartSocket = new NiceMock<MockObjects::MockOscarSocket>();
             handler->setOscarSocket(bartSocket);
             ON_CALL(*bartSocket, isConnected()).WillByDefault(Return(true));
+
+            avatarStorage = new MockObjects::MockAvatarStorage();
+            SIM::setAvatarStorage(avatarStorage);
         }
 
         virtual void TearDown()
         {
+            SIM::setAvatarStorage(0); // deletes it
             delete client;
         }
 
@@ -106,6 +112,7 @@ namespace
         NiceMock<MockObjects::MockOscarSocket>* socket;
         NiceMock<MockObjects::MockOscarSocket>* bartSocket;
         BartSnacHandler* handler;
+        MockObjects::MockAvatarStorage* avatarStorage;
     };
 
     TEST_F(TestBartSnacHandler, requestAvatar)
@@ -117,9 +124,9 @@ namespace
 
     TEST_F(TestBartSnacHandler, avatarResponse_changesContactAvatar)
     {
-        handler->process(BartSnacHandler::SnacResponseAvatar, makeAvatarResponse(), 0, 0);
+        EXPECT_CALL(*avatarStorage, addAvatar(contact->id(), _, _));
 
-        ASSERT_TRUE(TestAvatar == contact->getAvatar());
+        handler->process(BartSnacHandler::SnacResponseAvatar, makeAvatarResponse(), 0, 0);
     }
 
     TEST_F(TestBartSnacHandler, requestBartService_doesRequestToManager)

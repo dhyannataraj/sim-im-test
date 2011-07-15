@@ -333,9 +333,6 @@ public:
     QByteArray getAvatarHash() const { return m_avatarHash; }
     void setAvatarHash(const QByteArray& arr) { m_avatarHash = arr; }
 
-    QImage getAvatar() const { return m_avatar; }
-    void setAvatar(const QImage& img) { m_avatar = img; }
-
     void deserializeLine(const QString& key, const QString& value);
 
 public slots:
@@ -436,7 +433,6 @@ private:
     QByteArray m_unknown[6];
 
     QByteArray m_avatarHash;
-    QImage m_avatar;
 
     ICQClient* m_client;
     ICQStatusPtr m_icqstatus;

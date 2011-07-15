@@ -44,4 +44,9 @@ namespace SIM
     {
         return m_valid;
     }
+
+    bool IMContactId::operator==(const IMContactId& id) const
+    {
+        return (m_parentContactId == id.parentContactId()) && (m_clientId == id.clientId()) && (m_clientSpecificId == id.clientSpecificId());
+    }
 }
