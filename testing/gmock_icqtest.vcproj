@@ -50,7 +50,6 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -180,12 +179,6 @@
 		</Configuration>
 	</Configurations>
 	<References>
-		<ProjectReference
-			ReferencedProjectIdentifier="{34681F0D-CE45-415D-B5F2-5C662DFE3BD5}"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{E4EF614B-30DF-4954-8C53-580A0BF6B589}"
-		/>
 	</References>
 	<Files>
 		<Filter
