@@ -34,6 +34,7 @@ namespace
 
         virtual void TearDown()
         {
+            manager->clearQueue(); // To avoid gmock complaints
             delete client;
         }
         ICQRequestManager* manager;
@@ -58,8 +59,16 @@ namespace
         EXPECT_CALL(*rq.data(), perform(_)).Times(0);
 
         manager->enqueue(rq);
+    }
 
-        manager->clearQueue();
+    TEST_F(TestStandardICQRequestManager, connectedSignal_sendsPendingRequests)
+    {
+        MockObjects::MockICQRequestPtr rq = MockObjects::MockICQRequest::create();
+        EXPECT_CALL(*socket, isConnected()).WillOnce(Return(false));
+        EXPECT_CALL(*rq.data(), perform(_));
+
+        manager->enqueue(rq);
+        socket->provokeConnectedSignal();
     }
 }
 

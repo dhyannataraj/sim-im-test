@@ -51,6 +51,7 @@ bool PrivacySnacHandler::processRightsInfo(const QByteArray& data)
     Q_UNUSED(data);
     if(!m_ready)
     {
+        log(L_DEBUG, "Privacy snac ready");
         m_ready = true;
         emit ready();
     }

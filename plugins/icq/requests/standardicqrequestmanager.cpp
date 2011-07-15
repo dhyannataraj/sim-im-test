@@ -12,7 +12,7 @@
 using SIM::log;
 using SIM::L_DEBUG;
 
-StandardICQRequestManager::StandardICQRequestManager()
+StandardICQRequestManager::StandardICQRequestManager() : QObject(0)
 {
 }
 
@@ -38,9 +38,19 @@ void StandardICQRequestManager::enqueue(const ICQRequestPtr& request)
 void StandardICQRequestManager::setOscarSocket(OscarSocket* socket)
 {
     m_socket = socket;
+    connect(m_socket, SIGNAL(connected()), this, SLOT(socketConnected()));
 }
 
 void StandardICQRequestManager::clearQueue()
 {
     m_requests.clear();
+}
+
+void StandardICQRequestManager::socketConnected()
+{
+    while(!m_requests.isEmpty())
+    {
+        ICQRequestPtr rq = m_requests.dequeue();
+        rq->perform(m_socket);
+    }
 }

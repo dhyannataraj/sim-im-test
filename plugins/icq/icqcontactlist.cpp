@@ -10,7 +10,7 @@ ICQContactList::ICQContactList(ICQClient* client) : m_client(client)
 
 void ICQContactList::addContact(const ICQContactPtr& contact)
 {
-    log(L_DEBUG, "ICQContactList::addContact(%s)", qPrintable(contact->getScreen()));
+    //log(L_DEBUG, "ICQContactList::addContact(%s)", qPrintable(contact->getScreen()));
     m_contacts.insert(contact->getScreen(), contact);
 }
 

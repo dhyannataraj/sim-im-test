@@ -14,8 +14,9 @@
 
 class ICQClient;
 class OscarSocket;
-class ICQ_EXPORT StandardICQRequestManager : public ICQRequestManager
+class ICQ_EXPORT StandardICQRequestManager : public QObject, public ICQRequestManager
 {
+    Q_OBJECT
 public:
     StandardICQRequestManager();
     virtual ~StandardICQRequestManager();
@@ -23,6 +24,9 @@ public:
     virtual void enqueue(const ICQRequestPtr& request);
     virtual void clearQueue();
     virtual void setOscarSocket(OscarSocket* socket);
+
+protected slots:
+    void socketConnected();
 
 private:
     OscarSocket* m_socket;
