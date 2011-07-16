@@ -543,10 +543,6 @@
 					RelativePath=".\sim\moc_plugins.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\sim\moc_propertyhub.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -733,9 +729,9 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Performing Custom Build Step"
-						CommandLine=""
-						Outputs=""
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -743,7 +739,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Performing Custom Build Step"
+						Description=""
 						CommandLine=""
 						Outputs=""
 					/>
@@ -1908,10 +1904,6 @@
 				<Filter
 					Name="generated"
 					>
-					<File
-						RelativePath=".\sim\imagestorage\moc_imagestorage.cpp"
-						>
-					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -1933,7 +1925,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							Description="Performing Custom Build Step"
+							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine=""
 							Outputs=""
 						/>
@@ -1943,7 +1935,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							Description="Performing Custom Build Step"
+							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine=""
 							Outputs=""
 						/>
