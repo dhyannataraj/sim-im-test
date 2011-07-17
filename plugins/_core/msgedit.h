@@ -117,8 +117,10 @@ signals:
 //    QString         m_client;
 
 private slots:
+    QColor colorFromDialog(QString oldColorName);
     void chooseBackgroundColor();
     void chooseForegroundColor();
+    QString getBGStyleSheet(QString bgColorName);
     void chooseFont();
     void setBold(bool b);
     void setItalic(bool b);
@@ -129,7 +131,8 @@ private slots:
     void textChanged();
 private:
     QToolBar* createToolBar();
-
+    QString m_bgColorName;
+    QString m_txtColorName;
     QToolBar* m_bar;
     QTextEdit *m_edit;
     UserWnd* m_userWnd;

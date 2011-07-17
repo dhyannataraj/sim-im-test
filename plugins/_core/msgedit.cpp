@@ -33,6 +33,8 @@
 #include <QTimer>
 #include <QApplication>
 #include <QClipboard>
+#include <QColorDialog>
+#include <QFontDialog>
 #include <algorithm>
 
 using namespace std;
@@ -163,15 +165,15 @@ MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
 //    connect(m_edit, SIGNAL(finished()), this, SLOT(editFinished()));
 //    connect(m_edit, SIGNAL(fontSelected(const QFont&)), this, SLOT(editFontChanged(const QFont&)));
 
-//    QFontMetrics fm(m_edit->font());
-//    m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
+    QFontMetrics fm(m_edit->font());
+    m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
 
     m_bar = createToolBar();
     m_layout->addWidget(m_bar);
     m_layout->addWidget(m_edit);
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
     textChanged();
-
+    
 //    if (CorePlugin::instance()->getContainerMode() == 0)
 //        showCloseSend(false);
 }
@@ -222,32 +224,61 @@ QToolBar* MsgEdit::createToolBar()
     return bar;
 }
 
+QColor MsgEdit::colorFromDialog(QString oldColorName) //reimplement with small ColorPicker...
+{
+    return QColorDialog::getColor( QColor(oldColorName), m_edit);
+}
+
 void MsgEdit::chooseBackgroundColor()
 {
+    QColor color = colorFromDialog(m_bgColorName);
+    if (!color.isValid()) return;
+    m_bgColorName=color.name();
+    log(L_DEBUG, color.name());
+    m_edit->setStyleSheet(getBGStyleSheet(color.name()));
 
 }
 
 void MsgEdit::chooseForegroundColor()
 {
+    QColor color = colorFromDialog(m_txtColorName);
+    if (!color.isValid()) return;
+    m_txtColorName=color.name();
+    log(L_DEBUG, color.name());
+    m_edit->setTextColor(color);
+    
+    //hub->setValue("msgedit/textcolor", QVariant(color)); //It should be done when window closes, so you should do this from closeEvent of Container
+
+    //activate buttons on selection_change later with:
+    //qtextedit -> qtextcursor -> qtextformat->charFormat()
 
 }
 
+QString MsgEdit::getBGStyleSheet(QString bgColorName)
+{
+    return QString("QTextEdit {background-color: %1; border: 1px solid black; border-radius: 5px; margin-top: 7px; margin-bottom: 7px; padding: 0px;}").arg(bgColorName);
+}
 void MsgEdit::setBold(bool b)
 {
+    m_edit->setFontWeight ( b ? QFont::Bold : QFont::Normal );
 }
 
 void MsgEdit::setItalic(bool b)
 {
-
+    m_edit->setFontItalic (b);
 }
 
 void MsgEdit::setUnderline(bool b)
 {
-
+    m_edit->setFontUnderline (b);
 }
 
 void MsgEdit::chooseFont()
 {
+    bool ok=false;
+    QFont f = QFontDialog::getFont(&ok, m_edit->font(),m_edit);
+    if (!ok) return;
+    m_edit->setFont(f);
 }
 
 void MsgEdit::setCloseOnSend(bool b)
