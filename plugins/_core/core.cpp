@@ -3150,6 +3150,8 @@ bool CorePlugin::init()
     QString profile = settings.value("Profile").toString();
     bool noshow = settings.value("NoShow", false).toBool();
 
+    noshow = false; //Fixme: Implement me, remove me
+
     if(profile.isEmpty() && noshow)
     {
         settings.setValue("NoShow", false);
