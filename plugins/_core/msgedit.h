@@ -81,7 +81,8 @@ signals:
 //    void heightChanged(int);
 //    void init();
 //    void finished();
-//public slots:
+public slots:
+    void cursorPositionChanged();
 //    void insertSmile(const QString &id);
 //    void modeChanged();
 //    void editLostFocus();

@@ -150,6 +150,7 @@ MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
     m_layout->setMargin(0);
 
     m_edit = new QTextEdit(this);
+    
 //    m_edit->setBackground(QColor(CorePlugin::instance()->value("EditBackground").toUInt() & 0xFFFFFF));
 //    m_edit->setBackground(QColor(255, 255, 255));
 //    m_edit->setForeground(QColor(CorePlugin::instance()->value("EditForeground").toUInt() & 0xFFFFFF), true);
@@ -158,6 +159,8 @@ MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
 //    m_edit->setParam(this);
     setFocusProxy(m_edit);
 
+
+    connect(m_edit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
 //    connect(m_edit, SIGNAL(lostFocus()), this, SLOT(editLostFocus()));
 //    connect(m_edit, SIGNAL(textChanged()), this, SLOT(editTextChanged()));
 //    connect(m_edit, SIGNAL(ctrlEnterPressed()), this, SLOT(editEnterPressed()));
@@ -283,7 +286,7 @@ void MsgEdit::chooseFont()
 
 void MsgEdit::setCloseOnSend(bool b)
 {
-
+    
 }
 
 void MsgEdit::send()
@@ -1537,6 +1540,28 @@ void MsgEdit::textChanged()
 //    CorePlugin::instance()->setValue("EditForeground", m_edit->foreground().rgb());
 //    EventHistoryColors().process();
 //}
+
+void MsgEdit::cursorPositionChanged()
+{   
+    QTextCharFormat currentFormat = m_edit->textCursor().charFormat();
+    Q_FOREACH(QAction * a, m_bar->actions())
+    {
+
+        if (a->text()==I18N_NOOP("&Bold"))
+            a->setChecked(currentFormat.fontWeight() == QFont::Bold);
+        
+        if (a->text()==I18N_NOOP("&Italic"))
+            a->setChecked(currentFormat.fontItalic());
+
+        if (a->text()==I18N_NOOP("&Underline"))
+            a->setChecked(currentFormat.fontUnderline());
+
+    }
+
+}
+
+
+
 
 //void MsgEdit::insertSmile(const QString &id)
 //{
