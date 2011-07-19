@@ -24,7 +24,7 @@
 //#include "event.h"
 
 #include <QMenu>
-
+#include <QToolButton>
 class CorePlugin;
 class UserWnd;
 class CToolBar;
@@ -83,6 +83,7 @@ signals:
 //    void finished();
 public slots:
     void cursorPositionChanged();
+    void sendMultiple(bool on);
 //    void insertSmile(const QString &id);
 //    void modeChanged();
 //    void editLostFocus();
@@ -140,6 +141,8 @@ private:
     QVBoxLayout *m_layout;
 
     QAction* m_sendAction;
+    QToolButton * m_cmdSend;
+    QAction* m_sendMultiple;
 };
 
 //class SmileLabel : public QLabel

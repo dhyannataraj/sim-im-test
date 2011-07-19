@@ -203,6 +203,13 @@ QString MsgEdit::messageHtml() const
 QToolBar* MsgEdit::createToolBar()
 {
     QToolBar* bar = new QToolBar(this);
+    bar->setFloatable(true);
+
+    bar->setAllowedAreas(Qt::TopToolBarArea	& Qt::BottomToolBarArea);
+
+	bar->setMovable(true);
+
+    bar->addSeparator();
     bar->addAction(getImageStorage()->icon("bgcolor"), I18N_NOOP("Back&ground color"), this, SLOT(chooseBackgroundColor()));
     bar->addAction(getImageStorage()->icon("fgcolor"), I18N_NOOP("Fo&reground color"), this, SLOT(chooseForegroundColor()));
 
@@ -219,10 +226,29 @@ QToolBar* MsgEdit::createToolBar()
 
     bar->addSeparator();
 
+    //Add here Smilie and Translit!
+    
+    bar->addSeparator();
+
     QAction* closeAfterSend = bar->addAction(getImageStorage()->icon("fileclose"), I18N_NOOP("C&lose after send"), this, SLOT(setCloseOnSend(bool)));
     closeAfterSend->setCheckable(true);
+    bar->addSeparator();
+    //m_sendAction = bar->addAction(getImageStorage()->icon("mail_generic"), I18N_NOOP("&Send"), this, SLOT(send()));
+    
 
-    m_sendAction = bar->addAction(getImageStorage()->icon("mail_generic"), I18N_NOOP("&Send"), this, SLOT(send()));
+    m_cmdSend = new QToolButton(m_edit);
+    connect(m_cmdSend, SIGNAL(clicked()), this, SLOT(send()));
+
+    m_cmdSend->setIcon(getImageStorage()->icon("mail_generic"));
+    m_cmdSend->setText(i18n("&Send"));
+    m_cmdSend->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    m_cmdSend->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    bar->addWidget(m_cmdSend);
+    
+    bar->addSeparator();
+    
+    m_sendMultiple = bar->addAction(getImageStorage()->icon("1rightarrow"), I18N_NOOP("Send to &multiple"), this, SLOT(sendMultiple(bool)));
+    m_sendMultiple->setCheckable(true);
 
     return bar;
 }
@@ -303,14 +329,14 @@ void MsgEdit::send()
 void MsgEdit::textChanged()
 {
     if(m_edit->toPlainText().isEmpty() &&
-            m_sendAction->isEnabled())
+            m_cmdSend->isEnabled())
     {
-        m_sendAction->setEnabled(false);
+        m_cmdSend->setEnabled(false);
     }
     else if(!m_edit->toPlainText().isEmpty() &&
-            !m_sendAction->isEnabled())
+            !m_cmdSend->isEnabled())
     {
-        m_sendAction->setEnabled(true);
+        m_cmdSend->setEnabled(true);
     }
 }
 
@@ -1560,7 +1586,10 @@ void MsgEdit::cursorPositionChanged()
 
 }
 
-
+void MsgEdit::sendMultiple(bool on)
+{
+    m_sendMultiple->setIcon(getImageStorage()->icon(on ? "1leftarrow" : "1rightarrow"));
+}
 
 
 //void MsgEdit::insertSmile(const QString &id)
