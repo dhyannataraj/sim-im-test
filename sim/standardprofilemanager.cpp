@@ -29,8 +29,8 @@ QStringList StandardProfileManager::enumProfiles()
     for(QStringList::iterator it = list.begin(); it != list.end(); ++it)
     {
         QString entry = *it;
-        QString fname = QString(m_rootPath).append("/").append(entry).append("/").append("clients.conf");
-        QString fname2 = QString(m_rootPath).append("/").append(entry).append("/").append("profile.conf");
+        QString fname = QString(m_rootPath) + QDir::separator() + entry + QDir::separator() + "clients.conf";
+        QString fname2 = QString(m_rootPath) + QDir::separator() + entry + QDir::separator() + "profile.conf";
         QFile f(fname);
         QFile f2(fname2);
         if(f.exists() || f2.exists())
@@ -99,16 +99,27 @@ QString StandardProfileManager::profilePath()
     return m_rootPath + QDir::separator() + m_currentProfile->name();
 }
 
-bool StandardProfileManager::removeProfile(const QString& /*name*/)
+bool StandardProfileManager::removeProfile(const QString& name)
 {
-    // TODO
-    return false;
+    if (!profileExists(name))
+        return false;
+    QDir d(m_rootPath);
+    removePath(m_rootPath + QDir::separator() + name);
+    if (!d.rmdir(name))
+        return false;
+    return true;
 }
 
-bool StandardProfileManager::renameProfile(const QString& /*oldname*/, const QString& /*newname*/)
+bool StandardProfileManager::renameProfile(const QString& old_name, const QString& new_name)
 {
-    // TODO
-    return false;
+    if (profileExists(new_name))
+        return false;
+    if (!profileExists(old_name))
+        return false;
+    QDir d(m_rootPath);
+    if (!d.rename(old_name, new_name))
+        return false;
+    return true;
 }
 
 bool StandardProfileManager::newProfile(const QString& name)
@@ -153,6 +164,23 @@ PropertyHubPtr StandardProfileManager::getPropertyHub(const QString& name)
         curProfile->config()->addPropertyHub(hub);
     }
     return hub;
+}
+
+void StandardProfileManager::removePath(const QString &path)
+{
+    QDir d(path);
+    d.setFilter(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList list = d.entryList();
+    for (QStringList::Iterator it = list.begin(); it != list.end(); it++)
+    {
+        QString entry = *it;
+        QFileInfo fileinfo(path + QDir::separator() + entry);
+        if (fileinfo.isDir())
+        {
+            removePath(path + QDir::separator() + entry);
+            d.rmdir(entry);
+        } else d.remove(entry);
+    }
 }
 
 } /* namespace SIM */

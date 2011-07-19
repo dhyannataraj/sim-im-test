@@ -72,6 +72,7 @@ ProfileSelectDialog::~ProfileSelectDialog()
 void ProfileSelectDialog::updateProfilesList()
 {
     QStringList profiles = getProfileManager()->enumProfiles();
+    m_ui->cmbProfile->clear();
     m_ui->cmbProfile->addItems(profiles);
 
     for(int i = 0; i < m_ui->cmbProfile->count(); i++)
@@ -120,13 +121,14 @@ void ProfileSelectDialog::profileChanged(int index)
         m_ui->btnRename->show();
         m_ui->labelNew->hide();
         m_ui->e_newName->hide();
+        m_ui->btnDelete->setEnabled(true);
         clearInputs();
         getProfileManager()->selectProfile(m_ui->cmbProfile->currentText());
         getClientManager()->load();
         QStringList clients = getClientManager()->clientList();
-		
-		for (int i=0;i<clients.count();++i)
-			log(L_DEBUG, "printing client %s", qPrintable(clients.at(i)));
+
+        for (int i=0;i<clients.count();++i)
+            log(L_DEBUG, "printing client %s", qPrintable(clients.at(i)));
 
         m_ui->groupBoxPasswords->show();
 
@@ -226,11 +228,17 @@ void ProfileSelectDialog::profileDelete()
     if ((n < 0) || (n >= m_ui->cmbProfile->count() - 1))
         return;
 
+    if (QMessageBox::Ok != QMessageBox::question(this, i18n("Delete Profile"), i18n("Are you sure? This operation cannot be reverted."),
+                                                 QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel))
+        return;
     QString curProfile = m_ui->cmbProfile->currentText();
-    getProfileManager()->removeProfile(curProfile);
+
+    if (!getProfileManager()->removeProfile(curProfile))
+        QMessageBox::information(this, i18n("Delete Profile"), i18n("Unable to delete the profile"), QMessageBox::Ok);
     clearInputs();
     m_ui->btnDelete->setEnabled(false);
     updateProfilesList();
+    profileChanged(m_ui->cmbProfile->currentIndex());
 }
 
 void ProfileSelectDialog::profileRename()
@@ -255,6 +263,7 @@ void ProfileSelectDialog::profileRename()
         break;
     }
     updateProfilesList();
+    profileChanged(m_ui->cmbProfile->currentIndex());
 }
 
 void ProfileSelectDialog::newNameChanged(const QString &text)

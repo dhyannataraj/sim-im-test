@@ -23,9 +23,4 @@ namespace SIM
         }
     };
 
-    TEST_F(TestStandardProfileManager, fakeTest)
-    {
-        ASSERT_TRUE(1 == 1);
-    }
-
 } /* namespace SIM */

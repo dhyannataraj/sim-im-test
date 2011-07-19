@@ -43,6 +43,7 @@ public:
 private:
     QString m_rootPath;
     ProfilePtr m_currentProfile;
+    void removePath(const QString&);
 };
 
 } /* namespace SIM */
