@@ -127,6 +127,10 @@ private slots:
     void setBold(bool b);
     void setItalic(bool b);
     void setUnderline(bool b);
+    void insertSmile();
+    void setTranslit(bool on);
+    void setTranslateIncomming(bool on);
+    void setTranslateOutgoing(bool on);
     void setCloseOnSend(bool b);
     void send();
 
@@ -139,6 +143,8 @@ private:
     QTextEdit *m_edit;
     UserWnd* m_userWnd;
     QVBoxLayout *m_layout;
+    QComboBox * m_cmbLanguageIncomming;
+    QComboBox * m_cmbLanguageOutgoing;
 
     QAction* m_sendAction;
     QToolButton * m_cmdSend;

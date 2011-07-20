@@ -204,10 +204,12 @@ QToolBar* MsgEdit::createToolBar()
 {
     QToolBar* bar = new QToolBar(this);
     bar->setFloatable(true);
-
+    bar->setMovable(true);
+    
     bar->setAllowedAreas(Qt::TopToolBarArea	& Qt::BottomToolBarArea);
+	
 
-	bar->setMovable(true);
+    //fixme: the following should be made generic, f.e. for toolbar changes in icon-positioning...
 
     bar->addSeparator();
     bar->addAction(getImageStorage()->icon("bgcolor"), I18N_NOOP("Back&ground color"), this, SLOT(chooseBackgroundColor()));
@@ -226,8 +228,39 @@ QToolBar* MsgEdit::createToolBar()
 
     bar->addSeparator();
 
-    //Add here Smilie and Translit!
+    QAction* emoticons = bar->addAction(getImageStorage()->icon("smile"), I18N_NOOP("I&nsert smile"), this, SLOT(insertSmile()));
     
+    QAction* translit = bar->addAction(getImageStorage()->icon("translit"), I18N_NOOP("Send in &translit"), this, SLOT(setTranslit(bool)));
+    translit->setCheckable(true);
+
+
+    bar->addSeparator();
+
+    QAction* incommingTranslation = bar->addAction(getImageStorage()->icon("translate"), I18N_NOOP("OTRT-Incomming:"), this, SLOT(setTranslateOutgoing(bool))); //Todo create Icon
+    incommingTranslation->setCheckable(true);
+
+    m_cmbLanguageIncomming = new QComboBox(m_edit);  //Todo: Implement language selection for the language it should automatically translated...
+    //fillLangs(); //Todo Fill cmbBox with languages
+    m_cmbLanguageIncomming->setToolTip(i18n("Select translation language for incomming messages"));
+    bar->addWidget(m_cmbLanguageIncomming);
+
+
+
+    bar->addSeparator();
+
+    QAction* outgoingTranslation = bar->addAction(getImageStorage()->icon("translator"), I18N_NOOP("OTRT-Outgoing:"), this, SLOT(setTranslateIncomming(bool))); //Todo create Icon
+    outgoingTranslation->setCheckable(true);
+
+    m_cmbLanguageOutgoing = new QComboBox(m_edit);  //Todo: Implement language selection for the language it should automatically translated...
+    //fillLangs(); //Todo Fill cmbBox with languages
+    m_cmbLanguageOutgoing->setToolTip(i18n("Select translation language for outgoing messages"));
+    bar->addWidget(m_cmbLanguageOutgoing);
+
+
+
+
+
+
     bar->addSeparator();
 
     QAction* closeAfterSend = bar->addAction(getImageStorage()->icon("fileclose"), I18N_NOOP("C&lose after send"), this, SLOT(setCloseOnSend(bool)));
@@ -300,6 +333,26 @@ void MsgEdit::setItalic(bool b)
 void MsgEdit::setUnderline(bool b)
 {
     m_edit->setFontUnderline (b);
+}
+
+void MsgEdit::insertSmile() //Todo
+{
+
+}
+
+void MsgEdit::setTranslit(bool on) //Todo
+{
+    
+}
+
+void MsgEdit::setTranslateIncomming(bool on) //Todo
+{
+    
+}
+
+void MsgEdit::setTranslateOutgoing(bool on) //Todo
+{
+    
 }
 
 void MsgEdit::chooseFont()
