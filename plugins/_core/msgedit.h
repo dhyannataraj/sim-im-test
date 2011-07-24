@@ -140,15 +140,22 @@ private:
     QString m_bgColorName;
     QString m_txtColorName;
     QToolBar* m_bar;
+
     QTextEdit *m_edit;
+    QTextEdit *m_editTrans;
+    QTextEdit *m_editActive;
+
     UserWnd* m_userWnd;
     QVBoxLayout *m_layout;
+
     QComboBox * m_cmbLanguageIncomming;
     QComboBox * m_cmbLanguageOutgoing;
 
     QAction* m_sendAction;
-    QToolButton * m_cmdSend;
     QAction* m_sendMultiple;
+
+    QToolButton * m_cmdSend;
+    bool m_bTranslationService;
 };
 
 //class SmileLabel : public QLabel

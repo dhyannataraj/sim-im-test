@@ -125,6 +125,8 @@ void Container::init()
     setStatusBar(m_status);
 
     m_layout->addWidget(m_tabSplitter);
+
+    this->resize(900, 590);
 //    connect(m_tabBar, SIGNAL(selected(int)), this, SLOT(contactSelected(int)));
 //    //connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
 //    connect(m_status, SIGNAL(sizeChanged(int)), this, SLOT(statusChanged(int)));

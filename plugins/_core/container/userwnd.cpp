@@ -52,7 +52,6 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
         , m_targetContactList(0)
 {
     m_ui->setupUi(this);
-
     updateStyleSheet();
 
 //    if (CorePlugin::instance()->getContainerMode())

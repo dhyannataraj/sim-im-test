@@ -2165,6 +2165,14 @@
 					RelativePath=".\container\userwndcontroller.h"
 					>
 				</File>
+				<Filter
+					Name="generated"
+					>
+					<File
+						RelativePath=".\container\ui_userwnd.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Source Files"

@@ -132,7 +132,11 @@ void MsgTextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     //TextEdit::contentsDragMoveEvent(e); //FIXME
 }
 
-MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
+MsgEdit::MsgEdit(QWidget* parent) 
+    : QFrame(parent)
+    , m_bTranslationService(true) //#Todo later from config...
+    , m_editTrans(NULL)
+    , m_editActive(NULL)
 {
 //    m_msg		= NULL;
 //    m_bTyping	= false;
@@ -150,6 +154,7 @@ MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
     m_layout->setMargin(0);
 
     m_edit = new QTextEdit(this);
+    
     
 //    m_edit->setBackground(QColor(CorePlugin::instance()->value("EditBackground").toUInt() & 0xFFFFFF));
 //    m_edit->setBackground(QColor(255, 255, 255));
@@ -173,6 +178,14 @@ MsgEdit::MsgEdit(QWidget* parent) : QFrame(parent)
 
     m_bar = createToolBar();
     m_layout->addWidget(m_bar);
+
+    
+    if (m_bTranslationService)
+    {
+        QTextEdit * m_editTrans = new QTextEdit(this);
+        m_layout->addWidget(m_editTrans);
+    }
+    m_editActive=&(*m_edit);
     m_layout->addWidget(m_edit);
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
     textChanged();
@@ -234,29 +247,45 @@ QToolBar* MsgEdit::createToolBar()
     translit->setCheckable(true);
 
 
-    bar->addSeparator();
-
-    QAction* incommingTranslation = bar->addAction(getImageStorage()->icon("translate"), I18N_NOOP("OTRT-Incomming:"), this, SLOT(setTranslateOutgoing(bool))); //Todo create Icon
-    incommingTranslation->setCheckable(true);
-
-    m_cmbLanguageIncomming = new QComboBox(m_edit);  //Todo: Implement language selection for the language it should automatically translated...
-    //fillLangs(); //Todo Fill cmbBox with languages
-    m_cmbLanguageIncomming->setToolTip(i18n("Select translation language for incomming messages"));
-    bar->addWidget(m_cmbLanguageIncomming);
 
 
+    
+    if (m_bTranslationService) 
+    {
+        bar->addSeparator();
 
-    bar->addSeparator();
+        QAction* incommingTranslation = bar->addAction(getImageStorage()->icon("translate"), I18N_NOOP("OTRT-Incomming:"), this, SLOT(setTranslateOutgoing(bool))); //Todo create Icon
+        incommingTranslation->setCheckable(true);
 
-    QAction* outgoingTranslation = bar->addAction(getImageStorage()->icon("translator"), I18N_NOOP("OTRT-Outgoing:"), this, SLOT(setTranslateIncomming(bool))); //Todo create Icon
-    outgoingTranslation->setCheckable(true);
-
-    m_cmbLanguageOutgoing = new QComboBox(m_edit);  //Todo: Implement language selection for the language it should automatically translated...
-    //fillLangs(); //Todo Fill cmbBox with languages
-    m_cmbLanguageOutgoing->setToolTip(i18n("Select translation language for outgoing messages"));
-    bar->addWidget(m_cmbLanguageOutgoing);
+        m_cmbLanguageIncomming = new QComboBox(m_edit);  //Todo: Implement language selection for the language it should automatically translated...
+        //fillLangs(); //Todo Fill cmbBox with languages
+        m_cmbLanguageIncomming->setToolTip(i18n("Select translation language for incomming messages"));
+        bar->addWidget(m_cmbLanguageIncomming);
 
 
+
+        bar->addSeparator();
+
+        QAction* outgoingTranslation = bar->addAction(getImageStorage()->icon("translator"), I18N_NOOP("OTRT-Outgoing:"), this, SLOT(setTranslateIncomming(bool))); //Todo create Icon
+        outgoingTranslation->setCheckable(true);
+
+        m_cmbLanguageOutgoing = new QComboBox(m_edit);  //Todo: Implement language selection for the language it should automatically translated...
+        //fillLangs(); //Todo Fill cmbBox with languages
+        m_cmbLanguageOutgoing->setToolTip(i18n("Select translation language for outgoing messages"));
+        bar->addWidget(m_cmbLanguageOutgoing);
+
+        //Translations - How to do:
+        //register for an api-key: https://code.google.com/apis/console/
+
+        //Get the translated string:
+        //GET https://www.googleapis.com/language/translate/v2?q=%3Ch1%3EDas%20ist%20ein%20Text.%3C%2Fh1%3E&target=en&format=html&pp=1&key={YOUR_API_KEY}
+        
+        //Doc for implementation and testing: https://code.google.com/apis/explorer/#_s=translate&_v=v2&_m=translations.list&q=%3Ch1%3EDas%20ist%20ein%20Text.%3C/h1%3E&target=en&cid=blub&format=html
+    }
+    else 
+    {
+        //trEdit->setVisible(false); //How to do it best?
+    }
 
 
 
@@ -310,9 +339,6 @@ void MsgEdit::chooseForegroundColor()
     m_edit->setTextColor(color);
     
     //hub->setValue("msgedit/textcolor", QVariant(color)); //It should be done when window closes, so you should do this from closeEvent of Container
-
-    //activate buttons on selection_change later with:
-    //qtextedit -> qtextcursor -> qtextformat->charFormat()
 
 }
 
