@@ -19,9 +19,9 @@ public:
     virtual QModelIndex parent(const QModelIndex& index) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
-    static const int OnlineRow;
-    static const int OfflineRow;
-
+    static const int UserViewModel::OnlineRow = 0;
+    static const int UserViewModel::OfflineRow = 1;
+    
     enum ItemRole
     {
         ItemType = Qt::UserRole + 1,
