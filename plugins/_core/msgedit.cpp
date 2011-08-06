@@ -35,6 +35,7 @@
 #include <QClipboard>
 #include <QColorDialog>
 #include <QFontDialog>
+#include <QToolBar>
 #include <algorithm>
 
 using namespace std;

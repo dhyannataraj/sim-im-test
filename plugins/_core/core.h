@@ -185,8 +185,6 @@ public:
 //    void ignoreEvents(bool i);
 protected:
     void subscribeToEvents();
-    void createCommands();
-    void createMainMenuCommand();
 //    virtual bool processEvent(SIM::Event*);
 //    virtual QByteArray getConfig();
 //    virtual QWidget *createConfigWindow(QWidget *parent);

@@ -20,7 +20,6 @@
 #include "userwnd.h"
 #include "msgedit.h"
 #include "msgview.h"
-#include "simgui/toolbar.h"
 #include "core.h"
 #include "container.h"
 #include "contacts/contact.h"

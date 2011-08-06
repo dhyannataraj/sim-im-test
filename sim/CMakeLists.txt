@@ -15,7 +15,6 @@ SET(sim_LIB_SRCS
 		clientmanager.cpp
         standardclientmanager.cpp
         commands/commandhub.cpp
-        commands/commandset.cpp
         commands/uicommand.cpp
 		country.cpp
         events/eventdata.cpp
@@ -78,13 +77,7 @@ SET(sim_LIB_SRCS
 		simgui/qchildwidget.cpp
 		simgui/qcolorbutton.cpp
 		simgui/qkeybutton.cpp
-        simgui/toolbarbutton.cpp
-        simgui/toolbarcombobox.cpp
-        simgui/toolbar.cpp
-        simgui/toolbaractionfactory.cpp
-        simgui/standardtoolbaractionfactory.cpp
         simgui/statuswidget.cpp
-        simgui/toolitem.cpp
 
         ../sqlite/sqlite3.c
 	)
@@ -98,7 +91,6 @@ SET(sim_LIB_HDRS
 		clientmanager.h
         standardclientmanager.h
         commands/commandhub.h
-        commands/commandset.h
         commands/uicommand.h
 		country.h
         events/eventdata.h
@@ -163,13 +155,7 @@ SET(sim_LIB_HDRS
 		simgui/qchildwidget.h
 		simgui/qcolorbutton.h
 		simgui/qkeybutton.h
-        simgui/toolbarbutton.h
-        simgui/toolbarcombobox.h
-        simgui/toolbar.h
-        simgui/toolbaractionfactory.h
-        simgui/standardtoolbaractionfactory.h
         simgui/statuswidget.h
-        simgui/toolitem.h
 
         ../sqlite/sqlite3.h
     )
@@ -248,10 +234,7 @@ SET(sim_tests_srcs
     tests/testbuffer.cpp
     tests/testclientmanager.cpp
     tests/testcommandhub.cpp
-    tests/testcommandset.cpp
     tests/testuicommand.cpp
-    tests/testtoolbar.cpp
-    tests/teststandardtoolbaractionfactory.cpp
     tests/testcontact.cpp
     tests/testgroup.cpp
     tests/testmessagepipe.cpp

@@ -132,7 +132,7 @@ QImage StandardAvatarStorage::getFile(const QString& id)
 
 QString StandardAvatarStorage::makeFilename(const IMContactId& id, const QString& type)
 {
-    return basePath() + makeUri(id, type) + ".png";
+    return basePath() + makeUri(id, type) + ".png"; // FIXME extension hardcoded
 }
 
 QString StandardAvatarStorage::makeUri(const IMContactId& id, const QString& type)

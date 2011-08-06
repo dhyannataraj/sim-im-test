@@ -36,6 +36,7 @@
 #include <QSizeGrip>
 #include <QStatusBar>
 #include <QDesktopWidget>
+#include <QToolBar>
 #include "profilemanager.h"
 
 #include "log.h"
@@ -53,7 +54,7 @@ MainWindow::MainWindow(CorePlugin* core)
     setWindowIcon(getImageStorage()->icon("SIM"));
     updateTitle();
 
-    m_bar = new SIM::ToolBar("Main toolbar", this);
+    m_bar = new QToolBar("Main toolbar", this);
     addToolBar(m_bar);
 
     m_centralWidget = new QWidget(this);
@@ -106,13 +107,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void MainWindow::loadDefaultCommandList()
 {
-    log(L_DEBUG, "loadDefaultCommandList");
-    m_bar->addUiCommand(getCommandHub()->command("show_offline"));
-    m_bar->addUiCommand(getCommandHub()->command("groupmode_menu"));
-    m_bar->addSeparator();
-    m_bar->addUiCommand(getCommandHub()->command("common_status"));
-    m_bar->addSeparator();
-    m_bar->addUiCommand(getCommandHub()->command("main_menu"));
+
 }
 
 void MainWindow::populateMainToolbar()
@@ -122,7 +117,6 @@ void MainWindow::populateMainToolbar()
         loadDefaultCommandList();
     }
     else {
-        m_bar->loadCommandList(actions);
     }
 }
 

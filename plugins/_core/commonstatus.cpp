@@ -37,7 +37,6 @@ using namespace SIM;
 CommonStatus::CommonStatus(SIM::ClientManager* manager) : QObject(), m_clientManager(manager)
 {
     m_statusCmd = UiCommand::create(I18N_NOOP("Status"), "SIM_inactive", "common_status", QStringList("main_toolbar"));
-    m_statusCmd->setWidgetType(UiCommand::wtCombobox);
     rebuildStatusList();
     getCommandHub()->registerCommand(m_statusCmd);
 
@@ -51,46 +50,6 @@ CommonStatus::~CommonStatus()
 
 void CommonStatus::rebuildStatusList()
 {
-    getCommandHub()->deleteCommandSet("common_states");
-    CommandSetPtr states = getCommandHub()->createCommandSet("common_states");
-
-    UiCommandPtr online = UiCommand::create("Online", "SIM_online", "common_status_online");
-    online->setAutoExclusive(true);
-    online->setCheckable(true);
-    online->subscribeTo(this, SLOT(statusOnline()));
-    states->appendCommand(online);
-
-    UiCommandPtr freeForChat = UiCommand::create("Free for chat", "SIM_ffc", "common_status_ffc");
-    freeForChat->setAutoExclusive(true);
-    freeForChat->setCheckable(true);
-    freeForChat->subscribeTo(this, SLOT(statusFreeForChat()));
-    states->appendCommand(freeForChat);
-
-    UiCommandPtr away = UiCommand::create("Away", "SIM_away", "common_status_away");
-    away->setAutoExclusive(true);
-    away->setCheckable(true);
-    away->subscribeTo(this, SLOT(statusAway()));
-    states->appendCommand(away);
-
-    UiCommandPtr na = UiCommand::create("N/A", "SIM_na", "common_status_na");
-    na->setAutoExclusive(true);
-    na->setCheckable(true);
-    na->subscribeTo(this, SLOT(statusNa()));
-    states->appendCommand(na);
-
-    UiCommandPtr dnd = UiCommand::create("Do not disturb", "SIM_dnd", "common_status_dnd");
-    dnd->setAutoExclusive(true);
-    dnd->setCheckable(true);
-    dnd->subscribeTo(this, SLOT(statusDnd()));
-    states->appendCommand(dnd);
-
-    UiCommandPtr offline = UiCommand::create("Offline", "SIM_online", "common_status_offline");
-    offline->setAutoExclusive(true);
-    offline->setCheckable(true);
-    offline->subscribeTo(this, SLOT(statusOffline()));
-    states->appendCommand(offline);
-
-    m_statusCmd->setSubcommands(states);
 }
 
 void CommonStatus::statusOnline()

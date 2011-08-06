@@ -68,33 +68,6 @@ email                : vovan@shutoff.ru
 using namespace std;
 using namespace SIM;
 
-//#ifdef WIN32
-
-//class LockThread : public QThread
-//{
-//	public:
-//		LockThread(Qt::HANDLE hEvent);
-//		Qt::HANDLE hEvent;
-//	protected:
-//		void run();
-//};
-
-//#endif
-
-//class FileLock : public QFile
-//{
-//	public:
-//		FileLock(const QString &name);
-//		~FileLock();
-//		bool lock(bool bSend);
-//	protected:
-//#ifdef WIN32
-//		LockThread	*m_thread;
-//#else
-//		bool m_bLock;
-//#endif
-//};
-
 Plugin *createCorePlugin(unsigned /*base*/, bool, Buffer * /*config*/)
 {
     Plugin *plugin = new CorePlugin();
@@ -270,62 +243,6 @@ void CorePlugin::subscribeToEvents()
 void CorePlugin::eventQuit()
 {
     //destroy();
-}
-
-void CorePlugin::createCommands()
-{
-//    log(L_DEBUG, "createMainToolbar()");
-    UiCommandPtr showOffline = UiCommand::create(I18N_NOOP("Show &offline"), "online_on", "show_offline", QStringList("main"));
-    showOffline->setWidgetType(UiCommand::wtButton);
-    showOffline->setCheckable(true);
-    showOffline->setChecked(m_main->userview()->isShowOffline());
-    getCommandHub()->registerCommand(showOffline);
-
-    UiCommandPtr dontshow = UiCommand::create(I18N_NOOP("Do&n't show groups"), "grp_off", "groupmode_dontshow", QStringList("groupmode_menu"));
-    dontshow->setCheckable(true);
-    dontshow->setChecked(true);
-    dontshow->setAutoExclusive(true);
-    UiCommandPtr mode1 = UiCommand::create(I18N_NOOP("Group mode 1"), "grp_on", "groupmode_mode1", QStringList("groupmode_menu"));
-    mode1->setCheckable(true);
-    mode1->setAutoExclusive(true);
-    UiCommandPtr mode2 = UiCommand::create(I18N_NOOP("Group mode 2"), "grp_on", "groupmode_mode2", QStringList("groupmode_menu"));
-    mode2->setCheckable(true);
-    mode2->setAutoExclusive(true);
-
-    UiCommandPtr showEmptyGroups = UiCommand::create(I18N_NOOP("Show &empty groups"), QString(), "show_empty_groups", QStringList("groupmode_menu"));
-
-    UiCommandPtr createGroup = UiCommand::create(I18N_NOOP("&Create group"), "grp_create", "create_group", QStringList("groupmode_menu"));
-
-    CommandSetPtr groupsset = getCommandHub()->createCommandSet("groups");
-    groupsset->appendCommand(dontshow);
-    groupsset->appendCommand(mode1);
-    groupsset->appendCommand(mode2);
-    groupsset->appendSeparator();
-    groupsset->appendCommand(SIM::getCommandHub()->command("show_offline"));
-    groupsset->appendCommand(showEmptyGroups);
-    groupsset->appendSeparator();
-    groupsset->appendCommand(createGroup);
-
-    UiCommandPtr groups = UiCommand::create(I18N_NOOP("&Groups"), (m_main->userview()->groupMode() > 0) ? "grp_on" : "grp_off",
-                                            "groupmode_menu", QStringList("main"));
-    groups->setSubcommands(groupsset);
-    groups->setWidgetType(UiCommand::wtButton);
-    getCommandHub()->registerCommand(groups);
-
-    createMainMenuCommand();
-
-}
-
-void CorePlugin::createMainMenuCommand()
-{
-    CommandSetPtr mainmenu = getCommandHub()->createCommandSet("main_menu");
-    mainmenu->appendCommand(getCommandHub()->command("common_status"));
-    mainmenu->appendCommand(getCommandHub()->command("groupmode_menu"));
-
-    UiCommandPtr mainmenucmd = UiCommand::create("Main menu", "1downarrow", "main_menu");
-    mainmenucmd->setWidgetType(UiCommand::wtButton);
-    mainmenucmd->setSubcommands(mainmenu);
-    getCommandHub()->registerCommand(mainmenucmd);
 }
 
 //void CorePlugin::createCommand(int id, const QString& text, const QString& icon, int menu_id,
@@ -3150,8 +3067,6 @@ bool CorePlugin::init()
     QString profile = settings.value("Profile").toString();
     bool noshow = settings.value("NoShow", false).toBool();
 
-    noshow = false; //Fixme: Implement me, remove me
-
     if(profile.isEmpty() && noshow)
     {
         settings.setValue("NoShow", false);
@@ -3173,8 +3088,6 @@ bool CorePlugin::init()
     m_propertyHub = getProfileManager()->getPropertyHub("_core");
     if(!m_propertyHub)
         return false;
-
-    createCommands();
 
     getEventHub()->triggerEvent("load_config");
 

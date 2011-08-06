@@ -5,7 +5,6 @@
 #include <QMap>
 #include "uicommand.h"
 #include "simapi.h"
-#include "commandset.h"
 
 namespace SIM
 {
@@ -20,16 +19,12 @@ public:
     UiCommandPtr command(const QString& id) const;
     QStringList commandsForTag(const QString& tag) const;
 
-    CommandSetPtr createCommandSet(const QString& id);
-    CommandSetPtr commandSet(const QString& id) const;
-    void deleteCommandSet(const QString& id);
 signals:
 
 public slots:
 
 private:
     QList<UiCommandPtr> m_commands;
-    QList<CommandSetPtr> m_commandSets;
 
 };
 
