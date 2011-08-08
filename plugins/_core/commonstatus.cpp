@@ -36,9 +36,7 @@ using namespace SIM;
 
 CommonStatus::CommonStatus(SIM::ClientManager* manager) : QObject(), m_clientManager(manager)
 {
-    m_statusCmd = UiCommand::create(I18N_NOOP("Status"), "SIM_inactive", "common_status", QStringList("main_toolbar"));
     rebuildStatusList();
-    getCommandHub()->registerCommand(m_statusCmd);
 
     getEventHub()->getEvent("init")->connectTo(this, SLOT(eventInit()));
 }

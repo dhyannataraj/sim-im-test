@@ -6,6 +6,13 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include "simapi.h"
+#include "contacts/contact.h"
+#include "contacts/group.h"
+#include "contacts/imcontact.h"
+#include "contacts/imgroup.h"
+#include "uicommandaction.h"
+#include "uicommandcontextprovider.h"
+#include "uicommandcontext.h"
 
 namespace SIM
 {
@@ -13,14 +20,12 @@ namespace SIM
 class EXPORT UiCommand;
 typedef QSharedPointer<UiCommand> UiCommandPtr;
 
-class EXPORT CommandSet;
-typedef QSharedPointer<CommandSet> CommandSetPtr;
-
 class EXPORT UiCommand : public QObject
 {
     Q_OBJECT
 public:
-    static UiCommandPtr create(const QString& text, const QString& iconId, const QString& id, const QStringList& tags = QStringList());
+    explicit UiCommand(const QString& text, const QString& iconId, const QString& id, const QStringList& tags = QStringList());
+    virtual ~UiCommand();
 
     QString text() const;
     QIcon icon() const;
@@ -34,30 +39,29 @@ public:
     void clearTags();
     QStringList tags() const;
 
-    bool isCheckable() const;
-    void setCheckable(bool b);
+    virtual QList<SIM::UiCommandContext::UiCommandContext> getAvailableContexts() const = 0;
 
-    bool isChecked() const;
+    virtual UiCommandAction* createAction(QWidget* parent);
+
+    virtual void perform(UiCommandContextProvider* provider);
+
+    void updateState(bool active);
 
 signals:
-
-public slots:
+    void stateChanged(bool active);
 
 protected:
-    explicit UiCommand(const QString& text, const QString& iconId, const QString& id, const QStringList& tags = QStringList());
+    bool state() const;
 
 private:
     QString m_id;
     QStringList m_tags;
     QString m_iconId;
-    CommandSetPtr m_subcommands;
-    UiCommand* m_parent;
     QString m_text;
     QIcon m_icon;
-    bool m_checkable;
-    bool m_checked;
-    bool m_autoExclusive;
+    bool m_state;
 };
+
 }
 
 #endif // UICOMMAND_H

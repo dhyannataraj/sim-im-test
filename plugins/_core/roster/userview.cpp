@@ -140,6 +140,7 @@ bool UserView::init()
 void UserView::setShowOffline(bool s)
 {
     m_showOffline = s;
+    update();
 }
 
 bool UserView::isShowOffline() const

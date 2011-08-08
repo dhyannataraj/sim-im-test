@@ -65,6 +65,8 @@ email                : vovan@shutoff.ru
 #include "commonstatus.h"
 #include "container/containermanager.h"
 
+#include "mainwinactions/actionshowoffline.h"
+
 using namespace std;
 using namespace SIM;
 
@@ -197,18 +199,14 @@ CorePlugin::CorePlugin() : QObject()
 //	setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
     m_containerManager = new ContainerManager(this);
 
+    subscribeToEvents();
+
+    m_commonStatus = new CommonStatus(getClientManager());
+    m_main = new MainWindow(this);
+
 //	boundTypes();
 
-//	EventMenu(MenuFileDecline,      EventMenu::eAdd).process();
-//	EventMenu(MenuMailList,         EventMenu::eAdd).process();
-//	EventMenu(MenuPhoneList,        EventMenu::eAdd).process();
-//	EventMenu(MenuStatusWnd,        EventMenu::eAdd).process();
-//	EventMenu(MenuEncoding,         EventMenu::eAdd).process();
-//	EventMenu(MenuSearchItem,       EventMenu::eAdd).process();
-//	EventMenu(MenuSearchGroups,     EventMenu::eAdd).process();
-//	EventMenu(MenuSearchOptions,    EventMenu::eAdd).process();
-
-//	createMainToolbar();
+	createMainToolbar();
 //	createHistoryToolbar();
 //	createContainerToolbar();
 //	createMsgEditToolbar();
@@ -228,10 +226,7 @@ CorePlugin::CorePlugin() : QObject()
 //	EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
 
 //	createEventCmds();
-    subscribeToEvents();
 
-    m_commonStatus = new CommonStatus(getClientManager());
-    m_main = new MainWindow(this);
 }
 
 void CorePlugin::subscribeToEvents()
@@ -265,6 +260,12 @@ IContainerManager* CorePlugin::containerManager() const
 {
     return m_containerManager;
 }
+
+void CorePlugin::createMainToolbar()
+{
+    getCommandHub()->registerCommand(ActionShowOffline::create(m_main));
+}
+
 
 //void CorePlugin::createEventCmds()
 //{

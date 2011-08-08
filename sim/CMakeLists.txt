@@ -16,6 +16,10 @@ SET(sim_LIB_SRCS
         standardclientmanager.cpp
         commands/commandhub.cpp
         commands/uicommand.cpp
+        commands/uicommandlist.cpp
+        commands/uicommandcontextprovider.cpp
+        commands/uicommandaction.cpp
+        commands/simtoolbar.cpp
 		country.cpp
         events/eventdata.cpp
         events/eventhub.cpp
@@ -92,6 +96,10 @@ SET(sim_LIB_HDRS
         standardclientmanager.h
         commands/commandhub.h
         commands/uicommand.h
+        commands/uicommandlist.h
+        commands/uicommandcontextprovider.h
+        commands/uicommandaction.h
+        commands/simtoolbar.h
 		country.h
         events/eventdata.h
         events/eventhub.h
@@ -243,6 +251,7 @@ SET(sim_tests_srcs
     tests/testimcontactid.cpp
     tests/teststandardavatarstorage.cpp
     tests/teststandardprofilemanager.cpp
+    tests/testsimtoolbar.cpp
 )
 
 
@@ -259,6 +268,7 @@ SET(sim_tests_hdrs
     tests/mocks/mockmessageoutpipe.h
     tests/mocks/mockmessageprocessor.h
     tests/mocks/mockprofilemanager.h
+    tests/mocks/mockuicommand.h
     tests/testuicommand.h
     tests/gtest-qt.h
 )

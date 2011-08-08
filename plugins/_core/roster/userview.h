@@ -42,7 +42,7 @@ public:
     };
 
     UserView(CorePlugin* plugin, QWidget* parent = 0);
-    ~UserView();
+    virtual ~UserView();
 
     bool init();
 

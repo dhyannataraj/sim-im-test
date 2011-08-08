@@ -25,6 +25,7 @@
 #include "events/eventhub.h"
 #include "commands/commandhub.h"
 #include "commands/uicommand.h"
+#include "commands/uicommandlist.h"
 #include "imagestorage/imagestorage.h"
 #include "clientmanager.h"
 #include "container/userwnd.h"
@@ -54,7 +55,7 @@ MainWindow::MainWindow(CorePlugin* core)
     setWindowIcon(getImageStorage()->icon("SIM"));
     updateTitle();
 
-    m_bar = new QToolBar("Main toolbar", this);
+    m_bar = new SIM::SimToolbar(this);
     addToolBar(m_bar);
 
     m_centralWidget = new QWidget(this);
@@ -105,16 +106,19 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     return QMainWindow::eventFilter(o, e);
 }
 
-void MainWindow::loadDefaultCommandList()
+void MainWindow::loadDefaultMainToolbar()
 {
+    SIM::UiCommandList list;
+    list.appendCommand(getCommandHub()->command("show_offline"));
 
+    m_bar->load(list);
 }
 
 void MainWindow::populateMainToolbar()
 {
     QStringList actions = m_core->propertyHub()->value("mainwindow_toolbar_actions").toStringList();
     if(actions.isEmpty()) {
-        loadDefaultCommandList();
+        loadDefaultMainToolbar();
     }
     else {
     }

@@ -2,23 +2,22 @@
 #include "uicommand.h"
 #include "imagestorage/imagestorage.h"
 #include "log.h"
+#include "uicommandaction.h"
 
 namespace SIM
 {
 
-UiCommandPtr UiCommand::create(const QString& text, const QString& iconId, const QString& id, const QStringList& tags)
-{
-    return UiCommandPtr(new UiCommand(text, iconId, id, tags));
-}
-
 UiCommand::UiCommand(const QString& text, const QString& iconId, const QString& id, const QStringList& tags) : QObject(0),
     m_id(id),
     m_tags(tags),
-    m_text(text),
-    m_checkable(false),
-    m_checked(false)
+    m_text(text)
 {
     setIconId(iconId);
+}
+
+UiCommand::~UiCommand()
+{
+
 }
 
 QString UiCommand::text() const
@@ -63,19 +62,29 @@ QString UiCommand::iconId() const
     return m_iconId;
 }
 
-bool UiCommand::isCheckable() const
+void UiCommand::perform(UiCommandContextProvider* provider)
 {
-    return m_checkable;
+    log(L_WARN, "UiCommand::perform without context called");
 }
 
-void UiCommand::setCheckable(bool b)
+
+UiCommandAction* UiCommand::createAction(QWidget* parent)
 {
-    m_checkable = b;
+    UiCommandAction* action = new UiCommandAction(parent, this);
+    action->setIcon(getImageStorage()->icon(m_iconId));
+    connect(this, SIGNAL(stateChanged(bool)), action, SLOT(setChecked(bool)));
+    return action;
 }
 
-bool UiCommand::isChecked() const
+bool UiCommand::state() const
 {
-    return m_checked;
+    return m_state;
+}
+
+void UiCommand::updateState(bool active)
+{
+    emit stateChanged(active);
+    m_state = active;
 }
 
 }
