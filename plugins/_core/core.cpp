@@ -26,6 +26,7 @@ email                : vovan@shutoff.ru
     #include <sys/stat.h>
 #endif
 
+#include <QAction>
 #include <QSettings>
 #include <QMainWindow>
 #include <QTimer>
@@ -65,7 +66,7 @@ email                : vovan@shutoff.ru
 #include "commonstatus.h"
 #include "container/containermanager.h"
 
-#include "mainwinactions/actionshowoffline.h"
+#include "mainwinactions/actioncommonstatus.h"
 
 using namespace std;
 using namespace SIM;
@@ -263,7 +264,11 @@ IContainerManager* CorePlugin::containerManager() const
 
 void CorePlugin::createMainToolbar()
 {
-    getCommandHub()->registerCommand(ActionShowOffline::create(m_main));
+    QAction* show_offline = new QAction(0);
+    connect(show_offline, SIGNAL(triggered(bool)), m_main, SLOT(setShowOfflineContacts(bool)));
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"show_offline", "SIM", "Show offline contacts", show_offline});
+
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"common_status", "", "Status", new ActionCommonStatus(m_commonStatus) });
 }
 
 

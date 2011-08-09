@@ -34,7 +34,7 @@ SET(_core_SRCS
         profileselectdialog.cpp
 #        maininfo.cpp
         mainwin.cpp
-        mainwinactions/actionshowoffline.cpp
+        mainwinactions/actioncommonstatus.cpp
 #        manager.cpp
 #        msgauth.cpp
 #        msgcfg.cpp
@@ -121,7 +121,7 @@ SET(_core_HDRS
         profileselectdialog.h
 #        maininfo.h
         mainwin.h
-        mainwinactions/actionshowoffline.h
+        mainwinactions/actioncommonstatus.h
 #        manager.h
 #        msgauth.h
 #        msgcfg.h

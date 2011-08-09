@@ -1,4 +1,5 @@
 #include "commandhub.h"
+#include "imagestorage/imagestorage.h"
 
 namespace SIM
 {
@@ -7,38 +8,37 @@ CommandHub::CommandHub(QObject *parent) :
 {
 }
 
-void CommandHub::registerCommand(const UiCommandPtr& cmd)
+void CommandHub::registerAction(const ActionDescriptor& action)
 {
-    m_commands.append(cmd);
+    m_commands.append(action);
+    action.action->setIcon(getImageStorage()->icon(action.iconId));
+    action.action->setText(action.text);
+    action.action->setParent(this);
 }
 
-void CommandHub::unregisterCommand(const QString& id)
+void CommandHub::unregisterAction(const QString& id)
 {
-    for(QList<UiCommandPtr>::iterator it = m_commands.begin(); it != m_commands.end(); ++it) {
-        if((*it)->id() == id) {
+    for(QList<ActionDescriptor>::iterator it = m_commands.begin(); it != m_commands.end(); ++it) {
+        if((*it).id == id) {
             m_commands.erase(it);
             return;
         }
     }
 }
 
-UiCommandPtr CommandHub::command(const QString& id) const
+QAction* CommandHub::action(const QString& id) const
 {
-    for(QList<UiCommandPtr>::const_iterator it = m_commands.begin(); it != m_commands.end(); ++it) {
-        if((*it)->id() == id) {
-            return *it;
+    for(QList<ActionDescriptor>::const_iterator it = m_commands.begin(); it != m_commands.end(); ++it) {
+        if((*it).id == id) {
+            return (*it).action;
         }
     }
-    return UiCommandPtr();
+    return 0;
 }
 
-QStringList CommandHub::commandsForTag(const QString& tag) const
+QStringList CommandHub::actionsForTag(const QString& tag) const
 {
     QStringList ids;
-    foreach(const UiCommandPtr& cmd, m_commands) {
-        if(cmd->tags().contains(tag))
-            ids.append(cmd->id());
-    }
     return ids;
 }
 

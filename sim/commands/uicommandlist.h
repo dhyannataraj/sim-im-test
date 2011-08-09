@@ -7,7 +7,7 @@
 #ifndef UICOMMANDLIST_H_
 #define UICOMMANDLIST_H_
 
-#include "uicommand.h"
+#include <QAction>
 #include "simapi.h"
 
 namespace SIM
@@ -19,7 +19,7 @@ public:
     UiCommandList();
     virtual ~UiCommandList();
     void clear();
-    void appendCommand(const UiCommandPtr& command);
+    void appendCommand(const QString& commandId);
 
     QStringList allCommandIds() const;
 

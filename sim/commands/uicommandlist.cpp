@@ -28,9 +28,9 @@ void UiCommandList::clear()
     m_commandIds.clear();
 }
 
-void UiCommandList::appendCommand(const UiCommandPtr& command)
+void UiCommandList::appendCommand(const QString& commandId)
 {
-    m_commandIds.append(command->id());
+    m_commandIds.append(commandId);
 }
 
 } /* namespace SIM */

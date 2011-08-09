@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "commands/uicommand.h"
 #include "imagestorage/imagestorage.h"
 #include "stubs/stubimagestorage.h"
 

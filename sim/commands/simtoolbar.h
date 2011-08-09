@@ -11,7 +11,7 @@
 #include <QList>
 
 #include "uicommandlist.h"
-#include "uicommand.h"
+#include <QAction>
 #include "uicommandcontextprovider.h"
 #include "simapi.h"
 
@@ -29,18 +29,7 @@ public:
     bool load(const UiCommandList& list);
     UiCommandList save();
 
-    int commandsCount() const;
-    UiCommandPtr command(int i);
-
-    void setContextProvider(UiCommandContextProvider* provider);
-
-protected slots:
-    void actionTriggered(bool checked);
-
 private:
-    void addCommand(const UiCommandPtr& cmd);
-    QList<UiCommandPtr> m_commands;
-    UiCommandContextProvider* m_contextProvider;
 };
 
 } /* namespace SIM */

@@ -3,28 +3,35 @@
 
 #include <QObject>
 #include <QMap>
-#include "uicommand.h"
 #include "simapi.h"
+#include <QAction>
 
 namespace SIM
 {
+struct ActionDescriptor
+{
+    QString id;
+    QString iconId;
+    QString text;
+    QAction* action;
+};
 class EXPORT CommandHub : public QObject
 {
     Q_OBJECT
 public:
     explicit CommandHub(QObject *parent = 0);
 
-    void registerCommand(const UiCommandPtr& cmd);
-    void unregisterCommand(const QString& id);
-    UiCommandPtr command(const QString& id) const;
-    QStringList commandsForTag(const QString& tag) const;
+    void registerAction(const ActionDescriptor& action);
+    void unregisterAction(const QString& id);
+    QAction* action(const QString& id) const;
+    QStringList actionsForTag(const QString& tag) const;
 
 signals:
 
 public slots:
 
 private:
-    QList<UiCommandPtr> m_commands;
+    QList<ActionDescriptor> m_commands;
 
 };
 

@@ -24,7 +24,6 @@
 #include "contacts/contactlist.h"
 #include "events/eventhub.h"
 #include "commands/commandhub.h"
-#include "commands/uicommand.h"
 #include "commands/uicommandlist.h"
 #include "imagestorage/imagestorage.h"
 #include "clientmanager.h"
@@ -109,7 +108,8 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 void MainWindow::loadDefaultMainToolbar()
 {
     SIM::UiCommandList list;
-    list.appendCommand(getCommandHub()->command("show_offline"));
+    list.appendCommand("show_offline");
+    list.appendCommand("common_status");
 
     m_bar->load(list);
 }
@@ -130,6 +130,11 @@ void MainWindow::init()
     updateTitle();
     populateMainToolbar();
     refreshStatusWidgets();
+}
+
+void MainWindow::setShowOfflineContacts(bool show)
+{
+    m_view->setShowOffline(show);
 }
 
 //bool MainWindow::processEvent(Event *e)

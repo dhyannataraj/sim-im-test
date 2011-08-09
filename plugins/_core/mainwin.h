@@ -50,6 +50,9 @@ public:
     UserView* userview() const;
     void init();
 
+public slots:
+    void setShowOfflineContacts(bool show);
+
 protected:
     bool eventFilter(QObject *o, QEvent *e);
     void resizeEvent(QResizeEvent *e);

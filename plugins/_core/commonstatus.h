@@ -25,7 +25,6 @@
 #include <QString>
 #include <QStringList>
 
-#include "commands/uicommand.h"
 
 class CORE_EXPORT CommonStatus : public QObject
 {
@@ -35,6 +34,20 @@ public:
     virtual ~CommonStatus();
 
     void rebuildStatusList();
+
+    void setCommonStatus(const QString& id);
+
+    struct CommonStatusDescription
+    {
+        QString id;
+        QString name;
+        QString iconId;
+    };
+
+    CommonStatusDescription currentCommonStatus() const;
+    int indexOfCommonStatus(const QString& id);
+
+    QList<CommonStatusDescription> allCommonStatuses() const;
 
 private slots:
     void eventInit();
@@ -46,11 +59,11 @@ private slots:
     void statusDnd();
     void statusOffline();
 
-    void setCommonStatus(const QString& id);
 
 private:
+    QList<CommonStatusDescription> m_statuses;
     SIM::ClientManager* m_clientManager;
-    SIM::UiCommandPtr m_statusCmd;
+    QString m_currentStatusId;
 };
 
 #endif
