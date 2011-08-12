@@ -39,6 +39,13 @@ QAction* CommandHub::action(const QString& id) const
 QStringList CommandHub::actionsForTag(const QString& tag) const
 {
     QStringList ids;
+    for(QList<ActionDescriptor>::const_iterator it = m_commands.begin(); it != m_commands.end(); ++it)
+    {
+        if((*it).tags.contains(tag))
+        {
+            ids.append((*it).id);
+        }
+    }
     return ids;
 }
 

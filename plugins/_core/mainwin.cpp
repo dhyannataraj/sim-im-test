@@ -110,6 +110,7 @@ void MainWindow::loadDefaultMainToolbar()
     SIM::UiCommandList list;
     list.appendCommand("show_offline");
     list.appendCommand("common_status");
+    list.appendCommand("main_menu");
 
     m_bar->load(list);
 }
@@ -117,10 +118,12 @@ void MainWindow::loadDefaultMainToolbar()
 void MainWindow::populateMainToolbar()
 {
     QStringList actions = m_core->propertyHub()->value("mainwindow_toolbar_actions").toStringList();
-    if(actions.isEmpty()) {
+    if(actions.isEmpty())
+    {
         loadDefaultMainToolbar();
     }
-    else {
+    else
+    {
     }
 }
 

@@ -363,4 +363,7 @@
   <icon name="defavatar">
 	<object mime="image/png">defavatar.png</object>
   </icon>
+  <icon name="mainmenu">
+    <object mime="image/png">1downarrow.png</object>
+  </icon>
 </icondef>

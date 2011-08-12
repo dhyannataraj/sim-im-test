@@ -5,6 +5,7 @@ ADD_SUBDIRECTORY(pict)
 ADD_SUBDIRECTORY(styles)
 
 SET(_core_SRCS
+		events/commonstatusevent.cpp
 #        arcfg.cpp
 #        autoreply.cpp
 #        cfgdlg.cpp
@@ -35,6 +36,7 @@ SET(_core_SRCS
 #        maininfo.cpp
         mainwin.cpp
         mainwinactions/actioncommonstatus.cpp
+        mainwinactions/actionmenucommonstatus.cpp
 #        manager.cpp
 #        msgauth.cpp
 #        msgcfg.cpp
@@ -89,6 +91,7 @@ SET(_core_SRCS
 ENDIF(NOT WIN32)
 
 SET(_core_HDRS
+		events/commonstatusevent.h
 #        arcfg.h
 #        autoreply.h
 #        cfgdlg.h
@@ -122,6 +125,7 @@ SET(_core_HDRS
 #        maininfo.h
         mainwin.h
         mainwinactions/actioncommonstatus.h
+        mainwinactions/actionmenucommonstatus.h
 #        manager.h
 #        msgauth.h
 #        msgcfg.h

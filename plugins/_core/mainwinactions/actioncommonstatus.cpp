@@ -23,6 +23,7 @@ QWidget* ActionCommonStatus::createWidget(QWidget* parent)
 {
     QComboBox* combobox = new QComboBox(parent);
     combobox->setEditable(false);
+    combobox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     QList<CommonStatus::CommonStatusDescription> statuses = m_commonStatus->allCommonStatuses();
 
     foreach(CommonStatus::CommonStatusDescription statusDescription, statuses)
@@ -41,5 +42,5 @@ void ActionCommonStatus::deleteWidget(QWidget* widget)
 
 void ActionCommonStatus::statusActivated(int index)
 {
-
+    m_commonStatus->setCommonStatus(m_commonStatus->commonStatusByIndex(index).id);
 }

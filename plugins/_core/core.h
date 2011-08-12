@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QThread>
 #include <QByteArray>
+#include <QMenu>
 
 #include "misc.h"
 #include "plugins.h"
@@ -213,6 +214,7 @@ protected:
 //    bool lockProfile(const QString &profile, bool bSend = false);
 
     void createMainToolbar();
+    QMenu* createMainMenu();
 //    void createGroupModeMenu();
 //    bool updateMainToolbar(unsigned long commandID);
 //    void createHistoryToolbar();

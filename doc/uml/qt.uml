@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_D2A-UMAFEeCSfPbvj3kzBQ" name="model">
-  <packagedElement xmi:type="uml:Class" xmi:id="_VhSGMMAFEeCwM4hK71e8wg" name="QByteArray"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_WkxjgMAFEeCwM4hK71e8wg" name="QImage"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_XoMvYMAFEeCwM4hK71e8wg" name="QString"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_hbUPQMAFEeCwM4hK71e8wg" name="QDateTime"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_L2HfQMBDEeC6qORRTbjnfg" name="QIcon"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_MhL1gMBDEeC6qORRTbjnfg" name="QAction"/>
-</uml:Model>

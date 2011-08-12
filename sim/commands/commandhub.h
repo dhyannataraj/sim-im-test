@@ -13,6 +13,7 @@ struct ActionDescriptor
     QString id;
     QString iconId;
     QString text;
+    QStringList tags;
     QAction* action;
 };
 class EXPORT CommandHub : public QObject

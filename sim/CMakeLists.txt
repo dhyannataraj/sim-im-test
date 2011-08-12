@@ -17,6 +17,7 @@ SET(sim_LIB_SRCS
         commands/commandhub.cpp
         commands/uicommandlist.cpp
         commands/uicommandcontextprovider.cpp
+        commands/menuaction.cpp
         commands/simtoolbar.cpp
 		country.cpp
         events/eventdata.cpp
@@ -95,6 +96,7 @@ SET(sim_LIB_HDRS
         commands/commandhub.h
         commands/uicommandlist.h
         commands/uicommandcontextprovider.h
+        commands/menuaction.h
         commands/simtoolbar.h
 		country.h
         events/eventdata.h

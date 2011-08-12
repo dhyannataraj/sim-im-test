@@ -43,7 +43,6 @@ email                : vovan@shutoff.ru
 #include <QByteArray>
 #include <QDateTime>
 
-//#include "config.h"
 
 // simlib
 
@@ -58,6 +57,7 @@ email                : vovan@shutoff.ru
 #include "clientmanager.h"
 #include "contacts/contactlist.h"
 #include "commands/commandhub.h"
+#include "commands/menuaction.h"
 
 // _core
 #include "core.h"
@@ -67,6 +67,8 @@ email                : vovan@shutoff.ru
 #include "container/containermanager.h"
 
 #include "mainwinactions/actioncommonstatus.h"
+#include "mainwinactions/actionmenucommonstatus.h"
+#include "events/commonstatusevent.h"
 
 using namespace std;
 using namespace SIM;
@@ -205,28 +207,8 @@ CorePlugin::CorePlugin() : QObject()
     m_commonStatus = new CommonStatus(getClientManager());
     m_main = new MainWindow(this);
 
-//	boundTypes();
-
 	createMainToolbar();
-//	createHistoryToolbar();
-//	createContainerToolbar();
-//	createMsgEditToolbar();
-//	createTextEditToolbar();
-//	createMenuMsgView();
-//	createMenuTextEdit();
 
-//	MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
-//    // because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, which are
-//	// created by createContainerToolbar and createMsgEditToolbar
-//	// If menu or toolbar were not created, items can't be added, and will be just missing
-//	Command cmd;
-
-//	EventMenu(MenuGroup, EventMenu::eAdd).process();
-//	EventMenu(MenuContact, EventMenu::eAdd).process();
-//	EventMenu(MenuContactGroup, EventMenu::eAdd).process();
-//	EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
-
-//	createEventCmds();
 
 }
 
@@ -241,22 +223,6 @@ void CorePlugin::eventQuit()
     //destroy();
 }
 
-//void CorePlugin::createCommand(int id, const QString& text, const QString& icon, int menu_id,
-//        int menu_grp, int bar_id, int bar_grp, int flags, const QString& accel)
-//{
-//    Command cmd;
-//    cmd->id = id;
-//    cmd->text = text;
-//    cmd->icon = icon;
-//    cmd->menu_id = menu_id;
-//    cmd->menu_grp = menu_grp;
-//    cmd->bar_id = bar_id;
-//    cmd->bar_grp = bar_grp;
-//    cmd->flags = flags;
-//    cmd->accel = accel;
-//    EventCommandCreate(cmd).process();
-//}
-
 IContainerManager* CorePlugin::containerManager() const
 {
     return m_containerManager;
@@ -265,12 +231,41 @@ IContainerManager* CorePlugin::containerManager() const
 void CorePlugin::createMainToolbar()
 {
     QAction* show_offline = new QAction(0);
+    show_offline->setCheckable(true);
     connect(show_offline, SIGNAL(triggered(bool)), m_main, SLOT(setShowOfflineContacts(bool)));
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"show_offline", "SIM", "Show offline contacts", show_offline});
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"show_offline", "SIM", "Show offline contacts",
+        QStringList() << "main_toolbar" << "main_menu",
+        show_offline});
 
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"common_status", "", "Status", new ActionCommonStatus(m_commonStatus) });
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"common_status", "", "Status",
+        QStringList() << "main_toolbar",
+        new ActionCommonStatus(m_commonStatus) });
+
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"common_status_menu", "", "Status",
+        QStringList() << "main_menu",
+        new ActionMenuCommonStatus(m_commonStatus) });
+
+    QAction* mainMenu = new SIM::MenuAction(0);
+    mainMenu->setMenu(createMainMenu());
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"main_menu", "mainmenu", "MainMenu",
+        QStringList() << "main_toolbar",
+        mainMenu});
 }
 
+QMenu* CorePlugin::createMainMenu()
+{
+    QMenu* menu = new QMenu();
+
+    QStringList list = getCommandHub()->actionsForTag("main_menu");
+
+    foreach(const QString& id, list)
+    {
+        QAction* action = getCommandHub()->action(id);
+        menu->addAction(action);
+    }
+
+    return menu;
+}
 
 //void CorePlugin::createEventCmds()
 //{

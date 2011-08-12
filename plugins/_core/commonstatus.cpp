@@ -30,6 +30,7 @@
 #include "clientmanager.h"
 #include "commands/commandhub.h"
 #include "contacts/protocol.h"
+#include "events/commonstatusevent.h"
 
 using namespace SIM;
 
@@ -38,6 +39,8 @@ CommonStatus::CommonStatus(SIM::ClientManager* manager) : QObject(), m_clientMan
     rebuildStatusList();
 
     m_currentStatusId = "offline";
+
+    getEventHub()->registerEvent(IEventPtr(new SIM::CommonStatusEvent()));
 
     getEventHub()->getEvent("init")->connectTo(this, SLOT(eventInit()));
 }
@@ -89,16 +92,15 @@ void CommonStatus::statusOffline()
 
 void CommonStatus::setCommonStatus(const QString& id)
 {
-    m_currentStatusId = id;
-//    QList<ClientPtr> clients = m_clientManager->allClients();
-//    foreach(const ClientPtr& client, clients)
-//    {
-//        Protocol* proto = client->protocol();
-//        if(proto->states(SIM::Protocol::DefaultGroup).contains(id))
-//        {
-//            client->changeStatus(proto->status(id, SIM::Protocol::DefaultGroup), SIM::Protocol::DefaultGroup);
-//        }
-//    }
+    foreach(const CommonStatusDescription& desc, m_statuses)
+    {
+        if(desc.id == id)
+        {
+            m_currentStatusId = id;
+            getEventHub()->triggerEvent("common_status", CommonStatusEventData::create("online"));
+            return;
+        }
+    }
 }
 
 QList<CommonStatus::CommonStatusDescription> CommonStatus::allCommonStatuses() const
@@ -126,6 +128,16 @@ int CommonStatus::indexOfCommonStatus(const QString& id)
         i++;
     }
     return -1;
+}
+
+CommonStatus::CommonStatusDescription CommonStatus::commonStatusByIndex(int index) const
+{
+    foreach(const CommonStatusDescription& desc, m_statuses)
+    {
+        if(desc.id == m_currentStatusId)
+            return desc;
+    }
+    return CommonStatusDescription();
 }
 
 void CommonStatus::eventInit()

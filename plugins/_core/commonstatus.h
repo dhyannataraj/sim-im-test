@@ -45,7 +45,9 @@ public:
     };
 
     CommonStatusDescription currentCommonStatus() const;
+
     int indexOfCommonStatus(const QString& id);
+    CommonStatusDescription commonStatusByIndex(int index) const;
 
     QList<CommonStatusDescription> allCommonStatuses() const;
 
