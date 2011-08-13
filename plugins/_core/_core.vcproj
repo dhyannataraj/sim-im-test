@@ -2259,6 +2259,26 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="mainwinactions"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\mainwinactions\actionshowoffline.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\mainwinactions\actionshowoffline.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

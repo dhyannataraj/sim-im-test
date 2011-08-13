@@ -3086,6 +3086,8 @@ bool CorePlugin::init()
 
     log(L_DEBUG, "Profile selected: %s", qPrintable(profile));
 
+    //getProfileManager()->selectProfile(profile); //Noragen: Is this missing, when NoShow is true XD
+
     m_propertyHub = getProfileManager()->getPropertyHub("_core");
     if(!m_propertyHub)
         return false;

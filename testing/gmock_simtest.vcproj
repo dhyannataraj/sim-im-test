@@ -203,10 +203,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\sim\tests\testcommandset.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\sim\tests\testcontact.cpp"
 				>
 			</File>
@@ -236,14 +232,6 @@
 			</File>
 			<File
 				RelativePath="..\sim\tests\teststandardprofilemanager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\sim\tests\teststandardtoolbaractionfactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\sim\tests\testtoolbar.cpp"
 				>
 			</File>
 			<File
