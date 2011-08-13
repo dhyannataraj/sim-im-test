@@ -39,6 +39,9 @@ bool ServiceSnacHandler::process(unsigned short subtype, const QByteArray& data,
         parseRateInfo(data);
         emit initiateLoginStep2();
         return requestSelfInfo();
+
+    case SnacServiceStatus:
+        return parseServiceStatus(realData);
     }
 
     return true;
@@ -267,4 +270,11 @@ RateInfoPtr ServiceSnacHandler::rateInfo(int group) const
             return info;
     }
     return RateInfoPtr();
+}
+
+bool ServiceSnacHandler::parseServiceStatus(const QByteArray& data)
+{
+    // TODO: parse this packet
+    emit statusTransitionComplete();
+    return true;
 }

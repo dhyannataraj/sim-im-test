@@ -36,6 +36,7 @@ public:
     static const int SnacServiceCapabilities = 0x0017;
     static const int SnacServiceCapabilitiesAck = 0x0018;
     static const int SnacServiceSetStatus = 0x001e;
+    static const int SnacServiceStatus = 0x0021;
 
     static const int TlvOnlineStatus = 0x0006;
 
@@ -46,6 +47,7 @@ public:
 signals:
     void initiateLoginStep2();
     void serviceAvailable(int serviceId, const QString& address, const QByteArray& cookie);
+    void statusTransitionComplete();
 
 private:
     bool sendServices(const QByteArray& data);
@@ -54,6 +56,8 @@ private:
     bool handleServiceResponse(const QByteArray& data);
     RateInfoPtr readNextRateInfoClass(ByteArrayParser& parser);
     int readNextRateInfoGroup(ByteArrayParser& parser);
+
+    bool parseServiceStatus(const QByteArray& data);
 
     QList<RateInfoPtr> m_rateInfoList;
     QDateTime m_loginSince;

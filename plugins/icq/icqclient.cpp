@@ -442,6 +442,7 @@ void ICQClient::initSnacHandlers()
     m_serviceSnac = new ServiceSnacHandler(this);
     connect(m_serviceSnac, SIGNAL(initiateLoginStep2()), this, SLOT(loginStep2()));
     connect(m_serviceSnac, SIGNAL(serviceAvailable(int,QString,QByteArray)), this, SLOT(serviceAvailable(int,QString,QByteArray)));
+    connect(m_serviceSnac, SIGNAL(statusTransitionComplete()), this, SLOT(statusTransitionComplete()));
 
     m_ssiSnac = new SsiSnacHandler(this);
     connect(m_ssiSnac, SIGNAL(ready()), this, SLOT(snacReady()));
@@ -479,12 +480,16 @@ void ICQClient::changeStatus(const SIM::IMStatusPtr& status)
 {
     if((m_state == sOffline) && !status->flag(SIM::IMStatus::flOffline))
     {
+        ICQStatusPtr icqstatus = status.dynamicCast<ICQStatus>();
+        if(!icqstatus)
+            return;
         emit setStatusWidgetsBlinking(true);
         if(clientPersistentData->getServer().isEmpty())
         {
             clientPersistentData->setServer(icq_server);
         }
         oscarSocket()->connectToHost(clientPersistentData->getServer(), clientPersistentData->getPort());
+        m_transitionStatus = icqstatus;
     }
     //    if (status->id() == "offline")
     //    {
@@ -1476,6 +1481,13 @@ void ICQClient::serviceAvailable(int serviceId, const QString& address, const QB
     log(L_DEBUG, "ICQClient::serviceAvailable: %08x", serviceId);
     if(serviceId == m_bartSnac->getType())
         m_bartSnac->bartServiceAvailable(address, authCookie);
+}
+
+void ICQClient::statusTransitionComplete()
+{
+    m_currentStatus = m_transitionStatus;
+    m_transitionStatus.clear();
+    emit setStatusWidgetsBlinking(false);
 }
 
 bool ICQClient::sendMessage(const SIM::MessagePtr& message)

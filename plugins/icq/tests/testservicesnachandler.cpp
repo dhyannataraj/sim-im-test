@@ -80,6 +80,11 @@ namespace
             return socket->makeSnacPacket(ICQ_SNACxFOOD_SERVICE, ServiceSnacHandler::SnacServiceRateInfo, 0, builder.getArray());
         }
 
+        QByteArray makeStatusReplyPacket()
+        {
+            return QByteArray("\x00\x02\x04\x00", 4);
+        }
+
         QByteArray makeAcknowledgedRateInfoClassesPacket()
         {
             return QByteArray("\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05", 10);
@@ -149,5 +154,15 @@ namespace
 
         ICQRequestPtr rq = ServiceSnacServiceRequest::create(client, 0x10);
         rq->perform(socket);
+    }
+
+    TEST_F(TestServiceSnacHandler, serviceStatusInfo_emitsSignal)
+    {
+        QSignalSpy spy(handler, SIGNAL(statusTransitionComplete()));
+
+        bool success = handler->process(ServiceSnacHandler::SnacServiceStatus, makeStatusReplyPacket(), 0, 0);
+
+        ASSERT_TRUE(success);
+        ASSERT_EQ(1, spy.count());
     }
 }

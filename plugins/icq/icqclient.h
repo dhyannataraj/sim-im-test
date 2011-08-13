@@ -732,6 +732,8 @@ protected slots:
     void loginStep2();
     void snacReady();
     void serviceAvailable(int serviceId, const QString& address, const QByteArray& authCookie);
+    void statusTransitionComplete();
+
 //    void ping();
 //    void retry(int n, void*);
 //    void interfaceDown(QString);
@@ -909,6 +911,7 @@ private:
     QList<ICQStatusPtr> m_defaultStates;
     QString m_name;
     ICQStatusPtr m_currentStatus;
+    ICQStatusPtr m_transitionStatus;
     OscarSocket* m_oscarSocket;
 
     enum State
