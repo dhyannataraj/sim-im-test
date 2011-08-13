@@ -233,23 +233,35 @@ void CorePlugin::createMainToolbar()
     QAction* show_offline = new QAction(0);
     show_offline->setCheckable(true);
     connect(show_offline, SIGNAL(triggered(bool)), m_main, SLOT(setShowOfflineContacts(bool)));
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"show_offline", "SIM", "Show offline contacts",
+
+    SIM::ActionDescriptor a_1 = 
+        {"show_offline", "SIM", "Show offline contacts",
         QStringList() << "main_toolbar" << "main_menu",
-        show_offline});
+        show_offline};
 
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"common_status", "", "Status",
+    SIM::ActionDescriptor a_2 = 
+        {"common_status", "", "Status",
         QStringList() << "main_toolbar",
-        new ActionCommonStatus(m_commonStatus) });
+        new ActionCommonStatus(m_commonStatus) };
 
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"common_status_menu", "", "Status",
+    SIM::ActionDescriptor a_3 = 
+        {"common_status_menu", "", "Status",
         QStringList() << "main_menu",
-        new ActionMenuCommonStatus(m_commonStatus) });
+        new ActionMenuCommonStatus(m_commonStatus) };
+
+    getCommandHub()->registerAction(a_1);
+    getCommandHub()->registerAction(a_2);
+    getCommandHub()->registerAction(a_3);
 
     QAction* mainMenu = new SIM::MenuAction(0);
     mainMenu->setMenu(createMainMenu());
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"main_menu", "mainmenu", "MainMenu",
+
+    SIM::ActionDescriptor a_4 =
+        {"main_menu", "mainmenu", "MainMenu",
         QStringList() << "main_toolbar",
-        mainMenu});
+        mainMenu};
+
+    getCommandHub()->registerAction(a_4);
 }
 
 QMenu* CorePlugin::createMainMenu()

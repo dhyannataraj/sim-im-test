@@ -53,12 +53,20 @@ CommonStatus::~CommonStatus()
 void CommonStatus::rebuildStatusList()
 {
     m_statuses.clear();
-    m_statuses << CommonStatusDescription {"online", "Online", "SIM_online"};
-    m_statuses << CommonStatusDescription {"away", "Away", "SIM_away"};
-    m_statuses << CommonStatusDescription {"na", "N/A", "SIM_na"};
-    m_statuses << CommonStatusDescription {"dnd", "Do not disturb", "SIM_dnd"};
-    m_statuses << CommonStatusDescription {"offline", "Offline", "SIM_offline"};
-}
+    CommonStatusDescription csd_1={"online", "Online", "SIM_online"};
+    CommonStatusDescription csd_2={"away", "Away", "SIM_away"};
+    CommonStatusDescription csd_3={"na", "N/A", "SIM_na"};
+    CommonStatusDescription csd_4={"dnd", "Do not disturb", "SIM_dnd"};
+    CommonStatusDescription csd_5={"offline", "Offline", "SIM_offline"};
+ 
+    m_statuses << csd_1 
+               << csd_2 
+               << csd_3 
+               << csd_4 
+               << csd_5;
+  }
+
+
 
 void CommonStatus::statusOnline()
 {

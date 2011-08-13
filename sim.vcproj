@@ -1674,15 +1674,11 @@
 					>
 				</File>
 				<File
+					RelativePath=".\sim\commands\menuaction.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\commands\simtoolbar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\sim\commands\uicommand.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\sim\commands\uicommandaction.cpp"
 					>
 				</File>
 				<File
@@ -1701,15 +1697,11 @@
 						>
 					</File>
 					<File
+						RelativePath=".\sim\commands\moc_menuaction.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\sim\commands\moc_simtoolbar.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\sim\commands\moc_uicommand.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\sim\commands\moc_uicommandaction.cpp"
 						>
 					</File>
 				</Filter>
@@ -1742,6 +1734,30 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\sim\commands\menuaction.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\sim\commands\simtoolbar.h"
 					>
 					<FileConfiguration
@@ -1750,30 +1766,6 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-							Outputs="$(InputDir)moc_$(InputName).cpp"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-							Outputs="$(InputDir)moc_$(InputName).cpp"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\sim\commands\uicommand.h"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
@@ -1785,30 +1777,6 @@
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
-							Outputs="$(InputDir)moc_$(InputName).cpp"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\sim\commands\uicommandaction.h"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
-							Outputs="$(InputDir)moc_$(InputName).cpp"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing $(InputName).h ..."
-							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>

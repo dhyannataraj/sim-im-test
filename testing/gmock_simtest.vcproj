@@ -234,10 +234,6 @@
 				RelativePath="..\sim\tests\teststandardprofilemanager.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\sim\tests\testuicommand.cpp"
-				>
-			</File>
 			<Filter
 				Name="generated"
 				>

@@ -84,7 +84,7 @@
 
 #include "commands/commandhub.h"
 //#include "commands/commandset.h"
-#include "commands/uicommand.h"
+//#include "commands/uicommand.h"
 
 #include "contacts/client.h"
 #include "contacts/clientdatastruct.h"
