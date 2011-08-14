@@ -213,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\_core\tests\testcontainermanager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\_core\tests\testcoreplugin.cpp"
 				>
 				<FileConfiguration
@@ -260,7 +264,15 @@
 				Name="mocks"
 				>
 				<File
+					RelativePath="..\plugins\_core\tests\mocks\mockcontainercontroller.h"
+					>
+				</File>
+				<File
 					RelativePath="..\plugins\_core\tests\mocks\mockcontainermanager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\plugins\_core\tests\mocks\mockuserwnd.h"
 					>
 				</File>
 				<File

@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./include"
+				AdditionalIncludeDirectories="./gtest/include;./include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../include"
+				AdditionalIncludeDirectories="./gtest/include;./include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -151,27 +151,23 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\gmock\gmock-cardinalities.cc"
+				RelativePath=".\src\gmock-cardinalities.cc"
 				>
 			</File>
 			<File
-				RelativePath=".\gmock\gmock-internal-utils.cc"
+				RelativePath=".\src\gmock-internal-utils.cc"
 				>
 			</File>
 			<File
-				RelativePath=".\gmock\gmock-matchers.cc"
+				RelativePath=".\src\gmock-matchers.cc"
 				>
 			</File>
 			<File
-				RelativePath=".\gmock\gmock-printers.cc"
+				RelativePath=".\src\gmock-spec-builders.cc"
 				>
 			</File>
 			<File
-				RelativePath=".\gmock\gmock-spec-builders.cc"
-				>
-			</File>
-			<File
-				RelativePath=".\gmock\gmock.cc"
+				RelativePath=".\src\gmock.cc"
 				>
 			</File>
 		</Filter>
@@ -206,10 +202,6 @@
 			</File>
 			<File
 				RelativePath=".\include\gmock\gmock-matchers.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\gmock\gmock-printers.h"
 				>
 			</File>
 			<File
