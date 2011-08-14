@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
 
     if(!getPluginManager()->initialize())
         return 1;
-    app.setQuitOnLastWindowClosed(false);
+    app.setQuitOnLastWindowClosed(true);
     if (SIM::getPluginManager()->isLoaded())
         res = app.exec();
     
