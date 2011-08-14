@@ -27,6 +27,7 @@ SET(sim_LIB_SRCS
         events/standardevent.cpp
         events/ievent.cpp
         events/logevent.cpp
+        events/menuitemcollectionevent.cpp
 		exec.cpp
         imagestorage/imagestorage.cpp
         imagestorage/standardimagestorage.cpp
@@ -106,6 +107,7 @@ SET(sim_LIB_HDRS
         events/standardevent.h
         events/ievent.h
         events/logevent.h
+        events/menuitemcollectionevent.h
 		exec.h
         imagestorage/imagestorage.h
         imagestorage/standardimagestorage.h

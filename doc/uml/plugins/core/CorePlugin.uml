@@ -132,6 +132,11 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_OiDp0J5REeC07bK7v8SDRA" name="IUserWnd"/>
       <packagedElement xmi:type="uml:Interface" xmi:id="_XoYVIJ5REeC07bK7v8SDRA" name="IContainer"/>
+      <packagedElement xmi:type="uml:Collaboration" xmi:id="_owFmoMZWEeCGzs-JPMOxpw">
+        <ownedBehavior xmi:type="uml:Interaction" xmi:id="_owFmocZWEeCGzs-JPMOxpw">
+          <lifeline xmi:id="_9MgAcMZWEeCGzs-JPMOxpw" name="Core"/>
+        </ownedBehavior>
+      </packagedElement>
       <profileApplication xmi:id="_fpqaQJ5tEeCNFaQWOx8HOg">
         <eAnnotations xmi:id="_fprBUJ5tEeCNFaQWOx8HOg" source="http://www.eclipse.org/uml2/2.0.0/UML">
           <references xmi:type="ecore:EPackage" href="../../Stereotype.uml#_ZgiN8Z5vEeCNFaQWOx8HOg"/>
