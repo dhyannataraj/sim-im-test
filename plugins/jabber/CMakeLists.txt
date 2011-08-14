@@ -79,7 +79,10 @@ SET(jabber_test_sources
     tests/testjabbercontact.cpp
     tests/testjabberclient.cpp
     tests/testjabberstatus.cpp
+    
+    ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
+    ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
 )
 
 ADD_EXECUTABLE(test_jabber ${jabber_test_sources})
-TARGET_LINK_LIBRARIES(test_jabber simlib ${QT_LIBRARIES} gtest gmock jabber)
+TARGET_LINK_LIBRARIES(test_jabber simlib ${QT_LIBRARIES} jabber)

@@ -6,20 +6,22 @@
 #include "userwndcontroller.h"
 #include "core_api.h"
 #include "icontainer.h"
+#include "icontainercontroller.h"
 
-class CORE_EXPORT ContainerController : public QObject
+class CORE_EXPORT ContainerController : public QObject, public IContainerController
 {
     Q_OBJECT
 public:
     explicit ContainerController(int id);
     virtual ~ContainerController();
 
-    int id() const;
+    virtual int id() const;
 
-    void sendMessage(const SIM::MessagePtr& msg);
-    void addUserWnd(int contactId);
-    IUserWnd* userWndById(int id);
-    UserWndControllerPtr userWndController(int id);
+    virtual void sendMessage(const SIM::MessagePtr& msg);
+    virtual void addUserWnd(int contactId);
+    virtual IUserWnd* userWndById(int id);
+    virtual UserWndControllerPtr userWndController(int id);
+    virtual void raiseUserWnd(int id);
 
 signals:
     void closed(int id);
@@ -35,6 +37,5 @@ private:
     IContainerPtr m_view;
     int m_id;
 };
-typedef QSharedPointer<ContainerController> ContainerControllerPtr;
 
 #endif // CONTAINERCONTROLLER_H

@@ -206,8 +206,11 @@ SET(icq_test_sources
     tests/testicqstatusconverter.cpp
     tests/teststandardicqrequestmanager.cpp
     tests/signalspy.cpp
+    
+    ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
+    ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
 )
 
 ADD_EXECUTABLE(test_icq ${icq_test_sources} ${testmocs})
-TARGET_LINK_LIBRARIES(test_icq simlib ${QT_LIBRARIES} gtest gmock icq)
+TARGET_LINK_LIBRARIES(test_icq simlib ${QT_LIBRARIES} icq)
 

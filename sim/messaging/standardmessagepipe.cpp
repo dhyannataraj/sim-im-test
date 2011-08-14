@@ -8,7 +8,7 @@ StandardMessagePipe::StandardMessagePipe() : m_contactList(NULL)
 
 StandardMessagePipe::~StandardMessagePipe()
 {
-    qDeleteAll(m_processors);
+    //qDeleteAll(m_processors);
 }
 
 void StandardMessagePipe::pushMessage(const MessagePtr& message)

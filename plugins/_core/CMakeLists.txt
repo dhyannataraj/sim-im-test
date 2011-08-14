@@ -203,13 +203,17 @@ SET(core_test_sources
         tests/testcommonstatus.cpp
         tests/testuserviewmodel.cpp
         tests/testcontainercontroller.cpp
+        tests/testcontainermanager.cpp
         tests/testsendmessageprocessor.cpp
         tests/testreceivemessageprocessor.cpp
         tests/gtest-qt.cpp
+
+		${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
+        ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
 )
 
 ADD_EXECUTABLE(test_core ${core_test_sources})
-TARGET_LINK_LIBRARIES(test_core simlib ${QT_LIBRARIES} gtest gmock _core)
+TARGET_LINK_LIBRARIES(test_core simlib ${QT_LIBRARIES} _core)
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)

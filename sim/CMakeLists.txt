@@ -248,6 +248,9 @@ SET(sim_tests_srcs
     tests/testimcontactid.cpp
     tests/teststandardavatarstorage.cpp
     tests/teststandardprofilemanager.cpp
+    
+    ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
+    ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
 )
 
 
@@ -271,7 +274,7 @@ SET(sim_tests_hdrs
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
 
 ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
-TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers} gtest gmock)
+TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
 
 ##################
 # sim executable #

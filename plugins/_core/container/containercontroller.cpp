@@ -55,6 +55,10 @@ UserWndControllerPtr ContainerController::userWndController(int id)
     return UserWndControllerPtr();
 }
 
+void ContainerController::raiseUserWnd(int id)
+{
+}
+
 void ContainerController::containerClosed()
 {
     emit closed(id());

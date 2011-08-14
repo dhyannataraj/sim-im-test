@@ -144,6 +144,12 @@ void ContainerManager::contactChatRequested(int contactId)
 {
     log(L_DEBUG, "contactChatRequested: %d", contactId);
 
+    UserWndControllerPtr userWndController = findUserWnd(contactId);
+    if(!userWndController.isNull())
+    {
+        return;
+    }
+
     ContainerControllerPtr container = containerControllerById(0);
     if(!container)
     {

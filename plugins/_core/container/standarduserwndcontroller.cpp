@@ -1,5 +1,6 @@
 #include "standarduserwndcontroller.h"
 #include "userwnd.h"
+#include "icontainer.h"
 #include "log.h"
 
 using SIM::log;
@@ -34,6 +35,21 @@ void StandardUserWndController::setUserWnd(IUserWnd* wnd)
 IUserWnd* StandardUserWndController::userWnd() const
 {
     return m_userWnd;
+}
+
+void StandardUserWndController::setContainer(IContainer* cont)
+{
+    m_container = cont;
+}
+
+IContainer* StandardUserWndController::container() const
+{
+    return m_container;
+}
+
+void StandardUserWndController::raise()
+{
+
 }
 
 void StandardUserWndController::addMessageToView(const SIM::MessagePtr& message)

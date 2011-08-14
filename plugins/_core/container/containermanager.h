@@ -5,12 +5,13 @@
 #include <QList>
 #include "container.h"
 #include "icontainermanager.h"
-#include "containercontroller.h"
 #include "sendmessageprocessor.h"
 #include "receivemessageprocessor.h"
+#include "icontainercontroller.h"
+#include "core_api.h"
 
 class CorePlugin;
-class ContainerManager : public QObject, public IContainerManager
+class CORE_EXPORT ContainerManager : public QObject, public IContainerManager
 {
     Q_OBJECT
 public:
@@ -31,8 +32,11 @@ signals:
 public slots:
     void containerClosed(int id);
 
+protected:
+    virtual ContainerControllerPtr makeContainerController();
+
 private:
-    ContainerControllerPtr makeContainerController();
+
     void addContainer(const ContainerControllerPtr& cont);
     int containerCount();
     ContainerControllerPtr containerController(int index);

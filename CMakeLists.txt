@@ -13,8 +13,14 @@ if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
-SET(CMAKE_CXX_FLAGS  "-g -O0 -Wall")
+SET(CMAKE_CXX_FLAGS  "-g -O0")
 SET(LINK_FLAGS "-g -O0")
+
+
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing/include)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing/gtest)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing/gtest/include)
 
 IF( APPLE )
     SET( PROGNAME Sim-IM )
@@ -163,6 +169,7 @@ else(APPLE)
     SET(SERVICES_INSTALL_DIR ${SHARE_INSTALL_PREFIX}/services)
 endif(APPLE)
 endif(WIN32)	
+
 
 IF(ENABLE_TARGET_UPDATE_MESSAGES)
  MESSAGE(STATUS "Enabling target update-messages")

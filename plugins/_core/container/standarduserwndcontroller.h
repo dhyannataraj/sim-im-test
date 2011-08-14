@@ -4,6 +4,7 @@
 #include "userwndcontroller.h"
 
 class IUserWnd;
+class IContainer;
 class StandardUserWndController : public UserWndController
 {
 public:
@@ -15,6 +16,11 @@ public:
     virtual void setUserWnd(IUserWnd* wnd);
     virtual IUserWnd* userWnd() const;
 
+    virtual void setContainer(IContainer* cont);
+    virtual IContainer* container() const;
+
+    virtual void raise();
+
     virtual void addMessageToView(const SIM::MessagePtr& message);
     virtual int messagesCount() const;
 
@@ -23,6 +29,7 @@ protected:
 
 private:
     IUserWnd* m_userWnd;
+    IContainer* m_container;
     int m_id;
 };
 
