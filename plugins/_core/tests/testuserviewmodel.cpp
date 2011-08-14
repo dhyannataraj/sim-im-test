@@ -36,13 +36,17 @@ namespace
         virtual void TearDown()
         {
             SIM::destroyContactList();
+            statuses.clear();
         }
+
+        QList<NiceMockIMStatusPtr> statuses;
 
         ContactPtr makeContact(int id, bool offline, const QPixmap& icon = QPixmap())
         {
             NiceMockIMStatusPtr imstatus = NiceMockIMStatusPtr(new NiceMock<MockIMStatus>());
             ON_CALL(*imstatus.data(), flag(IMStatus::flOffline)).WillByDefault(Return(offline));
             ON_CALL(*imstatus.data(), icon()).WillByDefault(Return(icon));
+            statuses.append(imstatus);
 
             NiceMockIMContactPtr imcontact = NiceMockIMContactPtr(new NiceMock<MockIMContact>());
             ON_CALL(*imcontact.data(), status()).WillByDefault(Return(imstatus));

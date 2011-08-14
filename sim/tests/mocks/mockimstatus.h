@@ -11,6 +11,7 @@ namespace MockObjects
     class MockIMStatus : public SIM::IMStatus
     {
     public:
+        virtual ~MockIMStatus() {}
         MOCK_CONST_METHOD0(id, QString());
         MOCK_CONST_METHOD0(name, QString());
         MOCK_CONST_METHOD0(hasText, bool());

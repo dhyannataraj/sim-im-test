@@ -906,7 +906,7 @@ inline UnitTestImpl* GetUnitTestImpl() {
   return UnitTest::GetInstance()->impl();
 }
 
-#if GTEST_USES_SIMPLE_RE
+#ifdef GTEST_USES_SIMPLE_RE
 
 // Internal helper functions for implementing the simple regular
 // expression matcher.

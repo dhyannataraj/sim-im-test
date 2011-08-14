@@ -3642,7 +3642,7 @@ UnitTest * UnitTest::GetInstance() {
   // default implementation.  Use this implementation to keep good OO
   // design with private destructor.
 
-#if (_MSC_VER == 1310 && !defined(_DEBUG)) || defined(__BORLANDC__)
+#if (defined(_MSC_VER) && (_MSC_VER == 1310 && !defined(_DEBUG))) || defined(__BORLANDC__)
   static UnitTest* const instance = new UnitTest;
   return instance;
 #else

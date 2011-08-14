@@ -171,7 +171,7 @@ void RE::Init(const char* regex) {
   delete[] full_pattern;
 }
 
-#elif GTEST_USES_SIMPLE_RE
+#elif defined(GTEST_USES_SIMPLE_RE)
 
 // Returns true iff ch appears anywhere in str (excluding the
 // terminating '\0' character).

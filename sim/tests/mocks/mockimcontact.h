@@ -15,6 +15,7 @@ namespace MockObjects
     class MockIMContact : public SIM::IMContact
     {
     public:
+        virtual ~MockIMContact() {}
         static MockIMContactPtr create() { return MockIMContactPtr(new MockIMContact()); }
         MOCK_METHOD0(client, SIM::Client*());
         MOCK_METHOD1(setParentContactId, void(int contactId));

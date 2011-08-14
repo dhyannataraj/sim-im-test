@@ -214,34 +214,221 @@
 // Determines the platform on which Google Test is compiled.
 #ifdef __CYGWIN__
 # define GTEST_OS_CYGWIN 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 #elif defined __SYMBIAN32__
+
 # define GTEST_OS_SYMBIAN 1
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
+
 #elif defined _WIN32
 # define GTEST_OS_WINDOWS 1
+# define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 # ifdef _WIN32_WCE
 #  define GTEST_OS_WINDOWS_MOBILE 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 # elif defined(__MINGW__) || defined(__MINGW32__)
 #  define GTEST_OS_WINDOWS_MINGW 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 # else
 #  define GTEST_OS_WINDOWS_DESKTOP 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
+
 # endif  // _WIN32_WCE
 #elif defined __APPLE__
 # define GTEST_OS_MAC 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
+
 #elif defined __linux__
 # define GTEST_OS_LINUX 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 # ifdef ANDROID
 #  define GTEST_OS_LINUX_ANDROID 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 # endif  // ANDROID
 #elif defined __MVS__
 # define GTEST_OS_ZOS 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 #elif defined(__sun) && defined(__SVR4)
 # define GTEST_OS_SOLARIS 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 #elif defined(_AIX)
 # define GTEST_OS_AIX 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_HPUX 0
+#define GTEST_OS_NACL 0
 #elif defined(__hpux)
 # define GTEST_OS_HPUX 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_NACL 0
 #elif defined __native_client__
 # define GTEST_OS_NACL 1
+#define GTEST_OS_SYMBIAN 0
+#define GTEST_OS_CYGWIN 0
+#define GTEST_OS_WINDOWS 0
+#define GTEST_OS_WINDOWS_MOBILE 0
+#define GTEST_OS_WINDOWS_MINGW 0
+#define GTEST_OS_WINDOWS_DESKTOP 0
+#define GTEST_OS_MAC 0
+#define GTEST_OS_LINUX 0
+#define GTEST_OS_LINUX_ANDROID 0
+#define GTEST_OS_ZOS 0
+#define GTEST_OS_SOLARIS 0
+#define GTEST_OS_AIX 0
+#define GTEST_OS_HPUX 0
 #endif  // __CYGWIN__
 
 // Brings in definitions for functions used in the testing::internal::posix
@@ -303,7 +490,7 @@
 #   define _HAS_EXCEPTIONS 1
 #  endif  // _HAS_EXCEPTIONS
 #  define GTEST_HAS_EXCEPTIONS _HAS_EXCEPTIONS
-# elif defined(__GNUC__) && __EXCEPTIONS
+# elif defined(__GNUC__) && defined(__EXCEPTIONS)
 // gcc defines __EXCEPTIONS to 1 iff exceptions are enabled.
 #  define GTEST_HAS_EXCEPTIONS 1
 # elif defined(__SUNPRO_CC)
