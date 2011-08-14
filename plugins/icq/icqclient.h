@@ -734,12 +734,15 @@ protected slots:
     void serviceAvailable(int serviceId, const QString& address, const QByteArray& authCookie);
     void statusTransitionComplete();
 
+    void disconnectFromServer();
+
 //    void ping();
 //    void retry(int n, void*);
 //    void interfaceDown(QString);
 //    void interfaceUp(QString);
 signals:
     void setStatusWidgetsBlinking(bool b);
+    void statusChanged();
 
 protected:
     void loginStep3();

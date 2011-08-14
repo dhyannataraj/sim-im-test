@@ -59,6 +59,18 @@ bool BuddySnacHandler::isReady()
     return m_ready;
 }
 
+void BuddySnacHandler::disconnect()
+{
+    ICQContactList* contactList = m_client->contactList();
+    QList<ICQContactPtr> contacts = contactList->allContacts();
+    ICQStatusPtr offline = client()->getDefaultStatus("offline");
+    foreach(const ICQContactPtr& contact, contacts)
+    {
+        contact->setIcqStatus(offline);
+        SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
+    }
+}
+
 void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& contact)
 {
     QString screen = contact->getScreen();

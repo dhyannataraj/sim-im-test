@@ -20,6 +20,8 @@ public:
 
     ICQClient* client() const;
 
+    virtual void disconnect();
+
 signals:
     void error(const QString& errorMessage, bool reconnect);
 

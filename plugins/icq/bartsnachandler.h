@@ -26,6 +26,7 @@ public:
     void requestAvatar(const QString& screen, const QByteArray& hash);
 
     void requestBartService();
+    virtual void disconnect();
 
     void bartServiceAvailable(const QString& address, const QByteArray& cookie);
 

@@ -34,6 +34,11 @@ int ICQContactList::contactCount() const
     return m_contacts.count();
 }
 
+QList<ICQContactPtr> ICQContactList::allContacts() const
+{
+    return m_contacts.values();
+}
+
 void ICQContactList::addGroup(const ICQGroupPtr& group)
 {
     m_groups.insert(group->icqId(), group);

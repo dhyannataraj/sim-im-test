@@ -185,4 +185,14 @@ namespace
 
         rq->perform(socket);
     }
+
+    TEST_F(TestBuddySnacHandler, disconnect_causesAllContactsGoOffline)
+    {
+        ICQContactList* contactList = client->contactList();
+        contact->setIcqStatus(client->getDefaultStatus("online"));
+
+        handler->disconnect();
+
+        ASSERT_TRUE(contact->icqStatus()->flag(SIM::IMStatus::flOffline));
+    }
 }

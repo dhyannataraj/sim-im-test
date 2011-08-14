@@ -146,6 +146,12 @@ void BartSnacHandler::bartServiceAvailable(const QString& address, const QByteAr
 
 }
 
+void BartSnacHandler::disconnect()
+{
+    m_socket->disconnectFromHost();
+    SnacHandler::disconnect();
+}
+
 void BartSnacHandler::sendLoginCookie(const QByteArray& cookie)
 {
     ByteArrayBuilder builder;

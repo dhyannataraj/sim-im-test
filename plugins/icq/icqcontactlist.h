@@ -18,6 +18,7 @@ public:
     ICQContactPtr contact(int icqContactId);
     ICQContactPtr contactByScreen(const QString& screen);
     int contactCount() const;
+    QList<ICQContactPtr> allContacts() const;
 
     void addGroup(const ICQGroupPtr& group);
     ICQGroupPtr group(int icqGroupId);

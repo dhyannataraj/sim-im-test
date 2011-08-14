@@ -15,3 +15,8 @@ ICQClient* SnacHandler::client() const
 {
     return m_client;
 }
+
+void SnacHandler::disconnect()
+{
+
+}

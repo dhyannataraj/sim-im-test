@@ -175,4 +175,11 @@ namespace
 
         handler->processService(ServiceSnacHandler::SnacServiceRateInfo, QByteArray(), 0, 0);
     }
+
+    TEST_F(TestBartSnacHandler, disconnect_disconnectsFromHost)
+    {
+        EXPECT_CALL(*bartSocket, disconnectFromHost());
+
+        handler->disconnect();
+    }
 }

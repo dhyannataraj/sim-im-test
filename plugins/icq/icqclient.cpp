@@ -491,6 +491,20 @@ void ICQClient::changeStatus(const SIM::IMStatusPtr& status)
         oscarSocket()->connectToHost(clientPersistentData->getServer(), clientPersistentData->getPort());
         m_transitionStatus = icqstatus;
     }
+
+    if((m_state == sConnected) && status->flag(SIM::IMStatus::flOffline))
+    {
+        ICQStatusPtr icqstatus = status.dynamicCast<ICQStatus>();
+        if(!icqstatus)
+            return;
+
+        disconnectFromServer();
+
+        m_currentStatus = icqstatus;
+        emit statusChanged();
+        // TODO disconnect all services
+    }
+
     //    if (status->id() == "offline")
     //    {
     //        flap(ICQ_CHNxCLOSE);
@@ -933,6 +947,7 @@ QWidget* ICQClient::createStatusWidget()
 {
     ICQStatusWidget* widget = new ICQStatusWidget(this);
     connect(this, SIGNAL(setStatusWidgetsBlinking(bool)), widget, SLOT(setBlinking(bool)));
+    connect(this, SIGNAL(statusChanged()), widget, SLOT(update()));
     return widget;
 }
 
@@ -943,7 +958,7 @@ SIM::IMContactPtr ICQClient::ownerContact()
 
 QWidget* ICQClient::createSearchWidow(QWidget *parent)
 {
-	return new QWidget();
+	return new QWidget(parent);
 }
 
 QList<SIM::IMGroupPtr> ICQClient::groups()
@@ -1485,9 +1500,24 @@ void ICQClient::serviceAvailable(int serviceId, const QString& address, const QB
 
 void ICQClient::statusTransitionComplete()
 {
+    if(!m_transitionStatus)
+        return;
+    if(m_currentStatus->flag(IMStatus::flOffline) &&
+            !m_transitionStatus->flag(IMStatus::flOffline))
+    {
+        m_state = sConnected;
+    }
     m_currentStatus = m_transitionStatus;
     m_transitionStatus.clear();
     emit setStatusWidgetsBlinking(false);
+    emit statusChanged();
+}
+
+void ICQClient::disconnectFromServer()
+{
+    oscarSocket()->disconnectFromHost();
+    m_bartSnac->disconnect();
+    m_buddySnac->disconnect();
 }
 
 bool ICQClient::sendMessage(const SIM::MessagePtr& message)
