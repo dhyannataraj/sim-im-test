@@ -37,6 +37,9 @@ public:
         itStatusGroup
     };
 
+    void setShowOffline(bool s);
+    bool isShowOffline() const;
+
 signals:
 
 public slots:
@@ -61,6 +64,7 @@ private:
     mutable bool m_contactsCacheValid;
     mutable QList<int> m_onlineContacts;
     mutable QList<int> m_offlineContacts;
+    bool m_showOffline;
 
 };
 

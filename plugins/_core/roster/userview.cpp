@@ -132,20 +132,21 @@ UserView::~UserView()
 
 bool UserView::init()
 {
-    setModel(new UserViewModel(SIM::getContactList()));
+    m_model = new UserViewModel(SIM::getContactList());
+    setModel(m_model);
     setHeaderHidden(true);
     return true;
 }
 
 void UserView::setShowOffline(bool s)
 {
-    m_showOffline = s;
+    m_model->setShowOffline(s);
     update();
 }
 
 bool UserView::isShowOffline() const
 {
-    return m_showOffline;
+    return m_model->isShowOffline();
 }
 
 void UserView::setGroupMode(GroupMode mode)

@@ -19,6 +19,7 @@
 #define _USERVIEW_H
 
 #include <QTreeView>
+#include "userviewmodel.h"
 
 class CorePlugin;
 class IntLineEdit;
@@ -118,6 +119,7 @@ private:
     QModelIndex m_currentIndex;
     bool m_showOffline;
     GroupMode m_groupMode;
+    UserViewModel* m_model;
 };
 
 #endif

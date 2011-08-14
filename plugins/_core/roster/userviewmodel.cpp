@@ -13,7 +13,10 @@ const int UserViewModel::OfflineRow = 1;
 
 
 UserViewModel::UserViewModel(SIM::ContactList* contactList, QObject *parent) :
-        QAbstractItemModel(parent), m_contactList(contactList), m_contactsCacheValid(false)
+        QAbstractItemModel(parent),
+        m_contactList(contactList),
+        m_contactsCacheValid(false),
+        m_showOffline(false)
 {
     m_onlineItemsParent = createIndex(OnlineRow, 0, 0);
     m_offlineItemsParent = createIndex(OfflineRow, 0, 0);
@@ -145,7 +148,12 @@ QModelIndex UserViewModel::parent(const QModelIndex& index) const
 int UserViewModel::rowCount(const QModelIndex& parent) const
 {
     if(!parent.isValid())
-        return 2; // Online and offline
+    {
+        if(m_showOffline)
+            return 2; // Online and offline
+        else
+            return 1; // Only online
+    }
     else
     {
         fillCaches();
@@ -207,4 +215,15 @@ int UserViewModel::positionIn(const QList<int> list, int value)
         }
     }
     return -1;
+}
+
+void UserViewModel::setShowOffline(bool s)
+{
+    m_showOffline = s;
+    reset();
+}
+
+bool UserViewModel::isShowOffline() const
+{
+    return m_showOffline;
 }

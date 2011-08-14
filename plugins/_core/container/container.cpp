@@ -94,6 +94,7 @@ Container::~Container()
 void Container::closeEvent(QCloseEvent* e)
 {
     emit closed();
+    e->accept();
     //CorePlugin::instance()->containerManager()->removeContainerById(id());
 }
 

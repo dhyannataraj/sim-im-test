@@ -66,6 +66,7 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
 
 UserWnd::~UserWnd()
 {
+    log(L_DEBUG, "UserWnd::~UserWnd()");
 }
 
 void UserWnd::addMessageToView(const MessagePtr& message)

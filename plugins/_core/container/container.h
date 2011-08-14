@@ -111,6 +111,8 @@ public:
     void contactChanged(const SIM::ContactPtr& contact);
     int id() const;
 
+    void addUserWnd(IUserWnd*);
+    void removeUserWnd(int wndId);
     virtual void raiseUserWnd(int wndId);
 
     virtual void setController(ContainerController* controller);
@@ -121,9 +123,6 @@ signals:
     void closed();
 
 public slots:
-    void addUserWnd(IUserWnd*);
-    void removeUserWnd(int wndId);
-
     void contactSelected(int contactId);
     void toolbarChanged(QToolBar*);
     void statusChanged(int);

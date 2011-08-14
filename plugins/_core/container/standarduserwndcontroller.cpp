@@ -14,8 +14,6 @@ StandardUserWndController::StandardUserWndController(int contactId) : m_id(conta
 StandardUserWndController::~StandardUserWndController()
 {
     log(L_DEBUG, "StandardUserWndController::~StandardUserWndController(): %d", m_id);
-    if(m_userWnd)
-        delete m_userWnd;
 }
 
 int StandardUserWndController::id() const
