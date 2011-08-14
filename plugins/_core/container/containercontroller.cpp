@@ -57,6 +57,7 @@ UserWndControllerPtr ContainerController::userWndController(int id)
 
 void ContainerController::raiseUserWnd(int id)
 {
+    m_view->raiseUserWnd(id);
 }
 
 void ContainerController::containerClosed()

@@ -13,10 +13,12 @@
 #include "container/containermanager.h"
 #include "mocks/mockcontainercontroller.h"
 #include "mocks/mockuserwndcontroller.h"
+#include "mocks/mockuserwnd.h"
 
 namespace
 {
     using ::testing::Return;
+    using ::testing::_;
     class SutContainerManager : public ContainerManager
     {
     public:
@@ -40,8 +42,8 @@ namespace
         {
             SIM::createMessagePipe();
             SIM::createOutMessagePipe();
-            mockUserwndController = UserWndControllerPtr(new MockObjects::MockUserWndController());
             manager = new SutContainerManager();
+            mockUserwndController = UserWndControllerPtr(new MockObjects::MockUserWndController());
         }
 
         virtual void TearDown()
@@ -49,10 +51,11 @@ namespace
             delete manager;
             SIM::destroyOutMessagePipe();
             SIM::destroyMessagePipe();
+            mockUserwndController.clear();
         }
 
-        SutContainerManager* manager;
         UserWndControllerPtr mockUserwndController;
+        SutContainerManager* manager;
     };
 
     TEST_F(TestControllerManager, contactChatRequested_createsContainerController_ifDoesntExist)
@@ -64,8 +67,10 @@ namespace
 
     TEST_F(TestControllerManager, contactChatRequested_raisesContainerController_ifExists)
     {
-        EXPECT_CALL(*manager->controller, userWndController(12)).WillRepeatedly(Return(mockUserwndController));
-        EXPECT_CALL(*manager->controller, raiseUserWnd(12));
+        MockObjects::MockUserWnd* userwnd = new MockObjects::MockUserWnd();
+        manager->contactChatRequested(12);
+        EXPECT_CALL(*manager->controller, userWndController(_)).WillRepeatedly(Return(mockUserwndController));
+        EXPECT_CALL(*manager->controller, raiseUserWnd(_));
 
         manager->contactChatRequested(12);
     }

@@ -45,6 +45,7 @@ private:
     void removeContainerById(int id);
 
     UserWndControllerPtr findUserWnd(int id);
+    ContainerControllerPtr containerControllerForUserWnd(int userWndId);
 
     SendMessageProcessor* m_sendProcessor;
     ReceiveMessageProcessor* m_receiveProcessor;

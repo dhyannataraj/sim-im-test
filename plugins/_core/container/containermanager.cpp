@@ -5,6 +5,8 @@
 #include "userwnd.h"
 #include "messaging/messagepipe.h"
 
+#include <cstdio>
+
 using SIM::log;
 using SIM::L_DEBUG;
 using SIM::L_ERROR;
@@ -140,27 +142,39 @@ UserWndControllerPtr ContainerManager::findUserWnd(int id)
     return UserWndControllerPtr();
 }
 
+ContainerControllerPtr ContainerManager::containerControllerForUserWnd(int userWndId)
+{
+    foreach(const ContainerControllerPtr& c, m_containers)
+    {
+        UserWndControllerPtr userwnd = c->userWndController(userWndId);
+        if(userwnd)
+        {
+            return c;
+        }
+    }
+    return ContainerControllerPtr();
+}
+
 void ContainerManager::contactChatRequested(int contactId)
 {
     log(L_DEBUG, "contactChatRequested: %d", contactId);
 
-    UserWndControllerPtr userWndController = findUserWnd(contactId);
-    if(!userWndController.isNull())
+    ContainerControllerPtr container = containerControllerForUserWnd(contactId);
+    if(container)
     {
+        container->raiseUserWnd(contactId);
         return;
     }
-
-    ContainerControllerPtr container = containerControllerById(0);
-    if(!container)
+    else
     {
-        container = makeContainerController();
-        addContainer(container);
-    }
-
-    IUserWnd* userwnd = container->userWndById(contactId);
-    if(!userwnd)
-    {
+        container = containerControllerById(0);
+        if(!container)
+        {
+            container = makeContainerController();
+            addContainer(container);
+        }
         container->addUserWnd(contactId);
+        container->raiseUserWnd(contactId);
     }
 }
 

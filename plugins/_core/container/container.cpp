@@ -81,13 +81,13 @@ Container::Container(unsigned id)
 
 Container::~Container()
 {
-    if(NULL != m_tabBar)
-    {
-        list<UserWnd*> wnds = m_tabBar->windows();
-        list<UserWnd*>::iterator it;
-        for (it = wnds.begin(); it != wnds.end(); ++it)
-            disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
-    }
+//    if(NULL != m_tabBar)
+//    {
+//        list<UserWnd*> wnds = m_tabBar->windows();
+//        list<UserWnd*>::iterator it;
+//        for (it = wnds.begin(); it != wnds.end(); ++it)
+//            disconnect(*it, SIGNAL(closed(UserWnd*)), this, SLOT(removeUserWnd(UserWnd*)));
+//    }
     //qDeleteAll(m_children);
 }
 
@@ -209,11 +209,6 @@ void Container::setNoSwitch(bool bState)
     m_bNoSwitch = bState;
 }
 
-list<UserWnd*> Container::windows()
-{
-    return m_tabBar->windows();
-}
-
 
 int Container::id() const
 {
@@ -253,9 +248,6 @@ QByteArray Container::getState()
 
 QString Container::name()
 {
-    UserWnd *wnd = m_tabBar ? m_tabBar->currentWnd() : 0;
-    if (wnd)
-        return wnd->getName();
     return i18n("Container");
 }
 
@@ -293,11 +285,14 @@ void Container::addUserWnd(IUserWnd *wnd)
 //    }
 }
 
-void Container::raiseUserWnd(int id/*UserWnd *wnd*/)
+void Container::raiseUserWnd(int id)
 {
+    this->activateWindow();
+    this->raise();
     if (m_tabBar == NULL)
         return;
-    m_tabBar->raiseTab(id);
+    // TODO
+    //m_tabBar->raiseTab(id);
     contactSelected(0);
 }
 
@@ -317,14 +312,7 @@ void Container::removeUserWnd(int wndId)
 
 IUserWnd *Container::wnd(int id)
 {
-    if (m_tabBar == NULL){
-        for (QList<IUserWnd*>::iterator it = m_children.begin(); it != m_children.end(); ++it){
-            if ((*it)->id() == id)
-                return (*it);
-        }
-        return NULL;
-    }
-    return m_tabBar->wnd(id);
+    return m_controller->userWndById(id);
 }
 
 

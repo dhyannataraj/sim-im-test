@@ -102,8 +102,7 @@ public:
 
     Container(unsigned id);
     virtual ~Container();
-    QString name();
-    std::list<UserWnd*> windows();
+    virtual QString name();
     QByteArray getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
@@ -111,6 +110,8 @@ public:
     void setMessageType(unsigned id);
     void contactChanged(const SIM::ContactPtr& contact);
     int id() const;
+
+    virtual void raiseUserWnd(int wndId);
 
     virtual void setController(ContainerController* controller);
 
@@ -122,7 +123,7 @@ signals:
 public slots:
     void addUserWnd(IUserWnd*);
     void removeUserWnd(int wndId);
-    void raiseUserWnd(int wndId);
+
     void contactSelected(int contactId);
     void toolbarChanged(QToolBar*);
     void statusChanged(int);
@@ -158,7 +159,7 @@ protected:
     QDockWidget*         m_avatar_window;
     AvatarBar* m_avatarBar;
     QSplitter* m_tabSplitter;
-    UserTabBar* m_tabBar;
+    QTabBar* m_tabBar;
     QStatusBar* m_status;
     QStackedWidget* m_wnds;
     QList<QShortcut*> m_shortcuts;
