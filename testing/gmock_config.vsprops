@@ -6,7 +6,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(GTestDir)/include/gtest/&quot;"
+		AdditionalIncludeDirectories="&quot;$(GTestDir)/gtest/include/gtest/&quot;"
 	/>
 	<UserMacro
 		Name="GTestDir"

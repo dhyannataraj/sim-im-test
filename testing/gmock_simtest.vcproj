@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)sim\simgui&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;&quot;$(SolutionDir)sim\simgui&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(SolutionDir)testing\include;&quot;$(SolutionDir)sim\simgui&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;&quot;$(SolutionDir)sim\simgui&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"

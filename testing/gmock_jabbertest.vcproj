@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\jabber&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;&quot;$(SolutionDir)plugins\jabber&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\jabber&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;&quot;$(SolutionDir)plugins\jabber&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -179,11 +179,11 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{34681F0D-CE45-415D-B5F2-5C662DFE3BD5}"
-			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock.vcproj"
+			RelativePathToProject=".\testing\gmock.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{E4EF614B-30DF-4954-8C53-580A0BF6B589}"
-			RelativePathToProject="..\..\..\libraries\gmock-1.5.0\msvc\gmock_main.vcproj"
+			RelativePathToProject=".\testing\gmock_main.vcproj"
 		/>
 	</References>
 	<Files>

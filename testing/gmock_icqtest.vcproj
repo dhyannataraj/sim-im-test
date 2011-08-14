@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;&quot;$(SolutionDir)plugins\icq&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"

@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\gtest\include\"
+				AdditionalIncludeDirectories=".\gtest\include\;.\gtest\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\testing;gtest\include\"
+				AdditionalIncludeDirectories=".\gtest\include\;.\gtest\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -165,6 +165,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\gtest\src\gtest-printers.cc"
+				>
+			</File>
+			<File
 				RelativePath=".\gtest\src\gtest-test-part.cc"
 				>
 			</File>
@@ -208,6 +212,10 @@
 			</File>
 			<File
 				RelativePath=".\gtest\include\gtest\internal\gtest-port.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gtest\include\gtest\gtest-printers.h"
 				>
 			</File>
 			<File

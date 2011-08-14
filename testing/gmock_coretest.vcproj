@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(SolutionDir)testing\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)testing\include&quot;;&quot;$(SolutionDir)testing\gtest\include&quot;;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
