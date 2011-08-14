@@ -13,6 +13,8 @@ public:
 
     virtual bool process(unsigned short subtype, const QByteArray& data, int flags, unsigned int requestId);
 
+    virtual void disconnect();
+
     static QByteArray magicHashString();
     static const int SnacAuthMd5Login = 0x02;
     static const int SnacAuthLoginReply = 0x03;

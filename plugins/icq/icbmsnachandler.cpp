@@ -55,6 +55,12 @@ bool IcbmSnacHandler::process(unsigned short subtype, const QByteArray& data, in
     return true;
 }
 
+void IcbmSnacHandler::disconnect()
+{
+    m_ready = false;
+    m_currentCookie = 0;
+}
+
 void IcbmSnacHandler::requestParametersInfo()
 {
     ICQRequestManager* manager = client()->requestManager();

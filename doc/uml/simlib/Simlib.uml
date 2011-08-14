@@ -136,7 +136,26 @@
         <ownedLiteral xmi:id="_sf5roJ8XEeC4lJmEoQaQrw" name="Success"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Usage" xmi:id="_zTNygJ8XEeC4lJmEoQaQrw" name="Usage1" supplier="_r9_4cJ8XEeC4lJmEoQaQrw" client="_J87cQJ8WEeC4lJmEoQaQrw"/>
-      <packagedElement xmi:type="uml:Interface" xmi:id="_wdT_kJ8bEeC4lJmEoQaQrw" name="IMContact"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_wdT_kJ8bEeC4lJmEoQaQrw" name="IMContact">
+        <ownedOperation xmi:id="_qvbboMZrEeCGzs-JPMOxpw" name="sendMessage">
+          <ownedParameter xmi:id="_tN5CIMZrEeCGzs-JPMOxpw" name="msg" visibility="public" type="_iw2TwJ8UEeC4lJmEoQaQrw">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tN5CIcZrEeCGzs-JPMOxpw" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tN5CIsZrEeCGzs-JPMOxpw" value="1"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_uBisoMZrEeCGzs-JPMOxpw" visibility="public" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Boolean"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uBisocZrEeCGzs-JPMOxpw" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uBisosZrEeCGzs-JPMOxpw" value="1"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_vTA7kMZrEeCGzs-JPMOxpw" name="hasUnreadMessage">
+          <ownedParameter xmi:id="_wmofkMZrEeCGzs-JPMOxpw" visibility="public" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Boolean"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wmofkcZrEeCGzs-JPMOxpw" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wmofksZrEeCGzs-JPMOxpw" value="1"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_A-HaQJ8uEeC4lJmEoQaQrw" name="StandardContactList" clientDependency="_D97aUJ8uEeC4lJmEoQaQrw">
         <interfaceRealization xmi:id="_D97aUJ8uEeC4lJmEoQaQrw" name="InterfaceRealization1" supplier="_ClmVcJ8uEeC4lJmEoQaQrw" client="_A-HaQJ8uEeC4lJmEoQaQrw" contract="_ClmVcJ8uEeC4lJmEoQaQrw"/>
       </packagedElement>
@@ -273,6 +292,18 @@
         </ownedBehavior>
       </packagedElement>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_FGCzAMW8EeCB1e6kGn-hTQ" name="CallEvent1"/>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_ztrJAMZrEeCGzs-JPMOxpw" name="MessageTypeDescriptor">
+        <ownedAttribute xmi:id="_15ECgMZrEeCGzs-JPMOxpw" name="id">
+          <type xmi:type="uml:Class" href="../QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_26j7wMZrEeCGzs-JPMOxpw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_26jUsMZrEeCGzs-JPMOxpw" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_-sow8MZrEeCGzs-JPMOxpw" name="joinable">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Boolean"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AMLREMZsEeCGzs-JPMOxpw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AMJb4MZsEeCGzs-JPMOxpw" value="1"/>
+        </ownedAttribute>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_k2Q2MJ8WEeC4lJmEoQaQrw">
       <ownedBehavior xmi:type="uml:Interaction" xmi:id="_k2Q2MZ8WEeC4lJmEoQaQrw">

@@ -56,6 +56,11 @@ bool AuthorizationSnacHandler::process(unsigned short subtype, const QByteArray&
     return true;
 }
 
+void AuthorizationSnacHandler::disconnect()
+{
+    m_authCookie.clear();
+}
+
 bool AuthorizationSnacHandler::handleAuthKeyResponse(const QByteArray& data)
 {
     OscarSocket* socket = client()->oscarSocket();

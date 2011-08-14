@@ -47,6 +47,11 @@ bool ServiceSnacHandler::process(unsigned short subtype, const QByteArray& data,
     return true;
 }
 
+void ServiceSnacHandler::disconnect()
+{
+    m_rateInfoList.clear();
+}
+
 bool ServiceSnacHandler::sendServices(const QByteArray& data)
 {
     OscarSocket* socket = client()->oscarSocket();

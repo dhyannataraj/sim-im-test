@@ -14,6 +14,8 @@ public:
 
     virtual bool process(unsigned short subtype, const QByteArray& data, int flags, unsigned int requestId);
 
+    virtual void disconnect();
+
     void requestRights();
 
     int maxCapabilities() const;

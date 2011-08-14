@@ -1516,8 +1516,11 @@ void ICQClient::statusTransitionComplete()
 void ICQClient::disconnectFromServer()
 {
     oscarSocket()->disconnectFromHost();
-    m_bartSnac->disconnect();
-    m_buddySnac->disconnect();
+    for(mapSnacHandlers::iterator it = m_snacHandlers.begin(); it != m_snacHandlers.end(); ++it)
+    {
+        (*it)->disconnect();
+    }
+    m_state = sOffline;
 }
 
 bool ICQClient::sendMessage(const SIM::MessagePtr& message)

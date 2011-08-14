@@ -69,6 +69,8 @@ void BuddySnacHandler::disconnect()
         contact->setIcqStatus(offline);
         SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
     }
+
+    m_ready = false;
 }
 
 void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& contact)

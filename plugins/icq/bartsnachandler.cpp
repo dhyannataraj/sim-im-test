@@ -149,6 +149,7 @@ void BartSnacHandler::bartServiceAvailable(const QString& address, const QByteAr
 void BartSnacHandler::disconnect()
 {
     m_socket->disconnectFromHost();
+    m_loginCookie.clear();
     SnacHandler::disconnect();
 }
 

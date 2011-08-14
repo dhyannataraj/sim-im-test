@@ -33,6 +33,11 @@ bool LocationSnacHandler::process(unsigned short subtype, const QByteArray& data
     return true;
 }
 
+void LocationSnacHandler::disconnect()
+{
+    m_ready = false;
+}
+
 void LocationSnacHandler::requestRights()
 {
     ICQRequestPtr rq = LocationSnacRightsRequest::create(client());

@@ -40,6 +40,12 @@ bool SsiSnacHandler::process(unsigned short subtype, const QByteArray& data, int
     return false;
 }
 
+void SsiSnacHandler::disconnect()
+{
+    m_hasRights = false;
+    m_contactListSyncDone = false;
+}
+
 void SsiSnacHandler::requestRights()
 {
     OscarSocket* socket = client()->oscarSocket();

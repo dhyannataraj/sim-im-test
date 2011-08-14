@@ -26,6 +26,11 @@ bool PrivacySnacHandler::process(unsigned short subtype, const QByteArray& data,
     return true;
 }
 
+void PrivacySnacHandler::disconnect()
+{
+    m_ready = false;
+}
+
 void PrivacySnacHandler::requestRights()
 {
     OscarSocket* socket = client()->oscarSocket();
