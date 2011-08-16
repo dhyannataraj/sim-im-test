@@ -110,13 +110,13 @@ void Container::init()
 
     m_layout = new QVBoxLayout(m_frame);
     m_wnds = new QStackedWidget(m_frame);
-    m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+//    m_wnds->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     m_layout->addWidget(m_wnds);
 
     m_tabSplitter = new QSplitter(Qt::Vertical, m_frame);
-    m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+ //   m_tabSplitter->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     m_tabBar = new UserTabBar(m_tabSplitter);
-    m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
+ //   m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
     m_tabBar->hide();
 
 //    m_bInit = true;
