@@ -9,12 +9,44 @@
 #define STANDARDAVATARSTORAGE_H_
 
 #include <QList>
+#include <QDir>
+#include <QImage>
+#include <QMap>
 
 #include "avatarstorage.h"
 #include "misc.h"
 
-namespace SIM
+using namespace SIM;
+
+namespace SIM {
+
+class StandardAvatarStoragePimpl
 {
+    QMap<QString, QImage> m_cache;
+public:
+
+    void insert(const QString& id, const QImage& image)
+    {
+        // TODO implement eviction
+        m_cache.insert(id, image);
+    }
+
+    bool hasImage(const QString& id)
+    {
+        QMap<QString, QImage>::iterator it = m_cache.find(id);
+        if(it == m_cache.end())
+            return false;
+        return true;
+    }
+
+    QImage get(const QString& id)
+    {
+        QMap<QString, QImage>::iterator it = m_cache.find(id);
+        if(it == m_cache.end())
+            return QImage();
+        return it.value();
+    }
+};
 
 class SIM_EXPORT StandardAvatarStorage: public SIM::AvatarStorage
 {
@@ -36,7 +68,7 @@ protected:
     virtual QImage loadImage(const QString& path);
 
 private:
-    struct StandardAvatarStoragePimpl* d;
+    StandardAvatarStoragePimpl* d;
 
     QImage getFile(const QString& id);
 
@@ -45,5 +77,5 @@ private:
     QString basePath() const;
 };
 
-} /* namespace SIM */
+}; /* End namespace SIM */
 #endif /* STANDARDAVATARSTORAGE_H_ */

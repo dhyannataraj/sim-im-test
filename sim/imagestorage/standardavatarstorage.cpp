@@ -5,45 +5,11 @@
  *      Author: todin
  */
 
-#include <QDir>
-#include <QImage>
-
 #include "standardavatarstorage.h"
 #include "profilemanager.h"
 #include "log.h"
 
 #include "imagestorage.h"
-
-namespace SIM
-{
-
-class StandardAvatarStoragePimpl
-{
-    QMap<QString, QImage> m_cache;
-public:
-
-    void insert(const QString& id, const QImage& image)
-    {
-        // TODO implement eviction
-        m_cache.insert(id, image);
-    }
-
-    bool hasImage(const QString& id)
-    {
-        QMap<QString, QImage>::iterator it = m_cache.find(id);
-        if(it == m_cache.end())
-            return false;
-        return true;
-    }
-
-    QImage get(const QString& id)
-    {
-        QMap<QString, QImage>::iterator it = m_cache.find(id);
-        if(it == m_cache.end())
-            return QImage();
-        return it.value();
-    }
-};
 
 static const QString AvatarScheme = "avatar://";
 
@@ -150,4 +116,4 @@ QString StandardAvatarStorage::basePath() const
     return getProfileManager()->profilePath() + QDir::separator() + "pictures" + QDir::separator();
 }
 
-} /* namespace SIM */
+ /* namespace SIM */

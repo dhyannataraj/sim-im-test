@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
     
     SIM::destroyClientManager();
     SIM::destroyPluginManager();
-    SIM::destroyProtocolManager();
+    
     SIM::destroyContactList();
     SIM::destroyCommandHub();
     SIM::destroyAvatarStorage();
@@ -171,6 +171,8 @@ int main(int argc, char *argv[])
     destroyLogging();
     SIM::destroyEventHub();
     SIM::destroyProfileManager();
+  
+    SIM::destroyProtocolManager(); //Put it to here fixes crash on end bug.
     return res;
 }
 
