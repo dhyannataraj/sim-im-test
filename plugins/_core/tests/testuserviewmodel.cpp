@@ -83,7 +83,9 @@ namespace
 
         QModelIndex createContactIndex(UserViewModel& model, int row, bool offline)
         {
-            return model.index(row, 0, model.index(offline ? UserViewModel::OfflineRow : UserViewModel::OnlineRow, 0));
+            int offRow = UserViewModel::OfflineRow;
+            int onRow = UserViewModel::OnlineRow;
+            return model.index(row, 0, model.index(offline ? offRow : onRow, 0));
         }
 
         SIM::ContactList* contactList;

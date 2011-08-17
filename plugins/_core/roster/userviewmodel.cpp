@@ -8,9 +8,6 @@
 using SIM::log;
 using SIM::L_DEBUG;
 
-
-
-
 UserViewModel::UserViewModel(SIM::ContactList* contactList, QObject *parent) :
         QAbstractItemModel(parent),
         m_contactList(contactList),
