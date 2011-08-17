@@ -525,7 +525,9 @@ public:
 
     SIM::IMContactPtr ownerContact();
 
-    QWidget* createSearchWidow(QWidget *parent);
+    virtual SIM::MessageEditorFactory* messageEditorFactory() const;
+
+    virtual QWidget* createSearchWidow(QWidget *parent);
     QList<SIM::IMGroupPtr> groups();
     QList<SIM::IMContactPtr> contacts();
 

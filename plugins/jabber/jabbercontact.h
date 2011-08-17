@@ -37,6 +37,8 @@ public:
 
     virtual QString makeToolTipText();
 
+    virtual QList<SIM::MessageTypeDescriptor> allMessageTypes() const;
+
 
     QString getId() const { return m_id; }
     void setId(const QString& id) { m_id = id; }

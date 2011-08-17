@@ -27,12 +27,20 @@ namespace
         virtual ContainerControllerPtr makeContainerController()
         {
             containerControllersCreated++;
-            controller = new testing::NiceMock<MockObjects::MockContainerController>();
-            return ContainerControllerPtr(controller);
+            if(!controller)
+            {
+                controller = MockObjects::NiceMockContainerControllerPtr(new testing::NiceMock<MockObjects::MockContainerController>());
+            }
+            return controller;
         }
     public:
+        void setController(const MockObjects::NiceMockContainerControllerPtr& c)
+        {
+            controller = c;
+        }
+
         int containerControllersCreated;
-        testing::NiceMock<MockObjects::MockContainerController>* controller;
+        MockObjects::NiceMockContainerControllerPtr controller;
     };
 
     class TestControllerManager : public ::testing::Test
@@ -73,6 +81,17 @@ namespace
         EXPECT_CALL(*manager->controller, raiseUserWnd(_));
 
         manager->contactChatRequested(12);
+    }
+
+    TEST_F(TestControllerManager, contactChatRequested_addsUserWndToController)
+    {
+        MockObjects::NiceMockContainerControllerPtr controller =
+                MockObjects::NiceMockContainerControllerPtr(new MockObjects::NiceMockContainerController());
+        manager->setController(controller);
+        EXPECT_CALL(*controller.data(), addUserWnd(12));
+
+        manager->contactChatRequested(12);
+
     }
 }
 

@@ -188,7 +188,6 @@ namespace
 
     TEST_F(TestBuddySnacHandler, disconnect_causesAllContactsGoOffline)
     {
-        ICQContactList* contactList = client->contactList();
         contact->setIcqStatus(client->getDefaultStatus("online"));
 
         handler->disconnect();

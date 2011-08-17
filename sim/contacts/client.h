@@ -8,6 +8,7 @@
 #include "contacts/imgroup.h"
 #include "log.h"
 #include "simapi.h"
+#include "simgui/messageeditorfactory.h"
 
 namespace SIM
 {
@@ -40,6 +41,8 @@ namespace SIM
         virtual bool serialize(QDomElement& element) = 0;
         virtual bool deserialize(QDomElement& element) = 0;
         virtual bool deserialize(Buffer* buf) = 0;
+
+        virtual MessageEditorFactory* messageEditorFactory() const = 0;
 
         virtual QWidget* createSearchWidow(QWidget *parent) = 0;
         virtual QList<IMGroupPtr> groups() = 0;

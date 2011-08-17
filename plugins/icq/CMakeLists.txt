@@ -24,6 +24,7 @@ SET(icq_SRCS
         icqcontact.cpp
         icqcontactlist.cpp
         icqgroup.cpp
+        icqmessagefactory.cpp
         icqstatusconverter.cpp
         icqstatuswidget.cpp
 #        icqconfig.cpp
@@ -96,6 +97,7 @@ SET(icq_HDRS
         icqcontact.h
         icqcontactlist.h
         icqgroup.h
+        icqmessagefactory.h
         icqstatusconverter.h
         icqstatuswidget.h
         icq_defines.h
@@ -205,6 +207,7 @@ SET(icq_test_sources
     tests/testtlvlist.cpp
     tests/testicqstatusconverter.cpp
     tests/teststandardicqrequestmanager.cpp
+    tests/testicqmessagefactory.cpp
     tests/signalspy.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        

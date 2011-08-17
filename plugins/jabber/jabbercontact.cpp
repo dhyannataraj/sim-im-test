@@ -190,3 +190,10 @@ QString JabberContact::makeToolTipText()
 {
     return QString();
 }
+
+
+QList<SIM::MessageTypeDescriptor> JabberContact::allMessageTypes() const
+{
+    QList<SIM::MessageTypeDescriptor> types;
+    return types;
+}

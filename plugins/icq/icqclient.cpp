@@ -956,6 +956,11 @@ SIM::IMContactPtr ICQClient::ownerContact()
     return clientPersistentData->owner;
 }
 
+SIM::MessageEditorFactory* ICQClient::messageEditorFactory() const
+{
+    return 0;
+}
+
 QWidget* ICQClient::createSearchWidow(QWidget *parent)
 {
 	return new QWidget(parent);

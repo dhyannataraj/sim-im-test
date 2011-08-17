@@ -20,8 +20,7 @@
 
 #include "core.h"
 #include <QTextEdit>
-//#include "simgui/textshow.h"
-//#include "event.h"
+#include "simgui/messageeditor.h"
 
 #include <QMenu>
 #include <QToolButton>
@@ -54,7 +53,7 @@ protected:
     MsgEdit *m_edit;
 };
 
-class MsgEdit : public QFrame //, public SIM::EventReceiver
+class MsgEdit : public QFrame
 {
     Q_OBJECT
 public:
@@ -63,60 +62,13 @@ public:
 
     void setUserWnd(UserWnd* wnd);
     QString messageHtml() const;
-//    CToolBar    *m_bar;
-//    bool        setMessage(SIM::Message *msg, bool bSetFocus);
-//
-//    bool        sendMessage(SIM::Message *msg);
-//    static void setupMessages();
-//    void        getWays(std::vector<ClientStatus> &cs, SIM::Contact *contact);
-//    SIM::Client *client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id, bool bUseClient=true);
-//    bool        m_bReceived;
-//    unsigned    m_flags;
-//    void        execCommand(SIM::CommandDef *cmd);
-//    unsigned	type() { return m_type; }
-//    bool        adjustType();
-//    QString     m_resource;
+
 signals:
     void messageSendRequested(const QString& message);
-//    void heightChanged(int);
-//    void init();
-//    void finished();
+
 public slots:
     void cursorPositionChanged();
     void sendMultiple(bool on);
-//    void insertSmile(const QString &id);
-//    void modeChanged();
-//    void editLostFocus();
-//    void editTextChanged();
-//    void editEnterPressed();
-//    void setInput();
-//    void goNext();
-//    void setupNext();
-//    void colorsChanged();
-//    void execCommand();
-//    void editFinished();
-//    void editFontChanged(const QFont&);
-//protected:
-//    QObject     *m_processor;
-//    QObject     *m_recvProcessor;
-//    unsigned    m_type;
-//    virtual bool    processEvent(SIM::Event*);
-//    void resizeEvent(QResizeEvent*);
-//    void stopSend(bool bCheck=true);
-//    void showCloseSend(bool bShow);
-//    void typingStart();
-//    void typingStop();
-//    void changeTyping(SIM::Client *client, void *data);
-//    void setEmptyMessage();
-//    bool setType(unsigned type);
-//    bool        m_bTyping;
-//    QString     m_typingClient;
-//    bool send();
-//    QList<int> m_multiply;
-//    SIM::CommandDef m_cmd;
-//    SIM::Message   *m_msg;
-//    EventMessageRetry::MsgSend m_retry;
-//    QString         m_client;
 
 private slots:
     QColor colorFromDialog(QString oldColorName);
@@ -157,29 +109,6 @@ private:
     QToolButton * m_cmdSend;
     bool m_bTranslationService;
 };
-
-//class SmileLabel : public QLabel
-//{
-//    Q_OBJECT
-//public:
-//    SmileLabel(const QString &id, QWidget *parent);
-//signals:
-//    void clicked(const QString &id);
-//protected:
-//    void mouseReleaseEvent(QMouseEvent*);
-//    QString id;
-//};
-
-//class SmilePopup : public QFrame
-//{
-//    Q_OBJECT
-//public:
-//    SmilePopup(QWidget *parent);
-//signals:
-//    void insert(const QString &id);
-//protected slots:
-//    void labelClicked(const QString &id);
-//};
 
 #endif
 

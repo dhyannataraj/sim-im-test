@@ -41,6 +41,8 @@ public:
 
     virtual QString makeToolTipText();
 
+    virtual QList<SIM::MessageTypeDescriptor> allMessageTypes() const;
+
     virtual void serialize(QDomElement& element);
     virtual void deserialize(QDomElement& element);
     virtual bool deserialize(const QString& data);

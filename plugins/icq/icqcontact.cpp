@@ -2,6 +2,7 @@
 #include "buffer.h"
 #include "log.h"
 #include "icqclient.h"
+#include <QList>
 
 using namespace SIM;
 
@@ -552,6 +553,12 @@ SIM::IMGroupWeakPtr ICQContact::group()
 QString ICQContact::makeToolTipText()
 {
     return QString("IMPLEMENT ME!!! ICQContact::makeToolTipText");
+}
+
+QList<SIM::MessageTypeDescriptor> ICQContact::allMessageTypes() const
+{
+    QList<SIM::MessageTypeDescriptor> types;
+    return types;
 }
 
 unsigned long ICQContact::getUin() const

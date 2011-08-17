@@ -71,6 +71,12 @@ public:
         return QString();
     }
 
+    virtual QList<SIM::MessageTypeDescriptor> allMessageTypes() const
+    {
+        return QList<SIM::MessageTypeDescriptor>();
+    }
+
+
     virtual void serialize(QDomElement& element)
     {
         Q_UNUSED(element);

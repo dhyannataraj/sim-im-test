@@ -8,6 +8,8 @@
 #define MOCKCONTAINERCONTROLLER_H_
 
 #include "container/icontainercontroller.h"
+#include "gmock/gmock.h"
+#include <QSharedPointer>
 
 namespace MockObjects
 {
@@ -23,6 +25,10 @@ namespace MockObjects
         MOCK_METHOD1(userWndController, UserWndControllerPtr(int id));
         MOCK_METHOD1(raiseUserWnd, void(int id));
     };
+
+    typedef testing::NiceMock<MockContainerController> NiceMockContainerController;
+    typedef QSharedPointer<MockContainerController> MockContainerControllerPtr;
+    typedef QSharedPointer<NiceMockContainerController> NiceMockContainerControllerPtr;
 }
 
 

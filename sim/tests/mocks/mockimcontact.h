@@ -29,6 +29,7 @@ namespace MockObjects
         MOCK_METHOD1(enqueueUnreadMessage, void(const SIM::MessagePtr& message));
         MOCK_METHOD0(group, SIM::IMGroupWeakPtr());
         MOCK_METHOD0(makeToolTipText, QString());
+        MOCK_CONST_METHOD0(allMessageTypes, QList<SIM::MessageTypeDescriptor>());
         MOCK_METHOD1(serialize, void(QDomElement& element));
         MOCK_METHOD1(deserialize, void(QDomElement& element));
         MOCK_METHOD1(deserialize, bool(const QString&));

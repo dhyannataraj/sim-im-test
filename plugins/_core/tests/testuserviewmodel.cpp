@@ -98,9 +98,19 @@ namespace
         ASSERT_EQ(1, model.columnCount());
     }
 
-    TEST_F(TestUserViewModel, rowCount_withoutParent_returns2)
+    TEST_F(TestUserViewModel, rowCount_withoutParent_returns1)
     {
         UserViewModel model(contactList);
+
+        int rows = model.rowCount();
+
+        ASSERT_EQ(1, rows);
+    }
+
+    TEST_F(TestUserViewModel, rowCount_withoutParent_returns2_withShowOffline)
+    {
+        UserViewModel model(contactList);
+        model.setShowOffline(true);
 
         int rows = model.rowCount();
 

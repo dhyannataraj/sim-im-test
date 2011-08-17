@@ -380,6 +380,8 @@ public:
     virtual bool deserialize(QDomElement& element);
     virtual bool deserialize(Buffer* cfg);
 
+    virtual SIM::MessageEditorFactory* messageEditorFactory() const;
+
     virtual QWidget* createSearchWidow(QWidget *parent);
     virtual QList<SIM::IMGroupPtr> groups();
     virtual QList<SIM::IMContactPtr> contacts();

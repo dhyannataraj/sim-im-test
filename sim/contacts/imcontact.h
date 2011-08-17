@@ -7,6 +7,7 @@
 #include "contacts/imstatus.h"
 #include "contacts/imcontactid.h"
 #include "messaging/message.h"
+#include "messaging/messagetypedescriptor.h"
 
 namespace SIM
 {
@@ -38,6 +39,8 @@ namespace SIM
         virtual IMGroupWeakPtr group() = 0;
 
         virtual QString makeToolTipText() = 0;
+
+        virtual QList<MessageTypeDescriptor> allMessageTypes() const = 0;
 
         virtual void serialize(QDomElement& element) = 0;
         virtual void deserialize(QDomElement& element) = 0;

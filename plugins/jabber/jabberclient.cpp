@@ -447,6 +447,11 @@ IMStatusPtr JabberClient::savedStatus()
     return IMStatusPtr();
 }
 
+SIM::MessageEditorFactory* JabberClient::messageEditorFactory() const
+{
+    return 0;
+}
+
 QWidget* JabberClient::createSearchWidow(QWidget *parent)
 {
     return 0;

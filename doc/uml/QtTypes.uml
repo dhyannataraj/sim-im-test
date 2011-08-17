@@ -7,5 +7,8 @@
     <packagedElement xmi:type="uml:Class" xmi:id="__np7AKlcEeCTw506fIx6FQ" name="QByteArray"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_2rqa8KldEeCTw506fIx6FQ" name="QString"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_AF_GcMTgEeCGIO1oqkN-ug" name="QObject"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_W2rN4MZ-EeCGzs-JPMOxpw" name="QAction"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_XhRqEMZ-EeCGzs-JPMOxpw" name="QWidgetAction"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_QJupEMgQEeCr4dwCaHzsSw" name="QWidget"/>
   </packagedElement>
 </uml:Model>

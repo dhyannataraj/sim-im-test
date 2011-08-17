@@ -82,6 +82,7 @@ SET(sim_LIB_SRCS
 		simgui/qcolorbutton.cpp
 		simgui/qkeybutton.cpp
         simgui/statuswidget.cpp
+        simgui/messageeditor.cpp
 
         ../sqlite/sqlite3.c
 	)
@@ -164,6 +165,8 @@ SET(sim_LIB_HDRS
 		simgui/qcolorbutton.h
 		simgui/qkeybutton.h
         simgui/statuswidget.h
+        simgui/messageeditorfactory.h
+        simgui/messageeditor.h
 
         ../sqlite/sqlite3.h
     )

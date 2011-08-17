@@ -102,6 +102,11 @@ namespace StubObjects
             return NULL;
         }
 
+        virtual SIM::MessageEditorFactory* messageEditorFactory() const
+        {
+            return 0;
+        }
+
         virtual QList<SIM::IMGroupPtr> groups()
         {
             return QList<SIM::IMGroupPtr>();
