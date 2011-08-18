@@ -46,23 +46,26 @@ ProfileSelectDialog::ProfileSelectDialog()
 	, m_ui ( new Ui::ProfileSelectDialog )
 {
     m_ui->setupUi(this);
-    QSettings settings;
-    m_profile = settings.value("Profile").toString();
+    ConfigPtr settings = getProfileManager()->managerConfig();
+
+    m_profile = settings->rootPropertyHub()->value("Profile").toString();
 
     setWindowTitle(i18n("Select profile"));
     setWindowIcon(getImageStorage()->icon("SIM"));
 
     updateProfilesList();
 
-    m_ui->chkSave->setChecked(settings.value("SavePasswd").toBool());
-    m_ui->chkNoShow->setChecked(settings.value("NoShow").toBool());
-    saveToggled(settings.value("SavePasswd").toBool());
+    m_ui->chkSave->setChecked(settings->rootPropertyHub()->value("SavePasswd").toBool());
+    m_ui->chkNoShow->setChecked(settings->rootPropertyHub()->value("NoShow").toBool());
+    saveToggled(settings->rootPropertyHub()->value("SavePasswd").toBool());
 
     m_ui->labelNew->hide();
     m_ui->e_newName->hide();
     profileChanged(m_ui->cmbProfile->currentIndex());
 
     m_ui->cmbProfile->setFocus();
+
+    connect(m_ui->buttonOk, SIGNAL(clicked()), this, SLOT(saveState()));
 }
 
 ProfileSelectDialog::~ProfileSelectDialog()
@@ -123,6 +126,7 @@ void ProfileSelectDialog::profileChanged(int index)
         m_ui->e_newName->hide();
         m_ui->btnDelete->setEnabled(true);
         clearInputs();
+        m_profile = m_ui->cmbProfile->currentText();
         getProfileManager()->selectProfile(m_ui->cmbProfile->currentText());
         getClientManager()->load();
         QStringList clients = getClientManager()->clientList();
@@ -273,4 +277,13 @@ void ProfileSelectDialog::newNameChanged(const QString &text)
         return;
     }
     m_ui->buttonOk->setEnabled(!getProfileManager()->profileExists(text));
+}
+
+void ProfileSelectDialog::saveState()
+{
+    ConfigPtr settings = getProfileManager()->managerConfig();
+
+    settings->rootPropertyHub()->setValue("Profile", profile());
+    settings->rootPropertyHub()->setValue("SavePasswd",m_ui->chkSave->isChecked());
+    settings->rootPropertyHub()->setValue("NoShow",m_ui->chkNoShow->isChecked());
 }

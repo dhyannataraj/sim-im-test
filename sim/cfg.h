@@ -51,6 +51,9 @@ public:
 
     QByteArray serialize();
     bool deserialize(const QByteArray& arr);
+
+    bool writeToFile();
+    bool readFromFile();
 private:
     typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
     PropertyHubMap m_hubs;

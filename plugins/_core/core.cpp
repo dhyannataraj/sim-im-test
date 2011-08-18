@@ -3058,7 +3058,7 @@ void CorePlugin::eventInit()
 bool CorePlugin::init()
 {
     log(L_DEBUG, "CorePlugin::init");
-    QSettings settings;
+    ConfigPtr settings = getProfileManager()->managerConfig();
 
     // FIXME:
     /*
@@ -3077,12 +3077,12 @@ bool CorePlugin::init()
     }
     */
 
-    QString profile = settings.value("Profile").toString();
-    bool noshow = settings.value("NoShow", false).toBool();
+    QString profile = settings->rootPropertyHub()->value("Profile").toString();
+    bool noshow = settings->rootPropertyHub()->value("NoShow").toBool();
 
     if(profile.isEmpty() && noshow)
     {
-        settings.setValue("NoShow", false);
+        settings->rootPropertyHub()->setValue("NoShow", false);
         noshow = false;
     }
 

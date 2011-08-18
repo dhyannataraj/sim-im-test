@@ -57,21 +57,13 @@ bool StandardProfileManager::selectProfile(const QString& name)
     QString profile_conf = m_rootPath + QDir::separator() + name + QDir::separator() + "profile.conf";
     QString profile_xml = m_rootPath + QDir::separator() + name + QDir::separator() + "profile.xml";
     QString old_config = m_rootPath + QDir::separator() + name + QDir::separator() + "plugins.conf";
+
     log(L_DEBUG, "Selecting profile:  %s", profile_conf.toUtf8().data());
-    ConfigPtr config = ConfigPtr(new Config(profile_conf));
+    ConfigPtr config = ConfigPtr(new Config(profile_xml));
+
     //config->load_old();
-    QFile f(profile_xml);
-    if(f.open(QIODevice::ReadOnly))
+    if (!config->readFromFile())
     {
-        if(!config->deserialize(f.readAll()))
-        {
-            log(L_WARN, "Unable to deserialize: %s", qPrintable(profile_xml));
-            return false;
-        }
-        f.close();
-    }
-    else {
-        log(L_WARN, "Unable to open: %s", qPrintable(profile_xml));
         config->mergeOldConfig(old_config);
     }
     QDir::setCurrent(m_rootPath + QDir::separator() + name);
@@ -134,13 +126,10 @@ bool StandardProfileManager::newProfile(const QString& name)
 
 void StandardProfileManager::sync()
 {
-    if(!m_currentProfile.isNull() && !m_currentProfile->config().isNull())
-    {
-        QFile f(m_rootPath + QDir::separator() + m_currentProfile->name() + QDir::separator() + "profile.xml");
-        f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-        f.write(m_currentProfile->config()->serialize());
-        f.close();
-    }
+    if (!m_currentProfile.isNull() && !m_currentProfile->config().isNull())
+        m_currentProfile->config()->writeToFile();
+    if (!m_managerConfig.isNull())
+        m_managerConfig->writeToFile();
 }
 
 QString StandardProfileManager::currentProfileName()
@@ -181,6 +170,19 @@ void StandardProfileManager::removePath(const QString &path)
             d.rmdir(entry);
         } else d.remove(entry);
     }
+}
+
+ConfigPtr StandardProfileManager::managerConfig()
+{
+    if (!m_managerConfig.isNull())
+        return m_managerConfig;
+
+    QString configName = m_rootPath + QDir::separator() + "manager.xml";
+    m_managerConfig = ConfigPtr(new Config(configName));
+
+    m_managerConfig->readFromFile();
+
+    return m_managerConfig;
 }
 
 } /* namespace SIM */

@@ -40,9 +40,13 @@ public:
     virtual void sync();
 
     virtual PropertyHubPtr getPropertyHub(const QString& name);
+
+    virtual ConfigPtr managerConfig();
 private:
     QString m_rootPath;
     ProfilePtr m_currentProfile;
+    ConfigPtr m_managerConfig;
+
     void removePath(const QString&);
 };
 

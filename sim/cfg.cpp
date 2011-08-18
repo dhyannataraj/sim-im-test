@@ -181,6 +181,39 @@ bool Config::mergeOldConfig(const QString& filename)
     return true;
 }
 
+bool Config::writeToFile()
+{
+    QFile configFile(m_filename);
+    if (!configFile.open(QIODevice::WriteOnly))
+    {
+        log(L_WARN, "Cannot open file: %s", qPrintable(m_filename));
+        return false;
+    }
+    if (configFile.write(serialize()) < 0)
+    {
+        log(L_ERROR, "Unable to write file: %s", qPrintable(m_filename));
+        return false;
+    }
+    configFile.close();
+    return true;
+}
+
+bool Config::readFromFile()
+{
+    QFile configFile(m_filename);
+    if (!configFile.open(QIODevice::ReadOnly))
+    {
+        log(L_WARN, "Cannot open file: %s", qPrintable(m_filename));
+        return false;
+    }
+    if (!deserialize(configFile.readAll()))
+    {
+        log(L_WARN, "Unable to deserialize: %s", qPrintable(m_filename));
+        return false;
+    }
+    return true;
+}
+
 // ______________________________________________________________________________________
 
 #ifdef WIN32

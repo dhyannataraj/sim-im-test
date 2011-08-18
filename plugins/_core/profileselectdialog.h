@@ -51,6 +51,7 @@ protected slots:
     void profileRename();
     void adjust();
     void newNameChanged( const QString &text );
+    void saveState();
 
 protected:
     void makeInputs(const SIM::ClientPtr& client);
