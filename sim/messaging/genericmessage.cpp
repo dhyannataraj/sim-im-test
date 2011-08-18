@@ -31,6 +31,11 @@ GenericMessage::~GenericMessage()
 {
 }
 
+QString GenericMessage::type() const
+{
+    return "generic";
+}
+
 QIcon GenericMessage::icon()
 {
     return QIcon();

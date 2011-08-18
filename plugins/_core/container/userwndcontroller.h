@@ -23,6 +23,8 @@ public:
 
     virtual void addMessageToView(const SIM::MessagePtr& message) = 0;
     virtual int messagesCount() const = 0;
+
+    virtual void setMessageType(const QString& type) = 0;
 };
 
 typedef QSharedPointer<UserWndController> UserWndControllerPtr;

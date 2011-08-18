@@ -2,6 +2,9 @@
 #include "userwnd.h"
 #include "icontainer.h"
 #include "log.h"
+#include "contacts/client.h"
+#include "simgui/messageeditor.h"
+#include "clientmanager.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
@@ -59,6 +62,14 @@ void StandardUserWndController::addMessageToView(const SIM::MessagePtr& message)
 int StandardUserWndController::messagesCount() const
 {
     return m_userWnd->messagesInViewArea();
+}
+
+void StandardUserWndController::setMessageType(const QString& type)
+{
+    QString selectedClientId = m_userWnd->selectedClientId();
+    SIM::ClientPtr client = SIM::getClientManager()->client(selectedClientId);
+    SIM::MessageEditor* editor = client->messageEditorFactory()->createMessageEditor(type, m_userWnd);
+    m_userWnd->setMessageEditor(editor);
 }
 
 IUserWnd* StandardUserWndController::createUserWnd(int id)

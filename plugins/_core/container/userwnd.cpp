@@ -53,9 +53,6 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
     m_ui->setupUi(this);
     updateStyleSheet();
 
-//    if (CorePlugin::instance()->getContainerMode())
-//        bReceived = false;
-
     setFocusProxy(m_ui->msgEdit);
 
     connect(CorePlugin::instance(), SIGNAL(containerModeChanged()), this, SLOT(modeChanged()));
@@ -77,6 +74,28 @@ void UserWnd::addMessageToView(const MessagePtr& message)
 int UserWnd::messagesInViewArea() const
 {
     return m_ui->msgView->messageCount();
+}
+
+void UserWnd::setMessageEditor(SIM::MessageEditor* editor)
+{
+
+}
+
+QString UserWnd::selectedClientId() const
+{
+    ContactPtr contact = getContactList()->contact(id());
+    if(!contact)
+    {
+        log(L_WARN, "UserWnd::selectedClientId : !contact : %d", id());
+        return QString();
+    }
+    IMContactPtr imcontact = contact->clientContact(m_ui->cb_target->currentIndex());
+    if(!imcontact)
+    {
+        log(L_WARN, "UserWnd::selectedClientId : !imcontact : %d", id());
+        return QString();
+    }
+    return imcontact->client()->name();
 }
 
 QString UserWnd::getName()

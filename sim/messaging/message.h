@@ -47,6 +47,8 @@ public:
 
     virtual ~Message() {}
 
+    virtual QString type() const = 0;
+
     virtual Client* client() = 0;
     virtual IMContactWeakPtr targetContact() const = 0;
     virtual IMContactWeakPtr sourceContact() const = 0;

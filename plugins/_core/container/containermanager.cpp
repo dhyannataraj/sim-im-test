@@ -155,7 +155,7 @@ ContainerControllerPtr ContainerManager::containerControllerForUserWnd(int userW
     return ContainerControllerPtr();
 }
 
-void ContainerManager::contactChatRequested(int contactId)
+void ContainerManager::contactChatRequested(int contactId, const QString& messageType)
 {
     log(L_DEBUG, "contactChatRequested: %d", contactId);
 
@@ -175,6 +175,9 @@ void ContainerManager::contactChatRequested(int contactId)
         }
         container->addUserWnd(contactId);
         container->raiseUserWnd(contactId);
+
+        UserWndControllerPtr userWnd = container->userWndController(contactId);
+        userWnd->setMessageType(messageType);
     }
 }
 

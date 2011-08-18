@@ -13,6 +13,8 @@ public:
     GenericMessage(const QString& fromName, const QString& toName, const QString& clientId, const QString& htmlText);
     virtual ~GenericMessage();
 
+    virtual QString type() const;
+
     virtual Client* client();
     virtual IMContactWeakPtr targetContact() const;
     virtual IMContactWeakPtr sourceContact() const;

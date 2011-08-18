@@ -34,6 +34,11 @@ GenericMessageEditor::~GenericMessageEditor()
 {
 }
 
+QString GenericMessageEditor::messageTypeId() const
+{
+    return "generic";
+}
+
 QColor GenericMessageEditor::colorFromDialog(QString oldColorName) //reimplement with small ColorPicker...
 {
     return QColorDialog::getColor(QColor(oldColorName), m_edit);

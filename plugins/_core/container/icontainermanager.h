@@ -17,7 +17,7 @@ public:
     virtual ~IContainerManager();
 
     virtual bool init() = 0;
-    virtual void contactChatRequested(int contactId) = 0;
+    virtual void contactChatRequested(int contactId, const QString& messageType) = 0;
 
     virtual void messageSent(const SIM::MessagePtr& msg) = 0;
     virtual void messageReceived(const SIM::MessagePtr& msg) = 0;

@@ -17,8 +17,13 @@
 
 namespace
 {
+    using ::testing::NiceMock;
     using ::testing::Return;
     using ::testing::_;
+
+    // Outside due to bug in gtest
+    MockObjects::NiceMockUserWndControllerPtr mockUserwndController;
+
     class SutContainerManager : public ContainerManager
     {
     public:
@@ -29,8 +34,9 @@ namespace
             containerControllersCreated++;
             if(!controller)
             {
-                controller = MockObjects::NiceMockContainerControllerPtr(new testing::NiceMock<MockObjects::MockContainerController>());
+                controller = MockObjects::NiceMockContainerControllerPtr(new NiceMock<MockObjects::MockContainerController>());
             }
+            ON_CALL(*controller.data(), userWndController(_)).WillByDefault(Return(mockUserwndController));
             return controller;
         }
     public:
@@ -51,36 +57,33 @@ namespace
             SIM::createMessagePipe();
             SIM::createOutMessagePipe();
             manager = new SutContainerManager();
-            mockUserwndController = UserWndControllerPtr(new MockObjects::MockUserWndController());
+            mockUserwndController = MockObjects::NiceMockUserWndControllerPtr(new NiceMock<MockObjects::MockUserWndController>());
         }
 
         virtual void TearDown()
         {
             delete manager;
+            mockUserwndController.clear();
             SIM::destroyOutMessagePipe();
             SIM::destroyMessagePipe();
-            mockUserwndController.clear();
         }
 
-        UserWndControllerPtr mockUserwndController;
         SutContainerManager* manager;
     };
 
     TEST_F(TestControllerManager, contactChatRequested_createsContainerController_ifDoesntExist)
     {
-        manager->contactChatRequested(12);
+        manager->contactChatRequested(12, "generic");
 
         ASSERT_EQ(1, manager->containerControllersCreated);
     }
 
     TEST_F(TestControllerManager, contactChatRequested_raisesContainerController_ifExists)
     {
-        MockObjects::MockUserWnd* userwnd = new MockObjects::MockUserWnd();
-        manager->contactChatRequested(12);
-        EXPECT_CALL(*manager->controller, userWndController(_)).WillRepeatedly(Return(mockUserwndController));
+        manager->contactChatRequested(12, "generic");
         EXPECT_CALL(*manager->controller, raiseUserWnd(_));
 
-        manager->contactChatRequested(12);
+        manager->contactChatRequested(12, "generic");
     }
 
     TEST_F(TestControllerManager, contactChatRequested_addsUserWndToController)
@@ -90,8 +93,19 @@ namespace
         manager->setController(controller);
         EXPECT_CALL(*controller.data(), addUserWnd(12));
 
-        manager->contactChatRequested(12);
+        manager->contactChatRequested(12, "generic");
 
+    }
+
+    TEST_F(TestControllerManager, contactChatRequested_setsMessageType)
+    {
+        MockObjects::NiceMockContainerControllerPtr controller =
+                MockObjects::NiceMockContainerControllerPtr(new MockObjects::NiceMockContainerController());
+        manager->setController(controller);
+
+        EXPECT_CALL(*mockUserwndController.data(), setMessageType(QString("generic")));
+
+        manager->contactChatRequested(12, "generic");
     }
 }
 

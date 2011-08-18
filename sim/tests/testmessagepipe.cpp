@@ -19,6 +19,7 @@ namespace
     {
     public:
         Client* client() { return 0; }
+        virtual QString type() const { return QString(); }
         virtual IMContactWeakPtr targetContact() const { return IMContactWeakPtr(); }
         virtual IMContactWeakPtr sourceContact() const { return IMContactWeakPtr(); }
         virtual QString targetContactName() const { return QString(); }

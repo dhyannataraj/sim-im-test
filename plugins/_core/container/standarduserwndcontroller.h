@@ -24,6 +24,8 @@ public:
     virtual void addMessageToView(const SIM::MessagePtr& message);
     virtual int messagesCount() const;
 
+    virtual void setMessageType(const QString& type);
+
 protected:
     virtual IUserWnd* createUserWnd(int id);
 

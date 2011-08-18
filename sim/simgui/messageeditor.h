@@ -21,6 +21,8 @@ namespace SIM
         MessageEditor(QWidget* parent);
         virtual ~MessageEditor();
 
+        virtual QString messageTypeId() const = 0;
+
     signals:
         void messageSendRequested(const MessagePtr& message);
     };

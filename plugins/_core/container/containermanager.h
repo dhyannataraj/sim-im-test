@@ -19,7 +19,7 @@ public:
     virtual ~ContainerManager();
 
     virtual bool init();
-    virtual void contactChatRequested(int contactId);
+    virtual void contactChatRequested(int contactId, const QString& messageType);
 
     virtual void messageSent(const SIM::MessagePtr& msg);
     virtual void messageReceived(const SIM::MessagePtr& msg);

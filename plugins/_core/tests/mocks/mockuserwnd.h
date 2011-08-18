@@ -19,6 +19,9 @@ namespace MockObjects
 
         MOCK_CONST_METHOD0(id, int());
         MOCK_METHOD0(getName, QString());
+
+        MOCK_METHOD1(setMessageEditor, void(SIM::MessageEditor* editor));
+        MOCK_CONST_METHOD0(selectedClientId, QString());
     };
 }
 

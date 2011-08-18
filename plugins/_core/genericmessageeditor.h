@@ -22,6 +22,8 @@ public:
     GenericMessageEditor(QWidget* parent);
     virtual ~GenericMessageEditor();
 
+    virtual QString messageTypeId() const;
+
 public slots:
     void cursorPositionChanged();
 

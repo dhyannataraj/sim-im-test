@@ -45,6 +45,10 @@ public:
     void addMessageToView(const SIM::MessagePtr& message);
     int messagesInViewArea() const;
 
+    virtual void setMessageEditor(SIM::MessageEditor* editor);
+
+    QString selectedClientId() const;
+
     int id() const;
     QString getName();
     QString getLongName();

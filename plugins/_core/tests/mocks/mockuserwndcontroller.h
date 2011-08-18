@@ -2,6 +2,7 @@
 #define MOCKUSERWNDCONTROLLER_H
 
 #include "container/userwndcontroller.h"
+#include "gtest/gtest.h"
 #include <QSharedPointer>
 
 namespace MockObjects
@@ -18,8 +19,11 @@ namespace MockObjects
 
         MOCK_METHOD1(addMessageToView, void(const SIM::MessagePtr& message));
         MOCK_CONST_METHOD0(messagesCount, int());
+
+        MOCK_METHOD1(setMessageType, void(const QString& type));
     };
     typedef QSharedPointer<MockUserWndController> MockUserWndControllerPtr;
+    typedef QSharedPointer<testing::NiceMock<MockUserWndController> > NiceMockUserWndControllerPtr;
 }
 
 #endif // MOCKUSERWNDCONTROLLER_H
