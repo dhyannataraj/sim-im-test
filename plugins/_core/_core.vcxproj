@@ -1,0 +1,899 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{438ECB60-E207-4DB8-A46A-1EC2EA9A714A}</ProjectGuid>
+    <RootNamespace>_core</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\sim\win32\uic.props" />
+    <Import Project="..\..\sim\win32\ts.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)sim\win32\sim-default.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)sim\win32\sim-default.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(INCLUDE)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(LIB)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(INCLUDE)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(LIB)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)$(ProjectName)_BuildLog.htm</Path>
+    </BuildLog>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\..\..\Release/_core.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_NDEBUG;NDEBUG;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>core_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DisableSpecificWarnings>4127;4251;4710;4512;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>core_pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)$(Configuration)\sim.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)plugins\$(ProjectName).dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)$(ProjectName)_BuildLog.htm</Path>
+    </BuildLog>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\..\..\Debug/_core.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;DEBUG;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>core_pch.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127;4251;4710;4512;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>core_pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)$(Configuration)\sim.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)plugins\$(ProjectName).dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="commonstatus.cpp" />
+    <ClCompile Include="core.cpp" />
+    <ClCompile Include="mainwin.cpp" />
+    <ClCompile Include="msgedit.cpp" />
+    <ClCompile Include="msgview.cpp" />
+    <ClCompile Include="profileselectdialog.cpp" />
+    <ClCompile Include="moc_commonstatus.cpp" />
+    <ClCompile Include="moc_core.cpp" />
+    <ClCompile Include="moc_mainwin.cpp" />
+    <ClCompile Include="moc_msgedit.cpp" />
+    <ClCompile Include="moc_msgview.cpp" />
+    <ClCompile Include="moc_profileselectdialog.cpp" />
+    <ClCompile Include="roster\userview.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+    </ClCompile>
+    <ClCompile Include="roster\userviewmodel.cpp" />
+    <ClCompile Include="roster\moc_userview.cpp" />
+    <ClCompile Include="roster\moc_userviewmodel.cpp" />
+    <ClCompile Include="container\avatarbar.cpp" />
+    <ClCompile Include="container\container.cpp" />
+    <ClCompile Include="container\containercontroller.cpp" />
+    <ClCompile Include="container\containermanager.cpp" />
+    <ClCompile Include="container\icontainer.cpp" />
+    <ClCompile Include="container\icontainermanager.cpp" />
+    <ClCompile Include="container\iuserwnd.cpp" />
+    <ClCompile Include="container\receivemessageprocessor.cpp" />
+    <ClCompile Include="container\sendmessageprocessor.cpp" />
+    <ClCompile Include="container\standarduserwndcontroller.cpp" />
+    <ClCompile Include="container\userwnd.cpp" />
+    <ClCompile Include="container\userwndcontroller.cpp" />
+    <ClCompile Include="container\moc_container.cpp" />
+    <ClCompile Include="container\moc_containercontroller.cpp" />
+    <ClCompile Include="container\moc_containermanager.cpp" />
+    <ClCompile Include="container\moc_iuserwnd.cpp" />
+    <ClCompile Include="container\moc_userwnd.cpp" />
+    <ClCompile Include="mainwinactions\actioncommonstatus.cpp" />
+    <ClCompile Include="mainwinactions\actionmenucommonstatus.cpp" />
+    <ClCompile Include="mainwinactions\moc_actioncommonstatus.cpp" />
+    <ClCompile Include="events\commonstatusevent.cpp" />
+    <ClCompile Include="events\moc_commonstatusevent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="commonstatus.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="core.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="core_api.h" />
+    <ClCompile Include="core_pch.h">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <CustomBuild Include="mainwin.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="msgedit.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="msgview.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="profileselectdialog.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="ui_autoreplybase.h" />
+    <ClInclude Include="ui_cfgdlgbase.h" />
+    <ClInclude Include="ui_connectionsettingsbase.h" />
+    <ClInclude Include="ui_connectwndbase.h" />
+    <ClInclude Include="ui_declinedlgbase.h" />
+    <ClInclude Include="ui_editmailbase.h" />
+    <ClInclude Include="ui_editphonebase.h" />
+    <ClInclude Include="ui_filecfgbase.h" />
+    <ClInclude Include="ui_filetransferbase.h" />
+    <ClInclude Include="ui_historycfgbase.h" />
+    <ClInclude Include="ui_interfacecfgbase.h" />
+    <ClInclude Include="ui_logindlgbase.h" />
+    <ClInclude Include="ui_maininfobase.h" />
+    <ClInclude Include="ui_managerbase.h" />
+    <ClInclude Include="ui_msgcfgbase.h" />
+    <ClInclude Include="ui_newprotocolbase.h" />
+    <ClInclude Include="ui_nonimbase.h" />
+    <ClInclude Include="ui_pagerbase.h" />
+    <ClInclude Include="ui_phonebase.h" />
+    <ClInclude Include="ui_plugincfgbase.h" />
+    <ClInclude Include="ui_prefcfgbase.h" />
+    <ClInclude Include="ui_searchallbase.h" />
+    <ClInclude Include="ui_searchbase.h" />
+    <ClInclude Include="ui_smscfgbase.h" />
+    <ClInclude Include="ui_toolsetupbase.h" />
+    <ClInclude Include="ui_userhistorycfgbase.h" />
+    <ClInclude Include="ui_userviewcfgbase.h" />
+    <CustomBuild Include="roster\userview.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="roster\userviewmodel.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="container\avatarbar.h" />
+    <CustomBuild Include="container\container.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="container\containercontroller.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="container\containermanager.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="container\icontainer.h" />
+    <ClInclude Include="container\icontainercontroller.h" />
+    <ClInclude Include="container\icontainermanager.h" />
+    <CustomBuild Include="container\iuserwnd.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="container\receivemessageprocessor.h" />
+    <ClInclude Include="container\sendmessageprocessor.h" />
+    <ClInclude Include="container\standarduserwndcontroller.h" />
+    <CustomBuild Include="container\userwnd.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="container\userwndcontroller.h" />
+    <ClInclude Include="container\ui_userwnd.h" />
+    <CustomBuild Include="mainwinactions\actioncommonstatus.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="mainwinactions\actionmenucommonstatus.h" />
+    <CustomBuild Include="events\commonstatusevent.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="core.rc">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Uic Include="profileselectdialog.ui" />
+    <Uic Include="container\userwnd.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="pict\connect.gif">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)$(ProjectFileName)\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)$(ProjectFileName)\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)$(ProjectFileName)\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)$(ProjectFileName)\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.2.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.3.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.4.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.5.(2+3).xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.6.(2+4).xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.7.(3+4).xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.8.(2+3+4).xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\Separated.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.2.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.3.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.4.(2+3).xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.5.2.2.xsl">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.5.2.3.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.5.2.4.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.5.2.5.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.5.2.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.5.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\SIM.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\XChat.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\XChat2seconds.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="styles\XChat3fullDate.xsl">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copy %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\additional.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\amibulb.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\apple_ichat.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\gants.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\icq5.1.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\icq5.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\icqlite.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\lovenmoney.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\msn.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\SIM-icons-Crystal-full.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\SIM-icons-Nuvola-full.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\SIM-icons-XP-full.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\sim.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\sim2.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\smiles.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="emoticons_prebuilt\yahoo.jisp">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying EMOTICONS &amp; ICONS</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(RootDir)%(Directory)%(Filename)%(Extension) $(SolutionDir)$(Configuration)\icons
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\icons\%(Filename)%(Extension);%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="GPL-Icons\1downarrow.png" />
+    <None Include="GPL-Icons\1leftarrow.png" />
+    <None Include="GPL-Icons\1rightarrow.png" />
+    <None Include="GPL-Icons\1uparrow.png" />
+    <None Include="GPL-Icons\aim_online.png" />
+    <None Include="GPL-Icons\auth.png" />
+    <None Include="GPL-Icons\button_cancel.png" />
+    <None Include="GPL-Icons\button_ok.png" />
+    <None Include="GPL-Icons\cell.png" />
+    <None Include="GPL-Icons\collapsed.png" />
+    <None Include="GPL-Icons\configure.png" />
+    <None Include="GPL-Icons\contacts.png" />
+    <None Include="GPL-Icons\def_status_away.png" />
+    <None Include="GPL-Icons\def_status_dnd.png" />
+    <None Include="GPL-Icons\def_status_ffc.png" />
+    <None Include="GPL-Icons\def_status_na.png" />
+    <None Include="GPL-Icons\def_status_occupied.png" />
+    <None Include="GPL-Icons\empty.png" />
+    <None Include="GPL-Icons\error.png" />
+    <None Include="GPL-Icons\exit.png" />
+    <None Include="GPL-Icons\expanded.png" />
+    <None Include="GPL-Icons\fax.png" />
+    <None Include="GPL-Icons\file.png" />
+    <None Include="GPL-Icons\fileopen.png" />
+    <None Include="GPL-Icons\filesave.png" />
+    <None Include="GPL-Icons\find_user.png" />
+    <None Include="GPL-Icons\fonts.png" />
+    <None Include="GPL-Icons\gadu_away.png" />
+    <None Include="GPL-Icons\gadu_dnd.png" />
+    <None Include="GPL-Icons\gadu_invisible.png" />
+    <None Include="GPL-Icons\gadu_offline.png" />
+    <None Include="GPL-Icons\gadu_online.png" />
+    <None Include="GPL-Icons\group_collapsed.png" />
+    <None Include="GPL-Icons\group_expanded.png" />
+    <None Include="GPL-Icons\grp_create.png" />
+    <None Include="GPL-Icons\grp_off.png" />
+    <None Include="GPL-Icons\grp_on.png" />
+    <None Include="GPL-Icons\grp_rename.png" />
+    <None Include="GPL-Icons\home.png" />
+    <CustomBuild Include="GPL-Icons\icondef.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Make gpl.jisp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mkdir $(IntDir)jisp
+copy %(RootDir)%(Directory)*.png $(IntDir)jisp
+copy %(RootDir)%(Directory)icondef.xml $(IntDir)jisp
+jar -cMf $(OutDir)icons\gpl.jisp -C $(IntDir)jisp .
+del /Q $(IntDir)jisp\*.*
+rmdir /Q $(IntDir)jisp
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)icons\gpl.jisp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Make gpl.jisp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mkdir $(IntDir)jisp
+copy %(RootDir)%(Directory)*.png $(IntDir)jisp
+copy %(RootDir)%(Directory)icondef.xml $(IntDir)jisp
+jar -cMf $(OutDir)icons\gpl.jisp -C $(IntDir)jisp .
+del /Q $(IntDir)jisp\*.*
+rmdir /Q $(IntDir)jisp
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)icons\gpl.jisp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="GPL-Icons\icq_offline.png" />
+    <None Include="GPL-Icons\icq_online.png" />
+    <None Include="GPL-Icons\jabber.png" />
+    <None Include="GPL-Icons\jabber_offline.png" />
+    <None Include="GPL-Icons\mail_generic.png" />
+    <None Include="GPL-Icons\message.png" />
+    <None Include="GPL-Icons\msn_online.png" />
+    <None Include="GPL-Icons\network.png" />
+    <None Include="GPL-Icons\no_phone.png" />
+    <None Include="GPL-Icons\non-im-contact.png" />
+    <None Include="GPL-Icons\online_off.png" />
+    <None Include="GPL-Icons\online_on.png" />
+    <None Include="GPL-Icons\pager.png" />
+    <None Include="GPL-Icons\phone.png" />
+    <None Include="GPL-Icons\remove.png" />
+    <None Include="GPL-Icons\run.png" />
+    <None Include="GPL-Icons\security.png" />
+    <None Include="GPL-Icons\sim.png" />
+    <None Include="GPL-Icons\sms.png" />
+    <None Include="GPL-Icons\url.png" />
+    <None Include="GPL-Icons\webpress.png" />
+    <None Include="GPL-Icons\work.png" />
+    <None Include="GPL-Icons\yahoo_away.png" />
+    <None Include="GPL-Icons\yahoo_dnd.png" />
+    <None Include="GPL-Icons\yahoo_invisible.png" />
+    <None Include="GPL-Icons\yahoo_na.png" />
+    <None Include="GPL-Icons\yahoo_offline.png" />
+    <None Include="GPL-Icons\yahoo_online.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <TS Include="..\..\ts\bg.ts" />
+    <TS Include="..\..\ts\ca.ts" />
+    <TS Include="..\..\ts\cs.ts" />
+    <TS Include="..\..\ts\de.ts" />
+    <TS Include="..\..\ts\el.ts" />
+    <TS Include="..\..\ts\es.ts" />
+    <TS Include="..\..\ts\fr.ts" />
+    <TS Include="..\..\ts\he.ts" />
+    <TS Include="..\..\ts\hu.ts" />
+    <TS Include="..\..\ts\it.ts" />
+    <TS Include="..\..\ts\nl.ts" />
+    <TS Include="..\..\ts\pl.ts" />
+    <TS Include="..\..\ts\pt_BR.ts" />
+    <TS Include="..\..\ts\ru.ts" />
+    <TS Include="..\..\ts\sk.ts" />
+    <TS Include="..\..\ts\sv.ts" />
+    <TS Include="..\..\ts\sw.ts" />
+    <TS Include="..\..\ts\th.ts" />
+    <TS Include="..\..\ts\tr.ts" />
+    <TS Include="..\..\ts\uk.ts" />
+    <TS Include="..\..\ts\zh_TW.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\sim.vcxproj">
+      <Project>{c152ffe3-3c84-4957-bdcc-63334e6ffa9e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\sim\win32\uic.targets" />
+    <Import Project="..\..\sim\win32\ts.targets" />
+  </ImportGroup>
+</Project>
