@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(UicBeforeTargets)' == '' and '$(UicAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <UicBeforeTargets>Midl</UicBeforeTargets>
+    <UicAfterTargets>CustomBuild</UicAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <UicDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(UicDependsOn)</UicDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Uic>
+      <CommandLineTemplate>%qtdir%\bin\uic.exe -o %(RootDir)%(Directory)\ui_%(Filename).h %(FullPath)</CommandLineTemplate>
+      <Outputs>%(RootDir)%(Directory)ui_%(Filename).h</Outputs>
+      <ExecutionDescription>Uic'ing %(Filename).ui ...</ExecutionDescription>
+    </Uic>
+  </ItemDefinitionGroup>
+</Project>

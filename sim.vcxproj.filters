@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2be02aa7-e3f7-41f8-960f-b401613d68b5}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\generated">
+      <UniqueIdentifier>{b48309e0-f37a-40f9-a9e9-a1a75b5d9665}</UniqueIdentifier>
+      <Extensions>*base.cpp;moc_*.cpp</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{9940a30a-b3e2-41b7-b3e5-ee8469413e80}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{91678e16-9791-4cd0-b61c-37eca8edf9c1}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="messaging">
+      <UniqueIdentifier>{3b2036eb-ffa4-4fa3-8f9e-0ee0559b113d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="messaging\Source Files">
+      <UniqueIdentifier>{4a896324-d596-48cc-ad90-f5713f7c8cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="messaging\Source Files\generated">
+      <UniqueIdentifier>{29322db5-5780-46c1-8503-5985619f8f0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="messaging\Header Files">
+      <UniqueIdentifier>{e40f6e64-1b1f-4c1f-902c-a24f75d8fa5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="messaging\Header Files\generated">
+      <UniqueIdentifier>{3931177c-84ad-46ad-a6c6-8849eafa6a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="contacts">
+      <UniqueIdentifier>{8480754b-dce3-4c6f-9e1f-5c5a626b461c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="contacts\Source Files">
+      <UniqueIdentifier>{883e5a71-4f47-4805-9b09-c6e28dc70bb0}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="contacts\Source Files\generated">
+      <UniqueIdentifier>{1f0dc4c2-3e3c-4379-8d57-1af4bf927433}</UniqueIdentifier>
+      <Extensions>*base.cpp;moc_*.cpp</Extensions>
+    </Filter>
+    <Filter Include="contacts\Header Files">
+      <UniqueIdentifier>{7f8c5cd0-551a-4dd9-959f-796c3facd367}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="simgui">
+      <UniqueIdentifier>{13d60e9a-2e94-48ba-961d-1f5c7a0036b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="simgui\Source Files">
+      <UniqueIdentifier>{2e4772c2-4c9e-4a29-aafe-7348e359dcd7}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="simgui\Source Files\generated">
+      <UniqueIdentifier>{480f8646-a3e3-49ea-bce1-67d56dd5cc5c}</UniqueIdentifier>
+      <Extensions>*base.cpp;moc_*.cpp</Extensions>
+    </Filter>
+    <Filter Include="simgui\Header Files">
+      <UniqueIdentifier>{5d7764e9-a783-4a0d-b3a3-1dda2e7ab067}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="simapp">
+      <UniqueIdentifier>{db46097b-512b-4753-aae6-6cfb309f9685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="simapp\Source Files">
+      <UniqueIdentifier>{5e43e185-cd33-40aa-afb8-5ae3cfc2df2c}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="simapp\Source Files\generated">
+      <UniqueIdentifier>{2b2f904c-2c37-4fca-b63b-9d38ffa85d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="simapp\Header Files">
+      <UniqueIdentifier>{6a5c4d60-c8ea-4c37-a5d3-b9e7ce7906f1}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="events">
+      <UniqueIdentifier>{36c7b38d-7db5-45f5-b68d-28b07720219d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events\Source Files">
+      <UniqueIdentifier>{b4a21088-e89b-475f-9f65-d2b1acea4e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events\Source Files\generated">
+      <UniqueIdentifier>{1f0884b0-55fa-4810-bd34-083e2f10e53b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events\Header Files">
+      <UniqueIdentifier>{50dc1f9b-8554-4854-802f-a875ca4a42f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commands">
+      <UniqueIdentifier>{97a1ac14-0e62-4093-a6ad-59c94edce3e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commands\Source Files">
+      <UniqueIdentifier>{7c45e4c5-e2f9-495c-8a82-548c3db23a83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commands\Source Files\generated">
+      <UniqueIdentifier>{8fc8cfa2-712d-4618-82fb-ff5906546520}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commands\Header Files">
+      <UniqueIdentifier>{217e3cfc-599f-4f25-97f8-1ddb994e43a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imagestore">
+      <UniqueIdentifier>{46bbc64f-61cc-492f-b1ac-5a527ae967f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imagestore\Source Files">
+      <UniqueIdentifier>{2b14ee05-daeb-4577-93cd-cd8f7f1ef6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imagestore\Source Files\generated">
+      <UniqueIdentifier>{0cc5face-2d40-4b2e-a222-5f21f50bdbdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imagestore\Header Files">
+      <UniqueIdentifier>{249ac5ed-a960-472d-bb71-4d1e7a93455f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{30ae62e5-9021-4255-9062-5d34dc1a39e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\Source Files">
+      <UniqueIdentifier>{7e195309-7833-4c84-8f6c-52d425b36e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\Source Files\generated">
+      <UniqueIdentifier>{04b733c4-ee3f-49a7-a39a-8214d9522995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\Header Files">
+      <UniqueIdentifier>{1a5caa46-78c6-4ef4-93e3-b8ddc92206ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\Header Files\generated">
+      <UniqueIdentifier>{ad43bbca-63ee-4871-bfc8-d608facc50f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="history">
+      <UniqueIdentifier>{4770995e-5261-4530-a8d7-a8b003966fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="history\Source Files">
+      <UniqueIdentifier>{2a2a34d9-6467-48ca-9ad1-37cf993c3d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="history\Source Files\generated">
+      <UniqueIdentifier>{5363ac81-36ea-47fe-9763-da71e0aec91f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="history\Header Files">
+      <UniqueIdentifier>{29715db6-cdc3-41a8-8c88-d0f47285ee7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="history\Header Files\generated">
+      <UniqueIdentifier>{5e2adaec-a764-4b69-8f9d-816bd049529b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sim\aboutdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\builtinlogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\cfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\clientmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\country.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\exec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\qzip\ioapi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\paths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\plugins.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\profilemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\propertyhub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\qzip\qzip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\sim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simfs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\standardclientmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\standardprofilemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\translit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\qzip\unzip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\xsl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\moc_builtinlogger.cpp">
+      <Filter>Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\moc_exec.cpp">
+      <Filter>Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\moc_plugins.cpp">
+      <Filter>Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\genericmessage.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\message.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\messageoutpipe.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\messagepipe.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\messageprocessor.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\standardmessageoutpipe.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\standardmessagepipe.cpp">
+      <Filter>messaging\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\messaging\moc_message.cpp">
+      <Filter>messaging\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\client.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\contact.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\contactlist.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\group.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\imcontact.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\imcontactid.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\imgroup.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\imstatus.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\imstatusinfo.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\packettype.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\protocol.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\protocolmanager.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\standardcontactlist.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\contacts\userdata.cpp">
+      <Filter>contacts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\ballonmsg.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\intedit.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\linklabel.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\preview.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\qchildwidget.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\qcolorbutton.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\qkeybutton.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\statuswidget.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_ballonmsg.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_intedit.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_linklabel.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_qchildwidget.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_qcolorbutton.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_qkeybutton.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_statuswidget.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simapp\simapp.cpp">
+      <Filter>simapp\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simapp\moc_simapp.cpp">
+      <Filter>simapp\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\contactevent.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\eventdata.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\eventhub.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\ievent.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\logevent.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\nulleventdata.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\standardevent.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_contactevent.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_eventhub.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_ievent.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_logevent.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_standardevent.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\commandhub.cpp">
+      <Filter>commands\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\menuaction.cpp">
+      <Filter>commands\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\simtoolbar.cpp">
+      <Filter>commands\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\uicommandcontextprovider.cpp">
+      <Filter>commands\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\uicommandlist.cpp">
+      <Filter>commands\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\moc_commandhub.cpp">
+      <Filter>commands\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\moc_menuaction.cpp">
+      <Filter>commands\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\commands\moc_simtoolbar.cpp">
+      <Filter>commands\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\imagestorage\avatarstorage.cpp">
+      <Filter>imagestore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\imagestorage\iconset.cpp">
+      <Filter>imagestore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\imagestorage\imagestorage.cpp">
+      <Filter>imagestore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\imagestorage\jispiconset.cpp">
+      <Filter>imagestore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\imagestorage\standardavatarstorage.cpp">
+      <Filter>imagestore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\imagestorage\standardimagestorage.cpp">
+      <Filter>imagestore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\network\asyncsocket.cpp">
+      <Filter>network\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\network\tcpasyncsocket.cpp">
+      <Filter>network\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\network\moc_asyncsocket.cpp">
+      <Filter>network\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\network\moc_tcpasyncsocket.cpp">
+      <Filter>network\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\history\historystorage.cpp">
+      <Filter>history\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\history\sqlitehistorystorage.cpp">
+      <Filter>history\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\history\moc_sqlitehistorystorage.cpp">
+      <Filter>history\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\sim_pch.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sim\aboutdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\cfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\cjk_variants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\country.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\qzip\ioapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\johab_hangul.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\kdeisversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\paths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\profile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\qzip\qzip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\simapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\simfs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\standardclientmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\standardprofilemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\translit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\qzip\unzip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\xsl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\messaging\genericmessage.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\messaging\messageoutpipe.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\messaging\messagepipe.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\messaging\messageprocessor.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\messaging\standardmessageoutpipe.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\messaging\standardmessagepipe.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\client.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\contact.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\contactlist.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\group.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\imcontact.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\imcontactid.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\imgroup.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\imstatus.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\imstatusinfo.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\packettype.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\protocol.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\protocolmanager.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\standardcontactlist.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\contacts\userdata.h">
+      <Filter>contacts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\simgui\preview.h">
+      <Filter>simgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\events\eventdata.h">
+      <Filter>events\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\events\nulleventdata.h">
+      <Filter>events\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\commands\uicommandcontext.h">
+      <Filter>commands\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\commands\uicommandcontextprovider.h">
+      <Filter>commands\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\commands\uicommandlist.h">
+      <Filter>commands\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\imagestorage\avatarstorage.h">
+      <Filter>imagestore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\imagestorage\iconset.h">
+      <Filter>imagestore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\imagestorage\jispiconset.h">
+      <Filter>imagestore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\imagestorage\standardavatarstorage.h">
+      <Filter>imagestore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\imagestorage\standardimagestorage.h">
+      <Filter>imagestore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\history\historystorage.h">
+      <Filter>history\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sim\icq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sim\sim.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sim\builtinlogger.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\clientmanager.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\exec.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\plugins.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\profilemanager.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\propertyhub.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\messaging\message.h">
+      <Filter>messaging\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\ballonmsg.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\intedit.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\linklabel.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\qchildwidget.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\qcolorbutton.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\qkeybutton.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\statuswidget.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simapp\simapp.h">
+      <Filter>simapp\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\contactevent.h">
+      <Filter>events\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\eventhub.h">
+      <Filter>events\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\ievent.h">
+      <Filter>events\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\logevent.h">
+      <Filter>events\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\standardevent.h">
+      <Filter>events\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\commands\commandhub.h">
+      <Filter>commands\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\commands\menuaction.h">
+      <Filter>commands\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\commands\simtoolbar.h">
+      <Filter>commands\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\imagestorage\imagestorage.h">
+      <Filter>imagestore\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\network\asyncsocket.h">
+      <Filter>network\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\network\tcpasyncsocket.h">
+      <Filter>network\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\history\sqlitehistorystorage.h">
+      <Filter>history\Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

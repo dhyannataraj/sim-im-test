@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(TSBeforeTargets)' == '' and '$(TSAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <TSBeforeTargets>Midl</TSBeforeTargets>
+    <TSAfterTargets>CustomBuild</TSAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TSDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(TSDependsOn)</TSDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <TS>
+      <CommandLineTemplate>%qtdir%\bin\lrelease %(FullPath) -qm %(Filename).qm
+move %(Filename).qm $(OutDir)ts\%(Filename).qm</CommandLineTemplate>
+      <Outputs>$(OutDir)ts\%(Filename).qm</Outputs>
+      <ExecutionDescription>Translation of %(Filename) is beeing processed...</ExecutionDescription>
+    </TS>
+  </ItemDefinitionGroup>
+</Project>

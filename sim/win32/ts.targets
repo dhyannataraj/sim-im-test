@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="TS">
+      <Targets>_TS</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="TS"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_TS"
+    BeforeTargets="$(TSBeforeTargets)"
+    AfterTargets="$(TSAfterTargets)"
+    Condition="'@(TS)' != ''"
+    DependsOnTargets="$(TSDependsOn);ComputeTSOutput"
+    Outputs="%(TS.Outputs)"
+    Inputs="%(TS.Identity);%(TS.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <TS
+        Remove="@(TS)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <TS_tlog
+        Include="%(TS.Outputs)"
+        Condition="'%(TS.Outputs)' != '' and '%(TS.ExcludedFromBuild)' != 'true'">
+        <Source>@(TS, '|')</Source>
+      </TS_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(TS.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(TS_tlog)' != '' and '%(TS_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(TS_tlog.Source);@(TS_tlog-&gt;'%(Fullpath)')" />
+    <TS
+      Condition="'@(TS)' != '' and '%(TS.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(TS.CommandLineTemplate)"
+      AdditionalOptions="%(TS.AdditionalOptions)"
+      Inputs="%(TS.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeTSOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeTSOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputeTSOutput"
+    Condition="'@(TS)' != ''">
+    <ItemGroup>
+      <TSDirsToMake
+        Condition="'@(TS)' != '' and '%(TS.ExcludedFromBuild)' != 'true'"
+        Include="%(TS.Outputs)" />
+      <Link
+        Include="%(TSDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(TSDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(TSDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(TSDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>

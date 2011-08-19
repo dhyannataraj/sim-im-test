@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="Uic">
+      <Targets>_Uic</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="Uic"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_Uic"
+    BeforeTargets="$(UicBeforeTargets)"
+    AfterTargets="$(UicAfterTargets)"
+    Condition="'@(Uic)' != ''"
+    DependsOnTargets="$(UicDependsOn);ComputeUicOutput"
+    Outputs="%(Uic.Outputs)"
+    Inputs="%(Uic.Identity);%(Uic.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <Uic
+        Remove="@(Uic)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <Uic_tlog
+        Include="%(Uic.Outputs)"
+        Condition="'%(Uic.Outputs)' != '' and '%(Uic.ExcludedFromBuild)' != 'true'">
+        <Source>@(Uic, '|')</Source>
+      </Uic_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(Uic.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(Uic_tlog)' != '' and '%(Uic_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(Uic_tlog.Source);@(Uic_tlog-&gt;'%(Fullpath)')" />
+    <Uic
+      Condition="'@(Uic)' != '' and '%(Uic.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(Uic.CommandLineTemplate)"
+      AdditionalOptions="%(Uic.AdditionalOptions)"
+      Inputs="%(Uic.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeUicOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeUicOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputeUicOutput"
+    Condition="'@(Uic)' != ''">
+    <ItemGroup>
+      <UicDirsToMake
+        Condition="'@(Uic)' != '' and '%(Uic.ExcludedFromBuild)' != 'true'"
+        Include="%(Uic.Outputs)" />
+      <Link
+        Include="%(UicDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(UicDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(UicDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(UicDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>
