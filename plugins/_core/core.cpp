@@ -201,14 +201,12 @@ CorePlugin::CorePlugin() : QObject()
     g_plugin = this;
 //	setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
     m_containerManager = new ContainerManager(this);
+    m_commonStatus = new CommonStatus(getClientManager());
 
     subscribeToEvents();
+    createMainToolbar();
 
-    m_commonStatus = new CommonStatus(getClientManager());
     m_main = new MainWindow(this);
-
-	createMainToolbar();
-
 
 }
 
@@ -230,14 +228,13 @@ IContainerManager* CorePlugin::containerManager() const
 
 void CorePlugin::createMainToolbar()
 {
-    QAction* show_offline = new QAction(0);
-    show_offline->setCheckable(true);
-    connect(show_offline, SIGNAL(triggered(bool)), m_main, SLOT(setShowOfflineContacts(bool)));
+    QAction* show_only_online = new QAction(0);
+    show_only_online->setCheckable(true);
 
     SIM::ActionDescriptor a_1 = 
-        {"show_offline", "SIM", "Show offline contacts",
+        {"show_only_online", "SIM", "Show only online contacts",
         QStringList() << "main_toolbar" << "main_menu",
-        show_offline};
+        show_only_online};
 
     SIM::ActionDescriptor a_2 = 
         {"common_status", "", "Status",

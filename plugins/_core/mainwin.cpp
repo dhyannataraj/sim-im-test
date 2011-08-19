@@ -76,6 +76,9 @@ MainWindow::MainWindow(CorePlugin* core)
     connect(m_view, SIGNAL(contactMenuRequested(QPoint,int)), this, SLOT(contactMenuRequested(QPoint,int)));
     addWidget(m_view);
 
+    QAction* show_only_online = getCommandHub()->action("show_only_online");
+    setShowOnlyOnlineContacts(show_only_online->isChecked());
+    connect(show_only_online, SIGNAL(triggered(bool)), this, SLOT(setShowOnlyOnlineContacts(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -113,7 +116,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 void MainWindow::loadDefaultMainToolbar()
 {
     SIM::UiCommandList list;
-    list.appendCommand("show_offline");
+    list.appendCommand("show_only_online");
     list.appendCommand("common_status");
     list.appendCommand("main_menu");
 
@@ -140,9 +143,9 @@ void MainWindow::init()
     refreshStatusWidgets();
 }
 
-void MainWindow::setShowOfflineContacts(bool show)
+void MainWindow::setShowOnlyOnlineContacts(bool show)
 {
-    m_view->setShowOffline(show);
+    m_view->setShowOffline(!show);
 }
 
 //void MainWindow::quit()

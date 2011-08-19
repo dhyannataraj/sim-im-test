@@ -51,7 +51,7 @@ public:
     void init();
 
 public slots:
-    void setShowOfflineContacts(bool show);
+    void setShowOnlyOnlineContacts(bool show);
 
 protected:
     bool eventFilter(QObject *o, QEvent *e);
