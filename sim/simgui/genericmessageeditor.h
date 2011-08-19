@@ -14,8 +14,11 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
+#include "simapi.h"
 
-class GenericMessageEditor: public SIM::MessageEditor
+namespace SIM
+{
+class EXPORT GenericMessageEditor: public SIM::MessageEditor
 {
     Q_OBJECT
 public:
@@ -63,5 +66,6 @@ private:
     QToolButton * m_cmdSend;
 
 };
+}
 
 #endif /* GENERICMESSAGEEDITOR_H_ */

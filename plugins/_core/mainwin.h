@@ -57,17 +57,13 @@ protected:
     bool eventFilter(QObject *o, QEvent *e);
     void resizeEvent(QResizeEvent *e);
 
-//    void focusInEvent(QFocusEvent*);
-//    void quit();
-
     void refreshStatusWidgets();
-
-//    QString	m_icon;
-
-//    virtual void closeEvent(QCloseEvent *e);
+    void raiseContactMenu(const QPoint& pos, int contactId);
 
 private slots:
     void contactChatRequested(int contactId);
+    void contactMenuRequested(const QPoint& pos, int contactId);
+    void sendMessageRequested();
 
 private:
     void updateTitle();

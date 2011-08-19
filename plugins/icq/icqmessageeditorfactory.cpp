@@ -5,6 +5,7 @@
  */
 
 #include "icqmessageeditorfactory.h"
+#include "simgui/genericmessageeditor.h"
 
 ICQMessageEditorFactory::ICQMessageEditorFactory()
 {
@@ -14,10 +15,11 @@ ICQMessageEditorFactory::~ICQMessageEditorFactory()
 {
 }
 
-QWidget* createMessageEditor(const QString& id, QWidget* parent)
+SIM::MessageEditor* ICQMessageEditorFactory::createMessageEditor(const QString& id, QWidget* parent)
 {
     if(id == "generic")
     {
+        return new SIM::GenericMessageEditor(parent);
     }
     return 0;
 }

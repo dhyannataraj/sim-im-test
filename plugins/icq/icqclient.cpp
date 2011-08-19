@@ -262,18 +262,32 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
 {
     initialize(bAIM);
     clientPersistentData = new ICQClientData(this);
+
     m_oscarSocket = new StandardOscarSocket(this);
-    m_requestManager = new StandardICQRequestManager();
-    m_requestManager->setOscarSocket(m_oscarSocket);
-    m_contactList = new ICQContactList(this);
-    m_statusConverter = new ICQStatusConverter(this);
-    m_clientCapabilitiesRegistry = new ClientCapabilitiesRegistry();
     connect(m_oscarSocket, SIGNAL(connected()), this, SLOT(oscarSocketConnected()));
     connect(m_oscarSocket, SIGNAL(packet(int, QByteArray)), this, SLOT(oscarSocketPacket(int, QByteArray)));
+
+    m_requestManager = new StandardICQRequestManager();
+    m_requestManager->setOscarSocket(m_oscarSocket);
+
+    m_contactList = new ICQContactList(this);
+
+    m_statusConverter = new ICQStatusConverter(this);
+
+    m_clientCapabilitiesRegistry = new ClientCapabilitiesRegistry();
+
+    m_messageEditorFactory = new ICQMessageEditorFactory();
+
 }
 
 ICQClient::~ICQClient()
 {
+    delete m_messageEditorFactory;
+    delete m_clientCapabilitiesRegistry;
+    delete m_statusConverter;
+    delete m_contactList;
+    delete m_requestManager;
+
     if(m_oscarSocket)
         delete m_oscarSocket;
     qDeleteAll(m_snacHandlers);
@@ -958,7 +972,7 @@ SIM::IMContactPtr ICQClient::ownerContact()
 
 SIM::MessageEditorFactory* ICQClient::messageEditorFactory() const
 {
-    return 0;
+    return m_messageEditorFactory;
 }
 
 QWidget* ICQClient::createSearchWidow(QWidget *parent)

@@ -68,6 +68,12 @@ void StandardUserWndController::setMessageType(const QString& type)
 {
     QString selectedClientId = m_userWnd->selectedClientId();
     SIM::ClientPtr client = SIM::getClientManager()->client(selectedClientId);
+    if(!client)
+    {
+        // We just remove message editor if it is there in that case
+        m_userWnd->setMessageEditor(0);
+        return;
+    }
     SIM::MessageEditor* editor = client->messageEditorFactory()->createMessageEditor(type, m_userWnd);
     m_userWnd->setMessageEditor(editor);
 }

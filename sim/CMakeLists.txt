@@ -83,6 +83,7 @@ SET(sim_LIB_SRCS
 		simgui/qkeybutton.cpp
         simgui/statuswidget.cpp
         simgui/messageeditor.cpp
+        simgui/genericmessageeditor.cpp
 
         ../sqlite/sqlite3.c
 	)
@@ -167,6 +168,7 @@ SET(sim_LIB_HDRS
         simgui/statuswidget.h
         simgui/messageeditorfactory.h
         simgui/messageeditor.h
+        simgui/genericmessageeditor.h
 
         ../sqlite/sqlite3.h
     )

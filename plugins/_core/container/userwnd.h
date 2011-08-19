@@ -95,6 +95,7 @@ private:
     QTreeWidget* m_targetContactList;
     static const int ContactIdRole = Qt::UserRole + 1;
     Ui::UserWnd* m_ui;
+    SIM::MessageEditor* m_currentEditor;
 };
 
 #endif

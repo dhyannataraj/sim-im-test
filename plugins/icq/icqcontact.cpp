@@ -558,6 +558,22 @@ QString ICQContact::makeToolTipText()
 QList<SIM::MessageTypeDescriptor> ICQContact::allMessageTypes() const
 {
     QList<SIM::MessageTypeDescriptor> types;
+    SIM::MessageTypeDescriptor descriptor;
+
+    descriptor.clientId = m_client->name();
+    descriptor.iconId = "message";
+    descriptor.id = "generic";
+    descriptor.joinable = true;
+    descriptor.text = "Message";
+    types.append(descriptor);
+
+    descriptor.clientId = m_client->name();
+    descriptor.iconId = "file";
+    descriptor.id = "file";
+    descriptor.joinable = true;
+    descriptor.text = "File";
+    types.append(descriptor);
+
     return types;
 }
 

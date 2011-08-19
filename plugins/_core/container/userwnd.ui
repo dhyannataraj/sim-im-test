@@ -22,34 +22,32 @@
    </property>
    <item row="0" column="0">
     <widget class="QWidget" name="widget" native="true">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="margin">
-       <number>0</number>
-      </property>
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
        <widget class="QComboBox" name="cb_target"/>
       </item>
-      <item row="1" column="0">
-       <widget class="MsgView" name="msgView" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="MsgEdit" name="msgEdit" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+        <widget class="MsgView" name="msgView" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+        <widget class="QWidget" name="msgEdit" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <zorder>msgView</zorder>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -58,15 +56,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>MsgEdit</class>
-   <extends>QWidget</extends>
-   <header>msgedit.h</header>
-   <container>1</container>
-   <slots>
-    <signal>messageSendRequested(QString)</signal>
-   </slots>
-  </customwidget>
   <customwidget>
    <class>MsgView</class>
    <extends>QWidget</extends>

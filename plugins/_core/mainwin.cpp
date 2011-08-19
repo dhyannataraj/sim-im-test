@@ -28,6 +28,7 @@
 #include "imagestorage/imagestorage.h"
 #include "clientmanager.h"
 #include "container/userwnd.h"
+#include "events/menuitemcollectionevent.h"
 
 #include <QApplication>
 #include <QPixmap>
@@ -42,6 +43,9 @@
 #include "log.h"
 
 using namespace SIM;
+
+static const char* MessageTypeIdProperty = "message_type_id";
+static const char* ContactIdProperty = "contact_id";
 
 MainWindow::MainWindow(CorePlugin* core)
     : QMainWindow(NULL, Qt::Window)
@@ -69,6 +73,7 @@ MainWindow::MainWindow(CorePlugin* core)
     m_view = new UserView(core);
     m_view->init();
     connect(m_view, SIGNAL(contactChatRequested(int)), this, SLOT(contactChatRequested(int)));
+    connect(m_view, SIGNAL(contactMenuRequested(QPoint,int)), this, SLOT(contactMenuRequested(QPoint,int)));
     addWidget(m_view);
 
 }
@@ -140,56 +145,6 @@ void MainWindow::setShowOfflineContacts(bool show)
     m_view->setShowOffline(show);
 }
 
-//bool MainWindow::processEvent(Event *e)
-//{
-//	switch(e->type()){
-//		case eEventSetMainIcon:
-//			{
-//				EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
-//				m_icon = smi->icon();
-//				setWindowIcon(Icon(m_icon));
-//				break;
-//			}
-//		case eEventCommandExec:
-//			{
-//				EventCommandExec *ece = static_cast<EventCommandExec*>(e);
-//				CommandDef *cmd = ece->cmd();
-//				if (cmd->id == CmdQuit)
-//					quit();
-//				break;
-//			}
-//		case eEventAddWidget:
-//			{
-//				EventAddWidget *aw = static_cast<EventAddWidget*>(e);
-//				switch(aw->place()) {
-//					case EventAddWidget::eMainWindow:
-//						addWidget(aw->widget(), aw->down());
-//						break;
-//					case EventAddWidget::eStatusWindow:
-//						addStatus(aw->widget(), aw->down());
-//						break;
-//					default:
-//						return false;
-//				}
-//				return true;
-//			}
-//		case eEventIconChanged:
-//			setWindowIcon(Icon(m_icon));
-//			break;
-//		case eEventContact:
-//			{
-//				EventContact *ec = static_cast<EventContact*>(e);
-//				Contact *contact = ec->contact();
-//				if (contact == getContacts()->owner())
-//					setTitle();
-//				break;
-//			}
-//		default:
-//			break;
-//	}
-//	return false;
-//}
-
 //void MainWindow::quit()
 //{
 //    close();
@@ -231,18 +186,6 @@ void MainWindow::refreshStatusWidgets()
     }
 }
 
-//void MainWindow::addStatus(QWidget *w, bool)
-//{
-//    QStatusBar *status = statusBar();
-//    w->setParent(status);
-//    w->move(QPoint());
-//    statusWidgets.push_back(w);
-//    status->addWidget(w, true);
-//    w->show();
-//    status->setSizeGripEnabled(true);
-//    status->show();
-//}
-
 void MainWindow::updateTitle()
 {
     QString title;
@@ -271,4 +214,64 @@ void MainWindow::contactChatRequested(int contactId)
     manager->contactChatRequested(contactId, "generic");
 }
 
+void MainWindow::contactMenuRequested(const QPoint& pos, int contactId)
+{
+    raiseContactMenu(m_view->mapToGlobal(pos), contactId);
+}
+
+void MainWindow::raiseContactMenu(const QPoint& pos, int contactId)
+{
+    SIM::ContactPtr contact = getContactList()->contact(contactId);
+    if(!contact)
+        return;
+
+    // TODO several contacts in metacontact
+    QMenu menu(this);
+    for(int i = 0; i < contact->clientContactCount(); i++)
+    {
+        SIM::IMContactPtr imcontact = contact->clientContact(i);
+        QList<MessageTypeDescriptor> messageTypes = imcontact->allMessageTypes();
+
+        foreach(const MessageTypeDescriptor& desc, messageTypes)
+        {
+            QAction* action = new QAction(&menu);
+            connect(action, SIGNAL(triggered()), this, SLOT(sendMessageRequested()));
+            action->setProperty(MessageTypeIdProperty, desc.id);
+            action->setProperty(ContactIdProperty, contactId);
+            action->setIcon(getImageStorage()->icon(desc.iconId));
+            action->setText(desc.text);
+            menu.addAction(action);
+        }
+    }
+
+    SIM::MenuItemCollectionEventDataPtr data = SIM::MenuItemCollectionEventData::create("contact");
+    getEventHub()->triggerEvent("menu_event", data);
+
+    if(data->actions().length() > 0)
+    {
+        QAction* action = new QAction(&menu);
+        action->setSeparator(true);
+        menu.addAction(action);
+    }
+
+    menu.exec(pos);
+}
+
+void MainWindow::sendMessageRequested()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if(!action)
+        return;
+
+    QString messageTypeId = action->property(MessageTypeIdProperty).toString();
+    if(messageTypeId.isNull())
+        return;
+
+    int contactId = action->property(ContactIdProperty).toInt();
+    if(!contactId)
+        return;
+
+    IContainerManager* manager = m_core->containerManager();
+    manager->contactChatRequested(contactId, "generic");
+}
 

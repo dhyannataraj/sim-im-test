@@ -49,6 +49,7 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
         , m_bClosed (false) 
         , m_bTyping (false) 
         , m_targetContactList(0)
+        , m_currentEditor(0)
 {
     m_ui->setupUi(this);
     updateStyleSheet();
@@ -78,7 +79,19 @@ int UserWnd::messagesInViewArea() const
 
 void UserWnd::setMessageEditor(SIM::MessageEditor* editor)
 {
-
+    QLayout* layout = m_ui->msgEdit->layout();
+    if(!layout)
+    {
+        layout = new QVBoxLayout();
+        m_ui->msgEdit->setLayout(layout);
+    }
+    delete m_currentEditor;
+    if(editor)
+    {
+        editor->setParent(m_ui->msgEdit);
+        layout->addWidget(editor);
+    }
+    m_currentEditor = editor;
 }
 
 QString UserWnd::selectedClientId() const

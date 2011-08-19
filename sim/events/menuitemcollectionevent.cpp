@@ -40,9 +40,9 @@ QStringList MenuItemCollectionEventData::actions() const
     return m_actions;
 }
 
-EventDataPtr MenuItemCollectionEventData::create(const QString& menuId)
+MenuItemCollectionEventDataPtr MenuItemCollectionEventData::create(const QString& menuId)
 {
-    return EventDataPtr(new MenuItemCollectionEventData(menuId));
+    return MenuItemCollectionEventDataPtr(new MenuItemCollectionEventData(menuId));
 }
 
 MenuItemCollectionEvent::MenuItemCollectionEvent()
@@ -61,6 +61,11 @@ QString MenuItemCollectionEvent::id()
 bool MenuItemCollectionEvent::connectTo(QObject* receiver, const char* receiverSlot)
 {
     return QObject::connect(this, SIGNAL(eventTriggered(QString, QStringList*)), receiver, receiverSlot);
+}
+
+IEventPtr MenuItemCollectionEvent::create()
+{
+    return IEventPtr(new MenuItemCollectionEvent());
 }
 
 void MenuItemCollectionEvent::triggered(const EventDataPtr& data)

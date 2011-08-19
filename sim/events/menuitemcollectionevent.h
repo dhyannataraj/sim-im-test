@@ -13,9 +13,12 @@
 #include "ievent.h"
 #include "eventdata.h"
 #include "simapi.h"
+#include <QSharedPointer>
 
 namespace SIM
 {
+class MenuItemCollectionEventData;
+typedef QSharedPointer<MenuItemCollectionEventData> MenuItemCollectionEventDataPtr;
 
 class EXPORT MenuItemCollectionEventData : public EventData
 {
@@ -29,7 +32,7 @@ public:
     void addActions(const QStringList& actions);
     QStringList actions() const;
 
-    static EventDataPtr create(const QString& menuId);
+    static MenuItemCollectionEventDataPtr create(const QString& menuId);
 
 private:
     QString m_menuId;
@@ -45,6 +48,8 @@ public:
 
     virtual QString id();
     virtual bool connectTo(QObject* receiver, const char* receiverSlot);
+
+    static IEventPtr create();
 
 signals:
     void eventTriggered(const QString& menuId, QStringList* actionList);

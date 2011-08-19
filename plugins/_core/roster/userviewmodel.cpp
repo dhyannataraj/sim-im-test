@@ -44,7 +44,7 @@ QVariant UserViewModel::data(const QModelIndex& index, int role) const
             else
                 return I18N_NOOP("Offline");
         }
-        else if(role == ItemType)
+        else if(role == ItemTypeRole)
             return itStatusGroup;
     }
     else
@@ -77,7 +77,7 @@ QVariant UserViewModel::contactData(const QModelIndex& index, int role) const
 
     switch(role)
     {
-    case ItemType:
+    case ItemTypeRole:
         return itContact;
     case ContactName:
     case Qt::DisplayRole:

@@ -27,6 +27,7 @@
 #include "events/eventhub.h"
 #include "events/standardevent.h"
 #include "events/logevent.h"
+#include "events/menuitemcollectionevent.h"
 #include "commands/commandhub.h"
 #include "imagestorage/imagestorage.h"
 #include "contacts/contactlist.h"
@@ -93,6 +94,7 @@ void registerEvents()
     SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("quit"));
     SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("load_config"));
     SIM::getEventHub()->registerEvent(SIM::StandardEvent::create("save_config"));
+    SIM::getEventHub()->registerEvent(SIM::MenuItemCollectionEvent::create());
 }
 
 static BuiltinLogger* gs_logger = 0;

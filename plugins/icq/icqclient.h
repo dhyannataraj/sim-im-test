@@ -51,7 +51,7 @@
 #include "icqcontact.h"
 #include "oscarsocket.h"
 #include "contacts/imcontact.h"
-
+#include "icqmessageeditorfactory.h"
 
 const unsigned ICQ_SIGN			= 0x0001;
 
@@ -942,6 +942,7 @@ private:
     ICQStatusConverter* m_statusConverter;
     ClientCapabilitiesRegistry* m_clientCapabilitiesRegistry;
     ICQRequestManager* m_requestManager;
+    ICQMessageEditorFactory* m_messageEditorFactory;
 
     //friend class AuthorizationSnacHandler;
 

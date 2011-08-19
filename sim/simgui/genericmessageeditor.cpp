@@ -23,11 +23,29 @@
 #include "contacts/client.h"
 #include "imagestorage/imagestorage.h"
 
-using SIM::log;
-using SIM::L_DEBUG;
-
-GenericMessageEditor::GenericMessageEditor(QWidget* parent) : SIM::MessageEditor(parent)
+namespace SIM
 {
+
+GenericMessageEditor::GenericMessageEditor(QWidget* parent) : MessageEditor(parent)
+{
+    m_layout = new QVBoxLayout(this);
+    m_layout->setMargin(0);
+
+    m_edit = new QTextEdit(this);
+    setFocusProxy(m_edit);
+
+
+    connect(m_edit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
+
+    QFontMetrics fm(m_edit->font());
+    m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
+
+    m_bar = createToolBar();
+    m_layout->addWidget(m_bar);
+
+    m_layout->addWidget(m_edit);
+    connect(m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
+    textChanged();
 }
 
 GenericMessageEditor::~GenericMessageEditor()
@@ -221,5 +239,7 @@ QToolBar* GenericMessageEditor::createToolBar()
     m_sendMultiple->setCheckable(true);
 
     return bar;
+}
+
 }
 

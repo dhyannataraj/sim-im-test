@@ -24,7 +24,7 @@ public:
     
     enum ItemRole
     {
-        ItemType = Qt::UserRole + 1,
+        ItemTypeRole = Qt::UserRole + 1,
         ContactId,
         ContactName,
         CurrentStatusIcon

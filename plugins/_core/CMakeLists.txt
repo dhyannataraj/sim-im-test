@@ -23,7 +23,6 @@ SET(_core_SRCS
         core.cpp
         commonstatus.cpp
         container/icontainer.cpp
-        genericmessageeditor.cpp
 #        declinedlg.cpp
 #        editmail.cpp
 #        editphone.cpp
@@ -111,7 +110,6 @@ SET(_core_HDRS
         core_api.h
         commonstatus.h
         container/icontainer.h
-        genericmessageeditor.h
 #        core_consts.h
 #        core_events.h
 #        declinedlg.h

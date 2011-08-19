@@ -27,8 +27,8 @@ namespace
 
     static const QString BuddyName = "TestBuddy";
     static const QString BuddyUin = "123456789";
-    static const int ContactId = 12;
-    static const int GroupId = 42;
+    static const unsigned int ContactId = 12;
+    static const unsigned int GroupId = 42;
     static const QString GroupName = "TestGroup";
 
 

@@ -60,6 +60,7 @@ public:
 
 signals:
     void contactChatRequested(int contactId);
+    void contactMenuRequested(const QPoint& pos, int contactId);
 
 //public slots:
 //    void editGroupEnter();
