@@ -113,6 +113,7 @@ void ContainerManager::messageReceived(const SIM::MessagePtr& msg)
 
         container->addUserWnd(contact->parentContactId());
         userwnd = container->userWndController(contact->parentContactId());
+        userwnd->setMessageType("generic");
     }
     userwnd->addMessageToView(msg);
 }

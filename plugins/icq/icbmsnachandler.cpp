@@ -124,6 +124,24 @@ QByteArray IcbmSnacHandler::generateCookie()
     return cookie;
 }
 
+bool IcbmSnacHandler::handleIncomingTextMessage(const Tlv& messageTlv, const QByteArray& name)
+{
+    QByteArray messageBlockData = messageTlv.data();
+    QString message = parseMessageBlock(messageBlockData);
+    ICQContactList *contactList = m_client->contactList();
+    ICQContactPtr sourceContact = contactList->contactByScreen(name);
+
+    if(!sourceContact)
+        return false;
+
+    log(L_DEBUG, "handleIncomingMessage: %s/%x", name.data(), sourceContact.data());
+
+    SIM::MessagePtr msg = SIM::MessagePtr(new SIM::GenericMessage(sourceContact, m_client->ownerContact(), message));
+    SIM::getMessagePipe()->pushMessage(msg);
+
+    return true;
+}
+
 bool IcbmSnacHandler::handleIncomingMessage(const QByteArray& data)
 {
     ByteArrayParser parser(data);
@@ -137,19 +155,12 @@ bool IcbmSnacHandler::handleIncomingMessage(const QByteArray& data)
     parser.readWord(); // tlv count
     TlvList list = TlvList::fromByteArray(parser.readAll());
 
-    QByteArray messageBlockData = list.firstTlv(TlvMessage).data();
-    QString message = parseMessageBlock(messageBlockData);
+    Tlv messageTlv = list.firstTlv(TlvMessage);
+    if(messageTlv.isValid())
+    {
+        return handleIncomingTextMessage(messageTlv, name);
+    }
 
-    ICQContactList* contactList = m_client->contactList();
-
-    ICQContactPtr sourceContact = contactList->contactByScreen(name);
-    if(!sourceContact)
-        return false;
-
-    log(L_DEBUG, "handleIncomingMessage: %s/%x", name.data(), sourceContact.data());
-
-    SIM::MessagePtr msg = SIM::MessagePtr(new SIM::GenericMessage(sourceContact, m_client->ownerContact(), message));
-    SIM::getMessagePipe()->pushMessage(msg);
     return true;
 }
 
