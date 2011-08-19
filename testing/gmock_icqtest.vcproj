@@ -235,6 +235,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\plugins\icq\tests\testicqmessageeditorfactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\icq\tests\testicqstatus.cpp"
 				>
 			</File>

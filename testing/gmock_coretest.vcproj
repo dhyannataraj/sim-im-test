@@ -239,6 +239,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\plugins\_core\tests\testgenericmessageeditor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\plugins\_core\tests\testreceivemessageprocessor.cpp"
 				>
 			</File>

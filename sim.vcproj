@@ -902,6 +902,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\sim\messaging\messagetypedescriptor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\messaging\standardmessageoutpipe.h"
 					>
 				</File>
@@ -1076,6 +1080,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\sim\simgui\genericmessageeditor.cpp"
+					>
+				</File>
+				<File
 					RelativePath="sim\simgui\intedit.cpp"
 					>
 					<FileConfiguration
@@ -1118,6 +1126,10 @@
 							PreprocessorDefinitions=""
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\sim\simgui\messageeditor.cpp"
+					>
 				</File>
 				<File
 					RelativePath="sim\simgui\preview.cpp"
@@ -1220,11 +1232,19 @@
 						>
 					</File>
 					<File
+						RelativePath=".\sim\simgui\moc_genericmessageeditor.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\sim\simgui\moc_intedit.cpp"
 						>
 					</File>
 					<File
 						RelativePath=".\sim\simgui\moc_linklabel.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\sim\simgui\moc_messageeditor.cpp"
 						>
 					</File>
 					<File
@@ -1269,6 +1289,30 @@
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\sim\simgui\genericmessageeditor.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
@@ -1320,6 +1364,34 @@
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\sim\simgui\messageeditor.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\sim\simgui\messageeditorfactory.h"
+					>
 				</File>
 				<File
 					RelativePath="sim\simgui\preview.h"
@@ -1405,6 +1477,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
@@ -1414,6 +1487,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
@@ -1498,6 +1572,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\sim\events\menuitemcollectionevent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\sim\events\nulleventdata.cpp"
 					>
 				</File>
@@ -1522,6 +1600,10 @@
 					</File>
 					<File
 						RelativePath=".\sim\events\moc_logevent.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\sim\events\moc_menuitemcollectionevent.cpp"
 						>
 					</File>
 					<File
@@ -1629,6 +1711,30 @@
 							Name="VCCustomBuildTool"
 							Description="Moc&apos;ing $(InputName).h ..."
 							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h&#x0D;&#x0A;"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\sim\events\menuitemcollectionevent.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
+							Outputs="$(InputDir)moc_$(InputName).cpp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing $(InputName).h ..."
+							CommandLine="%qtdir%\bin\moc.exe -o $(InputDir)moc_$(InputName).cpp $(InputDir)$(InputName).h"
 							Outputs="$(InputDir)moc_$(InputName).cpp"
 						/>
 					</FileConfiguration>

@@ -309,6 +309,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\icqmessageeditorfactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\icqmessagefactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\icqstatus.cpp"
 				>
 			</File>
@@ -645,6 +653,14 @@
 			</File>
 			<File
 				RelativePath=".\icqgroup.h"
+				>
+			</File>
+			<File
+				RelativePath=".\icqmessageeditorfactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\icqmessagefactory.h"
 				>
 			</File>
 			<File

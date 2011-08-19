@@ -7,8 +7,8 @@
 #ifndef ICQMESSAGEEDITORFACTORY_H_
 #define ICQMESSAGEEDITORFACTORY_H_
 
-#include "messageeditorfactory.h"
-#include "messageeditor.h"
+#include "simgui/messageeditorfactory.h"
+#include "simgui/messageeditor.h"
 #include "icq_defines.h"
 
 class ICQ_EXPORT ICQMessageEditorFactory: public SIM::MessageEditorFactory
