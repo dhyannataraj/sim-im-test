@@ -67,27 +67,39 @@ namespace
             delete client;
         }
 
-        QByteArray makeOnlineBuddyPacket()
+        QByteArray makeOnlineBuddyPacket(bool withStatusTlv)
         {
             ByteArrayBuilder builder;
 
-            builder.appendByte(ContactTextUin.length());
-            builder.appendBytes(ContactTextUin);
-            builder.appendWord(0); // Warning level
+           builder.appendByte(ContactTextUin.length());
+           builder.appendBytes(ContactTextUin);
+           builder.appendWord(0); // Warning level
 
-            ICQStatusPtr status = client->getDefaultStatus("online");
-            TlvList list;
-            list.append(Tlv::fromUint16(BuddySnacHandler::TlvUserClass, CLASS_FREE | CLASS_ICQ));
-            list.append(Tlv::fromUint32(BuddySnacHandler::TlvOnlineSince, 0)); // Yeah, online since 1 Jan 1970
-            list.append(Tlv::fromUint32(BuddySnacHandler::TlvOnlineStatus, status->icqId()));
-            list.append(Tlv::fromUint32(BuddySnacHandler::TlvUserIp, 0));
-            list.append(makeAvatarTlv());
+           ICQStatusPtr status = client->getDefaultStatus("online");
+           TlvList list;
+           list.append(Tlv::fromUint16(BuddySnacHandler::TlvUserClass, CLASS_FREE | CLASS_ICQ));
+           list.append(Tlv::fromUint32(BuddySnacHandler::TlvOnlineSince, 0)); // Yeah, online since 1 Jan 1970
+           if(withStatusTlv)
+               list.append(Tlv::fromUint32(BuddySnacHandler::TlvOnlineStatus, status->icqId()));
+           list.append(Tlv::fromUint32(BuddySnacHandler::TlvUserIp, 0));
+           list.append(makeAvatarTlv());
 
-            builder.appendWord(list.tlvCount());
-            builder.appendBytes(list.toByteArray());
+           builder.appendWord(list.tlvCount());
+           builder.appendBytes(list.toByteArray());
 
-            return builder.getArray();
+           return builder.getArray();
         }
+
+        QByteArray makeOnlineBuddyPacket()
+        {
+            return makeOnlineBuddyPacket(true);
+        }
+
+        QByteArray makeOnlineBuddyPacketWithoutStatusTlv()
+        {
+            return makeOnlineBuddyPacket(false);
+        }
+
 
         Tlv makeAvatarTlv()
         {
@@ -136,6 +148,14 @@ namespace
         ASSERT_EQ(MetaContactId, spy.intarg);
     }
 
+    TEST_F(TestBuddySnacHandler, onContactOnline_withoutStatusTlv_defaultStatusIsOnline)
+    {
+        bool success = handler->process(BuddySnacHandler::SnacBuddyUserOnline, makeOnlineBuddyPacketWithoutStatusTlv(), 0, 0);
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ("online", contact->status()->id());
+    }
+
     TEST_F(TestBuddySnacHandler, rightsPacket_ready)
     {
         QSignalSpy spy(handler, SIGNAL(ready()));
@@ -153,7 +173,6 @@ namespace
         handler->requestRights();
     }
 
-    // Disabled, because of server disconnects
     TEST_F(TestBuddySnacHandler, contactOnlineWithNewAvatarHash_requestsAvatar)
     {
         NiceMock<MockObjects::MockOscarSocket>* bartSocket = new NiceMock<MockObjects::MockOscarSocket>();

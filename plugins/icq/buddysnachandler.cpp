@@ -89,8 +89,11 @@ void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& 
             SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
         }
     }
+    else
+    {
+        contact->setIcqStatus(client()->getDefaultStatus("online"));
+    }
 
-    // FIXME commented out because of server disconnect
     Tlv avatarTlv = list.firstTlv(TlvAvatar);
     if(avatarTlv.isValid())
     {
