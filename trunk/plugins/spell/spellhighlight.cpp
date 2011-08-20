@@ -137,9 +137,9 @@ void SpellHighlighter::removeHlight(int stand_alone)
 void SpellHighlighter::rehighlight()
 {
   
-  /* Higlighting misspelled words. The main idea: we scans the text for words,
+  /* Higlighting misspelled words. The main idea: we scan the text for words,
      remembering the stile with which each word (or spacer) were written, if we
-     need to mark word as misspelled, we hide current word's style into font defintition
+     need to mark word as misspelled, we hide current word's style into font-family property
      after "sim-im-misspelled" keyword, replacing ';' with '|' and then sets word's color 
      as red. When we needs to remove misspelled highlightin, we just restore original style 
      form font-family stile definition.
@@ -159,7 +159,7 @@ void SpellHighlighter::rehighlight()
     QString new_txt = "";
     QString tag = QString::null;
     QString word = QString::null;
-    QString spacer = QString::null;  // both spases and puntuations
+    QString spacer = QString::null;  // both spases and punctuations
     QString amp_seq = QString::null; // we are specialty treating ampersant sequences because otherwice '&amp;' will be treated as
                                      // [punct][word][punt] and thus splitted apart with formatting tags
     
@@ -449,8 +449,63 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);
             if (m_edit->m_edit != textEdit())
                 return false;
+
             m_index = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
             m_pos = 0;
+            
+            int from = m_index;
+            int to = m_index;
+            int step =0;
+            QString word;
+            
+            int sel_paraFrom;
+            int sel_indexFrom;
+            int sel_paraTo;
+            int sel_indexTo;
+            textEdit()->getSelection (&sel_paraFrom, &sel_indexFrom, &sel_paraTo, &sel_indexTo);
+            
+            int cursor_para,cursor_index;
+            textEdit()->getCursorPosition(&cursor_para,&cursor_index);
+            
+            while(1)
+            {
+              /* Now we are spreading aroud the click position in order to find word's boudaries
+                step = 0 -- we are moving left boundary to the left
+                step = 1 -- we are moving right boundary to the right
+                step = 2 -- all boundaries are found, we are just remembering the word...
+              */
+              textEdit()->setSelection(m_parag,from,m_parag,to);
+              word = textEdit()->selectedText();
+//              SIM::log(SIM::L_DEBUG, "%i %i %i %i %s ",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
+              
+              word.replace(QRegExp("^\\<\\!\\-\\-StartFragment\\-\\-\\>"),"");
+              word.replace(QRegExp("^\\<p\\>"),"");
+              word.replace(QRegExp("^\\<span [^\\>]*\\>"),"");
+              
+              
+//              SIM::log(SIM::L_DEBUG, "%i %i %i %i %s\n",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
+              if (step>1) break;
+              
+              if ((word.find(QRegExp("\\<span ")) != -1)  || // Stop expanding word's borders if we've crossed the change of the color (or other style)
+                  (word.find(QRegExp("\\<\\/span\\>")) != -1)||
+                  (word[0].isPunct() || word[0].isSpace()) ||  // Stop expanding word's borders if we've crossed the space or puct char
+                  (word[word.length()-1].isPunct() || word[word.length()-1].isSpace())
+                 )
+              {
+                if (step==0) from++;
+                if (step==1) to--;
+                step++;
+                continue;
+              }
+              if (step==0) from--;
+              if (step==1) to++;
+
+              if ((step==0) && (from<=0)) step++;
+              if (to>=textEdit()->paragraphLength(m_parag)) step++;
+            }
+            textEdit()->setCursorPosition(cursor_para,cursor_index);
+            textEdit()->setSelection (sel_paraFrom, sel_indexFrom, sel_paraTo, sel_indexTo); 
+            /*
             m_bError   = false;
             m_bInError = false;
             m_curStart = 0;
@@ -462,9 +517,12 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             parse(textEdit()->text(m_paragraph));
             flushText();
             m_curText = QString::null;
-            m_bCheck = false;
-            if (!m_bInError)
-                return false;
+            m_bCheck = false; */
+//            if (!m_bInError)
+//                return false;
+           if (m_plugin->checkWord(word)) return false;
+m_word = word;
+m_start_word = from;
             m_sug = m_plugin->suggestions(m_word);
             SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];
             unsigned i = 0;
@@ -495,9 +553,11 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
         CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdSend){
             if (((MsgEdit*)(cmd->param))->m_edit == textEdit()){
-                m_bDisable = true;
-                rehighlight();
-                QTimer::singleShot(50, this, SLOT(restore()));
+                // m_bDisable = true;
+                // rehighlight();
+                // QTimer::singleShot(50, this, SLOT(restore()));
+              removeHlight();
+              
             }
         }
         if ((cmd->id >= m_plugin->CmdSpell) && (cmd->id < m_plugin->CmdSpell + m_sug.count() + 1)){
