@@ -28,7 +28,7 @@ namespace MockObjects
         MOCK_METHOD1(newProfile, bool(const QString& name));
         MOCK_METHOD0(sync, void());
         MOCK_METHOD1(getPropertyHub, SIM::PropertyHubPtr(const QString& name));
-        MOCK_METHOD0(managerConfig, SIM::ConfigPtr());
+        MOCK_METHOD0(config, SIM::ConfigPtr());
     };
 }
 

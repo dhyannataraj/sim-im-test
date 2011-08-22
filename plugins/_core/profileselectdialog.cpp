@@ -46,7 +46,7 @@ ProfileSelectDialog::ProfileSelectDialog()
 	, m_ui ( new Ui::ProfileSelectDialog )
 {
     m_ui->setupUi(this);
-    ConfigPtr settings = getProfileManager()->managerConfig();
+    ConfigPtr settings = getProfileManager()->config();
 
     m_profile = settings->rootPropertyHub()->value("Profile").toString();
 
@@ -281,7 +281,7 @@ void ProfileSelectDialog::newNameChanged(const QString &text)
 
 void ProfileSelectDialog::saveState()
 {
-    ConfigPtr settings = getProfileManager()->managerConfig();
+    ConfigPtr settings = getProfileManager()->config();
 
     settings->rootPropertyHub()->setValue("Profile", profile());
     settings->rootPropertyHub()->setValue("SavePasswd",m_ui->chkSave->isChecked());

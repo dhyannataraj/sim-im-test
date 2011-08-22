@@ -19,7 +19,9 @@ public:
     virtual QList<ClientPtr> allClients() const;
 
     virtual bool load();
-    virtual bool save();
+    virtual bool sync();
+
+    virtual ConfigPtr config();
 
 protected:
     bool load_old();
@@ -29,7 +31,8 @@ private:
     ClientPtr createClient(const QString& name);
     typedef QMap<QString, ClientPtr> ClientMap;
     ClientMap m_clients;
-	QStringList m_sortedClientNamesList;
+    QStringList m_sortedClientNamesList;
+    ConfigPtr m_config;
 };
 
 } // namespace SIM

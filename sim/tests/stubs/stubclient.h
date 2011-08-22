@@ -78,15 +78,13 @@ namespace StubObjects
             Q_UNUSED(contact);
         }
 
-        virtual bool serialize(QDomElement& element)
+        virtual bool loadState()
         {
-            Q_UNUSED(element);
             return false;
         }
 
-        virtual bool deserialize(QDomElement& element)
+        virtual bool saveState()
         {
-            Q_UNUSED(element);
             return false;
         }
 

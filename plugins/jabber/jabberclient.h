@@ -376,9 +376,9 @@ public:
     virtual SIM::IMContactPtr ownerContact();
     virtual void setOwnerContact(SIM::IMContactPtr contact);
 
-    virtual bool serialize(QDomElement& element);
-    virtual bool deserialize(QDomElement& element);
     virtual bool deserialize(Buffer* cfg);
+    virtual bool loadState();
+    virtual bool saveState();
 
     virtual SIM::MessageEditorFactory* messageEditorFactory() const;
 

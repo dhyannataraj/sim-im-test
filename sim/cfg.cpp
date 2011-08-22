@@ -214,6 +214,11 @@ bool Config::readFromFile()
     return true;
 }
 
+QStringList Config::propertyHubNames()
+{
+    return m_hubs.keys();
+}
+
 // ______________________________________________________________________________________
 
 #ifdef WIN32

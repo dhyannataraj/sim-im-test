@@ -37,7 +37,7 @@ namespace SIM
 
         virtual PropertyHubPtr getPropertyHub(const QString& name) = 0;
 
-        virtual ConfigPtr managerConfig() = 0;
+        virtual ConfigPtr config() = 0;
     };
 
     void EXPORT createProfileManager(const QString& rootpath);

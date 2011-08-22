@@ -172,7 +172,7 @@ void StandardProfileManager::removePath(const QString &path)
     }
 }
 
-ConfigPtr StandardProfileManager::managerConfig()
+ConfigPtr StandardProfileManager::config()
 {
     if (!m_managerConfig.isNull())
         return m_managerConfig;

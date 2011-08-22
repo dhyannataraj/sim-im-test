@@ -16,7 +16,8 @@ namespace MockObjects
         MOCK_CONST_METHOD0(allClients, QList<SIM::ClientPtr>());
 
         MOCK_METHOD0(load, bool());
-        MOCK_METHOD0(save, bool());
+        MOCK_METHOD0(sync, bool());
+        MOCK_METHOD0(config, SIM::ConfigPtr());
     };
 }
 

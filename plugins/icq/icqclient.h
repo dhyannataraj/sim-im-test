@@ -531,9 +531,9 @@ public:
     QList<SIM::IMGroupPtr> groups();
     QList<SIM::IMContactPtr> contacts();
 
-    virtual bool serialize(QDomElement& element);
-    virtual bool deserialize(QDomElement& element);
     virtual bool deserialize(Buffer* cfg);
+    virtual bool loadState();
+    virtual bool saveState();
 
     void setUin(unsigned long);
     void setScreen(const QString &);

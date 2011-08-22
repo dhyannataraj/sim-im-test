@@ -6,6 +6,7 @@
 #include <QMap>
 #include "simapi.h"
 #include "contacts/client.h"
+#include "cfg.h"
 
 namespace SIM
 {
@@ -20,7 +21,9 @@ namespace SIM
         virtual QStringList clientList() = 0;
 
         virtual bool load() = 0;
-        virtual bool save() = 0;
+        virtual bool sync() = 0;
+
+        virtual ConfigPtr config() = 0;
     };
 
     EXPORT ClientManager* getClientManager();

@@ -7,6 +7,7 @@
 #include "log.h"
 #include "contacts/contact.h"
 #include "contacts/protocol.h"
+#include "clientmanager.h"
 using namespace std;
 
 namespace SIM
@@ -56,18 +57,16 @@ namespace SIM
         return QString();
     }
 
-    bool Client::serialize(QDomElement& element)
+    bool Client::saveState()
     {
-        PropertyHubPtr hub = PropertyHub::create();
+        PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
         hub->setValue("Password", cryptPassword(password()));
-        return hub->serialize(element);
+        return true;
     }
 
-    bool Client::deserialize(QDomElement& element)
+    bool Client::loadState()
     {
-        PropertyHubPtr hub = PropertyHub::create();
-        if(!hub->deserialize(element))
-            return false;
+        PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
         setPassword(uncryptPassword(hub->value("Password").toString()));
         return true;
     }

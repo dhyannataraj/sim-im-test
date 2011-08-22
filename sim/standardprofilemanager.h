@@ -41,7 +41,7 @@ public:
 
     virtual PropertyHubPtr getPropertyHub(const QString& name);
 
-    virtual ConfigPtr managerConfig();
+    virtual ConfigPtr config();
 private:
     QString m_rootPath;
     ProfilePtr m_currentProfile;

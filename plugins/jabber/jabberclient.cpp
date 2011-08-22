@@ -33,6 +33,7 @@
 #include "jabberclient.h"
 #include "jabber.h"
 #include "jabberstatuswidget.h"
+#include "clientmanager.h"
 
 //#include "jabberconfig.h"
 //#include "jabber_ssl.h"
@@ -331,41 +332,15 @@ void JabberClient::setOwnerContact(SIM::IMContactPtr contact)
         clientPersistentData->owner = jabberContact;
 }
 
-bool JabberClient::serialize(QDomElement& element)
+bool JabberClient::loadState()
 {
-    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
-	hub->setValue("ID", getID());
-    hub->setValue("Server", getServer());
-    hub->setValue("Port", getPort());
-    hub->setValue("UseSSL", getUseSSL());
-    hub->setValue("UsePlain", getUsePlain());
-    hub->setValue("UseVHost", getUseVHost());
-    hub->setValue("Priority", (unsigned int)getPriority());
-    hub->setValue("ListRequest", getListRequest());
-    hub->setValue("VHost", getVHost());
-    hub->setValue("Typing", getTyping());
-    hub->setValue("RichText", getRichText());
-    hub->setValue("UseVersion", getUseVersion());
-    hub->setValue("ProtocolIcons", getProtocolIcons());
-    hub->setValue("MinPort", (unsigned int)getMinPort());
-    hub->setValue("MaxPort", (unsigned int)getMaxPort());
-    hub->setValue("Photo", getPhoto());
-    hub->setValue("Logo", getLogo());
-    hub->setValue("AutoSubscribe", getAutoSubscribe());
-    hub->setValue("AutoAccept", getAutoAccept());
-    hub->setValue("UseHTTP", getUseHTTP());
-    hub->setValue("URL", getURL());
-    hub->setValue("InfoUpdated", getInfoUpdated());
-    hub->serialize(element);
-    return Client::serialize(element);
-}
-
-bool JabberClient::deserialize(QDomElement& element)
-{
-    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
-    if(!hub->deserialize(element))
+    if (!getClientManager())
         return false;
-	setID(hub->value("ID").toString());
+    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    if (hub.isNull())
+        return false;
+
+    setID(hub->value("ID").toString());
     setServer(hub->value("Server").toString());
     setPort(hub->value("Port").toUInt());
     setUseSSL(hub->value("UseSSL").toBool());
@@ -387,8 +362,44 @@ bool JabberClient::deserialize(QDomElement& element)
     setUseHTTP(hub->value("UseHTTP").toBool());
     setURL(hub->value("URL").toString());
     setInfoUpdated(hub->value("InfoUpdated").toBool());
-    Client::deserialize(element);
-    return true;
+
+    return Client::loadState();
+}
+
+bool JabberClient::saveState()
+{
+    if (!getClientManager())
+        return false;
+    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    if (hub.isNull())
+        hub = PropertyHub::create(name());
+
+    hub->setValue("ID", getID());
+    hub->setValue("Server", getServer());
+    hub->setValue("Port", getPort());
+    hub->setValue("UseSSL", getUseSSL());
+    hub->setValue("UsePlain", getUsePlain());
+    hub->setValue("UseVHost", getUseVHost());
+    hub->setValue("Priority", (unsigned int)getPriority());
+    hub->setValue("ListRequest", getListRequest());
+    hub->setValue("VHost", getVHost());
+    hub->setValue("Typing", getTyping());
+    hub->setValue("RichText", getRichText());
+    hub->setValue("UseVersion", getUseVersion());
+    hub->setValue("ProtocolIcons", getProtocolIcons());
+    hub->setValue("MinPort", (unsigned int)getMinPort());
+    hub->setValue("MaxPort", (unsigned int)getMaxPort());
+    hub->setValue("Photo", getPhoto());
+    hub->setValue("Logo", getLogo());
+    hub->setValue("AutoSubscribe", getAutoSubscribe());
+    hub->setValue("AutoAccept", getAutoAccept());
+    hub->setValue("UseHTTP", getUseHTTP());
+    hub->setValue("URL", getURL());
+    hub->setValue("InfoUpdated", getInfoUpdated());
+
+    getClientManager()->config()->addPropertyHub(hub);
+
+    return Client::saveState();
 }
 
 bool JabberClient::deserialize(Buffer* cfg)

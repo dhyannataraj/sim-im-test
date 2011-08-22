@@ -3055,7 +3055,7 @@ void CorePlugin::eventInit()
 bool CorePlugin::init()
 {
     log(L_DEBUG, "CorePlugin::init");
-    ConfigPtr settings = getProfileManager()->managerConfig();
+    ConfigPtr settings = getProfileManager()->config();
 
     // FIXME:
     /*

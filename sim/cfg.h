@@ -52,6 +52,8 @@ public:
     QByteArray serialize();
     bool deserialize(const QByteArray& arr);
 
+    QStringList propertyHubNames();
+
     bool writeToFile();
     bool readFromFile();
 private:

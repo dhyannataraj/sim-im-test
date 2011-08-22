@@ -277,7 +277,6 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     m_clientCapabilitiesRegistry = new ClientCapabilitiesRegistry();
 
     m_messageEditorFactory = new ICQMessageEditorFactory();
-
 }
 
 ICQClient::~ICQClient()
@@ -375,9 +374,15 @@ QString ICQClient::retrievePasswordLink()
     return QString("http://www.icq.com");
 }
 
-bool ICQClient::serialize(QDomElement& element)
+bool ICQClient::saveState()
 {
-    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
+    if (!getClientManager())
+        return false;
+    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    if (hub.isNull())
+        hub = PropertyHub::create(name());
+
+    hub->setValue("UIN", (unsigned long long)getUin()); //to be moved to ICQContact or ICQClientData
     hub->setValue("Server", getServer());
     hub->setValue("ServerPort", (unsigned int)getPort());
     hub->setValue("HideIP", getHideIP());
@@ -403,15 +408,21 @@ bool ICQClient::serialize(QDomElement& element)
     hub->setValue("AutoHTTP", getAutoHTTP());
     hub->setValue("KeepAlive", getKeepAlive());
     hub->setValue("MediaSense", getMediaSense());
-    hub->serialize(element);
-    return Client::serialize(element);
+
+    getClientManager()->config()->addPropertyHub(hub);
+
+    return Client::saveState();
 }
 
-bool ICQClient::deserialize(QDomElement& element)
+bool ICQClient::loadState()
 {
-    SIM::PropertyHubPtr hub = SIM::PropertyHub::create();
-    if(!hub->deserialize(element))
+    if (!getClientManager())
         return false;
+    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    if (hub.isNull())
+        return false;
+
+    setUin(hub->value("UIN").toUInt()); //to be moved to ICQContact or ICQClientData
     setServer(hub->value("Server").toString());
     setPort(hub->value("ServerPort").toUInt());
     setHideIP(hub->value("HideIP").toBool());
@@ -437,7 +448,7 @@ bool ICQClient::deserialize(QDomElement& element)
     setAutoHTTP(hub->value("AutoHTTP").toBool());
     setKeepAlive(hub->value("KeepAlive").toBool());
     setMediaSense(hub->value("MediaSense").toBool());
-    return Client::deserialize(element);
+    return Client::loadState();
 }
 
 bool ICQClient::deserialize(Buffer* cfg)
@@ -1070,6 +1081,7 @@ void ICQClient::setPort(unsigned short port)
 void ICQClient::setUin(unsigned long uin)
 {
     clientPersistentData->owner->setUin(uin);
+    clientPersistentData->setUin(QString::number(uin)); //NOT from here, hack for make client connectable
 }
 
 void ICQClient::setScreen(const QString &screen)
@@ -4068,6 +4080,7 @@ bool ICQClient::sendMessage(const SIM::MessagePtr& message)
 //    case 0x3B75AC09:
 //    case 0x3AA773EE:
 //    case 0x3BC1252C:
+
 //    case 0x3B176B57:
 //    case 0x3BA76E2E:
 //    case 0x3C7D8CBC:

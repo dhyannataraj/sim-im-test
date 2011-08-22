@@ -14,6 +14,7 @@ StandardClientManager::StandardClientManager()
 
 StandardClientManager::~StandardClientManager()
 {
+    //sync();
 }
 
 void StandardClientManager::addClient(ClientPtr client)
@@ -40,7 +41,7 @@ bool StandardClientManager::load()
 {
     log(L_DEBUG, "ClientManager::load()");
     m_clients.clear();
-	m_sortedClientNamesList.clear();
+    m_sortedClientNamesList.clear();
     if(!load_new())
     {
         if(!load_old())
@@ -52,29 +53,19 @@ bool StandardClientManager::load()
 bool StandardClientManager::load_new()
 {
     log(L_DEBUG, "ClientManager::load_new()");
-    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "clients.xml";
-    QFile f(cfgName);
-    if (!f.open(QIODevice::ReadOnly)){
-        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
-        return false;
-    }
 
-    QDomDocument doc;
-    doc.setContent(f.readAll());
-
-    QDomElement clients = doc.elementsByTagName("clients").at(0).toElement();
-    if(clients.isNull())
+    //QStringList clients = config()->rootPropertyHub()->value("Clients").toStringList();
+    QStringList clients = config()->propertyHubNames();
+    if (clients.size() == 0)
         return false;
 
-    QDomNodeList clientlist = clients.elementsByTagName("client");
-    for(int clnum = 0; clnum < clientlist.size(); clnum++)
+    foreach(QString clientName, clients)
     {
-        QDomElement thisClient = clientlist.at(clnum).toElement();
-        if(thisClient.isNull())
-            return false;
-        QString protocolName = thisClient.attribute("protocol");
-        QString pluginName = thisClient.attribute("plugin");
-        QString clientName = thisClient.attribute("name");
+        PropertyHubPtr clientProperty = m_config->propertyHub(clientName);
+
+        QString protocolName = clientProperty->value("protocol").toString();
+        QString pluginName = clientProperty->value("plugin").toString();
+
         if(pluginName.isEmpty() || protocolName.isEmpty())
             return false;
 
@@ -83,12 +74,14 @@ bool StandardClientManager::load_new()
             log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
             continue;
         }
+
         PluginPtr plugin = getPluginManager()->plugin(pluginName);
         if(plugin.isNull())
         {
             log(L_WARN, "Plugin %s not found", qPrintable(pluginName));
             continue;
         }
+
         ClientPtr newClient;
         getProfileManager()->currentProfile()->enablePlugin(pluginName);
 
@@ -102,19 +95,9 @@ bool StandardClientManager::load_new()
             }
         }
 
-        QDomElement clientData = thisClient.elementsByTagName("clientdata").at(0).toElement();
-        if(clientData.isNull())
-        {
-            log(L_WARN, "No client data");
-            continue;
-        }
-
-        if(!newClient->deserialize(clientData))
-        {
-            log(L_WARN, "Deserialization error");
-            return false;
-        }
+        newClient->loadState();
     }
+
     return true;
 }
 
@@ -140,7 +123,7 @@ bool StandardClientManager::load_old()
                 client->deserialize(&cfg);
                 addClient(client);
                 cfg.clear();
-				client.clear();
+                client.clear();
             }
             QString clientName = line.mid(1, line.length() - 2);
             QString pluginName = getToken(clientName, '/');
@@ -149,8 +132,8 @@ bool StandardClientManager::load_old()
             if(!getPluginManager()->isPluginProtocol(pluginName))
             {
                 log(L_DEBUG, "Plugin %s is not a protocol plugin", qPrintable(pluginName));
-				cfg.clear();    //Fixme: Make sure here, the dropped configuration converted later, if plugin is available again...
-				client.clear(); 
+                cfg.clear();    //Fixme: Make sure here, the dropped configuration converted later, if plugin is available again...
+                client.clear();
                 continue;
             }
             PluginPtr plugin = getPluginManager()->plugin(pluginName);
@@ -164,10 +147,10 @@ bool StandardClientManager::load_old()
             ProtocolIterator it;
             while ((protocol = ++it) != NULL)
                 if (protocol->name() == clientName)
-				{
-					cfg.clear();
+                {
+                    cfg.clear();
                     client = protocol->createClient(0);
-				}
+                }
         }
         else {
             if(!l.isEmpty()) {
@@ -181,43 +164,36 @@ bool StandardClientManager::load_old()
         client->deserialize(&cfg);
         addClient(client);
         cfg.clear();
-		client.clear();
+        client.clear();
     }
     return m_clients.count() > 0;
 }
 
 
-bool StandardClientManager::save()
+bool StandardClientManager::sync()
 {
-    if(!getProfileManager() ||
-		m_clients.isEmpty() )
+    if(!getProfileManager() || m_clients.isEmpty() )
         return false;
     log(L_DEBUG, "ClientManager::save(): %d", m_clients.count());
-    QDomDocument doc;
-    QDomElement root = doc.createElement("clients");
-    doc.appendChild(root);
+
+    config()->clearPropertyHubs(); //FIXME: deleted clients should delete corresponding propertyHubs during deletion
     foreach(const ClientPtr& client, m_clients)
     {
-        QDomElement el = doc.createElement("client");
-        el.setAttribute("name", client->name());
-        el.setAttribute("plugin", client->protocol()->plugin()->name());
-        el.setAttribute("protocol", client->protocol()->name());
-        client->properties()->serialize(el);
-        QDomElement clientDataElement = doc.createElement("clientdata");
-        client->serialize(clientDataElement);
-        el.appendChild(clientDataElement);
-        root.appendChild(el);
+        client->saveState();
+
+        QString name = client->name();
+        PropertyHubPtr hub = config()->propertyHub(name);
+        hub->setValue("plugin",client->protocol()->plugin()->name());
+        hub->setValue("protocol", client->protocol()->name());
+
+//        client->properties()->serialize(el);
+//        QDomElement clientDataElement = doc.createElement("clientdata");
+//        client->serialize(clientDataElement);
+//        el.appendChild(clientDataElement);
+//        root.appendChild(el);
     }
-    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "clients.xml";
-    QFile f(cfgName);
-    if(!f.open(QIODevice::WriteOnly | QIODevice::Truncate))
-    {
-        log(L_ERROR, "[2]Can't open %s", qPrintable(cfgName));
-        return false;
-    }
-    f.write(doc.toByteArray());
-    f.close();
-    return true;
+
+    return config()->writeToFile();
 }
 
 ClientPtr StandardClientManager::createClient(const QString& name)
@@ -248,23 +224,34 @@ ClientPtr StandardClientManager::createClient(const QString& name)
 
 QStringList StandardClientManager::clientList()
 {
-	//m_clients.keys();
+    //m_clients.keys();
     return m_sortedClientNamesList;
-	
 }
 
 ClientPtr StandardClientManager::getClientByProfileName(const QString& name)
 {
-	return m_clients[name];
+    return m_clients[name];
 }
 
 ClientPtr StandardClientManager::deleteClient(const QString& name)
 {
+    ClientPtr delClient(getClientByProfileName(name));
+    m_clients.erase(m_clients.find(name));
+    m_sortedClientNamesList.removeOne(QString(name));
+    return delClient;
+}
 
-	ClientPtr delClient(getClientByProfileName(name));
-	m_clients.erase(m_clients.find(name));
-	m_sortedClientNamesList.removeOne(QString(name));
-	return delClient;
+ConfigPtr StandardClientManager::config()
+{
+    if (!m_config.isNull())
+        return m_config;
+
+    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "clients.xml";
+    m_config = ConfigPtr(new Config(cfgName));
+
+    m_config->readFromFile();
+
+    return m_config;
 }
 
 } // namespace SIM
