@@ -73,7 +73,7 @@ namespace SIM
             if (!defPath.endsWith("\\"))
                 defPath += '\\';
             defPath += "sim";
-            makedir(defPath + '\\');
+            QDir().mkpath(defPath + '\\');
             QString lockTest = defPath + "\\.lock";
             QFile f(lockTest);
             if (!f.open(QIODevice::ReadWrite | QIODevice::Truncate))
