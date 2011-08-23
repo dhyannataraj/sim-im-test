@@ -3074,12 +3074,12 @@ bool CorePlugin::init()
     }
     */
 
-    QString profile = settings->rootPropertyHub()->value("Profile").toString();
-    bool noshow = settings->rootPropertyHub()->value("NoShow").toBool();
+    QString profile = settings->rootHub()->value("Profile").toString();
+    bool noshow = settings->rootHub()->value("NoShow").toBool();
 
     if(profile.isEmpty() && noshow)
     {
-        settings->rootPropertyHub()->setValue("NoShow", false);
+        settings->rootHub()->setValue("NoShow", false);
         noshow = false;
     }
 

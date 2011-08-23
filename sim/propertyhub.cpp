@@ -34,19 +34,44 @@ namespace SIM
 
     bool PropertyHub::serialize( QDomElement element )
     {
-        return serializeVariantMap( element, m_data );
+        QDomElement valNode = element.ownerDocument().createElement("values");
+        serializeVariantMap( valNode, m_data );
+        element.appendChild(valNode);
+
+        QDomElement hubsNode = element.ownerDocument().createElement("hubs");
+        element.appendChild(hubsNode);
+        foreach( QString key, m_hubs.keys() )
+        {
+            QDomElement curNode = element.ownerDocument().createElement("hub");
+            curNode.setAttribute("name",key);
+
+            propertyHub(key)->serialize(curNode);
+
+            hubsNode.appendChild(curNode);
+        }
+        return true;
     }
 
     bool PropertyHub::deserialize( QDomElement element )
     {
-        return deserializeVariantMap( element, m_data );
+        QDomElement valNode = element.firstChildElement("values");
+        deserializeVariantMap( valNode, m_data );
+
+        QDomElement hubsNode = element.firstChildElement("hubs");
+        QDomNodeList hubLst = hubsNode.childNodes();
+        for (int i = 0; i < hubLst.size(); i++)
+        {
+            QDomElement el = hubLst.at(i).toElement();
+            QString name = el.attribute("name");
+            PropertyHubPtr it = PropertyHub::create(name);
+            it->deserialize(el);
+            m_hubs[name] = it;
+        }
+        return true;
     }
 
     bool PropertyHub::serializeVariantMap( QDomElement element, const QVariantMap &map )
     {
-        if( map.size() == 0 )
-            return false;
-
         foreach( QString key, map.keys() )
         {
             QDomElement node = element.ownerDocument().createElement( "node" );
@@ -216,13 +241,13 @@ namespace SIM
                 return false;
             }
         }
-
         return true;
     }
 
     void PropertyHub::clear()
     {
         m_data.clear();
+        m_hubs.clear();
     }
 
     void PropertyHub::parseSection(const QString& string)
@@ -253,8 +278,6 @@ namespace SIM
        //trallala ;) Implement me
     }
 
-
-
     QList<QString> PropertyHub::allKeys()
     {
         return m_data.keys();
@@ -273,6 +296,31 @@ namespace SIM
         return QVariant();
     }
 
+    PropertyHubPtr PropertyHub::propertyHub(const QString &key)
+    {
+        QMap<QString, PropertyHubPtr>::const_iterator it = m_hubs.find(key);
+        if(it != m_hubs.end())
+            return it.value();
+        return PropertyHubPtr();
+    }
+
+    bool PropertyHub::addPropertyHub(PropertyHubPtr hub)
+    {
+        if(hub->getNamespace().isEmpty())
+            return false;
+        m_hubs.insert(hub->getNamespace(), hub);
+        return true;
+    }
+
+    void PropertyHub::clearPropertyHubs()
+    {
+        m_hubs.clear();
+    }
+
+    QStringList PropertyHub::propertyHubNames()
+    {
+        return m_hubs.keys();
+    }
 }
 
 // vim: set expandtab:

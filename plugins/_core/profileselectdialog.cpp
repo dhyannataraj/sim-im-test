@@ -48,16 +48,16 @@ ProfileSelectDialog::ProfileSelectDialog()
     m_ui->setupUi(this);
     ConfigPtr settings = getProfileManager()->config();
 
-    m_profile = settings->rootPropertyHub()->value("Profile").toString();
+    m_profile = settings->rootHub()->value("Profile").toString();
 
     setWindowTitle(i18n("Select profile"));
     setWindowIcon(getImageStorage()->icon("SIM"));
 
     updateProfilesList();
 
-    m_ui->chkSave->setChecked(settings->rootPropertyHub()->value("SavePasswd").toBool());
-    m_ui->chkNoShow->setChecked(settings->rootPropertyHub()->value("NoShow").toBool());
-    saveToggled(settings->rootPropertyHub()->value("SavePasswd").toBool());
+    m_ui->chkSave->setChecked(settings->rootHub()->value("SavePasswd").toBool());
+    m_ui->chkNoShow->setChecked(settings->rootHub()->value("NoShow").toBool());
+    saveToggled(settings->rootHub()->value("SavePasswd").toBool());
 
     m_ui->labelNew->hide();
     m_ui->e_newName->hide();
@@ -75,17 +75,20 @@ ProfileSelectDialog::~ProfileSelectDialog()
 void ProfileSelectDialog::updateProfilesList()
 {
     QStringList profiles = getProfileManager()->enumProfiles();
-    m_ui->cmbProfile->clear();
-    m_ui->cmbProfile->addItems(profiles);
+    int profileIndex = 0;
 
-    for(int i = 0; i < m_ui->cmbProfile->count(); i++)
+    for(int i = 0; i < profiles.size(); i++)
     {
-        if(m_ui->cmbProfile->itemText(i) == m_profile)
+        if(profiles[i] == profile())
         {
-            m_ui->cmbProfile->setCurrentIndex(i);
+            profileIndex = i;
             break;
         }
     }
+
+    m_ui->cmbProfile->clear();
+    m_ui->cmbProfile->addItems(profiles);
+    m_ui->cmbProfile->setCurrentIndex(profileIndex);
 
     m_ui->cmbProfile->addItem(i18n("New profile"));
 }
@@ -283,7 +286,7 @@ void ProfileSelectDialog::saveState()
 {
     ConfigPtr settings = getProfileManager()->config();
 
-    settings->rootPropertyHub()->setValue("Profile", profile());
-    settings->rootPropertyHub()->setValue("SavePasswd",m_ui->chkSave->isChecked());
-    settings->rootPropertyHub()->setValue("NoShow",m_ui->chkNoShow->isChecked());
+    settings->rootHub()->setValue("Profile", profile());
+    settings->rootHub()->setValue("SavePasswd",m_ui->chkSave->isChecked());
+    settings->rootHub()->setValue("NoShow",m_ui->chkNoShow->isChecked());
 }

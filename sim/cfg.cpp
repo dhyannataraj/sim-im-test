@@ -17,39 +17,39 @@
 
 #include "cfg.h"
 
-#include <stdio.h>
-#include <errno.h>
-#ifdef WIN32
-#include <windows.h>
-#else
-#include <sys/stat.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
+//#include <stdio.h>
+//#include <errno.h>
+//#ifdef WIN32
+//#include <windows.h>
+//#else
+//#include <sys/stat.h>
+//#include <unistd.h>
+//#include <sys/socket.h>
+//#include <sys/time.h>
+//#include <netinet/in.h>
+//#include <netdb.h>
+//#include <arpa/inet.h>
+//#endif
 
 #include <QFile>
-#include <QToolBar>
-#include <QMainWindow>
-#include <QStringList>
-#include <QApplication>
-#include <QDir>
-#include <QStyle>
-#ifdef _DEBUG
-# include <QMessageBox>
-#endif
-#include <QByteArray>
-#include <QDesktopWidget>
+//#include <QToolBar>
+//#include <QMainWindow>
+//#include <QStringList>
+//#include <QApplication>
+//#include <QDir>
+//#include <QStyle>
+//#ifdef _DEBUG
+//# include <QMessageBox>
+//#endif
+//#include <QByteArray>
+//#include <QDesktopWidget>
 
-#ifdef USE_KDE
-#include <kglobal.h>
-#include <kstddirs.h>
-#include <kwin.h>
-#include "kdeisversion.h"
-#endif
+//#ifdef USE_KDE
+//#include <kglobal.h>
+//#include <kstddirs.h>
+//#include <kwin.h>
+//#include "kdeisversion.h"
+//#endif
 
 #include "log.h"
 #include "misc.h"
@@ -66,78 +66,36 @@ Config::~Config()
 {
 }
 
-bool Config::addPropertyHub(PropertyHubPtr hub)
+PropertyHubPtr Config::rootHub()
 {
-	if(hub->getNamespace().isEmpty())
-		return false;
-	m_hubs.insert(hub->getNamespace(), hub);
-	return true;
-}
-
-PropertyHubPtr Config::propertyHub(const QString& hubNamespace)
-{
-	PropertyHubMap::iterator it = m_hubs.find(hubNamespace);
-	if(it == m_hubs.end())
-		return PropertyHubPtr();
-	return it.value();
-}
-
-void Config::clearPropertyHubs()
-{
-	m_hubs.clear();
-}
-
-PropertyHubPtr Config::rootPropertyHub()
-{
-	return m_roothub;
+    return m_roothub;
 }
 
 QByteArray Config::serialize()
 {
     QDomDocument doc;
-    doc.appendChild( doc.createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\"" ) );
-    QDomElement root = doc.createElement( "config" );
-    doc.appendChild(root);
+    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
 
-    QDomElement hubelement = doc.createElement( "propertyhub" );
-    if( m_roothub->serialize( hubelement ) )
-        root.appendChild( hubelement );
+    QDomElement roothubelement = doc.createElement("roothub");
+    if(m_roothub->serialize(roothubelement))
+        doc.appendChild(roothubelement);
 
-    foreach(PropertyHubPtr hub, m_hubs)
-    {
-        QDomElement hubelement = doc.createElement( "propertyhub" );
-        hubelement.setAttribute( "name", hub->getNamespace() );
-        if( hub->serialize( hubelement ) )
-            root.appendChild( hubelement );
-    }
     return doc.toByteArray();
 }
 
 bool Config::deserialize(const QByteArray& arr)
 {
     QDomDocument doc;
-    if( !doc.setContent( arr ) )
+    if(!doc.setContent(arr))
         return false;
 
-    QDomElement root = doc.elementsByTagName( "config" ).at(0).toElement();
-    if(root.isNull())
+    QDomElement propertyhub = doc.firstChildElement("roothub");
+    if (propertyhub.isNull())
         return false;
 
-    QDomNodeList list = root.elementsByTagName( "propertyhub" );
-    for( int i = 0 ; i < list.size() ; i++ ) {
-        QDomElement propertyhub = list.at(i).toElement();
-        if( !propertyhub.isNull() ) {
-            QString name = propertyhub.attribute( "name" );
-            PropertyHubPtr hub;
-            if( name.isEmpty() )
-                hub = m_roothub;
-            else
-                hub = PropertyHub::create( name );
-            if( !hub->deserialize( propertyhub ) )
-                return false;
-            addPropertyHub( hub );
-        }
-    }
+    if(!m_roothub->deserialize(propertyhub))
+        return false;
+
     return true;
 }
 
@@ -146,9 +104,11 @@ bool Config::mergeOldConfig(const QString& filename)
     QFile f(filename);
     if( !f.open(QIODevice::ReadOnly) )
         return false;
+
     log(L_DEBUG, "Merging old config: %s", qPrintable(filename));
     QString config = QString(f.readAll());
     QRegExp re("\\[([^\\]]+)\\]\n([^\\[]+)");
+
     int pos = 0;
     while((pos = re.indexIn(config, pos)) != -1)
     {
@@ -160,11 +120,11 @@ bool Config::mergeOldConfig(const QString& filename)
             QStringList line = it->split('=');
             if(line.size() != 2)
                 continue;
-            PropertyHubPtr hub = propertyHub(ns);
+            PropertyHubPtr hub = rootHub()->propertyHub(ns);
             if(hub.isNull())
             {
-                    hub = PropertyHub::create(ns);
-                    addPropertyHub(hub);
+                hub = PropertyHub::create(ns);
+                rootHub()->addPropertyHub(hub);
             }
 
             // Merge if only there's no setting in a new config:
@@ -214,13 +174,56 @@ bool Config::readFromFile()
     return true;
 }
 
-QStringList Config::propertyHubNames()
+EXPORT QString getToken(QString &from, char c, bool bUnEscape)
 {
-    return m_hubs.keys();
+    QString res;
+    int i;
+    for (i = 0; i < from.length(); i++){
+        if (from[i] == c)
+            break;
+        if (from[i] == '\\'){
+            i++;
+            if (i >= from.length())
+                break;
+            if (!bUnEscape)
+                res += '\\';
+        }
+        res += from[i];
+    }
+    if (i < from.length()){
+        from = from.mid(i + 1);
+    }else{
+        from.clear();
+    }
+    return res;
+}
+
+EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEscape)
+{
+    QByteArray res;
+    int i;
+    for (i = 0; i < from.length(); i++){
+        if (from[i] == c)
+            break;
+        if (from[i] == '\\'){
+            i++;
+            if (i >= from.length())
+                break;
+            if (!bUnEscape)
+                res += '\\';
+        }
+        res += from[i];
+    }
+    if (i < from.length()){
+        from = from.mid(i + 1);
+    }else{
+        from.clear();
+    }
+    return res;
 }
 
 // ______________________________________________________________________________________
-
+/*
 #ifdef WIN32
 
 EXPORT bool makedir(const QString &p)
@@ -298,11 +301,9 @@ EXPORT bool makedir(const QString &p)
 }
 
 #endif
-
 // ______________________________________________________________________________________
 
 // ______________________________________________________________________________________
-
 char fromHex(char c)
 {
     if ((c >= '0') && (c <= '9')) return (char)(c - '0');
@@ -318,7 +319,6 @@ static unsigned char toHex(unsigned char c)
         return (unsigned char)(c + '0');
     return (unsigned char)(c - 10 + 'a');
 }
-
 
 QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
@@ -371,54 +371,6 @@ QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
     }
     return res;
 }
-EXPORT QString getToken(QString &from, char c, bool bUnEscape)
-{
-    QString res;
-    int i;
-    for (i = 0; i < from.length(); i++){
-        if (from[i] == c)
-            break;
-        if (from[i] == '\\'){
-            i++;
-            if (i >= from.length())
-                break;
-            if (!bUnEscape)
-                res += '\\';
-        }
-        res += from[i];
-    }
-    if (i < from.length()){
-        from = from.mid(i + 1);
-    }else{
-        from.clear();
-    }
-    return res;
-}
-
-EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEscape)
-{
-    QByteArray res;
-    int i;
-    for (i = 0; i < from.length(); i++){
-        if (from[i] == c)
-            break;
-        if (from[i] == '\\'){
-            i++;
-            if (i >= from.length())
-                break;
-            if (!bUnEscape)
-                res += '\\';
-        }
-        res += from[i];
-    }
-    if (i < from.length()){
-        from = from.mid(i + 1);
-    }else{
-        from.clear();
-    }
-    return res;  
-}
-
 
 static QByteArray quoteInternal(const QByteArray &str)
 {
@@ -494,5 +446,6 @@ static bool unquoteInternal(QByteArray &val, QByteArray &str)
     }
     return true;
 }
+*/
 
 }   // namespace SIM

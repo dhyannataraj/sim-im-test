@@ -40,7 +40,7 @@ namespace SIM
     {
         if(m_config.isNull())
             return QStringList();
-        QStringList list = m_config->rootPropertyHub()->value("EnabledPlugins").toStringList();
+        QStringList list = m_config->rootHub()->value("EnabledPlugins").toStringList();
         return list;
     }
 
@@ -57,7 +57,7 @@ namespace SIM
             log(L_DEBUG, "enablePlugin(%s)", qPrintable(name));
             list.append(name);
             addPlugin(name);
-            m_config->rootPropertyHub()->setValue("EnabledPlugins", list);
+            m_config->rootHub()->setValue("EnabledPlugins", list);
         }
     }
 
@@ -71,7 +71,7 @@ namespace SIM
             log(L_DEBUG, "disablePlugin(%s)", qPrintable(name));
             list.removeOne(name);
             removePlugin(name);
-            m_config->rootPropertyHub()->setValue("EnabledPlugins", list);
+            m_config->rootHub()->setValue("EnabledPlugins", list);
         }
     }
 

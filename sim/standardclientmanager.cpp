@@ -14,7 +14,7 @@ StandardClientManager::StandardClientManager()
 
 StandardClientManager::~StandardClientManager()
 {
-    //sync();
+    sync();
 }
 
 void StandardClientManager::addClient(ClientPtr client)
@@ -55,13 +55,13 @@ bool StandardClientManager::load_new()
     log(L_DEBUG, "ClientManager::load_new()");
 
     //QStringList clients = config()->rootPropertyHub()->value("Clients").toStringList();
-    QStringList clients = config()->propertyHubNames();
+    QStringList clients = config()->rootHub()->propertyHubNames();
     if (clients.size() == 0)
         return false;
 
     foreach(QString clientName, clients)
     {
-        PropertyHubPtr clientProperty = m_config->propertyHub(clientName);
+        PropertyHubPtr clientProperty = config()->rootHub()->propertyHub(clientName);
 
         QString protocolName = clientProperty->value("protocol").toString();
         QString pluginName = clientProperty->value("plugin").toString();
@@ -176,13 +176,13 @@ bool StandardClientManager::sync()
         return false;
     log(L_DEBUG, "ClientManager::save(): %d", m_clients.count());
 
-    config()->clearPropertyHubs(); //FIXME: deleted clients should delete corresponding propertyHubs during deletion
+    config()->rootHub()->clearPropertyHubs(); //FIXME: deleted clients should delete corresponding propertyHubs during deletion
     foreach(const ClientPtr& client, m_clients)
     {
         client->saveState();
 
         QString name = client->name();
-        PropertyHubPtr hub = config()->propertyHub(name);
+        PropertyHubPtr hub = config()->rootHub()->propertyHub(name);
         hub->setValue("plugin",client->protocol()->plugin()->name());
         hub->setValue("protocol", client->protocol()->name());
 
@@ -243,9 +243,10 @@ ClientPtr StandardClientManager::deleteClient(const QString& name)
 
 ConfigPtr StandardClientManager::config()
 {
-    if (!m_config.isNull())
+    if (!m_config.isNull() && m_loadedProfile == getProfileManager()->currentProfileName())
         return m_config;
 
+    m_loadedProfile = getProfileManager()->currentProfileName();
     QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "clients.xml";
     m_config = ConfigPtr(new Config(cfgName));
 

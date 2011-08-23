@@ -19,48 +19,49 @@
 #define _CFG_H
 
 #include <QByteArray>
-#include <QMap>
 #include <QString>
-#include <QVariant>
 #include <QSharedPointer>
 
 #include "propertyhub.h"
 #include "simapi.h"
+#include <buffer.h>
 
-class QObject;
-class QWidget;
-class QToolBar;
+//class QObject;
+//class QWidget;
+//class QToolBar;
 
-class Buffer;
-class IP;
+//class Buffer;
+//class IP;
 
 namespace SIM {
 
 class EXPORT Config
 {
 public:
-    Config(const QString& filename);
-    virtual ~Config();
+    Config(const QString& filename); // +
+    virtual ~Config();  // +
 
-    bool mergeOldConfig(const QString& filename);
+    PropertyHubPtr rootHub();
 
-    bool addPropertyHub(PropertyHubPtr hub);
-    PropertyHubPtr propertyHub(const QString& hubNamespace);
-    void clearPropertyHubs();
-    PropertyHubPtr rootPropertyHub();
+    bool mergeOldConfig(const QString& filename); // +
 
-    QByteArray serialize();
-    bool deserialize(const QByteArray& arr);
+    //bool addPropertyHub(PropertyHubPtr hub); // -
+    //PropertyHubPtr propertyHub(const QString& hubNamespace); // -
+    //void clearPropertyHubs(); // -
+    //PropertyHubPtr rootPropertyHub(); // -
 
-    QStringList propertyHubNames();
+    //QStringList propertyHubNames(); // -
 
     bool writeToFile();
     bool readFromFile();
 private:
-    typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
-    PropertyHubMap m_hubs;
-    QString m_group;
-    QVariantMap m_data;
+    QByteArray serialize(); // +
+    bool deserialize(const QByteArray& arr); // +
+
+    //typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
+    //PropertyHubMap m_hubs;
+    //QString m_group;
+    //QVariantMap m_data;
     QString m_filename;
     PropertyHubPtr m_roothub;
     bool m_changed;
@@ -68,19 +69,18 @@ private:
 
 typedef QSharedPointer<Config> ConfigPtr;
 
-/* Make directory */
-EXPORT bool makedir(const QString &dir);
-
-/* Save state */
-EXPORT void save_state();
-
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEsacpe=true);
-//EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEsacpe=true);
-EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
-EXPORT QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash = true);
 
-EXPORT char fromHex(char);
+// DEPRICATED
+/* Make directory */
+//EXPORT bool makedir(const QString &dir);
+/* Save state */
+//EXPORT void save_state();
+//EXPORT QByteArray getToken(QByteArray &from, char c, bool bUnEsacpe=true);
+//EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
+//EXPORT QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash = true);
+//EXPORT char fromHex(char);
 
 } // namespace SIM
 

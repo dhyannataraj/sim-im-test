@@ -146,11 +146,11 @@ PropertyHubPtr StandardProfileManager::getPropertyHub(const QString& name)
         return PropertyHubPtr();
     if(curProfile->config().isNull())
         return PropertyHubPtr();
-    PropertyHubPtr hub = curProfile->config()->propertyHub(name);
+    PropertyHubPtr hub = curProfile->config()->rootHub()->propertyHub(name);
     if(hub.isNull())
     {
         hub = PropertyHub::create(name);
-        curProfile->config()->addPropertyHub(hub);
+        curProfile->config()->rootHub()->addPropertyHub(hub);
     }
     return hub;
 }

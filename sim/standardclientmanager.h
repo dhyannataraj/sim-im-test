@@ -33,6 +33,7 @@ private:
     ClientMap m_clients;
     QStringList m_sortedClientNamesList;
     ConfigPtr m_config;
+    QString m_loadedProfile;
 };
 
 } // namespace SIM

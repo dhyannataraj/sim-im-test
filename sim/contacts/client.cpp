@@ -59,14 +59,14 @@ namespace SIM
 
     bool Client::saveState()
     {
-        PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+        PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
         hub->setValue("Password", cryptPassword(password()));
         return true;
     }
 
     bool Client::loadState()
     {
-        PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+        PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
         setPassword(uncryptPassword(hub->value("Password").toString()));
         return true;
     }

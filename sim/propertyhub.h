@@ -36,6 +36,11 @@ namespace SIM
         void clearStringMap(const QString& mapname);
         QList<QString> allKeys();
 
+        bool addPropertyHub(PropertyHubPtr hub);
+        PropertyHubPtr propertyHub(const QString& hubNamespace);
+        void clearPropertyHubs();
+        QStringList propertyHubNames();
+
         bool serialize( QDomElement element );
         bool deserialize( QDomElement element );
 
@@ -59,8 +64,11 @@ namespace SIM
         bool deserializeByteArray( const QDomElement &element, QByteArray &array );
 
     private:
+        typedef QMap<QString, PropertyHubPtr> PropertyHubMap;
+
         QString m_namespace;
         QVariantMap m_data;
+        PropertyHubMap m_hubs;
 
         friend class testPropertyHub::Test;
     };

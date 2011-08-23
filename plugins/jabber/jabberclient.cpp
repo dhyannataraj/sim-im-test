@@ -336,7 +336,7 @@ bool JabberClient::loadState()
 {
     if (!getClientManager())
         return false;
-    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
     if (hub.isNull())
         return false;
 
@@ -370,7 +370,7 @@ bool JabberClient::saveState()
 {
     if (!getClientManager())
         return false;
-    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
     if (hub.isNull())
         hub = PropertyHub::create(name());
 
@@ -397,7 +397,7 @@ bool JabberClient::saveState()
     hub->setValue("URL", getURL());
     hub->setValue("InfoUpdated", getInfoUpdated());
 
-    getClientManager()->config()->addPropertyHub(hub);
+    getClientManager()->config()->rootHub()->addPropertyHub(hub);
 
     return Client::saveState();
 }

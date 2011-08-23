@@ -13,6 +13,7 @@
 #include <QMenu>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QToolBar>
 
 #include "simapi.h"
 

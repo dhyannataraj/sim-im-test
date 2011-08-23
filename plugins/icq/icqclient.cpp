@@ -378,7 +378,7 @@ bool ICQClient::saveState()
 {
     if (!getClientManager())
         return false;
-    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
     if (hub.isNull())
         hub = PropertyHub::create(name());
 
@@ -409,7 +409,7 @@ bool ICQClient::saveState()
     hub->setValue("KeepAlive", getKeepAlive());
     hub->setValue("MediaSense", getMediaSense());
 
-    getClientManager()->config()->addPropertyHub(hub);
+    getClientManager()->config()->rootHub()->addPropertyHub(hub);
 
     return Client::saveState();
 }
@@ -418,7 +418,7 @@ bool ICQClient::loadState()
 {
     if (!getClientManager())
         return false;
-    PropertyHubPtr hub = getClientManager()->config()->propertyHub(name());
+    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
     if (hub.isNull())
         return false;
 
