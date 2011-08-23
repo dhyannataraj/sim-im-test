@@ -126,6 +126,7 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
     </ClCompile>
+    <ClCompile Include="..\plugins\_core\tests\testgenericmessageeditor.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testreceivemessageprocessor.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testsendmessageprocessor.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testuserviewmodel.cpp" />

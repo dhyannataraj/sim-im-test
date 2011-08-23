@@ -130,6 +130,7 @@
     <ClCompile Include="..\plugins\icq\tests\testicqclient.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqcontact.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqgroup.cpp" />
+    <ClCompile Include="..\plugins\icq\tests\testicqmessageeditorfactory.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqstatus.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqstatusconverter.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqstatuswidget.cpp" />

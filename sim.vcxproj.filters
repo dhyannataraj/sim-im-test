@@ -444,6 +444,24 @@
     <ClCompile Include="sim\sim_pch.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="sim\simgui\messageeditor.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\genericmessageeditor.cpp">
+      <Filter>simgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\menuitemcollectionevent.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_menuitemcollectionevent.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_genericmessageeditor.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\simgui\moc_messageeditor.cpp">
+      <Filter>simgui\Source Files\generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sim\aboutdata.h">
@@ -608,6 +626,12 @@
     <ClInclude Include="sim\history\historystorage.h">
       <Filter>history\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sim\messaging\messagetypedescriptor.h">
+      <Filter>messaging\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sim\simgui\messageeditorfactory.h">
+      <Filter>simgui\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sim\icq.ico">
@@ -700,6 +724,15 @@
     </CustomBuild>
     <CustomBuild Include="sim\history\sqlitehistorystorage.h">
       <Filter>history\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\menuitemcollectionevent.h">
+      <Filter>events\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\genericmessageeditor.h">
+      <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\simgui\messageeditor.h">
+      <Filter>simgui\Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

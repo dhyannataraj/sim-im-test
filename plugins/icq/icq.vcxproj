@@ -152,6 +152,8 @@
     <ClCompile Include="clientcapabilitiesregistry.cpp" />
     <ClCompile Include="clientcapability.cpp" />
     <ClCompile Include="icbmsnachandler.cpp" />
+    <ClCompile Include="icqmessageeditorfactory.cpp" />
+    <ClCompile Include="icqmessagefactory.cpp" />
     <ClCompile Include="requests\icbmsnac\icbmsnacsendparametersrequest.cpp" />
     <ClCompile Include="icq.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -257,6 +259,8 @@
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
+    <ClInclude Include="icqmessageeditorfactory.h" />
+    <ClInclude Include="icqmessagefactory.h" />
     <ClInclude Include="requests\icbmsnac\icbmsnacsendparametersrequest.h" />
     <ClInclude Include="icq.h" />
     <ClInclude Include="icq_defines.h" />
