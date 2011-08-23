@@ -4,7 +4,7 @@
  *  Created on: Aug 17, 2011
  */
 
-#include "genericmessageeditor.h"
+#include "simgui/genericmessageeditor.h"
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
