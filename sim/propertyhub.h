@@ -38,13 +38,13 @@ namespace SIM
 
         bool addPropertyHub(PropertyHubPtr hub);
         PropertyHubPtr propertyHub(const QString& hubNamespace);
-        void clearPropertyHubs();
         QStringList propertyHubNames();
 
         bool serialize( QDomElement element );
         bool deserialize( QDomElement element );
 
-        void clear();
+        void clearValues();
+        void clearPropertyHubs();
 
         // This is to parse old
         void parseSection(const QString& string);

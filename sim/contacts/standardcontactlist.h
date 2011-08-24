@@ -12,7 +12,7 @@ public:
 
     virtual void clear();
     virtual bool load();
-    virtual bool save();
+    virtual bool sync();
     virtual bool addContact(const ContactPtr& newContact);
     virtual ContactPtr contact(int id) const;
     virtual bool contactExists(int id) const;
@@ -32,15 +32,16 @@ public:
     virtual QList<ContactPtr> contactsForGroup(int groupId);
     virtual void incomingMessage(const MessagePtr& message);
     virtual UserDataPtr userdata() const;
+    virtual ConfigPtr config();
 
 protected:
-    bool save_owner(QDomElement element);
-    bool save_groups(QDomElement element);
-    bool save_contacts(QDomElement element);
+    bool save_owner();
+    bool save_groups();
+    bool save_contacts();
     bool load_new();
-    bool load_owner(const QDomElement& owner);
-    bool load_groups(const QDomElement& groups);
-    bool load_contacts(const QDomElement& contacts);
+    bool load_owner();
+    bool load_groups();
+    bool load_contacts();
     bool load_old();
 
     struct ParserState
@@ -62,12 +63,13 @@ protected:
     bool load_old_dispatch(ParserState& state);
     void resetState(ParserState& state);
     bool deserializeLines(const UserDataPtr& ud, const QString& dataname, const QString& data);
-
 private:
     UserDataPtr m_userData;
     ContactPtr m_owner;
     QMap<int, ContactPtr> m_contacts;
     QMap<int, GroupPtr> m_groups;
+    ConfigPtr m_config;
+    QString m_loadedProfile;
 };
 
 } // namespace SIM

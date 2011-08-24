@@ -244,10 +244,9 @@ namespace SIM
         return true;
     }
 
-    void PropertyHub::clear()
+    void PropertyHub::clearValues()
     {
         m_data.clear();
-        m_hubs.clear();
     }
 
     void PropertyHub::parseSection(const QString& string)

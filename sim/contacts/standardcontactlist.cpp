@@ -26,41 +26,36 @@ void StandardContactList::clear()
 
 bool StandardContactList::load()
 {
+    log(L_DEBUG, "ContactList::load()");
     if(!load_new())
         return load_old();
     return true;
 }
 
-bool StandardContactList::save()
+bool StandardContactList::sync()
 {
-    if(!getProfileManager()->profilePath().isEmpty())
+    if(getProfileManager()->currentProfile().isNull())
+        return false;
+
+    getProfileManager()->sync();
+
+    save_owner();
+
+    PropertyHubPtr globalHub = config()->rootHub()->propertyHub("global");
+    if (globalHub.isNull())
     {
-        QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "contacts.xml";
-        getProfileManager()->sync();
-        QDomDocument doc;
-        doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
-        QDomElement root = doc.createElement("contactlist");
-        QDomElement global = doc.createElement("global");
-        m_userData->serialize(global);
-        root.appendChild(global);
-
-        QDomElement owner = doc.createElement("owner");
-        save_owner(owner);
-        root.appendChild(owner);
-
-        QDomElement groups = doc.createElement("groups");
-        if(save_groups(groups))
-            root.appendChild(groups);
-        QDomElement contacts = doc.createElement("contacts");
-        if(save_contacts(contacts))
-            root.appendChild(contacts);
-        doc.appendChild(root);
-        QFile f(cfgName);
-        f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-        f.write(doc.toByteArray());
-        f.close();
+        globalHub = PropertyHub::create("global");
+        config()->rootHub()->addPropertyHub(globalHub);
     }
-    return true;
+
+    save_groups();
+    save_contacts();
+
+//    QDomElement global = doc.createElement("global");
+//    m_userData->serialize(global);
+//    root.appendChild(global);
+
+    return config()->writeToFile();
 }
 
 bool StandardContactList::addContact(const ContactPtr& newContact)
@@ -185,99 +180,134 @@ UserDataPtr StandardContactList::userdata() const
     return UserDataPtr();
 }
 
-bool StandardContactList::save_owner(QDomElement /*element*/)
+bool StandardContactList::save_owner()
 {
+    PropertyHubPtr ownerHub = config()->rootHub()->propertyHub("owner");
+    if (ownerHub.isNull())
+    {
+        ownerHub = PropertyHub::create("owner");
+        config()->rootHub()->addPropertyHub(ownerHub);
+    }
+
+    // code
+
     return true;
 }
 
-bool StandardContactList::save_groups(QDomElement element)
+bool StandardContactList::save_groups()
 {
-    if(m_groups.isEmpty())
-        return false;
+    PropertyHubPtr groupsHub = config()->rootHub()->propertyHub("groups");
+    if (groupsHub.isNull())
+    {
+        groupsHub = PropertyHub::create("groups");
+        config()->rootHub()->addPropertyHub(groupsHub);
+    }
 
     for(QMap<int, GroupPtr>::iterator it = m_groups.begin(); it != m_groups.end(); ++it)
     {
-        QDomElement group =  element.ownerDocument().createElement("group");
-        group.setAttribute("id", QString::number(it.value()->id()));
-        if(it.value()->serialize(group))
-            element.appendChild(group);
+        PropertyHubPtr curGrHub = groupsHub->propertyHub(QString::number(it.value()->id()));
+        if (curGrHub.isNull())
+        {
+            curGrHub = PropertyHub::create(QString::number(it.value()->id()));
+            groupsHub->addPropertyHub(curGrHub);
+        }
+
+//        if(it.value()->serialize(group))
+//            element.appendChild(group);
     }
+
     return true;
 }
 
-bool StandardContactList::save_contacts(QDomElement element)
+bool StandardContactList::save_contacts()
 {
-    if(m_contacts.isEmpty())
-        return false;
+    PropertyHubPtr contactsHub = config()->rootHub()->propertyHub("contacts");
+    if (contactsHub.isNull())
+    {
+        contactsHub = PropertyHub::create("contacts");
+        config()->rootHub()->addPropertyHub(contactsHub);
+    }
 
     for(QMap<int, ContactPtr>::iterator it = m_contacts.begin(); it != m_contacts.end(); ++it)
     {
-        QDomElement contact =  element.ownerDocument().createElement("contact");
-        contact.setAttribute("id", QString::number(it.value()->id()));
-        if(it.value()->serialize(contact))
-            element.appendChild(contact);
+        PropertyHubPtr curContactsHub = contactsHub->propertyHub(QString::number(it.value()->id()));
+        if (curContactsHub.isNull())
+        {
+            curContactsHub = PropertyHub::create(QString::number(it.value()->id()));
+            contactsHub->addPropertyHub(curContactsHub);
+        }
+
+//        if(it.value()->serialize(contact))
+//            element.appendChild(contact);
     }
     return true;
 }
 
 bool StandardContactList::load_new()
 {
-    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "contacts.xml";
-    QFile f(cfgName);
-    if(!f.open(QIODevice::ReadOnly))
+    PropertyHubPtr globalHub = config()->rootHub()->propertyHub("global");
+    if (globalHub.isNull())
         return false;
 
-    QDomDocument doc;
-    doc.setContent(f.readAll());
-    QDomElement el = doc.elementsByTagName("global").at(0).toElement();
-    if(!m_userData->deserialize(el))
+//    QDomDocument doc;
+//    doc.setContent(f.readAll());
+//    QDomElement el = doc.elementsByTagName("global").at(0).toElement();
+//    if(!m_userData->deserialize(el))
+//        return false;
+
+    if (!load_owner())
         return false;
 
-    QDomElement owner = doc.elementsByTagName("owner").at(0).toElement();
-    load_owner(owner);
-
-    QDomElement groups = doc.elementsByTagName("groups").at(0).toElement();
-    if(!load_groups(groups))
+    if(!load_groups())
         return false;
 
-
-    QDomElement contacts = doc.elementsByTagName("contacts").at(0).toElement();
-    if(!load_contacts(contacts))
+    if(!load_contacts())
         return false;
-
 
     return true;
 }
 
-bool StandardContactList::load_owner(const QDomElement& /*owner*/)
+bool StandardContactList::load_owner()
 {
+    PropertyHubPtr ownerHub = config()->rootHub()->propertyHub("owner");
+    if (ownerHub.isNull())
+        return false;
+
+    // code
+
     return true;
 }
 
-bool StandardContactList::load_groups(const QDomElement& groups)
+bool StandardContactList::load_groups()
 {
-    QDomNodeList list = groups.elementsByTagName("group");
-    for(int i = 0; i < list.size(); i++)
+    PropertyHubPtr groupsHub = config()->rootHub()->propertyHub("groups");
+    if (groupsHub.isNull())
+        return false;
+
+    QStringList groupList = groupsHub->propertyHubNames();
+    foreach(QString groupID , groupList)
     {
-        QDomElement el = list.at(i).toElement();
-        int id = el.attribute("id").toInt();
-        GroupPtr gr = createGroup(id);
-        if(!gr->deserialize(el))
-            return false;
+        GroupPtr gr = createGroup(groupID.toInt());
+//        if(!gr->deserialize(el))
+//            return false;
         addGroup(gr);
     }
+
     return true;
 }
 
-bool StandardContactList::load_contacts(const QDomElement& contacts)
+bool StandardContactList::load_contacts()
 {
-    QDomNodeList list = contacts.elementsByTagName("contact");
-    for(int i = 0; i < list.size(); i++) {
-        QDomElement el = list.at(i).toElement();
-        int id = el.attribute("id").toInt();
-        ContactPtr c = createContact(id);
-        if(!c->deserialize(el))
-            return false;
+    PropertyHubPtr contactsHub = config()->rootHub()->propertyHub("contacts");
+    if (contactsHub.isNull())
+        return false;
+
+    QStringList contactsList = contactsHub->propertyHubNames();
+    foreach(QString contactID , contactsList)
+    {
+        ContactPtr c = createContact(contactID.toInt());
+//        if(!c->deserialize(el))
+//            return false;
         addContact(c);
     }
     return true;
@@ -422,6 +452,20 @@ bool StandardContactList::deserializeLines(const UserDataPtr& ud, const QString&
     }
 
     return true;
+}
+
+ConfigPtr StandardContactList::config()
+{
+    if (!m_config.isNull() && m_loadedProfile == getProfileManager()->currentProfileName())
+        return m_config;
+
+    m_loadedProfile = getProfileManager()->currentProfileName();
+    QString cfgName = getProfileManager()->profilePath() + QDir::separator() + "contacts.xml";
+    m_config = ConfigPtr(new Config(cfgName));
+
+    m_config->readFromFile();
+
+    return m_config;
 }
 
 } // namespace SIM
