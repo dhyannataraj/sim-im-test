@@ -44,6 +44,9 @@ protected slots:
     void reformat();
     void restore();
     void textChanged();
+    void beforeStyleChange();
+    void afterStyleChange();
+    
 protected:
     MAP_BOOL m_words;
     int m_paragraph;

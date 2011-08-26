@@ -40,6 +40,8 @@ SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
     m_bDisable = false;
     m_isInRehighlight = false;
     QObject::connect(edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
+    QObject::connect(edit, SIGNAL(beforeStyleChange()), this, SLOT(beforeStyleChange()));
+    QObject::connect(edit, SIGNAL(afterStyleChange()), this, SLOT(afterStyleChange()));
 }
 
 SpellHighlighter::~SpellHighlighter()
@@ -75,6 +77,16 @@ void SpellHighlighter::textChanged()
   rehighlight();
 }
 
+void SpellHighlighter::beforeStyleChange()
+{
+  removeHlight();
+}
+
+void SpellHighlighter::afterStyleChange()
+{
+  rehighlight();
+}
+
 void SpellHighlighter::removeHlight(int stand_alone)
 // removes all misspel highlilighting from text, puts it back to edit field
 // QEdit will merge spans with similuar stiles by itself.
@@ -85,6 +97,8 @@ void SpellHighlighter::removeHlight(int stand_alone)
   {
     if (stand_alone) m_isInRehighlight = 1;
     QString txt = textEdit()->text();
+
+//    SIM::log(SIM::L_DEBUG, "SpellHighlighter::removeHlight: src text: %s",txt.utf8().data());
 
     QString new_txt = "";
     QString tag = QString::null;
@@ -120,15 +134,25 @@ void SpellHighlighter::removeHlight(int stand_alone)
         tag=QString::null;
       }
     }
-//    SIM::log(SIM::L_DEBUG, "cleaned text: %s",new_txt.data());
 
-    int para;
-    int index;
+//    SIM::log(SIM::L_DEBUG, "SpellHighlighter::removeHlight:  cleaned text: %s",new_txt.utf8().data());
+
     if (txt != new_txt)
     {
-    textEdit()->getCursorPosition ( &para, &index );
-    textEdit()->setText(new_txt);
-    textEdit()->setCursorPosition ( para, index );
+      int para;
+      int index;
+      int sel_paraFrom;
+      int sel_indexFrom;
+      int sel_paraTo;
+      int sel_indexTo;
+
+      textEdit()->getSelection (&sel_paraFrom, &sel_indexFrom, &sel_paraTo, &sel_indexTo);
+      textEdit()->getCursorPosition ( &para, &index );
+
+      textEdit()->setText(new_txt);
+
+      textEdit()->setCursorPosition ( para, index );
+      textEdit()->setSelection (sel_paraFrom, sel_indexFrom, sel_paraTo, sel_indexTo); 
     }
     if (stand_alone) m_isInRehighlight = 0;
   }
@@ -136,7 +160,6 @@ void SpellHighlighter::removeHlight(int stand_alone)
 
 void SpellHighlighter::rehighlight()
 {
-  
   /* Higlighting misspelled words. The main idea: we scan the text for words,
      remembering the stile with which each word (or spacer) were written, if we
      need to mark word as misspelled, we hide current word's style into font-family property
@@ -246,7 +269,7 @@ void SpellHighlighter::rehighlight()
           current_misspelled_style = current_style;
           current_misspelled_style.replace(";","|");
           current_misspelled_style = "font-family:sim-im-misspelled|"+current_misspelled_style+";color:red";
-          
+ 
           QStringList items = QStringList::split(";",current_style);
           for ( QStringList::Iterator it = items.begin(); it != items.end(); ++it )
           {
@@ -269,18 +292,25 @@ void SpellHighlighter::rehighlight()
         tag=QString::null;
       }
     }
-    // remembering cursor position, changing text, and then returning cursor to it's original position.
-//    SIM::log(SIM::L_DEBUG, "new_text: %s",new_txt.data());
 
+//    SIM::log(SIM::L_DEBUG, "SpellHighlighter::rehighlight: new_text: %s",new_txt.utf8().data());
+
+    // remembering cursor position, changing text, and then returning cursor to it's original position.
     int para;
     int index;
+    int sel_paraFrom;
+    int sel_indexFrom;
+    int sel_paraTo;
+    int sel_indexTo;
+
+    textEdit()->getSelection (&sel_paraFrom, &sel_indexFrom, &sel_paraTo, &sel_indexTo);
     textEdit()->getCursorPosition ( &para, &index );
     textEdit()->setText(new_txt);
     textEdit()->setCursorPosition ( para, index );
-    
+    textEdit()->setSelection (sel_paraFrom, sel_indexFrom, sel_paraTo, sel_indexTo); 
+
     m_isInRehighlight = false;
   }
-  
 }
 
 

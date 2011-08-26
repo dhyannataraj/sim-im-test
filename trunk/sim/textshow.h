@@ -86,6 +86,8 @@ signals:
     void colorsChanged();
     void fontSelected(const QFont &font);
     void finished(TextEdit*);
+    void beforeStyleChange();
+    void afterStyleChange();
 protected slots:
     void slotClicked(int parag, int index);
     void slotTextChanged();
@@ -112,6 +114,7 @@ protected:
     bool m_bNoSelected;
     bool m_bInClick;
     bool m_bInDragAndDrop; // Says that we are in the middle of Drag and Drop event processing
+    bool m_bLocked;  // This flag says that some automatic internal text changes are performed, and we should not automaticly change button states and do other staff
 };
 
 class QToolBar;

@@ -59,6 +59,7 @@
 #include "html.h"
 #include "misc.h"
 #include "unquot.h"
+#include "log.h"
 
 #define MAX_HISTORY	100
 
@@ -78,6 +79,7 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     m_bInClick = false;
     m_bChanged = false;
     m_bInDragAndDrop = false;
+    m_bLocked = false;
     setReadOnly(false);
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
@@ -195,6 +197,7 @@ void TextEdit::focusOutEvent(QFocusEvent *e)
 
 void TextEdit::fontChanged(const QFont &f)
 {
+    if (m_bLocked==true) return ;
     if (m_bSelected){
         if (!m_bNoSelected)
             emit fontSelected(f);
@@ -312,18 +315,27 @@ bool TextEdit::processEvent(Event *e)
             }
         case CmdBold:
             if (!m_bChanged){
+                m_bLocked = true;
+                emit beforeStyleChange();
+                m_bLocked = false;
                 m_bSelected = true;
                 setBold((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return true;
         case CmdItalic:
             if (!m_bChanged){
+                m_bLocked = true;
+                emit beforeStyleChange();
+                m_bLocked = false;
                 m_bSelected = true;
                 setItalic((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return true;
         case CmdUnderline:
             if (!m_bChanged){
+                m_bLocked = true;
+                emit beforeStyleChange();
+                m_bLocked = false;
                 m_bSelected = true;
                 setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
             }
@@ -334,8 +346,10 @@ bool TextEdit::processEvent(Event *e)
                 if (KFontDialog::getFont(f, false, topLevelWidget()) != KFontDialog::Accepted)
                     break;
 #else
+                emit beforeStyleChange();
                 bool ok = false;
                 QFont f = QFontDialog::getFont(&ok, font(), topLevelWidget());
+                emit afterStyleChange();
                 if (!ok)
                     break;
 #endif
@@ -355,6 +369,7 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     curFG = c;
     if (bDef)
         defFG = c;
+    emit beforeStyleChange();
 //    if (!hasSelectedText())
         setColor(c);
 /*
