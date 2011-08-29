@@ -31,14 +31,16 @@ using namespace SIM;
 const unsigned ErrorColor = 0xFF0101;
 
 SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
-        : QSyntaxHighlighter(edit), EventReceiver(SIM::HighPriority)
+        : /*QSyntaxHighlighter(edit),*/ EventReceiver(SIM::HighPriority)
 {
+    m_edit = edit;
     m_paragraph = -1;
     m_bDirty = false;
     m_plugin = plugin;
     m_bCheck = false;
     m_bDisable = false;
     m_isInRehighlight = false;
+    
     QObject::connect(edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
     QObject::connect(edit, SIGNAL(beforeStyleChange()), this, SLOT(beforeStyleChange()));
     QObject::connect(edit, SIGNAL(afterStyleChange()), this, SLOT(afterStyleChange()));
@@ -48,7 +50,7 @@ SpellHighlighter::~SpellHighlighter()
 {
 }
 
-int SpellHighlighter::highlightParagraph(const QString&, int state)
+/*int SpellHighlighter::highlightParagraph(const QString&, int state)
 {
 return state;
     m_bDirty = false;
@@ -70,7 +72,7 @@ return state;
     flush();
     m_curText = QString::null;
     return state + 1;
-}
+}*/
 
 void SpellHighlighter::textChanged()
 {
@@ -317,10 +319,10 @@ void SpellHighlighter::rehighlight()
 
 void SpellHighlighter::text(const QString &text)
 {
-    m_curText += text;
+//    m_curText += text;
 }
 
-void SpellHighlighter::flushText()
+/*void SpellHighlighter::flushText()
 {
     if (m_curText.isEmpty())
         return;
@@ -340,11 +342,11 @@ void SpellHighlighter::flushText()
         i++;
     }
     m_curText = QString::null;
-}
+}*/
 
 void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
 {
-    if ((tag == "img") || (tag == "br")){
+/*    if ((tag == "img") || (tag == "br")){
         flush();
         m_pos++;
     }
@@ -372,22 +374,22 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
                 }
             }
         }
-    }
+    } */
 }
 
 void SpellHighlighter::tag_end(const QString &tag)
 {
-    flushText();
+/*    flushText();
     if (tag == "span"){
         if (m_fonts.empty())
             return;
         flush();
         m_bError = m_fonts.top();
         m_fonts.pop();
-    }
+    }*/
 }
 
-void SpellHighlighter::flush()
+/*void SpellHighlighter::flush()
 {
     if (m_curWord.isEmpty())
         return;
@@ -441,7 +443,7 @@ void SpellHighlighter::flush()
     }
     m_curWord = QString::null;
 }
-
+*/
 void SpellHighlighter::slotMisspelling(const QString &word)
 {
     MAP_BOOL::iterator it = m_words.find(SIM::my_string(word));
@@ -552,6 +554,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
 //                return false;
            if (m_plugin->checkWord(word)) return false;
 m_word = word;
+
 m_start_word = from;
             m_sug = m_plugin->suggestions(m_word);
             SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];

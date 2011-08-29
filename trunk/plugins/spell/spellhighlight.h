@@ -30,7 +30,7 @@
 
 using std::stack;
 
-class SpellHighlighter : public QObject, public QSyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
+class SpellHighlighter : public QObject, /*public QSyntaxHighlighter,*/ public SIM::HTMLParser, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -46,19 +46,30 @@ protected slots:
     void textChanged();
     void beforeStyleChange();
     void afterStyleChange();
+
+
     
 protected:
     MAP_BOOL m_words;
     int m_paragraph;
-    int highlightParagraph( const QString &text, int endStateOfLastPara );
+//    int highlightParagraph( const QString &text, int endStateOfLastPara );
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
     virtual bool processEvent(SIM::Event *e);
+
+    /*************** These methods were added for backward compatibility and should be removed once ***************/
+    QTextEdit * textEdit () {return m_edit;}
+    void setFormat ( int start, int count, const QFont & font, const QColor & color ) {}
+    void setFormat ( int start, int count, const QColor & color ) {}
+    void setFormat ( int start, int count, const QFont & font ) {}
+//    void rehighlight () {}
+    /**************************************************************************************************************/
+
     void rehighlight();
     void removeHlight(int stand_alone = 1);
-    void flush();
-    void flushText();
+//    void flush();
+//    void flushText();
     int m_pos;
     int m_index;
     int m_parag;
@@ -70,12 +81,13 @@ protected:
     bool m_bCheck;
     bool m_bInError;
     bool m_bDisable;
-    stack<bool> m_fonts;
-    QString		m_curText;
-    QString		m_curWord;
+//    stack<bool> m_fonts;
+//    QString		m_curText;
+//    QString		m_curWord;
     QString     m_word;
     QStringList	m_sug;
     SpellPlugin *m_plugin;
+    QTextEdit *m_edit;
 };
 
 #endif
