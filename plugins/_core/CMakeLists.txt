@@ -69,7 +69,8 @@ SET(_core_SRCS
 #        toolbar_textedit.cpp
 #        toolbarcfg.cpp
 #        toolsetup.cpp
-#        usercfg.cpp
+        usercfg.cpp
+        userconfigcontroller.cpp
 #        userhistorycfg.cpp
 #        userlist.cpp
 #        userviewcfg.cpp
@@ -151,7 +152,8 @@ SET(_core_HDRS
 #        tmpl.h
 #        toolbarcfg.h
 #        toolsetup.h
-#        usercfg.h
+        usercfg.h
+        userconfigcontroller.h
 #        userhistorycfg.h
 #        userlist.h
 #        userviewcfg.h
@@ -167,7 +169,7 @@ SET(_core_HDRS
 SET(_core_UICS
 #        arcfgbase.ui
 #        autoreplybase.ui
-#        cfgdlgbase.ui
+        cfgdlgbase.ui
 #        connectionsettingsbase.ui
 #        connectwndbase.ui
 #        declinedlgbase.ui
@@ -206,6 +208,7 @@ SET(core_test_sources
         tests/testcontainermanager.cpp
         tests/testsendmessageprocessor.cpp
         tests/testreceivemessageprocessor.cpp
+        tests/testuserconfigcontroller.cpp
         tests/gtest-qt.cpp
 
 		${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        

@@ -43,9 +43,7 @@ email                : vovan@shutoff.ru
 #include <QByteArray>
 #include <QDateTime>
 
-
 // simlib
-
 #include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"

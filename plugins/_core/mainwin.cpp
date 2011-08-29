@@ -247,6 +247,17 @@ void MainWindow::raiseContactMenu(const QPoint& pos, int contactId)
         }
     }
 
+    QAction* action = new QAction(&menu);
+    action->setSeparator(true);
+    menu.addAction(action);
+
+    QAction* contactInfoAction = new QAction(&menu);
+    contactInfoAction->setIcon(getImageStorage()->icon("info"));
+    contactInfoAction->setText(I18N_NOOP("User &info"));
+    contactInfoAction->setProperty(ContactIdProperty, contactId);
+    connect(contactInfoAction, SIGNAL(triggered()), this, SLOT(contactInfo()));
+    menu.addAction(contactInfoAction);
+
     SIM::MenuItemCollectionEventDataPtr data = SIM::MenuItemCollectionEventData::create("contact");
     getEventHub()->triggerEvent("menu_event", data);
 
@@ -276,5 +287,17 @@ void MainWindow::sendMessageRequested()
 
     IContainerManager* manager = m_core->containerManager();
     manager->contactChatRequested(contactId, "generic");
+}
+
+void MainWindow::contactInfo()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if(!action)
+        return;
+
+    int contactId = action->property(ContactIdProperty).toInt();
+    if(!contactId)
+        return;
+
 }
 

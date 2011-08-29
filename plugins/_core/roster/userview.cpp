@@ -122,6 +122,7 @@ void UserView::mouseReleaseEvent(QMouseEvent *e)
     {
         if(!index.isValid())
             return;
+        m_currentIndex = index;
         if(index.data(UserViewModel::ItemTypeRole).toInt() == UserViewModel::itContact)
         {
             emit contactMenuRequested(e->pos(), index.data(UserViewModel::ContactId).toInt());

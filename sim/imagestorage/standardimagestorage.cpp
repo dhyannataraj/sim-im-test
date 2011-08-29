@@ -92,7 +92,9 @@ namespace SIM
         //log(L_DEBUG, "pixmap request: %s", qPrintable(id));
         foreach(IconSet* set, m_sets) {
             if(set->hasIcon(id)) {
-                return set->pixmap(id);
+                QPixmap p = set->pixmap(id);
+                if(!p.isNull())
+                    return p;
             }
         }
         int slashIndex = id.indexOf('_');

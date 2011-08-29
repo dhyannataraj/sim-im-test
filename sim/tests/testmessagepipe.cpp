@@ -39,20 +39,22 @@ namespace
         {
             SIM::createMessagePipe();
             pipe = SIM::getMessagePipe();
+            processor = new MockObjects::MockMessageProcessor();
         }
 
         virtual void TearDown()
         {
             pipe = 0;
             SIM::destroyMessagePipe();
+            delete processor;
         }
 
         MessagePipe* pipe;
+        MockObjects::MockMessageProcessor* processor;
     };
 
     TEST_F(TestMessagePipe, pushMessage_CallsProcessors)
     {
-        MockObjects::MockMessageProcessor* processor = new MockObjects::MockMessageProcessor();
         MessagePtr msg = MessagePtr(new StubMessage());
         EXPECT_CALL(*processor, process(_)).WillOnce(Return(MessageProcessor::Success));
         pipe->addMessageProcessor(processor);
@@ -63,7 +65,6 @@ namespace
     {
         MockObjects::MockContactList cl;
         pipe->setContactList(&cl);
-        MockObjects::MockMessageProcessor* processor = new MockObjects::MockMessageProcessor();
         MessagePtr msg = MessagePtr(new StubMessage());
         EXPECT_CALL(*processor, process(_)).WillOnce(Return(MessageProcessor::Block));
         EXPECT_CALL(cl, incomingMessage(_)).Times(0);
@@ -77,14 +78,25 @@ namespace
         MockObjects::MockMessageProcessor* processor2 = new MockObjects::MockMessageProcessor();
         MessagePtr msg = MessagePtr(new StubMessage());
 
-        DefaultValue<MessageProcessor::ProcessResult>::Set(MessageProcessor::Block);
+        try
         {
-            InSequence seq;
-            EXPECT_CALL(*processor1, process(_)).WillOnce(Return(MessageProcessor::Success));
-            EXPECT_CALL(*processor2, process(_)).WillOnce(Return(MessageProcessor::Success));
+            DefaultValue<MessageProcessor::ProcessResult>::Set(MessageProcessor::Block);
+            {
+                InSequence seq;
+                EXPECT_CALL(*processor1, process(_)).WillOnce(Return(MessageProcessor::Success));
+                EXPECT_CALL(*processor2, process(_)).WillOnce(Return(MessageProcessor::Success));
+            }
+            pipe->addMessageProcessor(processor1);
+            pipe->addMessageProcessor(processor2);
+            pipe->pushMessage(msg);
         }
-        pipe->addMessageProcessor(processor1);
-        pipe->addMessageProcessor(processor2);
-        pipe->pushMessage(msg);
+        catch(...)
+        {
+            delete processor1;
+            delete processor2;
+            throw;
+        }
+        delete processor1;
+        delete processor2;
     }
 }

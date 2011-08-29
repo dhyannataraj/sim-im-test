@@ -65,6 +65,8 @@ private slots:
     void contactMenuRequested(const QPoint& pos, int contactId);
     void sendMessageRequested();
 
+    void contactInfo();
+
 private:
     void updateTitle();
     void addWidget(QWidget* widget);

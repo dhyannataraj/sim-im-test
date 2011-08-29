@@ -28,6 +28,7 @@ SET(sim_LIB_SRCS
         events/ievent.cpp
         events/logevent.cpp
         events/menuitemcollectionevent.cpp
+        events/widgetcollectionevent.cpp
 		exec.cpp
         imagestorage/imagestorage.cpp
         imagestorage/standardimagestorage.cpp
@@ -110,6 +111,7 @@ SET(sim_LIB_HDRS
         events/ievent.h
         events/logevent.h
         events/menuitemcollectionevent.h
+        events/widgetcollectionevent.h
 		exec.h
         imagestorage/imagestorage.h
         imagestorage/standardimagestorage.h
@@ -255,6 +257,7 @@ SET(sim_tests_srcs
     tests/testimcontactid.cpp
     tests/teststandardavatarstorage.cpp
     tests/teststandardprofilemanager.cpp
+    tests/testwidgetcollectionevent.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
     ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
@@ -282,6 +285,8 @@ QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
 
 ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
 TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
+
+ADD_CUSTOM_COMMAND(TARGET test POST_BUILD COMMAND test)
 
 ##################
 # sim executable #

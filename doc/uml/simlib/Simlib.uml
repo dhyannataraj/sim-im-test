@@ -134,6 +134,30 @@
         <ownedOperation xmi:id="_fpT8gMgQEeCr4dwCaHzsSw" name="messageEditorFactory">
           <ownedParameter xmi:id="_iQcW0MgQEeCr4dwCaHzsSw" name="return" type="_dXqC8MgQEeCr4dwCaHzsSw" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:id="_Shz5gMsrEeCohYy6sw_nBg" name="createSetupWidget">
+          <ownedParameter xmi:id="_WvGZUMsrEeCohYy6sw_nBg" name="id" visibility="public">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WvGZUcsrEeCohYy6sw_nBg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WvGZUssrEeCohYy6sw_nBg" value="1"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_YLHrYMsrEeCohYy6sw_nBg" name="parent" visibility="public">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_QJupEMgQEeCr4dwCaHzsSw"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YLHrYcsrEeCohYy6sw_nBg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YLHrYssrEeCohYy6sw_nBg" value="1"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_YLF2MMsrEeCohYy6sw_nBg" visibility="public" direction="return">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_QJupEMgQEeCr4dwCaHzsSw"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YLF2McsrEeCohYy6sw_nBg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YLF2MssrEeCohYy6sw_nBg" value="1"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_ZH1yUMsrEeCohYy6sw_nBg" name="availableSetupWidgets">
+          <ownedParameter xmi:id="_bISnIMsrEeCohYy6sw_nBg" visibility="public" direction="return">
+            <type xmi:type="uml:Class" href="../QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bISnIcsrEeCohYy6sw_nBg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bISnIssrEeCohYy6sw_nBg" value="1"/>
+          </ownedParameter>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_r9_4cJ8XEeC4lJmEoQaQrw" name="MessageProcessor::ProcessResult">
         <ownedLiteral xmi:id="_voYfgJ8XEeC4lJmEoQaQrw" name="Block"/>
@@ -171,6 +195,16 @@
           <ownedParameter xmi:id="_ubYpcJ8uEeC4lJmEoQaQrw" name="contactId" visibility="public" type="_qc8DcJ8ZEeC4lJmEoQaQrw">
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ubYpcZ8uEeC4lJmEoQaQrw" value="1"/>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ubYpcp8uEeC4lJmEoQaQrw" value="1"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_RsWtcMsFEeCohYy6sw_nBg" name="contact">
+          <ownedParameter xmi:id="_TQ30MMsFEeCohYy6sw_nBg" name="id" visibility="public" type="_qc8DcJ8ZEeC4lJmEoQaQrw">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TQ30McsFEeCohYy6sw_nBg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_TQ30MssFEeCohYy6sw_nBg" value="1"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_TQ5pYMsFEeCohYy6sw_nBg" visibility="public" type="_4WIbUJ8uEeC4lJmEoQaQrw" direction="return">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TQ5pYcsFEeCohYy6sw_nBg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_TQ5pYssFEeCohYy6sw_nBg" value="1"/>
           </ownedParameter>
         </ownedOperation>
       </packagedElement>
@@ -392,6 +426,24 @@
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_kFdWoMjfEeCeKevdqaO-qg" name="MessageEditor"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_nFEpYMsDEeCohYy6sw_nBg" name="WidgetCollectionEvent" clientDependency="_4S2kA8sDEeCohYy6sw_nBg">
+        <interfaceRealization xmi:id="_4S2kA8sDEeCohYy6sw_nBg" name="InterfaceRealization1" supplier="_SqdjsMTfEeCGIO1oqkN-ug" client="_nFEpYMsDEeCohYy6sw_nBg" contract="_SqdjsMTfEeCGIO1oqkN-ug"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_yBmBUMsDEeCohYy6sw_nBg" name="WidgetCollectionEventData" clientDependency="_2YcFw8sDEeCohYy6sw_nBg">
+        <interfaceRealization xmi:id="_2YcFw8sDEeCohYy6sw_nBg" name="InterfaceRealization1" supplier="_WjMv0MTfEeCGIO1oqkN-ug" client="_yBmBUMsDEeCohYy6sw_nBg" contract="_WjMv0MTfEeCGIO1oqkN-ug"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="__RtMgMsDEeCohYy6sw_nBg" name="WidgetCollectionEventDescriptor">
+        <ownedAttribute xmi:id="_Bb3-AMsEEeCohYy6sw_nBg" name="name">
+          <type xmi:type="uml:Class" href="../QtTypes.uml#_2rqa8KldEeCTw506fIx6FQ"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_RDOtYMsEEeCohYy6sw_nBg" name="widget">
+          <type xmi:type="uml:Class" href="../QtTypes.uml#_QJupEMgQEeCr4dwCaHzsSw"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_Tyr9QMsEEeCohYy6sw_nBg" name="children" type="__RtMgMsDEeCohYy6sw_nBg" isOrdered="true">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XXzp0MsEEeCohYy6sw_nBg" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XKEIwMsEEeCohYy6sw_nBg"/>
+        </ownedAttribute>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_k2Q2MJ8WEeC4lJmEoQaQrw">
       <ownedBehavior xmi:type="uml:Interaction" xmi:id="_k2Q2MZ8WEeC4lJmEoQaQrw">

@@ -17,6 +17,7 @@ namespace
 {
     using namespace SIM;
     using namespace MockObjects;
+    using ::testing::NiceMock;
     using ::testing::Return;
     using ::testing::_;
 
@@ -82,7 +83,7 @@ namespace
     TEST_F(TestContact, hasUnreadMessages)
     {
         ClientPtr client =  createStubClient("ICQ.123456");
-        MockObjects::MockIMContactPtr imContact = MockObjects::MockIMContactPtr(new MockObjects::MockIMContact());
+        auto imContact = MockObjects::NiceMockIMContactPtr(new NiceMock<MockObjects::MockIMContact>());
         EXPECT_CALL(*imContact.data(), hasUnreadMessages()).WillOnce(Return(true));
         Contact contact(1);
         contact.addClientContact(imContact);
@@ -123,9 +124,9 @@ namespace
     TEST_F(TestContact, isOnline_subcontactOnline)
     {
         MockIMStatusPtr imStatus = MockIMStatusPtr(new MockIMStatus());
-        MockIMContactPtr imContact = MockIMContactPtr(new MockObjects::MockIMContact());
+        auto imContact = MockObjects::NiceMockIMContactPtr(new NiceMock<MockObjects::MockIMContact>());
         ON_CALL(*imContact.data(), status()).WillByDefault(Return(imStatus));
-        ON_CALL(*imStatus.data(), flag(IMStatus::flOffline)).WillByDefault(Return(false));
+        EXPECT_CALL(*imStatus.data(), flag(IMStatus::flOffline)).WillRepeatedly(Return(false));
         Contact contact(1);
         contact.addClientContact(imContact);
 

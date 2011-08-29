@@ -149,7 +149,6 @@ bool UnZip::readFile(const QString &fname, QByteArray *buf, int max)
         if(max > 0 && (int)a.size() >= max)
             break;
     }
-
     err = unzCloseCurrentFile(d->uf);
     if(err != UNZ_OK)
         return false;
