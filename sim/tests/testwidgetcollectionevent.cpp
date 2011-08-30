@@ -16,8 +16,8 @@
 #include "widgethierarchy.h"
 
 static const char* EventId = "widget_collection_test";
-
 static const char* WidgetName = "TestWidget";
+static const char* ContextId = "TestContext";
 
 namespace TestHelper
 {
@@ -36,9 +36,15 @@ namespace TestHelper
         return m_receivedEventCount;
     }
 
-    void WidgetCollectionEventReceiver::eventReceived(SIM::WidgetHierarchy* root)
+    QString WidgetCollectionEventReceiver::lastContext() const
+    {
+        return m_context;
+    }
+
+    void WidgetCollectionEventReceiver::eventReceived(SIM::WidgetHierarchy* root, const QString& context)
     {
         m_receivedEventCount++;
+        m_context = context;
         if(root)
         {
             SIM::WidgetHierarchy widget;
@@ -86,7 +92,7 @@ namespace
         TestHelper::WidgetCollectionEventReceiver receiver;
         WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
 
-        bool rc = SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*)));
+        bool rc = SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*, QString)));
 
         ASSERT_TRUE(rc);
     }
@@ -95,11 +101,22 @@ namespace
     {
         TestHelper::WidgetCollectionEventReceiver receiver;
         WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
-        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*)));
+        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*, QString)));
 
         SIM::getEventHub()->triggerEvent(EventId, data);
 
         ASSERT_EQ(1, receiver.receviedEventCount());
+    }
+
+    TEST_F(TestWidgetCollectionEvent, triggered_context)
+    {
+        TestHelper::WidgetCollectionEventReceiver receiver;
+        WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId, ContextId);
+        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*, QString)));
+
+        SIM::getEventHub()->triggerEvent(EventId, data);
+
+        ASSERT_EQ(ContextId, receiver.lastContext());
     }
 
     TEST_F(TestWidgetCollectionEvent, widgetCollectionEventData_eventId)
@@ -120,7 +137,7 @@ namespace
     {
         TestHelper::WidgetCollectionEventReceiver receiver;
         WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
-        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*)));
+        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*, QString)));
 
         SIM::getEventHub()->triggerEvent(EventId, data);
 

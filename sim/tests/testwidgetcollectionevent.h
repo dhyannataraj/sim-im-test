@@ -20,12 +20,14 @@ namespace TestHelper
         virtual ~WidgetCollectionEventReceiver();
 
         int receviedEventCount() const;
+        QString lastContext() const;
 
     public slots:
-        void eventReceived(SIM::WidgetHierarchy* hierarchy);
+        void eventReceived(SIM::WidgetHierarchy* hierarchy, const QString& context);
 
     private:
         int m_receivedEventCount;
+        QString m_context;
     };
 }
 

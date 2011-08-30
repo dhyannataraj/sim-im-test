@@ -9,7 +9,9 @@
 namespace SIM
 {
 
-WidgetCollectionEventData::WidgetCollectionEventData(const QString& id) : m_eventId(id)
+WidgetCollectionEventData::WidgetCollectionEventData(const QString& id, const QString& context) :
+        m_eventId(id),
+        m_context(context)
 {
     m_root = new WidgetHierarchy();
     m_root->nodeName = "Root";
@@ -31,9 +33,14 @@ WidgetHierarchy* WidgetCollectionEventData::hierarchyRoot() const
     return m_root;
 }
 
-WidgetCollectionEventDataPtr WidgetCollectionEventData::create(const QString& id)
+QString WidgetCollectionEventData::context() const
 {
-    return WidgetCollectionEventDataPtr(new WidgetCollectionEventData(id));
+    return m_context;
+}
+
+WidgetCollectionEventDataPtr WidgetCollectionEventData::create(const QString& id, const QString& context)
+{
+    return WidgetCollectionEventDataPtr(new WidgetCollectionEventData(id, context));
 }
 
 WidgetCollectionEvent::WidgetCollectionEvent(const QString& eventId) : m_id(eventId)
@@ -51,7 +58,7 @@ QString WidgetCollectionEvent::id()
 
 bool WidgetCollectionEvent::connectTo(QObject* receiver, const char* receiverSlot)
 {
-    return connect(this, SIGNAL(eventTriggered(SIM::WidgetHierarchy*)), receiver, receiverSlot);
+    return connect(this, SIGNAL(eventTriggered(SIM::WidgetHierarchy*, QString)), receiver, receiverSlot);
 }
 
 IEventPtr WidgetCollectionEvent::create(const QString& eventId)
@@ -65,7 +72,7 @@ void WidgetCollectionEvent::triggered(const EventDataPtr& data)
     if(!ourData)
         return;
 
-    emit eventTriggered(ourData->hierarchyRoot());
+    emit eventTriggered(ourData->hierarchyRoot(), ourData->context());
 }
 
 } /* namespace SIM */

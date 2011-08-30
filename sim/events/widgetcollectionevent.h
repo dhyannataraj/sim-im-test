@@ -18,17 +18,19 @@ typedef QSharedPointer<WidgetCollectionEventData> WidgetCollectionEventDataPtr;
 class WidgetCollectionEventData : public EventData
 {
 public:
-    WidgetCollectionEventData(const QString& id);
+    WidgetCollectionEventData(const QString& id, const QString& context);
     virtual ~WidgetCollectionEventData();
 
     virtual QString eventId() const;
 
     WidgetHierarchy* hierarchyRoot() const;
+    QString context() const;
 
-    static WidgetCollectionEventDataPtr create(const QString& id);
+    static WidgetCollectionEventDataPtr create(const QString& id, const QString& context = QString());
 
 private:
     QString m_eventId;
+    QString m_context;
     WidgetHierarchy* m_root;
 };
 
@@ -45,7 +47,7 @@ public:
     static IEventPtr create(const QString& eventId);
 
 signals:
-    void eventTriggered(SIM::WidgetHierarchy* hierarchy);
+    void eventTriggered(SIM::WidgetHierarchy* hierarchy, const QString& context);
 
 public slots:
     virtual void triggered(const EventDataPtr& data);
