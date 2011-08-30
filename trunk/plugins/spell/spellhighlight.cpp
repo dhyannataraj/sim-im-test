@@ -444,7 +444,8 @@ void SpellHighlighter::tag_end(const QString &tag)
     m_curWord = QString::null;
 }
 */
-void SpellHighlighter::slotMisspelling(const QString &word)
+
+/*void SpellHighlighter::slotMisspelling(const QString &word)
 {
     MAP_BOOL::iterator it = m_words.find(SIM::my_string(word));
     if (it == m_words.end()){
@@ -456,7 +457,7 @@ void SpellHighlighter::slotMisspelling(const QString &word)
     }
     m_bDirty = true;
     QTimer::singleShot(300, this, SLOT(reformat()));
-}
+} */
 
 void SpellHighlighter::reformat()
 {

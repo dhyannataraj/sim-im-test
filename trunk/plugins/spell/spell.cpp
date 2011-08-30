@@ -42,9 +42,9 @@ PSpellHighlighter::PSpellHighlighter(TextEdit *edit, SpellPlugin *plugin)
         : SpellHighlighter(edit, plugin)
 {
 //    m_plugin->m_edits.insert(MAP_EDITS::value_type(edit, this));
-    QObject::connect(edit, SIGNAL(finished(TextEdit*)), plugin, SLOT(textEditFinished(TextEdit*)));
-    QObject::connect(this, SIGNAL(check(const QString&)), plugin, SLOT(check(const QString&)));
-    QObject::connect(plugin, SIGNAL(misspelling(const QString&)), this, SLOT(slotMisspelling(const QString&)));
+//    QObject::connect(edit, SIGNAL(finished(TextEdit*)), plugin, SLOT(textEditFinished(TextEdit*)));
+//    QObject::connect(this, SIGNAL(check(const QString&)), plugin, SLOT(check(const QString&)));
+//    QObject::connect(plugin, SIGNAL(misspelling(const QString&)), this, SLOT(slotMisspelling(const QString&)));
     QObject::connect(plugin, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
 }
 
@@ -203,21 +203,21 @@ bool SpellPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-void SpellPlugin::textEditFinished(TextEdit *edit)
+/*void SpellPlugin::textEditFinished(TextEdit *edit)
 {
     MAP_EDITS::iterator it = m_edits.find(edit);
     if (it != m_edits.end())
         delete (*it).second;
-}
+}*/
 
-void SpellPlugin::check(const QString &word)
+/*void SpellPlugin::check(const QString &word)
 {
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it){
         if ((*it)->check(word.utf8()) == 1)
             return;
     }
     emit misspelling(word);
-}
+} */
 
 int SpellPlugin::checkWord(const QString &word)
 {
@@ -226,7 +226,7 @@ int SpellPlugin::checkWord(const QString &word)
             return 1;
     }
     return 0;
-}
+} 
 
 void SpellPlugin::add(const QString &word)
 {

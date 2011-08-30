@@ -63,11 +63,11 @@ public:
     int checkWord(const QString &word);
     MAP_BOOL m_ignore;
 signals:
-    void misspelling(const QString &word);
+//    void misspelling(const QString &word);
     void configChanged();
 protected slots:
-    void textEditFinished(TextEdit*);
-    void check(const QString &word);
+//    void textEditFinished(TextEdit*);
+//    void check(const QString &word);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
     virtual bool processEvent(SIM::Event *e);

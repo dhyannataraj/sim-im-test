@@ -39,7 +39,7 @@ public:
 signals:
     void check(const QString &);
 protected slots:
-    void slotMisspelling(const QString &originalWord);
+//    void slotMisspelling(const QString &originalWord);
     void slotConfigChanged();
     void reformat();
     void restore();

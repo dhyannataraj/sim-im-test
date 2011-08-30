@@ -49,7 +49,7 @@ SpellFind::SpellFind(EditFile *edt)
 
 SpellFind::~SpellFind()
 {
-    emit finished();
+    //emit finished();
 }
 
 void SpellFind::next()
