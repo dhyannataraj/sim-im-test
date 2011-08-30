@@ -6,8 +6,48 @@
 
 #include "../events/widgetcollectionevent.h"
 
+#include "testwidgetcollectionevent.h"
+
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+
+#include "events/eventhub.h"
+
+#include "widgethierarchy.h"
+
+static const char* EventId = "widget_collection_test";
+
+static const char* WidgetName = "TestWidget";
+
+namespace TestHelper
+{
+    WidgetCollectionEventReceiver::WidgetCollectionEventReceiver() : m_receivedEventCount(0)
+    {
+
+    }
+
+    WidgetCollectionEventReceiver::~WidgetCollectionEventReceiver()
+    {
+
+    }
+
+    int WidgetCollectionEventReceiver::receviedEventCount() const
+    {
+        return m_receivedEventCount;
+    }
+
+    void WidgetCollectionEventReceiver::eventReceived(SIM::WidgetHierarchy* root)
+    {
+        m_receivedEventCount++;
+        if(root)
+        {
+            SIM::WidgetHierarchy widget;
+            widget.nodeName = WidgetName;
+            widget.widget = 0;
+            root->children.append(widget);
+        }
+    }
+}
 
 namespace
 {
@@ -17,19 +57,76 @@ namespace
     public:
         virtual void SetUp()
         {
-
+            SIM::createEventHub();
+            SIM::getEventHub()->registerEvent(WidgetCollectionEvent::create(EventId));
         }
 
         virtual void TearDown()
         {
-
+            SIM::destroyEventHub();
         }
     };
 
     TEST_F(TestWidgetCollectionEvent, id)
     {
-        WidgetCollectionEvent ev;
+        WidgetCollectionEvent ev("widget_collection_test");
 
-        ASSERT_EQ("widget_collection", ev.id());
+        ASSERT_EQ("widget_collection_test", ev.id());
+    }
+
+    TEST_F(TestWidgetCollectionEvent, create)
+    {
+        IEventPtr ev = WidgetCollectionEvent::create(EventId);
+
+        ASSERT_EQ(EventId, ev->id());
+    }
+
+    TEST_F(TestWidgetCollectionEvent, connectTo)
+    {
+        TestHelper::WidgetCollectionEventReceiver receiver;
+        WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
+
+        bool rc = SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*)));
+
+        ASSERT_TRUE(rc);
+    }
+
+    TEST_F(TestWidgetCollectionEvent, triggered)
+    {
+        TestHelper::WidgetCollectionEventReceiver receiver;
+        WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
+        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*)));
+
+        SIM::getEventHub()->triggerEvent(EventId, data);
+
+        ASSERT_EQ(1, receiver.receviedEventCount());
+    }
+
+    TEST_F(TestWidgetCollectionEvent, widgetCollectionEventData_eventId)
+    {
+        WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
+
+        ASSERT_EQ(EventId, data->eventId());
+    }
+
+    TEST_F(TestWidgetCollectionEvent, widgetCollectionEventData_hierarchyRoot)
+    {
+        WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
+
+        ASSERT_TRUE(data->hierarchyRoot() != nullptr);
+    }
+
+    TEST_F(TestWidgetCollectionEvent, hierarchyCollection)
+    {
+        TestHelper::WidgetCollectionEventReceiver receiver;
+        WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(EventId);
+        SIM::getEventHub()->getEvent(EventId)->connectTo(&receiver, SLOT(eventReceived(SIM::WidgetHierarchy*)));
+
+        SIM::getEventHub()->triggerEvent(EventId, data);
+
+        SIM::WidgetHierarchy* root = data->hierarchyRoot();
+
+        ASSERT_TRUE(root != nullptr);
+        ASSERT_EQ(1, root->children.size());
     }
 }

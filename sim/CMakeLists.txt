@@ -279,6 +279,7 @@ SET(sim_tests_hdrs
     tests/mocks/mockprofilemanager.h
     tests/testuicommand.h
     tests/gtest-qt.h
+    tests/testwidgetcollectionevent.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
