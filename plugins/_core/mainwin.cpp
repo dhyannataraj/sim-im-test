@@ -30,6 +30,9 @@
 #include "container/userwnd.h"
 #include "events/menuitemcollectionevent.h"
 
+#include "userconfig/userconfigcontext.h"
+#include "userconfig/userconfigcontroller.h"
+
 #include <QApplication>
 #include <QPixmap>
 #include <QLayout>
@@ -299,5 +302,14 @@ void MainWindow::contactInfo()
     if(!contactId)
         return;
 
+    SIM::ContactPtr contact = SIM::getContactList()->contact(contactId);
+    if(!contact)
+        return;
+
+    UserConfigContextPtr context = UserConfigContext::create(contact);
+    UserConfigController controller;
+    controller.init(context);
+
+    controller.exec();
 }
 

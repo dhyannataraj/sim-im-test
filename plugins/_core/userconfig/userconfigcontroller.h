@@ -18,6 +18,8 @@ public:
 
     bool init(const UserConfigContextPtr& context);
 
+    int exec();
+
 protected:
     virtual UserConfigPtr createUserConfigView();
 

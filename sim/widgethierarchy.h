@@ -11,9 +11,11 @@
 #include <QWidget>
 #include <QList>
 
+#include "simapi.h"
+
 namespace SIM
 {
-    struct WidgetHierarchy
+    struct EXPORT WidgetHierarchy
     {
         QString nodeName;
         QWidget* widget;

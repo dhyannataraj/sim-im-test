@@ -38,6 +38,7 @@ public:
 
     static UserConfigPtr create();
 
+    virtual int exec() = 0;
     virtual void setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy) = 0;
 
 private:

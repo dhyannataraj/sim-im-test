@@ -19,30 +19,36 @@
 #define _ICQINFO_H
 
 #include "ui_icqinfobase.h"
-#include "event.h"
 #include "contacts/client.h"
+#include "icqcontact.h"
+
 
 class ICQClient;
 class ICQUserData;
 
-class ICQInfo : public QWidget, public Ui::MainInfo, public SIM::EventReceiver
+class ICQInfo : public QWidget
 {
     Q_OBJECT
+
 public:
-    ICQInfo(QWidget *parent, ICQUserData*, unsigned contact, ICQClient *client);
+    ICQInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
+
 signals:
     void raise(QWidget*);
+
 public slots:
-    void apply();
-    void apply(SIM::Client*, void*);
-    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+//    void apply();
+//    void apply(SIM::Client*, void*);
+//    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+
 protected:
-    void updateData(ICQUserData* data);
-    virtual bool processEvent(SIM::Event *e);
+//    void updateData(ICQUserData* data);
+//    virtual bool processEvent(SIM::Event *e);
     void fill();
-    ICQUserData *m_data;
-    unsigned  m_contact;
+
+    ICQContactPtr m_contact;
     ICQClient *m_client;
+    Ui::MainInfo* m_ui;
 };
 
 #endif

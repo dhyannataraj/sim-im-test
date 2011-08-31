@@ -30,3 +30,8 @@ UserConfigPtr UserConfigController::createUserConfigView()
 {
     return UserConfig::create();
 }
+
+int UserConfigController::exec()
+{
+    return m_view->exec();
+}

@@ -26,7 +26,7 @@ namespace
 {
     using namespace ::testing;
 
-    MockObjects::MockUserConfigViewPtr userConfigView;
+    MockObjects::NiceMockUserConfigViewPtr userConfigView;
 
     class SutUserConfigController : public ::UserConfigController
     {
@@ -48,7 +48,7 @@ namespace
             auto imagestorage = getMockImageStorage();
             ON_CALL(*imagestorage, icon(_)).WillByDefault(Return(QIcon()));
             core = new CorePlugin();
-            userConfigView = MockObjects::MockUserConfigView::create();
+            userConfigView = MockObjects::MockUserConfigView::createNice();
         }
 
         virtual void TearDown()
@@ -85,5 +85,15 @@ namespace
         // Exercise
         SutUserConfigController controller;
         controller.init(context);
+    }
+
+    TEST_F(TestUserConfigController, delegates_exec)
+    {
+        EXPECT_CALL(*userConfigView.data(), setWidgetHierarchy(_)).Times(1);
+        UserConfigContextPtr context = UserConfigContext::create(SIM::ContactPtr(new SIM::Contact(12)));
+        SutUserConfigController controller;
+        controller.init(context);
+
+        controller.exec();
     }
 }

@@ -34,6 +34,7 @@
 #include "log.h"
 #include "contacts/contact.h"
 #include "contacts/group.h"
+#include "events/eventhub.h"
 
 #include "icq.h"
 #include "icqclient.h"
@@ -48,29 +49,8 @@
 #include "bytearrayparser.h"
 #include "requests/standardicqrequestmanager.h"
 
-//#include "aimconfig.h"
-//#include "icqinfo.h"
-//#include "homeinfo.h"
-//#include "workinfo.h"
-//#include "moreinfo.h"
-//#include "aboutinfo.h"
-//#include "interestsinfo.h"
-//#include "pastinfo.h"
-//#include "icqpicture.h"
-//#include "aiminfo.h"
-//#include "icqsearch.h"
-//#include "icqsecure.h"
-//#include "icqmessage.h"
-//#include "securedlg.h"
-//#include "msgedit.h"
-//#include "simgui/ballonmsg.h"
-//#include "encodingdlg.h"
-//#include "warndlg.h"
+#include "icqconfig/icqconfigwidgetcreator.h"
 
-//#include "icqbuddy.h"
-//#include "icqservice.h"
-
-//#include "icqdirect.h"
 
 const unsigned short FLAP_START = 0x2A;
 
@@ -277,10 +257,15 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     m_clientCapabilitiesRegistry = new ClientCapabilitiesRegistry();
 
     m_messageEditorFactory = new ICQMessageEditorFactory();
+
+    m_configWidgetCreator = new IcqConfigWidgetCreator(this);
+    SIM::getEventHub()->getEvent("contact_widget_collection")->connectTo(m_configWidgetCreator,
+            SLOT(contactConfigRequested(SIM::WidgetHierarchy*, QString)));
 }
 
 ICQClient::~ICQClient()
 {
+    delete m_configWidgetCreator;
     delete m_messageEditorFactory;
     delete m_clientCapabilitiesRegistry;
     delete m_statusConverter;
@@ -497,6 +482,11 @@ void ICQClient::initSnacHandlers()
 }
 
 SIM::IMStatusPtr ICQClient::currentStatus()
+{
+    return currentIcqStatus();
+}
+
+ICQStatusPtr ICQClient::currentIcqStatus()
 {
     return m_currentStatus;
 }

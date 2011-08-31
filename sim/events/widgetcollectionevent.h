@@ -15,7 +15,7 @@ namespace SIM
 {
 class WidgetCollectionEventData;
 typedef QSharedPointer<WidgetCollectionEventData> WidgetCollectionEventDataPtr;
-class WidgetCollectionEventData : public EventData
+class EXPORT WidgetCollectionEventData : public EventData
 {
 public:
     WidgetCollectionEventData(const QString& id, const QString& context);

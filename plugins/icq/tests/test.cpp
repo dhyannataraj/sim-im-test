@@ -9,6 +9,8 @@
 #include "contacts/contactlist.h"
 #include "contacts.h"
 #include "tests/stubs/stubimagestorage.h"
+#include "messaging/messagepipe.h"
+#include "messaging/messageoutpipe.h"
 
 void registerEvents()
 {
@@ -27,6 +29,8 @@ int main(int argc, char** argv)
     StubObjects::StubImageStorage imagestorage;
     SIM::setImageStorage(&imagestorage);
     SIM::createCommandHub();
+    SIM::createMessagePipe();
+    SIM::createOutMessagePipe();
     //SIM::createContactList();
     registerEvents();
     int ret = RUN_ALL_TESTS();

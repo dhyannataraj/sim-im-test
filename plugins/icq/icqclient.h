@@ -488,6 +488,7 @@ class DirectSocket;
 class ServiceSocket;
 class ICQClientSocket;
 
+class IcqConfigWidgetCreator;
 
 struct InfoRequest
 {
@@ -520,6 +521,7 @@ public:
     virtual QWidget* createStatusWidget();
 
     virtual SIM::IMStatusPtr currentStatus();
+    virtual ICQStatusPtr currentIcqStatus();
     virtual void changeStatus(const SIM::IMStatusPtr& status);
     virtual SIM::IMStatusPtr savedStatus();
 
@@ -944,6 +946,7 @@ private:
     ICQRequestManager* m_requestManager;
     ICQMessageEditorFactory* m_messageEditorFactory;
 
+    IcqConfigWidgetCreator* m_configWidgetCreator;
     //friend class AuthorizationSnacHandler;
 
     //bool m_bBirthdayInfoDisplayed;

@@ -30,7 +30,8 @@ SET(icq_SRCS
 #        icqconfig.cpp
 #        icqdirect.cpp
 #        icqicmb.cpp
-#        icqinfo.cpp
+	    icqconfig/icqinfo.cpp
+	    icqconfig/icqconfigwidgetcreator.cpp	    
 #        icqlists.cpp
 #        icqlocation.cpp
 #        icqmessage.cpp
@@ -102,7 +103,8 @@ SET(icq_HDRS
         icqstatuswidget.h
         icq_defines.h
 #        icqconfig.h
-#        icqinfo.h
+		icqconfig/icqinfo.h
+		icqconfig/icqconfigwidgetcreator.h
 #        icqlocation.h
 #        icqmessage.h
 #        icqdirect.h
@@ -154,7 +156,7 @@ SET(icq_UICS
 #        encodingdlgbase.ui
 #        homeinfobase.ui
 #        icqconfigbase.ui
-#        icqinfobase.ui
+        icqconfig/icqinfobase.ui
 #        icqpicturebase.ui
 #        icqsearchbase.ui
 #        icqsecurebase.ui
@@ -207,6 +209,7 @@ SET(icq_test_sources
     tests/testtlvlist.cpp
     tests/testicqstatusconverter.cpp
     tests/teststandardicqrequestmanager.cpp
+    tests/testicqconfigwidgetcreator.cpp
     tests/signalspy.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
@@ -214,5 +217,5 @@ SET(icq_test_sources
 )
 
 ADD_EXECUTABLE(test_icq ${icq_test_sources} ${testmocs})
-TARGET_LINK_LIBRARIES(test_icq simlib ${QT_LIBRARIES} icq)
+TARGET_LINK_LIBRARIES(test_icq simlib ${QT_LIBRARIES} icq _core)
 

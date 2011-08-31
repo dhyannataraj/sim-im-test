@@ -19,10 +19,12 @@ namespace MockObjects
     class MockUserConfigView : public UserConfig
     {
     public:
+        virtual ~MockUserConfigView() {}
         static MockUserConfigViewPtr create() { return MockUserConfigViewPtr(new MockUserConfigView()); }
         static NiceMockUserConfigViewPtr createNice() { return NiceMockUserConfigViewPtr(new testing::NiceMock<MockUserConfigView>()); }
 
         MOCK_METHOD1(setWidgetHierarchy, void(SIM::WidgetHierarchy* hierarchy));
+        MOCK_METHOD0(exec, int());
     };
 }
 

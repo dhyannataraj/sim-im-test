@@ -44,6 +44,8 @@ public:
 
     virtual void setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy);
 
+    virtual int exec();
+
 private:
     Ui::ConfigureDialogBase* m_ui;
 };
@@ -60,9 +62,17 @@ UserConfigImpl::~UserConfigImpl()
     delete m_ui;
 }
 
-void UserConfigImpl::setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy)
+void UserConfigImpl::setWidgetHierarchy(SIM::WidgetHierarchy* root)
 {
+    foreach(SIM::WidgetHierarchy node, root->children)
+    {
+        new QTreeWidgetItem(m_ui->lstBox, QStringList(node.nodeName), 0);
+    }
+}
 
+int UserConfigImpl::exec()
+{
+    return QDialog::exec();
 }
 
 UserConfigPtr UserConfig::create()
