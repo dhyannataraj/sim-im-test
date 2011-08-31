@@ -406,8 +406,9 @@ namespace SIM
             if( !load( &info ) )
                 continue;
 
-            info.alwaysEnabled = ( info.info->flags & PLUGIN_NODISABLE ) == PLUGIN_NODISABLE;
-            info.title = info.info->title;
+			if (info.info)
+				info.alwaysEnabled = ( info.info->flags & PLUGIN_NODISABLE ) == PLUGIN_NODISABLE;
+			info.title = info.info->title;
             info.description = info.info->description;
             info.protocolPlugin = ( info.info->flags & PLUGIN_PROTOCOL ) == PLUGIN_PROTOCOL;
             log( L_DEBUG, "Found plugin '%s' (%s)", qPrintable(info.name), qPrintable(info.filePath) );
