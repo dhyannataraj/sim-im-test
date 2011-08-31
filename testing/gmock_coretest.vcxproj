@@ -129,14 +129,18 @@
     <ClCompile Include="..\plugins\_core\tests\testgenericmessageeditor.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testreceivemessageprocessor.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testsendmessageprocessor.cpp" />
+    <ClCompile Include="..\plugins\_core\tests\testuserconfigcontext.cpp" />
+    <ClCompile Include="..\plugins\_core\tests\testuserconfigcontroller.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testuserviewmodel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\plugins\_core\tests\gtest-qt.h" />
     <ClInclude Include="..\plugins\_core\tests\mocks\mockcontainercontroller.h" />
     <ClInclude Include="..\plugins\_core\tests\mocks\mockcontainermanager.h" />
+    <ClInclude Include="..\plugins\_core\tests\mocks\mockuserconfigview.h" />
     <ClInclude Include="..\plugins\_core\tests\mocks\mockuserwnd.h" />
     <ClInclude Include="..\plugins\_core\tests\mocks\mockuserwndcontroller.h" />
+    <ClInclude Include="..\plugins\_core\tests\test.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\plugins\_core\_core.vcxproj">

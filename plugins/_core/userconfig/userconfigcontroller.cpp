@@ -8,6 +8,7 @@
 #include "events/eventhub.h"
 #include "events/widgetcollectionevent.h"
 
+
 UserConfigController::UserConfigController()
 {
 }

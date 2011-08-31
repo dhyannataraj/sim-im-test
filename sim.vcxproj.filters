@@ -79,12 +79,6 @@
     <Filter Include="events">
       <UniqueIdentifier>{36c7b38d-7db5-45f5-b68d-28b07720219d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="events\Source Files">
-      <UniqueIdentifier>{b4a21088-e89b-475f-9f65-d2b1acea4e81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="events\Source Files\generated">
-      <UniqueIdentifier>{1f0884b0-55fa-4810-bd34-083e2f10e53b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="events\Header Files">
       <UniqueIdentifier>{50dc1f9b-8554-4854-802f-a875ca4a42f2}</UniqueIdentifier>
     </Filter>
@@ -141,6 +135,12 @@
     </Filter>
     <Filter Include="history\Header Files\generated">
       <UniqueIdentifier>{5e2adaec-a764-4b69-8f9d-816bd049529b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events\Source Files">
+      <UniqueIdentifier>{b4a21088-e89b-475f-9f65-d2b1acea4e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events\Source Files\generated">
+      <UniqueIdentifier>{1f0884b0-55fa-4810-bd34-083e2f10e53b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -462,6 +462,12 @@
     <ClCompile Include="sim\simgui\moc_messageeditor.cpp">
       <Filter>simgui\Source Files\generated</Filter>
     </ClCompile>
+    <ClCompile Include="sim\events\widgetcollectionevent.cpp">
+      <Filter>events\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sim\events\moc_widgetcollectionevent.cpp">
+      <Filter>events\Source Files\generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sim\aboutdata.h">
@@ -632,6 +638,9 @@
     <ClInclude Include="sim\simgui\messageeditorfactory.h">
       <Filter>simgui\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sim\widgethierarchy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sim\icq.ico">
@@ -733,6 +742,9 @@
     </CustomBuild>
     <CustomBuild Include="sim\simgui\messageeditor.h">
       <Filter>simgui\Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sim\events\widgetcollectionevent.h">
+      <Filter>events\Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

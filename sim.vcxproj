@@ -177,6 +177,8 @@
     </ClCompile>
     <ClCompile Include="sim\events\menuitemcollectionevent.cpp" />
     <ClCompile Include="sim\events\moc_menuitemcollectionevent.cpp" />
+    <ClCompile Include="sim\events\moc_widgetcollectionevent.cpp" />
+    <ClCompile Include="sim\events\widgetcollectionevent.cpp" />
     <ClCompile Include="sim\exec.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -397,6 +399,13 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
     </CustomBuild>
+    <CustomBuild Include="sim\events\widgetcollectionevent.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
     <ClInclude Include="sim\messaging\messagetypedescriptor.h" />
     <ClInclude Include="sim\qzip\ioapi.h" />
     <ClInclude Include="sim\johab_hangul.h" />
@@ -462,6 +471,7 @@
     <ClInclude Include="sim\standardprofilemanager.h" />
     <ClInclude Include="sim\translit.h" />
     <ClInclude Include="sim\qzip\unzip.h" />
+    <ClInclude Include="sim\widgethierarchy.h" />
     <ClInclude Include="sim\xsl.h" />
     <ClInclude Include="sim\messaging\genericmessage.h" />
     <CustomBuild Include="sim\messaging\message.h">

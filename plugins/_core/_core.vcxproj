@@ -188,8 +188,22 @@
     <ClCompile Include="mainwinactions\moc_actioncommonstatus.cpp" />
     <ClCompile Include="events\commonstatusevent.cpp" />
     <ClCompile Include="events\moc_commonstatusevent.cpp" />
+    <ClCompile Include="userconfig\moc_usercfg.cpp" />
+    <ClCompile Include="userconfig\usercfg.cpp" />
+    <ClCompile Include="userconfig\userconfigcontext.cpp" />
+    <ClCompile Include="userconfig\userconfigcontroller.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="userconfig\usercfg.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
+    <ClInclude Include="userconfig\userconfigcontext.h" />
+    <ClInclude Include="userconfig\userconfigcontroller.h" />
     <CustomBuild Include="commonstatus.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
@@ -392,6 +406,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Uic Include="cfgdlgbase.ui" />
     <Uic Include="profileselectdialog.ui" />
     <Uic Include="container\userwnd.ui" />
   </ItemGroup>
