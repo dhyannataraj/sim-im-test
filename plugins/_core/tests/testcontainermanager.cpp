@@ -54,8 +54,6 @@ namespace
     public:
         virtual void SetUp()
         {
-            SIM::createMessagePipe();
-            SIM::createOutMessagePipe();
             manager = new SutContainerManager();
             mockUserwndController = MockObjects::NiceMockUserWndControllerPtr(new NiceMock<MockObjects::MockUserWndController>());
         }
@@ -64,8 +62,6 @@ namespace
         {
             delete manager;
             mockUserwndController.clear();
-            SIM::destroyOutMessagePipe();
-            SIM::destroyMessagePipe();
         }
 
         SutContainerManager* manager;

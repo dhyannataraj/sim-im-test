@@ -42,6 +42,8 @@ public:
     UserConfigImpl();
     virtual ~UserConfigImpl();
 
+    virtual void setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy);
+
 private:
     Ui::ConfigureDialogBase* m_ui;
 };
@@ -56,6 +58,16 @@ UserConfigImpl::UserConfigImpl() : UserConfig()
 UserConfigImpl::~UserConfigImpl()
 {
     delete m_ui;
+}
+
+void UserConfigImpl::setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy)
+{
+
+}
+
+UserConfigPtr UserConfig::create()
+{
+    return UserConfigPtr(new UserConfigImpl());
 }
 
 // vim: set expandtab: 

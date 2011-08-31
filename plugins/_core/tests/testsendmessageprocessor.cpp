@@ -20,7 +20,6 @@ namespace
     public:
         virtual void SetUp()
         {
-            SIM::createOutMessagePipe();
             manager = new MockObjects::MockContainerManager();
             processor = new SendMessageProcessor(manager);
             SIM::getOutMessagePipe()->addMessageProcessor(processor);
@@ -28,9 +27,9 @@ namespace
 
         virtual void TearDown()
         {
+            SIM::getOutMessagePipe()->removeMessageProcessor(processor->id());
             delete processor;
             delete manager;
-            SIM::destroyOutMessagePipe();
         }
 
         SendMessageProcessor* processor;

@@ -51,6 +51,7 @@ email                : vovan@shutoff.ru
 #include "contacts/protocolmanager.h"
 #include "contacts/imcontact.h"
 #include "events/eventhub.h"
+#include "events/widgetcollectionevent.h"
 #include "profilemanager.h"
 #include "clientmanager.h"
 #include "contacts/contactlist.h"
@@ -201,11 +202,14 @@ CorePlugin::CorePlugin() : QObject()
     m_containerManager = new ContainerManager(this);
     m_commonStatus = new CommonStatus(getClientManager());
 
+    registerEvents();
     subscribeToEvents();
     createMainToolbar();
+}
 
-    m_main = new MainWindow(this);
-
+void CorePlugin::registerEvents()
+{
+    getEventHub()->registerEvent(SIM::WidgetCollectionEvent::create("contact_widget_collection"));
 }
 
 void CorePlugin::subscribeToEvents()
@@ -1031,6 +1035,7 @@ CorePlugin::~CorePlugin()
 
 void CorePlugin::eventInit()
 {
+    m_main = new MainWindow(this);
     log(L_DEBUG, "CorePlugin::eventInit");
     if(!init()) {
         getEventHub()->triggerEvent("init_abort");

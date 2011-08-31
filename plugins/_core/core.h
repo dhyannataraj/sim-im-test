@@ -185,6 +185,7 @@ public:
 //    void postInit();
 //    void ignoreEvents(bool i);
 protected:
+    void registerEvents();
     void subscribeToEvents();
 //    virtual bool processEvent(SIM::Event*);
 //    virtual QByteArray getConfig();

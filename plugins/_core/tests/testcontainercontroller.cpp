@@ -14,6 +14,9 @@
 
 #include "contacts/contactlist.h"
 
+#include "core.h"
+#include "test.h"
+
 namespace
 {
     using ::testing::Return;
@@ -47,8 +50,15 @@ namespace
     class TestContainerController : public ::testing::Test
     {
     public:
+        SIM::MessagePipe* oldpipe;
+
         virtual void SetUp()
         {
+            auto imagestorage = getMockImageStorage();
+            ON_CALL(*imagestorage, icon(_)).WillByDefault(Return(QIcon()));
+            core = new CorePlugin();
+
+            oldpipe = SIM::getOutMessagePipe();
             pipe = new MockObjects::MockMessagePipe();
             SIM::setOutMessagePipe(pipe);
 
@@ -64,7 +74,9 @@ namespace
             SIM::destroyContactList();
 
             delete pipe;
-            SIM::setOutMessagePipe(0);
+            SIM::setOutMessagePipe(oldpipe);
+
+            delete core;
         }
 
         void createContact()
@@ -77,6 +89,7 @@ namespace
         MockObjects::MockIMContactPtr imcontact;
         ContainerController* controller;
         MockObjects::MockMessagePipe* pipe;
+        CorePlugin* core;
     };
 
     TEST_F(TestContainerController, id_returnsCorrectId)

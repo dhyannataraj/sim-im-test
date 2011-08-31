@@ -7,11 +7,17 @@
 #include "commands/commandhub.h"
 #include "events/standardevent.h"
 #include "events/logevent.h"
+
+#include "messaging/messagepipe.h"
+#include "messaging/messageoutpipe.h"
+
 #include "contacts/contactlist.h"
 #include "contacts.h"
 #include "tests/stubs/stubimagestorage.h"
+#include "tests/mocks/mockimagestorage.h"
 
 #include <QModelIndex>
+#include "test.h"
 
 void registerEvents()
 {
@@ -21,7 +27,12 @@ void registerEvents()
     SIM::getEventHub()->registerEvent(SIM::LogEvent::create());
 }
 
-StubObjects::StubImageStorage* imagestorage;
+testing::NiceMock<MockObjects::MockImageStorage> imagestorage;
+
+testing::NiceMock<MockObjects::MockImageStorage>* getMockImageStorage()
+{
+    return &imagestorage;
+}
 
 int main(int argc, char** argv)
 {
@@ -30,14 +41,17 @@ int main(int argc, char** argv)
     ::testing::InitGoogleMock(&argc, argv);
     qRegisterMetaType<QModelIndex>("QModelIndex");
     SIM::createEventHub();
-	SIM::setImageStorage(imagestorage);
-    //SIM::setImageStorage(&imagestorage);
+	SIM::setImageStorage(&imagestorage);
+	SIM::createMessagePipe();
+	SIM::createOutMessagePipe();
     SIM::createCommandHub();
     registerEvents();
     int ret = RUN_ALL_TESTS();
 #ifdef WIN32
     getchar();
 #endif
+    SIM::destroyOutMessagePipe();
+    SIM::destroyMessagePipe();
 	return ret;
 }
 

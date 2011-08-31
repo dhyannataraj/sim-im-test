@@ -69,8 +69,9 @@ SET(_core_SRCS
 #        toolbar_textedit.cpp
 #        toolbarcfg.cpp
 #        toolsetup.cpp
-        usercfg.cpp
-        userconfigcontroller.cpp
+        userconfig/usercfg.cpp
+        userconfig/userconfigcontroller.cpp
+        userconfig/userconfigcontext.cpp
 #        userhistorycfg.cpp
 #        userlist.cpp
 #        userviewcfg.cpp
@@ -152,8 +153,9 @@ SET(_core_HDRS
 #        tmpl.h
 #        toolbarcfg.h
 #        toolsetup.h
-        usercfg.h
-        userconfigcontroller.h
+        userconfig/usercfg.h
+        userconfig/userconfigcontroller.h
+        userconfig/userconfigcontext.h
 #        userhistorycfg.h
 #        userlist.h
 #        userviewcfg.h
@@ -209,14 +211,26 @@ SET(core_test_sources
         tests/testsendmessageprocessor.cpp
         tests/testreceivemessageprocessor.cpp
         tests/testuserconfigcontroller.cpp
+        tests/testuserconfigcontext.cpp
         tests/gtest-qt.cpp
-
+        
+        ${CMAKE_SOURCE_DIR}/sim/tests/spies/widgetcollectioneventreceiver.cpp
 		${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
         ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
 )
 
-ADD_EXECUTABLE(test_core ${core_test_sources})
+
+SET(core_test_header
+	${CMAKE_SOURCE_DIR}/sim/tests/spies/widgetcollectioneventreceiver.h
+	)
+	
+QT4_WRAP_CPP(testmocs ${core_test_header})
+
+ADD_EXECUTABLE(test_core ${core_test_sources} ${testmocs})
 TARGET_LINK_LIBRARIES(test_core simlib ${QT_LIBRARIES} _core)
+
+ADD_CUSTOM_COMMAND(TARGET test_core POST_BUILD COMMAND test_core)
+
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)

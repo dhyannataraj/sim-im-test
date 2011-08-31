@@ -21,15 +21,24 @@
 #include "event.h"
 #include <QResizeEvent>
 #include <QDialog>
+#include <QSharedPointer>
+
+#include "widgethierarchy.h"
 
 class CorePlugin;
 
+class UserConfig;
+typedef QSharedPointer<UserConfig> UserConfigPtr;
 class UserConfig : public QDialog
 {
     Q_OBJECT
 public:
     UserConfig() {}
     virtual ~UserConfig() {}
+
+    static UserConfigPtr create();
+
+    virtual void setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy) = 0;
 
 private:
 };

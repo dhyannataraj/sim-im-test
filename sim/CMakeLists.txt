@@ -259,6 +259,8 @@ SET(sim_tests_srcs
     tests/teststandardprofilemanager.cpp
     tests/testwidgetcollectionevent.cpp
     
+    tests/spies/widgetcollectioneventreceiver.cpp
+    
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
     ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
 )
@@ -280,6 +282,7 @@ SET(sim_tests_hdrs
     tests/testuicommand.h
     tests/gtest-qt.h
     tests/testwidgetcollectionevent.h
+    tests/spies/widgetcollectioneventreceiver.h
 )
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
