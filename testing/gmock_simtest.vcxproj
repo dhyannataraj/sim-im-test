@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sim\tests\gtest-qt.cpp" />
+    <ClCompile Include="..\sim\tests\spies\moc_widgetcollectioneventreceiver.cpp" />
     <ClCompile Include="..\sim\tests\spies\widgetcollectioneventreceiver.cpp" />
     <ClCompile Include="..\sim\tests\test.cpp" />
     <ClCompile Include="..\sim\tests\testbuffer.cpp" />
@@ -135,7 +136,14 @@
   <ItemGroup>
     <ClInclude Include="..\sim\tests\gtest-qt.h" />
     <ClInclude Include="..\sim\tests\mocks\mockimagestorage.h" />
-    <ClInclude Include="..\sim\tests\spies\widgetcollectioneventreceiver.h" />
+    <CustomBuild Include="..\sim\tests\spies\widgetcollectioneventreceiver.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
     <ClInclude Include="..\sim\tests\teststandardmessageoutpipe.h" />
     <ClInclude Include="..\sim\tests\testwidgetcollectionevent.h" />
     <CustomBuild Include="..\sim\tests\testuicommand.h">
