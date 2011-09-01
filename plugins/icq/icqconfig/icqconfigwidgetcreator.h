@@ -9,9 +9,10 @@
 
 #include <QObject>
 #include "widgethierarchy.h"
+#include "../icq_defines.h"
 
 class ICQClient;
-class IcqConfigWidgetCreator: public QObject
+class ICQ_EXPORT IcqConfigWidgetCreator: public QObject
 {
     Q_OBJECT
 

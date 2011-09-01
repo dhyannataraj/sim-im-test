@@ -7,8 +7,8 @@
 #include "icqconfigwidgetcreator.h"
 #include "icqinfo.h"
 #include "contacts/contactlist.h"
-#include "icqclient.h"
-#include "icqcontact.h"
+#include "../icqclient.h"
+#include "../icqcontact.h"
 
 IcqConfigWidgetCreator::IcqConfigWidgetCreator(ICQClient* client) : m_client(client)
 {

@@ -10,13 +10,14 @@
 #include "gmock/gmock.h"
 
 #include "contacts/contactlist.h"
-
 #include "core.h"
 
 #include "icqclient.h"
 #include "icqcontact.h"
 #include "events/eventhub.h"
 #include "events/widgetcollectionevent.h"
+
+
 
 namespace
 {

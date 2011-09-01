@@ -9,10 +9,11 @@
 
 #include <QSharedPointer>
 #include "contacts/contact.h"
+#include "core_api.h"
 
 class UserConfigContext;
 typedef QSharedPointer<UserConfigContext> UserConfigContextPtr;
-class UserConfigContext
+class CORE_EXPORT UserConfigContext
 {
 public:
     virtual ~UserConfigContext() {}

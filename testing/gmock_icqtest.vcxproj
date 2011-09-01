@@ -128,6 +128,7 @@
     <ClCompile Include="..\plugins\icq\tests\testbytearrayparser.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicbmsnachandler.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqclient.cpp" />
+    <ClCompile Include="..\plugins\icq\tests\testicqconfigwidgetcreator.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqcontact.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqgroup.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqmessageeditorfactory.cpp" />
@@ -150,12 +151,10 @@
     <ClInclude Include="..\plugins\icq\tests\qt-gtest.h" />
     <CustomBuild Include="..\plugins\icq\tests\signalspy.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <ClInclude Include="..\plugins\icq\tests\testauthorizationsnachandler.h" />

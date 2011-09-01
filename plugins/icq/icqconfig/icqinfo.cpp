@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "icqinfo.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 #include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
 
