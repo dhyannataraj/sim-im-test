@@ -13,7 +13,7 @@
 
 namespace TestHelper
 {
-    class EXPORT WidgetCollectionEventReceiver : public QObject
+    class WidgetCollectionEventReceiver : public QObject
     {
         Q_OBJECT
     public:

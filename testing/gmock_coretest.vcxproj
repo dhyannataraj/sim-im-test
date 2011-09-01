@@ -132,6 +132,9 @@
     <ClCompile Include="..\plugins\_core\tests\testuserconfigcontext.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testuserconfigcontroller.cpp" />
     <ClCompile Include="..\plugins\_core\tests\testuserviewmodel.cpp" />
+    <ClCompile Include="..\plugins\_core\userconfig\moc_usercfg.cpp" />
+    <ClCompile Include="..\sim\tests\spies\moc_widgetcollectioneventreceiver.cpp" />
+    <ClCompile Include="..\sim\tests\spies\widgetcollectioneventreceiver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\plugins\_core\tests\gtest-qt.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="..\plugins\_core\tests\mocks\mockuserwnd.h" />
     <ClInclude Include="..\plugins\_core\tests\mocks\mockuserwndcontroller.h" />
     <ClInclude Include="..\plugins\_core\tests\test.h" />
+    <ClInclude Include="..\sim\tests\spies\widgetcollectioneventreceiver.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\plugins\_core\_core.vcxproj">

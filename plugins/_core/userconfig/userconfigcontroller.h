@@ -10,7 +10,7 @@
 #include "userconfigcontext.h"
 #include "usercfg.h"
 
-class UserConfigController
+class CORE_EXPORT UserConfigController
 {
 public:
     UserConfigController();
