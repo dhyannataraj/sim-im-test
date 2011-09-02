@@ -487,7 +487,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             //m_pos = 0;
             
             int from = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
-            int to = to;
+            int to = from;
             int step =0;
             QString word;
             
