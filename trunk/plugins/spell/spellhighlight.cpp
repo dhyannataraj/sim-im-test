@@ -34,11 +34,11 @@ SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
         : /*QSyntaxHighlighter(edit),*/ EventReceiver(SIM::HighPriority)
 {
     m_edit = edit;
-    m_paragraph = -1;
-    m_bDirty = false;
+//    m_paragraph = -1;
+    //m_bDirty = false;
     m_plugin = plugin;
-    m_bCheck = false;
-    m_bDisable = false;
+//    m_bCheck = false;
+//    m_bDisable = false;
     m_isInRehighlight = false;
     
     QObject::connect(edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
@@ -459,18 +459,18 @@ void SpellHighlighter::tag_end(const QString &tag)
     QTimer::singleShot(300, this, SLOT(reformat()));
 } */
 
-void SpellHighlighter::reformat()
+/*void SpellHighlighter::reformat()
 {
     if (!m_bDirty)
         return;
     m_bDirty = false;
     rehighlight();
-}
+}*/
 
 void SpellHighlighter::slotConfigChanged()
 {
-    m_bDirty = true;
-    rehighlight();
+//    m_bDirty = true;
+//    rehighlight();
 }
 
 bool SpellHighlighter::processEvent(SIM::Event *e)
@@ -483,11 +483,11 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             if (m_edit->m_edit != textEdit())
                 return false;
 
-            m_index = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
-            m_pos = 0;
+            //m_index = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
+            //m_pos = 0;
             
-            int from = m_index;
-            int to = m_index;
+            int from = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
+            int to = to;
             int step =0;
             QString word;
             
@@ -516,7 +516,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
               word.replace(QRegExp("^\\<span [^\\>]*\\>"),"");
               
               
-//              SIM::log(SIM::L_DEBUG, "%i %i %i %i %s\n",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
+//              S::log(SIM::L_DEBUG, "%i %i %i %i %s\n",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
               if (step>1) break;
               
               if ((word.find(QRegExp("\\<span ")) != -1)  || // Stop expanding word's borders if we've crossed the change of the color (or other style)
@@ -554,14 +554,14 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
 //            if (!m_bInError)
 //                return false;
            if (m_plugin->checkWord(word)) return false;
-m_word = word;
-
-m_start_word = from;
+            m_word = word;
+            m_start_word = from;
             m_sug = m_plugin->suggestions(m_word);
-            SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];
+//            SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3]; // +3 instead of +1 were for Add and Ignore commands
+            SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 1];
             unsigned i = 0;
             for (QStringList::Iterator it = m_sug.begin(); it != m_sug.end(); ++it, i++){
-                cmds[i].id   = m_plugin->CmdSpell + i + 2;
+                cmds[i].id   = m_plugin->CmdSpell + i /*+ 2*/; // +2 were for Add and Ignore commands
                 cmds[i].text = "_";
                 cmds[i].text_wrk = (*it);
                 if (i >= 10){
@@ -569,14 +569,19 @@ m_start_word = from;
                     break;
                 }
             }
-            cmds[i].id   = m_plugin->CmdSpell;
+            cmds[i].text = QString::null; // Empty text marks end of command list for COMMAND::RECURSIVE
+
+            
+            // Add and Ignore seems never really worked, at least do not saves this to config file (shaplov): 
+/*            cmds[i].id   = m_plugin->CmdSpell;
             cmds[i].text = "_";
-            cmds[i].text_wrk = i18n("Add '%1'").arg(m_word);
-            i++;
+            cmds[i].text_wrk = i18n("Add '%1'").arg(m_word);*/
+            
+            
+/*            i++;
             cmds[i].id   = m_plugin->CmdSpell + 1;
             cmds[i].text = "_";
-            cmds[i].text_wrk = i18n("Ignore '%1'").arg(m_word);
-
+            cmds[i].text_wrk = i18n("Ignore '%1'").arg(m_word); */
             cmd->param  = cmds;
             cmd->flags |= SIM::COMMAND_RECURSIVE;
             return true;
@@ -598,8 +603,9 @@ m_start_word = from;
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);
             if (m_edit->m_edit != textEdit())
                 return false;
-            if (cmd->id == m_plugin->CmdSpell){
-                m_plugin->add(m_word);
+            if (0 && cmd->id == m_plugin->CmdSpell){
+                // Interlas of Add command. 
+/*                m_plugin->add(m_word);
                 MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_word));
                 if (it == m_words.end()){
                     m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
@@ -608,10 +614,12 @@ m_start_word = from;
                         return false;
                     (*it).second = true;
                 }
-                m_bDirty = true;
-                QTimer::singleShot(300, this, SLOT(reformat()));
-            }else  if (cmd->id == m_plugin->CmdSpell + 1){
-                MAP_BOOL::iterator it = m_plugin->m_ignore.find(SIM::my_string(m_word));
+    //            m_bDirty = true;
+    //            QTimer::singleShot(300, this, SLOT(reformat()));
+*/
+            }else  if (0 && cmd->id == m_plugin->CmdSpell + 1){
+              // Internals of Ignore command
+/*                MAP_BOOL::iterator it = m_plugin->m_ignore.find(SIM::my_string(m_word));
                 if (it == m_plugin->m_ignore.end())
                     m_plugin->m_ignore.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 it = m_words.find(SIM::my_string(m_word));
@@ -622,10 +630,11 @@ m_start_word = from;
                         return false;
                     (*it).second = true;
                 }
-                m_bDirty = true;
-                QTimer::singleShot(300, this, SLOT(reformat()));
+    //            m_bDirty = true;
+//                QTimer::singleShot(300, this, SLOT(reformat()));
+*/
             }else{
-                unsigned n = cmd->id - m_plugin->CmdSpell - 2;
+                unsigned n = cmd->id - m_plugin->CmdSpell /*- 2*/;  // -2 were because of Add and Ignore commands
                 QString word = m_sug[n];
                 textEdit()->setSelection(m_parag, m_start_word, m_parag, m_start_word + m_word.length(), 0);
                 textEdit()->insert(word, true, true, true);
@@ -635,11 +644,11 @@ m_start_word = from;
     return false;
 }
 
-void SpellHighlighter::restore()
+/*void SpellHighlighter::restore()
 {
     m_bDisable = false;
     rehighlight();
-}
+} */
 
 #ifndef NO_MOC_INCLUDES
 #include "spellhighlight.moc"

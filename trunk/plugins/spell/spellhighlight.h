@@ -41,8 +41,8 @@ signals:
 protected slots:
 //    void slotMisspelling(const QString &originalWord);
     void slotConfigChanged();
-    void reformat();
-    void restore();
+//    void reformat();
+//    void restore();
     void textChanged();
     void beforeStyleChange();
     void afterStyleChange();
@@ -50,8 +50,8 @@ protected slots:
 
     
 protected:
-    MAP_BOOL m_words;
-    int m_paragraph;
+    MAP_BOOL m_words; // Here we store the wordlist from the context menu
+//    int m_paragraph;
 //    int highlightParagraph( const QString &text, int endStateOfLastPara );
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
@@ -70,21 +70,22 @@ protected:
     void removeHlight(int stand_alone = 1);
 //    void flush();
 //    void flushText();
-    int m_pos;
-    int m_index;
-    int m_parag;
-    int m_start_word;
-    int m_curStart;
-    bool m_isInRehighlight;
-    bool m_bError;
-    bool m_bDirty;
-    bool m_bCheck;
-    bool m_bInError;
-    bool m_bDisable;
+//    int m_pos;
+//    int m_index;
+    int m_parag;         // Paragraph where context menu were triggered
+    int m_start_word;    // Position of the beggining of the word on witch context menu were triggered (counted from the begginig of the paragtaph)
+//    int m_curStart;
+    bool m_isInRehighlight;  // This flag shows that rehighlignting is in progress, and we should not do more rehighlighting on onchange event
+//    bool m_bError;
+
+//    bool m_bDirty;
+//    bool m_bCheck;
+//    bool m_bInError;
+//    bool m_bDisable;
 //    stack<bool> m_fonts;
 //    QString		m_curText;
 //    QString		m_curWord;
-    QString     m_word;
+    QString     m_word;  // Word on whitch contexet menu were triggered
     QStringList	m_sug;
     SpellPlugin *m_plugin;
     QTextEdit *m_edit;
