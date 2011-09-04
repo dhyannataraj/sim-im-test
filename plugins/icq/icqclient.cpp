@@ -968,6 +968,11 @@ QWidget* ICQClient::createStatusWidget()
 
 SIM::IMContactPtr ICQClient::ownerContact()
 {
+    return ownerIcqContact();
+}
+
+ICQContactPtr ICQClient::ownerIcqContact()
+{
     return clientPersistentData->owner;
 }
 

@@ -11,6 +11,7 @@
 #include "tests/stubs/stubimagestorage.h"
 #include "messaging/messagepipe.h"
 #include "messaging/messageoutpipe.h"
+#include "core.h"
 
 void registerEvents()
 {
@@ -26,14 +27,16 @@ int main(int argc, char** argv)
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::InitGoogleMock(&argc, argv);
     SIM::createEventHub();
+    registerEvents();
     StubObjects::StubImageStorage imagestorage;
     SIM::setImageStorage(&imagestorage);
     SIM::createCommandHub();
     SIM::createMessagePipe();
     SIM::createOutMessagePipe();
     //SIM::createContactList();
-    registerEvents();
+    CorePlugin* core = new CorePlugin();
     int ret = RUN_ALL_TESTS();
+    delete core;
 #ifdef WIN32
     getchar();
 #endif

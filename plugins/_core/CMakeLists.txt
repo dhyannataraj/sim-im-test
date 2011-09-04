@@ -70,6 +70,7 @@ SET(_core_SRCS
 #        toolbarcfg.cpp
 #        toolsetup.cpp
         userconfig/usercfg.cpp
+        userconfig/standarduserconfig.cpp
         userconfig/userconfigcontroller.cpp
         userconfig/userconfigcontext.cpp
 #        userhistorycfg.cpp
@@ -154,6 +155,7 @@ SET(_core_HDRS
 #        toolbarcfg.h
 #        toolsetup.h
         userconfig/usercfg.h
+        userconfig/standarduserconfig.h
         userconfig/userconfigcontroller.h
         userconfig/userconfigcontext.h
 #        userhistorycfg.h

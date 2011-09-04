@@ -33,15 +33,6 @@
      </property>
      <item>
       <widget class="QTreeWidget" name="lstBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="columnCount">
-        <number>1</number>
-       </property>
        <attribute name="headerVisible">
         <bool>false</bool>
        </attribute>
@@ -148,8 +139,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>429</x>
+     <y>399</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -164,8 +155,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>510</x>
+     <y>399</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -173,5 +164,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>lstBox</sender>
+   <signal>itemClicked(QTreeWidgetItem*,int)</signal>
+   <receiver>ConfigureDialogBase</receiver>
+   <slot>itemActivated(QTreeWidgetItem*,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>269</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>itemActivated(QTreeWidgetItem*,int)</slot>
+ </slots>
 </ui>

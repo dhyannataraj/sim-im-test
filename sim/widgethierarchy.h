@@ -19,6 +19,7 @@ namespace SIM
     {
         QString nodeName;
         QWidget* widget;
+        QString iconId;
         QList<WidgetHierarchy> children;
     };
 }

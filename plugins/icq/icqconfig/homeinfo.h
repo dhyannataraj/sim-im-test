@@ -20,29 +20,38 @@
 
 #include "contacts.h"
 #include "event.h"
+#include "icqcontact.h"
 
 #include "ui_homeinfobase.h"
 
 class ICQClient;
-class ICQUserData;
 
-class HomeInfo : public QWidget, public Ui::HomeInfo, public SIM::EventReceiver
+class HomeInfo : public QWidget
 {
     Q_OBJECT
 public:
-    HomeInfo(QWidget *parent, ICQUserData*, unsigned contact, ICQClient *client);
-public slots:
-    void apply();
-    void apply(SIM::Client*, void*);
-    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
-    void goUrl();
+    HomeInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
+    virtual ~HomeInfo();
+
+//public slots:
+//    void apply();
+//    void apply(SIM::Client*, void*);
+//    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+//    void goUrl();
+
 protected:
-    void updateData(ICQUserData* data);
-    virtual bool processEvent(SIM::Event *e);
+//    void updateData(ICQUserData* data);
+//    virtual bool processEvent(SIM::Event *e);
+
     void fill();
-    ICQUserData *m_data;
-    unsigned m_contact;
+    void initCountryCombobox();
+
+    Ui::HomeInfo* ui();
+
+private:
+    ICQContactPtr m_contact;
     ICQClient *m_client;
+    Ui::HomeInfo* m_ui;
 };
 
 #endif

@@ -9,7 +9,6 @@ SET(icq_SRCS
 #        aimsearch.cpp
 #        aimservices.cpp
 #        encodingdlg.cpp
-#        homeinfo.cpp
         authorizationsnachandler.cpp
         bartsnachandler.cpp
         buddysnachandler.cpp
@@ -31,7 +30,9 @@ SET(icq_SRCS
 #        icqdirect.cpp
 #        icqicmb.cpp
 	    icqconfig/icqinfo.cpp
-	    icqconfig/icqconfigwidgetcreator.cpp	    
+	    icqconfig/homeinfo.cpp
+	    icqconfig/icqconfigwidgetcreator.cpp
+	    icqconfig/workinfo.cpp
 #        icqlists.cpp
 #        icqlocation.cpp
 #        icqmessage.cpp
@@ -58,7 +59,6 @@ SET(icq_SRCS
 #        securedlg.cpp
 #        verifydlg.cpp
 #        warndlg.cpp
-#        workinfo.cpp
 #        xml.cpp
         snac.cpp
         tlv.cpp
@@ -85,7 +85,6 @@ SET(icq_HDRS
 #        aiminfo.h
 #        aimsearch.h
 #        encodingdlg.h
-#        homeinfo.h
         authorizationsnachandler.h
         bartsnachandler.h
         buddysnachandler.h
@@ -104,7 +103,9 @@ SET(icq_HDRS
         icq_defines.h
 #        icqconfig.h
 		icqconfig/icqinfo.h
+		icqconfig/homeinfo.h
 		icqconfig/icqconfigwidgetcreator.h
+		icqconfig/workinfo.h
 #        icqlocation.h
 #        icqmessage.h
 #        icqdirect.h
@@ -128,7 +129,6 @@ SET(icq_HDRS
 #        securedlg.h
 #        verifydlg.h
 #        warndlg.h
-#        workinfo.h
 #        xml.h
         snac.h
         tlv.h
@@ -154,7 +154,7 @@ SET(icq_UICS
 #        aiminfobase.ui
 #        aimsearchbase.ui
 #        encodingdlgbase.ui
-#        homeinfobase.ui
+        icqconfig/homeinfobase.ui
 #        icqconfigbase.ui
         icqconfig/icqinfobase.ui
 #        icqpicturebase.ui
@@ -166,7 +166,7 @@ SET(icq_UICS
 #        securedlgbase.ui
 #        verifydlgbase.ui
 #        warndlgbase.ui
-#        workinfobase.ui
+        icqconfig/workinfobase.ui
 )
 
 #ADD_FLEX_FILES(icq_SRCS rtf.ll)
@@ -211,6 +211,8 @@ SET(icq_test_sources
     tests/teststandardicqrequestmanager.cpp
     tests/testicqconfigwidgetcreator.cpp
     tests/signalspy.cpp
+    tests/testhomeinfo.cpp
+    tests/testworkinfo.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
     ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
@@ -219,3 +221,4 @@ SET(icq_test_sources
 ADD_EXECUTABLE(test_icq ${icq_test_sources} ${testmocs})
 TARGET_LINK_LIBRARIES(test_icq simlib ${QT_LIBRARIES} icq _core)
 
+ADD_CUSTOM_COMMAND(TARGET test_icq POST_BUILD COMMAND test_icq)

@@ -31,7 +31,7 @@ namespace
         virtual void SetUp()
         {
             SIM::createContactList();
-            core = new CorePlugin();
+
             client = new ICQClient(0, "ICQ.123456", false);
             contact = ICQContactPtr(new ICQContact(client));
             client->contactList()->addContact(contact);
@@ -43,10 +43,8 @@ namespace
 
         virtual void TearDown()
         {
-            delete core;
             SIM::destroyContactList();
         }
-        CorePlugin* core;
         ICQClient* client;
         ICQContactPtr contact;
         SIM::ContactPtr metacontact;

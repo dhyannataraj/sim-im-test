@@ -22,7 +22,7 @@
 #include "contacts/imcontact.h"
 #include "contacts/group.h"
 #include "contacts/client.h"
-#include "ui_cfgdlgbase.h"
+#include "standarduserconfig.h"
 
 #include <QPixmap>
 #include <QTabWidget>
@@ -36,48 +36,10 @@
 using namespace std;
 using namespace SIM;
 
-class UserConfigImpl : public UserConfig
-{
-public:
-    UserConfigImpl();
-    virtual ~UserConfigImpl();
-
-    virtual void setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy);
-
-    virtual int exec();
-
-private:
-    Ui::ConfigureDialogBase* m_ui;
-};
-
-
-UserConfigImpl::UserConfigImpl() : UserConfig()
-{
-    m_ui = new Ui::ConfigureDialogBase();
-    m_ui->setupUi(this);
-}
-
-UserConfigImpl::~UserConfigImpl()
-{
-    delete m_ui;
-}
-
-void UserConfigImpl::setWidgetHierarchy(SIM::WidgetHierarchy* root)
-{
-    foreach(SIM::WidgetHierarchy node, root->children)
-    {
-        new QTreeWidgetItem(m_ui->lstBox, QStringList(node.nodeName), 0);
-    }
-}
-
-int UserConfigImpl::exec()
-{
-    return QDialog::exec();
-}
 
 UserConfigPtr UserConfig::create()
 {
-    return UserConfigPtr(new UserConfigImpl());
+    return UserConfigPtr(new StandardUserConfig());
 }
 
 // vim: set expandtab: 

@@ -526,6 +526,7 @@ public:
     virtual SIM::IMStatusPtr savedStatus();
 
     SIM::IMContactPtr ownerContact();
+    ICQContactPtr ownerIcqContact();
 
     virtual SIM::MessageEditorFactory* messageEditorFactory() const;
 

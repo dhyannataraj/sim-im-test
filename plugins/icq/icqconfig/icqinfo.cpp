@@ -19,6 +19,7 @@
 #include "../icqclient.h"
 #include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
+#include "imagestorage/imagestorage.h"
 
 #include <QLineEdit>
 #include <QStringList>
@@ -53,7 +54,7 @@ ICQInfo::ICQInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* clien
     m_client	= client;
     m_contact	= contact;
     m_ui->edtUin->setReadOnly(true);
-    if (contact == client->ownerContact()){
+    if (contact != client->ownerContact()){
         m_ui->edtFirst->setReadOnly(true);
         m_ui->edtLast->setReadOnly(true);
         m_ui->edtNick->setReadOnly(true);
@@ -185,58 +186,58 @@ void ICQInfo::fill()
 
     m_ui->cmbStatus->clear();
     ICQStatusPtr status;
-    if(m_contact != m_client->ownerContact()){
+    if(m_contact != m_client->ownerContact())
+    {
         status = m_contact->icqStatus();
-    }else{
+    }
+    else
+    {
         status = m_client->currentIcqStatus();
         //initCombo(cmbRandom, m_client->getRandomChatGroup(), chat_groups);
     }
-    /*
-    if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setPlainText(m_data->getAutoReply());
-    }else{
-        edtAutoReply->hide();
+
+    if(m_contact != m_client->ownerContact())
+    {
+        m_ui->edtAutoReply->setPlainText(status->text());
+    }
+    else
+    {
+        m_ui->edtAutoReply->hide();
     }
 
     int current = 0;
     QString text;
-    if (m_data && (status == STATUS_OFFLINE) && m_data->getInvisible()){
-        cmbStatus->addItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
-    }else{
-		ProtocolPtr proto = ICQPlugin::icq_plugin->m_icq;
-		ICQProtocol* icq = static_cast<ICQProtocol*>(proto.data());
-        for (const CommandDef *cmd = icq->statusList(); cmd->id; cmd++){
-            if (cmd->flags & COMMAND_CHECK_STATE)
-                continue;
-            if (status == cmd->id){
-                current = cmbStatus->count();
-                text = cmd->text;
-            }
-            cmbStatus->addItem(Pict(cmd->icon), i18n(cmd->text));
+    if((m_contact != m_client->ownerContact()) && (status->flag(SIM::IMStatus::flInvisible)))
+    {
+        m_ui->cmbStatus->addItem(SIM::getImageStorage()->icon("ICQ_invisible"), i18n("Possibly invisible"));
+    }
+    else
+    {
+        // Add moar
+        m_ui->cmbStatus->addItem(QIcon(status->icon()), status->name());
+    }
+
+    disableWidget(m_ui->cmbStatus);
+    if(status->flag(SIM::IMStatus::flOffline))
+    {
+        m_ui->lblOnline->setText(i18n("Last online") + ':');
+        m_ui->edtOnline->setText(QDateTime::fromTime_t(m_contact->getStatusTime()).toString());
+        m_ui->lblNA->hide();
+        m_ui->edtNA->hide();
+    }
+    else
+    {
+		if(m_contact->getOnlineTime())
+		{
+		    m_ui->edtOnline->setText(QDateTime::fromTime_t(m_contact->getOnlineTime()).toString());
+        }
+		else
+		{
+		    m_ui->lblOnline->hide();
+		    m_ui->edtOnline->hide();
         }
     }
-    cmbStatus->setCurrentIndex(current);
-    disableWidget(cmbStatus);
-    if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ':');
-        edtOnline->setText(formatDateTime(data->getStatusTime()));
-        lblNA->hide();
-        edtNA->hide();
-    }else{
-		if (data->getOnlineTime()){
-			edtOnline->setText(formatDateTime(data->getOnlineTime()));
-        }else{
-            lblOnline->hide();
-            edtOnline->hide();
-        }
-        if ((status == STATUS_ONLINE) || text.isEmpty()){
-            lblNA->hide();
-            edtNA->hide();
-        }else{
-            lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->getStatusTime()));
-        }
-    }
+    /*
     if (data->getIP()){
         edtExtIP->setText(formatAddr(data->getIP(), data->getPort()));
     }else{
