@@ -84,9 +84,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <Manifest>
-      <AdditionalManifestFiles>$(SolutionDir)$(Configuration)\sim.exe.intermediate.manifest;$(SolutionDir)plugins\icq\$(Configuration)\icq.dll.intermediate.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
+    <Manifest />
     <PostBuildEvent>
       <Command>copy $(TargetDir)plugins\icq.* $(TargetDir)</Command>
     </PostBuildEvent>
@@ -116,6 +114,7 @@
     <PostBuildEvent>
       <Command>copy $(TargetDir)plugins\icq.* $(TargetDir)</Command>
     </PostBuildEvent>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\plugins\icq\tests\qt-gtest.cpp" />

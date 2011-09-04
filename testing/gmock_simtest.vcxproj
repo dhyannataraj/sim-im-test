@@ -81,9 +81,8 @@
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <Manifest>
-      <AdditionalManifestFiles>$(SolutionDir)$(Configuration)\sim.exe.intermediate.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
+    <Manifest />
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -102,6 +101,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\sim.vcxproj">

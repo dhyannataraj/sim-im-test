@@ -78,12 +78,11 @@
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <Manifest>
-      <AdditionalManifestFiles>$(SolutionDir)$(Configuration)\sim.exe.intermediate.manifest;$(SolutionDir)plugins\_core\$(Configuration)\_core.dll.intermediate.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
+    <Manifest />
     <PostBuildEvent>
       <Command>copy $(TargetDir)plugins\_core.* $(TargetDir)</Command>
     </PostBuildEvent>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -102,12 +101,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <Manifest>
-      <AdditionalManifestFiles>$(SolutionDir)$(Configuration)\sim.exe.intermediate.manifest;$(SolutionDir)plugins\_core\$(Configuration)\_core.dll.intermediate.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-    </Manifest>
+    <Manifest />
     <PostBuildEvent>
       <Command>copy $(TargetDir)plugins\_core.* $(TargetDir)</Command>
     </PostBuildEvent>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\plugins\_core\tests\gtest-qt.cpp" />
