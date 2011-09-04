@@ -20,32 +20,41 @@
 
 #include "ui_moreinfobase.h"
 #include "contacts/client.h"
+#include "icqcontact.h"
 
 #include "event.h"
+#include <QDate>
 
 class ICQClient;
-class ICQUserData;
 
-class MoreInfo : public QWidget, public Ui::MoreInfoBase, public SIM::EventReceiver
+class MoreInfo : public QWidget
 {
     Q_OBJECT
 public:
-    MoreInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client);
+    MoreInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
+
 public slots:
-    void apply();
-    void apply(SIM::Client*, void*);
-    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+//    void apply();
+//    void apply(SIM::Client*, void*);
+//    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
     void goUrl();
-    void urlChanged(const QString&);
-    void setLang(int);
+    void urlChanged(const QString& newUrl);
     void birthDayChanged();
+
 protected:
-    void updateData(ICQUserData* data);
-    virtual bool processEvent(SIM::Event *e);
+//    void updateData(ICQUserData* data);
+//    virtual bool processEvent(SIM::Event *e);
+
     void fill();
-    ICQUserData *m_data;
-    unsigned  m_contact;
-    ICQClient *m_client;
+
+    virtual QDate currentDate() const;
+
+    Ui::MoreInfo* ui() const;
+
+private:
+    ICQContactPtr m_contact;
+    ICQClient* m_client;
+    Ui::MoreInfo* m_ui;
 };
 
 #endif

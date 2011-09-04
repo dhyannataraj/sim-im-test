@@ -212,17 +212,17 @@ public:
     QString getHomepage() const { return m_homepage; }
     void setHomepage(const QString& homepage) { m_homepage = homepage; }
 
-    unsigned long getBirthYear() const { return m_birthday.year(); }
-    void setBirthYear(unsigned long year) { m_birthday.setYMD(year, m_birthday.month(), m_birthday.day()); }
+    QDate getBirthday() const { return m_birthday; }
+    void setBirthday(const QDate& date) { m_birthday = date; }
 
-    unsigned long getBirthMonth() const { return m_birthday.month(); }
-    void setBirthMonth(unsigned long month) { m_birthday.setYMD(m_birthday.year(), month, m_birthday.day()); }
+    unsigned long getPrimaryLanguage() const { return m_primaryLanguage; }
+    void setPrimaryLanguage(unsigned long language) { m_primaryLanguage = language; }
 
-    unsigned long getBirthDay() const { return m_birthday.day(); }
-    void setBirthDay(unsigned long day) { m_birthday.setYMD(m_birthday.year(), m_birthday.month(), day); }
+    unsigned long getSecondaryLanguage() const { return m_secondaryLanguage; }
+    void setSecondaryLanguage(unsigned long language) { m_secondaryLanguage = language; }
 
-    unsigned long getLanguage() const { return m_language; }
-    void setLanguage(unsigned long language) { m_language = language; }
+    unsigned long getTertiaryLanguage() const { return m_tertiaryLanguage; }
+    void setTertiaryLanguage(unsigned long language) { m_tertiaryLanguage = language; }
 
     QString getEMails() const { return m_emails; }
     void setEMails(const QString& emails) { m_emails = emails; }
@@ -397,7 +397,9 @@ private:
     unsigned long m_gender;
     QString m_homepage;
     QDate m_birthday;
-    unsigned long m_language;
+    unsigned long m_primaryLanguage;
+    unsigned long m_secondaryLanguage;
+    unsigned long m_tertiaryLanguage;
     QString m_emails;
     QString m_workcity;
     QString m_workstate;

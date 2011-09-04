@@ -32,6 +32,7 @@ SET(icq_SRCS
 	    icqconfig/icqinfo.cpp
 	    icqconfig/homeinfo.cpp
 	    icqconfig/icqconfigwidgetcreator.cpp
+	    icqconfig/moreinfo.cpp
 	    icqconfig/workinfo.cpp
 #        icqlists.cpp
 #        icqlocation.cpp
@@ -52,7 +53,6 @@ SET(icq_SRCS
         ssisnachandler.cpp
 #        icqvarious.cpp
 #        interestsinfo.cpp
-#        moreinfo.cpp
 #        pastinfo.cpp
 #        polling.cpp
 #        rtfgen.cpp
@@ -105,6 +105,7 @@ SET(icq_HDRS
 		icqconfig/icqinfo.h
 		icqconfig/homeinfo.h
 		icqconfig/icqconfigwidgetcreator.h
+		icqconfig/moreinfo.h
 		icqconfig/workinfo.h
 #        icqlocation.h
 #        icqmessage.h
@@ -123,7 +124,6 @@ SET(icq_HDRS
         standardoscarsocket.h
         ssisnachandler.h
 #        interestsinfo.h
-#        moreinfo.h
 #        pastinfo.h
 #        polling.h
 #        securedlg.h
@@ -161,7 +161,7 @@ SET(icq_UICS
 #        icqsearchbase.ui
 #        icqsecurebase.ui
 #        interestsinfobase.ui
-#        moreinfobase.ui
+        icqconfig/moreinfobase.ui
 #        pastinfobase.ui
 #        securedlgbase.ui
 #        verifydlgbase.ui
@@ -212,6 +212,7 @@ SET(icq_test_sources
     tests/testicqconfigwidgetcreator.cpp
     tests/signalspy.cpp
     tests/testhomeinfo.cpp
+    tests/testmoreinfo.cpp
     tests/testworkinfo.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        

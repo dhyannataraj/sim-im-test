@@ -210,16 +210,19 @@ void ICQContact::deserializeLine(const QString& key, const QString& value)
         setHomepage(val);
     }
     else if(key == "BirthYear") {
-        setBirthYear(val.toULong());
+        QDate d = getBirthday();
+        d.setDate(val.toULong(), d.month(), d.day());
     }
     else if(key == "BirthMonth") {
-        setBirthMonth(val.toULong());
+        QDate d = getBirthday();
+        d.setDate(d.year(), val.toULong(), d.day());
     }
     else if(key == "BirthDay") {
-        setBirthDay(val.toULong());
+        QDate d = getBirthday();
+        d.setDate(d.year(), d.month(), val.toULong());
     }
     else if(key == "Language") {
-        setLanguage(val.toULong());
+        setPrimaryLanguage(val.toULong() & 0xff);
     }
     else if(key == "WorkCity") {
         setWorkCity(val);
@@ -360,10 +363,10 @@ void ICQContact::serialize(QDomElement& element)
     hub->setValue("Age", (unsigned int)getAge());
     hub->setValue("Gender", (unsigned int)getGender());
     hub->setValue("HomePage", getHomepage());
-    hub->setValue("BirthYear", (unsigned int)getBirthYear());
-    hub->setValue("BirthMonth", (unsigned int)getBirthMonth());
-    hub->setValue("BirthDay", (unsigned int)getBirthDay());
-    hub->setValue("Language", (unsigned int)getLanguage());
+    hub->setValue("BirthYear", (unsigned int)getBirthday().year());
+    hub->setValue("BirthMonth", (unsigned int)getBirthday().year());
+    hub->setValue("BirthDay", (unsigned int)getBirthday().year());
+    hub->setValue("Language", (unsigned int)getPrimaryLanguage());
     hub->setValue("WorkCity", getWorkCity());
     hub->setValue("WorkState", getWorkState());
     hub->setValue("WorkAddress", getWorkAddress());
@@ -445,10 +448,8 @@ void ICQContact::deserialize(QDomElement& element)
     setAge(hub->value("Age").toUInt());
     setGender(hub->value("Gender").toUInt());
     setHomepage(hub->value("Homepage").toString());
-    setBirthYear(hub->value("BirthYear").toUInt());
-    setBirthMonth(hub->value("BirthMonth").toUInt());
-    setBirthDay(hub->value("BirthDay").toUInt());
-    setLanguage(hub->value("Language").toUInt());
+    setBirthday(QDate(hub->value("BirthYear").toUInt(), hub->value("BirthMonth").toUInt(), hub->value("BirthDay").toUInt()));
+    setPrimaryLanguage(hub->value("Language").toUInt());
     setWorkCity(hub->value("WorkCity").toString());
     setWorkState(hub->value("WorkState").toString());
     setWorkAddress(hub->value("WorkAddress").toString());
