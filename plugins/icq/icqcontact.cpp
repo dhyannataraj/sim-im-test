@@ -258,7 +258,7 @@ void ICQContact::deserializeLine(const QString& key, const QString& value)
         setAbout(val);
     }
     else if(key == "Interests") {
-        setInterests(val);
+        //setInterests(val);
     }
     else if(key == "Backgrounds") {
         setBackgrounds(val);
@@ -378,7 +378,14 @@ void ICQContact::serialize(QDomElement& element)
     hub->setValue("Occupation", (unsigned int)getOccupation());
     hub->setValue("WorkHomepage", getWorkHomepage());
     hub->setValue("About", getAbout());
-    hub->setValue("Interests", getInterests());
+    hub->setValue("Interest_0_code", getInterest(0));
+    hub->setValue("Interest_1_code", getInterest(1));
+    hub->setValue("Interest_2_code", getInterest(2));
+    hub->setValue("Interest_3_code", getInterest(3));
+    hub->setValue("Interest_0_text", getInterestText(0));
+    hub->setValue("Interest_1_text", getInterestText(1));
+    hub->setValue("Interest_2_text", getInterestText(2));
+    hub->setValue("Interest_3_text", getInterestText(3));
     hub->setValue("Backgrounds", getBackgrounds());
     hub->setValue("Affilations", getAffilations());
     hub->setValue("FollowMe", (unsigned int)getFollowMe());
@@ -461,7 +468,10 @@ void ICQContact::deserialize(QDomElement& element)
     setOccupation(hub->value("WorkOccupation").toUInt());
     setWorkHomepage(hub->value("WorkHomepage").toString());
     setAbout(hub->value("About").toString());
-    setInterests(hub->value("Interests").toString());
+    setInterest(0, hub->value("Interest_0_code").toUInt(), hub->value("Interest_0_text").toString());
+    setInterest(1, hub->value("Interest_1_code").toUInt(), hub->value("Interest_1_text").toString());
+    setInterest(2, hub->value("Interest_2_code").toUInt(), hub->value("Interest_2_text").toString());
+    setInterest(3, hub->value("Interest_3_code").toUInt(), hub->value("Interest_3_text").toString());
     setBackgrounds(hub->value("Backgrounds").toString());
     setAffilations(hub->value("Affilations").toString());
     setFollowMe(hub->value("FollowMe").toUInt());

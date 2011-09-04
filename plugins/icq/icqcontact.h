@@ -266,8 +266,13 @@ public:
     QString getAbout() const { return m_about; }
     void setAbout(const QString& about) { m_about = about; }
 
-    QString getInterests() const { return m_interests; }
-    void setInterests(const QString& interests) { m_interests = interests; }
+    int getInterest(int interestNum) const { return m_interestsCode[interestNum]; }
+    QString getInterestText(int interestNum) const { return m_interests[interestNum]; }
+    void setInterest(int interestNum, int interestCode, const QString& interestText)
+    {
+        m_interestsCode[interestNum] = interestCode;
+        m_interests[interestNum] = interestText;
+    }
 
     QString getBackgrounds() const { return m_backgrounds; }
     void setBackgrounds(const QString& backgrounds) { m_backgrounds = backgrounds; }
@@ -414,7 +419,8 @@ private:
     unsigned long m_occupation;
     QString m_workhomepage;
     QString m_about;
-    QString m_interests;
+    int m_interestsCode[4];
+    QString m_interests[4];
     QString m_backgrounds;
     QString m_affilations;
     unsigned long m_followme;

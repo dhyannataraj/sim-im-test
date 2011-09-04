@@ -1,5 +1,5 @@
 /***************************************************************************
-                          interestsinfo.h  -  description
+                          aboutinfo.h  -  description
                              -------------------
     begin                : Sun Mar 17 2002
     copyright            : (C) 2002 by Vladimir Shutoff
@@ -15,34 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _INTERESTSINFO_H
-#define _INTERESTSINFO_H
+#ifndef _ABOUTINFO_H
+#define _ABOUTINFO_H
 
-#include "event.h"
-#include "contacts/client.h"
-#include "ui_interestsinfobase.h"
+#include "contacts.h"
+
+#include "ui_aboutinfobase.h"
+#include "icqcontact.h"
 
 class ICQClient;
-class ICQUserData;
 
-class InterestsInfo : public QWidget, public Ui::InterestsInfoBase, public SIM::EventReceiver
+class AboutInfo : public QWidget
 {
     Q_OBJECT
 public:
-    InterestsInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client);
+    AboutInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
+
 public slots:
-    void apply();
-    void apply(SIM::Client*, void*);
-    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
-    void cmbChanged(int);
+//    void apply();
+//    void apply(SIM::Client*, void*);
+//    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+
 protected:
-    void updateData(ICQUserData* data);
-    virtual bool processEvent(SIM::Event *e);
     void fill();
-    QString getInfo(QComboBox *cmb, QLineEdit *edt);
-    ICQUserData *m_data;
-    unsigned   m_contact;
-    ICQClient *m_client;
+    ICQContactPtr m_contact;
+    ICQClient	*m_client;
+    Ui::aboutInfo* m_ui;
 };
 
 #endif

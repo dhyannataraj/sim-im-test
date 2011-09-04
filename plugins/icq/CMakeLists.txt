@@ -2,7 +2,6 @@
 # icq library #
 ###############
 SET(icq_SRCS
-#        aboutinfo.cpp
 #        advsearch.cpp
 #        aimconfig.cpp
 #        aiminfo.cpp
@@ -29,7 +28,9 @@ SET(icq_SRCS
 #        icqconfig.cpp
 #        icqdirect.cpp
 #        icqicmb.cpp
+	    icqconfig/aboutinfo.cpp
 	    icqconfig/icqinfo.cpp
+	    icqconfig/interestsinfo.cpp
 	    icqconfig/homeinfo.cpp
 	    icqconfig/icqconfigwidgetcreator.cpp
 	    icqconfig/moreinfo.cpp
@@ -52,7 +53,6 @@ SET(icq_SRCS
         standardoscarsocket.cpp
         ssisnachandler.cpp
 #        icqvarious.cpp
-#        interestsinfo.cpp
 #        pastinfo.cpp
 #        polling.cpp
 #        rtfgen.cpp
@@ -102,7 +102,9 @@ SET(icq_HDRS
         icqstatuswidget.h
         icq_defines.h
 #        icqconfig.h
+		icqconfig/aboutinfo.h
 		icqconfig/icqinfo.h
+		icqconfig/interestsinfo.h
 		icqconfig/homeinfo.h
 		icqconfig/icqconfigwidgetcreator.h
 		icqconfig/moreinfo.h
@@ -148,7 +150,7 @@ SET(icq_HDRS
 )
 
 SET(icq_UICS
-#        aboutinfobase.ui
+        icqconfig/aboutinfobase.ui
 #        advsearchbase.ui
 #        aimconfigbase.ui
 #        aiminfobase.ui
@@ -160,7 +162,7 @@ SET(icq_UICS
 #        icqpicturebase.ui
 #        icqsearchbase.ui
 #        icqsecurebase.ui
-#        interestsinfobase.ui
+        icqconfig/interestsinfobase.ui
         icqconfig/moreinfobase.ui
 #        pastinfobase.ui
 #        securedlgbase.ui
@@ -211,6 +213,7 @@ SET(icq_test_sources
     tests/teststandardicqrequestmanager.cpp
     tests/testicqconfigwidgetcreator.cpp
     tests/signalspy.cpp
+    tests/testinterestsinfo.cpp
     tests/testhomeinfo.cpp
     tests/testmoreinfo.cpp
     tests/testworkinfo.cpp

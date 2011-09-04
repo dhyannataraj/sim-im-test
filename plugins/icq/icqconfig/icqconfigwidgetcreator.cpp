@@ -6,7 +6,9 @@
 
 #include "icqconfigwidgetcreator.h"
 #include "icqinfo.h"
+#include "aboutinfo.h"
 #include "homeinfo.h"
+#include "interestsinfo.h"
 #include "workinfo.h"
 #include "moreinfo.h"
 #include "contacts/contactlist.h"
@@ -51,6 +53,18 @@ void IcqConfigWidgetCreator::contactConfigRequested(SIM::WidgetHierarchy* hierar
     moreinfo.widget = new MoreInfo(0, icqcontact, m_client);
     moreinfo.iconId = "more";
     h.children.append(moreinfo);
+
+    SIM::WidgetHierarchy aboutinfo;
+    aboutinfo.nodeName = I18N_NOOP("About");
+    aboutinfo.widget = new AboutInfo(0, icqcontact, m_client);
+    aboutinfo.iconId = "info";
+    h.children.append(aboutinfo);
+
+    SIM::WidgetHierarchy interests;
+    interests.nodeName = I18N_NOOP("Interest");
+    interests.widget = new InterestsInfo(0, icqcontact, m_client);
+    interests.iconId = "interest";
+    h.children.append(interests);
 
     hierarchy->children.append(h);
 }
