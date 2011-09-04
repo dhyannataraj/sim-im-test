@@ -78,12 +78,12 @@ namespace SIM
             QByteArray tmp_array;
             QTextStream stream(&tmp_array);
             QDomNode child = list.at(i);
-            QDomElement el = child.firstChildElement("root");
-            el.save(stream, 1);
+            QDomElement elr = child.firstChildElement("root");
+            elr.save(stream, 1);
             QString hubname = child.toElement().attribute("name");
             PropertyHubPtr hub;
             hub = createUserData(hubname);
-            if(!hub->deserialize(el))
+            if(!hub->deserialize(elr))
                 return false;
         }
         return true;

@@ -50,10 +50,10 @@ TlvList TlvList::fromByteArray(const QByteArray& data)
     {
         quint16 id = parser.readWord();
         int length = parser.readWord();
-        QByteArray data = parser.readBytes(length);
-        if(data.size() < length)
+        QByteArray parserdata = parser.readBytes(length);
+        if(parserdata.size() < length)
             break;
-        list.append(Tlv(id, data));
+        list.append(Tlv(id, parserdata));
     }
 
     return list;
