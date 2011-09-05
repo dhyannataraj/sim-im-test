@@ -95,6 +95,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <OutputFile>$(OutDir)plugins/$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -139,6 +140,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <OutputFile>$(OutDir)plugins/$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -150,10 +152,20 @@
     <ClCompile Include="clientcapabilitiesregistry.cpp" />
     <ClCompile Include="clientcapability.cpp" />
     <ClCompile Include="icbmsnachandler.cpp" />
+    <ClCompile Include="icqconfig\aboutinfo.cpp" />
+    <ClCompile Include="icqconfig\homeinfo.cpp" />
     <ClCompile Include="icqconfig\icqconfigwidgetcreator.cpp" />
     <ClCompile Include="icqconfig\icqinfo.cpp" />
+    <ClCompile Include="icqconfig\interestsinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_aboutinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_homeinfo.cpp" />
     <ClCompile Include="icqconfig\moc_icqconfigwidgetcreator.cpp" />
     <ClCompile Include="icqconfig\moc_icqinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_interestsinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_moreinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_workinfo.cpp" />
+    <ClCompile Include="icqconfig\moreinfo.cpp" />
+    <ClCompile Include="icqconfig\workinfo.cpp" />
     <ClCompile Include="icqmessageeditorfactory.cpp" />
     <ClCompile Include="icqmessagefactory.cpp" />
     <ClCompile Include="requests\icbmsnac\icbmsnacsendparametersrequest.cpp" />
@@ -277,7 +289,47 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
     </CustomBuild>
+    <CustomBuild Include="icqconfig\aboutinfo.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
+    <CustomBuild Include="icqconfig\homeinfo.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
+    <CustomBuild Include="icqconfig\interestsinfo.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
+    <CustomBuild Include="icqconfig\moreinfo.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
     <ClInclude Include="icqconfig\ui_icqinfobase.h" />
+    <CustomBuild Include="icqconfig\workinfo.h">
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+    </CustomBuild>
     <ClInclude Include="icqmessageeditorfactory.h" />
     <ClInclude Include="icqmessagefactory.h" />
     <ClInclude Include="requests\icbmsnac\icbmsnacsendparametersrequest.h" />
@@ -452,25 +504,25 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Uic Include="aboutinfobase.ui" />
     <Uic Include="advsearchbase.ui" />
     <Uic Include="aimconfigbase.ui" />
     <Uic Include="aiminfobase.ui" />
     <Uic Include="aimsearchbase.ui" />
     <Uic Include="encodingdlgbase.ui" />
-    <Uic Include="homeinfobase.ui" />
     <Uic Include="icqconfigbase.ui" />
+    <Uic Include="icqconfig\aboutinfobase.ui" />
+    <Uic Include="icqconfig\homeinfobase.ui" />
     <Uic Include="icqconfig\icqinfobase.ui" />
+    <Uic Include="icqconfig\interestsinfobase.ui" />
+    <Uic Include="icqconfig\moreinfobase.ui" />
+    <Uic Include="icqconfig\pastinfobase.ui" />
+    <Uic Include="icqconfig\workinfobase.ui" />
     <Uic Include="icqpicturebase.ui" />
     <Uic Include="icqsearchbase.ui" />
     <Uic Include="icqsecurebase.ui" />
-    <Uic Include="interestsinfobase.ui" />
-    <Uic Include="moreinfobase.ui" />
-    <Uic Include="pastinfobase.ui" />
     <Uic Include="securedlgbase.ui" />
     <Uic Include="verifydlgbase.ui" />
     <Uic Include="warndlgbase.ui" />
-    <Uic Include="workinfobase.ui" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\sim.vcxproj">

@@ -20,7 +20,7 @@
 
 #include "ui_moreinfobase.h"
 #include "contacts/client.h"
-#include "icqcontact.h"
+#include "../icqcontact.h"
 
 #include "event.h"
 #include <QDate>

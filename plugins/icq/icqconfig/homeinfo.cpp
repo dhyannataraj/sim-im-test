@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "homeinfo.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 #include "log.h"
 #include "contacts/contact.h"
 

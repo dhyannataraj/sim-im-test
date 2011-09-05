@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "aboutinfo.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 #include "contacts/contact.h"
 
 using namespace SIM;

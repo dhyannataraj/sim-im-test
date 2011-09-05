@@ -17,7 +17,7 @@
 
 #include "ui_moreinfobase.h"
 #include "moreinfo.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"

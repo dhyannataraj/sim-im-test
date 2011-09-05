@@ -21,7 +21,7 @@
 #include "contacts.h"
 
 #include "ui_aboutinfobase.h"
-#include "icqcontact.h"
+#include "../icqcontact.h"
 
 class ICQClient;
 

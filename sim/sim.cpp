@@ -138,6 +138,8 @@ int main(int argc, char *argv[])
     QString sPluginPath = app.applicationDirPath() + "/../";
 #else
     QString sPluginPath = app.applicationDirPath() + "/plugins";
+	QString sPluginPath2 = app.applicationDirPath();
+	QApplication::addLibraryPath(sPluginPath2);
 #endif
     QApplication::addLibraryPath(sPluginPath);
 

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "workinfo.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
 

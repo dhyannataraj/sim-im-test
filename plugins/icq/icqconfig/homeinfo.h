@@ -20,7 +20,7 @@
 
 #include "contacts.h"
 #include "event.h"
-#include "icqcontact.h"
+#include "../icqcontact.h"
 
 #include "ui_homeinfobase.h"
 

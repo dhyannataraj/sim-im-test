@@ -364,6 +364,7 @@ namespace SIM
                 || findPluginsInDir(appDir.path() + "/../plugins", "release", pluginsList) // msvc + cmake
                 || findPluginsInDir(appDir.path() + "/../plugins", "relwithdebinfo", pluginsList) // msvc + cmake
                 || findPluginsInDirPlain(appDir.path() + "/../lib", pluginsList)
+				|| findPluginsInDir(appDir.path() + "", "Debug", pluginsList) // msvc + cmake
           )
             return true;
         return false;
