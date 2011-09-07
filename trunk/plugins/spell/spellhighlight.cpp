@@ -510,14 +510,16 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
               textEdit()->setSelection(m_parag,from,m_parag,to);
               word = textEdit()->selectedText();
 //              SIM::log(SIM::L_DEBUG, "%i %i %i %i %s ",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
+//              SIM::log(SIM::L_DEBUG, "%s",word.utf8().data());
               
               word.replace(QRegExp("^\\<\\!\\-\\-StartFragment\\-\\-\\>"),"");
               word.replace(QRegExp("^\\<p\\>"),"");
+              word.replace(QRegExp("^\\<span [^\\>]*\\>\\<\\/span\\>"),""); // Ignore empty <span></span> at the beggining of the word
               word.replace(QRegExp("^\\<span [^\\>]*\\>"),"");
               
               
-//              S::log(SIM::L_DEBUG, "%i %i %i %i %s\n",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
-              if (step>1) break;
+//              SIM::log(SIM::L_DEBUG, "%i %i %i %i |%s|\n",step,from,to,textEdit()->paragraphLength(m_parag),word.utf8().data());
+              if (step>=2) break;
               
               if ((word.find(QRegExp("\\<span ")) != -1)  || // Stop expanding word's borders if we've crossed the change of the color (or other style)
                   (word.find(QRegExp("\\<\\/span\\>")) != -1)||
@@ -525,16 +527,20 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
                   (word[word.length()-1].isPunct() || word[word.length()-1].isSpace())
                  )
               {
-                if (step==0) from++;
+                if (step==0) from++;  //go back to the position when everything were ok
                 if (step==1) to--;
+                step++;
+//                SIM::log(SIM::L_DEBUG, "Swthc to step= %i (%i %i)",step,from,to);
+                continue;
+              }
+              if ( ((step==0) && (from<=0)) || 
+                   ((step==1) && (to>=textEdit()->paragraphLength(m_parag))) )
+               {
                 step++;
                 continue;
               }
               if (step==0) from--;
               if (step==1) to++;
-
-              if ((step==0) && (from<=0)) step++;
-              if (to>=textEdit()->paragraphLength(m_parag)) step++;
             }
             textEdit()->setCursorPosition(cursor_para,cursor_index);
             textEdit()->setSelection (sel_paraFrom, sel_indexFrom, sel_paraTo, sel_indexTo); 
