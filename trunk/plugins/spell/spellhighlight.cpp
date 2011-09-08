@@ -95,6 +95,7 @@ void SpellHighlighter::removeHlight(int stand_alone)
 // stand_alone == 0 when it is called as a part of rehighlight;
 // == 1 when it is called separately, and should avoid onchange infinite loop by itself
 {
+  if (textEdit()->textFormat()!=RichText) return; // For RichText edit fields only ;-)
   if (!stand_alone || ( stand_alone && ! m_isInRehighlight))
   {
     if (stand_alone) m_isInRehighlight = 1;
@@ -172,6 +173,7 @@ void SpellHighlighter::rehighlight()
      These makes misspelled words shown in red color with default font. This is the best thing
      we can do without rewriting QTextEdit.
   */
+  if (textEdit()->textFormat()!=RichText) return; // For RichText edit fields only ;-)
   if ((! m_isInRehighlight) && (! static_cast<TextEdit*>(textEdit())->isInDragAndDrop()))
   {
 //    SIM::log(SIM::L_DEBUG, "SpellHighlighter::rehighlight()");
