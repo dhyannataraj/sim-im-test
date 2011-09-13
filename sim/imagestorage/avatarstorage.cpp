@@ -28,6 +28,7 @@ void destroyAvatarStorage()
 
 AvatarStorage* getAvatarStorage()
 {
+    Q_ASSERT(gs_avatarStorage);
     return gs_avatarStorage;
 }
 

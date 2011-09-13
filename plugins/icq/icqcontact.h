@@ -270,15 +270,48 @@ public:
     QString getInterestText(int interestNum) const { return m_interests[interestNum]; }
     void setInterest(int interestNum, int interestCode, const QString& interestText)
     {
+        Q_ASSERT((interestNum >= 0) && (interestNum < 4));
         m_interestsCode[interestNum] = interestCode;
         m_interests[interestNum] = interestText;
     }
 
-    QString getBackgrounds() const { return m_backgrounds; }
-    void setBackgrounds(const QString& backgrounds) { m_backgrounds = backgrounds; }
+    int getBackgroundCode(int backgroundNum) const
+    {
+        Q_ASSERT((backgroundNum >= 0) && (backgroundNum < 3));
+        return m_backgroundsCode[backgroundNum];
+    }
 
-    QString getAffilations() const { return m_affilations; }
-    void setAffilations(const QString& affilations) { m_affilations = affilations; }
+    QString getBackgroundText(int backgroundNum) const
+    {
+        Q_ASSERT((backgroundNum >= 0) && (backgroundNum < 3));
+        return m_backgroundsText[backgroundNum];
+    }
+
+    void setBackground(int backgroundNum, int backgroundCode, const QString& backgroundText)
+    {
+        Q_ASSERT((backgroundNum >= 0) && (backgroundNum < 3));
+        m_backgroundsCode[backgroundNum] = backgroundCode;
+        m_backgroundsText[backgroundNum] = backgroundText;
+    }
+
+    int getAffiliationCode(int affiliationNum) const
+    {
+        Q_ASSERT((affiliationNum >= 0) && (affiliationNum < 3));
+        return m_affiliationsCode[affiliationNum];
+    }
+
+    QString getAffiliationText(int affiliationNum) const
+    {
+        Q_ASSERT((affiliationNum >= 0) && (affiliationNum < 3));
+        return m_affiliationsText[affiliationNum];
+    }
+
+    void setAffiliation(int affiliationNum, int affiliationCode, const QString& affiliationText)
+    {
+        Q_ASSERT((affiliationNum >= 0) && (affiliationNum < 3));
+        m_affiliationsCode[affiliationNum] = affiliationCode;
+        m_affiliationsText[affiliationNum] = affiliationText;
+    }
 
     unsigned long getFollowMe() const { return m_followme; }
     void setFollowMe(unsigned long followme) { m_followme = followme; }
@@ -419,10 +452,15 @@ private:
     unsigned long m_occupation;
     QString m_workhomepage;
     QString m_about;
+
     int m_interestsCode[4];
     QString m_interests[4];
-    QString m_backgrounds;
-    QString m_affilations;
+
+    int m_backgroundsCode[3];
+    QString m_backgroundsText[3];
+
+    int m_affiliationsCode[3];
+    QString m_affiliationsText[3];
     unsigned long m_followme;
     bool m_sharedFiles;
     unsigned long m_icqPhone;

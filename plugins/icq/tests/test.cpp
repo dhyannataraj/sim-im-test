@@ -3,6 +3,8 @@
 #include <QApplication>
 #include "events/eventhub.h"
 #include "imagestorage/imagestorage.h"
+#include "imagestorage/avatarstorage.h"
+#include "profilemanager.h"
 #include "commands/commandhub.h"
 #include "events/standardevent.h"
 #include "events/logevent.h"
@@ -30,6 +32,8 @@ int main(int argc, char** argv)
     registerEvents();
     StubObjects::StubImageStorage imagestorage;
     SIM::setImageStorage(&imagestorage);
+    SIM::createProfileManager("");
+    SIM::createAvatarStorage();
     SIM::createCommandHub();
     SIM::createMessagePipe();
     SIM::createOutMessagePipe();
@@ -40,7 +44,8 @@ int main(int argc, char** argv)
 #ifdef WIN32
     getchar();
 #endif
-	return ret;
+    SIM::destroyProfileManager();
+    return ret;
 }
 
 

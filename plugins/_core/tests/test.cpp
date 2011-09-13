@@ -4,6 +4,7 @@
 #include <QApplication>
 #include "events/eventhub.h"
 #include "imagestorage/imagestorage.h"
+#include "imagestorage/avatarstorage.h"
 #include "commands/commandhub.h"
 #include "events/standardevent.h"
 #include "events/logevent.h"
@@ -42,6 +43,7 @@ int main(int argc, char** argv)
     qRegisterMetaType<QModelIndex>("QModelIndex");
     SIM::createEventHub();
 	SIM::setImageStorage(&imagestorage);
+	SIM::createAvatarStorage();
 	SIM::createMessagePipe();
 	SIM::createOutMessagePipe();
     SIM::createCommandHub();
@@ -50,6 +52,7 @@ int main(int argc, char** argv)
 #ifdef WIN32
     getchar();
 #endif
+    SIM::destroyAvatarStorage();
     SIM::destroyOutMessagePipe();
     SIM::destroyMessagePipe();
 	return ret;

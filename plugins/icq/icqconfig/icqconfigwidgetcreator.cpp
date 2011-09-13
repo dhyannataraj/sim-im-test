@@ -11,6 +11,8 @@
 #include "interestsinfo.h"
 #include "workinfo.h"
 #include "moreinfo.h"
+#include "pastinfo.h"
+#include "icqpicture.h"
 #include "contacts/contactlist.h"
 #include "../icqclient.h"
 #include "../icqcontact.h"
@@ -65,6 +67,18 @@ void IcqConfigWidgetCreator::contactConfigRequested(SIM::WidgetHierarchy* hierar
     interests.widget = new InterestsInfo(0, icqcontact, m_client);
     interests.iconId = "interest";
     h.children.append(interests);
+
+    SIM::WidgetHierarchy past;
+    past.nodeName = I18N_NOOP("Group Past");
+    past.widget = new PastInfo(0, icqcontact, m_client);
+    past.iconId = "past";
+    h.children.append(past);
+
+    SIM::WidgetHierarchy picture;
+    picture.nodeName = I18N_NOOP("Picture");
+    picture.widget = new ICQPicture(0, icqcontact, m_client);
+    picture.iconId = "picture";
+    h.children.append(picture);
 
     hierarchy->children.append(h);
 }

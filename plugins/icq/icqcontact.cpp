@@ -261,10 +261,10 @@ void ICQContact::deserializeLine(const QString& key, const QString& value)
         //setInterests(val);
     }
     else if(key == "Backgrounds") {
-        setBackgrounds(val);
+        //setBackgrounds(val);
     }
     else if(key == "Affilations") {
-        setAffilations(val);
+        //setAffilations(val);
     }
     else if(key == "FollowMe") {
         setFollowMe(val.toULong());
@@ -386,8 +386,20 @@ void ICQContact::serialize(QDomElement& element)
     hub->setValue("Interest_1_text", getInterestText(1));
     hub->setValue("Interest_2_text", getInterestText(2));
     hub->setValue("Interest_3_text", getInterestText(3));
-    hub->setValue("Backgrounds", getBackgrounds());
-    hub->setValue("Affilations", getAffilations());
+
+    hub->setValue("Background_0_code", getBackgroundCode(0));
+    hub->setValue("Background_1_code", getBackgroundCode(1));
+    hub->setValue("Background_2_code", getBackgroundCode(2));
+    hub->setValue("Background_0_text", getBackgroundText(0));
+    hub->setValue("Background_1_text", getBackgroundText(1));
+    hub->setValue("Background_2_text", getBackgroundText(2));
+
+    hub->setValue("Affiliation_0_code", getAffiliationCode(0));
+    hub->setValue("Affiliation_1_code", getAffiliationCode(1));
+    hub->setValue("Affiliation_2_code", getAffiliationCode(2));
+    hub->setValue("Affiliation_0_text", getAffiliationText(0));
+    hub->setValue("Affiliation_1_text", getAffiliationText(1));
+    hub->setValue("Affiliation_2_text", getAffiliationText(2));
     hub->setValue("FollowMe", (unsigned int)getFollowMe());
     hub->setValue("SharedFiles", getSharedFiles());
     hub->setValue("ICQPhone", (unsigned int)getICQPhone());
@@ -472,8 +484,12 @@ void ICQContact::deserialize(QDomElement& element)
     setInterest(1, hub->value("Interest_1_code").toUInt(), hub->value("Interest_1_text").toString());
     setInterest(2, hub->value("Interest_2_code").toUInt(), hub->value("Interest_2_text").toString());
     setInterest(3, hub->value("Interest_3_code").toUInt(), hub->value("Interest_3_text").toString());
-    setBackgrounds(hub->value("Backgrounds").toString());
-    setAffilations(hub->value("Affilations").toString());
+    setBackground(0, hub->value("Background_0_code").toUInt(), hub->value("Background_0_text").toString());
+    setBackground(1, hub->value("Background_1_code").toUInt(), hub->value("Background_1_text").toString());
+    setBackground(2, hub->value("Background_2_code").toUInt(), hub->value("Background_2_text").toString());
+    setAffiliation(0, hub->value("Affiliation_0_code").toUInt(), hub->value("Affiliation_0_text").toString());
+    setAffiliation(1, hub->value("Affiliation_1_code").toUInt(), hub->value("Affiliation_1_text").toString());
+    setAffiliation(2, hub->value("Affiliation_2_code").toUInt(), hub->value("Affiliation_2_text").toString());
     setFollowMe(hub->value("FollowMe").toUInt());
     setSharedFiles(hub->value("SharedFiles").toBool());
     setICQPhone(hub->value("ICQPhone").toUInt());

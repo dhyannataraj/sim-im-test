@@ -18,8 +18,9 @@
 #ifndef _ICQPICTURE_H
 #define _ICQPICTURE_H
 
-#include "event.h"
+
 #include "contacts/client.h"
+#include "icqcontact.h"
 
 #include "ui_icqpicturebase.h"
 
@@ -28,25 +29,30 @@ class ICQUserData;
 
 class QImage;
 
-class ICQPicture : public QWidget, public Ui::ICQPictureBase, public SIM::EventReceiver
+class ICQPicture : public QWidget
 {
     Q_OBJECT
 public:
-    ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client);
+    ICQPicture(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
+
 public slots:
-    void apply();
-    void apply(SIM::Client*, void*);
-    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+//    void apply();
+//    void apply(SIM::Client*, void*);
+//    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+
 protected slots:
-    void clearPicture();
-    void pictSelected(const QString&);
+//    void clearPicture();
+//    void pictSelected(const QString&);
+
 protected:
-    void updateData(ICQUserData* data);
-    virtual bool processEvent(SIM::Event *e);
+//    void updateData(ICQUserData* data);
+//    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setPict(const QImage &img);
-    ICQUserData	*m_data;
-    ICQClient	*m_client;
+
+    Ui::PictureConfig* m_ui;
+    ICQContactPtr m_contact;
+    ICQClient* m_client;
 };
 
 #endif

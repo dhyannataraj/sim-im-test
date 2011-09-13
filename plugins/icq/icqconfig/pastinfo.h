@@ -20,32 +20,39 @@
 
 #include "country.h"
 #include "event.h"
-#include "contacts/client.h"
+#include "icqcontact.h"
 
 #include "ui_pastinfobase.h"
 
 class ICQClient;
 class ICQUserData;
 
-class PastInfo : public QWidget, public Ui::PastInfoBase, public SIM::EventReceiver
+class ICQClient;
+
+class PastInfo : public QWidget
 {
     Q_OBJECT
 public:
-    PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client);
+    PastInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
+    virtual ~PastInfo();
+
 public slots:
-    void apply();
-    void apply(SIM::Client*, void*);
-    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
-    void cmbAfChanged(int);
-    void cmbBgChanged(int);
+//    void apply();
+//    void apply(SIM::Client*, void*);
+//    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
+//    void cmbAfChanged(int);
+//    void cmbBgChanged(int);
+
 protected:
-    void updateData(ICQUserData* data);
-    virtual bool processEvent(SIM::Event *e);
-    QString getInfo(QComboBox *cmb, QLineEdit *edt, const SIM::ext_info*);
+    Ui::PastInfoBase* ui() const;
+//    void updateData(ICQUserData* data);
+//    virtual bool processEvent(SIM::Event *e);
+//    QString getInfo(QComboBox *cmb, QLineEdit *edt, const SIM::ext_info*);
+
     void fill();
-    ICQUserData *m_data;
-    unsigned  m_contact;
+    ICQContactPtr  m_contact;
     ICQClient *m_client;
+    Ui::PastInfoBase* m_ui;
 };
 
 #endif

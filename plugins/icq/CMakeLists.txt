@@ -33,12 +33,13 @@ SET(icq_SRCS
 	    icqconfig/interestsinfo.cpp
 	    icqconfig/homeinfo.cpp
 	    icqconfig/icqconfigwidgetcreator.cpp
+	    icqconfig/icqpicture.cpp
 	    icqconfig/moreinfo.cpp
+	    icqconfig/pastinfo.cpp
 	    icqconfig/workinfo.cpp
 #        icqlists.cpp
 #        icqlocation.cpp
 #        icqmessage.cpp
-#        icqpicture.cpp
 #        icqping.cpp
 #        icqsearch.cpp
 #        icqsecure.cpp
@@ -53,7 +54,6 @@ SET(icq_SRCS
         standardoscarsocket.cpp
         ssisnachandler.cpp
 #        icqvarious.cpp
-#        pastinfo.cpp
 #        polling.cpp
 #        rtfgen.cpp
 #        securedlg.cpp
@@ -107,13 +107,14 @@ SET(icq_HDRS
 		icqconfig/interestsinfo.h
 		icqconfig/homeinfo.h
 		icqconfig/icqconfigwidgetcreator.h
+		icqconfig/icqpicture.h
 		icqconfig/moreinfo.h
+		icqconfig/pastinfo.h
 		icqconfig/workinfo.h
 #        icqlocation.h
 #        icqmessage.h
 #        icqdirect.h
 #        icqicmb.h
-#        icqpicture.h
 #        icqsearch.h
 #        icqsecure.h
 #        icqssbi.h
@@ -159,12 +160,12 @@ SET(icq_UICS
         icqconfig/homeinfobase.ui
 #        icqconfigbase.ui
         icqconfig/icqinfobase.ui
-#        icqpicturebase.ui
+        icqconfig/icqpicturebase.ui
 #        icqsearchbase.ui
 #        icqsecurebase.ui
         icqconfig/interestsinfobase.ui
         icqconfig/moreinfobase.ui
-#        pastinfobase.ui
+        icqconfig/pastinfobase.ui
 #        securedlgbase.ui
 #        verifydlgbase.ui
 #        warndlgbase.ui
@@ -216,6 +217,7 @@ SET(icq_test_sources
     tests/testinterestsinfo.cpp
     tests/testhomeinfo.cpp
     tests/testmoreinfo.cpp
+    tests/testpastinfo.cpp
     tests/testworkinfo.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        

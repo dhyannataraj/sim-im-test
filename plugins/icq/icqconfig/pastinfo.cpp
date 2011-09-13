@@ -24,57 +24,71 @@
 
 using namespace SIM;
 
-PastInfo::PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client) : QWidget(parent)
+PastInfo::PastInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client) : QWidget(parent),
+        m_ui(new Ui::PastInfoBase())
 {
-	setupUi(this);
-    m_data   = data;
+	m_ui->setupUi(this);
     m_client = client;
     m_contact = contact;
-    if (m_data){
-        edtBg1->setReadOnly(true);
-        edtBg2->setReadOnly(true);
-        edtBg3->setReadOnly(true);
-        edtAf1->setReadOnly(true);
-        edtAf2->setReadOnly(true);
-        edtAf3->setReadOnly(true);
-        disableWidget(cmbBg1);
-        disableWidget(cmbBg2);
-        disableWidget(cmbBg3);
-        disableWidget(cmbAf1);
-        disableWidget(cmbAf2);
-        disableWidget(cmbAf3);
-    }else{
-        connect(cmbBg1, SIGNAL(activated(int)), this, SLOT(cmbBgChanged(int)));
-        connect(cmbBg2, SIGNAL(activated(int)), this, SLOT(cmbBgChanged(int)));
-        connect(cmbBg3, SIGNAL(activated(int)), this, SLOT(cmbBgChanged(int)));
-        connect(cmbAf1, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
-        connect(cmbAf2, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
-        connect(cmbAf3, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
+    if(m_contact != m_client->ownerIcqContact())
+    {
+        m_ui->edtBg1->setReadOnly(true);
+        m_ui->edtBg2->setReadOnly(true);
+        m_ui->edtBg3->setReadOnly(true);
+        m_ui->edtAf1->setReadOnly(true);
+        m_ui->edtAf2->setReadOnly(true);
+        m_ui->edtAf3->setReadOnly(true);
+        m_ui->cmbAf1->setEnabled(false);
+        m_ui->cmbAf2->setEnabled(false);
+        m_ui->cmbAf3->setEnabled(false);
+        m_ui->cmbBg1->setEnabled(false);
+        m_ui->cmbBg2->setEnabled(false);
+        m_ui->cmbBg3->setEnabled(false);
+    }
+    else
+    {
+        connect(m_ui->cmbBg1, SIGNAL(activated(int)), this, SLOT(cmbBgChanged(int)));
+        connect(m_ui->cmbBg2, SIGNAL(activated(int)), this, SLOT(cmbBgChanged(int)));
+        connect(m_ui->cmbBg3, SIGNAL(activated(int)), this, SLOT(cmbBgChanged(int)));
+        connect(m_ui->cmbAf1, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
+        connect(m_ui->cmbAf2, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
+        connect(m_ui->cmbAf3, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
     }
     fill();
 }
 
-void PastInfo::apply()
+PastInfo::~PastInfo()
 {
+
 }
 
-bool PastInfo::processEvent(Event *e)
+Ui::PastInfoBase* PastInfo::ui() const
 {
-    if (e->type() == eEventContact){
-        EventContact *ec = static_cast<EventContact*>(e);
-        if(ec->action() != EventContact::eChanged)
-            return false;
-        Contact *contact = ec->contact();
-        if (contact->have(m_data))
-            fill();
-    } else
-    if ((e->type() == eEventClientChanged) && (m_data == 0)){
-        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
-        if (ecc->client() == m_client)
-            fill();
-    }
-    return false;
+    return m_ui;
 }
+
+//
+//void PastInfo::apply()
+//{
+//}
+//
+//bool PastInfo::processEvent(Event *e)
+//{
+//    if (e->type() == eEventContact){
+//        EventContact *ec = static_cast<EventContact*>(e);
+//        if(ec->action() != EventContact::eChanged)
+//            return false;
+//        Contact *contact = ec->contact();
+//        if (contact->have(m_data))
+//            fill();
+//    } else
+//    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+//        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+//        if (ecc->client() == m_client)
+//            fill();
+//    }
+//    return false;
+//}
 
 static const ext_info pasts[] =
     {
@@ -120,203 +134,148 @@ const ext_info *p_affilations = affilations;
 
 void PastInfo::fill()
 {
-    ICQUserData *data = m_data;
-    if (data == NULL)
-        data = &m_client->data.owner;
-    unsigned i = 0;
-    QString str = data->getBackgrounds();
-    while (str.length()){
-        QString info = getToken(str, ';', false);
-        QString n = getToken(info, ',');
-        unsigned short category = n.toUShort();
-        switch (i){
-        case 0:
-            edtBg1->setText(info);
-            initCombo(cmbBg1, category, pasts);
-            break;
-        case 1:
-            edtBg2->setText(info);
-            initCombo(cmbBg2, category, pasts);
-            break;
-        case 2:
-            edtBg3->setText(info);
-            initCombo(cmbBg3, category, pasts);
-            break;
-        }
-        i++;
-    }
-    for (; i < 4; i++){
-        switch (i){
-        case 0:
-            initCombo(cmbBg1, 0, pasts);
-            break;
-        case 1:
-            initCombo(cmbBg2, 0, pasts);
-            break;
-        case 2:
-            initCombo(cmbBg3, 0, pasts);
-            break;
-        }
-    }
-    i = 0;
-    str = data->getAffilations();
-    while (str.length()){
-        QString info = getToken(str, ';', false);
-        QString n = getToken(info, ',');
-        unsigned short category = n.toUShort();
-        switch (i){
-        case 0:
-            edtAf1->setText(info);
-            initCombo(cmbAf1, category, affilations);
-            break;
-        case 1:
-            edtAf2->setText(info);
-            initCombo(cmbAf2, category, affilations);
-            break;
-        case 2:
-            edtAf3->setText(info);
-            initCombo(cmbAf3, category, affilations);
-            break;
-        }
-        i++;
-    }
-    for (; i < 4; i++){
-        switch (i){
-        case 0:
-            initCombo(cmbAf1, 0, affilations);
-            break;
-        case 1:
-            initCombo(cmbAf2, 0, affilations);
-            break;
-        case 2:
-            initCombo(cmbAf3, 0, affilations);
-            break;
-        }
-    }
-    if (m_data == NULL){
-        cmbBgChanged(0);
-        cmbAfChanged(0);
-    }
-}
+    ui()->edtBg1->setText(m_contact->getBackgroundText(0));
+    initCombo(ui()->cmbBg1, m_contact->getBackgroundCode(0), pasts);
 
-void PastInfo::cmbBgChanged(int)
-{
-    QComboBox *cmbs[3] = { cmbBg1, cmbBg2, cmbBg3 };
-    QLineEdit *edts[3] = { edtBg1, edtBg2, edtBg3 };
-    unsigned n = 0;
-    for (unsigned i = 0; i < 3; i++){
-        unsigned short value = getComboValue(cmbs[i], pasts);
-        if (value){
-            if (i != n){
-                cmbs[n]->setEnabled(true);
-                edts[n]->setEnabled(true);
-                initCombo(cmbs[n], value, pasts, true);
-                edts[n]->setText(edts[i]->text());
-            }
-            edts[n]->setEnabled(true);
-            edts[n]->setReadOnly(false);
-            n++;
-        }
-    }
-    if (n >= 3)
-        return;
-    cmbs[n]->setEnabled(true);
-    disableWidget(edts[n]);
-    cmbs[n]->setCurrentIndex(0);
-    edts[n]->setText(QString::null);
-    for (n++; n < 3; n++){
-        disableWidget(cmbs[n]);
-        disableWidget(edts[n]);
-        initCombo(cmbs[n], 0, pasts, true);
-        edts[n]->setText(QString::null);
-    }
-}
+    ui()->edtBg2->setText(m_contact->getBackgroundText(1));
+    initCombo(ui()->cmbBg2, m_contact->getBackgroundCode(1), pasts);
 
-void PastInfo::cmbAfChanged(int)
-{
-    QComboBox *cmbs[3] = { cmbAf1, cmbAf2, cmbAf3 };
-    QLineEdit *edts[3] = { edtAf1, edtAf2, edtAf3 };
-    unsigned n = 0;
-    for (unsigned i = 0; i < 3; i++){
-        unsigned short value = getComboValue(cmbs[i], affilations);
-        if (value){
-            if (i != n){
-                cmbs[n]->setEnabled(true);
-                edts[n]->setEnabled(true);
-                initCombo(cmbs[n], value, affilations, true);
-                edts[n]->setText(edts[i]->text());
-            }
-            edts[n]->setEnabled(true);
-            edts[n]->setReadOnly(false);
-            n++;
-        }
-    }
-    if (n >= 3)
-        return;
-    cmbs[n]->setEnabled(true);
-    disableWidget(edts[n]);
-    cmbs[n]->setCurrentIndex(0);
-    edts[n]->setText(QString::null);
-    for (n++; n < 3; n++){
-        disableWidget(cmbs[n]);
-        disableWidget(edts[n]);
-        initCombo(cmbs[n], 0, affilations, true);
-        edts[n]->setText(QString::null);
-    }
-}
+    ui()->edtBg3->setText(m_contact->getBackgroundText(2));
+    initCombo(ui()->cmbBg3, m_contact->getBackgroundCode(2), pasts);
 
-void PastInfo::updateData(ICQUserData* data)
-{
-    QString bg[3];
-    bg[0] = getInfo(cmbBg1, edtBg1, pasts);
-    bg[1] = getInfo(cmbBg2, edtBg2, pasts);
-    bg[2] = getInfo(cmbBg3, edtBg3, pasts);
-    QString res;
-    for (unsigned i = 0; i < 3; i++){
-        if (bg[i].isEmpty())
-            continue;
-        if (!res.isEmpty())
-            res += ';';
-        res += bg[i];
-    }
-    data->setBackgrounds(res);
-    res = QString::null;
-    QString af[3];
-    af[0] = getInfo(cmbAf1, edtAf1, affilations);
-    af[1] = getInfo(cmbAf2, edtAf2, affilations);
-    af[2] = getInfo(cmbAf3, edtAf3, affilations);
-    for (unsigned i = 0; i < 3; i++){
-        if (af[i].isEmpty())
-            continue;
-        if (!res.isEmpty())
-            res += ';';
-        res += af[i];
-    }
-    data->setAffilations(res);
-}
+    ui()->edtAf1->setText(m_contact->getAffiliationText(0));
+    initCombo(ui()->cmbAf1, m_contact->getAffiliationCode(0), affilations);
 
-void PastInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
-{
-    if (client != m_client)
-        return;
-    updateData(m_client->toICQUserData(contact));
-}
+    ui()->edtAf2->setText(m_contact->getAffiliationText(1));
+    initCombo(ui()->cmbAf2, m_contact->getAffiliationCode(1), affilations);
 
-void PastInfo::apply(Client *client, void *_data)
-{
-    if (client != m_client)
-        return;
-    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
-    updateData(data);
-}
+    ui()->edtAf3->setText(m_contact->getAffiliationText(2));
+    initCombo(ui()->cmbAf3, m_contact->getAffiliationCode(2), affilations);
 
-QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
-{
-    unsigned n = getComboValue(cmb, info);
-    if (n == 0)
-        return QString::null;
-    QString res = QString::number(n) + ',';
-    res += quoteChars(edt->text(), ",;");
-    return res;
+//    if (m_data == NULL){
+//        cmbBgChanged(0);
+//        cmbAfChanged(0);
+//    }
 }
-
+//
+//void PastInfo::cmbBgChanged(int)
+//{
+//    QComboBox *cmbs[3] = { cmbBg1, cmbBg2, cmbBg3 };
+//    QLineEdit *edts[3] = { edtBg1, edtBg2, edtBg3 };
+//    unsigned n = 0;
+//    for (unsigned i = 0; i < 3; i++){
+//        unsigned short value = getComboValue(cmbs[i], pasts);
+//        if (value){
+//            if (i != n){
+//                cmbs[n]->setEnabled(true);
+//                edts[n]->setEnabled(true);
+//                initCombo(cmbs[n], value, pasts, true);
+//                edts[n]->setText(edts[i]->text());
+//            }
+//            edts[n]->setEnabled(true);
+//            edts[n]->setReadOnly(false);
+//            n++;
+//        }
+//    }
+//    if (n >= 3)
+//        return;
+//    cmbs[n]->setEnabled(true);
+//    disableWidget(edts[n]);
+//    cmbs[n]->setCurrentIndex(0);
+//    edts[n]->setText(QString::null);
+//    for (n++; n < 3; n++){
+//        disableWidget(cmbs[n]);
+//        disableWidget(edts[n]);
+//        initCombo(cmbs[n], 0, pasts, true);
+//        edts[n]->setText(QString::null);
+//    }
+//}
+//
+//void PastInfo::cmbAfChanged(int)
+//{
+//    QComboBox *cmbs[3] = { cmbAf1, cmbAf2, cmbAf3 };
+//    QLineEdit *edts[3] = { edtAf1, edtAf2, edtAf3 };
+//    unsigned n = 0;
+//    for (unsigned i = 0; i < 3; i++){
+//        unsigned short value = getComboValue(cmbs[i], affilations);
+//        if (value){
+//            if (i != n){
+//                cmbs[n]->setEnabled(true);
+//                edts[n]->setEnabled(true);
+//                initCombo(cmbs[n], value, affilations, true);
+//                edts[n]->setText(edts[i]->text());
+//            }
+//            edts[n]->setEnabled(true);
+//            edts[n]->setReadOnly(false);
+//            n++;
+//        }
+//    }
+//    if (n >= 3)
+//        return;
+//    cmbs[n]->setEnabled(true);
+//    disableWidget(edts[n]);
+//    cmbs[n]->setCurrentIndex(0);
+//    edts[n]->setText(QString::null);
+//    for (n++; n < 3; n++){
+//        disableWidget(cmbs[n]);
+//        disableWidget(edts[n]);
+//        initCombo(cmbs[n], 0, affilations, true);
+//        edts[n]->setText(QString::null);
+//    }
+//}
+//
+//void PastInfo::updateData(ICQUserData* data)
+//{
+//    QString bg[3];
+//    bg[0] = getInfo(cmbBg1, edtBg1, pasts);
+//    bg[1] = getInfo(cmbBg2, edtBg2, pasts);
+//    bg[2] = getInfo(cmbBg3, edtBg3, pasts);
+//    QString res;
+//    for (unsigned i = 0; i < 3; i++){
+//        if (bg[i].isEmpty())
+//            continue;
+//        if (!res.isEmpty())
+//            res += ';';
+//        res += bg[i];
+//    }
+//    data->setBackgrounds(res);
+//    res = QString::null;
+//    QString af[3];
+//    af[0] = getInfo(cmbAf1, edtAf1, affilations);
+//    af[1] = getInfo(cmbAf2, edtAf2, affilations);
+//    af[2] = getInfo(cmbAf3, edtAf3, affilations);
+//    for (unsigned i = 0; i < 3; i++){
+//        if (af[i].isEmpty())
+//            continue;
+//        if (!res.isEmpty())
+//            res += ';';
+//        res += af[i];
+//    }
+//    data->setAffilations(res);
+//}
+//
+//void PastInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
+//{
+//    if (client != m_client)
+//        return;
+//    updateData(m_client->toICQUserData(contact));
+//}
+//
+//void PastInfo::apply(Client *client, void *_data)
+//{
+//    if (client != m_client)
+//        return;
+//    ICQUserData *data = m_client->toICQUserData((SIM::IMContact*)_data);  // FIXME unsafe type conversion
+//    updateData(data);
+//}
+//
+//QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
+//{
+//    unsigned n = getComboValue(cmb, info);
+//    if (n == 0)
+//        return QString::null;
+//    QString res = QString::number(n) + ',';
+//    res += quoteChars(edt->text(), ",;");
+//    return res;
+//}
+//
