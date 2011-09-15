@@ -129,7 +129,7 @@ ICQPicture::ICQPicture(QWidget* parent, const ICQContactPtr& contact, ICQClient*
 
 void ICQPicture::fill()
 {
-    setPict(SIM::getAvatarStorage()->getAvatar(m_contact->id(), "photo"));
+    setPict(SIM::getAvatarStorage()->getAvatar(m_contact->id()));
 }
 //
 //void ICQPicture::clearPicture()

@@ -913,6 +913,7 @@ protected:
 
 private:
     void initialize(bool bAIM);
+    void registerEvents();
     void initSnacHandlers();
 
     SIM::PropertyHubPtr m_propertyHub;

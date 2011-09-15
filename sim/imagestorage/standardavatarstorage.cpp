@@ -11,7 +11,39 @@
 
 #include "imagestorage.h"
 
+
+namespace SIM
+{
+
 static const QString AvatarScheme = "avatar://";
+
+class StandardAvatarStoragePimpl
+{
+    QMap<QString, QImage> m_cache;
+public:
+
+    void insert(const QString& id, const QImage& image)
+    {
+        // TODO implement eviction
+        m_cache.insert(id, image);
+    }
+
+    bool hasImage(const QString& id)
+    {
+        QMap<QString, QImage>::iterator it = m_cache.find(id);
+        if(it == m_cache.end())
+            return false;
+        return true;
+    }
+
+    QImage get(const QString& id)
+    {
+        QMap<QString, QImage>::iterator it = m_cache.find(id);
+        if(it == m_cache.end())
+            return QImage();
+        return it.value();
+    }
+};
 
 StandardAvatarStorage::StandardAvatarStorage()
 {
@@ -114,6 +146,8 @@ QString StandardAvatarStorage::makeUri(const IMContactId& id, const QString& typ
 QString StandardAvatarStorage::basePath() const
 {
     return getProfileManager()->profilePath() + QDir::separator() + "pictures" + QDir::separator();
+}
+
 }
 
  /* namespace SIM */

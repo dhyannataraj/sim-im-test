@@ -51,6 +51,8 @@
 
 #include "icqconfig/icqconfigwidgetcreator.h"
 
+#include "events/icqcontactupdate.h"
+
 
 const unsigned short FLAP_START = 0x2A;
 
@@ -241,6 +243,8 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     m_name(name), m_state(ICQClient::sOffline)
 {
     initialize(bAIM);
+    registerEvents();
+
     clientPersistentData = new ICQClientData(this);
 
     m_oscarSocket = new StandardOscarSocket(this);
@@ -261,6 +265,7 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     m_configWidgetCreator = new IcqConfigWidgetCreator(this);
     SIM::getEventHub()->getEvent("contact_widget_collection")->connectTo(m_configWidgetCreator,
             SLOT(contactConfigRequested(SIM::WidgetHierarchy*, QString)));
+
 }
 
 ICQClient::~ICQClient()
@@ -1559,73 +1564,10 @@ bool ICQClient::sendMessage(const SIM::MessagePtr& message)
     return m_icbmSnac->sendMessage(message);
 }
 
-//void OscarSocket::flap(char channel)
-//{
-//    socket()->writeBuffer().packetStart();
-//    socket()->writeBuffer()
-//    << (char)0x2A
-//    << channel
-//    << 0x00000000L;
-//}
-
-//void OscarSocket::snac(unsigned short food, unsigned short type, bool msgId, bool bType)
-//{
-//    flap(ICQ_CHNxDATA);
-//    socket()->writeBuffer()
-//    << food
-//    << type
-//    << 0x0000
-//    << (bType ? type : (unsigned short)0)
-//    << (msgId ? ++m_nMsgSequence : 0x0000);
-//}
-
-//void OscarSocket::sendPacket(bool bSend)
-//{
-//    Buffer &writeBuffer = socket()->writeBuffer();
-//    char *packet = writeBuffer.data(writeBuffer.packetStartPos());
-//    unsigned size = writeBuffer.size() - writeBuffer.packetStartPos() - 6;
-//    packet[4] = (char)((size >> 8) & 0xFF);
-//    packet[5] = (char)(size & 0xFF);
-//    if (bSend)
-//    {
-//        packet[2] = (m_nFlapSequence >> 8);
-//        packet[3] = m_nFlapSequence;
-//        EventLog::log_packet(socket()->writeBuffer(), true, ICQPlugin::icq_plugin->OscarPacket);
-//        socket()->write();
-//        ++m_nFlapSequence;
-//    }
-//}
-
-//void ICQClient::sendPacket(bool bSend)
-//{
-//    Buffer &writeBuffer = socket()->writeBuffer();
-//    unsigned char *packet = (unsigned char*)(writeBuffer.data(writeBuffer.readPos()));
-//    unsigned long snac = 0;
-//    if (writeBuffer.writePos() >= writeBuffer.readPos() + 10)
-//        snac = (packet[6] << 24) + (packet[7] << 16) + (packet[8] << 8) + packet[9];
-//    unsigned delay = delayTime(snac);
-//    if (m_bNoSend)
-//        bSend = false;
-//    else if (!bSend && (delay == 0))
-//        bSend = true;
-//    RateInfo *r = rateInfo(snac);
-//    if (!r)
-//        bSend = true;
-//    else if (m_bNoSend || r->delayed.size())
-//        bSend = false;
-//    if (bSend)
-//    {
-//        if (r)
-//            setNewLevel(*r);
-//        OscarSocket::sendPacket(true);
-//        return;
-//    }
-//    OscarSocket::sendPacket(false);
-//    r->delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
-//    writeBuffer.resize(writeBuffer.packetStartPos());
-//    m_processTimer->stop();
-//    m_processTimer->start(delay);
-//}
+void ICQClient::registerEvents()
+{
+    SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_info_updated"));
+}
 
 //unsigned long ICQClient::getFullStatus()
 //{

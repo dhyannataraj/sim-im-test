@@ -77,7 +77,7 @@ void IcqConfigWidgetCreator::contactConfigRequested(SIM::WidgetHierarchy* hierar
     SIM::WidgetHierarchy picture;
     picture.nodeName = I18N_NOOP("Picture");
     picture.widget = new ICQPicture(0, icqcontact, m_client);
-    picture.iconId = "picture";
+    picture.iconId = "pict";
     h.children.append(picture);
 
     hierarchy->children.append(h);

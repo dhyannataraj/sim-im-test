@@ -13,6 +13,7 @@ SET(icq_SRCS
         buddysnachandler.cpp
         bytearraybuilder.cpp
         bytearrayparser.cpp
+        events/icqcontactupdate.cpp
         icbmsnachandler.cpp
         icq.cpp
 #        icqbos.cpp
@@ -90,6 +91,7 @@ SET(icq_HDRS
         buddysnachandler.h
         bytearraybuilder.h
         bytearrayparser.h
+        events/icqcontactupdate.h
         icbmsnachandler.h
         icq.h
 #        icqbuffer.h
