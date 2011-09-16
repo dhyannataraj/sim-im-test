@@ -476,6 +476,8 @@ void ICQClient::initSnacHandlers()
 
     m_bartSnac = new BartSnacHandler(this);
 
+    m_metaInfoSnac = new MetaInfoSnacHandler(this);
+
     m_snacHandlers.insert(m_authSnac->getType(), m_authSnac);
     m_snacHandlers.insert(m_serviceSnac->getType(), m_serviceSnac);
     m_snacHandlers.insert(m_ssiSnac->getType(), m_ssiSnac);
@@ -484,6 +486,7 @@ void ICQClient::initSnacHandlers()
     m_snacHandlers.insert(m_privacySnac->getType(), m_privacySnac);
     m_snacHandlers.insert(m_icbmSnac->getType(), m_icbmSnac);
     m_snacHandlers.insert(m_bartSnac->getType(), m_bartSnac);
+    m_snacHandlers.insert(m_metaInfoSnac->getType(), m_metaInfoSnac);
 }
 
 SIM::IMStatusPtr ICQClient::currentStatus()
@@ -1445,6 +1448,11 @@ BartSnacHandler* ICQClient::bartSnacHandler() const
     return m_bartSnac;
 }
 
+MetaInfoSnacHandler* ICQClient::metaInfoSnacHandler() const
+{
+    return m_metaInfoSnac;
+}
+
 ICQContactList* ICQClient::contactList() const
 {
     return m_contactList;
@@ -1566,7 +1574,7 @@ bool ICQClient::sendMessage(const SIM::MessagePtr& message)
 
 void ICQClient::registerEvents()
 {
-    SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_info_updated"));
+    SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_basic_info_updated"));
 }
 
 //unsigned long ICQClient::getFullStatus()

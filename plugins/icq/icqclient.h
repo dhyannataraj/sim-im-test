@@ -41,6 +41,7 @@
 #include "privacysnachandler.h"
 #include "icbmsnachandler.h"
 #include "bartsnachandler.h"
+#include "metainfosnachandler.h"
 #include "icqcontactlist.h"
 #include "icqstatusconverter.h"
 #include "clientcapabilitiesregistry.h"
@@ -642,6 +643,7 @@ public:
 
     SnacHandler* snacHandler(int type);
     BartSnacHandler* bartSnacHandler() const;
+    MetaInfoSnacHandler* metaInfoSnacHandler() const;
 
     ICQContactList* contactList() const;
     ICQStatusConverter* statusConverter() const;
@@ -940,6 +942,7 @@ private:
     PrivacySnacHandler* m_privacySnac;
     IcbmSnacHandler* m_icbmSnac;
     BartSnacHandler* m_bartSnac;
+    MetaInfoSnacHandler* m_metaInfoSnac;
     mapSnacHandlers m_snacHandlers;
 
     ICQContactList* m_contactList;

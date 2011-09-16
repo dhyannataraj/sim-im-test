@@ -48,6 +48,7 @@ SET(icq_SRCS
 #        icqssbi.cpp
         icqstatus.cpp
         locationsnachandler.cpp
+        metainfosnachandler.cpp
         oscarsocket.cpp
         privacysnachandler.cpp
         rateinfo.cpp
@@ -122,6 +123,7 @@ SET(icq_HDRS
 #        icqssbi.h
         icqstatus.h
         locationsnachandler.h
+        metainfosnachandler.h
         oscarsocket.h
         privacysnachandler.h
         rateinfo.h
@@ -221,6 +223,7 @@ SET(icq_test_sources
     tests/testmoreinfo.cpp
     tests/testpastinfo.cpp
     tests/testworkinfo.cpp
+    tests/testmetainfosnachandler.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
     ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc
