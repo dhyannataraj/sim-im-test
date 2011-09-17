@@ -34,6 +34,7 @@ public:
     MoreInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
 
 public slots:
+    void contactMoreInfoUpdated(const QString& contactScreen);
 //    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);

@@ -50,6 +50,24 @@ namespace
     static const int WorkOccupation = 1;
     static const QString WorkHomePage = "Test Work Homepage";
 
+    static const int Age = 42;
+    static const int Gender = 1;
+    static const QString HomePage = "http://test.com";
+    static const QDate Birthday = QDate(2000, 1, 1);
+    static const int PrimaryLanguage = 4;
+    static const int SecondaryLanguage = 5;
+    static const int TertiaryLanguage = 6;
+    static const QString OriginalCity = "Test original city";
+    static const QString OriginalState = "Test original state";
+    static const int OriginalCountry = 1;
+    static const int OriginalTimezone = 1;
+
+    static const QString AboutInfo = "Test test about info\nBlahblah";
+
+    static const int InterestCode[] = {100, 101, 103, 107};
+    static const QString InterestName[] = {"Art", "Cars", "Collections", "Games"};
+    static const QString InterestText[] = {"Interest1", "Interest2", "Interest3", "Interest4"};
+
     using ::testing::_;
     using ::testing::NiceMock;
 
@@ -152,6 +170,82 @@ namespace
             metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
             metaPacket.appendWord(sqnum);
             metaPacket.appendWord(MetaInfoSnacHandler::MetaWorkUserInfo);
+            metaPacket.appendBytes(builder.getArray());
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
+        QByteArray makeMoreInfoPacket(int sqnum, unsigned int targetUin)
+        {
+            ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+            builder.appendByte(0x0a); //Success byte
+            builder.appendWord(Age);
+            builder.appendByte(Gender);
+            appendString(builder, HomePage);
+            builder.appendWord(Birthday.year());
+            builder.appendByte(Birthday.month());
+            builder.appendByte(Birthday.day());
+            builder.appendByte(PrimaryLanguage);
+            builder.appendByte(SecondaryLanguage);
+            builder.appendByte(TertiaryLanguage);
+            builder.appendWord(0); // Unknown
+            appendString(builder, OriginalCity);
+            appendString(builder, OriginalState);
+            builder.appendWord(OriginalCountry);
+            builder.appendByte(OriginalTimezone);
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(builder.getArray().size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaMoreUserInfo);
+            metaPacket.appendBytes(builder.getArray());
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
+        QByteArray makeAboutInfoPacket(int sqnum, unsigned int targetUin)
+        {
+            ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+            builder.appendByte(0x0a); //Success byte
+            appendString(builder, AboutInfo);
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(builder.getArray().size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaAboutUserInfo);
+            metaPacket.appendBytes(builder.getArray());
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
+        QByteArray makeInterestsInfoPacket(int sqnum, unsigned int targetUin)
+        {
+            ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+            builder.appendByte(0x0a); //Success byte
+            builder.appendByte(0x04);
+
+            for(int i = 0; i < 4; i++)
+            {
+                builder.appendWord(InterestCode[i]);
+                appendString(builder, InterestText[i]);
+            }
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(builder.getArray().size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInterestsUserInfo);
             metaPacket.appendBytes(builder.getArray());
 
             TlvList tlvs;
@@ -434,4 +528,129 @@ namespace
 
         ASSERT_EQ(WorkHomePage, contact->getWorkHomepage());
     }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_emits_contact_updated_event)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_more_info_updated");
+        QSignalSpy spy(event.data(), SIGNAL(eventTriggered(QString)));
+        handler->requestFullInfo(contact); // Binds contact to current sqnum
+
+        bool success = handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_age)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(Age, contact->getAge());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_gender)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(Gender, contact->getGender());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_homepage)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomePage, contact->getHomepage());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_birthday)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(Birthday, contact->getBirthday());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_primaryLanguage)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(PrimaryLanguage, contact->getPrimaryLanguage());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_secondaryLanguage)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(SecondaryLanguage, contact->getSecondaryLanguage());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, moreInfoResponse_sets_tertiaryLanguage)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeMoreInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(TertiaryLanguage, contact->getTertiaryLanguage());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, aboutInfoResponse_emits_contact_updated_event)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_about_info_updated");
+        QSignalSpy spy(event.data(), SIGNAL(eventTriggered(QString)));
+        handler->requestFullInfo(contact); // Binds contact to current sqnum
+
+        bool success = handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeAboutInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, aboutInfoResponse_sets_aboutInfo)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeAboutInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(AboutInfo, contact->getAbout());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, interestsInfoResponse_emits_contact_updated_event)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_interests_info_updated");
+        QSignalSpy spy(event.data(), SIGNAL(eventTriggered(QString)));
+        handler->requestFullInfo(contact); // Binds contact to current sqnum
+
+        bool success = handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeInterestsInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, interestsInfoResponse_sets_interests)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeInterestsInfoPacket(1, TargetUin), 0, 0);
+
+        for(int i = 0; i < 4; i++)
+        {
+            ASSERT_EQ(InterestCode[i], contact->getInterest(i));
+            ASSERT_EQ(InterestText[i], contact->getInterestText(i));
+        }
+    }
+
 }

@@ -73,6 +73,12 @@ bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
         return parseBasicUserInfo(parser, contact);
     case MetaWorkUserInfo:
         return parseWorkUserInfo(parser, contact);
+    case MetaMoreUserInfo:
+        return parseMoreUserInfo(parser, contact);
+    case MetaAboutUserInfo:
+        return parseAboutUserInfo(parser, contact);
+    case MetaInterestsUserInfo:
+        return parseInterestsUserInfo(parser, contact);
     default:
         return false;
     }
@@ -127,6 +133,69 @@ bool MetaInfoSnacHandler::parseWorkUserInfo(ByteArrayParser& parser, const ICQCo
 
     IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_work_info_updated", contact->getScreen());
     SIM::getEventHub()->getEvent("icq_contact_work_info_updated")->triggered(data);
+    return true;
+}
+
+bool MetaInfoSnacHandler::parseMoreUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact)
+{
+    int successByte = parser.readByte();
+    if(successByte != 0x0a)
+        return false;
+
+    contact->setAge(parser.readWord());
+    contact->setGender(parser.readByte());
+    contact->setHomepage(readString(parser));
+
+    int year = parser.readWord();
+    int month = parser.readByte();
+    int day = parser.readByte();
+    contact->setBirthday(QDate(year, month, day));
+
+    contact->setPrimaryLanguage(parser.readByte());
+    contact->setSecondaryLanguage(parser.readByte());
+    contact->setTertiaryLanguage(parser.readByte());
+
+    // Ignore the rest
+
+    IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_more_info_updated", contact->getScreen());
+    SIM::getEventHub()->getEvent("icq_contact_more_info_updated")->triggered(data);
+    return true;
+}
+
+bool MetaInfoSnacHandler::parseAboutUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact)
+{
+    int successByte = parser.readByte();
+    if(successByte != 0x0a)
+        return false;
+
+    contact->setAbout(readString(parser));
+
+    IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_about_info_updated", contact->getScreen());
+    SIM::getEventHub()->getEvent("icq_contact_about_info_updated")->triggered(data);
+    return true;
+}
+
+bool MetaInfoSnacHandler::parseInterestsUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact)
+{
+    int successByte = parser.readByte();
+    if(successByte != 0x0a)
+        return false;
+
+    int interestsCount = parser.readByte();
+    if(interestsCount != 4)
+    {
+        SIM::log(SIM::L_WARN, "MetaInfoSnacHandler::parseInterestsUserInfo: Invalid interests count");
+    }
+
+    for(int i = 0; i < 4; i++)
+    {
+        int interestCode = parser.readWord();
+        QString interestText = readString(parser);
+        contact->setInterest(i, interestCode, interestText);
+    }
+
+    IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_interests_info_updated", contact->getScreen());
+    SIM::getEventHub()->getEvent("icq_contact_interests_info_updated")->triggered(data);
     return true;
 }
 

@@ -21,6 +21,7 @@
 
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
+#include "events/eventhub.h"
 
 #include <QPushButton>
 #include <QDateTime>
@@ -44,19 +45,29 @@ MoreInfo::MoreInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* cli
     if(m_contact != m_client->ownerContact())
     {
         m_ui->spnAge->setEnabled(false);
-//        edtHomePage->setReadOnly(true);
-//        disableWidget(cmbGender);
-//        disableWidget(edtDate);
-//        disableWidget(cmbLang1);
-//        disableWidget(cmbLang2);
-//        disableWidget(cmbLang3);
+        m_ui->edtHomePage->setReadOnly(true);
+        m_ui->cmbGender->setEnabled(false);
+        m_ui->edtDate->setEnabled(false);
+        m_ui->cmbLang1->setEnabled(false);
+        m_ui->cmbLang2->setEnabled(false);
+        m_ui->cmbLang3->setEnabled(false);
     }
     else
     {
         connect(m_ui->edtHomePage, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
     }
     fill();
+    SIM::getEventHub()->getEvent("icq_contact_more_info_updated")->connectTo(this, SLOT(contactMoreInfoUpdated(QString)));
 }
+
+void MoreInfo::contactMoreInfoUpdated(const QString& contactScreen)
+{
+    if(contactScreen != m_contact->getScreen())
+        return;
+
+    fill();
+}
+
 //
 //void MoreInfo::apply()
 //{
@@ -197,15 +208,23 @@ void MoreInfo::birthDayChanged()
     int day = m_contact->getBirthday().day();
     int month = m_contact->getBirthday().month();
     int year = m_contact->getBirthday().year();
-    if(year)
+    m_ui->edtDate->setDate(m_contact->getBirthday());
+    if(m_contact->getAge() == 0)
     {
-        QDate now = currentDate();
-        int age = now.year() - year;
-        if((now.month() < month) || ((now.month() == month) && (now.day() < day)))
-            age--;
-        if(age < 100)
+        if(year)
         {
-            m_ui->spnAge->setValue(age);
+            QDate now = currentDate();
+            int age = now.year() - year;
+            if((now.month() < month) || ((now.month() == month) && (now.day() < day)))
+                age--;
+            if(age < 100)
+            {
+                m_ui->spnAge->setValue(age);
+            }
+            else
+            {
+                m_ui->spnAge->setValue(0);
+            }
         }
         else
         {
@@ -214,7 +233,7 @@ void MoreInfo::birthDayChanged()
     }
     else
     {
-        m_ui->spnAge->setValue(0);
+        m_ui->spnAge->setValue(m_contact->getAge());
     }
 }
 

@@ -11,6 +11,8 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include "events/eventhub.h"
+#include "events/icqcontactupdate.h"
 
 #include "icqcontact.h"
 
@@ -18,6 +20,7 @@ namespace
 {
     using testing::Test;
 
+    static const int Uin = 12345678;
     static const QDate Birthday(2000, 01, 01);
     static const QString Homepage = "Test Homepage";
     static const int GenderCode = 1;
@@ -50,6 +53,7 @@ namespace
         {
             client = new ICQClient(0, "123456", false);
             contact = ICQContactPtr(new ICQContact(client));
+            contact->setUin(Uin);
             contact->setBirthday(Birthday);
             contact->setHomepage(Homepage);
             contact->setGender(GenderCode);
@@ -99,5 +103,38 @@ namespace
     TEST_F(TestMoreInfo, constructor_setsTertiaryLanguage)
     {
         ASSERT_EQ(TertiaryLanguageName, info->ui()->cmbLang3->currentText());
+    }
+
+    TEST_F(TestMoreInfo, icq_contact_more_info_updated_event_updates_age)
+    {
+        int newAge = 42;
+        contact->setAge(newAge);
+
+        SIM::getEventHub()->triggerEvent("icq_contact_more_info_updated",
+                IcqContactUpdateData::create("icq_contact_more_info_updated", QString::number(Uin)));
+
+        ASSERT_EQ(newAge, info->ui()->spnAge->value());
+    }
+
+    TEST_F(TestMoreInfo, icq_contact_more_info_updated_event_updates_birthday)
+    {
+        QDate newBirthday = QDate(1990, 1, 12);
+        contact->setBirthday(newBirthday);
+
+        SIM::getEventHub()->triggerEvent("icq_contact_more_info_updated",
+                IcqContactUpdateData::create("icq_contact_more_info_updated", QString::number(Uin)));
+
+        ASSERT_EQ(newBirthday, info->ui()->edtDate->date());
+    }
+
+    TEST_F(TestMoreInfo, icq_contact_more_info_updated_event_updates_gender)
+    {
+        int newGender = 2;
+        contact->setGender(newGender);
+
+        SIM::getEventHub()->triggerEvent("icq_contact_more_info_updated",
+                IcqContactUpdateData::create("icq_contact_more_info_updated", QString::number(Uin)));
+
+        ASSERT_EQ("Male", info->ui()->cmbGender->currentText());
     }
 }

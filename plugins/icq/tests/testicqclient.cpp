@@ -121,4 +121,25 @@ namespace
 
         ASSERT_TRUE(event);
     }
+
+    TEST_F(TestIcqClient, registersIcqMoreInfoRequestEvent)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_more_info_updated");
+
+        ASSERT_TRUE(event);
+    }
+
+    TEST_F(TestIcqClient, registersIcqAboutInfoRequestEvent)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_about_info_updated");
+
+        ASSERT_TRUE(event);
+    }
+
+    TEST_F(TestIcqClient, registersIcqInterestsInfoRequestEvent)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_interests_info_updated");
+
+        ASSERT_TRUE(event);
+    }
 }

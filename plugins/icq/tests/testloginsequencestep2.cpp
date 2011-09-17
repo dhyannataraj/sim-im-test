@@ -8,13 +8,14 @@ namespace
     using ::testing::_;
     using ::testing::AnyNumber;
     using ::testing::Return;
+    using ::testing::NiceMock;
     class TestLoginSequenceStep2 : public ::testing::Test
     {
     protected:
 
         virtual void SetUp()
         {
-            socket = new MockObjects::MockOscarSocket();
+            socket = new NiceMock<MockObjects::MockOscarSocket>();
             client = new ICQClient(0, "ICQ.123456", false);
             client->setOscarSocket(socket);
             ON_CALL(*socket, isConnected()).WillByDefault(Return(true));
@@ -56,7 +57,7 @@ namespace
         }
 
         ICQClient* client;
-        MockObjects::MockOscarSocket* socket;
+        NiceMock<MockObjects::MockOscarSocket>* socket;
     };
 
     TEST_F(TestLoginSequenceStep2, rateInfoReply_requestsSelfInfo)

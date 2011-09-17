@@ -18,6 +18,7 @@
 #include "interestsinfo.h"
 #include "../icqclient.h"
 #include "contacts/contact.h"
+#include "events/eventhub.h"
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -42,8 +43,17 @@ InterestsInfo::InterestsInfo(QWidget *parent, const ICQContactPtr& contact, ICQC
         m_ui->cmbBg4->setEnabled(false);
     }
     fill();
+    SIM::getEventHub()->getEvent("icq_contact_interests_info_updated")->connectTo(this, SLOT(contactInterestsInfoUpdated(QString)));
 }
-//
+
+void InterestsInfo::contactInterestsInfoUpdated(const QString& contactScreen)
+{
+    if(contactScreen != m_contact->getScreen())
+        return;
+
+    fill();
+}
+
 //void InterestsInfo::apply()
 //{
 //}

@@ -18,6 +18,7 @@
 #include "aboutinfo.h"
 #include "../icqclient.h"
 #include "contacts/contact.h"
+#include "events/eventhub.h"
 
 using namespace SIM;
 
@@ -32,8 +33,17 @@ AboutInfo::AboutInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* c
         m_ui->edtAbout->setReadOnly(true);
     m_contact = contact;
     fill();
+    SIM::getEventHub()->getEvent("icq_contact_about_info_updated")->connectTo(this, SLOT(contactAboutInfoUpdated(QString)));
 }
-//
+
+void AboutInfo::contactAboutInfoUpdated(const QString& contactScreen)
+{
+    if(contactScreen != m_contact->getScreen())
+        return;
+
+    fill();
+}
+
 //void AboutInfo::apply()
 //{
 //}
