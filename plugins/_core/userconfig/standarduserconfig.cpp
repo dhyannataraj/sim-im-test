@@ -62,7 +62,8 @@ void StandardUserConfig::setWidgetHierarchy(SIM::WidgetHierarchy* root)
     addHierarchy(m_ui->lstBox->invisibleRootItem(), *root);
     m_ui->wnd->setCurrentIndex(0);
     m_ui->lstBox->setCurrentItem(m_ui->lstBox->topLevelItem(0));
-    itemActivated(m_ui->lstBox->topLevelItem(0), 0);
+    if(m_ui->lstBox->topLevelItemCount() > 0)
+        itemActivated(m_ui->lstBox->topLevelItem(0), 0);
 }
 
 void StandardUserConfig::addHierarchy(QTreeWidgetItem* parent, const SIM::WidgetHierarchy& h)

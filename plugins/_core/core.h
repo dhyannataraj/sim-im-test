@@ -251,7 +251,9 @@ protected:
 //    HistoryThread      *m_HistoryThread;
 
 private slots:
+    void cmdSetup();
     void cmdQuit();
+
     void eventInit();
     void eventQuit();
 

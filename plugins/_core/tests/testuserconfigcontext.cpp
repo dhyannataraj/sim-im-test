@@ -43,5 +43,12 @@ namespace
 
         ASSERT_EQ(QString::number(ContactId), context->context());
     }
+
+    TEST_F(TestUserConfigContext, GlobalContext_widgetCollectionEventId)
+    {
+        UserConfigContextPtr context = UserConfigContext::create(UserConfigContext::GlobalContext::Generic);
+
+        ASSERT_EQ("global_configure_widget_collection", context->widgetCollectionEventId());
+    }
 }
 

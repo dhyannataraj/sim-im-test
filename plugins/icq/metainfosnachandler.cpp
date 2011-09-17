@@ -186,7 +186,7 @@ bool MetaInfoSnacHandler::parseInterestsUserInfo(ByteArrayParser& parser, const 
     int interestsCount = parser.readByte();
     if(interestsCount != 4)
     {
-        SIM::log(SIM::L_WARN, "MetaInfoSnacHandler::parseInterestsUserInfo: Invalid interests count");
+        SIM::log(SIM::L_WARN, "MetaInfoSnacHandler::parseInterestsUserInfo: Invalid interests count: %d", interestsCount);
     }
 
     for(int i = 0; i < 4; i++)

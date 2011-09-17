@@ -30,6 +30,33 @@ private:
     QString m_contactId;
 };
 
+class GlobalContextProvider : public UserConfigContext
+{
+public:
+    GlobalContextProvider()
+    {
+    }
+
+    virtual ~GlobalContextProvider() {}
+
+    virtual QString widgetCollectionEventId()
+    {
+        return QString("global_configure_widget_collection");
+    }
+
+    virtual QString context()
+    {
+        return QString();
+    }
+
+private:
+};
+
+UserConfigContextPtr UserConfigContext::create(GlobalContext context)
+{
+    return UserConfigContextPtr(new GlobalContextProvider());
+}
+
 UserConfigContextPtr UserConfigContext::create(const SIM::ContactPtr& contact)
 {
     return UserConfigContextPtr(new ContactContext(contact));

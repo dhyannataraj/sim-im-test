@@ -16,11 +16,16 @@ typedef QSharedPointer<UserConfigContext> UserConfigContextPtr;
 class CORE_EXPORT UserConfigContext
 {
 public:
+    enum class GlobalContext
+    {
+        Generic
+    };
     virtual ~UserConfigContext() {}
 
     virtual QString widgetCollectionEventId() = 0;
     virtual QString context() = 0;
 
+    static UserConfigContextPtr create(GlobalContext context);
     static UserConfigContextPtr create(const SIM::ContactPtr& contact);
 };
 

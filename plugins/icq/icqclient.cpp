@@ -265,6 +265,8 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     m_configWidgetCreator = new IcqConfigWidgetCreator(this);
     SIM::getEventHub()->getEvent("contact_widget_collection")->connectTo(m_configWidgetCreator,
             SLOT(contactConfigRequested(SIM::WidgetHierarchy*, QString)));
+    SIM::getEventHub()->getEvent("global_configure_widget_collection")->connectTo(m_configWidgetCreator,
+                SLOT(globalConfigRequested(SIM::WidgetHierarchy*, QString)));
     connect(m_configWidgetCreator, SIGNAL(fullInfoRequest(QString)), this, SLOT(fullInfoRequest(QString)));
 
 }
@@ -1565,6 +1567,11 @@ void ICQClient::disconnectFromServer()
 
 void ICQClient::fullInfoRequest(const QString& contactScreen)
 {
+    if(ownerIcqContact()->getScreen() == contactScreen)
+    {
+        m_metaInfoSnac->requestFullInfo(ownerIcqContact());
+        return;
+    }
     ICQContactPtr contact = contactList()->contactByScreen(contactScreen);
     if(!contact)
     {

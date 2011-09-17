@@ -69,6 +69,9 @@ email                : vovan@shutoff.ru
 #include "mainwinactions/actionmenucommonstatus.h"
 #include "events/commonstatusevent.h"
 
+#include "userconfig/userconfigcontroller.h"
+#include "userconfig/userconfigcontext.h"
+
 using namespace std;
 using namespace SIM;
 
@@ -211,12 +214,22 @@ CorePlugin::CorePlugin() : QObject()
 void CorePlugin::registerEvents()
 {
     getEventHub()->registerEvent(SIM::WidgetCollectionEvent::create("contact_widget_collection"));
+    getEventHub()->registerEvent(SIM::WidgetCollectionEvent::create("global_configure_widget_collection"));
 }
 
 void CorePlugin::subscribeToEvents()
 {
     getEventHub()->getEvent("init")->connectTo(this, SLOT(eventInit()));
     getEventHub()->getEvent("quit")->connectTo(this, SLOT(eventQuit()));
+}
+
+void CorePlugin::cmdSetup()
+{
+    UserConfigContextPtr context = UserConfigContext::create(UserConfigContext::GlobalContext::Generic);
+    UserConfigController controller;
+    controller.init(context);
+
+    controller.exec();
 }
 
 void CorePlugin::cmdQuit()
@@ -274,9 +287,11 @@ void CorePlugin::createMainToolbar()
 
 void CorePlugin::createMainMenuActions()
 {
-    getCommandHub()->registerAction(
-            SIM::ActionDescriptor
-            {"quit", "exit", "Quit",
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"configure", "configure", "Configure",
+            QStringList() << "main_menu",
+            new QAction("Configure", 0)});
+
+    getCommandHub()->registerAction(SIM::ActionDescriptor {"quit", "exit", "Quit",
         QStringList() << "main_menu",
         new QAction("Quit", 0)});
 }
@@ -3077,8 +3092,12 @@ bool CorePlugin::init()
 {
     log(L_DEBUG, "CorePlugin::init");
     ConfigPtr settings = getProfileManager()->config();
+
     QAction* quitAction = SIM::getCommandHub()->action("quit");
     connect(quitAction, SIGNAL(triggered()), this, SLOT(cmdQuit()));
+
+    QAction* configureAction = SIM::getCommandHub()->action("configure");
+    connect(configureAction, SIGNAL(triggered()), this, SLOT(cmdSetup()));
 
     // FIXME:
     /*
