@@ -215,6 +215,7 @@ protected:
 //    bool lockProfile(const QString &profile, bool bSend = false);
 
     void createMainToolbar();
+    void createMainMenuActions();
     QMenu* createMainMenu();
 //    void createGroupModeMenu();
 //    bool updateMainToolbar(unsigned long commandID);
@@ -250,6 +251,7 @@ protected:
 //    HistoryThread      *m_HistoryThread;
 
 private slots:
+    void cmdQuit();
     void eventInit();
     void eventQuit();
 

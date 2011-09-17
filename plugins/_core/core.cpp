@@ -204,6 +204,7 @@ CorePlugin::CorePlugin() : QObject()
 
     registerEvents();
     subscribeToEvents();
+
     createMainToolbar();
 }
 
@@ -218,9 +219,15 @@ void CorePlugin::subscribeToEvents()
     getEventHub()->getEvent("quit")->connectTo(this, SLOT(eventQuit()));
 }
 
+void CorePlugin::cmdQuit()
+{
+    m_main->close();
+    delete m_main;
+}
+
 void CorePlugin::eventQuit()
 {
-    //destroy();
+
 }
 
 IContainerManager* CorePlugin::containerManager() const
@@ -252,6 +259,8 @@ void CorePlugin::createMainToolbar()
     getCommandHub()->registerAction(a_2);
     getCommandHub()->registerAction(a_3);
 
+    createMainMenuActions();
+
     QAction* mainMenu = new SIM::MenuAction(0);
     mainMenu->setMenu(createMainMenu());
 
@@ -261,6 +270,15 @@ void CorePlugin::createMainToolbar()
         mainMenu};
 
     getCommandHub()->registerAction(a_4);
+}
+
+void CorePlugin::createMainMenuActions()
+{
+    getCommandHub()->registerAction(
+            SIM::ActionDescriptor
+            {"quit", "exit", "Quit",
+        QStringList() << "main_menu",
+        new QAction("Quit", 0)});
 }
 
 QMenu* CorePlugin::createMainMenu()
@@ -3059,6 +3077,8 @@ bool CorePlugin::init()
 {
     log(L_DEBUG, "CorePlugin::init");
     ConfigPtr settings = getProfileManager()->config();
+    QAction* quitAction = SIM::getCommandHub()->action("quit");
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(cmdQuit()));
 
     // FIXME:
     /*
