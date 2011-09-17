@@ -1587,6 +1587,7 @@ bool ICQClient::sendMessage(const SIM::MessagePtr& message)
 void ICQClient::registerEvents()
 {
     SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_basic_info_updated"));
+    SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_work_info_updated"));
 }
 
 //unsigned long ICQClient::getFullStatus()

@@ -34,11 +34,13 @@ public:
     static const int MetaInfoRequest = 0x7d0;
 
     static const int MetaBasicUserInfo = 0xc8;
+    static const int MetaWorkUserInfo = 0xd2;
 
 private:
     bool processMetaInfoData(const QByteArray& arr);
 
     bool parseBasicUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
+    bool parseWorkUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
 
     void addMetaInfoRequest(int sqnum, const ICQContactPtr& contact);
     ICQContactPtr getMetaInfoRequestContact(int sqnum);

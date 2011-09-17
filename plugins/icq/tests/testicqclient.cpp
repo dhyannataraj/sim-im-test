@@ -7,6 +7,8 @@
 #include "contacts/imstatus.h"
 #include "testicqclient.h"
 #include "tests/mocks/mockoscarsocket.h"
+#include "events/eventhub.h"
+#include "events/ievent.h"
 
 namespace
 {
@@ -106,4 +108,17 @@ namespace
         forceAllSnacsReady();
     }
 
+    TEST_F(TestIcqClient, registersIcqBasicInfoRequestEvent)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_basic_info_updated");
+
+        ASSERT_TRUE(event);
+    }
+
+    TEST_F(TestIcqClient, registersIcqWorkInfoRequestEvent)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_work_info_updated");
+
+        ASSERT_TRUE(event);
+    }
 }

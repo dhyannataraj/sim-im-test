@@ -37,6 +37,7 @@ signals:
     void raise(QWidget*);
 
 public slots:
+    void contactBasicInfoUpdated(const QString& contactScreen);
 //    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);

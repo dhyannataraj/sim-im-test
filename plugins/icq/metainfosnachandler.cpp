@@ -71,6 +71,8 @@ bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
     {
     case MetaBasicUserInfo:
         return parseBasicUserInfo(parser, contact);
+    case MetaWorkUserInfo:
+        return parseWorkUserInfo(parser, contact);
     default:
         return false;
     }
@@ -101,6 +103,30 @@ bool MetaInfoSnacHandler::parseBasicUserInfo(ByteArrayParser& parser, const ICQC
 
     IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_basic_info_updated", contact->getScreen());
     SIM::getEventHub()->getEvent("icq_contact_basic_info_updated")->triggered(data);
+    return true;
+}
+
+bool MetaInfoSnacHandler::parseWorkUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact)
+{
+    int successByte = parser.readByte();
+    if(successByte != 0x0a)
+        return false;
+
+    contact->setWorkCity(readString(parser));
+    contact->setWorkState(readString(parser));
+    contact->setWorkPhone(readString(parser));
+    contact->setWorkFax(readString(parser));
+    contact->setWorkAddress(readString(parser));
+    contact->setWorkZip(readString(parser));
+    contact->setWorkCountry(parser.readWord());
+    contact->setWorkName(readString(parser));
+    contact->setWorkDepartment(readString(parser));
+    contact->setWorkPosition(readString(parser));
+    contact->setOccupation(parser.readWord());
+    contact->setWorkHomepage(readString(parser));
+
+    IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_work_info_updated", contact->getScreen());
+    SIM::getEventHub()->getEvent("icq_contact_work_info_updated")->triggered(data);
     return true;
 }
 

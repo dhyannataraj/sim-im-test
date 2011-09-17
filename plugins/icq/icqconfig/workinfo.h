@@ -32,6 +32,7 @@ public:
     WorkInfo(QWidget *parent, const ICQContactPtr& contact, ICQClient *client);
 
 public slots:
+    void contactWorkInfoUpdated(const QString& contactScreen);
 //    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);

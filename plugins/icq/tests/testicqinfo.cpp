@@ -10,6 +10,8 @@
 
 #include "icqclient.h"
 #include "icqcontact.h"
+#include "events/icqcontactupdate.h"
+#include "events/eventhub.h"
 
 #include "icqconfig/icqinfo.h"
 #include "mocks/mockoscarsocket.h"
@@ -80,4 +82,38 @@ namespace
     {
         ASSERT_EQ(NickName, info->ui()->edtNick->text());
     }
+
+    TEST_F(TestIcqInfo, icq_contact_basic_info_updated_event_updates_firstName)
+    {
+        QString newFirstName = "New First Name";
+        contact->setFirstName(newFirstName);
+
+        SIM::getEventHub()->triggerEvent("icq_contact_basic_info_updated",
+                IcqContactUpdateData::create("icq_contact_basic_info_updated", QString::number(Uin)));
+
+        ASSERT_EQ(newFirstName, info->ui()->edtFirst->text());
+    }
+
+    TEST_F(TestIcqInfo, icq_contact_basic_info_updated_event_updates_lastName)
+    {
+        QString newLastName = "New Last Name";
+        contact->setLastName(newLastName);
+
+        SIM::getEventHub()->triggerEvent("icq_contact_basic_info_updated",
+                IcqContactUpdateData::create("icq_contact_basic_info_updated", QString::number(Uin)));
+
+        ASSERT_EQ(newLastName, info->ui()->edtLast->text());
+    }
+
+    TEST_F(TestIcqInfo, icq_contact_basic_info_updated_event_updates_nick)
+    {
+        QString newNickname = "New Nickname";
+        contact->setNick(newNickname);
+
+        SIM::getEventHub()->triggerEvent("icq_contact_basic_info_updated",
+                IcqContactUpdateData::create("icq_contact_basic_info_updated", QString::number(Uin)));
+
+        ASSERT_EQ(newNickname, info->ui()->edtNick->text());
+    }
+
 }

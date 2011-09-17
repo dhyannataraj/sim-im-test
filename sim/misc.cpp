@@ -380,8 +380,8 @@ EXPORT QString formatAddr(unsigned long ip, unsigned port)
 
 void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty, const ext_info *tbl1)
 {
+    cmb->clear();
     if (cmb->isEnabled()){
-        cmb->clear();
         if (bAddEmpty)
             cmb->insertItem(INT_MAX,QString());
         QStringList items;

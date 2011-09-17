@@ -19,6 +19,7 @@
 #include "../icqclient.h"
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
+#include "events/eventhub.h"
 
 #include <QPushButton>
 #include <QLineEdit>
@@ -53,7 +54,17 @@ WorkInfo::WorkInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* cli
         connect(m_ui->edtSite, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
     }
     fill();
+    SIM::getEventHub()->getEvent("icq_contact_work_info_updated")->connectTo(this, SLOT(contactWorkInfoUpdated(QString)));
 }
+
+void WorkInfo::contactWorkInfoUpdated(const QString& contactScreen)
+{
+    if(contactScreen != m_contact->getScreen())
+        return;
+
+    fill();
+}
+
 //
 //void WorkInfo::apply()
 //{

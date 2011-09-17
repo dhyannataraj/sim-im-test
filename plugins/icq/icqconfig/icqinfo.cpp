@@ -21,6 +21,7 @@
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
 #include "metainfosnachandler.h"
+#include "events/eventhub.h"
 
 #include <QLineEdit>
 #include <QStringList>
@@ -77,7 +78,17 @@ ICQInfo::ICQInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* clien
     m_ui->edtIntIP->setReadOnly(true);
     m_ui->edtClient->setReadOnly(true);
     fill();
+    SIM::getEventHub()->getEvent("icq_contact_basic_info_updated")->connectTo(this, SLOT(contactBasicInfoUpdated(QString)));
 }
+
+void ICQInfo::contactBasicInfoUpdated(const QString& contactScreen)
+{
+    if(contactScreen != m_contact->getScreen())
+        return;
+
+    fill();
+}
+
 //
 //void ICQInfo::apply()
 //{

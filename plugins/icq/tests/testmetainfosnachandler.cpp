@@ -37,6 +37,19 @@ namespace
     static const int HomeCountry = 1;
     static const int GmtOffset = 6;
 
+    static const QString WorkCity = "Test Work City";
+    static const QString WorkState = "Test Work State";
+    static const QString WorkPhone = "Test Work Phone";
+    static const QString WorkFax = "Test Work Fax";
+    static const QString WorkAddress = "Test Work Address";
+    static const QString WorkZip = "Test Work Zip";
+    static const int WorkCountry = 355;
+    static const QString WorkCompany = "Test Work Company";
+    static const QString WorkDepartment = "Test Work Department";
+    static const QString WorkPosition = "Test Work Position";
+    static const int WorkOccupation = 1;
+    static const QString WorkHomePage = "Test Work Homepage";
+
     using ::testing::_;
     using ::testing::NiceMock;
 
@@ -109,6 +122,36 @@ namespace
             metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
             metaPacket.appendWord(sqnum);
             metaPacket.appendWord(MetaInfoSnacHandler::MetaBasicUserInfo);
+            metaPacket.appendBytes(builder.getArray());
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
+        QByteArray makeWorkInfoPacket(int sqnum, unsigned int targetUin)
+        {
+            ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+            builder.appendByte(0x0a); //Success byte
+            appendString(builder, WorkCity);
+            appendString(builder, WorkState);
+            appendString(builder, WorkPhone);
+            appendString(builder, WorkFax);
+            appendString(builder, WorkAddress);
+            appendString(builder, WorkZip);
+            builder.appendWord(WorkCountry);
+            appendString(builder, WorkCompany);
+            appendString(builder, WorkDepartment);
+            appendString(builder, WorkPosition);
+            builder.appendWord(WorkOccupation);
+            appendString(builder, WorkHomePage);
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(builder.getArray().size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaWorkUserInfo);
             metaPacket.appendBytes(builder.getArray());
 
             TlvList tlvs;
@@ -270,6 +313,125 @@ namespace
 
         ASSERT_EQ(GmtOffset, contact->getTimeZone());
     }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_emits_contact_updated_event)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_work_info_updated");
+        QSignalSpy spy(event.data(), SIGNAL(eventTriggered(QString)));
+        handler->requestFullInfo(contact); // Binds contact to current sqnum
+
+        bool success = handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workCity)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkCity, contact->getWorkCity());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workState)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkState, contact->getWorkState());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workPhone)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkPhone, contact->getWorkPhone());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workFax)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkFax, contact->getWorkFax());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workAddress)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkAddress, contact->getWorkAddress());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workZip)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkZip, contact->getWorkZip());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workCountry)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkCountry, contact->getWorkCountry());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workCompany)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkCompany, contact->getWorkName());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workDepartment)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkDepartment, contact->getWorkDepartment());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workPosition)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkPosition, contact->getWorkPosition());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_occupation)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkOccupation, contact->getOccupation());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, workInfoResponse_sets_workHomePage)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeWorkInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(WorkHomePage, contact->getWorkHomepage());
+    }
 }
-
-
