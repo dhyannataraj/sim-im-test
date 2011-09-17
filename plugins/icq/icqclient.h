@@ -743,6 +743,8 @@ protected slots:
 
     void disconnectFromServer();
 
+    void fullInfoRequest(const QString& contactScreen);
+
 //    void ping();
 //    void retry(int n, void*);
 //    void interfaceDown(QString);

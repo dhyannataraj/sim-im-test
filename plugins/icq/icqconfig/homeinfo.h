@@ -33,7 +33,8 @@ public:
     HomeInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client);
     virtual ~HomeInfo();
 
-//public slots:
+public slots:
+    void contactBasicInfoUpdated(const QString& screen);
 //    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);

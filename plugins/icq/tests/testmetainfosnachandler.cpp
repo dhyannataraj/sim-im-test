@@ -38,6 +38,7 @@ namespace
     static const int GmtOffset = 6;
 
     using ::testing::_;
+    using ::testing::NiceMock;
 
     class TestMetaInfoSnacHandler : public ::testing::Test
     {
@@ -47,7 +48,7 @@ namespace
             client = new ICQClient(0, "ICQ.666666", false);
             client->ownerIcqContact()->setUin(OwnerUin);
             handler = client->metaInfoSnacHandler();
-            socket = new MockObjects::MockOscarSocket();
+            socket = new NiceMock<MockObjects::MockOscarSocket>();
             client->setOscarSocket(socket);
 
             contact = ICQContactPtr(new ICQContact(client));
@@ -77,6 +78,7 @@ namespace
         {
             builder.appendWord(str.size() + 1);
             builder.appendBytes(str.toAscii());
+            builder.appendByte(0);
         }
 
         QByteArray makeBasicInfoPacket(int sqnum, unsigned int targetUin)
@@ -116,7 +118,7 @@ namespace
 
         ICQClient* client;
         MetaInfoSnacHandler* handler;
-        MockObjects::MockOscarSocket* socket;
+        NiceMock<MockObjects::MockOscarSocket>* socket;
         ICQContactPtr contact;
     };
 
@@ -146,11 +148,128 @@ namespace
         QSignalSpy spy(event.data(), SIGNAL(eventTriggered(QString)));
         handler->requestFullInfo(contact); // Binds contact to current sqnum
 
-        bool success = handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
-
-        ASSERT_TRUE(success);
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
 
         QList<QVariant> arguments = spy.takeFirst();
         ASSERT_EQ(QString::number(TargetUin), arguments.at(0).toString());
     }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_nickname)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(Nickname, contact->getNick());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_firstname)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(FirstName, contact->getFirstName());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_lastname)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(LastName, contact->getLastName());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_email)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(Email, contact->getEmail());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homecity)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomeCity, contact->getCity());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homestate)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomeState, contact->getState());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homephone)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomePhone, contact->getHomePhone());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homefax)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomeFax, contact->getHomeFax());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homeaddress)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomeAddress, contact->getAddress());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_cellphone)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(CellPhone, contact->getCellular());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homezip)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomeZip, contact->getZip());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_homecountry)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(HomeCountry, contact->getCountry());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, basicInfoResponse_sets_gmtoffset)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makeBasicInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_EQ(GmtOffset, contact->getTimeZone());
+    }
 }
+
+

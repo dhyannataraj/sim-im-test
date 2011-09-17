@@ -42,6 +42,7 @@ public slots:
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 
 protected:
+    Ui::MainInfo* ui() const;
 //    void updateData(ICQUserData* data);
 //    virtual bool processEvent(SIM::Event *e);
     void fill();

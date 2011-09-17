@@ -20,6 +20,9 @@ public:
     IcqConfigWidgetCreator(ICQClient* client);
     virtual ~IcqConfigWidgetCreator();
 
+signals:
+    void fullInfoRequest(const QString& contactScreen);
+
 public slots:
     void contactConfigRequested(SIM::WidgetHierarchy* hierarchy, const QString& context);
 

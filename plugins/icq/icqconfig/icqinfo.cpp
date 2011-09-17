@@ -20,6 +20,7 @@
 #include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
+#include "metainfosnachandler.h"
 
 #include <QLineEdit>
 #include <QStringList>
@@ -54,7 +55,9 @@ ICQInfo::ICQInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* clien
     m_client	= client;
     m_contact	= contact;
     m_ui->edtUin->setReadOnly(true);
-    if (contact != client->ownerContact()){
+
+    if(contact != client->ownerContact())
+    {
         m_ui->edtFirst->setReadOnly(true);
         m_ui->edtLast->setReadOnly(true);
         m_ui->edtNick->setReadOnly(true);
@@ -62,7 +65,9 @@ ICQInfo::ICQInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* clien
         m_ui->lblRandom->hide();
         m_ui->cmbRandom->hide();
         m_ui->tabWnd->removeTab(m_ui->tabWnd->indexOf(m_ui->password));
-    }else{
+    }
+    else
+    {
         m_ui->edtAutoReply->hide();
         connect(this, SIGNAL(raise(QWidget*)), topLevelWidget(), SLOT(raisePage(QWidget*)));
     }
@@ -163,6 +168,11 @@ ICQInfo::ICQInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* clien
 //    }
 //    return false;
 //}
+
+Ui::MainInfo* ICQInfo::ui() const
+{
+    return m_ui;
+}
 
 void ICQInfo::fill()
 {

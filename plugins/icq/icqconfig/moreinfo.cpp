@@ -40,7 +40,7 @@ MoreInfo::MoreInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* cli
     connect(m_ui->btnHomePage, SIGNAL(clicked()), this, SLOT(goUrl()));
     m_ui->spnAge->setSpecialValueText(" ");
     m_ui->spnAge->setRange(0, 100);
-    connect(m_ui->edtDate, SIGNAL(changed()), this, SLOT(birthDayChanged()));
+    //connect(m_ui->edtDate, SIGNAL(changed()), this, SLOT(birthDayChanged()));
     if(m_contact != m_client->ownerContact())
     {
         m_ui->spnAge->setEnabled(false);

@@ -19,6 +19,7 @@
 #include "../icqclient.h"
 #include "log.h"
 #include "contacts/contact.h"
+#include "events/eventhub.h"
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -43,12 +44,21 @@ HomeInfo::HomeInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* cli
     }
     fill();
     m_ui->btnWebLocation->setText(i18n("map"));
-//    connect(m_ui->btnWebLocation, SIGNAL(clicked()), this, SLOT(goUrl()));
+
+    SIM::getEventHub()->getEvent("icq_contact_basic_info_updated")->connectTo(this, SLOT(contactBasicInfoUpdated(QString)));
 }
 
 HomeInfo::~HomeInfo()
 {
     delete m_ui;
+}
+
+void HomeInfo::contactBasicInfoUpdated(const QString& screen)
+{
+    if(screen != m_contact->getScreen())
+        return;
+
+    fill();
 }
 
 //void HomeInfo::apply()

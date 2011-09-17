@@ -81,4 +81,5 @@ void IcqConfigWidgetCreator::contactConfigRequested(SIM::WidgetHierarchy* hierar
     h.children.append(picture);
 
     hierarchy->children.append(h);
+    emit fullInfoRequest(icqcontact->getScreen());
 }

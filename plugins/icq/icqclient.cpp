@@ -265,6 +265,7 @@ ICQClient::ICQClient(SIM::Protocol* protocol, const QString& name, bool bAIM) : 
     m_configWidgetCreator = new IcqConfigWidgetCreator(this);
     SIM::getEventHub()->getEvent("contact_widget_collection")->connectTo(m_configWidgetCreator,
             SLOT(contactConfigRequested(SIM::WidgetHierarchy*, QString)));
+    connect(m_configWidgetCreator, SIGNAL(fullInfoRequest(QString)), this, SLOT(fullInfoRequest(QString)));
 
 }
 
@@ -1560,6 +1561,17 @@ void ICQClient::disconnectFromServer()
         (*it)->disconnect();
     }
     m_state = sOffline;
+}
+
+void ICQClient::fullInfoRequest(const QString& contactScreen)
+{
+    ICQContactPtr contact = contactList()->contactByScreen(contactScreen);
+    if(!contact)
+    {
+        log(L_WARN, "ICQClient::fullInfoRequest: unexistant contact: %s", qPrintable(contactScreen));
+        return;
+    }
+    m_metaInfoSnac->requestFullInfo(contact);
 }
 
 bool ICQClient::sendMessage(const SIM::MessagePtr& message)

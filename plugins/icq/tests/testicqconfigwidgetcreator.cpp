@@ -8,6 +8,7 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include <QSignalSpy>
 
 #include "contacts/contactlist.h"
 #include "core.h"
@@ -72,5 +73,17 @@ namespace
         QWidget* w = data->hierarchyRoot()->children.at(0).widget;
         ASSERT_TRUE(w);
         ASSERT_TRUE(w->inherits("ICQInfo"));
+    }
+
+    TEST_F(TestIcqConfigWidgetCreator, contactConfigRequested_emits_fullInfoRequest)
+    {
+        IcqConfigWidgetCreator creator(client);
+        QSignalSpy spy(&creator, SIGNAL(fullInfoRequest(QString)));
+        SIM::getEventHub()->getEvent("contact_widget_collection")->connectTo(&creator, SLOT(contactConfigRequested(SIM::WidgetHierarchy*, QString)));
+
+        SIM::WidgetCollectionEventDataPtr data = SIM::WidgetCollectionEventData::create("contact_widget_collection", QString::number(ContactId));
+        SIM::getEventHub()->triggerEvent("contact_widget_collection", data);
+
+        ASSERT_EQ(1, spy.size());
     }
 }

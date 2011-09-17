@@ -65,6 +65,39 @@ bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
     if(!contact)
         return false;
 
+    int dataSubtype = parser.readWord();
+
+    switch(dataSubtype)
+    {
+    case MetaBasicUserInfo:
+        return parseBasicUserInfo(parser, contact);
+    default:
+        return false;
+    }
+
+    return false;
+}
+
+bool MetaInfoSnacHandler::parseBasicUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact)
+{
+    int successByte = parser.readByte();
+    if(successByte != 0x0a)
+        return false;
+
+    contact->setNick(readString(parser));
+    contact->setFirstName(readString(parser));
+    contact->setLastName(readString(parser));
+    contact->setEmail(readString(parser));
+    contact->setCity(readString(parser));
+    contact->setState(readString(parser));
+    contact->setHomePhone(readString(parser));
+    contact->setHomeFax(readString(parser));
+    contact->setAddress(readString(parser));
+    contact->setCellular(readString(parser));
+    contact->setZip(readString(parser));
+
+    contact->setCountry(parser.readWord());
+    contact->setTimeZone(parser.readByte());
 
     IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_basic_info_updated", contact->getScreen());
     SIM::getEventHub()->getEvent("icq_contact_basic_info_updated")->triggered(data);
@@ -85,3 +118,11 @@ ICQContactPtr MetaInfoSnacHandler::getMetaInfoRequestContact(int sqnum)
         return ICQContactPtr();
     return (*it).contact;
 }
+
+QString MetaInfoSnacHandler::readString(ByteArrayParser& parser)
+{
+    int length = parser.readWord();
+    QByteArray arr = parser.readBytes(length);
+    return QString::fromAscii(arr.data());
+}
+

@@ -218,6 +218,7 @@ SET(icq_test_sources
     tests/teststandardicqrequestmanager.cpp
     tests/testicqconfigwidgetcreator.cpp
     tests/signalspy.cpp
+    tests/testicqinfo.cpp
     tests/testinterestsinfo.cpp
     tests/testhomeinfo.cpp
     tests/testmoreinfo.cpp

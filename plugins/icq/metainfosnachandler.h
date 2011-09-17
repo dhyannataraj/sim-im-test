@@ -9,6 +9,7 @@
 
 #include "snac.h"
 #include "icqcontact.h"
+#include "bytearrayparser.h"
 
 #include <QList>
 #include <QDateTime>
@@ -37,8 +38,12 @@ public:
 private:
     bool processMetaInfoData(const QByteArray& arr);
 
+    bool parseBasicUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
+
     void addMetaInfoRequest(int sqnum, const ICQContactPtr& contact);
     ICQContactPtr getMetaInfoRequestContact(int sqnum);
+
+    QString readString(ByteArrayParser& parser);
 
 private:
     int m_sqnum;
