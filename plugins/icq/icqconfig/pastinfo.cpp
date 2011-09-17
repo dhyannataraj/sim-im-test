@@ -18,6 +18,7 @@
 #include "pastinfo.h"
 #include "../icqclient.h"
 #include "contacts/contact.h"
+#include "events/eventhub.h"
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -55,12 +56,22 @@ PastInfo::PastInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* cli
         connect(m_ui->cmbAf3, SIGNAL(activated(int)), this, SLOT(cmbAfChanged(int)));
     }
     fill();
+    SIM::getEventHub()->getEvent("icq_contact_past_info_updated")->connectTo(this, SLOT(contactPastInfoUpdated(QString)));
 }
 
 PastInfo::~PastInfo()
 {
 
 }
+
+void PastInfo::contactPastInfoUpdated(const QString& contactScreen)
+{
+    if(contactScreen != m_contact->getScreen())
+        return;
+
+    fill();
+}
+
 
 Ui::PastInfoBase* PastInfo::ui() const
 {

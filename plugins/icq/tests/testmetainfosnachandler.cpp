@@ -65,8 +65,13 @@ namespace
     static const QString AboutInfo = "Test test about info\nBlahblah";
 
     static const int InterestCode[] = {100, 101, 103, 107};
-    static const QString InterestName[] = {"Art", "Cars", "Collections", "Games"};
     static const QString InterestText[] = {"Interest1", "Interest2", "Interest3", "Interest4"};
+
+    static const int AffiliationCode[] = {200, 201, 202};
+    static const QString AffiliationText[] = {"Test affiliation1", "Test affiliation2", "Test affiliation3" };
+
+    static const int BackgroundCode[] = {300, 301, 302};
+    static const QString BackgroundText[] = { "Test background1", "Test background2", "Test background3" };
 
     using ::testing::_;
     using ::testing::NiceMock;
@@ -252,6 +257,39 @@ namespace
             tlvs.append(Tlv(0x01, metaPacket.getArray()));
             return tlvs.toByteArray();
         }
+
+        QByteArray makePastInfoPacket(int sqnum, unsigned int targetUin)
+        {
+            ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+            builder.appendByte(0x0a); //Success byte
+
+            builder.appendByte(0x03);
+            for(int i = 0; i < 3; i++)
+            {
+                builder.appendWord(AffiliationCode[i]);
+                appendString(builder, AffiliationText[i]);
+            }
+
+            builder.appendByte(0x03);
+            for(int i = 0; i < 3; i++)
+            {
+                builder.appendWord(BackgroundCode[i]);
+                appendString(builder, BackgroundText[i]);
+            }
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(builder.getArray().size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoData);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaPastUserInfo);
+            metaPacket.appendBytes(builder.getArray());
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
 
         ICQClient* client;
         MetaInfoSnacHandler* handler;
@@ -650,6 +688,45 @@ namespace
         {
             ASSERT_EQ(InterestCode[i], contact->getInterest(i));
             ASSERT_EQ(InterestText[i], contact->getInterestText(i));
+        }
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, pastInfoResponse_emits_contact_updated_event)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_past_info_updated");
+        QSignalSpy spy(event.data(), SIGNAL(eventTriggered(QString)));
+        handler->requestFullInfo(contact); // Binds contact to current sqnum
+
+        bool success = handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makePastInfoPacket(1, TargetUin), 0, 0);
+
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.count());
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, pastInfoResponse_sets_affiliation)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makePastInfoPacket(1, TargetUin), 0, 0);
+
+        for(int i = 0; i < 3; i++)
+        {
+            ASSERT_EQ(AffiliationCode[i], contact->getAffiliationCode(i));
+            ASSERT_EQ(AffiliationText[i], contact->getAffiliationText(i));
+        }
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, pastInfoResponse_sets_background)
+    {
+        handler->requestFullInfo(contact);
+
+        handler->process(MetaInfoSnacHandler::SnacMetaInfoData, makePastInfoPacket(1, TargetUin), 0, 0);
+
+        for(int i = 0; i < 3; i++)
+        {
+            ASSERT_EQ(BackgroundCode[i], contact->getBackgroundCode(i));
+            ASSERT_EQ(BackgroundText[i], contact->getBackgroundText(i));
         }
     }
 

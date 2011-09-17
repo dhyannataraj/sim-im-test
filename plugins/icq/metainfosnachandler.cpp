@@ -79,6 +79,8 @@ bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
         return parseAboutUserInfo(parser, contact);
     case MetaInterestsUserInfo:
         return parseInterestsUserInfo(parser, contact);
+    case MetaPastUserInfo:
+        return parsePastUserInfo(parser, contact);
     default:
         return false;
     }
@@ -196,6 +198,34 @@ bool MetaInfoSnacHandler::parseInterestsUserInfo(ByteArrayParser& parser, const 
 
     IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_interests_info_updated", contact->getScreen());
     SIM::getEventHub()->getEvent("icq_contact_interests_info_updated")->triggered(data);
+    return true;
+}
+
+bool MetaInfoSnacHandler::parsePastUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact)
+{
+    int successByte = parser.readByte();
+    if(successByte != 0x0a)
+        return false;
+
+    int affiliationCount = parser.readByte();
+    for(int i = 0; i < 3; i++)
+    {
+        int affiliationCode = parser.readWord();
+        QString affiliationText = readString(parser);
+        contact->setAffiliation(i, affiliationCode, affiliationText);
+    }
+
+    int backgroundsCount = parser.readByte();
+    for(int i = 0; i < 3; i++)
+    {
+        int backgroundCode = parser.readWord();
+        QString backgroundText = readString(parser);
+        contact->setBackground(i, backgroundCode, backgroundText);
+    }
+
+
+    IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_past_info_updated", contact->getScreen());
+    SIM::getEventHub()->getEvent("icq_contact_past_info_updated")->triggered(data);
     return true;
 }
 

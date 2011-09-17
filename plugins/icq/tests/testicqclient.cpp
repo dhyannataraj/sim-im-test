@@ -142,4 +142,11 @@ namespace
 
         ASSERT_TRUE(event);
     }
+
+    TEST_F(TestIcqClient, registersIcqPastInfoRequestEvent)
+    {
+        SIM::IEventPtr event = SIM::getEventHub()->getEvent("icq_contact_past_info_updated");
+
+        ASSERT_TRUE(event);
+    }
 }

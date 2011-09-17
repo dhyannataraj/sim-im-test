@@ -38,6 +38,7 @@ public:
     static const int MetaMoreUserInfo = 0xdc;
     static const int MetaAboutUserInfo = 0xe6;
     static const int MetaInterestsUserInfo = 0xf0;
+    static const int MetaPastUserInfo = 0xfa;
 
 private:
     bool processMetaInfoData(const QByteArray& arr);
@@ -47,6 +48,7 @@ private:
     bool parseMoreUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
     bool parseAboutUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
     bool parseInterestsUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
+    bool parsePastUserInfo(ByteArrayParser& parser, const ICQContactPtr& contact);
 
     void addMetaInfoRequest(int sqnum, const ICQContactPtr& contact);
     ICQContactPtr getMetaInfoRequestContact(int sqnum);

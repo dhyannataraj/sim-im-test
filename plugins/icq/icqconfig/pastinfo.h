@@ -37,6 +37,7 @@ public:
     virtual ~PastInfo();
 
 public slots:
+    void contactPastInfoUpdated(const QString& contactScreen);
 //    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);

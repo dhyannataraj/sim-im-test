@@ -1591,6 +1591,7 @@ void ICQClient::registerEvents()
     SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_more_info_updated"));
     SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_about_info_updated"));
     SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_interests_info_updated"));
+    SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_past_info_updated"));
 }
 
 //unsigned long ICQClient::getFullStatus()
