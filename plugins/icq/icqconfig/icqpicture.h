@@ -20,7 +20,7 @@
 
 
 #include "contacts/client.h"
-#include "icqcontact.h"
+#include "../icqcontact.h"
 
 #include "ui_icqpicturebase.h"
 

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "icqpicture.h"
-#include "icqclient.h"
+#include "../icqclient.h"
 
 #include "log.h"
 

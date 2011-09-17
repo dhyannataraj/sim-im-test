@@ -131,6 +131,7 @@
     <ClCompile Include="..\plugins\icq\tests\testicqconfigwidgetcreator.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqcontact.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqgroup.cpp" />
+    <ClCompile Include="..\plugins\icq\tests\testicqinfo.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqmessageeditorfactory.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqstatus.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testicqstatusconverter.cpp" />
@@ -138,8 +139,10 @@
     <ClCompile Include="..\plugins\icq\tests\testinterestsinfo.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testlocationsnachandler.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testloginsequencestep2.cpp" />
+    <ClCompile Include="..\plugins\icq\tests\testmetainfosnachandler.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testmoreinfo.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testoscarsocket.cpp" />
+    <ClCompile Include="..\plugins\icq\tests\testpastinfo.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testprivacysnachandler.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testservicesnachandler.cpp" />
     <ClCompile Include="..\plugins\icq\tests\testssisnachandler.cpp" />

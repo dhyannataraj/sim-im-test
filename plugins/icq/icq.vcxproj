@@ -151,23 +151,30 @@
     <ClCompile Include="bytearrayparser.cpp" />
     <ClCompile Include="clientcapabilitiesregistry.cpp" />
     <ClCompile Include="clientcapability.cpp" />
+    <ClCompile Include="events\icqcontactupdate.cpp" />
+    <ClCompile Include="events\moc_icqcontactupdate.cpp" />
     <ClCompile Include="icbmsnachandler.cpp" />
     <ClCompile Include="icqconfig\aboutinfo.cpp" />
     <ClCompile Include="icqconfig\homeinfo.cpp" />
     <ClCompile Include="icqconfig\icqconfigwidgetcreator.cpp" />
     <ClCompile Include="icqconfig\icqinfo.cpp" />
+    <ClCompile Include="icqconfig\icqpicture.cpp" />
     <ClCompile Include="icqconfig\interestsinfo.cpp" />
     <ClCompile Include="icqconfig\moc_aboutinfo.cpp" />
     <ClCompile Include="icqconfig\moc_homeinfo.cpp" />
     <ClCompile Include="icqconfig\moc_icqconfigwidgetcreator.cpp" />
     <ClCompile Include="icqconfig\moc_icqinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_icqpicture.cpp" />
     <ClCompile Include="icqconfig\moc_interestsinfo.cpp" />
     <ClCompile Include="icqconfig\moc_moreinfo.cpp" />
+    <ClCompile Include="icqconfig\moc_pastinfo.cpp" />
     <ClCompile Include="icqconfig\moc_workinfo.cpp" />
     <ClCompile Include="icqconfig\moreinfo.cpp" />
+    <ClCompile Include="icqconfig\pastinfo.cpp" />
     <ClCompile Include="icqconfig\workinfo.cpp" />
     <ClCompile Include="icqmessageeditorfactory.cpp" />
     <ClCompile Include="icqmessagefactory.cpp" />
+    <ClCompile Include="metainfosnachandler.cpp" />
     <ClCompile Include="requests\icbmsnac\icbmsnacsendparametersrequest.cpp" />
     <ClCompile Include="icq.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -321,6 +328,27 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
     </CustomBuild>
+    <CustomBuild Include="events\icqcontactupdate.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="icqconfig\icqpicture.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="icqconfig\pastinfo.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%qtdir%\bin\moc.exe -o %(RootDir)%(Directory)moc_%(Filename).cpp %(RootDir)%(Directory)%(Filename).h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing %(Filename).h ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
     <ClInclude Include="icqconfig\ui_icqinfobase.h" />
     <CustomBuild Include="icqconfig\workinfo.h">
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)moc_%(Filename).cpp;%(Outputs)</Outputs>
@@ -332,6 +360,7 @@
     </CustomBuild>
     <ClInclude Include="icqmessageeditorfactory.h" />
     <ClInclude Include="icqmessagefactory.h" />
+    <ClInclude Include="metainfosnachandler.h" />
     <ClInclude Include="requests\icbmsnac\icbmsnacsendparametersrequest.h" />
     <ClInclude Include="icq.h" />
     <ClInclude Include="icq_defines.h" />
@@ -513,11 +542,11 @@
     <Uic Include="icqconfig\aboutinfobase.ui" />
     <Uic Include="icqconfig\homeinfobase.ui" />
     <Uic Include="icqconfig\icqinfobase.ui" />
+    <Uic Include="icqconfig\icqpicturebase.ui" />
     <Uic Include="icqconfig\interestsinfobase.ui" />
     <Uic Include="icqconfig\moreinfobase.ui" />
     <Uic Include="icqconfig\pastinfobase.ui" />
     <Uic Include="icqconfig\workinfobase.ui" />
-    <Uic Include="icqpicturebase.ui" />
     <Uic Include="icqsearchbase.ui" />
     <Uic Include="icqsecurebase.ui" />
     <Uic Include="securedlgbase.ui" />

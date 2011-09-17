@@ -20,7 +20,7 @@
 #include "simgui/ballonmsg.h"
 #include "contacts/contact.h"
 #include "imagestorage/imagestorage.h"
-#include "metainfosnachandler.h"
+#include "../metainfosnachandler.h"
 #include "events/eventhub.h"
 
 #include <QLineEdit>
