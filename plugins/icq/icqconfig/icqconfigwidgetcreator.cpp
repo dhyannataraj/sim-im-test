@@ -28,78 +28,61 @@ IcqConfigWidgetCreator::~IcqConfigWidgetCreator()
 void IcqConfigWidgetCreator::contactConfigRequested(SIM::WidgetHierarchy* hierarchy, const QString& context)
 {
     int contactId = context.toInt();
+    QString contactName(m_client->name());
+
     SIM::ContactPtr contact = SIM::getContactList()->contact(contactId);
-    if(!contact)
+    ICQContactPtr icqcontact = contact->clientContact(contactName).dynamicCast<ICQContact>(); 
+
+    if(!contact || !icqcontact)
         return;
 
-    ICQContactPtr icqcontact = contact->clientContact(m_client->name()).dynamicCast<ICQContact>();
     SIM::WidgetHierarchy h;
     h.nodeName = QString("ICQ ") + m_client->ownerIcqContact()->getScreen();
     h.widget = new ICQInfo(0, icqcontact, m_client);
     h.iconId = "ICQ_online";
 
-    addIcqConfigWidgets(&h, icqcontact);
-
-    hierarchy->children.append(h);
-    emit fullInfoRequest(icqcontact->getScreen());
-}
-
-void IcqConfigWidgetCreator::globalConfigRequested(SIM::WidgetHierarchy* hierarchy, const QString& context)
-{
-    ICQContactPtr icqcontact = m_client->ownerIcqContact();
-
-    SIM::WidgetHierarchy h;
-    h.nodeName = QString("ICQ ") + m_client->ownerIcqContact()->getScreen();
-    h.widget = new ICQInfo(0, icqcontact, m_client);
-    h.iconId = "ICQ_online";
-
-    addIcqConfigWidgets(&h, icqcontact);
-
-    hierarchy->children.append(h);
-    emit fullInfoRequest(icqcontact->getScreen());
-}
-
-void IcqConfigWidgetCreator::addIcqConfigWidgets(SIM::WidgetHierarchy* root, const ICQContactPtr& contact)
-{
     SIM::WidgetHierarchy homeinfo;
     homeinfo.nodeName = I18N_NOOP("Home info");
-    homeinfo.widget = new HomeInfo(0, contact, m_client);
+    homeinfo.widget = new HomeInfo(0, icqcontact, m_client);
     homeinfo.iconId = "home";
-    root->children.append(homeinfo);
+    h.children.append(homeinfo);
 
     SIM::WidgetHierarchy workinfo;
     workinfo.nodeName = I18N_NOOP("Work info");
-    workinfo.widget = new WorkInfo(0, contact, m_client);
+    workinfo.widget = new WorkInfo(0, icqcontact, m_client);
     workinfo.iconId = "work";
-    root->children.append(workinfo);
+    h.children.append(workinfo);
 
     SIM::WidgetHierarchy moreinfo;
     moreinfo.nodeName = I18N_NOOP("More info");
-    moreinfo.widget = new MoreInfo(0, contact, m_client);
+    moreinfo.widget = new MoreInfo(0, icqcontact, m_client);
     moreinfo.iconId = "more";
-    root->children.append(moreinfo);
+    h.children.append(moreinfo);
 
     SIM::WidgetHierarchy aboutinfo;
     aboutinfo.nodeName = I18N_NOOP("About");
-    aboutinfo.widget = new AboutInfo(0, contact, m_client);
+    aboutinfo.widget = new AboutInfo(0, icqcontact, m_client);
     aboutinfo.iconId = "info";
-    root->children.append(aboutinfo);
+    h.children.append(aboutinfo);
 
     SIM::WidgetHierarchy interests;
     interests.nodeName = I18N_NOOP("Interest");
-    interests.widget = new InterestsInfo(0, contact, m_client);
+    interests.widget = new InterestsInfo(0, icqcontact, m_client);
     interests.iconId = "interest";
-    root->children.append(interests);
+    h.children.append(interests);
 
     SIM::WidgetHierarchy past;
     past.nodeName = I18N_NOOP("Group Past");
-    past.widget = new PastInfo(0, contact, m_client);
+    past.widget = new PastInfo(0, icqcontact, m_client);
     past.iconId = "past";
-    root->children.append(past);
+    h.children.append(past);
 
     SIM::WidgetHierarchy picture;
     picture.nodeName = I18N_NOOP("Picture");
-    picture.widget = new ICQPicture(0, contact, m_client);
+    picture.widget = new ICQPicture(0, icqcontact, m_client);
     picture.iconId = "pict";
-    root->children.append(picture);
+    h.children.append(picture);
+
+    hierarchy->children.append(h);
+    emit fullInfoRequest(icqcontact->getScreen());
 }

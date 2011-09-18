@@ -10,7 +10,7 @@
 #include <QObject>
 #include "widgethierarchy.h"
 #include "../icq_defines.h"
-#include "icqcontact.h"
+#include "../icqcontact.h"
 
 class ICQClient;
 class ICQ_EXPORT IcqConfigWidgetCreator: public QObject
