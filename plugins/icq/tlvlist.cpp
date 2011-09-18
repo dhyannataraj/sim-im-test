@@ -2,7 +2,7 @@
 #include "bytearrayparser.h"
 #include "bytearraybuilder.h"
 
-TlvList::TlvList()
+TlvList::TlvList(Endianness endianness) : m_endianness(endianness)
 {
 }
 
@@ -41,10 +41,10 @@ bool TlvList::contains(int id) const
     return false;
 }
 
-TlvList TlvList::fromByteArray(const QByteArray& data)
+TlvList TlvList::fromByteArray(const QByteArray& data, Endianness endianness)
 {
-    ByteArrayParser parser(data);
-    TlvList list;
+    ByteArrayParser parser(data, endianness == LittleEndian ? ByteArrayParser::LittleEndian : ByteArrayParser::BigEndian);
+    TlvList list(endianness);
 
     while(!parser.atEnd())
     {
@@ -61,7 +61,7 @@ TlvList TlvList::fromByteArray(const QByteArray& data)
 
 QByteArray TlvList::toByteArray()
 {
-    ByteArrayBuilder builder;
+    ByteArrayBuilder builder(m_endianness == LittleEndian ? ByteArrayBuilder::LittleEndian : ByteArrayBuilder::BigEndian);
     foreach(const Tlv& tlv, m_tlvs)
     {
         builder.appendWord(tlv.id());

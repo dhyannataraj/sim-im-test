@@ -8,7 +8,12 @@
 class ICQ_EXPORT TlvList
 {
 public:
-    TlvList();
+    enum Endianness
+    {
+        BigEndian,
+        LittleEndian
+    };
+    TlvList(Endianness endianness = BigEndian);
 
     void append(const Tlv& tlv);
     Tlv at(int index) const;
@@ -19,11 +24,12 @@ public:
 
     bool contains(int id) const;
 
-    static TlvList fromByteArray(const QByteArray& data);
+    static TlvList fromByteArray(const QByteArray& data, Endianness endianness = BigEndian);
     QByteArray toByteArray();
 
 private:
     QList<Tlv> m_tlvs;
+    Endianness m_endianness;
 };
 
 #endif // TLVLIST_H

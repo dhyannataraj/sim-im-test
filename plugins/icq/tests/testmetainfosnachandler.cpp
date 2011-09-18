@@ -83,12 +83,27 @@ namespace
         {
             client = new ICQClient(0, "ICQ.666666", false);
             client->ownerIcqContact()->setUin(OwnerUin);
+            client->ownerIcqContact()->setNick(Nickname);
+            client->ownerIcqContact()->setFirstName(FirstName);
+            client->ownerIcqContact()->setLastName(LastName);
+            client->ownerIcqContact()->setEmail(Email);
+            client->ownerIcqContact()->setCity(HomeCity);
+            client->ownerIcqContact()->setState(HomeState);
+            client->ownerIcqContact()->setHomePhone(HomePhone);
+            client->ownerIcqContact()->setHomeFax(HomeFax);
+            client->ownerIcqContact()->setAddress(HomeAddress);
+            client->ownerIcqContact()->setCellular(CellPhone);
+            client->ownerIcqContact()->setZip(HomeZip);
+            client->ownerIcqContact()->setCountry(HomeCountry);
+            client->ownerIcqContact()->setTimeZone(GmtOffset);
+
             handler = client->metaInfoSnacHandler();
             socket = new NiceMock<MockObjects::MockOscarSocket>();
             client->setOscarSocket(socket);
 
             contact = ICQContactPtr(new ICQContact(client));
             contact->setUin(TargetUin);
+
         }
 
         virtual void TearDown()
@@ -108,6 +123,37 @@ namespace
             builder.appendDword(targetUin);
             tlvs.append(Tlv(0x01, builder.getArray()));
             return tlvs.toByteArray();
+        }
+
+        QByteArray makeBasicInfoSetPacket(int sqnum)
+        {
+            TlvList basicInfo(TlvList::LittleEndian);
+            basicInfo.append(Tlv(MetaInfoSnacHandler::TlvFirstName, nullTerminatedStringWLength(client->ownerIcqContact()->getFirstName())));
+            basicInfo.append(Tlv(MetaInfoSnacHandler::TlvLastName, nullTerminatedStringWLength(client->ownerIcqContact()->getLastName())));
+            basicInfo.append(Tlv(MetaInfoSnacHandler::TlvNickname, nullTerminatedStringWLength(client->ownerIcqContact()->getNick())));
+
+            QByteArray data = basicInfo.toByteArray();
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(data.size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+            metaPacket.appendBytes(data);
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
+        QByteArray nullTerminatedStringWLength(const QString& str)
+        {
+            ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+            builder.appendWord(str.length() + 1);
+            builder.appendBytes(str.toAscii());
+            builder.appendByte(0);
+            return builder.getArray();
         }
 
         void appendString(ByteArrayBuilder& builder, const QString str)
@@ -733,6 +779,13 @@ namespace
     TEST_F(TestMetaInfoSnacHandler, requestBasicInfo_sends_metaRequestPacket)
     {
         EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, _));
+
+        handler->uploadBasicInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, requestBasicInfo_sends_correct_metaRequestPacket)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, makeBasicInfoSetPacket(1)));
 
         handler->uploadBasicInfo();
     }

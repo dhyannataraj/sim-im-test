@@ -10,6 +10,7 @@
 #include "snac.h"
 #include "icqcontact.h"
 #include "bytearrayparser.h"
+#include "bytearraybuilder.h"
 
 #include <QList>
 #include <QDateTime>
@@ -42,6 +43,12 @@ public:
     static const int MetaInterestsUserInfo = 0xf0;
     static const int MetaPastUserInfo = 0xfa;
 
+    static const int MetaSetFullUserInfo = 0xc3a;
+
+    static const int TlvFirstName = 0x140;
+    static const int TlvLastName = 0x14a;
+    static const int TlvNickname = 0x154;
+
 private:
     bool processMetaInfoData(const QByteArray& arr);
 
@@ -56,6 +63,9 @@ private:
     ICQContactPtr getMetaInfoRequestContact(int sqnum);
 
     QString readString(ByteArrayParser& parser);
+    void appendString(ByteArrayBuilder& builder, const QString& str);
+
+    QByteArray nullTerminatedStringWLength(const QString& str);
 
 private:
     int m_sqnum;

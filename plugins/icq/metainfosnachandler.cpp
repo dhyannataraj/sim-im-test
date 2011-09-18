@@ -51,7 +51,28 @@ void MetaInfoSnacHandler::requestFullInfo(const ICQContactPtr& contact)
 
 void MetaInfoSnacHandler::uploadBasicInfo()
 {
-    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, QByteArray());
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList basicInfo(TlvList::LittleEndian);
+    basicInfo.append(Tlv(MetaInfoSnacHandler::TlvFirstName, nullTerminatedStringWLength(client()->ownerIcqContact()->getFirstName())));
+    basicInfo.append(Tlv(MetaInfoSnacHandler::TlvLastName, nullTerminatedStringWLength(client()->ownerIcqContact()->getLastName())));
+    basicInfo.append(Tlv(MetaInfoSnacHandler::TlvNickname, nullTerminatedStringWLength(client()->ownerIcqContact()->getNick())));
+
+    QByteArray data = basicInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
 }
 
 bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
@@ -256,3 +277,18 @@ QString MetaInfoSnacHandler::readString(ByteArrayParser& parser)
     return QString::fromAscii(arr.data());
 }
 
+void MetaInfoSnacHandler::appendString(ByteArrayBuilder& builder, const QString& str)
+{
+    builder.appendWord(str.length() + 1);
+    builder.appendBytes(str.toAscii());
+    builder.appendByte(0);
+}
+
+QByteArray MetaInfoSnacHandler::nullTerminatedStringWLength(const QString& str)
+{
+    ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+    builder.appendWord(str.length() + 1);
+    builder.appendBytes(str.toAscii());
+    builder.appendByte(0);
+    return builder.getArray();
+}
