@@ -33,6 +33,8 @@ signals:
 protected slots:
     void blink();
 
+    virtual void updateTooltip();
+
 private:
     bool m_blinking;
     bool m_blinkState;

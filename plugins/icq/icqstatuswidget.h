@@ -28,6 +28,8 @@ protected:
     void drawBlink();
     void drawStatus();
 
+    virtual void updateTooltip();
+
 private:
     ICQClient* m_client;
 };

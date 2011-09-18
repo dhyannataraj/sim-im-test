@@ -11,6 +11,8 @@ using namespace SIM;
 ICQStatusWidget::ICQStatusWidget(ICQClient* client, QWidget* parent) : SIM::StatusWidget(parent),
     m_client(client)
 {
+    setAttribute(Qt::WA_AlwaysShowToolTips, true);
+    updateTooltip();
 }
 
 SIM::Client* ICQStatusWidget::client()
@@ -80,9 +82,19 @@ QSize ICQStatusWidget::sizeHint() const
 void ICQStatusWidget::online()
 {
     client()->changeStatus(m_client->getDefaultStatus("online"));
+    updateTooltip();
 }
 
 void ICQStatusWidget::offline()
 {
     client()->changeStatus(m_client->getDefaultStatus("offline"));
+    updateTooltip();
+}
+
+void ICQStatusWidget::updateTooltip()
+{
+    QString tooltip;
+    tooltip.append(QString("ICQ ") + m_client->ownerIcqContact()->getScreen() + "<br>");
+    tooltip.append(client()->currentStatus()->name());
+    setToolTip(tooltip);
 }

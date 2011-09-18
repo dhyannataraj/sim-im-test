@@ -18,6 +18,7 @@ void StatusWidget::setBlinking(bool v)
         m_blinkTimer.start();
     else
         m_blinkTimer.stop();
+    updateTooltip();
 }
 
 bool StatusWidget::isBlinking() const
@@ -45,4 +46,8 @@ void StatusWidget::contextMenuEvent(QContextMenuEvent* event)
     QWidget::contextMenuEvent(event);
 }
 
+void StatusWidget::updateTooltip()
+{
+
+}
 } // namespace SIM
