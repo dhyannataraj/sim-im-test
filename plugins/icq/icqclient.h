@@ -653,8 +653,6 @@ public:
 
     bool sendMessage(const SIM::MessagePtr& message);
 
-    void uploadBasicInfo();
-
     // reimplement socket() to get correct Buffer
 //    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
 //    virtual ICQClientSocket *createClientSocket() { return new ICQClientSocket(this, createSocket()); }

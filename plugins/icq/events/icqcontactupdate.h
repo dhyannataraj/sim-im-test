@@ -8,7 +8,7 @@
 #define ICQCONTACTUPDATE_H_
 
 #include "events/ievent.h"
-#include "icq_defines.h"
+#include "../icq_defines.h"
 #include <QSharedPointer>
 
 class IcqContactUpdateData;
