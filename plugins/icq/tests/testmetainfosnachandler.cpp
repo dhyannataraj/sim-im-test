@@ -147,6 +147,33 @@ namespace
             return tlvs.toByteArray();
         }
 
+        QByteArray makeHomeInfoSetPacket(int sqnum)
+        {
+            TlvList homeInfo(TlvList::LittleEndian);
+            homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeCity, nullTerminatedStringWLength(client->ownerIcqContact()->getCity())));
+            homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeState, nullTerminatedStringWLength(client->ownerIcqContact()->getState())));
+            homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeCountry, client->ownerIcqContact()->getCountry()));
+            homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeAddress, nullTerminatedStringWLength(client->ownerIcqContact()->getAddress())));
+            homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeZip, client->ownerIcqContact()->getZip().toUInt()));
+            homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomePhone, nullTerminatedStringWLength(client->ownerIcqContact()->getHomePhone())));
+            homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeFax, nullTerminatedStringWLength(client->ownerIcqContact()->getHomeFax())));
+            homeInfo.append(Tlv(MetaInfoSnacHandler::TlvCellular, nullTerminatedStringWLength(client->ownerIcqContact()->getCellular())));
+
+            QByteArray data = homeInfo.toByteArray();
+
+            ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+            metaPacket.appendWord(data.size() + 10);
+            metaPacket.appendDword(client->ownerIcqContact()->getUin());
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+            metaPacket.appendWord(sqnum);
+            metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+            metaPacket.appendBytes(data);
+
+            TlvList tlvs;
+            tlvs.append(Tlv(0x01, metaPacket.getArray()));
+            return tlvs.toByteArray();
+        }
+
         QByteArray nullTerminatedStringWLength(const QString& str)
         {
             ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
@@ -776,17 +803,24 @@ namespace
         }
     }
 
-    TEST_F(TestMetaInfoSnacHandler, requestBasicInfo_sends_metaRequestPacket)
+    TEST_F(TestMetaInfoSnacHandler, setBasicInfo_sends_metaRequestPacket)
     {
         EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, _));
 
         handler->uploadBasicInfo();
     }
 
-    TEST_F(TestMetaInfoSnacHandler, requestBasicInfo_sends_correct_metaRequestPacket)
+    TEST_F(TestMetaInfoSnacHandler, setBasicInfo_sends_correct_metaRequestPacket)
     {
         EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, makeBasicInfoSetPacket(1)));
 
         handler->uploadBasicInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setHomeInfo_sends_correct_metaRequestPacket)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, makeHomeInfoSetPacket(1)));
+
+        handler->uploadHomeInfo();
     }
 }

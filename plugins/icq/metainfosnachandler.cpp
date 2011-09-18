@@ -75,6 +75,38 @@ void MetaInfoSnacHandler::uploadBasicInfo()
     client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
 }
 
+void MetaInfoSnacHandler::uploadHomeInfo()
+{
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList homeInfo(TlvList::LittleEndian);
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeCity, nullTerminatedStringWLength(client()->ownerIcqContact()->getCity())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeState, nullTerminatedStringWLength(client()->ownerIcqContact()->getState())));
+    homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeCountry, client()->ownerIcqContact()->getCountry()));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeAddress, nullTerminatedStringWLength(client()->ownerIcqContact()->getAddress())));
+    homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeZip, client()->ownerIcqContact()->getZip().toUInt()));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomePhone, nullTerminatedStringWLength(client()->ownerIcqContact()->getHomePhone())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeFax, nullTerminatedStringWLength(client()->ownerIcqContact()->getHomeFax())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvCellular, nullTerminatedStringWLength(client()->ownerIcqContact()->getCellular())));
+
+
+    QByteArray data = homeInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
+}
+
 bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
 {
     TlvList list = TlvList::fromByteArray(arr);
@@ -248,7 +280,6 @@ bool MetaInfoSnacHandler::parsePastUserInfo(ByteArrayParser& parser, const ICQCo
         QString backgroundText = readString(parser);
         contact->setBackground(i, backgroundCode, backgroundText);
     }
-
 
     IcqContactUpdateDataPtr data = IcqContactUpdateData::create("icq_contact_past_info_updated", contact->getScreen());
     SIM::getEventHub()->getEvent("icq_contact_past_info_updated")->triggered(data);

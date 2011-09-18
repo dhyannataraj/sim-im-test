@@ -27,6 +27,7 @@ public:
     void requestFullInfo(const ICQContactPtr& contact);
 
     void uploadBasicInfo();
+    void uploadHomeInfo();
 
     static const int SnacId = 0x15;
 
@@ -48,6 +49,15 @@ public:
     static const int TlvFirstName = 0x140;
     static const int TlvLastName = 0x14a;
     static const int TlvNickname = 0x154;
+
+    static const int TlvHomeCity = 0x190;
+    static const int TlvHomeState = 0x19a;
+    static const int TlvHomeCountry = 0x1a4;
+    static const int TlvHomeAddress = 0x262;
+    static const int TlvHomeZip = 0x26c;
+    static const int TlvHomePhone = 0x276;
+    static const int TlvHomeFax = 0x280;
+    static const int TlvCellular = 0x28a;
 
 private:
     bool processMetaInfoData(const QByteArray& arr);

@@ -35,7 +35,7 @@ public:
 
 public slots:
     void contactBasicInfoUpdated(const QString& screen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 //    void goUrl();
@@ -46,8 +46,11 @@ protected:
 
     void fill();
     void initCountryCombobox();
+    bool changed() const;
 
     Ui::HomeInfo* ui();
+
+    int selectedCountry() const;
 
 private:
     ICQContactPtr m_contact;

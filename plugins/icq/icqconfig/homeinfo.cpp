@@ -61,10 +61,20 @@ void HomeInfo::contactBasicInfoUpdated(const QString& screen)
     fill();
 }
 
-//void HomeInfo::apply()
-//{
-//}
-//
+void HomeInfo::apply()
+{
+    if(changed())
+    {
+        m_contact->setCity(m_ui->edtCity->text());
+        m_contact->setState(m_ui->edtState->text());
+        m_contact->setCountry(selectedCountry());
+        m_contact->setAddress(m_ui->edtAddress->toPlainText());
+        m_contact->setZip(m_ui->edtZip->text());
+
+        m_client->uploadHomeInfo();
+    }
+}
+
 //void HomeInfo::updateData(ICQUserData* data)
 //{
 //    data->setAddress(edtAddress->toPlainText());
@@ -198,3 +208,17 @@ Ui::HomeInfo* HomeInfo::ui()
 //    e.process();
 //}
 
+bool HomeInfo::changed() const
+{
+    return (m_ui->edtAddress->toPlainText() != m_contact->getAddress()) ||
+            (m_ui->edtCity->text() != m_contact->getCity()) ||
+            (m_ui->edtState->text() != m_contact->getState()) ||
+            (m_ui->edtZip->text() != m_contact->getZip()) ||
+            (selectedCountry() != m_contact->getCountry());
+}
+
+int HomeInfo::selectedCountry() const
+{
+    int index = m_ui->cmbCountry->currentIndex();
+    return getCountries()[index].nCode;
+}
