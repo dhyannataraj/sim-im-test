@@ -7,6 +7,12 @@
 class ICQ_EXPORT Tlv
 {
 public:
+    enum Endianness
+    {
+        BigEndian,
+        LittleEndian
+    };
+
     Tlv();
     Tlv(int id, const QByteArray& data);
 
@@ -18,8 +24,8 @@ public:
 
     bool isValid() const;
 
-    static Tlv fromUint16(int id, int value);
-    static Tlv fromUint32(int id, int value);
+    static Tlv fromUint16(int id, int value, Endianness end = BigEndian);
+    static Tlv fromUint32(int id, int value, Endianness end = BigEndian);
 
 private:
     int m_id;

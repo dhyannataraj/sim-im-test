@@ -65,11 +65,26 @@ void WorkInfo::contactWorkInfoUpdated(const QString& contactScreen)
     fill();
 }
 
-//
-//void WorkInfo::apply()
-//{
-//}
-//
+
+void WorkInfo::apply()
+{
+    if(changed())
+    {
+        m_contact->setWorkAddress(m_ui->edtAddress->toPlainText());
+        m_contact->setWorkCity(m_ui->edtCity->text());
+        m_contact->setWorkState(m_ui->edtState->text());
+        m_contact->setWorkZip(m_ui->edtZip->text());
+        m_contact->setWorkCountry(selectedCountry());
+        m_contact->setOccupation(selectedOccupation());
+        m_contact->setWorkName(m_ui->edtName->text());
+        m_contact->setWorkDepartment(m_ui->edtDept->text());
+        m_contact->setWorkPosition(m_ui->edtPosition->text());
+        m_contact->setWorkHomepage(m_ui->edtSite->text());
+
+        m_client->uploadWorkInfo();
+    }
+}
+
 //bool WorkInfo::processEvent(Event *e)
 //{
 //    if (e->type() == eEventContact){
@@ -136,6 +151,30 @@ void WorkInfo::fill()
     m_ui->edtPosition->setText(m_contact->getWorkPosition());
     m_ui->edtSite->setText(m_contact->getWorkHomepage());
     urlChanged(m_ui->edtSite->text());
+}
+
+bool WorkInfo::changed() const
+{
+    return (m_ui->edtAddress->toPlainText() != m_contact->getWorkAddress()) ||
+            (m_ui->edtCity->text() != m_contact->getWorkAddress()) ||
+            (m_ui->edtState->text() != m_contact->getWorkState()) ||
+            (m_ui->edtZip->text() != m_contact->getWorkZip()) ||
+            (selectedCountry() != m_contact->getWorkCountry()) ||
+            (selectedOccupation() != m_contact->getOccupation()) ||
+            (m_ui->edtName->text() != m_contact->getWorkName()) ||
+            (m_ui->edtDept->text() != m_contact->getWorkDepartment()) ||
+            (m_ui->edtPosition->text() != m_contact->getWorkPosition()) ||
+            (m_ui->edtSite->text() != m_contact->getWorkHomepage());
+}
+
+int WorkInfo::selectedCountry() const
+{
+    return getCountries()[m_ui->cmbCountry->currentIndex()].nCode;
+}
+
+int WorkInfo::selectedOccupation() const
+{
+    return occupations[m_ui->cmbOccupation->currentIndex()].nCode;
 }
 
 void WorkInfo::goUrl()

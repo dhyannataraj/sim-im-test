@@ -75,6 +75,7 @@ namespace
 
     using ::testing::_;
     using ::testing::NiceMock;
+    using ::testing::Truly;
 
     class TestMetaInfoSnacHandler : public ::testing::Test
     {
@@ -822,5 +823,160 @@ namespace
         EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, makeHomeInfoSetPacket(1)));
 
         handler->uploadHomeInfo();
+    }
+
+    static bool validWorkInfoSetPacketHeader(const QByteArray& arr)
+    {
+        TlvList list = TlvList::fromByteArray(arr);
+        Tlv metaData = list.firstTlv(0x01);
+        if(!metaData.isValid())
+            return false;
+
+        ByteArrayParser parser(metaData.data(), ByteArrayParser::LittleEndian);
+        int length = parser.readWord();
+        if(length != metaData.data().size() - 2)
+            return false;
+
+        int uin = parser.readDword();
+        if(uin != OwnerUin)
+            return false;
+
+        int datatype = parser.readWord();
+        if(datatype != MetaInfoSnacHandler::MetaInfoRequest)
+            return false;
+
+        parser.readWord(); //sqnum
+
+        int reqtype = parser.readWord();
+        if(reqtype != MetaInfoSnacHandler::MetaSetFullUserInfo)
+            return false;
+
+        return true;
+    }
+
+    class MetaRequestHasTlv
+    {
+    public:
+        MetaRequestHasTlv(int tlvId) : m_id(tlvId) {}
+        bool operator()(const QByteArray& arr) const
+        {
+            TlvList list = TlvList::fromByteArray(arr);
+            Tlv metaData = list.firstTlv(0x01);
+            ByteArrayParser parser(metaData.data(), ByteArrayParser::LittleEndian);
+            parser.readWord(); // length
+            parser.readDword(); // uin
+            parser.readWord(); // datatype
+            parser.readWord(); // sqnum
+            parser.readWord(); // reqtype
+
+            TlvList tlvs = TlvList::fromByteArray(parser.readAll(), TlvList::LittleEndian);
+            return tlvs.contains(m_id);
+        }
+
+    private:
+        int m_id;
+    };
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_correct_metaRequestPacket)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(validWorkInfoSetPacketHeader)));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workCompanyTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkCompany))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workDepartmentTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkDepartment))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workPositionTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkPosition))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workOccupationTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkOccupation))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workAddressTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkAddress))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workCityTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkCity))));
+
+        handler->uploadWorkInfo();
+    }
+
+//    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workStateTlv)
+//    {
+//        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+//                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkState))));
+//
+//        handler->uploadWorkInfo();
+//    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workCountryTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkCountry))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workZipTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkZip))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workPhoneTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkPhone))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workFaxTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkFax))));
+
+        handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workHomepageTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkHomepage))));
+
+        handler->uploadWorkInfo();
     }
 }

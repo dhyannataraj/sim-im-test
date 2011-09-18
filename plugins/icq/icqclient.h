@@ -655,6 +655,7 @@ public:
 
     void uploadBasicInfo();
     void uploadHomeInfo();
+    void uploadWorkInfo();
 
     // reimplement socket() to get correct Buffer
 //    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }

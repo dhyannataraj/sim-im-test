@@ -33,7 +33,7 @@ public:
 
 public slots:
     void contactWorkInfoUpdated(const QString& contactScreen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
     void goUrl();
@@ -45,6 +45,11 @@ protected:
     //virtual bool processEvent(SIM::Event *e);
 
     void fill();
+
+    bool changed() const;
+    int selectedCountry() const;
+    int selectedOccupation() const;
+
     ICQContactPtr m_contact;
     ICQClient *m_client;
 

@@ -38,20 +38,38 @@ bool Tlv::isValid() const
     return m_valid;
 }
 
-Tlv Tlv::fromUint16(int id, int value)
+Tlv Tlv::fromUint16(int id, int value, Endianness end)
 {
     QByteArray arr;
-    arr.append((value >> 8) & 0xff);
-    arr.append(value & 0xff);
+    if(end == BigEndian)
+    {
+        arr.append((value >> 8) & 0xff);
+        arr.append(value & 0xff);
+    }
+    else
+    {
+        arr.append(value & 0xff);
+        arr.append((value >> 8) & 0xff);
+    }
     return Tlv(id, arr);
 }
 
-Tlv Tlv::fromUint32(int id, int value)
+Tlv Tlv::fromUint32(int id, int value, Endianness end)
 {
     QByteArray arr;
-    arr.append((value >> 24) & 0xff);
-    arr.append((value >> 16) & 0xff);
-    arr.append((value >> 8) & 0xff);
-    arr.append(value & 0xff);
+    if(end == BigEndian)
+    {
+        arr.append((value >> 24) & 0xff);
+        arr.append((value >> 16) & 0xff);
+        arr.append((value >> 8) & 0xff);
+        arr.append(value & 0xff);
+    }
+    else
+    {
+        arr.append(value & 0xff);
+        arr.append((value >> 8) & 0xff);
+        arr.append((value >> 16) & 0xff);
+        arr.append((value >> 24) & 0xff);
+    }
     return Tlv(id, arr);
 }

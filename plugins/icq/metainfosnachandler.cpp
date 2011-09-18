@@ -107,6 +107,42 @@ void MetaInfoSnacHandler::uploadHomeInfo()
     client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
 }
 
+void MetaInfoSnacHandler::uploadWorkInfo()
+{
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList workInfo(TlvList::LittleEndian);
+    workInfo.append(Tlv(TlvWorkCompany, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkName())));
+    workInfo.append(Tlv(TlvWorkDepartment, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkDepartment())));
+    workInfo.append(Tlv(TlvWorkPosition, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkPosition())));
+    workInfo.append(Tlv::fromUint16(TlvWorkOccupation, client()->ownerIcqContact()->getOccupation(), Tlv::LittleEndian));
+    workInfo.append(Tlv(TlvWorkAddress, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkAddress())));
+    workInfo.append(Tlv(TlvWorkCity, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkCity())));
+    //workInfo.append(Tlv(TlvWorkState, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkState())));
+    workInfo.append(Tlv::fromUint16(TlvWorkCountry, client()->ownerIcqContact()->getCountry(), Tlv::LittleEndian));
+    workInfo.append(Tlv::fromUint32(TlvWorkZip, client()->ownerIcqContact()->getWorkZip().toUInt(), Tlv::LittleEndian));
+    workInfo.append(Tlv(TlvWorkPhone, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkPhone())));
+    workInfo.append(Tlv(TlvWorkFax, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkFax())));
+    workInfo.append(Tlv(TlvWorkHomepage, nullTerminatedStringWLength(client()->ownerIcqContact()->getWorkHomepage())));
+
+
+    QByteArray data = workInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
+}
+
 bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
 {
     TlvList list = TlvList::fromByteArray(arr);
