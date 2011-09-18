@@ -89,9 +89,15 @@ void ICQInfo::contactBasicInfoUpdated(const QString& contactScreen)
     fill();
 }
 
-//
-//void ICQInfo::apply()
-//{
+
+void ICQInfo::apply()
+{
+    if(changed())
+    {
+        m_client->uploadBasicInfo();
+    }
+
+
 //    ICQUserData *data = m_data;
 //    if (data == NULL){
 //        if (m_client->getState() == Client::Connected){
@@ -130,8 +136,8 @@ void ICQInfo::contactBasicInfoUpdated(const QString& contactScreen)
 //        m_data = &m_client->data.owner;
 //        m_client->setRandomChatGroup(getComboValue(cmbRandom, chat_groups));
 //    }
-//}
-//
+}
+
 //void ICQInfo::updateData(ICQUserData* data)
 //{
 //    data->setFirstName(edtFirst->text());
@@ -289,5 +295,10 @@ void ICQInfo::fill()
         edtClient->setText(name);
     }
     */
+}
+
+bool ICQInfo::changed() const
+{
+
 }
 

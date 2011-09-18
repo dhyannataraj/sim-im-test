@@ -5,6 +5,8 @@
 #include "contacts/client.h"
 #include "simgui/messageeditor.h"
 #include "clientmanager.h"
+#include "contacts/contact.h"
+#include "contacts/contactlist.h"
 
 using SIM::log;
 using SIM::L_DEBUG;
@@ -74,11 +76,37 @@ void StandardUserWndController::setMessageType(const QString& type)
         m_userWnd->setMessageEditor(0);
         return;
     }
-    SIM::MessageEditor* editor = client->messageEditorFactory()->createMessageEditor(type, m_userWnd);
+    SIM::MessageEditor* editor = client->messageEditorFactory()->createMessageEditor(sourceContact(), targetContact(), type, m_userWnd);
+    connect(editor, SIGNAL(messageSendRequest(SIM::MessagePtr)), this, SLOT(slot_messageSendRequest(SIM::MessagePtr)));
     m_userWnd->setMessageEditor(editor);
+}
+
+void StandardUserWndController::slot_messageSendRequest(const SIM::MessagePtr& message)
+{
+    emit messageSendRequest(message);
 }
 
 IUserWnd* StandardUserWndController::createUserWnd(int id)
 {
     return new UserWnd(id, false, false);
+}
+
+SIM::IMContactPtr StandardUserWndController::targetContact() const
+{
+    SIM::ContactPtr contact = SIM::getContactList()->contact(m_id);
+    if(!contact)
+        return SIM::IMContactPtr();
+
+    QString selectedClientId = m_userWnd->selectedClientId();
+    return contact->clientContact(selectedClientId);
+}
+
+SIM::IMContactPtr StandardUserWndController::sourceContact() const
+{
+    QString selectedClientId = m_userWnd->selectedClientId();
+    SIM::ClientPtr client = SIM::getClientManager()->client(selectedClientId);
+    if(!client)
+        return SIM::IMContactPtr();
+
+    return client->ownerContact();
 }

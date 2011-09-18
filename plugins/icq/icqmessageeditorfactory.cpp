@@ -15,11 +15,11 @@ ICQMessageEditorFactory::~ICQMessageEditorFactory()
 {
 }
 
-SIM::MessageEditor* ICQMessageEditorFactory::createMessageEditor(const QString& id, QWidget* parent)
+SIM::MessageEditor* ICQMessageEditorFactory::createMessageEditor(const SIM::IMContactPtr& from, const SIM::IMContactPtr& to, const QString& id, QWidget* parent)
 {
     if(id == "generic")
     {
-        return new SIM::GenericMessageEditor(parent);
+        return new SIM::GenericMessageEditor(from, to, parent);
     }
     return 0;
 }

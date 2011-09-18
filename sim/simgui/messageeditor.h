@@ -24,7 +24,7 @@ namespace SIM
         virtual QString messageTypeId() const = 0;
 
     signals:
-        void messageSendRequested(const MessagePtr& message);
+        void messageSendRequest(const SIM::MessagePtr& message);
     };
 }
 

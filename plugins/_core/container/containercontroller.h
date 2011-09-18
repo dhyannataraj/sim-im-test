@@ -28,6 +28,7 @@ signals:
 
 public slots:
     void containerClosed();
+    void messageSendRequest(const SIM::MessagePtr& message);
 
 protected:
     virtual UserWndControllerPtr createUserWndController(int id);

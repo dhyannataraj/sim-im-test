@@ -730,4 +730,10 @@ namespace
         }
     }
 
+    TEST_F(TestMetaInfoSnacHandler, requestBasicInfo_sends_metaRequestPacket)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId, MetaInfoSnacHandler::SnacMetaInfoRequest, _, _));
+
+        handler->uploadBasicInfo();
+    }
 }

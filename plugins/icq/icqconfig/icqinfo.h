@@ -38,7 +38,7 @@ signals:
 
 public slots:
     void contactBasicInfoUpdated(const QString& contactScreen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 
@@ -47,6 +47,7 @@ protected:
 //    void updateData(ICQUserData* data);
 //    virtual bool processEvent(SIM::Event *e);
     void fill();
+    bool changed() const;
 
     ICQContactPtr m_contact;
     ICQClient *m_client;

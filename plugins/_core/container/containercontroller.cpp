@@ -67,5 +67,12 @@ void ContainerController::containerClosed()
 
 UserWndControllerPtr ContainerController::createUserWndController(int id)
 {
-    return UserWndControllerPtr(new StandardUserWndController(id));
+    StandardUserWndController* controller = new StandardUserWndController(id);
+    connect(controller, SIGNAL(messageSendRequest(SIM::MessagePtr)), this, SLOT(messageSendRequest(SIM::MessagePtr)));
+    return UserWndControllerPtr(controller);
+}
+
+void ContainerController::messageSendRequest(const SIM::MessagePtr& message)
+{
+    sendMessage(message);
 }

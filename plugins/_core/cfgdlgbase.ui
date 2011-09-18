@@ -180,8 +180,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>buttonApply</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigureDialogBase</receiver>
+   <slot>applyClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>220</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>itemActivated(QTreeWidgetItem*,int)</slot>
+  <slot>applyClicked()</slot>
  </slots>
 </ui>

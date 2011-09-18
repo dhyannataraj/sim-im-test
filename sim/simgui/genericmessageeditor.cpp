@@ -22,11 +22,13 @@
 #include "contacts/imcontact.h"
 #include "contacts/client.h"
 #include "imagestorage/imagestorage.h"
+#include "messaging/genericmessage.h"
 
 namespace SIM
 {
 
-GenericMessageEditor::GenericMessageEditor(QWidget* parent) : MessageEditor(parent)
+GenericMessageEditor::GenericMessageEditor(const IMContactPtr& from, const IMContactPtr& to, QWidget* parent) : MessageEditor(parent),
+        m_from(from), m_to(to)
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
@@ -147,7 +149,7 @@ void GenericMessageEditor::send()
 
     m_edit->clear();
 
-    //emit messageSendRequested(text);
+    emit messageSendRequest(SIM::MessagePtr(new GenericMessage(m_from, m_to, text)));
 }
 
 void GenericMessageEditor::textChanged()

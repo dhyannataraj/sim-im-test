@@ -24,7 +24,9 @@ public:
     virtual int exec();
 
 public slots:
+    virtual void accept();
     void itemActivated(QTreeWidgetItem* item, int column);
+    void applyClicked();
 
 private:
     void addHierarchy(QTreeWidgetItem* parent, const SIM::WidgetHierarchy& h);

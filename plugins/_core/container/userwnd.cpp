@@ -57,7 +57,6 @@ UserWnd::UserWnd(unsigned long id, bool bReceived, bool bAdjust)
     setFocusProxy(m_ui->msgEdit);
 
     connect(CorePlugin::instance(), SIGNAL(containerModeChanged()), this, SLOT(modeChanged()));
-    connect(m_ui->msgEdit, SIGNAL(messageSendRequested(QString)), this, SLOT(slot_messageSendRequested(QString)));
     modeChanged();
     refreshTargetList();
 }

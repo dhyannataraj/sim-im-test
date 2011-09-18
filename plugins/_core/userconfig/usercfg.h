@@ -41,6 +41,9 @@ public:
     virtual int exec() = 0;
     virtual void setWidgetHierarchy(SIM::WidgetHierarchy* hierarchy) = 0;
 
+signals:
+    void apply();
+
 private:
 };
 

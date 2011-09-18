@@ -66,6 +66,17 @@ void StandardUserConfig::setWidgetHierarchy(SIM::WidgetHierarchy* root)
         itemActivated(m_ui->lstBox->topLevelItem(0), 0);
 }
 
+void StandardUserConfig::accept()
+{
+    applyClicked();
+    QDialog::accept();
+}
+
+void StandardUserConfig::applyClicked()
+{
+    emit apply();
+}
+
 void StandardUserConfig::addHierarchy(QTreeWidgetItem* parent, const SIM::WidgetHierarchy& h)
 {
     foreach(const SIM::WidgetHierarchy& node, h.children)
@@ -74,6 +85,7 @@ void StandardUserConfig::addHierarchy(QTreeWidgetItem* parent, const SIM::Widget
         QTreeWidgetItem* item = new WidgetItem(parent, node.widget, node.nodeName);
         item->setIcon(0, SIM::getImageStorage()->icon(node.iconId));
         m_ui->wnd->addWidget(node.widget);
+        connect(this, SIGNAL(apply()), node.widget, SLOT(apply()));
         addHierarchy(item, node);
     }
     parent->setExpanded(true);

@@ -15,6 +15,7 @@
 #include <QVBoxLayout>
 #include <QToolBar>
 
+#include "contacts/imcontact.h"
 #include "simapi.h"
 
 namespace SIM
@@ -23,7 +24,7 @@ class EXPORT GenericMessageEditor: public SIM::MessageEditor
 {
     Q_OBJECT
 public:
-    GenericMessageEditor(QWidget* parent);
+    GenericMessageEditor(const IMContactPtr& from, const IMContactPtr& to, QWidget* parent);
     virtual ~GenericMessageEditor();
 
     virtual QString messageTypeId() const;
@@ -65,6 +66,9 @@ private:
     QAction* m_sendMultiple;
 
     QToolButton * m_cmdSend;
+
+    IMContactPtr m_from;
+    IMContactPtr m_to;
 
 };
 }

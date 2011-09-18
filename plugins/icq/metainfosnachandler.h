@@ -25,6 +25,8 @@ public:
 
     void requestFullInfo(const ICQContactPtr& contact);
 
+    void uploadBasicInfo();
+
     static const int SnacId = 0x15;
 
     static const int SnacMetaInfoRequest = 0x02;

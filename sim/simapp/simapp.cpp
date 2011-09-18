@@ -27,7 +27,7 @@ void SimApp::saveState(QSessionManager &sm)
 
 void SimApp::registerMetaTypes()
 {
-    qRegisterMetaType<SIM::MessagePtr>("MessagePtr");
+    qRegisterMetaType<SIM::MessagePtr>("SIM::MessagePtr");
 }
 
 // vim: set expandtab:

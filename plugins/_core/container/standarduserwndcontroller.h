@@ -1,12 +1,15 @@
 #ifndef STANDARDUSERWNDCONTROLLER_H
 #define STANDARDUSERWNDCONTROLLER_H
 
+#include <QObject>
 #include "userwndcontroller.h"
+#include "contacts/imcontact.h"
 
 class IUserWnd;
 class IContainer;
-class StandardUserWndController : public UserWndController
+class StandardUserWndController : public QObject, public UserWndController
 {
+    Q_OBJECT
 public:
     StandardUserWndController(int contactId);
     virtual ~StandardUserWndController();
@@ -26,8 +29,17 @@ public:
 
     virtual void setMessageType(const QString& type);
 
+signals:
+    void messageSendRequest(const SIM::MessagePtr& message);
+
+protected slots:
+    void slot_messageSendRequest(const SIM::MessagePtr& message);
+
 protected:
     virtual IUserWnd* createUserWnd(int id);
+
+    SIM::IMContactPtr targetContact() const;
+    SIM::IMContactPtr sourceContact() const;
 
 private:
     IUserWnd* m_userWnd;

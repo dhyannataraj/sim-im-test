@@ -49,6 +49,11 @@ void MetaInfoSnacHandler::requestFullInfo(const ICQContactPtr& contact)
     client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
 }
 
+void MetaInfoSnacHandler::uploadBasicInfo()
+{
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, QByteArray());
+}
+
 bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
 {
     TlvList list = TlvList::fromByteArray(arr);
