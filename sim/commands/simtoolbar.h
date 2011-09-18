@@ -29,6 +29,9 @@ public:
     bool load(const UiCommandList& list);
     UiCommandList save();
 
+protected:
+    virtual void contextMenuEvent(QContextMenuEvent* event);
+
 private:
 };
 

@@ -7,6 +7,7 @@
 #include "simtoolbar.h"
 #include "commandhub.h"
 #include "log.h"
+#include <QContextMenuEvent>
 
 namespace SIM
 {
@@ -43,6 +44,11 @@ bool SimToolbar::load(const UiCommandList& list)
 UiCommandList SimToolbar::save()
 {
     return UiCommandList();
+}
+
+void SimToolbar::contextMenuEvent(QContextMenuEvent* event)
+{
+   return;
 }
 
 } /* namespace SIM */
