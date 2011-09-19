@@ -16,7 +16,7 @@ typedef QSharedPointer<UserConfigContext> UserConfigContextPtr;
 class CORE_EXPORT UserConfigContext
 {
 public:
-    enum class GlobalContext
+    enum GlobalContext
     {
         Generic
     };
