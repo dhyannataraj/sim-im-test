@@ -8,6 +8,7 @@
 #include "events/eventhub.h"
 #include "events/widgetcollectionevent.h"
 
+using namespace SIM;
 
 UserConfigController::UserConfigController()
 {
@@ -19,8 +20,8 @@ UserConfigController::~UserConfigController()
 
 bool UserConfigController::init(const UserConfigContextPtr& context)
 {
-    SIM::WidgetCollectionEventDataPtr data = SIM::WidgetCollectionEventData::create(context->widgetCollectionEventId(), context->context());
-    SIM::getEventHub()->triggerEvent(context->widgetCollectionEventId(), data);
+    WidgetCollectionEventDataPtr data = WidgetCollectionEventData::create(context->widgetCollectionEventId(), context->context());
+    getEventHub()->triggerEvent(context->widgetCollectionEventId(), data);
 
     m_view = createUserConfigView();
     m_view->setWidgetHierarchy(data->hierarchyRoot());

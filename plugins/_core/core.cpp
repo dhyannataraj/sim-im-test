@@ -128,17 +128,17 @@ CorePlugin* getCorePlugin()
     return g_plugin;
 }
 
-//static QWidget *getInterfaceSetup(QWidget *parent, SIM::PropertyHubPtr data)
+//static QWidget *getInterfaceSetup(QWidget *parent, PropertyHubPtr data)
 //{
 //	return new MessageConfig(parent, data);
 //}
 
-//static QWidget *getSMSSetup(QWidget *parent, SIM::PropertyHubPtr data)
+//static QWidget *getSMSSetup(QWidget *parent, PropertyHubPtr data)
 //{
 //	return new SMSConfig(parent, data);
 //}
 
-//static QWidget *getHistorySetup(QWidget *parent, SIM::PropertyHubPtr data)
+//static QWidget *getHistorySetup(QWidget *parent, PropertyHubPtr data)
 //{
 //	return new UserHistoryCfg(parent, data);
 //}
@@ -198,7 +198,7 @@ CorePlugin::CorePlugin() : QObject()
 //    , m_cmds            (new Commands())
 //    , m_HistoryThread   (NULL)
 //    , m_bIgnoreEvents   (false)
-    , m_propertyHub(SIM::PropertyHub::create("_core"))
+    , m_propertyHub(PropertyHub::create("_core"))
 {
     g_plugin = this;
 //	setValue("StatusTime", QDateTime::currentDateTime().toTime_t());
@@ -213,8 +213,8 @@ CorePlugin::CorePlugin() : QObject()
 
 void CorePlugin::registerEvents()
 {
-    getEventHub()->registerEvent(SIM::WidgetCollectionEvent::create("contact_widget_collection"));
-    getEventHub()->registerEvent(SIM::WidgetCollectionEvent::create("global_configure_widget_collection"));
+    getEventHub()->registerEvent(WidgetCollectionEvent::create("contact_widget_collection"));
+    getEventHub()->registerEvent(WidgetCollectionEvent::create("global_configure_widget_collection"));
 }
 
 void CorePlugin::subscribeToEvents()
@@ -253,17 +253,17 @@ void CorePlugin::createMainToolbar()
     QAction* show_only_online = new QAction(0);
     show_only_online->setCheckable(true);
 
-    SIM::ActionDescriptor a_1 = 
+    ActionDescriptor a_1 = 
         {"show_only_online", "SIM", "Show only online contacts",
         QStringList() << "main_toolbar" << "main_menu",
         show_only_online};
 
-    SIM::ActionDescriptor a_2 = 
+    ActionDescriptor a_2 = 
         {"common_status", "", "Status",
         QStringList() << "main_toolbar",
         new ActionCommonStatus(m_commonStatus) };
 
-    SIM::ActionDescriptor a_3 = 
+    ActionDescriptor a_3 = 
         {"common_status_menu", "", "Status",
         QStringList() << "main_menu",
         new ActionMenuCommonStatus(m_commonStatus) };
@@ -274,10 +274,10 @@ void CorePlugin::createMainToolbar()
 
     createMainMenuActions();
 
-    QAction* mainMenu = new SIM::MenuAction(0);
+    QAction* mainMenu = new MenuAction(0);
     mainMenu->setMenu(createMainMenu());
 
-    SIM::ActionDescriptor a_4 =
+    ActionDescriptor a_4 =
         {"main_menu", "mainmenu", "MainMenu",
         QStringList() << "main_toolbar",
         mainMenu};
@@ -287,11 +287,11 @@ void CorePlugin::createMainToolbar()
 
 void CorePlugin::createMainMenuActions()
 {
-    SIM::ActionDescriptor a_1 = {"configure", "configure", "Configure",
+    ActionDescriptor a_1 = {"configure", "configure", "Configure",
             QStringList() << "main_menu",
             new QAction("Configure", 0)};
 
-    SIM::ActionDescriptor a_2 = {"quit", "exit", "Quit",
+    ActionDescriptor a_2 = {"quit", "exit", "Quit",
             QStringList() << "main_menu",
             new QAction("Quit", 0)};
 
@@ -645,12 +645,12 @@ QMenu* CorePlugin::createMainMenu()
 //    setAutoReplies();
 //}
 
-//void CorePlugin::setPropertyHub(SIM::PropertyHubPtr hub)
+//void CorePlugin::setPropertyHub(PropertyHubPtr hub)
 //{
 //    m_propertyHub = hub;
 //}
 
-SIM::PropertyHubPtr CorePlugin::propertyHub()
+PropertyHubPtr CorePlugin::propertyHub()
 {
     return m_propertyHub;
 }
@@ -667,7 +667,7 @@ SIM::PropertyHubPtr CorePlugin::propertyHub()
 
 //void CorePlugin::setAutoReplies()
 //{
-//    SIM::PropertyHubPtr data = getContacts()->getUserData("AR");
+//    PropertyHubPtr data = getContacts()->getUserData("AR");
 //	for (autoReply *a = autoReplies; a->text; a++)
 //    {
 //		const QString &t = data->stringMapValue("AutoReply", a->status);
@@ -873,7 +873,7 @@ CorePlugin::~CorePlugin()
 //	}
 //}
 
-//void CorePlugin::changeClientStatus(SIM::Client* client, const SIM::IMStatusPtr& status)
+//void CorePlugin::changeClientStatus(Client* client, const IMStatusPtr& status)
 //{
 //    if (status->hasText()) {
 //        bool noShow = propertyHub()->value("NoShowAutoReply" + status->id()).toBool();
@@ -968,21 +968,21 @@ CorePlugin::~CorePlugin()
 //    return false;
 //}
 
-//bool CorePlugin::processEventDeleteMessage(SIM::Event* e)
+//bool CorePlugin::processEventDeleteMessage(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    History::del(em->msg());
 //    return true;
 //}
 
-//bool CorePlugin::processEventRewriteMessage(SIM::Event* e)
+//bool CorePlugin::processEventRewriteMessage(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    History::rewrite(em->msg());
 //    return false;
 //}
 
-//bool CorePlugin::processEventTmplHelp(SIM::Event* e)
+//bool CorePlugin::processEventTmplHelp(Event* e)
 //{
 //    EventTmplHelp *eth = static_cast<EventTmplHelp*>(e);
 //    QString str = eth->help();
@@ -999,18 +999,18 @@ CorePlugin::~CorePlugin()
 //    return true;
 //}
 
-//bool CorePlugin::processEventTmplHelpList(SIM::Event* e)
+//bool CorePlugin::processEventTmplHelpList(Event* e)
 //{
 //    EventTmplHelpList *ethl = static_cast<EventTmplHelpList*>(e);
 //    ethl->setHelpList(helpList);
 //    return true;
 //}
 
-//bool CorePlugin::processEventARRequest(SIM::Event* e)
+//bool CorePlugin::processEventARRequest(Event* e)
 //{
 //    EventARRequest *ear = static_cast<EventARRequest*>(e);
 //    ARRequest *r = ear->request();
-//    SIM::PropertyHubPtr ar;
+//    PropertyHubPtr ar;
 //    QString tmpl;
 //    if (r->contact) {
 //        ar = r->contact->getUserData()->getUserData("AR");
@@ -1040,9 +1040,9 @@ CorePlugin::~CorePlugin()
 //    return true;
 //}
 
-//bool CorePlugin::processEventSaveState(SIM::Event* e)
+//bool CorePlugin::processEventSaveState(Event* e)
 //{
-//    SIM::PropertyHubPtr ar = getContacts()->getUserData("AR");
+//    PropertyHubPtr ar = getContacts()->getUserData("AR");
 //    for (autoReply *a = autoReplies; a->text; a++)
 //    {
 //        QString t = ar->stringMapValue("AutoReply", a->status);
@@ -1054,7 +1054,7 @@ CorePlugin::~CorePlugin()
 //    return true;
 //}
 
-//bool CorePlugin::processEventPluginChanged(SIM::Event* e)
+//bool CorePlugin::processEventPluginChanged(Event* e)
 //{
 //    EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
 //    if (p->pluginName() == "_core")
@@ -1081,7 +1081,7 @@ void CorePlugin::eventInit()
 //    QTimer::singleShot(0, this, SLOT(postInit()));
 }
 
-//bool CorePlugin::processEventHomeDir(SIM::Event* e)
+//bool CorePlugin::processEventHomeDir(Event* e)
 //{
 //    EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
 //    QString fname = homedir->homeDir();
@@ -1102,14 +1102,14 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventGetProfile(SIM::Event* e)
+//bool CorePlugin::processEventGetProfile(Event* e)
 //{
 //    EventGetProfile *e_get_profile = static_cast<EventGetProfile*>(e);
 //    e_get_profile->setProfileValue(ProfileManager::instance()->currentProfileName());
 //    return true;
 //}
 
-//bool CorePlugin::processEventAddPreferences(SIM::Event* e)
+//bool CorePlugin::processEventAddPreferences(Event* e)
 //{
 //    EventAddPreferences *ap = static_cast<EventAddPreferences*>(e);
 //    CommandDef *cmd = ap->def();
@@ -1121,7 +1121,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventRemovePreferences(SIM::Event* e)
+//bool CorePlugin::processEventRemovePreferences(Event* e)
 //{
 //    EventRemovePreferences *rm = static_cast<EventRemovePreferences*>(e);
 //    unsigned long id = rm->id();
@@ -1130,7 +1130,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventClientChanged(SIM::Event* e)
+//bool CorePlugin::processEventClientChanged(Event* e)
 //{
 //    if(e->type() == eEventClientsChanged)
 //    {
@@ -1152,7 +1152,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventCreateMessageType(SIM::Event* e)
+//bool CorePlugin::processEventCreateMessageType(Event* e)
 //{
 //    EventCreateMessageType *ecmt = static_cast<EventCreateMessageType*>(e);
 //    CommandDef *cmd = ecmt->def();
@@ -1203,7 +1203,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventRemoveMessageType(SIM::Event* e)
+//bool CorePlugin::processEventRemoveMessageType(Event* e)
 //{
 //    EventRemoveMessageType *ermt = static_cast<EventRemoveMessageType*>(e);
 //    unsigned long id = ermt->id();
@@ -1233,7 +1233,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventContact(SIM::Event* e)
+//bool CorePlugin::processEventContact(Event* e)
 //{
 //    EventContact *ec = static_cast<EventContact*>(e);
 //    Contact *contact = ec->contact();
@@ -1250,7 +1250,7 @@ void CorePlugin::eventInit()
 //            break;
 //        case EventContact::eOnline:
 //            {
-//                SIM::PropertyHubPtr data = contact->getUserData("_core");
+//                PropertyHubPtr data = contact->getUserData("_core");
 //                if (!data.isNull() && data->value("OpenOnOnline").toBool()){
 //                    Message *msg = new Message(MessageGeneric);
 //                    msg->setContact(contact->id());
@@ -1265,7 +1265,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventMessageAcked(SIM::Event* e)
+//bool CorePlugin::processEventMessageAcked(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    Message *msg = em->msg();
@@ -1276,7 +1276,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventMessageDeleted(SIM::Event* e)
+//bool CorePlugin::processEventMessageDeleted(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    Message *msg = em->msg();
@@ -1291,7 +1291,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventMessageReceived(SIM::Event* e)
+//bool CorePlugin::processEventMessageReceived(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    Message *msg = em->msg();
@@ -1302,11 +1302,11 @@ void CorePlugin::eventInit()
 //        }
 //        unsigned type = msg->baseType();
 //        if (type == MessageStatus){
-//            SIM::PropertyHubPtr data = contact->getUserData("_core");
+//            PropertyHubPtr data = contact->getUserData("_core");
 //            if ((data.isNull()) || !data->value("LogStatus").toBool())
 //                return false;
 //        }else if (type == MessageFile){
-//            SIM::PropertyHubPtr data = contact->getUserData("_core");
+//            PropertyHubPtr data = contact->getUserData("_core");
 //            if(!data.isNull()){
 //                if (data->value("AcceptMode").toUInt() == 1){
 //                    QString dir = data->value("IncomingPath").toString();
@@ -1331,7 +1331,7 @@ void CorePlugin::eventInit()
 //    return processEventSent(e);
 //}
 
-//bool CorePlugin::processEventSent(SIM::Event* e)
+//bool CorePlugin::processEventSent(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    Message *msg = em->msg();
@@ -1353,7 +1353,7 @@ void CorePlugin::eventInit()
 //                EventContact(contact, EventContact::eChanged).process();
 //            }
 //            if (contact){
-//                SIM::PropertyHubPtr data = contact->getUserData("_core");
+//                PropertyHubPtr data = contact->getUserData("_core");
 //                if (!data.isNull() && data->value("OpenNewMessage").toUInt()){
 //                    if (data->value("OpenNewMessage").toUInt() == NEW_MSG_MINIMIZE)
 //                        msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
@@ -1369,7 +1369,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventDefaultAction(SIM::Event* e)
+//bool CorePlugin::processEventDefaultAction(Event* e)
 //{
 //    EventDefaultAction *eda = static_cast<EventDefaultAction*>(e);
 //    unsigned long contact_id = eda->id();
@@ -1396,7 +1396,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventLoadMessage(SIM::Event* e)
+//bool CorePlugin::processEventLoadMessage(Event* e)
 //{
 //    EventLoadMessage *elm = static_cast<EventLoadMessage*>(e);
 //    Message *msg = History::load(elm->id(), elm->client(), elm->contact());
@@ -1404,7 +1404,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventOpenMessage(SIM::Event* e)
+//bool CorePlugin::processEventOpenMessage(Event* e)
 //{
 //    EventMessage *em = static_cast<EventMessage*>(e);
 //    Message *msg = em->msg();
@@ -1507,7 +1507,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdChangeEncoding(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdChangeEncoding(CommandDef* cmd)
 //{
 //    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
 //    if (contact == NULL)
@@ -1572,7 +1572,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdAllEncodings(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdAllEncodings(CommandDef* cmd)
 //{
 //    cmd->flags &= ~COMMAND_CHECKED;
 //    if (value("ShowAllEncodings").toBool())
@@ -1580,7 +1580,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdEnableSpell(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdEnableSpell(CommandDef* cmd)
 //{
 //    cmd->flags &= ~COMMAND_CHECKED;
 //    if (value("EnableSpell").toBool())
@@ -1588,7 +1588,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdSendClose(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdSendClose(CommandDef* cmd)
 //{
 //    cmd->flags &= ~COMMAND_CHECKED;
 //    if (value("CloseSend").toBool())
@@ -1596,7 +1596,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processCheckCmdContactClients(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdContactClients(CommandDef* cmd)
 //{
 //    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
 //    if (contact == NULL)
@@ -1852,7 +1852,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckMenuContainer(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckMenuContainer(CommandDef* cmd)
 //{
 //    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
 //    if (contact){
@@ -1891,7 +1891,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processCheckMenuMessage(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckMenuMessage(CommandDef* cmd)
 //{
 //    cmd->flags &= ~COMMAND_CHECKED;
 //    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -1922,7 +1922,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processCheckMenuMsgCommand(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckMenuMsgCommand(CommandDef* cmd)
 //{
 //    Message *msg = (Message*)(cmd->param);
 //    switch (cmd->id){
@@ -1945,7 +1945,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processCheckCmdPhoneLocation(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdPhoneLocation(CommandDef* cmd)
 //{
 //    unsigned n = 2;
 //    QString phones = getContacts()->owner()->getPhones();
@@ -1997,7 +1997,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdUnread(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdUnread(CommandDef* cmd)
 //{
 //    unsigned long contact_id = 0;
 //    if (cmd->menu_id == MenuContact)
@@ -2067,7 +2067,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdSendSMS(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdSendSMS(CommandDef* cmd)
 //{
 //    cmd->flags &= COMMAND_CHECKED;
 //    for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -2078,7 +2078,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processCheckCmdShowPanel(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdShowPanel(CommandDef* cmd)
 //{
 //    cmd->flags &= ~COMMAND_CHECKED;
 //    if (m_statusWnd)
@@ -2086,7 +2086,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processCheckCmdCommonStatus(SIM::CommandDef* cmd)
+//bool CorePlugin::processCheckCmdCommonStatus(CommandDef* cmd)
 //{
 //    unsigned n = cmd->menu_id - CmdClient;
 //    if (n >= getContacts()->nClients())
@@ -2098,7 +2098,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventCheckCommandState(SIM::Event* e)
+//bool CorePlugin::processEventCheckCommandState(Event* e)
 //{
 //    EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
 //    CommandDef *cmd = ecs->cmd();
@@ -2198,7 +2198,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecMenuEncoding(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecMenuEncoding(CommandDef* cmd)
 //{
 //    if (cmd->id == CmdAllEncodings)
 //    {
@@ -2274,7 +2274,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processExecMenuMessage(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecMenuMessage(CommandDef* cmd)
 //{
 //    Message *msg;
 //    CommandDef *def = messageTypes.find(cmd->id);
@@ -2303,7 +2303,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecMenuMsgCommand(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecMenuMsgCommand(CommandDef* cmd)
 //{
 //    Message *msg = (Message*)(cmd->param);
 //    QString p;
@@ -2345,7 +2345,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processExecCmdGrantAuth(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdGrantAuth(CommandDef* cmd)
 //{
 //    Message *from = (Message*)(cmd->param);
 //    Message *msg = new AuthMessage(MessageAuthGranted);
@@ -2370,7 +2370,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdRefuseAuth(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdRefuseAuth(CommandDef* cmd)
 //{
 //    Message *from = (Message*)(cmd->param);
 //    Message *msg = new AuthMessage(MessageAuthRefused);
@@ -2381,7 +2381,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdSeparate(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdSeparate(CommandDef* cmd)
 //{
 //    Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
 //    if (contact == NULL)
@@ -2414,7 +2414,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdSendSMS(SIM::CommandDef* /*cmd*/)
+//bool CorePlugin::processExecCmdSendSMS(CommandDef* /*cmd*/)
 //{
 //    Contact *contact = getContacts()->contact(0, true);
 //    contact->setFlags(CONTACT_TEMP);
@@ -2429,7 +2429,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdHistory(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdHistory(CommandDef* cmd)
 //{
 //    unsigned long id = (unsigned long)(cmd->param);
 //    if (!value("UseExtViewer").toBool()){
@@ -2466,7 +2466,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdConfigure(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdConfigure(CommandDef* cmd)
 //{
 //    if ((cmd->menu_id == MenuContact) || (cmd->menu_id == MenuGroup)){
 //        showInfo(cmd);
@@ -2489,7 +2489,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdSearch(SIM::CommandDef* /*cmd*/)
+//bool CorePlugin::processExecCmdSearch(CommandDef* /*cmd*/)
 //{
 //    if (m_search == NULL){
 //        m_search = new SearchDialog;
@@ -2507,7 +2507,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processExecMenuPhoneState(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecMenuPhoneState(CommandDef* cmd)
 //{
 //    Contact *owner = getContacts()->owner();
 //    if ((unsigned long)owner->getPhoneStatus() != cmd->id - CmdPhoneNoShow){
@@ -2517,7 +2517,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecMenuPhoneLocation(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecMenuPhoneLocation(CommandDef* cmd)
 //{
 //    Contact *owner = getContacts()->owner();
 //    unsigned n = cmd->id - CmdPhoneLocation;
@@ -2543,7 +2543,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdSetup(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdSetup(CommandDef* cmd)
 //{
 //    unsigned n = cmd->menu_id - CmdClient;
 //    if (n >= getContacts()->nClients())
@@ -2558,7 +2558,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdPhoneBook(SIM::CommandDef* /*cmd*/)
+//bool CorePlugin::processExecCmdPhoneBook(CommandDef* /*cmd*/)
 //{
 //    if (m_cfg == NULL){
 //        m_cfg = new ConfigDlg::ConfigureDialog;
@@ -2569,7 +2569,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processExecCmdCommonStatus(SIM::CommandDef* cmd)
+//bool CorePlugin::processExecCmdCommonStatus(CommandDef* cmd)
 //{
 //    unsigned n = cmd->menu_id - CmdClient;
 //    if (n >= getContacts()->nClients())
@@ -2592,7 +2592,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processStatusChange(int clientnum, SIM::CommandDef* cmd)
+//bool CorePlugin::processStatusChange(int clientnum, CommandDef* cmd)
 //{
 //    Client *client = getContacts()->getClient(clientnum);
 //    if (cmd->id == CmdInvisible){
@@ -2621,7 +2621,7 @@ void CorePlugin::eventInit()
 //    return true;
 //}
 
-//bool CorePlugin::processEventCommandExec(SIM::Event* e)
+//bool CorePlugin::processEventCommandExec(Event* e)
 //{
 //    EventCommandExec *ece = static_cast<EventCommandExec*>(e);
 //    CommandDef *cmd = ece->cmd();
@@ -2709,7 +2709,7 @@ void CorePlugin::eventInit()
 //    Message *msg = (Message*)(cmd->param);
 //    if (cmd->id == CmdFileAccept){
 //        Contact *contact = getContacts()->contact(msg->contact());
-//        SIM::PropertyHubPtr data = contact->getUserData("_core");
+//        PropertyHubPtr data = contact->getUserData("_core");
 //        QString dir;
 //        if(!data.isNull())
 //            dir = data->value("IncomingPath").toString();
@@ -2845,7 +2845,7 @@ void CorePlugin::eventInit()
 //    return false;
 //}
 
-//bool CorePlugin::processEventGoURL(SIM::Event* e)
+//bool CorePlugin::processEventGoURL(Event* e)
 //{
 //    EventGoURL *u = static_cast<EventGoURL*>(e);
 //    QString url = u->url();
@@ -3096,10 +3096,10 @@ bool CorePlugin::init()
     log(L_DEBUG, "CorePlugin::init");
     ConfigPtr settings = getProfileManager()->config();
 
-    QAction* quitAction = SIM::getCommandHub()->action("quit");
+    QAction* quitAction = getCommandHub()->action("quit");
     connect(quitAction, SIGNAL(triggered()), this, SLOT(cmdQuit()));
 
-    QAction* configureAction = SIM::getCommandHub()->action("configure");
+    QAction* configureAction = getCommandHub()->action("configure");
     connect(configureAction, SIGNAL(triggered()), this, SLOT(cmdSetup()));
 
     // FIXME:
@@ -3211,9 +3211,9 @@ bool CorePlugin::init()
 //void CorePlugin::startLogin()
 //{
 //    ClientList clients;
-//    SIM::getClientManager()->load();
-//    foreach(const QString& clname, SIM::getClientManager()->clientList()) {
-//        clients.push_back(SIM::getClientManager()->client(clname));
+//    getClientManager()->load();
+//    foreach(const QString& clname, getClientManager()->clientList()) {
+//        clients.push_back(getClientManager()->client(clname));
 //    }
 //    clients.addToContacts();
 //    getContacts()->load();
@@ -3439,7 +3439,7 @@ bool CorePlugin::init()
 //	};
 //	struct TGeneralCoreData
 //	{
-//		SIM::Data	Profile;
+//		Data	Profile;
 //	} GeneralCoreData;
 
 
@@ -3597,7 +3597,7 @@ bool CorePlugin::init()
 //	return new Message(MessageGeneric, cfg);
 //}
 
-//void CorePlugin::loadClients(const QString& profilename, SIM::ClientList& clients)
+//void CorePlugin::loadClients(const QString& profilename, ClientList& clients)
 //{
 //	QString cfgName = ProfileManager::instance()->rootPath() + QDir::separator() + profilename + QDir::separator() + "clients.conf";
 //	QFile f(cfgName);
@@ -3619,7 +3619,7 @@ bool CorePlugin::init()
 //	}
 //}
 
-//void CorePlugin::loadClients(SIM::ClientList &clients)
+//void CorePlugin::loadClients(ClientList &clients)
 //{
 //	loadClients(ProfileManager::instance()->currentProfileName(), clients);
 //}
@@ -3847,7 +3847,7 @@ bool CorePlugin::init()
 //    ContactList::ContactIterator it;
 //    while ((contact = ++it) != NULL)
 //    {
-//        SIM::PropertyHubPtr data = contact->getUserData("history");
+//        PropertyHubPtr data = contact->getUserData("history");
 //        if (data.isNull() || !data->value("CutDays").toBool())
 //            continue;
 //        QDateTime now(QDateTime::currentDateTime());
