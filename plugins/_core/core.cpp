@@ -287,13 +287,16 @@ void CorePlugin::createMainToolbar()
 
 void CorePlugin::createMainMenuActions()
 {
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"configure", "configure", "Configure",
+    SIM::ActionDescriptor a_1 = {"configure", "configure", "Configure",
             QStringList() << "main_menu",
-            new QAction("Configure", 0)});
+            new QAction("Configure", 0)};
 
-    getCommandHub()->registerAction(SIM::ActionDescriptor {"quit", "exit", "Quit",
-        QStringList() << "main_menu",
-        new QAction("Quit", 0)});
+    SIM::ActionDescriptor a_2 = {"quit", "exit", "Quit",
+            QStringList() << "main_menu",
+            new QAction("Quit", 0)};
+
+    getCommandHub()->registerAction( a_1 );
+    getCommandHub()->registerAction( a_2 );
 }
 
 QMenu* CorePlugin::createMainMenu()
