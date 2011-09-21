@@ -2,8 +2,11 @@
 #define PACKAGE "sim"
 #define VERSION "${Sim-IM_VERSION}"
 #define REVISION_NUMBER "${Sim-IM_WC_REVISION}"
+
 #define PREFIX "${CMAKE_INSTALL_PREFIX}"
+#define DATADIR "${DATADIR}"
 #define PLUGIN_PATH "${SIM_PLUGIN_DIR}"
+#define SIM_I18N_DIR "${SIM_I18N_DIR}"
 
 // header
 #cmakedefine HAVE_CARBON_CARBON_H 1

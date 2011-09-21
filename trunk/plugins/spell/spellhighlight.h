@@ -60,14 +60,14 @@ protected:
 
     /*************** These methods were added for backward compatibility and should be removed once ***************/
     QTextEdit * textEdit () {return m_edit;}
-    void setFormat ( int start, int count, const QFont & font, const QColor & color ) {}
-    void setFormat ( int start, int count, const QColor & color ) {}
-    void setFormat ( int start, int count, const QFont & font ) {}
+//    void setFormat ( int start, int count, const QFont & font, const QColor & color ) {}
+//    void setFormat ( int start, int count, const QColor & color ) {}
+//    void setFormat ( int start, int count, const QFont & font ) {}
 //    void rehighlight () {}
     /**************************************************************************************************************/
 
     void rehighlight();
-    void removeHlight(int stand_alone = 1);
+    void removeHighlight(int stand_alone = 1);
 //    void flush();
 //    void flushText();
 //    int m_pos;

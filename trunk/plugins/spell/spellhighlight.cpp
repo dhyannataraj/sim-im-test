@@ -81,7 +81,7 @@ void SpellHighlighter::textChanged()
 
 void SpellHighlighter::beforeStyleChange()
 {
-  removeHlight();
+  removeHighlight();
 }
 
 void SpellHighlighter::afterStyleChange()
@@ -89,7 +89,7 @@ void SpellHighlighter::afterStyleChange()
   rehighlight();
 }
 
-void SpellHighlighter::removeHlight(int stand_alone)
+void SpellHighlighter::removeHighlight(int stand_alone)
 // removes all misspel highlilighting from text, puts it back to edit field
 // QEdit will merge spans with similuar stiles by itself.
 // stand_alone == 0 when it is called as a part of rehighlight;
@@ -179,7 +179,7 @@ void SpellHighlighter::rehighlight()
 //    SIM::log(SIM::L_DEBUG, "SpellHighlighter::rehighlight()");
 
     m_isInRehighlight = true;
-    removeHlight(0);
+    removeHighlight(0);
     
     QString txt = textEdit()->text();
 
@@ -603,7 +603,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
                 // m_bDisable = true;
                 // rehighlight();
                 // QTimer::singleShot(50, this, SLOT(restore()));
-              removeHlight();
+              removeHighlight();
               
             }
         }

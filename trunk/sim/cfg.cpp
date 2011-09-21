@@ -184,7 +184,7 @@ EXPORT QString app_file(const QString &f)
     }
 #endif
 #ifndef __OS2__
-    app_file_name = PREFIX "/share/apps/sim/";
+    app_file_name = DATADIR "/";
 #endif
 #endif
     app_file_name += f;

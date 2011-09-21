@@ -1,7 +1,7 @@
 # main cmake file for SIM-IM
 
 PROJECT(Sim-IM)
-SET(Sim-IM_VERSION 0.9.5)
+SET(Sim-IM_VERSION "0.9.5 RC1")
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.4)
 if(COMMAND cmake_policy)
@@ -152,8 +152,8 @@ else(WIN32)
     SET(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
     SET(LIBDIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH "Path to sim library")
     SET(BINDIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Path to sim binary")
-    SET(DATADIR ${CMAKE_INSTALL_PREFIX}/share/apps/sim CACHE PATH "Path to sim data")
-    SET(SIM_PLUGIN_DIR ${LIBDIR}/sim${SIM_FLAVOUR} CACHE PATH "Path to sim plugins")
+    SET(DATADIR ${CMAKE_INSTALL_PREFIX}/share/apps/sim-im CACHE PATH "Path to sim data")
+    SET(SIM_PLUGIN_DIR ${LIBDIR}/sim-im${SIM_FLAVOUR} CACHE PATH "Path to sim plugins")
     SET(SIM_I18N_DIR   ${CMAKE_INSTALL_PREFIX}/share/locale)
     SET(SIM_ICONS_DIR  ${DATADIR}/icons)
     SET(SIM_PICT_DIR   ${DATADIR}/pict)

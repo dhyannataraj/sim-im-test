@@ -859,7 +859,7 @@ QString CorePlugin::poFile(const char *lang)
     if (!f.exists())
         return QString::null;
 #else
-    QString s = PREFIX "/share/locale/";
+    QString s = SIM_I18N_DIR "/";
     QString l = lang;
     int idx = l.find('.');
     if(idx != -1)
@@ -873,7 +873,7 @@ QString CorePlugin::poFile(const char *lang)
         if(idx != -1)
             l = l.left(idx);
 
-        s  = PREFIX "/share/locale/";
+        s  = SIM_I18N_DIR  "/";
         s += l;
         s += "/LC_MESSAGES/sim.mo";
         f.setName(s);

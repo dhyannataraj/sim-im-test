@@ -1,1 +1,0 @@
-AM_CONDITIONAL(ENABLE_WINDOCK, test "$kde_use_qt_win" = "yes")
