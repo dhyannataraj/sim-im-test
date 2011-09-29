@@ -35,7 +35,7 @@ public:
 
 public slots:
     void contactMoreInfoUpdated(const QString& contactScreen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
     void goUrl();
@@ -51,6 +51,10 @@ protected:
     virtual QDate currentDate() const;
 
     Ui::MoreInfo* ui() const;
+
+    bool changed() const;
+
+    int currentLanguage(int langnum) const;
 
 private:
     ICQContactPtr m_contact;

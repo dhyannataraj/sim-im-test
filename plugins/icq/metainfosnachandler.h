@@ -29,6 +29,7 @@ public:
     void uploadBasicInfo();
     void uploadHomeInfo();
     void uploadWorkInfo();
+    void uploadMoreInfo();
 
     static const int SnacId = 0x15;
 
@@ -72,6 +73,11 @@ public:
     static const int TlvWorkPhone = 0x2c6;
     static const int TlvWorkFax = 0x2d0;
     static const int TlvWorkHomepage = 0x2da;
+
+    static const int TlvAge = 0x172;
+    static const int TlvBirthday = 0x23a;
+    static const int TlvLanguage = 0x186;
+
 
 private:
     bool processMetaInfoData(const QByteArray& arr);

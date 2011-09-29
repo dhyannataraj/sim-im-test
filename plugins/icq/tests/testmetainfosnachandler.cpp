@@ -932,6 +932,7 @@ namespace
         handler->uploadWorkInfo();
     }
 
+// This tlv causes request to fail, so it is disabled for now
 //    TEST_F(TestMetaInfoSnacHandler, setWorkInfo_sends_metaRequestPacket_with_workStateTlv)
 //    {
 //        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
@@ -978,5 +979,29 @@ namespace
                 MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvWorkHomepage))));
 
         handler->uploadWorkInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setMoreInfo_sends_metaRequestPacket_with_ageTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvAge))));
+
+        handler->uploadMoreInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setMoreInfo_sends_metaRequestPacket_with_birthdayTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvBirthday))));
+
+        handler->uploadMoreInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setMoreInfo_sends_metaRequestPacket_with_languageTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvLanguage))));
+
+        handler->uploadMoreInfo();
     }
 }

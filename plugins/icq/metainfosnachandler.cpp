@@ -143,6 +143,39 @@ void MetaInfoSnacHandler::uploadWorkInfo()
     client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
 }
 
+void MetaInfoSnacHandler::uploadMoreInfo()
+{
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList moreInfo(TlvList::LittleEndian);
+    moreInfo.append(Tlv::fromUint16(TlvAge, contact->getAge(), Tlv::LittleEndian));
+
+    ByteArrayBuilder birthdayData(ByteArrayBuilder::LittleEndian);
+    birthdayData.appendWord(contact->getBirthday().year());
+    birthdayData.appendWord(contact->getBirthday().month());
+    birthdayData.appendWord(contact->getBirthday().day());
+    moreInfo.append(Tlv(TlvBirthday, birthdayData.getArray()));
+    moreInfo.append(Tlv::fromUint16(TlvLanguage, contact->getPrimaryLanguage(), Tlv::LittleEndian));
+    moreInfo.append(Tlv::fromUint16(TlvLanguage, contact->getSecondaryLanguage(), Tlv::LittleEndian));
+    moreInfo.append(Tlv::fromUint16(TlvLanguage, contact->getTertiaryLanguage(), Tlv::LittleEndian));
+
+    QByteArray data = moreInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
+}
+
 bool MetaInfoSnacHandler::processMetaInfoData(const QByteArray& arr)
 {
     TlvList list = TlvList::fromByteArray(arr);

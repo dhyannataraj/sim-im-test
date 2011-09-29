@@ -68,12 +68,24 @@ void MoreInfo::contactMoreInfoUpdated(const QString& contactScreen)
     fill();
 }
 
-//
-//void MoreInfo::apply()
-//{
-//}
-//
-//
+
+void MoreInfo::apply()
+{
+    if(changed())
+    {
+        m_contact->setPrimaryLanguage(currentLanguage(0));
+        m_contact->setSecondaryLanguage(currentLanguage(1));
+        m_contact->setTertiaryLanguage(currentLanguage(2));
+
+        m_contact->setBirthday(m_ui->edtDate->date());
+        m_contact->setAge(m_ui->spnAge->value());
+        m_contact->setGender(m_ui->cmbGender->currentIndex());
+
+        m_client->uploadMoreInfo();
+    }
+}
+
+
 //void MoreInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
 //{
 //    if (client != m_client)
@@ -271,5 +283,42 @@ void MoreInfo::goUrl()
 void MoreInfo::urlChanged(const QString& text)
 {
     m_ui->btnHomePage->setEnabled(!text.isEmpty());
+}
+
+bool MoreInfo::changed() const
+{
+    if((m_contact->getPrimaryLanguage() != currentLanguage(0)) ||
+            (m_contact->getSecondaryLanguage() != currentLanguage(1)) ||
+            (m_contact->getTertiaryLanguage() != currentLanguage(2)) ||
+            (m_contact->getAge() != m_ui->spnAge->value()) ||
+            (m_contact->getBirthday() != m_ui->edtDate->date()) ||
+            (m_contact->getGender() != m_ui->cmbGender->currentIndex()))
+        return true;
+    return false;
+}
+
+int MoreInfo::currentLanguage(int langnum) const
+{
+    QString langName;
+    switch(langnum)
+    {
+    case 0:
+        langName = m_ui->cmbLang1->currentText();
+        break;
+    case 1:
+        langName = m_ui->cmbLang2->currentText();
+        break;
+    case 2:
+        langName = m_ui->cmbLang3->currentText();
+        break;
+    default:
+        return 0;
+    }
+    for(const ext_info* info = languages; info->nCode > 0; info++)
+    {
+        if(langName == info->szName)
+            return info->nCode;
+    }
+    return 0;
 }
 
