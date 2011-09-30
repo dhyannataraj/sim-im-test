@@ -41,7 +41,7 @@ public:
 PSpellHighlighter::PSpellHighlighter(TextEdit *edit, SpellPlugin *plugin)
         : SpellHighlighter(edit, plugin)
 {
-//    m_plugin->m_edits.insert(MAP_EDITS::value_type(edit, this));
+    m_plugin->m_edits.insert(MAP_EDITS::value_type(edit, this));
 //    QObject::connect(edit, SIGNAL(finished(TextEdit*)), plugin, SLOT(textEditFinished(TextEdit*)));
 //    QObject::connect(this, SIGNAL(check(const QString&)), plugin, SLOT(check(const QString&)));
 //    QObject::connect(plugin, SIGNAL(misspelling(const QString&)), this, SLOT(slotMisspelling(const QString&)));

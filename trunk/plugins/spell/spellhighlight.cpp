@@ -44,10 +44,12 @@ SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
     QObject::connect(edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
     QObject::connect(edit, SIGNAL(beforeStyleChange()), this, SLOT(beforeStyleChange()));
     QObject::connect(edit, SIGNAL(afterStyleChange()), this, SLOT(afterStyleChange()));
+    rehighlight();
 }
 
 SpellHighlighter::~SpellHighlighter()
 {
+  removeHighlight();
 }
 
 /*int SpellHighlighter::highlightParagraph(const QString&, int state)
@@ -471,8 +473,10 @@ void SpellHighlighter::tag_end(const QString &tag)
 
 void SpellHighlighter::slotConfigChanged()
 {
+  rehighlight();
 //    m_bDirty = true;
 //    rehighlight();
+
 }
 
 bool SpellHighlighter::processEvent(SIM::Event *e)

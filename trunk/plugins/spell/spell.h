@@ -37,12 +37,12 @@ struct SpellData
 };
 
 class TextEdit;
-class QSyntaxHighlighter;
+//class QSyntaxHighlighter;
 class KDictSpellingHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef std::map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+typedef std::map<TextEdit*, QObject*>	MAP_EDITS;
 typedef std::map<SIM::my_string, bool> MAP_BOOL;
 
 class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
