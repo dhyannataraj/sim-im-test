@@ -24,13 +24,13 @@
 #include <qstringlist.h>
 #include <qsyntaxhighlighter.h>
 
-#include "html.h"
+// #include "html.h"
 
 #include "spell.h"
 
 using std::stack;
 
-class SpellHighlighter : public QObject, /*public QSyntaxHighlighter,*/ public SIM::HTMLParser, public SIM::EventReceiver
+class SpellHighlighter : public QObject, /*public QSyntaxHighlighter,*//* public SIM::HTMLParser,*/ public SIM::EventReceiver
 {
     Q_OBJECT
 public:

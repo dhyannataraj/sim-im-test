@@ -321,10 +321,10 @@ void SpellHighlighter::rehighlight()
 
 
 
-void SpellHighlighter::text(const QString &text)
-{
+//void SpellHighlighter::text(const QString &text)
+//{
 //    m_curText += text;
-}
+//}
 
 /*void SpellHighlighter::flushText()
 {
@@ -348,8 +348,8 @@ void SpellHighlighter::text(const QString &text)
     m_curText = QString::null;
 }*/
 
-void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
-{
+//void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
+//{
 /*    if ((tag == "img") || (tag == "br")){
         flush();
         m_pos++;
@@ -379,10 +379,10 @@ void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
             }
         }
     } */
-}
+//}
 
-void SpellHighlighter::tag_end(const QString &tag)
-{
+//void SpellHighlighter::tag_end(const QString &tag)
+//{
 /*    flushText();
     if (tag == "span"){
         if (m_fonts.empty())
@@ -391,7 +391,7 @@ void SpellHighlighter::tag_end(const QString &tag)
         m_bError = m_fonts.top();
         m_fonts.pop();
     }*/
-}
+//}
 
 /*void SpellHighlighter::flush()
 {
