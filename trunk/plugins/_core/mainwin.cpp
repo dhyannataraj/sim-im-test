@@ -380,7 +380,7 @@ void MainWindow::setTitle()
     if (owner)
         title = owner->getName();
     if (title.isEmpty())
-        title = "SIM";
+        title = "Sim-IM";
     setCaption(title);
 }
 
