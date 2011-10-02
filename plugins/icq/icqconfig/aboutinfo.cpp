@@ -44,10 +44,15 @@ void AboutInfo::contactAboutInfoUpdated(const QString& contactScreen)
     fill();
 }
 
-//void AboutInfo::apply()
-//{
-//}
-//
+void AboutInfo::apply()
+{
+    if(changed())
+    {
+        m_contact->setAbout(m_ui->edtAbout->toPlainText());
+        m_client->uploadAboutInfo();
+    }
+}
+
 //void AboutInfo::applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact)
 //{
 //    if(client.data() != m_client)
@@ -92,5 +97,10 @@ void AboutInfo::fill()
 	{
 	    m_ui->edtAbout->setText(m_contact->getAbout());
     }
+}
+
+bool AboutInfo::changed() const
+{
+    return m_ui->edtAbout->toPlainText() != m_contact->getAbout();
 }
 

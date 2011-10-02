@@ -33,7 +33,7 @@ public:
 
 public slots:
     void contactInterestsInfoUpdated(const QString& contactScreen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 
@@ -41,6 +41,8 @@ protected:
 //    void updateData(ICQUserData* data);
 //    virtual bool processEvent(SIM::Event *e);
     void fill();
+    bool changed() const;
+    int interestCode(const QString& name) const;
     Ui::InterestsInfoBase* ui() const;
 
 private:

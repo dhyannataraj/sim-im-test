@@ -1611,6 +1611,16 @@ void ICQClient::uploadMoreInfo()
     m_metaInfoSnac->uploadMoreInfo();
 }
 
+void ICQClient::uploadAboutInfo()
+{
+    m_metaInfoSnac->uploadAboutInfo();
+}
+
+void ICQClient::uploadInterestsInfo()
+{
+    m_metaInfoSnac->uploadInterestsInfo();
+}
+
 void ICQClient::registerEvents()
 {
     SIM::getEventHub()->registerEvent(IcqContactUpdate::create("icq_contact_basic_info_updated"));

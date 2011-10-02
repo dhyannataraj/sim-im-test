@@ -33,12 +33,13 @@ public:
 
 public slots:
     void contactAboutInfoUpdated(const QString& contactScreen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 
 protected:
     void fill();
+    bool changed() const;
     ICQContactPtr m_contact;
     ICQClient	*m_client;
     Ui::aboutInfo* m_ui;

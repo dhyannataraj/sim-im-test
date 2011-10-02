@@ -30,6 +30,8 @@ public:
     void uploadHomeInfo();
     void uploadWorkInfo();
     void uploadMoreInfo();
+    void uploadAboutInfo();
+    void uploadInterestsInfo();
 
     static const int SnacId = 0x15;
 
@@ -78,6 +80,10 @@ public:
     static const int TlvBirthday = 0x23a;
     static const int TlvLanguage = 0x186;
 
+    static const int TlvAbout = 0x258;
+
+    static const int TlvInterest = 0x1ea;
+
 
 private:
     bool processMetaInfoData(const QByteArray& arr);
@@ -96,6 +102,7 @@ private:
     void appendString(ByteArrayBuilder& builder, const QString& str);
 
     QByteArray nullTerminatedStringWLength(const QString& str);
+    QByteArray makeIcombo(int code, const QString& str);
 
 private:
     int m_sqnum;

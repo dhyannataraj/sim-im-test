@@ -1004,4 +1004,20 @@ namespace
 
         handler->uploadMoreInfo();
     }
+
+    TEST_F(TestMetaInfoSnacHandler, setAboutInfo_sends_metaRequestPacket_with_aboutTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvAbout))));
+
+        handler->uploadAboutInfo();
+    }
+
+    TEST_F(TestMetaInfoSnacHandler, setInterestsInfo_sends_metaRequestPacket_with_interestsTlv)
+    {
+        EXPECT_CALL(*socket, snac(MetaInfoSnacHandler::SnacId,
+                MetaInfoSnacHandler::SnacMetaInfoRequest, _, Truly(MetaRequestHasTlv(MetaInfoSnacHandler::TlvInterest))));
+
+        handler->uploadInterestsInfo();
+    }
 }

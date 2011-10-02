@@ -81,14 +81,14 @@ void MetaInfoSnacHandler::uploadHomeInfo()
     addMetaInfoRequest(m_sqnum, contact);
 
     TlvList homeInfo(TlvList::LittleEndian);
-    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeCity, nullTerminatedStringWLength(client()->ownerIcqContact()->getCity())));
-    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeState, nullTerminatedStringWLength(client()->ownerIcqContact()->getState())));
-    homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeCountry, client()->ownerIcqContact()->getCountry()));
-    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeAddress, nullTerminatedStringWLength(client()->ownerIcqContact()->getAddress())));
-    homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeZip, client()->ownerIcqContact()->getZip().toUInt()));
-    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomePhone, nullTerminatedStringWLength(client()->ownerIcqContact()->getHomePhone())));
-    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeFax, nullTerminatedStringWLength(client()->ownerIcqContact()->getHomeFax())));
-    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvCellular, nullTerminatedStringWLength(client()->ownerIcqContact()->getCellular())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeCity, nullTerminatedStringWLength(contact->getCity())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeState, nullTerminatedStringWLength(contact->getState())));
+    homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeCountry, contact->getCountry()));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeAddress, nullTerminatedStringWLength(contact->getAddress())));
+    homeInfo.append(Tlv::fromUint16(MetaInfoSnacHandler::TlvHomeZip, contact->getZip().toUInt()));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomePhone, nullTerminatedStringWLength(contact->getHomePhone())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvHomeFax, nullTerminatedStringWLength(contact->getHomeFax())));
+    homeInfo.append(Tlv(MetaInfoSnacHandler::TlvCellular, nullTerminatedStringWLength(contact->getCellular())));
 
 
     QByteArray data = homeInfo.toByteArray();
@@ -161,6 +161,57 @@ void MetaInfoSnacHandler::uploadMoreInfo()
     moreInfo.append(Tlv::fromUint16(TlvLanguage, contact->getTertiaryLanguage(), Tlv::LittleEndian));
 
     QByteArray data = moreInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
+}
+
+void MetaInfoSnacHandler::uploadAboutInfo()
+{
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList aboutInfo(TlvList::LittleEndian);
+    aboutInfo.append(Tlv(TlvAbout, nullTerminatedStringWLength(contact->getAbout())));
+
+    QByteArray data = aboutInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
+}
+
+void MetaInfoSnacHandler::uploadInterestsInfo()
+{
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList interestsInfo(TlvList::LittleEndian);
+    interestsInfo.append(Tlv(TlvInterest, makeIcombo(contact->getInterest(0), contact->getInterestText(0))));
+    interestsInfo.append(Tlv(TlvInterest, makeIcombo(contact->getInterest(1), contact->getInterestText(1))));
+    interestsInfo.append(Tlv(TlvInterest, makeIcombo(contact->getInterest(2), contact->getInterestText(2))));
+    interestsInfo.append(Tlv(TlvInterest, makeIcombo(contact->getInterest(3), contact->getInterestText(3))));
+
+    QByteArray data = interestsInfo.toByteArray();
 
     ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
     metaPacket.appendWord(data.size() + 10);
@@ -387,6 +438,16 @@ void MetaInfoSnacHandler::appendString(ByteArrayBuilder& builder, const QString&
 QByteArray MetaInfoSnacHandler::nullTerminatedStringWLength(const QString& str)
 {
     ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+    builder.appendWord(str.length() + 1);
+    builder.appendBytes(str.toAscii());
+    builder.appendByte(0);
+    return builder.getArray();
+}
+
+QByteArray MetaInfoSnacHandler::makeIcombo(int code, const QString& str)
+{
+    ByteArrayBuilder builder(ByteArrayBuilder::LittleEndian);
+    builder.appendWord(code);
     builder.appendWord(str.length() + 1);
     builder.appendBytes(str.toAscii());
     builder.appendByte(0);

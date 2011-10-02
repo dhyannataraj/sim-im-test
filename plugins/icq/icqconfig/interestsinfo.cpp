@@ -54,10 +54,18 @@ void InterestsInfo::contactInterestsInfoUpdated(const QString& contactScreen)
     fill();
 }
 
-//void InterestsInfo::apply()
-//{
-//}
-//
+void InterestsInfo::apply()
+{
+    if(changed())
+    {
+        m_contact->setInterest(0, interestCode(m_ui->cmbBg1->currentText()), m_ui->edtBg1->text());
+        m_contact->setInterest(1, interestCode(m_ui->cmbBg2->currentText()), m_ui->edtBg2->text());
+        m_contact->setInterest(2, interestCode(m_ui->cmbBg3->currentText()), m_ui->edtBg3->text());
+        m_contact->setInterest(3, interestCode(m_ui->cmbBg4->currentText()), m_ui->edtBg4->text());
+        m_client->uploadInterestsInfo();
+    }
+}
+
 //void InterestsInfo::updateData(ICQUserData* data)
 //{
 //    QString info[4];
@@ -180,6 +188,27 @@ void InterestsInfo::fill()
 
     m_ui->edtBg4->setText(m_contact->getInterestText(3));
     initCombo(m_ui->cmbBg4, m_contact->getInterest(3), interests);
+}
+
+bool InterestsInfo::changed() const
+{
+    return (interestCode(m_ui->cmbBg1->currentText()) != m_contact->getInterest(0)) ||
+            (interestCode(m_ui->cmbBg2->currentText()) != m_contact->getInterest(1)) ||
+            (interestCode(m_ui->cmbBg3->currentText()) != m_contact->getInterest(2)) ||
+            (interestCode(m_ui->cmbBg4->currentText()) != m_contact->getInterest(3));
+
+}
+
+int InterestsInfo::interestCode(const QString& name) const
+{
+    for(const ext_info* info = interests; info->nCode; info++)
+    {
+        if(info->szName == name)
+        {
+            return info->nCode;
+        }
+    }
+    return 0;
 }
 
 Ui::InterestsInfoBase* InterestsInfo::ui() const

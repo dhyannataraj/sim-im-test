@@ -657,6 +657,8 @@ public:
     void uploadHomeInfo();
     void uploadWorkInfo();
     void uploadMoreInfo();
+    void uploadAboutInfo();
+    void uploadInterestsInfo();
 
     // reimplement socket() to get correct Buffer
 //    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
