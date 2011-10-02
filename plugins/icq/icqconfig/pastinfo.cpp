@@ -57,6 +57,8 @@ PastInfo::PastInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* cli
     }
     fill();
     SIM::getEventHub()->getEvent("icq_contact_past_info_updated")->connectTo(this, SLOT(contactPastInfoUpdated(QString)));
+
+    log(L_DEBUG, "PastInfo::PastInfo()");
 }
 
 PastInfo::~PastInfo()
@@ -78,11 +80,25 @@ Ui::PastInfoBase* PastInfo::ui() const
     return m_ui;
 }
 
-//
-//void PastInfo::apply()
-//{
-//}
-//
+
+void PastInfo::apply()
+{
+    log(L_DEBUG, "PastInfo::apply()");
+    if(changed())
+    {
+        log(L_DEBUG, "changed");
+        m_contact->setBackground(0, backgroundCode(m_ui->cmbBg1->currentText()), m_ui->edtBg1->text());
+        m_contact->setBackground(1, backgroundCode(m_ui->cmbBg2->currentText()), m_ui->edtBg2->text());
+        m_contact->setBackground(2, backgroundCode(m_ui->cmbBg3->currentText()), m_ui->edtBg3->text());
+
+        m_contact->setAffiliation(0, affiliationCode(m_ui->cmbAf1->currentText()), m_ui->edtAf1->text());
+        m_contact->setAffiliation(1, affiliationCode(m_ui->cmbAf2->currentText()), m_ui->edtAf2->text());
+        m_contact->setAffiliation(2, affiliationCode(m_ui->cmbAf3->currentText()), m_ui->edtAf3->text());
+
+        m_client->uploadPastInfo();
+    }
+}
+
 //bool PastInfo::processEvent(Event *e)
 //{
 //    if (e->type() == eEventContact){
@@ -168,7 +184,47 @@ void PastInfo::fill()
 //        cmbAfChanged(0);
 //    }
 }
-//
+
+bool PastInfo::changed() const
+{
+    return (backgroundCode(ui()->cmbBg1->currentText()) != m_contact->getBackgroundCode(0)) ||
+            (backgroundCode(ui()->cmbBg2->currentText()) != m_contact->getBackgroundCode(1)) ||
+            (backgroundCode(ui()->cmbBg3->currentText()) != m_contact->getBackgroundCode(2)) ||
+            (affiliationCode(ui()->cmbAf1->currentText()) != m_contact->getAffiliationCode(0)) ||
+            (affiliationCode(ui()->cmbAf2->currentText()) != m_contact->getAffiliationCode(1)) ||
+            (affiliationCode(ui()->cmbAf3->currentText()) != m_contact->getAffiliationCode(2)) ||
+            (ui()->edtBg1->text() != m_contact->getBackgroundText(0)) ||
+            (ui()->edtBg2->text() != m_contact->getBackgroundText(1)) ||
+            (ui()->edtBg3->text() != m_contact->getBackgroundText(2)) ||
+            (ui()->edtAf1->text() != m_contact->getAffiliationText(0)) ||
+            (ui()->edtAf2->text() != m_contact->getAffiliationText(1)) ||
+            (ui()->edtAf3->text() != m_contact->getAffiliationText(2));
+}
+
+int PastInfo::backgroundCode(const QString& name) const
+{
+    for(const ext_info* info = pasts; info->nCode; info++)
+    {
+        if(info->szName == name)
+        {
+            return info->nCode;
+        }
+    }
+    return 0;
+}
+
+int PastInfo::affiliationCode(const QString& name) const
+{
+    for(const ext_info* info = affilations; info->nCode; info++)
+    {
+        if(info->szName == name)
+        {
+            return info->nCode;
+        }
+    }
+    return 0;
+}
+
 //void PastInfo::cmbBgChanged(int)
 //{
 //    QComboBox *cmbs[3] = { cmbBg1, cmbBg2, cmbBg3 };

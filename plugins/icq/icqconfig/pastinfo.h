@@ -38,7 +38,7 @@ public:
 
 public slots:
     void contactPastInfoUpdated(const QString& contactScreen);
-//    void apply();
+    void apply();
 //    void apply(SIM::Client*, void*);
 //    void applyContact(const SIM::ClientPtr& client, SIM::IMContact* contact);
 //    void cmbAfChanged(int);
@@ -51,6 +51,11 @@ protected:
 //    QString getInfo(QComboBox *cmb, QLineEdit *edt, const SIM::ext_info*);
 
     void fill();
+    bool changed() const;
+
+    int backgroundCode(const QString& name) const;
+    int affiliationCode(const QString& name) const;
+
     ICQContactPtr  m_contact;
     ICQClient *m_client;
     Ui::PastInfoBase* m_ui;

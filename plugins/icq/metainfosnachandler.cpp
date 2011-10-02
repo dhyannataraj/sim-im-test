@@ -13,6 +13,7 @@
 
 #include <algorithm>
 
+using namespace SIM;
 
 MetaInfoSnacHandler::MetaInfoSnacHandler(ICQClient* client) : SnacHandler(client, 0x15), // FIXME hardcoded
     m_sqnum(1)
@@ -51,6 +52,7 @@ void MetaInfoSnacHandler::requestFullInfo(const ICQContactPtr& contact)
 
 void MetaInfoSnacHandler::uploadBasicInfo()
 {
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadBasicInfo");
     ICQContactPtr contact = m_client->ownerIcqContact();
     addMetaInfoRequest(m_sqnum, contact);
 
@@ -77,6 +79,7 @@ void MetaInfoSnacHandler::uploadBasicInfo()
 
 void MetaInfoSnacHandler::uploadHomeInfo()
 {
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadHomeInfo");
     ICQContactPtr contact = m_client->ownerIcqContact();
     addMetaInfoRequest(m_sqnum, contact);
 
@@ -109,6 +112,7 @@ void MetaInfoSnacHandler::uploadHomeInfo()
 
 void MetaInfoSnacHandler::uploadWorkInfo()
 {
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadWorkInfo");
     ICQContactPtr contact = m_client->ownerIcqContact();
     addMetaInfoRequest(m_sqnum, contact);
 
@@ -145,6 +149,7 @@ void MetaInfoSnacHandler::uploadWorkInfo()
 
 void MetaInfoSnacHandler::uploadMoreInfo()
 {
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadMoreInfo");
     ICQContactPtr contact = m_client->ownerIcqContact();
     addMetaInfoRequest(m_sqnum, contact);
 
@@ -178,6 +183,7 @@ void MetaInfoSnacHandler::uploadMoreInfo()
 
 void MetaInfoSnacHandler::uploadAboutInfo()
 {
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadAboutInfo");
     ICQContactPtr contact = m_client->ownerIcqContact();
     addMetaInfoRequest(m_sqnum, contact);
 
@@ -202,6 +208,7 @@ void MetaInfoSnacHandler::uploadAboutInfo()
 
 void MetaInfoSnacHandler::uploadInterestsInfo()
 {
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadInterestsInfo");
     ICQContactPtr contact = m_client->ownerIcqContact();
     addMetaInfoRequest(m_sqnum, contact);
 
@@ -212,6 +219,37 @@ void MetaInfoSnacHandler::uploadInterestsInfo()
     interestsInfo.append(Tlv(TlvInterest, makeIcombo(contact->getInterest(3), contact->getInterestText(3))));
 
     QByteArray data = interestsInfo.toByteArray();
+
+    ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
+    metaPacket.appendWord(data.size() + 10);
+    metaPacket.appendDword(contact->getUin());
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaInfoRequest);
+    metaPacket.appendWord(m_sqnum++);
+    metaPacket.appendWord(MetaInfoSnacHandler::MetaSetFullUserInfo);
+    metaPacket.appendBytes(data);
+
+    TlvList tlvs;
+    tlvs.append(Tlv(0x01, metaPacket.getArray()));
+
+    client()->oscarSocket()->snac(SnacId, SnacMetaInfoRequest, 0, tlvs.toByteArray());
+}
+
+void MetaInfoSnacHandler::uploadPastInfo()
+{
+    log(L_DEBUG, "MetaInfoSnacHandler::uploadPastInfo");
+    ICQContactPtr contact = m_client->ownerIcqContact();
+    addMetaInfoRequest(m_sqnum, contact);
+
+    TlvList backgroundInfo(TlvList::LittleEndian);
+    backgroundInfo.append(Tlv(TlvBackground, makeIcombo(contact->getBackgroundCode(0), contact->getBackgroundText(0))));
+    backgroundInfo.append(Tlv(TlvBackground, makeIcombo(contact->getBackgroundCode(1), contact->getBackgroundText(1))));
+    backgroundInfo.append(Tlv(TlvBackground, makeIcombo(contact->getBackgroundCode(2), contact->getBackgroundText(2))));
+
+    backgroundInfo.append(Tlv(TlvAffiliation, makeIcombo(contact->getAffiliationCode(0), contact->getAffiliationText(0))));
+    backgroundInfo.append(Tlv(TlvAffiliation, makeIcombo(contact->getAffiliationCode(1), contact->getAffiliationText(1))));
+    backgroundInfo.append(Tlv(TlvAffiliation, makeIcombo(contact->getAffiliationCode(2), contact->getAffiliationText(2))));
+
+    QByteArray data = backgroundInfo.toByteArray();
 
     ByteArrayBuilder metaPacket(ByteArrayBuilder::LittleEndian);
     metaPacket.appendWord(data.size() + 10);
@@ -367,7 +405,7 @@ bool MetaInfoSnacHandler::parseInterestsUserInfo(ByteArrayParser& parser, const 
         SIM::log(SIM::L_WARN, "MetaInfoSnacHandler::parseInterestsUserInfo: Invalid interests count: %d", interestsCount);
     }
 
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < interestsCount; i++)
     {
         int interestCode = parser.readWord();
         QString interestText = readString(parser);

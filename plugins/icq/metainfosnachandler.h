@@ -32,6 +32,7 @@ public:
     void uploadMoreInfo();
     void uploadAboutInfo();
     void uploadInterestsInfo();
+    void uploadPastInfo();
 
     static const int SnacId = 0x15;
 
@@ -83,6 +84,9 @@ public:
     static const int TlvAbout = 0x258;
 
     static const int TlvInterest = 0x1ea;
+
+    static const int TlvBackground = 0x1fe;
+    static const int TlvAffiliation = 0x1d6;
 
 
 private:
