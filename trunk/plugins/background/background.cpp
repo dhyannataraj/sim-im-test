@@ -37,7 +37,7 @@ static PluginInfo info =
         I18N_NOOP("Plugin provides background pictures for user list"),
         VERSION,
         createBackgroundPlugin,
-        PLUGIN_NOLOAD_DEFAULT
+        PLUGIN_DEFAULT
     };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
@@ -57,7 +57,7 @@ static DataDef backgroundData[] =
     {
         { "Background", DATA_STRING, 1, 0 },
         { "Position", DATA_ULONG, 1, 0 },
-        { "MarginContact", DATA_ULONG, 1, 0 },
+        { "MarginContact", DATA_ULONG, 1, DATA(8) },
         { "MarginGroup", DATA_ULONG, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
