@@ -18,7 +18,6 @@
 #ifndef _INTERESTSINFO_H
 #define _INTERESTSINFO_H
 
-#include "event.h"
 #include "contacts/client.h"
 #include "ui_interestsinfobase.h"
 #include "../icqcontact.h"

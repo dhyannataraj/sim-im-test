@@ -19,7 +19,6 @@
 #define _WORKINFO_H
 
 #include "ui_workinfobase.h"
-#include "event.h"
 #include "contacts/client.h"
 #include "../icqcontact.h"
 

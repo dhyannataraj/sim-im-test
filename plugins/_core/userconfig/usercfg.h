@@ -18,7 +18,6 @@
 #ifndef _USERCFG_H
 #define _USERCFG_H
 
-#include "event.h"
 #include <QResizeEvent>
 #include <QDialog>
 #include <QSharedPointer>

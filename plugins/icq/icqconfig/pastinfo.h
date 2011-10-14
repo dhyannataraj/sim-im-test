@@ -19,7 +19,6 @@
 #define _PASTINFO_H
 
 #include "country.h"
-#include "event.h"
 #include "../icqcontact.h"
 
 #include "ui_pastinfobase.h"
