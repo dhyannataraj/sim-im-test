@@ -10,6 +10,10 @@
 #include "log.h"
 #include "../../bytearraybuilder.h"
 
+#include <QTextCodec>
+#include <QTextEncoder>
+#include <QScopedPointer>
+
 using SIM::log;
 using SIM::L_WARN;
 
@@ -71,10 +75,13 @@ QByteArray IcbmSnacSendMessageRequest::makeMessageTlv(const SIM::MessagePtr& mes
     builder.appendByte(0x01); // Features
     builder.appendWord(0x0101); // Message info signature
 
-    QByteArray messageText = message->toPlainText().toUtf8(); // FIXME ? encoding
+    QTextCodec* codec = QTextCodec::codecForName("UTF16BE");
+    QScopedPointer<QTextEncoder> encoder(codec->makeEncoder(QTextCodec::IgnoreHeader));
+
+    QByteArray messageText = encoder->fromUnicode(message->toPlainText());
     builder.appendWord(4 + messageText.length());
-    builder.appendWord(0x0000); // Encoding set
-    builder.appendWord(0xffff); // Encoding subset
+    builder.appendWord(IcbmSnacHandler::CharsetUtf16be); // Encoding set
+    builder.appendWord(0); // Encoding subset
     builder.appendBytes(messageText);
     return builder.getArray();
 }

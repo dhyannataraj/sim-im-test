@@ -93,9 +93,9 @@ namespace
             return builder.getArray();
         }
 
-        SIM::MessagePtr makeTestMessage()
+        SIM::MessagePtr makeTestMessage(const QString& message)
         {
-            return SIM::MessagePtr(new SIM::GenericMessage(client->ownerContact(), contact, TestMessage));
+            return SIM::MessagePtr(new SIM::GenericMessage(client->ownerContact(), contact, message));
         }
 
         QByteArray makeIncomingMessagePacket(const QByteArray& text, int charset = 0)
@@ -155,6 +155,35 @@ namespace
         return true;
     }
 
+    bool isMessageEncodedInUtf16be(const QByteArray& packet)
+    {
+        ByteArrayParser parser(packet);
+        parser.readDword();
+        parser.readDword(); // skip cookies
+        parser.readWord(); // channel number
+
+        int idlen = parser.readByte();
+        parser.readBytes(idlen); // Target Id
+
+        TlvList list = TlvList::fromByteArray(parser.readAll());
+        Tlv msg = list.firstTlv(IcbmSnacHandler::TlvMessage);
+
+        ByteArrayParser msgParser(msg.data());
+        msgParser.readWord(); // features signature
+        int featuresLength = msgParser.readWord();
+        msgParser.readBytes(featuresLength);
+        msgParser.readWord(); // message signature
+        int msgLength = msgParser.readWord() - 4; // message block length
+        int charset = msgParser.readWord();
+        if(charset != IcbmSnacHandler::CharsetUtf16be)
+            return false;
+        msgParser.readWord(); // Charsubset
+        QByteArray arr = msgParser.readBytes(msgLength);
+        if(arr != TestUtf16beMessage)
+            return false;
+        return true;
+    }
+
     TEST_F(TestIcbmSnacHandler, parametersPacket_processing)
     {
         IcbmSnacHandler::IcbmParameters params = makeDefaultIcbmParameters();
@@ -187,13 +216,19 @@ namespace
     TEST_F(TestIcbmSnacHandler, sendMessage_plainTextMessage)
     {
         EXPECT_CALL(*socket, snac(ICQ_SNACxFOOD_MESSAGE, IcbmSnacHandler::SnacIcbmSendMessage, _, _)).Times(1);
-        handler->sendMessage(makeTestMessage());
+        handler->sendMessage(makeTestMessage(TestMessage));
     }
 
     TEST_F(TestIcbmSnacHandler, sendMessage_plainTextMessage_validMessage)
     {
         EXPECT_CALL(*socket, snac(ICQ_SNACxFOOD_MESSAGE, IcbmSnacHandler::SnacIcbmSendMessage, _, Truly(isValidMessagePacketForContact))).Times(1);
-        handler->sendMessage(makeTestMessage());
+        handler->sendMessage(makeTestMessage(TestMessage));
+    }
+
+    TEST_F(TestIcbmSnacHandler, sendMessage_plainTextMessage_encodes_in_utf16be)
+    {
+        EXPECT_CALL(*socket, snac(ICQ_SNACxFOOD_MESSAGE, IcbmSnacHandler::SnacIcbmSendMessage, _, Truly(isMessageEncodedInUtf16be))).Times(1);
+        handler->sendMessage(makeTestMessage(TestUtf16beDecodedMessage));
     }
 
     TEST_F(TestIcbmSnacHandler, incomingMessage_pushesToPipe)
