@@ -27,6 +27,12 @@ namespace
     static const QString ContactName = "32167";
     static const QString TestMessage = "1234";
 
+    static const QByteArray TestCp1251Message("\xcf\xf0\xe8\xe2\xe5\xf2");
+    static const QString TestCp1251DecodedMessage = QString::fromUtf8("Привет"); // Means "hello" in russian
+
+    static const QByteArray TestUtf16beMessage("\x04\x1f\x04\x40\x04\x38\x04\x32\x04\x35\x04\x42");
+    static const QString TestUtf16beDecodedMessage = QString::fromUtf8("Привет"); // Means "hello" in russian
+
     class TestIcbmSnacHandler : public ::testing::Test
     {
     public:
@@ -73,7 +79,7 @@ namespace
             return builder.getArray();
         }
 
-        QByteArray makeMessageBlock(const QString& messageText)
+        QByteArray makeMessageBlock(const QByteArray& messageText, int charset)
         {
             ByteArrayBuilder builder;
             builder.appendWord(0x0501); // Features signature
@@ -81,9 +87,9 @@ namespace
             builder.appendByte(0x01); // Features
             builder.appendWord(0x0101); // Block info
             builder.appendWord(0x04 + messageText.length()); // Block info length
-            builder.appendWord(0x0000);
-            builder.appendWord(0xffff);
-            builder.appendBytes(messageText.toUtf8());
+            builder.appendWord(charset);
+            builder.appendWord(0);
+            builder.appendBytes(messageText);
             return builder.getArray();
         }
 
@@ -92,7 +98,7 @@ namespace
             return SIM::MessagePtr(new SIM::GenericMessage(client->ownerContact(), contact, TestMessage));
         }
 
-        QByteArray makeIncomingMessagePacket()
+        QByteArray makeIncomingMessagePacket(const QByteArray& text, int charset = 0)
         {
             ByteArrayBuilder builder;
             builder.appendDword(0x12345678);
@@ -106,7 +112,7 @@ namespace
             TlvList list;
             list.append(Tlv::fromUint16(IcbmSnacHandler::TlvUserClass, 0x0050));
             list.append(Tlv::fromUint32(IcbmSnacHandler::TlvOnlineStatus, 0x10020000));
-            list.append(Tlv(IcbmSnacHandler::TlvMessage, makeMessageBlock(TestMessage)));
+            list.append(Tlv(IcbmSnacHandler::TlvMessage, makeMessageBlock(text, charset)));
 
             builder.appendWord(list.size());
             builder.appendBytes(list.toByteArray());
@@ -196,7 +202,7 @@ namespace
         SIM::setMessagePipe(pipe);
         EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageTextMatcher(TestMessage))));
 
-        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(), 0, 0);
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestMessage.toUtf8()), 0, 0);
     }
 
     TEST_F(TestIcbmSnacHandler, incomingMessage_sourceContact)
@@ -205,7 +211,28 @@ namespace
         SIM::setMessagePipe(pipe);
         EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageSourceContactMatcher(contact))));
 
-        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(), 0, 0);
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestMessage.toUtf8()), 0, 0);
+    }
+
+
+    TEST_F(TestIcbmSnacHandler, incomingMessage_uses_contact_encoding_if_packet_encoding_is_unknown)
+    {
+        contact->setEncoding("cp1251");
+        MockObjects::MockMessagePipe* pipe = new MockObjects::MockMessagePipe();
+        SIM::setMessagePipe(pipe);
+        EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageTextMatcher(TestCp1251DecodedMessage))));
+
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestCp1251Message), 0, 0);
+    }
+
+    TEST_F(TestIcbmSnacHandler, incomingMessage_uses_packet_encoding_utf16le)
+    {
+        contact->setEncoding("cp1251");
+        MockObjects::MockMessagePipe* pipe = new MockObjects::MockMessagePipe();
+        SIM::setMessagePipe(pipe);
+        EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageTextMatcher(TestUtf16beDecodedMessage))));
+
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestUtf16beMessage, IcbmSnacHandler::CharsetUtf16be), 0, 0);
     }
 
     TEST_F(TestIcbmSnacHandler, requestParametersInfo_sendsSnac)

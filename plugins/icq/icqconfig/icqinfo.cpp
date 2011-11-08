@@ -29,6 +29,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QTabWidget>
+#include <QTextCodec>
 
 using namespace SIM;
 
@@ -92,54 +93,16 @@ void ICQInfo::contactBasicInfoUpdated(const QString& contactScreen)
 
 void ICQInfo::apply()
 {
-    if(m_contact != m_client->ownerIcqContact())
-        return;
-
-    if(changed())
+    if((m_contact != m_client->ownerIcqContact()) && changed())
     {
         m_contact->setNick(m_ui->edtNick->text());
         m_contact->setFirstName(m_ui->edtFirst->text());
         m_contact->setLastName(m_ui->edtLast->text());
         m_client->uploadBasicInfo();
     }
-//    ICQUserData *data = m_data;
-//    if (data == NULL){
-//        if (m_client->getState() == Client::Connected){
-//            QString errMsg;
-//            QWidget *errWidget = edtCurrent;
-//            if (!edtPswd1->text().isEmpty() || !edtPswd2->text().isEmpty()){
-//                if (edtCurrent->text().isEmpty()){
-//                    errMsg = i18n("Input current password");
-//                }else{
-//                    if (edtPswd1->text() != edtPswd2->text()){
-//                        errMsg = i18n("Confirm password does not match");
-//                        errWidget = edtPswd2;
-//                    }else if (edtCurrent->text() != m_client->getPassword()){
-//                        errMsg = i18n("Invalid password");
-//                    }
-//                }
-//            }
-//            if (!errMsg.isEmpty()){
-//                for (QWidget *p = parentWidget(); p; p = p->parentWidget()){
-//                    if (p->inherits("QTabWidget")){
-//                        static_cast<QTabWidget*>(p)->setCurrentWidget(this);
-//                        break;
-//                    }
-//                }
-//                emit raise(this);
-//                BalloonMsg::message(errMsg, errWidget);
-//                return;
-//            }
-//            if (!edtPswd1->text().isEmpty())
-//                m_client->changePassword(edtPswd1->text());
-//            // clear Textboxes
-//            edtCurrent->clear();
-//            edtPswd1->clear();
-//            edtPswd2->clear();
-//        }
-//        m_data = &m_client->data.owner;
-//        m_client->setRandomChatGroup(getComboValue(cmbRandom, chat_groups));
-//    }
+    m_contact->setEncoding(m_ui->cmbEncoding->currentText());
+
+    // TODO password change
 }
 
 //void ICQInfo::updateData(ICQUserData* data)
@@ -268,6 +231,9 @@ void ICQInfo::fill()
 		    m_ui->edtOnline->hide();
         }
     }
+
+    fillEncodingsCombobox();
+
     /*
     if (data->getIP()){
         edtExtIP->setText(formatAddr(data->getIP(), data->getPort()));
@@ -306,5 +272,26 @@ bool ICQInfo::changed() const
     return (m_contact->getNick() != m_ui->edtNick->text()) ||
             (m_contact->getFirstName() != m_ui->edtFirst->text()) ||
             (m_contact->getLastName() != m_ui->edtLast->text());
+}
+
+void ICQInfo::fillEncodingsCombobox()
+{
+    m_ui->cmbEncoding->clear();
+    auto mibs = QTextCodec::availableMibs();
+    int currentEncodingIndex = -1;
+    int i = 0;
+    for(int mib : mibs)
+    {
+        QTextCodec* codec = QTextCodec::codecForMib(mib);
+        QString name = QString::fromUtf8(codec->name());
+        if(name == m_contact->getEncoding())
+            currentEncodingIndex = i;
+        m_ui->cmbEncoding->addItem(name);
+        i++;
+    }
+    if(currentEncodingIndex != -1)
+        m_ui->cmbEncoding->setCurrentIndex(currentEncodingIndex);
+    else
+        m_ui->cmbEncoding->setCurrentIndex(m_ui->cmbEncoding->findText("System"));
 }
 

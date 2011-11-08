@@ -10,6 +10,10 @@
 #include "requests/icbmsnac/icbmsnacsendparametersrequest.h"
 #include "requests/icbmsnac/icbmsnacsendmessagerequest.h"
 
+#include <QTextCodec>
+#include <QTextDecoder>
+#include <QScopedPointer>
+
 using SIM::log;
 using SIM::L_DEBUG;
 using SIM::L_WARN;
@@ -126,15 +130,22 @@ QByteArray IcbmSnacHandler::generateCookie()
 
 bool IcbmSnacHandler::handleIncomingTextMessage(const Tlv& messageTlv, const QByteArray& name)
 {
-    QByteArray messageBlockData = messageTlv.data();
-    QString message = parseMessageBlock(messageBlockData);
     ICQContactList *contactList = m_client->contactList();
+    Q_ASSERT(contactList);
     ICQContactPtr sourceContact = contactList->contactByScreen(name);
-
     if(!sourceContact)
+    {
+        log(L_WARN, "IcbmSnacHandler received message from nonexistant contact: %s", name.data());
         return false;
+    }
 
-    log(L_DEBUG, "handleIncomingMessage: %s/%x", name.data(), sourceContact.data());
+    QByteArray messageBlockData = messageTlv.data();
+    QString encoding = sourceContact->getEncoding();
+    if(encoding.isEmpty())
+        encoding = "utf8";
+    QString message = parseMessageBlock(messageBlockData, encoding);
+
+    log(L_DEBUG, "handleIncomingTextMessage: %s/%x/%s/%s", name.data(), sourceContact.data(), qPrintable(encoding), qPrintable(message));
 
     SIM::MessagePtr msg = SIM::MessagePtr(new SIM::GenericMessage(sourceContact, m_client->ownerContact(), message));
     SIM::getMessagePipe()->pushMessage(msg);
@@ -164,7 +175,7 @@ bool IcbmSnacHandler::handleIncomingMessage(const QByteArray& data)
     return true;
 }
 
-QString IcbmSnacHandler::parseMessageBlock(const QByteArray& block)
+QString IcbmSnacHandler::parseMessageBlock(const QByteArray& block, const QString& contactEncoding)
 {
     ByteArrayParser parser(block);
     while(!parser.atEnd())
@@ -177,10 +188,27 @@ QString IcbmSnacHandler::parseMessageBlock(const QByteArray& block)
         }
         else
         {
-            parser.readWord(); // Charset
+            int charset = parser.readWord(); // Charset
             parser.readWord(); // Subcharset
             QByteArray msgText = parser.readBytes(length - 4); // -4 for charset & subcharset fields
-            return QString::fromUtf8(msgText.data(), msgText.size());
+
+            QString realEncoding;
+            if(charset == CharsetUtf16be)
+            {
+                realEncoding = "UTF16BE";
+            }
+            else
+            {
+                realEncoding = contactEncoding;
+            }
+            QTextCodec* codec = QTextCodec::codecForName(realEncoding.toUtf8());
+            if(!codec)
+            {
+                log(L_WARN, "IcbmSnacHandler::parseMessageBlock: No codec found: %s", qPrintable(realEncoding));
+                codec = QTextCodec::codecForName("System");
+            }
+            QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
+            return decoder->toUnicode(msgText);
         }
     }
     return QString();

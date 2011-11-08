@@ -49,6 +49,8 @@ protected:
     void fill();
     bool changed() const;
 
+    void fillEncodingsCombobox();
+
     ICQContactPtr m_contact;
     ICQClient *m_client;
     Ui::MainInfo* m_ui;

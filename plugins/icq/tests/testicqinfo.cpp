@@ -116,4 +116,15 @@ namespace
         ASSERT_EQ(newNickname, info->ui()->edtNick->text());
     }
 
+    TEST_F(TestIcqInfo, encoding_combobox_has_System_encoding)
+    {
+        int index = info->ui()->cmbEncoding->findText("System");
+
+        ASSERT_NE(-1, index);
+    }
+
+    TEST_F(TestIcqInfo, encoding_combobox_has_System_selected_if_contact_encoding_is_not_set)
+    {
+        ASSERT_EQ("System", info->ui()->cmbEncoding->currentText());
+    }
 }

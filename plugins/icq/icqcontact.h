@@ -62,6 +62,9 @@ public:
 //    unsigned long getStatus() const { return m_status; }
 //    void setStatus(unsigned long status) { m_status = status; }
 
+    QString getEncoding() const { return m_encoding; }
+    void setEncoding(const QString& encoding) { m_encoding = encoding; }
+
     unsigned long getClass() const { return m_class; }
     void setClass(unsigned long cl) { m_class = cl; }
 
@@ -383,6 +386,8 @@ private:
     QString m_screen;
     QString m_alias;
     QString m_cellular;
+
+    QString m_encoding;
     unsigned long m_status;
     unsigned long m_class;
     unsigned int m_statusTime;

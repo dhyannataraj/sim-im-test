@@ -546,7 +546,7 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <widget class="Line" name="Line2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -556,7 +556,7 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="1">
+       <item row="11" column="1">
         <spacer name="Spacer7">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -572,7 +572,7 @@
          </property>
         </spacer>
        </item>
-       <item row="8" column="0" colspan="2">
+       <item row="9" column="0" colspan="2">
         <widget class="QLabel" name="lblRandom">
          <property name="text">
           <string>Random chat group:</string>
@@ -582,8 +582,21 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
+       <item row="10" column="0" colspan="2">
         <widget class="QComboBox" name="cmbRandom"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Encoding:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="cmbEncoding"/>
        </item>
       </layout>
      </widget>

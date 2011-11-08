@@ -27,6 +27,7 @@ public:
     void forceReady();
     bool isReady() const;
     bool sendMessage(const SIM::MessagePtr & message);
+
     static const int SnacId = 0x04;
     static const int SnacIcbmSetParameters = 0x02;
     static const int SnacIcbmParametersInfoRequest = 0x04;
@@ -40,6 +41,8 @@ public:
     static const int TlvOnlineStatus = 0x0006;
     static const int MessageBlockInfo = 0x0101;
 
+    static const int CharsetUtf16be = 0x0002;
+
 signals:
     void ready();
 
@@ -48,7 +51,7 @@ private:
     bool processParametersInfo(const QByteArray & arr);
     QByteArray generateCookie();
     bool handleIncomingMessage(const QByteArray & data);
-    QString parseMessageBlock(const QByteArray & block);
+    QString parseMessageBlock(const QByteArray & block, const QString& contactEncoding);
     bool handleIncomingTextMessage(const Tlv& messageTlv, const QByteArray& name);
 
     int m_channel;

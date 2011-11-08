@@ -60,6 +60,7 @@ namespace
             contact->setPrimaryLanguage(PrimaryLanguageCode);
             contact->setSecondaryLanguage(SecondaryLanguageCode);
             contact->setTertiaryLanguage(TertiaryLanguageCode);
+            contact->setAge(11);
 
             info = new SutMoreInfo(0, contact, client);
         }
