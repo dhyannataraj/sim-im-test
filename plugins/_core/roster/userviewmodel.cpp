@@ -7,6 +7,7 @@
 
 using SIM::log;
 using SIM::L_DEBUG;
+using SIM::L_WARN;
 
 UserViewModel::UserViewModel(SIM::ContactList* contactList, QObject *parent) :
         QAbstractItemModel(parent),
@@ -96,6 +97,12 @@ QVariant UserViewModel::contactData(const QModelIndex& index, int role) const
             SIM::IMContactPtr imcontact = contact->clientContact(0);
             if(!imcontact)
                 return SIM::getImageStorage()->pixmap("nonim");
+            SIM::IMStatusPtr status = imcontact->status();
+            if(!status)
+            {
+                log(L_WARN, "Contact has no status: %s", qPrintable(imcontact->id().toString()));
+                return SIM::getImageStorage()->pixmap("nonim");
+            }
             return imcontact->status()->icon();
         }
     }

@@ -84,7 +84,10 @@ void BuddySnacHandler::parseBuddyTlvs(const TlvList& list, const ICQContactPtr& 
         ICQStatusPtr newStatus = converter->makeStatus(statusTlv.toUint32());
         if(contact)
         {
-            contact->setIcqStatus(newStatus);
+            if(newStatus)
+                contact->setIcqStatus(newStatus);
+            else
+                contact->setIcqStatus(m_client->getDefaultStatus("online")->clone().dynamicCast<ICQStatus>());
             log(L_DEBUG, "metaContactId: %08x", contact->metaContactId());
             SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
         }

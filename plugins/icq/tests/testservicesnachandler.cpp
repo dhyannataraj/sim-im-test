@@ -156,11 +156,11 @@ namespace
         rq->perform(socket);
     }
 
-    TEST_F(TestServiceSnacHandler, serviceStatusInfo_emitsSignal)
+    TEST_F(TestServiceSnacHandler, serviceSelfInfo_emitsSignal)
     {
         QSignalSpy spy(handler, SIGNAL(statusTransitionComplete()));
 
-        bool success = handler->process(ServiceSnacHandler::SnacServiceStatus, makeStatusReplyPacket(), 0, 0);
+        bool success = handler->process(ServiceSnacHandler::SnacServiceSelfInfoReply, QByteArray(), 0, 0);
 
         ASSERT_TRUE(success);
         ASSERT_EQ(1, spy.count());

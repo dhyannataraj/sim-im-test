@@ -32,6 +32,9 @@ bool ServiceSnacHandler::process(unsigned short subtype, const QByteArray& data,
     case SnacServiceAvailable:
         return handleServiceResponse(realData);
 
+    case SnacServiceSelfInfoReply:
+        return handleSelfInfoReply(realData);
+
     case SnacServiceCapabilitiesAck:
         return requestRateInfo();
 
@@ -152,6 +155,12 @@ bool ServiceSnacHandler::handleServiceResponse(const QByteArray& data)
 
     emit serviceAvailable(serviceId, serviceAddress, authCookie);
 
+    return true;
+}
+
+bool ServiceSnacHandler::handleSelfInfoReply(const QByteArray& data)
+{
+    emit statusTransitionComplete();
     return true;
 }
 
@@ -280,6 +289,5 @@ RateInfoPtr ServiceSnacHandler::rateInfo(int group) const
 bool ServiceSnacHandler::parseServiceStatus(const QByteArray& data)
 {
     // TODO: parse this packet
-    emit statusTransitionComplete();
     return true;
 }

@@ -35,6 +35,7 @@ public:
     static const int SnacServiceRateInfo = 0x0007;
     static const int SnacServiceRateInfoAck = 0x0008;
     static const int SnacServiceSelfInfoRequest = 0x000e;
+    static const int SnacServiceSelfInfoReply = 0x000f;
     static const int SnacServiceCapabilities = 0x0017;
     static const int SnacServiceCapabilitiesAck = 0x0018;
     static const int SnacServiceSetStatus = 0x001e;
@@ -56,6 +57,7 @@ private:
     bool requestRateInfo();
     bool parseRateInfo(const QByteArray& data);
     bool handleServiceResponse(const QByteArray& data);
+    bool handleSelfInfoReply(const QByteArray& data);
     RateInfoPtr readNextRateInfoClass(ByteArrayParser& parser);
     int readNextRateInfoGroup(ByteArrayParser& parser);
 
