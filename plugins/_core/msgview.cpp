@@ -1394,17 +1394,24 @@ QString MsgView::printMessage(const MessagePtr& message)
     result.append(" <message>\n");
     result.append("  <source>\n");
     result.append("   <contact_id>").append(QString::number(source->parentContactId())).append("</contact_id>\n");
-    result.append("   <contact_name>").append(source->name()).append("</contact_name>\n");
-    result.append("   <imcontact_id>").append(source->id().toString()).append("</imcontact_id>\n");
+    result.append("   <contact_name>").append(quoteXml(source->name())).append("</contact_name>\n");
+    result.append("   <imcontact_id>").append(quoteXml(source->id().toString())).append("</imcontact_id>\n");
     result.append("  </source>\n");
     result.append("  <target>\n");
     result.append("   <contact_id>").append(QString::number(target->parentContactId())).append("</contact_id>\n");
-    result.append("   <contact_name>").append(target->name()).append("</contact_name>\n");
-    result.append("   <imcontact_id>").append(target->id().toString()).append("</imcontact_id>\n");
+    result.append("   <contact_name>").append(quoteXml(target->name())).append("</contact_name>\n");
+    result.append("   <imcontact_id>").append(quoteXml(target->id().toString())).append("</imcontact_id>\n");
     result.append("  </target>\n");
     result.append("  <messagetext>\n");
-    result.append(message->toXml());
+    result.append(quoteXml(message->toXml()));
     result.append("  </messagetext>\n");
     result.append(" </message>\n");
+    return result;
+}
+
+QString MsgView::quoteXml(const QString& text)
+{
+    QString result = text;
+    result.replace("&", "&amp;");
     return result;
 }

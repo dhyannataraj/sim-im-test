@@ -30,7 +30,16 @@ bool SimToolbar::load(const UiCommandList& list)
     QStringList cmdIds = list.allCommandIds();
     foreach(const QString& cmdId, cmdIds)
     {
-        QAction* cmd = getCommandHub()->action(cmdId);
+        QAction* cmd;
+        if(cmdId == "separator")
+        {
+            cmd = new QAction(this);
+            cmd->setSeparator(true);
+        }
+        else
+        {
+            cmd = getCommandHub()->action(cmdId);
+        }
         if(!cmd)
         {
             log(L_ERROR, "SimToolbar: unable to load cmd id: %s", qPrintable(cmdId));

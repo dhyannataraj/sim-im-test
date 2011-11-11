@@ -444,6 +444,8 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XKEIwMsEEeCohYy6sw_nBg"/>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_hLfDYArLEeGDCZ1SKhWTag" name="SimToolbar"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wwJEEArLEeGDCZ1SKhWTag" name="SimToolbarAction"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_k2Q2MJ8WEeC4lJmEoQaQrw">
       <ownedBehavior xmi:type="uml:Interaction" xmi:id="_k2Q2MZ8WEeC4lJmEoQaQrw">

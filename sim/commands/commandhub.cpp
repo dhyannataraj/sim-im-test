@@ -6,12 +6,18 @@ namespace SIM
 CommandHub::CommandHub(QObject *parent) :
     QObject(parent)
 {
+    ActionDescriptor separator;
+    separator.action = new QAction(this);
+    separator.action->setSeparator(true);
+    separator.id = "separator";
+    registerAction(separator);
 }
 
 void CommandHub::registerAction(const ActionDescriptor& action)
 {
     m_commands.append(action);
-    action.action->setIcon(getImageStorage()->icon(action.iconId));
+    if(!action.iconId.isEmpty())
+        action.action->setIcon(getImageStorage()->icon(action.iconId));
     action.action->setText(action.text);
     action.action->setParent(this);
 }

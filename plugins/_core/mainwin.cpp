@@ -121,7 +121,9 @@ void MainWindow::loadDefaultMainToolbar()
 {
     SIM::UiCommandList list;
     list.appendCommand("show_only_online");
+    list.appendCommand("separator");
     list.appendCommand("common_status");
+    list.appendCommand("separator");
     list.appendCommand("main_menu");
 
     m_bar->load(list);

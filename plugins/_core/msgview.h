@@ -84,6 +84,8 @@ private:
     QString makeFooter();
     QString printMessage(const SIM::MessagePtr& message);
 
+    QString quoteXml(const QString& text);
+
     QList<SIM::MessagePtr> m_messages;
     int m_id;
     XSL* m_xsl;
