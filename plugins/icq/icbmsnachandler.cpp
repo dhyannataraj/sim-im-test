@@ -207,7 +207,8 @@ QString IcbmSnacHandler::parseMessageBlock(const QByteArray& block, const QStrin
                 log(L_WARN, "IcbmSnacHandler::parseMessageBlock: No codec found: %s", qPrintable(realEncoding));
                 codec = QTextCodec::codecForName("System");
             }
-            QScopedPointer<QTextDecoder> decoder(codec->makeDecoder());
+            QTextDecoder * decoder = codec->makeDecoder();
+
             return decoder->toUnicode(msgText);
         }
     }

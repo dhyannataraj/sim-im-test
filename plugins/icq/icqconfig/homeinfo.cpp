@@ -30,7 +30,7 @@ using namespace SIM;
 HomeInfo::HomeInfo(QWidget* parent, const ICQContactPtr& contact, ICQClient* client) : QWidget(parent)
 {
     m_ui = new Ui::HomeInfo;
-	m_ui->setupUi(this);
+    m_ui->setupUi(this);
     m_client  = client;
     m_contact = contact;
     if(contact != client->ownerContact())

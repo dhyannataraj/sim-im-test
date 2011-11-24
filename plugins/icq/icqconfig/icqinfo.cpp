@@ -280,7 +280,7 @@ void ICQInfo::fillEncodingsCombobox()
     auto mibs = QTextCodec::availableMibs();
     int currentEncodingIndex = -1;
     int i = 0;
-    for(int mib : mibs)
+    foreach(int mib, mibs)
     {
         QTextCodec* codec = QTextCodec::codecForMib(mib);
         QString name = QString::fromUtf8(codec->name());
