@@ -1,6 +1,0 @@
-LIBRARY      "IdleUI"
-SECTIONS     .IdleUI READ WRITE SHARED
-
-EXPORTS
-IdleUIGetLastInputTime
-

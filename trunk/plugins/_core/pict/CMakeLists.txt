@@ -1,9 +1,0 @@
-FILE(GLOB mng *.mng)
-
-INSTALL(FILES ${mng} DESTINATION ${SIM_PICT_DIR})
-
-FOREACH(file ${mng})
-  ADD_TO_DIST_TARGET("${file}")
-ENDFOREACH(file)
-
-ADD_TO_DIST_TARGET("${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt")

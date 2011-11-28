@@ -1,5 +1,0 @@
-if test "$kde_use_qt_win" = "yes"; then
-	__HOMEDIR_OBJ=homedircfg.lo
-	AC_SUBST([__HOMEDIR_OBJ])
-fi
-
