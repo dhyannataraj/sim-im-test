@@ -15,7 +15,7 @@ WidgetCollectionEventData::WidgetCollectionEventData(const QString& id, const QS
 {
     m_root = new WidgetHierarchy();
     m_root->nodeName = "Root";
-    m_root->widget = nullptr;
+    m_root->widget = 0;
 }
 
 WidgetCollectionEventData::~WidgetCollectionEventData()
