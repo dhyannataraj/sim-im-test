@@ -55,11 +55,20 @@ MainWindow::MainWindow(CorePlugin* core)
     : QMainWindow(NULL, Qt::Window)
     , m_core(core)
     , m_noresize(false)
+    , m_systray(new QSystemTrayIcon(this))
 {
     log(L_DEBUG, "MainWindow::MainWindow()");
     setAttribute(Qt::WA_AlwaysShowToolTips);
 
     setWindowIcon(getImageStorage()->icon("SIM"));
+	m_systray->setIcon(getImageStorage()->icon("SIM"));
+	
+	//connect(trayIcon, SIGNAL(messageClicked()), this, SLOT(messageClicked()));
+    //connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+	//getCommandHub()->action();
+	
+	//m_systray->setContextMenu();
+	m_systray->show();
     updateTitle();
 
     m_bar = new SIM::SimToolbar(this);

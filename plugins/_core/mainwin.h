@@ -24,6 +24,7 @@
 
 #include <QMainWindow>
 #include <QList>
+#include <QSystemTrayIcon>
 
 using namespace std;
 
@@ -36,6 +37,7 @@ class QHBoxLayout;
 class QResizeEvent;
 class QSizeGrip;
 class QVBoxLayout;
+
 
 class CorePlugin;
 class UserView;
@@ -76,6 +78,7 @@ private:
 
     UserView* m_view;
     SIM::SimToolbar* m_bar;
+	QSystemTrayIcon* m_systray;
     QVBoxLayout* m_layout;
     QWidget* m_centralWidget;
     QList<QWidget*> m_statusWidgets;
