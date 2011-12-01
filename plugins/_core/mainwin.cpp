@@ -56,16 +56,20 @@ MainWindow::MainWindow(CorePlugin* core)
     , m_core(core)
     , m_noresize(false)
     , m_systray(new QSystemTrayIcon(this))
+	, m_trayIconMenu(new QMenu(this))
 {
     log(L_DEBUG, "MainWindow::MainWindow()");
     setAttribute(Qt::WA_AlwaysShowToolTips);
 
     setWindowIcon(getImageStorage()->icon("SIM"));
-	m_systray->setIcon(getImageStorage()->icon("SIM"));
+	QStringList actions;
+	actions << "abcde" << "defgh";
+	createTrayIcon(actions);
+	
 	
 	//connect(trayIcon, SIGNAL(messageClicked()), this, SLOT(messageClicked()));
     //connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-	//getCommandHub()->action();
+	//getCommandHub()->action("");
 	
 	//m_systray->setContextMenu();
 	m_systray->show();
@@ -325,3 +329,15 @@ void MainWindow::contactInfo()
     controller.exec();
 }
 
+void MainWindow::createTrayIcon(QStringList actions) //Todo make configurable
+ {
+     
+	 foreach(QString action, actions)
+		m_trayIconMenu->addAction(getCommandHub()->action(action));
+     
+     m_trayIconMenu->addSeparator();
+     m_trayIconMenu->addAction(getCommandHub()->action("quit"));
+	
+	 m_systray->setIcon(getImageStorage()->icon("SIM"));
+     m_systray->setContextMenu(m_trayIconMenu);
+ }

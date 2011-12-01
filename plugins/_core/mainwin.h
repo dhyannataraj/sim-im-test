@@ -75,10 +75,12 @@ private:
 
     void populateMainToolbar();
     void loadDefaultMainToolbar();
+	void createTrayIcon(QStringList actions);
 
     UserView* m_view;
     SIM::SimToolbar* m_bar;
 	QSystemTrayIcon* m_systray;
+	QMenu* m_trayIconMenu;
     QVBoxLayout* m_layout;
     QWidget* m_centralWidget;
     QList<QWidget*> m_statusWidgets;
