@@ -62,16 +62,11 @@ MainWindow::MainWindow(CorePlugin* core)
     setAttribute(Qt::WA_AlwaysShowToolTips);
 
     setWindowIcon(getImageStorage()->icon("SIM"));
-	QStringList actions;
-	actions << "abcde" << "defgh";
+	
+	QStringList actions = getCommandHub()->actionsForTag("trayicon");
+	
 	createTrayIcon(actions);
-	
-	
-	//connect(trayIcon, SIGNAL(messageClicked()), this, SLOT(messageClicked()));
-    //connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-	//getCommandHub()->action("");
-	
-	//m_systray->setContextMenu();
+
 	m_systray->show();
     updateTitle();
 
