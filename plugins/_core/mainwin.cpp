@@ -42,6 +42,7 @@
 #include <QStatusBar>
 #include <QDesktopWidget>
 #include <QToolBar>
+#include <QMessageBox>
 #include "profilemanager.h"
 
 #include "log.h"
@@ -91,6 +92,7 @@ MainWindow::MainWindow(CorePlugin* core)
     QAction* show_only_online = getCommandHub()->action("show_only_online");
     setShowOnlyOnlineContacts(show_only_online->isChecked());
     connect(show_only_online, SIGNAL(triggered(bool)), this, SLOT(setShowOnlyOnlineContacts(bool)));
+    connect(m_systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(systrayActivated(QSystemTrayIcon::ActivationReason)));
 }
 
 MainWindow::~MainWindow()
@@ -336,3 +338,27 @@ void MainWindow::createTrayIcon(QStringList actions) //Todo make configurable
 	 m_systray->setIcon(getImageStorage()->icon("SIM"));
      m_systray->setContextMenu(m_trayIconMenu);
  }
+
+ void MainWindow::systrayActivated(QSystemTrayIcon::ActivationReason reason)
+ {
+	 QMessageBox msgBox;
+     switch (reason) {
+		 
+     case QSystemTrayIcon::Trigger: // single click
+		if (isVisible () )
+			hide();
+		else
+			show();
+		break;
+     case QSystemTrayIcon::DoubleClick:
+		msgBox.setText("The systray has been double clicked");
+		msgBox.exec();
+         break;
+     case QSystemTrayIcon::MiddleClick:
+		msgBox.setText("The systray has been middle clicked");
+		msgBox.exec();
+         break;
+     default:
+         ;
+     }
+  }

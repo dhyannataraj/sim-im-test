@@ -112,8 +112,8 @@ void ICQClientData::deserialize(Buffer* cfg)
         QStringList keyval = line.split('=');
         if(keyval.size() < 2)
             continue;
-		//if (keyval.at(0) == QString("Password"))
-		//	__asm int 3;
+        //if (keyval.at(0) == QString("Password"))
+        //	__asm int 3;
         deserializeLine(keyval.at(0), keyval.at(1));
     }
 }
@@ -132,7 +132,7 @@ void ICQClientData::deserializeLine(const QString& key, const QString& value)
         setUin(val);
         owner->setUin(val.toULong());
     }
-	if(key == "Password") {
+    if(key == "Password") {
         owner->client()->setCryptedPassword(val);
     }
     if(key == "ServerPort") {
@@ -926,13 +926,13 @@ void ICQClient::setMediaSense(bool b)
 
 QString ICQClient::name()
 {
-	if(!m_name.isEmpty())
+    if(!m_name.isEmpty())
         return m_name;
-	if (m_bAIM) 
+    if (m_bAIM) 
         m_name = "AIM." + clientPersistentData->owner->getScreen();
-	else
+    else
         m_name = "ICQ." + QString::number(clientPersistentData->owner->getUin());
-	
+    
     return m_name;
 }
 
@@ -957,7 +957,7 @@ SIM::IMGroupPtr ICQClient::createIMGroup()
 
 QWidget* ICQClient::createSetupWidget(const QString& id, QWidget* parent)
 {
-	return new QWidget();
+    return new QWidget();
 }
 
 void ICQClient::destroySetupWidget()
@@ -966,7 +966,7 @@ void ICQClient::destroySetupWidget()
 
 QStringList ICQClient::availableSetupWidgets() const
 {
-	return QStringList();
+    return QStringList();
 }
 
 QWidget* ICQClient::createStatusWidget()
@@ -994,17 +994,17 @@ SIM::MessageEditorFactory* ICQClient::messageEditorFactory() const
 
 QWidget* ICQClient::createSearchWidow(QWidget *parent)
 {
-	return new QWidget(parent);
+    return new QWidget(parent);
 }
 
 QList<SIM::IMGroupPtr> ICQClient::groups()
 {
-	return QList<SIM::IMGroupPtr>();
+    return QList<SIM::IMGroupPtr>();
 }
 
 QList<SIM::IMContactPtr> ICQClient::contacts()
 {
-	return QList<SIM::IMContactPtr>();
+    return QList<SIM::IMContactPtr>();
 }
 
 void ICQClient::initDefaultStates()

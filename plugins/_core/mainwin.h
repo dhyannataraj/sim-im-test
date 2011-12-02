@@ -68,6 +68,7 @@ private slots:
     void sendMessageRequested();
 
     void contactInfo();
+    void systrayActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     void updateTitle();
