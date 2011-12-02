@@ -141,8 +141,6 @@ bool IcbmSnacHandler::handleIncomingTextMessage(const Tlv& messageTlv, const QBy
 
     QByteArray messageBlockData = messageTlv.data();
     QString encoding = sourceContact->getEncoding();
-    if(encoding.isEmpty())
-        encoding = "utf8";
     QString message = parseMessageBlock(messageBlockData, encoding);
 
     log(L_DEBUG, "handleIncomingTextMessage: %s/%s/%s/%s", name.data(), sourceContact.data(), qPrintable(encoding), qPrintable(message));
@@ -193,7 +191,7 @@ QString IcbmSnacHandler::parseMessageBlock(const QByteArray& block, const QStrin
             QByteArray msgText = parser.readBytes(length - 4); // -4 for charset & subcharset fields
 
             QString realEncoding;
-            if(charset == CharsetUtf16be)
+            if((charset == CharsetUtf16be) && (contactEncoding.isEmpty()))
             {
                 realEncoding = "UTF16BE";
             }

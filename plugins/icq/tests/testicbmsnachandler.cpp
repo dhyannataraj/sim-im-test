@@ -260,14 +260,24 @@ namespace
         handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestCp1251Message), 0, 0);
     }
 
-    TEST_F(TestIcbmSnacHandler, incomingMessage_uses_packet_encoding_utf16le)
+    TEST_F(TestIcbmSnacHandler, incomingMessage_uses_packet_encoding_utf16be_if_contact_encoding_is_empty)
     {
-        contact->setEncoding("cp1251");
+        contact->setEncoding("");
         MockObjects::MockMessagePipe* pipe = new MockObjects::MockMessagePipe();
         SIM::setMessagePipe(pipe);
         EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageTextMatcher(TestUtf16beDecodedMessage))));
 
         handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestUtf16beMessage, IcbmSnacHandler::CharsetUtf16be), 0, 0);
+    }
+
+    TEST_F(TestIcbmSnacHandler, incomingMessage_uses_contact_encoding_if_set_even_if_packet_encoding_is_marked_as_utf16be)
+    {
+        contact->setEncoding("cp1251");
+        MockObjects::MockMessagePipe* pipe = new MockObjects::MockMessagePipe();
+        SIM::setMessagePipe(pipe);
+        EXPECT_CALL(*pipe, pushMessage(Truly(Matcher::MessageTextMatcher(TestCp1251DecodedMessage))));
+
+        handler->process(IcbmSnacHandler::SnacIcbmIncomingMessage, makeIncomingMessagePacket(TestCp1251Message, IcbmSnacHandler::CharsetUtf16be), 0, 0);
     }
 
     TEST_F(TestIcbmSnacHandler, requestParametersInfo_sendsSnac)

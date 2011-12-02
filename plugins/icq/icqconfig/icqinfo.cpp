@@ -279,7 +279,8 @@ void ICQInfo::fillEncodingsCombobox()
     m_ui->cmbEncoding->clear();
     auto mibs = QTextCodec::availableMibs();
     int currentEncodingIndex = -1;
-    int i = 0;
+    int i = 1;
+    m_ui->cmbEncoding->addItem("");
     foreach(int mib, mibs)
     {
         QTextCodec* codec = QTextCodec::codecForMib(mib);
