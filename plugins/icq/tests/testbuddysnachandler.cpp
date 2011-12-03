@@ -156,6 +156,26 @@ namespace
         ASSERT_EQ("online", contact->status()->id());
     }
 
+    TEST_F(TestBuddySnacHandler, onContactOffline_emitsEvent)
+    {
+        Helper::SignalSpy spy;
+        SIM::getEventHub()->getEvent("contact_change_status")->connectTo(&spy, SLOT(intSlot(int)));
+        // We create OnlineBuddyPacket packet below, but it's okay since info packet is similar for online and offline notifications
+        bool success = handler->process(BuddySnacHandler::SnacBuddyUserOffline, makeOnlineBuddyPacket(), 0, 0);
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ(1, spy.intSlotCalls);
+        ASSERT_EQ(MetaContactId, spy.intarg);
+    }
+
+    TEST_F(TestBuddySnacHandler, onContactOffline_setContactStatusOffline)
+    {
+        bool success = handler->process(BuddySnacHandler::SnacBuddyUserOffline, makeOnlineBuddyPacketWithoutStatusTlv(), 0, 0);
+        ASSERT_TRUE(success);
+
+        ASSERT_EQ("offline", contact->status()->id());
+    }
+
     TEST_F(TestBuddySnacHandler, rightsPacket_ready)
     {
         QSignalSpy spy(handler, SIGNAL(ready()));

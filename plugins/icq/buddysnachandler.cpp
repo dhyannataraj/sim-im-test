@@ -25,6 +25,9 @@ bool BuddySnacHandler::process(unsigned short subtype, const QByteArray& data, i
     case SnacBuddyUserOnline:
         return processUserOnline(data);
         break;
+    case SnacBuddyUserOffline:
+        return processUserOffline(data);
+        break;
     case SnacBuddyRights:
         {
             log(L_DEBUG, "Buddy snac ready");
@@ -131,7 +134,7 @@ bool BuddySnacHandler::processUserOnline(const QByteArray& data)
     if(!contact)
     {
         // TODO check if it's in ignore list
-        log(L_WARN, "Contact not in contact list: %s", qPrintable(screen));
+        log(L_WARN, "BuddySnacHandler::processUserOnline: Contact not in contact list: %s", qPrintable(screen));
         return false;
     }
 
@@ -144,3 +147,28 @@ bool BuddySnacHandler::processUserOnline(const QByteArray& data)
 
     return true;
 }
+
+bool BuddySnacHandler::processUserOffline(const QByteArray & data)
+{
+    ICQContactList* contactList = m_client->contactList();
+
+    ByteArrayParser parser(data);
+    int screenLength = parser.readByte();
+    QByteArray screenRaw = parser.readBytes(screenLength);
+    QString screen(screenRaw);
+
+    ICQContactPtr contact = contactList->contactByScreen(screen);
+    if(!contact)
+    {
+        // TODO check if it's in ignore list
+        log(L_WARN, "BuddySnacHandler::processUserOnline: Contact not in contact list: %s", qPrintable(screen));
+        return false;
+    }
+
+    SIM::getEventHub()->triggerEvent("contact_change_status", SIM::ContactEventData::create(contact->metaContactId()));
+
+    contact->setIcqStatus(client()->getDefaultStatus("offline"));
+
+    return true;
+}
+

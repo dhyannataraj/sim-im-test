@@ -39,6 +39,7 @@ private:
     bool processUserOnline(const QByteArray & data);
     void parseBuddyTlvs(const TlvList& list, const ICQContactPtr& contact);
     void parseAvatarTlv(const Tlv& avatarTlv, const ICQContactPtr& contact);
+    bool processUserOffline(const QByteArray & data);
 
     bool m_ready;
     int m_cnt;
