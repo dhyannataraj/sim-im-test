@@ -235,7 +235,9 @@ void CorePlugin::cmdSetup()
 void CorePlugin::cmdQuit()
 {
     m_main->close();
+    QTimer::singleShot(0, this, SLOT(quit()));
     delete m_main;
+    
 }
 
 void CorePlugin::eventQuit()

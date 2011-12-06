@@ -250,7 +250,7 @@ protected:
 //    Commands            *m_cmds;
 //    HistoryThread      *m_HistoryThread;
 
-private slots:
+protected slots:
     void cmdSetup();
     void cmdQuit();
 

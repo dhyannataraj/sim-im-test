@@ -25,7 +25,7 @@ void CommandHub::registerAction(const ActionDescriptor& action)
 void CommandHub::unregisterAction(const QString& id)
 {
     for(QList<ActionDescriptor>::iterator it = m_commands.begin(); it != m_commands.end(); ++it) {
-        if((*it).id == id) {
+        if(it->id == id) {
             m_commands.erase(it);
             return;
         }
@@ -35,8 +35,8 @@ void CommandHub::unregisterAction(const QString& id)
 QAction* CommandHub::action(const QString& id) const
 {
     for(QList<ActionDescriptor>::const_iterator it = m_commands.begin(); it != m_commands.end(); ++it) {
-        if((*it).id == id) {
-            return (*it).action;
+        if(it->id == id) {
+            return it->action;
         }
     }
     return 0;
@@ -47,9 +47,9 @@ QStringList CommandHub::actionsForTag(const QString& tag) const
     QStringList ids;
     for(QList<ActionDescriptor>::const_iterator it = m_commands.begin(); it != m_commands.end(); ++it)
     {
-        if((*it).tags.contains(tag))
+        if(it->tags.contains(tag))
         {
-            ids.append((*it).id);
+            ids.append(it->id);
         }
     }
     return ids;

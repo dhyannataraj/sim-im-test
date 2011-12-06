@@ -616,6 +616,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /Y "%(FullPath)" "$(OutDir)styles\%(Filename)%(Extension)"
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)styles\%(Filename)%(Extension);%(Outputs)</Outputs>
+      <SubType>Designer</SubType>
     </CustomBuild>
     <CustomBuild Include="styles\XChat.xsl">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copy %(FullPath)</Message>

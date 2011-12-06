@@ -57,18 +57,18 @@ MainWindow::MainWindow(CorePlugin* core)
     , m_core(core)
     , m_noresize(false)
     , m_systray(new QSystemTrayIcon(this))
-	, m_trayIconMenu(new QMenu(this))
+    , m_trayIconMenu(new QMenu(this))
 {
     log(L_DEBUG, "MainWindow::MainWindow()");
     setAttribute(Qt::WA_AlwaysShowToolTips);
 
     setWindowIcon(getImageStorage()->icon("SIM"));
-	
-	QStringList actions = getCommandHub()->actionsForTag("trayicon");
-	
-	createTrayIcon(actions);
+    
+    QStringList actions = getCommandHub()->actionsForTag("trayicon");
+    
+    createTrayIcon(actions);
 
-	m_systray->show();
+    m_systray->show();
     updateTitle();
 
     m_bar = new SIM::SimToolbar(this);
@@ -329,34 +329,42 @@ void MainWindow::contactInfo()
 void MainWindow::createTrayIcon(QStringList actions) //Todo make configurable
  {
      
-	 foreach(QString action, actions)
-		m_trayIconMenu->addAction(getCommandHub()->action(action));
+     foreach(QString action, actions)
+        m_trayIconMenu->addAction(getCommandHub()->action(action));
      
      m_trayIconMenu->addSeparator();
-     m_trayIconMenu->addAction(getCommandHub()->action("quit"));
-	
-	 m_systray->setIcon(getImageStorage()->icon("SIM"));
+     QAction * actionQuit = new QAction(getImageStorage()->icon("SIM"), tr("&Quit"), this);
+     connect(actionQuit, SIGNAL(triggered()), this, SLOT(quitApp()));
+     m_trayIconMenu->addAction(actionQuit);
+    
+     m_systray->setIcon(getImageStorage()->icon("SIM"));
      m_systray->setContextMenu(m_trayIconMenu);
  }
 
+void MainWindow::quitApp()
+{
+    this->close();
+    QTimer::singleShot(0, m_core, SLOT(cmdQuit())); //And quit core :)
+}
+
  void MainWindow::systrayActivated(QSystemTrayIcon::ActivationReason reason)
  {
-	 QMessageBox msgBox;
+     QMessageBox msgBox;
      switch (reason) {
-		 
+         
      case QSystemTrayIcon::Trigger: // single click
-		if (isVisible () )
-			hide();
-		else
-			show();
-		break;
+        if (isVisible () )
+            hide();
+        else
+            show();
+        break;
      case QSystemTrayIcon::DoubleClick:
-		msgBox.setText("The systray has been double clicked");
-		msgBox.exec();
+        msgBox.setText("The systray has been double clicked");
+        msgBox.exec();
          break;
      case QSystemTrayIcon::MiddleClick:
-		msgBox.setText("The systray has been middle clicked");
-		msgBox.exec();
+        msgBox.setText("The systray has been middle clicked");
+        msgBox.exec();
          break;
      default:
          ;
