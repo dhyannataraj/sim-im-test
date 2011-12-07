@@ -16,11 +16,11 @@ ActionMenuCommonStatus::ActionMenuCommonStatus(CommonStatus* status) : QAction(0
 
     QList<CommonStatus::CommonStatusDescription> statuses = status->allCommonStatuses();
 
-    foreach(const CommonStatus::CommonStatusDescription& status, statuses)
+    foreach(const CommonStatus::CommonStatusDescription& statusDescr, statuses)
     {
         QAction* action = new QAction(menu);
-        action->setIcon(SIM::getImageStorage()->icon(status.iconId));
-        action->setText(status.name);
+        action->setIcon(SIM::getImageStorage()->icon(statusDescr.iconId));
+        action->setText(statusDescr.name);
         menu->addAction(action);
     }
     setMenu(menu);

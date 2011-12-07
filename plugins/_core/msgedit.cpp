@@ -216,12 +216,12 @@ QString MsgEdit::messageHtml() const
 
 QToolBar* MsgEdit::createToolBar()
 {
-    QToolBar* bar = new QToolBar(this);
+    QToolBar* bar = new QToolBar(this); //Memleak
     bar->setFloatable(true);
     bar->setMovable(true);
     
     bar->setAllowedAreas(Qt::TopToolBarArea	& Qt::BottomToolBarArea);
-	
+    
 
     //fixme: the following should be made generic, f.e. for toolbar changes in icon-positioning...
 

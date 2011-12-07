@@ -225,7 +225,7 @@ void CorePlugin::subscribeToEvents()
 
 void CorePlugin::cmdSetup()
 {
-    UserConfigContextPtr context = UserConfigContext::create(UserConfigContext::GlobalContext::Generic);
+    UserConfigContextPtr context = UserConfigContext::create(UserConfigContext::Generic);
     UserConfigController controller;
     controller.init(context);
 

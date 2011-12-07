@@ -279,9 +279,9 @@ void MainWindow::raiseContactMenu(const QPoint& pos, int contactId)
 
     if(data->actions().length() > 0)
     {
-        QAction* action = new QAction(&menu);
-        action->setSeparator(true);
-        menu.addAction(action);
+        QAction* a = new QAction(&menu);
+        a->setSeparator(true);
+        menu.addAction(a);
     }
 
     menu.exec(pos);
