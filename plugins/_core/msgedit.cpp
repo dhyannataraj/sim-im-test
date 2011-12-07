@@ -216,7 +216,7 @@ QString MsgEdit::messageHtml() const
 
 QToolBar* MsgEdit::createToolBar()
 {
-    QToolBar* bar = new QToolBar(this); //Memleak
+    QToolBar* bar = new QToolBar(this); //FIXME Memleak!
     bar->setFloatable(true);
     bar->setMovable(true);
     

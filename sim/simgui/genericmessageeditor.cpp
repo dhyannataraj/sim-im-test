@@ -187,7 +187,7 @@ void GenericMessageEditor::cursorPositionChanged()
 
 QToolBar* GenericMessageEditor::createToolBar()
 {
-    QToolBar* bar = new QToolBar(this);
+    QToolBar* bar = new QToolBar(this); //FIXME Memleak!
     bar->setFloatable(true);
     bar->setMovable(true);
 

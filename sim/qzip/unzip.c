@@ -491,7 +491,7 @@ extern unzFile ZEXPORT unzOpen2 (path, pzlib_filefunc_def)
 
 
     s=(unz_s*)ALLOC(sizeof(unz_s));
-    *s=us;
+    *s=us;                          //FIX ME: Null-pointer deref of 's'!!!!!!!!!!!!!!! 
     unzGoToFirstFile((unzFile)s);
     return (unzFile)s;
 }

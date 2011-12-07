@@ -50,12 +50,12 @@ EXPORT QString toTranslit(const QString &str)
         }else if (wc >= 0x2018 && wc <= 0x201a){
             res += QChar(wc == 0x201a ? 0x2018 : wc);
         }else{
-            int indx = translit_index(wc);
-            if (indx >= 0) {
-                const unsigned short *cp = &translit_data[indx];
+            int idx = translit_index(wc);
+            if (idx >= 0) {
+                const unsigned short *cp = &translit_data[idx];
                 unsigned short num = *cp++;
-                for (unsigned i = 0; i < num; i++) {
-                    res += QChar(cp[i]);
+                for (unsigned j = 0; j < num; j++) {
+                    res += QChar(cp[j]);
                 }
             }else{
                 res += QChar(wc);

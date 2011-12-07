@@ -87,15 +87,14 @@ const QStringList & UnZip::list() const
 bool UnZip::getList()
 {
     unz_global_info gi;
-    int err = unzGetGlobalInfo(d->uf, &gi);
-    if(err != UNZ_OK)
+    if(unzGetGlobalInfo(d->uf, &gi) != UNZ_OK)
         return false;
-
+    int err = 0;
     QStringList l;
     for(int n = 0; n < (int)gi.number_entry; ++n) {
         char filename_inzip[256];
         unz_file_info file_info;
-        int err = unzGetCurrentFileInfo(d->uf, &file_info, filename_inzip, sizeof(filename_inzip), NULL, 0, NULL, 0);
+        err = unzGetCurrentFileInfo(d->uf, &file_info, filename_inzip, sizeof(filename_inzip), NULL, 0, NULL, 0);
         if(err != UNZ_OK)
             return false;
 
