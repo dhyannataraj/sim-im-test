@@ -17,6 +17,7 @@
 #include "icqcontact.h"
 #include "events/eventhub.h"
 #include "events/widgetcollectionevent.h"
+#include "imagestorage/avatarstorage.h"
 
 
 
@@ -40,11 +41,13 @@ namespace
             metacontact = SIM::getContactList()->createContact(ContactId);
             SIM::getContactList()->addContact(metacontact);
             metacontact->addClientContact(contact);
+            SIM::createAvatarStorage();
         }
 
         virtual void TearDown()
         {
             SIM::destroyContactList();
+            SIM::destroyAvatarStorage();
         }
         ICQClient* client;
         ICQContactPtr contact;

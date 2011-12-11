@@ -28,13 +28,6 @@ void registerEvents()
     SIM::getEventHub()->registerEvent(SIM::LogEvent::create());
 }
 
-testing::NiceMock<MockObjects::MockImageStorage> imagestorage;
-
-testing::NiceMock<MockObjects::MockImageStorage>* getMockImageStorage()
-{
-    return &imagestorage;
-}
-
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
@@ -42,10 +35,9 @@ int main(int argc, char** argv)
     ::testing::InitGoogleMock(&argc, argv);
     qRegisterMetaType<QModelIndex>("QModelIndex");
     SIM::createEventHub();
-	SIM::setImageStorage(&imagestorage);
-	SIM::createAvatarStorage();
-	SIM::createMessagePipe();
-	SIM::createOutMessagePipe();
+    SIM::createAvatarStorage();
+    SIM::createMessagePipe();
+    SIM::createOutMessagePipe();
     SIM::createCommandHub();
     registerEvents();
     int ret = RUN_ALL_TESTS();

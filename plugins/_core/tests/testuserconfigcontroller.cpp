@@ -45,7 +45,8 @@ namespace
     public:
         virtual void SetUp()
         {
-            auto imagestorage = getMockImageStorage();
+            auto imagestorage = new testing::NiceMock<MockObjects::MockImageStorage>();
+            SIM::setImageStorage(imagestorage);
             ON_CALL(*imagestorage, icon(_)).WillByDefault(Return(QIcon()));
             core = new CorePlugin();
             userConfigView = MockObjects::MockUserConfigView::createNice();
@@ -54,6 +55,7 @@ namespace
         virtual void TearDown()
         {
             userConfigView.clear();
+            SIM::destroyImageStorage();
             delete core;
         }
 

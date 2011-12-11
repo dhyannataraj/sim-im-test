@@ -54,7 +54,8 @@ namespace
 
         virtual void SetUp()
         {
-            auto imagestorage = getMockImageStorage();
+            auto imagestorage = new testing::NiceMock<MockObjects::MockImageStorage>();
+            SIM::setImageStorage(imagestorage);
             ON_CALL(*imagestorage, icon(_)).WillByDefault(Return(QIcon()));
             core = new CorePlugin();
 
@@ -72,6 +73,7 @@ namespace
             delete controller;
 
             SIM::destroyContactList();
+            SIM::destroyImageStorage();
 
             delete pipe;
             SIM::setOutMessagePipe(oldpipe);

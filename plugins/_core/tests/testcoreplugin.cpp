@@ -14,15 +14,16 @@ namespace
 	{
 	protected:
 	    virtual void SetUp()
-	    {
-	        auto imagestorage = getMockImageStorage();
-	        ON_CALL(*imagestorage, icon(_)).WillByDefault(Return(QIcon()));
+            {
+                auto imagestorage = new NiceMock<MockObjects::MockImageStorage>();
+                SIM::setImageStorage(imagestorage);
+                ON_CALL(*imagestorage, icon(_)).WillByDefault(Return(QIcon()));
 	    }
 
 	    virtual void TearDown()
-	    {
-
-	    }
+            {
+                SIM::destroyImageStorage();
+            }
 	};
 
 	TEST_F(TestCorePlugin, constructor_registersWidgetCollectionEventForContact)
