@@ -59,20 +59,18 @@ namespace
         EXPECT_TRUE(gr.clientIds().contains("ICQ.123456"));
     }
 
-    TEST_F(TestGroup, SerializationAndDeserialization)
+    TEST_F(TestGroup, LoadSaveState)
     {
         ClientPtr client = createStubClient("ICQ.123456");
         IMGroupPtr imGroup = createStubIMGroup(client);
         Group gr(1);
         gr.setName("Foo");
-        QDomDocument doc;
-        QDomElement el = doc.createElement("group");
 
         SIM::createClientManager();
         gr.addClientGroup(imGroup);
-        gr.serialize(el);
+        PropertyHubPtr groupState = gr.getState();
         Group deserializedGroup(1);
-        deserializedGroup.deserialize(el);
+        deserializedGroup.setState(groupState);
         SIM::destroyClientManager();
 
         ASSERT_TRUE(deserializedGroup.name() == "Foo");

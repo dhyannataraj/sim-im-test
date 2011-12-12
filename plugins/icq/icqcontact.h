@@ -47,6 +47,9 @@ public:
     virtual void deserialize(QDomElement& element);
     virtual bool deserialize(const QString& data);
 
+    virtual SIM::PropertyHubPtr saveState();
+    virtual bool loadState(SIM::PropertyHubPtr state);
+
     unsigned long getUin() const;
     void setUin(unsigned long uin);
 

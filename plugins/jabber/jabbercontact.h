@@ -19,6 +19,9 @@ public:
     virtual void serialize(QDomElement& element);
     virtual void deserialize(QDomElement& element);
 
+    virtual SIM::PropertyHubPtr saveState();
+    virtual bool loadState(SIM::PropertyHubPtr state);
+
     virtual SIM::Client* client();
 
     virtual SIM::IMStatusPtr status() const;

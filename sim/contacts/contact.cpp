@@ -244,6 +244,70 @@ namespace SIM
             setGroupId(value.toUInt());
         return true;
     }
+
+    PropertyHubPtr Contact::getState()
+    {
+        PropertyHubPtr contactHub = PropertyHub::create(QString::number(id()));
+
+        contactHub->addPropertyHub(userdata()->getState());
+
+        PropertyHubPtr mainInfoHub = PropertyHub::create("main");
+        contactHub->addPropertyHub(mainInfoHub);
+        mainInfoHub->setValue("Group", groupId());
+        mainInfoHub->setValue("Name", name());
+        mainInfoHub->setValue("Ignore", flag(flIgnore));
+        mainInfoHub->setValue("Temporary", flag(flTemporary));
+        mainInfoHub->setValue("LastActive", (qlonglong)lastActive());
+        mainInfoHub->setValue("Notes", notes());
+
+        PropertyHubPtr clientsHub = PropertyHub::create("clients");
+        contactHub->addPropertyHub(clientsHub);
+        QStringList clients = clientContactNames();
+        foreach(const QString& clname, clients)
+        {
+            IMContactPtr imc = clientContact(clname);
+//            Client* client = imc->client();
+//            clientElement.setAttribute("clientname", client->name());
+            clientsHub->addPropertyHub(imc->saveState());
+        }
+        return contactHub;
+    }
+
+    bool Contact::setState(PropertyHubPtr state)
+    {
+        PropertyHubPtr userDataHub = state->propertyHub("userdata");
+        if (!userdata()->setState(userDataHub))
+            return false;
+
+        PropertyHubPtr mainInfoHub = state->propertyHub("main");
+        if (!mainInfoHub.isNull())
+        {
+            setGroupId(mainInfoHub->value("Group").toInt());
+            setName(mainInfoHub->value("Name").toString());
+            setFlag(flIgnore, mainInfoHub->value("Ignore").toBool());
+            setFlag(flTemporary, mainInfoHub->value("Temporary").toBool());
+            setLastActive(mainInfoHub->value("LastActive").toLongLong());
+            setNotes(mainInfoHub->value("Notes").toString());
+        }
+
+        PropertyHubPtr clientsHub = state->propertyHub("clients");
+        if (clientsHub.isNull())
+            return false;
+        QStringList clientsList = clientsHub->propertyHubNames();
+        foreach (const QString& clientName, clientsList)
+        {
+            PropertyHubPtr curClientHub = clientsHub->propertyHub(clientName);
+            ClientPtr client = getClientManager()->client(clientName);
+            if (!client)
+                continue;
+            IMContactPtr imc = clientContact(client->name());
+            if (!imc)
+                imc = client->createIMContact();
+            imc->loadState(curClientHub);
+        }
+
+        return true;
+    }
 }
 
 // vim: set expandtab:

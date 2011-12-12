@@ -3161,6 +3161,7 @@ bool CorePlugin::init()
     }
 
     getContactList()->load();
+    //getContactList()->sync();
     log(L_DEBUG, "Contact list loaded");
 
     m_main->init();

@@ -40,6 +40,17 @@ bool ICQGroup::deserialize(const QString& data)
     return true;
 }
 
+SIM::PropertyHubPtr ICQGroup::getState()
+{
+    return SIM::PropertyHub::create(name());
+}
+
+bool ICQGroup::setState(SIM::PropertyHubPtr state)
+{
+    Q_UNUSED(state)
+    return true;
+}
+
 void ICQGroup::setIcqId(int id)
 {
     m_icqId = id;

@@ -4,6 +4,7 @@
 #include <QSharedPointer>
 #include "contacts/imgroup.h"
 #include "contacts/client.h"
+#include "propertyhub.h"
 
 namespace StubObjects
 {
@@ -42,8 +43,18 @@ namespace StubObjects
 
         virtual bool deserialize(const QString& /*data*/)
         {
-            return false;
-        }
+						return false;
+				}
+
+				virtual SIM::PropertyHubPtr getState()
+				{
+					return SIM::PropertyHub::create(name());
+				}
+
+				virtual bool setState(SIM::PropertyHubPtr /*state*/)
+				{
+						return false;
+				}
 
     private:
         SIM::Client* m_client;

@@ -130,6 +130,58 @@ namespace SIM
     {
         return true;
     }
+
+    bool Group::setState(PropertyHubPtr state)
+    {
+        PropertyHubPtr userDataHub = state->propertyHub("userdata");
+        if (userDataHub.isNull())
+            return false;
+        userdata()->setState(userDataHub);
+
+        PropertyHubPtr mainHub = state->propertyHub("main");
+        if (!mainHub.isNull())
+        {
+            setName(mainHub->value("Name").toString());
+        }
+
+        PropertyHubPtr clientsHub = state->propertyHub("clients");
+        if (clientsHub.isNull())
+            return false;
+        QStringList clients = clientsHub->propertyHubNames();
+        foreach (const QString& clname, clients)
+        {
+            PropertyHubPtr clientHub = state->propertyHub(clname);
+            ClientPtr client = getClientManager()->client(clname);
+            if (!client)
+                continue;
+            IMGroupPtr imgr = clientGroup(client->name());
+            if (!imgr)
+                imgr = client->createIMGroup();
+            imgr->setState(clientHub);
+        }
+    }
+
+    PropertyHubPtr Group::getState()
+    {
+        PropertyHubPtr coreHub = PropertyHub::create(QString::number(id()));
+        coreHub->addPropertyHub(userdata()->getState());
+
+        PropertyHubPtr mainHub = PropertyHub::create("main");
+        mainHub->setValue("Name", name());
+        coreHub->addPropertyHub(mainHub);
+
+        PropertyHubPtr clientsHub = PropertyHub::create("clients");
+        QStringList clients = clientIds();
+        foreach (const QString& clname, clients)
+        {
+            IMGroupPtr imgr = clientGroup(clname);
+            Client* client = imgr->client();
+            clientsHub->addPropertyHub(imgr->getState());
+        }
+        coreHub->addPropertyHub(clientsHub);
+
+        return coreHub;
+    }
 }
 
 // vim: set expandtab:

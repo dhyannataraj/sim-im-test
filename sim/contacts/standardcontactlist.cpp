@@ -39,21 +39,11 @@ bool StandardContactList::sync()
 
     getProfileManager()->sync();
 
+    config()->rootHub()->addPropertyHub(m_userData->getState());
+
     save_owner();
-
-    PropertyHubPtr globalHub = config()->rootHub()->propertyHub("global");
-    if (globalHub.isNull())
-    {
-        globalHub = PropertyHub::create("global");
-        config()->rootHub()->addPropertyHub(globalHub);
-    }
-
     save_groups();
     save_contacts();
-
-//    QDomElement global = doc.createElement("global");
-//    m_userData->serialize(global);
-//    root.appendChild(global);
 
     return config()->writeToFile();
 }
@@ -177,17 +167,13 @@ void StandardContactList::incomingMessage(const MessagePtr& message)
 
 UserDataPtr StandardContactList::userdata() const
 {
-    return UserDataPtr();
+    return m_userData;
 }
 
 bool StandardContactList::save_owner()
 {
-    PropertyHubPtr ownerHub = config()->rootHub()->propertyHub("owner");
-    if (ownerHub.isNull())
-    {
-        ownerHub = PropertyHub::create("owner");
-        config()->rootHub()->addPropertyHub(ownerHub);
-    }
+    PropertyHubPtr ownerHub = PropertyHub::create("owner");
+    config()->rootHub()->addPropertyHub(ownerHub);
 
     // code
 
@@ -196,24 +182,12 @@ bool StandardContactList::save_owner()
 
 bool StandardContactList::save_groups()
 {
-    PropertyHubPtr groupsHub = config()->rootHub()->propertyHub("groups");
-    if (groupsHub.isNull())
-    {
-        groupsHub = PropertyHub::create("groups");
-        config()->rootHub()->addPropertyHub(groupsHub);
-    }
+    PropertyHubPtr groupsHub = PropertyHub::create("groups");
+    config()->rootHub()->addPropertyHub(groupsHub);
 
-    for(QMap<int, GroupPtr>::iterator it = m_groups.begin(); it != m_groups.end(); ++it)
+    for (auto it = m_groups.begin(); it != m_groups.end(); ++it)
     {
-        PropertyHubPtr curGrHub = groupsHub->propertyHub(QString::number(it.value()->id()));
-        if (curGrHub.isNull())
-        {
-            curGrHub = PropertyHub::create(QString::number(it.value()->id()));
-            groupsHub->addPropertyHub(curGrHub);
-        }
-
-//        if(it.value()->serialize(group))
-//            element.appendChild(group);
+        groupsHub->addPropertyHub(it.value()->getState());
     }
 
     return true;
@@ -221,39 +195,23 @@ bool StandardContactList::save_groups()
 
 bool StandardContactList::save_contacts()
 {
-    PropertyHubPtr contactsHub = config()->rootHub()->propertyHub("contacts");
-    if (contactsHub.isNull())
-    {
-        contactsHub = PropertyHub::create("contacts");
-        config()->rootHub()->addPropertyHub(contactsHub);
-    }
+    PropertyHubPtr contactsHub = PropertyHub::create("contacts");
+    config()->rootHub()->addPropertyHub(contactsHub);
 
     for(QMap<int, ContactPtr>::iterator it = m_contacts.begin(); it != m_contacts.end(); ++it)
     {
-        PropertyHubPtr curContactsHub = contactsHub->propertyHub(QString::number(it.value()->id()));
-        if (curContactsHub.isNull())
-        {
-            curContactsHub = PropertyHub::create(QString::number(it.value()->id()));
-            contactsHub->addPropertyHub(curContactsHub);
-        }
-
-//        if(it.value()->serialize(contact))
-//            element.appendChild(contact);
+        PropertyHubPtr curContactsHub = it.value()->getState();
+        contactsHub->addPropertyHub(curContactsHub);
     }
     return true;
 }
 
 bool StandardContactList::load_new()
 {
-    PropertyHubPtr globalHub = config()->rootHub()->propertyHub("global");
-    if (globalHub.isNull())
+    PropertyHubPtr userDataHub = config()->rootHub()->propertyHub("userdata");
+    if (userDataHub.isNull())
         return false;
-
-//    QDomDocument doc;
-//    doc.setContent(f.readAll());
-//    QDomElement el = doc.elementsByTagName("global").at(0).toElement();
-//    if(!m_userData->deserialize(el))
-//        return false;
+    m_userData->setState(userDataHub);
 
     if (!load_owner())
         return false;
@@ -288,8 +246,8 @@ bool StandardContactList::load_groups()
     foreach(QString groupID , groupList)
     {
         GroupPtr gr = createGroup(groupID.toInt());
-//        if(!gr->deserialize(el))
-//            return false;
+        if (!gr->setState(groupsHub->propertyHub(groupID)))
+            return false;
         addGroup(gr);
     }
 
@@ -306,8 +264,8 @@ bool StandardContactList::load_contacts()
     foreach(QString contactID , contactsList)
     {
         ContactPtr c = createContact(contactID.toInt());
-//        if(!c->deserialize(el))
-//            return false;
+        if (!c->setState(contactsHub->propertyHub(contactID)))
+            return false;
         addContact(c);
     }
     return true;

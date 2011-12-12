@@ -131,6 +131,17 @@ bool JabberContact::deserialize(const QString& data)
     return true;
 }
 
+SIM::PropertyHubPtr JabberContact::saveState()
+{
+    return SIM::PropertyHub::create(client()->name());
+}
+
+bool JabberContact::loadState(SIM::PropertyHubPtr state)
+{
+    Q_UNUSED(state)
+    return true;
+}
+
 SIM::Client* JabberContact::client()
 {
     return m_client;

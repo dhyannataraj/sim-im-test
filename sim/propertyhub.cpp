@@ -311,6 +311,11 @@ namespace SIM
         return true;
     }
 
+    bool PropertyHub::deletePropertyHub(const QString &key)
+    {
+        return m_hubs.remove(key);
+    }
+
     void PropertyHub::clearPropertyHubs()
     {
         m_hubs.clear();

@@ -93,6 +93,17 @@ public:
         return false;
     }
 
+		virtual bool loadState(SIM::PropertyHubPtr state)
+		{
+				Q_UNUSED(state);
+				return false;
+		}
+
+		virtual SIM::PropertyHubPtr saveState()
+		{
+				return SIM::PropertyHubPtr();
+		}
+
 private:
     SIM::Client* m_client;
 };

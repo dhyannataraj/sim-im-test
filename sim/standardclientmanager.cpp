@@ -21,7 +21,7 @@ void StandardClientManager::addClient(ClientPtr client)
 {
     log(L_DEBUG, "Adding client: %s", qPrintable(client->name()));
     m_clients.insert(client->name(), client);
-	m_sortedClientNamesList << client->name();
+    m_sortedClientNamesList << client->name();
 }
 
 ClientPtr StandardClientManager::client(const QString& name)

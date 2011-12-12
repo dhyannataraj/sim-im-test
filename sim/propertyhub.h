@@ -37,7 +37,8 @@ namespace SIM
         QList<QString> allKeys();
 
         bool addPropertyHub(PropertyHubPtr hub);
-        PropertyHubPtr propertyHub(const QString& hubNamespace);
+        bool deletePropertyHub(const QString &key);
+        PropertyHubPtr propertyHub(const QString &key);
         QStringList propertyHubNames();
 
         bool serialize( QDomElement element );

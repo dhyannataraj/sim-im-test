@@ -8,7 +8,7 @@ namespace SIM
 {
     UserData::UserData()
     {
-        m_root = PropertyHub::create();
+        m_root = PropertyHub::create("userdata");
     }
 
     UserData::~UserData()
@@ -19,10 +19,7 @@ namespace SIM
     {
         if(id.isEmpty())
             return m_root;
-        DataMap::const_iterator it = m_data.find(id);
-        if(it != m_data.end())
-            return it.value();
-        return PropertyHubPtr();
+        return m_root->propertyHub(id);
     }
 
     PropertyHubPtr UserData::createUserData(const QString& id)
@@ -33,16 +30,14 @@ namespace SIM
         if(hub.isNull())
         {
             hub = PropertyHub::create(id);
-            m_data.insert(id, hub);
+            m_root->addPropertyHub(hub);
         }
         return hub;
     }
 
     void UserData::destroyUserData(const QString& id)
     {
-        DataMap::iterator it = m_data.find(id);
-        if(it != m_data.end())
-            m_data.erase(it);
+        m_root->deletePropertyHub(id);
     }
 
     PropertyHubPtr UserData::root()
@@ -57,8 +52,10 @@ namespace SIM
         QDomElement roothub = el.ownerDocument().createElement("propertyhub");
         m_root->serialize(roothub);
         root.appendChild(roothub);
-        foreach(PropertyHubPtr hub, m_data)
+        QStringList hubNames = m_root->propertyHubNames();
+        foreach(const QString& hubName, hubNames)
         {
+            PropertyHubPtr hub = m_root->propertyHub(hubName);
             QDomElement hubelement = el.ownerDocument().createElement("propertyhub");
             hubelement.setAttribute("name", hub->getNamespace());
             hub->serialize(hubelement);
@@ -96,7 +93,20 @@ namespace SIM
 
     QStringList UserData::userDataIds() const
     {
-        return m_data.keys();
+        return m_root->propertyHubNames();
+    }
+
+    bool UserData::setState(PropertyHubPtr state)
+    {
+        if (state.isNull())
+            return false;
+        m_root = state;
+        return true;
+    }
+
+    PropertyHubPtr UserData::getState()
+    {
+        return m_root;
     }
 
 }

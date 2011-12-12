@@ -46,6 +46,9 @@ namespace SIM
         virtual void deserialize(QDomElement& element) = 0;
         virtual bool deserialize(const QString& data) = 0;
 
+        virtual PropertyHubPtr saveState() = 0;
+        virtual bool loadState(PropertyHubPtr state) = 0;
+
     };
     typedef QSharedPointer<IMContact> IMContactPtr;
     typedef QWeakPointer<IMContact> IMContactWeakPtr;

@@ -15,7 +15,6 @@ namespace SIM
     typedef QSharedPointer<UserData> UserDataPtr;
     class EXPORT UserData
     {
-        typedef QMap<QString, PropertyHubPtr> DataMap;
     public:
         virtual ~UserData();
         static UserDataPtr create();
@@ -30,14 +29,15 @@ namespace SIM
         bool serialize(QDomElement element);
         bool deserialize(QDomElement element);
 
+        bool setState(PropertyHubPtr state);
+        PropertyHubPtr getState();
     protected:
         UserData();
 
     private:
-        DataMap m_data;
         PropertyHubPtr m_root;
         QString m_namespace;
-        COPY_RESTRICTED(UserData);
+        COPY_RESTRICTED(UserData)
     };
 
 }

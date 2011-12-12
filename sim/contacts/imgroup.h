@@ -5,6 +5,7 @@
 #include <QWeakPointer>
 #include <QList>
 #include <QDomElement>
+#include "propertyhub.h"
 
 namespace SIM {
 
@@ -24,6 +25,9 @@ public:
     virtual bool serialize(QDomElement& element) = 0;
     virtual bool deserialize(QDomElement& element) = 0;
     virtual bool deserialize(const QString& data) = 0;
+
+    virtual PropertyHubPtr getState() = 0;
+    virtual bool setState(PropertyHubPtr state) = 0;
 };
 
 typedef QSharedPointer<IMGroup> IMGroupPtr;
