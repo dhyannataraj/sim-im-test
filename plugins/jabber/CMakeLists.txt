@@ -86,3 +86,5 @@ SET(jabber_test_sources
 
 ADD_EXECUTABLE(test_jabber ${jabber_test_sources})
 TARGET_LINK_LIBRARIES(test_jabber simlib ${QT_LIBRARIES} jabber)
+
+ADD_TEST(testJabber test_jabber)

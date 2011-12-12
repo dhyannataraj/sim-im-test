@@ -233,4 +233,7 @@ SET(icq_test_sources
 ADD_EXECUTABLE(test_icq ${icq_test_sources} ${testmocs})
 TARGET_LINK_LIBRARIES(test_icq simlib ${QT_LIBRARIES} icq _core)
 
-ADD_CUSTOM_COMMAND(TARGET test_icq POST_BUILD COMMAND test_icq)
+IF(NOT DISABLE_AUTOTEST)
+  ADD_CUSTOM_COMMAND(TARGET test_icq POST_BUILD COMMAND test_icq)
+ENDIF(NOT DISABLE_AUTOTEST)
+ADD_TEST(testICQ test_icq)

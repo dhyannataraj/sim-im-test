@@ -16,7 +16,6 @@ endif(COMMAND cmake_policy)
 SET(CMAKE_CXX_FLAGS  "-g -O0 -std=c++0x")
 SET(LINK_FLAGS "-g -O0")
 
-
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing/include)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/testing/gtest)
@@ -47,6 +46,9 @@ INCLUDE(CheckCXXCompilerFlag)
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 OPTION(ENABLE_TARGET_UPDATE_MESSAGES "Enables target that allows to extract i18n messages from the code, and update *.po files with them")
+
+ENABLE_TESTING()
+SET(DISABLE_AUTOTEST "Disable GTest unit tests autorun while building" NO)
 
 # need 4.3 for some QHttp functionality
 # Disabled for cmake 2.8.5 - doesn't work properly
@@ -183,7 +185,6 @@ IF(ENABLE_TARGET_UPDATE_MESSAGES)
   ENDIF(XGETTEXT_EXECUTABLE AND MSGMERGE_EXECUTABLE)
   
 ENDIF(ENABLE_TARGET_UPDATE_MESSAGES)
-
 
 # subdirectories
 ADD_SUBDIRECTORY(sim)

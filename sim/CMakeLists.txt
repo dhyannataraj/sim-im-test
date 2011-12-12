@@ -287,10 +287,14 @@ SET(sim_tests_hdrs
 
 QT4_WRAP_CPP(testmocs ${sim_tests_hdrs})
 
-ADD_EXECUTABLE(test ${sim_tests_srcs} ${testmocs})
-TARGET_LINK_LIBRARIES(test simlib ${QT_LIBRARIES} ${sim_ui_headers})
+ADD_EXECUTABLE(test_sim ${sim_tests_srcs} ${testmocs})
+TARGET_LINK_LIBRARIES(test_sim simlib ${QT_LIBRARIES} ${sim_ui_headers})
 
-ADD_CUSTOM_COMMAND(TARGET test POST_BUILD COMMAND test)
+IF(NOT DISABLE_AUTOTEST)
+  ADD_CUSTOM_COMMAND(TARGET test_sim POST_BUILD COMMAND test_sim)
+ENDIF(NOT DISABLE_AUTOTEST)
+
+ADD_TEST(testSIM test_sim)
 
 ##################
 # sim executable #

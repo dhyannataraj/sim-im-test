@@ -231,8 +231,11 @@ QT4_WRAP_CPP(testmocs ${core_test_header})
 ADD_EXECUTABLE(test_core ${core_test_sources} ${testmocs})
 TARGET_LINK_LIBRARIES(test_core simlib ${QT_LIBRARIES} _core)
 
-ADD_CUSTOM_COMMAND(TARGET test_core POST_BUILD COMMAND test_core)
+IF(NOT DISABLE_AUTOTEST)
+  ADD_CUSTOM_COMMAND(TARGET test_core POST_BUILD COMMAND test_core)
+ENDIF(NOT DISABLE_AUTOTEST)
 
+ADD_TEST(testCore test_core)
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
