@@ -377,8 +377,8 @@ public:
     virtual void setOwnerContact(SIM::IMContactPtr contact);
 
     virtual bool deserialize(Buffer* cfg);
-    virtual bool loadState();
-    virtual bool saveState();
+    virtual bool loadState(SIM::PropertyHubPtr state);
+    virtual SIM::PropertyHubPtr saveState();
 
     virtual SIM::MessageEditorFactory* messageEditorFactory() const;
 

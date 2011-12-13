@@ -57,17 +57,18 @@ namespace SIM
         return QString();
     }
 
-    bool Client::saveState()
+    PropertyHubPtr Client::saveState()
     {
-        PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
+        PropertyHubPtr hub = SIM::PropertyHub::create("client");
         hub->setValue("Password", cryptPassword(password()));
-        return true;
+        return hub;
     }
 
-    bool Client::loadState()
+    bool Client::loadState(PropertyHubPtr state)
     {
-        PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
-        setPassword(uncryptPassword(hub->value("Password").toString()));
+        if (state.isNull())
+            return false;
+        setPassword(uncryptPassword(state->value("Password").toString()));
         return true;
     }
 

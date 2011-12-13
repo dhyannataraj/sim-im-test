@@ -95,7 +95,7 @@ bool StandardClientManager::load_new()
             }
         }
 
-        newClient->loadState();
+        newClient->loadState(clientProperty);
     }
 
     return true;
@@ -179,7 +179,7 @@ bool StandardClientManager::sync()
     config()->rootHub()->clearPropertyHubs(); //FIXME: deleted clients should delete corresponding propertyHubs during deletion
     foreach(const ClientPtr& client, m_clients)
     {
-        client->saveState();
+        config()->rootHub()->addPropertyHub(client->saveState());
 
         QString name = client->name();
         PropertyHubPtr hub = config()->rootHub()->propertyHub(name);

@@ -22,8 +22,8 @@ namespace MockObjects
         MOCK_METHOD0(savedStatus, SIM::IMStatusPtr());
         MOCK_METHOD0(ownerContact, SIM::IMContactPtr());
         MOCK_METHOD1(setOwnerContact, void(SIM::IMContactPtr contact));
-        MOCK_METHOD0(loadState, bool());
-        MOCK_METHOD0(saveState,bool());
+				MOCK_METHOD0(loadState, SIM::PropertyHubPtr());
+				MOCK_METHOD1(saveState,bool(SIM::PropertyHubPtr()));
         MOCK_METHOD1(deserialize, bool(Buffer* buf));
         MOCK_METHOD1(createSearchWidow, QWidget*(QWidget *parent));
         MOCK_METHOD0(groups, QList<SIM::IMGroupPtr>());

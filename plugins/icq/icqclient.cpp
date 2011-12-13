@@ -367,13 +367,9 @@ QString ICQClient::retrievePasswordLink()
     return QString("http://www.icq.com");
 }
 
-bool ICQClient::saveState()
+SIM::PropertyHubPtr ICQClient::saveState()
 {
-    if (!getClientManager())
-        return false;
-    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
-    if (hub.isNull())
-        hub = PropertyHub::create(name());
+    PropertyHubPtr hub =  SIM::PropertyHub::create(name());
 
     hub->setValue("UIN", (unsigned long long)getUin()); //to be moved to ICQContact or ICQClientData
     hub->setValue("Server", getServer());
@@ -402,18 +398,16 @@ bool ICQClient::saveState()
     hub->setValue("KeepAlive", getKeepAlive());
     hub->setValue("MediaSense", getMediaSense());
 
-    getClientManager()->config()->rootHub()->addPropertyHub(hub);
+    hub->addPropertyHub(Client::saveState());
 
-    return Client::saveState();
+    return hub;
 }
 
-bool ICQClient::loadState()
+bool ICQClient::loadState(SIM::PropertyHubPtr state)
 {
-    if (!getClientManager())
+    if (state.isNull())
         return false;
-    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
-    if (hub.isNull())
-        return false;
+    PropertyHubPtr hub = state;
 
     setUin(hub->value("UIN").toUInt()); //to be moved to ICQContact or ICQClientData
     setServer(hub->value("Server").toString());
@@ -441,7 +435,8 @@ bool ICQClient::loadState()
     setAutoHTTP(hub->value("AutoHTTP").toBool());
     setKeepAlive(hub->value("KeepAlive").toBool());
     setMediaSense(hub->value("MediaSense").toBool());
-    return Client::loadState();
+
+    return Client::loadState(hub->propertyHub("client"));
 }
 
 bool ICQClient::deserialize(Buffer* cfg)
@@ -4063,6 +4058,7 @@ void ICQClient::registerEvents()
 //    ICQUserData *data = toICQUserData((SIM::IMContact*)clientData); // FIXME unsafe type conversion
 //    res = data->getUin() ? "ICQ: " : "AIM: ";
 //    if (!data->getNick().isEmpty()){
+
 //        res += data->getNick();
 //        res += " (";
 //    }

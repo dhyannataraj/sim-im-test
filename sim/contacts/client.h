@@ -39,8 +39,8 @@ namespace SIM
         virtual IMContactPtr ownerContact() = 0;
 
         virtual bool deserialize(Buffer* buf) = 0;
-        virtual bool loadState() = 0;
-        virtual bool saveState() = 0;
+        virtual bool loadState(PropertyHubPtr state) = 0;
+        virtual PropertyHubPtr saveState() = 0;
 
         virtual MessageEditorFactory* messageEditorFactory() const = 0;
 

@@ -332,13 +332,11 @@ void JabberClient::setOwnerContact(SIM::IMContactPtr contact)
         clientPersistentData->owner = jabberContact;
 }
 
-bool JabberClient::loadState()
+bool JabberClient::loadState(SIM::PropertyHubPtr state)
 {
-    if (!getClientManager())
+    if (state.isNull())
         return false;
-    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
-    if (hub.isNull())
-        return false;
+    PropertyHubPtr hub = state;
 
     setID(hub->value("ID").toString());
     setServer(hub->value("Server").toString());
@@ -363,16 +361,12 @@ bool JabberClient::loadState()
     setURL(hub->value("URL").toString());
     setInfoUpdated(hub->value("InfoUpdated").toBool());
 
-    return Client::loadState();
+    return Client::loadState(hub->propertyHub("client"));
 }
 
-bool JabberClient::saveState()
+SIM::PropertyHubPtr JabberClient::saveState()
 {
-    if (!getClientManager())
-        return false;
-    PropertyHubPtr hub = getClientManager()->config()->rootHub()->propertyHub(name());
-    if (hub.isNull())
-        hub = PropertyHub::create(name());
+    PropertyHubPtr hub = SIM::PropertyHub::create(name());
 
     hub->setValue("ID", getID());
     hub->setValue("Server", getServer());
@@ -397,9 +391,9 @@ bool JabberClient::saveState()
     hub->setValue("URL", getURL());
     hub->setValue("InfoUpdated", getInfoUpdated());
 
-    getClientManager()->config()->rootHub()->addPropertyHub(hub);
+    hub->addPropertyHub(Client::saveState());
 
-    return Client::saveState();
+    return hub;
 }
 
 bool JabberClient::deserialize(Buffer* cfg)

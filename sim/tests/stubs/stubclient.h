@@ -78,14 +78,14 @@ namespace StubObjects
             Q_UNUSED(contact);
         }
 
-        virtual bool loadState()
+				virtual bool loadState(SIM::PropertyHubPtr state)
         {
             return false;
         }
 
-        virtual bool saveState()
+				virtual SIM::PropertyHubPtr saveState()
         {
-            return false;
+						return SIM::PropertyHubPtr();
         }
 
         virtual bool deserialize(Buffer* buf)

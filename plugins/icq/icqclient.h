@@ -536,8 +536,8 @@ public:
     QList<SIM::IMContactPtr> contacts();
 
     virtual bool deserialize(Buffer* cfg);
-    virtual bool loadState();
-    virtual bool saveState();
+    virtual bool loadState(SIM::PropertyHubPtr state);
+    virtual SIM::PropertyHubPtr saveState();
 
     void setUin(unsigned long);
     void setScreen(const QString &);
