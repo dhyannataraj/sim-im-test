@@ -62,6 +62,8 @@ protected:
     void refreshStatusWidgets();
     void raiseContactMenu(const QPoint& pos, int contactId);
 
+    void closeEvent(QCloseEvent *event);
+
 private slots:
     void contactChatRequested(int contactId);
     void contactMenuRequested(const QPoint& pos, int contactId);
@@ -77,12 +79,15 @@ private:
 
     void populateMainToolbar();
     void loadDefaultMainToolbar();
-	void createTrayIcon(QStringList actions);
+    void createTrayIcon(QStringList actions);
+
+    void loadSettings();
+    void saveSettings();
 
     UserView* m_view;
     SIM::SimToolbar* m_bar;
-	QSystemTrayIcon* m_systray;
-	QMenu* m_trayIconMenu;
+    QSystemTrayIcon* m_systray;
+    QMenu* m_trayIconMenu;
     QVBoxLayout* m_layout;
     QWidget* m_centralWidget;
     QList<QWidget*> m_statusWidgets;

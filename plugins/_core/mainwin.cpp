@@ -157,6 +157,7 @@ void MainWindow::init()
     updateTitle();
     populateMainToolbar();
     refreshStatusWidgets();
+    loadSettings();
 }
 
 void MainWindow::setShowOnlyOnlineContacts(bool show)
@@ -370,3 +371,40 @@ void MainWindow::quitApp()
          ;
      }
   }
+
+void MainWindow::loadSettings()
+{
+    if (!getProfileManager())
+        return;
+    PropertyHubPtr rootHub = getProfileManager()->currentProfile()->config()->rootHub();
+
+    if (rootHub->propertyHub("windows").isNull())
+        return;
+    PropertyHubPtr hub = rootHub->propertyHub("windows")->propertyHub("MainWindow");
+
+    if (hub.isNull())
+        return;
+    restoreGeometry(hub->value("windowGeometry").toByteArray());
+    restoreState(hub->value("windowState").toByteArray());
+}
+
+void MainWindow::saveSettings()
+{
+    if (!getProfileManager())
+        return;
+    PropertyHubPtr rootHub = getProfileManager()->currentProfile()->config()->rootHub();
+    if (rootHub->propertyHub("windows").isNull())
+        rootHub->addPropertyHub(PropertyHub::create("windows"));
+
+    PropertyHubPtr hub = PropertyHub::create("MainWindow");
+    rootHub->propertyHub("windows")->addPropertyHub(hub);
+
+    hub->setValue("windowGeometry",saveGeometry());
+    hub->setValue("windowState",saveState());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    saveSettings();
+    event->accept();
+}
