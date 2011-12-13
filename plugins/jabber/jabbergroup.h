@@ -17,8 +17,8 @@ public:
     virtual bool deserialize(QDomElement& element);
     virtual bool deserialize(const QString& data);
 
-    virtual SIM::PropertyHubPtr getState();
-    virtual bool setState(SIM::PropertyHubPtr state);
+    virtual SIM::PropertyHubPtr saveState();
+    virtual bool loadState(SIM::PropertyHubPtr state);
 
 private:
     JabberClient* m_client;

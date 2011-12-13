@@ -44,8 +44,8 @@ namespace SIM
         bool deserialize(QDomElement& el);
         bool deserialize(const QString& data);
 
-        bool setState(PropertyHubPtr state);
-        PropertyHubPtr getState();
+        bool loadState(PropertyHubPtr state);
+        PropertyHubPtr saveState();
     private:
         bool serializeMainInfo(QDomElement& element);
         bool deserializeMainInfo(const QDomElement& element);

@@ -46,12 +46,12 @@ namespace StubObjects
 						return false;
 				}
 
-				virtual SIM::PropertyHubPtr getState()
+				virtual SIM::PropertyHubPtr saveState()
 				{
 					return SIM::PropertyHub::create(name());
 				}
 
-				virtual bool setState(SIM::PropertyHubPtr /*state*/)
+				virtual bool loadState(SIM::PropertyHubPtr /*state*/)
 				{
 						return false;
 				}

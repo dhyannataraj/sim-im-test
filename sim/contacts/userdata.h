@@ -29,8 +29,8 @@ namespace SIM
         bool serialize(QDomElement element);
         bool deserialize(QDomElement element);
 
-        bool setState(PropertyHubPtr state);
-        PropertyHubPtr getState();
+        bool loadState(PropertyHubPtr state);
+        PropertyHubPtr saveState();
     protected:
         UserData();
 

@@ -131,12 +131,12 @@ namespace SIM
         return true;
     }
 
-    bool Group::setState(PropertyHubPtr state)
+    bool Group::loadState(PropertyHubPtr state)
     {
         PropertyHubPtr userDataHub = state->propertyHub("userdata");
         if (userDataHub.isNull())
             return false;
-        userdata()->setState(userDataHub);
+        userdata()->loadState(userDataHub);
 
         PropertyHubPtr mainHub = state->propertyHub("main");
         if (!mainHub.isNull())
@@ -157,14 +157,14 @@ namespace SIM
             IMGroupPtr imgr = clientGroup(client->name());
             if (!imgr)
                 imgr = client->createIMGroup();
-            imgr->setState(clientHub);
+            imgr->loadState(clientHub);
         }
     }
 
-    PropertyHubPtr Group::getState()
+    PropertyHubPtr Group::saveState()
     {
         PropertyHubPtr coreHub = PropertyHub::create(QString::number(id()));
-        coreHub->addPropertyHub(userdata()->getState());
+        coreHub->addPropertyHub(userdata()->saveState());
 
         PropertyHubPtr mainHub = PropertyHub::create("main");
         mainHub->setValue("Name", name());
@@ -176,7 +176,7 @@ namespace SIM
         {
             IMGroupPtr imgr = clientGroup(clname);
             Client* client = imgr->client();
-            clientsHub->addPropertyHub(imgr->getState());
+            clientsHub->addPropertyHub(imgr->saveState());
         }
         coreHub->addPropertyHub(clientsHub);
 

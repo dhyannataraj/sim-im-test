@@ -36,12 +36,12 @@ bool JabberGroup::deserialize(const QString& data)
     return true;
 }
 
-SIM::PropertyHubPtr JabberGroup::getState()
+SIM::PropertyHubPtr JabberGroup::saveState()
 {
     return SIM::PropertyHubPtr();
 }
 
-bool JabberGroup::setState(SIM::PropertyHubPtr state)
+bool JabberGroup::loadState(SIM::PropertyHubPtr state)
 {
     Q_UNUSED(state)
     return true;

@@ -68,9 +68,9 @@ namespace
 
         SIM::createClientManager();
         gr.addClientGroup(imGroup);
-        PropertyHubPtr groupState = gr.getState();
+        PropertyHubPtr groupState = gr.saveState();
         Group deserializedGroup(1);
-        deserializedGroup.setState(groupState);
+        deserializedGroup.loadState(groupState);
         SIM::destroyClientManager();
 
         ASSERT_TRUE(deserializedGroup.name() == "Foo");

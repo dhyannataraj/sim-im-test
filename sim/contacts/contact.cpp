@@ -245,11 +245,11 @@ namespace SIM
         return true;
     }
 
-    PropertyHubPtr Contact::getState()
+    PropertyHubPtr Contact::saveState()
     {
         PropertyHubPtr contactHub = PropertyHub::create(QString::number(id()));
 
-        contactHub->addPropertyHub(userdata()->getState());
+        contactHub->addPropertyHub(userdata()->saveState());
 
         PropertyHubPtr mainInfoHub = PropertyHub::create("main");
         contactHub->addPropertyHub(mainInfoHub);
@@ -273,10 +273,10 @@ namespace SIM
         return contactHub;
     }
 
-    bool Contact::setState(PropertyHubPtr state)
+    bool Contact::loadState(PropertyHubPtr state)
     {
         PropertyHubPtr userDataHub = state->propertyHub("userdata");
-        if (!userdata()->setState(userDataHub))
+        if (!userdata()->loadState(userDataHub))
             return false;
 
         PropertyHubPtr mainInfoHub = state->propertyHub("main");

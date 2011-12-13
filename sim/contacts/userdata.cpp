@@ -96,7 +96,7 @@ namespace SIM
         return m_root->propertyHubNames();
     }
 
-    bool UserData::setState(PropertyHubPtr state)
+    bool UserData::loadState(PropertyHubPtr state)
     {
         if (state.isNull())
             return false;
@@ -104,7 +104,7 @@ namespace SIM
         return true;
     }
 
-    PropertyHubPtr UserData::getState()
+    PropertyHubPtr UserData::saveState()
     {
         return m_root;
     }

@@ -39,7 +39,7 @@ bool StandardContactList::sync()
 
     getProfileManager()->sync();
 
-    config()->rootHub()->addPropertyHub(m_userData->getState());
+    config()->rootHub()->addPropertyHub(m_userData->saveState());
 
     save_owner();
     save_groups();
@@ -187,7 +187,7 @@ bool StandardContactList::save_groups()
 
     for (auto it = m_groups.begin(); it != m_groups.end(); ++it)
     {
-        groupsHub->addPropertyHub(it.value()->getState());
+        groupsHub->addPropertyHub(it.value()->saveState());
     }
 
     return true;
@@ -200,7 +200,7 @@ bool StandardContactList::save_contacts()
 
     for(QMap<int, ContactPtr>::iterator it = m_contacts.begin(); it != m_contacts.end(); ++it)
     {
-        PropertyHubPtr curContactsHub = it.value()->getState();
+        PropertyHubPtr curContactsHub = it.value()->saveState();
         contactsHub->addPropertyHub(curContactsHub);
     }
     return true;
@@ -211,7 +211,7 @@ bool StandardContactList::load_new()
     PropertyHubPtr userDataHub = config()->rootHub()->propertyHub("userdata");
     if (userDataHub.isNull())
         return false;
-    m_userData->setState(userDataHub);
+    m_userData->loadState(userDataHub);
 
     if (!load_owner())
         return false;
@@ -246,7 +246,7 @@ bool StandardContactList::load_groups()
     foreach(QString groupID , groupList)
     {
         GroupPtr gr = createGroup(groupID.toInt());
-        if (!gr->setState(groupsHub->propertyHub(groupID)))
+        if (!gr->loadState(groupsHub->propertyHub(groupID)))
             return false;
         addGroup(gr);
     }
@@ -264,7 +264,7 @@ bool StandardContactList::load_contacts()
     foreach(QString contactID , contactsList)
     {
         ContactPtr c = createContact(contactID.toInt());
-        if (!c->setState(contactsHub->propertyHub(contactID)))
+        if (!c->loadState(contactsHub->propertyHub(contactID)))
             return false;
         addContact(c);
     }

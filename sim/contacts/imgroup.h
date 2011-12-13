@@ -26,8 +26,8 @@ public:
     virtual bool deserialize(QDomElement& element) = 0;
     virtual bool deserialize(const QString& data) = 0;
 
-    virtual PropertyHubPtr getState() = 0;
-    virtual bool setState(PropertyHubPtr state) = 0;
+    virtual PropertyHubPtr saveState() = 0;
+    virtual bool loadState(PropertyHubPtr state) = 0;
 };
 
 typedef QSharedPointer<IMGroup> IMGroupPtr;
