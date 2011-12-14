@@ -132,6 +132,38 @@ namespace
 
         ASSERT_TRUE(contact.isOnline());
     }
+
+    TEST_F(TestContact, loadSateFromEmptyPropertyHub)
+    {
+        PropertyHubPtr testHub;
+        Contact contact(1);
+        SIM::createClientManager();
+
+        EXPECT_FALSE(contact.loadState(testHub));
+        SIM::destroyClientManager();
+    }
+
+    TEST_F(TestContact, loadState_IncorrectPropertyHub_NoUserData)
+    {
+        PropertyHubPtr testHub = PropertyHub::create("groups");
+        testHub->addPropertyHub(PropertyHub::create("clients"));
+        Contact contact(1);
+        SIM::createClientManager();
+
+        EXPECT_FALSE(contact.loadState(testHub));
+        SIM::destroyClientManager();
+    }
+
+    TEST_F(TestContact, loadState_IncorrectPropertyHub_NoClients)
+    {
+        PropertyHubPtr testHub = PropertyHub::create("groups");
+        testHub->addPropertyHub(PropertyHub::create("userdata"));
+        Contact contact(1);
+        SIM::createClientManager();
+
+        EXPECT_FALSE(contact.loadState(testHub));
+        SIM::destroyClientManager();
+    }
 }
 
 // vim: set expandtab:

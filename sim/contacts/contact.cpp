@@ -275,6 +275,9 @@ namespace SIM
 
     bool Contact::loadState(PropertyHubPtr state)
     {
+        if (state.isNull())
+            return false;
+
         PropertyHubPtr userDataHub = state->propertyHub("userdata");
         if (!userdata()->loadState(userDataHub))
             return false;
@@ -303,7 +306,8 @@ namespace SIM
             IMContactPtr imc = clientContact(client->name());
             if (!imc)
                 imc = client->createIMContact();
-            imc->loadState(curClientHub);
+            if (!imc->loadState(curClientHub))
+                return false;
         }
 
         return true;

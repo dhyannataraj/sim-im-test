@@ -30,4 +30,12 @@ namespace
         ASSERT_TRUE(contact.status());
         ASSERT_TRUE(contact.status()->flag(SIM::IMStatus::flOffline));
     }
+
+    TEST_F(TestJabberContact, loadStateFromEmptyPropertyHub)
+    {
+        SIM::PropertyHubPtr testHub;
+        JabberContact contact(client);
+
+        ASSERT_FALSE(contact.loadState(testHub));
+    }
 }

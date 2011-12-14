@@ -79,6 +79,7 @@ SET(jabber_test_sources
     tests/testjabbercontact.cpp
     tests/testjabberclient.cpp
     tests/testjabberstatus.cpp
+    tests/testjabbergroup.cpp
     
     ${CMAKE_SOURCE_DIR}/testing/gtest/src/gtest-all.cc        
     ${CMAKE_SOURCE_DIR}/testing/src/gmock-all.cc

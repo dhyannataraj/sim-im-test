@@ -149,4 +149,12 @@ namespace
 
         ASSERT_TRUE(event);
     }
+
+    TEST_F(TestIcqClient, loadStateFromEmptyPropertyHub)
+    {
+        PropertyHubPtr testHub;
+
+        ASSERT_FALSE(client->loadState(testHub));
+    }
+
 }

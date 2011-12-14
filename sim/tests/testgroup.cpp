@@ -75,4 +75,37 @@ namespace
 
         ASSERT_TRUE(deserializedGroup.name() == "Foo");
     }
+
+    TEST_F(TestGroup, loadStateFromEmptyPropertyHub)
+    {
+        PropertyHubPtr testHub;
+        Group gr(1);
+        SIM::createClientManager();
+
+        ASSERT_FALSE(gr.loadState(testHub));
+        SIM::destroyClientManager();
+    }
+
+    TEST_F(TestGroup, loadState_IncorrectPropertyHub_NoUserData)
+    {
+        PropertyHubPtr testHub = PropertyHub::create("groups");
+        testHub->addPropertyHub(PropertyHub::create("clients"));
+        Group gr(1);
+        SIM::createClientManager();
+
+        ASSERT_FALSE(gr.loadState(testHub));
+        SIM::destroyClientManager();
+    }
+
+    TEST_F(TestGroup, loadState_IncorrectPropertyHub_NoClients)
+    {
+        PropertyHubPtr testHub = PropertyHub::create("groups");
+        testHub->addPropertyHub(PropertyHub::create("userdata"));
+        Group gr(1);
+        SIM::createClientManager();
+
+        ASSERT_FALSE(gr.loadState(testHub));
+        SIM::destroyClientManager();
+    }
+
 }

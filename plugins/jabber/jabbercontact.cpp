@@ -138,6 +138,8 @@ SIM::PropertyHubPtr JabberContact::saveState()
 
 bool JabberContact::loadState(SIM::PropertyHubPtr state)
 {
+    if (state.isNull())
+        return false;
     Q_UNUSED(state)
     return true;
 }

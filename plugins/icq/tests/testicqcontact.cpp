@@ -39,4 +39,12 @@ namespace
         contact.setUin(123456);
         ASSERT_EQ("123456", contact.getScreen());
     }
+
+    TEST_F(TestIcqContact, loadStateFromEmptyPropertyHub)
+    {
+        SIM::PropertyHubPtr testHub;
+        ICQContact contact(m_client);
+
+        ASSERT_FALSE(contact.loadState(testHub));
+    }
 }

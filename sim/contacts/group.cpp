@@ -133,6 +133,9 @@ namespace SIM
 
     bool Group::loadState(PropertyHubPtr state)
     {
+        if (state.isNull())
+            return false;
+
         PropertyHubPtr userDataHub = state->propertyHub("userdata");
         if (userDataHub.isNull())
             return false;
@@ -157,8 +160,10 @@ namespace SIM
             IMGroupPtr imgr = clientGroup(client->name());
             if (!imgr)
                 imgr = client->createIMGroup();
-            imgr->loadState(clientHub);
+            if (!imgr->loadState(clientHub))
+                return false;
         }
+        return true;
     }
 
     PropertyHubPtr Group::saveState()

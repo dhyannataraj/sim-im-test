@@ -37,4 +37,11 @@ namespace
         ASSERT_TRUE(status);
         ASSERT_TRUE(status->flag(SIM::IMStatus::flOffline));
     }
+
+    TEST_F(TestJabberClient, loadStateFromEmptyPropertyHub)
+    {
+        SIM::PropertyHubPtr testHub;
+
+        ASSERT_FALSE(client->loadState(testHub));
+    }
 }

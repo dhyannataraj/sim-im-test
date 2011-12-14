@@ -38,4 +38,13 @@ namespace
 
         ASSERT_FALSE(group.hasContactId(123));
     }
+
+    TEST_F(TestIcqGroup, loadStateFromEmptyPropertyHub)
+    {
+        SIM::PropertyHubPtr testHub;
+        ICQGroup group(m_client);
+
+        ASSERT_FALSE(group.loadState(testHub));
+    }
+
 }

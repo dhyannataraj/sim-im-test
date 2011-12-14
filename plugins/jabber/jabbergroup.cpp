@@ -43,6 +43,8 @@ SIM::PropertyHubPtr JabberGroup::saveState()
 
 bool JabberGroup::loadState(SIM::PropertyHubPtr state)
 {
+    if (state.isNull())
+        return false;
     Q_UNUSED(state)
     return true;
 }
